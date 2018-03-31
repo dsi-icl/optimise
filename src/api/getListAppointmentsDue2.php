@@ -3,7 +3,7 @@
 	include 'utilities.php';
 	include 'config.php';
 
-	$connection = db_connect('Optimise');
+	$connection = db_connect(OPTIMISE_DB);
 	$optimise = $connection->selectCollection('dataStream');
 	$reminders = $connection->selectCollection('reminders');
 	

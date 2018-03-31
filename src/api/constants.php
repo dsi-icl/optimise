@@ -8,7 +8,7 @@
 define ("DB_NAME", "wikihealth");
 define ("USER_TABLE", "users");
 define ("OPTIMISE_TABLE", "dataStream");
-define ("OPTIMISE_DB", "Optimise");
+define ("OPTIMISE_DB", "optimise");
 define ("CLINICION_TABLE", "clinicians");
 define ("TOKEN_U_TABLE", "token_users");
 define ("TOKEN_C_TABLE", "token_clinicians");

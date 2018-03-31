@@ -12,7 +12,7 @@ header('Access-Control-Allow-Origin: *');
 $connection=db_connect();
 if($connection==null)
 {
-    ReturnException(Internal_Error,500);
+    ReturnException(ERROR_Internal_Error,500);
     return;
 }
 

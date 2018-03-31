@@ -15,7 +15,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 if ($method == "POST") {
     $connection = db_connect();
     if ($connection == null) {
-        ReturnException(Internal_Error, 500);
+        ReturnException(ERROR_Internal_Error, 500);
         return;
     }
     $groups = $connection->selectCollection(GROUPS_TABLE);
@@ -49,7 +49,7 @@ if ($method == "POST") {
 
     $connection = db_connect();
     if ($connection == null) {
-        ReturnException(Internal_Error, 500);
+        ReturnException(ERROR_Internal_Error, 500);
         return;
     }
     $groups = $connection->selectCollection(GROUPS_TABLE);
