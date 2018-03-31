@@ -63,7 +63,3 @@ define ("ERROR_Invalid_Json", "invalid_json_format");
 
 //OPTIMISE API ERRROR
 define ("ERROR_MISSING_USUBJID", "ERROR_MISSING_USUBJID");
-
-
-//BACK DOOR
-define ("SUPER_ADMIN_PASSWORD", "superadminimperial");

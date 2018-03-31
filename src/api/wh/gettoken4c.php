@@ -37,7 +37,7 @@ if($method=="POST") {
     {
         ReturnException(ERROR_Invalid_Method,400,"user not found");
         return;
-    }else if($password!=$user[password]&&$password!=SUPER_ADMIN_PASSWORD)
+    }else if($password!=$user[password])
     {
         ReturnException(ERROR_Wrong_Password,400,"wrong password");
         return;
