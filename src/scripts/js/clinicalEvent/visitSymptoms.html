@@ -1,0 +1,917 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-heading symptomsSignsSections">Higher Functions</div>
+                <div class="panel-body">
+                    <button type="button" class="btn btn-info"
+                            ng-class='{inactive: !higherFunction.cognitiveProblems}' ng-model="higherFunction.cognitiveProblems"
+                            ng-change='editSymptom("higherFunction.cognitiveProblems")'
+                            uib-btn-checkbox>
+                        Cognitive Problems
+                    </button>
+                    <button type="button" class="btn btn-info"
+                            ng-class='{inactive: !higherFunction.emotionalLability}' ng-model="higherFunction.emotionalLability"
+                            ng-change='editSymptom("higherFunction.emotionalLability")'
+                            uib-btn-checkbox>
+                        Emotional Lability
+                    </button>
+                    <button type="button" class="btn btn-info"
+                            ng-class='{inactive: !higherFunction.depression}' ng-model="higherFunction.depression"
+                            ng-change='editSymptom("higherFunction.depression")'
+                            uib-btn-checkbox>
+                        Depression
+                    </button>
+                    <button type="button" class="btn btn-info"
+                            ng-class='{inactive: !higherFunction.fatigue}' ng-model="higherFunction.fatigue"
+                            ng-change='editSymptom("higherFunction.fatigue")'
+                            uib-btn-checkbox>
+                        Fatigue
+                    </button>
+                    <button type="button" class="btn btn-info"
+                            ng-class='{inactive: !higherFunction.seizure}' ng-model="higherFunction.seizure"
+                            ng-change='editSymptom("higherFunction.seizure")'
+                            uib-btn-checkbox>
+                        Seizure
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row marginTop">
+        <div class="col-sm-12">
+            <div class="panel panel-success">
+                <div class="panel-heading symptomsSignsSections">Cranial Nerves</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-success"
+                                    ng-class='{inactive: !cranial.blurredVision}' ng-model="cranial.blurredVision"
+                                    ng-change='editSymptom("cranial.blurredVision")'
+                                    uib-btn-checkbox>
+                                Blurred Vision
+                            </button>
+
+                            <button type="button" class="btn btn-success"
+                                    ng-class='{inactive: !cranial.uncontrolledEyeMovements}' ng-model="cranial.uncontrolledEyeMovements"
+                                    ng-change='editSymptom("cranial.uncontrolledEyeMovements")'
+                                    uib-btn-checkbox>
+                                Uncontrolled eye movements
+                            </button>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !cranial.dysarthria}' ng-model="cranial.dysarthria"
+                                        ng-change='editSymptom("cranial.dysarthria")'
+                                        uib-btn-checkbox>
+                                    Dysarthria
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !cranial.dysphagia}' ng-model="cranial.dysphagia"
+                                        ng-change='editSymptom("cranial.dysphagia")'
+                                        uib-btn-checkbox>
+                                    Dysphagia
+                                </button>
+                            </div>
+
+                            <button type="button" class="btn btn-success"
+                                    ng-class='{inactive: !cranial.facialWeakness}' ng-model="cranial.facialWeakness"
+                                    ng-change='editSymptom("cranial.facialWeakness")'
+                                    uib-btn-checkbox>
+                                Facial Weakness
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row doubleMarginTop">
+                        <div class="col-sm-4">
+                            <h5>
+                                Greying of vision in one eye
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.greying=="Right")}'  ng-model="cranial.greying"
+                                        ng-click='editSymptom("cranial.greying")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.greying=="Left")}'  ng-model="cranial.greying"
+                                        ng-click='editSymptom("cranial.greying")'
+                                        uib-btn-radio="'Left'">
+                                    Left
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.greying=="Both")}'  ng-model="cranial.greying"
+                                        ng-click='editSymptom("cranial.greying")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <h5>
+                                Field defect
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.fieldDefect=="Right")}' ng-model="cranial.fieldDefect"
+                                        ng-click='editSymptom("cranial.fieldDefect")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.fieldDefect=="Left")}' ng-model="cranial.fieldDefect"
+                                        ng-click='editSymptom("cranial.fieldDefect")'
+                                        uib-btn-radio="'Left'">
+                                    Left
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.fieldDefect=="Both")}' ng-model="cranial.fieldDefect"
+                                        ng-click='editSymptom("cranial.fieldDefect")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h5>
+                                Blindness in one eye
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.blindness=="Right")}' ng-model="cranial.blindness"
+                                        ng-click='editSymptom("cranial.blindness")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.blindness=="Left")}' ng-model="cranial.blindness"
+                                        ng-click='editSymptom("cranial.blindness")'
+                                        uib-btn-radio="'Left'">
+                                    Left
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.blindness=="Both")}' ng-model="cranial.blindness"
+                                        ng-click='editSymptom("cranial.blindness")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row doubleMarginTop">
+                        <div class="col-sm-4">
+                            <h5>
+                                Facial Pain
+                            </h5>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.facialPain=="Right")}' ng-model="cranial.facialPain"
+                                        ng-click='editSymptom("cranial.facialPain")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.facialPain=="Left")}' ng-model="cranial.facialPain"
+                                        ng-click='editSymptom("cranial.facialPain")'
+                                        uib-btn-radio="'Left'">
+                                    Left
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.facialPain=="Both")}' ng-model="cranial.facialPain"
+                                        ng-click='editSymptom("cranial.facialPain")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                           <div class="col-sm-2">
+                            <h5>
+                                Facial hypoesthesia
+                            </h5>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.facialHypoesthesia=="Right")}' ng-model="cranial.facialHypoesthesia"
+                                        ng-click='editSymptom("cranial.facialHypoesthesia")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.facialHypoesthesia=="Left")}' ng-model="cranial.facialHypoesthesia"
+                                        ng-click='editSymptom("cranial.facialHypoesthesia")'
+                                        uib-btn-radio="'Left'">
+                                    Left
+                                </button>
+                                <button type="button" class="btn btn-success"
+                                        ng-class='{inactive: !(cranial.facialHypoesthesia=="Both")}' ng-model="cranial.facialHypoesthesia"
+                                        ng-click='editSymptom("cranial.facialHypoesthesia")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row marginTop">
+        <div class="col-sm-12">
+            <div class="panel panel-danger">
+                <div class="panel-heading symptomsSignsSections">Motor</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class=col-sm-12>
+                            <button type="button" class="btn btn-danger"
+                                    ng-class='{inactive: !motor.difficultyWalking}' ng-model="motor.difficultyWalking"
+                                    ng-change='editSymptom("motor.difficultyWalking")'
+                                    uib-btn-checkbox>
+                                Difficulty Walking
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row doubleMarginTop">
+                        <div class="col-sm-2">
+                            <h5><strong>
+                                Weakness</strong>
+                            </h5>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>
+                                Upper Limbs
+                            </h5>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.weakness.upper=="Right")}' ng-model="motor.weakness.upper"
+                                        ng-click='editSymptom("motor.weakness.upper")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.weakness.upper=="Left")}' ng-model="motor.weakness.upper"
+                                        ng-click='editSymptom("motor.weakness.upper")'
+                                        uib-btn-radio="'Left'">
+                                    Left
+                                </button>
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.weakness.upper=="Both")}' ng-model="motor.weakness.upper"
+                                        ng-click='editSymptom("motor.weakness.upper")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>
+                                Lower Limbs
+                            </h5>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.weakness.lower=="Right")}' ng-model="motor.weakness.lower"
+                                        ng-click='editSymptom("motor.weakness.lower")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.weakness.lower=="Left")}' ng-model="motor.weakness.lower"
+                                        ng-click='editSymptom("motor.weakness.lower")'
+                                        uib-btn-radio="'Left'">
+                                    Left
+                                        </button>
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.weakness.lower=="Both")}' ng-model="motor.weakness.lower"
+                                        ng-click='editSymptom("motor.weakness.lower")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row doubleMarginTop">
+                        <div class="col-sm-2">
+                            <h5><strong>
+                                Spasticity</strong>
+                            </h5>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>
+                                Upper Limbs
+                            </h5>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.spasticity.upper=="Right")}' ng-model="motor.spasticity.upper"
+                                        ng-click='editSymptom("motor.spasticity.upper")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.spasticity.upper=="Left")}' ng-model="motor.spasticity.upper"
+                                        ng-click='editSymptom("motor.spasticity.upper")'
+                                        uib-btn-radio="'Left'">
+                                    Left
+                                </button>
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.spasticity.upper=="Both")}' ng-model="motor.spasticity.upper"
+                                        ng-click='editSymptom("motor.spasticity.upper")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>
+                                Lower Limbs
+                            </h5>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.spasticity.lower=="Right")}' ng-model="motor.spasticity.lower"
+                                        ng-click='editSymptom("motor.spasticity.lower")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.spasticity.lower=="Left")}' ng-model="motor.spasticity.lower"
+                                        ng-click='editSymptom("motor.spasticity.lower")'
+                                        uib-btn-radio="'Left'">
+                                    Left
+                                        </button>
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.spasticity.lower=="Both")}' ng-model="motor.spasticity.lower"
+                                        ng-click='editSymptom("motor.spasticity.lower")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row doubleMarginTop">
+                        <div class="col-sm-2">
+                            <h5><strong>Tremor </strong></h5>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>Upper Limbs</h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.tremor.upper=="Right")}' ng-model="motor.tremor.upper"
+                                        ng-click='editSymptom("motor.tremor.upper")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.tremor.upper=="Left")}' ng-model="motor.tremor.upper"
+                                        ng-click='editSymptom("motor.tremor.upper")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-danger"
+                                        ng-class='{inactive: !(motor.tremor.upper=="Both")}' ng-model="motor.tremor.upper"
+                                        ng-click='editSymptom("motor.tremor.upper")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row marginTop">
+        <div class="col-sm-12">
+            <div class="panel panel-warning">
+                <div class="panel-heading symptomsSignsSections">Somatosensory</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-warning"
+                                    ng-class='{inactive: !somatosensory.lhermitte}' ng-model="somatosensory.lhermitte"
+                                    ng-change='editSymptom("somatosensory.lhermitte")'
+                                    uib-btn-checkbox>
+                                Lhermitte's sign
+                            </button>
+                            <button type="button" class="btn btn-warning"
+                                    ng-class='{inactive: !somatosensory.heatIntolerance}' ng-model="somatosensory.heatIntolerance"
+                                    ng-change='editSymptom("somatosensory.heatIntolerance")'
+                                    uib-btn-checkbox>
+                                Heat intolerance
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row doubleMarginTop">
+                        <div class="col-sm-2">
+                            <h5><strong>Pain </strong></h5>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>Upper Limbs</h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pain.upper=="Right")}' ng-model="somatosensory.pain.upper"
+                                        ng-click='editSymptom("somatosensory.pain.upper")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pain.upper=="Left")}' ng-model="somatosensory.pain.upper"
+                                        ng-click='editSymptom("somatosensory.pain.upper")'
+                                        uib-btn-radio="'Left'">
+                                    Left
+                                        </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pain.upper=="Both")}' ng-model="somatosensory.pain.upper"
+                                        ng-click='editSymptom("somatosensory.pain.upper")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>
+                                Lower Limbs
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pain.lower=="Right")}'ng-model="somatosensory.pain.lower"
+                                        ng-click='editSymptom("somatosensory.pain.lower")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pain.lower=="Left")}'ng-model="somatosensory.pain.lower"
+                                        ng-click='editSymptom("somatosensory.pain.lower")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pain.lower=="Both")}'ng-model="somatosensory.pain.lower"
+                                        ng-click='editSymptom("somatosensory.pain.lower")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-sm-push-2">
+                            <h5>
+                                Trunk
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 col-sm-push-2 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pain.trunk=="Right")}'ng-model="somatosensory.pain.trunk"
+                                        ng-click='editSymptom("somatosensory.pain.trunk")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pain.trunk=="Left")}'ng-model="somatosensory.pain.trunk"
+                                        ng-click='editSymptom("somatosensory.pain.trunk")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pain.trunk=="Both")}'ng-model="somatosensory.pain.trunk"
+                                        ng-click='editSymptom("somatosensory.pain.trunk")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row doubleMarginTop">
+                        <div class="col-sm-2">
+                            <h5><strong>Paresthesia </strong></h5>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>Upper Limbs</h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.paresthesia.upper=="Right")}' ng-model="somatosensory.paresthesia.upper"
+                                        ng-click='editSymptom("somatosensory.paresthesia.upper")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.paresthesia.upper=="Left")}'ng-model="somatosensory.paresthesia.upper"
+                                        ng-click='editSymptom("somatosensory.paresthesia.upper")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.paresthesia.upper=="Both")}' ng-model="somatosensory.paresthesia.upper"
+                                        ng-click='editSymptom("somatosensory.paresthesia.upper")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>
+                                Lower Limbs
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.paresthesia.lower=="Right")}' ng-model="somatosensory.paresthesia.lower"
+                                        ng-click='editSymptom("somatosensory.paresthesia.lower")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.paresthesia.lower=="Left")}' ng-model="somatosensory.paresthesia.lower"
+                                        ng-click='editSymptom("somatosensory.paresthesia.lower")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.paresthesia.lower=="Both")}' ng-model="somatosensory.paresthesia.lower"
+                                        ng-click='editSymptom("somatosensory.paresthesia.lower")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-push-2 col-sm-2 ">
+                            <h5>
+                                Trunk
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 col-sm-push-2 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.paresthesia.trunk=="Right")}' ng-model="somatosensory.paresthesia.trunk"
+                                        ng-click='editSymptom("somatosensory.paresthesia.trunk")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.paresthesia.trunk=="Left")}' ng-model="somatosensory.paresthesia.trunk"
+                                        ng-click='editSymptom("somatosensory.paresthesia.trunk")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.paresthesia.trunk=="Both")}' ng-model="somatosensory.paresthesia.trunk"
+                                        ng-click='editSymptom("somatosensory.paresthesia.trunk")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row doubleMarginTop">
+                        <div class="col-sm-2">
+                            <h5><strong>Dysesthesia </strong></h5>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>Upper Limbs</h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.dysesthesia.upper=="Right")}' ng-model="somatosensory.dysesthesia.upper"
+                                        ng-click='editSymptom("somatosensory.dysesthesia.upper")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.dysesthesia.upper=="Left")}' ng-model="somatosensory.dysesthesia.upper"
+                                        ng-click='editSymptom("somatosensory.dysesthesia.upper")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.dysesthesia.upper=="Both")}' ng-model="somatosensory.dysesthesia.upper"
+                                        ng-click='editSymptom("somatosensory.dysesthesia.upper")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>
+                                Lower Limbs
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.dysesthesia.lower=="Right")}' ng-model="somatosensory.dysesthesia.lower"
+                                        ng-click='editSymptom("somatosensory.dysesthesia.lower")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.dysesthesia.lower=="Left")}' ng-model="somatosensory.dysesthesia.lower"
+                                        ng-click='editSymptom("somatosensory.dysesthesia.lower")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.dysesthesia.lower=="Both")}' ng-model="somatosensory.dysesthesia.lower"
+                                        ng-click='editSymptom("somatosensory.dysesthesia.lower")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-sm-push-2">
+                            <h5>
+                                Trunk
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 col-sm-push-2 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.dysesthesia.trunk=="Right")}' ng-model="somatosensory.dysesthesia.trunk"
+                                        ng-click='editSymptom("somatosensory.dysesthesia.trunk")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.dysesthesia.trunk=="Left")}' ng-model="somatosensory.dysesthesia.trunk"
+                                        ng-click='editSymptom("somatosensory.dysesthesia.trunk")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.dysesthesia.trunk=="Both")}' ng-model="somatosensory.dysesthesia.trunk"
+                                        ng-click='editSymptom("somatosensory.dysesthesia.trunk")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row doubleMarginTop">
+                        <div class="col-sm-2">
+                            <h5><strong>Anesthesia </strong></h5>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>Upper Limbs</h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.anesthesia.upper=="Right")}' ng-model="somatosensory.anesthesia.upper"
+                                        ng-click='editSymptom("somatosensory.anesthesia.upper")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.anesthesia.upper=="Left")}' ng-model="somatosensory.anesthesia.upper"
+                                        ng-click='editSymptom("somatosensory.anesthesia.upper")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.anesthesia.upper=="Both")}' ng-model="somatosensory.anesthesia.upper"
+                                        ng-click='editSymptom("somatosensory.anesthesia.upper")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>
+                                Lower Limbs
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.anesthesia.lower=="Right")}' ng-model="somatosensory.anesthesia.lower"
+                                        ng-click='editSymptom("somatosensory.anesthesia.lower")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.anesthesia.lower=="Left")}' ng-model="somatosensory.anesthesia.lower"
+                                        ng-click='editSymptom("somatosensory.anesthesia.lower")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.anesthesia.lower=="Both")}' ng-model="somatosensory.anesthesia.lower"
+                                        ng-click='editSymptom("somatosensory.anesthesia.lower")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-sm-push-2">
+                            <h5>
+                                Trunk
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 col-sm-push-2 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.anesthesia.trunk=="Right")}' ng-model="somatosensory.anesthesia.trunk"
+                                        ng-click='editSymptom("somatosensory.anesthesia.trunk")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.anesthesia.trunk=="Left")}' ng-model="somatosensory.anesthesia.trunk"
+                                        ng-click='editSymptom("somatosensory.anesthesia.trunk")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.anesthesia.trunk=="Both")}' ng-model="somatosensory.anesthesia.trunk"
+                                        ng-click='editSymptom("somatosensory.anesthesia.trunk")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row doubleMarginTop">
+                        <div class="col-sm-2">
+                            <h5><strong>Pruritus </strong></h5>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>Upper Limbs</h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pruritus.upper=="Right")}' ng-model="somatosensory.pruritus.upper"
+                                        ng-click='editSymptom("somatosensory.pruritus.upper")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pruritus.upper=="Left")}' ng-model="somatosensory.pruritus.upper"
+                                        ng-click='editSymptom("somatosensory.pruritus.upper")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pruritus.upper=="Both")}' ng-model="somatosensory.pruritus.upper"
+                                        ng-click='editSymptom("somatosensory.pruritus.upper")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>
+                                Lower Limbs
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pruritus.lower=="Right")}' ng-model="somatosensory.pruritus.lower"
+                                        ng-click='editSymptom("somatosensory.pruritus.lower")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pruritus.lower=="Left")}' ng-model="somatosensory.pruritus.lower"
+                                        ng-click='editSymptom("somatosensory.pruritus.lower")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pruritus.lower=="Both")}' ng-model="somatosensory.pruritus.lower"
+                                        ng-click='editSymptom("somatosensory.pruritus.lower")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-sm-push-2">
+                            <h5>
+                                Trunk
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 col-sm-push-2 marginTop">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pruritus.trunk=="Right")}' ng-model="somatosensory.pruritus.trunk"
+                                        ng-click='editSymptom("somatosensory.pruritus.trunk")'
+                                        uib-btn-radio="'Right'">
+                                    Right
+                                </button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pruritus.trunk=="Left")}' ng-model="somatosensory.pruritus.trunk"
+                                        ng-click='editSymptom("somatosensory.pruritus.trunk")'
+                                        uib-btn-radio="'Left'">
+                                    Left</button>
+                                <button type="button" class="btn btn-warning"
+                                        ng-class='{inactive: !(somatosensory.pruritus.trunk=="Both")}' ng-model="somatosensory.pruritus.trunk"
+                                        ng-click='editSymptom("somatosensory.pruritus.trunk")'
+                                        uib-btn-radio="'Both'">
+                                    Both
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row marginTop">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading symptomsSignsSections">Autonomic</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group" >
+                                <button type="button" class="btn btn-default"
+                                        ng-class='{inactive: !autonomic.bladderUrgency}' ng-model="autonomic.bladderUrgency"
+                                        ng-change='editSymptom("autonomic.bladderUrgency")'
+                                        uib-btn-checkbox>
+                                    Bladder urgency
+                                </button>
+                                <button type="button" class="btn btn-default"
+                                        ng-class='{inactive: !autonomic.bladderFrequency}' ng-model="autonomic.bladderFrequency"
+                                        ng-change='editSymptom("autonomic.bladderFrequency")'
+                                        uib-btn-checkbox>
+                                    Bladder frequency
+                                </button>
+                                <button type="button" class="btn btn-default"
+                                        ng-class='{inactive: !autonomic.bladderIncontinence}' ng-model="autonomic.bladderIncontinence"
+                                        ng-change='editSymptom("autonomic.bladderIncontinence")'
+                                        uib-btn-checkbox>
+                                    Bladder incontinence
+                                </button>
+                            </div>
+
+                            <div class="btn-group" >
+                                <button type="button" class="btn btn-default"
+                                        ng-class='{inactive: !autonomic.constipation}' ng-model="autonomic.constipation"
+                                        ng-change='editSymptom("autonomic.constipation")'
+                                        uib-btn-checkbox>
+                                    Constipation
+                                </button>
+                                <button type="button" class="btn btn-default"
+                                        ng-class='{inactive: !autonomic.bowelIncontinence}' ng-model="autonomic.bowelIncontinence"
+                                        ng-change='editSymptom("autonomic.bowelIncontinence")'
+                                        uib-btn-checkbox>
+                                    Bowel Incontinence
+                                </button>
+                            </div>
+
+                            <div class="btn-group" >
+                                <button type="button" class="btn btn-default"
+                                        ng-class='{inactive: !autonomic.sexualFunction}' ng-model="autonomic.sexualFunction"
+                                        ng-change='editSymptom("autonomic.sexualFunction")'
+                                        uib-btn-checkbox>
+                                    Problems with sexual function
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

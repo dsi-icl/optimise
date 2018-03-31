@@ -1,0 +1,483 @@
+<div>
+    <div class="container-fluid marginTop">
+        <div class="row">
+            <form>
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong>
+                        Due to your MS, in the past 4 weeks, have you:
+                    </strong>
+                </div>
+                <div class="col-sm-1">
+                    <p>Never</p>
+                    <p>Not at all</p>
+                </div>
+                <div class="col-sm-1">
+                    <p>Rarely</p>
+                    <p>A little</p>
+                </div>
+                <div class="col-sm-1">
+                    <p>Sometimes</p>
+                    <p>Somewhat</p>
+                </div>
+                <div class="col-sm-1">
+                    <p>Often</p>
+                    <p>A lot</p>
+                </div>
+                <div class="col-sm-1">
+                    <p>Always</p>
+                    <p>Very much</p>
+                </div>
+                <div class="col-sm-1">
+                    <p>Not</p>
+                    <p>applicable</p>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>1. Had difficulty walking or moving outside</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q0='0';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q0=='0'}">
+                            <input type="radio" ng-model="msqol_Q0" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q0')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q0=='1'}">
+                            <input type="radio" ng-model="msqol_Q0" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q0')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q0=='2'}">
+                            <input type="radio" ng-model="msqol_Q0" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q0')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q0=='3'}">
+                            <input type="radio" ng-model="msqol_Q0" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q0')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q0=='4'}">
+                            <input type="radio" ng-model="msqol_Q0" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q0')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q0=='5'}">
+                            <input type="radio" ng-model="msqol_Q0" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q0')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>2. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q1='';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q1=='0'}">
+                            <input type="radio" ng-model="msqol_Q1" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q1')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q1=='1'}">
+                            <input type="radio" ng-model="msqol_Q1" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q1')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q1=='2'}">
+                            <input type="radio" ng-model="msqol_Q1" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q1')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q1=='3'}">
+                            <input type="radio" ng-model="msqol_Q1" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q1')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q1=='4'}">
+                            <input type="radio" ng-model="msqol_Q1" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q1')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q1=='5'}">
+                            <input type="radio" ng-model="msqol_Q1" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q1')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>3. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q2='';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q2=='0'}">
+                            <input type="radio" ng-model="msqol_Q2" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q2')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q2=='1'}">
+                            <input type="radio" ng-model="msqol_Q2" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q2')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q2=='2'}">
+                            <input type="radio" ng-model="msqol_Q2" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q2')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q2=='3'}">
+                            <input type="radio" ng-model="msqol_Q2" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q2')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q2=='4'}">
+                            <input type="radio" ng-model="msqol_Q2" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q2')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q2=='5'}">
+                            <input type="radio" ng-model="msqol_Q2" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q2')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>4. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q3='0';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q3=='0'}">
+                            <input type="radio" ng-model="msqol_Q3" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q3')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q3=='1'}">
+                            <input type="radio" ng-model="msqol_Q3" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q3')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q3=='2'}">
+                            <input type="radio" ng-model="msqol_Q3" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q3')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q3=='3'}">
+                            <input type="radio" ng-model="msqol_Q3" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q3')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q3=='4'}">
+                            <input type="radio" ng-model="msqol_Q3" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q3')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q3=='5'}">
+                            <input type="radio" ng-model="msqol_Q3" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q3')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>5. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q4='0';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q4=='0'}">
+                            <input type="radio" ng-model="msqol_Q4" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q4')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q4=='1'}">
+                            <input type="radio" ng-model="msqol_Q4" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q4')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q4=='2'}">
+                            <input type="radio" ng-model="msqol_Q4" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q4')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q4=='3'}">
+                            <input type="radio" ng-model="msqol_Q4" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q4')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q4=='4'}">
+                            <input type="radio" ng-model="msqol_Q4" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q4')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q4=='5'}">
+                            <input type="radio" ng-model="msqol_Q4" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q4')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>6. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q5='0';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q5=='0'}">
+                            <input type="radio" ng-model="msqol_Q5" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q5')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q5=='1'}">
+                            <input type="radio" ng-model="msqol_Q5" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q5')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q5=='2'}">
+                            <input type="radio" ng-model="msqol_Q5" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q5')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q5=='3'}">
+                            <input type="radio" ng-model="msqol_Q5" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q5')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q5=='4'}">
+                            <input type="radio" ng-model="msqol_Q5" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q5')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q5=='5'}">
+                            <input type="radio" ng-model="msqol_Q5" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q5')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>7. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q6='0';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q6=='0'}">
+                            <input type="radio" ng-model="msqol_Q6" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q6')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q6=='1'}">
+                            <input type="radio" ng-model="msqol_Q6" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q6')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q6=='2'}">
+                            <input type="radio" ng-model="msqol_Q6" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q6')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q6=='3'}">
+                            <input type="radio" ng-model="msqol_Q6" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q6')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q6=='4'}">
+                            <input type="radio" ng-model="msqol_Q6" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q6')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q6=='5'}">
+                            <input type="radio" ng-model="msqol_Q6" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q6')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>8. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q7='0';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q7=='0'}">
+                            <input type="radio" ng-model="msqol_Q7" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q7')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q7=='1'}">
+                            <input type="radio" ng-model="msqol_Q7" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q7')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q7=='2'}">
+                            <input type="radio" ng-model="msqol_Q7" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q7')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q7=='3'}">
+                            <input type="radio" ng-model="msqol_Q7" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q7')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q7=='4'}">
+                            <input type="radio" ng-model="msqol_Q7" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q7')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q7=='5'}">
+                            <input type="radio" ng-model="msqol_Q7" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q7')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>9. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q8='0';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q8=='0'}">
+                            <input type="radio" ng-model="msqol_Q8" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q8')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q8=='1'}">
+                            <input type="radio" ng-model="msqol_Q8" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q8')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q8=='2'}">
+                            <input type="radio" ng-model="msqol_Q8" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q8')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q8=='3'}">
+                            <input type="radio" ng-model="msqol_Q8" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q8')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q8=='4'}">
+                            <input type="radio" ng-model="msqol_Q8" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q8')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q8=='5'}">
+                            <input type="radio" ng-model="msqol_Q8" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q8')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>10. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q9='0';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q9=='0'}">
+                            <input type="radio" ng-model="msqol_Q9" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q9')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q9=='1'}">
+                            <input type="radio" ng-model="msqol_Q9" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q9')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q9=='2'}">
+                            <input type="radio" ng-model="msqol_Q9" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q9')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q9=='3'}">
+                            <input type="radio" ng-model="msqol_Q9" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q9')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q9=='4'}">
+                            <input type="radio" ng-model="msqol_Q9" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q9')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q9=='5'}">
+                            <input type="radio" ng-model="msqol_Q9" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q9')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>11. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q10='0';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q10=='0'}">
+                            <input type="radio" ng-model="msqol_Q10" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q10')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q10=='1'}">
+                            <input type="radio" ng-model="msqol_Q10" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q10')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q10=='2'}">
+                            <input type="radio" ng-model="msqol_Q10" value='2' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q10')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q10=='3'}">
+                            <input type="radio" ng-model="msqol_Q10" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q10')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q10=='4'}">
+                            <input type="radio" ng-model="msqol_Q10" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q10')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q10=='5'}">
+                            <input type="radio" ng-model="msqol_Q10" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q10')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row marginTop">
+                <div class="col-sm-6">
+                    <p>12. Had difficulty with outdoor activities: ie shopping or going out to a movie?</p>
+                </div>
+                <div class="form-group" ng-init="msqol_Q11='0';">
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q11=='0'}">
+                            <input type="radio" ng-model="msqol_Q11" value='0' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q11')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q11=='1'}">
+                            <input type="radio" ng-model="msqol_Q11" value='1' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q11')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q11=='2'}">
+                            <input type="radio" ng-model="msqol_Q11" value='2' ng-hide=true>
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q11=='3'}">
+                            <input type="radio" ng-model="msqol_Q11" value='3' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q11')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q11=='4'}">
+                            <input type="radio" ng-model="msqol_Q11" value='4' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q11')">
+                        </label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label  class="btn btn-default btn-lg btn-block" ng-class="{selectedRadio: msqol_Q11=='5'}">
+                            <input type="radio" ng-model="msqol_Q11" value='5' ng-hide=true ng-change="addMSQOL_12('MSQOL-Q11')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,609 @@
+<div class="container-fluid marginTop" id="profileContent">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading myPanel" role="tab" id="headingDM">
+                <h3 class="panel-title">
+                    Demographic
+                </h3>
+            </div>
+            <div id="collapseDM">
+                <div class="panel-body">
+                    <div class="row marginTop">
+                        <div class='col-sm-3'>
+                            <div class="form-group">
+                                <!--<label class="control-label">OPTIMISE ID</label>-->
+                                <input type="text" class="form-control"
+                                       ng-model="USUBJID" placeholder="eg. 123-456-789" ng-disabled=true>
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class="form-group">
+                                <!--<label class="control-label">ID</label>-->
+                                <input type="text" class="form-control"
+                                       ng-model="NHS_USUBJID" placeholder="eg. 123-456-789" ng-disabled=true>
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class="input-group">
+                                <input type="text" class="form-control DTC_MonthYear" ng-model="BRTHDTC_display"
+                                       ng-change="editDemographic('BRTHDTC', BRTHDTC_display)"
+                                       placeholder="DOB"
+                                       ng-disabled="!thereIsAPatient();">
+                                <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="DM_displayDate"
+                                       ng-disabled=true>
+                                <span class="input-group-addon"> years old</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-3">
+                            <div class="btn-group" uib-dropdown is-open=false>
+                                <button type="button" id="dmGenderButton" class="btn btn-info"
+                                        uib-dropdown-toggle
+                                        ng-disabled="!thereIsAPatient();">
+                                    Gender: {{SEX}} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                                    <li ng-repeat="gender in genderOptions">
+                                        <a href="#" ng-click="editDemographic('SEX', gender)">{{gender}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class="btn-group" uib-dropdown is-open=false>
+                                <button type="button" id="dmDominantButton" class="btn btn-info" uib-dropdown-toggle
+                                        ng-disabled="!thereIsAPatient();">
+                                    Dominant: {{DOMINANT}} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                                    <li><a href="#" ng-click="editDemographic('DOMINANT', 'Right')">Right</a></li>
+                                    <li><a href="#" ng-click="editDemographic('DOMINANT', 'Left')">Left</a></li>
+                                    <li><a href="#" ng-click="editDemographic('DOMINANT', 'Ambidextrous')">Ambidextrous</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="btn-group" uib-dropdown is-open=false>
+                                <button type="button" id="dmEthnicButton" class="btn btn-info" uib-dropdown-toggle
+                                        ng-disabled="!thereIsAPatient();">
+                                    Ethnicity: {{ETHNIC}} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                                    <li ng-repeat="ethnicity in ethnicOptions">
+                                        <a href="#" ng-click="editDemographic('ETHNIC', ethnicity)">{{ethnicity}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="btn-group" uib-dropdown is-open=false>
+                                <button type="button" id="dmCountryButton" class="btn btn-info" uib-dropdown-toggle
+                                        ng-disabled="!thereIsAPatient();">
+                                    Country of Origin: {{COUNTRY}} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                                    <li ng-repeat="country in getCountries()">
+                                        <a href="#" ng-click="editDemographic('COUNTRY', country)">{{country}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row marginTop" ng-show="!isUnder18()">
+                        <div class='col-sm-3'>
+                            <div class="btn-group" uib-dropdown is-open=false>
+                                <button type="button" id="dmSmokingButton" class="btn btn-info" uib-dropdown-toggle
+                                        ng-disabled="!thereIsAPatient();">
+                                    Smoking History: {{SMOKING}} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                                    <li><a href="#" ng-click="editSubjectCharacteristic('SMOKING HISTORY', 'Smoker')">Smoker</a></li>
+                                    <li><a href="#" ng-click="editSubjectCharacteristic('SMOKING HISTORY', 'Ex-smoker')">Ex smoker</a></li>
+                                    <li><a href="#" ng-click="editSubjectCharacteristic('SMOKING HISTORY', 'Never smoked')">Never smoked</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class="btn-group" uib-dropdown is-open=false>
+                                <button type="button" id="dmAlcoholButton" class="btn btn-info" uib-dropdown-toggle ng-disabled="!thereIsAPatient();">
+                                    Alcohol Consumption: {{ALCOHOL}} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                                    <li><a href="#" ng-click="editSubstanceUse('ALCOHOL', 'More than 3 units a day')">More than 3 units a day</a></li>
+                                    <li><a href="#" ng-click="editSubstanceUse('ALCOHOL', 'Less than 3 units a day')">Less than 3 units a day</a></li>
+                                    <li><a href="#" ng-click="editSubstanceUse('ALCOHOL', 'Less than 3 units a week')">Less than 3 units a week</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row doubleMarginTop">-->
+                        <!--<div class="col-sm-3">-->
+                            <!--<input type="file" id="piiFile" name="piiFile" />-->
+                            <!--<button type="button" class="btn btn-default" ng-click="readPII()">Populate PII</button>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-9">-->
+                            <!--<textarea rows='2' class="form-control" ng-model="piiNote"-->
+                                      <!--ng-blur="addPIIProfile()"></textarea>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading myPanel" role="tab" id="headingMH">
+                <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseMH" aria-expanded="true" aria-controls="collapseOne">
+                    Medical History
+                </h4>
+            </div>
+            <div id="collapseMH" class="panel-collapse collapse" role="tabpanel">
+                <div class="panel-body" ng-show="thereIsAPatient();">
+                        <table class="table" ng-show="showImmunisationTable()">
+                            <thead><tr>
+                                <th>Immunisations</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr></thead>
+                            <tbody>
+                            <tr ng-repeat="newOccurence in getMedicalHistory('Immunisation')">
+                                <td>{{newOccurence.MHTERM}}</td>
+                                <td>{{newOccurence.displaySTDTC}}</td>
+                                <td><a href="#" role="button" ng-click="deleteOccurence(newOccurence)">Delete</a></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" class="form-control" ng-model="ImmunisationTERM" placeholder="New Immunisation eg. HPV"></td>
+                                <td><input type="text" class="form-control DTC_DayMonthYear"
+                                           ng-model="ImmunisationSTDTC"></td>
+                                <td><a href="#" ng-click="addImmunisation()">Add</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    <table class="table doubleMarginTop" ng-show="showPregnancyTable()">
+                        <thead><tr>
+                            <th>Pregnancy</th>
+                            <th>Onset</th>
+                            <th>Delivery</th>
+                            <th>Outcome</th>
+                            <th>Action</th>
+                            <th></th>
+                        </tr></thead>
+                        <tbody>
+                        <tr ng-repeat="newOccurence in getMedicalHistory('Pregnancy')">
+                            <td>{{newOccurence.MHTERM}}</td>
+                            <td>{{newOccurence.displaySTDTC}}</td>
+                            <td>{{newOccurence.displayENDTC}}</td>
+                            <td><select class="form-control"
+                                        ng-model="newOccurence.MHENRTPT"
+                                        ng-change="editGeneralOccurence(newOccurence, 'MHENRTPT')">
+                                <option>Term</option>
+                                <option>Premature</option>
+                                <option>Other</option></select></td>
+                            <td><a href="#" role="button" ng-click="deleteOccurence(newOccurence)">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>Pregnancy</td>
+                            <td><input type="text" class="form-control DTC_MonthYear"
+                                       ng-model="PregnancySTDTC"></td>
+                            <td><input type="text" class="form-control DTC_MonthYear"
+                                       ng-model="PregnancyENDTC"></td>
+                            <td><select class="form-control" ng-model="PregnancyENRTPT">
+                                <option>Term</option>
+                                <option>Premature</option>
+                                <option>Other</option>
+                            </select>
+                            </td>
+                            <td><a href="#" ng-click="addPregnancy()">Add</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table doubleMarginTop">
+                        <thead><tr>
+                            <th class="col-sm-4">Medical Conditions</th>
+                            <th class="col-sm-2">Onset (Year)</th>
+                            <th class="col-sm-2">Outcome</th>
+                            <th class="col-sm-2">Resolved (Year)</th>
+                            <th class="col-sm-2">Action</th>
+                        </tr></thead>
+                        <tbody>
+                        <tr ng-repeat="newOccurence in getMedicalHistory('General Medical History')">
+                            <td>{{newOccurence.MHTERM}}</td>
+                            <td>{{newOccurence.displaySTDTC}}</td>
+                            <td><select class="form-control"
+                                        ng-model="newOccurence.MHENRTPT"
+                                        ng-disabled="(newOccurence.MHENRTPT=='Resolved')"
+                                        ng-change="editGeneralOccurence(newOccurence, 'MHENRTPT')">
+                            <option>Ongoing</option>
+                            <option>Resolved</option>
+                            <option>Unknown</option></select>
+                            </td>
+                            <td><input type="text" class="form-control DTC_Year"
+                                       ng-model="newOccurence.displayENDTC"
+                                        ng-disabled="(newOccurence.MHENRTPT!='Resolved')"
+                                       ng-change="editGeneralOccurence(newOccurence, 'MHENDTC')"></td>
+                            <td><a href="#" role="button" ng-click="deleteOccurence(newOccurence)">Delete</a></td>
+                        </tr>
+                        <tr >
+                            <td><input type="text" class="form-control" ng-model="GenMHTERM" placeholder="New Medical History eg. Asthma"></td>
+                            <td><input type="text" class="form-control DTC_Year" ng-model="GenMHSTDTC" ng-change="validateEndDate()"></td>
+                            <td> <select class="form-control" ng-model="GenMHENRTPT">
+                                <option>Ongoing</option>
+                                <option>Resolved</option>
+                                <option>Unknown</option>
+                            </select>
+                            </td>
+                            <td><input type="text" class="form-control DTC_Year"
+                                       ng-model="GenMHENDTC"
+                                       ng-disabled="(GenMHENRTPT!='Resolved')"
+                                       ng-change="validateEndDate()"></td>
+                            <td><a href="#" ng-click="addGeneralOccurence()">Add</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading myPanel" role="tab" id="headingAP">
+                <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAP" aria-expanded="true" aria-controls="collapseOne">
+                    Family Medical History
+                </h4>
+            </div>
+            <div id="collapseAP" class="panel-collapse container-fluid collapse" role="tabpanel" aria-labelledby="headingAP">
+                <div class="panel-body" ng-show="thereIsAPatient();" ng-init="subjectAdopted=false">
+                    <div class='row marginTop'>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-info"
+                                    ng-class='{inactive: !subjectAdopted}'
+                                    ng-model="subjectAdopted"
+                                    uib-btn-checkbox>
+                                Unknown eg. Adopted
+                            </button>
+                        </div>
+                    </div>
+                    <div class ="row doubleMarginTop">
+                        <div class="col-sm-12">
+                            <div class="form-group" ng-show="(subjectAdopted==false)">
+                        <table class="table">
+                            <thead><tr>
+                                <th class="col-sm-3">Relationship</th>
+                                <th colspan="3" class="col-sm-6">MS and Other Medical Conditions</th>
+                                <th class="col-sm-1">Action</th>
+                            </tr></thead>
+                            <tbody>
+                            <tr ng-repeat="apmh in getAssociatedPersonMedicalHistories()">
+                                <td>{{apmh.SREL}}</td>
+                                <td>{{apmh.MHTERM}}</td>
+                                <td><a href="#" ng-click="deleteAssociatedPersonMedicalHistory(apmh)">Delete</a></td>
+                            </tr>
+                            <tr >
+                                <td><select class="form-control" ng-model="SREL">
+                                    <option>Mother</option>
+                                    <option>Father</option>
+                                    <option>Twin</option>
+                                    <option>Sister</option>
+                                    <option>Brother</option>
+                                    <option>Maternal Grandparent</option>
+                                    <option>Paternal Grandparent</option>
+                                    <option>Maternal Aunt/Uncle</option>
+                                    <option>Maternal Cousin</option>
+                                    <option>Paternal Aunt/Uncle</option>
+                                    <option>Paternal Cousin</option>
+                                </select></td>
+                                <td><input type="text" class="form-control" ng-model="APMHTERM" placeholder="eg. MS, Rheumatoid Arthritis"></td>
+                                <td><a href="#" ng-click="addAssociatedPersonMedicalHistory()">Add</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading myPanel" role="tab" id="headingTwo">
+                <h4 class="panel-title" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                   Primary Diagnosis
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body" ng-show="thereIsAPatient();">
+                    <div class="row"><!-- Initial Symptoms-->
+                        <div class="col-sm-12">
+                            <table class="table">
+                                <col width="25%">
+                                <col width="20%">
+                                <col width="25%">
+                                <col width="25%">
+                                <col width="5%">
+                                <thead>
+                                <th>First Symptoms</th>
+                                <th>Year</th>
+                                <th>Location</th>
+                                <th>Laterality</th>
+                                <th></th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="initialSymptom in getOccurencesInSubCategory('Initial Symptom')">
+                                    <td>{{initialSymptom.MHTERM}}
+                                    <td>{{initialSymptom.displaySTDTC}}</td>
+                                    <td>{{initialSymptom.MHLOC}}</td>
+                                    <td>{{initialSymptom.MHLAT}}</td>
+                                    <td><a href="#" ng-click="deleteOccurence(initialSymptom)">Delete</a></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" ng-model="symptomMHTERM" uib-typeahead="symptom for symptom in initialSymptoms | filter:$viewValue | limitTo:8" class="form-control"></td>
+                                    <td><input type="text" class="form-control DTC_Year" ng-model="symptomMHSTDTC"></td>
+                                    <td><input type="text" ng-model="symptomMHLOC" class="form-control" placeholder="eg. Upper/ Lower Limbs"></td>
+                                    <td><input type="text" ng-model="symptomMHLAT" class="form-control" placeholder="eg. Right"></td>
+                                    <td><a href="#" ng-click="addInitialSymptom()">Save</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row doubleMarginTop">
+                        <div class='col-sm-12'> <!-- Diagnosis -->
+                            <table class="table">
+                                <col width="12%">
+                                <col width="13%">
+                                <col width="20%">
+                                <col width="50%">
+                                <col width="5%">
+                                <thead>
+                                    <th colspan="2">Diagnosis</th>
+                                    <th>Year</th>
+                                    <th>Note</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="diagnosis in getPrimaryDiagnosis()">
+                                    <td colspan="2">{{diagnosis.MHTERM}}</td>
+                                    <td>{{diagnosis.displaySTDTC}}</td>
+                                    <td><textarea rows='2' class="form-control"
+                                                  ng-model="diagnosis.displayNote"
+                                                  ng-blur="editGeneralOccurence(diagnosis, 'displayNote')"
+                                                  placeholder="Notes"></textarea></td>
+                                    <td><a href="#" ng-click="deletePrimaryDiagnosis(diagnosis)">Delete</a></td>
+                                </tr>
+                                <!--<tr ng-show="!isMSPatient()">-->
+                                <tr>
+                                    <td>
+                                        <div class="btn-group btn-group-vertical">
+                                            <button type="button" class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM=="RIS")}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'RIS'">
+                                                RIS
+                                            </button>
+                                            <button type="button" class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM=="CIS")}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'CIS'">
+                                                CIS
+                                            </button>
+                                            <button type="button" class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM=="ADEM")}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'ADEM'">
+                                                ADEM
+                                            </button>
+                                            <button type="button" class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM.indexOf("Multiple Sclerosis")>-1)}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'Multiple Sclerosis'">
+                                                MS
+                                            </button>
+                                            <button type="button" class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM.indexOf("NMOSD") >-1)}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'NMOSD'">
+                                                NMOSD
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-vertical" ng-show="isMSCategory()">
+                                            <button type="button"
+                                                    class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM=="Relapsing Remitting Multiple Sclerosis")}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'Relapsing Remitting Multiple Sclerosis'">
+                                                RRMS
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM=="Primary Progressive Multiple Sclerosis")}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'Primary Progressive Multiple Sclerosis'">
+                                                PPMS
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM=="Secondary Progressive Multiple Sclerosis")}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'Secondary Progressive Multiple Sclerosis'">
+                                                SPMS
+                                            </button>
+                                        </div>
+                                        <div class="btn-group btn-group-vertical" ng-show="isNMOCategory()">
+                                            <button type="button" class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM=="NMOSD Optic Neuritis")}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'NMOSD Optic Neuritis'">
+                                                Optic Neuritis
+                                            </button>
+                                            <button type="button" class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM=="NMOSD Transverse Myelitis")}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'NMOSD Transverse Myelitis'">
+                                                Transverse Myelitis
+                                            </button>
+                                            <button type="button" class="btn btn-info"
+                                                    ng-class='{inactive: !(newDiagnosis.MHTERM=="NMOSD Brain Stem")}'
+                                                    ng-model="newDiagnosis.MHTERM"
+                                                    uib-btn-radio="'NMOSD Brain Stem'">
+                                                Brain Stem
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control DTC_Year" ng-model="newDiagnosis.MHSTDTC">
+                                    </td>
+                                    <td>
+                                        <textarea rows='5' class="form-control"
+                                                  ng-model="newDiagnosis.displayNote"
+                                                  placeholder="Notes"></textarea>
+                                    </td>
+                                    <td><a href="#" ng-click="addPrimaryDiagnosis()">Save</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class='row' ng-show="isMSPatient()">
+                        <div class="col-sm-12">
+                            <table class="table marginTop" >
+                                <thead>
+                                <th class="col-sm-3">Basis of MS Diagnosis</th>
+                                <th class="col-sm-3">Physical Examination</th>
+                                <th class="col-sm-3">MRI</th>
+                                <th class="col-sm-3">Symptoms</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><h5>Cerebrum</h5></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.cerebrum.pe"
+                                                uib-btn-checkbox="'Physical Examination'"
+                                                ng-change="editOnsetFinding('msLocated.cerebrum.pe')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.cerebrum.pe"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.cerebrum.pe"></span>
+                                        </button></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.cerebrum.mri"
+                                                uib-btn-checkbox="'MRI'"
+                                                ng-change="editOnsetFinding('msLocated.cerebrum.pe')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.cerebrum.mri"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.cerebrum.mri"></span>
+                                        </button></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.cerebrum.symptom"
+                                                uib-btn-checkbox="'Symptom'"
+                                                ng-change="editOnsetFinding('msLocated.cerebrum.symptom')">
+                                            <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.cerebrum.symptom"></span>
+                                            <span class="glyphicon glyphicon-check" ng-show="msLocated.cerebrum.symptom"></span>
+                                        </button></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>Brain stem</h5></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.brainStem.pe"
+                                                uib-btn-checkbox="'Physical Examination'"
+                                                ng-change="editOnsetFinding('msLocated.brainStem.pe')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.brainStem.pe"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.brainStem.pe"></span>
+                                    </button></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.brainStem.mri"
+                                                uib-btn-checkbox="'MRI'"
+                                                ng-change="editOnsetFinding('msLocated.brainStem.mri')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.brainStem.mri"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.brainStem.mri"></span>
+                                    </button></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.brainStem.symptom"
+                                                uib-btn-checkbox="'Symptom'"
+                                                ng-change="editOnsetFinding('msLocated.brainStem.symptom')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.brainStem.symptom"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.brainStem.symptom"></span>
+                                    </button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><h5>Optic Nerve</h5></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.opticNerve.pe"
+                                                uib-btn-checkbox="'Physical Examination'"
+                                                ng-change="editOnsetFinding('msLocated.opticNerve.pe')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.opticNerve.pe"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.opticNerve.pe"></span>
+                                    </button></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.opticNerve.mri"
+                                                uib-btn-checkbox="'MRI'"
+                                                ng-change="editOnsetFinding('msLocated.opticNerve.mri')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.opticNerve.mri"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.opticNerve.mri"></span>
+                                    </button></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.opticNerve.symptom"
+                                                uib-btn-checkbox="'Symptom'"
+                                                ng-change="editOnsetFinding('msLocated.opticNerve.symptom')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.opticNerve.symptom"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.opticNerve.symptom"></span>
+                                    </button></td>
+                                </tr>
+
+                                <tr>
+                                    <td><h5>Spinal Cord</h5></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.spinalCord.pe"
+                                                uib-btn-checkbox="'Physical Examination'"
+                                                ng-change="editOnsetFinding('msLocated.spinalCord.pe')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.spinalCord.pe"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.spinalCord.pe"></span>
+                                    </button></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.spinalCord.mri"
+                                                uib-btn-checkbox="'MRI'"
+                                                ng-change="editOnsetFinding('msLocated.spinalCord.mri')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.spinalCord.mri"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.spinalCord.mri"></span>
+                                    </button></td>
+                                    <td><button type="button" class="btn btn-default"
+                                                ng-model="msLocated.spinalCord.symptom"
+                                                uib-btn-checkbox="'Symptom'"
+                                                ng-change="editOnsetFinding('msLocated.spinalCord.symptom')">
+                                        <span class="glyphicon glyphicon-unchecked" ng-show="!msLocated.spinalCord.symptom"></span>
+                                        <span class="glyphicon glyphicon-check" ng-show="msLocated.spinalCord.symptom"></span>
+                                    </button></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!--<div class="col-sm-4 marginTop">-->
+                            <!--<div class="form-group">-->
+                                <!--<label class='control-label'>Secondary Progressive Onset Year</label>-->
+                                <!--<div class="input">-->
+                                    <!--<input type="text" class="form-control DTC_Year"-->
+                                           <!--ng-model="progressiveMHSTDTC_display"-->
+                                           <!--ng-change="editProgressiveCourse()">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                    <!--<div class="row" ng-show="isMSPatient()">-->
+
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
