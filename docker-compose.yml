@@ -1,7 +1,8 @@
-version: "3"
+version: "2"
 services:
   application:
     image: datascienceinstitute/optimise
+    container_name: "optimise"
     links:
       - database
     depends_on:
@@ -9,26 +10,15 @@ services:
     restart: on-failure
     ports:
       - "8080:80"
-    networks:
-      - internal
-  mongo:
-    image: mongo
+  database:
+    image: mongo:latest
+    container_name: "database"
+    environment:
+      - MONGO_DATA_DIR=/var/lib/mongodb
+      - MONGO_LOG_DIR=/dev/null
     volumes:
       - ./runtime/mongo:/var/lib/mongodb
     restart: always
-    command: mongod --smallfiles --logpath=/dev/null # --quiet
-    networks:
-      - internal
-networks:
-  internal:
-    driver_opts:
-      internal: "true"
-    driver: bridge      
-  shared:
-    driver_opts:
-      enable_ipv6: "true"
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 172.55.0.0/16
-         gateway: 172.55.0.1
+    command: mongod --smallfiles # --quiet
+    ports:
+      - 27017:27017
