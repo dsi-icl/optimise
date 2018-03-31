@@ -31,7 +31,7 @@ if($method=="POST")
         $connection=db_connect();
         if($connection==null)
         {
-            ReturnException(Internal_Error,500);
+            ReturnException(ERROR_Internal_Error,500);
             return;
         }
         $tokens=$connection->selectCollection(TOKEN_U_TABLE);
@@ -56,7 +56,7 @@ if($method=="POST")
         $connection=db_connect();
         if($connection==null)
         {
-            ReturnException(Internal_Error,500);
+            ReturnException(ERROR_Internal_Error,500);
             return;
         }
         $diary_table=$connection->selectCollection(DIARY_U_TABLE);
@@ -87,7 +87,7 @@ if($method=="POST")
         $connection=db_connect();
         if($connection==null)
         {
-            ReturnException(Internal_Error,500);
+            ReturnException(ERROR_Internal_Error,500);
             return;
         }
         $tokens=$connection->selectCollection(TOKEN_U_TABLE);

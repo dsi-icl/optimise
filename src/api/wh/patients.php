@@ -17,7 +17,7 @@ if ($method == "POST") {
 
     $connection = db_connect();
     if ($connection == null) {
-        ReturnException(Internal_Error, 500,"internal error connection is null");
+        ReturnException(ERROR_Internal_Error, 500,"internal error connection is null");
         return;
     }
     if(!isset($_REQUEST[action]))
@@ -290,7 +290,7 @@ if ($method == "POST") {
         $connection=db_connect();
         if($connection==null)
         {
-            ReturnException(Internal_Error,500);
+            ReturnException(ERROR_Internal_Error,500);
             return;
         }
         $tokens=$connection->selectCollection(TOKEN_C_TABLE);
@@ -305,7 +305,7 @@ if ($method == "POST") {
         $clinician=$clinicians->findOne(array(username=>$username));
         if($clinician==null)
         {
-            ReturnException(Internal_Error,500,"clinician not found");
+            ReturnException(ERROR_Internal_Error,500,"clinician not found");
             return;
         }
         $group_ids=$clinician[group_ids];

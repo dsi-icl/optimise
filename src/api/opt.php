@@ -34,7 +34,7 @@ if($setting==1)
         $connection=db_connect();
         if($connection==null)
         {
-            ReturnException(Internal_Error,500);
+            ReturnException(ERROR_Internal_Error,500);
             return;
         }
         $tokens=$connection->selectCollection(TOKEN_C_TABLE);
