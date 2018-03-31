@@ -1,0 +1,32 @@
+<div>
+    <div class="marginTop" id="interventionContent">
+        <button type="button" class="btn btn-info" ng-class="{inactive: !includeSymptomsAndSigns}" ng-model="includeSymptomsAndSigns"
+                ng-change='editLetterText("Symptoms and Signs")'
+                uib-btn-checkbox>
+            Symptoms and Signs
+        </button>
+        <button type="button" class="btn btn-info" ng-class="{inactive: !includeVitalSigns}" ng-model="includeVitalSigns"
+                ng-change='editLetterText("Vital Signs")'
+                uib-btn-checkbox>
+            Vital Signs and Current Anthropometry
+        </button>
+        <button type="button" class="btn btn-info" ng-class="{inactive: !includeRelapses}" ng-model="includeRelapses"
+                ng-change='editLetterText("Relapses")'
+                uib-btn-checkbox>
+            Relapses
+        </button>
+        <button type="button" class="btn btn-info" ng-class="{inactive: !includeInvestigations}" ng-model="includeInvestigations"
+                ng-change='editLetterText("Investigations")'
+                uib-btn-checkbox>
+            Investigations
+        </button>
+
+        <button type="button" class="btn btn-info" ng-class="{inactive: !includeMedications}" ng-model="includeMedications"
+                ng-change='editLetterText("Medications")'
+                uib-btn-checkbox>
+            Medications
+        </button>
+
+        <div text-angular class="doubleMarginTop" ng-model='letterText' ng-blur="editLetter()"></div>
+    </div>
+</div>

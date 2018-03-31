@@ -1,0 +1,367 @@
+<div class="container-fluid">
+
+    <div class="marginTop panel-group" id="relapseContent">
+
+        <div class="panel panel-default">
+            <div class="panel-heading myPanel" role="tab">
+                <h3 class="panel-title">Functional Systems Affected</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-default" ng-model="pyramidalTract"
+                                ng-disabled="getDisabledFields()"
+                                ng-change="addRelapse('Pyramidal Tract', pyramidalTract)"
+                                uib-btn-checkbox>
+                            Pyramidal Tract
+                        </button>
+                        <button type="button" class="btn btn-default" ng-model="cerebellum"
+                                ng-disabled="getDisabledFields()"
+                                ng-change="addRelapse('Cerebellum', cerebellum)"
+                                uib-btn-checkbox>
+                            Cerebellum
+                        </button>
+                        <button type="button" class="btn btn-default" ng-model="brainStem"
+                                ng-disabled="getDisabledFields()"
+                                ng-change="addRelapse('Brain Stem', brainStem)"
+                                uib-btn-checkbox>
+                            Brain Stem
+                        </button>
+                        <button type="button" class="btn btn-default" ng-model="sensory"
+                                ng-disabled="getDisabledFields()"
+                                ng-show="datesValidated == true"
+                                ng-change="addRelapse('Sensory', sensory)"
+                                uib-btn-checkbox>
+                            Sensory
+                        </button>
+                        <button type="button" class="btn btn-default" ng-model="bowelBladder"
+                                ng-disabled="getDisabledFields()"
+                                ng-change="addRelapse('Bowel Bladder', bowelBladder)"
+                                uib-btn-checkbox>
+                            Bowel Bladder
+                        </button>
+                        <button type="button" class="btn btn-default" ng-model="visual"
+                                ng-disabled="getDisabledFields()"
+                                ng-change="addRelapse('Visual',visual)"
+                                uib-btn-checkbox>
+                            Visual
+                        </button>
+                        <button type="button" class="btn btn-default" ng-model="higherFunctional"
+                                ng-disabled="getDisabledFields()"
+                                ng-change="addRelapse('Higher Function', higherFunctional)"
+                                uib-btn-checkbox>
+                            Higher Function
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row doubleMarginTop" ng-show="enableSeverityOutcomeCapture()">
+                   <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group" >
+                                <span class="input-group-addon">Duration</span>
+                                <input type="text" class="form-control"
+                                       ng-model="duration"
+                                       ng-change="addEndDate()"
+                                       ng-disabled="getDisabledFields()"/>
+                                <span class="input-group-addon">weeks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <h5>Severity</h5>
+                    </div>
+                    <div class="col-sm-3" ng-init="CESEV=''">
+                        <div class="btn-group" >
+                            <button type="button" class="btn btn-default" ng-model="CESEV"
+                                    ng-click="addRelapseProperty('CESEV')" ng-disabled="getDisabledFields()"
+                                    uib-btn-radio="'Mild'">
+                                Mild
+                            </button>
+                            <button type="button" class="btn btn-default" ng-model="CESEV"
+                                    ng-click="addRelapseProperty('CESEV')" ng-disabled="getDisabledFields()"
+                                    uib-btn-radio="'Moderate'">
+                                Moderate
+                            </button>
+                            <button type="button" class="btn btn-default" ng-model="CESEV"
+                                    ng-click="addRelapseProperty('CESEV')" ng-disabled="getDisabledFields()"
+                                    uib-btn-radio="'Severe'">
+                                Severe
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <h5>
+                            Recovery
+                        </h5>
+                    </div>
+                    <div class="col-sm-3" ng-init="CEOUT=''">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" ng-model="CEOUT"
+                                    ng-click="addRelapseProperty('CEOUT')" ng-disabled="getDisabledFields()"
+                                    uib-btn-radio="'Complete'">
+                                Complete
+                            </button>
+                            <button type="button" class="btn btn-default" ng-model="CEOUT"
+                                    ng-click="addRelapseProperty('CEOUT')" ng-disabled="getDisabledFields()"
+                                    uib-btn-radio="'Partial'">
+                                Partial
+                            </button>
+                            <button type="button" class="btn btn-default" ng-model="CEOUT"
+                                    ng-click="addRelapseProperty('CEOUT')" ng-disabled="getDisabledFields()"
+                                    uib-btn-radio="'None'">
+                                None
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row marginTop" ng-show="enableSeverityOutcomeCapture()">
+
+                    <div class="col-sm-2 col-sm-offset-3">
+                        <h5>
+                            Impact on ADL
+                        </h5>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" ng-model="adlScore"
+                                    ng-click="editRelapseFinding('Impact on ADL')" ng-disabled="getDisabledFields()"
+                                    uib-btn-radio="'Yes'">
+                                Yes
+                            </button>
+                            <button type="button" class="btn btn-default" ng-model="adlScore"
+                                    ng-click="editRelapseFinding('Impact on ADL')" ng-disabled="getDisabledFields()"
+                                    uib-btn-radio="'No'">
+                                No
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <h5>
+                            Steroids
+                        </h5>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default"
+                                    ng-model="steroidsPrescribed"
+                                    ng-click="editRelapseFinding('Corticosteroids prescribed')" ng-disabled="getDisabledFields()"
+                                    uib-btn-radio="'Yes'">
+                                Yes
+                            </button>
+                            <button type="button" class="btn btn-default"
+                                    ng-model="steroidsPrescribed"
+                                    ng-click="editRelapseFinding('Corticosteroids prescribed')" ng-disabled="getDisabledFields()"
+                                    uib-btn-radio="'No'">
+                                No
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading myPanel" role="tab">
+                <h4 class="panel-title" role="button"
+                    data-toggle="collapse"
+                    data-parent="#visitAccordion"
+                    href="#collapseRelapseSymptoms">
+                    Symptoms
+                </h4>
+            </div>
+            <div id="collapseRelapseSymptoms" class="panel-collapse collapse" role="tabpanel">
+                <div class="panel-body" ng-show="enableSeverityOutcomeCapture()">
+                    <div relapse-symptoms></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading myPanel" role="tab">
+                <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseRelapseSigns" aria-expanded="true" aria-controls="collapseOne">
+                    Signs
+                </h4>
+            </div>
+            <div id="collapseRelapseSigns" class="panel-collapse collapse" role="tabpanel">
+                <div class="panel-body" ng-show="enableSeverityOutcomeCapture()">
+                    <div relapse-signs>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!--<div class="panel panel-default"> &lt;!&ndash; Impact on ADL &ndash;&gt;-->
+        <!--<div class="panel-heading myPanel">-->
+            <!--<h3 class="panel-title">Impact on Activities of Daily Living</h3>-->
+        <!--</div>-->
+        <!--<div class="panel-body">-->
+            <!--<div class="form-horizontal">-->
+                <!--<div class="form-group" ng-show="enableSeverityOutcomeCapture()">-->
+                    <!--<div class="radio-inline">-->
+                        <!--<label class="col-sm-4 col-sm-offset-1">-->
+                            <!--<input type="radio" ng-model="adlScore" value="Yes" ng-change="editRelapseFinding()" ng-disabled="getDisabledFields()">-->
+                            <!--Yes-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="radio-inline">-->
+                        <!--<label class="col-sm-4 col-sm-offset-1">-->
+                            <!--<input type="radio" ng-model="adlScore" value="No" ng-change="editRelapseFinding()" ng-disabled="getDisabledFields()">-->
+                            <!--No-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="radio-inline">-->
+                        <!--<label class="col-sm-4 col-sm-offset-1">-->
+                            <!--<input type="radio" ng-model="adlScore" value="Unknown" ng-change="editRelapseFinding()" ng-disabled="getDisabledFields()">-->
+                            <!--Unknown-->
+                        <!--</label>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+        <!--<div class="panel panel-default">-->
+            <!--<div class="panel-heading myPanel">-->
+                <!--<h3 class="panel-title">Severity</h3>-->
+            <!--</div>-->
+            <!--<div class="panel-body">-->
+                <!--<div class="form-group" ng-show="enableSeverityOutcomeCapture()" ng-init="CESEV=''">-->
+                    <!--<div class="radio">-->
+                        <!--<label class="control-label">-->
+                            <!--<input type="radio" ng-model="CESEV" ng-change="addRelapseProperty('CESEV')" value="Mild" ng-disabled="getDisabledFields()">-->
+                            <!--Mild-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="radio">-->
+                        <!--<label class="control-label">-->
+                            <!--<input type="radio" ng-model="CESEV" ng-change="addRelapseProperty('CESEV')" value="Moderate" ng-disabled="getDisabledFields()">-->
+                            <!--Moderate-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="radio">-->
+                        <!--<label class="control-label">-->
+                            <!--<input type="radio" ng-model="CESEV" ng-change="addRelapseProperty('CESEV')" value="Severe" ng-disabled="getDisabledFields()">-->
+                            <!--Severe-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="radio">-->
+                        <!--<label class="control-label">-->
+                            <!--<input type="radio" ng-model="CESEV" ng-change="addRelapseProperty('CESEV')" value="Unknown" ng-disabled="getDisabledFields()">-->
+                            <!--Unknown-->
+                        <!--</label>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="panel panel-default">-->
+            <!--<div class="panel-heading myPanel">-->
+                <!--<h3 class="panel-title">Recovery</h3>-->
+            <!--</div>-->
+            <!--<div class="panel-body">-->
+                <!--<div class="form-group" ng-show="enableSeverityOutcomeCapture()" ng-init="CEOUT=''">-->
+                    <!--<div class="radio">-->
+                        <!--<label class="control-label">-->
+                            <!--<input type="radio" ng-model="CEOUT" ng-change="addRelapseProperty('CEOUT')" value="Complete" ng-disabled="getDisabledFields()">-->
+                            <!--Complete-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="radio">-->
+                        <!--<label class="control-label">-->
+                            <!--<input type="radio" ng-model="CEOUT" ng-change="addRelapseProperty('CEOUT')" value="Partial" ng-disabled="getDisabledFields()">-->
+                            <!--Partial-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="radio">-->
+                        <!--<label class="control-label">-->
+                            <!--<input type="radio" ng-model="CEOUT" ng-change="addRelapseProperty('CEOUT')" value="None" ng-disabled="getDisabledFields()">-->
+                            <!--None-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="radio">-->
+                        <!--<label class="control-label">-->
+                            <!--<input type="radio" ng-model="CEOUT" ng-change="addRelapseProperty('CEOUT')" value="Unknown" ng-disabled="getDisabledFields()">-->
+                            <!--Unknown-->
+                        <!--</label>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+    </div>
+
+
+
+
+    <!--
+            <div class="row marginTop">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading myPanel">
+                            <h3 class="panel-title">Steroids</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="radio">
+                                            <label class="control-label">
+                                                <input type="radio" ng-model="corticortisoid1Required" value="Yes" ng-disabled="getDisabledFields()">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label class="control-label">
+                                                <input type="radio" ng-model="corticortisoid1Required" value="No" ng-disabled="getDisabledFields()">
+                                                No
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label class="control-label">
+                                                <input type="radio" ng-model="corticortisoid1Required" value="Unknown" ng-disabled="getDisabledFields()">
+                                                Unknown
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3" ng-show="corticortisoid1Required=='Yes'">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Drug Name</label>
+                                        <input type="text" class="form-control" ng-model="corticortisoid1_EXTRT" ng-disabled="getDisabledFields()">
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-3" ng-show="corticortisoid1Required=='Yes'">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Starting On</label>
+                                        <input type="date" class="form-control" ng-model="corticortisoid1_EXSTDTC" ng-disabled="getDisabledFields()">
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-3" ng-show="corticortisoid1Required=='Yes'">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Ending On</label>
+                                        <input type="date" class="form-control" ng-model="corticortisoid1_EXENDTC" ng-disabled="getDisabledFields()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+    <!--
+    <div role="tabpanel" class="tab-pane container-fluid" id="relapseNotes">
+        <form>
+            <textarea row="5" class="form-control"></textarea>
+        </form>
+    </div> -->
+</div>

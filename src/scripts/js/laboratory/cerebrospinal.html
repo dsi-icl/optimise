@@ -1,0 +1,200 @@
+
+<div class="container-fluid marginTop" id="csfContent">
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading myPanel">
+                <h3 class="panel-title">Cerebrospinal Fluid Summary</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class=btn-group>
+                            <button type="button" class="btn btn-info"
+                                    ng-class='{inactive: !(lbrind=="Traumatic")}' ng-model="lbrind"
+                                    ng-change='editIndicators("Summary", lbrind)'
+                                    ng-disabled="getDisabledFields();"
+                                    uib-btn-radio="'Traumatic'">
+                                Traumatic
+                            </button>
+
+                            <button type="button" class="btn btn-info"
+                                    ng-class='{inactive: !(lbrind=="Normal")}' ng-model="lbrind"
+                                    ng-change='editIndicators("Summary", lbrind)'
+                                    ng-disabled="getDisabledFields();"
+                                    uib-btn-radio="'Normal'">
+                                Normal
+                            </button>
+                            <button type="button" class="btn btn-info"
+                                    ng-class='{inactive: !(lbrind=="Abnormal MS-Typical")}' ng-model="lbrind"
+                                    ng-change='editIndicators("Summary", lbrind)'
+                                    ng-disabled="getDisabledFields();"
+                                    uib-btn-radio="'Abnormal MS-Typical'">
+                                Abnormal MS-Typical
+                            </button>
+
+                            <button type="button" class="btn btn-info"
+                                    ng-class='{inactive: !(lbrind=="Abnormal MS-Atypical")}' ng-model="lbrind"
+                                    ng-change='editIndicators("Summary", lbrind)'
+                                    ng-disabled="getDisabledFields();"
+                                    uib-btn-radio="'Abnormal MS-Atypical'">
+                                Abnormal MS-Atypical
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading myPanel">
+                <h3 class="panel-title">Results</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Chemistry</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Total Protein</span>
+                            <input type="text" class="form-control"
+                                   ng-model="csf.totalProtein"
+                                   ng-disabled="getDisabledFields();"
+                                   ng-change="editCSFResult('csf.totalProtein')"/>
+                            <span class="input-group-addon">mg/l</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Glucose</span>
+                            <input type="text" class="form-control"
+                                   ng-model="csf.glucose"
+                                   ng-disabled="getDisabledFields();"
+                                   ng-change="editCSFResult('csf.glucose')"/>
+                            <span class="input-group-addon">mg/l</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Albumin</span>
+                            <input type="text" class="form-control"
+                                   ng-model="csf.albumin"
+                                   ng-disabled="getDisabledFields();"
+                                   ng-change="editCSFResult('csf.albumin')"/>
+                            <span class="input-group-addon">mg/l</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row marginTop">
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Q Albumin</span>
+                            <input type="text" class="form-control"
+                                   ng-model="csf.qAlbumin"
+                                   ng-disabled="getDisabledFields();"
+                                   ng-change="editCSFResult('csf.qAlbumin')"/>
+                            <span class="input-group-addon">mg/l</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">IgG</span>
+                            <input type="text" class="form-control"
+                                   ng-model="csf.igG"
+                                   ng-disabled="getDisabledFields();"
+                                   ng-change="editCSFResult('csf.igG')"/>
+                            <span class="input-group-addon">mg/l</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">IgG Index</span>
+                            <input type="text" class="form-control"
+                                   ng-model="csf.igGIndex"
+                                   ng-disabled="getDisabledFields();"
+                                   ng-change="editCSFResult('csf.igGIndex')"/>
+                            <span class="input-group-addon">mg/l</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="row marginTop">-->
+                    <!--<div class="col-sm-12">-->
+                        <!--<h5>JC Virus</h5>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="row">-->
+                    <!--<div class="col-sm-4">-->
+                        <!--<div class="btn-group" uib-dropdown is-open="status.isopen">-->
+                            <!--<button id="single-button" type="button" class="btn btn-info" uib-dropdown-toggle ng-disabled="disabled">-->
+                                <!--Found <span class="caret"></span>-->
+                            <!--</button>-->
+                            <!--<ul class="dropdown-menu" uib-dropdown-menu role="menu">-->
+                                <!--<li role="menuitem"><a href="#">Found</a></li>-->
+                                <!--<li role="menuitem"><a href="#">Not found</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div class="row marginTop">
+                    <div class="col-sm-12">
+                        <h5>Cell Counts</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">White Cell Count</span>
+                            <input type="text" class="form-control"
+                                   ng-model="csf.whiteCellCount"
+                                   ng-disabled="getDisabledFields();"
+                                   ng-change="editCSFResult('csf.whiteCellCount')"/>
+                            <span class="input-group-addon">mg/l</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Lymphocytes</span>
+                            <input type="text" class="form-control"
+                                   ng-model="csf.lymphocytes"
+                                   ng-disabled="getDisabledFields();"
+                                   ng-change="editCSFResult('csf.lymphocytes')"/>
+                            <span class="input-group-addon">mg/l</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row doubleMarginTop">
+                    <div class="col-sm-4">
+                        <h5>Oligoclonal Bands in CSF</h5>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" ng-model="bandIndicator"
+                                    ng-change='editIndicators("Oligoclonal Bands", bandIndicator)'
+                                    ng-disabled="getDisabledFields();"
+                                    uib-btn-radio="'Not Done'">
+                                Test not done
+                            </button>
+                            <button type="button" class="btn btn-default" ng-model="bandIndicator"
+                                    ng-change='editIndicators("Oligoclonal Bands", bandIndicator)'
+                                    ng-disabled="getDisabledFields();"
+                                    uib-btn-radio="'Absent'">
+                                Absent
+                            </button>
+                            <button type="button" class="btn btn-default" ng-model="bandIndicator"
+                                    ng-change='editIndicators("Oligoclonal Bands", bandIndicator)'
+                                    ng-disabled="getDisabledFields();"
+                                    uib-btn-radio="'Detected'">
+                                Detected
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

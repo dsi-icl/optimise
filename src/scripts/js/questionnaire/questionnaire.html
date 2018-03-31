@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <!--<div class="row doubleMarginTop">-->
+        <!--<form class="form-inline">-->
+            <!--<div class="col-sm-3">-->
+                <!--<div class="form-group">-->
+                    <!--<label class='control-label'>Date</label>-->
+                    <!--<input type="text" class="form-control QSDTC_DayMonthYear" ng-model="QSDTC_displayDate" ng-disabled=true>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-sm-4">-->
+                <!--<div class="form-group">-->
+                    <!--<label>Type</label>-->
+                    <!--&lt;!&ndash;-->
+                    <!--<select class="form-control" id="questionnaireType" ng-model="questionnaireIndex">-->
+                        <!--<option>PDDS</option>-->
+                        <!--<option>MSQOL-54</option>-->
+                    <!--</select> &ndash;&gt;-->
+                    <!--<input type="text" class="form-control" ng-model="questionnaireIndex" ng-disabled=true>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</form>-->
+    <!--</div>-->
+
+    <div class="marginTop" id="relapseContent">
+        <div msqol54-Entry ng-show="(questionnaireIndex=='MSQOL-54')">
+        </div>
+        <div pdds-Entry ng-show="(questionnaireIndex=='PDDS')">
+        </div>
+        <div vas-Entry ng-show="(questionnaireIndex=='VAS')">
+        </div>
+    </div>
+</div>

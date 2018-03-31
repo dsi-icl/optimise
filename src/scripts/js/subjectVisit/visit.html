@@ -1,0 +1,916 @@
+
+<div class="container-fluid">
+  <!--<div class="row doubleMarginTop">-->
+  <!--<form class="form-inline" role="form">-->
+  <!--<div class="form-group">-->
+  <!--<label class='control-label'>Date</label>-->
+  <!--<input type="text" class="form-control DTC_DayMonthYear" ng-model="SVSTDTC_display" ng-change="addNewVisit()" ng-disabled="getDisabledFields()">-->
+  <!--</div>-->
+  <!--</form>-->
+  <!--</div>-->
+
+  <div id="visitContent" class="marginTop">
+    <div class="panel-group" id="visitAccordion" role="tablist" aria-multiselectable="true">
+
+      <div class="panel panel-default">
+        <div class="panel-heading myPanel" role="tab">
+          <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseVS" >
+            Vital Signs and Current Anthropometry
+          </h4>
+        </div>
+        <div id="collapseVS" class="panel-collapse collapse in" role="tabpanel">
+          <div class="panel-body">
+
+            <div class="row">
+              <div class ="col-sm-6">
+                <div class="input-group marginTop">
+                  <span class="input-group-addon">Systolic Blood Pressure</span>
+                  <input type="text" class="form-control" ng-change="editVitalSign('Systolic Blood Pressure')" ng-disabled="getDisabledFields()" ng-model="systolic"/>
+                  <span class="input-group-addon">mmHg</span>
+                </div>
+              </div>
+              <div class ="col-sm-6">
+                <div class="input-group marginTop">
+                  <span class="input-group-addon">Heart Rate</span>
+                  <input type="text" class="form-control" ng-change="editVitalSign('Pulse Rate')" ng-disabled="getDisabledFields()" ng-model="pulse"/>
+                  <span class="input-group-addon">Beats Per Min</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class ="col-sm-6">
+                <div class="input-group marginTop">
+                  <span class="input-group-addon">Diastolic Blood Pressure</span>
+                  <input type="text" class="form-control" ng-change="editVitalSign('Diastolic Blood Pressure')" ng-disabled="getDisabledFields()" ng-model="diastolic"/>
+                  <span class="input-group-addon">mmHg</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class ="col-sm-6">
+                <div class="input-group marginTop">
+                  <span class="input-group-addon">Height</span>
+                  <input type="text" class="form-control" ng-change="editVitalSign('Height')"
+                  ng-disabled="getDisabledFields()" ng-model="height"/>
+                  <span class="input-group-addon">cm</span>
+                </div>
+              </div>
+              <div class ="col-sm-6">
+                <div class="input-group marginTop">
+                  <span class="input-group-addon">Weight</span>
+                  <input type="text" class="form-control" ng-change="editVitalSign('Weight')" ng-disabled="getDisabledFields()" ng-model="weight"/>
+                  <span class="input-group-addon">kg</span>
+                </div>
+              </div>
+            </div>
+            <div class="row double marginTop" ng-show="isUnder18()">
+              <div class='col-sm-3'>
+                <div class="btn-group" uib-dropdown is-open=false>
+                  <button type="button" id="paedAcademicConcernsButton" class="btn btn-info" uib-dropdown-toggle
+                  ng-disabled="getDisabledFields()">
+                  Academic Concerns: {{academicConcerns}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                  <li><a href="#" ng-click="editSubjectCharacteristic('ACADEMIC CONCERNS', 'YES')">Yes</a></li>
+                  <li><a href="#" ng-click="editSubjectCharacteristic('ACADEMIC CONCERNS', 'NO')">No</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class='col-sm-3'>
+              <div class="btn-group" uib-dropdown is-open=false>
+                <button type="button" id="paedSchoolAttendanceButton" class="btn btn-info" uib-dropdown-toggle
+                ng-disabled="getDisabledFields()">
+                Percent School Attendance : {{schoolAttendance}} <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li><a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '>90%')"> > 90% </a></li>
+                <li><a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '70% to 90%')"> 70% - 90% </a></li>
+                <li><a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '50% to 70%')"> 50% - 70% </a></li>
+                <li><a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '< 50%')"> < 50% </a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading myPanel" role="tab">
+      <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseSymptoms" aria-expanded="true" aria-controls="collapseOne">
+        Symptoms
+      </h4>
+    </div>
+    <div id="collapseSymptoms" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body" ng-show="!getDisabledFields()">
+        <div visit-symptoms></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading myPanel" role="tab">
+      <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseSigns" aria-expanded="true" aria-controls="collapseOne">
+        Signs
+      </h4>
+    </div>
+    <div id="collapseSigns" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body" ng-show="!getDisabledFields()">
+        <div visit-signs>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading myPanel" role="tab">
+      <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseQS" aria-expanded="true" aria-controls="collapseOne">
+        Performance Measures
+      </h4>
+    </div>
+    <div id="collapseQS" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+        <div class="row doubleMarginTop">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="edssHumanDropdown" class='control-label'>Expanded Disability Status Scale</label>
+              <select id="edssHumanDropdown" class="form-control"
+              ng-model="edss_human" ng-options="item for item in edssItems"
+              ng-change="addEDSS_Main()" ng-disabled="getDisabledFields()" >
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class='control-label'>EDMUS</label>
+            <select class="form-control" ng-model="edmus_score" ng-change="addEDMUS_Main()" ng-disabled="preventAddVisitProperties()" >
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6A</option>
+              <option>6B</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class="col-sm-6 col-sm-push-4">
+          <button type="button" class='textButton' ng-click="openEDSS()">EDSS Tool</button>
+        </div>
+        <div class="col-sm-6 col-sm-push-4">
+          <button type="button" class='textButton' ng-click="openEDMUS()">EDMUS Tool</button>
+        </div>
+      </div>
+      <div class="row doubleMarginTop">
+        <div class="col-sm-6">
+          <div class='form-group'>
+            <label class='control-label'>25 Feet Walk Test</label>
+            <div class="input-group">
+              <span class="input-group-addon">1. </span>
+              <input type="text"  class="form-control" id="eightMetreTest"
+              ng-model="eightMFirst" ng-change="addProcedure('Eight Metre Walk Test')"
+              ng-disabled="getDisabledFields()" >
+              <span class="input-group-addon">seconds</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label class='control-label'>25 Feet Walk Test</label>
+          <div class="input-group">
+            <span class="input-group-addon">2. </span>
+            <input type="text"  class="form-control" ng-model="eightMSecond"
+            ng-change="addProcedure('Eight Metre Walk Test')"
+            ng-disabled="getDisabledFields()" >
+            <span class="input-group-addon">seconds</span>
+          </div>
+        </div>
+      </div>
+      <div class="row doubleMarginTop">
+        <div class="col-sm-6">
+          <div class='form-group'>
+            <label class='control-label'>Nine Hole Peg Test</label>
+            <div class="input-group">
+              <span class="input-group-addon">1. Left</span>
+              <input type="text"  class="form-control" ng-model="nineHolePegFirstLeft"
+              ng-change="addProcedure('Nine Hole Peg Test')"
+              placeholder="Left" ng-disabled="getDisabledFields()" >
+              <span class="input-group-addon">seconds</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class='form-group'>
+            <label class='control-label'>Nine Hole Peg Test </label>
+            <div class="input-group">
+              <span class="input-group-addon">1. Right</span>
+              <input type="text"  class="form-control" ng-model="nineHolePegFirstRight"
+              ng-change="addProcedure('Nine Hole Peg Test')"
+              placeholder="Right" ng-disabled="getDisabledFields()" >
+              <span class="input-group-addon">seconds</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="input-group">
+            <span class="input-group-addon">2. Left</span>
+            <input type="text"  class="form-control" ng-model="nineHolePegSecondLeft"
+            ng-change="addProcedure('Nine Hole Peg Test')" placeholder="Left"
+            ng-disabled="getDisabledFields()" >
+            <span class="input-group-addon">seconds</span>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <span class="input-group-addon">2. Right</span>
+            <input type="text"  class="form-control" ng-model="nineHolePegSecondRight"
+            ng-change="addProcedure('Nine Hole Peg Test')" placeholder="Right"
+            ng-disabled="getDisabledFields()" >
+            <span class="input-group-addon">seconds</span>
+          </div>
+        </div>
+      </div>
+      <div class="row doubleMarginTop">
+        <div class="col-sm-6">
+          <div class='form-group'>
+            <label class='control-label'>Symbol Digit Modality Test</label>
+            <div class="input-group">
+              <span class="input-group-addon">1.</span>
+              <input type="text"  class="form-control" ng-model="symbolDigitModality"
+              ng-change="addProcedure('Symbol Digit Modality Test')"
+              ng-disabled="getDisabledFields()" >
+              <span class="input-group-addon">seconds</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class='form-group'>
+            <label class='control-label'>Low Contrast Letter Acuity</label>
+            <div class="input-group">
+              <select class="form-control" ng-model="lowContrastVisualAcuityLeft"
+              ng-change="addProcedure('Low Contrast Visual Acuity')"
+              ng-disabled="getDisabledFields()" >
+              <option>200</option>
+              <option>160</option>
+              <option>125</option>
+              <option>100</option>
+              <option>80</option>
+              <option>63</option>
+              <option>50</option>
+              <option>40</option>
+              <option>32</option>
+              <option>25</option>
+              <option>16</option>
+              <option>12.5</option>
+              <option>10</option>
+            </select>
+            <span class="input-group-addon">20/</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- <div class="panel panel-default">
+  <div class="panel-heading myPanel" role="tab">
+    <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseVisitNotes" aria-expanded="true" aria-controls="collapseOne">
+      Visit Diagnosis Note
+    </h4>
+  </div>
+  <div id="collapseVisitNotes" class="panel-collapse collapse" role="tabpanel" ng-disabled=true>
+    <div class="panel-body">
+      <div class="row doubleMarginTop">
+        <div class="col-sm-12">
+          <textarea rows='2' class="form-control" ng-model="diagnosisNote"
+          ng-blur="addDiagnosisNote()"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="panel panel-default">
+  <div class="panel-heading myPanel" role="tab">
+    <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion"
+    href="#collapseCommunications" >
+    Communications
+  </h4>
+</div>
+<div id="collapseCommunications" class="panel-collapse collapse" role="tabpanel">
+  <div class="panel-body">
+    <div communication-entry ng-controller="communicationInfoCtrl"></div>
+  </div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<script type="text/ng-template" id="edss.html" >
+
+  <div class="modal-header">
+    <label class="modal-title">EDSS</label>
+  </div>
+
+  <div class="modal-body container-fluid" ng-init="helpPanel='';">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading myPanel">
+            <h4 class="panel-title">Expanded Disability Status Scale</h4>
+          </div>
+          <div class="panel-body">
+            <div class="form-horizontal">
+              <div class="marginTop form-group">
+                <div class="row">
+                  <label class="col-sm-3 col-sm-push-1">Pyramidal</label>
+                  <div class="btn-group col-sm-7 col-sm-push-1" role="group">
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_pyramidal==0}" ng-click="edss_pyramidal = 0; helpPanel='Pyramidal'; updateEDSS()">0</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_pyramidal==1}" ng-click="edss_pyramidal = 1; helpPanel='Pyramidal'; updateEDSS()">1</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_pyramidal==2}" ng-click="edss_pyramidal = 2; helpPanel='Pyramidal'; updateEDSS()">2</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_pyramidal==3}" ng-click="edss_pyramidal = 3; helpPanel='Pyramidal'; updateEDSS()">3</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_pyramidal==4}" ng-click="edss_pyramidal = 4; helpPanel='Pyramidal'; updateEDSS()">4</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_pyramidal==5}" ng-click="edss_pyramidal = 5; helpPanel='Pyramidal'; updateEDSS()">5</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_pyramidal==6}" ng-click="edss_pyramidal = 6; helpPanel='Pyramidal'; updateEDSS()">6</button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-3 col-sm-push-1">Cerebellar</label>
+                  <div class="btn-group col-sm-7 col-sm-push-1" role="group">
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_cerebellar==0}" ng-click="edss_cerebellar = 0; helpPanel='Cerebellar'; updateEDSS()">0</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_cerebellar==1}" ng-click="edss_cerebellar = 1; helpPanel='Cerebellar'; updateEDSS()">1</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_cerebellar==2}" ng-click="edss_cerebellar = 2; helpPanel='Cerebellar'; updateEDSS()">2</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_cerebellar==3}" ng-click="edss_cerebellar = 3; helpPanel='Cerebellar'; updateEDSS()">3</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_cerebellar==4}" ng-click="edss_cerebellar = 4; helpPanel='Cerebellar'; updateEDSS()">4</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_cerebellar==5}" ng-click="edss_cerebellar = 5; helpPanel='Cerebellar'; updateEDSS()">5</button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-3 col-sm-push-1">Brain Stem</label>
+                  <div class="btn-group col-sm-7 col-sm-push-1" role="group">
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_brainStem==0}" ng-click="edss_brainStem = 0; helpPanel='Brain Stem'; updateEDSS()">0</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_brainStem==1}" ng-click="edss_brainStem = 1; helpPanel='Brain Stem'; updateEDSS()">1</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_brainStem==2}" ng-click="edss_brainStem = 2; helpPanel='Brain Stem'; updateEDSS()">2</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_brainStem==3}" ng-click="edss_brainStem = 3; helpPanel='Brain Stem'; updateEDSS()">3</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_brainStem==4}" ng-click="edss_brainStem = 4; helpPanel='Brain Stem'; updateEDSS()">4</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_brainStem==5}" ng-click="edss_brainStem = 5; helpPanel='Brain Stem'; updateEDSS()">5</button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-3 col-sm-push-1">Sensory</label>
+                  <div class="btn-group col-sm-7 col-sm-push-1" role="group">
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_sensory==0}" ng-click="edss_sensory = 0; helpPanel='Sensory'; updateEDSS()">0</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_sensory==1}" ng-click="edss_sensory = 1; helpPanel='Sensory'; updateEDSS()">1</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_sensory==2}" ng-click="edss_sensory = 2; helpPanel='Sensory'; updateEDSS()">2</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_sensory==3}" ng-click="edss_sensory = 3; helpPanel='Sensory'; updateEDSS()">3</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_sensory==4}" ng-click="edss_sensory = 4; helpPanel='Sensory'; updateEDSS()">4</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_sensory==5}" ng-click="edss_sensory = 5; helpPanel='Sensory'; updateEDSS()">5</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_sensory==6}" ng-click="edss_sensory = 6; helpPanel='Sensory'; updateEDSS()">6</button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-3 col-sm-push-1">Bowel Bladder</label>
+                  <div class="btn-group col-sm-7 col-sm-push-1" role="group">
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_bowelBladder==0}" ng-click="edss_bowelBladder = 0; helpPanel='Bowel Bladder'; updateEDSS()">0</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_bowelBladder==1}" ng-click="edss_bowelBladder = 1; helpPanel='Bowel Bladder'; updateEDSS()">1</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_bowelBladder==2}" ng-click="edss_bowelBladder = 2; helpPanel='Bowel Bladder'; updateEDSS()">2</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_bowelBladder==3}" ng-click="edss_bowelBladder = 3; helpPanel='Bowel Bladder'; updateEDSS()">3</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_bowelBladder==4}" ng-click="edss_bowelBladder = 4; helpPanel='Bowel Bladder'; updateEDSS()">4</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_bowelBladder==5}" ng-click="edss_bowelBladder = 5; helpPanel='Bowel Bladder'; updateEDSS()">5</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_bowelBladder==6}" ng-click="edss_bowelBladder = 6; helpPanel='Bowel Bladder'; updateEDSS()">6</button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-3 col-sm-push-1">Visual</label>
+                  <div class="btn-group col-sm-7 col-sm-push-1" role="group">
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_visual==0}" ng-click="edss_visual = 0; helpPanel='Visual'; updateEDSS()">0</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_visual==1}" ng-click="edss_visual = 1; helpPanel='Visual'; updateEDSS()">1</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_visual==2}" ng-click="edss_visual = 2; helpPanel='Visual'; updateEDSS()">2</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_visual==3}" ng-click="edss_visual = 3; helpPanel='Visual'; updateEDSS()">3</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_visual==4}" ng-click="edss_visual = 4; helpPanel='Visual'; updateEDSS()">4</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_visual==5}" ng-click="edss_visual = 5; helpPanel='Visual'; updateEDSS()">5</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_visual==6}" ng-click="edss_visual = 6; helpPanel='Visual'; updateEDSS()">6</button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-3 col-sm-push-1">Mental</label>
+                  <div class="btn-group col-sm-7 col-sm-push-1" role="group">
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_mental==0}" ng-click="edss_mental = 0; helpPanel='Mental'; updateEDSS()">0</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_mental==1}" ng-click="edss_mental = 1; helpPanel='Mental'; updateEDSS()">1</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_mental==2}" ng-click="edss_mental = 2; helpPanel='Mental'; updateEDSS()">2</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_mental==3}" ng-click="edss_mental = 3; helpPanel='Mental'; updateEDSS()">3</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_mental==4}" ng-click="edss_mental = 4; helpPanel='Mental'; updateEDSS()">4</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_mental==5}" ng-click="edss_mental = 5; helpPanel='Mental'; updateEDSS()">5</button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" ng-init="edss_ambulation=0">
+                <div class="row">
+                  <label class="col-sm-3 col-sm-push-1">Ambulation</label>
+                </div>
+                <div class="row">
+                  <div class="btn-group col-sm-11 col-sm-push-1" role="group" >
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==0}" ng-click="edss_ambulation = 0; helpPanel='Ambulation'; updateEDSS()">0</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==1}" ng-click="edss_ambulation = 1; helpPanel='Ambulation'; updateEDSS()">1</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==2}" ng-click="edss_ambulation = 2; helpPanel='Ambulation'; updateEDSS()">2</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==3}" ng-click="edss_ambulation = 3; helpPanel='Ambulation'; updateEDSS()">3</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==4}" ng-click="edss_ambulation = 4; helpPanel='Ambulation'; updateEDSS()">4</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==5}" ng-click="edss_ambulation = 5; helpPanel='Ambulation'; updateEDSS()">5</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==6}" ng-click="edss_ambulation = 6; helpPanel='Ambulation'; updateEDSS()">6</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==7}" ng-click="edss_ambulation = 7; helpPanel='Ambulation'; updateEDSS()">7</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==8}" ng-click="edss_ambulation = 8; helpPanel='Ambulation'; updateEDSS()">8</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==9}" ng-click="edss_ambulation = 9; helpPanel='Ambulation'; updateEDSS()">9</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==10}" ng-click="edss_ambulation = 10; helpPanel='Ambulation'; updateEDSS()">10</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==11}" ng-click="edss_ambulation = 11; helpPanel='Ambulation'; updateEDSS()">11</button>
+                    <button type="button" class="edssScore btn btn-default" ng-class="{selected: edss_ambulation==12}" ng-click="edss_ambulation = 12; helpPanel='Ambulation'; updateEDSS()">12</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row marginTop">
+              <div class="col-sm-12">
+                <div class="input-group">
+                  <span class="input-group-addon">Score</span>
+                  <select class="form-control" ng-model="edss_human" ng-disabled="enableInput()" >
+                    <option>0</option>
+                    <option>0.5</option>
+                    <option>1</option>
+                    <option>1.5</option>
+                    <option>2</option>
+                    <option>2.5</option>
+                    <option>3</option>
+                    <option>3.5</option>
+                    <option>4</option>
+                    <option>4.5</option>
+                    <option>5</option>
+                    <option>5.5</option>
+                    <option>6</option>
+                    <option>6.5</option>
+                    <option>7</option>
+                    <option>7.5</option>
+                    <option>8</option>
+                    <option>8.5</option>
+                    <option>9</option>
+                    <option>9.5</option>
+                    <option>10</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row marginTop">
+              <div class="col-sm-12">
+                <div class="input-group">
+                  <span class="input-group-addon">Calculated Score</span>
+                  <input type="text"  class="form-control"
+                  ng-model="edss_computer" placeholder=""
+                  ng-disabled="enableInput()" >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel panel-default" ng-init="helpPanel='Pyramidal';">
+          <div class="panel-heading myPanel">
+            <h4 class="panel-title">Score Reference Panel - {{helpPanel}}</h4>
+          </div>
+          <div class="panel-body" ng-if="showHelpPanel('Pyramidal')">
+            <div class="row" ng-class="{proposedEdssScore: edss_pyramidal=='0'}">
+              <div class="col-sm-2">0</div>
+              <div class="col-sm-10">
+                <p>Normal</p>
+              </div>
+            </div>
+            <div class="row" ng-class="{proposedEdssScore: edss_pyramidal=='1'}">
+              <div class="col-sm-2">1</div>
+              <div class="col-sm-10">
+                <p>Abnormal signs without disability</p>
+              </div>
+            </div>
+            <div class="row" ng-class="{proposedEdssScore: edss_pyramidal=='2'}">
+              <div class="col-sm-2">2</div>
+              <div class="col-sm-10">
+                <p>Minimal disability</p>
+              </div>
+            </div>
+            <div class="row" ng-class="{proposedEdssScore: edss_pyramidal=='3'}">
+              <div class="col-sm-2" data-toggle="tooltip" title="Definition here">3</div>
+              <div class="col-sm-10">
+                <p>Mild or moderate paraparesis or hemiparesis (detectable weakness but most sustained for short periods, fatigue problem); severe mono paresis (almost no function)</p>
+              </div>
+            </div>
+            <div class="row" ng-class="{proposedEdssScore: edss_pyramidal=='4'}">
+              <div class="col-sm-2">4</div>
+              <div class="col-sm-10">
+                <p>Marked paraparesis or hemiparesis (functions difficult); moderate quadriparesis (function decreased but can be sustained for short periods); or monoplegia</p>
+              </div>
+            </div>
+            <div class="row" ng-class="{proposedEdssScore: edss_pyramidal=='5'}">
+              <div class="col-sm-2">5</div>
+              <div class="col-sm-10">
+                <p>Paraplegia, hemiplegia or marked quadriparesis</p>
+              </div>
+            </div>
+            <div class="row" ng-class="{proposedEdssScore: edss_pyramidal=='6'}">
+              <div class="col-sm-2">6</div>
+              <div class="col-sm-10">
+                <p>Quadriplegia</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body" ng-if="showHelpPanel('Cerebellar')">
+            <div class="row" ng-class="{proposedEdssScore: edss_cerebellar=='0'}">
+              <div class="col-sm-2">0</div>
+              <div class="col-sm-10">
+                <p>Normal</p></div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_cerebellar=='1'}">
+                <div class="col-sm-2">1</div>
+                <div class="col-sm-10">
+                  <p>Abnormal signs without disability</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_cerebellar=='2'}">
+                <div class="col-sm-2">2</div>
+                <div class="col-sm-10">
+                  <p>Mild ataxia</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_cerebellar=='3'}">
+                <div class="col-sm-2">3</div>
+                <div class="col-sm-10">
+                  <p>Moderate truncal or limb ataxia (tremor or clumsy movements interfere with function in all spheres)</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_cerebellar=='4'}">
+                <div class="col-sm-2">4</div>
+                <div class="col-sm-10">
+                  <p>Severe ataxia in all limbs (most function is very difficult)</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_cerebellar=='5'}">
+                <div class="col-sm-2">5</div>
+                <div class="col-sm-10">
+                  <p>Unable to perform coordinated movements due to ataxia</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel-body" ng-if="showHelpPanel('Brain Stem')">
+              <div class="row" ng-class="{proposedEdssScore: edss_brainStem=='0'}">
+                <div class="col-sm-2">0</div>
+                <div class="col-sm-10">
+                  <p>Normal</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_brainStem=='1'}">
+                <div class="col-sm-2">1</div>
+                <div class="col-sm-10">
+                  <p>Signs only</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_brainStem=='2'}">
+                <div class="col-sm-2">2</div>
+                <div class="col-sm-10">
+                  <p>Moderate nystagmus or other mild disability</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_brainStem=='3'}">
+                <div class="col-sm-2">3</div>
+                <div class="col-sm-10">
+                  <p>Severe nystagmus, marked extraocular weakness or moderate disability of other cranial nerves</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_brainStem=='4'}">
+                <div class="col-sm-2">4</div>
+                <div class="col-sm-10">
+                  <p>Marked dysarthria or other marked disability</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_brainStem=='5'}">
+                <div class="col-sm-2">5</div>
+                <div class="col-sm-10">
+                  <p>Inability to swallow or speak</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel-body" ng-if="showHelpPanel('Sensory')">
+              <div class="row" ng-class="{proposedEdssScore: edss_sensory=='0'}">
+                <div class="col-sm-2">0</div>
+                <div class="col-sm-10">
+                  <p>Normal</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_sensory=='1'}">
+                <div class="col-sm-2">1</div>
+                <div class="col-sm-10">
+                  <p>Vibration or figure-writing decreased, only in one or two limbs</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_sensory=='2'}">
+                <div class="col-sm-2">2</div>
+                <div class="col-sm-10">
+                  <p>Mild decrease in touch or pain or position sense, and/or moderate decrease in vibration in one or two limbs; or vibration decrease alone in three or four limbs</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_sensory=='3'}">
+                <div class="col-sm-2">3</div>
+                <div class="col-sm-10">
+                  <p>Moderate decrease in touch or pain or position sense, and/or essentially lost vibration in one or two limbs; or mild decrease in touch or pain and/or moderate decrease in all proprioceptive test in three or four limbs</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_sensory=='4'}">
+                <div class="col-sm-2">4</div>
+                <div class="col-sm-10">
+                  <p>Marked decrease in touch or pain or lost proprioception, alone or combined, in one or two limbs; or moderate decrease in touch or pain and/or severe proprioceptive decrease in more then two limbs</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_sensory=='5'}">
+                <div class="col-sm-2">5</div>
+                <div class="col-sm-10">
+                  <p>Lost of sensation in one or two limbs; or proprioception for most of the body below the head</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_sensory=='6'}">
+                <div class="col-sm-2">6</div>
+                <div class="col-sm-10">
+                  <p>Sensation essentially lost below the head</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel-body" ng-if="showHelpPanel('Visual')">
+              <div class="row" ng-class="{proposedEdssScore: edss_visual=='0'}">
+                <div class="col-sm-2">0</div>
+                <div class="col-sm-10">
+                  <p>Normal</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_visual=='1'}">
+                <div class="col-sm-2">1</div>
+                <div class="col-sm-10">
+                  <p>Scotoma with visual acuity (corrected) better then 6/9</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_visual=='2'}">
+                <div class="col-sm-2">2</div>
+                <div class="col-sm-10">
+                  <p>Worse eye with maximal visual acuity (corrected) of 6/9 to 6/12</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_visual=='3'}">
+                <div class="col-sm-2">3</div>
+                <div class="col-sm-10">
+                  <p>Worse eye with maximal visual acuity (corrected) of 6/18 to 6/24</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_visual=='4'}">
+                <div class="col-sm-2">4</div>
+                <div class="col-sm-10">
+                  <p>Worse eye with maximal visual acuity (corrected) of 6/36 to 6/60. Or grade three plus maximal acuity of better eye of 6/18 or less</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_visual=='5'}">
+                <div class="col-sm-2">5</div>
+                <div class="col-sm-10">
+                  <p>Worse eye with maximal visual acuity (corrected) of 6/60. Or grade four plus maximal visual acuity of better eye of 6/18 or less</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_visual=='6'}">
+                <div class="col-sm-2">6</div>
+                <div class="col-sm-10">
+                  <p>Grade 5 plus maximal visual acuity of better eye worse then 6/18</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel-body" ng-if="showHelpPanel('Mental')">
+              <div class="row" ng-class="{proposedEdssScore: edss_mental=='0'}">
+                <div class="col-sm-2">0</div>
+                <div class="col-sm-10">
+                  <p>Normal</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_mental=='1'}">
+                <div class="col-sm-2">1</div>
+                <div class="col-sm-10">
+                  <p>Mood alteration only, fatigue not intefering with daily activity (does not affect EDSS score)</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_mental=='2'}">
+                <div class="col-sm-2">2</div>
+                <div class="col-sm-10">
+                  <p>Mild decrease in mentation, fatigue intefering with daily activity</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_mental=='3'}">
+                <div class="col-sm-2">3</div>
+                <div class="col-sm-10">
+                  <p>Moderate decrease in mentation</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_mental=='4'}">
+                <div class="col-sm-2">4</div>
+                <div class="col-sm-10">
+                  <p>Marked decrease in mentation (chronic brain syndrome - moderate)</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_mental=='5'}">
+                <div class="col-sm-2">5</div>
+                <div class="col-sm-10">
+                  <p>Dementia or chronic brain syndrome - severe or incompetent</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-body" ng-if="showHelpPanel('Bowel Bladder')">
+              <div class="row" ng-class="{proposedEdssScore: edss_bowelBladder=='0'}">
+                <div class="col-sm-2">0</div>
+                <div class="col-sm-10">
+                  <p>Normal</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_bowelBladder=='1'}">
+                <div class="col-sm-2">1</div>
+                <div class="col-sm-10">
+                  <p>Mild urinary hesitancy, urgency or retention</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_bowelBladder=='2'}">
+                <div class="col-sm-2">2</div>
+                <div class="col-sm-10">
+                  <p>Moderate hesitancy, urgency, retention of bowel or bladder, or rare urinary incontinence (intermittent self-catheterisation, manual compression to evacuate bladder or finger evacuation or stool) </p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_bowelBladder=='3'}">
+                <div class="col-sm-2">3</div>
+                <div class="col-sm-10">
+                  <p>Frequent urinary incontinence</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_bowelBladder=='4'}">
+                <div class="col-sm-2">4</div>
+                <div class="col-sm-10">
+                  <p>In need of regular intermittent catheterisation (and constant use of measures to evacuate stools)</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_bowelBladder=='5'}">
+                <div class="col-sm-2">5</div>
+                <div class="col-sm-10">
+                  <p>In dwelling catheter</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_bowelBladder=='6'}">
+                <div class="col-sm-2">6</div>
+                <div class="col-sm-10">
+                  <p>Loss of bowel and (check and/or with Paul) bladder function</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-body" ng-if="showHelpPanel('Ambulation')">
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='0'}">
+                <div class="col-sm-2">0</div>
+                <div class="col-sm-10">
+                  <p>Fully ambulatory</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='1'}">
+                <div class="col-sm-2">1</div>
+                <div class="col-sm-10">
+                  <p>500 m without aid/rest</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='2'}">
+                <div class="col-sm-2">2</div>
+                <div class="col-sm-10">
+                  <p>300 m without aid/rest</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='3'}">
+                <div class="col-sm-2">3</div>
+                <div class="col-sm-10">
+                  <p>200 m without aid/rest</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='4'}">
+                <div class="col-sm-2">4</div>
+                <div class="col-sm-10">
+                  <p>100 m without aid/rest</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='5'}">
+                <div class="col-sm-2">5</div>
+                <div class="col-sm-10">
+                  <p>100 m with unilateral assistance</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='6'}">
+                <div class="col-sm-2">6</div>
+                <div class="col-sm-10">
+                  <p>200 m with bilateral assistance</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='7'}">
+                <div class="col-sm-2">7</div>
+                <div class="col-sm-10">
+                  <p>Essentially restricted to wheelchair (wheels self)</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='8'}">
+                <div class="col-sm-2">8</div>
+                <div class="col-sm-10">
+                  <p>Restricted to wheelchair (may need help in transfer)</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='9'}">
+                <div class="col-sm-2">9</div>
+                <div class="col-sm-10">
+                  <p>Essentially restricted to bed/chair</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='10'}">
+                <div class="col-sm-2">10</div>
+                <div class="col-sm-10">
+                  <p>Restricted to bed much of day</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='11'}">
+                <div class="col-sm-2">11</div>
+                <div class="col-sm-10">
+                  <p>Bed patient. Can communicate and eat</p>
+                </div>
+              </div>
+              <div class="row" ng-class="{proposedEdssScore: edss_ambulation=='12'}">
+                <div class="col-sm-2">12</div>
+                <div class="col-sm-10">
+                  <p>Helpless bed patient. Unable to communicate, eat or swallow</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="save()" ng-disabled="enableInput()">Save</button>
+      <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+    </div>
+
+  </script>
+
+  <script type ="text/ng-template" id="edmus.html">
+    <div class="modal-header">
+      <label class="modal-title">EDMUS</label>
+    </div>
+
+    <div class='modal-body container-fluid'>
+      <form>
+        <div class="form-group" ng-disabled="getDisabledFields()" >
+          <div ng-repeat="entry in entries">
+            <label for="edmusScore"> &nbsp
+              <input type="radio"
+              name="edmusScore"
+              id="edmusScore"
+              ng-model="chosen.entry"
+              ng-value="entry.score"
+              ng-change="addEDMUS()"
+              ng-disabled="enableInput()">
+              &nbsp {{entry.score}} &nbsp {{entry.definition}}
+            </label>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="save()" ng-disabled="enableInput()">Save</button>
+      <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+    </div>
+  </script>
+
+</div>

@@ -1,0 +1,116 @@
+<div class="container-fluid">
+    <style>
+        .thumbnail { height: 100% !important;}
+        .btn-droppable { width: 100%; height: 35px; padding-left: 4px; text-align: left}
+        /*.btn-draggable { width: 100%; }*/
+        .btn-options { width: 100%; }
+        .symptomsPanel {max-height:200px; overflow-y: scroll; overflow-x: hidden}
+    </style>
+
+            <div class="row">
+                <div class="col-sm-4">
+
+                            <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Higher Functions</div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="btn-group" role="group" data-toggle="buttons">
+                                            <div class="btn btn-droppable" ng-repeat="item in higherFunctions" data-drop="true"
+                                                 ng-model='higherFunctions' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=higherFunctions])'}"
+                                                 jqyoui-droppable="{index: {{$index}}}">
+                                                <div class="btn btn-info btn-draggable btn-options" data-drag="{{item.drag}}"
+                                                     data-jqyoui-options="{revert: 'invalid'}" ng-model="higherFunctions"
+                                                     jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}"
+                                                     ng-hide="!item.title">{{item.title}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row marginTop">
+                    <div class="col-sm-12">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">Cranial Nerves</div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="btn-group" role="group" data-toggle="buttons">
+                                            <div class="btn btn-droppable" ng-repeat="item in cranialNerves" data-drop="true"
+                                                 ng-model='cranialNerves' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=cranialNerves])'}"
+                                                 jqyoui-droppable="{index: {{$index}}}">
+                                                <div class="btn btn-success btn-draggable btn-options" data-drag="{{item.drag}}"
+                                                     data-jqyoui-options="{revert: 'invalid'}" ng-model="cranialNerves"
+                                                     jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}"
+                                                     ng-hide="!item.title">{{item.title}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="thumbnail" data-drop="true" ng-model='chosenSymptoms'
+                 data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=chosenSymptoms])'}"  jqyoui-droppable="{multiple:true}">
+                <div class="caption" data-toggle="buttons">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn btn-info btn-draggable" ng-repeat="item in chosenSymptoms" ng-show="showAsBasic(item)" data-drag="{{item.drag}}"
+                                 data-jqyoui-options="{revert: 'invalid'}"
+                                 ng-model="chosenSymptoms" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row btn-draggable" ng-repeat="item in chosenSymptoms" ng-show="showAsLateral(item)" data-drag="{{item.drag}}"
+                                 data-jqyoui-options="{revert: 'invalid'}"
+                                 ng-model="chosenSymptoms" jqyoui-draggable="{index: {{$index}},animate:true}">
+                                <div class="col-sm-4">
+                                    <h5>
+                                        {{item.title}}
+                                    </h5>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="btn-group btn-group-justified btn-info" data-toggle="buttons">
+                                        <label class="btn">
+                                            <input type="radio" autocomplete="off"> Right
+                                        </label>
+                                        <label class="btn">
+                                            <input type="radio" autocomplete="off"> Left
+                                        </label>
+                                        <label class="btn">
+                                            <input type="radio" autocomplete="off"> Both
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+                </div>
+
+            </div>
+
+    <!--<div class="btn btn-primary" data-drag="true" ng-model="list1" jqyoui-draggable="{animate:true}" ng-hide="!list1.title">{{list1.title}}</div>-->
+
+    <!--<div class="thumbnail" data-drop="true" data-jqyoui-options ng-model="list2"-->
+         <!--jqyoui-droppable="{onDrop:'startCallBack()'}" jqyoui-droppable style='height:50px;'>-->
+        <!--<div class="btn btn-success" data-drag="false" data-jqyoui-options ng-model="list2" jqyoui-draggable-->
+             <!--ng-hide="!list2.title">{{list2.title}}</div>-->
+    <!--</div>-->
+
+</div>

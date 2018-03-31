@@ -1,0 +1,82 @@
+<div>
+     <div id="navigationLab" class="container-fluid marginTop">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation">
+                        <a class="laboratoryHeader" href="#haematology" role="tab" data-toggle="tab" ng-show="showThisPanel('Haematology')">Haematology</a></li>
+                    <li role="presentation">
+                        <a class="laboratoryHeader" href="#bloodChemistry" role="tab" data-toggle="tab" ng-show="showThisPanel('Blood Chemistry')">Blood Chemistry</a></li>
+                    <li role="presentation">
+                        <a class="laboratoryHeader" href="#thyroidFunction" role="tab" data-toggle="tab" ng-show="showThisPanel('Thyroid Functions')">Thyroid Function</a></li>
+                    <li role="presentation" class="active">
+                        <a class="laboratoryHeader" href="#serologicalTest" role="tab" data-toggle="tab" ng-show="showThisPanel('Serological Tests')">Serological Tests</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tab-content marginTop marginBottom" id="laboratoryContent">
+                <div role="tabpanel" class="tab-pane" id="haematology">
+                    <div haematology-Entry ng-controller="haematologyCtrl">
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="bloodChemistry">
+                    <div blood-Entry ng-controller="bloodChemistryCtrl">
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane container-fluid" id="thyroidFunction">
+                    <div class="row marginTop">
+                        <div class="col-sm-5">
+                            <h5>Count</h5>
+                        </div>
+                        <div class="col-sm-2">
+                            <h5>Found</h5>
+                        </div>
+                        <!-- <div class="col-sm-2">
+                            <h5>Comments</h5>
+                        </div> -->
+                    </div>
+                    <form name="my-form">
+                        <div class='control-group' ng-repeat="test in thyroidScopeVariables">
+                            <div class="row marginTop">
+                                <div class="col-sm-5">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{{test.LBTEST}}</span>
+                                        <input type="text" class="form-control"
+                                               ng-model="thyroid.tests[test.LBORRES]"
+                                               ng-disabled="getDisabledFields()"
+                                               ng-change="saveLabResult(test.LBTEST, thyroid.tests[test.LBORRES])" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default" ng-model="thyroidIndicator.indicators[test.LBNRIND]"
+                                                ng-click="saveResultIndicator(test.LBTEST, thyroidIndicator.indicators[test.LBNRIND]);"
+                                                ng-disabled="getDisabledFields()"
+                                                uib-btn-radio="'Positive'">
+                                            Pos</button>
+                                        <button type="button" class="btn btn-default" ng-model="thyroidIndicator.indicators[test.LBNRIND]"
+                                                ng-click="saveResultIndicator(test.LBTEST, thyroidIndicator.indicators[test.LBNRIND]);"
+                                                ng-disabled="getDisabledFields()"
+                                                uib-btn-radio="'Negative'">
+                                            Neg</button>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-sm-5">
+                                    <input type="text" class="form-control"  ng-disabled="getDisabledFields()" />
+                                </div> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div role="tabpanel" class="tab-pane active" id="serologicalTest">
+                    <div serological-Entry ng-controller="serologicalCtrl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

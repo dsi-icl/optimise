@@ -1,0 +1,208 @@
+<div>
+    <div class="container-fluid marginTop" ng-init='isAdverseEvent=true'>
+        <div class="row">    <!-- Date of Onset -->
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class='control-label'>Medical Condition</label>
+                    <input type="text" ng-model="TERM" ng-change="addEvent()" typeahead="condition for condition in getMedicalConditions() | filter:$viewValue | limitTo:8" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class='control-label'>Begin of onset</label>
+                    <input type="date" ng-model="STDTC" ng-change="addEvent()" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" ng-class="{active: isAdverseEvent==true}" ng-click="isAdverseEvent = true;">Adverse Event</button>
+                        <button type="button" class="btn btn-default" ng-class="{active: isAdverseEvent==false}" ng-click="isAdverseEvent = false;">Clinical Event</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid marginTop" id="eventContent">
+        <div class="row marginTop">
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading myPanel">
+                        <h3 class="panel-title">Severity</h3>
+                        <!--
+                        <div class="checkbox">
+                            <label><input type="checkbox" ng-model="isAdverseEvent" ng-change="addAdverseEvent()">Adverse Event</label>
+                        </div> -->
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="radio">
+                                <label class=""><input type="radio" ng-model="SEV" ng-change="editEvent('SEV')" value="Mild" ng-disabled="getDisabledFields()">
+                                    Mild
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class=""><input type="radio" ng-model="SEV" ng-change="editEvent('SEV')"value="Moderate" ng-disabled="getDisabledFields()">
+                                    Moderate
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class=""><input type="radio" ng-model="SEV" ng-change="editEvent('SEV')" value="Severe" ng-disabled="getDisabledFields()">
+                                    Severe
+                                </label>
+                                <div class="form" ng-show="(SEV=='Severe')&&(isAdverseEvent==true)">
+                                    <div class="form-group marginLeft" >
+                                        <div class="checkbox">
+                                            <label class=""><input type="checkbox" ng-model="AESDTH" ng-change="editAdverseEvent('AESDTH')" ng-disabled="getDisabledFields()">
+                                                Death
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label class=""><input type="checkbox" ng-model="AESLIFE" ng-change="editAdverseEvent('AESLIFE')" ng-disabled="getDisabledFields()">
+                                                Life Threatening
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label class=""><input type="checkbox" ng-model="AESDISAB" ng-change="editAdverseEvent('AESDISAB')" ng-disabled="getDisabledFields()">
+                                                Permanent/ Serious Disability
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label class=""><input type="checkbox" ng-model="AESHOSP" ng-change="editAdverseEvent('AESHOSP')" ng-disabled="getDisabledFields()">
+                                                Requires/ Prolongs hospitalization
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label class=""><input type="checkbox" ng-model="AESCONG" ng-change="editAdverseEvent('AESCONG')" ng-disabled="getDisabledFields()">
+                                                Congenital anomaly/ birth defect
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading myPanel">
+                        <h3 class="panel-title">Outcome</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="radio">
+                                <label class=""><input type="radio" ng-model="OUT" ng-change="editEvent('OUT')" value="Unknown" ng-disabled="getDisabledFields()">
+                                    Unknown
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class=""><input type="radio" ng-model="OUT" ng-change="editEvent('OUT')" value="Ongoing" ng-disabled="getDisabledFields()">
+                                    Ongoing
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class=""><input type="radio" ng-model="OUT" ng-change="editEvent('OUT')" value="Recovery" ng-disabled="getDisabledFields()">
+                                    Recovery
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class=""><input type="radio" ng-model="OUT" ng-change="editEvent('OUT')" value="Death" ng-disabled="getDisabledFields()">
+                                    Death
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading myPanel">
+                        <h3 class="panel-title">
+                            <div class="checkbox">
+                                <label><input type="checkbox" ng-model="isAdverseEvent" ng-change="addAdverseEvent()">Serious Adverse Event</label>
+                            </div>
+                        </h3>
+                    </div>
+                    <div class="panel-body" ng-show="isAdverseEvent">
+                        <div class="form">
+                            <div class="form-group" >
+                                <div class="checkbox">
+                                    <label class=""><input type="checkbox" ng-model="AESDTH" ng-change="editAdverseEvent('AESDTH')" ng-disabled="getDisabledFields()">
+                                        Death
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class=""><input type="checkbox" ng-model="AESLIFE" ng-change="editAdverseEvent('AESLIFE')" ng-disabled="getDisabledFields()">
+                                        Life Threatening
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class=""><input type="checkbox" ng-model="AESDISAB" ng-change="editAdverseEvent('AESDISAB')" ng-disabled="getDisabledFields()">
+                                        Permanent/ Serious Disability
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class=""><input type="checkbox" ng-model="AESHOSP" ng-change="editAdverseEvent('AESHOSP')" ng-disabled="getDisabledFields()">
+                                        Requires/ Prolongs hospitalization
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class=""><input type="checkbox" ng-model="AESCONG" ng-change="editAdverseEvent('AESCONG')" ng-disabled="getDisabledFields()">
+                                        Congenital anomaly/ birth defect
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default" ng-init="relatedToIntervention=false;">
+                <div class="panel-heading myPanel">
+                    <h3 class="panel-title">Drug Relationship</h3>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <div  class="btn-group" role="group" aria-label="...">
+                                    <button type="button" class="btn btn-default" ng-class="{active: relatedToDrug==true}" ng-click="relatedToIntervention=true; editAdverseEvent('AEREL');">Yes</button>
+                                    <button type="button" class="btn btn-default" ng-class="{active:  relatedToDrug==false}" ng-click="relatedToIntervention=false; editAdverseEvent('AEREL');">No </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" ng-show="relatedToIntervention">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Intervention</span>
+                                    <select class="form-control">
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>Remarks</label>
+                    <textarea rows="5" placeholder="Remarks" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

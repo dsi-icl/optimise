@@ -1,0 +1,94 @@
+.timeline {
+    overflow: hidden;
+    shape-rendering: crispEdges;
+}
+
+.mini text {
+    font: 90% sans-serif;
+}
+
+.main text {
+    font: 110% sans-serif;
+}
+
+.month text {
+    text-anchor: start;
+}
+
+.todayLine {
+    stroke: blue;
+    stroke-width: 1.5;
+}
+
+.axis line, .axis path {
+    stroke: black;
+}
+
+.miniItem {
+    stroke-width: 6;
+}
+
+.future {
+    stroke: gray;
+    fill: #ddd;
+}
+
+.past {
+    stroke: green;
+    fill: lightgreen;
+}
+
+.brush .extent {
+    stroke: gray;
+    fill: blue;
+    fill-opacity: .165;
+}
+
+.laneBoldText {
+    font-weight: bold;
+}
+
+.laneText {
+    font-weight: normal;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
+.EX {
+    stroke: green;
+    fill: rgb(19, 149, 40);
+}
+
+.SV {
+    stroke: rgb(31,76,76);
+    fill: rgb(31,76,76);
+}
+
+.CE {
+    stroke: rgb(140, 0, 0);
+    fill: rgb(125, 0, 0);
+}
+
+.LB {
+    stroke: rgb(0, 0, 140);
+    fill: rgb(0, 0, 170);
+}
+
+.QS {
+    stroke: rgb(0, 38, 112);;
+    fill: none;
+}
+
