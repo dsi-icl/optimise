@@ -6,6 +6,10 @@
     overflow: hidden;
 }
 
+#section .row {
+    margin: 0;
+}
+
 .center {
     position: absolute;
     width: 80%;
@@ -15,10 +19,10 @@
 header {
     background-color: white;
     color: black;
-    margin-left: 10px;
     text-align: left;
-    width: 98.41%;
-    height: 5.0%;
+    width: 100vw;
+    height: 75px;
+    padding: 0 20px;
     border-bottom: 4px solid #002670;
 }
 
@@ -34,7 +38,7 @@ div.panel-heading.myPanel{
 
 
 h2 {
-    float: right;
+    float: left;
     line-height: 0.1;
     color: #002670;
     display:inline;
@@ -46,13 +50,10 @@ h2 {
 }
 
 #mainContent {
-    min-height: 80%;
-    height: 87%;
-    /*width2: 98.41%;*/
-    width: 100%;
-    margin-top:15px;
-    /*margin-left2:10px;*/
-    margin-right:10px;
+    height: calc(100vh - 75px);
+    width: 100vw;
+    position: fixed;
+    top: 75px;
 }
 
 span.badge {
@@ -60,16 +61,10 @@ span.badge {
 }
 
 .eventStatus {
-    padding-left: 5%;
-    padding-right: 0%;
-    padding-bottom: 2%;
     height:100%;
 }
 
 .searchStatus {
-    padding-left: 5%;
-    padding-right: 0%;
-    padding-bottom: 2%;
     height:100%;
 }
 .searchStatus>div>button{
@@ -127,19 +122,23 @@ pageslide {
     height: 100%;
 }*/
 
-div#events.container-fluid {
-    overflow-y: scroll;
-    overflow-x: auto;
-}
 
 #events {
     line-height:83%;
     background-color: #ffffff;
-    padding-right: 1%;
-    height:85vh;
-    width:17%;
+    height:calc(100vh - 128px);
+    width:20%;
+    border-right: 1px solid #ddd;
     float:left;
 }
+
+
+@media all and (max-width:950px){
+    #events {
+        height:calc(100vh - 181px);
+    }
+}
+
 
 #eventsTable>thead>tr>th{
     padding-top: 10px;
@@ -160,19 +159,28 @@ div#events.container-fluid {
 #navigation {
     background-color:white;
     padding-bottom: 0px;
-    padding-right: 10px;
-    padding-left: 10px;
     float:left;
-    width: 82%;
-    height: 7%;
+    width: 100%;
+    height: 53px;
+}
+
+@media all and (max-width:950px){
+    #navigation {
+        height: 106px;
+    }
 }
 
 #section {
-    width: 82%;
-    height: 93%;
-    margin-bottom: 1%;
+    width: 80%;
+    height:calc(100vh - 128px);
     background-color: white;
     float:left;
+}
+
+@media all and (max-width:950px){
+    #section {
+        height:calc(100vh - 181px);
+    }
 }
 
 /*#section>.container{*/
@@ -314,13 +322,15 @@ div#events.container-fluid {
 
 #navigation ul li {
     display: inline-block;
-
+    height: 45px;
 }
 
 #navigation ul li a {
     font-variant: small-caps;
-    font-size: 125%;
+    font-size: 110%;
     color: #002670;
+    margin: 0;
+    padding: 8px 15px;
 }
 
 
@@ -372,75 +382,43 @@ div#events.container-fluid {
 
 
 #visitContent {
-    overflow: scroll;
     height: 75vh;
-    overflow-y: scroll;
-    overflow-x: auto;
-    margin-left: 5px;
-    margin-bottom: 5px;
+    padding: 0px;
 }
 
 #profileContent {
-    overflow: scroll;
-    overflow-y: scroll;
-    overflow-x: auto;
     height:75vh;
-    margin-left: 5px;
-    margin-bottom: 5px;
+    padding: 0px;
 }
 
 #relapseContent {
-    overflow: scroll;
-    overflow-y: scroll;
-    overflow-x: auto;
     height:75vh;
-    margin-left: 5px;
-    margin-bottom: 5px;
+    padding: 0px;
 }
 
 #interventionContent {
-    overflow: scroll;
-    overflow-y: scroll;
-    overflow-x: auto;
     height:75vh;
-    margin-left: 5px;
-    margin-bottom: 5%;
+    padding: 0px;
 }
 
 #eventContent {
-    overflow: scroll;
-    overflow-y: scroll;
-    overflow-x: auto;
     height:75vh;
-    margin-left: 10px;
-    margin-bottom: 5px;
+    padding: 0px;
 }
 
 #laboratoryContent {
-    overflow: scroll;
-    overflow-y: scroll;
-    overflow-x: auto;
     height:65vh;
-    margin-left: 10px;
-    margin-bottom: 5px;
+    padding: 0px;
 }
 
 #csfContent {
-    overflow: scroll;
-    overflow-y: scroll;
-    overflow-x: auto;
     height:75vh;
-    margin-left: 10px;
-    margin-bottom: 5px;
+    padding: 0px;
 }
 
 #imageContent {
-    overflow: scroll;
-    overflow-y: scroll;
-    overflow-x: auto;
     height:75vh;
-    margin-left: 10px;
-    margin-bottom: 5px;
+    padding: 0px;
 }
 
 #myTimeline {
@@ -449,26 +427,30 @@ div#events.container-fluid {
     padding-bottom: 1vh;
     height:85vh;
     background-color: whitesmoke;
-    overflow:auto;
 }
 
-/*#timelineLegend {*/
-    /*min-height: 425px;*/
-    /*float: left;*/
-    /*height:85vh;*/
-    /*padding-left: 1vh;*/
-    /*padding-right: 1vh;*/
-    /*padding-top: 5vh;*/
-/*}*/
+#exoticlogin {
+    position: fixed;
+    top: 40%;
+    left: calc(50% - 150px);
+    width: 300px;
+    background-color: #edf0f5;
+    padding: 20px;
+    text-align: center;
+    line-height: 45px;
+}
 
-#timelineContent {
-    overflow: auto;
-    /*min-height: 425px;*/
-    /*height:77vh;*/
+.btn-mainnav {
+    border: none;
+    margin-top: 5px;
+    margin-left: 5px;
+    height: 35px;
+    line-height: 15px;
+    font-size: 15px;
 }
 
 .marginTop {
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .marginLeft {
@@ -477,7 +459,8 @@ div#events.container-fluid {
 
 .doubleMarginTop {
     margin-top: 30px;
-    padding-bottom: 20px
+    padding-bottom: 20px;
+    padding-left: 0px;
 }
 
 .marginBottom {

@@ -16,8 +16,6 @@ function db_connect($dbname=null) {
         }else{
             $connection=$db->selectDB(DB_NAME);
         }
-
-        $list = $db->listCollections();
         
         return $connection;
     }
