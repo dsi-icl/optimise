@@ -8,6 +8,13 @@ if($connection==null)
     ReturnException(ERROR_Internal_Error,500,error_get_last()['message']);
     return;
 }
+
+$uadm = array("username" => "admin");
+$cursor = $connection->clinicians->find($uadm);
+
+if ($cursor->count() <= 0)
+    $connection->clinicians->insert(json_decode('{"username" : "admin", "password" : "letmein", "email" : "", "group_ids" : [], "site" : "local"}'));
+
 $method = $_SERVER['REQUEST_METHOD'];
 if($method=="POST") {
     $data = file_get_contents('php://input'); //get POST payload

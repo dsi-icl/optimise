@@ -768,10 +768,8 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
                 var jsonBody = {"USUBJID":rm.USUBJID, "DOMAIN":rm.DOMAIN, "REMINDERSEQ": rm.REMINDERSEQ};
                 var api = '';
                 if (onlineOrLocal == 'local')
-                //api = 'http://146.169.35.160./api/Optimise/';
                     api = './api/reminders.php';
                 else
-                //api = './api/Optimise/';
                     api = './api/reminders.php';
 
                 $http({url: api,
@@ -814,10 +812,8 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
 
             var api = '';
             if (onlineOrLocal == 'local')
-                //api = 'http://146.169.35.160./api/Optimise/';
                 api = './api/opt.php';
             else
-                //api = './api/Optimise/';
                 api = './api/opt.php';
 
             $http({url: api,
@@ -848,10 +844,8 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
 
 
             if (onlineOrLocal == 'local')
-                //api = 'http://146.169.35.160./api/Optimise/';
                 api = './api/opt.php?token='+token;
             else
-                //api = './api/Optimise/';
                 api = './api/opt.php?token='+token;
 
             $http({url: api,
