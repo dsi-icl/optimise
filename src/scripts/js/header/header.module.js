@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var headerModule = angular.module('Optimise.header',['Optimise.view',
+var headerModule = angular.module('Optimise.header', ['Optimise.view',
     'Optimise.clinicalEvent',
     'Optimise.medicalHistory',
     'Optimise.questionnaire',
@@ -32,9 +32,9 @@ var headerModule = angular.module('Optimise.header',['Optimise.view',
     'ngTable',
     'Optimise.substanceUse',
     'Optimise.subjectCharacteristic'
-    ]);
+]);
 
-headerModule.factory('Country', function() {
+headerModule.factory('Country', function () {
     return function () {
         return [
             "UNITED KINGDOM",
@@ -290,9 +290,9 @@ headerModule.factory('Country', function() {
     }
 });
 
-headerModule.controller('newInterestCtrl', function($scope, $uibModalInstance) {
+headerModule.controller('newInterestCtrl', function ($scope, $uibModalInstance) {
     $scope.ok = function () {
-        var interestDetails = {"name":$scope.interestName, "email": $scope.interestEmail};
+        var interestDetails = { "name": $scope.interestName, "email": $scope.interestEmail };
         $uibModalInstance.close(interestDetails);
     };
 
@@ -308,7 +308,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
     $scope.sourceMode = sourceMode;
     $scope.newData = {
         search_USUBJID: '',
-        recordSet:'',
+        recordSet: '',
         NHS_USUBJID: '',
         USUBJID: '',
         RFICDTC: '',
@@ -328,20 +328,20 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
     }
 
     $scope.showComputerSource = function () {
-        if (sourceMode=='computer')
+        if (sourceMode == 'computer')
             return true;
     };
 
-    $scope.printActionMode = function() {
+    $scope.printActionMode = function () {
         console.log($scope.actionMode);
     }
 
     $scope.showInternetSource = function () {
-        if (sourceMode=='internet')
+        if (sourceMode == 'internet')
             return true;
     };
 
-    var selectSubjectsWithPrefix = function(prefix, subjectList) {
+    var selectSubjectsWithPrefix = function (prefix, subjectList) {
         var subjectsWithPrefix = [];
         for (var s = 0; s < subjectList.length; s++) {
             if (subjectList[s].indexOf(prefix) > -1) {
@@ -351,20 +351,20 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
         return subjectsWithPrefix;
     }
 
-    var getPrefixPatient = function(anOptimiseID) {
+    var getPrefixPatient = function (anOptimiseID) {
         return parseInt(anOptimiseID.substr(10));
     }
 
-    function sortNumber(a,b) {
+    function sortNumber(a, b) {
         return a - b;
     }
 
-    $scope.generateUSUBJID = function() {
-        var prefix = "OPT-"+siteID+"-";
+    $scope.generateUSUBJID = function () {
+        var prefix = "OPT-" + siteID + "-";
         var newID = "";
 
-        if (sourceMode == 'computer'){
-            prefix = prefix+"01-";
+        if (sourceMode == 'computer') {
+            prefix = prefix + "01-";
             var subjectList = localStorage.getItem('NHS_OPT_Map');
 
             if (subjectList != null) {
@@ -377,7 +377,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
                 var subjectsWithPrefix = selectSubjectsWithPrefix(prefix, usubjidList);
                 if (subjectsWithPrefix.length > 0) {
                     subjectsWithPrefix.sort(sortNumber);
-                    var mostRecentPatient = subjectsWithPrefix[subjectsWithPrefix.length-1];
+                    var mostRecentPatient = subjectsWithPrefix[subjectsWithPrefix.length - 1];
 
                     var mostRecentPatientPrefix = getPrefixPatient(mostRecentPatient);
                     var newPatientPrefix = mostRecentPatientPrefix + 1;
@@ -388,14 +388,14 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
                 }
             }
             else {
-                newID = prefix+"0";
+                newID = prefix + "0";
             }
             $scope.USUBJID = newID;
         }
     }
 
     var is_OPT_USUBJID = function (USUBJID_String) {
-        if (USUBJID_String.substr(0,3) == 'OPT')
+        if (USUBJID_String.substr(0, 3) == 'OPT')
             return true;
         else
             return false;
@@ -404,7 +404,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
     var get_OPT_USUBJID = function (NHSID) {
         var subjects = JSON.parse(localStorage.getItem("NHS_OPT_Map"));
         if (subjects != null)
-            for (var s =0; s < subjects.length; s++)
+            for (var s = 0; s < subjects.length; s++)
                 if (subjects[s].NHS_USUBJID == NHSID)
                     return subjects[s].USUBJID;
         return '';
@@ -413,13 +413,13 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
     $scope.subjectFound = false;
     $scope.searchInProgress = false;
 
-    $scope.getSubjectFound = function() {
+    $scope.getSubjectFound = function () {
         if ($scope.subjectFound)
             return true;
         return false;
     }
 
-    $scope.getSearchStatus = function() {
+    $scope.getSearchStatus = function () {
         if ($scope.subjectFound)
             return "Found";
 
@@ -440,7 +440,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
                     subjectList = JSON.parse(subjectList);
                     for (var s = 0; s < subjectList.length; s++) {
                         if (subjectList[s].NHS_USUBJID == $scope.NHS_USUBJID) {
-                            alert ("This subject already exists");
+                            alert("This subject already exists");
                             $scope.NHS_USUBJID = '';
                             return;
                         }
@@ -449,11 +449,11 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
             }
             else if (sourceMode == 'internet') {
                 var nhsList = records.getNHSIDList();
-                nhsList.then(function(data) {
+                nhsList.then(function (data) {
                     if (data.NHS_USUBJID != null) {
                         for (var s = 0; s < data.NHS_USUBJID.length; s++) {
-                            if (data.NHS_USUBJID[s]==$scope.NHS_USUBJID) {
-                                alert ("This subject already exists");
+                            if (data.NHS_USUBJID[s] == $scope.NHS_USUBJID) {
+                                alert("This subject already exists");
                                 $scope.NHS_USUBJID = '';
                                 return;
                             }
@@ -464,9 +464,9 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
         }
     }
 
-    $scope.fileNameChanged = function(element) {
-        $scope.$apply(function() {
-            $scope.search_USUBJID="";
+    $scope.fileNameChanged = function (element) {
+        $scope.$apply(function () {
+            $scope.search_USUBJID = "";
             var sourceFile = element.files[0];
             console.log(sourceFile);
             var textType = /json.*/;
@@ -475,7 +475,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
 
                 reader.onload = (function (e) {
                     var RecordSet = JSON.parse(reader.result.toString());
-                    if (RecordSet!=null){
+                    if (RecordSet != null) {
                         $scope.newData.recordSet = RecordSet;
                         $scope.subjectFound = true;
                     }
@@ -490,19 +490,17 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
 
     $scope.recordMade = true;
 
-    $scope.okToProceed = function() {
-        if ($scope.actionMode == 'Load')
-        {
+    $scope.okToProceed = function () {
+        if ($scope.actionMode == 'Load') {
             return $scope.subjectFound;
         }
-        else if ($scope.actionMode == 'New')
-        {
+        else if ($scope.actionMode == 'New') {
             return $scope.recordMade;
         }
         return true;
     }
 
-    $scope.startSearch = function() {
+    $scope.startSearch = function () {
         var lengthToStartSearch = 10;
 
         if ($scope.search_USUBJID.length >= lengthToStartSearch) {
@@ -522,7 +520,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
                 }
                 else if (sourceMode == 'internet') {
                     var subjectData = records.getSubject($scope.search_USUBJID);
-                    subjectData.then(function(data) {
+                    subjectData.then(function (data) {
                         $scope.searchInProgress = false;
                         var RecordSet = data.RecordSet;
                         if (RecordSet.length == 0) {
@@ -552,21 +550,21 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
                 else if (sourceMode == 'internet') {
                     var subjectDMData = records.getOptimiseID($scope.search_USUBJID);
                     $scope.searchInProgress = true;
-                    subjectDMData.then(function(data) {
+                    subjectDMData.then(function (data) {
                         var RecordSet = data.RecordSet;
                         if (RecordSet.length == 0) {
                             $scope.searchInProgress = false;
                             return '';
                         }
                         else {
-                            $scope.recordExistsStatus = $scope.search_USUBJID +" found";
+                            $scope.recordExistsStatus = $scope.search_USUBJID + " found";
                             for (var recordItem = 0; recordItem < RecordSet.length; recordItem++) {
                                 var aRecordItems = RecordSet[recordItem].RecordItems;
-                                for (var item = 0; item < aRecordItems.length; item++){
-                                    if (aRecordItems[item].fieldName == "USUBJID"){
+                                for (var item = 0; item < aRecordItems.length; item++) {
+                                    if (aRecordItems[item].fieldName == "USUBJID") {
                                         $scope.USUBJID = aRecordItems[item].value;
                                         var subjectData = records.getSubject(aRecordItems[item].value);
-                                        subjectData.then(function(data) {
+                                        subjectData.then(function (data) {
                                             $scope.searchInProgress = false;
                                             var RecordSet = data.RecordSet;
                                             if (RecordSet.length == 0) {
@@ -591,7 +589,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
             $scope.subjectFound = false;
     }
 
-    if ($scope.actionMode == 'New' && (sourceMode=='computer'))
+    if ($scope.actionMode == 'New' && (sourceMode == 'computer'))
         $scope.generateUSUBJID();
 
     $scope.consentGiven = "";
@@ -600,14 +598,14 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
         $scope.newData.search_USUBJID = $scope.search_USUBJID;
         $scope.newData.USUBJID = $scope.USUBJID;
         $scope.newData.NHS_USUBJID = $scope.NHS_USUBJID;
-//        $scope.newData.AGE= $scope.updateAge($scope.BRTHDTC);
-//        if (($scope.BRTHDTC != null)&& ($scope.BRTHDTC != ''))
-//            $scope.newData.BRTHDTC= new Date($scope.BRTHDTC,getMonthIndex(),1);
-//        else
-//            $scope.newData.BRTHDTC = '';
-//        $scope.newData.SEX= $scope.SEX;
-//        $scope.newData.ETHNIC= $scope.ETHNIC;
-        $scope.newData.actionMode= $scope.actionMode;
+        //        $scope.newData.AGE= $scope.updateAge($scope.BRTHDTC);
+        //        if (($scope.BRTHDTC != null)&& ($scope.BRTHDTC != ''))
+        //            $scope.newData.BRTHDTC= new Date($scope.BRTHDTC,getMonthIndex(),1);
+        //        else
+        //            $scope.newData.BRTHDTC = '';
+        //        $scope.newData.SEX= $scope.SEX;
+        //        $scope.newData.ETHNIC= $scope.ETHNIC;
+        $scope.newData.actionMode = $scope.actionMode;
         if ($scope.consentGiven) {
             $scope.newData.RFICDTC = new Date();
         };
@@ -615,20 +613,20 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
         $uibModalInstance.close($scope.newData);
     };
 
-//    $scope.updateAge = function() {
-//        if ($scope.BRTHDTC != null){
-//            if ($scope.BRTHDTC != '')
-//                if ($scope.BRTHDTC > 1900)
-//                {
-//                    var dayInMilliseconds=1000*60*60*24;
-//                    var dateEnd = new Date();
-//                    var dateStart = new Date($scope.BRTHDTC,getMonthIndex(),1);
-//                    var durationInDays = Math.round((dateEnd-dateStart)/dayInMilliseconds);
-//                    return (Math.round(durationInDays/365)-1)+" years";
-//                }
-//        }
-//        return '';
-//    }
+    //    $scope.updateAge = function() {
+    //        if ($scope.BRTHDTC != null){
+    //            if ($scope.BRTHDTC != '')
+    //                if ($scope.BRTHDTC > 1900)
+    //                {
+    //                    var dayInMilliseconds=1000*60*60*24;
+    //                    var dateEnd = new Date();
+    //                    var dateStart = new Date($scope.BRTHDTC,getMonthIndex(),1);
+    //                    var durationInDays = Math.round((dateEnd-dateStart)/dayInMilliseconds);
+    //                    return (Math.round(durationInDays/365)-1)+" years";
+    //                }
+    //        }
+    //        return '';
+    //    }
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
@@ -641,12 +639,12 @@ headerModule.controller('appointmentsCtrl', function ($scope, $uibModalInstance,
 
     $scope.data = [];
 
-    var makeAppointmentsAPICall = function() {
+    var makeAppointmentsAPICall = function () {
         var appointments = [];
 
         if (sourceMode == 'internet') {
             var appointmentsAPICall = records.getDueAppointments();
-            appointmentsAPICall.then(function(data) {
+            appointmentsAPICall.then(function (data) {
                 //console.log(data);
                 var reminders = data.Reminders;
                 var subjectIDs = Object.keys(reminders);
@@ -660,7 +658,7 @@ headerModule.controller('appointmentsCtrl', function ($scope, $uibModalInstance,
                         var due = anAppointment['DueAppointment'];
                         var notes = anAppointment['Notes'];
 
-                        var aReminder = {'id':id, 'last':lastAppointment, 'due':due, 'notes':notes};
+                        var aReminder = { 'id': id, 'last': lastAppointment, 'due': due, 'notes': notes };
                         //console.log(aReminder);
                         appointments.push(aReminder);
                     }
@@ -673,7 +671,7 @@ headerModule.controller('appointmentsCtrl', function ($scope, $uibModalInstance,
             });
         }
         else {
-            remindersForAppointmentsDue.getAppointments().then(function(reminders) {
+            remindersForAppointmentsDue.getAppointments().then(function (reminders) {
                 for (var r = 0; r < reminders.length; r++) {
                     appointments.push(reminders[r]);
                 }
@@ -684,7 +682,7 @@ headerModule.controller('appointmentsCtrl', function ($scope, $uibModalInstance,
             $scope.data = appointments.slice(0);
         }
     }
-    $scope.tableParams = new NgTableParams({}, { dataset: []});
+    $scope.tableParams = new NgTableParams({}, { dataset: [] });
 
     makeAppointmentsAPICall();
 
@@ -710,169 +708,590 @@ headerModule.controller('configInstanceCtrl', function ($scope, $uibModalInstanc
 
 headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourceMode, records, NgTableParams, $timeout) {
 
+    $scope.fieldsList = {
+        "USUBJID": {
+            "domain": "DM",
+            "type": "String",
+            "label": "Unique subject identifier",
+            "tags": [
+                ""
+            ],
+            "enabled": false
+        },
+        "BRTHDTC": {
+            "domain": "DM",
+            "type": "Date",
+            "label": "Date/time of birth",
+            "tags": [
+                "DOB",
+                "age"
+            ],
+            "enabled": true
+        },
+        "CECAT": {
+            "domain": "CE",
+            "type": "Categorical",
+            "label": "Category of clinical event",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "Symptom",
+                "Sign"
+            ],
+            "enabled": true
+        },
+        "QSSTRESN": {
+            "domain": "QS",
+            "type": "Number",
+            "label": "Numeric finding in standard units",
+            "tags": [
+                ""
+            ],
+            "enabled": true
+        },
+        "CESEV": {
+            "domain": "CE",
+            "type": "Categorical",
+            "label": "Severity or intensity of clinical event",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "Mild",
+                "Moderate",
+                "Severe"
+            ],
+            "enabled": true
+        },
+        "DOMINANT": {
+            "domain": "DM",
+            "type": "Categorical",
+            "label": "Dominant side",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "Right",
+                "Left",
+                "Ambidextrous"
+            ],
+            "enabled": true
+        },
+        "FAORES": {
+            "domain": "FA",
+            "type": "Categorical",
+            "label": "Presence or absence of disease",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "Yes",
+                "No"
+            ],
+            "enabled": true
+        },
+        "QSCAT": {
+            "domain": "QS",
+            "type": "Categorical",
+            "label": "Category of question",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "EDSS",
+                "EDMUS"
+            ],
+            "enabled": true
+        },
+        "SUTRT": {
+            "domain": "SU",
+            "type": "Categorical",
+            "label": "Type of substance",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "ALCOHOL"
+            ],
+            "enabled": true
+        },
+        "SCTEST": {
+            "domain": "SC",
+            "type": "Categorical",
+            "label": "",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "SMOKING HISTORY"
+            ],
+            "enabled": true
+        },
+        "CEOUT": {
+            "domain": "CE",
+            "type": "Categorical",
+            "label": "Outcome of clinical event",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "Complete",
+                "Partial",
+                "None"
+            ],
+            "enabled": true
+        },
+        "SEX": {
+            "domain": "DM",
+            "type": "Categorical",
+            "label": "Sex",
+            "tags": [
+                "gender"
+            ],
+            "values": [
+                "Female",
+                "Male",
+                "Other"
+            ],
+            "enabled": true
+        },
+        "SUDOSFRQ": {
+            "domain": "SU",
+            "type": "String",
+            "label": "Alcohol consumption",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "More than 3 units a day",
+                "Less than 3 units a day",
+                "Less than 3 units a week"
+            ],
+            "enabled": true
+        },
+        "ETHNIC": {
+            "domain": "DM",
+            "type": "Categorical",
+            "label": "Ethnicity",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "White",
+                "Black",
+                "Chinese",
+                "Other Asian",
+                "Native American",
+                "Arab",
+                "Persian",
+                "Other Mixed"
+            ],
+            "enabled": true
+        },
+        "SCORRES": {
+            "domain": "SC",
+            "type": "Categorical",
+            "label": "Smoking history",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "Smoker",
+                "Ex-smoker",
+                "Never smoked"
+            ],
+            "enabled": true
+        },
+        "MHENRTPT": {
+            "domain": "MH",
+            "type": "Categorical",
+            "label": "",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "Ongoing",
+                "Resolved",
+                "Unknown"
+            ],
+            "enabled": true
+        },
+        "SREL": {
+            "domain": "",
+            "type": "Categorical",
+            "label": "",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "",
+                "Mother",
+                "Father",
+                "Twin",
+                "Sister",
+                "Brother",
+                "Maternal Grandparent",
+                "Paternal Grandparent",
+                "Maternal Ant/ Uncle",
+                "Maternal Cousin",
+                "Paternal Ant/ Uncle",
+                "Paternal Cousin"
+            ],
+            "enabled": true
+        },
+        "MHTERM": {
+            "domain": "MH",
+            "type": "Mixed",
+            "label": "",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "RIS",
+                "CIS",
+                "ADEM",
+                "MS",
+                "NMOSD"
+            ],
+            "enabled": true
+        },
+        "VSTEST": {
+            "domain": "VS",
+            "type": "String",
+            "label": "Vital signs test name",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "Systolic Blood Pressure",
+                "Diastolic Blood Pressure",
+                "Height",
+                "Pulse Rate",
+                "Weight"
+            ],
+            "enabled": true
+        },
+        "CETERM": {
+            "domain": "CE",
+            "type": "String",
+            "label": "Reported term for the clinical event",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "Cognitive problems",
+                "Emotional lability",
+                "Depression",
+                "Fatigue",
+                ""
+            ],
+            "enabled": true
+        },
+        "CEBODSYS": {
+            "domain": "CE",
+            "type": "Categorical",
+            "label": "Body system or organ class involved in the clinical event",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "Face",
+                "Upper Limbs",
+                "Lower Limbs",
+                "Trunk",
+                "Eye",
+                "Biceps",
+                "Patella",
+                "Ankle",
+                "Pyramidal Tract",
+                "Cerebellum",
+                "Brain Stem",
+                "Sensory",
+                "Bowel Bladder",
+                "Visual",
+                "Higher Function"
+            ],
+            "enabled": true
+        },
+        "EXADJ": {
+            "domain": "EX",
+            "type": "Categorical",
+            "label": "Reason for dose adjustment",
+            "tags": [
+                "exposure adjustment",
+                "change of dose"
+            ],
+            "values": [
+                "Pregnancy",
+                "Convenience",
+                "Adverse Event",
+                "Unknown",
+                "Patient Preference",
+                "Disease Progression"
+            ],
+            "enabled": true
+        },
+        "EXCAT": {
+            "domain": "EX",
+            "type": "Categorical",
+            "label": "Category of treatment",
+            "tags": [
+                "drug",
+                "medical",
+                "exposure",
+                "group"
+            ],
+            "values": [
+                "Disease Modifying",
+                "Symptomatic",
+                "Other"
+            ],
+            "enabled": true
+        },
+        "EXTRT": {
+            "domain": "EX",
+            "type": "Categorical",
+            "label": "Name of treatment",
+            "tags": [
+                "drug",
+                "medical",
+                "exposure"
+            ],
+            "values": [
+                "Alemtuzumab (Lemtrada)",
+                "Avonex (Interferon beta-1a)",
+                "Azathioprine",
+                "Betaferon (Interferon beta-1b)",
+                "Cladribine (Mavenclad)",
+                "Cyclophosphamide",
+                "Daclizumab (Zinbryta)",
+                "Dimethyl fumarate (Tecfidera)",
+                "Extavia (beta interferon-1b)",
+                "Fingolimod (Gilenya)",
+                "Glatiramer acetate (Copaxone)",
+                "Methotrexate",
+                "Mitoxantrone",
+                "Natalizumab (Tysabri)",
+                "Plegridy (peginterferon beta-1a)",
+                "Rebif (beta interferon-1a)",
+                "Rituximab",
+                "Teriflunomide (Aubagio)",
+                "4-aminopyridine",
+                "Corticosteroids",
+                "Prednisone",
+                "Amantadine",
+                "Baclofen",
+                "IV Methyl-prednisolone",
+                "IVIG",
+                "Plasma Exchange",
+                "Mycophenolic Acid",
+                "Neuropsych. Training",
+                "Physiotherapy",
+                "Cognitive Therapy"
+            ],
+            "enabled": true
+        },
+        "MOTEST": {
+            "domain": "MO",
+            "type": "Categorical",
+            "label": "Test or examination name",
+            "tags": [
+                ""
+            ],
+            "values": [
+                "T1 Lesion Count Summary",
+                "Lesion Count Summary",
+                "Lesion Count",
+                "Lesion Volume",
+                "Gd Enhancing Lesion Count Summary",
+                "Gd Enhancing Lesion Volume",
+                "T2 Lesion",
+                "Gd Lesion"
+            ],
+            "enabled": true
+        }
+    }
+
+    $scope.criteria = {};
+    $scope.criteriaCount = 0;
+
+    var filterPatientList = function () {
+
+        var dataset = $.extend(true, {}, $scope.flatRecords);
+        var shouldKeeps = $('.search-field-criteria').find('input, textarea, select').map((i, e) => $(e).data('shouldKeep'))
+
+        console.log('dataset before', dataset)
+        $.each(shouldKeeps, function (i, shouldKeep) {
+            Object.keys(dataset).forEach(function (key) {
+                if (!shouldKeep(dataset[key]))
+                    delete dataset[key];
+            })
+        });
+        console.log('dataset after', dataset)
+
+        var dmData = []
+        Object.keys(dataset).forEach(function (key) {
+            var row = { opt_id: key, nhs_id: 'nhs_id' };
+            dmData.push(row);
+        });
+        
+        $scope.tableParams.settings({
+            dataset: dmData
+        });
+
+        $scope.tableParams.reload();
+        $scope.data = dmData.slice(0);
+
+    }
+
+    var renderCriteria = function () {
+
+        var orderedCriteria = [];
+        Object.keys($scope.criteria).forEach(function (key) {
+            orderedCriteria[$scope.criteria[key].order] = $scope.criteria[key]
+        });
+        $('.search-field-criteria').empty();
+        $.each(orderedCriteria, function (i, criterion) {
+            if (criterion == undefined)
+                return;
+            var criterionBox = $('<div>')
+            criterionBox.append($('<span>').text(criterion.name));
+            switch ($scope.fieldsList[criterion.id].type) {
+                case "Categorical":
+                    var optionSet = $('<select>');
+                    $.each($scope.fieldsList[criterion.id].values, function (i, element) {
+                        optionSet.append($('<option>').attr('value', i).text(element));
+                    })
+                    optionSet.data({
+                        'fieldID': criterion.id,
+                        'shouldKeep': function (patientRecord) {
+                            var ret = false;
+                            Object.keys(patientRecord).forEach(function (domain) {
+                                $.each(patientRecord[domain], function (i, record) {
+                                    if (record.hasOwnProperty(optionSet.data('fieldID'))) {
+                                        if (record[optionSet.data('fieldID')] === $scope.fieldsList[optionSet.data('fieldID')].values[optionSet.find(":selected")[0].value])
+                                            ret = true
+                                    }
+                                })
+                            });
+                            return ret;
+                        }
+                    });
+                    criterionBox.append(optionSet);
+                break;
+                case "String":
+                // TO-DO make text
+                break;
+                case "Date":
+                // TO-DO make datepicker
+                break;
+                case "Numeric":
+                // TO-DO make slider
+                break;
+            }
+            criterionBox.append($('<a>').text(' < Remove this filter').click(function () {
+                delete $scope.criteria[criterion.id];
+                renderCriteria();
+            }))
+            $('.search-field-criteria').append(criterionBox);
+        })
+
+        $('.search-field-criteria').find('input, textarea, select').change(function () {
+            filterPatientList();
+        });
+
+        filterPatientList();
+    }
+    
+    var addCriterion = function (field, constraint) {
+        $scope.criteria[field.id] = {
+            id: field.id,
+            name: field.text,
+            order: $scope.criteriaCount++
+        }
+        renderCriteria();
+    }
+    
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+
+    $uibModalInstance.rendered.then(function () {
+        var token = records.getToken()
+        if (token == null || token == "")
+            return alert('Must log in first!')
+        fetch('./api/opt.php?token=' + token).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+
+
+            $scope.flatRecords = {};
+            $.each(data.RecordSet, function (i, record) {
+                var flatItem = {};
+                $.each(record.RecordItems, function (j, item) {
+                    flatItem[item.fieldName] = item.value;
+                })
+                delete flatItem._id;
+                $scope.flatRecords[flatItem.USUBJID] = $scope.flatRecords[flatItem.USUBJID] || {};
+                $scope.flatRecords[flatItem.USUBJID][flatItem.DOMAIN] = $scope.flatRecords[flatItem.USUBJID][flatItem.DOMAIN] || []
+                $scope.flatRecords[flatItem.USUBJID][flatItem.DOMAIN].push(flatItem);
+            })
+
+            var listSelect = $('.search-field-select')
+            listSelect.empty();
+            listSelect.append($('<option/>'));
+            Object.keys($scope.fieldsList).forEach(function (key) {
+                listSelect.append($('<option/>').attr('value', key).text($scope.fieldsList[key].label));
+            })
+            listSelect.select2({
+                placeholder: "Filter on ...",
+                allowClear: true
+            });
+            listSelect.on("select2:select", function (e) {
+                addCriterion(e.params.data);
+                listSelect.val(null).trigger('change');
+            });
+            
+            $scope.tableParams = new NgTableParams({}, { dataset: [] });
+
+            renderCriteria();
+        });
+    });
+
     $scope.selectionData = {
-        selectedSubjects:[],
-        actionMode:'',
-        recordSet:'',
-        USUBJID:''
+        selectedSubjects: [],
+        actionMode: '',
+        recordSet: '',
+        USUBJID: ''
     };
 
     $scope.data = [];
 
-    var getAge = function(BRTHDTC) {
-        if (BRTHDTC != null){
-            if (BRTHDTC != '')
-                var dayInMilliseconds=1000*60*60*24;
-                var dateEnd = new Date();
-                var dateStart = new Date(BRTHDTC);
-                var durationInDays = Math.round((dateEnd-dateStart)/dayInMilliseconds);
-                return Math.round(durationInDays/365.25);
-        }
-        return '';
-    }
+    $scope.ok = function () {
+        console.log('$scope.ok')
+        $uibModalInstance.close($scope.selectionData);
+    };
 
-    $scope.deleteSubject = function(subject_usubjid){
-        if (sourceMode=='internet') {
-            var deletionProcess = records.deleteSubject(subject_usubjid);
-            deletionProcess.then(function(result) {
-                makeDemographicAPICall();
-            });
-        }
-        if (sourceMode=='computer') {
-            localStorage.removeItem(subject_usubjid);
-            var subjects = localStorage.getItem("NHS_OPT_Map");
-            if (subjects == null)
-                subjects = [];
-            else
-                subjects = JSON.parse(subjects);
-
-            for (var s = 0; s < subjects.length; s++) {
-                if (subjects[s].USUBJID == subject_usubjid) {
-                    subjects.splice(s,1);
-                    break;
-                }
-            }
-            localStorage.setItem("NHS_OPT_Map",JSON.stringify(subjects));
-            makeDemographicAPICall();
-        }
-    }
-
-    var makeDemographicAPICall = function() {
-        if (sourceMode == 'internet')  {
-            var dmData = [];
-            var demographicAPICall = records.getAllDemographics();
-            demographicAPICall.then(function(demographics) {
-                var dmRecords = demographics.RecordSet;
-                for (var dm = 0; dm < dmRecords.length; dm++) {
-                    var aRecord = dmRecords[dm];
-                    var opt_id ='';
-                    var nhs_id ='';
-                    var age = '';
-                    var sex = '';
-                    var rficdtc = '';
-                    var aRecordItems = aRecord.RecordItems;
-                    for (var item = 0; item < aRecordItems.length; item++) {
-                        if (aRecordItems[item].fieldName == 'USUBJID')
-                            opt_id = aRecordItems[item].value;
-                        else if (aRecordItems[item].fieldName == 'NHS_USUBJID')
-                            nhs_id = aRecordItems[item].value;
-                        else if (aRecordItems[item].fieldName == 'BRTHDTC')
-                            age = getAge (aRecordItems[item].value);
-                        else if (aRecordItems[item].fieldName == 'SEX')
-                            sex = aRecordItems[item].value;
-                        else if (aRecordItems[item].fieldName == 'RFICDTC')
-                            rficdtc = aRecordItems[item].value;
-                    }
-                    var row = {opt_id: opt_id, nhs_id: nhs_id, age:age, sex: sex, rficdtc: rficdtc, selected: false};
-                    dmData.push(row);
-                }
-
-                $timeout(function() {
-                }, 300).then(function(){
-
-                        $scope.tableParams.settings({
-                        dataset: dmData
-                    });
-                    $scope.data = dmData.slice(0);
-
-                });
-            })
-        }
-        else {
-            var dmData = [];
-            var subjectList = localStorage.getItem('NHS_OPT_Map');
-            if (subjectList != null) {
-                subjectList = JSON.parse(subjectList);
-                for (var s = 0; s < subjectList.length; s++) {
-                    var anItem = JSON.parse(localStorage.getItem(subjectList[s].USUBJID));
-                    if (anItem==null) {
-                        $scope.deleteSubject(subjectList[s].USUBJID);
-                        alert(subjectList[s].USUBJID+" removed. Close window and try again.")
-                        return;
-                    }
-                    var RecordSet = JSON.parse(localStorage.getItem(subjectList[s].USUBJID)).RecordSet;
-                    var opt_id ='';
-                    var nhs_id ='';
-                    var age = '';
-                    var sex = '';
-                    var rficdtc = '';
-                    for (var r = 0; r < RecordSet.length; r++) {
-                        if (RecordSet[r] != null) {
-                            var RecordItem = RecordSet[r].RecordItems;
-                            for (var item = 0; item < RecordItem.length; item++) {
-                                if ((RecordItem[item].fieldName=="DOMAIN") && (RecordItem[item].value=="DM")) {
-                                    for (var i = 0; i < RecordItem.length; i++) {
-                                        if (RecordItem[i].fieldName == 'USUBJID')
-                                            opt_id = RecordItem[i].value;
-                                        else if (RecordItem[i].fieldName == 'NHS_USUBJID')
-                                            nhs_id = RecordItem[i].value;
-                                        else if (RecordItem[i].fieldName == 'BRTHDTC')
-                                            age = getAge (records.formatStringToDate(RecordItem[i].value));
-                                        else if (RecordItem[i].fieldName == 'SEX')
-                                            sex = RecordItem[i].value;
-                                        else if (RecordItem[i].fieldName == 'RFICDTC') {
-                                            rficdtc = RecordItem[i].value;
-                                        }
-
-                                    }
-                                    var row = {opt_id: opt_id, nhs_id: nhs_id, age:age, sex: sex, rficdtc: rficdtc, selected: false};
-                                    dmData.push(row);
-                                }
-                            }
-                        }
-
-                    }
-                }
-                $timeout(function() {
-                }, 300).then(function(){
-                        $scope.tableParams.settings({
-                            dataset: dmData
-                        });
-                        $scope.data = dmData.slice(0);
-                    });
-
-            }
-        }
-    }
-
-    var findSubject = function(identifier) {
-        if (sourceMode == 'computer') {
-            var Records = localStorage.getItem(identifier);
-            if (Records != null) {
-                Records = JSON.parse(Records);
-                $scope.selectionData.recordSet = Records;
-                $scope.selectionData.actionMode = 'Load';
-                $scope.selectionData.USUBJID = identifier;
-                $scope.ok();
-            }
-        }
-        else if (sourceMode == 'internet') {
+    var findSubject = function (identifier) {
+        console.log(sourceMode);
+        // if (sourceMode == 'computer') {
+        //     var Records = localStorage.getItem(identifier);
+        //     if (Records != null) {
+        //         Records = JSON.parse(Records);
+        //         $scope.selectionData.recordSet = Records;
+        //         $scope.selectionData.actionMode = 'Load';
+        //         $scope.selectionData.USUBJID = identifier;
+        //         $scope.ok();
+        //     }
+        // }
+        // else if (sourceMode == 'internet') {
             var subjectData = records.getSubject(identifier);
-            subjectData.then(function(data) {
+            subjectData.then(function (data) {
                 var RecordSet = data.RecordSet;
-                if (RecordSet.length == 0) {
-                    alert ("Patient not found. This record will be removed");
-                    $scope.deleteSubject(identifier);
+                if (RecordSet == null || RecordSet.length == 0) {
+                    console.log("Patient not found. An error occured");
+                    // $scope.deleteSubject(identifier);
                 } else {
                     $scope.selectionData.recordSet = RecordSet;
                     $scope.selectionData.actionMode = 'Load';
@@ -880,74 +1299,47 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
                     $scope.ok();
                 }
             });
-        }
+        // }
     }
 
-    $scope.loadSubjectData = function(identifier) {
+    $scope.loadSubjectData = function (identifier) {
+        console.log('PLOP', identifier)
         $scope.selectionData.actionMode = 'Load';
         findSubject(identifier);
-    }
-
-    $scope.tableParams = new NgTableParams({}, { dataset: []});
-
-    makeDemographicAPICall();
-
-    $scope.ok = function () {
-
-        $uibModalInstance.close($scope.selectionData);
-    };
-
-    $scope.export = function () {
-        $scope.selectionData.actionMode = 'Export';
-        for (var s = 0; s < $scope.data.length; s++) {
-            if ($scope.data[s].selected == true) {
-                $scope.selectionData.selectedSubjects.push($scope.data[s].opt_id);
-                findSubject($scope.data[s].opt_id);
-            }
-        }
-        $scope.ok();
-    };
-
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-
-    $scope.givenConsent = function(subject) {
-        return subject.rficdtc;
     }
 });
 
 headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, sourceMode, records, NgTableParams, $timeout) {
 
     $scope.selectionData = {
-        selectedSubjects:[],
-        actionMode:'',
-        recordSet:'',
-        USUBJID:''
+        selectedSubjects: [],
+        actionMode: '',
+        recordSet: '',
+        USUBJID: ''
     };
 
     $scope.data = [];
 
-    var getAge = function(BRTHDTC) {
-        if (BRTHDTC != null){
+    var getAge = function (BRTHDTC) {
+        if (BRTHDTC != null) {
             if (BRTHDTC != '')
-                var dayInMilliseconds=1000*60*60*24;
-                var dateEnd = new Date();
-                var dateStart = new Date(BRTHDTC);
-                var durationInDays = Math.round((dateEnd-dateStart)/dayInMilliseconds);
-                return Math.round(durationInDays/365.25);
+                var dayInMilliseconds = 1000 * 60 * 60 * 24;
+            var dateEnd = new Date();
+            var dateStart = new Date(BRTHDTC);
+            var durationInDays = Math.round((dateEnd - dateStart) / dayInMilliseconds);
+            return Math.round(durationInDays / 365.25);
         }
         return '';
     }
 
-    $scope.deleteSubject = function(subject_usubjid){
-        if (sourceMode=='internet') {
+    $scope.deleteSubject = function (subject_usubjid) {
+        if (sourceMode == 'internet') {
             var deletionProcess = records.deleteSubject(subject_usubjid);
-            deletionProcess.then(function(result) {
+            deletionProcess.then(function (result) {
                 makeDemographicAPICall();
             });
         }
-        if (sourceMode=='computer') {
+        if (sourceMode == 'computer') {
             localStorage.removeItem(subject_usubjid);
             var subjects = localStorage.getItem("NHS_OPT_Map");
             if (subjects == null)
@@ -957,25 +1349,25 @@ headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, s
 
             for (var s = 0; s < subjects.length; s++) {
                 if (subjects[s].USUBJID == subject_usubjid) {
-                    subjects.splice(s,1);
+                    subjects.splice(s, 1);
                     break;
                 }
             }
-            localStorage.setItem("NHS_OPT_Map",JSON.stringify(subjects));
+            localStorage.setItem("NHS_OPT_Map", JSON.stringify(subjects));
             makeDemographicAPICall();
         }
     }
 
-    var makeDemographicAPICall = function() {
-        if (sourceMode == 'internet')  {
+    var makeDemographicAPICall = function () {
+        if (sourceMode == 'internet') {
             var dmData = [];
             var demographicAPICall = records.getAllDemographics();
-            demographicAPICall.then(function(demographics) {
+            demographicAPICall.then(function (demographics) {
                 var dmRecords = demographics.RecordSet;
                 for (var dm = 0; dm < dmRecords.length; dm++) {
                     var aRecord = dmRecords[dm];
-                    var opt_id ='';
-                    var nhs_id ='';
+                    var opt_id = '';
+                    var nhs_id = '';
                     var age = '';
                     var sex = '';
                     var rficdtc = '';
@@ -986,20 +1378,20 @@ headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, s
                         else if (aRecordItems[item].fieldName == 'NHS_USUBJID')
                             nhs_id = aRecordItems[item].value;
                         else if (aRecordItems[item].fieldName == 'BRTHDTC')
-                            age = getAge (aRecordItems[item].value);
+                            age = getAge(aRecordItems[item].value);
                         else if (aRecordItems[item].fieldName == 'SEX')
                             sex = aRecordItems[item].value;
                         else if (aRecordItems[item].fieldName == 'RFICDTC')
                             rficdtc = aRecordItems[item].value;
                     }
-                    var row = {opt_id: opt_id, nhs_id: nhs_id, age:age, sex: sex, rficdtc: rficdtc, selected: false};
+                    var row = { opt_id: opt_id, nhs_id: nhs_id, age: age, sex: sex, rficdtc: rficdtc, selected: false };
                     dmData.push(row);
                 }
 
-                $timeout(function() {
-                }, 300).then(function(){
+                $timeout(function () {
+                }, 300).then(function () {
 
-                        $scope.tableParams.settings({
+                    $scope.tableParams.settings({
                         dataset: dmData
                     });
                     $scope.data = dmData.slice(0);
@@ -1014,14 +1406,14 @@ headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, s
                 subjectList = JSON.parse(subjectList);
                 for (var s = 0; s < subjectList.length; s++) {
                     var anItem = JSON.parse(localStorage.getItem(subjectList[s].USUBJID));
-                    if (anItem==null) {
+                    if (anItem == null) {
                         $scope.deleteSubject(subjectList[s].USUBJID);
-                        alert(subjectList[s].USUBJID+" removed. Close window and try again.")
+                        alert(subjectList[s].USUBJID + " removed. Close window and try again.")
                         return;
                     }
                     var RecordSet = JSON.parse(localStorage.getItem(subjectList[s].USUBJID)).RecordSet;
-                    var opt_id ='';
-                    var nhs_id ='';
+                    var opt_id = '';
+                    var nhs_id = '';
                     var age = '';
                     var sex = '';
                     var rficdtc = '';
@@ -1029,14 +1421,14 @@ headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, s
                         if (RecordSet[r] != null) {
                             var RecordItem = RecordSet[r].RecordItems;
                             for (var item = 0; item < RecordItem.length; item++) {
-                                if ((RecordItem[item].fieldName=="DOMAIN") && (RecordItem[item].value=="DM")) {
+                                if ((RecordItem[item].fieldName == "DOMAIN") && (RecordItem[item].value == "DM")) {
                                     for (var i = 0; i < RecordItem.length; i++) {
                                         if (RecordItem[i].fieldName == 'USUBJID')
                                             opt_id = RecordItem[i].value;
                                         else if (RecordItem[i].fieldName == 'NHS_USUBJID')
                                             nhs_id = RecordItem[i].value;
                                         else if (RecordItem[i].fieldName == 'BRTHDTC')
-                                            age = getAge (records.formatStringToDate(RecordItem[i].value));
+                                            age = getAge(records.formatStringToDate(RecordItem[i].value));
                                         else if (RecordItem[i].fieldName == 'SEX')
                                             sex = RecordItem[i].value;
                                         else if (RecordItem[i].fieldName == 'RFICDTC') {
@@ -1044,7 +1436,7 @@ headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, s
                                         }
 
                                     }
-                                    var row = {opt_id: opt_id, nhs_id: nhs_id, age:age, sex: sex, rficdtc: rficdtc, selected: false};
+                                    var row = { opt_id: opt_id, nhs_id: nhs_id, age: age, sex: sex, rficdtc: rficdtc, selected: false };
                                     dmData.push(row);
                                 }
                             }
@@ -1052,19 +1444,19 @@ headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, s
 
                     }
                 }
-                $timeout(function() {
-                }, 300).then(function(){
-                        $scope.tableParams.settings({
-                            dataset: dmData
-                        });
-                        $scope.data = dmData.slice(0);
+                $timeout(function () {
+                }, 300).then(function () {
+                    $scope.tableParams.settings({
+                        dataset: dmData
                     });
+                    $scope.data = dmData.slice(0);
+                });
 
             }
         }
     }
 
-    var findSubject = function(identifier) {
+    var findSubject = function (identifier) {
         if (sourceMode == 'computer') {
             var Records = localStorage.getItem(identifier);
             if (Records != null) {
@@ -1077,10 +1469,10 @@ headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, s
         }
         else if (sourceMode == 'internet') {
             var subjectData = records.getSubject(identifier);
-            subjectData.then(function(data) {
+            subjectData.then(function (data) {
                 var RecordSet = data.RecordSet;
                 if (RecordSet.length == 0) {
-                    alert ("Patient not found. This record will be removed");
+                    alert("Patient not found. This record will be removed");
                     $scope.deleteSubject(identifier);
                 } else {
                     $scope.selectionData.recordSet = RecordSet;
@@ -1092,12 +1484,12 @@ headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, s
         }
     }
 
-    $scope.loadSubjectData = function(identifier) {
+    $scope.loadSubjectData = function (identifier) {
         $scope.selectionData.actionMode = 'Load';
         findSubject(identifier);
     }
 
-    $scope.tableParams = new NgTableParams({}, { dataset: []});
+    $scope.tableParams = new NgTableParams({}, { dataset: [] });
 
     makeDemographicAPICall();
 
@@ -1121,38 +1513,38 @@ headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, s
         $uibModalInstance.dismiss('cancel');
     };
 
-    $scope.givenConsent = function(subject) {
+    $scope.givenConsent = function (subject) {
         return subject.rficdtc;
     }
 });
 
 headerModule.controller('headerCtrl', function ($rootScope,
-                                            $scope,
-                                            $q, $timeout,
-                                            $uibModal,
-                                            viewService,
-                                            clinicalEvents,
-                                            questionnaires,
-                                            findingsAbout,
-                                            subjectVisits,
-                                            exposures,
-                                            USUBJID, USERID, CONFIG, OptimiseDefaultConfig,
-                                            records,
-                                            procedures,
-                                            relationships,
-                                            patients,
-                                            laboratoryTestResults,
-                                            immunogenicitySpecimenAssessments,
-                                            nervousSystemFindings,
-                                            vitalSigns,
-                                            medicalHistory,
-                                            associatedPersonMedicalHistories,
-                                            Experiments, Scans, Resources, Snapshots, RawImage,
-                                            adverseEventService,
-                                            morphologyServices, Country,
-                                            substanceUse, subjectCharacteristic,
-                                            deviceInUseServices,
-                                            reminders, exportService) {
+    $scope,
+    $q, $timeout,
+    $uibModal,
+    viewService,
+    clinicalEvents,
+    questionnaires,
+    findingsAbout,
+    subjectVisits,
+    exposures,
+    USUBJID, USERID, CONFIG, OptimiseDefaultConfig,
+    records,
+    procedures,
+    relationships,
+    patients,
+    laboratoryTestResults,
+    immunogenicitySpecimenAssessments,
+    nervousSystemFindings,
+    vitalSigns,
+    medicalHistory,
+    associatedPersonMedicalHistories,
+    Experiments, Scans, Resources, Snapshots, RawImage,
+    adverseEventService,
+    morphologyServices, Country,
+    substanceUse, subjectCharacteristic,
+    deviceInUseServices,
+    reminders, exportService) {
 
 
 
@@ -1178,9 +1570,9 @@ headerModule.controller('headerCtrl', function ($rootScope,
         endDate: today.getFullYear().toString()
     });
 
-    $scope.getCalendarType = function() {
+    $scope.getCalendarType = function () {
 
-        if($scope.contentOnDisplay=="Relapse"){
+        if ($scope.contentOnDisplay == "Relapse") {
             return "form-control DTC_MonthYear";
         }
 
@@ -1190,8 +1582,8 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
     }
 
-    $scope.connectionAvailable = function() {
-        if ((navigator.onLine)&& ($scope.authenticatedStatus== "Logged In")) {
+    $scope.connectionAvailable = function () {
+        if ((navigator.onLine) && ($scope.authenticatedStatus == "Logged In")) {
 
             return true;
         }
@@ -1201,13 +1593,13 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
 
 
-    var setupConfig = function(config) {
+    var setupConfig = function (config) {
         viewService.setConfiguration(config);
     }
 
-    var pullViewConfiguration = function() {
-        if($scope.sourceMode == 'internet') {
-            CONFIG.getOnlineSetting(records.getURL('Config')).get({},function(data) {
+    var pullViewConfiguration = function () {
+        if ($scope.sourceMode == 'internet') {
+            CONFIG.getOnlineSetting(records.getURL('Config')).get({}, function (data) {
                 data.$promise.then(function () {
                     viewService.setConfiguration(data);
                 })
@@ -1220,39 +1612,39 @@ headerModule.controller('headerCtrl', function ($rootScope,
         }
     }
 
-    $scope.sourceMode ='computer'; //computer vs internet
-    if ($scope.sourceMode=='internet')
+    $scope.sourceMode = 'computer'; //computer vs internet
+    if ($scope.sourceMode == 'internet')
         viewService.setOffline(false);
     else
         viewService.setOffline(true);
 
-//    viewService.setOffline(false);
-    $scope.actionMode ='New'; // load vs new
+    //    viewService.setOffline(false);
+    $scope.actionMode = 'New'; // load vs new
     $scope.UserName = "";
     $scope.Password = "";
 
-    if (!$scope.connectionAvailable()){
-        $scope.sourceMode ='computer';
+    if (!$scope.connectionAvailable()) {
+        $scope.sourceMode = 'computer';
         viewService.setOffline(true);
     }
 
-    $scope.newInterest = function() {
+    $scope.newInterest = function () {
         var modalInstance = $uibModal.open({
             templateUrl: 'newInterest.html',
             controller: 'newInterestCtrl'
         });
-        modalInstance.result.then(function (newInterestDetails){
-            records.createNewInterest(newInterestDetails.name, newInterestDetails.email) ;
+        modalInstance.result.then(function (newInterestDetails) {
+            records.createNewInterest(newInterestDetails.name, newInterestDetails.email);
         }, function () {
         });
     }
-//
-//    if ($scope.connectionAvailable())
-//        $scope.newInterest();
+    //
+    //    if ($scope.connectionAvailable())
+    //        $scope.newInterest();
 
-    $scope.setSourceMode = function(mode) {
+    $scope.setSourceMode = function (mode) {
         $scope.sourceMode = mode;
-        if ($scope.sourceMode=='internet')
+        if ($scope.sourceMode == 'internet')
             viewService.setOffline(false);
         else
             viewService.setOffline(true);
@@ -1260,33 +1652,33 @@ headerModule.controller('headerCtrl', function ($rootScope,
     }
 
     $scope.authenticatedStatus = "Log in";
-    if ($scope.sourceMode =='computer') {
+    if ($scope.sourceMode == 'computer') {
         viewService.setAuthenticated(true);
         viewService.setOffline(true);
     }
 
     $scope.siteID = "DM";
 
-    $scope.navigatorIsOnline = function() {
+    $scope.navigatorIsOnline = function () {
         return navigator.onLine;
     }
 
     pullViewConfiguration();
 
-    $scope.authenticate = function() {
-        var authenticationDetails = {"username":$scope.UserName,"password":$scope.Password,"expire_in_seconds":120};
+    $scope.authenticate = function () {
+        var authenticationDetails = { "username": $scope.UserName, "password": $scope.Password, "expire_in_seconds": 120 };
         if (navigator.onLine) {
-            if (($scope.UserName.length > 0)&&($scope.Password.length>0)) {
+            if (($scope.UserName.length > 0) && ($scope.Password.length > 0)) {
 
                 USERID.save(authenticationDetails, function (data) {
                     data.$promise.then(function () {
-                        if (data.result =='succeed') {
+                        if (data.result == 'succeed') {
                             records.setToken(data.token);
                             setupConfig(data.config);
                             viewService.setAuthenticated(true);
                             $scope.authenticatedStatus = "Logged In";
 
-                            if ((data.siteID != null)&&(data.siteID != ''))
+                            if ((data.siteID != null) && (data.siteID != ''))
                                 $scope.siteID = data.siteID;
 
                             //pullViewConfiguration();
@@ -1298,20 +1690,20 @@ headerModule.controller('headerCtrl', function ($rootScope,
                             $scope.setContent();
                         }
                     });
-                }, function(err){
-                    var errorMsg = "Login Failed: "+err.data.desp;
+                }, function (err) {
+                    var errorMsg = "Login Failed: " + err.data.desp;
                     $scope.UserName = "";
                     $scope.Password = "";
                     alert(errorMsg);
                 });
             }
             else {
-                alert ("User name and password please");
+                alert("User name and password please");
             }
         }
     }
 
-    $scope.disableEntry = function() {
+    $scope.disableEntry = function () {
 
         if ($scope.sourceMode == 'internet')
             return !viewService.isAuthenticated();
@@ -1319,17 +1711,17 @@ headerModule.controller('headerCtrl', function ($rootScope,
             return false;
     }
 
-    $scope.showThisPanel = function(term) {
+    $scope.showThisPanel = function (term) {
         return viewService.getConfigurationSetting(term);
     }
 
     var countryList = new Country();
-    $scope.getCountries = function() {
+    $scope.getCountries = function () {
         return countryList;
     }
 
 
-    $scope.openConfig = function() {
+    $scope.openConfig = function () {
         var modalInstance = $uibModal.open({
             templateUrl: 'config.html',
             controller: 'configInstanceCtrl',
@@ -1338,7 +1730,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
     }
 
     $scope.thereIsAPatient = function () {
-        if (patients.getCurrentPatient()== null) {
+        if (patients.getCurrentPatient() == null) {
             return false;
         }
         return true;
@@ -1355,10 +1747,10 @@ headerModule.controller('headerCtrl', function ($rootScope,
                 sourceMode: function () {
                     return $scope.sourceMode;
                 },
-                siteID: function() {
+                siteID: function () {
                     return $scope.siteID;
                 },
-                searchCriteria: function() {
+                searchCriteria: function () {
                     return $scope.searchCriteria;
                 }
             }
@@ -1367,24 +1759,24 @@ headerModule.controller('headerCtrl', function ($rootScope,
         modalInstance.result.then(function (newData) {
             $scope.actionMode = newData.actionMode;
 
-            var prefix = "OPT-"+$scope.siteID+"-02-";
-            if ($scope.actionMode=='New') {
+            var prefix = "OPT-" + $scope.siteID + "-02-";
+            if ($scope.actionMode == 'New') {
                 patients.newPatient(newData.USUBJID,
                     $scope.siteID,
                     newData.NHS_USUBJID,
                     newData.RFICDTC
-                    );
+                );
 
-                if ($scope.sourceMode=='internet') {
+                if ($scope.sourceMode == 'internet') {
                     var newSubject = records.createNewSubject(patients.getCurrentPatient(), prefix);
-                    newSubject.then(function(data) {
-                        if (data.result == 'succeed'){
+                    newSubject.then(function (data) {
+                        if (data.result == 'succeed') {
                             $scope.USUBJID = data.w_id;
                             patients.getCurrentPatient().USUBJID = $scope.USUBJID;
                             $scope.setEventUSUBJID($scope.USUBJID);
                             $scope.setExposureUSUBJID($scope.USUBJID);
                             $scope.setLabUSUBJID($scope.USUBJID);
-                            $scope.setMRIUSUBJID($scope.USUBJID, ($scope.authenticatedStatus=="Logged In")&&($scope.sourceMode=="internet"));
+                            $scope.setMRIUSUBJID($scope.USUBJID, ($scope.authenticatedStatus == "Logged In") && ($scope.sourceMode == "internet"));
                             //$scope.setMRIUSUBJID($scope.USUBJID, false);
                             $scope.setVisitUSUBJID($scope.USUBJID);
                             $scope.setRelapseUSUBJID($scope.USUBJID);
@@ -1393,7 +1785,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
                             displayCurrentPatient();
                         }
                         else {
-                            alert ("Cannot create patient record");
+                            alert("Cannot create patient record");
                         }
                     })
                 }
@@ -1403,7 +1795,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
                     $scope.setExposureUSUBJID($scope.USUBJID);
                     $scope.setLabUSUBJID($scope.USUBJID);
                     //$scope.setMRIUSUBJID($scope.USUBJID, $scope.sourceMode=='internet');
-                    $scope.setMRIUSUBJID($scope.USUBJID, ($scope.authenticatedStatus=="Logged In")&&($scope.sourceMode=="internet"));
+                    $scope.setMRIUSUBJID($scope.USUBJID, ($scope.authenticatedStatus == "Logged In") && ($scope.sourceMode == "internet"));
                     //$scope.setMRIUSUBJID($scope.USUBJID, false);
                     $scope.setVisitUSUBJID($scope.USUBJID);
                     $scope.setRelapseUSUBJID($scope.USUBJID);
@@ -1411,21 +1803,21 @@ headerModule.controller('headerCtrl', function ($rootScope,
                     displayCurrentPatient();
                 }
             }
-            else if ($scope.actionMode=='Load') {
+            else if ($scope.actionMode == 'Load') {
                 $scope.USUBJID = newData.USUBJID;
-                if ($scope.sourceMode=='internet') {
+                if ($scope.sourceMode == 'internet') {
                     populateFromDB(newData.recordSet);
                 }
-                else if ($scope.sourceMode=='computer') {
+                else if ($scope.sourceMode == 'computer') {
                     populateFromScriptedFile(newData.recordSet);
                 };
             }
-            else if ($scope.actionMode=="Delete") {
+            else if ($scope.actionMode == "Delete") {
                 $scope.USUBJID = newData.USUBJID;
-                if ($scope.sourceMode=='internet') {
+                if ($scope.sourceMode == 'internet') {
                     deleteThisSubject();
                 }
-                if ($scope.sourceMode=='computer') {
+                if ($scope.sourceMode == 'computer') {
                     localStorage.removeItem($scope.USUBJID);
                     var subjects = localStorage.getItem("NHS_OPT_Map");
                     if (subjects == null)
@@ -1435,11 +1827,11 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
                     for (var s = 0; s < subjects.length; s++) {
                         if (subjects[s].USUBJID == $scope.USUBJID) {
-                            subjects.splice(s,1);
+                            subjects.splice(s, 1);
                             break;
                         }
                     }
-                    localStorage.setItem("NHS_OPT_Map",JSON.stringify(subjects));
+                    localStorage.setItem("NHS_OPT_Map", JSON.stringify(subjects));
                 }
             }
 
@@ -1450,16 +1842,15 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
     };
 
-    var getAge = function(BRTHDTC) {
-        if (BRTHDTC != null){
+    var getAge = function (BRTHDTC) {
+        if (BRTHDTC != null) {
             if (BRTHDTC != '')
-                if (BRTHDTC > 1900)
-                {
-                    var dayInMilliseconds=1000*60*60*24;
+                if (BRTHDTC > 1900) {
+                    var dayInMilliseconds = 1000 * 60 * 60 * 24;
                     var dateEnd = new Date();
-                    var dateStart = new Date(BRTHDTC,0,1);
-                    var durationInDays = Math.round((dateEnd-dateStart)/dayInMilliseconds);
-                    return Math.round(durationInDays/365.25)+" years";
+                    var dateStart = new Date(BRTHDTC, 0, 1);
+                    var durationInDays = Math.round((dateEnd - dateStart) / dayInMilliseconds);
+                    return Math.round(durationInDays / 365.25) + " years";
                 }
         }
         return '';
@@ -1468,116 +1859,116 @@ headerModule.controller('headerCtrl', function ($rootScope,
     var populate = function (domain, aRecordItems) {
         switch (domain) {
             case 'SV':
-            {
-                subjectVisits.populateSubjectVisits(aRecordItems);
-                break;
-            }
+                {
+                    subjectVisits.populateSubjectVisits(aRecordItems);
+                    break;
+                }
             case 'QS':
-            {
-                questionnaires.populateQuestionnaires(aRecordItems);
-                break;
-            }
+                {
+                    questionnaires.populateQuestionnaires(aRecordItems);
+                    break;
+                }
             case 'CE':
-            {
-                clinicalEvents.populateClinicalEvents(aRecordItems);
-                break;
-            }
+                {
+                    clinicalEvents.populateClinicalEvents(aRecordItems);
+                    break;
+                }
             case 'FA':
-            {
-                findingsAbout.populateFindings(aRecordItems);
-                //$scope.displayPatientFA();
-                break;
-            }
+                {
+                    findingsAbout.populateFindings(aRecordItems);
+                    //$scope.displayPatientFA();
+                    break;
+                }
             case 'PR':
-            {
-                procedures.populateProcedures(aRecordItems);
-                break;
-            }
+                {
+                    procedures.populateProcedures(aRecordItems);
+                    break;
+                }
             case 'EX':
-            {
-                exposures.populateExposures(aRecordItems);
-                break;
-            }
+                {
+                    exposures.populateExposures(aRecordItems);
+                    break;
+                }
             case 'REL':
-            {
-                relationships.populateRelationships(aRecordItems);
-                break;
-            }
+                {
+                    relationships.populateRelationships(aRecordItems);
+                    break;
+                }
             case 'DM':
-            {
-                patients.populatePatient(aRecordItems);
-                //$scope.displayPatientDM();
-                $scope.USUBJID = patients.getCurrentPatient().USUBJID;
-                $scope.SEX = patients.getCurrentPatient().SEX;
-                if (patients.getCurrentPatient().BRTHDTC!= "")
-                    $scope.AGE = getAge(patients.getCurrentPatient().BRTHDTC.getFullYear());
-                $scope.ALCOHOL = patients.getCurrentPatient().ALCOHOL;
-                $scope.SMOKER = patients.getCurrentPatient().SMOKER;
-                $scope.DOMINANT = patients.getCurrentPatient().DOMINANT;
-                $scope.ETHNIC = patients.getCurrentPatient().ETHNIC;
-                break;
-            }
+                {
+                    patients.populatePatient(aRecordItems);
+                    //$scope.displayPatientDM();
+                    $scope.USUBJID = patients.getCurrentPatient().USUBJID;
+                    $scope.SEX = patients.getCurrentPatient().SEX;
+                    if (patients.getCurrentPatient().BRTHDTC != "")
+                        $scope.AGE = getAge(patients.getCurrentPatient().BRTHDTC.getFullYear());
+                    $scope.ALCOHOL = patients.getCurrentPatient().ALCOHOL;
+                    $scope.SMOKER = patients.getCurrentPatient().SMOKER;
+                    $scope.DOMINANT = patients.getCurrentPatient().DOMINANT;
+                    $scope.ETHNIC = patients.getCurrentPatient().ETHNIC;
+                    break;
+                }
             case 'VS':
-            {
-                vitalSigns.populateVitalSigns(aRecordItems);
-                break;
-            }
+                {
+                    vitalSigns.populateVitalSigns(aRecordItems);
+                    break;
+                }
             case 'LB':
-            {
-                laboratoryTestResults.populateLabTestResults(aRecordItems);
-                break;
-            }
+                {
+                    laboratoryTestResults.populateLabTestResults(aRecordItems);
+                    break;
+                }
             case 'IS':
-            {
-                immunogenicitySpecimenAssessments.populateISA(aRecordItems);
-                break;
-            }
+                {
+                    immunogenicitySpecimenAssessments.populateISA(aRecordItems);
+                    break;
+                }
             case 'MH':
-            {
-                medicalHistory.populateMedicalHistory(aRecordItems);
-                //$scope.displayPatientMH();
-                break;
-            }
+                {
+                    medicalHistory.populateMedicalHistory(aRecordItems);
+                    //$scope.displayPatientMH();
+                    break;
+                }
             case 'APMH':
-            {
-                associatedPersonMedicalHistories.populateAPMH(aRecordItems);
-                break;
-            }
+                {
+                    associatedPersonMedicalHistories.populateAPMH(aRecordItems);
+                    break;
+                }
             case 'AE':
-            {
-                adverseEventService.populateAdverseEvents(aRecordItems);
-                break;
-            }
+                {
+                    adverseEventService.populateAdverseEvents(aRecordItems);
+                    break;
+                }
             case 'MO':
-            {
-                morphologyServices.populateMorphologicalFindings(aRecordItems);
-                break;
-            }
+                {
+                    morphologyServices.populateMorphologicalFindings(aRecordItems);
+                    break;
+                }
             case 'NV':
-            {
-                nervousSystemFindings.populateNervousSystemFindings(aRecordItems);
-                break;
-            }
+                {
+                    nervousSystemFindings.populateNervousSystemFindings(aRecordItems);
+                    break;
+                }
             case 'SU':
-            {
-                substanceUse.populateSubstanceUse(aRecordItems);
-                break;
-            }
+                {
+                    substanceUse.populateSubstanceUse(aRecordItems);
+                    break;
+                }
             case 'SC':
-            {
-                subjectCharacteristic.populateSubjectCharacteristic(aRecordItems);
-                break;
-            }
+                {
+                    subjectCharacteristic.populateSubjectCharacteristic(aRecordItems);
+                    break;
+                }
             case 'DU':
-            {
-                deviceInUseServices.populateDeviceInUse(aRecordItems);
-                break;
-            }
+                {
+                    deviceInUseServices.populateDeviceInUse(aRecordItems);
+                    break;
+                }
             case 'REMINDER':
-            {
-                reminders.populateReminder(aRecordItems);
-                break;
-            }
+                {
+                    reminders.populateReminder(aRecordItems);
+                    break;
+                }
         }
     }
 
@@ -1586,7 +1977,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
         var Records = records;
         //console.log(Records);
         var RecordSet = Records.RecordSet;
-            if (Records.RecordSet != null) {
+        if (Records.RecordSet != null) {
             for (var i = 0; i < RecordSet.length; i++) {
                 var RecordItem = RecordSet[i].RecordItems;
                 var domain = getDomain(RecordItem);
@@ -1601,8 +1992,8 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
         var RecordSet = recordSet;
         if (RecordSet.length == 0) {
-            $scope.recordExistsStatus = $scope.USUBJID+" not found";
-            alert ($scope.recordExistsStatus);
+            $scope.recordExistsStatus = $scope.USUBJID + " not found";
+            alert($scope.recordExistsStatus);
             $scope.USUBJID = '';
             //$scope.findToDelete=true;
             return false;
@@ -1623,7 +2014,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
     };
 
-    $scope.overwriteDatabase = function() {
+    $scope.overwriteDatabase = function () {
         //deleteThisSubject();
         var USUBJID = patients.getCurrentPatient().USUBJID;
         var jsonBody = angular.toJson(getRecordSet());
@@ -1631,7 +2022,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
     };
 
     var is_OPT_USUBJID = function (USUBJID_String) {
-        if (USUBJID_String.substr(0,3) == 'OPT')
+        if (USUBJID_String.substr(0, 3) == 'OPT')
             return true;
         else
             return false;
@@ -1652,30 +2043,30 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
     $scope.downloadToDrive = function () {
 
-      var token = records.getToken()
-      if (token == null || token == "")
-      return alert('Must log in first!')
-      fetch('./api/opt.php?token=' + token).then(function(response) {
-        return response.json();
-      }).then(function(data) {
-        var flatrecords = {};
-        $.each(data.RecordSet, function (i, record) {
-            var flatitem = {};
-            $.each(record.RecordItems, function (j, item) {
-                flatitem[item.fieldName] = item.value;
+        var token = records.getToken()
+        if (token == null || token == "")
+            return alert('Must log in first!')
+        fetch('./api/opt.php?token=' + token).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            var flatrecords = {};
+            $.each(data.RecordSet, function (i, record) {
+                var flatItem = {};
+                $.each(record.RecordItems, function (j, item) {
+                    flatItem[item.fieldName] = item.value;
+                })
+                delete flatItem._id;
+                flatrecords[flatItem.USUBJID] = flatrecords[flatItem.USUBJID] || {};
+                flatrecords[flatItem.USUBJID][flatItem.DOMAIN] = flatrecords[flatItem.USUBJID][flatItem.DOMAIN] || []
+                flatrecords[flatItem.USUBJID][flatItem.DOMAIN].push(flatItem);
             })
-            delete flatitem._id;
-            flatrecords[flatitem.USUBJID] = flatrecords[flatitem.USUBJID] || {};
-            flatrecords[flatitem.USUBJID][flatitem.DOMAIN] = flatrecords[flatitem.USUBJID][flatitem.DOMAIN] || []
-            flatrecords[flatitem.USUBJID][flatitem.DOMAIN].push(flatitem);
-        })
-        saveJSON(JSON.stringify(flatrecords));
-      });
+            saveJSON(JSON.stringify(flatrecords));
+        });
     }
 
-    var getRecordSet = function() {
+    var getRecordSet = function () {
         var RecordItems = [];
-        var root = {"RecordSet":RecordItems};
+        var root = { "RecordSet": RecordItems };
 
         var DM = patients.getCurrentPatient();
         var dmRecordItem = getRecordItem(DM);
@@ -1799,7 +2190,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
             RecordItems.push(apmhRecordItem);
         }
 
-        return(root);
+        return (root);
     }
 
     var saveCSV = function (text) {
@@ -1817,12 +2208,12 @@ headerModule.controller('headerCtrl', function ($rootScope,
     var savePDF = function () {
         var doc = new jsPDF();
         doc.setFont("helvetica");
-        var position={x:10,y:5};
+        var position = { x: 10, y: 5 };
 
         var patient = patients.getCurrentPatient();
         printADate(doc, position, patient);
 
-        var position={x:20,y:5};
+        var position = { x: 20, y: 5 };
         printATitle(doc, position, patient);
         printRecord(doc, position, patient);
 
@@ -1895,17 +2286,17 @@ headerModule.controller('headerCtrl', function ($rootScope,
         doc.save();
     }
 
-    var addBreak = function(doc, position, patient) {
+    var addBreak = function (doc, position, patient) {
         if (position.y >= 200) {
             doc.addPage();
-            position={x:10,y:5};
+            position = { x: 10, y: 5 };
             printADate(doc, position, patient);
-            position={x:20,y:5};
+            position = { x: 20, y: 5 };
         }
     }
 
-    var displayThis = function(key, value) {
-        if ((value!='')
+    var displayThis = function (key, value) {
+        if ((value != '')
             && (key.indexOf('SEQ') == -1)
             && (key.indexOf('display') == -1)
             && (key.indexOf('$$') == -1)
@@ -1919,7 +2310,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
             return false;
     }
 
-    var printSymptoms = function(doc, position, symptoms) {
+    var printSymptoms = function (doc, position, symptoms) {
         doc.setFontSize(10);
         doc.setFontType("bold");
         position.y += 5;
@@ -1935,42 +2326,41 @@ headerModule.controller('headerCtrl', function ($rootScope,
         position.x -= 25;
     }
 
-    var printRecord = function(doc, position, record) {
+    var printRecord = function (doc, position, record) {
         doc.setFontSize(10);
         var keys = Object.keys(record);
         var numFilledKeys = 0;
         position.y += 5;
-        for (var k = 0; k < keys.length; k++){
-            if (displayThis(keys[k],record[keys[k]])){
+        for (var k = 0; k < keys.length; k++) {
+            if (displayThis(keys[k], record[keys[k]])) {
                 numFilledKeys += 1;
                 position.y += 5;
 
                 doc.setFontType("bold");
                 doc.text(position.x, position.y, keys[k]);
 
-                position.x = position.x+25;
+                position.x = position.x + 25;
 
                 doc.setFontType("normal");
-                if ((keys[k].indexOf('DTC')!=-1))
-                {
+                if ((keys[k].indexOf('DTC') != -1)) {
                     doc.text(position.x, position.y, record[keys[k]].toDateString());
                 }
                 else {
                     var value = record[keys[k]];
-                    if (isNaN(value))    {
+                    if (isNaN(value)) {
                         doc.text(position.x, position.y, value);
-                     }
-                     else  {
+                    }
+                    else {
                         doc.text(position.x, position.y, value.toString());
                     }
 
                 }
-                position.x = position.x-25;
+                position.x = position.x - 25;
             }
         }
     }
 
-    var printATitle = function(doc, position, record) {
+    var printATitle = function (doc, position, record) {
 
         doc.setFontSize(12);
         doc.setFontType("bold");
@@ -2008,36 +2398,36 @@ headerModule.controller('headerCtrl', function ($rootScope,
         }
     }
 
-    var printADate = function(doc, position, patient) {
+    var printADate = function (doc, position, patient) {
         //console.log(patient);
         doc.setFontSize(10);
         doc.setFontType("normal");
         position.y += 5;
         var printedOn = new Date();
-        doc.text(position.x, position.y, "[Date]: "+printedOn.toDateString());
+        doc.text(position.x, position.y, "[Date]: " + printedOn.toDateString());
 
         position.x += 50;
-        doc.text(position.x, position.y, "[Study]: "+patient.STUDYID);
+        doc.text(position.x, position.y, "[Study]: " + patient.STUDYID);
 
         position.x += 50;
-        doc.text(position.x, position.y, "[Subject]: "+patient.USUBJID);
+        doc.text(position.x, position.y, "[Subject]: " + patient.USUBJID);
 
         position.x -= 100;
     }
 
-    var getRecordItem  = function (aRecord) {
+    var getRecordItem = function (aRecord) {
         var keys = Object.keys(aRecord);
         var keysAndItems = [];
-        var newRecordItem = {"RecordItems":keysAndItems};
+        var newRecordItem = { "RecordItems": keysAndItems };
 
-        for (var k = 0; k < keys.length; k++){
-            var keyAndItem = {"fieldName":keys[k], "value": aRecord[keys[k]]};
+        for (var k = 0; k < keys.length; k++) {
+            var keyAndItem = { "fieldName": keys[k], "value": aRecord[keys[k]] };
             keysAndItems.push(keyAndItem);
         }
         return newRecordItem;
     }
 
-    var clearCurrentPatientSession = function() {
+    var clearCurrentPatientSession = function () {
 
         patients.deleteCurrentPatient();
         subjectCharacteristic.deleteSubjectCharacteristics();
@@ -2078,15 +2468,14 @@ headerModule.controller('headerCtrl', function ($rootScope,
     }
 
     var deleteThisSubject = function () {
-        if (($scope.USUBJID !=null)&&($scope.USUBJID !=""))
-        {
+        if (($scope.USUBJID != null) && ($scope.USUBJID != "")) {
             var deletionProcess = records.deleteSubject($scope.USUBJID);
-            deletionProcess.then(function(result) {
-                if (result.result=='succeed') {
-                    alert ($scope.USUBJID + " has been deleted");
+            deletionProcess.then(function (result) {
+                if (result.result == 'succeed') {
+                    alert($scope.USUBJID + " has been deleted");
                 }
                 else {
-                    alert ($scope.USUBJID + " failed to delete");
+                    alert($scope.USUBJID + " failed to delete");
                 }
             });
         }
@@ -2095,11 +2484,11 @@ headerModule.controller('headerCtrl', function ($rootScope,
         }
     }
 
-    $scope.showEventsBar = function() {
-        if (($scope.contentOnDisplay == 'Patient') || ($scope.contentOnDisplay == 'Timeline'))  {
+    $scope.showEventsBar = function () {
+        if (($scope.contentOnDisplay == 'Patient') || ($scope.contentOnDisplay == 'Timeline')) {
             return false;
         }
-        else  {
+        else {
             return true;
         }
     }
@@ -2111,58 +2500,58 @@ headerModule.controller('headerCtrl', function ($rootScope,
         $scope.newEventDate = "";
         switch ($scope.contentOnDisplay) {
             case "Relapse":
-            {
-                $scope.setNewRelapseFields();  // set relapse fields to empty
-                $scope.clearRelapseSignFields();
-                $scope.clearRelapseSymptomFields();
-                viewService.setView("Relapse", true); // relapse view, disable input fields = true
+                {
+                    $scope.setNewRelapseFields();  // set relapse fields to empty
+                    $scope.clearRelapseSignFields();
+                    $scope.clearRelapseSymptomFields();
+                    viewService.setView("Relapse", true); // relapse view, disable input fields = true
 
-                break;
-            }
+                    break;
+                }
             case "Exposure":
-            {
-                $scope.setNewExposureFields();  // set relapse fields to empty
-                viewService.setView("Exposure", true);// relapse view, disable input fields = true
-                break;
-            }
+                {
+                    $scope.setNewExposureFields();  // set relapse fields to empty
+                    viewService.setView("Exposure", true);// relapse view, disable input fields = true
+                    break;
+                }
             case "Visit":
-            {
-                $scope.setNewVisitFields();
-                $scope.clearVisitSignFields();
-                $scope.clearVisitSymptomFields();
-                viewService.setView("Visit", true);
-                break;
-            }
+                {
+                    $scope.setNewVisitFields();
+                    $scope.clearVisitSignFields();
+                    $scope.clearVisitSymptomFields();
+                    viewService.setView("Visit", true);
+                    break;
+                }
             case "Patient":
-            {
-                viewService.setView("Patient", true);
-                break;
-            }
+                {
+                    viewService.setView("Patient", true);
+                    break;
+                }
             case "Timeline":
-            {
-                viewService.setView("Timeline", true);
-                break;
-            }
+                {
+                    viewService.setView("Timeline", true);
+                    break;
+                }
             case 'Test':
-            {
-                $scope.setNewResultFields();
-                viewService.setView('Test', true);
-                break;
-            }
+                {
+                    $scope.setNewResultFields();
+                    viewService.setView('Test', true);
+                    break;
+                }
             case 'Questionnaire':
-            {
-                $scope.setNewQuestionnaireFields();
-                viewService.setView('Questionnaire', true);
-                break;
-            }
-            default :
-            {
-                viewService.setView($scope.contentOnDisplay, true);
-            }
+                {
+                    $scope.setNewQuestionnaireFields();
+                    viewService.setView('Questionnaire', true);
+                    break;
+                }
+            default:
+                {
+                    viewService.setView($scope.contentOnDisplay, true);
+                }
         }
 
         var events = $scope.getEventDates();
-        if (events.length>0) {
+        if (events.length > 0) {
             var event = events[0];
             $scope.setSelected(event);
             $scope.selectEvent(event);
@@ -2175,15 +2564,15 @@ headerModule.controller('headerCtrl', function ($rootScope,
         return $scope.newEvent;
     }
 
-    $scope.disableChangesToDate = function() {
+    $scope.disableChangesToDate = function () {
         if ($scope.newEventDate != "")
             return true;
         return false;
     }
 
 
-    var isThisADate = function(ddmmyy) {
-        if ( Object.prototype.toString.call(ddmmyy) === "[object Date]" ) {
+    var isThisADate = function (ddmmyy) {
+        if (Object.prototype.toString.call(ddmmyy) === "[object Date]") {
             return true;
         }
         else {
@@ -2193,99 +2582,99 @@ headerModule.controller('headerCtrl', function ($rootScope,
     }
 
     $scope.setNewFormDate = function () {
-        $scope.newEvent=true;
+        $scope.newEvent = true;
 
         switch ($scope.contentOnDisplay) {
             case "Relapse":
-            {
-                var relapseDate = new Date($scope.newEventDate.substr(3), parseInt($scope.newEventDate.substr(0,2))-1, 1);
-                if (isThisADate(relapseDate)) {
-                    $scope.setNewRelapseDate($scope.newEventDate, relapseDate);
-                    viewService.setView("Relapse", false);
+                {
+                    var relapseDate = new Date($scope.newEventDate.substr(3), parseInt($scope.newEventDate.substr(0, 2)) - 1, 1);
+                    if (isThisADate(relapseDate)) {
+                        $scope.setNewRelapseDate($scope.newEventDate, relapseDate);
+                        viewService.setView("Relapse", false);
+                    }
+                    break;
                 }
-                break;
-            }
             case "Visit":
-            {
-                var SVSTDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3,2))-1, $scope.newEventDate.substr(0,2));
-                if (isThisADate(SVSTDTC)) {
-                    $scope.setNewVisitDate($scope.newEventDate, SVSTDTC);
-                    viewService.setView("Visit", false);
+                {
+                    var SVSTDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3, 2)) - 1, $scope.newEventDate.substr(0, 2));
+                    if (isThisADate(SVSTDTC)) {
+                        $scope.setNewVisitDate($scope.newEventDate, SVSTDTC);
+                        viewService.setView("Visit", false);
+                    }
+                    break;
                 }
-                break;
-            }
             case "Exposure":
-            {
-                var EXSTDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3,2))-1, $scope.newEventDate.substr(0,2));
-                if (isThisADate(EXSTDTC)) {
-                    $scope.setNewExposureStartDate($scope.newEventDate, EXSTDTC);
-                    viewService.setView("Exposure", false);
+                {
+                    var EXSTDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3, 2)) - 1, $scope.newEventDate.substr(0, 2));
+                    if (isThisADate(EXSTDTC)) {
+                        $scope.setNewExposureStartDate($scope.newEventDate, EXSTDTC);
+                        viewService.setView("Exposure", false);
+                    }
+                    break;
                 }
-                break;
-            }
             case 'Test':
-            {
-                var LBDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3,2))-1, $scope.newEventDate.substr(0,2));
-                if (isThisADate(LBDTC)) {
-                    $scope.setNewLabDate($scope.newEventDate, LBDTC);
-                    viewService.setView("Test", false);
+                {
+                    var LBDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3, 2)) - 1, $scope.newEventDate.substr(0, 2));
+                    if (isThisADate(LBDTC)) {
+                        $scope.setNewLabDate($scope.newEventDate, LBDTC);
+                        viewService.setView("Test", false);
+                    }
+                    break;
                 }
-                break;
-            }
             case 'Questionnaire':
-            {
-                viewService.setView('Questionnaire', false);
-                $scope.setNewQuestionnaireFields();
-                break;
-            }
-            default :
+                {
+                    viewService.setView('Questionnaire', false);
+                    $scope.setNewQuestionnaireFields();
+                    break;
+                }
+            default:
                 viewService.setView($scope.contentOnDisplay, false);
         }
     }
 
     $scope.setNewForm = function () {
-        $scope.newEvent=true;
+        $scope.newEvent = true;
         $scope.newEventDate = "";
         switch ($scope.contentOnDisplay) {
             case "Relapse":
-            {
-                clinicalEvents.setEvent([]);
-                viewService.setView("Relapse", true);// relapse view, disable input fields = false
-                $scope.setNewRelapseFields();  // set relapse fields to empty
-                $scope.clearRelapseSignFields();
-                $scope.clearRelapseSymptomFields();
-                break;
-            }
+                {
+                    clinicalEvents.setEvent([]);
+                    viewService.setView("Relapse", true);// relapse view, disable input fields = false
+                    $scope.setNewRelapseFields();  // set relapse fields to empty
+                    $scope.clearRelapseSignFields();
+                    $scope.clearRelapseSymptomFields();
+                    break;
+                }
             case "Visit":
-            {
-                viewService.setView("Visit", true);// relapse view, disable input fields = false
-                $scope.setNewVisitFields();  // set relapse fields to empty
-                $scope.clearVisitSignFields();
-                $scope.clearVisitSymptomFields();
-                break;
-            }
+                {
+                    viewService.setView("Visit", true);// relapse view, disable input fields = false
+                    $scope.setNewVisitFields();  // set relapse fields to empty
+                    $scope.clearVisitSignFields();
+                    $scope.clearVisitSymptomFields();
+                    break;
+                }
             case "Exposure":
-            {
-                viewService.setView("Exposure", true);// relapse view, disable input fields = false
-                $scope.setNewExposureFields();  // set relapse fields to empty
-                break;
-            }
+                {
+                    viewService.setView("Exposure", true);// relapse view, disable input fields = false
+                    $scope.setNewExposureFields();  // set relapse fields to empty
+                    break;
+                }
             case 'Test':
-            {
-                viewService.setView('Test', true);
-                $scope.setNewResultFields();
-                $scope.setNewCSFFields();
-                $scope.setTestIndexForLab($scope.testIndex);
-                $scope.setNewMRIFields();
-                break;
-            }
+                {
+                    viewService.setView('Test', true);
+                    $scope.setNewResultFields();
+                    $scope.setNewCSFFields();
+                    $scope.setTestIndexForLab($scope.testIndex);
+                    $scope.setNewMRIFields();
+                    break;
+                }
             case 'Questionnaire':
-            {
-                viewService.setView('Questionnaire', true);
-                $scope.setNewQuestionnaireFields();
-                break;
-            }
-            default :
+                {
+                    viewService.setView('Questionnaire', true);
+                    $scope.setNewQuestionnaireFields();
+                    break;
+                }
+            default:
                 viewService.setView($scope.contentOnDisplay, true);
         }
     }
@@ -2295,107 +2684,107 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
         switch ($scope.contentOnDisplay) {
             case "Relapse":
-            {
-                $scope.setNewRelapseDate(event.displayDate, event.CESTDTC);
-                clinicalEvents.setEvent(event);
-                viewService.setView("Relapse", false);
-                $scope.displayRelapse();    // this is in the relapse controller
-                $scope.displayRelapseSymptoms();
-                $scope.displayRelapseSigns();
-                break;
-            }
-            case "Medical Event":
-            {
-                if (event.DOMAIN == "CE")
+                {
+                    $scope.setNewRelapseDate(event.displayDate, event.CESTDTC);
                     clinicalEvents.setEvent(event);
-
-                if (event.DOMAIN == "AE")
-                    adverseEventService.setEvent(event);
-
-                viewService.setView("Medical Event", false);
-                $scope.displayEvent(event.DOMAIN);    // this is in the relapse controller
-                break;
-            }
-            case "Visit":
-            {
-                subjectVisits.setCurrentVisit(event);
-                //$scope.setNewVisitDate(event.displayDate, event.SVSTDTC);
-                viewService.setView("Visit", false);// disable = false;
-                $scope.displayVisit();
-                $scope.displayVisitSymptoms();
-                $scope.displayVisitSigns();
-                $scope.generateLetter();
-                break;
-            }
-            case "Exposure":
-            {
-                //console.log("displaying current event");
-                $scope.setNewExposureStartDate(event.displayDate, event.EXSTDTC);
-                exposures.setCurrentExposure(event);
-                viewService.setView("Exposure", false);// disable = false;
-                $scope.displayExposure();
-                break;
-            }
-            case 'Test':
-            {
-                switch (event.DOMAIN) {
-                    case 'IS': {
-                        $scope.setTestIndex('Laboratory Tests');
-                        laboratoryTestResults.setCurrentCollectionDate(event);
-                        immunogenicitySpecimenAssessments.setCurrentCollectionDate(event);
-                        break;
-                    };
-                    case 'LB': {
-                        $scope.setTestIndex('Laboratory Tests');
-                        laboratoryTestResults.setCurrentCollectionDate(event);
-                        immunogenicitySpecimenAssessments.setCurrentCollectionDate(event);
-                        break;
-                    };
-                    case 'NV': {
-                        nervousSystemFindings.setCurrentCollectionDate(event);
-                        $scope.setTestIndex('Evoked Potential');
-                        break;
-                    };
-                    case 'PR': {
-                        procedures.setCurrentProcedure(event);
-                        if (event.PRTRT == 'MRI')
-                            $scope.setTestIndex('Magnetic Resonance Imaging');
-
-                        if (event.PRTRT == 'Lumbar Puncture')
-                            $scope.setTestIndex('Cerebrospinal Fluid');
-                        break;
-                    };
-
-                };
-                viewService.setView('Test', false);// disable = false;
-                $scope.displayResults(event.DOMAIN);
-                break;
-            }
-            case 'Questionnaire':
-            {
-                switch (event.QSCAT) {
-                    case 'PDDS': {
-                        questionnaires.setCurrentQuestionnaire(event,'PDDS');
-                        $scope.setQuestionnaireIndex('PDDS');
-                        break;
-                    }
-                    case 'VAS': {
-                        questionnaires.setCurrentQuestionnaire(event,'VAS');
-                        $scope.setQuestionnaireIndex('VAS');
-                        break;
-                    }
-                    case 'MSQOL-54': {
-
-                        questionnaires.setCurrentQuestionnaire(event,'MSQOL-54');
-                        $scope.setQuestionnaireIndex('MSQOL-54');
-                        break;
-                    }
+                    viewService.setView("Relapse", false);
+                    $scope.displayRelapse();    // this is in the relapse controller
+                    $scope.displayRelapseSymptoms();
+                    $scope.displayRelapseSigns();
+                    break;
                 }
-                viewService.setView('Questionnaire', false);// disable = false;
-                $scope.displayQuestionnaireResults();
-                break;
-            }
-            default :
+            case "Medical Event":
+                {
+                    if (event.DOMAIN == "CE")
+                        clinicalEvents.setEvent(event);
+
+                    if (event.DOMAIN == "AE")
+                        adverseEventService.setEvent(event);
+
+                    viewService.setView("Medical Event", false);
+                    $scope.displayEvent(event.DOMAIN);    // this is in the relapse controller
+                    break;
+                }
+            case "Visit":
+                {
+                    subjectVisits.setCurrentVisit(event);
+                    //$scope.setNewVisitDate(event.displayDate, event.SVSTDTC);
+                    viewService.setView("Visit", false);// disable = false;
+                    $scope.displayVisit();
+                    $scope.displayVisitSymptoms();
+                    $scope.displayVisitSigns();
+                    $scope.generateLetter();
+                    break;
+                }
+            case "Exposure":
+                {
+                    //console.log("displaying current event");
+                    $scope.setNewExposureStartDate(event.displayDate, event.EXSTDTC);
+                    exposures.setCurrentExposure(event);
+                    viewService.setView("Exposure", false);// disable = false;
+                    $scope.displayExposure();
+                    break;
+                }
+            case 'Test':
+                {
+                    switch (event.DOMAIN) {
+                        case 'IS': {
+                            $scope.setTestIndex('Laboratory Tests');
+                            laboratoryTestResults.setCurrentCollectionDate(event);
+                            immunogenicitySpecimenAssessments.setCurrentCollectionDate(event);
+                            break;
+                        };
+                        case 'LB': {
+                            $scope.setTestIndex('Laboratory Tests');
+                            laboratoryTestResults.setCurrentCollectionDate(event);
+                            immunogenicitySpecimenAssessments.setCurrentCollectionDate(event);
+                            break;
+                        };
+                        case 'NV': {
+                            nervousSystemFindings.setCurrentCollectionDate(event);
+                            $scope.setTestIndex('Evoked Potential');
+                            break;
+                        };
+                        case 'PR': {
+                            procedures.setCurrentProcedure(event);
+                            if (event.PRTRT == 'MRI')
+                                $scope.setTestIndex('Magnetic Resonance Imaging');
+
+                            if (event.PRTRT == 'Lumbar Puncture')
+                                $scope.setTestIndex('Cerebrospinal Fluid');
+                            break;
+                        };
+
+                    };
+                    viewService.setView('Test', false);// disable = false;
+                    $scope.displayResults(event.DOMAIN);
+                    break;
+                }
+            case 'Questionnaire':
+                {
+                    switch (event.QSCAT) {
+                        case 'PDDS': {
+                            questionnaires.setCurrentQuestionnaire(event, 'PDDS');
+                            $scope.setQuestionnaireIndex('PDDS');
+                            break;
+                        }
+                        case 'VAS': {
+                            questionnaires.setCurrentQuestionnaire(event, 'VAS');
+                            $scope.setQuestionnaireIndex('VAS');
+                            break;
+                        }
+                        case 'MSQOL-54': {
+
+                            questionnaires.setCurrentQuestionnaire(event, 'MSQOL-54');
+                            $scope.setQuestionnaireIndex('MSQOL-54');
+                            break;
+                        }
+                    }
+                    viewService.setView('Questionnaire', false);// disable = false;
+                    $scope.displayQuestionnaireResults();
+                    break;
+                }
+            default:
                 ;
         }
     }
@@ -2405,183 +2794,183 @@ headerModule.controller('headerCtrl', function ($rootScope,
         $scope.newEventDate = "";
         switch ($scope.contentOnDisplay) {
             case "Relapse":
-            {
-                var symptomsToDeleted = clinicalEvents.getEventsByCatGroupID('Symptom', event.CEGRPID);
-                for (var e = 0; e < symptomsToDeleted.length; e++) {
-                    clinicalEvents.deleteEvent(symptomsToDeleted[e]);
-                }
+                {
+                    var symptomsToDeleted = clinicalEvents.getEventsByCatGroupID('Symptom', event.CEGRPID);
+                    for (var e = 0; e < symptomsToDeleted.length; e++) {
+                        clinicalEvents.deleteEvent(symptomsToDeleted[e]);
+                    }
 
-                var signsToDeleted = clinicalEvents.getEventsByCatGroupID('Sign', event.CEGRPID);
-                for (var e = 0; e < signsToDeleted.length; e++) {
-                    clinicalEvents.deleteEvent(signsToDeleted[e]);
-                }
+                    var signsToDeleted = clinicalEvents.getEventsByCatGroupID('Sign', event.CEGRPID);
+                    for (var e = 0; e < signsToDeleted.length; e++) {
+                        clinicalEvents.deleteEvent(signsToDeleted[e]);
+                    }
 
-                var eventsSelectedForDeletion = clinicalEvents.getEventsByCatTermAndGroupID('MS Relapse', event.CETERM, event.CEGRPID);
-                for (var e = 0; e < eventsSelectedForDeletion.length; e++) {
-                    clinicalEvents.deleteEvent(eventsSelectedForDeletion[e]);
-                }
+                    var eventsSelectedForDeletion = clinicalEvents.getEventsByCatTermAndGroupID('MS Relapse', event.CETERM, event.CEGRPID);
+                    for (var e = 0; e < eventsSelectedForDeletion.length; e++) {
+                        clinicalEvents.deleteEvent(eventsSelectedForDeletion[e]);
+                    }
 
-                var findingsSelectedForDeletion = findingsAbout.getFindingsByLNKID(event.CELNKID);
-                for (var e = 0; e < findingsSelectedForDeletion.length; e++) {
-                    findingsAbout.deleteFinding(findingsSelectedForDeletion[e]);
-                }
+                    var findingsSelectedForDeletion = findingsAbout.getFindingsByLNKID(event.CELNKID);
+                    for (var e = 0; e < findingsSelectedForDeletion.length; e++) {
+                        findingsAbout.deleteFinding(findingsSelectedForDeletion[e]);
+                    }
 
-                $scope.setNewRelapseFields();
-                $scope.clearRelapseSignFields();
-                $scope.clearRelapseSymptomFields();
-                viewService.setView('Relapse', true); // set to disable
-                break;
-            }
+                    $scope.setNewRelapseFields();
+                    $scope.clearRelapseSignFields();
+                    $scope.clearRelapseSymptomFields();
+                    viewService.setView('Relapse', true); // set to disable
+                    break;
+                }
             case "Visit":
-            {
-                var visitsSelectedForDeletion = subjectVisits.getVisitByDate(event.SVSTDTC);
-                for (var v = 0; v < visitsSelectedForDeletion.length; v++) {
-                    subjectVisits.deleteVisit(visitsSelectedForDeletion[v]);
-                }
-
-                var symptomsSelectedForDeletion = clinicalEvents.getEventsByDate(event.SVSTDTC);
-                for (var v = 0; v < symptomsSelectedForDeletion.length; v++) {
-                    if ((symptomsSelectedForDeletion[v].CEGRPID == -1) &&
-                        ((symptomsSelectedForDeletion[v].CECAT == "Symptom") ||
-                        (symptomsSelectedForDeletion[v].CECAT == "Sign")))
-                        clinicalEvents.deleteEvent(symptomsSelectedForDeletion[v]);
-                }
-
-                var questionsForDeletion = questionnaires.getQuestionsByCatOnDate('EDSS', event.SVSTDTC)
-                for (var q = 0; q < questionsForDeletion.length; q++) {
-                    questionnaires.deleteQuestion(questionsForDeletion[q]);
-                }
-
-                var questionsForDeletion = questionnaires.getQuestionsByCatOnDate('EDMUS', event.SVSTDTC)
-                for (var q = 0; q < questionsForDeletion.length; q++) {
-                    questionnaires.deleteQuestion(questionsForDeletion[q]);
-                }
-
-                var proceduresForDeletion = procedures.getVisitProceduresByDate(event.SVSTDTC);
-                for (var p = 0; p < proceduresForDeletion.length; p++) {
-                    var findingsForDeletion = findingsAbout.getFindingsByLNKID(proceduresForDeletion[0].PRLNKID);
-
-                    for (var f = 0; f < findingsForDeletion.length; f++) {
-                        var relationshipsForDeletion = relationships.getRelationshipByIDVARVAL(findingsForDeletion[f].FALNKID);
-                        for (var r = 0; r < relationshipsForDeletion.length; r++) {
-                            relationships.deleteRelationship(relationshipsForDeletion[r]);
-                        }
-                        findingsAbout.deleteFinding(findingsForDeletion[f]);
+                {
+                    var visitsSelectedForDeletion = subjectVisits.getVisitByDate(event.SVSTDTC);
+                    for (var v = 0; v < visitsSelectedForDeletion.length; v++) {
+                        subjectVisits.deleteVisit(visitsSelectedForDeletion[v]);
                     }
-                    procedures.deleteProcedure(proceduresForDeletion[p]);
+
+                    var symptomsSelectedForDeletion = clinicalEvents.getEventsByDate(event.SVSTDTC);
+                    for (var v = 0; v < symptomsSelectedForDeletion.length; v++) {
+                        if ((symptomsSelectedForDeletion[v].CEGRPID == -1) &&
+                            ((symptomsSelectedForDeletion[v].CECAT == "Symptom") ||
+                                (symptomsSelectedForDeletion[v].CECAT == "Sign")))
+                            clinicalEvents.deleteEvent(symptomsSelectedForDeletion[v]);
+                    }
+
+                    var questionsForDeletion = questionnaires.getQuestionsByCatOnDate('EDSS', event.SVSTDTC)
+                    for (var q = 0; q < questionsForDeletion.length; q++) {
+                        questionnaires.deleteQuestion(questionsForDeletion[q]);
+                    }
+
+                    var questionsForDeletion = questionnaires.getQuestionsByCatOnDate('EDMUS', event.SVSTDTC)
+                    for (var q = 0; q < questionsForDeletion.length; q++) {
+                        questionnaires.deleteQuestion(questionsForDeletion[q]);
+                    }
+
+                    var proceduresForDeletion = procedures.getVisitProceduresByDate(event.SVSTDTC);
+                    for (var p = 0; p < proceduresForDeletion.length; p++) {
+                        var findingsForDeletion = findingsAbout.getFindingsByLNKID(proceduresForDeletion[0].PRLNKID);
+
+                        for (var f = 0; f < findingsForDeletion.length; f++) {
+                            var relationshipsForDeletion = relationships.getRelationshipByIDVARVAL(findingsForDeletion[f].FALNKID);
+                            for (var r = 0; r < relationshipsForDeletion.length; r++) {
+                                relationships.deleteRelationship(relationshipsForDeletion[r]);
+                            }
+                            findingsAbout.deleteFinding(findingsForDeletion[f]);
+                        }
+                        procedures.deleteProcedure(proceduresForDeletion[p]);
+                    }
+
+                    var vitalsForDeletion = vitalSigns.getSignsByDate(event.SVSTDTC);
+                    for (var p = 0; p < vitalsForDeletion.length; p++) {
+                        vitalSigns.deleteVitalSign(vitalsForDeletion[p]);
+                    }
+
+                    $rootScope.setNewVisitFields();
+                    $scope.clearVisitSignFields();
+                    $scope.clearVisitSymptomFields();
+                    viewService.setView('Visit', true); // set to disable
+
+                    break;
                 }
-
-                var vitalsForDeletion = vitalSigns.getSignsByDate(event.SVSTDTC);
-                for (var p = 0; p < vitalsForDeletion.length; p++) {
-                    vitalSigns.deleteVitalSign(vitalsForDeletion[p]);
-                }
-
-                $rootScope.setNewVisitFields();
-                $scope.clearVisitSignFields();
-                $scope.clearVisitSymptomFields();
-                viewService.setView('Visit', true); // set to disable
-
-                break;
-            }
             case "Exposure":
-            {
-                var exposuresSelectedForDeletion = exposures.getExposure(event.EXTRT);
-                //console.log(event.EXTRT);
-                //console.log(exposuresSelectedForDeletion);
-                for (var v = 0; v < exposuresSelectedForDeletion.length; v++) {
-                    exposures.deleteExposure(exposuresSelectedForDeletion[v]);
+                {
+                    var exposuresSelectedForDeletion = exposures.getExposure(event.EXTRT);
+                    //console.log(event.EXTRT);
+                    //console.log(exposuresSelectedForDeletion);
+                    for (var v = 0; v < exposuresSelectedForDeletion.length; v++) {
+                        exposures.deleteExposure(exposuresSelectedForDeletion[v]);
+                    }
+                    exposures.deleteInterruptions(event.EXTRT);
+                    $rootScope.setNewExposureFields();
+                    viewService.setView('Exposure', true); // set to disable
+                    break;
                 }
-                exposures.deleteInterruptions(event.EXTRT);
-                $rootScope.setNewExposureFields();
-                viewService.setView('Exposure', true); // set to disable
-                break;
-            }
             case 'Test':
-            {
-                var collectionDate = '';
+                {
+                    var collectionDate = '';
 
-                if (event.DOMAIN == "NV"){
-                    collectionDate = event.NVDTC;
-                    var findingsSelectedForDeletion = nervousSystemFindings.getAssessmentByDate(collectionDate);
+                    if (event.DOMAIN == "NV") {
+                        collectionDate = event.NVDTC;
+                        var findingsSelectedForDeletion = nervousSystemFindings.getAssessmentByDate(collectionDate);
 
-                    for (var v = 0; v < findingsSelectedForDeletion.length; v++) {
-                        nervousSystemFindings.deleteFinding(findingsSelectedForDeletion[v]);
-                        nervousSystemFindings.printNSFindings();
+                        for (var v = 0; v < findingsSelectedForDeletion.length; v++) {
+                            nervousSystemFindings.deleteFinding(findingsSelectedForDeletion[v]);
+                            nervousSystemFindings.printNSFindings();
+                        }
                     }
+                    else if (event.DOMAIN == "PR") {
+                        collectionDate = event.PRSTDTC;
+                        if (event.PRTRT == 'MRI') {
+                            var proceedingsSelectedForDeletion = procedures.getImagingProceduresByDate(collectionDate);
+                            for (var v = 0; v < proceedingsSelectedForDeletion.length; v++) {
+                                procedures.deleteProcedure(proceedingsSelectedForDeletion[v]);
+                            }
+                            var morphologyFindingsForDeletion = morphologyServices.getFindingsByDate(collectionDate);
+                            for (var f = 0; f < morphologyFindingsForDeletion.length; f++) {
+                                morphologyServices.deleteMorphologicalFinding(morphologyFindingsForDeletion[f]);
+                            }
+
+                            var devicesForDeletion = deviceInUseServices.getDeviceInUseByTest(collectionDate, 'Weighting');
+                            for (var f = 0; f < devicesForDeletion.length; f++) {
+                                deviceInUseServices.deleteDeviceInUse(devicesForDeletion[f]);
+                            }
+                        }
+                        else if (event.PRTRT == "Lumbar Puncture") {
+                            var proceedingsSelectedForDeletion = procedures.getProcedureByTRTAndDate("Lumbar Puncture", collectionDate);
+                            for (var v = 0; v < proceedingsSelectedForDeletion.length; v++) {
+                                procedures.deleteProcedure(proceedingsSelectedForDeletion[v]);
+                            }
+                            var testsSelectedForDeletion = laboratoryTestResults.getTestResultBySpecAndDate(collectionDate, 'CSF');
+                            for (var v = 0; v < testsSelectedForDeletion.length; v++) {
+                                laboratoryTestResults.deleteResult(testsSelectedForDeletion[v]);
+                                laboratoryTestResults.printLabTestResults();
+                            }
+                            var scansSelectedForDeletion = deviceInUseServices.getScansByDate(collectionDate);
+                            for (var v = 0; v < scansSelectedForDeletion.length; v++) {
+                                deviceInUseServices.deleteDeviceInUse(scansSelectedForDeletion[v]);
+                                deviceInUseServices.print();
+                            }
+                        }
+                    }
+                    else {
+                        if (event.DOMAIN == "LB")
+                            collectionDate = event.LBDTC;
+                        else
+                            collectionDate = event.ISDTC;
+
+                        var testResultsSelectedForDeletion = laboratoryTestResults.getTestResultByDate(collectionDate);
+                        for (var v = 0; v < testResultsSelectedForDeletion.length; v++) {
+                            if (testResultsSelectedForDeletion[v].LBSPEC != 'CSF') {
+                                laboratoryTestResults.deleteResult(testResultsSelectedForDeletion[v]);
+                                laboratoryTestResults.printLabTestResults();
+                            }
+                        }
+
+                        var assessmentsSelectedForDeletion = immunogenicitySpecimenAssessments.getAssessmentByDate(collectionDate);
+                        for (var v = 0; v < assessmentsSelectedForDeletion.length; v++) {
+                            immunogenicitySpecimenAssessments.deleteResult(assessmentsSelectedForDeletion[v]);
+                            immunogenicitySpecimenAssessments.printISAs();
+                        }
+                    }
+
+                    viewService.setView('Test', false);
+                    $scope.setNewResultFields();
+                    $scope.setNewCSFFields();
+                    $scope.setNewMRIFields();
+
+                    break;
                 }
-                else if (event.DOMAIN == "PR"){
-                    collectionDate = event.PRSTDTC;
-                    if (event.PRTRT == 'MRI'){
-                        var proceedingsSelectedForDeletion = procedures.getImagingProceduresByDate(collectionDate);
-                        for (var v = 0; v < proceedingsSelectedForDeletion.length; v++) {
-                            procedures.deleteProcedure(proceedingsSelectedForDeletion[v]);
-                        }
-                        var morphologyFindingsForDeletion = morphologyServices.getFindingsByDate(collectionDate);
-                        for (var f = 0; f < morphologyFindingsForDeletion.length; f++) {
-                            morphologyServices.deleteMorphologicalFinding(morphologyFindingsForDeletion[f]);
-                        }
-
-                        var devicesForDeletion = deviceInUseServices.getDeviceInUseByTest(collectionDate, 'Weighting');
-                        for (var f = 0; f < devicesForDeletion.length; f++) {
-                            deviceInUseServices.deleteDeviceInUse(devicesForDeletion[f]);
-                        }
-                    }
-                    else if (event.PRTRT == "Lumbar Puncture") {
-                        var proceedingsSelectedForDeletion = procedures.getProcedureByTRTAndDate("Lumbar Puncture", collectionDate);
-                        for (var v = 0; v < proceedingsSelectedForDeletion.length; v++) {
-                            procedures.deleteProcedure(proceedingsSelectedForDeletion[v]);
-                        }
-                        var testsSelectedForDeletion = laboratoryTestResults.getTestResultBySpecAndDate(collectionDate, 'CSF');
-                        for (var v = 0; v < testsSelectedForDeletion.length; v++) {
-                            laboratoryTestResults.deleteResult(testsSelectedForDeletion[v]);
-                            laboratoryTestResults.printLabTestResults();
-                        }
-                        var scansSelectedForDeletion = deviceInUseServices.getScansByDate(collectionDate);
-                        for (var v = 0; v < scansSelectedForDeletion.length; v++) {
-                            deviceInUseServices.deleteDeviceInUse(scansSelectedForDeletion[v]);
-                            deviceInUseServices.print();
-                        }
-                    }
-                }
-                else {
-                    if (event.DOMAIN == "LB")
-                        collectionDate = event.LBDTC;
-                    else
-                        collectionDate = event.ISDTC;
-
-                    var testResultsSelectedForDeletion = laboratoryTestResults.getTestResultByDate(collectionDate);
-                    for (var v = 0; v < testResultsSelectedForDeletion.length; v++) {
-                        if (testResultsSelectedForDeletion[v].LBSPEC != 'CSF'){
-                            laboratoryTestResults.deleteResult(testResultsSelectedForDeletion[v]);
-                            laboratoryTestResults.printLabTestResults();
-                        }
-                    }
-
-                    var assessmentsSelectedForDeletion = immunogenicitySpecimenAssessments.getAssessmentByDate(collectionDate);
-                    for (var v = 0; v < assessmentsSelectedForDeletion.length; v++) {
-                        immunogenicitySpecimenAssessments.deleteResult(assessmentsSelectedForDeletion[v]);
-                        immunogenicitySpecimenAssessments.printISAs();
-                    }
-                }
-
-                viewService.setView('Test', false);
-                $scope.setNewResultFields();
-                $scope.setNewCSFFields();
-                $scope.setNewMRIFields();
-
-                break;
-            }
             case 'Questionnaire':
-            {
-                var questionsSelectedForDeletion = questionnaires.getQuestionsByCatOnDate(event.QSCAT, event.QSDTC);
-                for (var v = 0; v < questionsSelectedForDeletion.length; v++) {
-                    questionnaires.deleteQuestion(questionsSelectedForDeletion[v]);
+                {
+                    var questionsSelectedForDeletion = questionnaires.getQuestionsByCatOnDate(event.QSCAT, event.QSDTC);
+                    for (var v = 0; v < questionsSelectedForDeletion.length; v++) {
+                        questionnaires.deleteQuestion(questionsSelectedForDeletion[v]);
+                    }
+                    $rootScope.setNewQuestionnaireFields();
+                    viewService.setView('Questionnaire', true); // set to disable
+                    break;
                 }
-                $rootScope.setNewQuestionnaireFields();
-                viewService.setView('Questionnaire', true); // set to disable
-                break;
-            }
-            default :
+            default:
                 ;
         }
     }
@@ -2592,8 +2981,8 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
     $scope.getNumEvents = function () {    // used to show number of visits on header badge
         return clinicalEvents.getUniqueDatesFromCategory('Other').
-                concat(adverseEventService.getAdverseEvents()).
-                length;
+            concat(adverseEventService.getAdverseEvents()).
+            length;
     }
 
     $scope.getNumVisits = function () {    // used to show number of visits on header badge
@@ -2608,24 +2997,24 @@ headerModule.controller('headerCtrl', function ($rootScope,
         return questionnaires.getUniqueDates().length;
     }
 
-    $scope.getNumLab = function() {
+    $scope.getNumLab = function () {
         var labResults = laboratoryTestResults.getUniqueDates();
         var assessmentResults = immunogenicitySpecimenAssessments.getUniqueDates();
         var labCollectionDates = findUniqueCollectionDates(labResults, assessmentResults);
         return labCollectionDates.length;
     }
 
-    $scope.getNumMRI = function() {
+    $scope.getNumMRI = function () {
         var mriExperiments = procedures.getProcedureDates('MRI');
         return mriExperiments.length;
     }
 
-    $scope.getNumVEP = function() {
+    $scope.getNumVEP = function () {
         var evokedPotentialFindings = nervousSystemFindings.getUniqueDates();
         return evokedPotentialFindings.length;
     }
 
-    $scope.getNumCSF = function() {
+    $scope.getNumCSF = function () {
         var csfTests = procedures.getProcedureDates('Lumbar Puncture');
         return csfTests.length;
     }
@@ -2662,67 +3051,67 @@ headerModule.controller('headerCtrl', function ($rootScope,
         //return viewService.getView().Dates;
         switch ($scope.contentOnDisplay) {
             case "Relapse":
-            {
-                //var foo = clinicalEvents.getUniqueGroupsFromCategory('MS Relapse');
-                return clinicalEvents.getUniqueGroupsFromCategory('MS Relapse');
-                //break;
-            }
+                {
+                    //var foo = clinicalEvents.getUniqueGroupsFromCategory('MS Relapse');
+                    return clinicalEvents.getUniqueGroupsFromCategory('MS Relapse');
+                    //break;
+                }
             case "Visit":
-            {
-                return subjectVisits.getUniqueDates();
-                //break;
-            }
+                {
+                    return subjectVisits.getUniqueDates();
+                    //break;
+                }
             case "Exposure":
-            {
-                return exposures.getUniqueExposures();
-                //break;
-            }
+                {
+                    return exposures.getUniqueExposures();
+                    //break;
+                }
             case "Medical Event":
-            {
-                return (clinicalEvents.getUniqueDatesFromCategory('Other').concat(adverseEventService.getAdverseEvents()));
-            }
+                {
+                    return (clinicalEvents.getUniqueDatesFromCategory('Other').concat(adverseEventService.getAdverseEvents()));
+                }
             case 'Test':
-            {
-                //console.log($scope.testIndex);
-                switch ($scope.testIndex) {
-                    case 'Laboratory Tests': {
-                        var labResults = laboratoryTestResults.getUniqueDates();
-                        var assessmentResults = immunogenicitySpecimenAssessments.getUniqueDates();
-                        var labCollectionDates = findUniqueCollectionDates(labResults, assessmentResults);
-                        return  labCollectionDates;
-                    }
-                    case 'Evoked Potential': {
-                        return nervousSystemFindings.getUniqueDates();
-                    }
-                    case 'Magnetic Resonance Imaging': {
-                        return procedures.getProcedureDates('MRI');
-                    }
-                    case 'Cerebrospinal Fluid': {
-                        return procedures.getProcedureDates('Lumbar Puncture');
+                {
+                    //console.log($scope.testIndex);
+                    switch ($scope.testIndex) {
+                        case 'Laboratory Tests': {
+                            var labResults = laboratoryTestResults.getUniqueDates();
+                            var assessmentResults = immunogenicitySpecimenAssessments.getUniqueDates();
+                            var labCollectionDates = findUniqueCollectionDates(labResults, assessmentResults);
+                            return labCollectionDates;
+                        }
+                        case 'Evoked Potential': {
+                            return nervousSystemFindings.getUniqueDates();
+                        }
+                        case 'Magnetic Resonance Imaging': {
+                            return procedures.getProcedureDates('MRI');
+                        }
+                        case 'Cerebrospinal Fluid': {
+                            return procedures.getProcedureDates('Lumbar Puncture');
+                        }
                     }
                 }
-            }
             case 'Questionnaire':
-            {
-                return questionnaires.getUniqueDates();
-            }
+                {
+                    return questionnaires.getUniqueDates();
+                }
             default:
-            {
-                return [];
-            }
+                {
+                    return [];
+                }
         }
     }
 
     var findUniqueCollectionDates = function (labResults, assessmentResults) {
         var uniqueDates = [];
         for (var l = 0; l < labResults.length; l++) {
-            if (collectionDateExists(uniqueDates, labResults[l].LBDTC)==false) {
+            if (collectionDateExists(uniqueDates, labResults[l].LBDTC) == false) {
                 uniqueDates.push(labResults[l]);
             }
         }
 
         for (var a = 0; a < assessmentResults.length; a++) {
-            if (collectionDateExists(uniqueDates, assessmentResults[a].ISDTC)==false) {
+            if (collectionDateExists(uniqueDates, assessmentResults[a].ISDTC) == false) {
                 uniqueDates.push(assessmentResults[a]);
             }
         }
@@ -2757,19 +3146,18 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
     $scope.isSelected = function (event, numEvents) {
 
-        if (!$scope.newEvent){
+        if (!$scope.newEvent) {
             // if user has not selected an event
-            if (($scope.seqSelectedEvent == null)&&($scope.domainSelectedVote == null)){
+            if (($scope.seqSelectedEvent == null) && ($scope.domainSelectedVote == null)) {
                 // if this is most recent event
                 //console.log(getSeqValue(event, event.DOMAIN));
-                if (getSeqValue(event, event.DOMAIN)==(numEvents-1)) {
+                if (getSeqValue(event, event.DOMAIN) == (numEvents - 1)) {
                     //console.log("is selected");
                     //console.log(event);
                     $scope.selectEvent(event); // tmp taken out?
                     return true;
                 }
-                else
-                {
+                else {
                     return false;
                 }
 
@@ -2803,70 +3191,70 @@ headerModule.controller('headerCtrl', function ($rootScope,
         var seqFieldName = '';
         switch (DOMAIN) {
             case 'QS':
-            {
-                seqFieldName = event.QSSEQ;
-                break;
-            }
+                {
+                    seqFieldName = event.QSSEQ;
+                    break;
+                }
             case 'SV':
-            {
-                seqFieldName = event.VISITNUM;
-                break;
-            }
+                {
+                    seqFieldName = event.VISITNUM;
+                    break;
+                }
             case 'FA':
-            {
-                seqFieldName = event.FASEQ;
-                break;
-            }
+                {
+                    seqFieldName = event.FASEQ;
+                    break;
+                }
             case 'CE':
-            {
-                seqFieldName = event.CESEQ;
-                break;
-            }
+                {
+                    seqFieldName = event.CESEQ;
+                    break;
+                }
             case 'PR':
-            {
-                seqFieldName = event.PRSEQ;
-                break;
-            }
+                {
+                    seqFieldName = event.PRSEQ;
+                    break;
+                }
             case 'EX':
-            {
-                seqFieldName = event.EXSEQ;
-                break;
-            }
+                {
+                    seqFieldName = event.EXSEQ;
+                    break;
+                }
             case 'REL':
-            {
-                seqFieldName = event.RELID;
-                break;
-            }
+                {
+                    seqFieldName = event.RELID;
+                    break;
+                }
             case 'DM':
-            {
-                seqFieldName = event.USUBJID;
-                break;
-            }
+                {
+                    seqFieldName = event.USUBJID;
+                    break;
+                }
             case 'LB':
-            {
-                seqFieldName = event.LBSEQ;
-                break;
-            }
+                {
+                    seqFieldName = event.LBSEQ;
+                    break;
+                }
             case 'IS':
-            {
-                seqFieldName = event.ISSEQ;
-                break;
-            }
+                {
+                    seqFieldName = event.ISSEQ;
+                    break;
+                }
             case 'NV':
-            {
-                seqFieldName = event.NVSEQ;
-                break;
-            }
+                {
+                    seqFieldName = event.NVSEQ;
+                    break;
+                }
             case 'VS':
-            {
-                seqFieldName = event.VSSEQ;
-                break;
-            }
+                {
+                    seqFieldName = event.VSSEQ;
+                    break;
+                }
             case 'APMH':
-            {
-                seqFieldName = event.APMHSEQ;
-                break;
-            }
+                {
+                    seqFieldName = event.APMHSEQ;
+                    break;
+                }
         }
         ;
         return seqFieldName;
@@ -2883,7 +3271,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
             $scope.setEventUSUBJID($scope.USUBJID);
             $scope.setExposureUSUBJID($scope.USUBJID);
             $scope.setLabUSUBJID($scope.USUBJID);
-            $scope.setMRIUSUBJID($scope.USUBJID, ($scope.authenticatedStatus=="Logged In")&&($scope.sourceMode=="internet"));
+            $scope.setMRIUSUBJID($scope.USUBJID, ($scope.authenticatedStatus == "Logged In") && ($scope.sourceMode == "internet"));
             //$scope.setMRIUSUBJID($scope.USUBJID, $scope.sourceMode=='internet');
             $scope.setMRIUSUBJID($scope.USUBJID, false);
             $scope.setVisitUSUBJID($scope.USUBJID);
@@ -2909,19 +3297,19 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
     }
 
-//    $scope.hideDOD = function () {
-//        if ($scope.fileActive != null) {
-//            if ($scope.fileActive) // file is active, therefore hide this field
-//                return true;
-//        }
-//        else
-//            return false;
-//    }
+    //    $scope.hideDOD = function () {
+    //        if ($scope.fileActive != null) {
+    //            if ($scope.fileActive) // file is active, therefore hide this field
+    //                return true;
+    //        }
+    //        else
+    //            return false;
+    //    }
 
     $scope.toggleTimeline = function (dataToToggle) {
 
         if ($scope.toggleTimelineData)
-            $scope.toggleTimelineData(dataToToggle) ;
+            $scope.toggleTimelineData(dataToToggle);
     }
 
     $scope.showTreatments = true;
@@ -2936,39 +3324,39 @@ headerModule.controller('headerCtrl', function ($rootScope,
     $scope.showPDDS = false;
     $scope.testIndex = "";
     $scope.testIndex = "";
-    $scope.contentOnDisplay='Patient';
+    $scope.contentOnDisplay = 'Patient';
 
-    $scope.$watch("showTreatments", function(newValue, oldValue) {
-      $scope.toggleTimeline('Treatments');
+    $scope.$watch("showTreatments", function (newValue, oldValue) {
+        $scope.toggleTimeline('Treatments');
     });
 
-    $scope.$watch("showVisits", function(newValue, oldValue) {
-      $scope.toggleTimeline('Visits');
+    $scope.$watch("showVisits", function (newValue, oldValue) {
+        $scope.toggleTimeline('Visits');
     });
 
-    $scope.$watch("showTests", function(newValue, oldValue) {
-      $scope.toggleTimeline('Monitoring');
+    $scope.$watch("showTests", function (newValue, oldValue) {
+        $scope.toggleTimeline('Monitoring');
     });
 
-    $scope.$watch("showRelapses", function(newValue, oldValue) {
-      $scope.toggleTimeline('Relapses');
+    $scope.$watch("showRelapses", function (newValue, oldValue) {
+        $scope.toggleTimeline('Relapses');
     });
 
-    $scope.$watch("showEDSS", function(newValue, oldValue) {
-      $scope.toggleTimeline('EDSS');
+    $scope.$watch("showEDSS", function (newValue, oldValue) {
+        $scope.toggleTimeline('EDSS');
     });
 
-    $scope.$watch("showMSQOL", function(newValue, oldValue) {
-      $scope.toggleTimeline('MSQOL');
+    $scope.$watch("showMSQOL", function (newValue, oldValue) {
+        $scope.toggleTimeline('MSQOL');
     });
 
-    $scope.setTestIndexForLab = function(type) {
+    $scope.setTestIndexForLab = function (type) {
         $scope.testIndex = type;
         $scope.setTestIndex(type);
     }
 
-    $scope.isActiveTest = function(test) {
-        if (test==$scope.testIndex) {
+    $scope.isActiveTest = function (test) {
+        if (test == $scope.testIndex) {
             //console.log($scope.testIndex + " vs " +test+ " :active");
             return true;
         }
@@ -2977,7 +3365,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
             return false;
     }
 
-    $scope.isActiveContent = function(content) {
+    $scope.isActiveContent = function (content) {
         if ($scope.contentOnDisplay == content) {
             return true;
         }
@@ -2985,7 +3373,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
             return false;
     }
 
-    $scope.openAppointments = function() {
+    $scope.openAppointments = function () {
         var modalInstance = $uibModal.open({
             templateUrl: 'appointments.html',
             controller: 'appointmentsCtrl',
@@ -2994,22 +3382,22 @@ headerModule.controller('headerCtrl', function ($rootScope,
                     return $scope.sourceMode;
                 }
             }
-            });
+        });
 
-        modalInstance.result.then(function() {
+        modalInstance.result.then(function () {
             console.log("ok");
-        }, function() {
+        }, function () {
             console.log("cancelled")
         })
     }
 
-    var populateReminders = function() {
+    var populateReminders = function () {
         if ($scope.sourceMode == 'internet') {
             var reminderForPatient = records.getReminder(patients.getCurrentPatient().USUBJID);
-            reminderForPatient.then(function(reminderData) {
-                if ((reminderData.RecordSet != null)&&(reminderData.RecordSet.length >0)) {
+            reminderForPatient.then(function (reminderData) {
+                if ((reminderData.RecordSet != null) && (reminderData.RecordSet.length > 0)) {
                     //console.log(reminderData.RecordSet[0]);
-                    for (var rm = 0; rm < reminderData.RecordSet.length; rm ++) {
+                    for (var rm = 0; rm < reminderData.RecordSet.length; rm++) {
                         reminders.populateReminder(reminderData.RecordSet[rm]);
                     }
                     $scope.displayReminder();
@@ -3032,19 +3420,19 @@ headerModule.controller('headerCtrl', function ($rootScope,
         });
 
         modalInstance.result.then(function (selectionData) {
-            if (selectionData.actionMode == 'Load'){
+            if (selectionData.actionMode == 'Load') {
                 $scope.USUBJID = selectionData.USUBJID;
                 console.log($scope.USUBJID);
 
-                if ($scope.sourceMode=='internet') {
-                    if (selectionData.recordSet.length >0 ) {
+                if ($scope.sourceMode == 'internet') {
+                    if (selectionData.recordSet.length > 0) {
                         populateFromDB(selectionData.recordSet);
                         populateReminders();
                     }
                 }
-                else if ($scope.sourceMode=='computer') {
+                else if ($scope.sourceMode == 'computer') {
                     //if (selectionData.recordSet.length >0 ) {
-                        populateFromScriptedFile(selectionData.recordSet);
+                    populateFromScriptedFile(selectionData.recordSet);
                     //}
                 };
             }
@@ -3055,7 +3443,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
         });
     };
 
-    
+
     $scope.openSearch = function () {
         clearCurrentPatientSession();
 
@@ -3070,19 +3458,19 @@ headerModule.controller('headerCtrl', function ($rootScope,
         });
 
         modalInstance.result.then(function (selectionData) {
-            if (selectionData.actionMode == 'Load'){
+            if (selectionData.actionMode == 'Load') {
                 $scope.USUBJID = selectionData.USUBJID;
                 console.log($scope.USUBJID);
 
-                if ($scope.sourceMode=='internet') {
-                    if (selectionData.recordSet.length >0 ) {
+                if ($scope.sourceMode == 'internet') {
+                    if (selectionData.recordSet.length > 0) {
                         populateFromDB(selectionData.recordSet);
                         populateReminders();
                     }
                 }
-                else if ($scope.sourceMode=='computer') {
+                else if ($scope.sourceMode == 'computer') {
                     //if (selectionData.recordSet.length >0 ) {
-                        populateFromScriptedFile(selectionData.recordSet);
+                    populateFromScriptedFile(selectionData.recordSet);
                     //}
                 };
             }
