@@ -10,6 +10,10 @@
     margin: 0;
 }
 
+.search-field-criteria div {
+    height: 30px;
+}
+
 .center {
     position: absolute;
     width: 80%;
@@ -38,7 +42,6 @@ div.panel-heading.myPanel{
 
 
 h2 {
-    float: left;
     line-height: 0.1;
     color: #002670;
     display:inline;
@@ -547,8 +550,6 @@ div.modal.fade.ng-isolate-scope.image-modal-window.in {
 }
 
 #imageDOM {
-    width2:979px;
-    height2:629px;
     width:979px;
     height:520px;
     display:block;
