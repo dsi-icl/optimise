@@ -136,7 +136,7 @@ pageslide {
 }
 
 
-@media all and (max-width:950px){
+@media all and (max-width:900px){
     #events {
         height:calc(100vh - 181px);
     }
@@ -167,7 +167,7 @@ pageslide {
     height: 53px;
 }
 
-@media all and (max-width:950px){
+@media all and (max-width:900px){
     #navigation {
         height: 106px;
     }
@@ -180,7 +180,7 @@ pageslide {
     float:left;
 }
 
-@media all and (max-width:950px){
+@media all and (max-width:900px){
     #section {
         height:calc(100vh - 181px);
     }

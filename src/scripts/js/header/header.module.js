@@ -647,6 +647,8 @@ headerModule.controller('appointmentsCtrl', function ($scope, $uibModalInstance,
             appointmentsAPICall.then(function (data) {
                 //console.log(data);
                 var reminders = data.Reminders;
+                if (reminders == null)
+                    return;
                 var subjectIDs = Object.keys(reminders);
 
                 for (var s = 0; s < subjectIDs.length; s++) {
@@ -1115,23 +1117,22 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
 
     $scope.criteria = {};
     $scope.criteriaCount = 0;
+    $scope.criteriaFiltered
 
     var filterPatientList = function () {
 
-        var dataset = $.extend(true, {}, $scope.flatRecords);
+        $scope.criteriaFiltered = $.extend(true, {}, $scope.flatRecords);
         var shouldKeeps = $('.search-field-criteria').find('input, textarea, select').map((i, e) => $(e).data('shouldKeep'))
 
-        console.log('dataset before', dataset)
         $.each(shouldKeeps, function (i, shouldKeep) {
-            Object.keys(dataset).forEach(function (key) {
-                if (!shouldKeep(dataset[key]))
-                    delete dataset[key];
+            Object.keys($scope.criteriaFiltered).forEach(function (key) {
+                if (!shouldKeep($scope.criteriaFiltered[key]))
+                    delete $scope.criteriaFiltered[key];
             })
         });
-        console.log('dataset after', dataset)
 
         var dmData = []
-        Object.keys(dataset).forEach(function (key) {
+        Object.keys($scope.criteriaFiltered).forEach(function (key) {
             var row = { opt_id: key, nhs_id: 'nhs_id' };
             dmData.push(row);
         });
@@ -1147,15 +1148,23 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
 
     var renderCriteria = function () {
 
+        var criteriaTerrain = $('.search-field-criteria');
         var orderedCriteria = [];
         Object.keys($scope.criteria).forEach(function (key) {
             orderedCriteria[$scope.criteria[key].order] = $scope.criteria[key]
         });
-        $('.search-field-criteria').empty();
+
+        criteriaTerrain.find('div').each(function (i, element) {
+            if (orderedCriteria[$(element).attr('data-order')] == undefined)
+                $(element).remove();
+        })
+
         $.each(orderedCriteria, function (i, criterion) {
             if (criterion == undefined)
                 return;
-            var criterionBox = $('<div>')
+            if (criteriaTerrain.find('div[data-order=' + criterion.order + ']').length > 0)
+                return;
+            var criterionBox = $('<div>').attr('data-order', criterion.order);
             criterionBox.append($('<span>').text(criterion.name));
             switch ($scope.fieldsList[criterion.id].type) {
                 case "Categorical":
@@ -1181,7 +1190,23 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
                     criterionBox.append(optionSet);
                 break;
                 case "String":
-                // TO-DO make text
+                    var inputField = $('<input>');
+                    inputField.data({
+                        'fieldID': criterion.id,
+                        'shouldKeep': function (patientRecord) {
+                            var ret = false;
+                            Object.keys(patientRecord).forEach(function (domain) {
+                                $.each(patientRecord[domain], function (i, record) {
+                                    if (record.hasOwnProperty(inputField.data('fieldID'))) {
+                                        if (record[inputField.data('fieldID')].includes(inputField.val()))
+                                            ret = true
+                                    }
+                                })
+                            });
+                            return ret;
+                        }
+                    });
+                    criterionBox.append(inputField);
                 break;
                 case "Date":
                 // TO-DO make datepicker
@@ -1194,10 +1219,12 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
                 delete $scope.criteria[criterion.id];
                 renderCriteria();
             }))
-            $('.search-field-criteria').append(criterionBox);
+            criteriaTerrain.append(criterionBox);
         })
 
-        $('.search-field-criteria').find('input, textarea, select').change(function () {
+        criteriaTerrain.find('input, textarea, select').on('change', function () {
+            filterPatientList();
+        }).on('keyup', function () {
             filterPatientList();
         });
 
@@ -1215,6 +1242,16 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
     
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
+    };
+    
+    var saveJSON = function (text, fileID) {
+        var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+        var url = fileID + '.json';
+        saveAs(blob, url);
+    };
+    
+    $scope.export = function () {
+        saveJSON(JSON.stringify($scope.criteriaFiltered));
     };
 
     $uibModalInstance.rendered.then(function () {
@@ -1269,12 +1306,10 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
     $scope.data = [];
 
     $scope.ok = function () {
-        console.log('$scope.ok')
         $uibModalInstance.close($scope.selectionData);
     };
 
     var findSubject = function (identifier) {
-        console.log(sourceMode);
         // if (sourceMode == 'computer') {
         //     var Records = localStorage.getItem(identifier);
         //     if (Records != null) {
@@ -1303,7 +1338,6 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
     }
 
     $scope.loadSubjectData = function (identifier) {
-        console.log('PLOP', identifier)
         $scope.selectionData.actionMode = 'Load';
         findSubject(identifier);
     }

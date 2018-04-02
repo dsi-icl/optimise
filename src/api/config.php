@@ -2,6 +2,7 @@
 
 include_once("constants.php");
 
+date_default_timezone_set('Europe/London');
 define("destinationURL",'');
 
 //error_reporting(0);
