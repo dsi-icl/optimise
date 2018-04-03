@@ -750,7 +750,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         format: "dd/mm/yyyy",
         endDate: currentDate.getFullYear().toString(),
         startView: 1,
-        orientation: "auto",
+        orientation: "top left",
         autoclose: true,
         todayHighlight: true
     });
@@ -761,7 +761,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         endDate: currentDate.getFullYear().toString(),
         startView: 2,
         minViewMode: 1,
-        orientation: "auto",
+        orientation: "top left",
         autoclose: true,
         todayHighlight: true
     });
@@ -773,7 +773,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             endDate: currentDate.getFullYear().toString(),
             startView: 2,
             minViewMode: 2,
-            orientation: "auto",
+            orientation: "top left",
             autoclose: true,
             todayHighlight: true
         });

@@ -425,7 +425,7 @@ reminderModule.controller('reminderInfoCtrl', function($scope,
             format: "dd/mm/yyyy",
             endDate: currentDate.getFullYear().toString(),
             startView: 1,
-            orientation: "auto",
+            orientation: "top left",
             autoclose: true,
             todayHighlight: true
         });
