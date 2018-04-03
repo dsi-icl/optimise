@@ -124,7 +124,7 @@
           <!--<li role="presentation"><a href="#" ng-class="{active: 'Test')" role="tab" data-toggle="tab" ng-click="contentOnDisplay='Test'; setContent();">Tests <span class="badge">{{getNumCollections()}}</span></a></li>  </li>-->
         </ul>
       </div>
-      <div id="events" class="container-fluid">
+      <div id="events" class="container-fluid" ng-hide="isActiveContent('Patient')">
         <div class="eventStatus" ng-show="showEventsBar()">
           <div class="row" ng-show="enableNewDate()&&(contentOnDisplay=='Relapse')">
             <div class="col-sm-12">
@@ -390,33 +390,33 @@
             </script>
         </div>
         <div class="selectStatus" ng-show="('Timeline'== contentOnDisplay)">
-          <div class="doubleMarginTop">
+          <div>
             <input id="btnInTreat" type="checkbox" ng-model="showTreatments">
             <label for="btnInTreat" class="control-label">Treatments</label>
           </div>
-          <div class="doubleMarginTop">
+          <div>
             <input id="btnInVisits" type="checkbox" ng-model="showVisits">
             <label for="btnInVisits" class="control-label">Visits</label>
           </div>
-          <div class="doubleMarginTop">
+          <div>
             <input id="btnInTests" type="checkbox" ng-model="showTests">
             <label for="btnInTests" class="control-label">Monitoring</label>
           </div>
-          <div class="doubleMarginTop">
+          <div>
             <input id="btnInRelapses" type="checkbox" ng-model="showRelapses">
             <label for="btnInRelapses" class="control-label">Relapses</label>
           </div>
-          <div class="doubleMarginTop">
+          <div>
             <input id="btnInEDSS" type="checkbox" ng-model="showEDSS">
             <label for="btnInEDSS" class="control-label">EDSS</label>
           </div>
-          <div class="doubleMarginTop">
+          <div>
             <input id="btnInMSQOL" type="checkbox" ng-model="showMSQOL">
             <label for="btnInMSQOL" class="control-label">MSQOL</label>
           </div>
         </div>
       </div>
-      <div id="section" class="container">
+      <div id="section" class="container" ng-class="{extend: isActiveContent('Patient')}">
         <div timeline-entry ng-controller="timelineCtrl" ng-show="showThisContent()">
         </div>
         <!-- Patient -->
@@ -443,6 +443,7 @@
         <!--Communication -->
         <div reminder-entry ng-controller="reminderInfoCtrl" ng-show="showThisContent()">
         </div>
+        <div id="nopatientcover" ng-hide="thereIsAPatient()">Select or create a patient to continue !</div>
       </div>
     </div>
   </div>

@@ -1587,7 +1587,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
     dayMonthYear.datepicker({
         format: "dd/mm/yyyy",
         startView: 1,
-        orientation: "auto",
+        orientation: "top left",
         autoclose: true,
         todayHighlight: true,
         endDate: today.getFullYear().toString()
@@ -1596,7 +1596,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
     var monthYear = angular.element(document.querySelector('#events input.input-group.DTC_MonthYear'));
     monthYear.datepicker({
         format: "mm/yyyy",
-        orientation: "auto",
+        orientation: "top left",
         minViewMode: 1,
         startView: 1,
         autoclose: true,
@@ -3479,7 +3479,6 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
 
     $scope.openSearch = function () {
-        clearCurrentPatientSession();
 
         var modalInstance = $uibModal.open({
             templateUrl: 'search.html',
@@ -3493,6 +3492,8 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
         modalInstance.result.then(function (selectionData) {
             if (selectionData.actionMode == 'Load') {
+                
+                clearCurrentPatientSession();
                 $scope.USUBJID = selectionData.USUBJID;
                 console.log($scope.USUBJID);
 
@@ -3507,8 +3508,9 @@ headerModule.controller('headerCtrl', function ($rootScope,
                     populateFromScriptedFile(selectionData.recordSet);
                     //}
                 };
+                $scope.contentOnDisplay='Patient';
+                $scope.setContent();
             }
-
 
         }, function () {
             console.log("Cancelled");

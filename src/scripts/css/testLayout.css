@@ -136,7 +136,7 @@ pageslide {
 }
 
 
-@media all and (max-width:900px){
+@media all and (max-width:860px){
     #events {
         height:calc(100vh - 181px);
     }
@@ -146,8 +146,6 @@ pageslide {
 #eventsTable>thead>tr>th{
     padding-top: 10px;
     padding-bottom: 10px;
-    height: 47px;
-    font-size: 125%;
     font-variant: small-caps;
 }
 
@@ -167,22 +165,47 @@ pageslide {
     height: 53px;
 }
 
-@media all and (max-width:900px){
+@media all and (max-width:860px){
     #navigation {
         height: 106px;
     }
 }
 
 #section {
+    position: relative;
+    overflow: auto;
     width: 80%;
     height:calc(100vh - 128px);
     background-color: white;
     float:left;
 }
 
-@media all and (max-width:900px){
+#section.extend {
+    width: 100%;
+}
+
+@media all and (max-width:860px){
     #section {
         height:calc(100vh - 181px);
+    }
+}
+
+#nopatientcover {
+    z-index: 100000;
+    position: absolute;
+    top: 53px;
+    left: 0;
+    width: 100%;
+    height:calc(100vh - 128px);
+    background-color: white;
+    text-align: center;
+    font-size: 16px;
+    padding-top: 10%;
+}
+
+@media all and (max-width:860px){
+    #nopatientcover {
+        top: 106px;
     }
 }
 
@@ -191,10 +214,8 @@ pageslide {
 /*}*/
 
 .selectStatus {
+    padding-top: 10px;
     padding-left: 5%;
-    padding-right: 0%;
-    padding-bottom: 2%;
-    height:100%;
 }
 
 .selectStatus .btn {
@@ -425,10 +446,10 @@ pageslide {
 }
 
 #myTimeline {
-    padding-left: 1vh;
-    padding-right: 1vh;
-    padding-bottom: 1vh;
-    height:85vh;
+    height: calc(100vh - 168px);
+    background-color: whitesmoke;
+    width: calc(100% - 30px);
+    position: absolute;
     background-color: whitesmoke;
 }
 
