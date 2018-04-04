@@ -193,7 +193,7 @@ pageslide {
 #nopatientcover {
     z-index: 100000;
     position: absolute;
-    top: 53px;
+    top: 0;
     left: 0;
     width: 100%;
     height:calc(100vh - 128px);
@@ -201,12 +201,6 @@ pageslide {
     text-align: center;
     font-size: 16px;
     padding-top: 10%;
-}
-
-@media all and (max-width:860px){
-    #nopatientcover {
-        top: 106px;
-    }
 }
 
 /*#section>.container{*/
