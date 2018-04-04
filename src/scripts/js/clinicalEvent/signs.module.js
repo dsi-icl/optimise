@@ -49,6 +49,7 @@ signsModule.factory('signVocab', function() {
     signTerms['cranial.trigeminalNeuralgia']={CETERM: 'Trigeminal neuralgia', CEBODSYS:''};
     signTerms['cranial.facialHypoesthesia']={CETERM: 'Facial hypoesthesia', CEBODSYS:'Face'};
     signTerms['cranial.atypicalFacialPain']={CETERM: 'Atypical facial pain', CEBODSYS:'Face'};
+    signTerms['cranial.nystagmus']={CETERM: 'Nystagmus', CEBODSYS:'Face'};
     signTerms['cranial.trigeminalPalsy']={CETERM: 'Trigeminal palsy', CEBODSYS:''};
     signTerms['cranial.hearingLoss']={CETERM: 'Hearing loss', CEBODSYS:''};
 
