@@ -880,6 +880,12 @@
                                         uib-btn-checkbox>
                                     Bladder incontinence
                                 </button>
+                                <button type="button" class="btn btn-default"
+                                        ng-class='{inactive: !autonomic.bladderHesitancy}' ng-model="autonomic.bladderHesitancy"
+                                        ng-change='editSymptom("autonomic.bladderHesitancy")'
+                                        uib-btn-checkbox>
+                                    Bladder hesitancy
+                                </button>
                             </div>
 
                             <div class="btn-group" >

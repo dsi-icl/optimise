@@ -91,6 +91,13 @@
                                 Atypical facial pain
                             </button>
 
+                            <button type="button" class="btn btn-success"
+                                    ng-class='{inactive: !cranial.nystagmus}' ng-model="cranial.nystagmus"
+                                    ng-change='editSign("cranial.nystagmus")'
+                                    uib-btn-checkbox>
+                                Nystagmus
+                            </button>
+
                         </div>
                     </div>
 

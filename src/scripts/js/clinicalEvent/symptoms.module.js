@@ -72,6 +72,7 @@ symptomsModule.factory('symptomVocab', function() {
     symptomTerms['autonomic.bladderUrgency']={CETERM: 'Bladder urgency', CEBODSYS:''};
     symptomTerms['autonomic.bladderFrequency']={CETERM: 'Bladder frequency', CEBODSYS:''};
     symptomTerms['autonomic.bladderIncontinence']={CETERM: 'Bladder incontinence', CEBODSYS:''};
+    symptomTerms['autonomic.bladderHesitancy']={CETERM: 'Bladder hesitancy', CEBODSYS:''};
     symptomTerms['autonomic.constipation']={CETERM: 'Constipation', CEBODSYS:''};
     symptomTerms['autonomic.bowelIncontinence']={CETERM: 'Bowel incontinence', CEBODSYS:''};
     symptomTerms['autonomic.sexualFunction']={CETERM: 'Problems with sexual function', CEBODSYS:''};
