@@ -61,7 +61,7 @@
     </div>
     <div id="mainContent" ng-show='authenticatedStatus == "Logged In"'>
       <div id="navigation" class="container-fluid">
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs" role="tablist" ng-hide="!thereIsAPatient()">
           <li role="presentation" class="active" ng-class="{active: isActiveContent('Patient')}">
             <a href="#" role="tab" data-toggle="tab" ng-click="contentOnDisplay='Patient'; setContent();">Profile</a>
           </li>
