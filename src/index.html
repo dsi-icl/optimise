@@ -195,7 +195,7 @@
                     <div  class="btn-group" role="group">
                       <!-- <button type="button" class="btn btn-default" ng-class="{active: actionMode=='New'}" ng-click="actionMode='New'; generateUSUBJID()"><span class="glyphicon glyphicon-folder-open">New</span></button>
                       <button type="button" class="btn btn-default" ng-class="{active: actionMode=='Load'}" ng-click="actionMode='Load';"><span class="glyphicon glyphicon-search">Find</span></button> -->
-                      <button type="button" class="btn btn-default" ng-class="{active: actionMode=='New'}" ng-click="actionMode='New'; generateUSUBJID()">New</button>
+                      <button type="button" class="btn btn-default" ng-class="{active: actionMode=='New'}" ng-click="actionMode='New'; generateUSUBJID()" ng-hide="true">New</button>
                       <button type="button" class="btn btn-default" ng-class="{active: actionMode=='Load'}" ng-click="actionMode='Load';" ng-hide="true">Find</button>
                     </div>
                   </div>
@@ -242,13 +242,15 @@
                       </div>
                     </div>
                     <div class="row doubleMarginTop">
+                      <label class="control-label">Does the patient give consent for their data to be shared?</label>
                       <div class="form-group marginTop">
-                        <div  class="btn-group" role="group">
-                          <button type="button"
-                          class="btn btn-default"
+                        <div class="btn-group" role="group">
+                          <button type="button" class="btn btn-default" 
                           ng-class="{active: consentGiven==true}"
-                          ng-click="consentGiven=true;">Yes to Share</button>
-                          <button type="button" class="btn btn-default" ng-class="{active: consentGiven==false}" ng-click="consentGiven=false;">No to Share</button>
+                          ng-click="consentGiven=true;">Yes</button>
+                          <button type="button" class="btn btn-default" 
+                          ng-class="{active: consentGiven==false}" 
+                          ng-click="consentGiven=false;">No</button>
                         </div>
                       </div>
                     </div>
