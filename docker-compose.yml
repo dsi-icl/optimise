@@ -14,7 +14,7 @@ services:
     image: mongo:latest
     container_name: "database"
     volumes:
-      - ./runtime/mongo:/data/db
+      - ./runtime/:/data/db
     restart: always
     command: mongod --smallfiles # --quiet
     ports:
