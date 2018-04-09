@@ -356,6 +356,9 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
                 uniqueGroups.push(events[d]);
             }
         }
+        uniqueGroups.sort(function(a,b){
+            return new Date(b.CESTDTC) - new Date(a.CESTDTC);
+        });
         return uniqueGroups;
     }
 
