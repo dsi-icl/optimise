@@ -198,6 +198,9 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
                 uniqueDates.push(subjectVisits[v]);
             }
         }
+        uniqueDates.sort(function(a,b) {
+            return b.SVSTDTC - a.SVSTDTC;
+        });
         return uniqueDates;
     }
 
