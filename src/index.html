@@ -125,7 +125,7 @@
         </ul>
       </div>
       <div id="events" class="container-fluid" ng-hide="isActiveContent('Patient')">
-        <div class="eventStatus" ng-show="showEventsBar()">
+        <div class="eventStatus" ng-show="showEventsBar()" ng-hide="!thereIsAPatient()">
           <div class="row" ng-show="enableNewDate()&&(contentOnDisplay=='Relapse')">
             <div class="col-sm-12">
               <div class="input-group">
