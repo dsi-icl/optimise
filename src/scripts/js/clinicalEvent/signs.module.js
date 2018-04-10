@@ -73,6 +73,9 @@ signsModule.factory('signVocab', function() {
     signTerms['motor.tendonReflex.hyporeflexia.ankle.right']={CETERM: 'Hyporeflexia', CEBODSYS:'Ankle', CELAT:'right'};
     signTerms['motor.tendonReflex.hyporeflexia.ankle.left']={CETERM: 'Hyporeflexia', CEBODSYS:'Ankle', CELAT:'left'};
 
+    signTerms['motor.tendonReflex.plantarResponse.left']={CETERM: 'Plantar Response', CEBODSYS:'Lower Limbs', CELAT:'left'};
+    signTerms['motor.tendonReflex.plantarResponse.right']={CETERM: 'Plantar Response', CEBODSYS:'Lower Limbs', CELAT:'right'};    
+
     signTerms['motor.tremor.postural.upper']={CETERM: 'Postural Tremor', CEBODSYS:'Upper Limbs'};
     signTerms['motor.tremor.intention.upper']={CETERM: 'Intention Tremor', CEBODSYS:'Upper Limbs'};
 
