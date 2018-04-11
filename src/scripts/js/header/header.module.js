@@ -37,6 +37,7 @@ var headerModule = angular.module('Optimise.header', ['Optimise.view',
 headerModule.factory('Country', function () {
     return function () {
         return [
+            "Unknown",
             "UNITED KINGDOM",
             "UNITED STATES",
             "ARUBA",
@@ -1468,8 +1469,7 @@ headerModule.controller('depositoryCtrl', function ($scope, $uibModalInstance, s
                                         else if (RecordItem[i].fieldName == 'RFICDTC') {
                                             rficdtc = RecordItem[i].value;
                                         }
-
-                                    }
+                                    }                                    
                                     var row = { opt_id: opt_id, nhs_id: nhs_id, age: age, sex: sex, rficdtc: rficdtc, selected: false };
                                     dmData.push(row);
                                 }
