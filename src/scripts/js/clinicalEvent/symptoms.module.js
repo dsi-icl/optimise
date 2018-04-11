@@ -31,6 +31,7 @@ symptomsModule.factory('symptomVocab', function() {
     symptomTerms['higherFunction.seizure']={CETERM: 'Seizure', CEBODSYS:''};
 
     symptomTerms['cranial.blurredVision']={CETERM: 'Blurred vision', CEBODSYS:''};
+    symptomTerms['cranial.doubleVision']={CETERM: 'Double vision', CEBODSYS:''};
     symptomTerms['cranial.greying']={CETERM: 'Greying of vision in one eye', CEBODSYS:''};
     symptomTerms['cranial.fieldDefect']={CETERM: 'Field defect', CEBODSYS:''};
     symptomTerms['cranial.blindness']={CETERM: 'Blindness', CEBODSYS:''};
