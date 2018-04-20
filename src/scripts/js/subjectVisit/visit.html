@@ -192,6 +192,7 @@
           </div>
         </div>
       </div>
+
       <div class="row doubleMarginTop">
         <div class="col-sm-6">
           <div class='form-group'>
@@ -217,8 +218,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div class="col-sm-6">
           <div class="input-group">
             <span class="input-group-addon">2. Left</span>
@@ -238,45 +237,75 @@
           </div>
         </div>
       </div>
+
+      <div class="row doubleMarginTop">
+        <div class="col-sm-6">
+        <div class='form-group'>
+          <label class='control-label'>Low Contrast Letter Acuity</label>
+          <div class="input-group">
+            <span class="input-group-addon">Left</span>
+            <select class="form-control" ng-model="lowContrastVisualAcuityLeft"
+            ng-change="addProcedure('Low Contrast Visual Acuity')"
+            ng-disabled="getDisabledFields()" >
+            <option>200</option>
+            <option>160</option>
+            <option>125</option>
+            <option>100</option>
+            <option>80</option>
+            <option>63</option>
+            <option>50</option>
+            <option>40</option>
+            <option>32</option>
+            <option>25</option>
+            <option>16</option>
+            <option>12.5</option>
+            <option>10</option>
+          </select>
+          <span class="input-group-addon">20/</span>
+        </div>
+        </div>
+        </div>
+        <div class="col-sm-6">
+        <div class='form-group'>
+        <label class='control-label'>Low Contrast Letter Acuity</label>
+        <div class="input-group">
+          <span class="input-group-addon">Right</span>
+          <select class="form-control" ng-model="lowContrastVisualAcuityRight"
+          ng-change="addProcedure('Low Contrast Visual Acuity')"
+          ng-disabled="getDisabledFields()" >
+          <option>200</option>
+          <option>160</option>
+          <option>125</option>
+          <option>100</option>
+          <option>80</option>
+          <option>63</option>
+          <option>50</option>
+          <option>40</option>
+          <option>32</option>
+          <option>25</option>
+          <option>16</option>
+          <option>12.5</option>
+          <option>10</option>
+        </select>
+        <span class="input-group-addon">20/</span>
+        </div>
+        </div>
+        </div>
+      </div>
       <div class="row doubleMarginTop">
         <div class="col-sm-6">
           <div class='form-group'>
             <label class='control-label'>Symbol Digit Modality Test</label>
             <div class="input-group">
-              <span class="input-group-addon">1.</span>
-              <input type="text"  class="form-control" ng-model="symbolDigitModality"
+              <span class="input-group-addon">1. </span>
+              <input type="number"  class="form-control" min="0" max="110" style="width: 13em"
+              ng-model="symbolDigitModality"
               ng-change="addProcedure('Symbol Digit Modality Test')"
-              ng-disabled="getDisabledFields()" >
-              <span class="input-group-addon">seconds</span>
+              ng-disabled="getDisabledFields()" placeholder="Total raw score">
             </div>
           </div>
         </div>
-        <div class="col-sm-6">
-          <div class='form-group'>
-            <label class='control-label'>Low Contrast Letter Acuity</label>
-            <div class="input-group">
-              <select class="form-control" ng-model="lowContrastVisualAcuityLeft"
-              ng-change="addProcedure('Low Contrast Visual Acuity')"
-              ng-disabled="getDisabledFields()" >
-              <option>200</option>
-              <option>160</option>
-              <option>125</option>
-              <option>100</option>
-              <option>80</option>
-              <option>63</option>
-              <option>50</option>
-              <option>40</option>
-              <option>32</option>
-              <option>25</option>
-              <option>16</option>
-              <option>12.5</option>
-              <option>10</option>
-            </select>
-            <span class="input-group-addon">20/</span>
-          </div>
-        </div>
       </div>
-    </div>
   </div>
 </div>
 </div>

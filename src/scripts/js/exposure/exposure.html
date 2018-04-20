@@ -12,16 +12,22 @@
                 <div class="btn-group" role="group">
                   <!--ng-init="EXCAT='Disease Modifying'">-->
                   <button type="button"
-                  class="btn btn-info"
-                  ng-disabled="getDisabledFields()"
-                  ng-class="{inactive: EXCAT!='Disease Modifying'}"
-                  ng-click="EXCAT='Disease Modifying'; addDoseProperty('EXCAT')">Disease Modifying</button>
-                  <button type="button" class="btn btn-info" ng-disabled="getDisabledFields()"
-                  ng-class="{inactive: EXCAT!='Symptomatic'}"
-                  ng-click="EXCAT='Symptomatic'; addDoseProperty('EXCAT')">Symptomatic</button>
-                  <button type="button" class="btn btn-info" ng-disabled="getDisabledFields()"
-                  ng-class="{inactive: EXCAT!='Comorbidity'}"
-                  ng-click="EXCAT='Other'; addDoseProperty('EXCAT')">Other</button>
+                    class="btn btn-info"
+                    ng-disabled="getDisabledFields()"
+                    ng-class="{inactive: EXCAT!='Disease Modifying'}"
+                    ng-click="EXCAT='Disease Modifying'; addDoseProperty('EXCAT')">Disease Modifying</button>
+
+                  <button type="button" 
+                    class="btn btn-info" 
+                    ng-disabled="getDisabledFields()"
+                    ng-class="{inactive: EXCAT!='Symptomatic'}"
+                    ng-click="EXCAT='Symptomatic'; addDoseProperty('EXCAT')">Symptomatic</button>
+
+                  <button type="button" 
+                    class="btn btn-info"
+                    ng-disabled="getDisabledFields()"
+                    ng-class="{inactive: EXCAT!='Other'}"
+                    ng-click="EXCAT='Other'; addDoseProperty('EXCAT')">Other</button>
                 </div>
               </div>
             </div>

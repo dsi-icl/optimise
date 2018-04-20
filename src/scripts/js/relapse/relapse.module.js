@@ -63,9 +63,10 @@ relapseModule.controller('relapseInfoCtrl', function ($rootScope,
         clearFields();
     };
 
+    // get duration in weeks
     var getDuration = function (CESTDTC, CEENDTC) {
         var days = (CEENDTC-CESTDTC)/(1000*60*60*24);
-        return days/7;
+        return Math.ceil(days/7);
     }
 
     var thisADate = function(ddmmyy) {
@@ -270,7 +271,7 @@ relapseModule.controller('relapseInfoCtrl', function ($rootScope,
     var generateCEENDTC = function(CESTDTC) {
         var today = CESTDTC;
         var tomorrow = new Date(today);
-        var durationInDays = Math.ceil($scope.duration*7);
+        var durationInDays = $scope.duration*7;
         tomorrow.setDate(today.getDate()+durationInDays);
         return tomorrow;
     }

@@ -90,12 +90,12 @@ interventionModule.factory('DrugFactory', function () {
     posology:[{dose:'500', unit:'mg', form:'IV', frequency:'1/ Day'},
     {dose:'1000', unit:'mg', form:'IV', frequency:'1/ Day'}]},
 
-    {name: 'Neuropsych. Training', cat: 'Others',
+    {name: 'Neuropsych. Training', cat: 'Other',
     posology:[{dose:'', unit:'', form:'', frequency:''}]},
-    {name: 'Physiotherapy', cat: 'Others',
+    {name: 'Physiotherapy', cat: 'Other',
     posology:[{dose:'', unit:'', form:'', frequency:''}]},
-    {name: 'Cognitive Therapy', cat: 'Others',
-    posology:[{dose:'', unit:'', form:'', frequency:''}]}
+    {name: 'Cognitive Therapy', cat: 'Other',
+    posology:[{dose:'', unit:'', form:'', frequency:''}]},
 
 
   ];
