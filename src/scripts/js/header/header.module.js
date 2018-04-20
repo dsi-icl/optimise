@@ -429,40 +429,73 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
         return "Not Found";
     }
 
+    $scope.submitForm = function() {
+
+        $scope.checkIfIDExists();
+
+    };    
+
     $scope.checkIfIDExists = function () {
-        var lengthToStartSearch = 0;
-        lengthToStartSearch = 12;
 
-        if ($scope.NHS_USUBJID.length >= lengthToStartSearch) {
-            if (sourceMode == 'computer') {
-
-                var subjectList = localStorage.getItem('NHS_OPT_Map');
-                if (subjectList != null) {
-                    subjectList = JSON.parse(subjectList);
-                    for (var s = 0; s < subjectList.length; s++) {
-                        if (subjectList[s].NHS_USUBJID == $scope.NHS_USUBJID) {
-                            alert("This subject already exists");
-                            $scope.NHS_USUBJID = '';
-                            return;
-                        }
+        if (sourceMode == 'internet') {
+            var nhsList = records.getNHSIDList();
+            nhsList.then(function (data) {
+                if (data.NHS_USUBJID != null) {
+                    if ($scope.NHS_USUBJID in data.NHS_USUBJID) {
+                        $scope.NHS_USUBJID = '';
+                        alert("ID already exists. Please enter a different ID.");               
+                    } else {
+                        $scope.ok();
                     }
                 }
-            }
-            else if (sourceMode == 'internet') {
-                var nhsList = records.getNHSIDList();
-                nhsList.then(function (data) {
-                    if (data.NHS_USUBJID != null) {
-                        for (var s = 0; s < data.NHS_USUBJID.length; s++) {
-                            if (data.NHS_USUBJID[s] == $scope.NHS_USUBJID) {
-                                alert("This subject already exists");
-                                $scope.NHS_USUBJID = '';
-                                return;
-                            }
-                        }
-                    }
-                })
-            }
+            });
+
         }
+       
+        // var lengthToStartSearch = 0;
+        // lengthToStartSearch = 0;
+        // var exists = false;
+
+        // if ($scope.NHS_USUBJID.length >= lengthToStartSearch) {
+        //     if (sourceMode == 'computer') {
+
+        //         var subjectList = localStorage.getItem('NHS_OPT_Map');
+        //         if (subjectList != null) {
+        //             subjectList = JSON.parse(subjectList);
+        //             for (var s = 0; s < subjectList.length; s++) {
+        //                 if (subjectList[s].NHS_USUBJID == $scope.NHS_USUBJID) {
+        //                     //alert("This subject already exists");
+        //                     //$scope.NHS_USUBJID = '';
+        //                     return;
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     if (sourceMode == 'internet') {
+        //         var nhsList = records.getNHSIDList();
+        //         nhsList.then(function (data) {
+        //             if (data.NHS_USUBJID != null) {
+        //                 for (var s = 0; s < data.NHS_USUBJID.length; s++) {
+        //                     if (data.NHS_USUBJID[s] == $scope.NHS_USUBJID) {
+        //                         //alert("This subject already exists");
+        //                         //$scope.NHS_USUBJID = '';
+        //                         exists = true;
+        //                         // return;
+        //                     }
+        //                     else {
+        //                         exists = false;
+        //                     }
+        //                 }
+        //             }
+        //         })
+        //     }
+        //     if (exists) {
+        //         alert("ID exists");
+        //         $scope.NHS_USUBJID = '';
+        //     }
+        //     return;
+        // }
+
     }
 
     $scope.fileNameChanged = function (element) {
