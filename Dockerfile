@@ -1,6 +1,6 @@
 FROM php:5.5-apache
 
-LABEL author="Florian Guitton" email="f.guitton@imperial.ac.uk" version="0.1.2"
+LABEL author="Florian Guitton" email="f.guitton@imperial.ac.uk" version="0.2.0"
 
 RUN apt-get update; \
 	apt-get install -y --no-install-recommends \
