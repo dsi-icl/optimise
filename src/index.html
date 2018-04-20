@@ -61,7 +61,7 @@
     </div>
     <div id="mainContent" ng-show='authenticatedStatus == "Logged In"'>
       <div id="navigation" class="container-fluid">
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs" role="tablist" ng-hide="!thereIsAPatient()">
           <li role="presentation" class="active" ng-class="{active: isActiveContent('Patient')}">
             <a href="#" role="tab" data-toggle="tab" ng-click="contentOnDisplay='Patient'; setContent();">Profile</a>
           </li>
@@ -125,7 +125,7 @@
         </ul>
       </div>
       <div id="events" class="container-fluid" ng-hide="isActiveContent('Patient')">
-        <div class="eventStatus" ng-show="showEventsBar()">
+        <div class="eventStatus" ng-show="showEventsBar()" ng-hide="!thereIsAPatient()">
           <div class="row" ng-show="enableNewDate()&&(contentOnDisplay=='Relapse')">
             <div class="col-sm-12">
               <div class="input-group">
@@ -183,83 +183,61 @@
           </div>
         </div>
         <div class="searchStatus" ng-show="('Patient'== contentOnDisplay)">
+
           <script type="text/ng-template" id="newPatient.html">
-              <div class="modal-header">
-                <h3 class="modal-title">
-                  New Patient
-                </h3>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <div class="form-group marginTop" style="text-align: center">
-                    <div  class="btn-group" role="group">
-                      <!-- <button type="button" class="btn btn-default" ng-class="{active: actionMode=='New'}" ng-click="actionMode='New'; generateUSUBJID()"><span class="glyphicon glyphicon-folder-open">New</span></button>
-                      <button type="button" class="btn btn-default" ng-class="{active: actionMode=='Load'}" ng-click="actionMode='Load';"><span class="glyphicon glyphicon-search">Find</span></button> -->
-                      <button type="button" class="btn btn-default" ng-class="{active: actionMode=='New'}" ng-click="actionMode='New'; generateUSUBJID()">New</button>
-                      <button type="button" class="btn btn-default" ng-class="{active: actionMode=='Load'}" ng-click="actionMode='Load';">Find</button>
-                    </div>
-                  </div>
-              
-                  <div class="container-fluid doubleMarginTop" ng-show="(actionMode=='Load')">
-                    <div class="col-sm-5">
+
+            <div class="modal-header">
+              <h3 class="modal-title">
+                New Patient
+              </h3>
+            </div>
+
+            <div class="modal-body">
+
+              <form name="idForm" ng-submit="submitForm()" novalidate>
+
+                <div class="container-fluid" ng-show="actionMode=='New'">
+
+                  <div class="row marginTop">
+                    <div class="col-sm-6">
                       <div class="form-group">
-                        <label class="control-label">NHS or OPTIMISE ID</label>
-                        <input type="text" class="form-control" ng-model="search_USUBJID" ng-change="startSearch()" placeholder="eg. 123-456-7890 or OPT_001">
-                        <label class="control-label">{{getSearchStatus()}}</label>
-                      </div>
-                    </div>
-              
-                    <div class="col-sm-2" ng-show="(sourceMode=='computer')">
-                      <p style="text-align: center">OR</p>
-                    </div>
-              
-                    <div class="col-sm-5">
-                      <div class="form-group" ng-show="(sourceMode=='computer')">
-                        <label for="patientInputFile">Patient File</label>
-                        <input type="file" id="patientInputFile" ng-click="search_USUBJID='';" onchange="angular.element(this).scope().fileNameChanged(this)">
-                        <p class="help-block">eg. patientID.json</p>
+                        <div class="form-group marginTop">
+                          <label class="control-label" for="newId">ID</label>
+                          <input type="text" name="newId" class="form-control" ng-model="NHS_USUBJID" placeholder="eg. 123-456-7890" required>
+                          <span ng-show="idForm.$invalid" class="help-block">The ID is required.</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-              
-                  <div class="container-fluid" ng-show="actionMode=='New'">
-                    <div class="row marginTop">
-                      <div class="col-sm-6">
-                        <div class="form-group">
-                          <div class="form-group marginTop">
-                            <label class="control-label">ID</label>
-                            <input type="text" class="form-control" ng-model="NHS_USUBJID" placeholder="eg. 123-456-7890" ng-change="checkIfIDExists()">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="form-group">
-                          <div class="form-group marginTop">
-                            <label class="control-label">OPTIMISE ID</label>
-                            <input type="text" class="form-control" ng-model="USUBJID" placeholder="eg. OPT-MY-01-1" ng-disabled=true>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row doubleMarginTop">
+
+                  <div class="row doubleMarginTop">
+                    <div class="col-sm-6">
+                      <label class="control-label">Does the patient give consent for their data to be shared?</label>
                       <div class="form-group marginTop">
-                        <div  class="btn-group" role="group">
-                          <button type="button"
-                          class="btn btn-default"
-                          ng-class="{active: consentGiven==true}"
-                          ng-click="consentGiven=true;">Yes to Share</button>
-                          <button type="button" class="btn btn-default" ng-class="{active: consentGiven==false}" ng-click="consentGiven=false;">No to Share</button>
+                        <div class="btn-group" role="group">
+                          <button type="button" class="btn btn-default" ng-class="{active: consentGiven==true}" ng-click="consentGiven=true;">Yes</button>
+                          <button type="button" class="btn btn-default" ng-class="{active: consentGiven==false}" ng-click="consentGiven=false;">No</button>
                         </div>
                       </div>
                     </div>
                   </div>
-                </form>
-              </div>
+                          
+                </div>
+                
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" ng-disabled="!okToProceed() || idForm.$invalid">Create new patient</button>
+                </div>
+                  
+              </form>
+              
               <div class="modal-footer">
-                <button class="btn btn-primary" ng-show="okToProceed()" ng-click="ok()">OK</button>
                 <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
               </div>
-            </script>
+
+            </div>
+
+          </script>
+
           <script type="text/ng-template" id="appointments.html">
               <div class="modal-lg">
                 <div class="modal-content">
@@ -443,7 +421,9 @@
         <!--Communication -->
         <div reminder-entry ng-controller="reminderInfoCtrl" ng-show="showThisContent()">
         </div>
-        <div id="nopatientcover" ng-hide="thereIsAPatient()">Select or create a patient to continue !</div>
+        <div id="nopatientcover" ng-hide="thereIsAPatient()">Select or create a patient to continue !
+        </div>
+
       </div>
     </div>
   </div>

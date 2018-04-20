@@ -68,12 +68,12 @@ patientModule.factory('findingLocationTerms',function() {
 });
 
 patientModule.factory('genderTerms',function() {
-    var terms = ['Male', 'Female', 'Other'];
+    var terms = ['Male', 'Female', 'Other', 'Unknown'];
     return terms;
 });
 
 patientModule.factory('ethnicTerms', function() {
-    var terms =['White', 'Black', 'Chinese', 'Other Asian', 'Native American', 'Arab', 'Persian', 'Other Mixed'];
+    var terms =['White', 'Black', 'Chinese', 'Other Asian', 'Native American', 'Arab', 'Persian', 'Other Mixed', 'Unknown'];
     return terms;
 })
 

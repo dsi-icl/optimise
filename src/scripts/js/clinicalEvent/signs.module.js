@@ -49,6 +49,7 @@ signsModule.factory('signVocab', function() {
     signTerms['cranial.trigeminalNeuralgia']={CETERM: 'Trigeminal neuralgia', CEBODSYS:''};
     signTerms['cranial.facialHypoesthesia']={CETERM: 'Facial hypoesthesia', CEBODSYS:'Face'};
     signTerms['cranial.atypicalFacialPain']={CETERM: 'Atypical facial pain', CEBODSYS:'Face'};
+    signTerms['cranial.nystagmus']={CETERM: 'Nystagmus', CEBODSYS:'Face'};
     signTerms['cranial.trigeminalPalsy']={CETERM: 'Trigeminal palsy', CEBODSYS:''};
     signTerms['cranial.hearingLoss']={CETERM: 'Hearing loss', CEBODSYS:''};
 
@@ -71,6 +72,9 @@ signsModule.factory('signVocab', function() {
     signTerms['motor.tendonReflex.hyporeflexia.patella.left']={CETERM: 'Hyporeflexia', CEBODSYS:'Patella', CELAT:'left'};
     signTerms['motor.tendonReflex.hyporeflexia.ankle.right']={CETERM: 'Hyporeflexia', CEBODSYS:'Ankle', CELAT:'right'};
     signTerms['motor.tendonReflex.hyporeflexia.ankle.left']={CETERM: 'Hyporeflexia', CEBODSYS:'Ankle', CELAT:'left'};
+
+    signTerms['motor.tendonReflex.plantarResponse.left']={CETERM: 'Plantar Response', CEBODSYS:'Lower Limbs', CELAT:'left'};
+    signTerms['motor.tendonReflex.plantarResponse.right']={CETERM: 'Plantar Response', CEBODSYS:'Lower Limbs', CELAT:'right'};    
 
     signTerms['motor.tremor.postural.upper']={CETERM: 'Postural Tremor', CEBODSYS:'Upper Limbs'};
     signTerms['motor.tremor.intention.upper']={CETERM: 'Intention Tremor', CEBODSYS:'Upper Limbs'};
