@@ -819,53 +819,16 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
             ],
             "enabled": true
         },
-        "FAORES": {
-            "domain": "FA",
-            "type": "Categorical",
-            "label": "Presence or absence of disease",
-            "tags": [
-                ""
-            ],
-            "values": [
-                "Yes",
-                "No"
-            ],
-            "enabled": true
-        },
         "QSCAT": {
             "domain": "QS",
             "type": "Categorical",
-            "label": "Category of question",
+            "label": "Category of questionnaire",
             "tags": [
                 ""
             ],
             "values": [
                 "EDSS",
                 "EDMUS"
-            ],
-            "enabled": true
-        },
-        "SUTRT": {
-            "domain": "SU",
-            "type": "Categorical",
-            "label": "Type of substance",
-            "tags": [
-                ""
-            ],
-            "values": [
-                "ALCOHOL"
-            ],
-            "enabled": true
-        },
-        "SCTEST": {
-            "domain": "SC",
-            "type": "Categorical",
-            "label": "",
-            "tags": [
-                ""
-            ],
-            "values": [
-                "SMOKING HISTORY"
             ],
             "enabled": true
         },
@@ -947,7 +910,7 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
         "MHENRTPT": {
             "domain": "MH",
             "type": "Categorical",
-            "label": "",
+            "label": "Outcome of comorbidity",
             "tags": [
                 ""
             ],
@@ -961,7 +924,7 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
         "SREL": {
             "domain": "",
             "type": "Categorical",
-            "label": "",
+            "label": "Relative",
             "tags": [
                 ""
             ],
@@ -984,7 +947,7 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
         "MHTERM": {
             "domain": "MH",
             "type": "Mixed",
-            "label": "",
+            "label": "Primary Diagnosis",
             "tags": [
                 ""
             ],
