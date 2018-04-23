@@ -8,7 +8,7 @@
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <meta content="OPTIMISE" name="description">
     <meta content="Florian Guitton" name="author">
-    <title>OPTIMISE v0.1 :: Welcome</title>
+    <title>OPTIMISE v0.2.0 :: Welcome</title>
     <link href="styles/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="styles/optimise.css" rel="stylesheet" type="text/css">
 </head>
@@ -57,129 +57,146 @@
                 </div>
                 <div class="bs-docs-section">
                     <h1 class="page-header" id="getting-started">
-                        Getting started manual
+                        Getting Started
                     </h1>
                     <p class="lead">OPTIMISE is accessible throught this website in two forms: direct access to our demo servers and packaged containers.</p>
-                    <h2 id="intro">Introduction</h2>
+                    <p>To access our demo server, simply head <a href="/portal">here</a>.</p>
+                    <p>If you are an IT professional and would rather deploy the application on premise you can get this done in four simple steps.</p>
+                    <ol>
+                        <li value="1">Install Docker version <code>18.x.y-ce</code>.<br/><i>Instructions available <a href="https://docs.docker.com/install/">here</a>.</i><br/><br/></li>
+                        <li>Then, install Docker Compose version <code>1.8.x</code>.<br/><i>Instructions available <a href="https://docs.docker.com/compose/install/">here</a>.</i><br/><br/></li>
+                        <li>Create a directory where you would want the Optimise data to be stored and <code>cd</code>> into it.<br/><br/></li>
+                        <li>Finally, run this simple command in a privileged shell<br/><code>curl -s https://optimise-ms.org/install | bash</code> :<br/><br/></li>
+                    </ol>
+                    <div class="bs-callout bs-callout-info" id="migration">
+                        <h4>How to access it ?</h4>
+                        <p>After successfully executing the installation command the application will be available on port <code>8080</code>. This can be changed by directly editing the <code>docker-compose.yml</code> file present in the installation directory.</p>
+                    </div>
+                    <div class="bs-callout bs-callout-info" id="migration">
+                        <h4>What about upgrades ?</h4>
+                        <p>At any point it is possible to upgrade to the latest version of Optimise by simply going to the same folder you created in step 1 and run the installation command of step 4 again.</p>
+                    </div>
+                </div>
+                <div class="bs-docs-section">
+                    <h1 class="page-header" id="user-guide">
+                        User Guide
+                    </h1>            
                     <p>OPTIMISE MS is a system for recording data including demographics, clinical events, treatments and tests according to CDISC standards for Multiple Sclerosis. OPTIMISE MS allows researchers to better monitor MS patients’ progress, record outcomes and evaluate treatments.</p>
                     <p>The patient data entry is grouped as demographics, medical history and family medical history, clinical events (prior or interim clinical events), visits (happening in the present), tests and patient reported outcome measures and treatments. The user can also maintain a list of future/pending patient tests.</p>
                     <p>OPTIMISE MS can be used in two modes; the off-site mode when networking is enabled and the on-premise mode when networking is disabled.</p>
-                    <h2 id="entering">Entering the OPTIMISE MS system</h2>
-                    <p>To start using the OPTIMISE MS main portal please double click the Google Chrome icon on Desktop.</p>
-                    <img src="img/chrome.png" alt="Google Chrome">
-                    <p>Then, either click OPTIMISE in the Bookmarks bar</p>
-                    <img src="img/img2.png" alt="addressBar">
-                    <p>Or type http://localhost:8080/portal in the address bar.</p>
-                    <img src="img/img3.png" alt="address">
+                    <h3 id="ug-entering">Logging in</h2>
+                    <p>To start using the OPTIMISE portal first open you favorite modern browser.</p>
+                    <p>Then, enter the hosting address in the address bar.</p>
+                    <p><i>If you are using our Docker image, this might be http://localhost:8080/.</i></p>
                     <p>You should see the following screen.Enter the user name and password that were given to you and click the Log in button. The default username is <em>admin</em> and the password <em>letmein</em>.</p>
-                    <img src="img/helloPage.png" alt="hello">
+                    <img src="img/helloPage.png" alt="hello"><br/><br/>
                     <p>If the log-in is successful, you should see the following screen.</p>
-                    <img src="img/optimise.png" alt="initial">
+                    <img src="img/optimise.png" alt="initial"><br/><br/>
                     <p>If the log-in is unsuccessful, you will get a message. Click OK and re-enter user credentials.</p>
-                    <h2>Search patients</h2>
+                    <h3 id="ug-search">Searching patients</h2>
                     <p>In order to search for patients by ID or a CDISC field and export the search results, click on the <em>Search patients</em> button.</p>
-                    <img src="img/searchButton.png" alt="search">
+                    <img src="img/searchButton.png" alt="search"><br/><br/>
                     <p>Specify the filter in the pop-up window or click on one of the listed patient identifiers to access the patient entry.</p>
-                    <img src="img/searchPopUp.png" alt="search">
+                    <img src="img/searchPopUp.png" alt="search"><br/><br/>
                     <p>Select <em>Unique subject identifier</em> from the list to search for a particular patient by ID.</p>
-                    <img src="img/searchByID.png" alt="search">
+                    <img src="img/searchByID.png" alt="search"><br/><br/>
                     <p>Enter the identifier string in the input box as shown below.</p>
-                    <img src="img/searchByID2.png" alt="search">
+                    <img src="img/searchByID2.png" alt="search"><br/><br/>
                     <p>In a similar way, you can filter the database by any of the CDISC fields in the list and get the search results listed by patient identifier.</p>
-                    <img src="img/searchTrt.png" alt="search">
-                    <h2>Creating a new patient</h2>
+                    <img src="img/searchTrt.png" alt="search"><br/><br/>
+                    <h3 id="ug-create">Creating a new patient</h2>
                     <p>To create a new patient click on the second button as shown below.</p>
-                    <img src="img/newPatientButton.png" alt="new">
-                    <p>Enter a number in the ID input box- an OPTIMISE ID for the new patient is automatically created. Click Create new patient to continue.</p>
-                    <img src="img/newPatientPopUp.png" alt="new">
+                    <img src="img/newPatientButton.png" alt="new"><br/><br/>
+                    <p>Enter a number in the ID input box- an OPTIMISE ID for the new patient is automatically created. Click OK to continue.</p>
+                    <img src="img/newPatientPopUp.png" alt="new"><br/><br/>
                     <p>If the ID entered already exists in the database, you will get a message on screen. Click OK to enter a different ID.</p>
-                    <img src="img/newPatientError.png" alt="new">
-                    <h2>Viewing all reminders</h2>
+                    <img src="img/newPatientError.png" alt="new"><br/><br/>
+                    <h3 id="ug-viewreminders">Viewing all reminders</h2>
                     <p>In order to view all the reminders for all the patients, click on</p>
-                    <img src="img/viewAllReminders.png" alt="view">
-                    You will see all the reminders in a pop-up window.
-                    <img src="img/view.png" alt="view">
-                    <h2>Dataset export</h2>
-                    To export the database click on Full dataset export.
-                    <img src="img/exportButton.png" alt="export">
-                    <h2>Entering patient profile data</h2>
+                    <img src="img/viewAllReminders.png" alt="view"><br/><br/>
+                    <p>You will see all the reminders in a pop-up window.</p>
+                    <img src="img/view.png" alt="view"><br/><br/>
+                    <h3 id="ug-export">Dataset export</h2>
+                    <p>To export the database click on Full dataset export.</p>
+                    <img src="img/exportButton.png" alt="export"><br/><br/>
+                    <h3 id="ug-profileinput">Entering patient profile data</h2>
                     <p>To enter patient profile data, click on the PROFILE tab.</p>
-                    <img src="img/profile.png" alt="profile">
-                    <h3>Demographic data</h3>
-                    <p>Click on Demographic to enter any demographic data for the patient. The OPTIMISE ID and the ID you entered are displayed.</p>
-                    <img src="img/demographic.png" alt="demo">
+                    <img src="img/profile.png" alt="profile"><br/><br/>
+                    <h4>Demographic data</h4>
+                    <p>Click on Demographic to enter any demographic data for the patient.</p>
+                    <img src="img/demographic.png" alt="demo"><br/><br/>
                     <p>Please note that any data entered using drop down lists, once entered cannot be changed to unknown or unspecified unless the patient entry is deleted and re-created.</p>
-                    <h3>Medical History data</h3>
+                    <h4>Medical History data</h4>
                     <p>In order to enter medical history data, click on the blue title bar Medical History right below the Demographic section.</p>
-                    <img src="img/medicalHistory.png" alt="medHist">
-                    <p>Enter Pregnancy details, if applicable. This is only available if gender in the Demographic section is set to Female. Click Add to add the details to Medical History.</p>
-                    <img src="img/pregnancy.png" alt="medHist">
+                    <img src="img/medicalHistory.png" alt="medHist"><br/><br/>
+                    <p>Enter Pregnancy details, if applicable. This is only available if gender in the Demographic section (p. 10) is set to Female. Click Add to add the details to Medical History.</p>
+                    <img src="img/pregnancy.png" alt="medHist"><br/><br/>
                     <p>Enter Immunisations, if applicable. This is available only for patients of age less than 18 years. Click Add to add information to Medical History.</p>
-                    <img src="img/immunisations.png" alt="medHist">
+                    <img src="img/immunisations.png" alt="medHist"><br/><br/>
                     <p>Enter Medical Condition term and details (year of diagnosis, outcome and year of resolution), if applicable. Click Add to add condition details to Medical History.</p>
-                    <img src="img/medicalCondition.png" alt="medHist">
+                    <img src="img/medicalCondition.png" alt="medHist"><br/><br/>
                     <p>You can remove any medical history data by clicking on Delete next to each entry.</p>
-                    <h3>Family Medical History data</h3>
+                    <h4>Family Medical History data</h4>
                     <p>In order to enter medical history data for family and associated persons, click on Family Medical History.</p>
-                    <img src="img/familyMedicalHistory.png" alt="medHist">
+                    <img src="img/familyMedicalHistory.png" alt="medHist"><br/><br/>
                     <p>Select relationship of associated person with MS or Other Medical Conditions from the drop down list and enter details in the text box on the right. Click Add to add information to Family Medical History.</p>
-                    <img src="img/familyMedicalHistory2.png" alt="medHist">
+                    <img src="img/familyMedicalHistory2.png" alt="medHist"><br/><br/>
                     <p>You can remove Family Medical History data entries by clicking on Delete next to each entry.</p>
-                    <h3>Primary Diagnosis data</h3>
+                    <h4>Primary Diagnosis data</h4>
                     <p>In order to enter Primary Diagnosis data, click on Primary Diagnosis as shown below.</p>
-                    <img src="img/primaryDiagnosis.png" alt="primaryDiagnosis">
+                    <img src="img/primaryDiagnosis.png" alt="primaryDiagnosis"><br/><br/>
                     <p>Enter First Symptoms details and click Save. Select Diagnosis from the 5 available options, enter further details and click Save to add.</p>
-                    <img src="img/primaryDiagnosis2.png" alt="primaryDiagnosis">
+                    <img src="img/primaryDiagnosis2.png" alt="primaryDiagnosis"><br/><br/>
                     <p>For MS or NMOSD diagnoses, further subtype options become available. After saving the Diagnosis details, you can select the basis of MS diagnosis and methods of detection as shown below.</p>
-                    <img src="img/primaryDiagnosis3.png" alt="primaryDiagnosis">
+                    <img src="img/primaryDiagnosis3.png" alt="primaryDiagnosis"><br/><br/>
                     <p>To remove a Primary Diagnosis entry, click on Delete next to that particular entry.</p>
-                    <h2>Entering patient visit data</h2>
+                    <h3 id="ug-visitinput">Entering patient visit data</h2>
                     <p>In order to enter or edit patient visit data, click on VISITS as shown below.</p>
-                    <img src="img/visits.png" alt="visits">
+                    <img src="img/visits.png" alt="visits"><br/><br/>
                     <p>Click NEW and pick a date to create a new visit entry or select a visit from the list on the left to edit the entered data for that particular visit.</p>
-                    <img src="img/visits2.png" alt="visits">
+                    <img src="img/visits2.png" alt="visits"><br/><br/>
                     <p>You can remove a visit by clicking on Delete next to it.</p>
                     <p>In order to enter questionnaire and other test scores, click on Performance Measures. There are detailed score entry options for EDSS and EDMUS. Click on EDSS Tool and EDMUS Tool to access these.</p>
-                    <img src="img/visitsPerfMeasures.png" alt="visits">
+                    <img src="img/visitsPerfMeasures.png" alt="visits"><br/><br/>
                     <p>A detailed EDSS breakdown is available as shown below. Click Save to save the entered scores.</p>
-                    <img src="img/visitsEdss.png" alt="visits">
+                    <img src="img/visitsEdss.png" alt="visits"><br/><br/>
                     <p>For EDMUS choose one of the available scores and click Save.</p>
-                    <img src="img/visitsEdmus.png" alt="visits">
+                    <img src="img/visitsEdmus.png" alt="visits"><br/><br/>
                     <p>Click Communications to get a summary report for the selected visit. Use the buttons to display or hide information.</p>
-                    <img src="img/visitsCommunications.png" alt="visits">
-                    <h2>Entering clinical event data</h2>
+                    <img src="img/visitsCommunications.png" alt="visits"><br/><br/>
+                    <h3 id="ug-clinicalinput">Entering clinical event data</h2>
                     <p>To enter clinical event data, click on CLINICAL EVENTS.</p>
-                    <img src="img/clinicalEvents.png" alt="ces">
+                    <img src="img/clinicalEvents.png" alt="ces"><br/><br/>
                     <p>Click NEW and choose date of clinical event to enter a new relapse. Select a relapse from the list on the left panel to edit the data for that particular entry. Click on Functional Systems Affected. Then select affected functional systems by clicking on the available buttons. Click a button again to unselect if you clicked it by mistake. Enter details such as severity and steroids use.</p>
-                    <img src="img/clinicalEvents2.png" alt="ces">
+                    <img src="img/clinicalEvents2.png" alt="ces"><br/><br/>
                     <p>Enter symptoms and signs.</p>
-                    <img src="img/clinicalEvents3.png" alt="ces">
-                    <h2>Entering patient test data</h2>
+                    <img src="img/clinicalEvents3.png" alt="ces"><br/><br/>
+                    <h3 id="ug-testinput">Entering patient test data</h2>
                     <p>Click on TESTS. Then click on one of the available types of tests.</p>
-                    <img src="img/tests.png" alt="ces">
+                    <img src="img/tests.png" alt="ces"><br/><br/>
                     <p>After selecting one of the 4 available types of test, click NEW and select the date of test to create a new test entry or choose one of the listed entries to edit.</p>
-                    <img src="img/tests2.png" alt="ces">
+                    <img src="img/tests2.png" alt="ces"><br/><br/>
                     <p>You can remove a test entry by clicking Delete in the left panel.Manual record of MRI results is available in this version- this can be found in the Morphology panel under TESTS > Magnetic Resonance Imaging.</p>
                     <p>Some test results can be searched using the text boxes below Count and sorted using the small arrows.</p>
-                    <img src="img/testsCount.png" alt="ces">
-                    <h2>Entering patient treatment data</h2>
+                    <img src="img/testsCount.png" alt="ces"><br/><br/>
+                    <h3 id="ug-treatmentinput">Entering patient treatment data</h2>
                     <p>In order to enter patient treatment data, click on TREATMENTS.</p>
-                    <img src="img/treatments1.png" alt="ces">
+                    <img src="img/treatments1.png" alt="ces"><br/><br/>
                     <p>Click NEW on the left and select treatment start date to create a new exposure entry. Choose category of treatment by clicking on one of the buttons. Enter treatment name and treatment details. You may click on one of the treatment names in the list that is shown when you start typing.
                       Enter any drug interruptions or drug discontinuation details and click add to record (or delete to remove existing entries).
                     </p>
                     <p>Select Exposure from the list of existing patient treatments in the left panel to edit or delete entry.</p>
-                    <img src="img/treatments2.png" alt="ces">
-                    <h2>Viewing patient data on the timeline</h2>
+                    <img src="img/treatments2.png" alt="ces"><br/><br/>
+                    <h3 id="ug-timeline">Viewing patient data on the timeline</h2>
                     <p>In order to view the current patient entry, click on TIMELINE</p>
-                    <img src="img/timeline1.png" alt="ces">
+                    <img src="img/timeline1.png" alt="ces"><br/><br/>
                     <p>Click and hold the mouse button to select the time period to display (bottom of the timeline). Select what information to view using the list of options in the left panel. Relapse circles’ size depicts the severity of the relapse with larger circles representing more severe events.</p>
-                    <img src="img/timeline2.png" alt="ces">
-                    <h2>Entering reminders</h2>
+                    <img src="img/timeline2.png" alt="ces"><br/><br/>
+                    <h3 id="ug-remindersinput">Entering reminders</h2>
                     <p>In order to enter the reminder system for blood tests, serological tests and MRI scans, click on the REMINDERS tab</p>
-                    <img src="img/reminders1.png" alt="ces">
+                    <img src="img/reminders1.png" alt="ces"><br/><br/>
                     <p>Select reminder type using the available buttons, enter additional notes if required, click on the appropriate frequency button and click On to add the reminder. Click Off to turn a particular reminder off or Delete to remove it completely.</p>
-                    <img src="img/reminders2.png" alt="ces">
+                    <img src="img/reminders2.png" alt="ces"><br/><br/>
                     <div class="bs-callout bs-callout-info" id="migration">
                         <h4>Where is the source code ?</h4>
                         <p>As we are currently in preview; the source code is <strong>not yet available</strong>. Keep watching for some update soon</p>
@@ -197,7 +214,7 @@
                     </div>
                     <div class="bs-callout bs-callout-warning" id="jquery-required">
                         <h4>Preview software</h4>
-                        <p>Please note that OPTIMISE <code>v0.1</code> is currently released as <strong>a preview software</strong>. There is no guarantee the software will behave in the intended ways. Come back here anytime for updates.</p>
+                        <p>Please note that OPTIMISE <code>v0.2.0</code> is currently released as <strong>a preview software</strong>. There is no guarantee the software will behave in the intended ways. Come back here anytime for updates.</p>
                     </div>
                 </div>
                 <div class="bs-docs-section">
@@ -271,13 +288,30 @@
                 <nav class="bs-docs-sidebar hidden-print hidden-sm hidden-xs affix-top">
                     <ul class="nav bs-docs-sidenav">
                         <li> <a href="#general-information">General Information</a> </li>
-                        <li> <a href="#getting-started">Getting started manual</a> </li>
+                        <li> <a href="#getting-started">Getting started</a> </li>
+                        <li>
+                            <a href="#user-guide">User guide</a>
+                            <ul class="nav">
+                                <li><a href="#ug-entering">Logging in</a> </li>
+                                <li><a href="#ug-search">Searching patients</a> </li>
+                                <li><a href="#ug-create">Creating a new patient</a> </li>
+                                <li><a href="#ug-viewreminders">Viewing all reminders</a> </li>
+                                <li><a href="#ug-export">Dataset export</a> </li>
+                                <li><a href="#ug-profileinput">Entering profile data</a> </li>
+                                <li><a href="#ug-visitinput">Entering visit data</a> </li>
+                                <li><a href="#ug-clinicalinput">Entering event data</a> </li>
+                                <li><a href="#ug-testinput">Entering test data</a> </li>
+                                <li><a href="#ug-treatmentinput">Entering treatment data</a> </li>
+                                <li><a href="#ug-timeline">Patient timeline</a> </li>
+                                <li><a href="#ug-remindersinput">Entering reminders</a> </li>
+                            </ul>
+                        </li>
                         <li> <a href="#release-note">Release Note</a> </li>
                         <li> <a href="#support">Browser and device support</a> </li>
                         <li> <a href="#license-faqs">License FAQs</a> </li>
                     </ul> <a href="#top" class="back-to-top"> Back to top </a>
                 </nav>
-            </div>
+            </div>    
         </div>
     </div>
     <footer class="bs-docs-footer">
@@ -285,7 +319,7 @@
             <ul class="bs-docs-footer-links">
                 <li><a href="https://github.com/dsi-icl/optimise">GitHub</a> </li>
             </ul>
-            <p>Designed and built with all the love in the world by <a href="http://www.imperial.ac.uk/people/f.guitton" target="_blank">Florian Guitton</a>. Supported by the <a href="https://www.imperial.ac.uk/data-science/">Data Science Institute</a> with the help of <a href="https://github.com/dsi-icl/optimise/contributors">our contributors</a>.</p>
+            <p>This page was designed and built with ❤ by <a href="http://www.imperial.ac.uk/people/f.guitton" target="_blank">Florian Guitton</a>. Supported by the <a href="https://www.imperial.ac.uk/data-science/">Data Science Institute</a> with the help of <a href="https://github.com/dsi-icl/optimise/contributors">our contributors</a>.</p>
             <p>Code licensed <a href="https://github.com/dsi-icl/optimise/blob/master/LICENSE" target="_blank" rel="license">MIT</a>, docs <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="license">CC BY 3.0</a>.</p>
         </div>
     </footer>
