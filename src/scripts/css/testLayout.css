@@ -24,15 +24,30 @@ header {
     background-color: white;
     color: black;
     text-align: left;
+    min-width: 850px;
     width: 100vw;
     height: 75px;
-    padding: 0 20px;
+    padding: 0 15px;
     border-bottom: 4px solid #002670;
 }
 
-div.panel-heading.myPanel{
+.panel-heading.myPanel{
     color:white;
     background-color: #445C88;
+    padding: 0;
+    height: 35px;
+}
+
+.panel-heading.myPanel h4{
+    color:white;
+    background-color: #445C88;
+    line-height: 35px;
+    height: 35px;
+    padding-left: 15px;
+}
+
+.panel-heading.myPanel h4:hover{
+    cursor: pointer;
 }
 
 .panel-heading.symptomsSignsSections {
@@ -54,6 +69,7 @@ h2 {
 
 #mainContent {
     height: calc(100vh - 75px);
+    min-width: 850px;
     width: 100vw;
     position: fixed;
     top: 75px;
@@ -129,17 +145,15 @@ pageslide {
 #events {
     line-height:83%;
     background-color: #ffffff;
-    height:calc(100vh - 128px);
+    height:calc(100vh - 115px);
     width:20%;
     border-right: 1px solid #ddd;
     float:left;
 }
 
-
-@media all and (max-width:860px){
-    #events {
-        height:calc(100vh - 181px);
-    }
+#eventsTable th, #eventsTable td {
+    vertical-align: middle;
+    padding: 0;
 }
 
 
@@ -150,32 +164,28 @@ pageslide {
 }
 
 #eventsTable>tbody>tr.selected{
-    background-color: white;
-    border-left: 8px solid #002670;
-    border-top: 4px solid #002670;
-    border-bottom: 4px solid #002670;
+    background-color: #ebeef3;
     font-weight: bold;
+}
+
+#eventsTable>tbody>tr:hover{
+    background-color: #eee;
+    cursor: pointer;
 }
 
 #navigation {
     background-color:white;
-    padding-bottom: 0px;
+    padding: 0px;
     float:left;
     width: 100%;
-    height: 53px;
-}
-
-@media all and (max-width:860px){
-    #navigation {
-        height: 106px;
-    }
+    height: 40px;
 }
 
 #section {
     position: relative;
     overflow: auto;
     width: 80%;
-    height:calc(100vh - 128px);
+    height:calc(100vh - 115px);
     background-color: white;
     float:left;
 }
@@ -184,19 +194,13 @@ pageslide {
     width: 100%;
 }
 
-@media all and (max-width:860px){
-    #section {
-        height:calc(100vh - 181px);
-    }
-}
-
 #nopatientcover {
     z-index: 100000;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height:calc(100vh - 128px);
+    height:calc(100vh - 115px);
     background-color: white;
     text-align: center;
     font-size: 16px;
@@ -339,8 +343,9 @@ pageslide {
 
 
 #navigation ul li {
+    box-sizing: border-box;
     display: inline-block;
-    height: 45px;
+    height: 40px;
 }
 
 #navigation ul li a {
@@ -360,18 +365,16 @@ pageslide {
     border-left-style: none;
     border-right-style: none;
     border-bottom-style: solid;
-    background-color: white;
 
 }
 
 #navigation ul.nav.nav-tabs>li.active>a{
-    border-width: 4px;
     border-top-style: none;
     border-left-style: none;
     border-right-style: none;
     border-bottom-style: solid;
-    background-color: white;
     font-weight: bold;
+    background-color: #ebeef3;
 }
 
 #navigationLab ul li {
@@ -398,6 +401,18 @@ pageslide {
     font-weight: bold;
 }
 
+#visitContentNoSelection {
+    z-index: 100000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:calc(100vh - 115px);
+    background-color: white;
+    text-align: center;
+    font-size: 16px;
+    padding-top: 10%;
+}
 
 #visitContent {
     height: 75vh;

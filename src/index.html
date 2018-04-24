@@ -17,11 +17,11 @@
 
 <body class style="overflow: hidden" ng-app="Optimise">
   <div id="wrapper" ng-controller="headerCtrl">
-    <div ng-init="contentOnDisplay='Patient';" style="height:60px;">
+    <div ng-init="contentOnDisplay='Patient';">
       <header>
         <div class="container-fluid">
           <div class="row">
-            <div class="doubleMarginTop col-sm-4" style="visibility:hidden;">
+            <!-- <div class="doubleMarginTop col-sm-4" style="visibility:hidden;">
               <div class="form-inline">
                 <div class="btn-group-sm" role="group">
                   <button type="button" class="btn btn-primary" ng-model="sourceMode" ng-class='{inactive: sourceMode != "internet"}' ng-show="connectionAvailable()"
@@ -31,7 +31,7 @@
                     <span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>Local</button>
                 </div>
               </div>
-            </div>
+            </div> -->
             <form style="position: absolute; padding-top: 28px;" ng-show="navigatorIsOnline()">
               <h2>OPTIMISE <sup style="font-size: 10px; line-height: 10px;">v0.2.0</sup></h2>
               <div id="exoticlogin" class="form-inline" ng-hide='authenticatedStatus == "Logged In"'>
@@ -45,7 +45,7 @@
               </div>
               <!-- <span ng-show='authenticatedStatus == "Logged In"'>Welcome, you are logged in</span> -->
             </form>
-            <div style="position: absolute; padding-top: 15px;" ng-show='authenticatedStatus == "Logged In"'>
+            <div style="position: absolute; padding-top: 15px; min-width: 850px;" ng-show='authenticatedStatus == "Logged In"'>
               <h2 style="margin-right: 30px;">OPTIMISE <sup style="font-size: 10px; line-height: 10px;">v0.2.0</sup></h2>
               <!-- <button type="button" class="btn-lg btn-mainnav" ng-click="openDepository()" ng-disabled="disableEntry()">Search patients</button> -->
               <button type="button" class="btn-lg btn-mainnav" ng-click="openSearch()" ng-disabled="disableEntry()">Search patients</button>
@@ -126,7 +126,7 @@
       </div>
       <div id="events" class="container-fluid" ng-hide="isActiveContent('Patient')">
         <div class="eventStatus" ng-show="showEventsBar()" ng-hide="!thereIsAPatient()">
-          <div class="row" ng-show="enableNewDate()&&(contentOnDisplay=='Relapse')">
+          <div class="row" ng-show="enableNewDate()&&(contentOnDisplay=='Relapse')" style="padding-top: 15px;">
             <div class="col-sm-12">
               <div class="input-group">
                 <input type="text" class="form-control DTC_MonthYear" ng-class="{fillThisFirst: newEventDate==''}" ng-disabled="disableChangesToDate()"
@@ -137,7 +137,7 @@
               </div>
             </div>
           </div>
-          <div class="row" ng-show="enableNewDate()&&(contentOnDisplay!='Relapse')">
+          <div class="row" ng-show="enableNewDate()&&(contentOnDisplay!='Relapse')" style="padding-top: 15px;">
             <div class="col-sm-12">
               <div class="input-group">
                 <input type="text" class="form-control DTC_DayMonthYear" ng-disabled="disableChangesToDate()" ng-model="newEventDate" ng-class="{fillThisFirst: newEventDate==''}"
@@ -149,31 +149,31 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12" style="padding: 0;">
               <div class="table-responsive">
                 <table id="eventsTable" class="table">
                   <thead>
                     <tr>
-                      <th>#</th>
-                      <th colspan="1">{{contentOnDisplay}}</th>
+                      <!-- <th>#</th> -->
+                      <th style="padding-left: 15px; line-height: 30px;">{{contentOnDisplay}}</th>
                       <!--<th colspan="1"><linkButton ng-click="setNewForm()"-->
                       <!--ng-disabled="true"-->
                       <!--ng-hide='contentOnDisplay=="Questionnaire"'>New</linkButton></th>-->
-                      <th colspan="1" ng-show="thereIsAPatient()">
-                        <a href="#" ng-click="setNewForm()" ng-hide='(contentOnDisplay=="Questionnaire")||(contentOnDisplay=="Reminders")'>New</a>
+                      <th style="text-align: right;">
+                        <a ng-show="thereIsAPatient()" style="padding-right: 15px; line-height: 30px; text-align: right;" href="#" ng-click="setNewForm()" ng-hide='(contentOnDisplay=="Questionnaire")||(contentOnDisplay=="Reminders")'>New</a>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr ng-repeat="event in getEventDates()" id={{event.DOMAIN}}-{{$index}} ng-click="setSelected(event); selectEvent(event);"
                       ng-class="{selected: isSelected(event, getEventDates().length)}">
-                      <td>{{$index+1}}</td>
+                      <!-- <td>{{$index+1}}</td> -->
                       <td>
-                        <p>{{event.displayLabel}}</p>
-                        <p>{{event.displayDate}}</p>
+                        <!-- <p>{{event.displayLabel}}</p> -->
+                        <span style="padding-left: 15px; line-height: 30px;">{{event.displayDate}}</span>
                       </td>
-                      <td>
-                        <a href="#" ng-click="deleteEvent(event)">Delete</a>
+                      <td style="text-align: right;">
+                        <a href="#" ng-click="deleteEvent(event)" style="padding-right: 15px; line-height: 30px; text-align: right;">Delete</a>
                       </td>
                     </tr>
                   </tbody>

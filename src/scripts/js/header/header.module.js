@@ -2654,7 +2654,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
     }
 
     $scope.setNewFormDate = function () {
-        $scope.newEvent = true;
+        $scope.newEvent = false;
 
         switch ($scope.contentOnDisplay) {
             case "Relapse":
