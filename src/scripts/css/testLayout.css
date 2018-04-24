@@ -377,6 +377,10 @@ pageslide {
     background-color: #ebeef3;
 }
 
+#navigationLab {
+    padding-bottom: 30px;
+}
+
 #navigationLab ul li {
     display: inline-block;
 
