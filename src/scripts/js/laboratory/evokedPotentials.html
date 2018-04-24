@@ -1,5 +1,8 @@
 <div>
-    <div class="container-fluid marginTop">
+    <div id="evokedNoSelection" ng-show="getDisabledFields()">
+        Select or create an evoked potential test on the left to continue !
+    </div>
+    <div class="container-fluid marginTop" ng-hide="getDisabledFields()">
         <div class="row">
             <div class="col-sm-6">
                 <div class="panel panel-default">

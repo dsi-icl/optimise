@@ -1,6 +1,9 @@
 <div class="container-fluid">
-
-    <div class="marginTop panel-group" id="relapseContent">
+    
+    <div id="relapseContentNoSelection" ng-show="getDisabledFields()">
+        Select or create a relapse on the left to continue !
+    </div>
+    <div class="marginTop panel-group" id="relapseContent" ng-hide="getDisabledFields()">
 
         <div class="panel panel-default">
             <div class="panel-heading myPanel" role="tab">

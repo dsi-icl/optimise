@@ -1,5 +1,8 @@
 <div class="container-fluid">
-  <div class="marginTop" id="interventionContent">
+  <div id="interventionContentNoSelection" ng-show="getDisabledFields()">
+      Select or create a treatment on the left to continue !
+  </div>
+  <div class="marginTop" id="interventionContent" ng-hide="getDisabledFields()">
     <div class="panel-group">
       <div class="panel panel-default">
         <div class="panel-heading myPanel">
