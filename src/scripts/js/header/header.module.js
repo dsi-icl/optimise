@@ -441,7 +441,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
             var nhsList = records.getNHSIDList();
             nhsList.then(function (data) {
                 if (data.NHS_USUBJID != null) {
-                    if ($scope.NHS_USUBJID in data.NHS_USUBJID) {
+                    if (data.NHS_USUBJID.indexOf($scope.NHS_USUBJID) > -1) {
                         $scope.NHS_USUBJID = '';
                         alert("ID already exists. Please enter a different ID.");               
                     } else {
@@ -449,19 +449,8 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
                     }
                 }
             });
-        } else if (sourceMode == 'computer') {
-            var subjectList = localStorage.getItem('NHS_OPT_Map');
-            if (subjectList != null) {
-                subjectList = JSON.parse(subjectList);
-                if ($scope.NHS_USUBJID in subjectList.NHS_USUBJID) {
-                    $scope.NHS_USUBJID = '';
-                    alert("ID already exists. Please enter a different ID.");               
-                } else {
-                    $scope.ok();
-                }
-            }
         }
-       
+
         // var lengthToStartSearch = 0;
         // lengthToStartSearch = 0;
         // var exists = false;
