@@ -1,64 +1,63 @@
-
 <div class="container-fluid">
   <!--<div class="row doubleMarginTop">-->
   <!--<form class="form-inline" role="form">-->
   <!--<div class="form-group">-->
   <!--<label class='control-label'>Date</label>-->
-  <!--<input type="text" class="form-control DTC_DayMonthYear" ng-model="SVSTDTC_display" ng-change="addNewVisit()" ng-disabled="getDisabledFields()">-->
+  <!--<input type="text" class="form-control DTC_DayMonthYear" ng-model="SVSTDTC_display" ng-change="addNewVisit()" >-->
   <!--</div>-->
   <!--</form>-->
   <!--</div>-->
 
-  <div id="visitContent" class="marginTop">
+  <div id="visitContentNoSelection" ng-show="getDisabledFields()">
+      Select or create a visit on the left to continue !
+  </div>
+  <div id="visitContent" class="marginTop" ng-hide="getDisabledFields()">
     <div class="panel-group" id="visitAccordion" role="tablist" aria-multiselectable="true">
-
       <div class="panel panel-default">
         <div class="panel-heading myPanel" role="tab">
-          <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseVS" >
+          <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseVS">
             Vital Signs and Current Anthropometry
           </h4>
         </div>
         <div id="collapseVS" class="panel-collapse collapse in" role="tabpanel">
           <div class="panel-body">
-
             <div class="row">
-              <div class ="col-sm-6">
+              <div class="col-sm-6">
                 <div class="input-group marginTop">
                   <span class="input-group-addon">Systolic Blood Pressure</span>
-                  <input type="text" class="form-control" ng-change="editVitalSign('Systolic Blood Pressure')" ng-disabled="getDisabledFields()" ng-model="systolic"/>
+                  <input type="text" class="form-control" ng-change="editVitalSign('Systolic Blood Pressure')" ng-model="systolic" />
                   <span class="input-group-addon">mmHg</span>
                 </div>
               </div>
-              <div class ="col-sm-6">
+              <div class="col-sm-6">
                 <div class="input-group marginTop">
                   <span class="input-group-addon">Heart Rate</span>
-                  <input type="text" class="form-control" ng-change="editVitalSign('Pulse Rate')" ng-disabled="getDisabledFields()" ng-model="pulse"/>
+                  <input type="text" class="form-control" ng-change="editVitalSign('Pulse Rate')" ng-model="pulse" />
                   <span class="input-group-addon">Beats Per Min</span>
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class ="col-sm-6">
+              <div class="col-sm-6">
                 <div class="input-group marginTop">
                   <span class="input-group-addon">Diastolic Blood Pressure</span>
-                  <input type="text" class="form-control" ng-change="editVitalSign('Diastolic Blood Pressure')" ng-disabled="getDisabledFields()" ng-model="diastolic"/>
+                  <input type="text" class="form-control" ng-change="editVitalSign('Diastolic Blood Pressure')" ng-model="diastolic" />
                   <span class="input-group-addon">mmHg</span>
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class ="col-sm-6">
+              <div class="col-sm-6">
                 <div class="input-group marginTop">
                   <span class="input-group-addon">Height</span>
-                  <input type="text" class="form-control" ng-change="editVitalSign('Height')"
-                  ng-disabled="getDisabledFields()" ng-model="height"/>
+                  <input type="text" class="form-control" ng-change="editVitalSign('Height')" ng-model="height" />
                   <span class="input-group-addon">cm</span>
                 </div>
               </div>
-              <div class ="col-sm-6">
+              <div class="col-sm-6">
                 <div class="input-group marginTop">
                   <span class="input-group-addon">Weight</span>
-                  <input type="text" class="form-control" ng-change="editVitalSign('Weight')" ng-disabled="getDisabledFields()" ng-model="weight"/>
+                  <input type="text" class="form-control" ng-change="editVitalSign('Weight')" ng-model="weight" />
                   <span class="input-group-addon">kg</span>
                 </div>
               </div>
@@ -66,251 +65,247 @@
             <div class="row double marginTop" ng-show="isUnder18()">
               <div class='col-sm-3'>
                 <div class="btn-group" uib-dropdown is-open=false>
-                  <button type="button" id="paedAcademicConcernsButton" class="btn btn-info" uib-dropdown-toggle
-                  ng-disabled="getDisabledFields()">
-                  Academic Concerns: {{academicConcerns}} <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
-                  <li><a href="#" ng-click="editSubjectCharacteristic('ACADEMIC CONCERNS', 'YES')">Yes</a></li>
-                  <li><a href="#" ng-click="editSubjectCharacteristic('ACADEMIC CONCERNS', 'NO')">No</a></li>
-                </ul>
+                  <button type="button" id="paedAcademicConcernsButton" class="btn btn-info" uib-dropdown-toggle>
+                    Academic Concerns: {{academicConcerns}}
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                    <li>
+                      <a href="#" ng-click="editSubjectCharacteristic('ACADEMIC CONCERNS', 'YES')">Yes</a>
+                    </li>
+                    <li>
+                      <a href="#" ng-click="editSubjectCharacteristic('ACADEMIC CONCERNS', 'NO')">No</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class='col-sm-3'>
+                <div class="btn-group" uib-dropdown is-open=false>
+                  <button type="button" id="paedSchoolAttendanceButton" class="btn btn-info" uib-dropdown-toggle>
+                    Percent School Attendance : {{schoolAttendance}}
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                    <li>
+                      <a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '>90%')"> > 90% </a>
+                    </li>
+                    <li>
+                      <a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '70% to 90%')"> 70% - 90% </a>
+                    </li>
+                    <li>
+                      <a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '50% to 70%')"> 50% - 70% </a>
+                    </li>
+                    <li>
+                      <a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '< 50%')">
+                        < 50% </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-            <div class='col-sm-3'>
-              <div class="btn-group" uib-dropdown is-open=false>
-                <button type="button" id="paedSchoolAttendanceButton" class="btn btn-info" uib-dropdown-toggle
-                ng-disabled="getDisabledFields()">
-                Percent School Attendance : {{schoolAttendance}} <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" uib-dropdown-menu role="menu">
-                <li><a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '>90%')"> > 90% </a></li>
-                <li><a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '70% to 90%')"> 70% - 90% </a></li>
-                <li><a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '50% to 70%')"> 50% - 70% </a></li>
-                <li><a href="#" ng-click="editSubjectCharacteristic('PERCENT SCHOOL ATTENDANCE', '< 50%')"> < 50% </a></li>
-              </ul>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading myPanel" role="tab">
+          <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseSymptoms" aria-expanded="true"
+            aria-controls="collapseOne">
+            Symptoms
+          </h4>
+        </div>
+        <div id="collapseSymptoms" class="panel-collapse collapse" role="tabpanel">
+          <div class="panel-body">
+            <div visit-symptoms></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading myPanel" role="tab">
+          <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseSigns" aria-expanded="true"
+            aria-controls="collapseOne">
+            Signs
+          </h4>
+        </div>
+        <div id="collapseSigns" class="panel-collapse collapse" role="tabpanel">
+          <div class="panel-body">
+            <div visit-signs>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="panel panel-default">
-    <div class="panel-heading myPanel" role="tab">
-      <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseSymptoms" aria-expanded="true" aria-controls="collapseOne">
-        Symptoms
-      </h4>
-    </div>
-    <div id="collapseSymptoms" class="panel-collapse collapse" role="tabpanel">
-      <div class="panel-body" ng-show="!getDisabledFields()">
-        <div visit-symptoms></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel panel-default">
-    <div class="panel-heading myPanel" role="tab">
-      <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseSigns" aria-expanded="true" aria-controls="collapseOne">
-        Signs
-      </h4>
-    </div>
-    <div id="collapseSigns" class="panel-collapse collapse" role="tabpanel">
-      <div class="panel-body" ng-show="!getDisabledFields()">
-        <div visit-signs>
+      <div class="panel panel-default">
+        <div class="panel-heading myPanel" role="tab">
+          <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseQS" aria-expanded="true"
+            aria-controls="collapseOne">
+            Performance Measures
+          </h4>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel panel-default">
-    <div class="panel-heading myPanel" role="tab">
-      <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseQS" aria-expanded="true" aria-controls="collapseOne">
-        Performance Measures
-      </h4>
-    </div>
-    <div id="collapseQS" class="panel-collapse collapse" role="tabpanel">
-      <div class="panel-body">
-        <div class="row doubleMarginTop">
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="edssHumanDropdown" class='control-label'>Expanded Disability Status Scale</label>
-              <select id="edssHumanDropdown" class="form-control"
-              ng-model="edss_human" ng-options="item for item in edssItems"
-              ng-change="addEDSS_Main()" ng-disabled="getDisabledFields()" >
-            </select>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label class='control-label'>EDMUS</label>
-            <select class="form-control" ng-model="edmus_score" ng-change="addEDMUS_Main()" ng-disabled="preventAddVisitProperties()" >
-              <option>0</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6A</option>
-              <option>6B</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class='row'>
-        <div class="col-sm-6 col-sm-push-4">
-          <button type="button" class='textButton' ng-click="openEDSS()">EDSS Tool</button>
-        </div>
-        <div class="col-sm-6 col-sm-push-4">
-          <button type="button" class='textButton' ng-click="openEDMUS()">EDMUS Tool</button>
-        </div>
-      </div>
-      <div class="row doubleMarginTop">
-        <div class="col-sm-6">
-          <div class='form-group'>
-            <label class='control-label'>25 Feet Walk Test</label>
-            <div class="input-group">
-              <span class="input-group-addon">1. </span>
-              <input type="text"  class="form-control" id="eightMetreTest"
-              ng-model="eightMFirst" ng-change="addProcedure('Eight Metre Walk Test')"
-              ng-disabled="getDisabledFields()" >
-              <span class="input-group-addon">seconds</span>
+        <div id="collapseQS" class="panel-collapse collapse" role="tabpanel">
+          <div class="panel-body">
+            <div class="row doubleMarginTop">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="edssHumanDropdown" class='control-label'>Expanded Disability Status Scale</label>
+                  <select id="edssHumanDropdown" class="form-control" ng-model="edss_human" ng-options="item for item in edssItems" ng-change="addEDSS_Main()">
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class='control-label'>EDMUS</label>
+                  <select class="form-control" ng-model="edmus_score" ng-change="addEDMUS_Main()" ng-disabled="preventAddVisitProperties()">
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6A</option>
+                    <option>6B</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <label class='control-label'>25 Feet Walk Test</label>
-          <div class="input-group">
-            <span class="input-group-addon">2. </span>
-            <input type="text"  class="form-control" ng-model="eightMSecond"
-            ng-change="addProcedure('Eight Metre Walk Test')"
-            ng-disabled="getDisabledFields()" >
-            <span class="input-group-addon">seconds</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="row doubleMarginTop">
-        <div class="col-sm-6">
-          <div class='form-group'>
-            <label class='control-label'>Nine Hole Peg Test</label>
-            <div class="input-group">
-              <span class="input-group-addon">1. Left</span>
-              <input type="text"  class="form-control" ng-model="nineHolePegFirstLeft"
-              ng-change="addProcedure('Nine Hole Peg Test')"
-              placeholder="Left" ng-disabled="getDisabledFields()" >
-              <span class="input-group-addon">seconds</span>
+            <div class='row'>
+              <div class="col-sm-6 col-sm-push-4">
+                <button type="button" class='textButton' ng-click="openEDSS()">EDSS Tool</button>
+              </div>
+              <div class="col-sm-6 col-sm-push-4">
+                <button type="button" class='textButton' ng-click="openEDMUS()">EDMUS Tool</button>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class='form-group'>
-            <label class='control-label'>Nine Hole Peg Test </label>
-            <div class="input-group">
-              <span class="input-group-addon">1. Right</span>
-              <input type="text"  class="form-control" ng-model="nineHolePegFirstRight"
-              ng-change="addProcedure('Nine Hole Peg Test')"
-              placeholder="Right" ng-disabled="getDisabledFields()" >
-              <span class="input-group-addon">seconds</span>
+            <div class="row doubleMarginTop">
+              <div class="col-sm-6">
+                <div class='form-group'>
+                  <label class='control-label'>25 Feet Walk Test</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">1. </span>
+                    <input type="text" class="form-control" id="eightMetreTest" ng-model="eightMFirst" ng-change="addProcedure('Eight Metre Walk Test')">
+                    <span class="input-group-addon">seconds</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label class='control-label'>25 Feet Walk Test</label>
+                <div class="input-group">
+                  <span class="input-group-addon">2. </span>
+                  <input type="text" class="form-control" ng-model="eightMSecond" ng-change="addProcedure('Eight Metre Walk Test')">
+                  <span class="input-group-addon">seconds</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="input-group">
-            <span class="input-group-addon">2. Left</span>
-            <input type="text"  class="form-control" ng-model="nineHolePegSecondLeft"
-            ng-change="addProcedure('Nine Hole Peg Test')" placeholder="Left"
-            ng-disabled="getDisabledFields()" >
-            <span class="input-group-addon">seconds</span>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="input-group">
-            <span class="input-group-addon">2. Right</span>
-            <input type="text"  class="form-control" ng-model="nineHolePegSecondRight"
-            ng-change="addProcedure('Nine Hole Peg Test')" placeholder="Right"
-            ng-disabled="getDisabledFields()" >
-            <span class="input-group-addon">seconds</span>
-          </div>
-        </div>
-      </div>
 
-      <div class="row doubleMarginTop">
-        <div class="col-sm-6">
-        <div class='form-group'>
-          <label class='control-label'>Low Contrast Letter Acuity</label>
-          <div class="input-group">
-            <span class="input-group-addon">Left</span>
-            <select class="form-control" ng-model="lowContrastVisualAcuityLeft"
-            ng-change="addProcedure('Low Contrast Visual Acuity')"
-            ng-disabled="getDisabledFields()" >
-            <option>200</option>
-            <option>160</option>
-            <option>125</option>
-            <option>100</option>
-            <option>80</option>
-            <option>63</option>
-            <option>50</option>
-            <option>40</option>
-            <option>32</option>
-            <option>25</option>
-            <option>16</option>
-            <option>12.5</option>
-            <option>10</option>
-          </select>
-          <span class="input-group-addon">20/</span>
-        </div>
-        </div>
-        </div>
-        <div class="col-sm-6">
-        <div class='form-group'>
-        <label class='control-label'>Low Contrast Letter Acuity</label>
-        <div class="input-group">
-          <span class="input-group-addon">Right</span>
-          <select class="form-control" ng-model="lowContrastVisualAcuityRight"
-          ng-change="addProcedure('Low Contrast Visual Acuity')"
-          ng-disabled="getDisabledFields()" >
-          <option>200</option>
-          <option>160</option>
-          <option>125</option>
-          <option>100</option>
-          <option>80</option>
-          <option>63</option>
-          <option>50</option>
-          <option>40</option>
-          <option>32</option>
-          <option>25</option>
-          <option>16</option>
-          <option>12.5</option>
-          <option>10</option>
-        </select>
-        <span class="input-group-addon">20/</span>
-        </div>
-        </div>
-        </div>
-      </div>
-      <div class="row doubleMarginTop">
-        <div class="col-sm-6">
-          <div class='form-group'>
-            <label class='control-label'>Symbol Digit Modality Test</label>
-            <div class="input-group">
-              <span class="input-group-addon">1. </span>
-              <input type="number"  class="form-control" min="0" max="110" style="width: 13em"
-              ng-model="symbolDigitModality"
-              ng-change="addProcedure('Symbol Digit Modality Test')"
-              ng-disabled="getDisabledFields()" placeholder="Total raw score">
+            <div class="row doubleMarginTop">
+              <div class="col-sm-6">
+                <div class='form-group'>
+                  <label class='control-label'>Nine Hole Peg Test</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">1. Left</span>
+                    <input type="text" class="form-control" ng-model="nineHolePegFirstLeft" ng-change="addProcedure('Nine Hole Peg Test')" placeholder="Left">
+                    <span class="input-group-addon">seconds</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class='form-group'>
+                  <label class='control-label'>Nine Hole Peg Test </label>
+                  <div class="input-group">
+                    <span class="input-group-addon">1. Right</span>
+                    <input type="text" class="form-control" ng-model="nineHolePegFirstRight" ng-change="addProcedure('Nine Hole Peg Test')" placeholder="Right">
+                    <span class="input-group-addon">seconds</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="input-group">
+                  <span class="input-group-addon">2. Left</span>
+                  <input type="text" class="form-control" ng-model="nineHolePegSecondLeft" ng-change="addProcedure('Nine Hole Peg Test')" placeholder="Left">
+                  <span class="input-group-addon">seconds</span>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="input-group">
+                  <span class="input-group-addon">2. Right</span>
+                  <input type="text" class="form-control" ng-model="nineHolePegSecondRight" ng-change="addProcedure('Nine Hole Peg Test')"
+                    placeholder="Right">
+                  <span class="input-group-addon">seconds</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row doubleMarginTop">
+              <div class="col-sm-6">
+                <div class='form-group'>
+                  <label class='control-label'>Low Contrast Letter Acuity</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Left</span>
+                    <select class="form-control" ng-model="lowContrastVisualAcuityLeft" ng-change="addProcedure('Low Contrast Visual Acuity')">
+                      <option>200</option>
+                      <option>160</option>
+                      <option>125</option>
+                      <option>100</option>
+                      <option>80</option>
+                      <option>63</option>
+                      <option>50</option>
+                      <option>40</option>
+                      <option>32</option>
+                      <option>25</option>
+                      <option>16</option>
+                      <option>12.5</option>
+                      <option>10</option>
+                    </select>
+                    <span class="input-group-addon">20/</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class='form-group'>
+                  <label class='control-label'>Low Contrast Letter Acuity</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Right</span>
+                    <select class="form-control" ng-model="lowContrastVisualAcuityRight" ng-change="addProcedure('Low Contrast Visual Acuity')">
+                      <option>200</option>
+                      <option>160</option>
+                      <option>125</option>
+                      <option>100</option>
+                      <option>80</option>
+                      <option>63</option>
+                      <option>50</option>
+                      <option>40</option>
+                      <option>32</option>
+                      <option>25</option>
+                      <option>16</option>
+                      <option>12.5</option>
+                      <option>10</option>
+                    </select>
+                    <span class="input-group-addon">20/</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row doubleMarginTop">
+              <div class="col-sm-6">
+                <div class='form-group'>
+                  <label class='control-label'>Symbol Digit Modality Test</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">1. </span>
+                    <input type="number" class="form-control" min="0" max="110" style="width: 13em" ng-model="symbolDigitModality" ng-change="addProcedure('Symbol Digit Modality Test')"
+                      placeholder="Total raw score">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-  </div>
-</div>
-</div>
 
-<!-- <div class="panel panel-default">
+      <!-- <div class="panel panel-default">
   <div class="panel-heading myPanel" role="tab">
     <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseVisitNotes" aria-expanded="true" aria-controls="collapseOne">
       Visit Diagnosis Note
@@ -328,25 +323,24 @@
   </div>
 </div> -->
 
-<div class="panel panel-default">
-  <div class="panel-heading myPanel" role="tab">
-    <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion"
-    href="#collapseCommunications" >
-    Communications
-  </h4>
-</div>
-<div id="collapseCommunications" class="panel-collapse collapse" role="tabpanel">
-  <div class="panel-body">
-    <div communication-entry ng-controller="communicationInfoCtrl"></div>
+      <div class="panel panel-default">
+        <div class="panel-heading myPanel" role="tab">
+          <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#visitAccordion" href="#collapseCommunications">
+            Communications
+          </h4>
+        </div>
+        <div id="collapseCommunications" class="panel-collapse collapse" role="tabpanel">
+          <div class="panel-body">
+            <div communication-entry ng-controller="communicationInfoCtrl"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
-</div>
-
-</div>
-</div>
 
 
-<script type="text/ng-template" id="edss.html" >
+  <script type="text/ng-template" id="edss.html">
 
   <div class="modal-header">
     <label class="modal-title">EDSS</label>
@@ -912,14 +906,14 @@
 
   </script>
 
-  <script type ="text/ng-template" id="edmus.html">
+  <script type="text/ng-template" id="edmus.html">
     <div class="modal-header">
       <label class="modal-title">EDMUS</label>
     </div>
 
     <div class='modal-body container-fluid'>
       <form>
-        <div class="form-group" ng-disabled="getDisabledFields()" >
+        <div class="form-group" >
           <div ng-repeat="entry in entries">
             <label for="edmusScore"> &nbsp
               <input type="radio"
