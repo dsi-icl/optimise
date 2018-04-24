@@ -10,6 +10,10 @@
     margin: 0;
 }
 
+.dropdown-menu {
+    z-index: 10000;
+}
+
 .search-field-criteria div {
     height: 30px;
 }
@@ -192,19 +196,6 @@ pageslide {
 
 #section.extend {
     width: 100%;
-}
-
-#nopatientcover {
-    z-index: 100000;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height:calc(100vh - 115px);
-    background-color: white;
-    text-align: center;
-    font-size: 16px;
-    padding-top: 10%;
 }
 
 /*#section>.container{*/
@@ -405,8 +396,9 @@ pageslide {
     font-weight: bold;
 }
 
-#visitContentNoSelection {
-    z-index: 100000;
+#nopatientcover, #visitContentNoSelection, #interventionContentNoSelection, #relapseContentNoSelection,
+#navigationLabNoSelection, #evokedNoSelection, #MRINoSelection, #cerebroSpinalNoSelection {
+    z-index: 1000;
     position: absolute;
     top: 0;
     left: 0;
