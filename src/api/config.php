@@ -2,8 +2,18 @@
 
 include_once("constants.php");
 
+session_start();
 date_default_timezone_set('Europe/London');
 define("destinationURL",'');
+
+header('cache-control: no-cache,no-store,must-revalidate'); // HTTP 1.1.
+header('pragma: no-cache'); // HTTP 1.0.
+header('expires: 0'); // Proxies.
+if (function_exists('header_remove')) {
+    header_remove('X-Powered-By');
+} else {
+    @ini_set('expose_php', 'off');
+}
 
 //error_reporting(0);
 define ("DB_HOST", "database");
