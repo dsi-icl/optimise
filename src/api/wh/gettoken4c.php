@@ -12,8 +12,13 @@ if($connection==null)
 $uadm = array("username" => "admin");
 $cursor = $connection->clinicians->find($uadm);
 
-if ($cursor->count() <= 0)
-    $connection->clinicians->insert(json_decode('{"username" : "admin", "password" : "letmein", "email" : "", "group_ids" : [], "site" : "local"}'));
+if ($cursor->count() <= 0) {
+    $options = [
+        'cost' => 10,
+    ];
+    $connection->clinicians->createIndex(array('username' => 1), array('unique' => 1, 'dropDups' => 1));
+    $connection->clinicians->insert(json_decode('{"username" : "admin", "password" : "' . password_hash("letmein", PASSWORD_BCRYPT, $options) . '", "email" : "", "group_ids" : [], "site" : "local"}'));
+}
 
 $method = $_SERVER['REQUEST_METHOD'];
 if($method=="POST") {
@@ -44,7 +49,7 @@ if($method=="POST") {
     {
         ReturnException(ERROR_Invalid_Method,400,"user not found");
         return;
-    }else if($password!=$user[password])
+    }else if(!password_verify($password, $user[password]))
     {
         ReturnException(ERROR_Wrong_Password,400,"wrong password");
         return;
