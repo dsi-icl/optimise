@@ -14,7 +14,6 @@ var myPortal = angular.module('Optimise', ['Optimise.timeline',
     'Optimise.subjectVisit',
     'Optimise.procedure',
     'Optimise.medicalHistory',
-    'Optimise.header',
     'Optimise.relapse',
     'Optimise.patient',
     'Optimise.exposure',
@@ -41,6 +40,7 @@ var myPortal = angular.module('Optimise', ['Optimise.timeline',
     'Optimise.reminders',
     'Optimise.signs',
     'Optimise.exporter',
+    'Optimise.header',
     'ui.bootstrap']);
 
 

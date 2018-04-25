@@ -7,6 +7,7 @@
  */
 
 var headerModule = angular.module('Optimise.header', ['Optimise.view',
+    'Optimise.communication',
     'Optimise.clinicalEvent',
     'Optimise.medicalHistory',
     'Optimise.questionnaire',
@@ -31,7 +32,8 @@ var headerModule = angular.module('Optimise.header', ['Optimise.view',
     'Optimise.configurations',
     'ngTable',
     'Optimise.substanceUse',
-    'Optimise.subjectCharacteristic'
+    'Optimise.subjectCharacteristic',
+    'Optimise.subjectVisit'
 ]);
 
 headerModule.factory('Country', function () {
@@ -1701,41 +1703,35 @@ headerModule.controller('headerCtrl', function ($rootScope,
     pullViewConfiguration();
 
     $scope.authenticate = function () {
-        var authenticationDetails = { "username": $scope.UserName, "password": $scope.Password, "expire_in_seconds": 120 };
-        if (navigator.onLine) {
-            if (($scope.UserName.length > 0) && ($scope.Password.length > 0)) {
+        var authenticationDetails = { "username": $scope.UserName, "password": $scope.Password };
+        USERID.save(authenticationDetails, function (data) {
+            data.$promise.then(function () {
+                if (data.result == 'succeed') {
+                    records.setToken(data.token);
+                    setupConfig(data.config);
+                    viewService.setAuthenticated(true);
+                    $scope.authenticatedStatus = "Logged In";
 
-                USERID.save(authenticationDetails, function (data) {
-                    data.$promise.then(function () {
-                        if (data.result == 'succeed') {
-                            records.setToken(data.token);
-                            setupConfig(data.config);
-                            viewService.setAuthenticated(true);
-                            $scope.authenticatedStatus = "Logged In";
+                    if ((data.siteID != null) && (data.siteID != ''))
+                        $scope.siteID = data.siteID;
 
-                            if ((data.siteID != null) && (data.siteID != ''))
-                                $scope.siteID = data.siteID;
-
-                            //pullViewConfiguration();
-                            setupConfig(data.config);
-                            $scope.sourceMode = 'internet';
-                            viewService.setOffline(false);
-                            clearCurrentPatientSession();
-                            $scope.contentOnDisplay = 'Patient';
-                            $scope.setContent();
-                        }
-                    });
-                }, function (err) {
-                    var errorMsg = "Login Failed: " + err.data.desp;
-                    $scope.UserName = "";
-                    $scope.Password = "";
-                    alert(errorMsg);
-                });
+                    //pullViewConfiguration();
+                    setupConfig(data.config);
+                    $scope.sourceMode = 'internet';
+                    viewService.setOffline(false);
+                    clearCurrentPatientSession();
+                    $scope.contentOnDisplay = 'Patient';
+                    $scope.setContent();
+                }
+            });
+        }, function (err) {
+            if (!($scope.UserName == "" && $scope.Password == "")) {
+                var errorMsg = "Login Failed: " + err.data.desp;
+                alert(errorMsg);
             }
-            else {
-                alert("User name and password please");
-            }
-        }
+            $scope.UserName = "";
+            $scope.Password = "";
+        });
     }
 
     $scope.disableEntry = function () {
@@ -2074,6 +2070,20 @@ headerModule.controller('headerCtrl', function ($rootScope,
             }
         }
         return false;
+    }
+
+    $scope.logout = function () {
+        fetch('./api/wh/logout.php', {
+            credentials: 'same-origin',
+            method: 'get'
+        }).then(function (response) {
+            return response.json();
+        }).then(function (response) {
+            if (response.logged != "out")
+                alert('There was an issue loggin you out');
+            else
+                window.location.reload();
+        })
     }
 
     $scope.downloadToDrive = function () {
@@ -3517,5 +3527,12 @@ headerModule.controller('headerCtrl', function ($rootScope,
             console.log("Cancelled");
         });
     };
+
+    angular.element(function () {
+        setTimeout(() => {
+            $scope.authenticate();
+            $('#exoticlogin .loaderwrap').hide();
+        }, 1000)
+    });
 
 });
