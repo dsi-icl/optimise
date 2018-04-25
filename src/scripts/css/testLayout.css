@@ -6,10 +6,6 @@
     overflow: hidden;
 }
 
-#section .row {
-    margin: 0;
-}
-
 .dropdown-menu {
     z-index: 10000;
 }
