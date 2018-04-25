@@ -1,8 +1,9 @@
-FROM php:5.5-apache
+FROM php:5.6-apache
 
 LABEL author="Florian Guitton" email="f.guitton@imperial.ac.uk" version="0.2.0"
 
 RUN apt-get update; \
+    apt-get dist-upgrade -y; \
 	apt-get install -y --no-install-recommends \
 		libcurl4-openssl-dev \
 		libssl-dev; \
