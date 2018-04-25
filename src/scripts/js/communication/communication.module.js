@@ -530,7 +530,7 @@ communicationModule.controller('communicationInfoCtrl', function($scope,
         else
             return false;
     }
-
+    
     $rootScope.clearCommunications = function () {
         diagnosisText = '';
         relapsesText = '';
