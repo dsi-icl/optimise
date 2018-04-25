@@ -17,7 +17,9 @@
 //    'Optimise.adverseEvent',
 //    'Optimise.communication']);
 
-var visitModule = angular.module('Optimise.subjectVisit',['ui.bootstrap']);
+var visitModule = angular.module('Optimise.subjectVisit',['ui.bootstrap',
+    'Optimise.communication'
+]);
 
 
 visitModule.service('subjectVisits', function(subjectVisit, records, viewService, symptoms, signs, communications) {

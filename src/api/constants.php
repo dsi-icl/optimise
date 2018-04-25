@@ -25,7 +25,6 @@ define ("username", 'username');
 define ("password", 'password');
 define ("email", "email");
 define ("token", "token");
-define ("expire_in_seconds", "expire_in_seconds");
 define("m_id","m_id");
 define("limit","limit");
 define("skip","skip");
