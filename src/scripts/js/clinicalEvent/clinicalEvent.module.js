@@ -14,7 +14,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
     var deleteClinicalEvents = function() {
         clinicalEvents=[];
         currentEvent = null;
-    }
+    };
 
     var currentEvent = null;
 
@@ -103,108 +103,108 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
 
     var getMedicalConditions = function() {
         return medicalConditions;
-    }
+    };
 
     var populateClinicalEvents = function (RecordItems) {
         var newEvent = new clinicalEvent();
         for (var i = 0; i < RecordItems.length; i++){
 
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    newEvent.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    newEvent.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    newEvent.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'CESEQ':{
-                    newEvent.CESEQ = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'CEGRPID':{
-                    newEvent.CEGRPID = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'CELNKID':{
-                    newEvent.CELNKID = RecordItems[i].value;
-                    break;
-                }
-                case 'CETERM':{
-                    newEvent.CETERM = RecordItems[i].value;
-                    break;
-                }
-                case 'CESEV':{
-                    newEvent.CESEV = RecordItems[i].value;
-                    break;
-                }
-                case 'CESTDTC':{
-                    newEvent.CESTDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'CEENDTC':{
-                    newEvent.CEENDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'CEBODSYS':{
-                    newEvent.CEBODSYS = RecordItems[i].value;
-                    break;
-                }
-                case 'CELAT':{
-                    newEvent.CELAT = RecordItems[i].value;
-                    break;
-                }
-                case 'CEOUT':{
-                    newEvent.CEOUT = RecordItems[i].value;
-                    break;
-                }
-                case 'CECAT':{
-                    newEvent.CECAT = RecordItems[i].value;
-                    break;
-                }
-                case 'displayLabel':{
-                    newEvent.displayLabel = RecordItems[i].value;
-                    break;
-                }
-                case 'displayDate':{
-                    newEvent.displayDate = RecordItems[i].value;
-                    break;
-                }
+            case 'STUDYID':{
+                newEvent.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                newEvent.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                newEvent.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'CESEQ':{
+                newEvent.CESEQ = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'CEGRPID':{
+                newEvent.CEGRPID = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'CELNKID':{
+                newEvent.CELNKID = RecordItems[i].value;
+                break;
+            }
+            case 'CETERM':{
+                newEvent.CETERM = RecordItems[i].value;
+                break;
+            }
+            case 'CESEV':{
+                newEvent.CESEV = RecordItems[i].value;
+                break;
+            }
+            case 'CESTDTC':{
+                newEvent.CESTDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'CEENDTC':{
+                newEvent.CEENDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'CEBODSYS':{
+                newEvent.CEBODSYS = RecordItems[i].value;
+                break;
+            }
+            case 'CELAT':{
+                newEvent.CELAT = RecordItems[i].value;
+                break;
+            }
+            case 'CEOUT':{
+                newEvent.CEOUT = RecordItems[i].value;
+                break;
+            }
+            case 'CECAT':{
+                newEvent.CECAT = RecordItems[i].value;
+                break;
+            }
+            case 'displayLabel':{
+                newEvent.displayLabel = RecordItems[i].value;
+                break;
+            }
+            case 'displayDate':{
+                newEvent.displayDate = RecordItems[i].value;
+                break;
+            }
             }
         }
         clinicalEvents.push(newEvent);
-    }
+    };
 
     var setEvent = function (event) {
         if (event != null)
             //currentEvent = getEventsByTerm(event.CECAT, event.CETERM, event.CESTDTC);
             if (event.CETERM == 'Multiple Sclerosis Relapse') {
-                currentEvent =  getEventsByCatTermAndGroupID(event.CECAT, "Multiple Sclerosis Relapse", event.CEGRPID);
+                currentEvent =  getEventsByCatTermAndGroupID(event.CECAT, 'Multiple Sclerosis Relapse', event.CEGRPID);
             }
             else
-                currentEvent =  getEventsByTerm(event.CECAT, "Multiple Sclerosis Relapse", event.CESTDTC);
+                currentEvent =  getEventsByTerm(event.CECAT, 'Multiple Sclerosis Relapse', event.CESTDTC);
         else
             currentEvent = [];
-    }
+    };
 
     var setSymptoms = function (visit) {
         currentEvent = getSymptomsByDate(visit.SVSTDTC);
-    }
+    };
 
     var clearEvent = function () {
         currentEvent = [];
-    }
+    };
 
     var getCurrentEvent = function () {
         return currentEvent;
-    }
+    };
 
     var getEventsByDate = function(CESTDTC){
-        var events = []
+        var events = [];
         for (var e = 0; e < clinicalEvents.length; e++) {
             if (clinicalEvents[e].CESTDTC.toDateString() == CESTDTC.toDateString())
             {
@@ -212,7 +212,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return events;
-    }
+    };
 
     var getSymptomsByDate = function(CESTDTC){
         var symptoms = [];
@@ -224,7 +224,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return symptoms;
-    }
+    };
 
     var getEventsByTerm = function (CECAT, CETERM, CESTDTC) {   // eg. all 'multiple sclerosis relapses'
         var events = [];
@@ -237,7 +237,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return events;
-    }
+    };
 
     var getEventsByCatTermAndGroupID = function (CECAT, CETERM, CEGRPID) {   // eg. all 'multiple sclerosis relapses'
         var events = [];
@@ -250,7 +250,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return events;
-    }
+    };
 
     var getEventByBodSys = function (CEBODSYS, CETERM, CEGRPID) { // eg. all 'brain stem'
         for (var e = 0; e < clinicalEvents.length; e++) {
@@ -261,7 +261,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
                 return clinicalEvents[e];
             }
         }
-    }
+    };
 
 
     var getEventsByCatGroupID = function (CECAT, CEGRPID) { // eg. all 'brain stem'
@@ -274,10 +274,10 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return events;
-    }
+    };
 
     var getEvents = function (CETERM) {
-        var events = []
+        var events = [];
         for (var e = 0; e < clinicalEvents.length; e++) {
             if (clinicalEvents[e].CETERM == CETERM)
             {
@@ -285,7 +285,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return events;
-    }
+    };
 
     var getEventByTermOnDate = function (CETERM, CESTDTC) {
         var events = [];
@@ -297,7 +297,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return events;
-    }
+    };
 
     var getEventByTermBodsysOnDate = function (CECAT, CETERM, CEBODSYS, CESTDTC) {
         var events = [];
@@ -311,7 +311,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return events;
-    }
+    };
 
     var getEventsFromCategory = function (CECAT) {
         var events = [];
@@ -322,7 +322,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return events;
-    }
+    };
 
     var getEventsFromCategoryAndDate = function (CECAT, CESTDTC) {
         var events = [];
@@ -335,7 +335,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return events;
-    }
+    };
 
     var getUniqueDatesFromCategory = function (CECAT) {
         var events = getEventsFromCategory(CECAT);
@@ -346,7 +346,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return uniqueDates;
-    }
+    };
 
     var getUniqueGroupsFromCategory = function (CECAT) {
         var events = getEventsFromCategory(CECAT);
@@ -360,7 +360,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             return new Date(b.CESTDTC) - new Date(a.CESTDTC);
         });
         return uniqueGroups;
-    }
+    };
 
     var groupExists = function (uniqueGroups, CEGRPID){
         for (var d = 0; d < uniqueGroups.length; d++) {
@@ -369,7 +369,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return false;
-    }
+    };
 
     var dateExists = function (uniqueDates, CESTDTC){
         for (var d = 0; d < uniqueDates.length; d++) {
@@ -378,7 +378,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return false;
-    }
+    };
 
     var termExists = function (CETERM) {
         //console.log(medicalConditions);
@@ -388,7 +388,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             }
         }
         return false;
-    }
+    };
 
     var getNewCEGRPID = function() {
         var SEQs = compileGrpIds();
@@ -399,7 +399,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
         else {
             return 0;
         }
-    }
+    };
 
     var generateSEQ = function () {
         var SEQs = compileEvents();
@@ -410,7 +410,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
         else {
             return 0;
         }
-    }
+    };
 
     function sortNumber(a,b) {
         return a - b;
@@ -422,7 +422,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             seq.push(clinicalEvents[e].CESEQ);
         }
         return seq;
-    }
+    };
 
     var compileGrpIds = function () {
         var seq = [];
@@ -430,7 +430,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             seq.push(clinicalEvents[e].CEGRPID);
         }
         return seq;
-    }
+    };
 
     var addEvent = function (newEvent) {
         newEvent.CESEQ = generateSEQ();
@@ -440,11 +440,11 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
             //viewService.workOffline();
             records.saveRecord(newEvent);
         }
-    }
+    };
 
     var editEvent = function(event, resName, resValue) {
-        var USUBJID = {fieldName: "USUBJID", value: event.USUBJID};
-        var CESEQ = {fieldName:"CESEQ", value: event.CESEQ};
+        var USUBJID = {fieldName: 'USUBJID', value: event.USUBJID};
+        var CESEQ = {fieldName:'CESEQ', value: event.CESEQ};
         var CERESTOCHANGE = {fieldName:resName, value: resValue};
 
         var idRecord = [USUBJID, CESEQ];
@@ -452,7 +452,7 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
 
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     var deleteEvent = function (event) {
         var index = clinicalEvents.indexOf(event);
@@ -461,15 +461,11 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
         }
         if (!viewService.workOffline())
             records.deleteRecord(event);
-    }
-
-    var printEvents = function() {
-        console.log(clinicalEvents);
-    }
+    };
 
     var getClinicalEvents = function() {
         return clinicalEvents;
-    }
+    };
 
     return {
         getClinicalEvents: getClinicalEvents,
@@ -482,7 +478,6 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
         getCurrentEvent: getCurrentEvent,   // get the current day in which a relapse occured
         getEventByBodSys:getEventByBodSys, // event occurs in same body system, same day
         getEventsByTerm:getEventsByTerm, // same event, same day
-        printEvents: printEvents,
         getSymptomsByDate: getSymptomsByDate,
         setSymptoms: setSymptoms,
         getEventsByDate: getEventsByDate,
@@ -499,8 +494,8 @@ clinicalEventModule.service('clinicalEvents', function(clinicalEvent, records, v
         deleteClinicalEvents:deleteClinicalEvents,
         getEventByTermBodsysOnDate: getEventByTermBodsysOnDate,
         getEventsByCatGroupID: getEventsByCatGroupID
-    }
-})
+    };
+});
 
 clinicalEventModule.factory('clinicalEvent', function() {
     return function(USUBJID, CETERM, CECAT) {
@@ -520,7 +515,7 @@ clinicalEventModule.factory('clinicalEvent', function() {
             displayLabel:'',
             CECAT:CECAT,
             CELAT: ''
-        }
+        };
         return clinicalEvent;
-    }
+    };
 });

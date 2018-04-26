@@ -24,9 +24,9 @@ substanceModule.factory('SubstanceUse', function () {
             SUDOSFRQ:'',
             SUSTDTC: '',
             SUENDTC: ''
-        }
+        };
         return SubstanceUse;
-    }
+    };
 });
 
 substanceModule.service('substanceUse', function (SubstanceUse, records, viewService) {
@@ -34,66 +34,66 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
 
     var deleteSubstanceUse = function () {
         substanceUse = [];
-    }
+    };
 
     var populateSubstanceUse = function (RecordItems) {
         var newEvent = new SubstanceUse();
         for (var i = 0; i < RecordItems.length; i++){
 
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    newEvent.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    newEvent.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    newEvent.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'SUSEQ':{
-                    newEvent.SUSEQ = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'SUSTDTC':{
-                    newEvent.SUSTDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'SUTRT':{
-                    newEvent.SUTRT = RecordItems[i].value;
-                    break;
-                }
-                case 'SUDOSE':{
-                    newEvent.SUDOSE = RecordItems[i].value;
-                    break;
-                }
-                case 'SUDOSU':{
-                    newEvent.SUDOSU = RecordItems[i].value;
-                    break;
-                }
-                case 'SUDOSFRM':{
-                    newEvent.SUDOSFRM = RecordItems[i].value;
-                    break;
-                }
-                case 'SUDOSFRQ':{
-                    newEvent.SUDOSFRQ = RecordItems[i].value;
-                    break;
-                }
-                case 'SUENDTC':{
-                    newEvent.SUENDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'SUCAT':{
-                    newEvent.SUCAT = RecordItems[i].value;
-                    break;
-                }
+            case 'STUDYID':{
+                newEvent.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                newEvent.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                newEvent.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'SUSEQ':{
+                newEvent.SUSEQ = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'SUSTDTC':{
+                newEvent.SUSTDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'SUTRT':{
+                newEvent.SUTRT = RecordItems[i].value;
+                break;
+            }
+            case 'SUDOSE':{
+                newEvent.SUDOSE = RecordItems[i].value;
+                break;
+            }
+            case 'SUDOSU':{
+                newEvent.SUDOSU = RecordItems[i].value;
+                break;
+            }
+            case 'SUDOSFRM':{
+                newEvent.SUDOSFRM = RecordItems[i].value;
+                break;
+            }
+            case 'SUDOSFRQ':{
+                newEvent.SUDOSFRQ = RecordItems[i].value;
+                break;
+            }
+            case 'SUENDTC':{
+                newEvent.SUENDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'SUCAT':{
+                newEvent.SUCAT = RecordItems[i].value;
+                break;
+            }
 
             }
         }
         substanceUse.push(newEvent);
-    }
+    };
 
     var addSubstanceUse = function (SU){
         SU.SUSEQ = generateSUSEQ();
@@ -101,7 +101,7 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
         //console.log(substanceUse);
         if (!viewService.workOffline())
             records.saveRecord(SU);
-    }
+    };
 
     var compileSubstanceUseSeq = function () {
         var seq = [];
@@ -109,7 +109,7 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
             seq.push(substanceUse[e].SUSEQ);
         }
         return seq;
-    }
+    };
 
     var generateSUSEQ = function () {
         var SUSEQs = compileSubstanceUseSeq();
@@ -120,13 +120,13 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
         else {
             return 0;
         }
-    }
+    };
 
     var editSubstanceUse = function(substanceUse, resName, resValue) {
         if (!viewService.workOffline())
         {
-            var USUBJID = {fieldName: "USUBJID", value: substanceUse.USUBJID};
-            var SEQ = {fieldName:"SUSEQ", value: substanceUse.SUSEQ};
+            var USUBJID = {fieldName: 'USUBJID', value: substanceUse.USUBJID};
+            var SEQ = {fieldName:'SUSEQ', value: substanceUse.SUSEQ};
             var RESTOCHANGE = {fieldName:resName, value: resValue};
             //console.log(RESTOCHANGE);
 
@@ -135,16 +135,6 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
             records.editRecord(idRecord, valueRecord);
         }
     };
-
-
-    var deleteThisSubstanceUse = function (SU){
-        var index = substanceUse.indexOf(SU);
-        if (index > -1) {
-            substanceUse.splice(index, 1);
-        }
-        if (!viewService.workOffline())
-            records.deleteRecord(SU);
-    }
 
     var getThisSubstanceUse = function (SUTRT) {
         var substanceUseToTreatment = [];
@@ -157,7 +147,7 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
         }
         //console.log(substanceUseToTreatment);
         return substanceUseToTreatment;
-    }
+    };
 
     var getSubstanceUseAscending = function (SUTRT) {
         var substanceUse = getSubstanceUse(SUTRT);
@@ -165,16 +155,16 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
         STDTCs.sort(sortAscending);
         var sortedSubstanceUse = [];
         for (var d = 0; d < STDTCs.length; d++) {
-            sortedSubstanceUse.push(getSubstanceUseByDate(SUTRT, STDTCs[d]))
+            sortedSubstanceUse.push(getSubstanceUseByDate(SUTRT, STDTCs[d]));
         }
         return substanceUse;
-    }
+    };
 
     var sortAscending = function (date1, date2) {
         if (date1 > date2) return 1;
         if (date1 < date2) return -1;
         return 0;
-    }
+    };
 
     var compileSubstanceUseStartDates = function (substanceUse) {
         var startDates = [];
@@ -182,7 +172,7 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
             startDates.push(substanceUse[e].SUSTDTC);
         }
         return startDates;
-    }
+    };
 
     var getSubstanceUseByDate = function (SUTRT, SUSTDTC) {
         //var substanceUseMeetingCriteria = [];
@@ -196,20 +186,21 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
             }
         }
         return null;
-    }
+    };
 
     var getSubstanceUseByDisplay = function (displayLabel, SUTRT) {
         var substanceUseMeetingCriteria = [];
+        var e = 0;
         if (displayLabel.indexOf('Dose Change') > -1) // if a dose change is to be deleted
         {
-            for (var e = 0; e < substanceUse.length; e++)
+            for (e = 0; e < substanceUse.length; e++)
             {
                 if (substanceUse[e].displayLabel==displayLabel)
                     substanceUseMeetingCriteria.push(substanceUse[e]);
             }
         }
         else {
-            for (var e = 0; e < substanceUse.length; e++)
+            for (e = 0; e < substanceUse.length; e++)
             {
                 if (substanceUse[e].SUTRT == SUTRT){
                     substanceUseMeetingCriteria.push(substanceUse[e]);
@@ -218,7 +209,7 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
         }
 
         return substanceUseMeetingCriteria;
-    }
+    };
 
 
     var getUniqueSubstanceUse = function () {
@@ -229,7 +220,7 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
             }
         }
         return uniqueSubstanceUse;
-    }
+    };
 
     var substanceUseExists = function (uniqueSubstanceUse, SUTRT){
         for (var d = 0; d < uniqueSubstanceUse.length; d++) {
@@ -238,17 +229,17 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
             }
         }
         return false;
-    }
+    };
 
 
     var getSubstanceUse = function() {
         //console.log(substanceUse);
         return substanceUse;
-    }
+    };
 
     var clearSubstanceUse = function () {
         substanceUse=[];
-    }
+    };
 
     return {
         editSubstanceUse: editSubstanceUse,
@@ -262,5 +253,5 @@ substanceModule.service('substanceUse', function (SubstanceUse, records, viewSer
         populateSubstanceUse:populateSubstanceUse,
         getSubstanceUse: getSubstanceUse,
         getSubstanceUseAscending:getSubstanceUseAscending
-    }
+    };
 });

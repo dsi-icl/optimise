@@ -18,30 +18,27 @@ mriModule.service('fileUpload', ['$http', function ($http) {
         fd.append('sessionLabel', sessionLabel);
         fd.append('scanDate', scanDate);
         fd.append('scanWeight', scanWeight);
-        console.log('uploading');
         $http.post(uploadUrl, fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined,'Process-Data': false}
         })
             .success(function(){
-                console.log("Success");
                 //records
             })
             .error(function(){
-                console.log("Error");
             });
-    }
+    };
     return {
         uploadToXNAT: uploadToXNAT
-    }
+    };
 }]);
 
 
 
 mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibModal, $timeout,
-                                        procedures, procedure, viewService, records,
-                                        morphologyServices, Morphology, connectionServices,
-                                        DeviceInUse, deviceInUseServices, fileUpload) {
+    procedures, procedure, viewService, records,
+    morphologyServices, Morphology, connectionServices,
+    DeviceInUse, deviceInUseServices, fileUpload) {
 
     $scope.USUBJID = '';
     $scope.provideICOMETRIX = false;
@@ -52,90 +49,84 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
             $scope.provideICOMETRIX = true;
             //getNewProcedures();
             //console.log("Module for pulling new procedures logged off.");
-    }
+    };
 
     $scope.provideICOMETRIXSupport = function() {
         return $scope.provideICOMETRIX;
-    }
+    };
 
     var getDisabledFields = function() {
         return viewService.getView().DisableInputFields;
-    }
+    };
 
     $scope.scans = [];
     $scope.scansTakenDuringExperiment = [];
-    $scope.imageURL ="";
-    $scope.downloadURL ="";
-    $scope.dicomURL ="";
+    $scope.imageURL ='';
+    $scope.downloadURL ='';
+    $scope.dicomURL ='';
 
-//    var getNewProcedures = function() {
-//        var XNATData = connectionServices.getImagingExperiments($scope.USUBJID);
-//        $timeout(function() {
-//        }, 3000).then(function(){
-//                XNATData.then(function(data){
-//                    console.log(data);
-//                    procedures.syncExperiments(data.experiments, $scope.USUBJID);
-//                    setScans(data.scans);
-//                });
-//            });
-//    }
+    //    var getNewProcedures = function() {
+    //        var XNATData = connectionServices.getImagingExperiments($scope.USUBJID);
+    //        $timeout(function() {
+    //        }, 3000).then(function(){
+    //                XNATData.then(function(data){
+    //                    console.log(data);
+    //                    procedures.syncExperiments(data.experiments, $scope.USUBJID);
+    //                    setScans(data.scans);
+    //                });
+    //            });
+    //    }
 
     $scope.dicomNameChanged = function(element){
-        console.log('dicomNameChanged');
         $scope.$apply(function() {
-            if (($scope.scanWeight != "")&&(element.files[0]!=null)){
+            if (($scope.scanWeight != '')&&(element.files[0]!=null)){
                 var sourceFile = element.files[0];
-                console.log(sourceFile);
-                var uploadUrl = "./api/xnat/upload.php";
-                console.log($scope.USUBJID);
-                console.log($scope.sessionLabel);
-                console.log($scope.LBDTC);
-                console.log($scope.scanWeight);
+                var uploadUrl = './api/xnat/upload.php';
                 if (($scope.USUBJID != '')&&
                     ($scope.sessionLabel != '') &&
                     ($scope.LBDTC != '') &&
                     ($scope.scanWeight != '')) {
-                        var scanDate = $scope.LBDTC.getDate()+"/"+($scope.LBDTC.getMonth()+1)+"/"+$scope.LBDTC.getFullYear();
-                        fileUpload.uploadToXNAT(sourceFile, uploadUrl, $scope.USUBJID, $scope.sessionLabel, scanDate, $scope.scanWeight);
+                    var scanDate = $scope.LBDTC.getDate()+'/'+($scope.LBDTC.getMonth()+1)+'/'+$scope.LBDTC.getFullYear();
+                    fileUpload.uploadToXNAT(sourceFile, uploadUrl, $scope.USUBJID, $scope.sessionLabel, scanDate, $scope.scanWeight);
 
-                        var DU = new DeviceInUse($scope.USUBJID, "Weighting");
-                        DU.DUDTC = $scope.LBDTC;
-                        DU.DUORRES = $scope.scanWeight;
-                        deviceInUseServices.addDeviceInUse(DU);
-                        //deviceInUseServices.print();
-                        setScansTakenDuringExperiment();
+                    var DU = new DeviceInUse($scope.USUBJID, 'Weighting');
+                    DU.DUDTC = $scope.LBDTC;
+                    DU.DUORRES = $scope.scanWeight;
+                    deviceInUseServices.addDeviceInUse(DU);
+                    //deviceInUseServices.print();
+                    setScansTakenDuringExperiment();
 
-                        var scans = deviceInUseServices.getScansByDate($scope.LBDTC.toDateString());
-                        var T1Loaded = false;
-                        var T2Loaded = false;
-                        for (var s = 0; s < scans.length; s++) {
-                            if ((scans[s].DUTEST == 'Weighting')&&(scans[s].DUORRES == "T1")){
-                                T1Loaded = true;
-                            }
-                            else if ((scans[s].DUTEST == 'Weighting')&&(scans[s].DUORRES == "T2")) {
-                                T2Loaded = true;
-                            }
-
+                    var scans = deviceInUseServices.getScansByDate($scope.LBDTC.toDateString());
+                    var T1Loaded = false;
+                    var T2Loaded = false;
+                    for (var s = 0; s < scans.length; s++) {
+                        if ((scans[s].DUTEST == 'Weighting')&&(scans[s].DUORRES == 'T1')){
+                            T1Loaded = true;
                         }
-                        if ((T1Loaded) && (T2Loaded))
-                            setIcometrixJob();
+                        else if ((scans[s].DUTEST == 'Weighting')&&(scans[s].DUORRES == 'T2')) {
+                            T2Loaded = true;
+                        }
+
+                    }
+                    if ((T1Loaded) && (T2Loaded))
+                        setIcometrixJob();
                 }
             }
         });
-//        var file = $scope.myFile;
-//        console.log('file is ' );
-//        console.dir(file);
+        //        var file = $scope.myFile;
+        //        console.log('file is ' );
+        //        console.dir(file);
 
 
     };
 
     var setIcometrixJob = function() {
-        var job = {"USUBJID": $scope.USUBJID,
-                "Project": "Optimise",
-                "Session": $scope.USUBJID+"_"+$scope.sessionLabel,
-                "Job_GUID": "",
-                "Job_Status": "New"
-            };
+        var job = {'USUBJID': $scope.USUBJID,
+            'Project': 'Optimise',
+            'Session': $scope.USUBJID+'_'+$scope.sessionLabel,
+            'Job_GUID': '',
+            'Job_Status': 'New'
+        };
         //console.log(job);
         records.saveIcometrixJob(job);
     };
@@ -148,11 +139,6 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
         $scope.dicomURL ='./api/xnat/proxy.php/'+$scope.selectedScan.dicom;
         //console.log($scope.selectedScan);
         */
-    };
-
-    var setScans = function(newScans) {
-        //console.log(newScans);
-        $scope.scans = newScans;
     };
 
     var setScansTakenDuringExperiment = function () {
@@ -172,26 +158,19 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
         //console.log($scope.LBDTC);
         var scans = deviceInUseServices.getScansByDate($scope.LBDTC);
         for (var s = 0; s < scans.length; s++) {
-            var newScan = {"type": scans[s].DUORRES};
+            var newScan = {'type': scans[s].DUORRES};
             $scope.scansTakenDuringExperiment.push(newScan);
         }
         //console.log($scope.scansTakenDuringExperiment);
     };
 
-    var setSelectedScan = function() {
-        if ($scope.scansTakenDuringExperiment.length > 0) {
-            $scope.selectedScan = $scope.scansTakenDuringExperiment[0];
-            $scope.selectScan();
-        }
-    }
-
     $scope.lockDownSessionLabelValue = function() {
         return getDisabledFields();
-    }
+    };
 
     $rootScope.setNewMRIFields = function() {
         clearFields();
-    }
+    };
 
     $rootScope.displayMRI = function() {
         clearFields();
@@ -199,7 +178,7 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
         //console.log($scope.LBDTC);
         setScansTakenDuringExperiment();
         $scope.sessionLabel = procedures.getCurrentProcedure().displayLabel;
-        $scope.scanWeight = "";
+        $scope.scanWeight = '';
         var morphologicalFindings = morphologyServices.getFindingsByDate($scope.LBDTC);
         for (var f = 0; f < morphologicalFindings.length; f++) {
             var moVariables = getImagingMorphologyScopeName(morphologicalFindings[f].MOTEST, morphologicalFindings[f].MOLOC);
@@ -208,48 +187,32 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
                 modelTestValue.assign($scope, morphologicalFindings[f].MOORRES);
             }
         }
-    }
-
-    var addProcedure = function() {
-        //console.log("adding procedure");
-        if (procedures.getProcedureByTRTAndDate('MRI',  $scope.LBDTC).length == 0){
-            var aProcedure = new procedure($scope.USUBJID, 'MRI');
-            aProcedure.PRLOC = 'Head';
-            aProcedure.PRSTDTC = $scope.LBDTC;
-            aProcedure.displayLabel = 'MRI';
-            aProcedure.displayDate = $scope.LBDTC.toDateString();
-            //aProcedure.XNATExperimentID = experiments[e].id;
-            //aProcedure.XNATExperimentURI = experiments[e].uri;
-
-            //procedures.push(aProcedure);
-            procedures.addProcedure(aProcedure);
-            //procedures.setCurrentProcedure(aProcedure);
-        }
-    }
+    };
 
     $scope.editProcedureDisplayLabel = function() {
         var currentProcedure = procedures.getCurrentProcedure();
         currentProcedure.displayLabel = $scope.sessionLabel;
-        procedures.editProcedure(currentProcedure, "displayLabel", $scope.sessionLabel);
-    }
+        procedures.editProcedure(currentProcedure, 'displayLabel', $scope.sessionLabel);
+    };
 
     var clearFields = function() {
-        $scope.sessionLabel = "";
-        $scope.scanWeight = "";
-        $scope.LBDTC = "";
+        $scope.sessionLabel = '';
+        $scope.scanWeight = '';
+        $scope.LBDTC = '';
         $scope.scansTakenDuringExperiment = [];
         $scope.MOLOC = 'Brain';
         $scope.T2LesionCount ='';
         $scope.T2LesionVolume ='';
-
+        var modelValue = null;
+        var k;
 
         var gdKeys = [{scopeVariable: 'GDLesions'},
             {scopeVariable: 'GdSpineLesions'},
             {scopeVariable: 'GdLesionVolume'}];
 
-        for (var k = 0; k < gdKeys.length; k++){
+        for (k = 0; k < gdKeys.length; k++){
             // Get the model
-            var modelValue = $parse(gdKeys[k].scopeVariable);
+            modelValue = $parse(gdKeys[k].scopeVariable);
             modelValue.assign($scope,'');
         }
 
@@ -259,12 +222,12 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
             {scopeVariable: 'T2LesionCount'},
             {scopeVariable: 'T2LesionVolume'}];
 
-        for (var k = 0; k < TKeys.length; k++){
+        for (k = 0; k < TKeys.length; k++){
             // Get the model
-            var modelValue = $parse(TKeys[k].scopeVariable);
+            modelValue = $parse(TKeys[k].scopeVariable);
             modelValue.assign($scope,'');
         }
-    }
+    };
 
     $rootScope.setNewMRIDTC = function (display, LBDTC) {
         //$scope.LBDTC = new Date($scope.LBDTC_displayDate.substr(6), parseInt($scope.LBDTC_displayDate.substr(3,2))-1, $scope.LBDTC_displayDate.substr(0,2));
@@ -272,17 +235,17 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
         $scope.LBDTC = LBDTC;
         //$scope.LBDTC = new Date(LBDTC.substr(6), parseInt(LBDTC.substr(3,2))-1, LBDTC.substr(0,2));
         $scope.displayDate = display;
-    }
+    };
 
     var getImagingMorphologyScopeName = function(MOTEST, MOLOC) {
-        var moNames = [{scopeVariable: 'T1Lesions', testName: "T1 Lesion Count Summary", location:"Brain"},
-            {scopeVariable: 'T2Lesions', testName: "Lesion Count Summary", location:"Brain"},
-            {scopeVariable: 'T2LesionCount', testName: "Lesion Count", location:"Brain"},
-            {scopeVariable: 'T2LesionVolume', testName: "Lesion volume", location:"Brain"},
-            {scopeVariable: 'GDLesions', testName: "Gd Enhancing Lesion Count Summary", location:"Brain"},
-            {scopeVariable: 'GdLesionVolume', testName: "Gd Enhancing Lesion Volume", location:"Brain"},
-            {scopeVariable: 'GdSpineLesions', testName: "Gd Lesion", location:"Spine"},
-            {scopeVariable: 'T2SpineLesions', testName: "T2 Lesion", location:"Spine"}];
+        var moNames = [{scopeVariable: 'T1Lesions', testName: 'T1 Lesion Count Summary', location:'Brain'},
+            {scopeVariable: 'T2Lesions', testName: 'Lesion Count Summary', location:'Brain'},
+            {scopeVariable: 'T2LesionCount', testName: 'Lesion Count', location:'Brain'},
+            {scopeVariable: 'T2LesionVolume', testName: 'Lesion volume', location:'Brain'},
+            {scopeVariable: 'GDLesions', testName: 'Gd Enhancing Lesion Count Summary', location:'Brain'},
+            {scopeVariable: 'GdLesionVolume', testName: 'Gd Enhancing Lesion Volume', location:'Brain'},
+            {scopeVariable: 'GdSpineLesions', testName: 'Gd Lesion', location:'Spine'},
+            {scopeVariable: 'T2SpineLesions', testName: 'T2 Lesion', location:'Spine'}];
 
         for (var t = 0; t < moNames.length; t++)
         {
@@ -291,52 +254,52 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
             }
         }
         return null;
-    }
+    };
 
-//    var getImagingLocalityScopeName = function(MOLOC) {
-//        var moNames = [{scopeVariable: 'lesionsInPeriventricular', locName: "Periventricular"},
-//            {scopeVariable: 'lesionsInJuxtacortical', locName: "Juxtacortical"},
-//            {scopeVariable: 'lesionsInInfratentorial', locName: "Infratentorial"},
-//            {scopeVariable: 'lesionsInOpticNerve', locName: "Optic Nerve"}];
-//
-//        for (var t = 0; t < moNames.length; t++)
-//        {
-//            if (MOLOC == moNames[t].locName){
-//                return moNames[t];
-//            }
-//        }
-//        return null;
-//    }
+    //    var getImagingLocalityScopeName = function(MOLOC) {
+    //        var moNames = [{scopeVariable: 'lesionsInPeriventricular', locName: "Periventricular"},
+    //            {scopeVariable: 'lesionsInJuxtacortical', locName: "Juxtacortical"},
+    //            {scopeVariable: 'lesionsInInfratentorial', locName: "Infratentorial"},
+    //            {scopeVariable: 'lesionsInOpticNerve', locName: "Optic Nerve"}];
+    //
+    //        for (var t = 0; t < moNames.length; t++)
+    //        {
+    //            if (MOLOC == moNames[t].locName){
+    //                return moNames[t];
+    //            }
+    //        }
+    //        return null;
+    //    }
 
-//    $scope.hideLocalityOfLesions = function() {
-//        if ($scope.MOLOC =='Brain')
-//            return ((($scope.T1Lesions=='Negative')||($scope.T1Lesions==null))
-//                &&(($scope.T2Lesions=='None')||($scope.T2Lesions==null))
-//                &&(($scope.GDLesions=='None')||($scope.GDLesions==null)));
-//
-//        if ($scope.MOLOC =='Spine')
-//            return ((($scope.T2SpineLesions=='None')||($scope.T2SpineLesions==null))
-//                &&(($scope.GDSpineLesions=='None')||($scope.GDSpineLesions==null)));
-//    }
+    //    $scope.hideLocalityOfLesions = function() {
+    //        if ($scope.MOLOC =='Brain')
+    //            return ((($scope.T1Lesions=='Negative')||($scope.T1Lesions==null))
+    //                &&(($scope.T2Lesions=='None')||($scope.T2Lesions==null))
+    //                &&(($scope.GDLesions=='None')||($scope.GDLesions==null)));
+    //
+    //        if ($scope.MOLOC =='Spine')
+    //            return ((($scope.T2SpineLesions=='None')||($scope.T2SpineLesions==null))
+    //                &&(($scope.GDSpineLesions=='None')||($scope.GDSpineLesions==null)));
+    //    }
 
-//    $scope.editGdLesionsProperty = function() {
-//        addProcedure();
-//        var aFinding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "Gd Enhancing Lesions", $scope.MOLOC);
-//        //console.log(aFinding);
-//        if (aFinding!=null) {
-//            aFinding.MOSTRESC = $scope.T1Lesions;
-//            morphologyServices.editMorphologicalFinding(aFinding);
-//        } else {
-//            var newGdFinding = new Morphology($scope.USUBJID, "Gd Enhancing Lesions");
-//            newGdFinding.MOSTRESC = $scope.GDLesions;
-//            newGdFinding.MODTC = $scope.LBDTC;
-//            newGdFinding.MOLOC = $scope.MOLOC;
-//            newGdFinding.displayLabel = "Gd Enhancing Lesions";
-//            newGdFinding.displayDate = $scope.LBDTC.toDateString();
-//            morphologyServices.addMorphologicalFinding(newGdFinding);
-//        }
-//        console.log(morphologyServices.print());
-//    }
+    //    $scope.editGdLesionsProperty = function() {
+    //        addProcedure();
+    //        var aFinding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "Gd Enhancing Lesions", $scope.MOLOC);
+    //        //console.log(aFinding);
+    //        if (aFinding!=null) {
+    //            aFinding.MOSTRESC = $scope.T1Lesions;
+    //            morphologyServices.editMorphologicalFinding(aFinding);
+    //        } else {
+    //            var newGdFinding = new Morphology($scope.USUBJID, "Gd Enhancing Lesions");
+    //            newGdFinding.MOSTRESC = $scope.GDLesions;
+    //            newGdFinding.MODTC = $scope.LBDTC;
+    //            newGdFinding.MOLOC = $scope.MOLOC;
+    //            newGdFinding.displayLabel = "Gd Enhancing Lesions";
+    //            newGdFinding.displayDate = $scope.LBDTC.toDateString();
+    //            morphologyServices.addMorphologicalFinding(newGdFinding);
+    //        }
+    //        console.log(morphologyServices.print());
+    //    }
 
     $scope.editLesionProperty = function(MOTEST, MOORRES) {
         var aFinding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), MOTEST, $scope.MOLOC);
@@ -352,8 +315,8 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
             newGdFinding.displayDate = $scope.LBDTC.toDateString();
             morphologyServices.addMorphologicalFinding(newGdFinding);
         }
-        morphologyServices.print();
-    }
+        // morphologyServices.print();
+    };
 
     /*
     $scope.editT1LesionsProperty = function() {
@@ -448,57 +411,57 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
     }  */
 
 
-//    $scope.addLesionSecondaryLocation = function(MOSLOC) {
-//        if ($scope.MOLOC == 'Brain'){
-//            if (($scope.GDLesions!=null) &&($scope.GDLesions !='')) {
-//                var GdFinding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "Gd Enhancing Lesions", 'Brain');
-//                //console.log(GdFinding);
-//                if (GdFinding!=null) {
-//                    GdFinding.MOSLOC = MOSLOC;
-//                    morphologyServices.editMorphologicalLocation(GdFinding);
-//                }
-//            }
-//
-//            if (($scope.T1Lesions!=null) &&($scope.T1Lesions !='')) {
-//                var T1Finding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "T1 Hypo Intense Lesions", 'Brain');
-//                //console.log(aFinding);
-//                if (T1Finding!=null) {
-//                    T1Finding.MOSLOC = MOSLOC;
-//                    morphologyServices.editMorphologicalLocation(T1Finding);
-//                }
-//            }
-//
-//            if (($scope.T2Lesions!=null) &&($scope.T2Lesions !='')) {
-//                var T2Finding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "T2 Hyper Intense Lesions", 'Brain');
-//                //console.log(aFinding);
-//                if (T2Finding!=null) {
-//                    T2Finding.MOLOC = MOSLOC;
-//                    morphologyServices.editMorphologicalLocation(T2Finding);
-//                }
-//            }
-//        }
-//
-//        if ($scope.MOLOC == 'Spine'){
-//            if (($scope.GD.SpineLesions!=null) &&($scope.GD.SpineLesions !='')) {
-//                var GdFinding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "Gd Enhancing Lesions", 'Spine');
-//                //console.log(GdFinding);
-//                if (GdFinding!=null) {
-//                    GdFinding.MOSLOC = MOSLOC;
-//                    morphologyServices.editMorphologicalLocation(GdFinding);
-//                }
-//            }
-//
-//            if (($scope.T2SpineLesions!=null) &&($scope.T2SpineLesions !='')) {
-//                var T2Finding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "T2 Hyper Intense Lesions", 'Spine');
-//                //console.log(aFinding);
-//                if (T2Finding!=null) {
-//                    T2Finding.MOSLOC = MOSLOC;
-//                    morphologyServices.editMorphologicalLocation(T2Finding);
-//                }
-//            }
-//        }
-//        morphologyServices.print();
-//    }
+    //    $scope.addLesionSecondaryLocation = function(MOSLOC) {
+    //        if ($scope.MOLOC == 'Brain'){
+    //            if (($scope.GDLesions!=null) &&($scope.GDLesions !='')) {
+    //                var GdFinding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "Gd Enhancing Lesions", 'Brain');
+    //                //console.log(GdFinding);
+    //                if (GdFinding!=null) {
+    //                    GdFinding.MOSLOC = MOSLOC;
+    //                    morphologyServices.editMorphologicalLocation(GdFinding);
+    //                }
+    //            }
+    //
+    //            if (($scope.T1Lesions!=null) &&($scope.T1Lesions !='')) {
+    //                var T1Finding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "T1 Hypo Intense Lesions", 'Brain');
+    //                //console.log(aFinding);
+    //                if (T1Finding!=null) {
+    //                    T1Finding.MOSLOC = MOSLOC;
+    //                    morphologyServices.editMorphologicalLocation(T1Finding);
+    //                }
+    //            }
+    //
+    //            if (($scope.T2Lesions!=null) &&($scope.T2Lesions !='')) {
+    //                var T2Finding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "T2 Hyper Intense Lesions", 'Brain');
+    //                //console.log(aFinding);
+    //                if (T2Finding!=null) {
+    //                    T2Finding.MOLOC = MOSLOC;
+    //                    morphologyServices.editMorphologicalLocation(T2Finding);
+    //                }
+    //            }
+    //        }
+    //
+    //        if ($scope.MOLOC == 'Spine'){
+    //            if (($scope.GD.SpineLesions!=null) &&($scope.GD.SpineLesions !='')) {
+    //                var GdFinding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "Gd Enhancing Lesions", 'Spine');
+    //                //console.log(GdFinding);
+    //                if (GdFinding!=null) {
+    //                    GdFinding.MOSLOC = MOSLOC;
+    //                    morphologyServices.editMorphologicalLocation(GdFinding);
+    //                }
+    //            }
+    //
+    //            if (($scope.T2SpineLesions!=null) &&($scope.T2SpineLesions !='')) {
+    //                var T2Finding = morphologyServices.getFindingByTestAndLocation($scope.LBDTC.toDateString(), "T2 Hyper Intense Lesions", 'Spine');
+    //                //console.log(aFinding);
+    //                if (T2Finding!=null) {
+    //                    T2Finding.MOSLOC = MOSLOC;
+    //                    morphologyServices.editMorphologicalLocation(T2Finding);
+    //                }
+    //            }
+    //        }
+    //        morphologyServices.print();
+    //    }
 
 
 
@@ -523,9 +486,9 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
         });
 
         modalInstance.result.then(function () {
-            console.log('closed');
+            // closed
         }, function () {
-            console.log("New Patient Entry Cancelled");
+            // New Patient Entry Cancelled
         });
     };
 
@@ -533,7 +496,6 @@ mriModule.controller('mriInfoCtrl', function ($scope, $rootScope, $parse, $uibMo
 
 mriModule.service('mriServices', function($q) {
 
-    var currentImage = '';
     var currentImageOrientation = '';
     var imageOrientations = [];
 
@@ -567,9 +529,9 @@ mriModule.service('mriServices', function($q) {
         var getMajorAxisFromPatientRelativeDirectionCosine = function( x,y,z) {
             var axis = null;
 
-            var orientationX = x < 0 ? "R" : "L";
-            var orientationY = y < 0 ? "A" : "P";
-            var orientationZ = z < 0 ? "F" : "H";
+            var orientationX = x < 0 ? 'R' : 'L';
+            var orientationY = y < 0 ? 'A' : 'P';
+            var orientationZ = z < 0 ? 'F' : 'H';
 
             var absX = Math.abs(x);
             var absY = Math.abs(y);
@@ -589,7 +551,7 @@ mriModule.service('mriServices', function($q) {
                 axis=orientationZ;
             }
             return axis;
-        }
+        };
 
         var label = null;
         var rowAxis = getMajorAxisFromPatientRelativeDirectionCosine(rowX,rowY,rowZ);
@@ -597,33 +559,33 @@ mriModule.service('mriServices', function($q) {
         //console.log(rowAxis);
         //console.log(colAxis);
         if (rowAxis != null && colAxis != null) {
-            if ((rowAxis.indexOf("R") > -1 || rowAxis.indexOf("L") > -1)
-                && (colAxis.indexOf("A") > -1 || colAxis.indexOf("P") > -1))
-                    label="AXIAL";
-            else if ((colAxis.indexOf("R") > -1 || colAxis.indexOf("L") > -1)
-                && (rowAxis.indexOf("A") > -1 || rowAxis.indexOf("P") > -1))
-                    label="AXIAL";
+            if ((rowAxis.indexOf('R') > -1 || rowAxis.indexOf('L') > -1)
+                && (colAxis.indexOf('A') > -1 || colAxis.indexOf('P') > -1))
+                label='AXIAL';
+            else if ((colAxis.indexOf('R') > -1 || colAxis.indexOf('L') > -1)
+                && (rowAxis.indexOf('A') > -1 || rowAxis.indexOf('P') > -1))
+                label='AXIAL';
 
-            else if ((rowAxis.indexOf("R") > -1 || rowAxis.indexOf("L")> -1)
-                && (colAxis.indexOf("H") > -1 || colAxis.indexOf("F") > -1))
-                    label="CORONAL";
-            else if ((colAxis.indexOf("R") > -1 || colAxis.indexOf("L") > -1)
-                && (rowAxis.indexOf("H") > -1 || rowAxis.indexOf("F") > -1))
-                    label="CORONAL";
+            else if ((rowAxis.indexOf('R') > -1 || rowAxis.indexOf('L')> -1)
+                && (colAxis.indexOf('H') > -1 || colAxis.indexOf('F') > -1))
+                label='CORONAL';
+            else if ((colAxis.indexOf('R') > -1 || colAxis.indexOf('L') > -1)
+                && (rowAxis.indexOf('H') > -1 || rowAxis.indexOf('F') > -1))
+                label='CORONAL';
 
-            else if ((rowAxis.indexOf("A") > -1 || rowAxis.indexOf("P") > -1)
-                && (colAxis.indexOf("H") > -1 || colAxis.indexOf("F") > -1))
-                    label="SAGITTAL";
-            else if ((colAxis.indexOf("A") > -1 || colAxis.indexOf("P") > -1)
-                && (rowAxis.equals("H")  > -1 || rowAxis.equals("F") > -1 ))
-                    label="SAGITTAL";
+            else if ((rowAxis.indexOf('A') > -1 || rowAxis.indexOf('P') > -1)
+                && (colAxis.indexOf('H') > -1 || colAxis.indexOf('F') > -1))
+                label='SAGITTAL';
+            else if ((colAxis.indexOf('A') > -1 || colAxis.indexOf('P') > -1)
+                && (rowAxis.equals('H')  > -1 || rowAxis.equals('F') > -1 ))
+                label='SAGITTAL';
         }
         else {
-            label="OBLIQUE";
+            label='OBLIQUE';
         }
         //console.log(label);
         return label;
-    }
+    };
 
     var getImageProperties = function (url) {
         var deferred = $q.defer();
@@ -638,7 +600,7 @@ mriModule.service('mriServices', function($q) {
                 //console.log(imageAndOrientation);
 
                 deferred.resolve(imageAndOrientation);
-            })
+            });
             //var imageOrientation = currentImage.string('x00200037');
             //currentImageOrientation = getImageOrientationPatient(imageOrientation);
 
@@ -649,7 +611,7 @@ mriModule.service('mriServices', function($q) {
             deferred.reject(e);
         }
         return deferred.promise;
-    }
+    };
 
     var getDICOM = function (url) {
 
@@ -657,24 +619,24 @@ mriModule.service('mriServices', function($q) {
         try {
             var oReq = new XMLHttpRequest();
             try {
-                oReq.open("get", url, true);
+                oReq.open('get', url, true);
             }
             catch(err)
             {
-                alert ("can't open file");
+                alert ('can\'t open file');
                 return false;
             }
 
-            oReq.responseType = "arraybuffer";
-            oReq.onreadystatechange = function(oEvent)
+            oReq.responseType = 'arraybuffer';
+            oReq.onreadystatechange = function()
             {
                 if(oReq.readyState == 4)
                 {
                     if(oReq.status == 200)
                     {
-                        var byteArray = new Uint8Array(oReq.response);
-                        var parsedDicom = dumpByteArray(byteArray);
-                        deferred.resolve(parsedDicom);
+                        // var byteArray = new Uint8Array(oReq.response);
+                        // var parsedDicom = dumpByteArray(byteArray);
+                        // deferred.resolve(parsedDicom);
                     }
                     else
                     {
@@ -688,86 +650,49 @@ mriModule.service('mriServices', function($q) {
         }
         return deferred.promise;
 
-    }
+    };
 
-    var setCurrentImageDicom2 = function (url) {
+    // var dumpByteArray = function(byteArray)
+    // {
+    //     // Here we have the file data as an ArrayBuffer.  dicomParser requires as input a
+    //     // Uint8Array so we create that here
+    //     var kb = byteArray.length / 1024;
+    //     var mb = kb / 1024;
+    //     var byteStr = mb > 1 ? mb.toFixed(3) + ' MB' : kb.toFixed(0) + ' KB';
+    //     //document.getElementById('statusText').innerHTML = 'Status: Parsing ' + byteStr + ' bytes, please wait..';
+    //     // set a short timeout to do the parse so the DOM has time to update itself with the above message
 
-        var oReq = new XMLHttpRequest();
-        try {
-            oReq.open("get", url, true);
-        }
-        catch(err)
-        {
-            alert ("can't open file");
-            return false;
-        }
-
-        oReq.responseType = "arraybuffer";
-        oReq.onreadystatechange = function(oEvent)
-        {
-            if(oReq.readyState == 4)
-            {
-                if(oReq.status == 200)
-                {
-                    var byteArray = new Uint8Array(oReq.response);
-                    dumpByteArray(byteArray);
-                    /*
-                    var imageOrientation = currentImage.string('x00200037');
-                    currentImageOrientation = getImageOrientationPatient(imageOrientation);
-                    imageOrientations.push(currentImageOrientation);
-                    console.log(currentImageOrientation);*/
-                }
-                else
-                {
-                    alert('Status: HTTP Error - status code ' + oReq.status + '; error text = ' + oReq.statusText);
-                }
-            }
-        };
-        oReq.send();
-    }
-
-    var dumpByteArray = function(byteArray)
-    {
-        // Here we have the file data as an ArrayBuffer.  dicomParser requires as input a
-        // Uint8Array so we create that here
-        var kb = byteArray.length / 1024;
-        var mb = kb / 1024;
-        var byteStr = mb > 1 ? mb.toFixed(3) + " MB" : kb.toFixed(0) + " KB";
-        //document.getElementById('statusText').innerHTML = 'Status: Parsing ' + byteStr + ' bytes, please wait..';
-        // set a short timeout to do the parse so the DOM has time to update itself with the above message
-
-        var currentImage = dicomParser.parseDicom(byteArray);
-        return currentImage;
-        // Here we call dumpDataSet to recursively iterate through the DataSet and create an array
-        // of strings of the contents.
+    //     var currentImage = dicomParser.parseDicom(byteArray);
+    //     return currentImage;
+    //     // Here we call dumpDataSet to recursively iterate through the DataSet and create an array
+    //     // of strings of the contents.
 
 
-        /*
-        setTimeout(function() {
+    //     /*
+    //     setTimeout(function() {
 
-            // Invoke the paresDicom function and get back a DataSet object with the contents
-            var dataSet;
-            try {
-                var start = new Date().getTime();
-                currentImage = dicomParser.parseDicom(byteArray);
-                // Here we call dumpDataSet to recursively iterate through the DataSet and create an array
-                // of strings of the contents.
-                var imageOrientation = currentImage.string('x00200037');
-                currentImageOrientation = getImageOrientationPatient(imageOrientation);
-                console.log(currentImageOrientation);
-            }
-            catch(err)
-            {
-                alert('Status: Error - ' + err + ' (file of size ' + byteStr + ' )');
-            }
-        },1);*/
-    }
+    //         // Invoke the paresDicom function and get back a DataSet object with the contents
+    //         var dataSet;
+    //         try {
+    //             var start = new Date().getTime();
+    //             currentImage = dicomParser.parseDicom(byteArray);
+    //             // Here we call dumpDataSet to recursively iterate through the DataSet and create an array
+    //             // of strings of the contents.
+    //             var imageOrientation = currentImage.string('x00200037');
+    //             currentImageOrientation = getImageOrientationPatient(imageOrientation);
+    //             console.log(currentImageOrientation);
+    //         }
+    //         catch(err)
+    //         {
+    //             alert('Status: Error - ' + err + ' (file of size ' + byteStr + ' )');
+    //         }
+    //     },1);*/
+    // };
 
     var getCurrentImageOrientation = function(index) {
 
-        console.log(imageOrientations[index]);
         return imageOrientations[index];
-    }
+    };
 
 
     return {
@@ -775,10 +700,10 @@ mriModule.service('mriServices', function($q) {
         //setCurrentImageDicom: setCurrentImageDicom,
         getCurrentImageOrientation: getCurrentImageOrientation,
         getImageProperties: getImageProperties
-    }
-})
+    };
+});
 
-mriModule.controller('zoomImageCtrl', function ($scope, $uibModalInstance, $timeout, imageURL, imageDesc, rawImageURIs, mriServices) {
+mriModule.controller('zoomImageCtrl', function ($scope, $uibModalInstance, $timeout, imageURL, imageDesc, rawImageURIs) {
 
     var loading = true;
 
@@ -790,12 +715,12 @@ mriModule.controller('zoomImageCtrl', function ($scope, $uibModalInstance, $time
     $scope.getImage = function() {
         //console.log(imageURL);
         return imageURL;
-    }
+    };
 
     $scope.getDesc = function() {
         //console.log(imageDesc);
         return imageDesc;
-    }
+    };
 
     var imageIds = [];
 
@@ -806,10 +731,10 @@ mriModule.controller('zoomImageCtrl', function ($scope, $uibModalInstance, $time
         for (var i=0; i<rawImageURIs.length; i=i+step) {
         //for (var i=0; i<10; i=i+step) {
             //var uri = "https://central.xnat.org"+rawImageURIs[i];
-            var uri = "./api/xnat/proxy.php/"+rawImageURIs[i];
+            var uri = './api/xnat/proxy.php/'+rawImageURIs[i];
 
 
-            imageIds.push("dicomweb:"+uri);
+            imageIds.push('dicomweb:'+uri);
 
             /*
             var imageParsed = mriServices.getImageProperties(uri);
@@ -823,23 +748,23 @@ mriModule.controller('zoomImageCtrl', function ($scope, $uibModalInstance, $time
         function compareNumbers(a, b) {
             //1.3.12.2.1107.5.2.36.40436.30000014081908371717200000064-8-41-skte63.dcm
             //index
-            var strippedA = a.substr(a.lastIndexOf("/")+1);
-            var strippedB = b.substr(b.lastIndexOf("/")+1);
+            var strippedA = a.substr(a.lastIndexOf('/')+1);
+            var strippedB = b.substr(b.lastIndexOf('/')+1);
             //console.log(strippedA);
 
             //8-41-skte63.dcm
-            strippedA = strippedA.substring(strippedA.indexOf("-"));
-            strippedB = strippedB.substring(strippedB.indexOf("-"));
+            strippedA = strippedA.substring(strippedA.indexOf('-'));
+            strippedB = strippedB.substring(strippedB.indexOf('-'));
             //console.log(strippedA);
 
             //8-41
-            strippedA = strippedA.substring(0,strippedA.lastIndexOf("-"));
-            strippedB = strippedB.substring(0,strippedB.lastIndexOf("-"));
+            strippedA = strippedA.substring(0,strippedA.lastIndexOf('-'));
+            strippedB = strippedB.substring(0,strippedB.lastIndexOf('-'));
             //console.log(strippedA);
 
             //41
-            strippedA = strippedA.substring(strippedA.lastIndexOf("-")+1);
-            strippedB = strippedB.substring(strippedB.lastIndexOf("-")+1);
+            strippedA = strippedA.substring(strippedA.lastIndexOf('-')+1);
+            strippedB = strippedB.substring(strippedB.lastIndexOf('-')+1);
             //console.log(strippedA);
 
             return parseInt(strippedA) - parseInt(strippedB);
@@ -847,122 +772,121 @@ mriModule.controller('zoomImageCtrl', function ($scope, $uibModalInstance, $time
 
         imageIds = imageIds.sort(compareNumbers);
 
-        $timeout(function(){
-            getImageStack();
-            console.log("got");
-        });
-    }
+        // $timeout(function(){
+        //     getImageStack();
+        // });
+    };
 
-    var getImageStack = function() {
-        var element = $('#imageDOM').get(0);
-        //console.log(element);
-        var onViewportUpdated = function(e, data) {
-            var viewport = data.viewport;
-            data.viewport.scale = 2.5;
-            $('#mrbottomleft').text("WW/WC: " + Math.round(viewport.voi.windowWidth) + "/" + Math.round(viewport.voi.windowCenter));
-            $('#zoomText').text("Zoom: " + viewport.scale.toFixed(2.5));
-        };
+    // var getImageStack = function() {
+    //     var element = $('#imageDOM').get(0);
+    //     //console.log(element);
+    //     var onViewportUpdated = function(e, data) {
+    //         var viewport = data.viewport;
+    //         data.viewport.scale = 2.5;
+    //         $('#mrbottomleft').text('WW/WC: ' + Math.round(viewport.voi.windowWidth) + '/' + Math.round(viewport.voi.windowCenter));
+    //         $('#zoomText').text('Zoom: ' + viewport.scale.toFixed(2.5));
+    //     };
 
-        $(element).on("CornerstoneImageRendered", onViewportUpdated);
+    //     $(element).on('CornerstoneImageRendered', onViewportUpdated);
 
-        var onNewImage = function(e, data) {
-            var newImageIdIndex = stack.currentImageIdIndex;
+    //     var onNewImage = function() {
+    //         var newImageIdIndex = stack.currentImageIdIndex;
 
-            // Update the slider value
-            var slider = document.getElementById('slice-range');
-            slider.value = newImageIdIndex;
+    //         // Update the slider value
+    //         var slider = document.getElementById('slice-range');
+    //         slider.value = newImageIdIndex;
 
-            // Populate the current slice span
-            var currentValueSpan = document.getElementById("sliceText");
-            currentValueSpan.textContent = "Image " + (newImageIdIndex + 1) + "/" + imageIds.length;
-        }
+    //         // Populate the current slice span
+    //         var currentValueSpan = document.getElementById('sliceText');
+    //         currentValueSpan.textContent = 'Image ' + (newImageIdIndex + 1) + '/' + imageIds.length;
+    //     };
 
-        $(element).on("CornerstoneNewImage", onNewImage);
+    //     $(element).on('CornerstoneNewImage', onNewImage);
 
-        var updateStack = function () {
-            var targetElement = document.getElementById("imageDOM");
+    //     var updateStack = function () {
+    //         var targetElement = document.getElementById('imageDOM');
 
-            var range = document.getElementById('slice-range');
+    //         var range = document.getElementById('slice-range');
 
-            // Get the range input value
-             var newImageIdIndex = parseInt(range.value, 10);
+    //         // Get the range input value
+    //         var newImageIdIndex = parseInt(range.value, 10);
 
-            // Get the stack data
-             var stackToolDataSource = cornerstoneTools.getToolState(targetElement, 'stack');
-             if (stackToolDataSource === undefined) {
-                return;
-             }
-             var stackData = stackToolDataSource.data[0];
+    //         // Get the stack data
+    //         var stackToolDataSource = cornerstoneTools.getToolState(targetElement, 'stack');
+    //         if (stackToolDataSource === undefined) {
+    //             return;
+    //         }
+    //         var stackData = stackToolDataSource.data[0];
 
-             // Switch images, if necessary
-             if(newImageIdIndex !== stackData.currentImageIdIndex && stackData.imageIds[newImageIdIndex] !== undefined) {
+    //         // Switch images, if necessary
+    //         if(newImageIdIndex !== stackData.currentImageIdIndex && stackData.imageIds[newImageIdIndex] !== undefined) {
 
-                cornerstone.loadAndCacheImage(stackData.imageIds[newImageIdIndex]).then(function(image) {
-                    var viewport = cornerstone.getViewport(targetElement);
-                    stackData.currentImageIdIndex = newImageIdIndex;
-                    cornerstone.displayImage(targetElement, image, viewport);
-                });
-             }
-        }
+    //             cornerstone.loadAndCacheImage(stackData.imageIds[newImageIdIndex]).then(function(image) {
+    //                 var viewport = cornerstone.getViewport(targetElement);
+    //                 stackData.currentImageIdIndex = newImageIdIndex;
+    //                 cornerstone.displayImage(targetElement, image, viewport);
+    //             });
+    //         }
+    //     };
 
-        var stack = {
-            currentImageIdIndex : 0,
-            imageIds: imageIds
-        };
+    //     var stack = {
+    //         currentImageIdIndex : 0,
+    //         imageIds: imageIds
+    //     };
 
-        // Initialize range input
-        //var range, max, slice, currentValueSpan;
-        var range = document.getElementById('slice-range');
+    //     // Initialize range input
+    //     //var range, max, slice, currentValueSpan;
+    //     var range = document.getElementById('slice-range');
 
-        // Set minimum and maximum value
-        range.min = 0;
-        range.step = 1;
-        range.max = imageIds.length - 1;
+    //     // Set minimum and maximum value
+    //     range.min = 0;
+    //     range.step = 1;
+    //     range.max = imageIds.length - 1;
 
-        // Set current value
-        range.value = stack.currentImageIdIndex;
+    //     // Set current value
+    //     range.value = stack.currentImageIdIndex;
 
-        $("#slice-range").on("input", updateStack);
+    //     $('#slice-range').on('input', updateStack);
 
-        cornerstone.enable(element);
-        cornerstoneTools.mouseInput.enable(element);
-        cornerstoneTools.mouseWheelInput.enable(element);
+    //     cornerstone.enable(element);
+    //     cornerstoneTools.mouseInput.enable(element);
+    //     cornerstoneTools.mouseWheelInput.enable(element);
 
-        var numLoadedImages = 0;
-        for (var i = 0; i < imageIds.length; i++) {
-            cornerstone.loadAndCacheImage(imageIds[i]).then(function(image) {
-                cornerstone.displayImage(element, image);
-                numLoadedImages++;
-                if (numLoadedImages == 1) {
-                    loading = true;
-                    console.log($scope.getLoadingStatus());
-                }
-                if (numLoadedImages == (imageIds.length-1)){
-                    loading = false;
-                    console.log("Loading false");
-                    console.log($scope.getLoadingStatus());
-                }
-            });
-        }
+    //     var numLoadedImages = 0;
+    //     for (var i = 0; i < imageIds.length; i++) {
+    //         cornerstone.loadAndCacheImage(imageIds[i]).then(function(image) {
+    //             cornerstone.displayImage(element, image);
+    //             numLoadedImages++;
+    //             if (numLoadedImages == 1) {
+    //                 loading = true;
+    //                 console.log($scope.getLoadingStatus());
+    //             }
+    //             if (numLoadedImages == (imageIds.length-1)){
+    //                 loading = false;
+    //                 console.log('Loading false');
+    //                 console.log($scope.getLoadingStatus());
+    //             }
+    //         });
+    //     }
 
-        // Set the stack as tool state
-        cornerstoneTools.addStackStateManager(element, ['stack']);
-        cornerstoneTools.addToolState(element, 'stack', stack);
+    //     // Set the stack as tool state
+    //     cornerstoneTools.addStackStateManager(element, ['stack']);
+    //     cornerstoneTools.addToolState(element, 'stack', stack);
 
-        cornerstoneTools.stackScroll.activate(element, 1);
-        cornerstoneTools.stackScrollWheel.activate(element);
-    }
+    //     cornerstoneTools.stackScroll.activate(element, 1);
+    //     cornerstoneTools.stackScrollWheel.activate(element);
+    // };
 
     //loading = false;
     setImageIDs();
 
     $scope.getLoadingStatus = function() {
         return loading;
-    }
+    };
 
 });
 
-    /*
+/*
 
      $rootScope.displayMRI = function() {
         clearFields();

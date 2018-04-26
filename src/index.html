@@ -43,7 +43,7 @@
                 <br/>
                 <input type="text" class="form-control" ng-model="UserName" placeholder="Username">
                 <br/>
-                <input type="password" class="form-control" ng-model="Password" placeholder="Password">
+                <input type="password" class="form-control" ng-model="Password" placeholder="Password" autocomplete="optimise-password">
                 <br/>
                 <button type="submit" class="btn btn-default" ng-click="authenticate()">{{authenticatedStatus}}</button>
               </div>
@@ -480,7 +480,6 @@
   <script src="./scripts/js/deviceInUse/deviceInUse.module.js"></script>
   <script src="./scripts/js/communication/communication.module.js"></script>
   <script src="./scripts/js/communication/reminders.module.js"></script>
-  <script src="./scripts/js/exporter/iMed.js"></script>
   <script src="./scripts/vendor/cornerstone.min.js"></script>
   <script src="./scripts/vendor/dicomParser.min.js"></script>
   <script src="./scripts/vendor/jpx.min.js"></script>

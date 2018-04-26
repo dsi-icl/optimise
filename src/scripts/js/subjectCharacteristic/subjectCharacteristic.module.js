@@ -20,9 +20,9 @@ subjectCharacteristicModule.factory('SubjectCharacteristic', function () {
             SCTEST:SCTEST,
             SCDTC: '',
             SCORRES: ''
-        }
+        };
         return characteristic;
-    }
+    };
 });
 
 subjectCharacteristicModule.service('subjectCharacteristic', function (SubjectCharacteristic, records, viewService) {
@@ -33,39 +33,39 @@ subjectCharacteristicModule.service('subjectCharacteristic', function (SubjectCh
         for (var i = 0; i < RecordItems.length; i++){
 
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    newEvent.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    newEvent.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    newEvent.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'SCSEQ':{
-                    newEvent.SCSEQ = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'SCTEST':{
-                    newEvent.SCTEST = RecordItems[i].value;
-                    break;
-                }
-                case 'SCORRES':{
-                    newEvent.SCORRES = RecordItems[i].value;
-                    break;
-                }
-                case 'SCDTC':{
-                    newEvent.SCDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
+            case 'STUDYID':{
+                newEvent.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                newEvent.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                newEvent.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'SCSEQ':{
+                newEvent.SCSEQ = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'SCTEST':{
+                newEvent.SCTEST = RecordItems[i].value;
+                break;
+            }
+            case 'SCORRES':{
+                newEvent.SCORRES = RecordItems[i].value;
+                break;
+            }
+            case 'SCDTC':{
+                newEvent.SCDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
             }
         }
         subjectCharacteristics.push(newEvent);
         //console.log(subjectCharacteristics);
-    }
+    };
 
     var addSubjectCharacteristic = function (SC){
         SC.SCSEQ = generateSCSEQ();
@@ -73,7 +73,7 @@ subjectCharacteristicModule.service('subjectCharacteristic', function (SubjectCh
         //console.log(subjectCharacteristic);
         if (!viewService.workOffline())
             records.saveRecord(SC);
-    }
+    };
 
     var compileSubjectCharacteristicSeq = function () {
         var seq = [];
@@ -81,7 +81,7 @@ subjectCharacteristicModule.service('subjectCharacteristic', function (SubjectCh
             seq.push(subjectCharacteristics[e].SCSEQ);
         }
         return seq;
-    }
+    };
 
     var generateSCSEQ = function () {
         var SCSEQs = compileSubjectCharacteristicSeq();
@@ -92,13 +92,13 @@ subjectCharacteristicModule.service('subjectCharacteristic', function (SubjectCh
         else {
             return 0;
         }
-    }
+    };
 
     var editSubjectCharacteristic = function(subjectCharacteristic, resName, resValue) {
         if (!viewService.workOffline())
         {
-            var USUBJID = {fieldName: "USUBJID", value: subjectCharacteristic.USUBJID};
-            var SEQ = {fieldName:"SCSEQ", value: subjectCharacteristic.SCSEQ};
+            var USUBJID = {fieldName: 'USUBJID', value: subjectCharacteristic.USUBJID};
+            var SEQ = {fieldName:'SCSEQ', value: subjectCharacteristic.SCSEQ};
             var RESTOCHANGE = {fieldName:resName, value: resValue};
 
             var idRecord = [USUBJID, SEQ];
@@ -118,7 +118,7 @@ subjectCharacteristicModule.service('subjectCharacteristic', function (SubjectCh
             }
         }
         return null;
-    }
+    };
 
     var getThisSubjectCharacteristic = function (SCTEST) {
         for (var e = 0; e < subjectCharacteristics.length; e++)
@@ -129,16 +129,16 @@ subjectCharacteristicModule.service('subjectCharacteristic', function (SubjectCh
             }
         }
         return null;
-    }
+    };
 
 
     var getSubjectCharacteristics = function() {
         return subjectCharacteristics;
-    }
+    };
 
     var deleteSubjectCharacteristics = function () {
         subjectCharacteristics=[];
-    }
+    };
 
     return {
         editSubjectCharacteristic: editSubjectCharacteristic,
@@ -148,5 +148,5 @@ subjectCharacteristicModule.service('subjectCharacteristic', function (SubjectCh
         deleteSubjectCharacteristics: deleteSubjectCharacteristics,
         populateSubjectCharacteristic:populateSubjectCharacteristic,
         getSubjectCharacteristics: getSubjectCharacteristics
-    }
+    };
 });

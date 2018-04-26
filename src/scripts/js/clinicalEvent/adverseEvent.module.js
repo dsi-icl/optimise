@@ -36,11 +36,11 @@ adverseEventModule.factory('AdverseEvent', function() {
         this.AEENRF= '';    //End Date/Time of Visit
         this.displayLabel= '';    //End Date/Time of Visit
         this.displayDate= '';    //End Date/Time of Visit
-    }
+    };
 });
 
 adverseEventModule.service('adverseEventService', function(records, viewService,
-                                              AdverseEvent) {
+    AdverseEvent) {
     var adverseEvents = [];
     var currentEvent = null;
 
@@ -49,125 +49,117 @@ adverseEventModule.service('adverseEventService', function(records, viewService,
         for (var i = 0; i < RecordItems.length; i++){
             //console.log(RecordItems[i].fieldName+ ": "+RecordItems[i].value);
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    event.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    event.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    event.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'AESEQ':{
-                    event.AESEQ = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'AETERM':{
-                    event.AETERM = RecordItems[i].value;
-                    break;
-                }
-                case 'AESTDTC':{
+            case 'STUDYID':{
+                event.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                event.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                event.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'AESEQ':{
+                event.AESEQ = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'AETERM':{
+                event.AETERM = RecordItems[i].value;
+                break;
+            }
+            case 'AESTDTC':{
 
-                    event.AESTDTC = records.formatStringToDate(RecordItems[i].value);
-                    //console.log("Date:" +event.AESTDTC.toDateString());
-                    break;
-                }
-                case 'AEENDTC':{
-                    event.AEENDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'AEMODIFY':{
-                    event.AEMODIFY = RecordItems[i].value;
-                    break;
-                }
-                case 'AEDECOD':{
-                    event.AEDECOD = RecordItems[i].value;
-                    break;
-                }
-                case 'AEBODSYS':{
-                    event.AEBODSYS = RecordItems[i].value;
-                    break;
-                }
-                case 'AESER':{
-                    event.AESER = RecordItems[i].value;
-                    break;
-                }
-                case 'AEACN':{
-                    event.AEACN = RecordItems[i].value;
-                    break;
-                }
-                case 'AEREL':{
-                    event.AEREL = RecordItems[i].value;
-                    break;
-                }
-                case 'AEOUT':{
-                    event.AEOUT = RecordItems[i].value;
-                    break;
-                }
-                case 'AESEV':{
-                    event.AESEV = RecordItems[i].value;
-                    break;
-                }
-                case 'AESCONG':{
-                    event.AESCONG = getTrueFalse(RecordItems[i].value);
-                    break;
-                }
-                case 'AESDISAB':{
-                    event.AESDISAB = getTrueFalse(RecordItems[i].value);
-                    break;
-                }
-                case 'AESDTH':{
-                    event.AESDTH = getTrueFalse(RecordItems[i].value);
-                    //console.log("Death:" +event.AESDTH);
-                    break;
-                }
-                case 'AESHOSP':{
-                    event.AESHOSP = getTrueFalse(RecordItems[i].value);
-                    break;
-                }
-                case 'AESLIFE':{
-                    event.AESLIFE = getTrueFalse(RecordItems[i].value);
-                    break;
-                }
-                case 'AEOUT':{
-                    event.AEOUT = RecordItems[i].value;
-                    break;
-                }
-                case 'AESMIE':{
-                    event.AESMIE = RecordItems[i].value;
-                    break;
-                }
-                case 'AESTDY':{
-                    event.AESTDY = RecordItems[i].value;
-                    break;
-                }
-                case 'AEENDY':{
-                    event.AEENDY = RecordItems[i].value;
-                    break;
-                }
-                case 'AEACN':{
-                    event.AEACN = RecordItems[i].value;
-                    break;
-                }
-                case 'AEENRF':{
-                    event.AEENRF = RecordItems[i].value;
-                    break;
-                }
-                case 'displayLabel':{
-                    event.displayLabel = RecordItems[i].value;
-                    break;
-                }
-                case 'displayDate':{
-                    event.displayDate = RecordItems[i].value;
-                    break;
-                }
+                event.AESTDTC = records.formatStringToDate(RecordItems[i].value);
+                //console.log("Date:" +event.AESTDTC.toDateString());
+                break;
+            }
+            case 'AEENDTC':{
+                event.AEENDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'AEMODIFY':{
+                event.AEMODIFY = RecordItems[i].value;
+                break;
+            }
+            case 'AEDECOD':{
+                event.AEDECOD = RecordItems[i].value;
+                break;
+            }
+            case 'AEBODSYS':{
+                event.AEBODSYS = RecordItems[i].value;
+                break;
+            }
+            case 'AESER':{
+                event.AESER = RecordItems[i].value;
+                break;
+            }
+            case 'AEACN':{
+                event.AEACN = RecordItems[i].value;
+                break;
+            }
+            case 'AEREL':{
+                event.AEREL = RecordItems[i].value;
+                break;
+            }
+            case 'AEOUT':{
+                event.AEOUT = RecordItems[i].value;
+                break;
+            }
+            case 'AESEV':{
+                event.AESEV = RecordItems[i].value;
+                break;
+            }
+            case 'AESCONG':{
+                event.AESCONG = getTrueFalse(RecordItems[i].value);
+                break;
+            }
+            case 'AESDISAB':{
+                event.AESDISAB = getTrueFalse(RecordItems[i].value);
+                break;
+            }
+            case 'AESDTH':{
+                event.AESDTH = getTrueFalse(RecordItems[i].value);
+                //console.log("Death:" +event.AESDTH);
+                break;
+            }
+            case 'AESHOSP':{
+                event.AESHOSP = getTrueFalse(RecordItems[i].value);
+                break;
+            }
+            case 'AESLIFE':{
+                event.AESLIFE = getTrueFalse(RecordItems[i].value);
+                break;
+            }
+            case 'AESMIE':{
+                event.AESMIE = RecordItems[i].value;
+                break;
+            }
+            case 'AESTDY':{
+                event.AESTDY = RecordItems[i].value;
+                break;
+            }
+            case 'AEENDY':{
+                event.AEENDY = RecordItems[i].value;
+                break;
+            }
+            case 'AEENRF':{
+                event.AEENRF = RecordItems[i].value;
+                break;
+            }
+            case 'displayLabel':{
+                event.displayLabel = RecordItems[i].value;
+                break;
+            }
+            case 'displayDate':{
+                event.displayDate = RecordItems[i].value;
+                break;
+            }
             }
         }
         adverseEvents.push(event);
-    }
+    };
 
     var getTrueFalse = function (term) {
         if (term == 'True') {
@@ -177,7 +169,7 @@ adverseEventModule.service('adverseEventService', function(records, viewService,
         {
             return false;
         }
-    }
+    };
 
     var generateSEQ = function () {
         var SEQs = compileEvents();
@@ -188,7 +180,7 @@ adverseEventModule.service('adverseEventService', function(records, viewService,
         else {
             return 0;
         }
-    }
+    };
 
     function sortNumber(a,b) {
         return a - b;
@@ -200,7 +192,7 @@ adverseEventModule.service('adverseEventService', function(records, viewService,
             seq.push(adverseEvents[e].AESEQ);
         }
         return seq;
-    }
+    };
 
     var addAdverseEvent = function (adverseEvent) {
         adverseEvent.AESEQ = generateSEQ();
@@ -240,26 +232,22 @@ adverseEventModule.service('adverseEventService', function(records, viewService,
         return adverseEvents;
     };
 
-    var print = function() {
-        console.log(adverseEvents);
-    };
-
     var editAdverseEvent = function(event, resName, resValue) {
         if (!viewService.workOffline())
         {
-            var USUBJID = {fieldName: "USUBJID", value: event.USUBJID};
-            var SEQ = {fieldName:"AESEQ", value: event.AESEQ};
+            var USUBJID = {fieldName: 'USUBJID', value: event.USUBJID};
+            var SEQ = {fieldName:'AESEQ', value: event.AESEQ};
             var RESTOCHANGE = {fieldName:resName, value: resValue};
 
             var idRecord = [USUBJID, SEQ];
             var valueRecord = [RESTOCHANGE];
             records.editRecord(idRecord, valueRecord);
         }
-    }
+    };
 
     var setEvent = function (event) {
         currentEvent = getEventByDate(event.AESTDTC.toDateString());
-    }
+    };
 
     var getEventByDate = function (AESTDTC) {
         for (var e = 0; e < adverseEvents.length; e++) {
@@ -284,6 +272,6 @@ adverseEventModule.service('adverseEventService', function(records, viewService,
         setEvent: setEvent,
         getCurrentEvent: getCurrentEvent,
         getAdverseEventByTermAndDate: getAdverseEventByTermAndDate
-    }
+    };
 
 });

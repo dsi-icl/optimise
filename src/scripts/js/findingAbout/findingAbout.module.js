@@ -29,9 +29,9 @@ findingModule.factory('findingAbout', function() {
             //FADTC: new Date (2015, 01, 01),
             FADTC: '',
             FALNKID:''
-        }
+        };
         return findingsAbout;
-    }
+    };
 });
 
 findingModule.service('findingsAbout', function(findingAbout, records, viewService) {
@@ -39,93 +39,85 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
 
     var deleteFindings = function() {
         findings = [];
-    }
+    };
 
     var populateFindings = function (RecordItems) {
         var aFinding = new findingAbout();
         //console.log(RecordItems);
         for (var i = 0; i < RecordItems.length; i++){
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    aFinding.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    aFinding.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    aFinding.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'FASEQ':{
-                    aFinding.FASEQ = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'FATESTCD':{
-                    aFinding.FATESTCD = RecordItems[i].value;
-                    break;
-                }
-                case 'FATEST':{
-                    aFinding.FATEST = RecordItems[i].value;
-                    break;
-                }
-                case 'FAOBJ':{
-                    aFinding.FAOBJ = RecordItems[i].value;
-                    break;
-                }
-                case 'FACAT':{
-                    aFinding.FACAT = RecordItems[i].value;
-                    break;
-                }
-                case 'FASCAT':{
-                    aFinding.FASCAT = RecordItems[i].value;
-                    break;
-                }
-                case 'FALOC':{
-                    aFinding.FALOC = RecordItems[i].value;
-                    break;
-                }
-                case 'FALAT':{
-                    aFinding.FALAT = RecordItems[i].value;
-                    break;
-                }
-                case 'FATPT':{
-                    aFinding.FATPT = RecordItems[i].value;
-                    break;
-                }
-                case 'FAMETHOD':{
-                    aFinding.FAMETHOD = RecordItems[i].value;
-                    break;
-                }
-                case 'FAORES':{
-                    aFinding.FAORES = RecordItems[i].value;
-                    break;
-                }
-                case 'FASTRESU':{
-                    aFinding.FASTRESU = RecordItems[i].value;
-                    break;
-                }
-                case 'FADTC':{
-                    aFinding.FADTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'FAMETHOD':{
-                    aFinding.FAMETHOD = RecordItems[i].value;
-                    break;
-                }
-                case 'FALNKID':{
-                    aFinding.FALNKID = RecordItems[i].value;
-                    break;
-                }
+            case 'STUDYID':{
+                aFinding.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                aFinding.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                aFinding.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'FASEQ':{
+                aFinding.FASEQ = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'FATESTCD':{
+                aFinding.FATESTCD = RecordItems[i].value;
+                break;
+            }
+            case 'FATEST':{
+                aFinding.FATEST = RecordItems[i].value;
+                break;
+            }
+            case 'FAOBJ':{
+                aFinding.FAOBJ = RecordItems[i].value;
+                break;
+            }
+            case 'FACAT':{
+                aFinding.FACAT = RecordItems[i].value;
+                break;
+            }
+            case 'FASCAT':{
+                aFinding.FASCAT = RecordItems[i].value;
+                break;
+            }
+            case 'FALOC':{
+                aFinding.FALOC = RecordItems[i].value;
+                break;
+            }
+            case 'FALAT':{
+                aFinding.FALAT = RecordItems[i].value;
+                break;
+            }
+            case 'FATPT':{
+                aFinding.FATPT = RecordItems[i].value;
+                break;
+            }
+            case 'FAMETHOD':{
+                aFinding.FAMETHOD = RecordItems[i].value;
+                break;
+            }
+            case 'FAORES':{
+                aFinding.FAORES = RecordItems[i].value;
+                break;
+            }
+            case 'FASTRESU':{
+                aFinding.FASTRESU = RecordItems[i].value;
+                break;
+            }
+            case 'FADTC':{
+                aFinding.FADTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'FALNKID':{
+                aFinding.FALNKID = RecordItems[i].value;
+                break;
+            }
             }
         }
         findings.push(aFinding);
-    }
-
-    var displayFindings = function() {
-        console.log(findings);
-    }
+    };
 
     var generateSEQ = function () {
         var SEQs = compileFindings();
@@ -136,7 +128,7 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
         else {
             return 0;
         }
-    }
+    };
 
     function sortNumber(a,b) {
         return a - b;
@@ -148,7 +140,7 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
             seq.push(findings[e].FASEQ);
         }
         return seq;
-    }
+    };
 
     var addFinding = function (newFinding) {
         newFinding.FASEQ = generateSEQ();
@@ -156,7 +148,7 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
 
         if (!viewService.workOffline())
             records.saveRecord(newFinding);
-    }
+    };
 
     var getFindingsByLNKID = function (LNKID){
         var findingsWithLnk = [];
@@ -166,7 +158,7 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
             }
         }
         return findingsWithLnk;
-    }
+    };
 
     var findingsByLocAndMet = function (faloc, famethod) {
         for (var f = 0; f < findings.length; f++){
@@ -178,7 +170,7 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
                 return null;
             }
         }
-    }
+    };
 
     var findingsByLoc = function (faloc) {
         var faList = [];
@@ -188,7 +180,7 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
             }
         }
         return faList;
-    }
+    };
 
     var FASCATExists = function (FASCAT) {
         var faList = [];
@@ -198,7 +190,7 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
             }
         }
         return faList;
-    }
+    };
 
     var deleteFinding = function (finding) {
         var index = findings.indexOf(finding);
@@ -207,18 +199,18 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
         }
         if (!viewService.workOffline())
             records.deleteRecord(finding);
-    }
+    };
 
     var editFinding = function (fa) {
-        var USUBJID = {fieldName: "USUBJID", value: fa.USUBJID};
-        var FAORES = {fieldName:"FAORES", value: fa.FAORES};
-        var FASEQ = {fieldName:"FASEQ", value: fa.FASEQ};
+        var USUBJID = {fieldName: 'USUBJID', value: fa.USUBJID};
+        var FAORES = {fieldName:'FAORES', value: fa.FAORES};
+        var FASEQ = {fieldName:'FASEQ', value: fa.FASEQ};
 
         var idRecord = [USUBJID, FASEQ];
         var valueRecord = [FAORES];
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     var editFindingMethod = function (faloc, famethod) {
         for (var f = 0; f < findings.length; f++)
@@ -227,11 +219,11 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
                 findings[f].FAMETHOD = famethod;
             }
         }
-    }
+    };
 
     var getFindings = function() {
         return findings;
-    }
+    };
 
 
 
@@ -241,14 +233,13 @@ findingModule.service('findingsAbout', function(findingAbout, records, viewServi
         findingsByLoc:findingsByLoc,
         deleteFinding: deleteFinding,
         editFindingMethod: editFindingMethod,
-        displayFindings: displayFindings,
         getFindingsByLNKID:getFindingsByLNKID,
         populateFindings:populateFindings,
         getFindings: getFindings,
         editFinding: editFinding,
         FASCATExists: FASCATExists,
         deleteFindings:deleteFindings
-    }
+    };
 });
 
 findingModule.controller('findingAboutInfoCtrl', function($scope, viewService) {
@@ -259,8 +250,8 @@ findingModule.controller('findingAboutInfoCtrl', function($scope, viewService) {
         else
             return false;
 
-    }
-})
+    };
+});
 
 findingModule.directive('findingEntry', function() {
     return {
