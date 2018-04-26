@@ -174,10 +174,11 @@
                       ng-class="{selected: isSelected(event, getEventDates().length)}">
                       <!-- <td>{{$index+1}}</td> -->
                       <td>
-                        <!-- <p>{{event.displayLabel}}</p> -->
+                        <span style="padding-left: 15px; line-height: 30px;">{{event.displayLabel | limitTo : 10}}</span><br/>
                         <span style="padding-left: 15px; line-height: 30px;">{{event.displayDate}}</span>
                       </td>
                       <td style="text-align: right;">
+                          <span style="padding-left: 15px; line-height: 30px;">&nbsp;</span><br/>
                         <a href="#" ng-click="deleteEvent(event)" style="padding-right: 15px; line-height: 30px; text-align: right;">Delete</a>
                       </td>
                     </tr>
