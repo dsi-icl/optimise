@@ -32,9 +32,9 @@ eventModule.service('events', function (clinicalEvent, clinicalEvents, records) 
 */
 
 eventModule.controller('eventInfoCtrl', function($rootScope, $scope, $parse,
-                                                viewService,
-                                                clinicalEvent, clinicalEvents,
-                                                adverseEventService, AdverseEvent)
+    viewService,
+    clinicalEvent, clinicalEvents,
+    adverseEventService, AdverseEvent)
 {
 
     $scope.USUBJID = '';
@@ -49,19 +49,19 @@ eventModule.controller('eventInfoCtrl', function($rootScope, $scope, $parse,
 
     $scope.getMedicalConditions = function () {
         return clinicalEvents.getMedicalConditions();
-    }
+    };
 
     var clearFields = function () {
         $scope.STDTC = '';
         //$scope.CEENDTC = '';
-        $scope.TERM = "";
-        $scope.SEV = "";
-        $scope.OUT = "";
+        $scope.TERM = '';
+        $scope.SEV = '';
+        $scope.OUT = '';
     };
 
     $rootScope.setEventUSUBJID = function(USUBJID) {
         $scope.USUBJID = USUBJID;
-    }
+    };
 
     $rootScope.setNewEventFields = function() {
         clinicalEvents.clearEvent();
@@ -129,7 +129,7 @@ eventModule.controller('eventInfoCtrl', function($rootScope, $scope, $parse,
             clinicalEvents.addEvent(newEvent);
 
         }
-    }
+    };
 
     $scope.addEvent = function() {
         if (($scope.STDTC != '') && ($scope.TERM != ''))
@@ -144,9 +144,9 @@ eventModule.controller('eventInfoCtrl', function($rootScope, $scope, $parse,
                     clinicalEvents.printEvents();
                 }
             }
-            else {
-                console.log($scope.TERM + " not found");
-            }
+            // else {
+            //    console.log($scope.TERM + ' not found');
+            // }
         }
     };
 
@@ -170,7 +170,6 @@ eventModule.controller('eventInfoCtrl', function($rootScope, $scope, $parse,
         if ($scope.isAdverseEvent) {
             var event = adverseEventService.getAdverseEventByTermAndDate(eventDate.toDateString(),$scope.TERM);
             if (event != null) {
-                console.log($scope.SEV);
                 if (ENAME == 'SEV') {
                     event.AESEV = $scope.SEV;
                     adverseEventService.editAdverseEvent(event, 'AESEV', $scope.SEV);
@@ -185,51 +184,51 @@ eventModule.controller('eventInfoCtrl', function($rootScope, $scope, $parse,
             var eventOnDate = clinicalEvents.getEventByTermOnDate($scope.TERM, $scope.STDTC);
             if (eventOnDate.length == 1){
                 switch (ENAME) {
-                    case ('SEV'): {
-                        eventOnDate.CESEV = $scope.SEV;
-                        clinicalEvents.editEvent(eventOnDate[0], 'CESEV', $scope.SEV);
-                        break;
-                    };
-                    case ('OUT'): {
-                        eventOnDate.CEOUT = $scope.OUT;
-                        clinicalEvents.editEvent(eventOnDate[0], 'CEOUT', $scope.OUT);
-                        break;
-                    };
-                };
+                case ('SEV'): {
+                    eventOnDate.CESEV = $scope.SEV;
+                    clinicalEvents.editEvent(eventOnDate[0], 'CESEV', $scope.SEV);
+                    break;
+                }
+                case ('OUT'): {
+                    eventOnDate.CEOUT = $scope.OUT;
+                    clinicalEvents.editEvent(eventOnDate[0], 'CEOUT', $scope.OUT);
+                    break;
+                }
+                }
             }
         }
-    }
+    };
 
     $scope.editAdverseEvent = function (AETermName) {
         var eventDate = new Date($scope.STDTC);
         var event = adverseEventService.getAdverseEventByTermAndDate(eventDate.toDateString(),$scope.TERM);
         switch (AETermName) {
-            case 'AESDTH': {
-                event.AESDTH = $scope.AESDTH;
-                adverseEventService.editAdverseEvent(event, AETermName, $scope.AESDTH);
-                break;
-            };
-            case 'AESLIFE': {
-                event.AESLIFE = $scope.AESLIFE;
-                adverseEventService.editAdverseEvent(event, AETermName, $scope.AESLIFE);
-                break;
-            };
-            case 'AESDISAB': {
-                event.AESDISAB = $scope.AESDISAB;
-                adverseEventService.editAdverseEvent(event, AETermName, $scope.AESDISAB);
-                break;
-            };
-            case 'AESHOSP': {
-                event.AESDTH = $scope.AESHOSP;
-                adverseEventService.editAdverseEvent(event, AETermName, $scope.AESHOSP);
-                break;
-            };
-            case 'AESCONG': {
-                event.AESCONG = $scope.AESCONG;
-                adverseEventService.editAdverseEvent(event, AETermName, $scope.AESCONG);
-                break;
-            };
-        };
+        case 'AESDTH': {
+            event.AESDTH = $scope.AESDTH;
+            adverseEventService.editAdverseEvent(event, AETermName, $scope.AESDTH);
+            break;
+        }
+        case 'AESLIFE': {
+            event.AESLIFE = $scope.AESLIFE;
+            adverseEventService.editAdverseEvent(event, AETermName, $scope.AESLIFE);
+            break;
+        }
+        case 'AESDISAB': {
+            event.AESDISAB = $scope.AESDISAB;
+            adverseEventService.editAdverseEvent(event, AETermName, $scope.AESDISAB);
+            break;
+        }
+        case 'AESHOSP': {
+            event.AESHOSP = $scope.AESHOSP;
+            adverseEventService.editAdverseEvent(event, AETermName, $scope.AESHOSP);
+            break;
+        }
+        case 'AESCONG': {
+            event.AESCONG = $scope.AESCONG;
+            adverseEventService.editAdverseEvent(event, AETermName, $scope.AESCONG);
+            break;
+        }
+        }
     };
 
 
@@ -240,5 +239,5 @@ eventModule.directive('eventEntry', function() {
         restrict: 'AE',
         replace: 'true',
         templateUrl: 'scripts/js/event/event.html'
-    }
+    };
 });

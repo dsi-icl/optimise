@@ -44,129 +44,117 @@ nervousSystemFindingModule.service('nervousSystemFindings', function(NervousSyst
 
     var deleteNervousSystemFindings = function() {
         nervousSystemFindings = [];
-    }
+    };
 
     var populateNervousSystemFindings = function(RecordItems) {
         var newTestResult = new NervousSystemFinding();
         for (var i = 0; i < RecordItems.length; i++){
 
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    newTestResult.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    newTestResult.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    newTestResult.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'SPDEVID':{
-                    newTestResult.SPDEVID = RecordItems[i].value;
-                    break;
-                }
-                case 'NVSEQ':{
-                    newTestResult.NVSEQ = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'NVGRPID':{
-                    newTestResult.NVGRPID = RecordItems[i].value;
-                    break;
-                }
-                case 'NVTESTCD':{
-                    newTestResult.NVTESTCD = RecordItems[i].value;
-                    break;
-                }
-                case 'NVTEST':{
-                    newTestResult.NVTEST = RecordItems[i].value;
-                    break;
-                }
-                case 'NVCAT':{
-                    newTestResult.NVCAT = RecordItems[i].value;
-                    break;
-                }
-                case 'NVORRES':{
-                    newTestResult.NVORRES = RecordItems[i].value;
-                    break;
-                }
-                case 'NVORRESU':{
-                    newTestResult.NVORRESU = RecordItems[i].value;
-                    break;
-                }
-                case 'NVSTRESC':{
-                    newTestResult.NVSTRESC = RecordItems[i].value;
-                    break;
-                }
-                case 'NVSTRESN':{
-                    newTestResult.NVSTRESN = RecordItems[i].value;
-                    break;
-                }
-                case 'NVSTRESU':{
-                    newTestResult.NVSTRESU = RecordItems[i].value;
-                    break;
-                }
-                case 'NVORNRLO':{
-                    newTestResult.NVORNRLO = RecordItems[i].value;
-                    break;
-                }
-                case 'NVORNRHI':{
-                    newTestResult.NVORNRHI = RecordItems[i].value;
-                    break;
-                }
-                case 'NVNRIND':{
-                    newTestResult.NVNRIND = RecordItems[i].value;
-                    break;
-                }
-                case 'NVLOC':{
-                    newTestResult.NVLOC = RecordItems[i].value;
-                    break;
-                }
-                case 'NVDTC':{
-                    newTestResult.NVDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'NVLAT':{
-                    newTestResult.NVLAT = RecordItems[i].value;
-                    break;
-                }
-                case 'NVMETHOD':{
-                    newTestResult.NVMETHOD = RecordItems[i].value;
-                    break;
-                }
-                case 'NVNRIND':{
-                    newTestResult.NVNRIND = RecordItems[i].value;
-                    break;
-                }
-                case 'NVLOC':{
-                    newTestResult.NVLOC = RecordItems[i].value;
-                    break;
-                }
-                case 'NVDTC':{
-                    newTestResult.LBDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'displayLabel':{
-                    newTestResult.displayLabel = RecordItems[i].value;
-                    break;
-                }
-                case 'displayDate':{
-                    newTestResult.displayDate= RecordItems[i].value;
-                    break;
-                }
+            case 'STUDYID':{
+                newTestResult.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                newTestResult.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                newTestResult.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'SPDEVID':{
+                newTestResult.SPDEVID = RecordItems[i].value;
+                break;
+            }
+            case 'NVSEQ':{
+                newTestResult.NVSEQ = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'NVGRPID':{
+                newTestResult.NVGRPID = RecordItems[i].value;
+                break;
+            }
+            case 'NVTESTCD':{
+                newTestResult.NVTESTCD = RecordItems[i].value;
+                break;
+            }
+            case 'NVTEST':{
+                newTestResult.NVTEST = RecordItems[i].value;
+                break;
+            }
+            case 'NVCAT':{
+                newTestResult.NVCAT = RecordItems[i].value;
+                break;
+            }
+            case 'NVORRES':{
+                newTestResult.NVORRES = RecordItems[i].value;
+                break;
+            }
+            case 'NVORRESU':{
+                newTestResult.NVORRESU = RecordItems[i].value;
+                break;
+            }
+            case 'NVSTRESC':{
+                newTestResult.NVSTRESC = RecordItems[i].value;
+                break;
+            }
+            case 'NVSTRESN':{
+                newTestResult.NVSTRESN = RecordItems[i].value;
+                break;
+            }
+            case 'NVSTRESU':{
+                newTestResult.NVSTRESU = RecordItems[i].value;
+                break;
+            }
+            case 'NVORNRLO':{
+                newTestResult.NVORNRLO = RecordItems[i].value;
+                break;
+            }
+            case 'NVORNRHI':{
+                newTestResult.NVORNRHI = RecordItems[i].value;
+                break;
+            }
+            case 'NVNRIND':{
+                newTestResult.NVNRIND = RecordItems[i].value;
+                break;
+            }
+            case 'NVLOC':{
+                newTestResult.NVLOC = RecordItems[i].value;
+                break;
+            }
+            case 'NVDTC':{
+                newTestResult.NVDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'NVLAT':{
+                newTestResult.NVLAT = RecordItems[i].value;
+                break;
+            }
+            case 'NVMETHOD':{
+                newTestResult.NVMETHOD = RecordItems[i].value;
+                break;
+            }
+            case 'LBDTC':{
+                newTestResult.LBDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'displayLabel':{
+                newTestResult.displayLabel = RecordItems[i].value;
+                break;
+            }
+            case 'displayDate':{
+                newTestResult.displayDate= RecordItems[i].value;
+                break;
+            }
             }
         }
         nervousSystemFindings.push(newTestResult);
-    }
+    };
 
     var getNervousSystemFindings = function() {
         return nervousSystemFindings;
-    }
-
-    var printNSFindings = function() {
-        console.log(nervousSystemFindings);
-    }
+    };
 
     var generateSEQ = function () {
         var SEQs = compileResults();
@@ -177,7 +165,7 @@ nervousSystemFindingModule.service('nervousSystemFindings', function(NervousSyst
         else {
             return 0;
         }
-    }
+    };
 
     function sortNumber(a,b) {
         return a - b;
@@ -189,36 +177,34 @@ nervousSystemFindingModule.service('nervousSystemFindings', function(NervousSyst
             seq.push(nervousSystemFindings[e].NVSEQ);
         }
         return seq;
-    }
+    };
 
     var editFinding = function(NV, NVORES) {
-        var USUBJID = {fieldName: "USUBJID", value: NV.USUBJID};
-        var NVSEQ = {fieldName:"NVSEQ", value: NV.NVSEQ};
+        var USUBJID = {fieldName: 'USUBJID', value: NV.USUBJID};
+        var NVSEQ = {fieldName:'NVSEQ', value: NV.NVSEQ};
 
         var RECTOCHANGE = {fieldName:'NVORRES', value: NVORES};
         var idRecord = [USUBJID, NVSEQ];
         var valueRecord = [RECTOCHANGE];
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     var addFinding = function (NV){
         NV.NVSEQ = generateSEQ();
         nervousSystemFindings.push(NV);
         if (!viewService.workOffline())
             records.saveRecord(NV);
-    }
+    };
 
     var deleteFinding = function (NV){
-        console.log(NV);
         var index = nervousSystemFindings.indexOf(NV);
-        console.log(index);
         if (index > -1) {
             nervousSystemFindings.splice(index, 1);
             if (!viewService.workOffline())
                 records.deleteRecord(NV);
         }
-    }
+    };
 
     var getUniqueDates = function () {
         var uniqueDates = [];
@@ -228,7 +214,7 @@ nervousSystemFindingModule.service('nervousSystemFindings', function(NervousSyst
             }
         }
         return uniqueDates;
-    }
+    };
 
     var dateExists = function (uniqueDates, NVDTC){
         for (var d = 0; d < uniqueDates.length; d++) {
@@ -237,7 +223,7 @@ nervousSystemFindingModule.service('nervousSystemFindings', function(NervousSyst
             }
         }
         return false;
-    }
+    };
 
     var getVEPFinding = function(NVTEST, NVLAT, NVDTC) {
         var dateCriteria = NVDTC.toDateString();
@@ -250,7 +236,7 @@ nervousSystemFindingModule.service('nervousSystemFindings', function(NervousSyst
             }
         }
         return null;
-    }
+    };
 
     var getSEPFinding = function(NVTEST, NVLAT, NVDTC, NVLOC) {
         var dateCriteria = NVDTC.toDateString();
@@ -264,7 +250,7 @@ nervousSystemFindingModule.service('nervousSystemFindings', function(NervousSyst
             }
         }
         return null;
-    }
+    };
 
     var getFindingsByDate = function (NVDTC) {
         var testsOnDate = [];
@@ -279,7 +265,7 @@ nervousSystemFindingModule.service('nervousSystemFindings', function(NervousSyst
 
     var getFindingsOfCurrentDate = function() {
         return getFindingsByDate(currentCollectionDate);
-    }
+    };
 
     var setCurrentCollectionDate = function(event) {
         if (event.DOMAIN=='IS') {
@@ -291,7 +277,7 @@ nervousSystemFindingModule.service('nervousSystemFindings', function(NervousSyst
         else  {
             currentCollectionDate = event.NVDTC;
         }
-    }
+    };
 
     var getAssessmentByDate = function (NVDTC) {
         var testsOnDate = [];
@@ -305,7 +291,6 @@ nervousSystemFindingModule.service('nervousSystemFindings', function(NervousSyst
     };
 
     return {
-        printNSFindings:printNSFindings,
         addFinding:addFinding,
         editFinding: editFinding,
         deleteFinding:deleteFinding,

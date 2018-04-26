@@ -23,7 +23,7 @@ deviceInUseModule.factory('DeviceInUse', function() {
             DUORRESU:'',
             DUDTC:'',
             SCANREF:''
-        }
+        };
         return device;
     };
 });
@@ -36,58 +36,59 @@ deviceInUseModule.service('deviceInUseServices', function(DeviceInUse, records, 
         var aFinding = new DeviceInUse();
         for (var i = 0; i < RecordItems.length; i++){
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    aFinding.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    aFinding.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    aFinding.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'SPDEVID':{
-                    aFinding.SPDEVID = RecordItems[i].value;
-                    break;
-                }
-                case 'DUSEQ':{
-                    aFinding.DUSEQ = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'DUREFID':{
-                    aFinding.DULNKID = RecordItems[i].value;
-                    break;
-                }
-                case 'DUTESTCD':{
-                    aFinding.DUREFID = RecordItems[i].value;
-                    break;
-                }
-                case 'DUTESTCD':{
-                    aFinding.DUTESTCD = RecordItems[i].value;
-                    break;
-                }
-                case 'DUTEST':{
-                    aFinding.DUTEST = RecordItems[i].value;
-                    break;
-                }
-                case 'DUORRES':{
-                    aFinding.DUORRES = RecordItems[i].value;
-                    break;
-                }
-                case 'DUORRESU':{
-                    aFinding.DUORRESU = RecordItems[i].value;
-                    break;
-                }
-                case 'DUDTC':{
-                    aFinding.DUDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
+            case 'STUDYID':{
+                aFinding.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                aFinding.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                aFinding.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'SPDEVID':{
+                aFinding.SPDEVID = RecordItems[i].value;
+                break;
+            }
+            case 'DUSEQ':{
+                aFinding.DUSEQ = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'DULNKID':{
+                aFinding.DULNKID = RecordItems[i].value;
+                break;
+            }
+            case 'DUREFID':{
+                aFinding.DUREFID = RecordItems[i].value;
+                break;
+            }
+            case 'DUTESTCD':{
+                aFinding.DUTESTCD = RecordItems[i].value;
+                break;
+            }
+            case 'DUTEST':{
+                aFinding.DUTEST = RecordItems[i].value;
+                break;
+            }
+            case 'DUORRES':{
+                aFinding.DUORRES = RecordItems[i].value;
+                break;
+            }
+            case 'DUORRESU':{
+                aFinding.DUORRESU = RecordItems[i].value;
+                break;
+            }
+            case 'DUDTC':{
+                aFinding.DUDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
             }
         }
+
         scansFromDevice.push(aFinding);
-    }
+    };
 
     var generateSEQ = function () {
         var SEQs = compileScans();
@@ -98,7 +99,7 @@ deviceInUseModule.service('deviceInUseServices', function(DeviceInUse, records, 
         else {
             return 0;
         }
-    }
+    };
 
     function sortNumber(a,b) {
         return a - b;
@@ -111,26 +112,26 @@ deviceInUseModule.service('deviceInUseServices', function(DeviceInUse, records, 
             seq.push(scansFromDevice[e].DUSEQ);
         }
         return seq;
-    }
+    };
 
     var addDeviceInUse = function(du) {
         du.DUSEQ = generateSEQ();
         scansFromDevice.push(du);
         if (!viewService.workOffline())
             records.saveRecord(du);
-    }
+    };
 
     var editDeviceInUse = function(du) {
-        var USUBJID = {fieldName: "USUBJID", value: du.USUBJID};
-        var DUTEST = {fieldName:"DUTEST", value: du.DUTEST};
-        var DUORRES = {fieldName:"DUORRES", value: du.VSORRES};
-        var DUSEQ = {fieldName:"DUSEQ", value: du.MOSEQ};
+        var USUBJID = {fieldName: 'USUBJID', value: du.USUBJID};
+        var DUTEST = {fieldName:'DUTEST', value: du.DUTEST};
+        var DUORRES = {fieldName:'DUORRES', value: du.VSORRES};
+        var DUSEQ = {fieldName:'DUSEQ', value: du.MOSEQ};
 
         var idRecord = [USUBJID, DUTEST, DUSEQ];
         var valueRecord = [DUORRES];
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     var deleteDeviceInUse = function(du) {
         var index = scansFromDevice.indexOf(du);
@@ -139,7 +140,7 @@ deviceInUseModule.service('deviceInUseServices', function(DeviceInUse, records, 
             if (!viewService.workOffline())
                 records.deleteRecord(du);
         }
-    }
+    };
 
     var getDeviceInUseByDate = function(DUDTC) {
         var properties = [];
@@ -150,7 +151,7 @@ deviceInUseModule.service('deviceInUseServices', function(DeviceInUse, records, 
             }
         }
         return properties;
-    }
+    };
 
     var getDeviceInUseByTest = function(DUDTC, DUTEST) {
         var devices = [];
@@ -176,17 +177,13 @@ deviceInUseModule.service('deviceInUseServices', function(DeviceInUse, records, 
         return scans;
     };
 
-    var print = function() {
-        console.log(scansFromDevice);
-    }
-
     var deleteDevicesInUse = function() {
         scansFromDevice = [];
-    }
+    };
 
     var getDevicesInUse = function() {
         return scansFromDevice;
-    }
+    };
 
     return {
         addDeviceInUse: addDeviceInUse,
@@ -199,5 +196,5 @@ deviceInUseModule.service('deviceInUseServices', function(DeviceInUse, records, 
         print:print,
         deleteDevicesInUse: deleteDevicesInUse,
         getDevicesInUse: getDevicesInUse
-    }
+    };
 });

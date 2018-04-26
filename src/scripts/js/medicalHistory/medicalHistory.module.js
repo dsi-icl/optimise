@@ -29,21 +29,17 @@ medicalHistoryModule.factory('MedicalEvent', function() {
             displayENDTC:'',
             displayLabel:'',
             displayDate:''
-        }
+        };
         return medicalHistory;
-    }
-})
+    };
+});
 
 medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, viewService) {
     var medicalHistory = [];
 
     var deleteMedicalHistory = function() {
         medicalHistory = [];
-    }
-
-    var printMedicalHistory = function() {
-        console.log(medicalHistory);
-    }
+    };
 
     var getHistoricalOccurences = function (MHCAT, RHSTDTC) {
         var historicalOccurences = [];
@@ -55,11 +51,11 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
             }
         }
         return historicalOccurences;
-    }
+    };
 
     var editOccurence = function (oc, recordToChange, valueToChange){
-        var USUBJID = {fieldName: "USUBJID", value: oc.USUBJID};
-        var MHSEQ = {fieldName:"MHSEQ", value: oc.MHSEQ};
+        var USUBJID = {fieldName: 'USUBJID', value: oc.USUBJID};
+        var MHSEQ = {fieldName:'MHSEQ', value: oc.MHSEQ};
         var RECTOCHANGE = {fieldName:recordToChange, value: valueToChange};
 
         var idRecord = [USUBJID, MHSEQ];
@@ -67,7 +63,7 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
 
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     var generateSEQ = function () {
         var SEQs = compileHistory();
@@ -78,7 +74,7 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
         else {
             return 0;
         }
-    }
+    };
 
     function sortNumber(a,b) {
         return a - b;
@@ -91,7 +87,7 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
             seq.push(medicalHistory[e].MHSEQ);
         }
         return seq;
-    }
+    };
 
     var addOccurence = function (newOccurence) {
         newOccurence.MHSEQ = generateSEQ();
@@ -102,7 +98,7 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
         medicalHistory.push(newOccurence);
         if (!viewService.workOffline())
             records.saveRecord(newOccurence);
-    }
+    };
 
     var deleteOccurence = function (occurence) {
         var index = medicalHistory.indexOf(occurence);
@@ -111,7 +107,7 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
             if (!viewService.workOffline())
                 records.deleteRecord(occurence);
         }
-    }
+    };
 
     var getOccurenceBySeq = function(mhseq){
         for (var i = 0; i < medicalHistory.length; i++){
@@ -120,7 +116,7 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
             }
         }
         return null;
-    }
+    };
 
     var getOccurencesInCategory = function(mhcat){
         var occurenceInCategory = [];
@@ -131,7 +127,7 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
             }
         }
         return occurenceInCategory;
-    }
+    };
 
     var getOccurencesInSubCategory = function(mhscat){
         var occurenceInCategory = [];
@@ -142,7 +138,7 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
             }
         }
         return occurenceInCategory;
-    }
+    };
 
     var occurenceExists = function(mhscat) {
         for (var i = 0; i < medicalHistory.length; i++){
@@ -153,90 +149,90 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
             }
         }
         return null;
-    }
+    };
 
     var getMedicalHistory = function() {
         return medicalHistory;
-    }
+    };
 
     var populateMedicalHistory = function(RecordItems) {
         var mh = new MedicalEvent();
         for (var i = 0; i < RecordItems.length; i++){
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    mh.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    mh.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    mh.USUBJID = RecordItems[i].value;
-                    //mh.SUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'MHSEQ':{
-                    mh.MHSEQ = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'MHTERM':{
-                    mh.MHTERM = RecordItems[i].value;
-                    break;
-                }
-                case 'MHENRTPT':{
-                    mh.MHENRTPT = RecordItems[i].value;
-                    break;
-                }
-                case 'MHCAT':{
-                    mh.MHCAT = RecordItems[i].value;
-                    break;
-                }
-                case 'MHSCAT':{
-                    mh.MHSCAT = RecordItems[i].value;
-                    break;
-                }
-                case 'MHSTDTC':{
-                    mh.MHSTDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'MHENDTC':{
-                    mh.MHENDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'MHLOC':{
-                    mh.MHLOC = RecordItems[i].value;
-                    break;
-                }
-                case 'MHLAT':{
-                    mh.MHLAT = RecordItems[i].value;
-                    break;
-                }
-                case 'displaySTDTC':{
-                    mh.displaySTDTC = RecordItems[i].value;
-                    break;
-                }
-                case 'displayENDTC':{
-                    mh.displayENDTC = RecordItems[i].value;
-                    break;
-                }
-                case 'displayLabel':{
-                    mh.displayLabel = RecordItems[i].value;
-                    break;
-                }
-                case 'displayDate':{
-                    mh.displayDate = RecordItems[i].value;
-                    break;
-                }
-                case 'displayNote':{
-                    mh.displayNote = RecordItems[i].value;
-                    break;
-                }
+            case 'STUDYID':{
+                mh.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                mh.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                mh.USUBJID = RecordItems[i].value;
+                //mh.SUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'MHSEQ':{
+                mh.MHSEQ = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'MHTERM':{
+                mh.MHTERM = RecordItems[i].value;
+                break;
+            }
+            case 'MHENRTPT':{
+                mh.MHENRTPT = RecordItems[i].value;
+                break;
+            }
+            case 'MHCAT':{
+                mh.MHCAT = RecordItems[i].value;
+                break;
+            }
+            case 'MHSCAT':{
+                mh.MHSCAT = RecordItems[i].value;
+                break;
+            }
+            case 'MHSTDTC':{
+                mh.MHSTDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'MHENDTC':{
+                mh.MHENDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'MHLOC':{
+                mh.MHLOC = RecordItems[i].value;
+                break;
+            }
+            case 'MHLAT':{
+                mh.MHLAT = RecordItems[i].value;
+                break;
+            }
+            case 'displaySTDTC':{
+                mh.displaySTDTC = RecordItems[i].value;
+                break;
+            }
+            case 'displayENDTC':{
+                mh.displayENDTC = RecordItems[i].value;
+                break;
+            }
+            case 'displayLabel':{
+                mh.displayLabel = RecordItems[i].value;
+                break;
+            }
+            case 'displayDate':{
+                mh.displayDate = RecordItems[i].value;
+                break;
+            }
+            case 'displayNote':{
+                mh.displayNote = RecordItems[i].value;
+                break;
+            }
             }
         }
         medicalHistory.push(mh);
         //console.log(medicalHistory);
-    }
+    };
 
     return {
         getMedicalHistory: getMedicalHistory,
@@ -248,9 +244,8 @@ medicalHistoryModule.service('medicalHistory', function(MedicalEvent, records, v
         occurenceExists: occurenceExists,
         populateMedicalHistory:populateMedicalHistory,
         getHistoricalOccurences: getHistoricalOccurences,
-        printMedicalHistory: printMedicalHistory,
         getOccurenceBySeq: getOccurenceBySeq,
         deleteMedicalHistory: deleteMedicalHistory
-    }
+    };
 });
 

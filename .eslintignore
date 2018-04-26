@@ -1,0 +1,3 @@
+/src/scripts/vendor/*.js
+/website/scripts/bootstrap.min.js
+/website/scripts/jquery.min.js

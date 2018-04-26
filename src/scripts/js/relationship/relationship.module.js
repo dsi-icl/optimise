@@ -10,16 +10,16 @@ var relationshipModule = angular.module('Optimise.relationship',[]);
 relationshipModule.factory('relationship', function () {
     return function() {
         this.USUBJID= '';
-        this.STUDYID="OPTIMISE"
-        this.DOMAIN="REL";
-        this.RDOMAIN="";
-        this.IDVAR= "";
-        this.IDVARVAL= "";   // Question short name
-        this.RELTYPE= "";
-        this.RELID= "";
+        this.STUDYID='OPTIMISE';
+        this.DOMAIN='REL';
+        this.RDOMAIN='';
+        this.IDVAR= '';
+        this.IDVARVAL= '';   // Question short name
+        this.RELTYPE= '';
+        this.RELID= '';
 
-    }
-})
+    };
+});
 
 relationshipModule.service('relationships', function (relationship, records, viewService) {
     var relationships = [];
@@ -30,42 +30,42 @@ relationshipModule.service('relationships', function (relationship, records, vie
         //console.log(RecordItems);
         for (var i = 0; i < RecordItems.length; i++){
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    aRelationship.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    aRelationship.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'RDOMAIN':{
-                    aRelationship.RDOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    aRelationship.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'IDVAR':{
-                    aRelationship.IDVAR = RecordItems[i].value;
-                    break;
-                }
-                case 'IDVARVAL':{
-                    aRelationship.IDVARVAL = RecordItems[i].value;
-                    break;
-                }
-                case 'RELTYPE':{
-                    aRelationship.RELTYPE = RecordItems[i].value;
-                    break;
-                }
-                case 'RELID':{
-                    aRelationship.RELID = RecordItems[i].value;
-                    break;
-                }
+            case 'STUDYID':{
+                aRelationship.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                aRelationship.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'RDOMAIN':{
+                aRelationship.RDOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                aRelationship.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'IDVAR':{
+                aRelationship.IDVAR = RecordItems[i].value;
+                break;
+            }
+            case 'IDVARVAL':{
+                aRelationship.IDVARVAL = RecordItems[i].value;
+                break;
+            }
+            case 'RELTYPE':{
+                aRelationship.RELTYPE = RecordItems[i].value;
+                break;
+            }
+            case 'RELID':{
+                aRelationship.RELID = RecordItems[i].value;
+                break;
+            }
             }
         }
         relationships.push(aRelationship);
-    }
+    };
 
     var addRelationship = function(domain1, domain2, IDVAR1, IDVAR2, RELTYPE1, RELTYPE2, IDVARVAL)
     {
@@ -94,7 +94,7 @@ relationshipModule.service('relationships', function (relationship, records, vie
             records.saveRecord(newRel1);
             records.saveRecord(newRel2);
         }
-    }
+    };
 
     var getRelationshipByIDVARVAL = function(IDVARVAL) {
         var relevantRelationships = [];
@@ -104,7 +104,7 @@ relationshipModule.service('relationships', function (relationship, records, vie
             }
         }
         return relevantRelationships;
-    }
+    };
 
     var deleteRelationship = function (relationship) {
         var index = relationships.indexOf(relationship);
@@ -115,15 +115,15 @@ relationshipModule.service('relationships', function (relationship, records, vie
         if (!viewService.workOffline()) {
             records.deleteRecord(relationship);
         }
-    }
+    };
 
     var getRelationships = function () {
         return relationships;
-    }
+    };
 
     var deleteRelationships = function() {
         relationships = [];
-    }
+    };
 
     return {
         addRelationship:addRelationship,
@@ -133,4 +133,4 @@ relationshipModule.service('relationships', function (relationship, records, vie
         getRelationships: getRelationships,
         deleteRelationships: deleteRelationships
     };
-})
+});

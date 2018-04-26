@@ -25,7 +25,6 @@ var visitModule = angular.module('Optimise.subjectVisit',['ui.bootstrap',
 visitModule.service('subjectVisits', function(subjectVisit, records, viewService, symptoms, signs, communications) {
     var subjectVisits = [];
     var currentVisit = [];
-    var currentVisitDate = null;
 
     var getPreviousVisit = function(secondDate) {
         var visits = subjectVisits;
@@ -35,44 +34,43 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
             }
         }
         return new Date(1900,1,1);
-    }
+    };
 
     var setVisitParametersForCommunications = function(newDate) {
         //console.log(visits);
         if (subjectVisits.length == 0) {
-            communications.setTimeSpan({"start":new Date(1900,1,1), 'end':new Date()});
-            console.log("trying to create timespan for visit which has not yet happened.");
+            communications.setTimeSpan({'start':new Date(1900,1,1), 'end':new Date()});
+            // trying to create timespan for visit which has not yet happened.'
         }
         else if (subjectVisits.length == 1) {
             communications.setTimeSpan({'start':new Date(1900,1,1), 'end':subjectVisits[subjectVisits.length-1].SVSTDTC});
         }
         else {
-            communications.setTimeSpan({"start":getPreviousVisit(newDate), 'end':newDate});
+            communications.setTimeSpan({'start':getPreviousVisit(newDate), 'end':newDate});
         }
-    }
+    };
 
 
     var setVisitParametersForSymptomAndSign = function(newDate, newUSUBJID) {
-        currentVisitDate=newDate;
         symptoms.setDate(newDate);
         symptoms.setUSUBJID(newUSUBJID);
         signs.setDate(newDate);
         signs.setUSUBJID(newUSUBJID);
-    }
+    };
 
-//    var getCurrentVisitDate = function() {
-//        return currentVisitDate;
-//    }
+    //    var getCurrentVisitDate = function() {
+    //        return currentVisitDate;
+    //    }
 
     var deleteSubjectVisits = function() {
         subjectVisits=[];
         currentVisit = [];
-    }
+    };
 
     var getSubjectVisits = function() {
         subjectVisits.sort(sortDate);
         return subjectVisits;
-    }
+    };
 
     var populateSubjectVisits = function(RecordItems) {
         //console.log(RecordItems);
@@ -80,42 +78,42 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
         for (var i = 0; i < RecordItems.length; i++){
             //console.log(RecordItems[i].fieldName+ ": "+RecordItems[i].value);
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    visit.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    visit.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    visit.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'VISITNUM':{
-                    visit.VISITNUM = RecordItems[i].value;
-                    break;
-                }
-                case 'VISIT':{
-                    visit.VISIT = RecordItems[i].value;
-                    break;
-                }
-                case 'SVSTDTC':{
-                    visit.SVSTDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'SVENDTC':{
-                    visit.SVENDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-//                case 'SVSTDTC_display':{
-//                    visit.SVSTDTC_display = RecordItems[i].value;
-//                    break;
-//                }
-                case 'displayDate':{
-                    visit.displayDate = RecordItems[i].value;
-                    break;
-                }
+            case 'STUDYID':{
+                visit.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                visit.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                visit.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'VISITNUM':{
+                visit.VISITNUM = RecordItems[i].value;
+                break;
+            }
+            case 'VISIT':{
+                visit.VISIT = RecordItems[i].value;
+                break;
+            }
+            case 'SVSTDTC':{
+                visit.SVSTDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'SVENDTC':{
+                visit.SVENDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            //                case 'SVSTDTC_display':{
+            //                    visit.SVSTDTC_display = RecordItems[i].value;
+            //                    break;
+            //                }
+            case 'displayDate':{
+                visit.displayDate = RecordItems[i].value;
+                break;
+            }
                 // case 'diagnosisNote':{
                 //     visit.diagnosisNote = RecordItems[i].value;
                 //     break;
@@ -123,20 +121,19 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
             }
         }
         subjectVisits.push(visit);
-    }
+    };
 
     var clearVisit = function () {
         currentVisit = [];
-        currentVisitDate=null;
-    }
+    };
 
     var setCurrentVisit = function (visit) {
         currentVisit = getVisitByDate(visit.SVSTDTC);
-    }
+    };
 
     var getCurrentVisit = function () {
         return currentVisit;
-    }
+    };
 
     var getVisitByDate = function (SVSTDTC){
         var visitsOnDate = [];
@@ -147,7 +144,7 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
             }
         }
         return visitsOnDate;
-    }
+    };
 
     var generateSEQ = function () {
         var SEQs = compileVisits();
@@ -158,7 +155,7 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
         else {
             return 0;
         }
-    }
+    };
 
     function sortNumber(a,b) {
         return a - b;
@@ -171,7 +168,7 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
             seq.push(subjectVisits[e].VISITNUM);
         }
         return seq;
-    }
+    };
 
     var sortDate = function (a, b) {
         var key1 = a.SVSTDTC;
@@ -184,14 +181,14 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
         } else {
             return 1;
         }
-    }
+    };
 
     var addVisit = function (visit) {
         visit.VISITNUM = generateSEQ();
         subjectVisits.push(visit);
         if (!viewService.workOffline())
             records.saveRecord(visit);
-    }
+    };
 
     var getUniqueDates = function () {
         var uniqueDates = [];
@@ -205,7 +202,7 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
             return b.SVSTDTC - a.SVSTDTC;
         });
         return uniqueDates;
-    }
+    };
 
     var dateExists = function (uniqueDates, SVSTDTC){
         for (var d = 0; d < uniqueDates.length; d++) {
@@ -215,7 +212,7 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
             }
         }
         return false;
-    }
+    };
 
     var getVisitByType = function(VISIT, SVSDTC) {
         for (var v = 0; v < subjectVisits.length; v++) {
@@ -225,17 +222,7 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
             }
         }
         return null;
-    }
-
-    var getVisitByDate = function(SVSDTC) {
-        var visitsOnThisDate = [];
-        for (var v = 0; v < subjectVisits.length; v++) {
-            if (subjectVisits[v].SVSTDTC==SVSDTC) {
-                visitsOnThisDate.push(subjectVisits[v]);
-            }
-        }
-        return visitsOnThisDate;
-    }
+    };
 
     var deleteVisit = function(visit) {
         //console.log(visit);
@@ -245,22 +232,18 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
             if (!viewService.workOffline())
                 records.deleteRecord(visit);
         }
-    }
-
-    var displayVisits = function() {
-        console.log(subjectVisits);
-    }
+    };
 
     var editVisit = function(aSubjectVisit, resName, resValue) {
-        var VISITNUM = {fieldName:"VISITNUM", value: aSubjectVisit.VISITNUM};
+        var VISITNUM = {fieldName:'VISITNUM', value: aSubjectVisit.VISITNUM};
         var SVRESTOCHANGE = {fieldName:resName, value: resValue};
 
-        var idRecord = [USUBJID, VISITNUM];
+        var idRecord = [aSubjectVisit.USUBJID, VISITNUM];
         var valueRecord = [SVRESTOCHANGE];
 
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     return {
         addVisit:addVisit,
@@ -271,7 +254,6 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
         getVisitByType:getVisitByType,
         getVisitByDate:getVisitByDate,
         deleteVisit:deleteVisit,
-        displayVisits:displayVisits,
         populateSubjectVisits:populateSubjectVisits,
         getSubjectVisits: getSubjectVisits,
         deleteSubjectVisits: deleteSubjectVisits,
@@ -279,9 +261,9 @@ visitModule.service('subjectVisits', function(subjectVisit, records, viewService
         //getCurrentVisitDate: getCurrentVisitDate,
         setVisitParametersForSymptomAndSign: setVisitParametersForSymptomAndSign,
         setVisitParametersForCommunications: setVisitParametersForCommunications
-    }
+    };
 
-})
+});
 
 visitModule.factory('subjectVisit', function() {
     return function(USUBJID) {
@@ -295,22 +277,22 @@ visitModule.factory('subjectVisit', function() {
         //this.SVSTDTC_display='';
         this.displayDate='';
         //this.diagnosisNote = '';
-    }
+    };
 });
 
 
 
 visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $uibModal,//locationScopeVariables,
-                                               subjectVisit, subjectVisits,
-                                               clinicalEvent, clinicalEvents,
-                                               question, questionnaires,
-                                               procedure, procedures,
-                                               findingAbout, findingsAbout,
-                                               relationships,
-                                               viewService,
-                                               vitalSigns, VitalSign,
-                                               subjectCharacteristic, SubjectCharacteristic,
-                                                patients) {
+    subjectVisit, subjectVisits,
+    clinicalEvent, clinicalEvents,
+    question, questionnaires,
+    procedure, procedures,
+    findingAbout, findingsAbout,
+    relationships,
+    viewService,
+    vitalSigns, VitalSign,
+    subjectCharacteristic, SubjectCharacteristic,
+    patients) {
 
     $scope.USUBJID = '';
     $scope.SVSTDTCValidated = false;
@@ -321,32 +303,32 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
 
     var dayMonthYear = angular.element(document.querySelector('.DTC_DayMonthYear'));
     dayMonthYear.datepicker({
-        format: "dd/mm/yyyy",
+        format: 'dd/mm/yyyy',
         endDate: currentDate.getFullYear().toString(),
         startView: 1,
-        orientation: "top left",
+        orientation: 'top left',
         autoclose: true,
         todayHighlight: true
     });
 
     $rootScope.setVisitUSUBJID = function(USUBJID) {
         $scope.USUBJID = USUBJID;
-    }
+    };
 
     $scope.showThisContent = function() {
         if (viewService.getView().Section=='Visit')
             return true;
         else
             return false;
-    }
+    };
 
     $scope.preventAddVisitProperties = function () {
         return !$scope.SVSTDTCValidated;
-    }
+    };
 
     $scope.getDisabledFields = function() {
         return viewService.getView().DisableInputFields;    // disable these fields
-    }
+    };
 
     $rootScope.displayVisit = function () {
         clearFields();
@@ -370,66 +352,70 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
                 {scopeVariable:'diastolic', signTerm:'Diastolic Blood Pressure'},
                 {scopeVariable:'pulse', signTerm:'Pulse Rate'}];
 
+            var model = null;
             for (var recordedSigns = 0; recordedSigns<signsOnThisVisit.length; recordedSigns++){
                 for (var signNames= 0; signNames < vitalSignKeys.length; signNames++){
                     if (signsOnThisVisit[recordedSigns].VSTEST==vitalSignKeys[signNames].signTerm){
-                        var model = $parse(vitalSignKeys[signNames].scopeVariable);
+                        model = $parse(vitalSignKeys[signNames].scopeVariable);
                         model.assign($scope, signsOnThisVisit[recordedSigns].VSORRES);
                     }
                 }
             }
 
+            var questionOnThisVisit = null;
+
             for (var q = 0; q < $scope.EDSS.length; q++){
-                var questionOnThisVisit = questionnaires.getQuestionByTest($scope.EDSS[q].QSTEST, currentVisit[0].SVSTDTC);
+                questionOnThisVisit = questionnaires.getQuestionByTest($scope.EDSS[q].QSTEST, currentVisit[0].SVSTDTC);
                 if (questionOnThisVisit != null) {  // if a question was answered and recorded
                     $scope.EDSS[q].score = questionOnThisVisit.QSSTRESC.toString();
-                    var model = $parse($scope.EDSS[q].scopeVariable);
+                    model = $parse($scope.EDSS[q].scopeVariable);
                     model.assign($scope, $scope.EDSS[q].score);
                 }
             }
 
-            var questionOnThisVisit = questionnaires.getQuestionByTest($scope.EDMUS.QSTEST, currentVisit[0].SVSTDTC);
+            questionOnThisVisit = questionnaires.getQuestionByTest($scope.EDMUS.QSTEST, currentVisit[0].SVSTDTC);
             if (questionOnThisVisit != null) {  // if a question was answered and recorded
                 $scope.EDMUS.score = questionOnThisVisit.QSSTRESC.toString();
                 $scope.edmus_score = $scope.EDMUS.score;
             }
 
             var procedureOnDate = procedures.getProcedureByTRTAndDate('Eight Metre Walk Test',currentVisit[0].SVSTDTC);
+            var findingsByPRLNKID = null;
             //console.log(procedureOnDate);
             if (procedureOnDate.length > 0) { // if procedure found on record
-                var findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
+                findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
                 //console.log(findingsByPRLNKID);
                 if (findingsByPRLNKID.length != 2) {
-                    alert("Expected 2 findings, found: "+findingsByPRLNKID.length);
+                    alert('Expected 2 findings, found: '+findingsByPRLNKID.length);
                 }
                 if (findingsByPRLNKID.length > 0) {
-                    var model = $parse('eightMFirst');
+                    model = $parse('eightMFirst');
                     model.assign($scope, findingsByPRLNKID[0].FAORES);
                     if (findingsByPRLNKID.length > 1) {
-                        var model = $parse('eightMSecond');
+                        model = $parse('eightMSecond');
                         model.assign($scope, findingsByPRLNKID[1].FAORES);   // record second finding
                     }
                 }
             }
-
+            var f = null;
             procedureOnDate = procedures.getProcedureByTRTAndDate('Nine Hole Peg Test',currentVisit[0].SVSTDTC);
             if (procedureOnDate.length > 0) { // if procedure found on record
-                var findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
-                for (var f = 0; f < findingsByPRLNKID.length; f++){
-                    if ((findingsByPRLNKID[f].FALAT=="Right")&&(findingsByPRLNKID[f].FATPT == '1/2')) {
-                        var model = $parse('nineHolePegFirstRight');
+                findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
+                for (f = 0; f < findingsByPRLNKID.length; f++){
+                    if ((findingsByPRLNKID[f].FALAT=='Right')&&(findingsByPRLNKID[f].FATPT == '1/2')) {
+                        model = $parse('nineHolePegFirstRight');
                         model.assign($scope, findingsByPRLNKID[f].FAORES);
                     }
-                    else if ((findingsByPRLNKID[f].FALAT=="Left")&&(findingsByPRLNKID[f].FATPT == '1/2')) {
-                        var model = $parse('nineHolePegFirstLeft');
+                    else if ((findingsByPRLNKID[f].FALAT=='Left')&&(findingsByPRLNKID[f].FATPT == '1/2')) {
+                        model = $parse('nineHolePegFirstLeft');
                         model.assign($scope, findingsByPRLNKID[f].FAORES);
                     }
-                    else if ((findingsByPRLNKID[f].FALAT=="Right")&&(findingsByPRLNKID[f].FATPT == '2/2')) {
-                        var model = $parse('nineHolePegSecondRight');
+                    else if ((findingsByPRLNKID[f].FALAT=='Right')&&(findingsByPRLNKID[f].FATPT == '2/2')) {
+                        model = $parse('nineHolePegSecondRight');
                         model.assign($scope, findingsByPRLNKID[f].FAORES);
                     }
-                    else if ((findingsByPRLNKID[f].FALAT=="Left")&&(findingsByPRLNKID[f].FATPT == '2/2')) {
-                        var model = $parse('nineHolePegSecondLeft');
+                    else if ((findingsByPRLNKID[f].FALAT=='Left')&&(findingsByPRLNKID[f].FATPT == '2/2')) {
+                        model = $parse('nineHolePegSecondLeft');
                         model.assign($scope, findingsByPRLNKID[f].FAORES);
                     }
                 }
@@ -437,27 +423,27 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
 
             procedureOnDate = procedures.getProcedureByTRTAndDate('Symbol Digit Modality Test',currentVisit[0].SVSTDTC);
             if (procedureOnDate.length > 0) { // if procedure found on record
-                var findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
-                var model = $parse('symbolDigitModality');
+                findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
+                model = $parse('symbolDigitModality');
                 model.assign($scope, findingsByPRLNKID[0].FAORES);
             }
 
             procedureOnDate = procedures.getProcedureByTRTAndDate('Low Contrast Visual Acuity',currentVisit[0].SVSTDTC);
             if (procedureOnDate.length > 0) {
-                var findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
-                for (var f = 0; f < findingsByPRLNKID.length; f++){
-                    if (findingsByPRLNKID[f].FALAT=="Right") {
-                        var model = $parse('lowContrastVisualAcuityRight');
+                findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
+                for (f = 0; f < findingsByPRLNKID.length; f++){
+                    if (findingsByPRLNKID[f].FALAT=='Right') {
+                        model = $parse('lowContrastVisualAcuityRight');
                         model.assign($scope, findingsByPRLNKID[f].FAORES);
                     }
-                    else if (findingsByPRLNKID[f].FALAT=="Left") {
-                        var model = $parse('lowContrastVisualAcuityLeft');
+                    else if (findingsByPRLNKID[f].FALAT=='Left') {
+                        model = $parse('lowContrastVisualAcuityLeft');
                         model.assign($scope, findingsByPRLNKID[f].FAORES);
                     }
                 }
             }
         }
-    }
+    };
 
     $rootScope.setNewVisitFields = function() {
         subjectVisits.clearVisit();
@@ -490,9 +476,10 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
             {score:0, scopeVariable: 'edss_human', QSTEST: 'EDSS-Total Human'},
             {score:0, scopeVariable: 'edss_computer', QSTEST: 'EDSS-Total Computer'}];
 
+        var model = null;
         for (var k = 0; k < $scope.EDSS.length; k++){
 
-            var model = $parse($scope.EDSS[k].scopeVariable);
+            model = $parse($scope.EDSS[k].scopeVariable);
             model.assign($scope, 0);
         }
 
@@ -504,25 +491,25 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
             'nineHolePegSecondLeft','nineHolePegSecondRight', 'symbolDigitModality'];
 
         for (var p = 0; p < procedureKeys.length; p++) {
-            var model = $parse(procedureKeys[p]);
+            model = $parse(procedureKeys[p]);
             model.assign($scope,'');
         }
 
         var vitalSignKeys = ['height', 'weight', 'systolic', 'diastolic', 'pulse'];
         for (var v = 0; v < vitalSignKeys.length; v++) {
-            var model = $parse(vitalSignKeys[v]);
+            model = $parse(vitalSignKeys[v]);
             model.assign($scope,'');
         }
 
         $scope.lowContrastVisualAcuityLeft = '';
         $scope.lowContrastVisualAcuityRight = '';
-    }
+    };
 
     $scope.isUnder18 = function() {
         if (patients.getCurrentPatientAge() <= 18)
             return true;
         return false;
-    }
+    };
 
     var displaySubjectCharacteristic = function () {
         var aChar = subjectCharacteristic.getThisSubjectCharacteristicOnDate('ACADEMIC CONCERNS', $scope.SVSTDTC);
@@ -536,19 +523,19 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
             $scope.schoolAttendance = aChar.SCORRES;
         else
             $scope.schoolAttendance = '';
-    }
+    };
 
     $scope.editSubjectCharacteristic = function(propertyName, propertyValue) {
 
         switch (propertyName) {
-            case 'ACADEMIC CONCERNS': {
-                $scope.academicConcerns = propertyValue;
-                break;
-            };
-            case 'PERCENT SCHOOL ATTENDANCE': {
-                $scope.schoolAttendance = propertyValue;
-                break;
-            };
+        case 'ACADEMIC CONCERNS': {
+            $scope.academicConcerns = propertyValue;
+            break;
+        }
+        case 'PERCENT SCHOOL ATTENDANCE': {
+            $scope.schoolAttendance = propertyValue;
+            break;
+        }
         }
 
         var aChar = subjectCharacteristic.getThisSubjectCharacteristicOnDate(propertyName, $scope.SVSTDTC);
@@ -563,20 +550,14 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
             subjectCharacteristic.editSubjectCharacteristic(aChar, propertyName, propertyValue);
         }
 
-    }
+    };
 
     var editQuestion = function (question, QSSTRESC) {
         //question.QSDTC = new Date($scope.SVSTDTC.substr(6), parseInt($scope.SVSTDTC.substr(3,2))-1, $scope.SVSTDTC.substr(0,2));
         question.QSTCTC = $scope.SVSTDTC;
         question.QSSTRESC = QSSTRESC;
         questionnaires.editQuestion(question, 'QSSTRESC', question.QSSTRESC);
-    }
-
-    var editFinding = function (findingABout, FAORES) {
-        findingAbout.FADTC = $scope.SVSTDTC;
-        findingABout.FAORES = FAORES;
-        findingsAbout.editFinding(findingABout);
-    }
+    };
 
     $scope.SVSTDTC = new Date();
 
@@ -594,32 +575,35 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
         subjectVisits.setVisitParametersForSymptomAndSign($scope.SVSTDTC,$scope.USUBJID);
         subjectVisits.setVisitParametersForCommunications($scope.SVSTDTC);
 
-    }
+    };
 
     var addProcedureSection = function(PRTRT) {
         var aProcedure = new procedure($scope.USUBJID, PRTRT);
         aProcedure.PRSTDTC = $scope.SVSTDTC;
-        aProcedure.PRLNKID = $scope.SVSTDTC+" "+PRTRT;
+        aProcedure.PRLNKID = $scope.SVSTDTC+' '+PRTRT;
         procedures.addProcedure(aProcedure);
         return aProcedure;
-    }
+    };
 
     var addFindingSection = function(FAOBJ, FAORES) {
         var aFinding = new findingAbout($scope.USUBJID, FAOBJ, 'Functional Test', ''); // Is it mobility??
         aFinding.FAORES = FAORES;
         aFinding.FASTRESU = 'seconds';
         aFinding.FADTC = $scope.SVSTDTC;
-        aFinding.FALNKID = $scope.SVSTDTC+" "+PRTRT;
+        aFinding.FALNKID = $scope.SVSTDTC+' '+FAOBJ;
         findingsAbout.addFinding(aFinding);
         return aFinding;
-    }
+    };
 
     $scope.addProcedure = function (PRTRT) {
+        var procedureOnDate = null;
+        var findingsByPRLNKID = null;
+        var f = 0;
         if (PRTRT=='Symbol Digit Modality Test') {
-            var procedureOnDate = procedures.getProcedureByTRTAndDate('Symbol Digit Modality Test', $scope.SVSTDTC);
+            procedureOnDate = procedures.getProcedureByTRTAndDate('Symbol Digit Modality Test', $scope.SVSTDTC);
 
             if (procedureOnDate.length == 1) { // if procedure already on record
-                var findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
+                findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
 
                 if (findingsByPRLNKID.length == 1) {
                     findingsByPRLNKID[0].FAORES = $scope.symbolDigitModality; // need to EDIT FINDING
@@ -628,22 +612,22 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
             }
             else {
                 var sdmt = addProcedureSection(PRTRT);
-                var sdmtFinding = addFindingSection("Cognitive Impairment", $scope.symbolDigitModality);
+                var sdmtFinding = addFindingSection('Cognitive Impairment', $scope.symbolDigitModality);
                 relationships.addRelationship(sdmt,sdmtFinding, 'PRLNKID', 'FALNKID', 'One', 'One', sdmtFinding.FALNKID);
             }
         }
 
         if (PRTRT=='Low Contrast Visual Acuity') {
-            var procedureOnDate = procedures.getProcedureByTRTAndDate('Low Contrast Visual Acuity', $scope.SVSTDTC);
+            procedureOnDate = procedures.getProcedureByTRTAndDate('Low Contrast Visual Acuity', $scope.SVSTDTC);
 
             if (procedureOnDate.length > 0) { // if procedure already on record
-                var findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
-                for (var f = 0; f < findingsByPRLNKID.length; f++){
-                    if (findingsByPRLNKID[f].FALAT=="Right") {
+                findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
+                for (f = 0; f < findingsByPRLNKID.length; f++){
+                    if (findingsByPRLNKID[f].FALAT=='Right') {
                         findingsByPRLNKID[f].FAORES = $scope.lowContrastVisualAcuityRight;
                         findingsAbout.editFinding(findingsByPRLNKID[f]);
                     }
-                    else if (findingsByPRLNKID[f].FALAT=="Left") {
+                    else if (findingsByPRLNKID[f].FALAT=='Left') {
                         findingsByPRLNKID[f].FAORES = $scope.lowContrastVisualAcuityLeft;
                         findingsAbout.editFinding(findingsByPRLNKID[f]);
                     }
@@ -655,16 +639,16 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
                 var slclaLeft = new findingAbout($scope.USUBJID, 'Visual Acuity', 'Functional Test', '');
                 slclaLeft.FAORES = $scope.lowContrastVisualAcuityLeft;
                 slclaLeft.FADTC = $scope.SVSTDTC;
-                slclaLeft.FALNKID = $scope.SVSTDTC+" Low Contrast Visual Acuity";
-                slclaLeft.FALOC = "Eye";
-                slclaLeft.FALAT = "Left";
+                slclaLeft.FALNKID = $scope.SVSTDTC+' Low Contrast Visual Acuity';
+                slclaLeft.FALOC = 'Eye';
+                slclaLeft.FALAT = 'Left';
 
                 var slclaRight = new findingAbout($scope.USUBJID, 'Visual Acuity', 'Functional Test', '');
                 slclaRight.FAORES = $scope.lowContrastVisualAcuityRight;
                 slclaRight.FADTC = $scope.SVSTDTC;
-                slclaRight.FALNKID = $scope.SVSTDTC+" Low Contrast Visual Acuity";
-                slclaRight.FALOC = "Eye";
-                slclaRight.FALAT = "Right";
+                slclaRight.FALNKID = $scope.SVSTDTC+' Low Contrast Visual Acuity';
+                slclaRight.FALOC = 'Eye';
+                slclaRight.FALAT = 'Right';
 
                 findingsAbout.addFinding(slclaLeft);
                 findingsAbout.addFinding(slclaRight);
@@ -676,10 +660,10 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
 
         if (PRTRT == 'Eight Metre Walk Test')
         {
-            var procedureOnDate = procedures.getProcedureByTRTAndDate('Eight Metre Walk Test',$scope.SVSTDTC);
+            procedureOnDate = procedures.getProcedureByTRTAndDate('Eight Metre Walk Test',$scope.SVSTDTC);
 
             if (procedureOnDate.length > 0) { // if procedure already on record
-                var findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
+                findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);  // get findings from procedure
                 findingsByPRLNKID[0].FAORES = $scope.eightMFirst; // record first finding
                 findingsAbout.editFinding(findingsByPRLNKID[0]);
 
@@ -688,9 +672,9 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
             }
             else { // if procedure not on record
                 var eightMTest = addProcedureSection(PRTRT);
-                var eightMTestFinding1 = addFindingSection("Mobility",$scope.eightMFirst);
+                var eightMTestFinding1 = addFindingSection('Mobility',$scope.eightMFirst);
                 relationships.addRelationship(eightMTest,eightMTestFinding1, 'PRLNKID', 'FALNKID', 'One', 'Many', eightMTestFinding1.FALNKID);
-                var eightMTestFinding2 = addFindingSection("Mobility",$scope.eightMSecond);
+                var eightMTestFinding2 = addFindingSection('Mobility',$scope.eightMSecond);
                 relationships.addRelationship(eightMTest,eightMTestFinding2, 'PRLNKID', 'FALNKID', 'One', 'Many', eightMTestFinding2.FALNKID);
             }
         }
@@ -698,22 +682,22 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
         if (PRTRT == 'Nine Hole Peg Test'){
             procedureOnDate = procedures.getProcedureByTRTAndDate('Nine Hole Peg Test',$scope.SVSTDTC);
             if (procedureOnDate.length == 1) { // if nine peg hole test already in record as a procedure with findings
-                var findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);
-                for (var f = 0; f < findingsByPRLNKID.length; f++){
-                    if ((findingsByPRLNKID[f].FALAT=="Right")&&(findingsByPRLNKID[f].FATPT == '1/2')) {
+                findingsByPRLNKID = findingsAbout.getFindingsByLNKID(procedureOnDate[0].PRLNKID);
+                for (f = 0; f < findingsByPRLNKID.length; f++){
+                    if ((findingsByPRLNKID[f].FALAT=='Right')&&(findingsByPRLNKID[f].FATPT == '1/2')) {
                         findingsByPRLNKID[f].FAORES = $scope.nineHolePegFirstRight;
                         //findingsAbout.editFinding(findingsByPRLNKID[f]);
                     }
-                    else if ((findingsByPRLNKID[f].FALAT=="Left")&&(findingsByPRLNKID[f].FATPT == '1/2')) {
+                    else if ((findingsByPRLNKID[f].FALAT=='Left')&&(findingsByPRLNKID[f].FATPT == '1/2')) {
                         findingsByPRLNKID[f].FAORES = $scope.nineHolePegFirstLeft;
                         //findingsAbout.editFinding(findingsByPRLNKID[f]);
                     }
 
-                    else if ((findingsByPRLNKID[f].FALAT=="Right")&&(findingsByPRLNKID[f].FATPT == '2/2')) {
+                    else if ((findingsByPRLNKID[f].FALAT=='Right')&&(findingsByPRLNKID[f].FATPT == '2/2')) {
                         findingsByPRLNKID[f].FAORES = $scope.nineHolePegSecondRight;
                         //findingsAbout.editFinding(findingsByPRLNKID[f]);
                     }
-                    else if ((findingsByPRLNKID[f].FALAT=="Left")&&(findingsByPRLNKID[f].FATPT == '2/2')) {
+                    else if ((findingsByPRLNKID[f].FALAT=='Left')&&(findingsByPRLNKID[f].FATPT == '2/2')) {
                         findingsByPRLNKID[f].FAORES = $scope.nineHolePegSecondLeft;
                         //findingsAbout.editFinding(findingsByPRLNKID[f]);
 
@@ -728,10 +712,10 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
                 ninePegTestFinding1.FAORES = $scope.nineHolePegFirstRight;
                 ninePegTestFinding1.FASTRESU = 'seconds';
                 ninePegTestFinding1.FADTC = $scope.SVSTDTC;
-                ninePegTestFinding1.FALNKID = $scope.SVSTDTC+" Nine Hole Peg Test";
-                ninePegTestFinding1.FALOC = "Hand";
-                ninePegTestFinding1.FALAT = "Right";
-                ninePegTestFinding1.FATPT = "1/2";
+                ninePegTestFinding1.FALNKID = $scope.SVSTDTC+' Nine Hole Peg Test';
+                ninePegTestFinding1.FALOC = 'Hand';
+                ninePegTestFinding1.FALAT = 'Right';
+                ninePegTestFinding1.FATPT = '1/2';
                 findingsAbout.addFinding(ninePegTestFinding1);
                 relationships.addRelationship(ninePegTest,ninePegTestFinding1, 'PRLNKID', 'FALNKID', 'One', 'Many', ninePegTestFinding1.FALNKID);
 
@@ -739,10 +723,10 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
                 ninePegTestFinding2.FAORES = $scope.nineHolePegFirstLeft;
                 ninePegTestFinding2.FASTRESU = 'seconds';
                 ninePegTestFinding2.FADTC = $scope.SVSTDTC;
-                ninePegTestFinding2.FALNKID = $scope.SVSTDTC+" Nine Hole Peg Test";
-                ninePegTestFinding2.FALOC = "Hand";
-                ninePegTestFinding2.FALAT = "Left";
-                ninePegTestFinding2.FATPT = "1/2";
+                ninePegTestFinding2.FALNKID = $scope.SVSTDTC+' Nine Hole Peg Test';
+                ninePegTestFinding2.FALOC = 'Hand';
+                ninePegTestFinding2.FALAT = 'Left';
+                ninePegTestFinding2.FATPT = '1/2';
                 findingsAbout.addFinding(ninePegTestFinding2);
                 relationships.addRelationship(ninePegTest,ninePegTestFinding2, 'PRLNKID', 'FALNKID', 'One', 'Many', ninePegTestFinding2.FALNKID);
 
@@ -751,10 +735,10 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
                 ninePegTestFinding3.FAORES = $scope.nineHolePegSecondRight;
                 ninePegTestFinding3.FASTRESU = 'seconds';
                 ninePegTestFinding3.FADTC = $scope.SVSTDTC;
-                ninePegTestFinding3.FALNKID = $scope.SVSTDTC+" Nine Hole Peg Test";
-                ninePegTestFinding3.FALOC = "Hand";
-                ninePegTestFinding3.FALAT = "Right";
-                ninePegTestFinding3.FATPT = "2/2";
+                ninePegTestFinding3.FALNKID = $scope.SVSTDTC+' Nine Hole Peg Test';
+                ninePegTestFinding3.FALOC = 'Hand';
+                ninePegTestFinding3.FALAT = 'Right';
+                ninePegTestFinding3.FATPT = '2/2';
                 findingsAbout.addFinding(ninePegTestFinding3);
                 relationships.addRelationship(ninePegTest,ninePegTestFinding3, 'PRLNKID', 'FALNKID', 'One', 'Many', ninePegTestFinding3.FALNKID);
 
@@ -762,10 +746,10 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
                 ninePegTestFinding4.FAORES = $scope.nineHolePegSecondLeft;
                 ninePegTestFinding4.FASTRESU = 'seconds';
                 ninePegTestFinding4.FADTC = $scope.SVSTDTC;
-                ninePegTestFinding4.FALNKID = $scope.SVSTDTC+" Nine Hole Peg Test";
-                ninePegTestFinding4.FALOC = "Hand";
-                ninePegTestFinding4.FALAT = "Left";
-                ninePegTestFinding4.FATPT = "2/2";
+                ninePegTestFinding4.FALNKID = $scope.SVSTDTC+' Nine Hole Peg Test';
+                ninePegTestFinding4.FALOC = 'Hand';
+                ninePegTestFinding4.FALAT = 'Left';
+                ninePegTestFinding4.FATPT = '2/2';
                 findingsAbout.addFinding(ninePegTestFinding4);
                 relationships.addRelationship(ninePegTest,ninePegTestFinding4, 'PRLNKID', 'FALNKID', 'One', 'Many', ninePegTestFinding4.FALNKID);
 
@@ -773,7 +757,7 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
 
         }
         //procedures.printProcedures();
-    }
+    };
 
     // $scope.addDiagnosisNote = function() {
     //     var visit =subjectVisits.getCurrentVisit();
@@ -786,16 +770,17 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
     // }
 
     $scope.editVitalSign = function (VSTEST) {
-        var vitalSignKeys = [{scopeVariable:$scope.height, signTerm:'Height', unit:"cm"},
-            {scopeVariable:$scope.weight, signTerm:'Weight', unit:"kg"},
-            {scopeVariable:$scope.systolic, signTerm:'Systolic Blood Pressure', unit:"mmHg"},
-            {scopeVariable:$scope.diastolic, signTerm:'Diastolic Blood Pressure', unit:"mmHg"},
-            {scopeVariable:$scope.pulse, signTerm:'Pulse Rate', unit:"Beats Per Min"}];
+        var vitalSignKeys = [{scopeVariable:$scope.height, signTerm:'Height', unit:'cm'},
+            {scopeVariable:$scope.weight, signTerm:'Weight', unit:'kg'},
+            {scopeVariable:$scope.systolic, signTerm:'Systolic Blood Pressure', unit:'mmHg'},
+            {scopeVariable:$scope.diastolic, signTerm:'Diastolic Blood Pressure', unit:'mmHg'},
+            {scopeVariable:$scope.pulse, signTerm:'Pulse Rate', unit:'Beats Per Min'}];
 
         var currentSign = vitalSigns.getSignByTest(new Date($scope.SVSTDTC), VSTEST);
+        var v = 0;
         if (currentSign == null){
             var newSign = new VitalSign($scope.USUBJID, VSTEST);
-            for (var v = 0; v < vitalSignKeys.length; v++)
+            for (v = 0; v < vitalSignKeys.length; v++)
             {
                 if (vitalSignKeys[v].signTerm == VSTEST){
                     newSign.VSORRES = vitalSignKeys[v].scopeVariable;
@@ -808,7 +793,7 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
             }
         }
         else {
-            for (var v = 0; v < vitalSignKeys.length; v++)
+            for (v = 0; v < vitalSignKeys.length; v++)
             {
                 if (vitalSignKeys[v].signTerm == VSTEST){
                     currentSign.VSORRES = vitalSignKeys[v].scopeVariable;
@@ -820,37 +805,36 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
 
     $scope.addEDSS_Main = function() {
         var visitDate = new Date($scope.SVSTDTC);
-        var EDSSResOnDate = questionnaires.getQuestionByTest("EDSS-Total Human", visitDate);
+        var EDSSResOnDate = questionnaires.getQuestionByTest('EDSS-Total Human', visitDate);
         if (EDSSResOnDate != null) {  // if existing record
             editQuestion(EDSSResOnDate, $scope.edss_human);
             $scope.EDSS[8].score = $scope.edss_human;
-            console.log($scope.edss_human);
         }
         else {
-            var newQuestion = new question($scope.USUBJID, "EDSS");
-            newQuestion.QSTEST = "EDSS-Total Human";
+            var newQuestion = new question($scope.USUBJID, 'EDSS');
+            newQuestion.QSTEST = 'EDSS-Total Human';
             newQuestion.QSSTRESC = $scope.edss_human;
             $scope.EDSS[8].score = $scope.edss_human;
 
             questionnaires.addQuestion(visitDate, newQuestion);
         }
-    }
+    };
 
     $scope.addEDMUS_Main = function() {
         var visitDate = new Date($scope.SVSTDTC);
-        var EDMUSResOnDate = questionnaires.getQuestionByTest("EDMUS", visitDate);
+        var EDMUSResOnDate = questionnaires.getQuestionByTest('EDMUS', visitDate);
         if (EDMUSResOnDate != null) {  // if existing record
             editQuestion(EDMUSResOnDate, $scope.edmus_score);
             $scope.EDMUS.score = $scope.edmus_score;
         }
         else {
-            var newQuestion = new question($scope.USUBJID, "EDMUS");
-            newQuestion.QSTEST = "EDMUS";
+            var newQuestion = new question($scope.USUBJID, 'EDMUS');
+            newQuestion.QSTEST = 'EDMUS';
             newQuestion.QSSTRESC = $scope.edmus_score;
             $scope.EDMUS.score = $scope.edmus_score;
             questionnaires.addQuestion(visitDate, newQuestion);
         }
-    }
+    };
 
     var addEDSS = function () {
         var visitDate = new Date($scope.SVSTDTC);
@@ -867,7 +851,7 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
             }
             else {
                 if ($scope.EDSS[q].score != '') {
-                    var newQuestion = new question($scope.USUBJID, "EDSS");
+                    var newQuestion = new question($scope.USUBJID, 'EDSS');
                     newQuestion.QSTEST = $scope.EDSS[q].QSTEST;
                     newQuestion.QSSTRESC = $scope.EDSS[q].score;
                     questionnaires.addQuestion(visitDate, newQuestion);
@@ -878,9 +862,7 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
                 }
             }
         }
-
-        questionnaires.printQuestions();
-    }
+    };
 
     $scope.openEDSS = function () {
 
@@ -901,7 +883,6 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
         modalInstance.result.then(function () {
             addEDSS();
         }, function () {
-            console.log("EDSS Closed");
         });
     };
 
@@ -923,9 +904,7 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
             }
         }
         $scope.edmus_score = $scope.EDMUS.score;
-        console.log($scope.edmus_score);
-        questionnaires.printQuestions();
-    }
+    };
 
     $scope.openEDMUS = function () {
         var modalInstance = $uibModal.open({
@@ -946,7 +925,6 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
             //console.log('Edmus opened');
             addEDMUS();
         }, function () {
-            console.log("EDMUS Closed");
         });
     };
 });
@@ -958,24 +936,26 @@ visitModule.controller('edssTestCtrl', function ($scope) {
 });
 
 visitModule.controller('edssCtrl', function ($scope, $parse, $uibModalInstance,
-                                             EDSS, dateValidated) {
+    EDSS, dateValidated) {
 
 
     // initialise edss functional scores
     $scope.initScores = function () {
+        var model = null;
+        var q = null;
         if (dateValidated) {
-            for (var q = 0; q < EDSS.length; q++){
-                var model = $parse(EDSS[q].scopeVariable);
+            for (q = 0; q < EDSS.length; q++){
+                model = $parse(EDSS[q].scopeVariable);
                 model.assign($scope, EDSS[q].score);
             }
         }
         else {
-            for (var q = 0; q < EDSS.length; q++) {
-                var model = $parse(EDSS[q].scopeVariable);
+            for (q = 0; q < EDSS.length; q++) {
+                model = $parse(EDSS[q].scopeVariable);
                 model.assign($scope,0);
             }
         }
-    }
+    };
 
     $scope.initScores();
 
@@ -1159,13 +1139,13 @@ visitModule.controller('edssCtrl', function ($scope, $parse, $uibModalInstance,
                 $scope.edss_computer = 0.0;
 
             else {
-                throw ("Error on this combination of functional scores: "+fnScore);
+                throw ('Error on this combination of functional scores: '+fnScore);
             }
 
         } catch (err) {
             alert(err);
         }
-    }
+    };
 
     $scope.save = function () {
         var EDSSQuestions = [{scopeVariable: $scope.edss_pyramidal, QSTEST: 'EDSS-Pyramidal'},
@@ -1181,46 +1161,46 @@ visitModule.controller('edssCtrl', function ($scope, $parse, $uibModalInstance,
 
         for (var q = 0; q < EDSSQuestions.length; q++) {
             switch (EDSSQuestions[q].QSTEST) {
-                case 'EDSS-Pyramidal':{
-                    EDSS[0].score = $scope.edss_pyramidal;
-                    break;
-                }
-                case 'EDSS-Cerebellar':{
-                    EDSS[1].score = $scope.edss_cerebellar;
-                    break;
-                }
-                case 'EDSS-BrainStem':{
-                    EDSS[2].score = $scope.edss_brainStem;
-                    break;
-                }
-                case 'EDSS-Sensory':{
-                    EDSS[3].score = $scope.edss_sensory;
-                    break;
-                }
-                case 'EDSS-BowelBladder':{
-                    EDSS[4].score = $scope.edss_bowelBladder;
-                    break;
-                }
-                case 'EDSS-Visual':{
-                    EDSS[5].score = $scope.edss_visual;
-                    break;
-                }
-                case 'EDSS-Mental':{
-                    EDSS[6].score = $scope.edss_mental;
-                    break;
-                }
-                case 'EDSS-Ambulation':{
-                    EDSS[7].score = $scope.edss_ambulation;
-                    break;
-                }
-                case 'EDSS-Total Human':{
-                    EDSS[8].score = $scope.edss_human;
-                    break;
-                }
-                case 'EDSS-Total Computer':{
-                    EDSS[9].score = $scope.edss_computer;
-                    break;
-                }
+            case 'EDSS-Pyramidal':{
+                EDSS[0].score = $scope.edss_pyramidal;
+                break;
+            }
+            case 'EDSS-Cerebellar':{
+                EDSS[1].score = $scope.edss_cerebellar;
+                break;
+            }
+            case 'EDSS-BrainStem':{
+                EDSS[2].score = $scope.edss_brainStem;
+                break;
+            }
+            case 'EDSS-Sensory':{
+                EDSS[3].score = $scope.edss_sensory;
+                break;
+            }
+            case 'EDSS-BowelBladder':{
+                EDSS[4].score = $scope.edss_bowelBladder;
+                break;
+            }
+            case 'EDSS-Visual':{
+                EDSS[5].score = $scope.edss_visual;
+                break;
+            }
+            case 'EDSS-Mental':{
+                EDSS[6].score = $scope.edss_mental;
+                break;
+            }
+            case 'EDSS-Ambulation':{
+                EDSS[7].score = $scope.edss_ambulation;
+                break;
+            }
+            case 'EDSS-Total Human':{
+                EDSS[8].score = $scope.edss_human;
+                break;
+            }
+            case 'EDSS-Total Computer':{
+                EDSS[9].score = $scope.edss_computer;
+                break;
+            }
             }
         }
         $uibModalInstance.close();
@@ -1228,7 +1208,7 @@ visitModule.controller('edssCtrl', function ($scope, $parse, $uibModalInstance,
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
-    }
+    };
 
 
     $scope.showHelpPanel = function(thisPanel) {
@@ -1241,11 +1221,11 @@ visitModule.controller('edssCtrl', function ($scope, $parse, $uibModalInstance,
 
     $scope.enableInput = function() {
         return !dateValidated;
-    }
+    };
 });
 
 visitModule.controller('edmusCtrl', function ($scope, $uibModalInstance,
-                                              EDMUS, dateValidated) {
+    EDMUS, dateValidated) {
     $scope.save = function () {
         EDMUS.score = $scope.chosen.entry;
         //console.log(EDMUS);
@@ -1254,7 +1234,7 @@ visitModule.controller('edmusCtrl', function ($scope, $uibModalInstance,
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss();
-    }
+    };
 
     $scope.entries = [
         {score:'0', definition:'Normal findings on neurological examination.',checked:false},
@@ -1272,9 +1252,8 @@ visitModule.controller('edmusCtrl', function ($scope, $uibModalInstance,
     ];
 
     $scope.addEDMUS = function() {
-        console.log($scope.chosen.entry);
         EDMUS.score = $scope.chosen.entry;
-    }
+    };
 
     if (dateValidated)
         $scope.chosen = {entry: EDMUS.score};
@@ -1283,7 +1262,7 @@ visitModule.controller('edmusCtrl', function ($scope, $uibModalInstance,
 
     $scope.enableInput = function() {
         return !dateValidated;
-    }
+    };
 });
 
 visitModule.directive('visitEntry', function() {
