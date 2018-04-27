@@ -18,8 +18,7 @@ reminderModule.factory('Reminder', function () {
             REMINDERSEQ:'',
             REMINDERFREQUENCY: '',
             REMINDERCATEGORY: '',
-//            REMINDERSTDTC: new Date(),
-//            REMINDERENDTC: new Date(),
+            REMINDERSTDTC: new Date(),
             REMINDERNOTES:'',
             REMINDERACTIVE:'On'
         }
@@ -128,7 +127,10 @@ reminderModule.service('reminders', function (viewService, records, Reminder) {
                     labReminder.REMINDERCATEGORY = RecordItems[i].value;
                     break;
                 }
-
+                case 'REMINDERSTDTC': {
+                    labReminder.REMINDERSTDTC = RecordItems[i].value;
+                    break;
+                }
                 case 'REMINDERNOTES': {
                     labReminder.REMINDERNOTES = RecordItems[i].value;
                     break;
@@ -177,6 +179,7 @@ reminderModule.controller('reminderInfoCtrl', function($scope,
             "end":'',
             "on":'Off',
             "category":'',
+            "startDate" : '',
             "frequency":'',
             "notes": ""};
         $scope.USUBJID = '';
@@ -190,49 +193,13 @@ reminderModule.controller('reminderInfoCtrl', function($scope,
             "end":'',
             "on":'Off',
             "category":'',
+            "startDate" : '',
             "frequency":'',
             "notes": ""};
     }
 
     $rootScope.displayReminder = function() {
         clearFields();
-//        var theReminder = reminders.getLabReminder();
-//        if (theReminder != null) {
-//            $scope.reminder.on = "On";
-//            $scope.reminder.notes = theReminder.REMINDERNOTES;
-//            $scope.reminder.start = theReminder.REMINDERSTDTC;
-//            $scope.reminder.end = theReminder.REMINDERENDTC;
-//            $scope.reminder.category = theReminder.REMINDERCATEGORY;
-//
-//            var secondsInADay = 86400;
-//            switch (theReminder.REMINDERFREQUENCY) {
-//                case (secondsInADay * 7): {
-//                    $scope.reminder.frequency = 'Once/ Week';
-//                    break;
-//                }
-//
-//                case (secondsInADay * 30.5): {
-//                    $scope.reminder.frequency = 'Once/ Month';
-//                    break;
-//                }
-//
-//                case (secondsInADay * (30.5/2)): {
-//                    $scope.reminder.frequency = 'Twice/ Month';
-//                    break;
-//                }
-//
-//                case (secondsInADay * 365): {
-//                    $scope.reminder.frequency = 'Once/ Year';
-//                    break;
-//                }
-//
-//                case (secondsInADay * (365/2)): {
-//                    $scope.reminder.frequency = 'Twice/ Year';
-//                    break;
-//                }
-//
-//            }
-//        }
     }
 
     var currentDate = new Date();
@@ -288,7 +255,7 @@ reminderModule.controller('reminderInfoCtrl', function($scope,
             }
 
         }
-        console.log(frequencyInSeconds);
+        //console.log(frequencyInSeconds);
         return frequencyInSeconds;
     }
 
@@ -324,6 +291,7 @@ reminderModule.controller('reminderInfoCtrl', function($scope,
                 newReminder.SUBJID = $scope.SUBJID;
                 newReminder.REMINDERFREQUENCY = getSeconds($scope.reminder.frequency);
                 newReminder.REMINDERCATEGORY = $scope.reminder.category;
+                newReminder.REMINDERSTDTC = new Date();
                 newReminder.REMINDERNOTES = $scope.reminder.notes;
                 newReminder.REMINDERACTIVE = "On";
                 reminders.saveLabReminder(newReminder);
@@ -435,7 +403,6 @@ reminderModule.controller('reminderInfoCtrl', function($scope,
 
 
     $scope.getReminders = function () {
-        //console.log(reminders.getReminders());
         return reminders.getReminders();
     }
 
@@ -456,7 +423,6 @@ reminderModule.service('remindersForAppointmentsDue', function($q, Reminder, rec
                                                                 procedure, procedures) {
 
     var getSubjectList = function () {
-        //[{"NHS_USUBJID":"12345","USUBJID":"OPT-DM-01-0"}]
         return localStorage.getItem('NHS_OPT_Map');
     }
 
@@ -524,21 +490,16 @@ reminderModule.service('remindersForAppointmentsDue', function($q, Reminder, rec
                 }
                 case 'SUBJID': {
                     newReminder.SUBJID = RecordItems[i].value;
-                }
+                } 
                 case 'REMINDERFREQUENCY': {
                     newReminder.REMINDERFREQUENCY = RecordItems[i].value;
                 }
                 case 'REMINDERCATEGORY': {
                     newReminder.REMINDERCATEGORY = RecordItems[i].value;
                 }
-
                 case 'REMINDERSTDTC': {
                     newReminder.REMINDERSTDTC = records.formatStringToDate(RecordItems[i].value);
                 }
-                case 'REMINDERENDTC': {
-                    newReminder.REMINDERENDTC = records.formatStringToDate(RecordItems[i].value);
-                }
-
                 case 'REMINDERNOTES': {
                     newReminder.REMINDERNOTES = RecordItems[i].value;
                 }
@@ -635,10 +596,10 @@ reminderModule.service('remindersForAppointmentsDue', function($q, Reminder, rec
             }
         }
 
+        // no need to search for unique dates
+        // the user can only enter one MRI per date
         return assessments;
     }
-
-
 
     var sortAscending = function (date1, date2) {
         if (date1 > date2) return 1;
@@ -694,13 +655,13 @@ reminderModule.service('remindersForAppointmentsDue', function($q, Reminder, rec
         return $q(function(resolve, reject) {
             var appointmentsDue = [];
             var subjectList = getSubjectList();
-            //console.log(subjectList);
+
             if (subjectList != null) {
                 subjectList = JSON.parse(subjectList);
                 for (var s = 0; s < subjectList.length; s++) {
                     var patientRecords = JSON.parse(localStorage.getItem(subjectList[s].USUBJID)).RecordSet;
                     var reminderRecords = getRemindersForUSUBJID(patientRecords);
-
+                   
                     for (var r = 0; r < reminderRecords.length; r++) {
                         if (reminderRecords[r].REMINDERACTIVE == 'On') {
 
@@ -711,6 +672,7 @@ reminderModule.service('remindersForAppointmentsDue', function($q, Reminder, rec
                                     var aReminder = createNewReminderForList(subjectList[s].NHS_USUBJID, reminderRecords[r].REMINDERFREQUENCY, reminderRecords[r].REMINDERNOTES, uniqueAssessmentDates);
                                     appointmentsDue.push(aReminder);
                                 }
+
                             }
                             if (reminderRecords[r].REMINDERCATEGORY == 'MRI') {
                                 var uniqueAssessmentDates = getUniqueImagingDatesForUSUBJID(patientRecords);
