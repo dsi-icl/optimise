@@ -16,13 +16,12 @@ recordModule.factory('Record', function ($resource) {
             });
             return resource;
         }
-    }
+    };
 });
 
 recordModule.factory('ReminderResource', function ($resource) {
     return {
         saveData: function(url) {
-            console.log("saving data");
             var resource = $resource(url, {},{
                 'save': {method: 'POST'}
             });
@@ -35,7 +34,7 @@ recordModule.factory('ReminderResource', function ($resource) {
             });
             return resource;
         }
-    }
+    };
 });
 
 recordModule.factory('ICOMETRIX', function ($resource) {
@@ -46,7 +45,7 @@ recordModule.factory('ICOMETRIX', function ($resource) {
             });
             return resource;
         }
-    }
+    };
 });
 
 recordModule.factory('NewSubject', function ($resource) {
@@ -57,19 +56,19 @@ recordModule.factory('NewSubject', function ($resource) {
             });
             return resource;
         }
-    }
+    };
 });
 
 recordModule.factory('Edit', function ($resource) {
     return {
         editData: function(url) {
             var resource = $resource(url, {},
-            {
-                'save': {method: 'POST'}
-            });
+                {
+                    'save': {method: 'POST'}
+                });
             return resource;
         }
-    }
+    };
 });
 
 //recordModule.factory('DataGroup', function ($resource) {
@@ -78,7 +77,7 @@ recordModule.factory('Edit', function ($resource) {
 //})
 
 recordModule.factory('NewUser', function ($resource) {
-    var url = "./api/wh/clinicians.php";
+    var url = './api/wh/clinicians.php';
     return {
         createNewUser: function() {
             var resource = $resource(url, {}, {
@@ -86,8 +85,8 @@ recordModule.factory('NewUser', function ($resource) {
             });
             return resource;
         }
-    }
-})
+    };
+});
 
 recordModule.factory('USUBJIDList', function($resource) {
     return {
@@ -98,8 +97,8 @@ recordModule.factory('USUBJIDList', function($resource) {
             });
             return resource;
         }
-    }
-})
+    };
+});
 
 recordModule.factory('USUBJID', function ($resource) {
     return {
@@ -117,7 +116,7 @@ recordModule.factory('USUBJID', function ($resource) {
                 });
             return resource;
         }
-    }
+    };
 });
 
 recordModule.factory('DueAppointments', function ($resource) {
@@ -129,7 +128,7 @@ recordModule.factory('DueAppointments', function ($resource) {
                 });
             return resource;
         }
-    }
+    };
 });
 
 recordModule.factory('DeleteFactory', function ($resource) {
@@ -141,7 +140,7 @@ recordModule.factory('DeleteFactory', function ($resource) {
                 });
             return resource;
         }
-    }
+    };
 });
 
 recordModule.factory('CONFIG', function ($resource) {
@@ -149,11 +148,11 @@ recordModule.factory('CONFIG', function ($resource) {
     return {
         getOnlineSetting: function(url) {
             var resource = $resource(url, {}, {
-                    'get': {method: 'GET'}
-                })
+                'get': {method: 'GET'}
+            });
             return resource;
         }
-    }
+    };
 });
 
 //recordModule.factory('XNATLogin', function ($resource) {
@@ -185,7 +184,7 @@ recordModule.factory('USERID', function ($resource) {
 
     if (onlineOrLocal=='local')
         return $resource('./api/wh/gettoken4c.php',{},{
-    });
+        });
     else {
         return $resource('./api/wh/gettoken4c.php',{},{
         });
@@ -193,23 +192,23 @@ recordModule.factory('USERID', function ($resource) {
 });
 
 recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUBJIDList,
-                                          NewSubject, DeleteFactory, NewUser, ICOMETRIX, DueAppointments, ReminderResource) {
+    NewSubject, DeleteFactory, NewUser, ICOMETRIX, DueAppointments, ReminderResource) {
 
     var token='';
 
     var setToken = function(newToken) {
         token = newToken;
-    }
+    };
 
     var getToken = function() {
         return token;
-    }
+    };
 
     //var onlineOrLocal = 'local';
     var onlineOrLocal = 'online';
 
     var getURL = function(functionName) {
-
+        
         var api = '';
         if (functionName == 'USUBJID') {
             if (onlineOrLocal == 'local')
@@ -283,249 +282,249 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
         }
 
         return api;
-    }
+    };
 
     var formatForPostSave = function (aRecord) {
 
         var keys = Object.keys(aRecord);
         var recordSet = [];
-        var recordItems = [];
         var keysAndItems = [];
-        var newRecordItem = {"RecordItems":keysAndItems};
+        var newRecordItem = {'RecordItems':keysAndItems};
         recordSet.push(newRecordItem);
-        var root = {"RecordSet":recordSet};
+        var root = {'RecordSet':recordSet};
 
         for (var k = 0; k < keys.length; k++){
-            var keyAndItem = {"fieldName":keys[k], "value": aRecord[keys[k]]};
+            var keyAndItem = {'fieldName':keys[k], 'value': aRecord[keys[k]]};
             keysAndItems.push(keyAndItem);
         }
 
         return angular.toJson(root);
-    }
+    };
 
 
     var getEventID = function(event) {
-        switch (DOMAIN) {
-            case 'QS': {
-                return event.DOMAIN+"_"+event.QSSEQ;
-            }
-            case 'SV': {
-                return event.DOMAIN+"_"+event.VISITNUM;
-            }
-            case 'FA': {
-                return event.DOMAIN+"_"+event.FASEQ;
-            }
-            case 'CE': {
-                return event.DOMAIN+"_"+event.CESEQ;
-            }
-            case 'PR': {
-                return event.DOMAIN+"_"+event.PRSEQ;
-            }
-            case 'EX': {
-                return event.DOMAIN+"_"+event.EXSEQ;
-            }
-            case 'REL': {
-                return event.DOMAIN+"_"+event.RELID;
-            }
-            case 'DM': {
-                return event.DOMAIN+"_"+event.USUBJID;
-            }
-            case 'LB': {
-                return event.DOMAIN+"_"+event.LBSEQ;
-            }
-            case 'IS': {
-                return event.DOMAIN+"_"+event.ISSEQ;
-            }
-            case 'NV': {
-                return event.DOMAIN+"_"+event.NVSEQ;
-            }
-            case 'VS': {
-                return event.DOMAIN+"_"+event.VSSEQ;
-            }
-            case 'SU': {
-                return event.DOMAIN+"_"+event.SUSEQ;
-            }
-            case 'SC': {
-                return event.DOMAIN+"_"+event.SCSEQ;
-            }
-            case 'DU': {
-                return event.DOMAIN+"_"+event.DUSEQ;
-            }
-            case 'MO': {
-                return event.DOMAIN+"_"+event.MOSEQ;
-            }
-        };
-    }
+        switch (event.DOMAIN) {
+        case 'QS': {
+            return event.DOMAIN+'_'+event.QSSEQ;
+        }
+        case 'SV': {
+            return event.DOMAIN+'_'+event.VISITNUM;
+        }
+        case 'FA': {
+            return event.DOMAIN+'_'+event.FASEQ;
+        }
+        case 'CE': {
+            return event.DOMAIN+'_'+event.CESEQ;
+        }
+        case 'PR': {
+            return event.DOMAIN+'_'+event.PRSEQ;
+        }
+        case 'EX': {
+            return event.DOMAIN+'_'+event.EXSEQ;
+        }
+        case 'REL': {
+            return event.DOMAIN+'_'+event.RELID;
+        }
+        case 'DM': {
+            return event.DOMAIN+'_'+event.USUBJID;
+        }
+        case 'LB': {
+            return event.DOMAIN+'_'+event.LBSEQ;
+        }
+        case 'IS': {
+            return event.DOMAIN+'_'+event.ISSEQ;
+        }
+        case 'NV': {
+            return event.DOMAIN+'_'+event.NVSEQ;
+        }
+        case 'VS': {
+            return event.DOMAIN+'_'+event.VSSEQ;
+        }
+        case 'SU': {
+            return event.DOMAIN+'_'+event.SUSEQ;
+        }
+        case 'SC': {
+            return event.DOMAIN+'_'+event.SCSEQ;
+        }
+        case 'DU': {
+            return event.DOMAIN+'_'+event.DUSEQ;
+        }
+        case 'MO': {
+            return event.DOMAIN+'_'+event.MOSEQ;
+        }
+        }
+    };
 
 
     var formatForPostEdit = function (idRecord, valueRecord) {
-        var root = {"CurrentRecord":idRecord, "NewRecord":valueRecord};
+        var root = {'CurrentRecord':idRecord, 'NewRecord':valueRecord};
         return angular.toJson(root);
-    }
+    };
 
-     var deleteSubject = function (USUBJID) {
-         var input = {'w_id': USUBJID};
-         var deferred = $q.defer();
-         var url = getURL('Delete');
-         try {
-             var DataToDelete = DeleteFactory.deleteSubjectData(url);
-             DataToDelete.delete(input, function (result){
-                 result.$promise
-                     .then(function() {
-                         deferred.resolve(result);
-                     })
-             });
-         }
-         catch (e) {
-             deferred.reject(e);
-         }
-         return deferred.promise;
-     }
+    var deleteSubject = function (USUBJID) {
+        var input = {'w_id': USUBJID};
+        var deferred = $q.defer();
+        var url = getURL('Delete');
+        try {
+            var DataToDelete = DeleteFactory.deleteSubjectData(url);
+            DataToDelete.delete(input, function (result){
+                result.$promise
+                    .then(function() {
+                        deferred.resolve(result);
+                    });
+            });
+        }
+        catch (e) {
+            deferred.reject(e);
+        }
+        return deferred.promise;
+    };
 
 
     var formatForDelete = function (aRecord) {
         var keys = Object.keys(aRecord);
         var recordSet = [];
-        var recordItems = [];
         var keysAndItems = [];
         var newRecordItem = {RecordItems:keysAndItems};
         recordSet.push(newRecordItem);
 
-        var USUBJID = {fieldName:"USUBJID", value: aRecord.USUBJID};
+        var USUBJID = {fieldName:'USUBJID', value: aRecord.USUBJID};
         keysAndItems.push(USUBJID);
 
-        var STUDYID = {fieldName:"STUDYID", value: aRecord.STUDYID};
+        var STUDYID = {fieldName:'STUDYID', value: aRecord.STUDYID};
         keysAndItems.push(STUDYID);
 
-        var DOMAIN = {fieldName:"DOMAIN", value: aRecord.DOMAIN};
+        var DOMAIN = {fieldName:'DOMAIN', value: aRecord.DOMAIN};
         keysAndItems.push(DOMAIN);
+
+        var keyAndItem = null;
 
         for (var k = 0; k < keys.length; k++){
             //console.log(keys[k]);
 
             switch (keys[k]) {
-                case 'QSSEQ': {
-                    var keyAndItem = {fieldName:"QSSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'FASEQ': {
-                    var keyAndItem = {fieldName:"FASEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'PRSEQ': {
-                    var keyAndItem = {fieldName:"PRSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'RELID': {
-                    var keyAndItem = {fieldName:"RELID", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'CESEQ': {
-                    var keyAndItem = {fieldName:"CESEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'VSSEQ': {
+            case 'QSSEQ': {
+                keyAndItem = {fieldName:'QSSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'FASEQ': {
+                keyAndItem = {fieldName:'FASEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'PRSEQ': {
+                keyAndItem = {fieldName:'PRSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'RELID': {
+                keyAndItem = {fieldName:'RELID', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'CESEQ': {
+                keyAndItem = {fieldName:'CESEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'VSSEQ': {
 
-                    var keyAndItem = {fieldName:"VSSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'MHSEQ': {
+                keyAndItem = {fieldName:'VSSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'MHSEQ': {
 
-                    var keyAndItem = {fieldName:"MHSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'APMHSEQ': {
+                keyAndItem = {fieldName:'MHSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'APMHSEQ': {
 
-                    var keyAndItem = {fieldName:"APMHSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'EXSEQ': {
+                keyAndItem = {fieldName:'APMHSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'EXSEQ': {
 
-                    var keyAndItem = {fieldName:"EXSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'NVSEQ': {
+                keyAndItem = {fieldName:'EXSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'NVSEQ': {
 
-                    var keyAndItem = {fieldName:"NVSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'MOSEQ': {
+                keyAndItem = {fieldName:'NVSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'MOSEQ': {
 
-                    var keyAndItem = {fieldName:"MOSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'SUSEQ': {
+                keyAndItem = {fieldName:'MOSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'SUSEQ': {
 
-                    var keyAndItem = {fieldName:"SUSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'DUSEQ': {
+                keyAndItem = {fieldName:'SUSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'DUSEQ': {
 
-                    var keyAndItem = {fieldName:"DUSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'SCSEQ': {
+                keyAndItem = {fieldName:'DUSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'SCSEQ': {
 
-                    var keyAndItem = {fieldName:"SCSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'LBSEQ': {
+                keyAndItem = {fieldName:'SCSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'LBSEQ': {
 
-                    var keyAndItem = {fieldName:"LBSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'ISSEQ': {
+                keyAndItem = {fieldName:'LBSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'ISSEQ': {
 
-                    var keyAndItem = {fieldName:"ISSEQ", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-                case 'VISITNUM': {
-                    var keyAndItem = {fieldName:"VISITNUM", value: aRecord[keys[k]]};
-                    keysAndItems.push(keyAndItem);
-                    break;
-                }
-            };
+                keyAndItem = {fieldName:'ISSEQ', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            case 'VISITNUM': {
+                keyAndItem = {fieldName:'VISITNUM', value: aRecord[keys[k]]};
+                keysAndItems.push(keyAndItem);
+                break;
+            }
+            }
 
         }
         return angular.toJson(newRecordItem);
-    }
+    };
 
     var formatForDeleteGivenDomain = function (USUBJID_field, STUDYID_field, seqFieldName, seqValue) {
 
         var recordSet = [];
         var keysAndItems = [];
-        var newRecordItem = {"RecordItems":keysAndItems};
+        var newRecordItem = {'RecordItems':keysAndItems};
 
         recordSet.push(newRecordItem);
-        if ((seqFieldName != "USUBJID") && (seqFieldName != "STUDYID")){
-            var newUSUBJID = {fieldName:"USUBJID", value: USUBJID_field};
+        if ((seqFieldName != 'USUBJID') && (seqFieldName != 'STUDYID')){
+            var newUSUBJID = {fieldName:'USUBJID', value: USUBJID_field};
             keysAndItems.push(newUSUBJID);
 
-            var newSTUDYID = {fieldName:"STUDYID", value: STUDYID_field};
+            var newSTUDYID = {fieldName:'STUDYID', value: STUDYID_field};
             keysAndItems.push(newSTUDYID);
         }
 
-        var keyAndItem = {"fieldName":seqFieldName, "value": seqValue};
+        var keyAndItem = {'fieldName':seqFieldName, 'value': seqValue};
         keysAndItems.push(keyAndItem);
 
         return angular.toJson(newRecordItem);
-    }
+    };
 
     var getSubject = function(subjectID)
     {
@@ -538,60 +537,60 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
                 subjectData.$promise
                     .then(function() {
                         deferred.resolve(subjectData);
-                    })
+                    });
             });
         }
         catch (e) {
             deferred.reject(e);
         }
         return deferred.promise;
-    }
+    };
 
-//    var getParsedDemographics= function()
-//    {
-//        var deferred = $q.defer();
-//        try {
-//            var demographicAPICall = getDemographics();
-//            demographicAPICall.then(function(demographics) {
-//                var tempData = [];
-//                var dmRecords = demographics.RecordSet;
-//
-//                for (var dm = 0; dm < dmRecords.length; dm++) {
-//                    var aRecord = dmRecords[dm];
-//                    var opt_id ='';
-//                    var nhs_id ='';
-//                    var age = '';
-//                    var sex = '';
-//                    var rficdtc = '';
-//                    var aRecordItems = aRecord.RecordItems;
-//                    for (var item = 0; item < aRecordItems.length; item++) {
-//                        if (aRecordItems[item].fieldName == 'USUBJID')
-//                            opt_id = aRecordItems[item].value;
-//                        else if (aRecordItems[item].fieldName == 'NHS_USUBJID')
-//                            nhs_id = aRecordItems[item].value;
-//                        else if (aRecordItems[item].fieldName == 'BRTHDTC')
-//                            age = '';
-//                        else if (aRecordItems[item].fieldName == 'SEX')
-//                            sex = aRecordItems[item].value;
-//                        else if (aRecordItems[item].fieldName == 'RFICDTC')
-//                            rficdtc = aRecordItems[item].value;
-//                    }
-//                    var row = {opt_id: opt_id, nhs_id: nhs_id, age:age, sex: sex, rficdtc: rficdtc, selected: false};
-//                    tempData.push(row);
-//                }
-//
-//                demographics.$promise
-//                    .then(function() {
-//                        deferred.resolve(tempData);
-//                    })
-//
-//            });
-//        }
-//        catch (e) {
-//            deferred.reject(e);
-//        }
-//        return deferred.promise;
-//    }
+    //    var getParsedDemographics= function()
+    //    {
+    //        var deferred = $q.defer();
+    //        try {
+    //            var demographicAPICall = getDemographics();
+    //            demographicAPICall.then(function(demographics) {
+    //                var tempData = [];
+    //                var dmRecords = demographics.RecordSet;
+    //
+    //                for (var dm = 0; dm < dmRecords.length; dm++) {
+    //                    var aRecord = dmRecords[dm];
+    //                    var opt_id ='';
+    //                    var nhs_id ='';
+    //                    var age = '';
+    //                    var sex = '';
+    //                    var rficdtc = '';
+    //                    var aRecordItems = aRecord.RecordItems;
+    //                    for (var item = 0; item < aRecordItems.length; item++) {
+    //                        if (aRecordItems[item].fieldName == 'USUBJID')
+    //                            opt_id = aRecordItems[item].value;
+    //                        else if (aRecordItems[item].fieldName == 'NHS_USUBJID')
+    //                            nhs_id = aRecordItems[item].value;
+    //                        else if (aRecordItems[item].fieldName == 'BRTHDTC')
+    //                            age = '';
+    //                        else if (aRecordItems[item].fieldName == 'SEX')
+    //                            sex = aRecordItems[item].value;
+    //                        else if (aRecordItems[item].fieldName == 'RFICDTC')
+    //                            rficdtc = aRecordItems[item].value;
+    //                    }
+    //                    var row = {opt_id: opt_id, nhs_id: nhs_id, age:age, sex: sex, rficdtc: rficdtc, selected: false};
+    //                    tempData.push(row);
+    //                }
+    //
+    //                demographics.$promise
+    //                    .then(function() {
+    //                        deferred.resolve(tempData);
+    //                    })
+    //
+    //            });
+    //        }
+    //        catch (e) {
+    //            deferred.reject(e);
+    //        }
+    //        return deferred.promise;
+    //    }
 
     var getAllDemographics = function() {
         var input = {'DOMAIN': 'DM', 'token':token};
@@ -603,14 +602,14 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
                 data.$promise
                     .then(function() {
                         deferred.resolve(data);
-                    })
+                    });
             });
         }
         catch (e) {
             deferred.reject(e);
         }
         return deferred.promise;
-    }
+    };
 
     var getDueAppointments = function() {
         var deferred = $q.defer();
@@ -621,14 +620,14 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
                 data.$promise
                     .then(function() {
                         deferred.resolve(data);
-                    })
+                    });
             });
         }
         catch (e) {
             deferred.reject(e);
         }
         return deferred.promise;
-    }
+    };
 
     var getOptimiseID = function(NHSID) {
         var input = {'NHS_USUBJID': NHSID, 'token':token};
@@ -640,14 +639,14 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
                 subjectData.$promise
                     .then(function() {
                         deferred.resolve(subjectData);
-                    })
+                    });
             });
         }
         catch (e) {
             deferred.reject(e);
         }
         return deferred.promise;
-    }
+    };
 
     var getUSUBJIDList = function() {
         var deferred = $q.defer();
@@ -658,14 +657,14 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
                 subjects.$promise
                     .then(function() {
                         deferred.resolve(subjects);
-                    })
+                    });
             });
         }
         catch (e) {
             deferred.reject(e);
         }
         return deferred.promise;
-    }
+    };
 
     var getNHSIDList = function() {
         var deferred = $q.defer();
@@ -676,43 +675,41 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
                 subjects.$promise
                     .then(function() {
                         deferred.resolve(subjects);
-                    })
+                    });
             });
         }
         catch (e) {
             deferred.reject(e);
         }
         return deferred.promise;
-    }
+    };
 
     var createNewSubject = function(patientRecord, prefix) {
         var deferred = $q.defer();
         var url = getURL('NewSubject');
         var patientJson = formatForPostSave(patientRecord);
-        var input = {"username":patientRecord.NHS_USUBJID,"optimise_prefix":prefix,"demography_data": JSON.parse(patientJson)};
+        var input = {'username':patientRecord.NHS_USUBJID,'optimise_prefix':prefix,'demography_data': JSON.parse(patientJson)};
 
         try {
             var newSubject = NewSubject.createSubject(url);
             newSubject.save(input, function (subject){
                 subject.$promise
                     .then(function() {
-                        console.log(subject)
                         deferred.resolve(subject);
-                    })
+                    });
             });
 
         }
         catch (e) {
-            console.log(e);
             deferred.reject(e);
         }
         return deferred.promise;
 
-    }
+    };
 
     var saveRecord = function (newRecord) {
         var jsonBody = formatForPostSave(newRecord);
-        var url = getURL('Record')+"?token="+token;
+        var url = getURL('Record')+'?token='+token;
         Record.saveData(url).save(jsonBody);
     };
 
@@ -726,24 +723,24 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
     var editRecord = function (idRecord, valueRecord) {
         var jsonBody = formatForPostEdit(idRecord, valueRecord);
         //console.log(jsonBody);
-        var url = getURL('Record')+"?OID=2&token="+token;
+        var url = getURL('Record')+'?OID=2&token='+token;
         Edit.editData(url).save(jsonBody);
     };
 
-//    var editRecord = function (idRecord, valueRecord) {
-//        var jsonBody = formatForPostEdit(idRecord, valueRecord);
-//        var url = getURL('Edit');
-//        Edit.editData(url).save(jsonBody);
-//    };
+    //    var editRecord = function (idRecord, valueRecord) {
+    //        var jsonBody = formatForPostEdit(idRecord, valueRecord);
+    //        var url = getURL('Edit');
+    //        Edit.editData(url).save(jsonBody);
+    //    };
 
     var editReminder = function (idRecord, valueRecord) {
         var jsonBody = formatForPostEdit(idRecord, valueRecord);
-        var url = getURL('Reminder')+"?OID=2";
+        var url = getURL('Reminder')+'?OID=2';
         ReminderResource.saveData(url).save(jsonBody);
     };
 
     var getReminder = function (USUBJID) {
-        var jsonBody = {"USUBJID":USUBJID};
+        var jsonBody = {'USUBJID':USUBJID};
         var url = getURL('Reminder');
 
         var deferred = $q.defer();
@@ -751,7 +748,7 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
             ReminderResource.getData(url).get(jsonBody,function(data) {
                 data.$promise.then(function(data) {
                     deferred.resolve(data);
-                })
+                });
             });
         }
         catch (e) {
@@ -763,29 +760,27 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
 
     var deleteReminder = function(rm) {
         if (((rm.USUBJID != undefined)&&
-            (rm.USUBJID != "")&&
-            (parseInt(rm.REMINDERSEQ) != NaN))) {
-                var jsonBody = {"USUBJID":rm.USUBJID, "DOMAIN":rm.DOMAIN, "REMINDERSEQ": rm.REMINDERSEQ};
-                var api = '';
-                if (onlineOrLocal == 'local')
-                    api = './api/reminders.php';
-                else
-                    api = './api/reminders.php';
+            (rm.USUBJID != '')&&
+            (!isNaN(parseInt(rm.REMINDERSEQ))))) {
+            var jsonBody = {'USUBJID':rm.USUBJID, 'DOMAIN':rm.DOMAIN, 'REMINDERSEQ': rm.REMINDERSEQ};
+            var api = '';
+            if (onlineOrLocal == 'local')
+                api = './api/reminders.php';
+            else
+                api = './api/reminders.php';
 
-                $http({url: api,
-                    method: 'DELETE',
-                    data: jsonBody,
-                    headers: {"Content-Type": "application/json;charset=utf-8"}}).then(function(res) {
-                        console.log(res.data);
-                    }, function(error) {
-                        console.log(error);
-                    });
+            $http({url: api,
+                method: 'DELETE',
+                data: jsonBody,
+                headers: {'Content-Type': 'application/json;charset=utf-8'}}).then(function() {
+            }, function() {
+            });
         }
         else
         {
-            alert ("Invalid reminder to delete: "+rm.USUBJID+", "+rm.REMINDERSEQ);
+            alert ('Invalid reminder to delete: '+rm.USUBJID+', '+rm.REMINDERSEQ);
         }
-    }
+    };
 
     var saveIcometrixJob = function (newJob) {
         var api = '';
@@ -793,21 +788,18 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
             api = './api/icometrix/setIcometrixJobs.php';
         else
             api = './api/icometrix/setIcometrixJobs.php';
-        //console.log(angular.toJson(newJob));
-        console.log(api);
         ICOMETRIX.saveData(api).save(angular.toJson(newJob));
     };
 
     var createNewInterest = function (name, email) {
-        var jsonBody = {"username": name, "password": "newInterestPW_"+name, "email": email, "site": "AAN", "group_ids":["daeAANUsers"]};
-        //console.log(jsonBody);
-        console.log(NewUser.createNewUser().save(jsonBody));
-    }
+        var jsonBody = {'username': name, 'password': 'newInterestPW_'+name, 'email': email, 'site': 'AAN', 'group_ids':['daeAANUsers']};
+        NewUser.createNewUser().save(jsonBody);
+    };
 
     var overwriteSubject = function (USUBJID, jsonToPost) {
 
         if (USUBJID != ''){
-            var subjectToDelete = {RecordItems:[{fieldName:"USUBJID", value:USUBJID}]};
+            var subjectToDelete = {RecordItems:[{fieldName:'USUBJID', value:USUBJID}]};
             var jsonToDelete = angular.toJson(subjectToDelete);
 
             var api = '';
@@ -819,13 +811,12 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
             $http({url: api,
                 method: 'DELETE',
                 data: jsonToDelete,
-                headers: {"Content-Type": "application/json;charset=utf-8"}}).then(function(res) {
-                    var url = getURL('Record');
-                    Record.saveData(url).save(jsonToPost);
-                    //console.log(jsonToPost);
-                }, function(error) {
-                    console.log(error);
-                });
+                headers: {'Content-Type': 'application/json;charset=utf-8'}}).then(function() {
+                var url = getURL('Record');
+                Record.saveData(url).save(jsonToPost);
+                //console.log(jsonToPost);
+            }, function() {
+            });
         }
     };
 
@@ -851,19 +842,16 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
             $http({url: api,
                 method: 'DELETE',
                 data: jsonBody,
-                headers: {"Content-Type": "application/json;charset=utf-8"}}).then(function(res) {
-                    console.log(res.data);
-                }, function(error) {
-                    console.log(error);
-                });
+                headers: {'Content-Type': 'application/json;charset=utf-8'}}).then(function() {
+            }, function() {
+            });
 
         }
         else
         {
-            console.log(recordToDelete);
-            alert ("You nearly deleted db!");
+            alert ('You nearly deleted db!');
         }
-    }
+    };
 
 
     var getRecordSet = function($scope, subjectID) {
@@ -871,25 +859,9 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
         USUBJID.getData(url).get({project: 'OPTIMISE', USUBJID: subjectID, 'token':token},function(data) {
             data.$promise.then(function() {
                 return data;
-            })
+            });
         });
-    }
-
-    var printRecord = function(subjectID) {
-        //console.log(subjectID);
-        var url = getURL('USUBJID');
-        USUBJID.getData(url).get({project: 'OPTIMISE', USUBJID: subjectID, 'token':token},function(data) {
-        //USUBJID.get({project:'OPTIMISE', USUBJID:subjectID}, function(data) {
-            console.log("Number of Records Found:"+data.RecordSet.length);
-            angular.forEach(data.RecordSet, function(recordSet) {
-                angular.forEach(recordSet, function(items) {
-                    console.log("Number of FieldName/Values Found:"+items.length);
-                    //console.log(items);
-                    //printItems(items);
-                })
-            })
-        });
-    }
+    };
 
     var formatStringToDate = function (aDate) {
         if (aDate != '') {
@@ -898,14 +870,13 @@ recordModule.service('records', function (Record, Edit, USUBJID, $http, $q, USUB
         }
         else
             return '';
-    }
+    };
 
     return {
         formatForPostSave: formatForPostSave,
         formatForPostEdit: formatForPostEdit,
         saveRecord: saveRecord,
         editRecord: editRecord,
-        printRecord: printRecord,
         getRecordSet: getRecordSet,
         deleteRecord:deleteRecord,
         formatForDeleteGivenDomain:formatForDeleteGivenDomain,

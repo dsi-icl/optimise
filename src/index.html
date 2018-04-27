@@ -43,13 +43,13 @@
                 <br/>
                 <input type="text" class="form-control" ng-model="UserName" placeholder="Username">
                 <br/>
-                <input type="password" class="form-control" ng-model="Password" placeholder="Password">
+                <input type="password" class="form-control" ng-model="Password" placeholder="Password" autocomplete="current-password">
                 <br/>
                 <button type="submit" class="btn btn-default" ng-click="authenticate()">{{authenticatedStatus}}</button>
               </div>
               <!-- <span ng-show='authenticatedStatus == "Logged In"'>Welcome, you are logged in</span> -->
             </form>
-            <div style="position: absolute; padding-top: 15px; min-width: 850px;" ng-show='authenticatedStatus == "Logged In"'>
+            <div style="position: absolute; padding-top: 15px; min-width: 930px;" ng-show='authenticatedStatus == "Logged In"'>
               <h2 style="margin-right: 30px;">OPTIMISE <sup style="font-size: 10px; line-height: 10px;">v0.2.0</sup></h2>
               <!-- <button type="button" class="btn-lg btn-mainnav" ng-click="openDepository()" ng-disabled="disableEntry()">Search patients</button> -->
               <button type="button" class="btn-lg btn-mainnav" ng-click="openSearch()" ng-disabled="disableEntry()">Search patients</button>
@@ -174,10 +174,11 @@
                       ng-class="{selected: isSelected(event, getEventDates().length)}">
                       <!-- <td>{{$index+1}}</td> -->
                       <td>
-                        <!-- <p>{{event.displayLabel}}</p> -->
+                        <span style="padding-left: 15px; line-height: 30px;">{{event.displayLabel | limitTo : 10}}</span><br/>
                         <span style="padding-left: 15px; line-height: 30px;">{{event.displayDate}}</span>
                       </td>
                       <td style="text-align: right;">
+                          <span style="padding-left: 15px; line-height: 30px;">&nbsp;</span><br/>
                         <a href="#" ng-click="deleteEvent(event)" style="padding-right: 15px; line-height: 30px; text-align: right;">Delete</a>
                       </td>
                     </tr>
@@ -480,7 +481,6 @@
   <script src="./scripts/js/deviceInUse/deviceInUse.module.js"></script>
   <script src="./scripts/js/communication/communication.module.js"></script>
   <script src="./scripts/js/communication/reminders.module.js"></script>
-  <script src="./scripts/js/exporter/iMed.js"></script>
   <script src="./scripts/vendor/cornerstone.min.js"></script>
   <script src="./scripts/vendor/dicomParser.min.js"></script>
   <script src="./scripts/vendor/jpx.min.js"></script>

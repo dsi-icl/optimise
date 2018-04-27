@@ -24,7 +24,7 @@ header {
     background-color: white;
     color: black;
     text-align: left;
-    min-width: 850px;
+    min-width: 930px;
     width: 100vw;
     height: 75px;
     padding: 0 15px;
@@ -69,7 +69,7 @@ h2 {
 
 #mainContent {
     height: calc(100vh - 75px);
-    min-width: 850px;
+    min-width: 930px;
     width: 100vw;
     position: fixed;
     top: 75px;

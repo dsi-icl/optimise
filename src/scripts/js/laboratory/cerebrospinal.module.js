@@ -9,7 +9,7 @@ csfModule.directive('csfEntry', function() {
 });
 
 csfModule.factory('csfVocab', function() {
-    var csfTests = {}
+    var csfTests = {};
     csfTests['csf.totalProtein'] = {LBTEST: 'Total Protein'};
     csfTests['csf.glucose'] = {LBTEST: 'Glucose'};
     csfTests['csf.albumin'] = {LBTEST: 'Albumin'};
@@ -21,7 +21,7 @@ csfModule.factory('csfVocab', function() {
 
     csfTests.getTerm = function(modelName) {
         return csfTests[modelName];
-    }
+    };
 
     csfTests.getScopeVariable = function(csfTest) {
         var theKey = '';
@@ -31,26 +31,12 @@ csfModule.factory('csfVocab', function() {
             }
         });
         return theKey;
-    }
+    };
 
     return csfTests;
 });
 
 csfModule.service('csfService', function(laboratoryTestResults, procedures, procedure) {
-    var LBDTC = '';
-    var USUBJID = '';
-
-    var setDate = function() {
-        LBDTC = procedures.getCurrentProcedure().PRSTDTC;
-    }
-
-    var setUSUBJID = function(currentUSUBJID) {
-        USUBJID = currentUSUBJID;
-    }
-
-    var getDate = function() {
-        return LBDTC;
-    }
 
     var addProcedure = function(USUBJID, LBDTC) {
         if (procedures.getProcedureByTRTAndDate('Lumbar Puncture',  LBDTC).length == 0){
@@ -61,35 +47,35 @@ csfModule.service('csfService', function(laboratoryTestResults, procedures, proc
             aProcedure.displayDate = LBDTC.toDateString();
             procedures.addProcedure(aProcedure);
         }
-    }
+    };
 
     return {
         //setDate: setDate,
         //getDate: getDate,
         addProcedure: addProcedure
-    }
+    };
 });
 
 csfModule.controller('csfInfoCtrl', function ($scope, $rootScope, $parse, viewService,
-                                              csfVocab, csfService,
-                                              laboratoryTestResults,LaboratoryTestResult,
-                                              procedures) {
+    csfVocab, csfService,
+    laboratoryTestResults,LaboratoryTestResult,
+    procedures) {
     //$scope.USUBJID = '';
 
-    $scope.lbrind = "";
-    $scope.bandIndicator = "";
+    $scope.lbrind = '';
+    $scope.bandIndicator = '';
 
     $scope.getDisabledFields = function() {
         return viewService.getView().DisableInputFields;
-    }
+    };
 
     var clearFields = function() {
         angular.forEach(csfVocab, function(value, key) {
             var model = $parse(key);
             model.assign($scope,'');
         });
-        $scope.lbrind = "";
-        $scope.bandIndicator = "";
+        $scope.lbrind = '';
+        $scope.bandIndicator = '';
     };
 
     $rootScope.displayCSF = function() {
@@ -101,7 +87,7 @@ csfModule.controller('csfInfoCtrl', function ($scope, $rootScope, $parse, viewSe
                 if (results[r].LBTEST == 'Oligoclonal Bands') {
                     $scope.bandIndicator = results[r].LBNRIND;
                 }
-                else if (results[r].LBTEST == "Summary")
+                else if (results[r].LBTEST == 'Summary')
                     $scope.lbrind = results[r].LBNRIND;
                 else {
                     var modelName = csfVocab.getScopeVariable(results[r].LBTEST);
@@ -111,19 +97,16 @@ csfModule.controller('csfInfoCtrl', function ($scope, $rootScope, $parse, viewSe
             }
         }
 
-    }
+    };
 
     $rootScope.setNewCSFFields = function() {
         clearFields();
-    }
+    };
 
     $scope.editIndicators = function(indicatorName, indicatorResult) {
-        console.log($scope.LBDTC);
         csfService.addProcedure($scope.USUBJID, $scope.LBDTC);
         var LBTEST = indicatorName;
         var LBNRIND = indicatorResult;
-        console.log(LBTEST);
-        console.log(LBNRIND);
 
         var aTestResult = laboratoryTestResults.getTestResult(LBTEST, $scope.LBDTC);
         if (aTestResult != null) {
@@ -134,14 +117,14 @@ csfModule.controller('csfInfoCtrl', function ($scope, $rootScope, $parse, viewSe
             var newTestResult = new LaboratoryTestResult($scope.USUBJID, LBTEST);
             newTestResult.LBNRIND = indicatorResult;
             newTestResult.LBDTC = $scope.LBDTC;
-            newTestResult.LBSPEC = "CSF";
-            newTestResult.displayLabel = "CSF";
+            newTestResult.LBSPEC = 'CSF';
+            newTestResult.displayLabel = 'CSF';
             newTestResult.displayDate = $scope.LBDTC.toDateString();
 
             laboratoryTestResults.addResult(newTestResult);
         }
         laboratoryTestResults.printLabTestResults();
-    }
+    };
 
     $scope.editCSFResult = function(modelName){
         csfService.addProcedure($scope.USUBJID, $scope.LBDTC);
@@ -152,7 +135,7 @@ csfModule.controller('csfInfoCtrl', function ($scope, $rootScope, $parse, viewSe
         if (LBORRES != null) {
             var aTestResult = laboratoryTestResults.getTestResult(LBTEST, $scope.LBDTC);
             if ((aTestResult != null) && (aTestResult.length > 0)&&(aTestResult[0].LBSPEC='CSF')) {
-                if (LBORRES=="") {
+                if (LBORRES=='') {
                     laboratoryTestResults.deleteResult(aTestResult);
                 }
                 else {
@@ -161,24 +144,24 @@ csfModule.controller('csfInfoCtrl', function ($scope, $rootScope, $parse, viewSe
                 }
             }
             else {
-                if (LBORRES!=""){
+                if (LBORRES!=''){
 
                     var newTestResult = new LaboratoryTestResult($scope.USUBJID, LBTEST);
                     newTestResult.LBORRES = LBORRES;
                     newTestResult.LBDTC = $scope.LBDTC;
-                    newTestResult.LBSPEC = "CSF";
-                    newTestResult.displayLabel = "CSF";
+                    newTestResult.LBSPEC = 'CSF';
+                    newTestResult.displayLabel = 'CSF';
                     newTestResult.displayDate = $scope.LBDTC.toDateString();
 
                     laboratoryTestResults.addResult(newTestResult);
                 }
             }
         }
-    }
+    };
 
     $scope.editBand = function(){
         csfService.addProcedure($scope.USUBJID, $scope.LBDTC);
-        var LBTEST = "Oligoclonal Bands";
+        var LBTEST = 'Oligoclonal Bands';
         var LBNRIND = $scope.bandIndicator;
 
         if (LBNRIND != null) {
@@ -188,13 +171,13 @@ csfModule.controller('csfInfoCtrl', function ($scope, $rootScope, $parse, viewSe
                 laboratoryTestResults.editResult(aTestResult,'LBNRIND',aTestResult.LBNRIND);
             }
             else {
-                if (LBNRIND!=""){
+                if (LBNRIND!=''){
 
                     var newTestResult = new LaboratoryTestResult($scope.USUBJID, LBTEST);
                     newTestResult.LBNRIND = $scope.bandIndicator;
                     newTestResult.LBDTC = $scope.LBDTC;
-                    newTestResult.LBSPEC = "CSF";
-                    newTestResult.displayLabel = "CSF";
+                    newTestResult.LBSPEC = 'CSF';
+                    newTestResult.displayLabel = 'CSF';
                     newTestResult.displayDate = $scope.LBDTC.toDateString();
 
                     laboratoryTestResults.addResult(newTestResult);
@@ -202,5 +185,5 @@ csfModule.controller('csfInfoCtrl', function ($scope, $rootScope, $parse, viewSe
             }
         }
         laboratoryTestResults.printLabTestResults();
-    }
+    };
 });

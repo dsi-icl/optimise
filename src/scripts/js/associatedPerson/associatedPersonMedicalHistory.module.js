@@ -8,7 +8,7 @@
 var associatedPersonMedicalHistory = angular.module('Optimise.associatedPersonMedicalHistory',[]);
 
 associatedPersonMedicalHistory.factory('AssociatedPersonMedicalHistory',function() {
-        return function(USUBJID, MHTERM, SREL) {
+    return function(USUBJID, MHTERM, SREL) {
         var associatedPerson = {
             USUBJID: USUBJID,
             STUDYID: 'OPTIMISE',
@@ -24,74 +24,74 @@ associatedPersonMedicalHistory.factory('AssociatedPersonMedicalHistory',function
             MHENDTC: ''
         };
         return associatedPerson;
-    }
+    };
 });
 
 associatedPersonMedicalHistory.service('associatedPersonMedicalHistories',function(AssociatedPersonMedicalHistory,
-                                                                                   records, viewService) {
+    records, viewService) {
     var associatedPersonMedicalHistories = [];
 
     var deleteAssociatedPersonMedicalHistories = function () {
         associatedPersonMedicalHistories = [];
-    }
+    };
 
     var populateAPMH = function(RecordItems){
         var apmh = new AssociatedPersonMedicalHistory();
         for (var i = 0; i < RecordItems.length; i++){
 
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    apmh.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    apmh.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    apmh.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'APID':{
-                    apmh.APID = RecordItems[i].value;
-                    break;
-                }
-                case 'APMHSEQ':{
-                    apmh.APMHSEQ = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'RSUBJID':{
-                    apmh.RSUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'SREL':{
-                    apmh.SREL = RecordItems[i].value;
-                    break;
-                }
-                case 'MHCAT':{
-                    apmh.MHCAT = RecordItems[i].value;
-                    break;
-                }
-                case 'MHSCAT':{
-                    apmh.MHSCAT = RecordItems[i].value;
-                    break;
-                }
-                case 'MHTERM':{
-                    apmh.MHTERM = RecordItems[i].value;
-                    break;
-                }
-                case 'MHSTDTC':{
-                    apmh.MHSTDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'MHENDTC':{
-                    apmh.MHENDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
+            case 'STUDYID':{
+                apmh.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                apmh.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                apmh.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'APID':{
+                apmh.APID = RecordItems[i].value;
+                break;
+            }
+            case 'APMHSEQ':{
+                apmh.APMHSEQ = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'RSUBJID':{
+                apmh.RSUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'SREL':{
+                apmh.SREL = RecordItems[i].value;
+                break;
+            }
+            case 'MHCAT':{
+                apmh.MHCAT = RecordItems[i].value;
+                break;
+            }
+            case 'MHSCAT':{
+                apmh.MHSCAT = RecordItems[i].value;
+                break;
+            }
+            case 'MHTERM':{
+                apmh.MHTERM = RecordItems[i].value;
+                break;
+            }
+            case 'MHSTDTC':{
+                apmh.MHSTDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'MHENDTC':{
+                apmh.MHENDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
             }
         }
         associatedPersonMedicalHistories.push(apmh);
-    }
+    };
 
     var generateSEQ = function () {
         var SEQs = compileHistory();
@@ -102,7 +102,7 @@ associatedPersonMedicalHistory.service('associatedPersonMedicalHistories',functi
         else {
             return 0;
         }
-    }
+    };
 
     function sortNumber(a,b) {
         return a - b;
@@ -114,7 +114,7 @@ associatedPersonMedicalHistory.service('associatedPersonMedicalHistories',functi
             seq.push(associatedPersonMedicalHistories[e].APMHSEQ);
         }
         return seq;
-    }
+    };
 
     var addAPMH = function(USUBJID, MHTERM, SREL){
 
@@ -122,7 +122,7 @@ associatedPersonMedicalHistory.service('associatedPersonMedicalHistories',functi
 
         newAssociatedPersonMedicalHistory.APMHSEQ = generateSEQ();
         newAssociatedPersonMedicalHistory.MHTERM = MHTERM;
-        newAssociatedPersonMedicalHistory.APID = USUBJID+"-"+newAssociatedPersonMedicalHistory.APMHSEQ;
+        newAssociatedPersonMedicalHistory.APID = USUBJID+'-'+newAssociatedPersonMedicalHistory.APMHSEQ;
         newAssociatedPersonMedicalHistory.SREL = SREL;
 
         associatedPersonMedicalHistories.push(newAssociatedPersonMedicalHistory);
@@ -130,20 +130,20 @@ associatedPersonMedicalHistory.service('associatedPersonMedicalHistories',functi
         if (!viewService.workOffline())
             records.saveRecord(newAssociatedPersonMedicalHistory);
 
-//        if (hasMS) {
-//            var sameAssociatedPersonMedicalHistory = new AssociatedPersonMedicalHistory(USUBJID, 'Multiple Sclerosis', SREL);
-//
-//            sameAssociatedPersonMedicalHistory.APMHSEQ = generateSEQ();
-//            sameAssociatedPersonMedicalHistory.MHTERM = 'Multiple Sclerosis';
-//            sameAssociatedPersonMedicalHistory.APID = USUBJID+"-"+sameAssociatedPersonMedicalHistory.APMHSEQ;
-//            sameAssociatedPersonMedicalHistory.SREL = SREL;
-//            sameAssociatedPersonMedicalHistory.hasMS = true;
-//
-//            associatedPersonMedicalHistories.push(sameAssociatedPersonMedicalHistory);
-//
-//            if (!viewService.workOffline())
-//                records.saveRecord(sameAssociatedPersonMedicalHistory);
-//        }
+        //        if (hasMS) {
+        //            var sameAssociatedPersonMedicalHistory = new AssociatedPersonMedicalHistory(USUBJID, 'Multiple Sclerosis', SREL);
+        //
+        //            sameAssociatedPersonMedicalHistory.APMHSEQ = generateSEQ();
+        //            sameAssociatedPersonMedicalHistory.MHTERM = 'Multiple Sclerosis';
+        //            sameAssociatedPersonMedicalHistory.APID = USUBJID+"-"+sameAssociatedPersonMedicalHistory.APMHSEQ;
+        //            sameAssociatedPersonMedicalHistory.SREL = SREL;
+        //            sameAssociatedPersonMedicalHistory.hasMS = true;
+        //
+        //            associatedPersonMedicalHistories.push(sameAssociatedPersonMedicalHistory);
+        //
+        //            if (!viewService.workOffline())
+        //                records.saveRecord(sameAssociatedPersonMedicalHistory);
+        //        }
 
         //console.log(associatedPersonMedicalHistories);
 
@@ -176,18 +176,18 @@ associatedPersonMedicalHistory.service('associatedPersonMedicalHistories',functi
             console.log(newAPMH);
         }*/
 
-    }
+    };
 
     var editAPMH = function (AP, recordToChange, valueToChange){
-        var USUBJID = {fieldName: "USUBJID", value: AP.USUBJID};
-        var APMHSEQ = {fieldName:"APMHSEQ", value: AP.APMHSEQ};
+        var USUBJID = {fieldName: 'USUBJID', value: AP.USUBJID};
+        var APMHSEQ = {fieldName:'APMHSEQ', value: AP.APMHSEQ};
         var RECTOCHANGE = {fieldName:recordToChange, value: valueToChange};
 
-        var idRecord = [USUBJID, MHSEQ];
+        var idRecord = [USUBJID, APMHSEQ];
         var valueRecord = [RECTOCHANGE];
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     var getAPMHWithMS = function(SREL) {
         for (var ap = 0; ap < associatedPersonMedicalHistories.length; ap++) {
@@ -198,7 +198,7 @@ associatedPersonMedicalHistory.service('associatedPersonMedicalHistories',functi
             }
         }
         return null;
-    }
+    };
 
     var APMHWithMSExists = function() {
         for (var ap = 0; ap < associatedPersonMedicalHistories.length; ap++) {
@@ -208,7 +208,7 @@ associatedPersonMedicalHistory.service('associatedPersonMedicalHistories',functi
             }
         }
         return false;
-    }
+    };
 
     var getAPMHByRel = function(SREL, MHTERM) {
 
@@ -220,37 +220,37 @@ associatedPersonMedicalHistory.service('associatedPersonMedicalHistories',functi
             }
         }
         return null;
-    }
+    };
 
     var deleteAPMH = function(AP){
         var indexOfAP = associatedPersonMedicalHistories.indexOf(AP);
-//        var APWithMS = getAPMHWithMS(AP.SREL);
-//        if (APWithMS != null) {
-//            var indexOFAPWithMS = associatedPersonMedicalHistories.indexOf(APWithMS);
-//            if (indexOFAPWithMS > -1) {
-//                associatedPersonMedicalHistories.splice(indexOFAPWithMS, 1);
-//                /*
-//                for (var v = 0; v < associatedPersonMedicalHistories.length; v++)
-//                {
-//                    associatedPersonMedicalHistories[v].APMHSEQ = v;
-//                    associatedPersonMedicalHistories[v].APID = associatedPersonMedicalHistories[v].USUBJID+"-"+associatedPersonMedicalHistories.APMHSEQ;
-//                }*/
-//                if (!viewService.workOffline())
-//                    records.deleteRecord(APWithMS);
-//            }
-//        }
+        //        var APWithMS = getAPMHWithMS(AP.SREL);
+        //        if (APWithMS != null) {
+        //            var indexOFAPWithMS = associatedPersonMedicalHistories.indexOf(APWithMS);
+        //            if (indexOFAPWithMS > -1) {
+        //                associatedPersonMedicalHistories.splice(indexOFAPWithMS, 1);
+        //                /*
+        //                for (var v = 0; v < associatedPersonMedicalHistories.length; v++)
+        //                {
+        //                    associatedPersonMedicalHistories[v].APMHSEQ = v;
+        //                    associatedPersonMedicalHistories[v].APID = associatedPersonMedicalHistories[v].USUBJID+"-"+associatedPersonMedicalHistories.APMHSEQ;
+        //                }*/
+        //                if (!viewService.workOffline())
+        //                    records.deleteRecord(APWithMS);
+        //            }
+        //        }
 
         if (indexOfAP > -1) {
             associatedPersonMedicalHistories.splice(indexOfAP, 1);
             if (!viewService.workOffline())
                 records.deleteRecord(AP);
         }
-    }
+    };
 
     var getAPMHList = function(){
         return associatedPersonMedicalHistories;
 
-    }
+    };
 
     return {
         addAPMH:addAPMH,
@@ -263,5 +263,5 @@ associatedPersonMedicalHistory.service('associatedPersonMedicalHistories',functi
         deleteAssociatedPersonMedicalHistories: deleteAssociatedPersonMedicalHistories,
         getAPMHWithMS: getAPMHWithMS
 
-    }
+    };
 });
