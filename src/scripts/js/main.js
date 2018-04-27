@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var myPortal = angular.module('Optimise', ['Optimise.timeline',
+angular.module('Optimise', ['Optimise.timeline',
     'Optimise.view',
     'Optimise.clinicalEvent',
     'Optimise.questionnaire',
@@ -39,7 +39,6 @@ var myPortal = angular.module('Optimise', ['Optimise.timeline',
     'Optimise.symptoms',
     'Optimise.reminders',
     'Optimise.signs',
-    'Optimise.exporter',
     'Optimise.header',
     'ui.bootstrap']);
 

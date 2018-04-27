@@ -12,24 +12,24 @@ var patientModule = angular.module('Optimise.patient',[]);
 patientModule.factory('Patient',function() {
     return function(USUBJID) {
         var demographic = {
-            STUDYID :"OPTIMISE",
-            DOMAIN :"DM",
+            STUDYID :'OPTIMISE',
+            DOMAIN :'DM',
             USUBJID :USUBJID,
             SUBJID : USUBJID,
             NHS_USUBJID:'',
-            RFICDTC :"",
-            DTHDTC:"",
-            DTHFL :"",
-            SITEID :"",
-            INVNAM :"" ,
-            SEX:"",
-            BRTHDTC:"",
-            DOMINANT:"",
-            ETHNIC:"",
-            COUNTRY:""
-        }
+            RFICDTC :'',
+            DTHDTC:'',
+            DTHFL :'',
+            SITEID :'',
+            INVNAM :'' ,
+            SEX:'',
+            BRTHDTC:'',
+            DOMINANT:'',
+            ETHNIC:'',
+            COUNTRY:''
+        };
         return demographic;
-    }
+    };
 });
 
 patientModule.factory('findingLocationTerms',function() {
@@ -52,18 +52,18 @@ patientModule.factory('findingLocationTerms',function() {
 
     terms.getTerm = function(modelName) {
         return terms[modelName];
-    }
+    };
 
     terms.getScopeVariable = function(FALOC, FAMETHOD) {
-        var theKey = "";
+        var theKey = '';
         angular.forEach(terms, function(value, key) {
             if ((value.FALOC == FALOC)&&(value.FAMETHOD == FAMETHOD)) {
                 theKey = key;
             }
-        })
+        });
         return theKey;
 
-    }
+    };
     return terms;
 });
 
@@ -75,49 +75,49 @@ patientModule.factory('genderTerms',function() {
 patientModule.factory('ethnicTerms', function() {
     var terms =['White', 'Black', 'Chinese', 'Other Asian', 'Native American', 'Arab', 'Persian', 'Other Mixed', 'Unknown'];
     return terms;
-})
+});
 
 patientModule.factory('initialSymptomsTerms', function() {
-    var initialSymptoms = [ "Blurred Vision",
-        "Motor Weakness in Upper Extremities",
-        "Paresthesiae",
-        "Scotoma",
-        "Motor Weakness in Upper Extremities",
-        "Paresthesiae",
-        "Scotoma",
-        "Motor Weakness in Upper Extremities",
-        "Paresthesiae",
-        "Scotoma",
-        "Motor Weakness in Upper Extremities",
-        "Paresthesiae",
-        "Scotoma",
-        "Motor Weakness in Upper Extremities",
-        "Paresthesiae",
-        "Scotoma",
-        "Motor Weakness in Lower Extremities",
-        "Vertigo",
-        "Defecation Problems",
-        "Nystagmus",
-        "Sexual Function Problems",
-        "Hearing Loss",
-        "Trigemial Nerve Involvement",
-        "Gait Disturbance: Parasis",
-        "Mood Problems",
-        "Neuralgia",
-        "Gait Disturbance: Ataxia",
-        "Cognition Problems",
-        "Atypical Pain",
-        "Gait Disturbance: Spasticity",
-        "Fatigue",
-        "Hypoesthesia",
-        "Facial Palsy",
-        "Tremor",
-        "Extra Pyramidal Symptoms",
-        "Seizure",
-        "Myokymia"];
+    var initialSymptoms = [ 'Blurred Vision',
+        'Motor Weakness in Upper Extremities',
+        'Paresthesiae',
+        'Scotoma',
+        'Motor Weakness in Upper Extremities',
+        'Paresthesiae',
+        'Scotoma',
+        'Motor Weakness in Upper Extremities',
+        'Paresthesiae',
+        'Scotoma',
+        'Motor Weakness in Upper Extremities',
+        'Paresthesiae',
+        'Scotoma',
+        'Motor Weakness in Upper Extremities',
+        'Paresthesiae',
+        'Scotoma',
+        'Motor Weakness in Lower Extremities',
+        'Vertigo',
+        'Defecation Problems',
+        'Nystagmus',
+        'Sexual Function Problems',
+        'Hearing Loss',
+        'Trigemial Nerve Involvement',
+        'Gait Disturbance: Parasis',
+        'Mood Problems',
+        'Neuralgia',
+        'Gait Disturbance: Ataxia',
+        'Cognition Problems',
+        'Atypical Pain',
+        'Gait Disturbance: Spasticity',
+        'Fatigue',
+        'Hypoesthesia',
+        'Facial Palsy',
+        'Tremor',
+        'Extra Pyramidal Symptoms',
+        'Seizure',
+        'Myokymia'];
 
     return initialSymptoms;
-})
+});
 
 patientModule.service('patients',function(medicalHistory, MedicalEvent, Patient, records, viewService) {
 
@@ -126,7 +126,7 @@ patientModule.service('patients',function(medicalHistory, MedicalEvent, Patient,
 
     var deleteCurrentPatient = function() {
         currentPatient = null;
-    }
+    };
 
     var getAge = function(BRTHDTC) {
         if (BRTHDTC != null){
@@ -141,134 +141,134 @@ patientModule.service('patients',function(medicalHistory, MedicalEvent, Patient,
                 }
         }
         return '';
-    }
+    };
 
 
     var newPatient = function(USUBJID, SITEID, NHS_USUBJID, RFICDTC) {
         currentPatient = new Patient(USUBJID);
         currentPatient.NHS_USUBJID = NHS_USUBJID;
         currentPatient.RFICDTC = RFICDTC;
-    }
+    };
 
     var populatePatient = function(RecordItems){
         currentPatient = new Patient();
         for (var i = 0; i < RecordItems.length; i++){
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    currentPatient.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    currentPatient.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    currentPatient.USUBJID = RecordItems[i].value;
-                    //currentPatient.SUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'RFICDTC':{
-                    currentPatient.RFICDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'DTHDTC':{
-                    currentPatient.DTHDTC = RecordItems[i].value;
-                    break;
-                }
-                case 'DTHFL':{
-                    currentPatient.DTHFL = RecordItems[i].value;
-                    break;
-                }
-                case 'SITEID':{
-                    currentPatient.SITEID = RecordItems[i].value;
-                    break;
-                }
-                case 'INVNAM':{
-                    currentPatient.INVNAM = RecordItems[i].value;
-                    break;
-                }
-                case 'SEX':{
-                    currentPatient.SEX = RecordItems[i].value;
-                    break;
-                }
-                case 'BRTHDTC':{
-                    currentPatient.BRTHDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'DOMINANT':{
-                    currentPatient.DOMINANT = RecordItems[i].value;
-                    break;
-                }
-                case 'ETHNIC':{
-                    currentPatient.ETHNIC = RecordItems[i].value;
-                    break;
-                }
-                case 'COUNTRY':{
-                    currentPatient.COUNTRY = RecordItems[i].value;
-                    break;
-                }
-                case 'NHS_USUBJID':{
-                    currentPatient.NHS_USUBJID = RecordItems[i].value;
-                    break;
-                }
+            case 'STUDYID':{
+                currentPatient.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                currentPatient.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                currentPatient.USUBJID = RecordItems[i].value;
+                //currentPatient.SUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'RFICDTC':{
+                currentPatient.RFICDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'DTHDTC':{
+                currentPatient.DTHDTC = RecordItems[i].value;
+                break;
+            }
+            case 'DTHFL':{
+                currentPatient.DTHFL = RecordItems[i].value;
+                break;
+            }
+            case 'SITEID':{
+                currentPatient.SITEID = RecordItems[i].value;
+                break;
+            }
+            case 'INVNAM':{
+                currentPatient.INVNAM = RecordItems[i].value;
+                break;
+            }
+            case 'SEX':{
+                currentPatient.SEX = RecordItems[i].value;
+                break;
+            }
+            case 'BRTHDTC':{
+                currentPatient.BRTHDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'DOMINANT':{
+                currentPatient.DOMINANT = RecordItems[i].value;
+                break;
+            }
+            case 'ETHNIC':{
+                currentPatient.ETHNIC = RecordItems[i].value;
+                break;
+            }
+            case 'COUNTRY':{
+                currentPatient.COUNTRY = RecordItems[i].value;
+                break;
+            }
+            case 'NHS_USUBJID':{
+                currentPatient.NHS_USUBJID = RecordItems[i].value;
+                break;
+            }
             }
         }
-        if (currentPatient.BRTHDTC!= "")
+        if (currentPatient.BRTHDTC!= '')
             age = getAge(currentPatient.BRTHDTC.getFullYear());
 
-        if (currentPatient.NHS_USUBJID == "") {
+        if (currentPatient.NHS_USUBJID == '') {
             currentPatient.NHS_USUBJID = currentPatient.USUBJID;
         }
-    }
+    };
 
     var patientExists = function() {
         if (currentPatient == null)
             return false;
         else
             return currentPatient;
-    }
+    };
 
 
     var getFileActive = function() {
         if ((currentPatient != null)&&
-        (currentPatient.DTHDTC==""))
+        (currentPatient.DTHDTC==''))
             return true;
         else
             return false;
-    }
+    };
 
 
     var getCurrentPatient = function() {
         //console.log(currentPatient);
         return currentPatient;
-    }
+    };
 
     var getCurrentPatientAge = function() {
         if (currentPatient!=null){
-            if (currentPatient.BRTHDTC != ""){
+            if (currentPatient.BRTHDTC != ''){
                 age = getAge((currentPatient.BRTHDTC.getFullYear()));
                 return age;
             }
         }
         else
-            return "";
-    }
+            return '';
+    };
 
     var getCurrentPatientGender = function() {
         if (currentPatient!=null){
-            if (currentPatient.SEX != ""){
+            if (currentPatient.SEX != ''){
                 return currentPatient.SEX;
             }
         }
         else
-            return "";
-    }
+            return '';
+    };
 
     var editDemographic = function(resName, resValue) {
         if (!viewService.workOffline())
         {
-            var USUBJID = {fieldName: "USUBJID", value: currentPatient.USUBJID};
-            var SEQ = {fieldName:"DOMAIN", value: currentPatient.DOMAIN};
+            var USUBJID = {fieldName: 'USUBJID', value: currentPatient.USUBJID};
+            var SEQ = {fieldName:'DOMAIN', value: currentPatient.DOMAIN};
             var RESTOCHANGE = {fieldName:resName, value: resValue};
 
 
@@ -276,7 +276,7 @@ patientModule.service('patients',function(medicalHistory, MedicalEvent, Patient,
             var valueRecord = [RESTOCHANGE];
             records.editRecord(idRecord, valueRecord);
         }
-    }
+    };
 
     return {
         populatePatient:populatePatient,
@@ -288,21 +288,21 @@ patientModule.service('patients',function(medicalHistory, MedicalEvent, Patient,
         getCurrentPatientAge: getCurrentPatientAge,
         editDemographic: editDemographic,
         getCurrentPatientGender: getCurrentPatientGender
-    }
+    };
 });
 
 patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
-                                                        $scope, $timeout,
-                                                      patients, genderTerms, ethnicTerms,
-                                                      findingAbout,
-                                                      findingsAbout,
-                                                      MedicalEvent, medicalHistory,
-                                                      clinicalEvents, clinicalEvent,
-                                                      viewService,
-                                                      associatedPersonMedicalHistories,
-                                                      substanceUse, SubstanceUse,
-                                                        subjectCharacteristic, SubjectCharacteristic,
-                                                        initialSymptomsTerms, findingLocationTerms) {
+    $scope, $timeout,
+    patients, genderTerms, ethnicTerms,
+    findingAbout,
+    findingsAbout,
+    MedicalEvent, medicalHistory,
+    clinicalEvents, clinicalEvent,
+    viewService,
+    associatedPersonMedicalHistories,
+    substanceUse, SubstanceUse,
+    subjectCharacteristic, SubjectCharacteristic,
+    initialSymptomsTerms, findingLocationTerms) {
 
 
 
@@ -310,11 +310,11 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
     $scope.ethnicOptions = ethnicTerms;
     $scope.genderOptions = genderTerms;
 
-    $scope.newDiagnosis = "";
-    $scope.newDiagnosis.MHTERM = "";
-    $scope.newDiagnosis.MHSTDTC = "";
-    $scope.newDiagnosis.displayNote = "";
-    $scope.PregnancyTERM = "Pregnancy";
+    $scope.newDiagnosis = '';
+    $scope.newDiagnosis.MHTERM = '';
+    $scope.newDiagnosis.MHSTDTC = '';
+    $scope.newDiagnosis.displayNote = '';
+    $scope.PregnancyTERM = 'Pregnancy';
 
 
     $scope.showThisContent = function() {
@@ -324,21 +324,21 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         }
         else
             return false;
-    }
+    };
 
     $scope.thereIsAPatient = function () {
         if (patients.getCurrentPatient()== null) {
             return false;
         }
         return true;
-    }
+    };
 
     $scope.showMSInFamilyPanel = function() {
         if (associatedPersonMedicalHistories.APMHWithMSExists())
             $scope.MSInFamily=true;
 
         return $scope.MSInFamily;
-    }
+    };
 
     $scope.addImmunisation = function() {
         var vaccine = new MedicalEvent(patients.getCurrentPatient().USUBJID, 'Immunisation');
@@ -348,7 +348,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         medicalHistory.addOccurence(vaccine);
 
         clearImmunisationFields();
-    }
+    };
 
     $scope.addPregnancy = function() {
         var pregnancy = new MedicalEvent(patients.getCurrentPatient().USUBJID, 'Pregnancy');
@@ -361,14 +361,14 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         medicalHistory.addOccurence(pregnancy);
         medicalHistory.printMedicalHistory();
         clearPregnancyFields();
-    }
+    };
 
     $scope.showPregnancyTable = function() {
         if (!$scope.isUnder18()&&$scope.isFemale()) {
             return true;
         }
         return false;
-    }
+    };
 
     var immunisationDataExists = function() {
         var immunisations = medicalHistory.getOccurencesInCategory('Immunisation');
@@ -376,31 +376,31 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             return true;
         else
             return false;
-    }
+    };
 
     $scope.showImmunisationTable = function() {
         if ($scope.isUnder18() || (immunisationDataExists())) {
             return true;
         }
         return false;
-    }
+    };
 
     $scope.getPregnancies = function() {
         return clinicalEvents.getEvents('Pregnancy');
-    }
+    };
 
 
     $scope.getMedicalHistory = function(MHCAT) {
-        if (MHCAT=="General Medical History") {
+        if (MHCAT=='General Medical History') {
             setDateElements();
         }
         return medicalHistory.getOccurencesInCategory(MHCAT);
-    }
+    };
 
 
     $scope.deleteOccurence = function(occurence) {
         medicalHistory.deleteOccurence(occurence);
-    }
+    };
 
     $scope.addGeneralOccurence = function() {
         var mh = new MedicalEvent(patients.getCurrentPatient().USUBJID, 'General Medical History'); // MHCAT = General, Primary, Cardiac
@@ -410,7 +410,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         mh.displaySTDTC = $scope.GenMHSTDTC;
         mh.MHENRTPT= $scope.GenMHENRTPT;
 
-        if (mh.MHENRTPT=="Resolved")
+        if (mh.MHENRTPT=='Resolved')
         {
             mh.MHENDTC= new Date($scope.GenMHENDTC,0,1);
             mh.displayENDTC = $scope.GenMHENDTC;
@@ -421,59 +421,60 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         medicalHistory.addOccurence(mh);
         clearGHFields();
         setDateElements();
-    }
+    };
 
     $scope.editGeneralOccurence = function(occurence, propertyName) {
+        var display = null;
         switch (propertyName) {
-            case 'MHTERM':
-                medicalHistory.editOccurence(occurence, propertyName, occurence.MHTERM);
-                break;
+        case 'MHTERM':
+            medicalHistory.editOccurence(occurence, propertyName, occurence.MHTERM);
+            break;
 
-            case 'MHSTDTC':
-                var MHSTDTC = new Date(occurence.displaySTDTC,0,1);
-                medicalHistory.editOccurence(occurence, propertyName, MHSTDTC);
+        case 'MHSTDTC':
+            var MHSTDTC = new Date(occurence.displaySTDTC,0,1);
+            medicalHistory.editOccurence(occurence, propertyName, MHSTDTC);
 
-                var display = occurence.displaySTDTC;
-                medicalHistory.editOccurence(occurence, 'displaySTDTC', display);
-                break;
+            display = occurence.displaySTDTC;
+            medicalHistory.editOccurence(occurence, 'displaySTDTC', display);
+            break;
 
-            case 'MHENRTPT':
-                medicalHistory.editOccurence(occurence, propertyName, occurence.MHENRTPT);
-                break;
+        case 'MHENRTPT':
+            medicalHistory.editOccurence(occurence, propertyName, occurence.MHENRTPT);
+            break;
 
-            case 'displayNote':
-                medicalHistory.editOccurence(occurence, propertyName, occurence.displayNote);
-                break;
+        case 'displayNote':
+            medicalHistory.editOccurence(occurence, propertyName, occurence.displayNote);
+            break;
 
-            case 'MHENDTC':
-                var MHENDTC = new Date(occurence.displayENDTC,0,1);
-                medicalHistory.editOccurence(occurence, propertyName, MHENDTC);
+        case 'MHENDTC':
+            var MHENDTC = new Date(occurence.displayENDTC,0,1);
+            medicalHistory.editOccurence(occurence, propertyName, MHENDTC);
 
-                var display = occurence.displayENDTC;
-                medicalHistory.editOccurence(occurence, 'displayENDTC', display);
-                break;
+            display = occurence.displayENDTC;
+            medicalHistory.editOccurence(occurence, 'displayENDTC', display);
+            break;
         }
         medicalHistory.printMedicalHistory();
-    }
+    };
 
     $scope.getDateYear = function(MHSTDC) {
         return MHSTDC.getFullYear();
-    }
+    };
 
     $scope.validateMHENDTC = function() {
         if ($scope.GenMHENRTPT < $scope.GenMHSTDTC) {
-            alert("Error: Resolved date before start date.");
+            alert('Error: Resolved date before start date.');
             $scope.GenMHENRTPT = '';
         }
-    }
+    };
 
     $scope.editSubstanceUse = function(propertyName, propertyValue) {
 
         switch (propertyName) {
-            case 'ALCOHOL': {
-                $scope.ALCOHOL = propertyValue;
-                break;
-            };
+        case 'ALCOHOL': {
+            $scope.ALCOHOL = propertyValue;
+            break;
+        }
         }
         var aUse = substanceUse.getThisSubstanceUse(propertyName);
         if ((aUse == null)||(aUse.length == 0)){
@@ -485,44 +486,44 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             aUse.SUDOSFRQ = propertyValue;
             substanceUse.editSubstanceUse(aUse[0], propertyName, propertyValue);
         }
-    }
+    };
 
     $scope.editDemographic = function(propertyName, propertyValue) {
         var currentPatient = patients.getCurrentPatient();
         switch (propertyName) {
-            case 'SEX': {
-                currentPatient.SEX = propertyValue;
-                $scope.SEX = propertyValue;
-                patients.editDemographic(propertyName, propertyValue);
-                break;
-            };
-            case 'ETHNIC': {
-                currentPatient.ETHNIC = propertyValue;
-                $scope.ETHNIC = propertyValue;
-                patients.editDemographic(propertyName, propertyValue);
-                break;
-            };
-            case 'DOMINANT': {
-                currentPatient.DOMINANT = propertyValue;
-                $scope.DOMINANT = propertyValue;
-                patients.editDemographic(propertyName, propertyValue);
-                break;
-            };
-            case 'COUNTRY': {
-                currentPatient.COUNTRY = propertyValue;
-                $scope.COUNTRY = propertyValue;
-                patients.editDemographic(propertyName, propertyValue);
-                break;
-            };
-            case 'BRTHDTC': {
-                currentPatient.BRTHDTC = new Date(propertyValue.substr(3), parseInt(propertyValue.substr(0,2))-1, 1);
-                $scope.BRTHDTC = currentPatient.BRTHDTC.toDateString();
-                $scope.DM_displayDate = patients.getCurrentPatientAge();
-                patients.editDemographic(propertyName, currentPatient.BRTHDTC);
-                break;
-            };
+        case 'SEX': {
+            currentPatient.SEX = propertyValue;
+            $scope.SEX = propertyValue;
+            patients.editDemographic(propertyName, propertyValue);
+            break;
         }
-    }
+        case 'ETHNIC': {
+            currentPatient.ETHNIC = propertyValue;
+            $scope.ETHNIC = propertyValue;
+            patients.editDemographic(propertyName, propertyValue);
+            break;
+        }
+        case 'DOMINANT': {
+            currentPatient.DOMINANT = propertyValue;
+            $scope.DOMINANT = propertyValue;
+            patients.editDemographic(propertyName, propertyValue);
+            break;
+        }
+        case 'COUNTRY': {
+            currentPatient.COUNTRY = propertyValue;
+            $scope.COUNTRY = propertyValue;
+            patients.editDemographic(propertyName, propertyValue);
+            break;
+        }
+        case 'BRTHDTC': {
+            currentPatient.BRTHDTC = new Date(propertyValue.substr(3), parseInt(propertyValue.substr(0,2))-1, 1);
+            $scope.BRTHDTC = currentPatient.BRTHDTC.toDateString();
+            $scope.DM_displayDate = patients.getCurrentPatientAge();
+            patients.editDemographic(propertyName, currentPatient.BRTHDTC);
+            break;
+        }
+        }
+    };
 
     $rootScope.displayPatientDM = function() {
         var aPatient=patients.getCurrentPatient();
@@ -533,7 +534,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         if ($scope.BRTHDTC=='')
             $scope.BRTHDTC_display='';
         else
-            $scope.BRTHDTC_display = parseInt(aPatient.BRTHDTC.getMonth())+1+"/"+aPatient.BRTHDTC.getFullYear();
+            $scope.BRTHDTC_display = parseInt(aPatient.BRTHDTC.getMonth())+1+'/'+aPatient.BRTHDTC.getFullYear();
         $scope.DM_displayDate = patients.getCurrentPatientAge();//getAge(aPatient.BRTHDTC.getFullYear());
         $scope.DOMINANT = aPatient.DOMINANT;
         $scope.ETHNIC = aPatient.ETHNIC;
@@ -552,7 +553,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         else
             $scope.SMOKING = '';
 
-    }
+    };
 
     var clearFindingsInLocation = function() {
         angular.forEach(findingLocationTerms, function(value, key) {
@@ -560,15 +561,15 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             model.assign($scope,'');
         });
 
-        $scope.progressiveMHSTDTC_display = "";
-    }
+        $scope.progressiveMHSTDTC_display = '';
+    };
 
     var clearSymptomFields = function () {
         $scope.symptomMHTERM= '';      //Visit Name
         $scope.symptomMHLAT= '';     //Date/Time of History Collection
         $scope.symptomMHLOC= '';    //End Date/Time of Visit
         $scope.symptomMHSTDTC='';
-    }
+    };
 
     var clearGHFields = function () {
         $scope.GenMHTERM= '';      //Visit Name
@@ -576,25 +577,25 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         $scope.GenMHSTDTC= '';    //End Date/Time of Visit
         $scope.GenMHENDTC= '';    //End Date/Time of Visit
         $scope.GenMHENRTPT='Unknown';
-    }
+    };
 
     var clearImmunisationFields = function() {
-        $scope.ImmunisationTERM = "";
+        $scope.ImmunisationTERM = '';
         $scope.ImmunisationSTDTC ='';
-    }
+    };
 
     var clearAPMHFields = function () {
-        $scope.APMHTERM = "";
-        $scope.APMHIncludesMS = "";
-        $scope.SREL = "";
-    }
+        $scope.APMHTERM = '';
+        $scope.APMHIncludesMS = '';
+        $scope.SREL = '';
+    };
 
     var clearPregnancyFields = function () {
-        $scope.PregnancyTERM = "";
-        $scope.PregnancySTDTC = "";
-        $scope.PregnancyENDTC = "";
-        $scope.PregnancyENRTPT = "";
-    }
+        $scope.PregnancyTERM = '';
+        $scope.PregnancySTDTC = '';
+        $scope.PregnancyENDTC = '';
+        $scope.PregnancyENRTPT = '';
+    };
 
     var clearDemographicFields = function () {
         $scope.USUBJID = '';
@@ -608,33 +609,33 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         $scope.SMOKING= '';
         $scope.ETHNIC= '';
         $scope.COUNTRY= '';
-    }
+    };
 
     var clearMedicalHistoryFields = function() {
-        $scope.newDiagnosis.MHTERM = "";
-        $scope.newDiagnosis.MHSTDTC = "";
-        $scope.newDiagnosis.displayNote = "";
-    }
+        $scope.newDiagnosis.MHTERM = '';
+        $scope.newDiagnosis.MHSTDTC = '';
+        $scope.newDiagnosis.displayNote = '';
+    };
 
     $rootScope.setNewPatientFields = function () {
         clearDemographicFields();
         clearPregnancyFields();
         clearGHFields();
         clearSymptomFields();
-        clearAPMHFields()
+        clearAPMHFields();
         clearImmunisationFields();
         clearFindingsInLocation();
         clearMedicalHistoryFields();
-     }
+    };
 
     $rootScope.setNewPatientFields();
 
     $scope.editSubjectCharacteristic = function(propertyName, propertyValue) {
         switch (propertyName) {
-            case 'SMOKING HISTORY': {
-                $scope.SMOKING = propertyValue;
-                break;
-            };
+        case 'SMOKING HISTORY': {
+            $scope.SMOKING = propertyValue;
+            break;
+        }
         }
 
         var aChar = subjectCharacteristic.getThisSubjectCharacteristic(propertyName);
@@ -648,17 +649,17 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             subjectCharacteristic.editSubjectCharacteristic(aChar, propertyName, propertyValue);
         }
 
-    }
+    };
 
     $scope.getPrimaryDiagnosis = function() {
         var mh = medicalHistory.getOccurencesInCategory('Primary Diagnosis');
         var diagnoses = [];
         for (var d=0; d < mh.length; d++){
-            if (mh[d].MHSCAT != "Progressive Course")
+            if (mh[d].MHSCAT != 'Progressive Course')
                 diagnoses.push(mh[d]);
         }
         return diagnoses;
-    }
+    };
 
     $scope.isMSCategory = function() {
         if (($scope.newDiagnosis != null)&&($scope.newDiagnosis.MHTERM!=null)){
@@ -668,7 +669,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             }
         }
         return false;
-    }
+    };
 
     $scope.isNMOCategory = function() {
         if (($scope.newDiagnosis != null)&&($scope.newDiagnosis.MHTERM!=null)){
@@ -680,7 +681,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             }
         }
         return false;
-    }
+    };
 
     $scope.isMSPatient = function() {
         var mh = medicalHistory.getOccurencesInCategory('Primary Diagnosis');
@@ -691,13 +692,13 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             }
         }
         return false;
-    }
+    };
 
     $scope.addPrimaryDiagnosis = function() {
         var mh = new MedicalEvent(patients.getCurrentPatient().USUBJID, 'Primary Diagnosis');
         mh.MHTERM= $scope.newDiagnosis.MHTERM;      //Visit Name
-        if (mh.MHTERM.indexOf("Multiple Sclerosis") > -1)
-            mh.MHSCAT = "Onset Course";
+        if (mh.MHTERM.indexOf('Multiple Sclerosis') > -1)
+            mh.MHSCAT = 'Onset Course';
         mh.MHSTDTC = new Date($scope.newDiagnosis.MHSTDTC,0,1);
         mh.displaySTDTC = mh.MHSTDTC.getFullYear();
         mh.displayDate = mh.MHSTDTC.getFullYear();
@@ -705,14 +706,14 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
 
         medicalHistory.addOccurence(mh);
 
-        $scope.newDiagnosis.MHTERM = "";
-        $scope.newDiagnosis.MHSTDTC = "";
-        $scope.newDiagnosis.displayNote = "";
-    }
+        $scope.newDiagnosis.MHTERM = '';
+        $scope.newDiagnosis.MHSTDTC = '';
+        $scope.newDiagnosis.displayNote = '';
+    };
 
     $scope.deletePrimaryDiagnosis = function(diagnosis) {
         //console.log(diagnosis);
-        if (diagnosis.MHTERM.indexOf("Multiple Sclerosis")>-1){
+        if (diagnosis.MHTERM.indexOf('Multiple Sclerosis')>-1){
 
             var faList = findingsAbout.FASCATExists('Onset Course');
             for (var f = 0; f < faList.length; f++){
@@ -724,11 +725,11 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         medicalHistory.deleteOccurence(diagnosis);
         //var faList = findingsAbout.FASCATExists('Onset Course');
         //console.log(faList);
-    }
+    };
 
     $scope.addInitialSymptom = function() {
         var mh = new MedicalEvent(patients.getCurrentPatient().USUBJID, 'Initial Symptom');
-        mh.MHSCAT= "Initial Symptom";// MHSCAT = Onset, Initial Current
+        mh.MHSCAT= 'Initial Symptom';// MHSCAT = Onset, Initial Current
         mh.MHSTDTC= new Date($scope.symptomMHSTDTC,0,1);    //End Date/Time of Visit
         mh.displaySTDTC= $scope.symptomMHSTDTC;    //End Date/Time of Visit
         mh.MHTERM= $scope.symptomMHTERM;      //Visit Name
@@ -736,32 +737,32 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         mh.MHLAT= $scope.symptomMHLAT;
         clearSymptomFields();
         medicalHistory.addOccurence(mh);
-    }
+    };
 
     $scope.getOccurencesInSubCategory = function (mhscat){
         return medicalHistory.getOccurencesInSubCategory(mhscat);
-    }
+    };
 
 
     var currentDate = new Date();
 
     var dayMonthYear = angular.element(document.querySelector('#collapseDM .DTC_DayMonthYear'));
     dayMonthYear.datepicker({
-        format: "dd/mm/yyyy",
+        format: 'dd/mm/yyyy',
         endDate: currentDate.getFullYear().toString(),
         startView: 1,
-        orientation: "top left",
+        orientation: 'top left',
         autoclose: true,
         todayHighlight: true
     });
 
     var monthYear = angular.element(document.querySelectorAll('input.form-control.DTC_MonthYear'));
     monthYear.datepicker({
-        format: "mm/yyyy",
+        format: 'mm/yyyy',
         endDate: currentDate.getFullYear().toString(),
         startView: 2,
         minViewMode: 1,
-        orientation: "top left",
+        orientation: 'top left',
         autoclose: true,
         todayHighlight: true
     });
@@ -769,15 +770,15 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
     var setDateElements = function() {
         var dateYear = angular.element(document.querySelectorAll('input.form-control.DTC_Year'));
         dateYear.datepicker({
-            format: "yyyy",
+            format: 'yyyy',
             endDate: currentDate.getFullYear().toString(),
             startView: 2,
             minViewMode: 2,
-            orientation: "top left",
+            orientation: 'top left',
             autoclose: true,
             todayHighlight: true
         });
-    }
+    };
 
     setDateElements();
 
@@ -785,16 +786,16 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         if (patients.getCurrentPatientAge() <= 18)
             return true;
         return false;
-    }
+    };
 
     $scope.isFemale= function() {
-        if (patients.getCurrentPatientGender() == "Female")
+        if (patients.getCurrentPatientGender() == 'Female')
             return true;
         return false;
-    }
+    };
 
     $scope.editProgressiveCourse = function() {
-        var progressive = medicalHistory.occurenceExists("Progressive Course");
+        var progressive = medicalHistory.occurenceExists('Progressive Course');
         if (($scope.progressiveMHSTDTC_display==null) || ($scope.progressiveMHSTDTC_display=='')){ // if user removed date
             if (progressive != null){
                 medicalHistory.deleteOccurence(progressive);
@@ -807,7 +808,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             if (progressive == null)
             {
                 var mh = new MedicalEvent(patients.getCurrentPatient().USUBJID, 'Primary Diagnosis');
-                mh.MHSCAT= "Progressive Course";
+                mh.MHSCAT= 'Progressive Course';
                 mh.MHTERM= 'Secondary Progressive Multiple Sclerosis';
                 mh.MHSTDTC = progressiveMHSTDTC;
                 medicalHistory.addOccurence(mh);
@@ -818,21 +819,21 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
                 medicalHistory.editOccurence(progressive, 'MHSTDTC', progressiveMHSTDTC);
             }
         }
-    }
+    };
 
     $rootScope.displayPatientMH = function() {
         var primaryDiagnosis = medicalHistory.getOccurencesInCategory('Primary Diagnosis');
         if (primaryDiagnosis.length > 0) {
             for (var p = 0; p < primaryDiagnosis.length; p++) {
                 if (primaryDiagnosis[p].MHTERM.indexOf('Multiple Sclerosis') > -1) {
-                    var progressive = medicalHistory.occurenceExists("Progressive Course");
+                    var progressive = medicalHistory.occurenceExists('Progressive Course');
                     if (progressive != null) {
                         $scope.progressiveMHSTDTC_display = progressive.MHSTDTC.getFullYear();
                     }
                 }
             }
         }
-    }
+    };
 
     $rootScope.displayPatientFA = function() {
         var faList = findingsAbout.FASCATExists('Onset Course');
@@ -845,15 +846,15 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
                 model.assign($scope, true);
             }
         }
-    }
+    };
 
     var getOnsetCourse = function() {
-        var onset = medicalHistory.occurenceExists("Onset Course");
+        var onset = medicalHistory.occurenceExists('Onset Course');
         if (onset == null)
             return '';
         else
             return onset.MHTERM;
-    }
+    };
 
     $scope.editOnsetFinding = function(modelName) {
         var FALOC = findingLocationTerms.getTerm(modelName).FALOC;
@@ -874,7 +875,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             //if (!onsetIsFoundViaMethod)
             findingsAbout.deleteFinding(finding);
         }
-    }
+    };
 
     $scope.editAssociatedPersonMedicalHistory = function(apmh, propertyName) {
 
@@ -882,23 +883,23 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
 
         if (APMH != null) {
             switch (propertyName) {
-                case 'SREL': {
-                    associatedPersonMedicalHistories.editAPMH(APMH, 'SREL', apmh.SREL);
-                    break;
-                }
-                case 'MHTERM': {
-                    APMH.MHTERM = $scope.APMHTERM;
-                    associatedPersonMedicalHistories.editAPMH(APMH, 'MHTERM', apmh.APMHTERM);
-                    break;
-                }
-                case 'hasMS': {
-                    APMH.hasMS = $scope.APMHIncludesMS;
-                    associatedPersonMedicalHistories.editAPMH(APMH, 'hasMS', apmh.APMHIncludesMS);
-                    break;
-                }
+            case 'SREL': {
+                associatedPersonMedicalHistories.editAPMH(APMH, 'SREL', apmh.SREL);
+                break;
+            }
+            case 'MHTERM': {
+                APMH.MHTERM = $scope.APMHTERM;
+                associatedPersonMedicalHistories.editAPMH(APMH, 'MHTERM', apmh.APMHTERM);
+                break;
+            }
+            case 'hasMS': {
+                APMH.hasMS = $scope.APMHIncludesMS;
+                associatedPersonMedicalHistories.editAPMH(APMH, 'hasMS', apmh.APMHIncludesMS);
+                break;
+            }
             }
         }
-    }
+    };
 
     $scope.checkboxIfApmhIncludesMS = function () {
         if ($scope.SREL != null) {
@@ -911,25 +912,24 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
         }
         else
             $scope.APMHIncludesMS = false;
-    }
+    };
 
-    $scope.doesApmhIncludeMS = function (SREL) {
+    $scope.doesApmhIncludeMS = function () {
         if ($scope.SREL != null) {
             var withMS = associatedPersonMedicalHistories.getAPMHWithMS($scope.SREL);
             if (withMS!= null)
                 return true;
         }
         return false;
-    }
+    };
 
     $scope.addAssociatedPersonMedicalHistory = function() {
         if ($scope.SREL != null){
-            if ($scope.APMHTERM != "")
+            if ($scope.APMHTERM != '')
             {
-                if ($scope.APMHTERM.toLowerCase() == "ms")
-                    $scope.APMHTERM = "Multiple Sclerosis";
+                if ($scope.APMHTERM.toLowerCase() == 'ms')
+                    $scope.APMHTERM = 'Multiple Sclerosis';
                 associatedPersonMedicalHistories.addAPMH(patients.getCurrentPatient().USUBJID, $scope.APMHTERM, $scope.SREL);
-                console.log(associatedPersonMedicalHistories.getAPMHList());
             }
         }
         clearAPMHFields();
@@ -938,11 +938,11 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
     $scope.deleteAssociatedPersonMedicalHistory = function(occurence) {
         associatedPersonMedicalHistories.deleteAPMH(occurence);
         clearAPMHFields();
-    }
+    };
 
     $scope.getAssociatedPersonMedicalHistories = function() {
         return associatedPersonMedicalHistories.getAPMHList();
-    }
+    };
 
     var getPIIData = function (sourceFile) {
         return $q(function(resolve, reject) {
@@ -954,11 +954,10 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
                 });
                 reader.readAsText(sourceFile);
             } else {
-                reject(e.target.error());
-                console.log("File not supported!")
+                reject();
             }
         });
-    }
+    };
 
     $scope.readPII = function() {
         var file = document.getElementById('piiFile').files;
@@ -967,12 +966,11 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
 
             urlData.then(function (data) {
                 var piiObjects = $.csv.toObjects(data);
-                console.log(piiObjects);
                 $scope.piiNote = Object.keys(piiObjects[0]);
 
-            })
+            });
         }
-    }
+    };
 
 
 });

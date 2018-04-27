@@ -22,15 +22,14 @@ timelineModule.directive('timelineEntry', function() {
 timelineModule.directive('timeline', function() {
     function display($scope, element) {
 
-        d3.selectAll("svg").remove();
+        d3.selectAll('svg').remove();
 
         var data = $scope.randomData
             , lanes = data.lanes
             , items = data.items
             , now = new Date();
 
-        var w = window,
-            d = document,
+        var d = document,
             e = d.documentElement,
             g = d3.select(element[0]),
             windowX = e.clientWidth || g.clientWidth,
@@ -42,7 +41,7 @@ timelineModule.directive('timeline', function() {
             , miniHeight = lanes.length * 12 + 50
             , mainHeight = height - miniHeight - 150;
 
-        var chart = d3.select(element[0]).append("svg:svg")
+        var chart = d3.select(element[0]).append('svg:svg')
             .attr('width', width + margin.right + margin.left)
             .attr('height', height + margin.top + margin.bottom)
             .attr('class', 'chart');
@@ -88,7 +87,7 @@ timelineModule.directive('timeline', function() {
             .attr('y1', function(d) { return d3.round(y1(d.id)) + 0.5; })
             .attr('x2', width)
             .attr('y2', function(d) { return d3.round(y1(d.id)) + 0.5; })
-            .attr('stroke', function(d) { return d.label == '' ? 'red' : 'lightgray' });
+            .attr('stroke', function(d) { return d.label == '' ? 'red' : 'lightgray'; });
 
         main.append('g').selectAll('.laneLegends')
             .data(lanes)
@@ -100,28 +99,28 @@ timelineModule.directive('timeline', function() {
             .attr('fill', function(d) {
 
                 switch (d.label){
-                    case 'Treatments':
-                        return d3.rgb(31,128,50);
-                    case 'Visits':
-                        return d3.rgb(31,76,76);
-                    case 'Relapses':
-                        return d3.rgb(140,0,0);
-                    case ('EP'):
-                        return d3.rgb(79,132,190);
-                    case ('Lab'):
-                        return d3.rgb(79,132,190);
-                    case ('Serology'):
-                        return d3.rgb(79,132,190);
-                    case ('MRI'):
-                        return d3.rgb(79,132,190);
-                    case ('CSF'):
-                        return d3.rgb(79,132,190);
-                    case 'EDSS':
-                        return d3.rgb(10,29,98);
-                    case 'MSQOL':
-                        return d3.rgb(10,29,98);
-                    default:
-                        return 'grey';
+                case 'Treatments':
+                    return d3.rgb(31,128,50);
+                case 'Visits':
+                    return d3.rgb(31,76,76);
+                case 'Relapses':
+                    return d3.rgb(140,0,0);
+                case ('EP'):
+                    return d3.rgb(79,132,190);
+                case ('Lab'):
+                    return d3.rgb(79,132,190);
+                case ('Serology'):
+                    return d3.rgb(79,132,190);
+                case ('MRI'):
+                    return d3.rgb(79,132,190);
+                case ('CSF'):
+                    return d3.rgb(79,132,190);
+                case 'EDSS':
+                    return d3.rgb(10,29,98);
+                case 'MSQOL':
+                    return d3.rgb(10,29,98);
+                default:
+                    return 'grey';
                 }
             })
             .attr('class', 'laneLegend');
@@ -132,44 +131,44 @@ timelineModule.directive('timeline', function() {
             .text(function(d) { return d.label; })
             .style('fill', function(d) {
                 switch (d.label){
-                    case 'Treatments':
-                        return d3.rgb(31,128,50);
-                    case 'Visits':
-                        return d3.rgb(31,76,76);
-                    case 'Relapses':
-                        return d3.rgb(140,0,0);
-                    case ('EP'):
-                        return d3.rgb(79,132,190);
-                    case ('Lab'):
-                        return d3.rgb(79,132,190);
-                    case ('Serology'):
-                        return d3.rgb(79,132,190);
-                    case ('MRI'):
-                        return d3.rgb(79,132,190);
-                    case ('CSF'):
-                        return d3.rgb(79,132,190);
-                    case 'EDSS':
-                        return d3.rgb(10,29,98);
-                    case 'MSQOL':
-                        return d3.rgb(10,29,98);
-                    default:
-                        return 'grey';
+                case 'Treatments':
+                    return d3.rgb(31,128,50);
+                case 'Visits':
+                    return d3.rgb(31,76,76);
+                case 'Relapses':
+                    return d3.rgb(140,0,0);
+                case ('EP'):
+                    return d3.rgb(79,132,190);
+                case ('Lab'):
+                    return d3.rgb(79,132,190);
+                case ('Serology'):
+                    return d3.rgb(79,132,190);
+                case ('MRI'):
+                    return d3.rgb(79,132,190);
+                case ('CSF'):
+                    return d3.rgb(79,132,190);
+                case 'EDSS':
+                    return d3.rgb(10,29,98);
+                case 'MSQOL':
+                    return d3.rgb(10,29,98);
+                default:
+                    return 'grey';
                 }
             })
             .attr('x', -110)
             .attr('y', function(d) { return y1(d.id + .5); })
             .attr('dy', '1.5ex')
             .attr('text-anchor', 'start')
-            .style('font-weight', function (d){
-                    return 'normal'
+            .style('font-weight', function (){
+                return 'normal';
             })
-            .style('font-size', function (d){
-                return '100%'
+            .style('font-size', function (){
+                return '100%';
             })
             .attr('class', 'laneText');
 
 
-// draw the lanes for the mini chart
+        // draw the lanes for the mini chart
         mini.append('g').selectAll('.laneLines')
             .data(lanes)
             .enter().append('line')
@@ -177,7 +176,7 @@ timelineModule.directive('timeline', function() {
             .attr('y1', function(d) { return d3.round(y2(d.id)) + 0.5; })
             .attr('x2', width)
             .attr('y2', function(d) { return d3.round(y2(d.id)) + 0.5; })
-            .attr('stroke', function(d) { return d.label === '' ? 'white' : 'lightgray' });
+            .attr('stroke', function(d) { return d.label === '' ? 'white' : 'lightgray'; });
 
         mini.append('g').selectAll('.laneLegends')
             .data(lanes)
@@ -188,26 +187,26 @@ timelineModule.directive('timeline', function() {
             .attr('height',5)
             .attr('fill', function(d) {
                 switch (d.label){
-                    case 'Treatments':
-                        return d3.rgb(31,128,50);
-                    case 'Visits':
-                        return d3.rgb(31,76,76);
-                    case 'Relapses':
-                        return d3.rgb(140,0,0);
-                    case ('EP'):
-                        return d3.rgb(79,132,190);
-                    case ('Lab'):
-                        return d3.rgb(79,132,190);
-                    case ('MRI'):
-                        return d3.rgb(79,132,190);
-                    case ('CSF'):
-                        return d3.rgb(79,132,190);
-                    case 'EDSS':
-                        return d3.rgb(10,29,98);
-                    case 'MSQOL':
-                        return d3.rgb(10,29,98);
-                    default:
-                        return 'grey';
+                case 'Treatments':
+                    return d3.rgb(31,128,50);
+                case 'Visits':
+                    return d3.rgb(31,76,76);
+                case 'Relapses':
+                    return d3.rgb(140,0,0);
+                case ('EP'):
+                    return d3.rgb(79,132,190);
+                case ('Lab'):
+                    return d3.rgb(79,132,190);
+                case ('MRI'):
+                    return d3.rgb(79,132,190);
+                case ('CSF'):
+                    return d3.rgb(79,132,190);
+                case 'EDSS':
+                    return d3.rgb(10,29,98);
+                case 'MSQOL':
+                    return d3.rgb(10,29,98);
+                default:
+                    return 'grey';
                 }
             })
             .attr('class', 'laneLegend');
@@ -235,8 +234,8 @@ timelineModule.directive('timeline', function() {
             .scale(x1)
             .orient('bottom')
             .ticks(d3.time.days, 1)
-//            .tickFormat(d3.time.format('%a %d'))
-            .tickFormat("")
+        //            .tickFormat(d3.time.format('%a %d'))
+            .tickFormat('')
             .tickSize(1, 0, 0);
 
         var xMonthAxis = d3.svg.axis()
@@ -303,17 +302,21 @@ timelineModule.directive('timeline', function() {
             return mainHeight/lanes.length;
         }
 
+        var l = 0;
+        var i = 0;
+        var aDatum = null;
+
         /* draw EDSS line chart here */
         var edssYLane = [];
         var edssItems = [];
 
-        for (var l = 0; l < lanes.length; l++) {
+        for (l = 0; l < lanes.length; l++) {
             if (lanes[l].label == 'EDSS')
             {
                 edssYLane.push(lanes[l]);
-                for (var i = 0; i < items.length; i++) {
+                for (i = 0; i < items.length; i++) {
                     if (items[i].lane == lanes[l].id) {
-                        var aDatum = {x: items[i].start, y:parseInt(items[i].value)};
+                        aDatum = {x: items[i].start, y:parseInt(items[i].value)};
                         edssItems.push(aDatum);
                     }
                 }
@@ -351,15 +354,15 @@ timelineModule.directive('timeline', function() {
                 return edssYRange(d.y);
             });
 
-        main.append("svg:path")
-            .attr("d", edssFunc(edssItems))
+        main.append('svg:path')
+            .attr('d', edssFunc(edssItems))
             //.style("stroke-dasharray", ("3, 3"))
-            .attr("stroke", d3.rgb(0,0,140))
-            .attr("stroke-width", 1)
-            .attr("fill", "none")
+            .attr('stroke', d3.rgb(0,0,140))
+            .attr('stroke-width', 1)
+            .attr('fill', 'none')
             .attr('id','edssLineChart');
 
-        main.select("#edssLineChart")
+        main.select('#edssLineChart')
             .data(edssYLane)
             .attr('transform', function (d) {
                 return 'translate(0,' + (d3.round(y1(d.id)) + 5.0) + ')';
@@ -369,12 +372,12 @@ timelineModule.directive('timeline', function() {
         var pddsYLane = [];
         var pddsItems = [];
 
-        for (var l = 0; l < lanes.length; l++) {
+        for (l = 0; l < lanes.length; l++) {
             if (lanes[l].label == 'PDDS') {
                 pddsYLane.push(lanes[l]);
-                for (var i = 0; i < items.length; i++) {
+                for (i = 0; i < items.length; i++) {
                     if (items[i].lane == lanes[l].id) {
-                        var aDatum = {x: items[i].start, y:parseInt(items[i].value)};
+                        aDatum = {x: items[i].start, y:parseInt(items[i].value)};
                         pddsItems.push(aDatum);
                     }
                 }
@@ -412,15 +415,15 @@ timelineModule.directive('timeline', function() {
                 return pddsYRange(d.y);
             });
 
-        main.append("svg:path")
-            .attr("d", pddsFunc(pddsItems))
+        main.append('svg:path')
+            .attr('d', pddsFunc(pddsItems))
             //.style("stroke-dasharray", ("3, 3"))
-            .attr("stroke", "grey")
-            .attr("stroke-width", 1)
-            .attr("fill", "none")
+            .attr('stroke', 'grey')
+            .attr('stroke-width', 1)
+            .attr('fill', 'none')
             .attr('id','pddsLineChart');
 
-        main.select("#pddsLineChart")
+        main.select('#pddsLineChart')
             .data(pddsYLane)
             .attr('transform', function (d) {
                 return 'translate(0,' + (d3.round(y1(d.id)) + 5.0) + ')';
@@ -431,12 +434,12 @@ timelineModule.directive('timeline', function() {
         var vasYLane = [];
         var vasItems = [];
 
-        for (var l = 0; l < lanes.length; l++) {
+        for (l = 0; l < lanes.length; l++) {
             if (lanes[l].label == 'VAS') {
                 vasYLane.push(lanes[l]);
-                for (var i = 0; i < items.length; i++) {
+                for (i = 0; i < items.length; i++) {
                     if (items[i].lane == lanes[l].id) {
-                        var aDatum = {x: items[i].start, y:parseInt(items[i].value)};
+                        aDatum = {x: items[i].start, y:parseInt(items[i].value)};
                         vasItems.push(aDatum);
                     }
                 }
@@ -474,36 +477,38 @@ timelineModule.directive('timeline', function() {
                 return vasYRange(d.y);
             });
 
-        main.append("svg:path")
-            .attr("d", vasFunc(vasItems))
+        main.append('svg:path')
+            .attr('d', vasFunc(vasItems))
             //.style("stroke-dasharray", ("3, 3"))
-            .attr("stroke", "grey")
-            .attr("stroke-width", 1)
-            .attr("fill", "none")
+            .attr('stroke', 'grey')
+            .attr('stroke-width', 1)
+            .attr('fill', 'none')
             .attr('id','vasLineChart');
 
-        main.select("#vasLineChart")
+        main.select('#vasLineChart')
             .data(vasYLane)
             .attr('transform', function (d) {
                 return 'translate(0,' + (d3.round(y1(d.id)) + 5.0) + ')';
             });
 
+        var phcDatum = null;
+        var mhcDatum = null;
 
         /* draw MSQOL line chart here */
         var msqolYLane = [];
         var msqol_Phc_Items = [];
         var msqol_Mhc_Items = [];
 
-        for (var l = 0; l < lanes.length; l++) {
+        for (l = 0; l < lanes.length; l++) {
             if (lanes[l].label == 'MSQOL')
             {
                 msqolYLane.push(lanes[l]);
-                for (var i = 0; i < items.length; i++) {
+                for (i = 0; i < items.length; i++) {
                     if (items[i].lane == lanes[l].id) {
-                        var phcDatum = {x: items[i].start, y:parseInt(items[i].value.phc)};
+                        phcDatum = {x: items[i].start, y:parseInt(items[i].value.phc)};
                         msqol_Phc_Items.push(phcDatum);
 
-                        var mhcDatum = {x: items[i].start, y:parseInt(items[i].value.mhc)};
+                        mhcDatum = {x: items[i].start, y:parseInt(items[i].value.mhc)};
                         msqol_Mhc_Items.push(mhcDatum);
                     }
                 }
@@ -541,22 +546,22 @@ timelineModule.directive('timeline', function() {
                 return msqolYRange(d.y);
             });
 
-        main.append("svg:path")
-            .attr("d", msqolFunc(msqol_Phc_Items))
-            .style("stroke-dasharray", ("3, 3"))
-            .attr("stroke", "grey")
-            .attr("stroke-width", 1)
-            .attr("fill", "none")
+        main.append('svg:path')
+            .attr('d', msqolFunc(msqol_Phc_Items))
+            .style('stroke-dasharray', ('3, 3'))
+            .attr('stroke', 'grey')
+            .attr('stroke-width', 1)
+            .attr('fill', 'none')
             .attr('id','msqol_Phc_LineChart');
 
-        main.append("svg:path")
-            .attr("d", msqolFunc(msqol_Mhc_Items))
-            .attr("stroke", "grey")
-            .attr("stroke-width", 1)
-            .attr("fill", "none")
+        main.append('svg:path')
+            .attr('d', msqolFunc(msqol_Mhc_Items))
+            .attr('stroke', 'grey')
+            .attr('stroke-width', 1)
+            .attr('fill', 'none')
             .attr('id','msqol_Mhc_LineChart');
 
-        main.select("#msqol_Mhc_LineChart")
+        main.select('#msqol_Mhc_LineChart')
             .data(msqolYLane)
             .attr('transform', function (d) {
                 return 'translate(0,' + (d3.round(y1(d.id)) + 0.5) + ')';
@@ -569,16 +574,16 @@ timelineModule.directive('timeline', function() {
         var promis_Phc_Items = [];
         var promis_Mhc_Items = [];
 
-        for (var l = 0; l < lanes.length; l++) {
+        for (l = 0; l < lanes.length; l++) {
             if (lanes[l].label == 'PROMIS')
             {
                 promisYLane.push(lanes[l]);
-                for (var i = 0; i < items.length; i++) {
+                for (i = 0; i < items.length; i++) {
                     if (items[i].lane == lanes[l].id) {
-                        var phcDatum = {x: items[i].start, y:parseInt(items[i].value.phc)};
+                        phcDatum = {x: items[i].start, y:parseInt(items[i].value.phc)};
                         promis_Phc_Items.push(phcDatum);
 
-                        var mhcDatum = {x: items[i].start, y:parseInt(items[i].value.mhc)};
+                        mhcDatum = {x: items[i].start, y:parseInt(items[i].value.mhc)};
                         promis_Mhc_Items.push(mhcDatum);
                     }
                 }
@@ -616,22 +621,22 @@ timelineModule.directive('timeline', function() {
                 return promisYRange(d.y);
             });
 
-        main.append("svg:path")
-            .attr("d", promisFunc(promis_Phc_Items))
-            .style("stroke-dasharray", ("3, 3"))
-            .attr("stroke", "grey")
-            .attr("stroke-width", 1)
-            .attr("fill", "none")
+        main.append('svg:path')
+            .attr('d', promisFunc(promis_Phc_Items))
+            .style('stroke-dasharray', ('3, 3'))
+            .attr('stroke', 'grey')
+            .attr('stroke-width', 1)
+            .attr('fill', 'none')
             .attr('id','promis_Phc_LineChart');
 
-        main.append("svg:path")
-            .attr("d", promisFunc(promis_Mhc_Items))
-            .attr("stroke", "grey")
-            .attr("stroke-width", 1)
-            .attr("fill", "none")
+        main.append('svg:path')
+            .attr('d', promisFunc(promis_Mhc_Items))
+            .attr('stroke', 'grey')
+            .attr('stroke-width', 1)
+            .attr('fill', 'none')
             .attr('id','promis_Mhc_LineChart');
 
-        main.select("#promis_Mhc_LineChart")
+        main.select('#promis_Mhc_LineChart')
             .data(promisYLane)
             .attr('transform', function (d) {
                 return 'translate(0,' + (d3.round(y1(d.id)) + 0.5) + ')';
@@ -662,7 +667,7 @@ timelineModule.directive('timeline', function() {
             //.extent([d3.time.monday(now),d3.time.saturday.ceil(now)])
             .extent([d3.time.week(d3.min(items, function(d) { return d.start; })),
                 d3.max(items, function(d) { return d.end; })])
-            .on("brush", redraw);
+            .on('brush', redraw);
 
         mini.append('g')
             .attr('class', 'x brush')
@@ -677,40 +682,40 @@ timelineModule.directive('timeline', function() {
 
         function redraw () {
 
-            var rects, labels, smallRects
+            var rects, labels
                 , minExtent = d3.time.day(brush.extent()[0])
                 , maxExtent = d3.time.day(brush.extent()[1])
-                , visItems = items.filter(function (d) { return d.start < maxExtent && d.end > minExtent});
+                , visItems = items.filter(function (d) { return d.start < maxExtent && d.end > minExtent;});
 
             mini.select('.brush').call(brush.extent([minExtent, maxExtent]));
 
             x1.domain([minExtent, maxExtent]);
             x2.domain([minExtent, maxExtent]);
 
-            x1DateAxis.ticks(d3.time.week, 5).tickFormat("");
-            x1MonthAxis.ticks(d3.time.month, 3).tickFormat(d3.time.format('%b %y'))
+            x1DateAxis.ticks(d3.time.week, 5).tickFormat('');
+            x1MonthAxis.ticks(d3.time.month, 3).tickFormat(d3.time.format('%b %y'));
 
             if ((maxExtent - minExtent) > (1.577e+10)) {  // 6 months
-                x1DateAxis.ticks(d3.time.week, 5).tickFormat("");
-//                x1DateAxis.ticks(d3.time.week, 5).tickFormat(d3.time.format('%d'))
+                x1DateAxis.ticks(d3.time.week, 5).tickFormat('');
+                //                x1DateAxis.ticks(d3.time.week, 5).tickFormat(d3.time.format('%d'))
                 //x1MonthAxis.ticks(d3.time.mondays, 1).tickFormat(d3.time.format('%b - Wk %W'))
                 x1MonthAxis.ticks(d3.time.month, 6).tickFormat(d3.time.format('%b %Y'));
 
             } else if ((maxExtent - minExtent) > (1.051e+10)) {  // 4 months
-                x1DateAxis.ticks(d3.time.week, 5).tickFormat("");
+                x1DateAxis.ticks(d3.time.week, 5).tickFormat('');
                 x1MonthAxis.ticks(d3.time.month, 3).tickFormat(d3.time.format('%b %Y'));
 
             } else if ((maxExtent - minExtent) > (7.884e+9)) {  // 3 months
-                x1DateAxis.ticks(d3.time.week, 5).tickFormat("");
+                x1DateAxis.ticks(d3.time.week, 5).tickFormat('');
                 x1MonthAxis.ticks(d3.time.month, 1).tickFormat(d3.time.format('%b %Y'));
             }
             else if ((maxExtent - minExtent) > 2.628e+9) {
-                x1DateAxis.ticks(d3.time.week, 5).tickFormat("");
-                x1MonthAxis.ticks(d3.time.week, 4).tickFormat(d3.time.format('%d %b %Y'))
+                x1DateAxis.ticks(d3.time.week, 5).tickFormat('');
+                x1MonthAxis.ticks(d3.time.week, 4).tickFormat(d3.time.format('%d %b %Y'));
             }
             else {
-                x1DateAxis.ticks(d3.time.week, 5).tickFormat("");
-                x1MonthAxis.ticks(d3.time.days, 5).tickFormat(d3.time.format('%d %b %Y'))
+                x1DateAxis.ticks(d3.time.week, 5).tickFormat('');
+                x1MonthAxis.ticks(d3.time.days, 5).tickFormat(d3.time.format('%d %b %Y'));
             }
 
             // shift the today line
@@ -728,8 +733,8 @@ timelineModule.directive('timeline', function() {
             // upate the item rects
             rects = itemRects.selectAll('rect')
                 .data(visItems.filter(function (d) {
-                return (d.domain == "EX");}), function (d) {
-                                                return d.id;})
+                    return (d.domain == 'EX');}), function (d) {
+                    return d.id;})
                 .attr('x', function(d) { return x1(d.start); })
                 .attr('width', function(d) { return (x1(d.end) - x1(d.start)); });
 
@@ -737,7 +742,7 @@ timelineModule.directive('timeline', function() {
                 .attr('x', function(d) { return x1(d.start); })
                 .attr('y', function(d) { return y1(d.lane) + .5 * y1(1) + 0.0; })
                 .attr('width', function(d) { return (x1(d.end) - x1(d.start)); })
-                .attr('height', function(d) { return .4 * y1(1); })
+                .attr('height', function() { return .4 * y1(1); })
                 .attr('class', function(d) {
                     return 'mainItem ' + d.domain; });
 
@@ -745,17 +750,17 @@ timelineModule.directive('timeline', function() {
 
             var squares = itemRects.selectAll('squares')
                 .data(visItems.filter(function (d) {
-                    return (d.domain == "SV");}), function (d) {
-                        return d.id;})
+                    return (d.domain == 'SV');}), function (d) {
+                    return d.id;})
                 .attr('x', function(d) { return x1(d.start); });
                 //.attr('width', function(d) { return (150); });
 
             squares.enter().append('rect')
                 .attr('x', function(d) { return x1(d.start); })
                 .attr('y', function(d) { return y1(d.lane) + .5 * y1(1) + 0.0; })
-                .attr('width', function(d) { return .2 * y1(1); })
-                .attr('height', function(d) { return .2 * y1(1);})
-                .style("fill", function(d) { return d3.rgb(31,76,76);})
+                .attr('width', function() { return .2 * y1(1); })
+                .attr('height', function() { return .2 * y1(1);})
+                .style('fill', function() { return d3.rgb(31,76,76);})
                 .attr('class', function(d) {
                     return 'mainItem ' + d.domain; });
 
@@ -763,36 +768,36 @@ timelineModule.directive('timeline', function() {
             rects.exit().remove();
 
             var triangle = itemRects.selectAll('path')
-                .data(visItems.filter(function (d) {return d.domain == "LB";}), function (d) {
+                .data(visItems.filter(function (d) {return d.domain == 'LB';}), function (d) {
                     return d.id;
                 })
-                .attr("transform", function(d) {
+                .attr('transform', function(d) {
                     var y = y1(d.lane) + 0.4 * y1(1) + 0.5;
                     var x = x1(d.start);
-                    return "translate("+x+","+y+")";});
+                    return 'translate('+x+','+y+')';});
 
             triangle.enter().append('path')
-                .attr("d", d3.svg.symbol()
-                    .type( function(d) {
-                        return "cross";}))
-                .style("fill", "steelblue")
-                .attr("transform", function(d) {
+                .attr('d', d3.svg.symbol()
+                    .type( function() {
+                        return 'cross';}))
+                .style('fill', 'steelblue')
+                .attr('transform', function(d) {
                     var y = y1(d.lane) + 0.4 * y1(1) + 0.5;
                     var x = x1(d.start);
-                    return "translate("+x+","+y+")";})
+                    return 'translate('+x+','+y+')';})
                 .attr('class', function(d) { return 'mainItem ' + d.class; });
 
             triangle.exit().remove();
 
             var circs = itemRects.selectAll('circle')
-                .data(visItems.filter(function (d) {return d.domain == "CE";}), function (d) {
+                .data(visItems.filter(function (d) {return d.domain == 'CE';}), function (d) {
                     return d.id;
                 })
                 .attr('cx', function(d) { return x1(d.start); });
 
             circs.enter().append('circle')
-                .on("click", function(d) {
-                    var elementId = "#"+d.url;
+                .on('click', function(d) {
+                    var elementId = '#'+d.url;
                     angular.element('#relapseID').trigger('click');
                     angular.element(elementId).trigger('click');
                 })
@@ -813,12 +818,12 @@ timelineModule.directive('timeline', function() {
             // update the item labels
             labels = itemRects.selectAll('text')
                 .data(visItems.filter(function (d) {
-                    return ((d.domain == "EX")||(d.domain == "QS")||(d.domain == "LB"));
-                    }), function (d) {return d.id;})
+                    return ((d.domain == 'EX')||(d.domain == 'QS')||(d.domain == 'LB'));
+                }), function (d) {return d.id;})
                 .attr('x', function(d) { return x1(Math.max(d.start, minExtent)) + 2 ; });
 
             labels.enter().append('text')
-                .text(function (d) {return d.desc})
+                .text(function (d) {return d.desc;})
                 .attr('x', function(d) { return x1(Math.max(d.start, minExtent)) + 2 ; })
                 .attr('y', function(d) {
                     if (d.domain == 'QS') {
@@ -826,21 +831,19 @@ timelineModule.directive('timeline', function() {
                     }
                     else
                         return y1(d.lane) + .4 * y1(1) + 0.5;
-                    })
+                })
                 .attr('fill', function(d) {
                     switch (d.domain){
-                        case 'EX':
-                            return d3.rgb(31,128,50);
-                        case 'CE':
-                            return d3.rgb(140,0,0);
-                        case 'LB':
-                            return d3.rgb(79,132,190);
-                        case 'QS':
-                            return d3.rgb(10,29,98);
-                        case 'QS':
-                            return d3.rgb(10,29,98);
-                        default:
-                            return 'grey';
+                    case 'EX':
+                        return d3.rgb(31,128,50);
+                    case 'CE':
+                        return d3.rgb(140,0,0);
+                    case 'LB':
+                        return d3.rgb(79,132,190);
+                    case 'QS':
+                        return d3.rgb(10,29,98);
+                    default:
+                        return 'grey';
                     }
                 })
                 .attr('text-anchor', 'start')
@@ -848,72 +851,72 @@ timelineModule.directive('timeline', function() {
 
             labels.exit().remove();
 
-            var edssChart = main.select("#edssLineChart");
+            var edssChart = main.select('#edssLineChart');
 
             if (edssYLane != null){
-            edssChart.data(edssYLane)
-                 .attr("d", edssFunc(edssItems))
-                 .attr('transform', function (d) {
-                     return 'translate(0,' + (d3.round(y1(d.id)) + 0.5) + ')';
-                 });
+                edssChart.data(edssYLane)
+                    .attr('d', edssFunc(edssItems))
+                    .attr('transform', function (d) {
+                        return 'translate(0,' + (d3.round(y1(d.id)) + 0.5) + ')';
+                    });
             }
 
-            var vasChart = main.select("#vasLineChart");
+            var vasChart = main.select('#vasLineChart');
 
             if (vasYLane != null){
                 vasChart.data(vasYLane)
-                    .attr("d", vasFunc(vasItems))
+                    .attr('d', vasFunc(vasItems))
                     .attr('transform', function (d) {
                         return 'translate(0,' + (d3.round(y1(d.id)) + 0.5) + ')';
                     });
             }
 
-            var pddsChart = main.select("#pddsLineChart");
+            var pddsChart = main.select('#pddsLineChart');
 
             if (pddsYLane != null){
                 pddsChart.data(pddsYLane)
-                    .attr("d", pddsFunc(pddsItems))
+                    .attr('d', pddsFunc(pddsItems))
                     .attr('transform', function (d) {
                         return 'translate(0,' + (d3.round(y1(d.id)) + 0.5) + ')';
                     });
             }
 
-            var msqol_Phc_Chart = main.select("#msqol_Phc_LineChart");
+            var msqol_Phc_Chart = main.select('#msqol_Phc_LineChart');
 
             if (msqolYLane != null){
                 msqol_Phc_Chart.data(msqolYLane)
-                    .attr("d", msqolFunc(msqol_Phc_Items))
+                    .attr('d', msqolFunc(msqol_Phc_Items))
                     .attr('transform', function (d) {
                         return 'translate(0,' + (d3.round(y1(d.id)) + 0.5) + ')';
                     });
             }
 
-            var msqol_Mhc_Chart = main.select("#msqol_Mhc_LineChart");
+            var msqol_Mhc_Chart = main.select('#msqol_Mhc_LineChart');
 
             if (msqolYLane != null){
                 msqol_Mhc_Chart.data(msqolYLane)
-                    .attr("d", msqolFunc(msqol_Mhc_Items))
+                    .attr('d', msqolFunc(msqol_Mhc_Items))
                     .attr('transform', function (d) {
                         return 'translate(0,' + (d3.round(y1(d.id)) + 0.5) + ')';
                     });
             }
 
 
-            var promis_Phc_Chart = main.select("#promis_Phc_LineChart");
+            var promis_Phc_Chart = main.select('#promis_Phc_LineChart');
 
             if (promisYLane != null){
                 promis_Phc_Chart.data(promisYLane)
-                    .attr("d", promisFunc(promis_Phc_Items))
+                    .attr('d', promisFunc(promis_Phc_Items))
                     .attr('transform', function (d) {
                         return 'translate(0,' + (d3.round(y1(d.id)) + 0.5) + ')';
                     });
             }
 
-            var promis_Mhc_Chart = main.select("#promis_Mhc_LineChart");
+            var promis_Mhc_Chart = main.select('#promis_Mhc_LineChart');
 
             if (promisYLane != null){
                 promis_Mhc_Chart.data(promisYLane)
-                    .attr("d", promisFunc(promis_Mhc_Items))
+                    .attr('d', promisFunc(promis_Mhc_Items))
                     .attr('transform', function (d) {
                         return 'translate(0,' + (d3.round(y1(d.id)) + 0.5) + ')';
                     });
@@ -946,11 +949,11 @@ timelineModule.directive('timeline', function() {
         }
     }
     function clearDisplay() {
-        d3.selectAll("svg").remove();
+        d3.selectAll('svg').remove();
     }
 
     return {
-        restrict:"E",
+        restrict:'E',
         controller: 'timelineCtrl',
         link: function ($scope, element){
 
@@ -968,13 +971,13 @@ timelineModule.directive('timeline', function() {
 });
 
 timelineModule.factory('patientEvents', function(exposures,
-                                               clinicalEvents,
-                                               adverseEventService,
-                                               laboratoryTestResults,
-                                               immunogenicitySpecimenAssessments,
-                                               nervousSystemFindings,
-                                               procedures,
-                                               questionnaires, morphologyServices, subjectVisits){
+    clinicalEvents,
+    adverseEventService,
+    laboratoryTestResults,
+    immunogenicitySpecimenAssessments,
+    nervousSystemFindings,
+    procedures,
+    questionnaires, morphologyServices, subjectVisits){
 
     var getPatientEvents = function(dataToView) {
         var addToLane = function (chart, item) {
@@ -1009,7 +1012,7 @@ timelineModule.factory('patientEvents', function(exposures,
         };
 
         var parseData = function (data) {
-            var i = 0, length = data.length, node;
+            var i = 0, length = data.length;
             var chart = { lanes: {} };
 
             for (i; i < length; i++) {
@@ -1022,7 +1025,6 @@ timelineModule.factory('patientEvents', function(exposures,
 
         var collapseLanes = function (chart) {
             var lanes = [], items = [], laneId = 0;
-            var now = new Date();
 
             for (var laneName in chart.lanes) {
                 var lane = chart.lanes[laneName];
@@ -1057,7 +1059,7 @@ timelineModule.factory('patientEvents', function(exposures,
             }
 
             return {lanes: lanes, items: items};
-        }
+        };
 
         var generateWorkItems = function () {
 
@@ -1099,7 +1101,7 @@ timelineModule.factory('patientEvents', function(exposures,
         };
 
         return parseData(generateWorkItems());
-    }
+    };
 
 
     var consolidateItemID = function(data) {
@@ -1107,7 +1109,7 @@ timelineModule.factory('patientEvents', function(exposures,
             data[i].id = i;
             data[i].name = 'work item '+i;
         }
-    }
+    };
 
     var getTests = function (data) {
 
@@ -1128,7 +1130,7 @@ timelineModule.factory('patientEvents', function(exposures,
                     }
                 }
                 return false;
-            }
+            };
 
             for (var l = 0; l < labResults.length; l++) {
                 if (!collectionDateExists(uniqueDates, labResults[l].LBDTC)) {
@@ -1154,86 +1156,88 @@ timelineModule.factory('patientEvents', function(exposures,
 
         for (var t = 0; t < events.length; t++) {
             var workItem = null;
+            var stdtc = null;
+            var endtc = null;
             switch (events[t].DOMAIN) {
-                case 'IS':
-                    var stdtc = events[t].ISDTC;
-                    var endtc = new Date(stdtc);
-                    endtc.setDate(stdtc.getDate()+1);
-                    workItem = {
-                        id: '',
-                        name: 'work item ' + '',
-                        lane: "Serology",
-                        start: stdtc,
-                        end: endtc,
-                        desc: "",
-                        domain: 'LB',
-                        value: ''
-                    };
-                    break;
-                case 'LB':
-                    var stdtc = events[t].LBDTC;
-                    var endtc = new Date(stdtc);
-                    endtc.setDate(stdtc.getDate()+1);
-                    workItem = {
-                        id: '',
-                        name: 'work item ' + '',
-                        lane: "Lab",
-                        start: stdtc,
-                        end: endtc,
-                        //desc: events[t].displayLabel,
-                        desc: '',
-                        domain: 'LB',
-                        value: ''
-                    };
-                    break;
-                case 'NV':
-                    var stdtc = events[t].NVDTC;
-                    var endtc = new Date(stdtc);
-                    endtc.setDate(stdtc.getDate()+1);
-                    workItem = {
-                        id: '',
-                        name: 'work item ' + '',
-                        lane: "EP",
-                        start: stdtc,
-                        end: endtc,
-                        desc: "",
-                        domain: 'LB',
-                        value: ''
-                    };
-                    break;
-                case 'PR':
-                    var stdtc = events[t].PRSTDTC;
-                    var endtc = new Date(stdtc);
-                    endtc.setDate(stdtc.getDate()+1);
-                    var result='';
-                    var laneName = '';
-                    if (events[t].PRTRT=='MRI') {
-                        laneName = "MRI";
-                        var MO = morphologyServices.getFindingByDateTest(events[t].PRSTDTC, 'Lesion volume');
-                        if (MO != null) {
-                            result = MO.MOORRES;
-                        }
+            case 'IS':
+                stdtc = events[t].ISDTC;
+                endtc = new Date(stdtc);
+                endtc.setDate(stdtc.getDate()+1);
+                workItem = {
+                    id: '',
+                    name: 'work item ' + '',
+                    lane: 'Serology',
+                    start: stdtc,
+                    end: endtc,
+                    desc: '',
+                    domain: 'LB',
+                    value: ''
+                };
+                break;
+            case 'LB':
+                stdtc = events[t].LBDTC;
+                endtc = new Date(stdtc);
+                endtc.setDate(stdtc.getDate()+1);
+                workItem = {
+                    id: '',
+                    name: 'work item ' + '',
+                    lane: 'Lab',
+                    start: stdtc,
+                    end: endtc,
+                    //desc: events[t].displayLabel,
+                    desc: '',
+                    domain: 'LB',
+                    value: ''
+                };
+                break;
+            case 'NV':
+                stdtc = events[t].NVDTC;
+                endtc = new Date(stdtc);
+                endtc.setDate(stdtc.getDate()+1);
+                workItem = {
+                    id: '',
+                    name: 'work item ' + '',
+                    lane: 'EP',
+                    start: stdtc,
+                    end: endtc,
+                    desc: '',
+                    domain: 'LB',
+                    value: ''
+                };
+                break;
+            case 'PR':
+                stdtc = events[t].PRSTDTC;
+                endtc = new Date(stdtc);
+                endtc.setDate(stdtc.getDate()+1);
+                var result='';
+                var laneName = '';
+                if (events[t].PRTRT=='MRI') {
+                    laneName = 'MRI';
+                    var MO = morphologyServices.getFindingByDateTest(events[t].PRSTDTC, 'Lesion volume');
+                    if (MO != null) {
+                        result = MO.MOORRES;
                     }
-                    else if (events[t].PRTRT=='Lumbar Puncture') {
-                        laneName = "CSF";
-                    }
-                    workItem = {
-                        id: '',
-                        name: 'work item ' + '',
-                        lane: laneName,
-                        start: stdtc,
-                        end: endtc,
-                        desc: result,
-                        domain: 'LB',
-                        value: ''
-                    };
-                    break;
+                }
+                else if (events[t].PRTRT=='Lumbar Puncture') {
+                    laneName = 'CSF';
+                }
+                workItem = {
+                    id: '',
+                    name: 'work item ' + '',
+                    lane: laneName,
+                    start: stdtc,
+                    end: endtc,
+                    desc: result,
+                    domain: 'LB',
+                    value: ''
+                };
+                break;
             }
 
             if (workItem!=null)
                 data.push(workItem);
         }
-    }
+    };
 
     var getTreatments = function (data) {
         var events = exposures.getExposures();
@@ -1254,7 +1258,7 @@ timelineModule.factory('patientEvents', function(exposures,
                 var workItem = {
                     id: '',
                     name: 'work item ' + '',
-                    lane: "Treatments",
+                    lane: 'Treatments',
                     start: events[t].EXSTDTC,
                     end: endtc,
                     desc: events[t].displayLabel,
@@ -1264,7 +1268,7 @@ timelineModule.factory('patientEvents', function(exposures,
                 data.push(workItem);
             }
         }
-    }
+    };
 
     var getEDSS = function (data) {
         var edss = questionnaires.getEDSSScores();
@@ -1277,7 +1281,7 @@ timelineModule.factory('patientEvents', function(exposures,
             var workItem = {
                 id: '',
                 name: 'work item ' + '',
-                lane: "EDSS",
+                lane: 'EDSS',
                 start: stdtc,
                 end: endtc,
                 desc: edss[t].QSSTRESC,
@@ -1288,7 +1292,7 @@ timelineModule.factory('patientEvents', function(exposures,
             data.push(workItem);
 
         }
-    }
+    };
 
     var getPDDS = function (data) {
         var pdds = questionnaires.getPDDSScores();
@@ -1301,7 +1305,7 @@ timelineModule.factory('patientEvents', function(exposures,
             var workItem = {
                 id: '',
                 name: 'work item ' + '',
-                lane: "PDDS",
+                lane: 'PDDS',
                 start: stdtc,
                 end: endtc,
                 desc: pdds[t].QSSTRESC,
@@ -1311,7 +1315,7 @@ timelineModule.factory('patientEvents', function(exposures,
 
             data.push(workItem);
         }
-    }
+    };
 
     var getVAS = function (data) {
         var vas = questionnaires.getVASScores();
@@ -1324,7 +1328,7 @@ timelineModule.factory('patientEvents', function(exposures,
             var workItem = {
                 id: '',
                 name: 'work item ' + '',
-                lane: "VAS",
+                lane: 'VAS',
                 start: stdtc,
                 end: endtc,
                 desc: vas[t].QSSTRESC,
@@ -1334,7 +1338,7 @@ timelineModule.factory('patientEvents', function(exposures,
 
             data.push(workItem);
         }
-    }
+    };
 
     var getMSQOL54 = function(data) {
         var healthComposites = questionnaires.getMSQOL54();
@@ -1346,16 +1350,16 @@ timelineModule.factory('patientEvents', function(exposures,
             var workItem = {
                 id: '',
                 name: 'work item ' + '',
-                lane: "MSQOL",
+                lane: 'MSQOL',
                 start: stdtc,
                 end: endtc,
-                desc: healthComposites.phc[t].QSSTRESC+", "+ healthComposites.mhc[t].QSSTRESC,
+                desc: healthComposites.phc[t].QSSTRESC+', '+ healthComposites.mhc[t].QSSTRESC,
                 domain: 'QS',
                 value: {phc: healthComposites.phc[t].QSSTRESC, mhc: healthComposites.mhc[t].QSSTRESC}
             };
             data.push(workItem);
         }
-    }
+    };
 
     var getPROMIS = function(data) {
         var healthComposites = questionnaires.getPROMIS();
@@ -1366,16 +1370,16 @@ timelineModule.factory('patientEvents', function(exposures,
             var workItem = {
                 id: '',
                 name: 'work item ' + '',
-                lane: "PROMIS",
+                lane: 'PROMIS',
                 start: stdtc,
                 end: endtc,
-                desc: healthComposites.phc[t].QSSTRESC+", "+ healthComposites.mhc[t].QSSTRESC,
+                desc: healthComposites.phc[t].QSSTRESC+', '+ healthComposites.mhc[t].QSSTRESC,
                 domain: 'QS',
                 value: {phc: healthComposites.phc[t].QSSTRESC, mhc: healthComposites.mhc[t].QSSTRESC}
             };
             data.push(workItem);
         }
-    }
+    };
 
     var getVisits = function (data) {
         var visits = subjectVisits.getSubjectVisits();
@@ -1386,17 +1390,17 @@ timelineModule.factory('patientEvents', function(exposures,
             var workItem = {
                 id: '',
                 name: 'work item ' + '',
-                lane: "Visits",
+                lane: 'Visits',
                 start: stdtc,
                 end: endtc,
                 desc: visits[t].displayLabel,
                 domain: 'SV',
                 value: '',
-                url: visits[t].DOMAIN+"-"+t
+                url: visits[t].DOMAIN+'-'+t
             };
             data.push(workItem);
         }
-    }
+    };
 
     var getRelapses = function (data) {
         var events = clinicalEvents.getUniqueDatesFromCategory('MS Relapse');
@@ -1408,17 +1412,17 @@ timelineModule.factory('patientEvents', function(exposures,
             var workItem = {
                 id: '',
                 name: 'work item ' + '',
-                lane: "Relapses",
+                lane: 'Relapses',
                 start: stdtc,
                 end: endtc,
                 desc: events[t].displayLabel,
                 domain: 'CE',
                 value: '',
-                url: events[t].DOMAIN+"-"+t
+                url: events[t].DOMAIN+'-'+t
             };
             data.push(workItem);
         }
-    }
+    };
 
     var getLesionVolume = function (data) {
         var lesions = morphologyServices.getFindingByTest('Lesion volume');
@@ -1430,7 +1434,7 @@ timelineModule.factory('patientEvents', function(exposures,
             var workItem = {
                 id: '',
                 name: 'work item ' + '',
-                lane: "Lesion Volume (ml)",
+                lane: 'Lesion Volume (ml)',
                 start: stdtc,
                 end: endtc,
                 desc: lesions[t].MOORRES,
@@ -1440,11 +1444,11 @@ timelineModule.factory('patientEvents', function(exposures,
             };
             data.push(workItem);
         }
-    }
+    };
 
     return {
         getPatientEvents: getPatientEvents
-    }
+    };
 });
 
 
@@ -1457,7 +1461,7 @@ timelineModule.controller('timelineCtrl', function ($rootScope, $scope, patientE
         }
         else
             return false;
-    }
+    };
 
     $scope.dataToView = ['Treatments', 'Visits', 'Relapses', 'EDSS'];
     //$scope.dataToView = ['MSQOL', 'PDDS', 'VAS', 'PROMIS', 'LesionVolume'];
@@ -1474,12 +1478,12 @@ timelineModule.controller('timelineCtrl', function ($rootScope, $scope, patientE
             $scope.dataToView.splice(indexOfData, 1);
         }
         $scope.randomData = patientEvents.getPatientEvents($scope.dataToView);
-    }
+    };
 
     $scope.includeInTimeline = function(dataType) {
         if ($scope.dataToView.indexOf(dataType) == -1) {
             return false;
         }
         return true;
-    }
-})
+    };
+});

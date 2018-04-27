@@ -15,47 +15,47 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
     var deleteQuestionnaires = function() {
         questionnaires = [];
         currentQuestionnaire = [];
-    }
+    };
 
     var populateQuestionnaires = function (RecordItems) {
         var newQuestion = new question();
         //console.log(RecordItems);
         for (var i = 0; i < RecordItems.length; i++){
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    newQuestion.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    newQuestion.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    newQuestion.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'QSSEQ':{
-                    newQuestion.QSSEQ = parseInt(RecordItems[i].value);
-                    break;
-                }
-                case 'QSTESTCD':{
-                    newQuestion.QSTESTCD = RecordItems[i].value;
-                    break;
-                }
-                case 'QSCAT':{
-                    newQuestion.QSCAT = RecordItems[i].value;
-                    break;
-                }
-                case 'QSTEST':{
-                    newQuestion.QSTEST = RecordItems[i].value;
-                    break;
-                }
-                case 'QSORRES':{
-                    newQuestion.QSORRES = RecordItems[i].value;
-                    break;
-                }
-                case 'QSSTRESC':{
-                    /*
+            case 'STUDYID':{
+                newQuestion.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                newQuestion.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                newQuestion.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'QSSEQ':{
+                newQuestion.QSSEQ = parseInt(RecordItems[i].value);
+                break;
+            }
+            case 'QSTESTCD':{
+                newQuestion.QSTESTCD = RecordItems[i].value;
+                break;
+            }
+            case 'QSCAT':{
+                newQuestion.QSCAT = RecordItems[i].value;
+                break;
+            }
+            case 'QSTEST':{
+                newQuestion.QSTEST = RecordItems[i].value;
+                break;
+            }
+            case 'QSORRES':{
+                newQuestion.QSORRES = RecordItems[i].value;
+                break;
+            }
+            case 'QSSTRESC':{
+                /*
                     var value = RecordItems[i].value;
                     var indexOfPeriod = value.indexOf('.');
                     if (indexOfPeriod > -1)
@@ -65,34 +65,35 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
                     break;
                     */
 
-                    newQuestion.QSSTRESC = (parseFloat(RecordItems[i].value));
-                    newQuestion.QSSTRESC = Math.round( newQuestion.QSSTRESC * 10) / 10;
-                }
-                case 'QSSTRESN':{
-                    newQuestion.QSSTRESN = RecordItems[i].value;
-                    break;
-                }
-                case 'QSDTC':{
-                    newQuestion.QSDTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
-                case 'displayLabel':{
-                    newQuestion.displayLabel = RecordItems[i].value;
-                    break;
-                }
-                case 'displayDate':{
-                    newQuestion.displayDate = RecordItems[i].value;
-                    break;
-                }
+                newQuestion.QSSTRESC = (parseFloat(RecordItems[i].value));
+                newQuestion.QSSTRESC = Math.round( newQuestion.QSSTRESC * 10) / 10;
+                break;
+            }
+            case 'QSSTRESN':{
+                newQuestion.QSSTRESN = RecordItems[i].value;
+                break;
+            }
+            case 'QSDTC':{
+                newQuestion.QSDTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
+            case 'displayLabel':{
+                newQuestion.displayLabel = RecordItems[i].value;
+                break;
+            }
+            case 'displayDate':{
+                newQuestion.displayDate = RecordItems[i].value;
+                break;
+            }
             }
         }
         questionnaires.push(newQuestion);
         //console.log(questionnaires);
-    }
+    };
 
     var clearQuestionnaire = function() {
         currentQuestionnaire=[];
-    }
+    };
 
     var setCurrentQuestionnaire = function (event, QSCAT) {
         clearQuestionnaire();
@@ -108,18 +109,18 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         //console.log("Current Q");
         //console.log(currentQuestionnaire);
 
-    }
+    };
 
     var editQuestion = function(question, resName, resValue) {
-        var USUBJID = {fieldName: "USUBJID", value: question.USUBJID};
-        var SEQ = {fieldName:"QSSEQ", value: question.QSSEQ};
+        var USUBJID = {fieldName: 'USUBJID', value: question.USUBJID};
+        var SEQ = {fieldName:'QSSEQ', value: question.QSSEQ};
         var RECTOCHANGE = {fieldName:resName, value: resValue};
 
         var idRecord = [USUBJID, SEQ];
         var valueRecord = [RECTOCHANGE];
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     var generateSEQ = function () {
         /*
@@ -139,19 +140,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         */
 
         return new Date().getTime() + Math.floor((Math.random() * 100) + 1);
-    }
-
-    function sortNumber(a,b) {
-        return a - b;
-    }
-
-    var compileQuestions = function () {
-        var seq = [];
-        for (var e = 0; e < questionnaires.length; e++) {
-            seq.push(questionnaires[e].QSSEQ);
-        }
-        return seq;
-    }
+    };
 
     var addQuestion = function (QSDTC, question) {
         question.QSSEQ = generateSEQ();
@@ -159,7 +148,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         questionnaires.push(question);
         if (!viewService.workOffline())
             records.saveRecord(question);
-    }
+    };
 
     var deleteQuestion = function (question) {
         var index = questionnaires.indexOf(question);
@@ -168,7 +157,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         }
         if (!viewService.workOffline())
             records.deleteRecord(question);
-    }
+    };
 
     var getQuestionByTest = function (QSTEST, QSDTC) {
         for (var q = 0; q < questionnaires.length; q++) {
@@ -178,7 +167,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
             }
         }
         return null;
-    }
+    };
 
     var getCurrentQuestionByTest = function (QSTEST) {
         for (var q = 0; q < currentQuestionnaire.length; q++) {
@@ -187,11 +176,11 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
             }
         }
         return null;
-    }
+    };
 
     var getCurrentQuestion = function () {
         return currentQuestionnaire;
-    }
+    };
 
     var getAllQuestionsByCat = function(QSCAT) {
         var questionsFromCategory = [];
@@ -201,7 +190,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
             }
         }
         return questionsFromCategory;
-    }
+    };
 
     var getQuestionsByCatOnDate = function (QSCAT, QSDTC) {
         var questionsFromCategory = [];
@@ -212,11 +201,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
             }
         }
         return questionsFromCategory;
-    }
-
-    var printQuestions = function() {
-        console.log(questionnaires);
-    }
+    };
 
     var getUniqueDates = function () {
         var MSCAT = ['PDDS', 'MSQOL-54', 'VAS', 'PROMIS'];
@@ -230,7 +215,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         }
 
         return listOfDates;
-    }
+    };
 
     var getEDSSScores = function() {
         var edssScores = [];
@@ -244,7 +229,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         edssScores.sort(date_sort_asc);
         //console.log(edssScores);
         return edssScores;
-    }
+    };
 
     var getPDDSScores = function() {
         var pddsScores = [];
@@ -258,7 +243,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         pddsScores.sort(date_sort_asc);
         //console.log(edssScores);
         return pddsScores;
-    }
+    };
 
     var getVASScores = function() {
         var vasScores = [];
@@ -272,7 +257,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         vasScores.sort(date_sort_asc);
         //console.log(vasScores);
         return vasScores;
-    }
+    };
 
     var date_sort_asc = function (date1, date2) {
         // This is a comparison function that will result in dates being sorted in
@@ -296,7 +281,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         phc.sort(date_sort_asc);
         mhc.sort(date_sort_asc);
         return {phc:phc, mhc:mhc};
-    }
+    };
 
     var getPROMIS = function() {
         var phc = [];
@@ -311,7 +296,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         phc.sort(date_sort_asc);
         mhc.sort(date_sort_asc);
         return {phc:phc, mhc:mhc};
-    }
+    };
 
     var getUniqueDatesAndCategories = function (questions) {
         var uniqueDates = [];
@@ -321,7 +306,7 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
             }
         }
         return uniqueDates;
-    }
+    };
 
     var dateExists = function (uniqueDates, QSDTC){
         for (var d = 0; d < uniqueDates.length; d++) {
@@ -330,11 +315,11 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
             }
         }
         return false;
-    }
+    };
 
     var getQuestionnaires = function() {
         return questionnaires;
-    }
+    };
 
 
     return {
@@ -344,7 +329,6 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         getQuestionsByCatOnDate: getQuestionsByCatOnDate,
         deleteQuestion: deleteQuestion,
         populateQuestionnaires: populateQuestionnaires,
-        printQuestions:printQuestions,
         setCurrentQuestionnaire: setCurrentQuestionnaire,
         getCurrentQuestionByTest: getCurrentQuestionByTest,
         getUniqueDates: getUniqueDates,
@@ -357,31 +341,31 @@ questionnaireModule.service('questionnaires', function (question, records, viewS
         getVASScores: getVASScores,
         getPROMIS: getPROMIS,
         getQuestionnaires: getQuestionnaires
-    }
-})
+    };
+});
 
 questionnaireModule.factory('question', function () {
     return function(USUBJID, QSCAT) {
-        this.STUDYID="OPTIMISE";
+        this.STUDYID='OPTIMISE';
         this.USUBJID= USUBJID;
-        this.QSSEQ= "";
-        this.QSTESTCD= "";   // Question short name
-        this.QSTEST= "";  // Question Name eg. EDSS-Pyramidal
+        this.QSSEQ= '';
+        this.QSTESTCD= '';   // Question short name
+        this.QSTEST= '';  // Question Name eg. EDSS-Pyramidal
         this.QSCAT= QSCAT;     // Category eg. EDSS
-        this.QSORRES= "";   //Finding in Original Units
-        this.QSSTRESC= ""; //Character Result/Finding in Standard Format
-        this.QSSTRESN= ""; // ￼Numeric Finding in Standard Units
-        this.VISITNUM= "";
-        this.VISIT= "";
-        this.QSDTC= "";
-        this.DOMAIN="QS";
-    }
-})
+        this.QSORRES= '';   //Finding in Original Units
+        this.QSSTRESC= ''; //Character Result/Finding in Standard Format
+        this.QSSTRESN= ''; // ￼Numeric Finding in Standard Units
+        this.VISITNUM= '';
+        this.VISIT= '';
+        this.QSDTC= '';
+        this.DOMAIN='QS';
+    };
+});
 
 questionnaireModule.controller('questionnaireInfoCtrl', function($scope, $rootScope,
-                                                                     $parse,
-                                                                     questionnaires, question,
-                                                                     viewService) {
+    $parse,
+    questionnaires, question,
+    viewService) {
     $scope.USUBJID = '';
     $scope.questionnaireIndex = '';
 
@@ -389,26 +373,25 @@ questionnaireModule.controller('questionnaireInfoCtrl', function($scope, $rootSc
 
     var dayMonthYear = angular.element(document.querySelector('.QSDTC_DayMonthYear'));
     dayMonthYear.datepicker({
-        format: "dd/mm/yyyy",
+        format: 'dd/mm/yyyy',
         endDate: currentDate.getFullYear().toString(),
         startView: 1,
-        orientation: "top left",
+        orientation: 'top left',
         autoclose: true,
         todayHighlight: true
     });
 
     $scope.setQSDTC = function() {
         $scope.QSDTC = new Date($scope.QSDTC_displayDate.substr(6), parseInt($scope.QSDTC_displayDate.substr(3,2))-1, $scope.QSDTC_displayDate.substr(0,2));
-        console.log($scope.QSDTC);
-    }
+    };
 
     $rootScope.setQuestionnaireUSUBJID = function(USUBJID) {
         $scope.USUBJID = USUBJID;
-    }
+    };
 
     $rootScope.setQuestionnaireIndex = function(questionnaireIndex) {
         $scope.questionnaireIndex = questionnaireIndex;
-    }
+    };
 
     $scope.showThisContent = function() {
         if (viewService.getView().Section=='Questionnaire') {
@@ -471,19 +454,18 @@ questionnaireModule.controller('questionnaireInfoCtrl', function($scope, $rootSc
             newQuestion.displayDate = visitDate.toDateString();
             questionnaires.addQuestion(visitDate, newQuestion);
         }
-        questionnaires.printQuestions();
-    }
+    };
 
 
     var editQuestion = function (question, QSSTRESC) {
         question.QSDTC = $scope.QSDTC;
         question.QSSTRESC = QSSTRESC;
         questionnaires.editQuestion(question, 'QSSTRESC', question.QSSTRESC);
-    }
+    };
 
     $scope.getDisabledFields = function() {
         return viewService.getView().DisableInputFields;
-    }
+    };
 
     $rootScope.setNewQuestionnaireFields = function() {
         questionnaires.clearQuestionnaire();
@@ -497,55 +479,58 @@ questionnaireModule.controller('questionnaireInfoCtrl', function($scope, $rootSc
         if ((currentQuestionnaire != null) &&(currentQuestionnaire.length > 0))
         {
             $scope.QSDTC =  currentQuestionnaire[0].QSDTC;
-            $scope.QSDTC_displayDate = $scope.QSDTC.getDate()+"/"+(parseInt($scope.QSDTC.getMonth()+1))+"/"+$scope.QSDTC.getFullYear();// set date
+            $scope.QSDTC_displayDate = $scope.QSDTC.getDate()+'/'+(parseInt($scope.QSDTC.getMonth()+1))+'/'+$scope.QSDTC.getFullYear();// set date
+
+            var questionOnThisVisit = null;
+            var model = null;
 
             switch (currentQuestionnaire[0].QSCAT) {
-                case 'PDDS': {
-                    var PDDS = {scopeVariable:'pddScore', QSTEST:"Patient Determined Disease Step"};
-                    var questionOnThisVisit = questionnaires.getCurrentQuestionByTest(PDDS.QSTEST);
-                    if (questionOnThisVisit != null) {  // if a question was answered and recorded
-                        var model = $parse(PDDS.scopeVariable);
-                        model.assign($scope, questionOnThisVisit.QSSTRESC);
-                    }
-                    break;
+            case 'PDDS': {
+                var PDDS = {scopeVariable:'pddScore', QSTEST:'Patient Determined Disease Step'};
+                questionOnThisVisit = questionnaires.getCurrentQuestionByTest(PDDS.QSTEST);
+                if (questionOnThisVisit != null) {  // if a question was answered and recorded
+                    model = $parse(PDDS.scopeVariable);
+                    model.assign($scope, questionOnThisVisit.QSSTRESC);
                 }
-                case 'MSQOL-54': {
-                    var physicalHealth = questionnaires.getCurrentQuestionByTest('Physical Health Composite');
-                    $scope.QSDTC = physicalHealth.QSDTC;
-                    $scope.physicalHealthComposite = physicalHealth.QSSTRESC;
-                    $scope.mentalHealthComposite = questionnaires.getCurrentQuestionByTest('Mental Health Composite').QSSTRESC;
-                    break;
-                }
-                case 'VAS': {
-                    var VAS = {scopeVariable:'vasScore', QSTEST:"VAS"};
-                    var questionOnThisVisit = questionnaires.getCurrentQuestionByTest(VAS.QSTEST);
-                    if (questionOnThisVisit != null) {  // if a question was answered and recorded
-                        var model = $parse(VAS.scopeVariable);
-                        model.assign($scope, questionOnThisVisit.QSSTRESC);
-                    }
+                break;
+            }
+            case 'MSQOL-54': {
+                var physicalHealth = questionnaires.getCurrentQuestionByTest('Physical Health Composite');
+                $scope.QSDTC = physicalHealth.QSDTC;
+                $scope.physicalHealthComposite = physicalHealth.QSSTRESC;
+                $scope.mentalHealthComposite = questionnaires.getCurrentQuestionByTest('Mental Health Composite').QSSTRESC;
+                break;
+            }
+            case 'VAS': {
+                var VAS = {scopeVariable:'vasScore', QSTEST:'VAS'};
+                questionOnThisVisit = questionnaires.getCurrentQuestionByTest(VAS.QSTEST);
+                if (questionOnThisVisit != null) {  // if a question was answered and recorded
+                    model = $parse(VAS.scopeVariable);
+                    model.assign($scope, questionOnThisVisit.QSSTRESC);
                 }
             }
+            }
         }
-    }
+    };
 
     var clearFields = function() {
         $scope.QSDTC = '';
         $scope.QSDTC_displayDate='';
 
-        var MSQOL54 = [{scopeVariable: 'physicalHealthComposite', testName: "Physical Health Composite"},
-            {scopeVariable: 'mentalHealthComposite', testName: "Mental Health Composite"}];
+        var MSQOL54 = [{scopeVariable: 'physicalHealthComposite', testName: 'Physical Health Composite'},
+            {scopeVariable: 'mentalHealthComposite', testName: 'Mental Health Composite'}];
         for (var k = 0; k < MSQOL54.length; k++){
             // Get the model
             var modelValue = $parse(MSQOL54[k].scopeVariable);
             modelValue.assign($scope,'');
         }
 
-        var PDDS = {scopeVariable:'pddScore', QSTEST:"Patient Determined Disease Step"};
+        var PDDS = {scopeVariable:'pddScore', QSTEST:'Patient Determined Disease Step'};
         var model = $parse(PDDS.scopeVariable);
         model.assign($scope, '');
 
-        var VAS = {scopeVariable:'vasScore', QSTEST:"VAS"};
-        var model = $parse(VAS.scopeVariable);
+        var VAS = {scopeVariable:'vasScore', QSTEST:'VAS'};
+        model = $parse(VAS.scopeVariable);
         model.assign($scope, '');
 
         /*
@@ -566,7 +551,7 @@ questionnaireModule.controller('questionnaireInfoCtrl', function($scope, $rootSc
              var model = $parse(MSQOL[q].scopeVariable);
                 model.assign($scope, '');
         }*/
-    }
+    };
 });
 
 questionnaireModule.directive('questionnaireEntry', function() {

@@ -31,7 +31,7 @@ morphologyModule.factory('Morphology', function() {
             MOMETHOD:'',
             MOANMETH:'',
             MODTC:''
-        }
+        };
         return Morphology;
     };
 });
@@ -40,103 +40,103 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
     var morphologicalFindings = [];
 
     var deleteMorphologicalFindings = function() {
-        morphologicalFindings = []
-    }
+        morphologicalFindings = [];
+    };
 
     var getMorphologicalFindings = function() {
         return morphologicalFindings;
-    }
+    };
 
     var populateMorphologicalFindings = function (RecordItems) {
         var aFinding = new Morphology();
         //console.log(RecordItems);
         for (var i = 0; i < RecordItems.length; i++){
             switch (RecordItems[i].fieldName) {
-                case 'STUDYID':{
-                    aFinding.STUDYID = RecordItems[i].value;
-                    break;
-                }
-                case 'DOMAIN':{
-                    aFinding.DOMAIN = RecordItems[i].value;
-                    break;
-                }
-                case 'USUBJID':{
-                    aFinding.USUBJID = RecordItems[i].value;
-                    break;
-                }
-                case 'SPDEVID':{
-                    aFinding.SPDEVID = RecordItems[i].value;
-                    break;
-                }
-                case 'MOSEQ':{
-                    aFinding.MOSEQ = (RecordItems[i].value);
-                    break;
-                }
-                case 'MOLNKID':{
-                    aFinding.MOLNKID = RecordItems[i].value;
-                    break;
-                }
-                case 'MOREFID':{
-                    aFinding.MOREFID = RecordItems[i].value;
-                    break;
-                }
-                case 'MOTESTCD':{
-                    aFinding.MOTESTCD = RecordItems[i].value;
-                    break;
-                }
-                case 'MOTEST':{
-                    aFinding.MOTEST = RecordItems[i].value;
-                    break;
-                }
-                case 'MOORRES':{
-                    aFinding.MOORRES = getPossiblyTrueFalseValues(RecordItems[i].value);
-                    break;
-                }
-                case 'MOORRESU':{
-                    aFinding.MOORRESU = RecordItems[i].value;
-                    break;
-                }
-                case 'MOSTRESC':{
-                    aFinding.MOSTRESC = RecordItems[i].value;
-                    break;
-                }
-                case 'MOSTRESN':{
-                    aFinding.MOSTRESN = RecordItems[i].value;
-                    break;
-                }
-                case 'MOSTRESU':{
-                    aFinding.MOSTRESU = RecordItems[i].value;
-                    break;
-                }
-                case 'MOLOC':{
-                    aFinding.MOLOC = RecordItems[i].value;
-                    break;
-                }
-                case 'MOSLOC':{
-                    aFinding.MOSLOC = RecordItems[i].value;
-                    break;
-                }
-                case 'MOLAT':{
-                    aFinding.MOLAT = RecordItems[i].value;
-                    break;
-                }
-                case 'MOMETHOD':{
-                    aFinding.MOMETHOD = RecordItems[i].value;
-                    break;
-                }
-                case 'MOANMETH':{
-                    aFinding.MOANMETH = RecordItems[i].value;
-                    break;
-                }
-                case 'MODTC':{
-                    aFinding.MODTC = records.formatStringToDate(RecordItems[i].value);
-                    break;
-                }
+            case 'STUDYID':{
+                aFinding.STUDYID = RecordItems[i].value;
+                break;
+            }
+            case 'DOMAIN':{
+                aFinding.DOMAIN = RecordItems[i].value;
+                break;
+            }
+            case 'USUBJID':{
+                aFinding.USUBJID = RecordItems[i].value;
+                break;
+            }
+            case 'SPDEVID':{
+                aFinding.SPDEVID = RecordItems[i].value;
+                break;
+            }
+            case 'MOSEQ':{
+                aFinding.MOSEQ = (RecordItems[i].value);
+                break;
+            }
+            case 'MOLNKID':{
+                aFinding.MOLNKID = RecordItems[i].value;
+                break;
+            }
+            case 'MOREFID':{
+                aFinding.MOREFID = RecordItems[i].value;
+                break;
+            }
+            case 'MOTESTCD':{
+                aFinding.MOTESTCD = RecordItems[i].value;
+                break;
+            }
+            case 'MOTEST':{
+                aFinding.MOTEST = RecordItems[i].value;
+                break;
+            }
+            case 'MOORRES':{
+                aFinding.MOORRES = getPossiblyTrueFalseValues(RecordItems[i].value);
+                break;
+            }
+            case 'MOORRESU':{
+                aFinding.MOORRESU = RecordItems[i].value;
+                break;
+            }
+            case 'MOSTRESC':{
+                aFinding.MOSTRESC = RecordItems[i].value;
+                break;
+            }
+            case 'MOSTRESN':{
+                aFinding.MOSTRESN = RecordItems[i].value;
+                break;
+            }
+            case 'MOSTRESU':{
+                aFinding.MOSTRESU = RecordItems[i].value;
+                break;
+            }
+            case 'MOLOC':{
+                aFinding.MOLOC = RecordItems[i].value;
+                break;
+            }
+            case 'MOSLOC':{
+                aFinding.MOSLOC = RecordItems[i].value;
+                break;
+            }
+            case 'MOLAT':{
+                aFinding.MOLAT = RecordItems[i].value;
+                break;
+            }
+            case 'MOMETHOD':{
+                aFinding.MOMETHOD = RecordItems[i].value;
+                break;
+            }
+            case 'MOANMETH':{
+                aFinding.MOANMETH = RecordItems[i].value;
+                break;
+            }
+            case 'MODTC':{
+                aFinding.MODTC = records.formatStringToDate(RecordItems[i].value);
+                break;
+            }
             }
         }
         morphologicalFindings.push(aFinding);
         //console.log(aFinding);
-    }
+    };
 
     var getPossiblyTrueFalseValues = function (value) {
         if (value =='True')
@@ -146,7 +146,7 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
         }
         else
             return value;
-    }
+    };
 
     var generateSEQ = function () {
         var SEQs = compileFindings();
@@ -157,7 +157,7 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
         else {
             return 0;
         }
-    }
+    };
 
     function sortNumber(a,b) {
         return a - b;
@@ -170,50 +170,50 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
             seq.push(morphologicalFindings[e].MOSEQ);
         }
         return seq;
-    }
+    };
 
     var addMorphologicalFinding = function(mo) {
         mo.MOSEQ = generateSEQ();
         morphologicalFindings.push(mo);
         if (!viewService.workOffline())
             records.saveRecord(mo);
-    }
+    };
 
     var editMorphologicalFinding = function(mo) {
-        var USUBJID = {fieldName: "USUBJID", value: mo.USUBJID};
-        var MOTEST = {fieldName:"MOTEST", value: mo.MOTEST};
-        var MOSTRESC = {fieldName:"MOSTRESC", value: mo.MOSTRESC};
-        var MOSEQ = {fieldName:"MOSEQ", value: mo.MOSEQ};
+        var USUBJID = {fieldName: 'USUBJID', value: mo.USUBJID};
+        var MOTEST = {fieldName:'MOTEST', value: mo.MOTEST};
+        var MOSTRESC = {fieldName:'MOSTRESC', value: mo.MOSTRESC};
+        var MOSEQ = {fieldName:'MOSEQ', value: mo.MOSEQ};
 
         var idRecord = [USUBJID, MOTEST, MOSEQ];
         var valueRecord = [MOSTRESC];
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     var editMorphologicalResult = function(mo) {
-        var USUBJID = {fieldName: "USUBJID", value: mo.USUBJID};
-        var MOTEST = {fieldName:"MOTEST", value: mo.MOTEST};
-        var MOORRES = {fieldName:"MOORRES", value: mo.MOORRES};
-        var MOSEQ = {fieldName:"MOSEQ", value: mo.MOSEQ};
+        var USUBJID = {fieldName: 'USUBJID', value: mo.USUBJID};
+        var MOTEST = {fieldName:'MOTEST', value: mo.MOTEST};
+        var MOORRES = {fieldName:'MOORRES', value: mo.MOORRES};
+        var MOSEQ = {fieldName:'MOSEQ', value: mo.MOSEQ};
 
         var idRecord = [USUBJID, MOTEST, MOSEQ];
         var valueRecord = [MOORRES];
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     var editMorphologicalLocation = function(mo) {
-        var USUBJID = {fieldName: "USUBJID", value: mo.USUBJID};
-        var MOTEST = {fieldName:"MOTEST", value: mo.MOTEST};
-        var MOLOC = {fieldName:"MOLOC", value: mo.MOLOC};
-        var MOSEQ = {fieldName:"MOSEQ", value: mo.MOSEQ};
+        var USUBJID = {fieldName: 'USUBJID', value: mo.USUBJID};
+        var MOTEST = {fieldName:'MOTEST', value: mo.MOTEST};
+        var MOLOC = {fieldName:'MOLOC', value: mo.MOLOC};
+        var MOSEQ = {fieldName:'MOSEQ', value: mo.MOSEQ};
 
         var idRecord = [USUBJID, MOTEST, MOSEQ];
         var valueRecord = [MOLOC];
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
-    }
+    };
 
     var deleteMorphologicalFinding = function(mo) {
         var index = morphologicalFindings.indexOf(mo);
@@ -222,7 +222,7 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
             if (!viewService.workOffline())
                 records.deleteRecord(mo);
         }
-    }
+    };
 
     var getFindingsByDate = function(MODTC) {
         var findings = [];
@@ -233,7 +233,7 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
             }
         }
         return findings;
-    }
+    };
 
     var getFindingByDateTest = function(MODTC, MOTEST) {
 
@@ -245,7 +245,7 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
             }
         }
         return null;
-    }
+    };
 
     var getFindingByTest = function(MOTEST) {
         var listMOTests = [];
@@ -256,7 +256,7 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
             }
         }
         return listMOTests;
-    }
+    };
 
     var getFindingByTestAndLocation = function(MODTC, MOTEST, MOLOC) {
 
@@ -269,11 +269,7 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
             }
         }
         return null;
-    }
-
-    var print = function() {
-        console.log(morphologicalFindings);
-    }
+    };
 
     return {
         addMorphologicalFinding: addMorphologicalFinding,
@@ -281,7 +277,6 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
         editMorphologicalLocation: editMorphologicalLocation,
         getFindingsByDate: getFindingsByDate,
         getFindingByTest:getFindingByTest,
-        print:print,
         editMorphologicalFinding:editMorphologicalFinding,
         editMorphologicalResult: editMorphologicalResult,
         populateMorphologicalFindings: populateMorphologicalFindings,
@@ -289,5 +284,5 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
         getMorphologicalFindings:getMorphologicalFindings,
         deleteMorphologicalFindings:deleteMorphologicalFindings,
         getFindingByDateTest: getFindingByDateTest
-    }
+    };
 });

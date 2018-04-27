@@ -11,24 +11,23 @@ var viewModule =  angular.module('Optimise.view',[]);
 viewModule.service('viewService', function(){
 
     var setView;
-    var view = {"Section":'Patient', "DisableInputFields":true}
+    var view = {'Section':'Patient', 'DisableInputFields':true};
     var offlineWork = true;
     var viewConfig = null;
     var authenticated = false;
-    var viewConfigMap;
 
     var setConfiguration = function(data) {
         //viewConfigMap = new Map();
         viewConfig = data;
-    }
+    };
 
     var getConfiguration = function() {
         return viewConfig;
-    }
+    };
 
     var getConfigurationRoot = function() {
         return viewConfig.name;
-    }
+    };
 
     var getConfigurationSetting = function(term) {
         if (viewConfig!= null) {
@@ -48,7 +47,7 @@ viewModule.service('viewService', function(){
             }
         }
         return false;
-    }
+    };
 
     var getChildConfigurationSetting = function(child, term) {
         if (child != null) {
@@ -69,15 +68,15 @@ viewModule.service('viewService', function(){
         }
 
         return false;
-    }
+    };
 
     var setOffline = function (offline) {
         offlineWork = offline;
-    }
+    };
 
     var workOffline = function () {
         return offlineWork;
-    }
+    };
 
     setView = function (viewName, disable) {
         view.Section = viewName;
@@ -86,15 +85,15 @@ viewModule.service('viewService', function(){
 
     var getView = function() {
         return view;
-    }
+    };
 
     var setAuthenticated = function(status) {
         authenticated = status;
-    }
+    };
 
     var isAuthenticated = function() {
         return authenticated;
-    }
+    };
 
 
     return {
@@ -109,4 +108,4 @@ viewModule.service('viewService', function(){
         isAuthenticated: isAuthenticated,
         getConfigurationRoot: getConfigurationRoot
     };
-})
+});
