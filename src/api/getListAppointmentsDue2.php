@@ -48,29 +48,38 @@
 	$weekAdvance = 604800;
 
 	$reminders_cursor = $reminders->find(array());
+	
 	foreach ($reminders_cursor as $reminder) {
-		//echo "\n".$reminder['USUBJID'].": ".$reminder['REMINDERFREQUENCY'];
-		//echo "\n".$reminder['USUBJID'].": ".$reminder['REMINDERCATEGORY'];
+
 		$interval = intval($reminder['REMINDERFREQUENCY']);
 		$mostRecent = getLatestAppointment($reminder['USUBJID'],$reminder['REMINDERCATEGORY']);
-		//echo "\nRecent: ".date("c", $mostRecent);
-		//echo "\nInterval: ".$interval;
+
 		if ($mostRecent != '') {
-		   $dueDateTimeStamp = $mostRecent + $interval - $weekAdvance;
-		   //echo "\nDue: ".date("c",$dueDateTimeStamp);
-		
-		   $overdueSeconds = $todayTimeStamp - $dueDateTimeStamp;
-		   $overdueMinutes = $overdueSeconds/60;
-		   $overdueHours = $overdueMinutes/60;
-		   $overdueDays = $overdueHours/24;
-		   //echo "\nOverdueDays".$overdueDays;
+			
+			$dueDateTimeStamp = $mostRecent + $interval - $weekAdvance;
+			$lastAppointment = date('d-m-Y', $mostRecent);
+
+		 } else {
+			 
+			$dueDateTimeStamp = strtotime($reminder['REMINDERSTDTC']) + $interval - $weekAdvance;
+			$lastAppointment = "None recorded. Reminder created on " . date('d-m-Y', strtotime($reminder['REMINDERSTDTC']));
+
+		}
+
+		$overdueSeconds = $todayTimeStamp - $dueDateTimeStamp;
+		$overdueMinutes = $overdueSeconds/60;
+		$overdueHours = $overdueMinutes/60;
+		$overdueDays = $overdueHours/24;
 	
-			if ($overdueDays > 0) {
-		     	   $listReminders[$reminder['USUBJID']][] = array('LastAppointment'=>date("c", $mostRecent),
-					      	    'DueAppointment'=>date("c", ($dueDateTimeStamp+$weekAdvance)),
-						    'Notes'=>$reminder['REMINDERNOTES']);
-		 	}
-		 }
+		if ($overdueDays > 7) {
+		    $listReminders[$reminder['USUBJID']][] = array('LastAppointment'=>$lastAppointment,
+					      	    							'DueAppointment'=>date("d-m-Y", $dueDateTimeStamp+$weekAdvance),
+						    								'Notes'=>$reminder['REMINDERNOTES'] . "Overdue " . intval($overdueDays-7) . " days");
+		} else {
+			$listReminders[$reminder['USUBJID']][] = array('LastAppointment'=>$lastAppointment,
+															'DueAppointment'=>date("d-m-Y", $dueDateTimeStamp+$weekAdvance),
+			  												'Notes'=>$reminder['REMINDERNOTES']);
+		}
 		
 	}
 
