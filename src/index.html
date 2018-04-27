@@ -174,7 +174,8 @@
                       ng-class="{selected: isSelected(event, getEventDates().length)}">
                       <!-- <td>{{$index+1}}</td> -->
                       <td>
-                        <span style="padding-left: 15px; line-height: 30px;">{{event.displayLabel | limitTo : 10}}</span><br/>
+                        <!--<span style="padding-left: 15px; line-height: 30px;">{{event.displayLabel | limitTo : 10}}</span><br/>-->
+                        <span style="padding-left: 15px; line-height: 30px;">{{event.displayLabel}}</span><br/>
                         <span style="padding-left: 15px; line-height: 30px;">{{event.displayDate}}</span>
                       </td>
                       <td style="text-align: right;">
