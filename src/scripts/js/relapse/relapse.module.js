@@ -256,7 +256,7 @@ relapseModule.controller('relapseInfoCtrl', function ($rootScope,
 
     $scope.enableSeverityOutcomeCapture = function() {
         if (($scope.pyramidalTract) || ($scope.cerebellum) || ($scope.brainStem) || ($scope.sensory) || ($scope.bowelBladder) ||
-            ($scope.visual) || ($scope.neuropsycho)) {
+            ($scope.visual) || ($scope.higherFunctional)) {
             return true;
         }
         return false;
