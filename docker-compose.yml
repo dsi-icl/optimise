@@ -19,3 +19,4 @@ services:
     command: mongod --smallfiles # --quiet
     ports:
       - 27017:27017
+      
