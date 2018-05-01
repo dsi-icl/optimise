@@ -1124,7 +1124,7 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
     var filterPatientList = function () {
 
         $scope.criteriaFiltered = $.extend(true, {}, $scope.flatRecords);
-        var shouldKeeps = $('.search-field-criteria').find('input, textarea, select').map((i, e) => $(e).data('shouldKeep'));
+        var shouldKeeps = $('.search-field-criteria').find('input, textarea, select').map(function (i, e) { return $(e).data('shouldKeep');});
 
         $.each(shouldKeeps, function (i, shouldKeep) {
             Object.keys($scope.criteriaFiltered).forEach(function (key) {
