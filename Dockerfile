@@ -1,6 +1,6 @@
 FROM php:5.6-apache
 
-LABEL author="Florian Guitton" email="f.guitton@imperial.ac.uk" version="0.3.1"
+LABEL author="Florian Guitton" email="f.guitton@imperial.ac.uk" version="0.3.2"
 
 RUN apt-get update; \
     apt-get dist-upgrade -y; \
