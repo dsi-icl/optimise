@@ -815,7 +815,8 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
             'values': [
                 'Right',
                 'Left',
-                'Ambidextrous'
+                'Ambidextrous',
+                'Unknown'
             ],
             'enabled': true
         },
@@ -856,7 +857,8 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
             'values': [
                 'Female',
                 'Male',
-                'Other'
+                'Other',
+                'Unknown'
             ],
             'enabled': true
         },
@@ -889,7 +891,8 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
                 'Native American',
                 'Arab',
                 'Persian',
-                'Other Mixed'
+                'Other Mixed',
+                'Unknown'
             ],
             'enabled': true
         },
