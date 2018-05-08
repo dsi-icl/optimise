@@ -147,6 +147,7 @@
                 <div class="form-group">
                   <label class='control-label'>EDMUS</label>
                   <select class="form-control" ng-model="edmus_score" ng-change="addEDMUS_Main()" ng-disabled="preventAddVisitProperties()">
+                    <option>Unknown</option>
                     <option>0</option>
                     <option>1</option>
                     <option>2</option>
@@ -237,6 +238,7 @@
                   <div class="input-group">
                     <span class="input-group-addon">Left</span>
                     <select class="form-control" ng-model="lowContrastVisualAcuityLeft" ng-change="addProcedure('Low Contrast Visual Acuity')">
+                      <option>Unknown</option>
                       <option>200</option>
                       <option>160</option>
                       <option>125</option>
@@ -261,6 +263,7 @@
                   <div class="input-group">
                     <span class="input-group-addon">Right</span>
                     <select class="form-control" ng-model="lowContrastVisualAcuityRight" ng-change="addProcedure('Low Contrast Visual Acuity')">
+                      <option>Unknown</option>
                       <option>200</option>
                       <option>160</option>
                       <option>125</option>
