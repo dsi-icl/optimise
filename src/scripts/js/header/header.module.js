@@ -885,13 +885,10 @@ headerModule.controller('searchCtrl', function ($scope, $uibModalInstance, sourc
             ],
             'values': [
                 'White',
+                'Asian',
                 'Black',
-                'Chinese',
-                'Other Asian',
-                'Native American',
-                'Arab',
-                'Persian',
-                'Other Mixed',
+                'Mixed/Multiple ethnic groups',
+                'Other ethnic group',
                 'Unknown'
             ],
             'enabled': true
