@@ -16,7 +16,7 @@ class PatientController {
         }
         queryid = 'patients.alias_id LIKE "%' + queryid + '%"';
         knex('patients')
-          .select('patients.id', 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
+          .select({patientId:'patients.id'}, 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
           .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
           .whereRaw(queryid)
           .then(result => {
@@ -27,7 +27,7 @@ class PatientController {
 
     static getPatientById(req, res){
         knex('patients')
-          .select('patients.id', 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
+          .select({patientId:'patients.id'}, 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
           .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
           .whereRaw("patients.alias_id IS '" +  req.params.patientID + "'")
           .then(result => {
@@ -38,4 +38,4 @@ class PatientController {
 }
 
 
-exports.PatientController = PatientController;
+module.exports = PatientController;
