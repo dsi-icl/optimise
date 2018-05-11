@@ -1,5 +1,7 @@
 const {isEmptyObject} = require('../utils/basic-utils');
 
+const knex = require('../utils/db-connection');
+
 class PatientController {
     static searchPatientsById(req, res){
         let queryid;
@@ -13,7 +15,7 @@ class PatientController {
           return
         }
         queryid = 'patients.alias_id LIKE "%' + queryid + '%"';
-        this('patients')
+        knex('patients')
           .select('patients.id', 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
           .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
           .whereRaw(queryid)
@@ -24,7 +26,7 @@ class PatientController {
     }
 
     static getPatientById(req, res){
-        this('patients')
+        knex('patients')
           .select('patients.id', 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
           .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
           .whereRaw("patients.alias_id IS '" +  req.params.patientID + "'")
