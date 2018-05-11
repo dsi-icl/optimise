@@ -1,0 +1,21 @@
+swagger: "2.0"
+info:
+  description: "REST-API documentation for optimise"
+  version: "1.0.0"
+  title: "Optimise REST-API"
+  contact:
+    email: "c.sou16@imperial.ac.uk"
+host: "localhost:3000"
+basePath: "/api"
+paths:
+  /patients:
+    get:
+      summary: 'get patient information'
+      description: 'if query string is not provided, then it returns all the patients. if query string "id={id}" is provided, then it returns patients with id containing "id"'
+      produces: 
+      - "application/json"
+      responses:
+        400:
+          description: 'The query string can only have one parameter "id"'
+        200:
+          description: 'Result'
