@@ -10,7 +10,7 @@ basePath: "/api"
 paths:
   /patients:
     get:
-      summary: 'get patient information'
+      summary: 'search patient'
       description: 'if query string is not provided, then it returns all the patients. if query string "id={id}" is provided, then it returns patients with id containing "id"'
       produces: 
       - "application/json"
@@ -19,3 +19,12 @@ paths:
           description: 'The query string can only have one parameter "id"'
         200:
           description: 'Result'
+  /patient/:id:
+    get:
+      summary: 'get patient information by id'
+      description: 'get patient information by id'
+      produces: 
+      - "application/json"
+      responses:
+        200:
+          description: 'Result. Could be empty'
