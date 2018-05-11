@@ -33,7 +33,7 @@
                             <span class="input-group-addon">Amplitude</span>
                             <input type="text"  class="form-control"
                                    ng-model="vepLeftAmplitude"
-                                   ng-change="saveVEPFinding('P100 Amplitude', 'Left');"
+                                   ng-blur="saveVEPFinding('P100 Amplitude', 'Left');"
                                    ng-disabled="vepLeftAbnormal==''">
                             <span class="input-group-addon">uV</span>
                         </div>
@@ -41,7 +41,7 @@
                             <span class="input-group-addon">P100 Latency</span>
                             <input type="text"  class="form-control"
                                    ng-model="vepLeftLatency"
-                                   ng-change="saveVEPFinding('P100 Latency', 'Left');"
+                                   ng-blur="saveVEPFinding('P100 Latency', 'Left');"
                                    ng-disabled="vepLeftAbnormal==''">
                             <span class="input-group-addon">msec</span>
                         </div>
@@ -76,7 +76,7 @@
                             <span class="input-group-addon">Amplitude</span>
                             <input type="text"  class="form-control"
                                    ng-model="vepRightAmplitude"
-                                   ng-change="saveVEPFinding('P100 Amplitude', 'Right');"
+                                   ng-blur="saveVEPFinding('P100 Amplitude', 'Right');"
                                    ng-disabled="vepRightAbnormal==''" >
                             <span class="input-group-addon">uV</span>
                         </div>
@@ -84,7 +84,7 @@
                             <span class="input-group-addon">P100 Latency</span>
                             <input type="text"  class="form-control"
                                    ng-model="vepRightLatency"
-                                   ng-change="saveVEPFinding('P100 Latency', 'Right');"
+                                   ng-blur="saveVEPFinding('P100 Latency', 'Right');"
                                    ng-disabled="vepRightAbnormal==''">
                             <span class="input-group-addon">msec</span>
                         </div>
