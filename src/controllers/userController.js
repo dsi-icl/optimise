@@ -21,8 +21,7 @@ class UserController {
                     "admin_priv": req.body.isAdmin,
                     "real_name": req.body.realName ? req.body.realName : null,
                     "deleted": 0 })
-                .then(result => {
-                    res.json(200, result);})
+                .then(result => res.status(200).json(result))
                 .catch(err => {
                     console.log(err);
                     res.status(400).send('Cannot create user. ID might already exist. Also, make sure you provide the needed parameters');
