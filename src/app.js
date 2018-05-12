@@ -14,8 +14,6 @@ const UserController = require('./controllers/userController');
 
 
 app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);   //appends {username, priv, token} to req.priv if token is valid, rejects request to client otherwise
-
-
 app.set('x-powered-by', false);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or not
@@ -33,5 +31,4 @@ app.delete('/api/users/delete/', UserController.setUserAsDeleted);
 
 app.post('/internalapi/userlogin', UserController.userLogin);
 
-console.log(module.paths);
-app.listen(3000, ()=>{console.log('listening on port 3000!')});
+module.exports = app;
