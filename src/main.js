@@ -29,6 +29,7 @@ app.get('/api/visits', VisitController.getVisitsOfPatient);
 app.post('/api/users/create', UserController.createUser);
 
 app.delete('/api/patient/delete/', PatientController.setPatientAsDeleted);
+app.delete('/api/users/delete/', UserController.setUserAsDeleted);
 
 app.post('/internalapi/userlogin', UserController.userLogin);
 
