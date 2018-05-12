@@ -5,7 +5,6 @@ const knex = require('../utils/db-connection');
 class RequestMiddleware {
     static verifySessionAndPrivilege(req, res, next) {
         if (req.headers.token) {
-            console.log(req.headers.token);
             knex('user_sessions')
                 .select({token: 'user_sessions.session_token', username: 'users.username', priv: 'users.admin_priv', userid: 'user_sessions.user'})
                 .innerJoin('users', 'users.id', 'user_sessions.user')

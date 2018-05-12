@@ -10,8 +10,7 @@ class PatientController {
         } else if (Object.keys(req.query).length === 1 && typeof(req.query.id) === 'string') {
             queryid = req.query.id;
         } else {
-            res.status(400);
-            res.send('The query string can only have one parameter "id"');
+            res.status(400).send('The query string can only have one parameter "id"');
             return
         }
         queryid = '%' + queryid + '%';
@@ -21,8 +20,7 @@ class PatientController {
             .where('patients.alias_id', 'like', queryid)
             .andWhere('patients.deleted', 0)
             .then(result => {
-                res.status(200);
-                res.json(result);
+                res.status(200).json(result);
             });
     }
 
@@ -32,8 +30,7 @@ class PatientController {
             .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
             .where({"patients.alias_id": req.params.patientID, "patients.deleted": 0})
             .then(result => {
-                res.status(200);
-                res.json(result);});
+                res.status(200).json(result);});
     }
 
     static createPatient(req, res){
@@ -44,12 +41,10 @@ class PatientController {
                 created_by_user: req.priv.userid,
                 deleted: 0})
             .then(result => {
-                res.status(200);
-                res.json(result);})
+                res.json(200, result);})
             .catch(err => {
                 console.log(err);
-                res.status(400);
-                res.send('Cannot create patient. ID might already exist. Also, make sure you provide "alias_id" and "study" as keys.');
+                res.status(400).send('Cannot create patient. ID might already exist. Also, make sure you provide "alias_id" and "study" as keys.');
             })
 
     }
@@ -78,12 +73,10 @@ class PatientController {
                     }})
                 .catch(err => {
                     console.log(err);
-                    res.status(400);
-                    res.send('Database error');
+                    res.status(400).send('Database error');
                 })
         } else {
-            res.status(403);
-            res.send('Sorry! Only admins are able to edit / delete data');
+            res.status(403).send('Sorry! Only admins are able to edit / delete data');
         }
     }
 }

@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const path = require('path');
 
 /////////////////////////////query has to add where deleted = 0!!!!!
+///remove priv from res!
 
 
 const RequestMiddleware = require('./utils/requestMiddleware');
