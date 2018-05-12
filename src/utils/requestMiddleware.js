@@ -7,7 +7,7 @@ class RequestMiddleware {
         if (req.headers.token) {
             console.log(req.headers.token);
             knex('user_sessions')
-                .select({token: 'user_sessions.session_token', username: 'users.username', priv: 'users.admin_priv'})
+                .select({token: 'user_sessions.session_token', username: 'users.username', priv: 'users.admin_priv', userid: 'user_sessions.user'})
                 .innerJoin('users', 'users.id', 'user_sessions.user')
                 .where({'user_sessions.session_token': req.headers.token, 'user_sessions.expired': 0})
                 .then(result => {

@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or 
 
 
 app.get('/api/patients', PatientController.searchPatientsById);
+app.post('/api/patient/create', PatientController.createPatient);
 app.get('/api/patient/:patientID', PatientController.getPatientById);
 app.get('/api/visits', VisitController.getVisitsOfPatient);
 app.post('/api/users/create', UserController.createUser);

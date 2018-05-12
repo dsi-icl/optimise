@@ -6,34 +6,51 @@ class PatientController {
     static searchPatientsById(req, res){
         let queryid;
         if (isEmptyObject(req.query)) {
-          queryid = '';
+            queryid = '';
         } else if (Object.keys(req.query).length === 1 && typeof(req.query.id) === 'string') {
-          queryid = req.query.id;
+            queryid = req.query.id;
         } else {
-          res.status(400);
-          res.send('The query string can only have one parameter "id"');
-          return
+            res.status(400);
+            res.send('The query string can only have one parameter "id"');
+            return
         }
         queryid = 'patients.alias_id LIKE "%' + queryid + '%"';
         knex('patients')
-          .select({patientId:'patients.id'}, 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
-          .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
-          .whereRaw(queryid)
-          .then(result => {
-            res.status(200);
-            res.json(result);
-        });
+            .select({patientId:'patients.id'}, 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
+            .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
+            .whereRaw(queryid)
+            .then(result => {
+                res.status(200);
+                res.json(result);
+            });
     }
 
     static getPatientById(req, res){
         knex('patients')
-          .select({patientId:'patients.id'}, 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
-          .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
-          .whereRaw("patients.alias_id IS '" +  req.params.patientID + "'")
-          .then(result => {
-            res.status(200);
-            res.json(result);
-        });
+            .select({patientId:'patients.id'}, 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
+            .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
+            .whereRaw("patients.alias_id IS '" +  req.params.patientID + "'")
+            .then(result => {
+                res.status(200);
+                res.json(result);});
+    }
+
+    static createPatient(req, res){
+        knex('patients')
+            .insert({
+                alias_id: req.body.alias_id,
+                study: req.body.study,
+                created_by_user: req.priv.userid,
+                deleted: 0})
+            .then(result => {
+                res.status(200);
+                res.json(result);})
+            .catch(err => {
+                console.log(err);
+                res.status(400);
+                res.send('Cannot create patient. ID might already exist.');
+            })
+
     }
 }
 
