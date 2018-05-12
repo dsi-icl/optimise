@@ -6,11 +6,15 @@ const path = require('path');
 /////////////////////////////query has to add where deleted = 0!!!!!
 
 
-
+const RequestMiddleware = require('./utils/requestMiddleware');
 
 const PatientController = require('./controllers/patientController');
 const VisitController = require('./controllers/visitController');
 const UserController = require('./controllers/userController');
+
+
+app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);   //appends {username, priv, token} to req.priv if token is valid, rejects request to client otherwise
+
 
 app.set('x-powered-by', false);
 app.use(bodyParser.json());
