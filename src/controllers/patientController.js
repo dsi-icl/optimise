@@ -14,11 +14,12 @@ class PatientController {
             res.send('The query string can only have one parameter "id"');
             return
         }
-        queryid = 'patients.alias_id LIKE "%' + queryid + '%"';
+        queryid = '%' + queryid + '%';
         knex('patients')
             .select({patientId:'patients.id'}, 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
             .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
-            .whereRaw(queryid)
+            .where('patients.alias_id', 'like', queryid)
+            .andWhere('patients.deleted', 0)
             .then(result => {
                 res.status(200);
                 res.json(result);
@@ -29,7 +30,7 @@ class PatientController {
         knex('patients')
             .select({patientId:'patients.id'}, 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
             .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
-            .whereRaw("patients.alias_id IS '" +  req.params.patientID + "'")
+            .where({"patients.alias_id": req.params.patientID, "patients.deleted": 0})
             .then(result => {
                 res.status(200);
                 res.json(result);});
@@ -48,9 +49,42 @@ class PatientController {
             .catch(err => {
                 console.log(err);
                 res.status(400);
-                res.send('Cannot create patient. ID might already exist.');
+                res.send('Cannot create patient. ID might already exist. Also, make sure you provide "alias_id" and "study" as keys.');
             })
 
+    }
+
+    static setPatientAsDeleted(req, res){
+        if (req.priv.priv === 1) {
+            const date = new Date();
+            knex('patients')
+                .where({'alias_id': req.body.alias_id, 'deleted': 0})
+                .update({
+                    deleted: req.priv.userid + '@' + JSON.stringify(date) })
+                .then(result => {
+                    switch (result){
+                        case 0:
+                            res.status(401);
+                            res.json('ID does not exist');
+                            break
+                        case 1:
+                            res.status(200);
+                            res.send(req.body.alias_id + ' has been deleted successfully.');
+                            break
+                        default:
+                            res.status(500);
+                            res.send('something weird happened');
+                            break
+                    }})
+                .catch(err => {
+                    console.log(err);
+                    res.status(400);
+                    res.send('Database error');
+                })
+        } else {
+            res.status(403);
+            res.send('Sorry! Only admins are able to edit / delete data');
+        }
     }
 }
 
