@@ -11,7 +11,25 @@ const hmac = () => {return crypto.createHmac('sha256', hashKey)};
 
 class UserController {
     static createUser(req, res){
-        console.log('placeholder');
+        if (req.priv.priv === 1){
+            let hashedPw = hmac().update(req.body.pw).digest('hex');  
+            knex('users')
+                .insert({
+                    "username": req.body.username,
+                    "pw": hashedPw,
+                    "created_by_user": req.priv.userid,
+                    "admin_priv": req.body.isAdmin,
+                    "real_name": req.body.realName ? req.body.realName : null,
+                    "deleted": 0 })
+                .then(result => {
+                    res.json(200, result);})
+                .catch(err => {
+                    console.log(err);
+                    res.status(400).send('Cannot create user. ID might already exist. Also, make sure you provide the needed parameters');
+                })
+        } else {
+            res.status(401).send('You do not have permission to create users.');
+        }
     }
 
     static userLogin(req, res){              //add wehere deleted = 0     //delete sessions every day

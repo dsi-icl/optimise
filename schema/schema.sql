@@ -10,13 +10,14 @@ PRAGMA foreign_keys = ON;
 /* user data */
 CREATE TABLE users (
     id INTEGER PRIMARY KEY ASC,
-    username TEXT UNIQUE NOT NULL, 
+    username TEXT NOT NULL, 
     real_name TEXT,
     pw TEXT NOT NULL,
     admin_priv NUMERIC,
     created_time TEXT NOT NULL DEFAULT (datetime('now')),
     created_by_user INTEGER NOT NULL REFERENCES users(id),
     deleted TEXT NOT NULL /*0 or deletion time*/
+    UNIQUE (username, deleted)
 );
 
 INSERT INTO users (
