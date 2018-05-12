@@ -28,7 +28,7 @@ class UserController {
                                 user: result[0]['id'],
                                 session_token: token,
                                 expired: 0})
-                            .then(result => res.status(200).send(token))
+                            .then(result => res.status(200).json({'token': token}))
                             .catch(err => res.status(500).send('Database error.'))
                     } else {
                         res.status(401).send('Cannot login. Please check username / password.')
@@ -43,6 +43,31 @@ class UserController {
         }
     }
 
+    static userLogout(req,res){
+        if (req.priv.username === req.body.username){
+            knex('user_sessions')
+                .where({'session_token': req.priv.token, 'expired': 0})
+                .update({'expired': req.priv.userid + '@' + JSON.stringify(new Date())})
+                .then(result => {
+                    switch (result){
+                        case 0:
+                            res.status(404).json('ID does not exist');
+                            break
+                        case 1:
+                            res.status(200).send(req.body.username + ' has been logged out successfully.');
+                            break
+                        default:
+                            res.status(599).send('something weird happened');
+                            break
+                }})
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).send('Server error.');
+                })
+        } else {
+            res.status(401).send('You do not have permission to log out this user.');
+        }
+    }
 
     static setUserAsDeleted(req, res){
         if (req.priv.priv === 1 || req.priv.username === req.body.username) {    //accounts can be deleted by admin or oneself
