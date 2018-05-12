@@ -14,7 +14,8 @@ const VisitController = require('./controllers/visitController');
 const UserController = require('./controllers/userController');
 
 
-app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);   //appends {username, priv, token} to req.priv if token is valid, rejects request to client otherwise
+app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);
+app.use('/internalapi/userlogout', RequestMiddleware.verifySessionAndPrivilege);   //appends {username, priv, token} to req.priv if token is valid, rejects request to client otherwise
 app.set('x-powered-by', false);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or not
@@ -31,5 +32,5 @@ app.delete('/api/patient/delete/', PatientController.setPatientAsDeleted);
 app.delete('/api/users/delete/', UserController.setUserAsDeleted);
 
 app.post('/internalapi/userlogin', UserController.userLogin);
-
+app.post('/internalapi/userlogout', UserController.userLogout);
 module.exports = app;
