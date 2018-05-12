@@ -59,16 +59,13 @@ class PatientController {
                 .then(result => {
                     switch (result){
                         case 0:
-                            res.status(401);
-                            res.json('ID does not exist');
+                            res.status(401).json('ID does not exist');
                             break
                         case 1:
-                            res.status(200);
-                            res.send(req.body.alias_id + ' has been deleted successfully.');
+                            res.status(200).send(req.body.alias_id + ' has been deleted successfully.');
                             break
                         default:
-                            res.status(500);
-                            res.send('something weird happened');
+                            res.status(500).send('something weird happened');
                             break
                     }})
                 .catch(err => {

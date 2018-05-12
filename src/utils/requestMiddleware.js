@@ -14,17 +14,14 @@ class RequestMiddleware {
                         req.priv = result[0];
                         next();
                     } else {
-                        res.status(400);
-                        res.send('You are not logged in. Please provide a valid token.');
+                        res.status(400).send('You are not logged in. Please provide a valid token.');
                     }})
                 .catch(err => {
                     console.log(err);
-                    res.status(500);
-                    res.send('Database error');
+                    res.status(500).send('Database error');
                 })
         } else {
-            res.status(400);
-            res.send('Please provide a token in the header')
+            res.status(400).send('Please provide a token in the header')
         }
     }
 }

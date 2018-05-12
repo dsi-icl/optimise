@@ -28,26 +28,18 @@ class UserController {
                                 user: result[0]['id'],
                                 session_token: token,
                                 expired: 0})
-                            .then(result => {
-                                res.status(200);
-                                res.send(token)})
-                            .catch(err => {
-                                res.status(500);
-                                res.send('Database error.');
-                            })
+                            .then(result => res.status(200).send(token))
+                            .catch(err => res.status(500).send('Database error.'))
                     } else {
-                        res.status(401);
-                        res.send('Cannot login. Please check username / password.')
+                        res.status(401).send('Cannot login. Please check username / password.')
                     }
                 })
                 .catch(err => {
                     console.log(err);
-                    res.status(500);
-                    res.send('Server error.');
+                    res.status(500).send('Server error.');
                 })
         } else {
-            res.status(400);
-            res.send('Please provide "username" and "pw".');
+            res.status(400).send('Please provide "username" and "pw".');
         }
     }
 
@@ -60,26 +52,21 @@ class UserController {
                 .then(result => {
                     switch (result){
                         case 0:
-                            res.status(404);
-                            res.json('ID does not exist');
+                            res.status(404).json('ID does not exist');
                             break
                         case 1:
-                            res.status(200);
-                            res.send(req.body.username + ' has been deleted successfully.');
+                            res.status(200).send(req.body.username + ' has been deleted successfully.');
                             break
                         default:
-                            res.status(500);
-                            res.send('something weird happened');
+                            res.status(500).send('something weird happened');
                             break
                 }})
                 .catch(err => {
                     console.log(err);
-                    res.status(500);
-                    res.send('Server error.');
+                    res.status(500).send('Server error.');
                 })
         } else {
-            res.status(401);
-            res.send('You do not have permission to delete this user.');
+            res.status(401).send('You do not have permission to delete this user.');
         }
     }
     //static changePassword(req, res) {

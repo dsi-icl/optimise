@@ -9,12 +9,9 @@ class VisitController {
                 .select({patientId:'patients.id'}, 'patients.alias_id', {visitId: 'visits.id'}, 'visits.visit_date')
                 .leftOuterJoin('visits', 'patients.id', 'visits.patient')
                 .whereRaw(queryid)
-                .then(result => {
-                res.status(200);
-                res.json(result);})
+                .then(result => res.stauts(200).json(result))
         } else {
-            res.status(400);
-            res.send('The query string must have one and only one parameter "id"');
+            res.status(400).send('The query string must have one and only one parameter "id"');
         }
     }
 }
