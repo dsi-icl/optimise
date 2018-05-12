@@ -8,9 +8,9 @@ const path = require('path');
 
 
 
-const PatientController = require('./src/controllers/patientController');
-const VisitController = require('./src/controllers/visitController');
-const UserController = require('./src/controllers/userController');
+const PatientController = require('./controllers/patientController');
+const VisitController = require('./controllers/visitController');
+const UserController = require('./controllers/userController');
 
 app.set('x-powered-by', false);
 app.use(bodyParser.json());
@@ -26,5 +26,5 @@ app.post('/api/users/create', UserController.createUser);
 
 app.post('/internalapi/userlogin', UserController.userLogin);
 
-
+console.log(module.paths);
 app.listen(3000, ()=>{console.log('listening on port 3000!')});
