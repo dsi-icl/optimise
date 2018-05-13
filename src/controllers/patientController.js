@@ -38,7 +38,7 @@ class PatientController {
             .insert({
                 alias_id: req.body.alias_id,
                 study: req.body.study,
-                created_by_user: req.priv.userid,
+                created_by_user: req.requester.userid,
                 deleted: 0})
             .then(result => {
                 res.json(200, result);})
@@ -50,12 +50,12 @@ class PatientController {
     }
 
     static setPatientAsDeleted(req, res){
-        if (req.priv.priv === 1) {
+        if (req.requester.priv === 1) {
             const date = new Date();
             knex('patients')
                 .where({'alias_id': req.body.alias_id, 'deleted': 0})
                 .update({
-                    deleted: req.priv.userid + '@' + JSON.stringify(date) })
+                    deleted: req.requester.userid + '@' + JSON.stringify(date) })
                 .then(result => {
                     switch (result){
                         case 0:

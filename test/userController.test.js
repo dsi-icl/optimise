@@ -85,6 +85,45 @@ describe('User controller tests', () => {
             })
     });
 
+    test('user no 1 changes user no 2 s password (should fail)', () => {  //
+        return request
+            .post('/api/users/changePassword')
+            .set('Content-type', 'application/json')
+            .set('token', standardToken)
+            .send({"username": "test_user2", "pw": "fake_password"})
+            .then(res => {
+                expect(res.statusCode).toBe(401);
+            })
+    });
+
+    test('user no 1 changes user no 1 s password', () => {  //
+        return request
+            .post('/api/users/changePassword')
+            .set('Content-type', 'application/json')
+            .set('token', standardToken)
+            .send({"username": "test_user", "pw": "new_password"})
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+            })
+    });
+
+    test('user no 1 (standard) login again', () => {
+        return request
+            .post('/internalapi/userlogin')
+            .set('Content-type', 'application/json')
+            .send({
+                username: "test_user",
+                pw: "new_password"
+                })
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+                expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+                expect(Object.keys(res.body).length).toBe(1);
+                expect(res.body.token).toBeDefined();
+                standardToken = res.body.token;
+            })
+    });
+
     test('user no 1 deletes himself', () => {
         return request
             .delete('/api/users/delete')

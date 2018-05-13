@@ -15,7 +15,7 @@ const UserController = require('./controllers/userController');
 
 
 app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);
-app.use('/internalapi/userlogout', RequestMiddleware.verifySessionAndPrivilege);   //appends {username, priv, token} to req.priv if token is valid, rejects request to client otherwise
+app.use('/internalapi/userlogout', RequestMiddleware.verifySessionAndPrivilege);   //appends {username, priv, token} to req.requester if token is valid, rejects request to client otherwise
 app.set('x-powered-by', false);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or not
@@ -30,6 +30,8 @@ app.post('/api/users/create', UserController.createUser);
 
 app.delete('/api/patient/delete/', PatientController.setPatientAsDeleted);
 app.delete('/api/users/delete/', UserController.setUserAsDeleted);
+
+app.post('/api/users/changePassword', UserController.changePassword);    //automatically logged out after changing password
 
 app.post('/internalapi/userlogin', UserController.userLogin);
 app.post('/internalapi/userlogout', UserController.userLogout);

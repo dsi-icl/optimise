@@ -11,7 +11,7 @@ class RequestMiddleware {
                 .where({'user_sessions.session_token': req.headers.token, 'user_sessions.expired': 0, 'users.deleted': 0})
                 .then(result => {
                     if (result.length !== 0){
-                        req.priv = result[0];
+                        req.requester = result[0];
                         next();
                     } else {
                         res.status(400).send('You are not logged in. Please provide a valid token.');
