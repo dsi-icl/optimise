@@ -12,6 +12,7 @@ const RequestMiddleware = require('./utils/requestMiddleware');
 const PatientController = require('./controllers/patientController');
 const VisitController = require('./controllers/visitController');
 const UserController = require('./controllers/userController');
+const DemographicDataController = require('./controllers/demographicDataController');
 
 
 app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);
@@ -29,6 +30,7 @@ app.get('/api/visits', VisitController.getVisitsOfPatient);
 app.post('/api/visits/create', VisitController.createVisit);
 app.delete('/api/visits/delete', VisitController.deleteVisit);
 app.post('/api/users/create', UserController.createUser);
+app.all('/api/demogdata/:dataType/:action', DemographicDataController.placeHolderRouter);
 
 app.delete('/api/patients/delete/', PatientController.setPatientAsDeleted);
 app.delete('/api/users/delete/', UserController.setUserAsDeleted);
