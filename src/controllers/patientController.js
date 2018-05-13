@@ -1,5 +1,5 @@
 const {isEmptyObject} = require('../utils/basic-utils');
-
+const {createEntry, deleteEntry} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 class PatientController {
@@ -34,44 +34,17 @@ class PatientController {
     }
 
     static createPatient(req, res){
-        knex('patients')
-            .insert({
-                alias_id: req.body.alias_id,
-                study: req.body.study,
-                created_by_user: req.requester.userid,
-                deleted: 0})
-            .then(result => {
-                res.json(200, result);})
-            .catch(err => {
-                console.log(err);
-                res.status(400).send('Cannot create patient. ID might already exist. Also, make sure you provide "alias_id" and "study" as keys.');
-            })
-
+        let entryObj = {alias_id: req.body.alias_id,
+                        study: req.body.study,
+                        created_by_user: req.requester.userid};
+        let databaseErrMsg = 'Cannot create patient. ID might already exist. Also, make sure you provide "alias_id" and "study" as keys.';
+        createEntry(req, res, 'patients', entryObj, databaseErrMsg);
     }
 
     static setPatientAsDeleted(req, res){
         if (req.requester.priv === 1) {
             const date = new Date();
-            knex('patients')
-                .where({'alias_id': req.body.alias_id, 'deleted': 0})
-                .update({
-                    deleted: req.requester.userid + '@' + JSON.stringify(date) })
-                .then(result => {
-                    switch (result){
-                        case 0:
-                            res.status(401).json('ID does not exist');
-                            break
-                        case 1:
-                            res.status(200).send(req.body.alias_id + ' has been deleted successfully.');
-                            break
-                        default:
-                            res.status(500).send('something weird happened');
-                            break
-                    }})
-                .catch(err => {
-                    console.log(err);
-                    res.status(400).send('Database error');
-                })
+            deleteEntry(req, res, 'patients', {'alias_id': req.body.alias_id}, req.body.alias_id, 1)
         } else {
             res.status(403).send('Sorry! Only admins are able to edit / delete data');
         }

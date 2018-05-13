@@ -51,5 +51,58 @@ describe('Patient controller tests', () => {
             })
     });
 
+    test('Creating a new patient', () => {
+        return request
+            .post('/api/patients/create')
+            .set('token', token)
+            .send({
+                "alias_id": "littlePatient",
+                "study": "optimise"})
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+            })
+    });
+
+    test('Creating the same patient again', () => {
+        return request
+            .post('/api/patients/create')
+            .set('token', token)
+            .send({
+                "alias_id": "littlePatient",
+                "study": "optimise"})
+            .then(res => {
+                expect(res.statusCode).toBe(400);
+            })
+    });
+
+    test('getting this patient', () => {
+        return request
+            .get('/api/patients/littlePatient')
+            .set('token', token)
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+            })
+    });
+
+    test('Deleting a patient', () => {
+        return request
+            .delete('/api/patients/delete')
+            .set('token', token)
+            .send({"alias_id": "littlePatient"})
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+            })
+    });
+
+    test('Deleting this patient again', () => {
+        return request
+            .delete('/api/patients/delete')
+            .set('token', token)
+            .send({"alias_id": "littlePatient"})
+            .then(res => {
+                expect(res.statusCode).toBe(401);
+            })
+    });
+
 
 })
