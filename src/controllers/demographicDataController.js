@@ -19,7 +19,7 @@ class DemographicDataController {
 
     Router(req, res){
         let _this = this;
-        switch ([req.method,req.params.dataType, req.params.action].toString()) {   //refactor this to this['functionanme']
+        switch ([req.method,req.params.dataType].toString()) {   //refactor this to this['functionanme']
             case 'POST,demographic,create':
                 break
             case 'POST,immunisation,create':

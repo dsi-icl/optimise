@@ -30,7 +30,7 @@ app.get('/api/visits', VisitController.getVisitsOfPatient);
 app.post('/api/visits/create', VisitController.createVisit);
 app.delete('/api/visits/delete', VisitController.deleteVisit);
 app.post('/api/users/create', UserController.createUser);
-app.all('/api/demogdata/:dataType/:action', DemographicDataController.placeHolderRouter);
+app.all('/api/demogdata/:dataType', DemographicDataController.placeHolderRouter);
 
 app.delete('/api/patients/delete/', PatientController.setPatientAsDeleted);
 app.delete('/api/users/delete/', UserController.setUserAsDeleted);
