@@ -1,5 +1,5 @@
 const {isEmptyObject} = require('../utils/basic-utils');
-const {createEntry, deleteEntry} = require('../utils/controller-utils');
+const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 const hashKey = require('../config/hashKeyConfig');
@@ -16,7 +16,6 @@ class UserController {
             let entryObj = {
                 "username": req.body.username,
                 "pw": hashedPw,
-                "created_by_user": req.requester.userid,
                 "admin_priv": req.body.isAdmin,
                 "real_name": req.body.realName ? req.body.realName : null};
             let databaseErrMsg = 'Cannot create user. ID might already exist. Also, make sure you provide the needed parameters';
@@ -72,29 +71,11 @@ class UserController {
     }
 
     static changePassword(req, res) {
-        if(req.requester.username === req.body.username) {
+        if(req.requester.username === req.body.username && req.body.pw) {
             let hashedPw = hmac().update(req.body.pw).digest('hex');
-            knex('users')
-                .where({'username': req.body.username, 'deleted': 0})
-                .update({'deleted': req.requester.userid + '@' + JSON.stringify(new Date())})
-                .then(result => {
-                    knex('users')
-                        .insert({
-                            "username": req.body.username,
-                            "pw": hashedPw,
-                            "created_by_user": req.requester.userid,
-                            "admin_priv": req.requester.priv,
-                            "deleted": 0 })
-                            .then(result => res.status(200).send('The password of "' + req.body.username + '" has been changed.'))
-                            .catch(err => {
-                                console.log(err);
-                                res.status(400).send('Cannot change password. Make sure you provide the needed parameters');
-                            })
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).send('Server error.');
-                })
+            let whereObj = {'username': req.body.username};
+            let newObj = {'pw': hashedPw};
+            updateEntry(req, res, 'users', whereObj, newObj, req.body.username + "'s password", 1);
         } else {
             res.status(401).send('You do not have permission to delete this user. Or you did not provide the needed parameters');
         }

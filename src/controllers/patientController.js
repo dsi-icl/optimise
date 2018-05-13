@@ -35,8 +35,7 @@ class PatientController {
 
     static createPatient(req, res){
         let entryObj = {alias_id: req.body.alias_id,
-                        study: req.body.study,
-                        created_by_user: req.requester.userid};
+                        study: req.body.study};
         let databaseErrMsg = 'Cannot create patient. ID might already exist. Also, make sure you provide "alias_id" and "study" as keys.';
         createEntry(req, res, 'patients', entryObj, databaseErrMsg);
     }
