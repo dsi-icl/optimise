@@ -100,7 +100,7 @@ describe('Patient controller tests', () => {
             .set('token', token)
             .send({"alias_id": "littlePatient"})
             .then(res => {
-                expect(res.statusCode).toBe(401);
+                expect(res.statusCode).toBe(404);
             })
     });
 
