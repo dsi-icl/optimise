@@ -43,8 +43,7 @@ class PatientController {
 
     static setPatientAsDeleted(req, res){
         if (req.requester.priv === 1) {
-            const date = new Date();
-            deleteEntry(req, res, 'patients', {'alias_id': req.body.alias_id}, req.body.alias_id, 1)
+            deleteEntry(req, res, 'patients', {'alias_id': req.body.alias_id}, req.body.alias_id, 1);
         } else {
             res.status(403).send('Sorry! Only admins are able to edit / delete data');
         }

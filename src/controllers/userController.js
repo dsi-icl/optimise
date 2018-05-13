@@ -11,23 +11,18 @@ const hmac = () => {return crypto.createHmac('sha256', hashKey)};
 
 class UserController {
     static createUser(req, res){
-        if (req.requester.priv === 1){
+        if (req.requester.priv === 1 && req.body.pw){
             let hashedPw = hmac().update(req.body.pw).digest('hex');  
-            knex('users')
-                .insert({
-                    "username": req.body.username,
-                    "pw": hashedPw,
-                    "created_by_user": req.requester.userid,
-                    "admin_priv": req.body.isAdmin,
-                    "real_name": req.body.realName ? req.body.realName : null,
-                    "deleted": 0 })
-                .then(result => res.status(200).json(result))
-                .catch(err => {
-                    console.log(err);
-                    res.status(400).send('Cannot create user. ID might already exist. Also, make sure you provide the needed parameters');
-                })
+            let entryObj = {
+                "username": req.body.username,
+                "pw": hashedPw,
+                "created_by_user": req.requester.userid,
+                "admin_priv": req.body.isAdmin,
+                "real_name": req.body.realName ? req.body.realName : null};
+            let databaseErrMsg = 'Cannot create user. ID might already exist. Also, make sure you provide the needed parameters';
+            createEntry(req, res, 'users', entryObj, databaseErrMsg);
         } else {
-            res.status(401).send('You do not have permission to create users.');
+            res.status(401).send('You do not have permission to create users, or you did not provide the new user\'s password');
         }
     }
 
@@ -87,26 +82,8 @@ class UserController {
     }
 
     static setUserAsDeleted(req, res){
-        if (req.requester.priv === 1 || req.requester.username === req.body.username) {    //accounts can be deleted by admin or oneself
-            knex('users')
-                .where({'username': req.body.username, 'deleted': 0})
-                .update({'deleted': req.requester.userid + '@' + JSON.stringify(new Date())})
-                .then(result => {
-                    switch (result){
-                        case 0:
-                            res.status(404).json('ID does not exist');
-                            break
-                        case 1:
-                            res.status(200).send(req.body.username + ' has been deleted successfully.');
-                            break
-                        default:
-                            res.status(500).send('something weird happened');
-                            break
-                }})
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).send('Server error.');
-                })
+        if (req.requester.priv === 1 || req.requester.username === req.body.username) {  //accounts can be deleted by admin or oneself
+            deleteEntry(req, res, 'users', {'username': req.body.username}, req.body.username, 1);
         } else {
             res.status(401).send('You do not have permission to delete this user.');
         }
