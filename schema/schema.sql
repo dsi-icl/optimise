@@ -32,7 +32,7 @@ CREATE TABLE user_sessions (
     user INTEGER NOT NULL REFERENCES users(id),
     session_start_date TEXT NOT NULL DEFAULT (datetime('now')),
     session_token TEXT NOT NULL,
-    deleted NUMERIC NOT NULL   /* 1 or 0 */
+    deleted NUMERIC NOT NULL /*0 or deletion time*/
 );
 
 

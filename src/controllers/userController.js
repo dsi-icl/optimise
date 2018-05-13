@@ -39,7 +39,7 @@ class UserController {
                             .insert({
                                 user: result[0]['id'],
                                 session_token: token,
-                                expired: 0})
+                                deleted: 0})
                             .then(result => res.status(200).json({'token': token}))
                             .catch(err => res.status(500).send('Database error.'))
                     } else {
@@ -57,25 +57,7 @@ class UserController {
 
     static userLogout(req,res){
         if (req.requester.username === req.body.username){
-            knex('user_sessions')
-                .where({'session_token': req.requester.token, 'expired': 0})
-                .update({'expired': req.requester.userid + '@' + JSON.stringify(new Date())})
-                .then(result => {
-                    switch (result){
-                        case 0:
-                            res.status(404).json('ID does not exist');
-                            break
-                        case 1:
-                            res.status(200).send(req.body.username + ' has been logged out successfully.');
-                            break
-                        default:
-                            res.status(599).send('something weird happened');
-                            break
-                }})
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).send('Server error.');
-                })
+            deleteEntry(req, res, 'user_sessions', {'session_token': req.requester.token}, req.body.username + "'s session", 1);
         } else {
             res.status(401).send('You do not have permission to log out this user.');
         }
