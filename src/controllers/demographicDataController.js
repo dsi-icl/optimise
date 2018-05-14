@@ -4,55 +4,24 @@ const knex = require('../utils/db-connection');
 
 class DemographicDataController {
     constructor(){
-        this.placeHolderRouter = this.placeHolderRouter.bind(this);  //test
+        this._Router = this._Router.bind(this);
      }
 
-    placeHolderRouter(req, res){         //test
-        this.placeHolderTest(req, res);   //test
-    }   //test
 
-    static placeHolderTest (req, res) {  //test
-        res.status(200).send([req.method,req.params.dataType, req.params.action].toString());  //test
-    } //test
+    _Router(req, res){
+        try {
+            this[`${req.method}${req.params.dataType}`](req, res);
+        } catch(e) {
+            if (e instanceof TypeError){
+                res.status(400).send(`Bad request. Cannot ${req.method} this API endpoint!`);
+            } else {
+                res.status(500).send('Server Error!');
+            }
 
-
-
-    Router(req, res){
-        let _this = this;
-        switch ([req.method,req.params.dataType].toString()) {   //refactor this to this['functionanme']
-            case 'POST,demographic,create':
-                break
-            case 'POST,immunisation,create':
-                break
-            case 'POST,medicalCondition,create':
-                break
-            case 'POST,demographic,edit':
-                break
-            case 'POST,immunisation,edit':
-                break
-            case 'POST,medicalCondition,edit':
-                break
-            case 'GET,demographic':
-                break
-            case 'GET,immunisation':
-                break
-            case 'GET,medicalCondition':
-                break
-            case 'DELETE,demographic':
-                break
-            case 'DELETE,immunisation':
-                break
-            case 'DELETE,medicalCondition':
-                break
-            default:
-                res.status(400)
-                
         }
     }
-    
 
-
-    addDemographicData(req, res){
+    POSTDemographic(req, res){       //create demographic data
         knex('patient_demographic_data')
             .insert({
                 patient: 1,
@@ -69,7 +38,7 @@ class DemographicDataController {
             .catch(res => console.log(res));
     }
 
-    addImmunisationData(req, res){
+    POSTImmunisation(req, res){
         knex('patient_immunisation')
             .insert({
                 patient: 16,
@@ -81,7 +50,7 @@ class DemographicDataController {
             .catch(res => console.log(res));
     }
 
-    addMedicalCondition(req, res){
+    POSTMedicalConditions(req, res){
         knex('existing_or_familial_medical_conditions')
             .insert({
                 patient: 15,
@@ -100,3 +69,32 @@ class DemographicDataController {
 
 
 module.exports = new DemographicDataController();
+
+        // switch ([req.method,req.params.dataType].toString()) {   //refactor this to this['functionanme']
+        //     case 'POST,demographic,create':
+        //         break
+        //     case 'POST,immunisation,create':
+        //         break
+        //     case 'POST,medicalCondition,create':
+        //         break
+        //     case 'POST,demographic,edit':
+        //         break
+        //     case 'POST,immunisation,edit':
+        //         break
+        //     case 'POST,medicalCondition,edit':
+        //         break
+        //     case 'GET,demographic':
+        //         break
+        //     case 'GET,immunisation':
+        //         break
+        //     case 'GET,medicalCondition':
+        //         break
+        //     case 'DELETE,demographic':
+        //         break
+        //     case 'DELETE,immunisation':
+        //         break
+        //     case 'DELETE,medicalCondition':
+        //         break
+        //     default:
+        //         res.status(400)
+    
