@@ -144,15 +144,16 @@
             ng-change="addEXADJ_Discontinuation()"
             ng-model="EXADJ_Discontinuation"
             ng-disabled="disableDoseProperty()">
+            <option value="Unknown">Unknown</option>
             <option value="PatientPreference">Patient Preference</option>
             <option value="DiseaseProgression">Disease Progression</option>
-            <option value="AdverseEvent">Mild Adverse Event</option>
-            <option value="AdverseEvent">Moderate Adverse Event</option>
-            <option value="AdverseEvent">Severe Adverse Event- Death</option>
-            <option value="AdverseEvent">Severe Adverse Event- Life Threatening</option>
-            <option value="AdverseEvent">Severe Adverse Event- Permanent/Serious Disability</option>
-            <option value="AdverseEvent">Severe Adverse Event- Requires/Prolongs Hospitalization</option>
-            <option value="AdverseEvent">Severe Adverse Event- Congenital Anomaly/Birth Defect</option>
+            <option value="MildAdverseEvent">Mild Adverse Event</option>
+            <option value="ModerateAdverseEvent">Moderate Adverse Event</option>
+            <option value="SevereAdverseEventDeath">Severe Adverse Event- Death</option>
+            <option value="SevereAdverseEventLifeThreatening">Severe Adverse Event- Life Threatening</option>
+            <option value="SevereAdverseEventPermanentSeriousDisability">Severe Adverse Event- Permanent/Serious Disability</option>
+            <option value="SevereAdverseEventRequiresProlongsHospitalization">Severe Adverse Event- Requires/Prolongs Hospitalization</option>
+            <option value="SevereAdverseEventCongenitalAnomalyBirthDefect">Severe Adverse Event- Congenital Anomaly/Birth Defect</option>
           </select>
         </div>
       </div>
