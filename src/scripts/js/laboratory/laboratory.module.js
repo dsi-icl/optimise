@@ -667,8 +667,8 @@ laboratoryTestResultModule.controller('laboratoryInfoCtrl', function($scope, $ro
             {scopeVariable: 'vepRightAmplitude', testName: 'P100 Amplitude', laterality:'Right'},
             {scopeVariable: 'vepLeftLatency', testName: 'P100 Latency', laterality:'Left'},
             {scopeVariable: 'vepRightLatency', testName: 'P100 Latency', laterality:'Right'},
-            {scopeVariable: 'vepLeftAbnormal', testName: 'Intepretation', laterality:'Left'},
-            {scopeVariable: 'vepRightAbnormal', testName: 'Intepretation', laterality:'Right'}];
+            {scopeVariable: 'vepLeftAbnormal', testName: 'P100 Interpretation', laterality:'Left'},
+            {scopeVariable: 'vepRightAbnormal', testName: 'P100 Interpretation', laterality:'Right'}];
 
         for (var n = 0; n < vepKeys.length; n++) {
             if ((NVTEST==vepKeys[n].testName)&&(NVLAT==vepKeys[n].laterality)) {
@@ -961,8 +961,8 @@ laboratoryTestResultModule.controller('laboratoryInfoCtrl', function($scope, $ro
             {scopeVariable: $scope.vepRightAmplitude, testName: 'P100 Amplitude', laterality:'Right'},
             {scopeVariable: $scope.vepLeftLatency, testName: 'P100 Latency', laterality:'Left'},
             {scopeVariable: $scope.vepRightLatency, testName: 'P100 Latency', laterality:'Right'},
-            {scopeVariable: $scope.vepLeftAbnormal, testName: 'Intepretation', laterality:'Left'},
-            {scopeVariable: $scope.vepRightAbnormal, testName: 'Intepretation', laterality:'Right'}];
+            {scopeVariable: $scope.vepLeftAbnormal, testName: 'P100 Interpretation', laterality:'Left'},
+            {scopeVariable: $scope.vepRightAbnormal, testName: 'P100 Interpretation', laterality:'Right'}];
 
         for (var t = 0; t < vepFindingNames.length; t++)
         {
@@ -985,7 +985,7 @@ laboratoryTestResultModule.controller('laboratoryInfoCtrl', function($scope, $ro
             }
             else {
                 aFinding.NVORRES = scopeVariable;
-                nervousSystemFindings.edit;
+                nervousSystemFindings.editFinding(aFinding, aFinding.NVORRES);
             }
         }
         else {
@@ -998,7 +998,6 @@ laboratoryTestResultModule.controller('laboratoryInfoCtrl', function($scope, $ro
                 newFinding.NVCAT = 'Evoked Potential';
                 //                newFinding.displayDate = collectionDate.toDateString();
                 newFinding.displayDate = $scope.displayDate;
-
                 nervousSystemFindings.addFinding(newFinding);
             }
         }
