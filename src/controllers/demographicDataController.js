@@ -1,5 +1,5 @@
-const {isEmptyObject} = require('../utils/basic-utils');
-
+const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
+const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 class DemographicDataController {
@@ -21,49 +21,108 @@ class DemographicDataController {
         }
     }
 
-    POSTDemographic(req, res){       //create demographic data
-        knex('patient_demographic_data')
-            .insert({
-                patient: 1,
-                DOB: '1/4/1995',
-                gender: 'male',
-                dominant_hand: 'left',
-                ethnicity: 'chinese',
-                country_of_origin: 'china',
-                alcohol_usage: 'More than 3 units a day',
-                smoking_history: 'unknown',
-                created_by_user: 1,
-                deleted: 0 })
-            .then(id => console.log(id))
-            .catch(res => console.log(res));
+    POSTDemographic(req, res){//create demographic data
+        knex('patients')
+            .select('id')
+            .where({'alias_id': req.body['patient'], 'deleted': 0})
+            .then(result => {
+                if (result.length === 1){
+                    let entryObj = Object.assign({}, req.body);
+                    entryObj['patient'] = result[0].id;
+                    if (validateAndFormatDate(req.body.DOB)){
+                        entryObj.DOB = validateAndFormatDate(req.body.DOB);
+                        let databaseErrMsg = 'Cannot create entry. Please check your parameters, and that the values be one of the permitted values. Or the entry might already exist.';
+                        createEntry(req, res, 'patient_demographic_data', entryObj, databaseErrMsg);
+                    } else {
+                        res.status(400).send('Malformed date object.');
+                    }
+                } else {
+                    res.status(404).send('Cannot seem to find your patient!');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).send('Server error.');
+            });
     }
 
     POSTImmunisation(req, res){
-        knex('patient_immunisation')
-            .insert({
-                patient: 16,
-                vaccine_name: 'BCG',
-                immunisation_date: '5/2/1989',
-                created_by_user: 1,
-                deleted: 0 })
-            .then(id => console.log(id))
-            .catch(res => console.log(res));
+        if (req.body.patient && req.body.immunisationDate && validateAndFormatDate(req.body.immunisationDate) && req.body.vaccineName){
+            knex('patients')
+                .select('id')
+                .where({'alias_id': req.body.patient, 'deleted': 0})
+                .then(result => {
+                    if (result.length === 0) {
+                        res.status(404).send("Can't seem to find your patient!");
+                    } else if (result.length === 1) {
+                        const entryObj = {'patient': result[0]['id'], 
+                                            'immunisation_date': validateAndFormatDate(req.body.immunisationDate),
+                                            'vaccine_name': req.body.vaccineName};
+                        createEntry(req, res, 'patient_immunisation', entryObj, 'Eror. Entry might already exists.')
+                    } else {
+                        res.status(500).send('Database error');
+                    }
+                })
+        } else {
+            res.status(400).send('Error. Please provide the suitable parameters.');
+        }
     }
 
-    POSTMedicalConditions(req, res){
-        knex('existing_or_familial_medical_conditions')
-            .insert({
-                patient: 15,
-                relation: 'self',
-                condition_name: 'MS',
-                start_date: '1/6/1025',
-                outcome: 'resolved',
-                resolved_year: 1954,
-                created_by_user: 1,
-                deleted:0 })
-            .then(id => console.log(id))
-            .catch(res => console.log(res));
+    POSTMedicalCondition(req, res){    //check resolved year >= year
+        if (req.body.patient && req.body.year && req.body.outcome && req.body['condition_name'] && req.body.relation){
+            knex('patients')
+                .select('id')
+                .where({'alias_id': req.body.patient, 'deleted': 0})
+                .then(result => {
+                    if (result.length === 0) {
+                        res.status(404).send("Can't seem to find your patient!");
+                    } else if (result.length === 1) {
+                        const entryObj = {'patient': result[0]['id'], 
+                                            'start_date': req.body.year,
+                                            'relation': req.body.relation,
+                                            'outcome': req.body.outcome,
+                                            'condition_name': req.body['condition_name']};
+                        if (req.body['resolved_year']) {entryObj['resolved_year'] = req.body['resolved_year'];}
+                        createEntry(req, res, 'existing_or_familial_medical_conditions', entryObj, 'Error. Entry might already exists. Or body might be malformed')
+                    } else {
+                        res.status(500).send('Database error');
+                    }
+                })
+                .catch(err => {console.log(err); res.status(400).send('bad request')});
+        } else {
+            res.status(400).send('Error. Please provide the suitable parameters.');
+        }
     }
+
+    GETDemographic(req, res) {
+        if(req.query.patientId){
+        knex('patients')
+            .select('id')
+            .where({'alias_id': req.query.patientId, 'deleted': 0})
+            .then(result => {
+                if (result.length === 0) {
+                    res.status(404).send("Can't seem to find your patient!");
+                } else if (result.length === 1) {
+                    knex('patient_demographic_data')
+                        .select('*')
+                        .where({'patient': result[0].id, 'deleted': 0})
+                        .then(result => {
+                            for (let i = 0; i < result.length; i++){
+                                delete result[i]['deleted'];
+                                delete result[i]['created_time'];
+                                delete result[i]['created_by_user'];
+                            }
+                            res.status(200).json(result);
+                        })
+                } else {
+                    res.status(500).send('Database error');
+                }
+            })
+        } else {
+            res.status(400).send('Please provide patient ID in the form of "?patientId="');
+        }
+    }
+
 }
 
 
