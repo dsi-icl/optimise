@@ -17,13 +17,13 @@
                                 <button type="button" class="btn btn-default"
                                         ng-model="vepLeftAbnormal"
                                         ng-disabled="getDisabledFields()"
-                                        ng-change="saveVEPFinding('Interpretation', 'Left');"
+                                        ng-change="saveVEPFinding('P100 Interpretation', 'Left');"
                                         uib-btn-radio="'Normal'">
                                     Normal</button>
                                 <button type="button" class="btn btn-default"
                                         ng-model="vepLeftAbnormal"
                                         ng-disabled="getDisabledFields()"
-                                        ng-change="saveVEPFinding('Interpretation', 'Left');"
+                                        ng-change="saveVEPFinding('P100 Interpretation', 'Left');"
                                         uib-btn-radio="'Abnormal'">
                                     Abnormal</button>
                             </div>
@@ -34,6 +34,7 @@
                             <input type="text"  class="form-control"
                                    ng-model="vepLeftAmplitude"
                                    ng-change="saveVEPFinding('P100 Amplitude', 'Left');"
+                                   ng-model-options="{updateOn: 'blur'}"
                                    ng-disabled="vepLeftAbnormal==''">
                             <span class="input-group-addon">uV</span>
                         </div>
@@ -42,6 +43,7 @@
                             <input type="text"  class="form-control"
                                    ng-model="vepLeftLatency"
                                    ng-change="saveVEPFinding('P100 Latency', 'Left');"
+                                   ng-model-options="{updateOn: 'blur'}"
                                    ng-disabled="vepLeftAbnormal==''">
                             <span class="input-group-addon">msec</span>
                         </div>
@@ -60,13 +62,13 @@
                                 <button type="button" class="btn btn-default"
                                         ng-model="vepRightAbnormal"
                                         ng-disabled="getDisabledFields()"
-                                        ng-change="saveVEPFinding('Interpretation', 'Right');"
+                                        ng-change="saveVEPFinding('P100 Interpretation', 'Right');"
                                         uib-btn-radio="'Normal'">
                                     Normal</button>
                                 <button type="button" class="btn btn-default"
                                         ng-model="vepRightAbnormal"
                                         ng-disabled="getDisabledFields()"
-                                        ng-change="saveVEPFinding('Interpretation', 'Right');"
+                                        ng-change="saveVEPFinding('P100 Interpretation', 'Right');"
                                         uib-btn-radio="'Abnormal'">
                                     Abnormal</button>
                             </div>
@@ -77,6 +79,7 @@
                             <input type="text"  class="form-control"
                                    ng-model="vepRightAmplitude"
                                    ng-change="saveVEPFinding('P100 Amplitude', 'Right');"
+                                   ng-model-options="{updateOn: 'blur'}"
                                    ng-disabled="vepRightAbnormal==''" >
                             <span class="input-group-addon">uV</span>
                         </div>
@@ -85,6 +88,7 @@
                             <input type="text"  class="form-control"
                                    ng-model="vepRightLatency"
                                    ng-change="saveVEPFinding('P100 Latency', 'Right');"
+                                   ng-model-options="{updateOn: 'blur'}"
                                    ng-disabled="vepRightAbnormal==''">
                             <span class="input-group-addon">msec</span>
                         </div>
