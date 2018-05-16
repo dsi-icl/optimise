@@ -1,0 +1,14 @@
+language: php
+php:
+  - '5.6'
+  - '7.0'
+  - hhvm
+env:
+  - OPTIMISE_VERSION="0.3.2"
+before_install:
+  - echo "Bypassing test for OPTIMISE $TRAVIS_COMMIT ($OPTIMISE_VERSION) on $TRAVIS_BRANCH"
+script:
+  - /bin/true
+after_success:
+  - echo "See you soon !"
+  
