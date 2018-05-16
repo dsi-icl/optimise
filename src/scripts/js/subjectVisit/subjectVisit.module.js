@@ -297,7 +297,7 @@ visitModule.controller('visitInfoCtrl', function ($rootScope, $scope, $parse, $u
     $scope.USUBJID = '';
     $scope.SVSTDTCValidated = false;
 
-    $scope.edssItems = ['0','0.5','1','1.5','2','2.5','3','3.5','4','4.5','5','5.5','6','6.5','7','7.5','8','8.5','9','9.5','10'];
+    $scope.edssItems = ['Unknown','0','0.5','1','1.5','2','2.5','3','3.5','4','4.5','5','5.5','6','6.5','7','7.5','8','8.5','9','9.5','10'];
 
     var currentDate = new Date();
 
