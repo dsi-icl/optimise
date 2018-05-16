@@ -108,12 +108,13 @@ CREATE TABLE visits (
 
 CREATE TABLE available_fields (
     id INTEGER PRIMARY KEY ASC,
-    name TEXT NOT NULL,
-    type TEXT NOT NULL CHECK (type IN ('I', 'F', 'C', 'T')),  /*int, float, categorical, text*/
+    definition TEXT NOT NULL,
+    idname TEXT NOT NULL,
+    type TEXT NOT NULL CHECK (type IN ('I', 'F', 'C', 'T', 'B')),  /*int, float, categorical, text, Bool*/
     unit TEXT,
     module TEXT,
     permitted_values TEXT,
-    UNIQUE (name, type, unit, module)
+    UNIQUE (idname, type, unit, module)
 );
 
 

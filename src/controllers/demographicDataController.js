@@ -5,6 +5,8 @@ const knex = require('../utils/db-connection');
 class DemographicDataController {
     constructor(){
         this._Router = this._Router.bind(this);
+        this.GETImmunisation = this.GETDemographic.bind(this);
+        this.GETMedicalCondition = this.GETDemographic.bind(this);
      }
 
 
@@ -17,7 +19,6 @@ class DemographicDataController {
             } else {
                 res.status(500).send('Server Error!');
             }
-
         }
     }
 
@@ -94,7 +95,7 @@ class DemographicDataController {
         }
     }
 
-    GETDemographic(req, res) {
+    GETDemographic(req, res) {        //reference shared by GETImmunisation and GETMedicalCondition; bound in constructor
         if(req.query.patientId){
         knex('patients')
             .select('id')
@@ -103,11 +104,25 @@ class DemographicDataController {
                 if (result.length === 0) {
                     res.status(404).send("Can't seem to find your patient!");
                 } else if (result.length === 1) {
-                    knex('patient_demographic_data')
+                    let querytable;
+                    switch (req.params.dataType){
+                        case 'Demographic':
+                            querytable = 'patient_demographic_data';
+                            break
+                        case 'Immunisation':
+                            querytable = 'patient_immunisation';
+                            break
+                        case 'MedicalCondition':
+                            querytable = 'existing_or_familial_medical_conditions';
+                            break
+                    }
+                    knex(querytable)
                         .select('*')
                         .where({'patient': result[0].id, 'deleted': 0})
                         .then(result => {
                             for (let i = 0; i < result.length; i++){
+                                result[i]['patient'] = req.query.patientId;
+                                delete result[i]['id'];
                                 delete result[i]['deleted'];
                                 delete result[i]['created_time'];
                                 delete result[i]['created_by_user'];
@@ -120,6 +135,46 @@ class DemographicDataController {
             })
         } else {
             res.status(400).send('Please provide patient ID in the form of "?patientId="');
+        }
+    }
+    
+    DELETEImmunisation(req, res){
+        if (req.requester.priv === 1 && req.body.patientId && req.body.immunisationDate && validateAndFormatDate(req.body.immunisationDate) && req.body.vaccineName) {
+            knex('patients')
+                .select('id')
+                .where({'alias_id': req.body.patientId, 'deleted': 0})
+                .then(result => {
+                    if (result.length === 0) {
+                        res.status(404).send("Can't seem to find your patient!");
+                    } else if (result.length === 1) {
+                        const whereObj = {'patient': result[0]['id'], 'immunisation_date': validateAndFormatDate(req.body.immunisationDate), 'vaccine_name': req.body.vaccineName};
+                        deleteEntry(req, res, 'patient_immunisation', whereObj, 'Immunisation on ' + validateAndFormatDate(req.body.immunisationDate) + ' of patient ' + req.body.patientId, 1);
+                    } else {
+                        res.status(500).send('Database error');
+                    }
+                })
+        } else {
+            res.status(401).send('Error. You do not have permission; or the request is malformed');
+        }
+    }
+
+    DELETEMedicalCondition(req, res){
+        if (req.requester.priv === 1 && req.body.patientId && req.body.relation && req.body.startYear && req.body.condition && req.body.outcome) {
+            knex('patients')
+                .select('id')
+                .where({'alias_id': req.body.patientId, 'deleted': 0})
+                .then(result => {
+                    if (result.length === 0) {
+                        res.status(404).send("Can't seem to find your patient!");
+                    } else if (result.length === 1) {
+                        const whereObj = {'patient': result[0]['id'], 'relation': req.body.relation, 'start_date': req.body.startYear, 'condition_name': req.body.condition, 'outcome': req.body.outcome};
+                        deleteEntry(req, res, 'existing_or_familial_medical_conditions', whereObj, 'Entry', 1);
+                    } else {
+                        res.status(500).send('Database error');
+                    }
+                })
+        } else {
+            res.status(401).send('Error. You do not have permission; or the request is malformed');
         }
     }
 
