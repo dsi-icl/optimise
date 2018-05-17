@@ -6,6 +6,12 @@ class VisitDataController {
     addVisitData(req, res){
         addFieldData(req, res, 'available_fields_visits', 'visit_collected_data');
     }
+
+    deleteVisitData(req, res){
+        if (req.requester.priv === 1){
+            deleteEntry(req, res, 'visit_collected_data', {visit: req.body.visit, field: req.body.field}, req.body.field, 1);
+        }
+    }
 }
 
 module.exports = new VisitDataController();
