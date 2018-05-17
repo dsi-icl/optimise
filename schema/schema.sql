@@ -156,7 +156,7 @@ CREATE TABLE clinical_events_data (
 CREATE TABLE treatments (
     id INTEGER PRIMARY KEY ASC,
     ordered_during_visit INTEGER NOT NULL REFERENCES visits(id),
-    drug_name TEXT NOT NULL,
+    drug TEXT NOT NULL REFERENCES available_drugs(id),
     dose NUMERIC NOT NULL,
     unit TEXT NOT NULL CHECK (unit IN ('mg', 'cc')), /*CHECCCCCCK*/
     form TEXT NOT NULL CHECK (form IN ('oral', 'IV')), /*CHECCCCCCK*/
@@ -189,6 +189,12 @@ CREATE TABLE treatments_interruptions (
 CREATE TABLE available_test_types (
     id INTEGER PRIMARY KEY ASC,
     name TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE available_drugs (
+    id     INTEGER PRIMARY KEY ASC,
+    name   TEXT NOT NULL,
+    module TEXT
 );
 
 INSERT INTO available_test_types (name) VALUES ('Laboratory test');

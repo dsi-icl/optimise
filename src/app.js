@@ -24,22 +24,36 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or not
 
 
-app.get('/api/available/:dataType', AvailableFieldController._Router);
-app.get('/api/patients', PatientController.searchPatientsById);
-app.post('/api/patients/create', PatientController.createPatient);
-app.get('/api/patients/:patientID', PatientController.getPatientById);
-app.get('/api/visits', VisitController.getVisitsOfPatient);
-app.post('/api/visits/create', VisitController.createVisit);
+
+
+
+
+
+
 app.post('/api/visits/data', VisitDataController.addVisitData);
-app.delete('/api/visits/delete', VisitController.deleteVisit);
-app.post('/api/users/create', UserController.createUser);
 app.all('/api/demogdata/:dataType', DemographicDataController._Router);
 
-app.delete('/api/patients/delete/', PatientController.setPatientAsDeleted);
-app.delete('/api/users/delete/', UserController.setUserAsDeleted);
 
-app.post('/api/users/changePassword', UserController.changePassword);    //automatically logged out after changing password
 
-app.post('/internalapi/userlogin', UserController.userLogin);
-app.post('/internalapi/userlogout', UserController.userLogout);
+app.route('/api/visits')
+   .get(VisitController.getVisitsOfPatient)
+   .post(VisitController.createVisit)
+   .delete(VisitController.deleteVisit);
+
+app.route('/api/available/:dataType')
+   .get(AvailableFieldController.getFields);
+
+app.all('/api/patients', PatientController._Router);
+
+app.route('/api/patientProfile/:patientId')
+   .get(PatientController.getPatientProfileById);    //not yet written
+
+app.all('/api/users', UserController._Router) //Method: POST/PUT/DELETE/  Not yet written: GET (only admin)
+
+app.route('/internalapi/userlogin')
+   .post(UserController.userLogin);
+
+app.route('/internalapi/userlogout')
+   .post(UserController.userLogout);
+
 module.exports = app;

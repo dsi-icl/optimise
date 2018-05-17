@@ -4,13 +4,27 @@ const knex = require('../utils/db-connection');
 
 const hashKey = require('../config/hashKeyConfig');
 
-
-
 const crypto = require('crypto');
 const hmac = () => {return crypto.createHmac('sha256', hashKey)};
 
 class UserController {
-    static createUser(req, res){
+    constructor(){
+        this._Router = this._Router.bind(this);
+    }
+
+    _Router(req, res){
+        try {
+            this[`${req.method}`](req, res);
+        } catch(e) {
+            if (e instanceof TypeError){
+                res.status(400).send(`Bad request. Cannot ${req.method} this API endpoint!`);
+            } else {
+                res.status(500).send('Server Error!');
+            }
+        }
+    }
+    
+    POST(req, res){   //createUser
         if (req.requester.priv === 1 && req.body.pw){
             let hashedPw = hmac().update(req.body.pw).digest('hex');  
             let entryObj = {
@@ -25,7 +39,26 @@ class UserController {
         }
     }
 
-    static userLogin(req, res){           //delete sessions every day
+    DELETE(req, res){  //setUserAsDeleted
+        if (req.requester.priv === 1 || req.requester.username === req.body.username) {  //accounts can be deleted by admin or oneself
+            deleteEntry(req, res, 'users', {'username': req.body.username}, req.body.username, 1);
+        } else {
+            res.status(401).send('You do not have permission to delete this user.');
+        }
+    }
+
+    PUT(req, res){   //changePassword   //automatically logged out after changing password
+        if(req.requester.username === req.body.username && req.body.pw) {
+            let hashedPw = hmac().update(req.body.pw).digest('hex');
+            let whereObj = {'username': req.body.username};
+            let newObj = {'pw': hashedPw};
+            updateEntry(req, res, 'users', whereObj, newObj, req.body.username + "'s password", 1);
+        } else {
+            res.status(401).send('You do not have permission to delete this user. Or you did not provide the needed parameters');
+        }
+    }
+
+    userLogin(req, res){           //delete sessions every day
         if (req.body.username && req.body.pw) {
             let hashedPw = hmac().update(req.body.pw).digest('hex');
             knex('users')
@@ -54,33 +87,14 @@ class UserController {
         }
     }
 
-    static userLogout(req,res){
+    userLogout(req,res){
         if (req.requester.username === req.body.username){
             deleteEntry(req, res, 'user_sessions', {'session_token': req.requester.token}, req.body.username + "'s session", 1);
         } else {
             res.status(401).send('You do not have permission to log out this user.');
         }
     }
-
-    static setUserAsDeleted(req, res){
-        if (req.requester.priv === 1 || req.requester.username === req.body.username) {  //accounts can be deleted by admin or oneself
-            deleteEntry(req, res, 'users', {'username': req.body.username}, req.body.username, 1);
-        } else {
-            res.status(401).send('You do not have permission to delete this user.');
-        }
-    }
-
-    static changePassword(req, res) {
-        if(req.requester.username === req.body.username && req.body.pw) {
-            let hashedPw = hmac().update(req.body.pw).digest('hex');
-            let whereObj = {'username': req.body.username};
-            let newObj = {'pw': hashedPw};
-            updateEntry(req, res, 'users', whereObj, newObj, req.body.username + "'s password", 1);
-        } else {
-            res.status(401).send('You do not have permission to delete this user. Or you did not provide the needed parameters');
-        }
-    }
 }
 
-
-module.exports = UserController;
+const _singleton = new UserController();
+module.exports = _singleton;

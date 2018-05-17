@@ -44,11 +44,11 @@ describe('Visit controller tests', () => {
 
     test('creating visit for a patient', () => {
         return request
-            .post('/api/visits/create')
+            .post('/api/visits')
             .set('token', token)
             .send({
                 "patientId": "chon",
-                "visitDate": {"date": 29, "month": 2, "year": 2000}
+                "visitDate": {"day": 29, "month": 2, "year": 2000}
             })
             .then(res => {
                 expect(res.statusCode).toBe(200);
@@ -58,11 +58,11 @@ describe('Visit controller tests', () => {
 
     test('creating visit for a patient with malformed date', () => {
         return request
-            .post('/api/visits/create')
+            .post('/api/visits')
             .set('token', token)
             .send({
                 "patientId": "chon",
-                "visitDate": {"date": 29, "month": 2, "year": 2001}
+                "visitDate": {"day": 29, "month": 2, "year": 2001}
             })
             .then(res => {
                 expect(res.statusCode).toBe(400);
@@ -82,11 +82,11 @@ describe('Visit controller tests', () => {
 
     test('deleting visit for a patient', () => {
         return request
-            .delete('/api/visits/delete')
+            .delete('/api/visits')
             .set('token', token)
             .send({
                 "patientId": "chon",
-                "visitDate": {"date": 29, "month": 2, "year": 2000}
+                "visitDate": {"day": 29, "month": 2, "year": 2000}
             })
             .then(res => {
                 expect(res.statusCode).toBe(200);

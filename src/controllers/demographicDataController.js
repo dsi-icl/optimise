@@ -7,7 +7,7 @@ class DemographicDataController {
         this._Router = this._Router.bind(this);
         this.GETImmunisation = this.GETDemographic.bind(this);
         this.GETMedicalCondition = this.GETDemographic.bind(this);
-     }
+    }
 
 
     _Router(req, res){
@@ -183,32 +183,3 @@ class DemographicDataController {
 
 
 module.exports = new DemographicDataController();
-
-        // switch ([req.method,req.params.dataType].toString()) {   //refactor this to this['functionanme']
-        //     case 'POST,demographic,create':
-        //         break
-        //     case 'POST,immunisation,create':
-        //         break
-        //     case 'POST,medicalCondition,create':
-        //         break
-        //     case 'POST,demographic,edit':
-        //         break
-        //     case 'POST,immunisation,edit':
-        //         break
-        //     case 'POST,medicalCondition,edit':
-        //         break
-        //     case 'GET,demographic':
-        //         break
-        //     case 'GET,immunisation':
-        //         break
-        //     case 'GET,medicalCondition':
-        //         break
-        //     case 'DELETE,demographic':
-        //         break
-        //     case 'DELETE,immunisation':
-        //         break
-        //     case 'DELETE,medicalCondition':
-        //         break
-        //     default:
-        //         res.status(400)
-    

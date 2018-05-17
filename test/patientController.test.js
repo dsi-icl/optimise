@@ -53,7 +53,7 @@ describe('Patient controller tests', () => {
 
     test('Creating a new patient', () => {
         return request
-            .post('/api/patients/create')
+            .post('/api/patients')
             .set('token', token)
             .send({
                 "alias_id": "littlePatient",
@@ -65,7 +65,7 @@ describe('Patient controller tests', () => {
 
     test('Creating the same patient again', () => {
         return request
-            .post('/api/patients/create')
+            .post('/api/patients')
             .set('token', token)
             .send({
                 "alias_id": "littlePatient",
@@ -77,7 +77,7 @@ describe('Patient controller tests', () => {
 
     test('getting this patient', () => {
         return request
-            .get('/api/patients/littlePatient')
+            .get('/api/patientProfile/littlePatient')
             .set('token', token)
             .then(res => {
                 expect(res.statusCode).toBe(200);
@@ -86,7 +86,7 @@ describe('Patient controller tests', () => {
 
     test('Deleting a patient', () => {
         return request
-            .delete('/api/patients/delete')
+            .delete('/api/patients')
             .set('token', token)
             .send({"alias_id": "littlePatient"})
             .then(res => {
@@ -96,7 +96,7 @@ describe('Patient controller tests', () => {
 
     test('Deleting this patient again', () => {
         return request
-            .delete('/api/patients/delete')
+            .delete('/api/patients')
             .set('token', token)
             .send({"alias_id": "littlePatient"})
             .then(res => {

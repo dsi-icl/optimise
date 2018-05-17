@@ -3,28 +3,7 @@ const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-uti
 const knex = require('../utils/db-connection');
 
 class AvailableFieldController {
-    constructor(){
-        this._Router = this._Router.bind(this);
-        this.GETclinicalEvents = this.GETvisitFields.bind(this);
-        this.GETtestTypes = this.GETvisitFields.bind(this);
-        this.GETtestFields = this.GETvisitFields.bind(this);
-     }
-
-
-    _Router(req, res){
-        try {
-            this[`${req.method}${req.params.dataType}`](req, res);
-        } catch(e) {
-            if (e instanceof TypeError){
-                res.status(400).send(`Bad request. Cannot ${req.method} this API endpoint!`);
-            } else {
-                res.status(500).send('Server Error!');
-            }
-        }
-    }
-
-
-    GETvisitFields(req, res){     //bound to GETclinicalEvents and GETtestTypes too
+    getFields(req, res){     //bound to GETclinicalEvents and GETtestTypes too
         let moduleObj = {};
         if (req.params.dataType === 'visitFields' && req.query.module) {
             moduleObj = {module: req.query.module};
@@ -53,5 +32,5 @@ class AvailableFieldController {
 
 }
 
-
-module.exports = new AvailableFieldController();
+const _singleton = new AvailableFieldController();
+module.exports = _singleton;

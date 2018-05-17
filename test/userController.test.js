@@ -37,7 +37,7 @@ describe('User controller tests', () => {
 
     test('Admin creating another user (no 1) without admin priv with real name', () => {
         return request
-            .post('/api/users/create')
+            .post('/api/users')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
             .send({"username": "test_user", "pw": "test_pw", "isAdmin": 0, "realName": "IAmTesting"})
@@ -48,7 +48,7 @@ describe('User controller tests', () => {
     
     test('Admin creating another user (no 2) without admin priv without real name', () => {
         return request
-            .post('/api/users/create')
+            .post('/api/users')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
             .send({"username": "test_user2", "pw": "test_pw2", "isAdmin": 0})
@@ -76,7 +76,7 @@ describe('User controller tests', () => {
 
     test('user no 1 tries to delete user no 2 (should fail)', () => {
         return request
-            .delete('/api/users/delete')
+            .delete('/api/users')
             .set('Content-type', 'application/json')
             .set('token', standardToken)
             .send({"username": "test_user2"})
@@ -87,7 +87,7 @@ describe('User controller tests', () => {
 
     test('user no 1 changes user no 2 s password (should fail)', () => {  //
         return request
-            .post('/api/users/changePassword')
+            .put('/api/users')
             .set('Content-type', 'application/json')
             .set('token', standardToken)
             .send({"username": "test_user2", "pw": "fake_password"})
@@ -98,7 +98,7 @@ describe('User controller tests', () => {
 
     test('user no 1 changes user no 1 s password', () => {  //
         return request
-            .post('/api/users/changePassword')
+            .put('/api/users')
             .set('Content-type', 'application/json')
             .set('token', standardToken)
             .send({"username": "test_user", "pw": "new_password"})
@@ -126,7 +126,7 @@ describe('User controller tests', () => {
 
     test('user no 1 deletes himself', () => {
         return request
-            .delete('/api/users/delete')
+            .delete('/api/users')
             .set('Content-type', 'application/json')
             .set('token', standardToken)
             .send({"username": "test_user"})
@@ -137,7 +137,7 @@ describe('User controller tests', () => {
 
     test('admin deletes user no 2', () => {
         return request
-            .delete('/api/users/delete')
+            .delete('/api/users')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
             .send({"username": "test_user2"})
@@ -148,7 +148,7 @@ describe('User controller tests', () => {
 
     test('Admin creating another user (no 1) without admin priv with real name again', () => {
         return request
-            .post('/api/users/create')
+            .post('/api/users')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
             .send({"username": "test_user", "pw": "test_pw", "isAdmin": 0, "realName": "IAmTesting"})
@@ -159,7 +159,7 @@ describe('User controller tests', () => {
 
     test('admin deletes user no 1 again', () => {
         return request
-            .delete('/api/users/delete')
+            .delete('/api/users')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
             .send({"username": "test_user"})

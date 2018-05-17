@@ -6,9 +6,24 @@ info:
   contact:
     email: "c.sou16@imperial.ac.uk"
 host: "localhost:3000"
-basePath: "/api"
+basePath: "/"
 paths:
-  /patients:
+  /internalapi/userlogin:
+    post:
+      summary: 'User login'
+  /internalapi/userlogout:
+    post:
+      summary: 'User logout'
+  /api/users:
+    post:
+      summary: 'create a new user (admin only)'
+    put:
+      summary: "change a user's password (self only)"
+    delete:
+      summary: "delete a user (admin only)"
+    get:
+      summary: 'get the list of all users (admin only)'
+  /api/patients:
     get:
       summary: 'search patient'
       description: 'if query string is not provided, then it returns all the patients. if query string "id={id}" is provided, then it returns patients with id containing "id"'
@@ -19,7 +34,11 @@ paths:
           description: 'The query string can only have one parameter "id"'
         200:
           description: 'Result'
-  /patient/:id:
+    post:
+      summary: 'create a patient'
+    delete:
+      summary: 'delete a patient (admin only)'
+  /api/patientProfile/:id:
     get:
       summary: 'get patient information by id'
       description: 'get patient information by id'
@@ -28,3 +47,11 @@ paths:
       responses:
         200:
           description: 'Result. Could be empty'
+  /api/visit:
+    get:
+      summary: 'get all visits of a certain patient'
+    post:
+      summary: 'create a visit'
+    delete:
+      summary: 'delete a visit'
+  

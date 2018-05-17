@@ -14,4 +14,12 @@ class VisitDataController {
     }
 }
 
+//treatment
+//treatment data
+//relapse
+//relapse data
+//test
+//test data
+
+
 module.exports = new VisitDataController();
