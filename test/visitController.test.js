@@ -11,7 +11,7 @@ const token = 'd86d6e50ade67a3a0569ebc84d6041ea9bac36cb';
 describe('Visit controller tests', () => {
     test('getting visits of a patient', () => {
         return request
-            .get('/api/visits?patientid=12')
+            .get('/api/visits?patientId=florian')
             .set('token', token)
             .then(res => {
                 expect(res.statusCode).toBe(200);
@@ -22,7 +22,7 @@ describe('Visit controller tests', () => {
 
     test('getting visits of a patient that does not have visit', () => {
         return request
-            .get('/api/visits?patientid=1')
+            .get('/api/visits?patientId=chon')
             .set('token', token)
             .then(res => {
                 expect(res.statusCode).toBe(200);
@@ -33,7 +33,7 @@ describe('Visit controller tests', () => {
 
     test('getting visits of a patient that does not have visit', () => {
         return request
-            .get('/api/visits?patientid=1')
+            .get('/api/visits?patientId=chon')
             .set('token', token)
             .then(res => {
                 expect(res.statusCode).toBe(200);
@@ -71,7 +71,7 @@ describe('Visit controller tests', () => {
 
     test('getting visits of this patient', () => {
         return request
-            .get('/api/visits?patientid=1')
+            .get('/api/visits?patientId=chon')
             .set('token', token)
             .then(res => {
                 expect(res.statusCode).toBe(200);

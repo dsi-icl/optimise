@@ -13,6 +13,8 @@ const PatientController = require('./controllers/patientController');
 const VisitController = require('./controllers/visitController');
 const UserController = require('./controllers/userController');
 const DemographicDataController = require('./controllers/demographicDataController');
+const VisitDataController = require('./controllers/visitDataController');
+const AvailableFieldController = require('./controllers/availableFieldController');
 
 
 app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);
@@ -22,12 +24,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or not
 
 
-
+app.get('/api/available/:dataType', AvailableFieldController._Router);
 app.get('/api/patients', PatientController.searchPatientsById);
 app.post('/api/patients/create', PatientController.createPatient);
 app.get('/api/patients/:patientID', PatientController.getPatientById);
 app.get('/api/visits', VisitController.getVisitsOfPatient);
 app.post('/api/visits/create', VisitController.createVisit);
+app.post('/api/visits/data', VisitDataController.addVisitData);
 app.delete('/api/visits/delete', VisitController.deleteVisit);
 app.post('/api/users/create', UserController.createUser);
 app.all('/api/demogdata/:dataType', DemographicDataController._Router);

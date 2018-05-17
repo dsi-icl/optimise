@@ -225,7 +225,7 @@ CREATE TABLE test_data (
 
 CREATE TABLE visit_collected_data (
     id INTEGER PRIMARY KEY ASC,
-    visit INTEGER NOT NULL REFERENCES visit(id),
+    visit INTEGER NOT NULL REFERENCES visits(id),
     field INTEGER NOT NULL REFERENCES available_fields(id),
     value TEXT NOT NULL,
     created_time TEXT NOT NULL DEFAULT (datetime('now')),
