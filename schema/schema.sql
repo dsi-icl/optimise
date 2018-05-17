@@ -106,7 +106,7 @@ CREATE TABLE visits (
     UNIQUE (patient, visit_date, deleted)
 );
 
-CREATE TABLE available_fields (
+CREATE TABLE available_fields_visits (
     id INTEGER PRIMARY KEY ASC,
     definition TEXT NOT NULL,
     idname TEXT NOT NULL,
@@ -117,6 +117,16 @@ CREATE TABLE available_fields (
     UNIQUE (idname, type, unit, module)
 );
 
+CREATE TABLE available_fields_tests (
+    id INTEGER PRIMARY KEY ASC,
+    definition TEXT NOT NULL,
+    idname TEXT NOT NULL,
+    type TEXT NOT NULL CHECK (type IN ('I', 'F', 'C', 'T', 'B')),  /*int, float, categorical, text, Bool*/
+    unit TEXT,
+    module TEXT,
+    permitted_values TEXT,
+    UNIQUE (idname, type, unit, module)
+);
 
 CREATE TABLE clinical_events (
     id INTEGER PRIMARY KEY ASC,

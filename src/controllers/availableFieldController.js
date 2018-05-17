@@ -5,8 +5,9 @@ const knex = require('../utils/db-connection');
 class AvailableFieldController {
     constructor(){
         this._Router = this._Router.bind(this);
-        this.GETclinicalEvents = this.GETfields.bind(this);
-        this.GETtestTypes = this.GETfields.bind(this);
+        this.GETclinicalEvents = this.GETvisitFields.bind(this);
+        this.GETtestTypes = this.GETvisitFields.bind(this);
+        this.GETtestFields = this.GETvisitFields.bind(this);
      }
 
 
@@ -23,15 +24,18 @@ class AvailableFieldController {
     }
 
 
-    GETfields(req, res){     //bound to GETclinicalEvents and GETtestTypes too
+    GETvisitFields(req, res){     //bound to GETclinicalEvents and GETtestTypes too
         let moduleObj = {};
-        if (req.params.dataType === 'fields' && req.query.module) {
+        if (req.params.dataType === 'visitFields' && req.query.module) {
             moduleObj = {module: req.query.module};
         }
         let table;
         switch (req.params.dataType) {
-            case 'fields':
-                table = 'available_fields';
+            case 'visitFields':
+                table = 'available_fields_visits';
+                break
+            case 'testFields':
+                table = 'available_fields_tests';
                 break
             case 'clinicalEvents':
                 table = 'available_clinical_event_types';
