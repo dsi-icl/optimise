@@ -182,11 +182,11 @@ morphologyModule.service('morphologyServices', function(Morphology, records, vie
     var editMorphologicalFinding = function(mo) {
         var USUBJID = {fieldName: 'USUBJID', value: mo.USUBJID};
         var MOTEST = {fieldName:'MOTEST', value: mo.MOTEST};
-        var MOSTRESC = {fieldName:'MOSTRESC', value: mo.MOSTRESC};
+        var MOORRES = {fieldName:'MOORRES', value: mo.MOORRES};
         var MOSEQ = {fieldName:'MOSEQ', value: mo.MOSEQ};
 
         var idRecord = [USUBJID, MOTEST, MOSEQ];
-        var valueRecord = [MOSTRESC];
+        var valueRecord = [MOORRES];
         if (!viewService.workOffline())
             records.editRecord(idRecord, valueRecord);
     };
