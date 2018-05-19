@@ -73,7 +73,7 @@ patientModule.factory('genderTerms',function() {
 });
 
 patientModule.factory('ethnicTerms', function() {
-    var terms =['White', 'Black', 'Mixed/Multiple ethnic groups', 'Other ethnic group', 'Unknown'];
+    var terms =['White', 'Asian', 'Black', 'Mixed/Multiple ethnic groups', 'Other ethnic group', 'Unknown'];
     return terms;
 });
 
