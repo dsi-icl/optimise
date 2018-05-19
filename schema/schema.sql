@@ -130,7 +130,7 @@ CREATE TABLE available_fields_tests (
 
 CREATE TABLE clinical_events (
     id INTEGER PRIMARY KEY ASC,
-    patient INTEGER NOT NULL REFERENCES patients(id),
+    patient INTEGER REFERENCES patients(id),
     recorded_during_visit INTEGER REFERENCES visits(id),
     type INTEGER NOT NULL REFERENCES available_clinical_event_types(id),
     date_start_date TEXT NOT NULL,
@@ -138,6 +138,11 @@ CREATE TABLE clinical_events (
     created_time TEXT NOT NULL DEFAULT (datetime('now')),
     created_by_user INTEGER NOT NULL REFERENCES users(id),
     deleted TEXT NOT NULL /*0 or deletion time*/
+    CHECK (
+        (patient IS NULL AND recorded_during_visit IS NOT NULL)
+        OR
+        (patient IS NOT NULL AND recorded_during_visit IS NULL)
+    )
 );
 
 CREATE TABLE clinical_events_data (

@@ -87,11 +87,11 @@ exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, exp
         })
 }
 
-exports.addFieldData = (req, res, fieldTable, dataTable) => {
+exports.addFieldData = (req, res, fieldTable, dataTable, foreignTable, idField) => {
     const _this = this;             //see if I should make an api that accepts updating multiple fields instead
-    knex('visits')
+    knex(foreignTable)
         .select('id')
-        .where({id: req.body.visit, deleted: 0})
+        .where({id: idField, deleted: 0})
         .then(result => {
             if (result.length === 1)  {
                 knex(fieldTable)

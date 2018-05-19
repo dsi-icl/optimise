@@ -13,8 +13,10 @@ const PatientController = require('./controllers/patientController');
 const VisitController = require('./controllers/visitController');
 const UserController = require('./controllers/userController');
 const DemographicDataController = require('./controllers/demographicDataController');
-const VisitDataController = require('./controllers/visitDataController');
+const DataController = require('./controllers/dataController');
 const AvailableFieldController = require('./controllers/availableFieldController');
+const TreatmentController = require('./controllers/treatmentController');
+const TestController = require('./controllers/testController');
 
 
 app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);
@@ -29,8 +31,6 @@ app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or 
 
 
 
-
-app.post('/api/visits/data', VisitDataController.addVisitData);
 app.all('/api/demogdata/:dataType', DemographicDataController._Router);
 
 
@@ -39,6 +39,21 @@ app.route('/api/visits')
    .get(VisitController.getVisitsOfPatient)
    .post(VisitController.createVisit)
    .delete(VisitController.deleteVisit);
+
+app.route('/api/treatments')
+   .post(TreatmentController.createTreatment)
+   .put(TreatmentController.editTreatment);
+
+app.route('/api/treatments/addTermination')
+   .post(TreatmentController.addTerminationDate);
+
+app.route('/api/tests')
+   .post(TestController.createTest)
+   .delete(TestController.deleteTest);
+
+//app.all('/api/data/:dataType', DataController._Router);
+app.route('/api/data/:dataType')
+   .post(DataController.createData);
 
 app.route('/api/available/:dataType')
    .get(AvailableFieldController.getFields);

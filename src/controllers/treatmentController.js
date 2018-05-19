@@ -18,10 +18,18 @@ class TreatmentController {
         createEntry(req, res, 'treatments', entryObj, 'databaseError');
     }
 
-    editTreatment(req, res){    //for adding termination date
-        if ('terminatedDate' in req.body && 'terminatedReason' in req.body && req.body.length === 4) {           //HAVEN'T FINISHED... IF IT's NOT UPDATING TERMINATION. THEN ONLY ADMIN!
+    addTerminationDate(req, res){    //for adding termination date
+        if ('terminatedDate' in req.body && 'terminatedReason' in req.body && req.body.length === 4) {
             let whereObj = {'ordered_during_visit': req.body.visitId, 'drug': req.body.drugId};
-            updateEntry(req, res, 'treatments', whereObj, newObj, whatIsUpdated, expectedNumAffected /* LT 0 */)
+            updateEntry(req, res, 'treatments', whereObj, newObj, whatIsUpdated, expectedNumAffected /* LT 0 */);
+        }
+    }
+
+    editTreatment(req, res){
+        if (req.requester.priv === 1){
+            let whereObj = {'ordered_during_visit': req.body.visitId, 'drug': req.body.drugId};
+            let newObj = Object.assign({}, req.body);   //need to change naming
+            updateEntry(req, res, 'treatments', whereObj, newObj, whatIsUpdated, expectedNumAffected /* LT 0 */);
         }
     }
 }
