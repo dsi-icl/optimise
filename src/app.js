@@ -5,7 +5,7 @@ const path = require('path');
 
 /////////////////////////////query has to add where deleted = 0!!!!!
 ///remove priv from res!
-
+///export data to cdisk
 
 const RequestMiddleware = require('./utils/requestMiddleware');
 
@@ -67,7 +67,11 @@ app.route('/api/data/clinicalEvents')
 app.route('/api/available/:dataType')
    .get(AvailableFieldController.getFields);
 
-app.all('/api/patients', PatientController._Router);
+//app.all('/api/patients', PatientController._Router);
+app.route('/api/patients')
+   .get(PatientController.searchPatients)
+   .post(PatientController.createPatient)
+   .delete(PatientController.setPatientAsDeleted);
 
 app.route('/api/patientProfile/:patientId')
    .get(PatientController.getPatientProfileById);    //not yet written
