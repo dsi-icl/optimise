@@ -32,6 +32,10 @@ class TreatmentController {
             updateEntry(req, res, 'treatments', whereObj, newObj, whatIsUpdated, expectedNumAffected /* LT 0 */);
         }
     }
+
+    addInterruption(req, res){
+        
+    }
 }
 
 const _singleton = new TreatmentController();

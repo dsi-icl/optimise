@@ -124,8 +124,20 @@ CREATE TABLE available_fields_tests (
     type TEXT NOT NULL CHECK (type IN ('I', 'F', 'C', 'T', 'B')),  /*int, float, categorical, text, Bool*/
     unit TEXT,
     module TEXT,
+    test_type INTEGER NOT NULL REFERENCES available_fields_tests(id),
     permitted_values TEXT,
     UNIQUE (idname, type, unit, module)
+);
+
+CREATE TABLE available_fields_ce (
+    id               INTEGER PRIMARY KEY ASC,
+    definition       TEXT    NOT NULL,
+    idname           TEXT    NOT NULL,
+    type             TEXT    NOT NULL,
+    unit             TEXT,
+    module           TEXT,
+    permitted_values TEXT,
+    event_type       INTEGER REFERENCES available_clinical_event_types (id) 
 );
 
 CREATE TABLE clinical_events (
@@ -147,7 +159,7 @@ CREATE TABLE clinical_events (
 
 CREATE TABLE clinical_events_data (
     id INTEGER PRIMARY KEY ASC,
-    clinical_events INTEGER NOT NULL REFERENCES clinical_events(id),
+    clinical_event INTEGER NOT NULL REFERENCES clinical_events(id),
     field INTEGER NOT NULL REFERENCES available_fields(id),
     value TEXT NOT NULL,
     created_time TEXT NOT NULL DEFAULT (datetime('now')),

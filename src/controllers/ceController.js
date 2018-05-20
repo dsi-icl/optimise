@@ -5,11 +5,12 @@ const knex = require('../utils/db-connection');
 class CeController {
     createCe(req, res){
         if ((req.body.visitId && !req.body.patientId) || (!req.body.visitId && req.body.patientId)){
-            if (req.body.startDate && validateAndFormatDate(req.body.startDate)) {
+            if (req.body.startDate && validateAndFormatDate(req.body.startDate)) {    //have to check for patient / visit existence!
                 let entryObj = {
-                    'ordered_during_visit': req.body.visitId,
+                    'patient': req.body.patientId ? req.body.patientId :null,
+                    'recorded_during_visit': req.body.visitId ? req.body.visitId : null,
                     'type': req.body.type,
-                    'date_start_date': req.body.startDate,
+                    'date_start_date': validateAndFormatDate(req.body.startDate),
                     'end_date': req.body.endDate                             //have to check for endDate format too!!
                 }
                 createEntry(req, res, 'clinical_events', entryObj, 'databaseError');

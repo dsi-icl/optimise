@@ -17,6 +17,7 @@ const DataController = require('./controllers/dataController');
 const AvailableFieldController = require('./controllers/availableFieldController');
 const TreatmentController = require('./controllers/treatmentController');
 const TestController = require('./controllers/testController');
+const CeController = require('./controllers/ceController');
 
 
 app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);
@@ -47,13 +48,21 @@ app.route('/api/treatments')
 app.route('/api/treatments/addTermination')
    .post(TreatmentController.addTerminationDate);
 
+app.route('/api/clinicalEvents')
+   .post(CeController.createCe);
+
 app.route('/api/tests')
    .post(TestController.createTest)
    .delete(TestController.deleteTest);
 
-//app.all('/api/data/:dataType', DataController._Router);
-app.route('/api/data/:dataType')
-   .post(DataController.createData);
+app.route('/api/data/visits')
+   .post(DataController.addVisitData);
+
+app.route('/api/data/tests')
+   .post(DataController.addTestData);
+
+app.route('/api/data/clinicalEvents')
+   .post(DataController.addCeData);
 
 app.route('/api/available/:dataType')
    .get(AvailableFieldController.getFields);
