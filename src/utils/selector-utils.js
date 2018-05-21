@@ -6,7 +6,7 @@ class SelectorUtils {
             .select({visitId: 'id', visitDate: 'visit_date'})
             .where({'patient': patientId, deleted: 0})
             .then(result => {
-                const returnObj = {visits: result};
+                const returnObj = {visitsWithoutData: result};
                 return returnObj;
             })
     }
@@ -16,7 +16,7 @@ class SelectorUtils {
             .select('DOB', 'gender', 'dominant_hand', 'ethnicity', 'country_of_origin', 'alcohol_usage', 'smoking_history')
             .where({'patient': patientId, deleted: 0})
             .then(result => {
-                const returnObj = {demographicData: result};
+                const returnObj = {demographicData: result[0]};
                 return returnObj;
             })
     }
@@ -28,7 +28,7 @@ class SelectorUtils {
             .where('ordered_during_visit', 'in', subquery)
             .andWhere({deleted: 0})
             .then(result => {
-                const returnObj = {tests: result};
+                const returnObj = {testsWithoutData: result};
                 return returnObj;
             })
     }
@@ -50,6 +50,64 @@ class SelectorUtils {
             .then(result => {
                 const returnObj = {medicalHistory: result};
                 return returnObj
+            })
+    }
+
+    getVisits(patientId){
+        const _this = this;
+        return knex('visits')
+            .select({visitId: 'id', visitDate: 'visit_date'})
+            .where({'patient': patientId, deleted: 0})
+            .then(result => {
+                if (result.length >= 1) {
+                    const promiseArr = []
+                    for (let i = 0; i < result.length; i++){
+                        promiseArr.push(_this._getVisitData(result[i].visitId));
+                    }
+                    const allPromisesResolving = Promise.all(promiseArr).then(
+                        data => {
+                            for (let i = 0; i < data.length; i++){
+                                result[i].data = data[i];
+                            }
+                            const returnObj = {visits: result};
+                            return returnObj;
+                        }
+                    )
+                    return allPromisesResolving;
+                } else {
+                    const returnObj = {visits: result};
+                    return returnObj;
+                }
+            })
+    }
+
+    getTests(patientId){
+        const _this = this;
+        const subquery = knex('visits').select({'id': 'ordered_during_visit'}).where({'patient': patientId, deleted: 0});
+        return knex('ordered_tests')
+                .select({'testId': 'id'},'ordered_during_visit', 'type', 'expected_occur_date')
+                .where('ordered_during_visit', 'in', subquery)
+                .andWhere({deleted: 0})
+                .then(result => {
+                    if (result.length >= 1) {
+                        const promiseArr = []
+                        for (let i = 0; i < result.length; i++){
+                            promiseArr.push(_this._getTestData(result[i].testId));
+                        }
+                        const allPromisesResolving = Promise.all(promiseArr).then(
+                            data => {
+                                for (let i = 0; i < data.length; i++){
+                                    result[i].data = data[i];
+                                }
+                                const returnObj = {tests: result};
+                                return returnObj;
+                            }
+                        )
+                        return allPromisesResolving;
+                    } else {
+                        const returnObj = {tests: result};
+                        return returnObj;
+                    }
             })
     }
 
@@ -83,31 +141,70 @@ class SelectorUtils {
             })
     }
 
+    _getVisitData(visitId){
+        return knex('visit_collected_data')
+            .select('field', 'value')
+            .where({'visit': visitId, 'deleted': 0});
+    }
+
+    _getTestData(testId){
+        return knex('test_data')
+            .select('field', 'value')
+            .where({'test': testId, 'deleted': 0});
+    }
+
     _getTreatmentInterruptions(treatmentId) {
         return knex('treatments_interruptions')
             .select('reason', 'start_date', 'end_date')
-            .where({'treatment': treatmentId, deleted: 0})
+            .where({'treatment': treatmentId, deleted: 0});
     }
 
+    _getCeData(ceId){
+        return knex('clinical_events_data')
+            .select('field', 'value')
+            .where({'clinical_event': ceId, 'deleted': 0});
+    }
 
-
-    ///////////////////////
-    getCeInVisits(patientId) {
+    getClinicalEventsWithoutData(patientId) {
+        const subquery = knex('visits').select('id').where({'patient': patientId, deleted: 0});
         return knex('clinical_events')
-            .select('type', 'date_start_date', 'end_date')
-            .where({'recorded_during_visit': visitId, deleted: 0})
+            .select('recorded_during_visit', 'type', 'date_start_date', 'end_date')
+            .where(builder => builder.where('patient', patientId).orWhere('recorded_during_visit', 'in', subquery))
+            .andWhere({deleted: 0})
             .then(result => {
-                const returnObj = {CeInVisits: result};
+                const returnObj = {clinicalEventsWithoutData: result};
                 return returnObj;
             })
     }
 
-    getVisits(patientId){
-
-    }
-
-    getTests(patientId){
-        
+    getClinicalEvents(patientId) {
+        const _this = this;
+        const subquery = knex('visits').select('id').where({'patient': patientId, deleted: 0});
+        return knex('clinical_events')
+            .select('id', 'recorded_during_visit', 'type', 'date_start_date', 'end_date')
+            .where(builder => builder.where('patient', patientId).orWhere('recorded_during_visit', 'in', subquery))
+            .andWhere({deleted: 0})
+            .then(result => {
+                if (result.length >= 1) {
+                    const promiseArr = []
+                    for (let i = 0; i < result.length; i++){
+                        promiseArr.push(_this._getCeData(result[i].id));
+                    }
+                    const allPromisesResolving = Promise.all(promiseArr).then(
+                        data => {
+                            for (let i = 0; i < data.length; i++){
+                                result[i].data = data[i];
+                            }
+                            const returnObj = {clinicalEvents: result};
+                            return returnObj;
+                        }
+                    )
+                    return allPromisesResolving;
+                } else {
+                    const returnObj = {clinicalEvents: result};
+                    return returnObj;
+                }
+            })
     }
 }
 

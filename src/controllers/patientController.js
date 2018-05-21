@@ -45,7 +45,7 @@ class PatientController {
         knex('patients')
             .select({patientId: 'id', study: 'study'})
             .where({'alias_id': req.params.patientId, deleted: 0})
-            .then(patientResult => {                               //id = patientResult.patientId
+            .then(patientResult => {
                 if (patientResult.length === 1) {
                     const patientId = patientResult[0].patientId;
                     return patientId
@@ -55,22 +55,31 @@ class PatientController {
                 }})
             .then(patientId => {
                 if (req.query.getOnly && typeof(req.query.getOnly) === 'string'){
-                    const getOnlyArr = req.query.getOnly.split(',');
+                    let getOnlyArr = req.query.getOnly.split(',');
+                    getOnlyArr = new Set(getOnlyArr);      //prevent if someone put loads of the same parameters, slowing down the server
+                    getOnlyArr = Array.from(getOnlyArr);    //prevent if someone put loads of the same parameters, slowing down the server
                     const promiseArr = [];
                     for (let i = 0; i < getOnlyArr.length; i++){
+                        console.log(SelectorUtils);
+                        console.log(Object.keys(SelectorUtils));
                         try {
                             promiseArr.push(SelectorUtils[`get${getOnlyArr[i]}`](patientId));
                         } catch (e) {
                             res.status(400).send('something in your ?getOnly is not permitted!');
-                            return
+                            throw 'stopping the chain';
                         }
                     }
-                    return Promise.all(promiseArr);  //.then(result => {return result}); why no need?
+                    return Promise.all(promiseArr);
                 } else if (req.query.getOnly) {
                     res.status(400).send('please format your ?getOnly with fields separated by commas');
                     throw 'stopping the chain';
                 } else {
-                    //get everythign
+                    const promiseArr = [];
+                    const availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents'];
+                    for (let i = 0; i < availableFunctions.length; i++){
+                        promiseArr.push(SelectorUtils[availableFunctions[i]](patientId));
+                    }
+                    return Promise.all(promiseArr);
                 }})
             .then(
                 result => {
@@ -91,5 +100,3 @@ class PatientController {
 
 const _singleton = new PatientController();
 module.exports = _singleton;
-
-//a patient's profile contains his demographicData, immunisation, visits, visitData, Tests, testData, clinicalEvents, clinicalEventData, treatments, treatmentData
