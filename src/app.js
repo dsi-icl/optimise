@@ -55,6 +55,9 @@ app.route('/api/tests')
    .post(TestController.createTest)
    .delete(TestController.deleteTest);
 
+app.route('/api/tests/addOccurredDate')
+   .post(TestController.addActualOccurredDate);
+
 app.route('/api/data/visits')
    .post(DataController.addVisitData);
 

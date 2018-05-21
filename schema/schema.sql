@@ -236,6 +236,7 @@ CREATE TABLE ordered_tests (
     ordered_during_visit INTEGER NOT NULL REFERENCES visits(id),
     type INTEGER NOT NULL REFERENCES available_test_types(id),
     expected_occur_date TEXT NOT NULL,
+    actual_occurred_date TEXT NOT NULL,
     created_time TEXT NOT NULL DEFAULT (datetime('now')),
     created_by_user INTEGER NOT NULL REFERENCES users(id),
     deleted TEXT NOT NULL, /*0 or deletion time*/
