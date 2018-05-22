@@ -34,7 +34,11 @@ app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or 
 
 app.all('/api/demogdata/:dataType', DemographicDataController._Router);
 
+app.route('/api/visit/data/add')
+   .post(DataController.addVisitData);
 
+app.route('/api/visit/data/add&update')
+   .post(DataController.addOrUpdateVisitData);
 
 app.route('/api/visits')
    .get(VisitController.getVisitsOfPatient)
@@ -57,15 +61,6 @@ app.route('/api/tests')
 
 app.route('/api/tests/addOccurredDate')
    .post(TestController.addActualOccurredDate);
-
-app.route('/api/data/visits')
-   .post(DataController.addVisitData);
-
-app.route('/api/data/tests')
-   .post(DataController.addTestData);
-
-app.route('/api/data/clinicalEvents')
-   .post(DataController.addCeData);
 
 app.route('/api/available/:dataType')
    .get(AvailableFieldController.getFields);
