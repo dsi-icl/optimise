@@ -34,11 +34,11 @@ app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or 
 
 app.all('/api/demogdata/:dataType', DemographicDataController._Router);
 
-app.route('/api/visit/data/add')
+app.route('/api/:dataType/data/add')
    .post(DataController.addVisitData);
 
-app.route('/api/visit/data/add&update')
-   .post(DataController.addOrUpdateVisitData);
+app.route('/api/:dataType/data/add&update')
+   .post(DataController._RouterAddOrUpdate);
 
 app.route('/api/visits')
    .get(VisitController.getVisitsOfPatient)
