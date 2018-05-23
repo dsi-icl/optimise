@@ -2483,7 +2483,8 @@ headerModule.controller('headerCtrl', function ($rootScope,
         switch ($scope.contentOnDisplay) {
         case 'Relapse':
         {
-            var relapseDate = new Date($scope.newEventDate.substr(3), parseInt($scope.newEventDate.substr(0, 2)) - 1, 1);
+            var ymd = $scope.newEventDate.substr(3) + "-" + $scope.newEventDate.substr(0,2) + "-01";
+            var relapseDate = new Date(ymd + "T00:00:00.000Z");
             if (isThisADate(relapseDate)) {
                 $scope.setNewRelapseDate($scope.newEventDate, relapseDate);
                 viewService.setView('Relapse', false);
@@ -2492,7 +2493,9 @@ headerModule.controller('headerCtrl', function ($rootScope,
         }
         case 'Visit':
         {
-            var SVSTDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3, 2)) - 1, $scope.newEventDate.substr(0, 2));
+
+            var ymd = $scope.newEventDate.substr(6) + "-" + $scope.newEventDate.substr(3,2) + "-" + $scope.newEventDate.substr(0,2);
+            var SVSTDTC = new Date(ymd + "T00:00:00.000Z");
             if (isThisADate(SVSTDTC)) {
                 $scope.setNewVisitDate($scope.newEventDate, SVSTDTC);
                 viewService.setView('Visit', false);
@@ -2501,7 +2504,8 @@ headerModule.controller('headerCtrl', function ($rootScope,
         }
         case 'Exposure':
         {
-            var EXSTDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3, 2)) - 1, $scope.newEventDate.substr(0, 2));
+            var ymd = $scope.newEventDate.substr(6) + "-" + $scope.newEventDate.substr(3,2) + "-" + $scope.newEventDate.substr(0,2);
+            var EXSTDTC = new Date(ymd + "T00:00:00.000Z");
             if (isThisADate(EXSTDTC)) {
                 $scope.setNewExposureStartDate($scope.newEventDate, EXSTDTC);
                 viewService.setView('Exposure', false);
@@ -2510,7 +2514,9 @@ headerModule.controller('headerCtrl', function ($rootScope,
         }
         case 'Test':
         {
-            var LBDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3, 2)) - 1, $scope.newEventDate.substr(0, 2));
+            var ymd = $scope.newEventDate.substr(6) + "-" + $scope.newEventDate.substr(3,2) + "-" + $scope.newEventDate.substr(0,2);
+            var LBDTC = new Date(ymd + "T00:00:00.000Z");
+            //console.log(LBDTC);
             if (isThisADate(LBDTC)) {
                 $scope.setNewLabDate($scope.newEventDate, LBDTC);
                 viewService.setView('Test', false);
