@@ -135,7 +135,7 @@ patientModule.service('patients',function(medicalHistory, MedicalEvent, Patient,
                 {
                     var dayInMilliseconds=1000*60*60*24;
                     var dateEnd = new Date();
-                    var dateStart = new Date(BRTHDTC,0,1);
+                    var dateStart = new Date(BRTHDTC,0,1, 2);
                     var durationInDays = (dateEnd-dateStart)/dayInMilliseconds;
                     return Math.floor(durationInDays/365.25);
                 }
@@ -516,7 +516,8 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             break;
         }
         case 'BRTHDTC': {
-            currentPatient.BRTHDTC = new Date(propertyValue.substr(3), parseInt(propertyValue.substr(0,2))-1, 1);
+            var ymd = propertyValue.substr(3) + "-" + propertyValue.substr(0,2) + "-01";
+            currentPatient.BRTHDTC = new Date(ymd + "T00:00:00.000Z");
             $scope.BRTHDTC = currentPatient.BRTHDTC.toDateString();
             $scope.DM_displayDate = patients.getCurrentPatientAge();
             patients.editDemographic(propertyName, currentPatient.BRTHDTC);
