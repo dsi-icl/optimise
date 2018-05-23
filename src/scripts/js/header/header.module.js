@@ -2829,7 +2829,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
                     var testsSelectedForDeletion = laboratoryTestResults.getTestResultBySpecAndDate(collectionDate, 'CSF');
                     for (v = 0; v < testsSelectedForDeletion.length; v++) {
                         laboratoryTestResults.deleteResult(testsSelectedForDeletion[v]);
-                        laboratoryTestResults.printLabTestResults();
+                        //laboratoryTestResults.printLabTestResults();
                     }
                     var scansSelectedForDeletion = deviceInUseServices.getScansByDate(collectionDate);
                     for (v = 0; v < scansSelectedForDeletion.length; v++) {
@@ -2848,7 +2848,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
                 for (v = 0; v < testResultsSelectedForDeletion.length; v++) {
                     if (testResultsSelectedForDeletion[v].LBSPEC != 'CSF') {
                         laboratoryTestResults.deleteResult(testResultsSelectedForDeletion[v]);
-                        laboratoryTestResults.printLabTestResults();
+                        //laboratoryTestResults.printLabTestResults();
                     }
                 }
 
