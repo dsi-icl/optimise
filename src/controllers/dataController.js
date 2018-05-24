@@ -20,17 +20,13 @@ class DataController {
     _RouterDeleteData(req, res){    //req.body = {visitId = 1, delete:[1, 43, 54 (fieldIds)] }
         if (req.requester.priv === 1){
             let options = {};
-            if (!req.body[`${req.params.dataType}Id`]) {
-                res.status(400).send(`You have to provide ${req.params.dataType}Id in your req body.`);
-                return;
-            }
             switch (req.params.dataType) {
                 case 'visit':
                     options.dataTableForeignKey = 'visit';
                     options.dataTable = 'visit_collected_data'; 
                     break;
-                case 'clinicalData':
-                    options.dataTableForeignKey = 'event';
+                case 'clinicalEvent':
+                    options.dataTableForeignKey = 'clinical_event';
                     options.dataTable = 'clinical_events_data';
                     break;
                 case 'test':
@@ -40,6 +36,10 @@ class DataController {
                 default:
                     res.status(400).send(`data type ${req.params.dataType} not supported.`);
                     return
+            }
+            if (!req.body[`${req.params.dataType}Id`]) {
+                res.status(400).send(`You have to provide ${req.params.dataType}Id in your req body.`);
+                return;
             }
             this.deleteData(req, res, options);
         } else {
