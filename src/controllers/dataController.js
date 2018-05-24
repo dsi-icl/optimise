@@ -5,8 +5,7 @@ const knex = require('../utils/db-connection');
 class DataController {
     constructor(){
         this._RouterAddOrUpdate = this._RouterAddOrUpdate.bind(this);
-        this.addOrUpdateVisitData = this.addOrUpdateVisitData.bind(this);
-        this.addVisitData = this.addVisitData.bind(this);
+        this._RouterDeleteData = this._RouterDeleteData.bind(this);
     }
 
     _RouterAddOrUpdate(req, res){
@@ -18,58 +17,89 @@ class DataController {
         }
     }
 
+    _RouterDeleteData(req, res){    //req.body = {visitId = 1, delete:[1, 43, 54 (fieldIds)] }
+        if (req.requester.priv === 1){
+            let options = {};
+            if (!req.body[`${req.params.dataType}Id`]) {
+                res.status(400).send(`You have to provide ${req.params.dataType}Id in your req body.`);
+                return;
+            }
+            switch (req.params.dataType) {
+                case 'visit':
+                    options.dataTableForeignKey = 'visit';
+                    options.dataTable = 'visit_collected_data'; 
+                    break;
+                case 'clinicalData':
+                    options.dataTableForeignKey = 'event';
+                    options.dataTable = 'clinical_events_data';
+                    break;
+                case 'test':
+                    options.dataTableForeignKey = 'test';
+                    options.dataTable = 'test_data';
+                    break;
+                default:
+                    res.status(400).send(`data type ${req.params.dataType} not supported.`);
+                    return
+            }
+            this.deleteData(req, res, options);
+        } else {
+            res.status(401).send('You do not have permission to delete data');
+        }
+    }
+
+    deleteData(req, res, options){
+        knex.transaction(trx => {
+            knex(options.dataTable)
+                .where('field', 'in', req.body.delete)
+                .andWhere('deleted', 0)
+                .andWhere(options.dataTableForeignKey, req.body[`${req.params.dataType}Id`])
+                .update({'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}`})
+                .transacting(trx)
+                .then(result => {
+                    if (result ===  req.body.delete.length) {
+                        return result;
+                    } else {
+                        throw 'The fields do not match'
+                    }
+                })
+                .then(trx.commit)
+                .catch(trx.rollback);
+        })
+        .then(result => {res.status(200).send(`${result} entries have been successfully deleted.`)})
+        .catch(err => {console.log(err); res.status(404).send('Not all your fields are found. Nothing has been deleted.')})
+    }
+
     addOrUpdateVisitData(req, res){
-        if (req.requester.priv === 1){
-            let options = {
-                entryIdString: 'visitId', 
-                fieldTable: 'available_fields_visits', 
-                entryTable: 'visits',
-                errMsgForUnfoundEntry: 'cannot seem to find your visit!',
-                dataTable: 'visit_collected_data',
-                dataTableForeignKey: 'visit'};
-            this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
-        } else {
-            res.status(401).send('You do not have permission to edit existing data');
-        }
+        let options = {
+            entryIdString: 'visitId', 
+            fieldTable: 'available_fields_visits', 
+            entryTable: 'visits',
+            errMsgForUnfoundEntry: 'cannot seem to find your visit!',
+            dataTable: 'visit_collected_data',
+            dataTableForeignKey: 'visit'};
+        this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
 
-    addOrUpdateTestData(req, res){    //have to match test type too, write later
-        if (req.requester.priv === 1){
-            let options = {
-                entryIdString: 'testId', 
-                fieldTable: 'available_fields_tests', 
-                entryTable: 'ordered_tests',
-                errMsgForUnfoundEntry: 'cannot seem to find your test!',
-                dataTable: 'test_data',
-                dataTableForeignKey: 'test'};
-            this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
-        } else {
-            res.status(401).send('You do not have permission to edit existing data');
-        }
+    addOrUpdateTestData(req, res){
+        let options = {
+            entryIdString: 'testId', 
+            fieldTable: 'available_fields_tests', 
+            entryTable: 'ordered_tests',
+            errMsgForUnfoundEntry: 'cannot seem to find your test!',
+            dataTable: 'test_data',
+            dataTableForeignKey: 'test'};
+        this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
 
-    addOrUpdateClinicalEventData(req, res){     //undone. need to add OR
-        if (req.requester.priv === 1){
-            let options = {
-                entryIdString: 'clinicalEventId', 
-                fieldTable: 'available_fields_ce', 
-                entryTable: 'clinical_events',
-                errMsgForUnfoundEntry: 'cannot seem to find your clinical event!',
-                dataTable: 'clinical_events_data',
-                dataTableForeignKey: 'clinical_event'};
-            this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
-        } else {
-            res.status(401).send('You do not have permission to edit existing data');
-        }
-    }
-
-    addVisitData(req, res){
-        if (!req.body.update){
-            this._addOrUpdateVisitDataBackbone(req, res, inputData => 
-                knex.batchInsert('visit_collected_data', inputData.adds, 1000)) //adding all the 'adds' entries
-        } else {
-            res.status(401).send('You do not have permission to edit existing data');
-        }
+    addOrUpdateClinicalEventData(req, res){
+        let options = {
+            entryIdString: 'clinicalEventId', 
+            fieldTable: 'available_fields_ce', 
+            entryTable: 'clinical_events',
+            errMsgForUnfoundEntry: 'cannot seem to find your clinical event!',
+            dataTable: 'clinical_events_data',
+            dataTableForeignKey: 'clinical_event'};
+        this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
 
     _transactionForAddAndUpdate(req, options){
@@ -95,6 +125,10 @@ class DataController {
 
     _addOrUpdateDataBackbone (req, res, options, transactionFunction) {  //req.body = {visitId = 1, update : {1: 43, 54: LEFT}, add : {4324:432, 54:4} }
         if (req.body[options.entryIdString] && (req.body.update || req.body.add)) {
+            if (req.body.update && req.requester.priv !== 1) {
+                res.status(401).send('Only admin can update data');
+                return;
+            }
             if (!req.body.update) { req.body.update = {}; }  //adding an empty obj so that the code later doesn't throw error for undefined
             if (!req.body.add) { req.body.add = {}; }   //same
             const numOfUpdates = Object.keys(req.body.update).length;
