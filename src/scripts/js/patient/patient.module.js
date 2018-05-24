@@ -364,7 +364,7 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
     };
 
     $scope.showPregnancyTable = function() {
-        if (!$scope.isUnder18()&&$scope.isFemale()) {
+        if ($scope.isFemale()) {
             return true;
         }
         return false;
