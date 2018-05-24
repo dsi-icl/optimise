@@ -2855,7 +2855,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
                 var assessmentsSelectedForDeletion = immunogenicitySpecimenAssessments.getAssessmentByDate(collectionDate);
                 for (v = 0; v < assessmentsSelectedForDeletion.length; v++) {
                     immunogenicitySpecimenAssessments.deleteResult(assessmentsSelectedForDeletion[v]);
-                    immunogenicitySpecimenAssessments.printISAs();
+                    //immunogenicitySpecimenAssessments.printISAs();
                 }
             }
 
