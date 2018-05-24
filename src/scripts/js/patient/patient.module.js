@@ -713,19 +713,9 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
     };
 
     $scope.deletePrimaryDiagnosis = function(diagnosis) {
-        //console.log(diagnosis);
-        if (diagnosis.MHTERM.indexOf('Multiple Sclerosis')>-1){
 
-            var faList = findingsAbout.FASCATExists('Onset Course');
-            for (var f = 0; f < faList.length; f++){
-                findingsAbout.deleteFinding(faList[f]);
-            }
-            clearFindingsInLocation();
-            $scope.editProgressiveCourse();
-        }
         medicalHistory.deleteOccurence(diagnosis);
-        //var faList = findingsAbout.FASCATExists('Onset Course');
-        //console.log(faList);
+
     };
 
     $scope.addInitialSymptom = function() {
