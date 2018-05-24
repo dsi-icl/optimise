@@ -99,9 +99,9 @@ class DataController {
             if (!req.body.add) { req.body.add = {}; }   //same
             const numOfUpdates = Object.keys(req.body.update).length;
             const numOfAdds = Object.keys(req.body.add).length;
-            const findField = fieldId => knex(options.fieldTable).select('id', 'type', 'permitted_values').where('id', fieldId);
+            const findField = (fieldId, referenceType) => knex(options.fieldTable).select('id', 'type', 'permitted_values', 'reference_type').where({'id': fieldId, 'reference_type': referenceType});
             knex(options.entryTable)
-                .select('id')
+                .select('id', 'type')
                 .where({id: req.body[options.entryIdString], deleted: 0})  //making sure the visit is found
                 .then(result => {    
                     if (result.length === 1) {
@@ -111,14 +111,15 @@ class DataController {
                     }
                 })
                 .then(result => { //get all the fields types and check theres no overlap for update and add
+                    const referenceType = result[0].type;
                     const promiseArr = [];
                     const allFieldIds = [];
                     for (let i = 0; i < numOfUpdates; i++) {
-                        promiseArr.push(findField(Object.keys(req.body.update)[i]));
+                        promiseArr.push(findField(Object.keys(req.body.update)[i], referenceType));
                         allFieldIds.push(Object.keys(req.body.update)[i]);
                     }
                     for (let i = 0; i < numOfAdds; i++) {
-                        promiseArr.push(findField(Object.keys(req.body.add)[i]));
+                        promiseArr.push(findField(Object.keys(req.body.add)[i], referenceType));
                         allFieldIds.push(Object.keys(req.body.add)[i]);
                     }
                     if (Array.from(new Set(allFieldIds)).length !== allFieldIds.length){
@@ -130,7 +131,7 @@ class DataController {
                 .then(result => {    //comparing if all the input values matching the type of the field
                     const totalLength = numOfUpdates + numOfAdds;
                     for (let i = 0; i < totalLength; i++) {
-                        if (result[i].length === 1){
+                        if (result[i].length === 1 ){
                             let addOrUpdate = i < numOfUpdates ? 'update' : 'add';
                             let fieldId = result[i][0].id;
                             let fieldType = result[i][0].type;

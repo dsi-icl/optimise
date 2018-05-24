@@ -100,6 +100,7 @@ CREATE TABLE visits (
     id INTEGER PRIMARY KEY ASC,
     patient INTEGER NOT NULL REFERENCES patients(id),
     visit_date TEXT NOT NULL,
+    type INTERGER NOT NULL DEFAULT(1),
     created_time TEXT NOT NULL DEFAULT (datetime('now')),
     created_by_user INTEGER NOT NULL REFERENCES users(id),
     deleted TEXT NOT NULL, /*0 or deletion time*/
@@ -114,6 +115,7 @@ CREATE TABLE available_fields_visits (
     unit TEXT,
     module TEXT,
     permitted_values TEXT,
+    reference_type INTEGER NOT NULL, DEFAULT(1),
     UNIQUE (idname, type, unit, module)
 );
 
@@ -124,7 +126,7 @@ CREATE TABLE available_fields_tests (
     type TEXT NOT NULL CHECK (type IN ('I', 'F', 'C', 'T', 'B')),  /*int, float, categorical, text, Bool*/
     unit TEXT,
     module TEXT,
-    test_type INTEGER NOT NULL REFERENCES available_fields_tests(id),
+    reference_type INTEGER NOT NULL REFERENCES available_fields_tests(id),
     permitted_values TEXT,
     UNIQUE (idname, type, unit, module)
 );
@@ -137,7 +139,7 @@ CREATE TABLE available_fields_ce (
     unit             TEXT,
     module           TEXT,
     permitted_values TEXT,
-    event_type       INTEGER REFERENCES available_clinical_event_types (id) 
+    reference_type       INTEGER REFERENCES available_clinical_event_types (id) 
 );
 
 CREATE TABLE clinical_events (
