@@ -24,6 +24,15 @@ class RequestMiddleware {
             res.status(400).send('Please provide a token in the header')
         }
     }
+
+    /*
+    ** Method:  addActionToCollection
+    ** Purpose: Monitor behavior of the user and save in the database each action taken by the user.
+    */
+    static addActionToCollection(req, res, next) {
+        console.log('New request ' + req + ' catched, saving in the database');
+        next();
+    }
 }
 
 
