@@ -87,8 +87,6 @@ describe('Data controller tests (visit data)', () => {
                 expect(res.statusCode).toBe(200);
             })
     });
-
-
 });
 
 describe('Data controller tests (test data)', () => {
@@ -180,6 +178,84 @@ describe('Data controller tests (test data)', () => {
                 expect(res.statusCode).toBe(200);
             })
     });
+});
 
+describe('Data controller tests (clinical event data)', () => {
+    test('input text in field that only accepts number (should fail)', () => {
+        return request
+            .post('/api/clinicalEvent/data')
+            .set('token', token)
+            .send({"clinicalEventId": 1,
+                "add": {"8": "BOTH"}})
+            .then(res => {
+                expect(res.statusCode).toBe(400);
+            })
+    });
 
+    test('input text in field that only accepts 1 or 0 (should fail)', () => {
+        return request
+            .post('/api/clinicalEvent/data')
+            .set('token', token)
+            .send({"clinicalEventId": 1,
+                "add": {"6": 42}})
+            .then(res => {
+                expect(res.statusCode).toBe(400);
+            })
+    });
+
+    test('updating non-existent data (should fail)', () => {
+        return request
+            .post('/api/clinicalEvent/data')
+            .set('token', token)
+            .send({"clinicalEventId": 1,
+                "add": {"1": 123, "2": 42},
+                "update": {"12": 1} })
+            .then(res => {
+                expect(res.statusCode).toBe(400);
+            })
+    });
+
+    test('adding new data', () => {
+        return request
+            .post('/api/clinicalEvent/data')
+            .set('token', token)
+            .send({"clinicalEventId": 1,
+                "add": {"7": 1}})
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+            })
+    });
+
+    test('update the added data by standard user (should fail)', () => {
+        return request
+            .post('/api/clinicalEvent/data')
+            .set('token', standardUserToken)
+            .send({"clinicalEventId": 1,
+                "update": {"7": 0}})
+            .then(res => {
+                expect(res.statusCode).toBe(401);
+            })
+    });
+
+    test('update the added data by admin user', () => {
+        return request
+            .post('/api/clinicalEvent/data')
+            .set('token', token)
+            .send({"clinicalEventId": 1,
+                "update": {"7": 1}})
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+            })
+    });
+
+    test('delete the added data by admin user', () => {
+        return request
+            .delete('/api/clinicalEvent/data')
+            .set('token', token)
+            .send({"clinicalEventId": 1,
+                "delete": ["7"]})
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+            })
+    });
 });
