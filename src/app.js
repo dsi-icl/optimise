@@ -31,7 +31,7 @@ app.set('x-powered-by', false);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or not
 
-// TODO : app.route('/api/users');
+app.use('/api/users', users);
 app.use('/internalapi/', users);
 app.use('/api/visits/', visits);
 app.use('/api/treatments/', treatments);
