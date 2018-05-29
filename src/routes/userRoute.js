@@ -13,6 +13,9 @@ user.set('x-powered-by', false);
 user.use(bodyParser.json());
 user.use(bodyParser.urlencoded({ extended: true }));
 
+user.route('')
+    .post(UserController._Router);
+
 user.route('/userlogin')
    .post(UserController.userLogin);
 
