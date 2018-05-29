@@ -7,10 +7,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
 const path = require('path');
-
-/////////////////////////////query has to add where deleted = 0!!!!!
-///remove priv from res!
-///export data to cdisk
 const RequestMiddleware = require('./utils/requestMiddleware');
 
 // ROUTES
@@ -55,7 +51,7 @@ app.route('/api/available/:dataType')
 
 //Merge to patientRoute : Maybe rename /api/patients/:patiendId
 app.route('/api/patientProfile/:patientId')
-   .get(PatientController.getPatientProfileById);    //not yet written
+   .get(PatientController.getPatientProfileById);
 
    // put this request as internal
 app.all('/api/users', UserController._Router) //Method: POST/PUT/DELETE/  Not yet written: GET (only admin)
