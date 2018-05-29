@@ -18,4 +18,7 @@ patient.route('/')
    .post(PatientController.createPatient)
    .delete(PatientController.setPatientAsDeleted);
 
+patient.route('/:patiendId')
+    .get(PatientController.getPatientProfileById);
+
 module.exports = patient;
