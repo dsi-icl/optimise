@@ -31,7 +31,7 @@ app.set('x-powered-by', false);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or not
 
-app.use('/api/users', users); //Method: POST/PUT/DELETE/  Not yet written: GET (only admin)
+app.use('/api/users', users); //Method: POST/PUT/DELETE/GET
 app.use('/internalapi/', users);
 app.use('/api/visits/', visits);
 app.use('/api/treatments/', treatments);

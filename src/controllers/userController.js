@@ -24,6 +24,34 @@ class UserController {
         }
     }
     
+    /**
+     * 
+     * @description Send the information relative to the user.
+     * 
+     * @param {*} req the request send by the user. May conatins a username specification
+     * @param {*} res the response expected by the client.
+     */
+    GET(req, res){
+        let queryUsername;
+        if (isEmptyObject(req.query)) {
+            queryUsername = '';
+        } else if (Object.keys(req.query).length === 1 && typeof(req.query.username) === 'string') {
+            queryUsername = req.query.username;
+        } else {
+            res.status(400).send('The query string can only conatins one username');
+            return
+        }
+        queryUsername = '%' + queryUsername + '%';
+        
+        knex('users')
+            .select({username:'users.username'}, 'users.real_name', 'admin_priv')
+            .where('users.username', 'like', queryUsername)
+            .andWhere('users.deleted', 0)
+            .then(result => {
+                res.status(200).json(result);
+            });
+    }
+
     POST(req, res){   //createUser
         if (req.requester.priv === 1 && req.body.pw){
             let hashedPw = hmac().update(req.body.pw).digest('hex');  
