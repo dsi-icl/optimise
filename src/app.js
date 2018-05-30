@@ -25,12 +25,16 @@ const DataController = require('./controllers/dataController');
 const AvailableFieldController = require('./controllers/availableFieldController');
 const CeController = require('./controllers/ceController');
 
-app.use('/', RequestMiddleware.addActionToCollection);
-app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);
+// app Header initialisation.
 app.set('x-powered-by', false);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or not
 
+// Monitoring and rughts verification
+app.use('/', RequestMiddleware.addActionToCollection);
+app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);
+
+// Modules
 app.use('/api/users', users); //Method: POST/PUT/DELETE/GET
 app.use('/internalapi/', users);
 app.use('/api/visits/', visits);
