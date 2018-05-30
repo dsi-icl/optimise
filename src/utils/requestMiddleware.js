@@ -30,7 +30,13 @@ class RequestMiddleware {
     ** Purpose: Monitor behavior of the user and save in the database each action taken by the user.
     */
     static addActionToCollection(req, res, next) {
-        console.log('New request ' + req + ' catched, saving in the database');
+        let user = 'undefined';
+        if (req.headers['token'] != undefined) {
+            user = req.headers['token'];
+        } else if (req.body && req.body.username) {
+            user = req.body.username;
+        }
+        console.log(req.method + ' - ' + req.originalUrl + ' : ' + user);
         next();
     }
 }

@@ -1,6 +1,6 @@
 /**
  * Route patient
- * @description Redirect request from /api/patients to the proper controller call 
+ * @description Redirect request from /api/patients and /api/patientProfile to the proper controller call 
  */
 
 const express = require('express');
@@ -13,11 +13,15 @@ patient.set('x-powered-by', false);
 patient.use(bodyParser.json());
 patient.use(bodyParser.urlencoded({ extended: true }));
 
+// Interacts with the patients in the DB
+// Real path expected is /api/patients
 patient.route('/')
    .get(PatientController.searchPatients)
    .post(PatientController.createPatient)
    .delete(PatientController.setPatientAsDeleted);
 
+// Get the profile of a certain user
+// Real path expected is /api/patientProfile
 patient.route('/:patiendId')
     .get(PatientController.getPatientProfileById);
 
