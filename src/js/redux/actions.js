@@ -1,0 +1,1 @@
+export const searchPatientsById = searchString => ({type: 'SEARCH_PATIENTS_BY_ID', payload: searchString});
