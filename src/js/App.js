@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SearchPatientsById} from './components/searchPatientsById.js';
+import {SearchPatientsById} from './components/searchPatientsById.jsx';
 
 
 
