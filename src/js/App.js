@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SearchBarForPatients, SearchResultForPatients} from './components/searchPatientsById.js';
+import {SearchPatientsById} from './components/searchPatientsById.js';
 
 
 
@@ -9,8 +9,7 @@ class App extends Component {
         return (
         <div className="App">
             Type whatever you want!
-            <SearchBarForPatients/>
-            <SearchResultForPatients/>
+            <SearchPatientsById/>
         </div>
         );
     }
