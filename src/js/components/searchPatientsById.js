@@ -1,50 +1,37 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import { listOfPatients } from '../example-data-for-dev/listOfPatients';   //only for dev
 
-const mapStateToProps = state => {
-    return {
-        matchedNames: state.matchedNames
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        dispatchSearchString: (searchString) => dispatch ({
-            type: 'SEARCH_PATIENTS_BY_ID', payload: searchString
-        })
-    }
-}
-
-class SearchBarForPatientsConnect extends Component {
+export class SearchPatientsById extends Component {
     constructor() {
         super();
-        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.state = {searchString: ''};
+        this.handleKeyStroke = this.handleKeyStroke.bind(this);
     }
 
-    handleKeyPress(){
-        console.log(this)
-        const searchString = 'flor';
-        this.props.dispatchSearchString({searchString});
+    handleKeyStroke(ev){
+        this.setState({searchString: ev.target.value});
     }
 
-    render() {
-        return (
-            <form>
-                <input type='text' onKeyPress={this.handleKeyPress}/>
-            </form>
+    render(){
+        const re = new RegExp(`.*${this.state.searchString}.*`);
+        const matchedPatients = this.state.searchString === '' ? [] : listOfPatients.filter(name => re.test(name));
+        return(
+            <div>
+                <form>
+                    <input type='text' value={this.state.searchString} onChange={this.handleKeyStroke}/>
+                </form>
+                <SearchResultForPatients listOfPatients={matchedPatients}/>
+            </div>
         );
     }
-
 }
 
-
-const SearchResultForPatientsConnect = ({matchedNames}) => {
-    return (
-        <ul>
-            {matchedNames.map(el => <li key={el}> {el} </li>)}
-        </ul>
-    );
+class SearchResultForPatients extends Component {
+    render() {
+        return (
+            <ul>
+                {this.props.listOfPatients.map(el => <li key={el}> {el} </li>)}
+            </ul>
+        );
+    }
 }
-
-export const SearchBarForPatients = connect(mapStateToProps, mapDispatchToProps)(SearchBarForPatientsConnect);
-export const SearchResultForPatients = connect(mapStateToProps, mapDispatchToProps)(SearchResultForPatientsConnect);
