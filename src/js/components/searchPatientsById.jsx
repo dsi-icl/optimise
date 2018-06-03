@@ -8,23 +8,28 @@ const exampleResult = [{"patientId":1,"alias_id":"chon","study":"optimise","DOB"
 export class SearchPatientsById extends Component {
     constructor() {
         super();
-        this.state = {searchString: ''};
+        this.state = {searchString: '', searchResult: []};
         this.handleKeyStroke = this.handleKeyStroke.bind(this);
     }
 
     handleKeyStroke(ev){
         this.setState({searchString: ev.target.value});
+        fetch(`http://localhost:3001/api/patients?id=${ev.target.value}`, {
+            mode: 'cors',
+            headers: {'token': 'd86d6e50ade67a3a0569ebc84d6041ea9bac36cb'}
+            })
+            .then(res => {console.log(res); return res.json()})
+            .then(json => {console.log(json); this.setState({searchResult: json})})
+            .catch(e => console.log(e))
     }
 
     render(){
-        const re = new RegExp(`.*${this.state.searchString}.*`);
-        const matchedPatients = this.state.searchString === '' ? [] : listOfPatients.filter(name => re.test(name));
         return(
             <div>
                 <form>
                     <input type='text' value={this.state.searchString} onChange={this.handleKeyStroke}/>
                 </form>
-                <SearchResultForPatients listOfPatients={exampleResult}/>
+                <SearchResultForPatients listOfPatients={this.state.searchResult}/>
             </div>
         );
     }
