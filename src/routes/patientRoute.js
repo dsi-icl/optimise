@@ -18,7 +18,8 @@ patient.use(bodyParser.urlencoded({ extended: true }));
 patient.route('/')
    .get(PatientController.searchPatients)
    .post(PatientController.createPatient)
-   .delete(PatientController.setPatientAsDeleted);
+   .patch(PatientController.setPatientAsDeleted)
+   .delete(PatientController.erasePatientInfo);
 
 // Get the profile of a certain user
 // Real path expected is /api/patientProfile
