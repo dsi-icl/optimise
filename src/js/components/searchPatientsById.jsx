@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import css from '../../css/searchPatientsById.css.js';
 import {Button} from './sharedComponents.jsx'; 
+import Radium from 'radium';
 
 export class SearchPatientsById extends Component {
     constructor() {
@@ -34,8 +35,9 @@ export class SearchPatientsById extends Component {
     render(){
         return(
             <div>
-                <form>
-                    <input type='text' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/>
+                <h2>SEARCH FOR / CREATE A PATIENT</h2>
+                <form  style={css.searchBar}>
+                    Enter Patient ID: <input type='text' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/>
                 </form>
                 <SearchResultForPatients listOfPatients={this.state.searchResult} searchString={this.state.searchString}/>
             </div>
@@ -57,3 +59,5 @@ class SearchResultForPatients extends Component {
         );
     }
 }
+
+SearchResultForPatients = Radium(SearchResultForPatients);
