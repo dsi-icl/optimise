@@ -1,6 +1,6 @@
 export default {
     patientBanner: {
-        backgroundColor: 'rgb(224, 224, 224)',
+        backgroundColor: '#D0CECF',
         color: 'black',
         borderRadius: 10,
         fontFamily: 'sans-serif',
