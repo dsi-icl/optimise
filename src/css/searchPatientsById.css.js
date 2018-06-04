@@ -6,20 +6,29 @@ export default {
         fontFamily: 'sans-serif',
         fontSize: 13,
         height: 50,
-        margin: 10,
-        width: 200,
+        margin: '13px auto',
+        width: '100%',
         paddingTop: 10,
-        textAlign: 'center'},
+        textAlign: 'center',
+        transition: 'background-color 0.1s',
+        ':hover': {backgroundColor: '#f5f6fa', cursor: 'pointer', transition: 'background-color 0.05s'}},
     
     createPatientButton: {
         backgroundColor: 'rgb(244, 66, 66)',
         color: 'black',
-        borderRadius: 10,
+        borderRadius: 20,
         fontFamily: 'sans-serif',
         fontSize: 13,
-        height: 30,
-        margin: 10,
-        width: 200,
-        paddingTop: 15,
-        textAlign: 'center'}
+        height: 20,
+        margin: '13px auto',
+        marginBottom: 28,
+        width: '80%',
+        paddingTop: 9,
+        textAlign: 'center',
+        ':hover': {color: '#f5f6fa', backgroundColor: '#EA2027', cursor: 'pointer', transition: 'background-color 0.05s'}},
+    
+    searchBar: {
+        margin: '1px auto',
+        width: '55%'
+    }
 }
