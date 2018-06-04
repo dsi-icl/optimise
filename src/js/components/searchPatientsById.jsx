@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import css from '../../css/searchPatientsById.css.js';
 import {Button} from './sharedComponents.jsx'; 
 import Radium from 'radium';
+import { connect } from 'react-redux';
+import {getPatientProfileById} from '../redux/actions.js';
 
 export class SearchPatientsById extends Component {
     constructor() {
@@ -20,7 +22,7 @@ export class SearchPatientsById extends Component {
                 })
                 .then(res => res.json())
                 .then(json => {this.setState({searchResult: json})})
-                .catch(e => console.log(e))
+                .catch(e => {console.log(e); this.setState({searchResult: [{'alias_id': 'not found'}]})})   // what if the server fails
         } else {
             this.setState({searchResult: []});
         }
@@ -45,7 +47,18 @@ export class SearchPatientsById extends Component {
     }
 }
 
-class SearchResultForPatients extends Component {
+class SearchResultForPatients_toConnect extends Component {
+    constructor() {
+        super();
+        this._handleClickWrapper = this._handleClickWrapper.bind(this);
+    }
+
+    _handleClickWrapper(patientName) {
+        return (ev) => {
+            this.props.fetchPatientProfile(patientName);
+        }
+    }
+
     render() {
         return (
             <div>
@@ -53,11 +66,13 @@ class SearchResultForPatients extends Component {
             {this.props.listOfPatients.map(el => {
                 const ind = el['alias_id'].indexOf(this.props.searchString);
                 const name = <span>{el['alias_id'].substring(0, ind)}<b>{el['alias_id'].substring(ind, this.props.searchString.length+ind)}</b>{el['alias_id'].substring(this.props.searchString.length+ind, el['alias_id'].length)}</span>;
-                return <div style={css.patientBanner} key={el.patientId}>ID: {name} Study: {el.study} <br/> DOB: {el.DOB ? el.DOB : 'N/A'}  Gender: {el.gender ? el.DOB : 'N/A'}</div>
+                return <div onClick={this._handleClickWrapper(el['alias_id'])} style={css.patientBanner} key={el.patientId}>ID: {name} Study: {el.study} <br/> DOB: {el.DOB ? el.DOB : 'N/A'}  Gender: {el.gender ? el.DOB : 'N/A'}</div>
                 })}
             </div>
         );
     }
 }
 
-SearchResultForPatients = Radium(SearchResultForPatients);
+SearchResultForPatients_toConnect = Radium(SearchResultForPatients_toConnect);
+const SearchResultForPatients = connect(null, dispatch => ({fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName))}))(SearchResultForPatients_toConnect);
+

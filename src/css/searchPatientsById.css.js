@@ -21,7 +21,6 @@ export default {
         fontSize: 13,
         height: 20,
         margin: '13px auto',
-        marginBottom: 28,
         width: '80%',
         paddingTop: 9,
         textAlign: 'center',
