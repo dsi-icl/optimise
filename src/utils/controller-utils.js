@@ -36,7 +36,6 @@ exports.deleteEntry = (req, res, tablename, whereObj, whatIsDeleted, expectedNum
         })
 }
 
-
 exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, expectedNumAffected /* LT 0 */) => {
     whereObj.deleted = 0;
     knex(tablename)
@@ -85,4 +84,24 @@ exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, exp
             console.log(err);
             res.status(400).send('Database error');
         })
+}
+
+exports.eraseEntry = (req, res, tablename, whereObj, whatIsDeleted, databaseErrMsg, answering) => {
+    try {
+    knex(tablename)
+        .del()
+        .where(whereObj)
+        .then(result => {
+            if (answering)
+                res.status(200).json("success");
+        })
+        .catch(err => {
+            if (answering)
+                res.status(400).send(databaseErrMsg + err)
+            return (false);
+        });
+    } catch (error) {
+        return (false);
+    }
+    return (true);
 }
