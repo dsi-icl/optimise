@@ -1,6 +1,11 @@
 {
   "name": "optimise-ui",
   "version": "0.1.1",
+  "contributors": [
+      "Chon Sou <c.sou16@imperial.ac.uk>",
+      "Florian Guitton <f.guitton@imperial.ac.uk>"
+  ],
+  "license": "MIT",
   "dependencies": {
     "radium": "0.24.0",
     "react": "16.4.0",
