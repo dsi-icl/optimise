@@ -2,13 +2,11 @@
   "name": "optimise-ui",
   "version": "0.1.1",
   "dependencies": {
-    "ajv": "6.5.0",
-    "codacy-coverage": "3.0.0",
     "radium": "0.24.0",
     "react": "16.4.0",
     "react-dom": "16.4.0",
-    "react-scripts": "1.1.4",
-    "redux-logger": "3.0.6",
+    "react-redux": "5.0.7",
+    "redux": "4.0.0",
     "redux-thunk": "2.3.0"
   },
   "engines": {
@@ -21,8 +19,9 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "react-redux": "5.0.7",
-    "redux": "4.0.0"
+    "codacy-coverage": "3.0.0",
+    "redux-logger": "3.0.6",
+    "react-scripts": "1.1.4"
   },
   "proxy": "http://localhost:3001"
 }
