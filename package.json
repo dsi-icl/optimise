@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --colors --verbose --forceExit",
     "start": "node ./src/server.js"
   },
   "contributors": [
