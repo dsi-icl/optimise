@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "ajv": "^6.5.0",
-    "radium": "^0.24.0",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
+    "ajv": "6.5.0",
+    "radium": "0.24.0",
+    "react": "16.4.0",
+    "react-dom": "16.4.0",
     "react-scripts": "1.1.4",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-logger": "3.0.6",
+    "redux-thunk": "2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -18,8 +18,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "react-redux": "^5.0.7",
-    "redux": "^4.0.0"
+    "react-redux": "5.0.7",
+    "redux": "4.0.0"
   },
   "proxy": "http://localhost:3001"
 }
