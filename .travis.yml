@@ -43,12 +43,6 @@ jobs:
     - <<: *node
       node_js: '8'
 
-    - <<: *node
-      node_js: '6'
-
-    - <<: *node
-      node_js: '4'
-
     - stage: lint
       script: echo 'TODO - Should do linting here'
 
@@ -69,12 +63,6 @@ jobs:
 
     - <<: *smoke
       node_js: '8'
-
-    - <<: *smoke
-      node_js: '6'
-
-    - <<: *smoke
-      node_js: '4'
 
     - stage: precache
       script: true
