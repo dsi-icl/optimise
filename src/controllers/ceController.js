@@ -21,6 +21,13 @@ class CeController {
             res.status(400).send('You can either send patientId or visitId but not both.');
         }
     }
+
+    deleteCe(req, res) {
+        if (req.requester.priv !== 1) {
+            res.status(401).send("Unauthorized : You should be identified as an Administrator to do so.");
+        }
+        deleteEntry(req, res, 'clinical_events', {'id': req.body.ceId}, req.body.ceId, 1);
+    }
 }
 
 const _singleton = new CeController();

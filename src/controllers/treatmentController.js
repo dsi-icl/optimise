@@ -33,8 +33,30 @@ class TreatmentController {
         }
     }
 
+    deleteTreatment(req, res) {
+        if (req.requester.priv !== 1) {
+            res.status(401).send("Unauthorized : You should be identified as an Administrator to do so.");
+            return;
+        }
+        deleteEntry(req, res, 'treatments', {'id': req.body.treatmentId}, req.body.treatmentId, 1);
+    }
+
     addInterruption(req, res){
-        
+        let entryObj = {
+            'treatment' : req.body.treatmentId,
+            'start_date' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? req.body.start_date : null ),
+            'end_date' : (req.body.end_date && validateAndFormatDate(req.body.end_date) ? req.body.end_date : null ),
+            'reason' : req.body.reason,
+            'created_time' : (req.body.created_date && validateAndFormatDate(req.body.created_date) ? req.body.created_date : null )
+        }
+        createEntry(req, res, 'treatments_interruptions', entryObj, 'Couldn\'t create entry');
+    }
+
+    deleteInterruption(req, res) {
+        if (req.requester.priv !== 1) {
+            res.status(401).send("Unauthorized : You should be identified as an Administrator to do so.");
+        }
+        deleteEntry(req, res, 'treatments_interruptions', {'id': req.body.treatmentInterId}, req.body.treatmentInterId, 1);
     }
 }
 

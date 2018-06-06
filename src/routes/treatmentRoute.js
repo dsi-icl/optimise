@@ -15,6 +15,11 @@ treatment.use(bodyParser.urlencoded({ extended: true }));
 
 treatment.route('/')
    .post(TreatmentController.createTreatment)
-   .put(TreatmentController.editTreatment);
+   .put(TreatmentController.editTreatment)
+   .delete(TreatmentController.deleteTreatment);
+
+treatment.route('/interrupt')
+    .post(TreatmentController.addInterruption)
+    .delete(TreatmentController.deleteInterruption);
 
 module.exports = treatment;
