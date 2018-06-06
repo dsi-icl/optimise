@@ -137,7 +137,26 @@ class DemographicDataController {
             res.status(400).send('Please provide patient ID in the form of "?patientId="');
         }
     }
-    
+
+    DELETEDemographic(req, res) {
+        if (req.requester.priv === 1 && req.body.patientId) {
+            knex('patients')
+                .select('id')
+                .where({'alias_id': req.body.patientId, 'deleted': 0})
+                .then(result => {
+                    if (result.length === 0) {
+                        res.status(404).send("Can't seem to find your patient!");
+                    } else if (result.length === 1) {
+                        deleteEntry(req, res, 'patient_demographic_data', {'patient': result[0]['id']}, 'Demographic information on patient ' + req.body.patientId, 1);
+                    } else {
+                        res.status(500).send('Database error');
+                    }
+                })
+        } else {
+            res.status(401).send('Error. You do not have permission; or the request is malformed');
+        }
+    }
+
     DELETEImmunisation(req, res){
         if (req.requester.priv === 1 && req.body.patientId && req.body.immunisationDate && validateAndFormatDate(req.body.immunisationDate) && req.body.vaccineName) {
             knex('patients')
@@ -178,8 +197,85 @@ class DemographicDataController {
         }
     }
 
+    PUTDemographic(req, res){
+        if (req.requester.priv === 1 && req.body.patientId && req.body.DOB && req.body.gender && req.body.dominant_hand && req.body.ethnicity && req.body.country_of_origin && req.body.alcohol_usage && req.body.smoking_history) {
+            let newObj = {
+                'DOB' : req.body.DOB,
+                'gender' : req.body.gender,
+                'dominant_hand' : req.body.dominant_hand,
+                'ethnicity' : req.body.ethnicity,
+                'country_of_origin' : req.body.country_of_origin,
+                'alcohol_usage' : req.body.alcohol_usage,
+                'smoking_history' : req.body.smoking_history
+            };
+            knex('patients')
+                .select('id')
+                .where({'alias_id': req.body.patientId, 'deleted': 0})
+                .then(result => {
+                    if (result.length === 0) {
+                        res.status(404).send("Can't seem to find your patient!");
+                    } else if (result.length === 1) {
+                        const whereObj = {'patient': result[0]['id']};
+                        updateEntry(req, res, 'patient_demographic_data', whereObj, newObj, 'Row for Demographic information', 1);
+                    } else {
+                        res.status(500).send('Database error');
+                    }
+                })
+        } else {
+            res.status(401).send('Error. You do not have permission; or the request is malformed');
+        }
+    }
+
+    PUTImmunisation(req, res){
+        if (req.requester.priv === 1 && req.body.patientId && req.body.vaccine_name && req.body.immunisation_date) {
+            let newObj = {
+                'vaccine_name' : req.body.vaccine_name,
+                'immunisation_date' : req.body.immunisation_date,
+            };
+            knex('patients')
+                .select('id')
+                .where({'alias_id': req.body.patientId, 'deleted': 0})
+                .then(result => {
+                    if (result.length === 0) {
+                        res.status(404).send("Can't seem to find your patient!");
+                    } else if (result.length === 1) {
+                        const whereObj = {'patient': result[0]['id']};
+                        updateEntry(req, res, 'patient_immunisation', whereObj, newObj, 'Row for Immunisation', 1);
+                    } else {
+                        res.status(500).send('Database error');
+                    }
+                })
+        } else {
+            res.status(401).send('Error. You do not have permission; or the request is malformed');
+        }
+    }
+
+    PUTMedicalCondition(req, res){
+        if (req.requester.priv === 1 && req.body.patientId && req.body.relation && req.body.startYear && req.body.condition && req.body.outcome) {
+            let newObj = {
+                'relation' : req.body.relation,
+                'condition_name' : req.body.condition,
+                'start_date' : req.body.startYear,
+                'outcome' : req.body.outcome,
+                'resolved_year' : req.body.resolved_year
+            };
+            knex('patients')
+                .select('id')
+                .where({'alias_id': req.body.patientId, 'deleted': 0})
+                .then(result => {
+                    if (result.length === 0) {
+                        res.status(404).send("Can't seem to find your patient!");
+                    } else if (result.length === 1) {
+                        const whereObj = {'patient': result[0]['id'], 'relation': req.body.relation, 'start_date': req.body.startYear, 'condition_name': req.body.condition, 'outcome': req.body.outcome};
+                        updateEntry(req, res, 'existing_or_familial_medical_conditions', whereObj, newObj, 'Row for Medical Condition', 1);
+                    } else {
+                        res.status(500).send('Database error');
+                    }
+                })
+        } else {
+            res.status(401).send('Error. You do not have permission; or the request is malformed');
+        }
+    }
 }
-
-
 
 module.exports = new DemographicDataController();
