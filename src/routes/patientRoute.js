@@ -23,7 +23,7 @@ patient.route('/')
 
 // Get the profile of a certain user
 // Real path expected is /api/patientProfile
-patient.route('/:patiendId')
+patient.route('/:patientId')
     .get(PatientController.getPatientProfileById);
 
 module.exports = patient;
