@@ -27,6 +27,10 @@ export default {
     
     searchBar: {
         margin: '1px auto',
-        width: '55%'
+        width: '55%',
+    },
+
+    searchBarInput: {
+        backgroundColor: 'white'
     }
 }
