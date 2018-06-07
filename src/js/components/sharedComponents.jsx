@@ -6,7 +6,7 @@ import Radium from 'radium';
 
 export class Button extends Component {
     render() {
-        return <div style={this.props.style}>{this.props.text}</div>
+        return <div style={this.props.style} onClick={this.props.clicked}>{this.props.text}</div>
     }
 }
 

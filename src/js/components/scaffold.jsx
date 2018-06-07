@@ -4,6 +4,8 @@ import {Section} from './patientProfile.jsx';
 import {WelcomePanel} from './welcomePage.jsx';
 import { Route, Switch } from 'react-router-dom';
 import css from '../../css/scaffold.css.js';
+import { connect } from 'react-redux';
+import { CreatePatientComponent } from './createPatientPage.jsx';
 
 
 export class MenuBar extends Component {
@@ -24,15 +26,17 @@ export class MiddlePanel extends Component {
     }
 }
 
-export class RightPanel extends Component {
+class RightPanel_toConnect extends Component {
     render() {
-        return (
-            <div style={css.rightPanel}>
-                <Switch>
-                    <Route exact path='/' component={WelcomePanel}/>
-                    <Route path='/patientProfile' component={Section}/>
-                </Switch>
-            </div>
-        );
+        switch (this.props.page){
+            case 0:
+                return <div style={css.rightPanel}><WelcomePanel/></div>;
+            case 1:
+                return <div style={css.rightPanel}><Section/></div>;
+            case 2:
+                return <div style={css.rightPanel}><CreatePatientComponent/></div>;
+        }
     }
 }
+
+export const RightPanel = connect(state => ({page: state.rightPanel}))(RightPanel_toConnect);

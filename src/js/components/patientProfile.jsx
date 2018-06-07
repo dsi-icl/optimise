@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import css from '../../css/patientProfile.css.js';
 import patientIcon from '../../statics/icons/icons8-user-48.png';
 import resumeIcon from '../../statics/icons/icons8-resume-48.png';
-
+import saveIcon from '../../statics/icons/icons8-tick-box-48.png';
 
 class Section_toConnect extends Component {
     render() {
@@ -31,11 +31,18 @@ class PatientProfileSectionScaffold extends Component {
             <div style={css.sectionBody}>
             {this.props.children}
             </div>
+            <SaveButton/>
         </div>
         );
     }
 }
 
+class SaveButton extends Component {
+    render(){
+        const style = {width: 40, cursor: 'pointer'};
+        return <img style={style} src={saveIcon} alt='save'/>
+    }
+}
 
 
 /* All the components below are connected to the store separately, 
@@ -79,18 +86,6 @@ class ImmunisationSection_toConnect extends Component {
 }
 
 const ImmunisationSection = connect(state => ({immunisations: state.patientProfile.data.immunisations}))(ImmunisationSection_toConnect);
-
-
-// class NoteSection_toConnect extends Component {
-//     render() {
-//         return (
-//             <PatientProfileSectionScaffold sectionName='Notes'>
-//             </PatientProfileSectionScaffold>
-//         );
-//     }
-// }
-
-//const NoteSection = connect(state => {immunisations: state.patientProfile.data.immunisations})(NoteSection_toConnect);
 
 
 class MedicalHistorySection_toConnect extends Component {

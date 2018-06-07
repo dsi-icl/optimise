@@ -3,7 +3,7 @@ import css from '../../css/searchPatientsById.css.js';
 import {Button} from './sharedComponents.jsx'; 
 import Radium from 'radium';
 import { connect } from 'react-redux';
-import {getPatientProfileById} from '../redux/actions.js';
+import {getPatientProfileById, clickedCreatePatient} from '../redux/actions.js';
 
 export class SearchPatientsById extends Component {
     constructor() {
@@ -39,7 +39,7 @@ export class SearchPatientsById extends Component {
             <div>
                 <h2>SEARCH FOR / CREATE A PATIENT</h2>
                 <form  style={css.searchBar}>
-                    Enter Patient ID: <input type='text' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/>
+                    Enter Patient ID: <input style={css.searchBarInput} type='text' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/>
                 </form>
                 <SearchResultForPatients listOfPatients={this.state.searchResult} searchString={this.state.searchString}/>
             </div>
@@ -51,6 +51,7 @@ class SearchResultForPatients_toConnect extends Component {
     constructor() {
         super();
         this._handleClickWrapper = this._handleClickWrapper.bind(this);
+        this._handleClickCreate = this._handleClickCreate.bind(this);
     }
 
     _handleClickWrapper(patientName) {
@@ -59,10 +60,16 @@ class SearchResultForPatients_toConnect extends Component {
         }
     }
 
+    _handleClickCreate(patientName) {
+        return (ev) => {
+            this.props.clickedCreatePatient(patientName);
+        }
+    }
+
     render() {
         return (
             <div>
-            {this.props.listOfPatients.filter(el => el['alias_id'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Button text={`Create patient ${this.props.searchString}`} style={css.createPatientButton}/> : null}
+            {this.props.listOfPatients.filter(el => el['alias_id'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Button text={`Create patient ${this.props.searchString}`} style={css.createPatientButton} clicked={this._handleClickCreate(this.props.searchString)}/> : null}
             {this.props.listOfPatients.map(el => {
                 const ind = el['alias_id'].indexOf(this.props.searchString);
                 const name = <span>{el['alias_id'].substring(0, ind)}<b>{el['alias_id'].substring(ind, this.props.searchString.length+ind)}</b>{el['alias_id'].substring(this.props.searchString.length+ind, el['alias_id'].length)}</span>;
@@ -74,5 +81,5 @@ class SearchResultForPatients_toConnect extends Component {
 }
 
 SearchResultForPatients_toConnect = Radium(SearchResultForPatients_toConnect);
-const SearchResultForPatients = connect(null, dispatch => ({fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName))}))(SearchResultForPatients_toConnect);
+const SearchResultForPatients = connect(null, dispatch => ({fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName)), clickedCreatePatient: patientId => dispatch(clickedCreatePatient(patientId))}))(SearchResultForPatients_toConnect);
 
