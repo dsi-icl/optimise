@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import css from '../../css/scaffold.css.js';
 import { connect } from 'react-redux';
 import { CreatePatientComponent } from './createPatientPage.jsx';
+import { PatientChart } from './patientChart.jsx';
 
 
 export class MenuBar extends Component {
@@ -35,6 +36,8 @@ class RightPanel_toConnect extends Component {
                 return <div style={css.rightPanel}><Section/></div>;
             case 2:
                 return <div style={css.rightPanel}><CreatePatientComponent/></div>;
+            case 3:
+                return <div style={css.rightPanel}><PatientChart/></div>;
         }
     }
 }
