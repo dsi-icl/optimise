@@ -23,7 +23,7 @@ export const Section = connect(state => ({fetching: state.patientProfile.fetchin
 
 
 
-class PatientProfileSectionScaffold extends Component {
+export class PatientProfileSectionScaffold extends Component {
     render() {
         return (
         <div>
