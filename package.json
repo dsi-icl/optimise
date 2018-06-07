@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "ajv": "^6.5.0",
+    "immutable": "^3.8.2",
     "radium": "^0.24.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
