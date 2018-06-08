@@ -11,11 +11,11 @@ class Section_toConnect extends Component {
             return <span> FETCHING PROFILE </span>
         } else {
             return (<div style={css.bigWrapper}>
-                    <PatientProfileTop/>
-                    <DemographicSection/>
-                    <ImmunisationSection/>
-                    <MedicalHistorySection/>
-                </div>)
+                <PatientProfileTop/>
+                <DemographicSection/>
+                <ImmunisationSection/>
+                <MedicalHistorySection/>
+            </div>)
         }
     }
 }
@@ -26,13 +26,13 @@ export const Section = connect(state => ({fetching: state.patientProfile.fetchin
 export class PatientProfileSectionScaffold extends Component {
     render() {
         return (
-        <div>
-            <div style={css.sectionTitleBar}>{this.props.sectionName.toUpperCase()}</div>
-            <div style={css.sectionBody}>
-            {this.props.children}
+            <div>
+                <div style={css.sectionTitleBar}>{this.props.sectionName.toUpperCase()}</div>
+                <div style={css.sectionBody}>
+                    {this.props.children}
+                </div>
+                <SaveButton/>
             </div>
-            <SaveButton/>
-        </div>
         );
     }
 }
@@ -65,9 +65,9 @@ const PatientProfileTop = connect(state => ({patientId: state.patientProfile.dat
 class DemographicSection_toConnect extends Component {
     render() {
         return (
-        <PatientProfileSectionScaffold sectionName='Profile'>
+            <PatientProfileSectionScaffold sectionName='Profile'>
                 {Object.entries(this.props.demographicData).map(el => <span key={el[0]}><b>{el[0].replace(/_/g, ' ') + ': '}</b>{el[1]}<br/></span>)}
-        </PatientProfileSectionScaffold>
+            </PatientProfileSectionScaffold>
         );
     }
 }
@@ -92,20 +92,20 @@ class MedicalHistorySection_toConnect extends Component {
     render() {
         return (
             <div>
-            <PatientProfileSectionScaffold sectionName='Existing Medical Conditions'>
-                {this.props.medicalHistory.filter(el => el.relation === 'self').map(el => {
-                    return (
-                        <span key={`${el['condition_name']}:${el['start_date']}`}>{`${el['condition_name']}: ${el['start_date']} : ${el.outcome} : ${el['resolved_year']}`}<br/></span>
-                    );
-                })}
-            </PatientProfileSectionScaffold>
-            <PatientProfileSectionScaffold sectionName='Family Medical History'>
-                {this.props.medicalHistory.filter(el => el.relation !== 'self').map(el => {
-                    return (
-                        <span key={`${el.relation}:${el['condition_name']}:${el['start_date']}`}>{`${el.relation} : ${el['condition_name']}: ${el['start_date']} : ${el.outcome} : ${el['resolved_year']}`}<br/></span>
-                    );
-                })}
-            </PatientProfileSectionScaffold>
+                <PatientProfileSectionScaffold sectionName='Existing Medical Conditions'>
+                    {this.props.medicalHistory.filter(el => el.relation === 'self').map(el => {
+                        return (
+                            <span key={`${el['condition_name']}:${el['start_date']}`}>{`${el['condition_name']}: ${el['start_date']} : ${el.outcome} : ${el['resolved_year']}`}<br/></span>
+                        );
+                    })}
+                </PatientProfileSectionScaffold>
+                <PatientProfileSectionScaffold sectionName='Family Medical History'>
+                    {this.props.medicalHistory.filter(el => el.relation !== 'self').map(el => {
+                        return (
+                            <span key={`${el.relation}:${el['condition_name']}:${el['start_date']}`}>{`${el.relation} : ${el['condition_name']}: ${el['start_date']} : ${el.outcome} : ${el['resolved_year']}`}<br/></span>
+                        );
+                    })}
+                </PatientProfileSectionScaffold>
             </div>
         );
     }

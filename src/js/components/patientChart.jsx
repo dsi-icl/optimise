@@ -41,18 +41,18 @@ class SubsectionsBar extends Component {
             marginLeft: 'auto'
         };
         switch (this.props.type) {
-            case 'visit':
-                return <div style={{...style, backgroundColor: '#8596B0', width: '90%'}}>{this.props.title}</div>
-            case 'visitData':
-                return <div style={{...style, backgroundColor: '#D0CECF'}}>{this.props.title}</div>
-            case 'medication':
-                return <div style={{...style, backgroundColor: '#FEDA62'}}>{this.props.title}</div>
-            case 'clinicalEvent':
-                return <div style={{...style, backgroundColor: '#FF4745'}}>{this.props.title}</div>
-            case 'test':
-                return <div style={{...style, backgroundColor: '#99CA78'}}>{this.props.title}</div>
-            default:
-                return null;
+        case 'visit':
+            return <div style={{...style, backgroundColor: '#8596B0', width: '90%'}}>{this.props.title}</div>
+        case 'visitData':
+            return <div style={{...style, backgroundColor: '#D0CECF'}}>{this.props.title}</div>
+        case 'medication':
+            return <div style={{...style, backgroundColor: '#FEDA62'}}>{this.props.title}</div>
+        case 'clinicalEvent':
+            return <div style={{...style, backgroundColor: '#FF4745'}}>{this.props.title}</div>
+        case 'test':
+            return <div style={{...style, backgroundColor: '#99CA78'}}>{this.props.title}</div>
+        default:
+            return null;
         }
     }
 }
