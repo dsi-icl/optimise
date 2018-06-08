@@ -82,14 +82,6 @@ export class DateSelector extends Component {     //not finished
     }
 
     render(){
-        const style = {
-            placeholder: {
-                color: 'lightgrey'
-            },
-            valued: {
-                color: 'black'
-            }
-        }
         return (
             <input type='text' value={this.state.value} onFocus={this._handleFocus} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}></input>
         )
