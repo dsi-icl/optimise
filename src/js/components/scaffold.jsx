@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {SearchPatientsById} from './searchPatientsById.jsx';
 import {Section} from './patientProfile.jsx';
 import {WelcomePanel} from './welcomePage.jsx';
-import { Route, Switch } from 'react-router-dom';
 import css from '../../css/scaffold.css.js';
 import { connect } from 'react-redux';
 import { CreatePatientComponent } from './createPatientPage.jsx';
@@ -38,6 +37,8 @@ class RightPanel_toConnect extends Component {
             return <div style={css.rightPanel}><CreatePatientComponent/></div>;
         case 3:
             return <div style={css.rightPanel}><PatientChart/></div>;
+        default:
+            return null;
         }
     }
 }
