@@ -44,15 +44,17 @@ jobs:
       node_js: '8'
 
     - stage: lint
-      script: echo 'TODO - Should do linting here'
+      script: npm run lint
 
     # smoke tests use default npm.
     - &smoke
       stage: smoke
       env: null
       before_install: true
-      install: npm install --production
-      script: echo 'TODO - Should run small intantiation test'
+      install:
+        - npm install --
+        - unset CI # this is just to prevent linting to fail the build on smoke test
+      script: npm run build # can it build
       cache:
         directories:
           - ~/.npm

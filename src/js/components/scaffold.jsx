@@ -21,7 +21,7 @@ export class MiddlePanel extends Component {
     render() {
         return (
             <div style={css.middlePanel}>
-            <SearchPatientsById/>
+                <SearchPatientsById/>
             </div>
         );
     }
@@ -30,14 +30,14 @@ export class MiddlePanel extends Component {
 class RightPanel_toConnect extends Component {
     render() {
         switch (this.props.page){
-            case 0:
-                return <div style={css.rightPanel}><WelcomePanel/></div>;
-            case 1:
-                return <div style={css.rightPanel}><Section/></div>;
-            case 2:
-                return <div style={css.rightPanel}><CreatePatientComponent/></div>;
-            case 3:
-                return <div style={css.rightPanel}><PatientChart/></div>;
+        case 0:
+            return <div style={css.rightPanel}><WelcomePanel/></div>;
+        case 1:
+            return <div style={css.rightPanel}><Section/></div>;
+        case 2:
+            return <div style={css.rightPanel}><CreatePatientComponent/></div>;
+        case 3:
+            return <div style={css.rightPanel}><PatientChart/></div>;
         }
     }
 }
