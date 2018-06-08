@@ -1,27 +1,31 @@
 {
   "name": "optimise-ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "contributors": [
-      "Chon Sou <c.sou16@imperial.ac.uk>",
-      "Florian Guitton <f.guitton@imperial.ac.uk>"
+    "Chon Sou <c.sou16@imperial.ac.uk>",
+    "Florian Guitton <f.guitton@imperial.ac.uk>"
   ],
   "license": "MIT",
   "dependencies": {
+    "immutable": "3.8.2",
     "radium": "0.24.0",
     "react": "16.4.0",
     "react-dom": "16.4.0",
     "react-redux": "5.0.7",
+    "react-router-dom": "4.3.1",
     "redux": "4.0.0",
     "redux-thunk": "2.3.0"
   },
   "engines": {
-    "node": ">= 6"
+    "node": ">= 8"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --colors --verbose --forceExit",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .jsx --ext .js ./",
+    "lint:fix": "eslint --ext .jsx --ext .js --fix ./"
   },
   "devDependencies": {
     "codacy-coverage": "3.0.0",
