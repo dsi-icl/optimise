@@ -39,8 +39,8 @@ class TestController {
     }
 
     deleteTest(req, res){
-        if (req.requester.priv === 1 && req.body.expectedDate && validateAndFormatDate(req.body.expectedDate)){
-            deleteEntry(req, res, 'ordered_tests', {'ordered_during_visit': req.body.visitId, 'type': req.body.type, 'expected_occur_date': validateAndFormatDate(req.body.expectedDate)}, 'test', 1);
+        if (req.requester.priv === 1 && req.body.testID){
+            deleteEntry(req, res, 'ordered_tests', {'id': req.body.testID}, 'test', 1);
         }
     }
 }
