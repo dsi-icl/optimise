@@ -1,60 +1,46 @@
 import React, {Component} from 'react';
 import {SearchPatientsById} from './searchPatientsById.jsx';
 import {Section} from './patientProfile.jsx';
+import {WelcomePanel} from './welcomePage.jsx';
+import css from '../../css/scaffold.css.js';
+import { connect } from 'react-redux';
+import { CreatePatientComponent } from './createPatientPage.jsx';
+import { PatientChart } from './patientChart.jsx';
 
-const height = 500; //for dev
-const padding = 20; //for dev
 
 export class MenuBar extends Component {
     render() {
-        const menuBar = {
-            backgroundColor: '#313E51',
-            width: 100,
-            height: height,
-            padding: padding,
-            float: 'left'
-        };
-
         return (
-            <div style={menuBar}><span>d</span></div>
+            <div style={css.menuBar}><span>d</span></div>
         );
     }
 }
 
 export class MiddlePanel extends Component {
     render() {
-        const middlePanel = {
-            backgroundColor: '#E7E5E6',
-            width: 300,
-            height: height,
-            padding: padding,
-            float: 'left',
-            overflow: 'auto'
-        };
-
         return (
-            <div style={middlePanel}>
-            <SearchPatientsById/>
+            <div style={css.middlePanel}>
+                <SearchPatientsById/>
             </div>
         );
     }
 }
 
-export class RightPanel extends Component {
+class RightPanel_toConnect extends Component {
     render() {
-        const rightPanel = {
-            backgroundColor: '#f5f6fa',
-            width: 800,
-            height: height,
-            padding: padding,
-            float: 'left',
-            overflow: 'auto'
-        };
-
-        return (
-            <div style={rightPanel}>
-            <Section/>
-            </div>
-        );
+        switch (this.props.page){
+        case 0:
+            return <div style={css.rightPanel}><WelcomePanel/></div>;
+        case 1:
+            return <div style={css.rightPanel}><Section/></div>;
+        case 2:
+            return <div style={css.rightPanel}><CreatePatientComponent/></div>;
+        case 3:
+            return <div style={css.rightPanel}><PatientChart/></div>;
+        default:
+            return null;
+        }
     }
 }
+
+export const RightPanel = connect(state => ({page: state.rightPanel}))(RightPanel_toConnect);

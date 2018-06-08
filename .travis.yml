@@ -2,7 +2,6 @@
 stages:
   - smoke # this ensures a "user" install works properly
   - precache # warm up cache for default Node.js version
-  - lint # lint code and docs
   - test # all tests
 
 # defaults
@@ -43,16 +42,14 @@ jobs:
     - <<: *node
       node_js: '8'
 
-    - stage: lint
-      script: echo 'TODO - Should do linting here'
-
     # smoke tests use default npm.
     - &smoke
       stage: smoke
       env: null
       before_install: true
-      install: npm install --production
-      script: echo 'TODO - Should run small intantiation test'
+      install:
+        - npm install --
+      script: npm run build # can it build
       cache:
         directories:
           - ~/.npm

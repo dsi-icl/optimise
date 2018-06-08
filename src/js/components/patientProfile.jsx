@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import css from '../../css/patientProfile.css.js';
 import patientIcon from '../../statics/icons/icons8-user-48.png';
 import resumeIcon from '../../statics/icons/icons8-resume-48.png';
-
+import saveIcon from '../../statics/icons/icons8-tick-box-48.png';
 
 class Section_toConnect extends Component {
     render() {
@@ -11,11 +11,11 @@ class Section_toConnect extends Component {
             return <span> FETCHING PROFILE </span>
         } else {
             return (<div style={css.bigWrapper}>
-                    <PatientProfileTop/>
-                    <DemographicSection/>
-                    <ImmunisationSection/>
-                    <MedicalHistorySection/>
-                </div>)
+                <PatientProfileTop/>
+                <DemographicSection/>
+                <ImmunisationSection/>
+                <MedicalHistorySection/>
+            </div>)
         }
     }
 }
@@ -23,19 +23,26 @@ export const Section = connect(state => ({fetching: state.patientProfile.fetchin
 
 
 
-class PatientProfileSectionScaffold extends Component {
+export class PatientProfileSectionScaffold extends Component {
     render() {
         return (
-        <div>
-            <div style={css.sectionTitleBar}>{this.props.sectionName.toUpperCase()}</div>
-            <div style={css.sectionBody}>
-            {this.props.children}
+            <div>
+                <div style={css.sectionTitleBar}>{this.props.sectionName.toUpperCase()}</div>
+                <div style={css.sectionBody}>
+                    {this.props.children}
+                </div>
+                <SaveButton/>
             </div>
-        </div>
         );
     }
 }
 
+class SaveButton extends Component {
+    render(){
+        const style = {width: 40, cursor: 'pointer'};
+        return <img style={style} src={saveIcon} alt='save'/>
+    }
+}
 
 
 /* All the components below are connected to the store separately, 
@@ -58,9 +65,9 @@ const PatientProfileTop = connect(state => ({patientId: state.patientProfile.dat
 class DemographicSection_toConnect extends Component {
     render() {
         return (
-        <PatientProfileSectionScaffold sectionName='Profile'>
+            <PatientProfileSectionScaffold sectionName='Profile'>
                 {Object.entries(this.props.demographicData).map(el => <span key={el[0]}><b>{el[0].replace(/_/g, ' ') + ': '}</b>{el[1]}<br/></span>)}
-        </PatientProfileSectionScaffold>
+            </PatientProfileSectionScaffold>
         );
     }
 }
@@ -81,36 +88,24 @@ class ImmunisationSection_toConnect extends Component {
 const ImmunisationSection = connect(state => ({immunisations: state.patientProfile.data.immunisations}))(ImmunisationSection_toConnect);
 
 
-// class NoteSection_toConnect extends Component {
-//     render() {
-//         return (
-//             <PatientProfileSectionScaffold sectionName='Notes'>
-//             </PatientProfileSectionScaffold>
-//         );
-//     }
-// }
-
-//const NoteSection = connect(state => {immunisations: state.patientProfile.data.immunisations})(NoteSection_toConnect);
-
-
 class MedicalHistorySection_toConnect extends Component {
     render() {
         return (
             <div>
-            <PatientProfileSectionScaffold sectionName='Existing Medical Conditions'>
-                {this.props.medicalHistory.filter(el => el.relation === 'self').map(el => {
-                    return (
-                        <span key={`${el['condition_name']}:${el['start_date']}`}>{`${el['condition_name']}: ${el['start_date']} : ${el.outcome} : ${el['resolved_year']}`}<br/></span>
-                    );
-                })}
-            </PatientProfileSectionScaffold>
-            <PatientProfileSectionScaffold sectionName='Family Medical History'>
-                {this.props.medicalHistory.filter(el => el.relation !== 'self').map(el => {
-                    return (
-                        <span key={`${el.relation}:${el['condition_name']}:${el['start_date']}`}>{`${el.relation} : ${el['condition_name']}: ${el['start_date']} : ${el.outcome} : ${el['resolved_year']}`}<br/></span>
-                    );
-                })}
-            </PatientProfileSectionScaffold>
+                <PatientProfileSectionScaffold sectionName='Existing Medical Conditions'>
+                    {this.props.medicalHistory.filter(el => el.relation === 'self').map(el => {
+                        return (
+                            <span key={`${el['condition_name']}:${el['start_date']}`}>{`${el['condition_name']}: ${el['start_date']} : ${el.outcome} : ${el['resolved_year']}`}<br/></span>
+                        );
+                    })}
+                </PatientProfileSectionScaffold>
+                <PatientProfileSectionScaffold sectionName='Family Medical History'>
+                    {this.props.medicalHistory.filter(el => el.relation !== 'self').map(el => {
+                        return (
+                            <span key={`${el.relation}:${el['condition_name']}:${el['start_date']}`}>{`${el.relation} : ${el['condition_name']}: ${el['start_date']} : ${el.outcome} : ${el['resolved_year']}`}<br/></span>
+                        );
+                    })}
+                </PatientProfileSectionScaffold>
             </div>
         );
     }

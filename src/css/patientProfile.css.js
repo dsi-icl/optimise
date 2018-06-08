@@ -7,6 +7,7 @@ export default {
         backgroundColor: '#777171',
         color: '#FBFBFB',
         borderRadius: 3,
+        fontWeight: 'bold',
         fontFamily: 'sans-serif',
         fontSize: 15,
         height: 22,
