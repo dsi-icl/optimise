@@ -28,7 +28,7 @@ export class PatientProfileSectionScaffold extends Component {
         return (
             <div>
                 <div style={css.sectionTitleBar}>{this.props.sectionName.toUpperCase()}</div>
-                <div style={css.sectionBody}>
+                <div style={this.props.suppressSectionBodyCss ? this.props.bodyStyle : css.sectionBody}>
                     {this.props.children}
                 </div>
                 <SaveButton/>

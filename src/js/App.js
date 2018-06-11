@@ -6,7 +6,7 @@ import css from '../css/globalDefault.css.js';
 class App extends Component {
     render() {
         return (
-            <div className="App" style={css.global}>
+            <div className="App" style={css.app}>
                 <MenuBar/>
                 <MiddlePanel/>
                 <RightPanel/>

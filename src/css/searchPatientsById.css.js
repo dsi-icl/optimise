@@ -7,8 +7,8 @@ export default {
         fontSize: 12,
         minHeight: 30,
         margin: '13px auto',
-        width: '100%',
-        paddingTop: 5,
+        width: '90%',
+        padding: '5px 5px',
         textAlign: 'center',
         ':hover': {backgroundColor: '#f5f6fa', cursor: 'pointer'}},
     
@@ -17,12 +17,13 @@ export default {
         color: 'black',
         borderRadius: 20,
         fontFamily: 'sans-serif',
-        fontSize: 13,
-        height: 20,
+        fontSize: 12,
+        minHeight: 17,
         margin: '13px auto',
         width: '80%',
-        paddingTop: 9,
+        paddingTop: 5,
         textAlign: 'center',
+        overflow: 'hidden',
         ':hover': {color: '#f5f6fa', backgroundColor: '#EA2027', cursor: 'pointer'}},
     
     searchBar: {
@@ -31,6 +32,8 @@ export default {
     },
 
     searchBarInput: {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        margin: '1px auto',
+        width: '100%',
     }
 }
