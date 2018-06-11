@@ -61,13 +61,33 @@ class SubsectionsBar extends Component {
     }
 }
 
+function mapTests(el) {
+    return formatRow([el.type, el['expected_occur_date']]);
+}
+
+function mapMedications(el) {
+    return formatRow([el.drug, el.dose, el.unit, el.form, el['times_per_day'], el['duration_weeks']]);
+}
+
+function mapClinicalEvents(el) {
+    return formatRow([el.type, el['date_start_date']]);
+}
+
+function formatRow(arr) {
+    return <tr>{arr.map(el => <td>{el}</td>)}</tr>;
+}
+
+
+
+
+
 class VisitSection extends Component {
     render() {
         const style={
             width: '80%',
             marginLeft: 'auto',
             marginRight: 0
-        }
+        };
         const visitHasTests = this.props.data.tests.filter(el => el['ordered_during_visit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['ordered_during_visit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recorded_during_visit'] === this.props.visitId).length !== 0;
@@ -88,11 +108,12 @@ class VisitSection extends Component {
                     <div>
                     <SubsectionsBar type='test' title='Ordered tests'/>
                     <div style={style}>
+                        <table>
+                            <tr><th>Type</th><th>Expected date</th></tr>
                         {this.props.data.tests
                             .filter(el => el['ordered_during_visit'] === this.props.visitId)
-                            .map(
-                            el => `type: ${el.type}, expected_occur_date: ${el['expected_occur_date']}`
-                        )}
+                            .map(mapTests)}
+                        </table>
                     </div>
                     </div> : null }
 
@@ -100,11 +121,12 @@ class VisitSection extends Component {
                     <div>
                     <SubsectionsBar type='medication' title='Prescriptions'/>
                     <div style={style}>
+                        <table>
+                            <tr><th>Drug</th><th>Dose</th><th>Unit</th><th>Form</th><th>Times per day</th><th>Duration in weeks</th></tr>
                         {this.props.data.treatments
                             .filter(el => el['ordered_during_visit'] === this.props.visitId)
-                            .map(
-                            el => (<span>{`drug: ${el.drug} | dose: ${el.dose} ${el.unit} (${el.form}), ${el['times_per_day']} times per day for ${el['duration_weeks']} weeks.`}<br/></span>)
-                        )}
+                            .map(mapMedications)}
+                        </table>
                     </div>
                     </div> : null }
 
@@ -112,14 +134,15 @@ class VisitSection extends Component {
                     <div>
                     <SubsectionsBar type='clinicalEvent' title='Clinical events'/>
                     <div style={style}>
+                        <table>
+                            <tr><th>Type</th><th>Start date</th></tr>
                         {this.props.data.clinicalEvents
                             .filter(el => el['recorded_during_visit'] === this.props.visitId)
-                            .map(
-                            el => <span>type: {el.type}, start date: {el['date_start_date']}</span>
-                        )}
+                            .map(mapClinicalEvents)}
+                        </table>
                     </div>
                     </div> : null }
-                    
+                    <br/><br/><br/>
                 </div>
             </div>
         )

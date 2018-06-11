@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {MenuBar, MiddlePanel, RightPanel} from './components/scaffold.jsx'; 
+import {MenuBar, MiddlePanel, RightPanel, FarRightPanel} from './components/scaffold.jsx'; 
 import css from '../css/globalDefault.css.js';
 
 
@@ -10,6 +10,7 @@ class App extends Component {
                 <MenuBar/>
                 <MiddlePanel/>
                 <RightPanel/>
+                <FarRightPanel/>
             </div>
         );
     }

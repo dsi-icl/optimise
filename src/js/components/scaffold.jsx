@@ -43,4 +43,12 @@ class RightPanel_toConnect extends Component {
     }
 }
 
+export class FarRightPanel extends Component {
+    render() {
+        return (
+            <div style={css.farRightPanel}><SearchPatientsById/></div>
+        );
+    }
+}
+
 export const RightPanel = connect(state => ({page: state.rightPanel}))(RightPanel_toConnect);
