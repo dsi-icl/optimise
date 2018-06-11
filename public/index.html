@@ -37,8 +37,8 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <style>
-      html, body{
-        height: 100%;
+      body {
+        height: 100vh;
       }
 
       input[type=text] {
@@ -82,16 +82,16 @@
       }
 
       table, th, td {
-        border: 1px solid grey;
+        border-left: 5px solid #f5f6fa;
+        border-right: 5px solid #f5f6fa;
         border-collapse: collapse;
       }
 
-      table tr:nth-child(even) {
-        background-color: rgb(255, 184, 184);
-      }
-
-      table tr:nth-child(odd) {
-        background-color: rgb(230, 230, 230);
+      th, td {
+        padding: 3px 3px;
+        min-width: 40px;
+        text-align: right;
+        color: rgb(54, 58, 59);
       }
     </style>
   </body>

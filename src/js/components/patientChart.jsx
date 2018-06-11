@@ -29,28 +29,28 @@ class Timeline extends Component {   //unfinsihed
 class SubsectionsBar extends Component {
     render(){
         const style = {
-            borderRadius: 20,
+            borderRadius: 10,
             paddingLeft: 20,
-            height: 23,
-            paddingTop: 5,
+            height: 20,
+            paddingTop: 4,
             textAlign: 'left',
-            fontSize: 14,
+            fontSize: 13,
             color: 'white',
             fontWeight: 'bold',
             fontFamily: 'sans-serif',
             width: '80%',
             marginRight: 0,
             marginLeft: 'auto',
-            marginTop: 5,
-            marginBottom: 5
+            marginTop: 8,
+            marginBottom: 8
         };
         switch (this.props.type) {
         case 'visit':
             return <div style={{...style, backgroundColor: '#8596B0', width: '90%'}}>{this.props.title}</div>
         case 'visitData':
-            return <div style={{...style, backgroundColor: '#D0CECF'}}>{this.props.title}</div>
+            return <div style={{...style, backgroundColor: 'rgb(190, 189, 190)'}}>{this.props.title}</div>
         case 'medication':
-            return <div style={{...style, backgroundColor: '#FEDA62'}}>{this.props.title}</div>
+            return <div style={{...style, backgroundColor: '#ffca1b'}}>{this.props.title}</div>
         case 'clinicalEvent':
             return <div style={{...style, backgroundColor: '#FF4745'}}>{this.props.title}</div>
         case 'test':
@@ -86,7 +86,8 @@ class VisitSection extends Component {
         const style={
             width: '80%',
             marginLeft: 'auto',
-            marginRight: 0
+            marginRight: 0,
+            overflow: 'auto'
         };
         const visitHasTests = this.props.data.tests.filter(el => el['ordered_during_visit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['ordered_during_visit'] === this.props.visitId).length !== 0;
@@ -151,14 +152,11 @@ class VisitSection extends Component {
 
 class Charts_toConnect extends Component {   //unfinsihed
     render() {
-        const style = {
-            width: '90%'
-        };
         if (this.props.fetching) {
             return null
         } else {
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
-                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY'>
+                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{...css.sectionBody, width: '100%'}}>
                     {this.props.data.visits.map(
                         (el, ind) => <VisitSection key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${ind+1}-th visit: ${el.visitDate}`}/>
                     )}

@@ -40,7 +40,7 @@ export class SearchPatientsById extends Component {
             <div>
                 <h2>SEARCH FOR / CREATE A PATIENT</h2>
                 <form  style={css.searchBar}>
-                    Enter Patient ID: <input style={css.searchBarInput} type='text' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/>
+                    Enter Patient ID: <br/><input style={css.searchBarInput} type='text' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/>
                 </form>
                 <SearchResultForPatients listOfPatients={this.state.searchResult} searchString={this.state.searchString}/>
             </div>
@@ -74,7 +74,7 @@ class SearchResultForPatients_toConnect extends Component {
                 {this.props.listOfPatients.map(el => {
                     const ind = el['alias_id'].indexOf(this.props.searchString);
                     const name = <span>{el['alias_id'].substring(0, ind)}<b>{el['alias_id'].substring(ind, this.props.searchString.length+ind)}</b>{el['alias_id'].substring(this.props.searchString.length+ind, el['alias_id'].length)}</span>;
-                    return <div onClick={this._handleClickWrapper(el['alias_id'])} style={css.patientBanner} key={el.patientId}>ID: {name} Study: {el.study} <br/> DOB: {el.DOB ? el.DOB : 'N/A'}  Gender: {el.gender ? el.DOB : 'N/A'}</div>
+                    return <div onClick={this._handleClickWrapper(el['alias_id'])} style={css.patientBanner} key={el.patientId}>{name} in {el.study} <br/>{el.DOB ? el.DOB : 'DOB unavailable'}  {el.gender ? el.DOB : 'Gender unavailable'}</div>
                 })}
             </div>
         );

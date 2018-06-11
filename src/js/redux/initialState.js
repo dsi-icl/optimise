@@ -56,6 +56,16 @@ export default {
                     'visitId': 1,
                     'visitDate': '4/7/2010',
                     'data': []
+                },
+                {
+                    'visitId': 2,
+                    'visitDate': '4/1/2010',
+                    'data': []
+                },
+                {
+                    'visitId': 3,
+                    'visitDate': '4/6/2010',
+                    'data': []
                 }
             ],
             'tests': [

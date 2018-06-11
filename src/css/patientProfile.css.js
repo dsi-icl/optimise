@@ -1,6 +1,6 @@
 export default {
     bigWrapper: {
-        padding: '20px 20px'
+        padding: '40px 40px'
     },
 
     sectionTitleBar: {
