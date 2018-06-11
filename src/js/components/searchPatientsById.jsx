@@ -3,7 +3,8 @@ import css from '../../css/searchPatientsById.css.js';
 import {Button} from './sharedComponents.jsx'; 
 import Radium from 'radium';
 import { connect } from 'react-redux';
-import {getPatientProfileById, clickedCreatePatient} from '../redux/actions.js';
+import { clickedCreatePatient } from '../redux/actions/createPatient';
+import { getPatientProfileById } from '../redux/actions/searchPatientById';
 
 export class SearchPatientsById extends Component {
     constructor() {
