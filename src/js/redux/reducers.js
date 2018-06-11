@@ -17,7 +17,7 @@ function middlePanel(state = 1, action){
     return state;
 }
 
-function rightPanel(state = 2, action){
+function rightPanel(state = 3, action){
     return state;
 }
 

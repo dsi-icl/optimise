@@ -59,7 +59,7 @@ class PatientProfileTop_toConnect extends Component {
     }
 }
 
-const PatientProfileTop = connect(state => ({patientId: state.patientProfile.data.patientId}))(PatientProfileTop_toConnect);
+export const PatientProfileTop = connect(state => ({patientId: state.patientProfile.data.patientId}))(PatientProfileTop_toConnect);
 
 
 class DemographicSection_toConnect extends Component {

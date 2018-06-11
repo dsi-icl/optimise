@@ -51,12 +51,17 @@ export default {
                     'visitId': 10,
                     'visitDate': '4/7/2000',
                     'data': []
+                },
+                {
+                    'visitId': 1,
+                    'visitDate': '4/7/2010',
+                    'data': []
                 }
             ],
             'tests': [
                 {
                     'testId': 1,
-                    'ordered_during_visit': 1,
+                    'ordered_during_visit': 10,
                     'type': 2,
                     'expected_occur_date': '5/6/1',
                     'data': [
