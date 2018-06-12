@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {MenuBar, MiddlePanel, RightPanel, FarRightPanel} from './components/scaffold.jsx'; 
 import css from '../css/globalDefault.css.js';
+import { SearchPatientsById } from './components/searchPatientsById';
+import { Switch, Route } from 'react-router-dom';
 
 
 class App extends Component {
@@ -18,3 +20,24 @@ class App extends Component {
 
 
 export default App;
+
+
+/*
+
+/
+
+/searchPatientById
+
+/filterPatients
+
+/patientProfile/:patientId
+
+/administration
+
+/exportCDISC
+
+/patientProfile/:patientId/{test, CE, treatment, visit}?id=xxxxx
+
+/createPatient
+
+*/

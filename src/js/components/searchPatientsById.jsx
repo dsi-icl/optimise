@@ -5,6 +5,7 @@ import Radium from 'radium';
 import { connect } from 'react-redux';
 import { clickedCreatePatient } from '../redux/actions/createPatient';
 import { getPatientProfileById } from '../redux/actions/searchPatientById';
+import { Link } from 'react-router-dom';
 
 export class SearchPatientsById extends Component {
     constructor() {
@@ -74,7 +75,11 @@ class SearchResultForPatients_toConnect extends Component {
                 {this.props.listOfPatients.map(el => {
                     const ind = el['alias_id'].indexOf(this.props.searchString);
                     const name = <span>{el['alias_id'].substring(0, ind)}<b>{el['alias_id'].substring(ind, this.props.searchString.length+ind)}</b>{el['alias_id'].substring(this.props.searchString.length+ind, el['alias_id'].length)}</span>;
-                    return <div onClick={this._handleClickWrapper(el['alias_id'])} style={css.patientBanner} key={el.patientId}>{name} in {el.study} <br/>{el.DOB ? el.DOB : 'DOB unavailable'}  {el.gender ? el.DOB : 'Gender unavailable'}</div>
+                    return (<Link to={`/patientProfile/${el['alias_id']}`} style={{color: 'rgba(0,0,0,0)'}}>
+                            <div onClick={this._handleClickWrapper(el['alias_id'])} style={css.patientBanner} key={el.patientId}>
+                                {name} in {el.study} <br/>{el.DOB ? el.DOB : 'DOB unavailable'}  {el.gender ? el.DOB : 'Gender unavailable'}
+                            </div>
+                        </Link>);
                 })}
             </div>
         );
