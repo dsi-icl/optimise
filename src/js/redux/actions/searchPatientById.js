@@ -16,3 +16,5 @@ export const getPatientProfileById = (searchString) => {
             })
     }
 }
+
+export const updateStoreSearchResult = (data) => ({type: 'UPDATE_STORE_SEARCH_RESULT', payload: data});
