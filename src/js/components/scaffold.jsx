@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { CreatePatientComponent } from './createPatientPage.jsx';
 import { PatientChart } from './patientChart.jsx';
 import { Switch, Route, NavLink } from 'react-router-dom';
+import { TestData } from './dataPage.jsx';
 
 import filterIcon from '../../statics/icons/icons8-conversion-48.png';
 import adminIcon from '../../statics/icons/icons8-monarch-48.png';
@@ -20,6 +21,7 @@ export class MenuBar extends Component {
             display: 'block',
             margin: '0 auto',
             cursor: 'pointer',
+            width: 'calc(80%)',
             marginTop: 10,
             marginBottom: 10
         };
@@ -74,6 +76,7 @@ export class MiddlePanel extends Component {
                 <Route exact path='/' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
                 <Route exact path='/searchPatientById'component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
                 <Route exact path='/createPatient' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
+                <Route path='/patientProfile/:patientId/ce/:ceId' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
                 <Route path='/patientProfile/:patientId' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
             </Switch>
         );
@@ -95,6 +98,7 @@ class RightPanel_toConnect extends Component {
     render() {
         return (
             <Switch>
+                <Route path='/patientProfile/:patientId/ce/:ceId' component={RightPanelWrapper(<PatientChart/>)}/>
                 <Route path='/patientProfile/:patientId' component={RightPanelWrapper(<PatientChart/>)}/>
                 <Route exact path='/searchPatientById'component={RightPanelWrapper('hihi')}/>
                 <Route exact path='/' component={RightPanelWrapper(<WelcomePanel/>)}/>
@@ -118,6 +122,8 @@ export class FarRightPanel extends Component {
     render() {
         return (
             <Switch>
+                <Route path='/patientProfile/:patientId/ce/:ceId' component={FarRightPanelWrapper('CE')}/>
+                <Route path='/patientProfile/:patientId/test/:testId' component={FarRightPanelWrapper(<TestData/>)}/>
                 <Route path='/patientProfile/:patientId' component={FarRightPanelWrapper(<SearchPatientsById/>)}/>
                 <Route exact path='/searchPatientById'component={FarRightPanelWrapper('hihi')}/>
                 <Route exact path='/createPatient' component={FarRightPanelWrapper('hihi')}/>
