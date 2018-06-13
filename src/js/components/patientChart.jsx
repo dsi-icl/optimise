@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { PatientProfileSectionScaffold, PatientProfileTop } from './patientProfile.jsx';
 import css from '../../css/patientProfile.css.js';
+import {NavLink} from 'react-router-dom';
 
 export class PatientChart extends Component {
     render() {
@@ -61,16 +62,38 @@ class SubsectionsBar extends Component {
     }
 }
 
-function mapTests(el) {
-    return formatRow([el.type, el['expected_occur_date']]);
+function mapTests(patientId) {
+    return el => {
+        const style={
+            cursor: 'pointer',
+            backgroundColor: 'lightgrey',
+            display: 'table',
+            textDecoration: 'none',
+            color: 'rgb(54, 58, 59)',
+            paddingLeft: 3,
+            paddingRight: 3
+        };
+        return formatRow([el.type, el['expected_occur_date'], <NavLink to={`/patientProfile/${patientId}/test/${el.testId}`} style={style}><div> results </div></NavLink>]);
+    }
 }
 
 function mapMedications(el) {
     return formatRow([el.drug, el.dose, el.unit, el.form, el['times_per_day'], el['duration_weeks']]);
 }
 
-function mapClinicalEvents(el) {
-    return formatRow([el.type, el['date_start_date']]);
+function mapClinicalEvents(patientId) {
+    return el => {
+        const style={
+            cursor: 'pointer',
+            backgroundColor: 'lightgrey',
+            display: 'table',
+            textDecoration: 'none',
+            color: 'rgb(54, 58, 59)',
+            paddingLeft: 3,
+            paddingRight: 3
+        };
+        return formatRow([el.type, el['date_start_date'], <NavLink to={`/patientProfile/${patientId}/ce/${el.id}`} style={style}><div> results </div></NavLink>]);
+    }
 }
 
 function formatRow(arr) {
@@ -113,7 +136,7 @@ class VisitSection extends Component {
                             <tr><th>Type</th><th>Expected date</th></tr>
                         {this.props.data.tests
                             .filter(el => el['ordered_during_visit'] === this.props.visitId)
-                            .map(mapTests)}
+                            .map(mapTests(this.props.data.patientId))}
                         </table>
                     </div>
                     </div> : null }
@@ -139,7 +162,8 @@ class VisitSection extends Component {
                             <tr><th>Type</th><th>Start date</th></tr>
                         {this.props.data.clinicalEvents
                             .filter(el => el['recorded_during_visit'] === this.props.visitId)
-                            .map(mapClinicalEvents)}
+                            /* change this map later to calculated patientId*/ 
+                            .map(mapClinicalEvents(this.props.data.patientId))}
                         </table>
                     </div>
                     </div> : null }
