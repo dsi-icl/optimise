@@ -71,7 +71,7 @@ class SearchResultForPatients_toConnect extends Component {
     render() {
         return (
             <div>
-                {this.props.listOfPatients.filter(el => el['alias_id'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Button text={`Create patient ${this.props.searchString}`} style={css.createPatientButton} clicked={this._handleClickCreate(this.props.searchString)}/> : null}
+                {this.props.listOfPatients.filter(el => el['alias_id'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Link to='/createPatient' style={{color: 'rgba(0,0,0,0)'}}><Button text={`Create patient ${this.props.searchString}`} style={css.createPatientButton} clicked={this._handleClickCreate(this.props.searchString)}/></Link> : null}
                 {this.props.listOfPatients.map(el => {
                     const ind = el['alias_id'].indexOf(this.props.searchString);
                     const name = <span>{el['alias_id'].substring(0, ind)}<b>{el['alias_id'].substring(ind, this.props.searchString.length+ind)}</b>{el['alias_id'].substring(this.props.searchString.length+ind, el['alias_id'].length)}</span>;

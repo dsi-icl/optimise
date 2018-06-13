@@ -6,12 +6,54 @@ import css from '../../css/scaffold.css.js';
 import { connect } from 'react-redux';
 import { CreatePatientComponent } from './createPatientPage.jsx';
 import { PatientChart } from './patientChart.jsx';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, NavLink } from 'react-router-dom';
+
+import filterIcon from '../../statics/icons/icons8-conversion-48.png';
+import adminIcon from '../../statics/icons/icons8-monarch-48.png';
+import csvIcon from '../../statics/icons/icons8-csv-48.png';
+import cloudIcon from '../../statics/icons/icons8-cloud-40.png';
+import searchIcon from '../../statics/icons/icons8-detective-48.png';
 
 export class MenuBar extends Component {
     render() {
+        const style = {
+            display: 'block',
+            margin: '0 auto',
+            cursor: 'pointer',
+            marginTop: 10,
+            marginBottom: 10
+        };
+
         return (
-            <div style={css.menuBar}><span>d</span></div>
+            <div style={css.menuBar}>
+                <br/><br/><br/>
+                <NavLink to='/searchPatientById' activeClassName='menuButton'>
+                    <div>
+                        <img src={searchIcon} alt='search patient by id' title='Search Patient by Id' style={style}/>
+                    </div>
+                </NavLink>
+                <NavLink to='/filterPatients' activeClassName='menuButton'>
+                    <div>
+                        <img src={filterIcon} alt='filter patient' title='Filter patients' style={style}/>
+                    </div>
+                </NavLink>
+                <NavLink to='/exportCDISC' activeClassName='menuButton'>
+                    <div>
+                        <img src={csvIcon} alt='export CDISC' title='Export as CDISC' style={style}/>
+                    </div>
+                </NavLink>
+                <NavLink to='/uploadToCloud' activeClassName='menuButton'>
+                    <div>
+                        <img src={cloudIcon} alt='upload to cloud' title='Upload to central db' style={style}/>
+                    </div>
+                </NavLink>
+                <NavLink to='/administration' activeClassName='menuButton'>
+                    <div>
+                        <img src={adminIcon} alt='admin' title='Administration' style={style}/>     
+                    </div>
+                </NavLink>
+      
+            </div>
         );
     }
 }
@@ -30,6 +72,8 @@ export class MiddlePanel extends Component {
         return (
             <Switch>
                 <Route exact path='/' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
+                <Route exact path='/searchPatientById'component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
+                <Route exact path='/createPatient' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
                 <Route path='/patientProfile/:patientId' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
             </Switch>
         );
@@ -52,7 +96,9 @@ class RightPanel_toConnect extends Component {
         return (
             <Switch>
                 <Route path='/patientProfile/:patientId' component={RightPanelWrapper(<PatientChart/>)}/>
+                <Route exact path='/searchPatientById'component={RightPanelWrapper('hihi')}/>
                 <Route exact path='/' component={RightPanelWrapper(<WelcomePanel/>)}/>
+                <Route exact path='/createPatient' component={RightPanelWrapper(<CreatePatientComponent/>)}/>
                 <Route component={() => <span>Oops! seems like we cannot find your url</span>}/>
             </Switch>
         );
@@ -73,6 +119,8 @@ export class FarRightPanel extends Component {
         return (
             <Switch>
                 <Route path='/patientProfile/:patientId' component={FarRightPanelWrapper(<SearchPatientsById/>)}/>
+                <Route exact path='/searchPatientById'component={FarRightPanelWrapper('hihi')}/>
+                <Route exact path='/createPatient' component={FarRightPanelWrapper('hihi')}/>
                 <Route exact path='/' component={FarRightPanelWrapper(<SearchPatientsById/>)}/>
             </Switch>
         );
