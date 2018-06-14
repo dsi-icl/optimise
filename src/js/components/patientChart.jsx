@@ -70,10 +70,14 @@ function mapTests(patientId) {
             display: 'table',
             textDecoration: 'none',
             color: 'rgb(54, 58, 59)',
-            paddingLeft: 3,
-            paddingRight: 3
+            paddingLeft: 5,
+            paddingRight: 5,
+            borderRadius: 5
         };
-        return formatRow([el.type, el['expected_occur_date'], <NavLink to={`/patientProfile/${patientId}/test/${el.testId}`} style={style}><div> results </div></NavLink>]);
+        const divStyle = {
+            borderRadius: 5
+        };
+        return formatRow([el.type, el['expected_occur_date'], <NavLink to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results </div></NavLink>]);
     }
 }
 
@@ -90,9 +94,13 @@ function mapClinicalEvents(patientId) {
             textDecoration: 'none',
             color: 'rgb(54, 58, 59)',
             paddingLeft: 3,
-            paddingRight: 3
+            paddingRight: 3,
+            borderRadius: 5
         };
-        return formatRow([el.type, el['date_start_date'], <NavLink to={`/patientProfile/${patientId}/ce/${el.id}`} style={style}><div> results </div></NavLink>]);
+        const divStyle = {
+            borderRadius: 5
+        };
+        return formatRow([el.type, el['date_start_date'], <NavLink to={`/patientProfile/${patientId}/ce/${el.id}`} activeClassName='selectedResult' style={style}><div style={divStyle}> results </div></NavLink>]);
     }
 }
 
