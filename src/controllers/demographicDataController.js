@@ -23,9 +23,14 @@ class DemographicDataController {
     }
 
     POSTDemographic(req, res){//create demographic data
+        if (!req.body.patientId || !rea.body.DOB || !req.body.gender || !req.body.dominant_hand 
+            || !req.body.ethnicity || !req.body.country_of_origin || !req.body.alcohol_usage || !req.body.smoking_history) {
+            res.status(400).send('Missing information in form.');
+            return ;
+        }
         knex('patients')
             .select('id')
-            .where({'alias_id': req.body['patient'], 'deleted': 0})
+            .where({'alias_id': req.body.patientId, 'deleted': 0})
             .then(result => {
                 if (result.length === 1){
                     let entryObj = Object.assign({}, req.body);
