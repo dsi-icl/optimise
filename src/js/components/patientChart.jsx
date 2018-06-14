@@ -75,9 +75,11 @@ function mapTests(patientId) {
             borderRadius: 5
         };
         const divStyle = {
-            borderRadius: 5
+            borderRadius: 5,
+            paddingLeft: 3,
+            paddingRight: 2
         };
-        return formatRow([el.type, el['expected_occur_date'], <NavLink to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results </div></NavLink>]);
+        return formatRow([el.type, el['expected_occur_date'], <NavLink to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results➠ </div></NavLink>]);
     }
 }
 
@@ -98,9 +100,11 @@ function mapClinicalEvents(patientId) {
             borderRadius: 5
         };
         const divStyle = {
-            borderRadius: 5
+            borderRadius: 5,
+            paddingLeft: 3,
+            paddingRight: 2
         };
-        return formatRow([el.type, el['date_start_date'], <NavLink to={`/patientProfile/${patientId}/ce/${el.id}`} activeClassName='selectedResult' style={style}><div style={divStyle}> results </div></NavLink>]);
+        return formatRow([el.type, el['date_start_date'], <NavLink to={`/patientProfile/${patientId}/ce/${el.id}`} activeClassName='selectedResult' style={style}><div style={divStyle}> results➠ </div></NavLink>]);
     }
 }
 
@@ -120,6 +124,9 @@ class VisitSection extends Component {
             marginRight: 0,
             overflow: 'auto'
         };
+        const inputStyle ={
+            width: 40
+        };
         const visitHasTests = this.props.data.tests.filter(el => el['ordered_during_visit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['ordered_during_visit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recorded_during_visit'] === this.props.visitId).length !== 0;
@@ -129,7 +136,22 @@ class VisitSection extends Component {
                 <div>
                     <SubsectionsBar type='visitData' title='Anthropometry and Vital signs'/>
                     <div style={style}>
-                        
+                        <table style={{width: '100%'}}>
+                            <tr>
+                                <td style={{textAlign: 'left'}}>Systolic blood pressure: <input type='text' style={inputStyle}/>{` mmHg`}</td>
+                                <td style={{textAlign: 'left'}}>Diastolic blood pressure: <input type='text' style={inputStyle}/>{` mmHg`}</td>
+                            </tr>
+                            <tr>
+                                <td style={{textAlign: 'left'}}>Heart rate: <input type='text' style={inputStyle}/>{` bpm`}</td>
+                                <td style={{textAlign: 'left'}}>Height: <input type='text' style={inputStyle}/>{` cm`}</td>
+                            </tr>
+                            <tr>
+                                <td style={{textAlign: 'left'}}>Weight: <input type='text' style={inputStyle}/>{` kg`}</td>
+                                <td style={{textAlign: 'left'}}>Academic concern: <input type='text' style={inputStyle}/></td>
+                            </tr>
+
+
+                        </table>
                     </div>
                     <SubsectionsBar type='visitData' title='Sign and Symptoms'/>
                     <div style={style}>

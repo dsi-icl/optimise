@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom';
 
 class testData_toConnect extends Component {
     render(){
         /* formating the data for easier mapping later */
-        const testData = this.props.data.filter(el => el.testId === 1)[0].data;
+        const testData = this.props.data.filter(el => el.testId === 1)[0].data;    //change the id later
         const data = {};
         for (let each of testData) {
             data[each.field] = each.value;
         }
-        return formatData(data, this.props.fields);
+        return <div>
+                <Link to={`/patientProfile/${this.props.patientId}`} style={{textDecoration: 'none'}}><div style={{position: 'relative', left: 20, top: 20, textAlign: 'center', fontSize: 20, width: 30, height: 30, color: 'white', borderRadius: 20, backgroundColor: '#ff6666'}}>🢀</div></Link>
+                <h2>TEST RESULT</h2> <h2>Type: 2 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> {formatData(data, this.props.fields.filter(el => el['reference_type'] === 4))}
+            </div>;   //change the type later
     }
 }
 
@@ -17,7 +21,7 @@ function formatData(dataObj, fieldsArr) {    //not done
     const wrapper = (el, dataObj, inputField) => <span key={el.id}>{el.definition}: {inputField}<br/><br/></span>;
     const style = {
         width: '87%',
-        marginTop: 50,
+        marginTop: 30,
         marginBottom: 40,
         marginRight: 'auto',
         marginLeft: 'auto'
@@ -27,7 +31,7 @@ function formatData(dataObj, fieldsArr) {    //not done
             {fieldsArr.map(el => {
                     switch(el.type) {
                         case 'N':
-                            return wrapper(el, dataObj, <input type='text' value={dataObj[el.id] ? dataObj[el.id] : null}/>);
+                            return wrapper(el, dataObj, <span><input style={{width: 50}} type='text' value={dataObj[el.id] ? dataObj[el.id] : null}/>{el.unit === '' ? null : `  ${el.unit}`}</span>);
                         case 'C':
                             const select = <select>
                                 <option value='not selected' selected={dataObj[el.id] ? false : true}>not selected</option>
@@ -50,7 +54,7 @@ function formatData(dataObj, fieldsArr) {    //not done
 function mapStateToProps(state) {
     return {
         fields: state.availableFields.testFields,
-        patientId: state.patientProfile.patientId,
+        patientId: state.patientProfile.data.patientId,
         data: state.patientProfile.data.tests
     }
 }
