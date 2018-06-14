@@ -8,7 +8,8 @@ import { CreatePatientComponent } from './createPatientPage.jsx';
 import { PatientChart } from './patientChart.jsx';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import { TestData } from './dataPage.jsx';
-
+import { History } from './exportCDSIC/history.jsx';
+import { UserActions } from './userActions.jsx';
 import filterIcon from '../../statics/icons/icons8-conversion-48.png';
 import adminIcon from '../../statics/icons/icons8-monarch-48.png';
 import csvIcon from '../../statics/icons/icons8-csv-48.png';
@@ -76,6 +77,7 @@ export class MiddlePanel extends Component {
                 <Route exact path='/' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
                 <Route exact path='/searchPatientById'component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
                 <Route exact path='/createPatient' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
+                <Route exact path='/exportCDISC' component={MiddlePanelWrapper(<History/>)}/>
                 <Route path='/patientProfile/:patientId/ce/:ceId' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
                 <Route path='/patientProfile/:patientId' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
             </Switch>
@@ -98,9 +100,8 @@ class RightPanel_toConnect extends Component {
     render() {
         return (
             <Switch>
-                <Route path='/patientProfile/:patientId/ce/:ceId' component={RightPanelWrapper(<PatientChart/>)}/>
                 <Route path='/patientProfile/:patientId' component={RightPanelWrapper(<PatientChart/>)}/>
-                <Route exact path='/searchPatientById'component={RightPanelWrapper('hihi')}/>
+                <Route exact path='/searchPatientById'component={RightPanelWrapper('')}/>
                 <Route exact path='/' component={RightPanelWrapper(<WelcomePanel/>)}/>
                 <Route exact path='/createPatient' component={RightPanelWrapper(<CreatePatientComponent/>)}/>
                 <Route component={() => <span>Oops! seems like we cannot find your url</span>}/>
@@ -124,9 +125,9 @@ export class FarRightPanel extends Component {
             <Switch>
                 <Route path='/patientProfile/:patientId/ce/:ceId' component={FarRightPanelWrapper('CE')}/>
                 <Route path='/patientProfile/:patientId/test/:testId' component={FarRightPanelWrapper(<TestData/>)}/>
-                <Route path='/patientProfile/:patientId' component={FarRightPanelWrapper(<SearchPatientsById/>)}/>
-                <Route exact path='/searchPatientById'component={FarRightPanelWrapper('hihi')}/>
-                <Route exact path='/createPatient' component={FarRightPanelWrapper('hihi')}/>
+                <Route path='/patientProfile/:patientId' component={FarRightPanelWrapper(<UserActions/>)}/>
+                <Route exact path='/searchPatientById'component={FarRightPanelWrapper('')}/>
+                <Route exact path='/createPatient' component={FarRightPanelWrapper('')}/>
                 <Route exact path='/' component={FarRightPanelWrapper(<SearchPatientsById/>)}/>
             </Switch>
         );
