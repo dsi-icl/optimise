@@ -3,14 +3,41 @@ import { connect } from 'react-redux';
 
 class testData_toConnect extends Component {
     render(){
-        return (
-            <div>
-                {this.props.fields.map(el => 
-                    <span key={el.id}>{el.definition}: <br/></span>
-                )}
-            </div>
-        );
+        /* formating the data for easier mapping later */
+        const testData = this.props.data.filter(el => el.testId === 1)[0].data;
+        const data = {};
+        for (let each of testData) {
+            data[each.field] = each.value;
+        }
+        return formatData(data, this.props.fields);
     }
+}
+
+function formatData(dataObj, fieldsArr) {
+    const wrapper = (el, dataObj, inputField) => <span key={el.id}>{el.definition}: {inputField}<br/><br/></span>;
+    return (
+        <div>
+            {fieldsArr.map(el => {
+                    switch(el.type) {
+                        case 'N':
+                            return wrapper(el, dataObj, <input type='text' value={dataObj[el.id] ? dataObj[el.id] : null}/>);
+                        case 'C':
+                            const select = <select>
+                                <option value='not selected' selected={dataObj[el.id] ? false : true}>not selected</option>
+                                {el['permitted_values'].split(',').map(ele => (
+                                    <option value={ele} selected={dataObj[el.id] === ele ? true : false}>{ele}</option>
+                                ))}
+                                </select>;
+                            return wrapper(el, dataObj, select);
+                        case 'I':
+                            return;
+                        default:
+                            return wrapper(el, dataObj, <input type='text'></input>);
+                    }
+                }
+            )}
+        </div>
+    );
 }
 
 function mapStateToProps(state) {
