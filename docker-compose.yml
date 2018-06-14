@@ -1,7 +1,7 @@
 version: "2"
 services:
   application:
-    image: datascienceinstitute/optimise:latest@sha256:b250b385d184fdc9e0cfc0c4f6cc2d35420801df488db6454a59fb95cd941aa3
+    image: datascienceinstitute/optimise:latest@sha256:296a33827ce02ff3e6edcfeb37feacf3d8833379e7002ac35b7266d75abecb34
     container_name: "optimise"
     links:
       - database
