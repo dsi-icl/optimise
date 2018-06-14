@@ -516,8 +516,8 @@ patientModule.controller('patientInfoCtrl', function ( $rootScope, $parse, $q,
             break;
         }
         case 'BRTHDTC': {
-            var ymd = propertyValue.substr(3) + "-" + propertyValue.substr(0,2) + "-01";
-            currentPatient.BRTHDTC = new Date(ymd + "T00:00:00.000Z");
+            var ymd = propertyValue.substr(3) + '-' + propertyValue.substr(0,2) + '-01';
+            currentPatient.BRTHDTC = new Date(ymd + 'T00:00:00.000Z');
             $scope.BRTHDTC = currentPatient.BRTHDTC.toDateString();
             $scope.DM_displayDate = patients.getCurrentPatientAge();
             patients.editDemographic(propertyName, currentPatient.BRTHDTC);
