@@ -13,10 +13,17 @@ class testData_toConnect extends Component {
     }
 }
 
-function formatData(dataObj, fieldsArr) {
+function formatData(dataObj, fieldsArr) {    //not done
     const wrapper = (el, dataObj, inputField) => <span key={el.id}>{el.definition}: {inputField}<br/><br/></span>;
+    const style = {
+        width: '87%',
+        marginTop: 50,
+        marginBottom: 40,
+        marginRight: 'auto',
+        marginLeft: 'auto'
+    }
     return (
-        <div>
+        <div style={style}>
             {fieldsArr.map(el => {
                     switch(el.type) {
                         case 'N':
