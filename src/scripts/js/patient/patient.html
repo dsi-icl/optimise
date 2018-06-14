@@ -191,7 +191,9 @@
                                         ng-change="editGeneralOccurence(newOccurence, 'MHENRTPT')">
                                 <option>Term</option>
                                 <option>Premature</option>
-                                <option>Other</option></select></td>
+                                <option>Miscarriage</option>
+                                <option>Other</option>                                
+                            </select></td>
                             <td><a href="#" role="button" ng-click="deleteOccurence(newOccurence)">Delete</a></td>
                         </tr>
                         <tr>
@@ -203,8 +205,8 @@
                             <td><select class="form-control" ng-model="PregnancyENRTPT">
                                 <option>Term</option>
                                 <option>Premature</option>
-                                <option>Other</option>
                                 <option>Miscarriage</option>
+                                <option>Other</option>                                
                             </select>
                             </td>
                             <td><a href="#" ng-click="addPregnancy()">Add</a></td>
@@ -383,7 +385,7 @@
                                                   ng-model="diagnosis.displayNote"
                                                   ng-blur="editGeneralOccurence(diagnosis, 'displayNote')"
                                                   placeholder="Notes"></textarea></td>
-                                    <td><a href="#" ng-click="deletePrimaryDiagnosis(diagnosis)">Delete</a></td>
+                                    <td><a href="#" ng-click="deletePrimaryDiagnosis(diagnosis)">Delete</a></td>                                 
                                 </tr>
                                 <!--<tr ng-show="!isMSPatient()">-->
                                 <tr>
@@ -481,7 +483,7 @@
                         </div>
                     </div>
 
-                    <div class='row' ng-show="isMSPatient()">
+                    <div class='row'>
                         <div class="col-sm-12">
                             <table class="table marginTop" >
                                 <thead>

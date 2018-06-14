@@ -474,7 +474,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
         //             subjectList = JSON.parse(subjectList);
         //             for (var s = 0; s < subjectList.length; s++) {
         //                 if (subjectList[s].NHS_USUBJID == $scope.NHS_USUBJID) {
-        //                     //alert("This subject already exists");
+        //                     //alert('This subject already exists');
         //                     //$scope.NHS_USUBJID = '';
         //                     return;
         //                 }
@@ -487,7 +487,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
         //             if (data.NHS_USUBJID != null) {
         //                 for (var s = 0; s < data.NHS_USUBJID.length; s++) {
         //                     if (data.NHS_USUBJID[s] == $scope.NHS_USUBJID) {
-        //                         //alert("This subject already exists");
+        //                         //alert('This subject already exists');
         //                         //$scope.NHS_USUBJID = '';
         //                         exists = true;
         //                         // return;
@@ -661,7 +661,7 @@ headerModule.controller('newPatientInstanceCtrl', function ($scope, $uibModalIns
     //                    var dateEnd = new Date();
     //                    var dateStart = new Date($scope.BRTHDTC,getMonthIndex(),1);
     //                    var durationInDays = Math.round((dateEnd-dateStart)/dayInMilliseconds);
-    //                    return (Math.round(durationInDays/365)-1)+" years";
+    //                    return (Math.round(durationInDays/365)-1)+' years';
     //                }
     //        }
     //        return '';
@@ -2472,7 +2472,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
             return true;
         }
         else {
-            //console.log("not a date");
+            //console.log('not a date');
             return false;
         }
     };
@@ -2483,7 +2483,8 @@ headerModule.controller('headerCtrl', function ($rootScope,
         switch ($scope.contentOnDisplay) {
         case 'Relapse':
         {
-            var relapseDate = new Date($scope.newEventDate.substr(3), parseInt($scope.newEventDate.substr(0, 2)) - 1, 1);
+            var ymd = $scope.newEventDate.substr(3) + '-' + $scope.newEventDate.substr(0,2) + '-01';
+            var relapseDate = new Date(ymd + 'T00:00:00.000Z');
             if (isThisADate(relapseDate)) {
                 $scope.setNewRelapseDate($scope.newEventDate, relapseDate);
                 viewService.setView('Relapse', false);
@@ -2492,7 +2493,9 @@ headerModule.controller('headerCtrl', function ($rootScope,
         }
         case 'Visit':
         {
-            var SVSTDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3, 2)) - 1, $scope.newEventDate.substr(0, 2));
+
+            var ymd = $scope.newEventDate.substr(6) + '-' + $scope.newEventDate.substr(3,2) + '-' + $scope.newEventDate.substr(0,2);
+            var SVSTDTC = new Date(ymd + 'T00:00:00.000Z');
             if (isThisADate(SVSTDTC)) {
                 $scope.setNewVisitDate($scope.newEventDate, SVSTDTC);
                 viewService.setView('Visit', false);
@@ -2501,7 +2504,8 @@ headerModule.controller('headerCtrl', function ($rootScope,
         }
         case 'Exposure':
         {
-            var EXSTDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3, 2)) - 1, $scope.newEventDate.substr(0, 2));
+            var ymd = $scope.newEventDate.substr(6) + '-' + $scope.newEventDate.substr(3,2) + '-' + $scope.newEventDate.substr(0,2);
+            var EXSTDTC = new Date(ymd + 'T00:00:00.000Z');
             if (isThisADate(EXSTDTC)) {
                 $scope.setNewExposureStartDate($scope.newEventDate, EXSTDTC);
                 viewService.setView('Exposure', false);
@@ -2510,7 +2514,9 @@ headerModule.controller('headerCtrl', function ($rootScope,
         }
         case 'Test':
         {
-            var LBDTC = new Date($scope.newEventDate.substr(6), parseInt($scope.newEventDate.substr(3, 2)) - 1, $scope.newEventDate.substr(0, 2));
+            var ymd = $scope.newEventDate.substr(6) + '-' + $scope.newEventDate.substr(3,2) + '-' + $scope.newEventDate.substr(0,2);
+            var LBDTC = new Date(ymd + 'T00:00:00.000Z');
+            //console.log(LBDTC);
             if (isThisADate(LBDTC)) {
                 $scope.setNewLabDate($scope.newEventDate, LBDTC);
                 viewService.setView('Test', false);
@@ -2614,7 +2620,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
         }
         case 'Exposure':
         {
-            //console.log("displaying current event");
+            //console.log('displaying current event');
             $scope.setNewExposureStartDate(event.displayDate, event.EXSTDTC);
             exposures.setCurrentExposure(event);
             viewService.setView('Exposure', false);// disable = false;
@@ -2823,7 +2829,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
                     var testsSelectedForDeletion = laboratoryTestResults.getTestResultBySpecAndDate(collectionDate, 'CSF');
                     for (v = 0; v < testsSelectedForDeletion.length; v++) {
                         laboratoryTestResults.deleteResult(testsSelectedForDeletion[v]);
-                        laboratoryTestResults.printLabTestResults();
+                        //laboratoryTestResults.printLabTestResults();
                     }
                     var scansSelectedForDeletion = deviceInUseServices.getScansByDate(collectionDate);
                     for (v = 0; v < scansSelectedForDeletion.length; v++) {
@@ -2842,14 +2848,14 @@ headerModule.controller('headerCtrl', function ($rootScope,
                 for (v = 0; v < testResultsSelectedForDeletion.length; v++) {
                     if (testResultsSelectedForDeletion[v].LBSPEC != 'CSF') {
                         laboratoryTestResults.deleteResult(testResultsSelectedForDeletion[v]);
-                        laboratoryTestResults.printLabTestResults();
+                        //laboratoryTestResults.printLabTestResults();
                     }
                 }
 
                 var assessmentsSelectedForDeletion = immunogenicitySpecimenAssessments.getAssessmentByDate(collectionDate);
                 for (v = 0; v < assessmentsSelectedForDeletion.length; v++) {
                     immunogenicitySpecimenAssessments.deleteResult(assessmentsSelectedForDeletion[v]);
-                    immunogenicitySpecimenAssessments.printISAs();
+                    //immunogenicitySpecimenAssessments.printISAs();
                 }
             }
 
@@ -3033,7 +3039,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
                 }
             }
         }
-        //console.log("Returning false");
+        //console.log('Returning false');
         return false;
     };
 
@@ -3053,7 +3059,7 @@ headerModule.controller('headerCtrl', function ($rootScope,
                 // if this is most recent event
                 //console.log(getSeqValue(event, event.DOMAIN));
                 if (getSeqValue(event, event.DOMAIN) == (numEvents - 1) || numEvents == 1) {
-                    //console.log("is selected");
+                    //console.log('is selected');
                     //console.log(event);
                     $scope.selectEvent(event); // tmp taken out?
                     return true;
@@ -3255,11 +3261,11 @@ headerModule.controller('headerCtrl', function ($rootScope,
 
     $scope.isActiveTest = function (test) {
         if (test == $scope.testIndex) {
-            //console.log($scope.testIndex + " vs " +test+ " :active");
+            //console.log($scope.testIndex + ' vs ' +test+ ' :active');
             return true;
         }
         else
-            //console.log($scope.testIndex + " vs " +test+ " :inactive");
+            //console.log($scope.testIndex + ' vs ' +test+ ' :inactive');
             return false;
     };
 
