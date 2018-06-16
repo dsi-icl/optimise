@@ -75,10 +75,9 @@ export class MiddlePanel extends Component {
         return (
             <Switch>
                 <Route exact path='/' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
-                <Route exact path='/searchPatientById'component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
+                <Route exact path='/searchPatientById' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
                 <Route exact path='/createPatient' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
                 <Route exact path='/exportCDISC' component={MiddlePanelWrapper(<History/>)}/>
-                <Route path='/patientProfile/:patientId/ce/:ceId' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
                 <Route path='/patientProfile/:patientId' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
             </Switch>
         );
@@ -100,7 +99,7 @@ class RightPanel_toConnect extends Component {
     render() {
         return (
             <Switch>
-                <Route path='/patientProfile/:patientId' component={RightPanelWrapper(<PatientChart/>)}/>
+                <Route path='/patientProfile/:patientId' render={RightPanelWrapper(<PatientChart/>)}/>
                 <Route exact path='/searchPatientById'component={RightPanelWrapper('')}/>
                 <Route exact path='/' component={RightPanelWrapper(<WelcomePanel/>)}/>
                 <Route exact path='/createPatient' component={RightPanelWrapper(<CreatePatientComponent/>)}/>

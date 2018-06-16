@@ -79,7 +79,7 @@ function mapTests(patientId) {
             paddingLeft: 3,
             paddingRight: 2
         };
-        return formatRow([el.type, el['expected_occur_date'], <NavLink to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results➠ </div></NavLink>]);
+        return formatRow([el.type, el['expected_occur_date'], <NavLink id={`/patientProfile/${patientId}/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results➠ </div></NavLink>]);
     }
 }
 

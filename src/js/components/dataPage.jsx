@@ -3,6 +3,24 @@ import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 
 class testData_toConnect extends Component {
+    /* put this logic in patient Chart instead */
+    constructor() {
+        super();
+        this.state = {pathname: ''};
+    }
+
+    componentDidMount() {
+        this.setState({pathname: window.location.pathname});
+        document.getElementById(window.location.pathname).className = 'selectedResult';
+
+    }
+
+    componentWillUnmount() {
+        if (document.getElementById(this.state.pathname)) {
+            document.getElementById(this.state.pathname).classList.remove('selectedResult');
+        }
+    }
+
     render(){
         /* formating the data for easier mapping later */
         const testData = this.props.data.filter(el => el.testId === 1)[0].data;    //change the id later
@@ -11,7 +29,7 @@ class testData_toConnect extends Component {
             data[each.field] = each.value;
         }
         return <div>
-                <Link to={`/patientProfile/${this.props.patientId}`} style={{textDecoration: 'none'}}><div style={{position: 'relative', left: 20, top: 20, textAlign: 'center', fontSize: 20, width: 30, height: 30, color: 'white', borderRadius: 20, backgroundColor: '#ff6666'}}>🢀</div></Link>
+                <Link to={`/patientProfile/${this.props.patientId}`} style={{textDecoration: 'none'}}><div style={{position: 'relative', left: 20, top: 20, textAlign: 'center', fontSize: 20, width: 30, paddingTop: 4, height: 26, color: 'white', borderRadius: 20, backgroundColor: '#ff6666'}}>&#8617;</div></Link>
                 <h2>TEST RESULT</h2> <h2>Type: 2 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> {formatData(data, this.props.fields.filter(el => el['reference_type'] === 4))}
             </div>;   //change the type later
     }
