@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { PatientProfileSectionScaffold, PatientProfileTop } from './patientProfile.jsx';
 import css from '../../css/patientProfile.css.js';
 import {NavLink} from 'react-router-dom';
-
+import resumeIcon from '../../statics/icons/icons8-resume-48.png';
 import {getPatientProfileById } from '../redux/actions/searchPatientById';
 import store from '../redux/store';
 
@@ -15,7 +15,7 @@ export class PatientChart extends Component {
     render() {
         return (
             <div style={css.bigWrapper}>
-                <PatientProfileTop/>
+                <PatientProfileTop image={<img src={resumeIcon} alt='resumeIcon'/>}/>
                 <Timeline/>
                 <Charts/>
             </div>
@@ -69,7 +69,7 @@ class SubsectionsBar extends Component {
     }
 }
 
-function mapTests(patientId) {
+function mapTests(patientId, typeMap) {
     return el => {
         const style={
             cursor: 'pointer',
@@ -86,7 +86,8 @@ function mapTests(patientId) {
             paddingLeft: 3,
             paddingRight: 2
         };
-        return formatRow([el.type, el['expected_occur_date'], <NavLink id={`/patientProfile/${patientId}/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results➠ </div></NavLink>]);
+        const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
+        return formatRow([testType, el['expected_occur_date'], <NavLink id={`/patientProfile/${patientId}/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results➠ </div></NavLink>]);
     }
 }
 
@@ -173,7 +174,7 @@ class VisitSection extends Component {
                             <tr><th>Type</th><th>Expected date</th></tr>
                         {this.props.data.tests
                             .filter(el => el['ordered_during_visit'] === this.props.visitId)
-                            .map(mapTests(this.props.data.patientId))}
+                            .map(mapTests(this.props.data.patientId, this.props.availableFields.testTypes))}
                         </table>
                     </div>
                     </div> : null }
@@ -219,7 +220,7 @@ class Charts_toConnect extends Component {   //unfinsihed
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
                 <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{...css.sectionBody, width: '100%'}}>
                     {this.props.data.visits.map(
-                        (el, ind) => <VisitSection key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${ind+1}-th visit: ${el.visitDate}`}/>
+                        (el, ind) => <VisitSection availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${ind+1}-th visit: ${el.visitDate}`}/>
                     )}
                 </PatientProfileSectionScaffold>
             )
@@ -227,4 +228,4 @@ class Charts_toConnect extends Component {   //unfinsihed
     }
 }
 
-const Charts = connect(state => ({fetching: state.patientProfile.fetching, data: state.patientProfile.data}))(Charts_toConnect);
+const Charts = connect(state => ({fetching: state.patientProfile.fetching, data: state.patientProfile.data, availableFields: state.availableFields}))(Charts_toConnect);
