@@ -4,7 +4,14 @@ import { PatientProfileSectionScaffold, PatientProfileTop } from './patientProfi
 import css from '../../css/patientProfile.css.js';
 import {NavLink} from 'react-router-dom';
 
+import {getPatientProfileById } from '../redux/actions/searchPatientById';
+import store from '../redux/store';
+
 export class PatientChart extends Component {
+    componentDidMount() {
+        store.dispatch(getPatientProfileById(window.location.pathname.split('/')[2]));
+    }
+
     render() {
         return (
             <div style={css.bigWrapper}>
