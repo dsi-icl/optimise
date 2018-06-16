@@ -124,7 +124,7 @@ export class FarRightPanel extends Component {
             <Switch>
                 <Route path='/patientProfile/:patientId/ce/:ceId' component={FarRightPanelWrapper('CE')}/>
                 <Route path='/patientProfile/:patientId/test/:testId' component={FarRightPanelWrapper(<TestData/>)}/>
-                <Route path='/patientProfile/:patientId' component={FarRightPanelWrapper(<UserActions/>)}/>
+                <Route path='/patientProfile/:patientId' render={FarRightPanelWrapper(<Section/>)}/>
                 <Route exact path='/searchPatientById'component={FarRightPanelWrapper('')}/>
                 <Route exact path='/createPatient' component={FarRightPanelWrapper('')}/>
                 <Route exact path='/' component={FarRightPanelWrapper(<SearchPatientsById/>)}/>

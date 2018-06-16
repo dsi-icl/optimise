@@ -2,16 +2,18 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import css from '../../css/patientProfile.css.js';
 import patientIcon from '../../statics/icons/icons8-user-48.png';
-import resumeIcon from '../../statics/icons/icons8-resume-48.png';
 import saveIcon from '../../statics/icons/icons8-tick-box-48.png';
+import {UserActions} from './userActions.jsx';
+
 
 class Section_toConnect extends Component {
     render() {
         if (this.props.fetching) {
             return <span> FETCHING PROFILE </span>
         } else {
-            return (<div style={css.bigWrapper}>
-                <PatientProfileTop/>
+            return (<div style={css.bigWrapper}>     
+                <UserActions/>           
+                <img src={patientIcon} alt='patientIcon'/>
                 <DemographicSection/>
                 <ImmunisationSection/>
                 <MedicalHistorySection/>
@@ -50,10 +52,8 @@ so that updating one part of the data only re-renders one of them */
 class PatientProfileTop_toConnect extends Component {
     render(){
         return (
-            <div>
-                <span><h1> Patient ID: <b>{this.props.patientId}</b></h1></span>
-                <img src={patientIcon} alt='patientIcon'/>
-                <img src={resumeIcon} alt='resumeIcon'/>
+            <div style={{marginBottom: 20}}>
+                <span>{this.props.image}<h1 style={{display: 'inline'}}> Patient ID: <b>{this.props.patientId}</b></h1></span>
             </div>
         );
     }
