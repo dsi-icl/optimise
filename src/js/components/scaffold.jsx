@@ -15,6 +15,7 @@ import adminIcon from '../../statics/icons/icons8-monarch-48.png';
 import csvIcon from '../../statics/icons/icons8-csv-48.png';
 import cloudIcon from '../../statics/icons/icons8-cloud-40.png';
 import searchIcon from '../../statics/icons/icons8-detective-48.png';
+import {CreateVisit} from './createMedicalElements/createVisit.jsx';
 
 export class MenuBar extends Component {
     render() {
@@ -124,6 +125,7 @@ export class FarRightPanel extends Component {
             <Switch>
                 <Route path='/patientProfile/:patientId/ce/:ceId' component={FarRightPanelWrapper('CE')}/>
                 <Route path='/patientProfile/:patientId/test/:testId' component={FarRightPanelWrapper(<TestData/>)}/>
+                <Route path='/patientProfile/:patientId/createVisit' render={FarRightPanelWrapper(<CreateVisit/>)}/>
                 <Route path='/patientProfile/:patientId' render={FarRightPanelWrapper(<Section/>)}/>
                 <Route exact path='/searchPatientById'component={FarRightPanelWrapper('')}/>
                 <Route exact path='/createPatient' component={FarRightPanelWrapper('')}/>

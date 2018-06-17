@@ -29,11 +29,24 @@ class testData_toConnect extends Component {
             data[each.field] = each.value;
         }
         return <div>
-                <Link to={`/patientProfile/${this.props.patientId}`} style={{textDecoration: 'none'}}><div style={{position: 'relative', left: 20, top: 20, textAlign: 'center', fontSize: 20, width: 30, paddingTop: 4, height: 26, color: 'white', borderRadius: 20, backgroundColor: '#ff6666'}}>&#8617;</div></Link>
+                <BackButton to={`/patientProfile/${this.props.patientId}`}/>
                 <h2>TEST RESULT</h2> <h2>Type: 2 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> {formatData(data, this.props.fields.filter(el => el['reference_type'] === 4))}
             </div>;   //change the type later
     }
 }
+
+export class BackButton extends Component {
+    render() {
+        return (
+            <Link to={this.props.to} style={{textDecoration: 'none'}}>
+                <div style={{position: 'relative', left: 20, top: 20, textAlign: 'center', fontSize: 20, width: 30, paddingTop: 4, height: 26, color: 'white', borderRadius: 20, backgroundColor: '#ff6666'}}
+                    >&#8617;
+                </div>
+            </Link>
+        );
+    }
+}
+
 
 function formatData(dataObj, fieldsArr) {    //not done
     const wrapper = (el, dataObj, inputField) => <span key={el.id}>{el.definition}: {inputField}<br/><br/></span>;
