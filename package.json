@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "immutable": "3.8.2",
+    "moment": "^2.22.2",
     "radium": "0.24.0",
     "react": "16.4.0",
     "react-datepicker": "^1.5.0",

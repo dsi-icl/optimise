@@ -1,9 +1,18 @@
 import initialState from './initialState.js';
 import { combineReducers } from 'redux';
-
+import actionTypes from './actions/listOfActions.js';
 
 function availableFields(state = initialState.availableFields, action){
     return state;
+}
+
+function createVisit(state = {fetching: false, reqBody: {}}, action) {
+    switch (action.type) {
+        case actionTypes.visits.CREATE_VISIT_REQUEST:
+            return {fetching: true, reqBody: action.payload};
+        case actionTypes.visits.CREATE_VISIT_SUCCESS:
+            return {fetching: false, }
+    }
 }
 
 function createPatient(state = {patientId: ''}, action) {
