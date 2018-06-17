@@ -145,6 +145,7 @@ class VisitSection extends Component {
                     <SubsectionsBar type='visitData' title='Anthropometry and Vital signs'/>
                     <div style={style}>
                         <table style={{width: '100%'}}>
+                            <tbody>
                             <tr>
                                 <td style={{textAlign: 'left'}}>Systolic blood pressure: <input type='text' style={inputStyle}/>{` mmHg`}</td>
                                 <td style={{textAlign: 'left'}}>Diastolic blood pressure: <input type='text' style={inputStyle}/>{` mmHg`}</td>
@@ -157,8 +158,7 @@ class VisitSection extends Component {
                                 <td style={{textAlign: 'left'}}>Weight: <input type='text' style={inputStyle}/>{` kg`}</td>
                                 <td style={{textAlign: 'left'}}>Academic concern: <input type='text' style={inputStyle}/></td>
                             </tr>
-
-
+                            </tbody>
                         </table>
                     </div>
                     <SubsectionsBar type='visitData' title='Sign and Symptoms'/>
@@ -171,10 +171,14 @@ class VisitSection extends Component {
                     <SubsectionsBar type='test' title='Ordered tests'/>
                     <div style={style}>
                         <table>
+                            <thead>
                             <tr><th>Type</th><th>Expected date</th></tr>
+                            </thead>
+                            <tbody>
                         {this.props.data.tests
                             .filter(el => el['ordered_during_visit'] === this.props.visitId)
                             .map(mapTests(this.props.data.patientId, this.props.availableFields.testTypes))}
+                            </tbody>
                         </table>
                     </div>
                     </div> : null }
@@ -184,10 +188,14 @@ class VisitSection extends Component {
                     <SubsectionsBar type='medication' title='Prescriptions'/>
                     <div style={style}>
                         <table>
+                            <thead>
                             <tr><th>Drug</th><th>Dose</th><th>Unit</th><th>Form</th><th>Times per day</th><th>Duration in weeks</th></tr>
+                            </thead>
+                        <tbody>
                         {this.props.data.treatments
                             .filter(el => el['ordered_during_visit'] === this.props.visitId)
                             .map(mapMedications)}
+                        </tbody>
                         </table>
                     </div>
                     </div> : null }
@@ -197,11 +205,15 @@ class VisitSection extends Component {
                     <SubsectionsBar type='clinicalEvent' title='Clinical events'/>
                     <div style={style}>
                         <table>
+                            <thead>
                             <tr><th>Type</th><th>Start date</th></tr>
+                            </thead>
+                            <tbody>
                         {this.props.data.clinicalEvents
                             .filter(el => el['recorded_during_visit'] === this.props.visitId)
                             /* change this map later to calculated patientId*/ 
                             .map(mapClinicalEvents(this.props.data.patientId))}
+                            </tbody>
                         </table>
                     </div>
                     </div> : null }
