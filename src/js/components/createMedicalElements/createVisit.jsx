@@ -8,7 +8,7 @@ import {BackButton} from '../dataPage.jsx';
 import {createVisitAPICall} from '../../redux/actions/createVisit';
 
 
-class PickDate extends Component {
+export class PickDate extends Component {
     render() {
       return <DatePicker
           selected={this.props.startDate}
@@ -17,10 +17,10 @@ class PickDate extends Component {
     }
 }
 
-function parseDate(dateString) {
+export function parseDate(dateString) {
     const dateArr = dateString.split('/');
     if (dateArr.length === 3 && dateArr.filter(el => (Number.isInteger(el) && el > 0 ))) {
-        return {day: parseInt(dateArr[0]), month: parseInt(dateArr[1]), year: parseInt(dateArr[2])};
+        return {day: parseInt(dateArr[0], 10), month: parseInt(dateArr[1], 10), year: parseInt(dateArr[2], 10)};
     } else {
         throw 'wrong date format';
     }
@@ -35,6 +35,7 @@ class CreateVisit_toConnect extends Component {
         };
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
+        this._formatRequestBody = this._formatRequestBody.bind(this);
     }
 
     _handleDateChange(date) {
@@ -43,10 +44,19 @@ class CreateVisit_toConnect extends Component {
         });
     }
 
-    _handleSubmitClick() {
+    _formatRequestBody() {
         const date = this.state.startDate._d;
-        const requestBody = {patientId: this.props.patientId, visitDate: {day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear()}};
-        console.log(requestBody);
+        return {
+            patientId: this.props.patientId,
+            visitDate: {day: date.getDate(),
+                month: date.getMonth() + 1,
+                year: date.getFullYear()
+                }
+            };
+    }
+
+    _handleSubmitClick() {
+        const requestBody = this._formatRequestBody();
         this.props.createVisit(requestBody);
     }
 
