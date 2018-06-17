@@ -12,10 +12,15 @@ export const createVisitAPICall = (body) => {
         method: 'POST',
         body: JSON.stringify(body)
     })
-    .then(res => res.text(), err => console.log(err))
+    .then(res => {
+        if (res.status === 200) {
+            res.text();
+        } else {
+            throw 'breaking the chain';
+        }
+        }, err => console.log(err))
     .then(text => {
-        console.log(text);
-        console.log(body);
-        dispatch(getPatientProfileById(body.patientId));         //think about abortion later
+        dispatch(getPatientProfileById(body.patientId));         //think about abortion later    //and think about not having to refresh the whole page
     })
+    .catch(err => console.log(err));
 }
