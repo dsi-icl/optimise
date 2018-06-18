@@ -55,9 +55,9 @@ CREATE TABLE PATIENT_DEMOGRAPHIC (
     id INTEGER PRIMARY KEY ASC,
     patient INTEGER NOT NULL REFERENCES PATIENTS(id),
     DOB TEXT NOT NULL,
-    gender TEXT NOT NULL CHECK (gender IN ('male', 'female', 'other/prefer not to say')), /* Will link to a list table */
-    dominantHand TEXT NOT NULL CHECK (dominantHand IN ('left', 'right', 'ambidextrous', 'amputated')), /* Will link to a list table */
-    ethnicity TEXT NOT NULL CHECK (ethnicity IN ('white', 'black', 'chinese', 'other asian', 'native american', 'arab', 'persian', 'other mixed', 'unknown')), /* Will link to a list table */
+    gender TEXT NOT NULL CHECK (gender IN ('male', 'female', 'other', 'prefer not to say', 'unknown')), /* Will link to a list table */
+    dominantHand TEXT NOT NULL CHECK (dominantHand IN ('left', 'right', 'ambidextrous', 'amputated', 'unknown')), /* Will link to a list table */
+    ethnicity TEXT NOT NULL CHECK (ethnicity IN ('White', 'Asian', 'Black', 'Mixed/Multiple ethnic groups', 'Other ethnic group', 'Unknown')), /* Will link to a list table */
     countryOfOrigin TEXT, /* CHECCCCCCCCCCCCCCK */ /* Will link to a list table */
     alcoholUsage TEXT NOT NULL CHECK (alcoholUsage IN ('More than 3 units a day', 'Less than 3 units a day', 'Less than 3 units a week', 'No alcohol consumption', 'unknown')),
     smokingHistory TEXT NOT NULL CHECK (smokingHistory IN ('smoker', 'ex-smoker','never smoked', 'electronic cigarette', 'unknown')),
