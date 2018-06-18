@@ -4,32 +4,62 @@ const knex = require('../utils/db-connection');
 
 class TreatmentController {
     createTreatment(req, res){
+        if (!(req.body.visitId && req.body.drugId && req.body.dose && 
+            req.body.unit && req.body.form && req.body.timesPerDay && req.body.durationInWeeks)) {
+                res.status(400).send('Missing information for creation of the treatment');
+                return ;
+            }
         let entryObj = {
-            'ordered_during_visit': req.body.visitId,
+            'orderedDuringVisit': req.body.visitId,
             'drug': req.body.drugId,
             'dose': req.body.dose,
             'unit': req.body.unit,   //hardcoded SQL: only mg or cc
             'form': req.body.form,   //hardcoded SQL: only oral or IV
-            'times_per_day': req.body.timesPerDay,
-            'duration_weeks': req.body.durationInWeeks,
-            'terminated_date': req.body.terminatedDate && validateAndFormatDate(req.body.terminatedDate) ? validateAndFormatDate(req.body.terminatedDate) : null,
-            'terminated_reason': req.body.terminatedReason && validateAndFormatDate(req.body.terminatedReason) ? validateAndFormatDate(req.body.terminatedReason) : null
+            'timesPerDay': req.body.timesPerDay,
+            'durationWeeks': req.body.durationInWeeks,
+            'terminatedDate': req.body.terminatedDate && validateAndFormatDate(req.body.terminatedDate) ? validateAndFormatDate(req.body.terminatedDate) : null,
+            'terminatedReason': req.body.terminatedReason && validateAndFormatDate(req.body.terminatedReason) ? validateAndFormatDate(req.body.terminatedReason) : null
         }
-        createEntry(req, res, 'treatments', entryObj, 'databaseError');
+        createEntry(req, res, 'TREATMENTS', entryObj, 'databaseError');
     }
 
     addTerminationDate(req, res){    //for adding termination date
-        if ('terminatedDate' in req.body && 'terminatedReason' in req.body && req.body.length === 4) {
-            let whereObj = {'ordered_during_visit': req.body.visitId, 'drug': req.body.drugId};
-            updateEntry(req, res, 'treatments', whereObj, newObj, whatIsUpdated, expectedNumAffected /* LT 0 */);
+        if (req.body.treatmentId && req.body.terminationDate && validateAndFormatDate(req.body.terminationDate) && req.body.terminatedReason) {
+            knex('TREATMENTS')
+                .where({'id': req.body.treatmentId})
+                .update({
+                    'terminatedDate': validateAndFormatDate(req.body.terminationDate),
+                    'terminatedReason': req.body.terminatedReason})
+                .then(result => {
+                    if (result === 1) {
+                        res.status(200).send(result);
+                        return ;
+                    }
+                    else {
+                        res.status(404).send('Couldn\'t find the test');
+                        return ;
+                    }
+                })
+                .catch(err => {
+                    res.status(500).send('Database Error : ' + err);
+                    return ;
+                });
+        }
+        else {
+            res.status(400).send('Missing information');
+            return ;
         }
     }
 
     editTreatment(req, res){
-        if (req.requester.priv === 1){
-            let whereObj = {'ordered_during_visit': req.body.visitId, 'drug': req.body.drugId};
+        if (req.requester.priv == 1){
+            let whereObj = {'id': req.body.id};
             let newObj = Object.assign({}, req.body);   //need to change naming
-            updateEntry(req, res, 'treatments', whereObj, newObj, whatIsUpdated, expectedNumAffected /* LT 0 */);
+            updateEntry(req, res, 'TREATMENTS', whereObj, newObj, req.body.id, 1 /* LT 0 */);
+        }
+        else {
+            res.status(401).send('Unauthorized : You should be identified as an Administrator to do so.');
+            return ;
         }
     }
 
@@ -38,25 +68,28 @@ class TreatmentController {
             res.status(401).send("Unauthorized : You should be identified as an Administrator to do so.");
             return;
         }
-        deleteEntry(req, res, 'treatments', {'id': req.body.treatmentId}, req.body.treatmentId, 1);
+        if (!req.body.treatmentId) {
+            res.status(400).send('Missing information to deletion');
+            return ;
+        }
+        deleteEntry(req, res, 'TREATMENTS', {'id': req.body.treatmentId}, req.body.treatmentId, 1);
     }
 
     addInterruption(req, res){
         let entryObj = {
             'treatment' : req.body.treatmentId,
-            'start_date' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? req.body.start_date : null ),
-            'end_date' : (req.body.end_date && validateAndFormatDate(req.body.end_date) ? req.body.end_date : null ),
+            'startDate' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null ),
+            'endDate' : (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null ),
             'reason' : req.body.reason,
-            'created_time' : (req.body.created_date && validateAndFormatDate(req.body.created_date) ? req.body.created_date : null )
         }
-        createEntry(req, res, 'treatments_interruptions', entryObj, 'Couldn\'t create entry');
+        createEntry(req, res, 'TREATMENTS_INTERRUPTIONS', entryObj, 'Couldn\'t create entry');
     }
 
     deleteInterruption(req, res) {
         if (req.requester.priv !== 1) {
             res.status(401).send("Unauthorized : You should be identified as an Administrator to do so.");
         }
-        deleteEntry(req, res, 'treatments_interruptions', {'id': req.body.treatmentInterId}, req.body.treatmentInterId, 1);
+        deleteEntry(req, res, 'TREATMENTS_INTERRUPTIONS', {'id': req.body.treatmentInterId}, req.body.treatmentInterId, 1);
     }
 }
 

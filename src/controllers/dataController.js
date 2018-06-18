@@ -17,21 +17,22 @@ class DataController {
         }
     }
 
+    //TODO : Change switch case to a better 
     _RouterDeleteData(req, res){    //req.body = {visitId = 1, delete:[1, 43, 54 (fieldIds)] }
         if (req.requester.priv === 1){
             let options = {};
             switch (req.params.dataType) {
                 case 'visit':
                     options.dataTableForeignKey = 'visit';
-                    options.dataTable = 'visit_collected_data'; 
+                    options.dataTable = 'VISIT_DATA'; 
                     break;
                 case 'clinicalEvent':
                     options.dataTableForeignKey = 'clinical_event';
-                    options.dataTable = 'clinical_events_data';
+                    options.dataTable = 'CLINICAL_EVENTS_DATA';
                     break;
                 case 'test':
                     options.dataTableForeignKey = 'test';
-                    options.dataTable = 'test_data';
+                    options.dataTable = 'TEST_DATA';
                     break;
                 default:
                     res.status(400).send(`data type ${req.params.dataType} not supported.`);
@@ -51,7 +52,7 @@ class DataController {
         knex.transaction(trx => {
             knex(options.dataTable)
                 .where('field', 'in', req.body.delete)
-                .andWhere('deleted', 0)
+                .andWhere('deleted', null)
                 .andWhere(options.dataTableForeignKey, req.body[`${req.params.dataType}Id`])
                 .update({'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}`})
                 .transacting(trx)
@@ -72,10 +73,10 @@ class DataController {
     addOrUpdateVisitData(req, res){
         let options = {
             entryIdString: 'visitId', 
-            fieldTable: 'available_fields_visits', 
-            entryTable: 'visits',
+            fieldTable: 'AVAILABLE_FIELDS_VISITS', 
+            entryTable: 'VISITS',
             errMsgForUnfoundEntry: 'cannot seem to find your visit!',
-            dataTable: 'visit_collected_data',
+            dataTable: 'VISIT_DATA',
             dataTableForeignKey: 'visit'};
         this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
@@ -83,10 +84,10 @@ class DataController {
     addOrUpdateTestData(req, res){
         let options = {
             entryIdString: 'testId', 
-            fieldTable: 'available_fields_tests', 
-            entryTable: 'ordered_tests',
+            fieldTable: 'AVAILABLE_FIELDS_TESTS', 
+            entryTable: 'ORDERED_TESTS',
             errMsgForUnfoundEntry: 'cannot seem to find your test!',
-            dataTable: 'test_data',
+            dataTable: 'TEST_DATA',
             dataTableForeignKey: 'test'};
         this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
@@ -94,11 +95,11 @@ class DataController {
     addOrUpdateClinicalEventData(req, res){
         let options = {
             entryIdString: 'clinicalEventId', 
-            fieldTable: 'available_fields_ce', 
+            fieldTable: 'AVAILABLE_FIELDS_CE', 
             entryTable: 'clinical_events',
             errMsgForUnfoundEntry: 'cannot seem to find your clinical event!',
-            dataTable: 'clinical_events_data',
-            dataTableForeignKey: 'clinical_event'};
+            dataTable: 'CLINICAL_EVENTS_DATA',
+            dataTableForeignKey: 'clinicalEvent'};
         this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
 
@@ -133,7 +134,7 @@ class DataController {
             if (!req.body.add) { req.body.add = {}; }   //same
             const numOfUpdates = Object.keys(req.body.update).length;
             const numOfAdds = Object.keys(req.body.add).length;
-            const findField = (fieldId, referenceType) => knex(options.fieldTable).select('id', 'type', 'permitted_values', 'reference_type').where({'id': fieldId, 'reference_type': referenceType});
+            const findField = (fieldId, referenceType) => knex(options.fieldTable).select('id', 'type', 'permittedValues', 'referenceType').where({'id': fieldId, 'referenceType': referenceType});
             knex(options.entryTable)
                 .select('id', 'type')
                 .where({id: req.body[options.entryIdString], deleted: 0})  //making sure the visit is found
@@ -178,8 +179,8 @@ class DataController {
                                     }
                                     break;
                                 case 'C':
-                                    if (!(result[i][0]['permitted_values'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
-                                        res.status(400).send(`Field ${fieldId} only accepts values ${result[i][0]['permitted_values']}`);
+                                    if (!(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
+                                        res.status(400).send(`Field ${fieldId} only accepts values ${result[i][0]['permittedValues']}`);
                                         throw 'stopping the chain';
                                     }
                                     break;
@@ -207,7 +208,7 @@ class DataController {
                     return knex(options.dataTable)
                         .select('id')
                         .where('field', 'in' , Object.keys(req.body.update))
-                        .andWhere('deleted', 0)
+                        .andWhere('deleted', null)
                         .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
                         .then(entries => {
                             if (entries.length !== numOfUpdates){
@@ -217,7 +218,7 @@ class DataController {
                             return knex(options.dataTable)
                                 .select('id')
                                 .where('field', 'in' , Object.keys(req.body.add))
-                                .andWhere('deleted', 0)
+                                .andWhere('deleted', null)
                                 .andWhere(options.dataTableForeignKey, req.body[options.entryIdString]);
                         })
                         .then(entries => {
@@ -235,8 +236,8 @@ class DataController {
                         const entry = {
                             "field": Object.keys(req.body.update)[i],
                             "value": req.body.update[Object.keys(req.body.update)[i]],
-                            "created_by_user": req.requester.userid,
-                            "deleted": 0
+                            "createdByUser": req.requester.userid,
+                            "deleted": null
                         };
                         entry[options.dataTableForeignKey] = req.body[options.entryIdString];
                         updates.push(entry);
@@ -245,8 +246,8 @@ class DataController {
                         const entry = {
                             "field": Object.keys(req.body.add)[i],
                             "value": req.body.add[Object.keys(req.body.add)[i]],
-                            "created_by_user": req.requester.userid,
-                            "deleted": 0
+                            "createdByUser": req.requester.userid,
+                            "deleted": null
                         };
                         entry[options.dataTableForeignKey] = req.body[options.entryIdString];
                         adds.push(entry);

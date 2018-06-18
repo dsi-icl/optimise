@@ -43,10 +43,10 @@ class UserController {
         }
         queryUsername = '%' + queryUsername + '%';
         
-        knex('users')
-            .select({username:'users.username'}, 'users.real_name', 'admin_priv')
-            .where('users.username', 'like', queryUsername)
-            .andWhere('users.deleted', 0)
+        knex('USERS')
+            .select({username:'USERS.username'}, 'USERS.realName', 'adminPriv')
+            .where('USERS.username', 'like', queryUsername)
+            .andWhere('USERS.deleted', null)
             .then(result => {
                 res.status(200).json(result);
             });
@@ -58,10 +58,10 @@ class UserController {
             let entryObj = {
                 "username": req.body.username,
                 "pw": hashedPw,
-                "admin_priv": req.body.isAdmin,
-                "real_name": req.body.realName ? req.body.realName : null};
+                "adminPriv": req.body.isAdmin,
+                "realName": req.body.realName ? req.body.realName : null};
             let databaseErrMsg = 'Cannot create user. ID might already exist. Also, make sure you provide the needed parameters';
-            createEntry(req, res, 'users', entryObj, databaseErrMsg);
+            createEntry(req, res, 'USERS', entryObj, databaseErrMsg);
         } else {
             res.status(401).send('You do not have permission to create users, or you did not provide the new user\'s password');
         }
@@ -69,7 +69,7 @@ class UserController {
 
     DELETE(req, res){  //setUserAsDeleted
         if (req.requester.priv === 1 || req.requester.username === req.body.username) {  //accounts can be deleted by admin or oneself
-            deleteEntry(req, res, 'users', {'username': req.body.username}, req.body.username, 1);
+            deleteEntry(req, res, 'USERS', {'username': req.body.username}, req.body.username, 1);
         } else {
             res.status(401).send('You do not have permission to delete this user.');
         }
@@ -80,7 +80,7 @@ class UserController {
             let hashedPw = hmac().update(req.body.pw).digest('hex');
             let whereObj = {'username': req.body.username};
             let newObj = {'pw': hashedPw};
-            updateEntry(req, res, 'users', whereObj, newObj, req.body.username + "'s password", 1);
+            updateEntry(req, res, 'USERS', whereObj, newObj, req.body.username + "'s password", 1);
         } else {
             res.status(401).send('You do not have permission to delete this user. Or you did not provide the needed parameters');
         }
@@ -89,25 +89,25 @@ class UserController {
     userLogin(req, res){           //delete sessions every day
         if (req.body.username && req.body.pw) {
             let hashedPw = hmac().update(req.body.pw).digest('hex');
-            knex('users')
+            console.log(hashedPw);
+            knex('USERS')
                 .select('pw','id')
-                .where({'username': req.body.username, 'deleted': 0})
+                .where({'username': req.body.username, 'deleted': null})
                 .then(result => {
                     if (result.length === 1 && result[0]['pw'] === hashedPw) {
                         let token = crypto.randomBytes(20).toString('hex');
-                        knex('user_sessions')
+                        knex('USER_SESSION')
                             .insert({
                                 user: result[0]['id'],
-                                session_token: token,
-                                deleted: 0})
+                                sessionToken: token,
+                                deleted: null})
                             .then(result => res.status(200).json({'token': token}))
-                            .catch(err => res.status(500).send('Database error.'))
+                            .catch(err => res.status(500).send('Database error.' + err))
                     } else {
                         res.status(401).send('Cannot login. Please check username / password.')
                     }
                 })
                 .catch(err => {
-                    console.log(err);
                     res.status(500).send('Server error.');
                 })
         } else {
@@ -117,7 +117,7 @@ class UserController {
 
     userLogout(req,res){
         if (req.requester.username === req.body.username){
-            deleteEntry(req, res, 'user_sessions', {'session_token': req.requester.token}, req.body.username + "'s session", 1);
+            deleteEntry(req, res, 'USER_SESSION', {'sessionToken': req.requester.token}, req.body.username + "'s session", 1);
         } else {
             res.status(401).send('You do not have permission to log out this user.');
         }

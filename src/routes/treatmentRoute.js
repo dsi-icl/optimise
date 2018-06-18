@@ -15,6 +15,7 @@ treatment.use(bodyParser.urlencoded({ extended: true }));
 
 treatment.route('/')
    .post(TreatmentController.createTreatment)
+   .patch(TreatmentController.addTerminationDate)
    .put(TreatmentController.editTreatment)
    .delete(TreatmentController.deleteTreatment);
 
