@@ -93,7 +93,7 @@ CREATE TABLE VISITS (
     id INTEGER PRIMARY KEY ASC,
     patient INTEGER NOT NULL REFERENCES PATIENTS(id),
     visitDate TEXT NOT NULL,
-    type INTERGER NOT NULL DEFAULT(1),
+    type INTEGER NOT NULL DEFAULT(1),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
