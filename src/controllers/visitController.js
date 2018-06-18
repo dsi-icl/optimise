@@ -5,10 +5,10 @@ const knex = require('../utils/db-connection');
 class VisitController {
     static getVisitsOfPatient(req, res){
         if (!isEmptyObject(req.query) && Object.keys(req.query).length === 1 && typeof(req.query.patientId) === 'string') {
-            knex('patients')
-                .select({patientId:'patients.id'}, 'patients.alias_id', {visitId: 'visits.id'}, 'visits.visit_date')
-                .leftOuterJoin('visits', 'patients.id', 'visits.patient')
-                .where({'patients.alias_id': req.query.patientId, 'visits.deleted': 0})
+            knex('PATIENTS')
+                .select({patientId:'PATIENTS.id'}, 'PATIENTS.aliasId', {visitId: 'VISITS.id'}, 'VISITS.visitDate')
+                .leftOuterJoin('VISITS', 'PATIENTS.id', 'VISITS.patient')
+                .where({'PATIENTS.aliasId': req.query.patientId, 'VISITS.deleted': null})
                 .then(result => res.status(200).json(result))
         } else {
             res.status(400).send('The query string must have one and only one parameter "patientId"');
@@ -17,15 +17,15 @@ class VisitController {
 
     static createVisit(req, res){
         if (req.body.patientId && req.body.visitDate && validateAndFormatDate(req.body.visitDate)){
-            knex('patients')
+            knex('PATIENTS')
                 .select('id')
-                .where({'alias_id': req.body.patientId, 'deleted': 0})
+                .where({'aliasId': req.body.patientId, 'deleted': null})
                 .then(result => {
                     if (result.length === 0) {
                         res.status(404).send("Can't seem to find your patient!");
                     } else if (result.length === 1) {
-                        const entryObj = {'patient': result[0]['id'], 'visit_date': validateAndFormatDate(req.body.visitDate)};
-                        createEntry(req, res, 'visits', entryObj, 'Error. Visit might already exists.')
+                        const entryObj = {'patient': result[0]['id'], 'visitDate': validateAndFormatDate(req.body.visitDate)};
+                        createEntry(req, res, 'VISITS', entryObj, 'Error. Visit might already exists.')
                     } else {
                         res.status(500).send('Database error');
                     }
@@ -36,16 +36,16 @@ class VisitController {
     }
 
     static deleteVisit(req, res){
-        if (req.requester.priv === 1 && req.body.patientId && req.body.visitDate && validateAndFormatDate(req.body.visitDate)) {
-            knex('patients')
+        if (req.requester.priv === 1 && req.body.visitId) {
+            knex('VISITS')
                 .select('id')
-                .where({'alias_id': req.body.patientId, 'deleted': 0})
+                .where({'id': req.body.visitId, 'deleted': null})
                 .then(result => {
                     if (result.length === 0) {
-                        res.status(404).send("Can't seem to find your patient!");
+                        res.status(404).send("Can't seem to find your visit!");
                     } else if (result.length === 1) {
-                        const whereObj = {'patient': result[0]['id'], 'visit_date': validateAndFormatDate(req.body.visitDate)};
-                        deleteEntry(req, res, 'visits', whereObj, 'Visit on ' + validateAndFormatDate(req.body.visitDate) + ' of patient ' + req.body.patientId, 1);
+                        const whereObj = {'id': req.body.visitId};
+                        deleteEntry(req, res, 'VISITS', whereObj, 'Visit for id ' + req.body.visitId, 1);
                     } else {
                         res.status(500).send('Database error');
                     }

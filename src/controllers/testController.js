@@ -6,21 +6,21 @@ class TestController {
     createTest(req, res){
         if (req.body.expectedDate && validateAndFormatDate(req.body.expectedDate)){
             let entryObj = {
-                'ordered_during_visit': req.body.visitId,
+                'orderedDuringVisit': req.body.visitId,
                 'type': req.body.type,
-                'expected_occur_date': validateAndFormatDate(req.body.expectedDate)
+                'expectedOccurDate': validateAndFormatDate(req.body.expectedDate)
             }
-            createEntry(req, res, 'ordered_tests', entryObj, 'databaseError');
+            createEntry(req, res, 'ORDERED_TESTS', entryObj, 'databaseError');
         } else {
             res.status(400).send('Please provide a date.');
         }
     }
 
     addActualOccurredDate(req, res){
-        if (req.body.visitId && req.body.type && req.body.expectedDate && validateAndFormatDate(req.body.expectedDate) && req.body.actualOccurredDate && validateAndFormatDate(req.body.actualOccurredDate)){
-            knex('ordered_tests')
-                .where({'ordered_during_visit': req.body.visitId, 'type': req.body.type, 'expected_occur_date': validateAndFormatDate(req.body.expectedDate)})
-                .update({'actual_occurred_date': validateAndFormatDate(req.body.actualOccurredDate)})
+        if (req.body.testId && req.body.actualOccurredDate && validateAndFormatDate(req.body.actualOccurredDate)){
+            knex('ORDERED_TESTS')
+                .where({'id':req.body.testId})
+                .update({'actualOccurredDate': validateAndFormatDate(req.body.actualOccurredDate)})
                 .then(result => {
                     if (result === 1){
                         res.status(200).json(result);
@@ -40,7 +40,14 @@ class TestController {
 
     deleteTest(req, res){
         if (req.requester.priv === 1 && req.body.testID){
-            deleteEntry(req, res, 'ordered_tests', {'id': req.body.testID}, 'test', 1);
+            deleteEntry(req, res, 'ORDERED_TESTS', {'id': req.body.testID}, 'test', 1);
+        }
+        else {
+            if (req.requester.priv != 1)
+                res.status(400).send('You don\'t have the right to do that.');
+            else {
+                res.status(400).send('Missing information to do that.');
+            }
         }
     }
 }

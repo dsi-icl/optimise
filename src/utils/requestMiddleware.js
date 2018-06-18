@@ -5,10 +5,10 @@ const knex = require('../utils/db-connection');
 class RequestMiddleware {
     static verifySessionAndPrivilege(req, res, next) {
         if (req.headers.token) {
-            knex('user_sessions')
-                .select({token: 'user_sessions.session_token', username: 'users.username', priv: 'users.admin_priv', userid: 'user_sessions.user'})
-                .innerJoin('users', 'users.id', 'user_sessions.user')
-                .where({'user_sessions.session_token': req.headers.token, 'user_sessions.deleted': 0, 'users.deleted': 0})
+            knex('USER_SESSION')
+                .select({token: 'USER_SESSION.sessionToken', username: 'USERS.username', priv: 'USERS.adminPriv', userid: 'USER_SESSION.user'})
+                .innerJoin('USERS', 'USERS.id', 'USER_SESSION.user')
+                .where({'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': null, 'USERS.deleted': null})
                 .then(result => {
                     if (result.length !== 0){
                         req.requester = result[0];

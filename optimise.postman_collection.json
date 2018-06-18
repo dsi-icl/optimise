@@ -1,14 +1,13 @@
 {
 	"info": {
+		"_postman_id": "3ffceb8f-b828-427b-ba30-ee7c7017abc3",
 		"name": "optimise",
-		"_postman_id": "13d86f9e-fbbc-1ca0-1547-ec0cb6b3b705",
-		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "login/logout",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "userlogin",
@@ -22,7 +21,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"flor\", \"pw\": \"heyhey\"}"
+							"raw": "{\"username\": \"admin\", \"pw\": \"admin\"}"
 						},
 						"url": {
 							"raw": "{{url}}/internalapi/userlogin",
@@ -33,8 +32,7 @@
 								"internalapi",
 								"userlogin"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -54,7 +52,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"flor\"}"
+							"raw": "{\"username\": \"admin\"}"
 						},
 						"url": {
 							"raw": "{{url}}/internalapi/userlogout",
@@ -65,8 +63,7 @@
 								"internalapi",
 								"userlogout"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -74,7 +71,7 @@
 		},
 		{
 			"name": "users",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "create user (only admin)",
@@ -92,7 +89,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
+							"raw": "{\"username\": \"flo\", \"pw\": \"flolf\", \"isAdmin\": 1, \"realName\": \"Florian Guitton\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/users",
@@ -103,8 +100,7 @@
 								"api",
 								"users"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -124,7 +120,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"eleni\"}"
+							"raw": "{\"username\": \"chon\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/users",
@@ -135,8 +131,7 @@
 								"api",
 								"users"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -151,12 +146,12 @@
 							},
 							{
 								"key": "token",
-								"value": "{{standard_token}}"
+								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"eleni\", \"pw\": \"trustMeIAmHer\"}"
+							"raw": "{\"username\": \"flo\", \"pw\": \"floooo\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/users/",
@@ -168,8 +163,7 @@
 								"users",
 								""
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -177,7 +171,7 @@
 		},
 		{
 			"name": "patients",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "search for a patient by Id",
@@ -209,8 +203,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "flo",
-									"equals": true
+									"value": "flo"
 								}
 							]
 						},
@@ -269,14 +262,14 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patientProfile/florian",
+							"raw": "{{url}}/api/patientProfile/hey",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"patientProfile",
-								"florian"
+								"hey"
 							]
 						},
 						"description": "shows all patients with id similar to the one provided"
@@ -302,20 +295,19 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patientProfile/florian?getOnly=Visits,Tests",
+							"raw": "{{url}}/api/patientProfile/hey?getOnly=Visits,Tests",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"patientProfile",
-								"florian"
+								"hey"
 							],
 							"query": [
 								{
 									"key": "getOnly",
-									"value": "Visits,Tests",
-									"equals": true
+									"value": "Visits,Tests"
 								}
 							]
 						},
@@ -339,7 +331,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"alias_id\": \"chanTaiMan\", \"study\": \"optimise\"}"
+							"raw": "{\"aliasId\": \"chanTaiMan\", \"study\": \"optimise\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/patients",
@@ -358,7 +350,7 @@
 				{
 					"name": "delete a patient (only admin)",
 					"request": {
-						"method": "DELETE",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -371,7 +363,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"alias_id\": \"chanTaiMan\"}"
+							"raw": "{\"aliasId\": \"chanTaiMan\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/patients",
@@ -386,12 +378,44 @@
 						"description": "shows all patients with id similar to the one provided"
 					},
 					"response": []
+				},
+				{
+					"name": "Erase Patient",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"aliasId\": \"chanTaiMan\"}"
+						},
+						"url": {
+							"raw": "{{url}}/api/patients",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"patients"
+							]
+						},
+						"description": "Erase in the database the user"
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "tests",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "create a test",
@@ -409,7 +433,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1, \"type\": 1, \"expectedDate\": {\"day\": 1, \"month\": 1, \"year\": 2020} }"
+							"raw": "{\"visitId\": 3, \"type\": 1, \"expectedDate\": {\"day\": 1, \"month\": 1, \"year\": 2020} }"
 						},
 						"url": {
 							"raw": "{{url}}/api/tests",
@@ -420,8 +444,7 @@
 								"api",
 								"tests"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -441,7 +464,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1, \"type\": 1, \"expectedDate\": {\"day\": 1, \"month\": 1, \"year\": 2020}, \"actualOccurredDate\":  {\"day\": 4, \"month\": 1, \"year\": 2020} }"
+							"raw": "{\"testId\": 2, \"actualOccurredDate\":  {\"day\": 4, \"month\": 1, \"year\": 2020} }"
 						},
 						"url": {
 							"raw": "{{url}}/api/tests/addOccurredDate",
@@ -453,8 +476,7 @@
 								"tests",
 								"addOccurredDate"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -474,7 +496,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1, \"type\": 1, \"expectedDate\": {\"day\": 1, \"month\": 1, \"year\": 2020} }"
+							"raw": "{\"testID\": 1}"
 						},
 						"url": {
 							"raw": "{{url}}/api/tests/",
@@ -486,8 +508,7 @@
 								"tests",
 								""
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -495,7 +516,7 @@
 		},
 		{
 			"name": "visits",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "create a visit",
@@ -513,7 +534,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"patientId\": \"chons\", \"visitDate\": {\"day\": 4, \"month\": 7, \"year\": 2000} }"
+							"raw": "{\"patientId\": \"hey\", \"visitDate\": {\"day\": 4, \"month\": 7, \"year\": 2000} }"
 						},
 						"url": {
 							"raw": "{{url}}/api/visits",
@@ -524,8 +545,7 @@
 								"api",
 								"visits"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -545,7 +565,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"patientId\": \"chons\", \"visitDate\": {\"day\": 4, \"month\": 7, \"year\": 2000} }"
+							"raw": "{\"visitId\":1}"
 						},
 						"url": {
 							"raw": "{{url}}/api/visits",
@@ -556,8 +576,7 @@
 								"api",
 								"visits"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -565,7 +584,7 @@
 		},
 		{
 			"name": "treatments",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "create a treatment",
@@ -583,7 +602,38 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 10,\n\t\"drugId\": 1,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationInWeeks\": 3}"
+							"raw": "{\"visitId\": 1,\n\t\"drugId\": 1,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationInWeeks\": 3}"
+						},
+						"url": {
+							"raw": "{{url}}/api/treatments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"treatments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add termination date treatment",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"treatmentId\":1, \"terminatedReason\":\"death\", \"terminationDate\": {\"day\": 4, \"month\": 7, \"year\": 2000}}"
 						},
 						"url": {
 							"raw": "{{url}}/api/treatments",
@@ -595,7 +645,134 @@
 								"treatments"
 							]
 						},
-						"description": ""
+						"description": "Self explaining"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit treatment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":3,\n\t\"orderedDuringVisit\": 1,\n\t\"drug\": 3,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationWeeks\": 3}"
+						},
+						"url": {
+							"raw": "{{url}}/api/treatments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"treatments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete treatment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"treatmentId\":1}"
+						},
+						"url": {
+							"raw": "{{url}}/api/treatments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"treatments"
+							]
+						},
+						"description": "Set as delete the asked treatment"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Treatment Interruption",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"treatmentId\" : 1,\n    \"start_date\" : {\"day\":3, \"month\":4, \"year\":2010},\n    \"end_date\" : {\"day\":3, \"month\":4, \"year\":2011},\n    \"reason\" : \"pregnancy\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/treatments/interrupt",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"treatments",
+								"interrupt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Treatment Interruption",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"treatmentInterId\":1}"
+						},
+						"url": {
+							"raw": "{{url}}/api/treatments/interrupt",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"treatments",
+								"interrupt"
+							]
+						}
 					},
 					"response": []
 				}
@@ -603,7 +780,7 @@
 		},
 		{
 			"name": "clinicalEvents",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "create a CE",
@@ -621,19 +798,49 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 10,\n\t\"type\": 1,\n\t\"startDate\": {\"day\": 1, \"month\":3, \"year\": 2010}\n}"
+							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": {\"day\": 1, \"month\":3, \"year\": 2010}\n}"
 						},
 						"url": {
-							"raw": "{{url}}/api/treatments",
+							"raw": "{{url}}/api/clinicalEvents",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
-								"treatments"
+								"clinicalEvents"
 							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete CE",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ceId\":1}"
 						},
-						"description": ""
+						"url": {
+							"raw": "{{url}}/api/clinicalEvents",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"clinicalEvents"
+							]
+						}
 					},
 					"response": []
 				}
@@ -641,7 +848,7 @@
 		},
 		{
 			"name": "FIELDS",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "get all visitFields",
@@ -653,7 +860,10 @@
 								"value": "{{admin_token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/api/available/visitFields",
 							"host": [
@@ -664,8 +874,7 @@
 								"available",
 								"visitFields"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -679,7 +888,10 @@
 								"value": "{{admin_token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/api/available/visitFields?module=MS",
 							"host": [
@@ -693,12 +905,10 @@
 							"query": [
 								{
 									"key": "module",
-									"value": "MS",
-									"equals": true
+									"value": "MS"
 								}
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -712,7 +922,10 @@
 								"value": "{{admin_token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/api/available/testFields",
 							"host": [
@@ -723,8 +936,7 @@
 								"available",
 								"testFields"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -738,7 +950,10 @@
 								"value": "{{admin_token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/api/available/clinicalEvents",
 							"host": [
@@ -749,8 +964,7 @@
 								"available",
 								"clinicalEvents"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -764,7 +978,10 @@
 								"value": "{{admin_token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/api/available/testTypes",
 							"host": [
@@ -775,8 +992,7 @@
 								"available",
 								"testTypes"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -784,7 +1000,7 @@
 		},
 		{
 			"name": "data",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "add / update visit data (update by admin only)",
@@ -814,8 +1030,7 @@
 								"visit",
 								"data"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -847,8 +1062,7 @@
 								"visit",
 								"data"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -880,8 +1094,7 @@
 								"test",
 								"data"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -913,8 +1126,7 @@
 								"clinicalEvent",
 								"data"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -946,8 +1158,7 @@
 								"clinicalEvent",
 								"data"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -979,8 +1190,7 @@
 								"test",
 								"data"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -988,8 +1198,318 @@
 		},
 		{
 			"name": "demographic / static data",
-			"description": "",
-			"item": []
+			"description": null,
+			"item": [
+				{
+					"name": "Demographic request",
+					"description": "",
+					"item": [
+						{
+							"name": "Create Demographic",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"patient\":1,\n\t\"DOB\" : {\"day\":1, \"month\":1, \"year\":1966},\n\t\"gender\" : \"male\",\n    \"dominant_hand\" : \"left\",\n    \"ethnicity\" : \"white\",\n    \"country_of_origin\" : \"France\",\n    \"alcohol_usage\" : \"unknown\",\n    \"smoking_history\" : \"unknown\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Demographic",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Demographic"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Demographic",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":4\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Demographic",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Demographic"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Demographic data",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":3,\n\t\"patient\":1,\n\t\"DOB\" : {\"day\":1, \"month\":1, \"year\":1966},\n\t\"gender\" : \"male\",\n    \"dominantHand\" : \"left\",\n    \"ethnicity\" : \"white\",\n    \"countryOfOrigin\" : \"Germany\",\n    \"alcoholUsage\" : \"unknown\",\n    \"smokingHistory\" : \"unknown\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Demographic",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Demographic"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Immunisation request",
+					"description": "",
+					"item": [
+						{
+							"name": "Create Immunisation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"patient\":1,\n\t\"vaccineName\":\"Vacthing\",\n\t\"immunisationDate\":{\"day\":2, \"month\":5, \"year\":2009}\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Immunisation",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Immunisation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Immunisation",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":2\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Immunisation",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Immunisation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Immunisation data",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":1,\n\t\"patient\":1,\n\t\"vaccineName\":\"A good vaccine\",\n\t\"immunisationDate\":{\"day\":3, \"month\":5, \"year\":2009}\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Immunisation",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Immunisation"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Medical condition request",
+					"description": "",
+					"item": [
+						{
+							"name": "Create MedicalCondition",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"patient\":1,\n    \"relation\":\"mother\",\n    \"conditionName\":\"Cold\",\n    \"startDate\": {\"day\":1, \"month\":1, \"year\":2001},\n    \"outcome\": \"resolved\",\n    \"resolvedYear\":2002\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/demogdata/MedicalCondition",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"MedicalCondition"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete MedicalCondition",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":4\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/demogdata/MedicalCondition",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"MedicalCondition"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit MedicalCondition",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":3,\n    \"patient\":1,\n    \"relation\":\"mother\",\n    \"conditionName\":\"Cold\",\n    \"startDate\": {\"day\":1, \"month\":1, \"year\":2001},\n    \"outcome\": \"ongoing\",\n    \"resolvedYear\":null\n}"
+								},
+								"url": {
+									"raw": "{{url}}/api/demogdata/MedicalCondition",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"MedicalCondition"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
 		}
 	]
 }

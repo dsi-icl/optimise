@@ -14,6 +14,7 @@ ce.use(bodyParser.json());
 ce.use(bodyParser.urlencoded({ extended: true }));
 
 ce.route('/')
-    .post(CeController.createCe);
+    .post(CeController.createCe)
+    .delete(CeController.deleteCe);
 
 module.exports = ce;

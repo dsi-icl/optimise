@@ -5,10 +5,10 @@ const knex = require('../utils/db-connection');
 class AvailableFieldController {
     getFields(req, res){     //bound to GETclinicalEvents and GETtestTypes too
         const tableMap = {
-            'visitFields':'available_fields_visits',
-            'testFields':'available_fields_tests',
-            'clinicalEvents':'available_clinical_event_types',
-            'testTypes':'available_test_types'
+            'visitFields':'AVAILABLE_FIELDS_VISITS',
+            'testFields':'AVAILABLE_FILELDS_TESTS',
+            'clinicalEvents':'AVAILABLE_CLINICAL_EVENT_TYPES',
+            'testTypes':'AVAILABLE_TEST_TYPES'
         }
         let moduleObj = {};
         if (tableMap.contains(rea.params.dataType)) {

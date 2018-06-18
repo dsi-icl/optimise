@@ -16,11 +16,11 @@ class PatientController {
             return
         }
         queryid = '%' + queryid + '%';
-        knex('patients')
-            .select({ patientId: 'patients.id' }, 'patients.alias_id', 'patients.study', 'patient_demographic_data.DOB', 'patient_demographic_data.gender')
-            .leftOuterJoin('patient_demographic_data', 'patients.id', 'patient_demographic_data.patient')
-            .where('patients.alias_id', 'like', queryid)
-            .andWhere('patients.deleted', 0)
+        knex('PATIENTS')
+            .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENT_DEMOGRAPHIC.DOB', 'PATIENT_DEMOGRAPHIC.gender')
+            .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
+            .where('PATIENTS.aliasId', 'like', queryid)
+            .andWhere('PATIENTS.deleted', null)
             .then(result => {
                 res.status(200).json(result);
             });
@@ -28,25 +28,25 @@ class PatientController {
 
     createPatient(req, res) {
         let entryObj = {
-            alias_id: req.body.alias_id,
+            aliasId: req.body.aliasId,
             study: req.body.study
         };
-        let databaseErrMsg = 'Cannot create patient. ID might already exist. Also, make sure you provide "alias_id" and "study" as keys.';
-        createEntry(req, res, 'patients', entryObj, databaseErrMsg);
+        let databaseErrMsg = 'Cannot create patient. ID might already exist. Also, make sure you provide "aliasId" and "study" as keys.';
+        createEntry(req, res, 'PATIENTS', entryObj, databaseErrMsg);
     }
 
     setPatientAsDeleted(req, res) {
         if (req.requester.priv === 1) {
-            deleteEntry(req, res, 'patients', { 'alias_id': req.body.alias_id }, req.body.alias_id, 1);
+            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId }, req.body.aliasId, 1);
         } else {
             res.status(403).send('Sorry! Only admins are able to edit / delete data');
         }
     }
 
     getPatientProfileById(req, res) {
-        knex('patients')
+        knex('PATIENTS')
             .select({ patientId: 'id', study: 'study' })
-            .where({ 'alias_id': req.params.patientId, deleted: 0 })
+            .where({ 'aliasId': req.params.patientId, deleted: null })
             .then(patientResult => {
                 if (patientResult.length === 1) {
                     const patientId = patientResult[0].patientId;
@@ -115,9 +115,9 @@ class PatientController {
             res.status(400).send('No query found');
             return;
         }
-        knex('patients')
+        knex('PATIENTS')
             .select({ patientId: 'id' })
-            .where('alias_id', 'like', '%' + req.query.id + '%')
+            .where('aliasId', 'like', '%' + req.query.id + '%')
             .then(resultPatient => {
                 patientId = resultPatient[0].patientId;
                 if (resultPatient.length > 1) {
@@ -129,49 +129,49 @@ class PatientController {
                     throw ('Too much results.');
                 }
                 eraseEntry(req, res, 'patient_immunisation', { 'patient': patientId }, 'Row for patient immunisation', null, false);
-                eraseEntry(req, res, 'patient_demographic_data', { 'patient': patientId }, 'Row for patient demographic data', null, false);
+                eraseEntry(req, res, 'PATIENT_DEMOGRAPHIC', { 'patient': patientId }, 'Row for patient demographic data', null, false);
                 eraseEntry(req, res, 'patient_existing_or_familial_medical_conditions', { 'patient': patientId }, 'Row for patient medical history', null, false);
                 //Erase the visit and all the linked row in other tables depending on visitId
-                knex('visits')
+                knex('VISITS')
                     .select({ visitId: 'id' })
                     .where({ 'patient': patientId })
                     .then(resultVisit => {
                         if (!isEmptyObject(resultVisit) || resultVisit.length > 0) {
                             for (let i = 0; i < resultVisit.length; i++) {
                                 visitId[i] = resultVisit[i].visitId;
-                                eraseEntry(req, res, 'visit_collected_data', { 'visit': visitId[i] }, 'Row for visit data', null, false);
+                                eraseEntry(req, res, 'VISIT_DATA', { 'visit': visitId[i] }, 'Row for visit data', null, false);
                                 for (let i = 0; visitId != undefined && i < visitId.length; i++) {
                                     //Erase Ordered test and test data
-                                    knex('ordered_tests')
+                                    knex('ORDERED_TESTS')
                                         .select({ testId: 'id' })
-                                        .where({ 'ordered_during_visit': visitId[i] })
+                                        .where({ 'orderedDuringVisit': visitId[i] })
                                         .then(resultTest => {
                                             for (let j = 0; !isEmptyObject(resultTest) && j < resultTest.length; j++) {
-                                                eraseEntry(req, res, 'test_data', { 'test': resultTest[j].testId }, 'Row for test data', null, false);
+                                                eraseEntry(req, res, 'TEST_DATA', { 'test': resultTest[j].testId }, 'Row for test data', null, false);
                                             }
                                         })
-                                    eraseEntry(req, res, 'ordered_tests', { 'ordered_during_visit': visitId[i] }, 'Row for tests', null, false);
+                                    eraseEntry(req, res, 'ORDERED_TEST', { 'orderedDuringVisit': visitId[i] }, 'Row for tests', null, false);
                                     //Erase Treatment and Treatment Data
-                                    knex('treatments')
+                                    knex('TREATMENTS')
                                         .select({ treatmentId: 'id' })
-                                        .where({ 'ordered_during_visit': visitId[i] })
+                                        .where({ 'orderedDuringVisit': visitId[i] })
                                         .then(resultTreatment => {
                                             for (let j = 0; !isEmptyObject(resultTreatment) && j < resultTreatment.length; j++) {
-                                                eraseEntry(req, res, 'treatments_interruptions', { 'treatment': resultTreatment[j] }, 'Row for treatment interuption', null, false);
+                                                eraseEntry(req, res, 'TREATMENTS_INTERRUPTION', { 'treatment': resultTreatment[j] }, 'Row for treatment interuption', null, false);
                                             }
                                         })
-                                    eraseEntry(req, res, 'treatments', { 'ordered_during_visit': visitId[i] }, 'Row for treatments', null, false);
+                                    eraseEntry(req, res, 'TREATMENTS', { 'orderedDuringVisit': visitId[i] }, 'Row for treatments', null, false);
                                     //Erase Clinical Event and Clinical Event Data
-                                    knex('clinical_events')
+                                    knex('CLINICAL_EVENTS')
                                         .select({ ceId : 'id' })
-                                        .where({ 'recorded_during_visit' : visitId })
+                                        .where({ 'recordedDuringVisit' : visitId })
                                         .then(resultCE => {
                                             for (let j = 0; !isEmptyObject(resultCE) && j < resultCE.length; j++) {
-                                                eraseEntry(req, res, 'clinical_events_data', { 'clinical_event': resultCE[j] }, 'Row for clinical event data', null, false);
+                                                eraseEntry(req, res, 'CLINICQL_EVENT_DATA', { 'clinicalEvent': resultCE[j] }, 'Row for clinical event data', null, false);
                                             }
                                         })
-                                    eraseEntry(req, res, 'clinical_events', { 'recorded_during_visit': visitId[i] }, 'Row for clinical event', null, false);
-                                    eraseEntry(req, res, 'visits', {'id':visitId[i]}, 'Row for visits', null, false);
+                                    eraseEntry(req, res, 'CLINICAL_EVENTS', { 'recordedDuringVisit': visitId[i] }, 'Row for clinical event', null, false);
+                                    eraseEntry(req, res, 'VISITS', {'id':visitId[i]}, 'Row for visits', null, false);
                                 }        
                             }
                         }

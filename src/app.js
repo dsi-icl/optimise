@@ -18,12 +18,9 @@ const patients = require('./routes/patientRoute');
 const ce = require('./routes/clinicalEventRoute');
 
 // CONTROLLERS
-const PatientController = require('./controllers/patientController');
-const UserController = require('./controllers/userController');
 const DemographicDataController = require('./controllers/demographicDataController');
 const DataController = require('./controllers/dataController');
 const AvailableFieldController = require('./controllers/availableFieldController');
-const CeController = require('./controllers/ceController');
 
 // app Header initialisation.
 app.set('x-powered-by', false);
