@@ -241,6 +241,14 @@ CREATE TABLE VISIT_DATA (
     UNIQUE(visit, field, deleted)
 );
 
+CREATE TABLE LOG_ACTIONS (
+    id INTEGER PRIMARY KEY ASC,
+    router TEXT NOT NULL,
+    method TEXT NOT NULL,
+    user TEXT NOT NULL,
+    body TEXT,
+    createdTime TEXT NOT NULL DEFAULT (datetime('now'))
+);
 
 /* INSERTIONS */
 /* Insert admin user with password 'admin' */
