@@ -1,5 +1,3 @@
-const {isEmptyObject} = require('../utils/basic-utils');
-
 const knex = require('../utils/db-connection');
 
 class RequestMiddleware {
