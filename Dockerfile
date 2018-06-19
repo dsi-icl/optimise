@@ -1,4 +1,4 @@
-FROM php:5.6-apache@sha256:46fd33c1c7f522a2c0175f65dc2aed8cfc8e0683058f28e715567fbab53ebc52
+FROM php:5.6-apache@sha256:2785b26a4fc7a0a7cd5788996367c0e66a8d3f2d732914bf2358ea2600ffdb61
 
 LABEL author="Florian Guitton" email="f.guitton@imperial.ac.uk" version="0.3.4"
 
