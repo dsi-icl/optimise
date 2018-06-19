@@ -105,3 +105,24 @@ exports.eraseEntry = (req, res, tablename, whereObj, whatIsDeleted, databaseErrM
     }
     return (true);
 }
+
+exports.isThisEntryDeleted = (tablename, whereObj) => {
+    try {
+        knex(tablename)
+            .select('deleted')
+            .where(whereObj)
+            .then(res => {
+                if (res.length == 0)
+                    throw (new RangeError("No result found"));
+                if (res[0].deleted)
+                    return (true);
+                return (false);
+            })
+            .catch(err => {
+                throw (new TypeError("Error catched : " + err));
+            })
+    }
+    catch (err) {
+        throw (new TypeError("Error catched : " + err));
+    }
+}

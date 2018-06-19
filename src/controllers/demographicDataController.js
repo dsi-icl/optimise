@@ -29,31 +29,38 @@ class DemographicDataController {
             return ;
         }
         knex('PATIENTS')
-            .select('id')
+            .select('deleted')
             .where({'id': req.body.patient, 'deleted': null})
             .then(result => {
-                if (result.length === 1){
-                    let entryObj = {
-                        'patient':req.body.patient,
-                        'DOB':req.body.DOB,
-                        'gender':req.body.gender,
-                        'dominantHand':req.body.dominant_hand,
-                        'ethnicity':req.body.ethnicity,
-                        'countryOfOrigin':req.body.country_of_origin,
-                        'alcoholUsage':req.body.alcohol_usage,
-                        'smokingHistory':req.body.smoking_history
-                    }
-                    entryObj['patient'] = result[0].id;
-                    if (validateAndFormatDate(req.body.DOB)){
-                        entryObj.DOB = validateAndFormatDate(req.body.DOB);
-                        let databaseErrMsg = 'Cannot create entry. Please check your parameters, and that the values be one of the permitted values. Or the entry might already exist.';
-                        createEntry(req, res, 'PATIENT_DEMOGRAPHIC', entryObj, databaseErrMsg);
-                    } else {
-                        res.status(400).send('Malformed date object.');
-                    }
-                } else {
-                    res.status(404).send('Cannot seem to find your patient!');
-                }
+                knex('PATIENT_DEMOGRAPHIC')
+                    .select('*')
+                    .where({'patient':req.body.patient, 'deleted': null})
+                    .then(resu => {
+                        if (resu.length === 0 && result.length === 1){
+                            let entryObj = {
+                                'patient':req.body.patient,
+                                'DOB':req.body.DOB,
+                                'gender':req.body.gender,
+                                'dominantHand':req.body.dominant_hand,
+                                'ethnicity':req.body.ethnicity,
+                                'countryOfOrigin':req.body.country_of_origin,
+                                'alcoholUsage':req.body.alcohol_usage,
+                                'smokingHistory':req.body.smoking_history
+                            }
+                            entryObj['patient'] = result[0].id;
+                            if (validateAndFormatDate(req.body.DOB)){
+                                entryObj.DOB = validateAndFormatDate(req.body.DOB);
+                                let databaseErrMsg = 'Cannot create entry. Please check your parameters, and that the values be one of the permitted values. Or the entry might already exist.';
+                                createEntry(req, res, 'PATIENT_DEMOGRAPHIC', entryObj, databaseErrMsg);
+                            } else {
+                                res.status(400).send('Malformed date object.');
+                            }
+                        } else if (result.length != 1) {
+                            res.status(404).send('Cannot seem to find your patient!');
+                        } else if (resu.length != 0) {
+                            res.status(400).send('Patient already have demographic data.');
+                        }
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -156,7 +163,7 @@ class DemographicDataController {
 
     DELETEDemographic(req, res) {
         if (req.requester.priv === 1 && req.body.id) {
-            deleteEntry(req, res, 'PATIENT_DEMOGRAPHIC', {'id': req.body.id}, 'Demographic information with id ' + req.body.id, 1);
+            deleteEntry(req, res, 'PATIENT_DEMOGRAPHIC', {'id': req.body.id, 'deleted':null}, 'Demographic information with id ' + req.body.id, 1);
         } else {
             res.status(401).send('Error. You do not have permission; or the request is malformed');
         }
@@ -164,7 +171,7 @@ class DemographicDataController {
 
     DELETEImmunisation(req, res){
         if (req.requester.priv === 1 && req.body.id) {
-            const whereObj = {'id': req.body.id};
+            const whereObj = {'id': req.body.id, 'deleted':null};
             deleteEntry(req, res, 'PATIENT_IMMUNISATION', whereObj,'Immunisation of id ' + req.body.id, 1);
         } else {
             res.status(401).send('Error. You do not have permission; or the request is malformed');
@@ -173,7 +180,7 @@ class DemographicDataController {
 
     DELETEMedicalCondition(req, res){
         if (req.requester.priv === 1 && req.body.id) {
-            const whereObj = {'id': req.body.id};
+            const whereObj = {'id': req.body.id, 'deleted':null};
             deleteEntry(req, res, 'MEDICAL_HISTORY', whereObj, 'Entry', 1);
         } else {
             res.status(401).send('Error. You do not have permission; or the request is malformed');
@@ -183,7 +190,7 @@ class DemographicDataController {
     PUTDemographic(req, res){
         if (req.requester.priv === 1 && req.body.id) {
             let newObj = Object.assign({}, req.body);
-            const whereObj = {'id': req.body.id};
+            const whereObj = {'id': req.body.id, 'deleted':null};
             if (req.body.DOB && validateAndFormatDate(req.body.DOB)) {
                 newObj.DOB = validateAndFormatDate(req.body.DOB);
             }
@@ -196,7 +203,7 @@ class DemographicDataController {
     PUTImmunisation(req, res){
         if (req.requester.priv === 1 && req.body.id) {
             let newObj = Object.assign({}, req.body);
-            const whereObj = {'id': req.body.id};
+            const whereObj = {'id': req.body.id, 'deleted':null};
             if (req.body.immunisationDate && validateAndFormatDate(req.body.immunisationDate)) {
                 newObj.immunisationDate = validateAndFormatDate(req.body.immunisationDate);
             }
@@ -209,7 +216,10 @@ class DemographicDataController {
     PUTMedicalCondition(req, res){
         if (req.requester.priv === 1 && req.body.id) {
             let newObj = Object.assign({}, req.body);
-            const whereObj = {'id': req.body.id};
+            let tmp;
+            if (req.body.startDate)
+                newObj.startDate = (tmp = validateAndFormatDate(req.body.startDate)) ? tmp : null;
+            const whereObj = {'id': req.body.id, 'deleted':null};
             updateEntry(req, res, 'MEDICAL_HISTORY', whereObj, newObj, 'Row for Medical Condition', 1);
         } else {
             res.status(401).send('Error. You do not have permission; or the request is malformed');

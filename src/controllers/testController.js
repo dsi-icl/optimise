@@ -1,10 +1,20 @@
 const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
+const {createEntry, deleteEntry, updateEntry, isThisEntryDeleted} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 class TestController {
     createTest(req, res){
-        if (req.body.expectedDate && validateAndFormatDate(req.body.expectedDate)){
+        if (req.body.visitId && req.body.expectedDate && validateAndFormatDate(req.body.expectedDate)){
+            try {
+                if (isThisEntryDeleted('VISITS', {'id':req.body.visitId}))
+                    res.status(400).send('The selected visit is set as deleted');
+                    return ;
+            } catch (err) {
+                if (err instanceof RangeError) {
+                    res.status(400).send('The selected visit was not found');
+                    return ;
+                }
+            }
             let entryObj = {
                 'orderedDuringVisit': req.body.visitId,
                 'type': req.body.type,
@@ -12,7 +22,7 @@ class TestController {
             }
             createEntry(req, res, 'ORDERED_TESTS', entryObj, 'databaseError');
         } else {
-            res.status(400).send('Please provide a date.');
+            res.status(400).send('Please provide the required parameters');
         }
     }
 
