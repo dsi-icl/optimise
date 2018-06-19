@@ -87,7 +87,7 @@ class UserController {
         }
     }
 
-    userLogin(req, res){           //delete sessions every day
+    userLogin(req, res){           //delete sessions every day (not yet implemented)
         if (req.body.username && req.body.pw) {
             knex('USERS')
                 .select('pw','id')
