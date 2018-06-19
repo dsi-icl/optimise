@@ -1,5 +1,5 @@
 const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
+const {createEntry, deleteEntry, updateEntry, isThisEntryDeleted} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 class TreatmentController {
@@ -9,6 +9,17 @@ class TreatmentController {
                 res.status(400).send('Missing information for creation of the treatment');
                 return ;
             }
+        try {
+            if (isThisEntryDeleted('VISITS', {'id':req.body.visitId})) {
+                res.status(400).send('The selected visit is set as deleted');
+                return ;
+            }
+        } catch (err) {
+            if (err instanceof RangeError) {
+                res.status(400).send('The selected visit was not found');
+                return ;
+            }
+        }
         let entryObj = {
             'orderedDuringVisit': req.body.visitId,
             'drug': req.body.drugId,
@@ -26,7 +37,7 @@ class TreatmentController {
     addTerminationDate(req, res){    //for adding termination date
         if (req.body.treatmentId && req.body.terminationDate && validateAndFormatDate(req.body.terminationDate) && req.body.terminatedReason) {
             knex('TREATMENTS')
-                .where({'id': req.body.treatmentId})
+                .where({'id': req.body.treatmentId, 'deleted':null})
                 .update({
                     'terminatedDate': validateAndFormatDate(req.body.terminationDate),
                     'terminatedReason': req.body.terminatedReason})
@@ -36,7 +47,7 @@ class TreatmentController {
                         return ;
                     }
                     else {
-                        res.status(404).send('Couldn\'t find the test');
+                        res.status(404).send('Couldn\'t find the treatment. It might be set as deleted');
                         return ;
                     }
                 })
@@ -53,7 +64,7 @@ class TreatmentController {
 
     editTreatment(req, res){
         if (req.requester.priv == 1){
-            let whereObj = {'id': req.body.id};
+            let whereObj = {'id': req.body.id, 'deleted':null};
             let newObj = Object.assign({}, req.body);   //need to change naming
             updateEntry(req, res, 'TREATMENTS', whereObj, newObj, req.body.id, 1 /* LT 0 */);
         }
@@ -76,13 +87,28 @@ class TreatmentController {
     }
 
     addInterruption(req, res){
-        let entryObj = {
-            'treatment' : req.body.treatmentId,
-            'startDate' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null ),
-            'endDate' : (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null ),
-            'reason' : req.body.reason,
+        if (req.body.treatmentId) {
+            try {
+                if (isThisEntryDeleted('TREATMENTS', {'id':req.body.treatmentId})) {
+                    res.status(400).send('The selected treatment is set as deleted');
+                    return ;
+                }
+            } catch (err) {
+                if (err instanceof RangeError) {
+                    res.status(400).send('The selected visit was not found');
+                    return ;
+                }
+            }
+            let entryObj = {
+                'treatment' : req.body.treatmentId,
+                'startDate' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null ),
+                'endDate' : (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null ),
+                'reason' : req.body.reason,
+            }
+            createEntry(req, res, 'TREATMENTS_INTERRUPTIONS', entryObj, 'Couldn\'t create entry');
+            return ;
         }
-        createEntry(req, res, 'TREATMENTS_INTERRUPTIONS', entryObj, 'Couldn\'t create entry');
+        res.status(400).send('Missing information to proceed the request');
     }
 
     deleteInterruption(req, res) {
