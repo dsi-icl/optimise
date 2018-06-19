@@ -1,4 +1,3 @@
-const chalk = require('chalk');
 const { isEmptyObject } = require('../utils/basic-utils');
 const { createEntry, deleteEntry, updateEntry, eraseEntry } = require('../utils/controller-utils');
 const SelectorUtils = require('../utils/selector-utils');

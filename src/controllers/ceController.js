@@ -1,6 +1,5 @@
-const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
-const knex = require('../utils/db-connection');
+const {validateAndFormatDate} = require('../utils/basic-utils');
+const {createEntry, deleteEntry} = require('../utils/controller-utils');
 
 class CeController {
     createCe(req, res){
