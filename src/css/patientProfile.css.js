@@ -15,7 +15,7 @@ export default {
         width: '100%',
         paddingTop: 10,
         paddingLeft: 15,
-        textAlign: 'left'},
+        textAlign: 'left' },
 
     sectionBody: {
         margin: '10px auto',

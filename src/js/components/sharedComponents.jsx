@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import css from '../../css/patientProfile.css.js';
 import plusSignIcon from '../../statics/icons/icons8-plus-math-64.png'; 
 import Radium from 'radium';

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-import {BackButton} from '../dataPage.jsx';
-import {createVisitAPICall} from '../../redux/actions/createVisit';
+import { BackButton } from '../dataPage.jsx';
+import { createVisitAPICall } from '../../redux/actions/createVisit';
 
 
 export class PickDate extends Component {
@@ -19,7 +19,7 @@ export class PickDate extends Component {
 export function parseDate(dateString) {
     const dateArr = dateString.split('/');
     if (dateArr.length === 3 && dateArr.filter(el => (Number.isInteger(el) && el > 0 ))) {
-        return {day: parseInt(dateArr[0], 10), month: parseInt(dateArr[1], 10), year: parseInt(dateArr[2], 10)};
+        return { day: parseInt(dateArr[0], 10), month: parseInt(dateArr[1], 10), year: parseInt(dateArr[2], 10) };
     } else {
         throw new Error('wrong date format');
     }
@@ -47,7 +47,7 @@ class CreateVisit_toConnect extends Component {
         const date = this.state.startDate._d;
         return {
             patientId: this.props.patientId,
-            visitDate: {day: date.getDate(),
+            visitDate: { day: date.getDate(),
                 month: date.getMonth() + 1,
                 year: date.getFullYear()
             }
@@ -63,10 +63,10 @@ class CreateVisit_toConnect extends Component {
         return (<div>
             <BackButton to={`/patientProfile/${this.props.patientId}`}/>
             <h2>CREATE A NEW VISIT</h2>
-            <span style={{display: 'block', width: '60%', margin:'0 auto'}}>Please enter date on which the visit occurs / occured: <br/> <span style={{display: 'block', width: '50%', margin:'0 auto'}}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
-            <div onClick={this._handleSubmitClick} style={{cursor: 'pointer', textAlign: 'center', backgroundColor: 'lightgrey', borderRadius: 20, width: '30%', marginLeft: 'auto', marginRight: 'auto', marginTop: 15}}>Submit</div>
+            <span style={{ display: 'block', width: '60%', margin:'0 auto' }}>Please enter date on which the visit occurs / occured: <br/> <span style={{ display: 'block', width: '50%', margin:'0 auto' }}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
+            <div onClick={this._handleSubmitClick} style={{ cursor: 'pointer', textAlign: 'center', backgroundColor: 'lightgrey', borderRadius: 20, width: '30%', marginLeft: 'auto', marginRight: 'auto', marginTop: 15 }}>Submit</div>
         </div>);
     }
 }
 
-export const CreateVisit = connect(state => ({patientId: state.patientProfile.data.patientId}), dispatch => ({createVisit: body => dispatch(createVisitAPICall(body))}))(CreateVisit_toConnect);
+export const CreateVisit = connect(state => ({ patientId: state.patientProfile.data.patientId }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))(CreateVisit_toConnect);

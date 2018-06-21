@@ -2,6 +2,9 @@ module.exports = {
     root: true,
     parser: 'babel-eslint',
     extends: ['react-app'],
+    env: {
+        browser: true
+    },
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
@@ -11,6 +14,11 @@ module.exports = {
     rules: {
         quotes: ['error', 'single'],
         eqeqeq: ['error', 'always'],
-        indent: ['error', 4]
+        indent: ['warn', 4],
+        'block-spacing': ['error', 'always'],
+        'object-curly-spacing': ['error', 'always'],
+        'prefer-template': ['warn'],
+        'no-var': ['error'],
+        'arrow-body-style': ['error', 'as-needed']
     }
 };

@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class testData_toConnect extends Component {
     /* put this logic in patient Chart instead */
     constructor() {
         super();
-        this.state = {pathname: ''};
+        this.state = { pathname: '' };
     }
 
     componentDidMount() {
-        this.setState({pathname: window.location.pathname});
+        this.setState({ pathname: window.location.pathname });
         document.getElementById(window.location.pathname).className = 'selectedResult';
 
     }
@@ -38,8 +38,8 @@ class testData_toConnect extends Component {
 export class BackButton extends Component {
     render() {
         return (
-            <Link to={this.props.to} style={{textDecoration: 'none'}}>
-                <div style={{position: 'relative', left: 20, top: 20, textAlign: 'center', fontSize: 20, width: 30, paddingTop: 4, height: 26, color: 'white', borderRadius: 20, backgroundColor: '#ff6666'}}
+            <Link to={this.props.to} style={{ textDecoration: 'none' }}>
+                <div style={{ position: 'relative', left: 20, top: 20, textAlign: 'center', fontSize: 20, width: 30, paddingTop: 4, height: 26, color: 'white', borderRadius: 20, backgroundColor: '#ff6666' }}
                 >&#8617;
                 </div>
             </Link>
@@ -62,7 +62,7 @@ function formatData(dataObj, fieldsArr) {    //not done
             {fieldsArr.map(el => {
                 switch(el.type) {
                 case 'N':
-                    return wrapper(el, dataObj, <span><input style={{width: 50}} type='text' value={dataObj[el.id] ? dataObj[el.id] : null}/>{el.unit === '' ? null : `  ${el.unit}`}</span>);
+                    return wrapper(el, dataObj, <span><input style={{ width: 50 }} type='text' value={dataObj[el.id] ? dataObj[el.id] : null}/>{el.unit === '' ? null : `  ${el.unit}`}</span>);
                 case 'C':
                     const select = <select>
                         <option value='not selected' selected={dataObj[el.id] ? false : true}>not selected</option>
