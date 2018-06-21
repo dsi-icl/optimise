@@ -49,7 +49,7 @@ jobs:
       before_install: true
       install:
         - npm install --
-      script: npm run build # can it build
+      script: npm run test   #testing
       cache:
         directories:
           - ~/.npm
