@@ -1,5 +1,3 @@
-const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 class AvailableFieldController {
@@ -9,7 +7,7 @@ class AvailableFieldController {
             'testFields':'AVAILABLE_FILELDS_TESTS',
             'clinicalEvents':'AVAILABLE_CLINICAL_EVENT_TYPES',
             'testTypes':'AVAILABLE_TEST_TYPES'
-        }
+        };
         let moduleObj = {};
         if (tableMap.contains(rea.params.dataType)) {
             if (req.params.dataType === 'visitFields' && req.query.module) {
@@ -20,7 +18,7 @@ class AvailableFieldController {
                 .select('*')
                 .where(moduleObj)
                 .then(result => res.status(200).json(result))
-                .catch(err => {console.log(err); res.status(500).send('database error')});
+                .catch(err => {console.log(err); res.status(500).send('database error');});
             return ;
         }
         res.status(400).send('Unrecognized parameters');

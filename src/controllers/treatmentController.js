@@ -1,13 +1,13 @@
-const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry, isThisEntryDeleted} = require('../utils/controller-utils');
+const {validateAndFormatDate} = require('../utils/basic-utils');
+const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 class TreatmentController {
     createTreatment(req, res){
-        if (!(req.body.visitId && req.body.drugId && req.body.dose && 
+        if (!(req.body.visitId && req.body.drugId && req.body.dose &&
             req.body.unit && req.body.form && req.body.timesPerDay && req.body.durationInWeeks)) {
-                res.status(400).send('Missing information for creation of the treatment');
-                return ;
+            res.status(400).send('Missing information for creation of the treatment');
+            return ;
         }
         let entryObj = {
             'orderedDuringVisit': req.body.visitId,
@@ -19,7 +19,7 @@ class TreatmentController {
             'durationWeeks': req.body.durationInWeeks,
             'terminatedDate': req.body.terminatedDate && validateAndFormatDate(req.body.terminatedDate) ? validateAndFormatDate(req.body.terminatedDate) : null,
             'terminatedReason': req.body.terminatedReason && validateAndFormatDate(req.body.terminatedReason) ? validateAndFormatDate(req.body.terminatedReason) : null
-        }
+        };
         createEntry(req, res, 'TREATMENTS', entryObj, 'databaseError');
     }
 
@@ -65,7 +65,7 @@ class TreatmentController {
 
     deleteTreatment(req, res) {
         if (req.requester.priv !== 1) {
-            res.status(401).send("Unauthorized : You should be identified as an Administrator to do so.");
+            res.status(401).send('Unauthorized : You should be identified as an Administrator to do so.');
             return;
         }
         if (!req.body.treatmentId) {
@@ -79,10 +79,10 @@ class TreatmentController {
         if (req.body.treatmentId) {
             let entryObj = {
                 'treatment' : req.body.treatmentId,
-                'startDate' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null ),
-                'endDate' : (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null ),
+                'startDate' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null),
+                'endDate' : (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null),
                 'reason' : req.body.reason,
-            }
+            };
             createEntry(req, res, 'TREATMENTS_INTERRUPTIONS', entryObj, 'Couldn\'t create entry');
             return ;
         }
@@ -91,7 +91,7 @@ class TreatmentController {
 
     deleteInterruption(req, res) {
         if (req.requester.priv !== 1) {
-            res.status(401).send("Unauthorized : You should be identified as an Administrator to do so.");
+            res.status(401).send('Unauthorized : You should be identified as an Administrator to do so.');
         }
         deleteEntry(req, res, 'TREATMENTS_INTERRUPTIONS', {'id': req.body.treatmentInterId}, req.body.treatmentInterId, 1);
     }

@@ -1,5 +1,5 @@
-const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry, isThisEntryDeleted} = require('../utils/controller-utils');
+const {validateAndFormatDate} = require('../utils/basic-utils');
+const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 class TestController {
@@ -9,7 +9,7 @@ class TestController {
                 'orderedDuringVisit': req.body.visitId,
                 'type': req.body.type,
                 'expectedOccurDate': validateAndFormatDate(req.body.expectedDate)
-            }
+            };
             createEntry(req, res, 'ORDERED_TESTS', entryObj, 'databaseError');
         } else {
             res.status(400).send('Please provide the required parameters');
