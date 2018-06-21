@@ -1,25 +1,23 @@
-const {isEmptyObject} = require('../utils/basic-utils');
-
 const knex = require('../utils/db-connection');
 
 class RequestMiddleware {
     static verifySessionAndPrivilege(req, res, next) {
         if (req.headers.token) {
             knex('USER_SESSION')
-                .select({token: 'USER_SESSION.sessionToken', username: 'USERS.username', priv: 'USERS.adminPriv', userid: 'USER_SESSION.user'})
+                .select({ token: 'USER_SESSION.sessionToken', username: 'USERS.username', priv: 'USERS.adminPriv', userid: 'USER_SESSION.user' })
                 .innerJoin('USERS', 'USERS.id', 'USER_SESSION.user')
-                .where({'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': null, 'USERS.deleted': null})
+                .where({ 'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': null, 'USERS.deleted': null })
                 .then(result => {
                     if (result.length !== 0){
                         req.requester = result[0];
                         next();
                     } else {
                         res.status(400).send('You are not logged in. Please provide a valid token.');
-                    }})
+                    } })
                 .catch(err => {
                     console.log(err);
                     res.status(500).send('Database error');
-                })
+                });
         } else if (req.originalUrl == '/internalapi/userlogin'){
             next();
         } else {
@@ -43,7 +41,7 @@ class RequestMiddleware {
                 knex('LOG_ACTIONS')
                     .insert({'router':req.originalUrl, 'method':req.method, 'body':JSON.stringify(req.body), 'user':user })
                     .then(resultInsert => {
-                        console.log(req.method + ' - ' + req.originalUrl + ' : ' + user);
+                        console.log(`${req.method  } - ${  req.originalUrl  } : ${  user}`);
                         next();
                     })
                     .catch(err => {
@@ -53,13 +51,13 @@ class RequestMiddleware {
             })
         } else if (req.body && req.body.username) {
             knex('LOG_ACTIONS')
-                .insert({'router':req.originalUrl, 'method':req.method, 'body':JSON.stringify(req.body), 'user':req.body.username })
+                .insert({ 'router':req.originalUrl, 'method':req.method, 'body':JSON.stringify(req.body), 'user':req.body.username })
                 .then(res => {
-                    console.log(req.method + ' - ' + req.originalUrl + ' : ' + req.body.username);
+                    console.log(`${req.method  } - ${  req.originalUrl  } : ${  req.body.username}`);
                     next();
                 })
                 .catch(err => {
-                    console.log('Error caught :' + err);
+                    console.log(`Error caught :${err}`);
                     next();
                 });
         }
