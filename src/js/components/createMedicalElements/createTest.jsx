@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-import css from '../../../css/patientProfile.css.js';
 import {BackButton} from '../dataPage.jsx';
-import { PickDate, parseDate} from './createVisit.jsx';
+import { PickDate} from './createVisit.jsx';
 
 class CreateTest_toConnect extends Component {
     constructor() {

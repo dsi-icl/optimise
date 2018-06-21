@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {MenuBar, MiddlePanel, RightPanel, FarRightPanel} from './components/scaffold.jsx'; 
 import css from '../css/globalDefault.css.js';
-import { SearchPatientsById } from './components/searchPatientsById';
-import { Switch, Route } from 'react-router-dom';
 
 
 class App extends Component {
