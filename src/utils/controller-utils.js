@@ -1,8 +1,8 @@
 const knex = require('../utils/db-connection');
 
 exports.createEntry = (req, res, tablename, entryObj, databaseErrMsg) => {
-    entryObj.deleted = 0;
-    entryObj['created_by_user'] = req.requester.userid;
+    entryObj.deleted = null;
+    entryObj['createdByUser'] = req.requester.userid;
     knex(tablename)
         .insert(entryObj)
         .then(result => res.status(200).json(result))
@@ -14,7 +14,7 @@ exports.createEntry = (req, res, tablename, entryObj, databaseErrMsg) => {
 
 
 exports.deleteEntry = (req, res, tablename, whereObj, whatIsDeleted, expectedNumAffected /* LT 0 */) => {
-    whereObj.deleted = 0;
+    whereObj.deleted = null;
     knex(tablename)
         .where(whereObj)
         .update({deleted: req.requester.userid + '@' + JSON.stringify(new Date())})
@@ -36,9 +36,8 @@ exports.deleteEntry = (req, res, tablename, whereObj, whatIsDeleted, expectedNum
         })
 }
 
-
 exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, expectedNumAffected /* LT 0 */) => {
-    whereObj.deleted = 0;
+    whereObj.deleted = null;
     knex(tablename)
         .select('*')
         .where(whereObj)
@@ -56,9 +55,9 @@ exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, exp
                         .then(result => {
                             let newEntry = Object.assign(originalResult[0], newObj);
                             delete newEntry.id;
-                            delete newEntry['created_time'];
-                            newEntry.deleted = 0;
-                            newEntry['created_by_user'] = req.requester.userid;
+                            delete newEntry['createdTime'];
+                            newEntry.deleted = null;
+                            newEntry['createdByUser'] = req.requester.userid;
                             knex(tablename)
                                 .insert(newEntry)
                                 .then(result => res.status(200).send(whatIsUpdated + ' has been succesfully updated.'))
@@ -67,7 +66,7 @@ exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, exp
                                     whereObj.deleted = newDeletedCol;
                                     knex(tablename)
                                         .where(whereObj)
-                                        .update({deleted: 0})
+                                        .update({deleted: null})
                                         .then(result => res.status(400).send('update failed. Please check you parameters'))
                                         .catch(err => {console.log(err); res.status(500).send('Database error')})  
                                 })
@@ -85,4 +84,24 @@ exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, exp
             console.log(err);
             res.status(400).send('Database error');
         })
+}
+
+exports.eraseEntry = (req, res, tablename, whereObj, whatIsDeleted, databaseErrMsg, answering) => {
+    try {
+    knex(tablename)
+        .del()
+        .where(whereObj)
+        .then(result => {
+            if (answering)
+                res.status(200).json("success");
+        })
+        .catch(err => {
+            if (answering)
+                res.status(400).send(databaseErrMsg + err)
+            return (false);
+        });
+    } catch (error) {
+        return (false);
+    }
+    return (true);
 }

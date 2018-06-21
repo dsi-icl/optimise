@@ -2,7 +2,7 @@
   "name": "optimise-core",
   "version": "0.1.3",
   "description": "",
-  "main": "index.js",
+  "main": "./src/server.js",
   "scripts": {
     "lint": "eslint --ext .jsx --ext .js ./",
     "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
