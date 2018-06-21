@@ -51,7 +51,9 @@ jobs:
       stage: smoke
       env: null
       before_install: true
-      install: npm install --production
+      install:
+        - npm install --production
+        - npm install sqlite3 --build-from-source
       script: echo 'TODO - Should run small intantiation test'
       cache:
         directories:
