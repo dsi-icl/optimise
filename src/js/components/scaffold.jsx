@@ -9,7 +9,6 @@ import { PatientChart } from './patientChart.jsx';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import { TestData } from './dataPage.jsx';
 import { History } from './exportCDSIC/history.jsx';
-import { UserActions } from './userActions.jsx';
 import filterIcon from '../../statics/icons/icons8-conversion-48.png';
 import adminIcon from '../../statics/icons/icons8-monarch-48.png';
 import csvIcon from '../../statics/icons/icons8-csv-48.png';

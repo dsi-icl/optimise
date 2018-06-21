@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-import css from '../../../css/patientProfile.css.js';
 import {BackButton} from '../dataPage.jsx';
 import {createVisitAPICall} from '../../redux/actions/createVisit';
 
@@ -22,7 +21,7 @@ export function parseDate(dateString) {
     if (dateArr.length === 3 && dateArr.filter(el => (Number.isInteger(el) && el > 0 ))) {
         return {day: parseInt(dateArr[0], 10), month: parseInt(dateArr[1], 10), year: parseInt(dateArr[2], 10)};
     } else {
-        throw 'wrong date format';
+        throw new Error('wrong date format');
     }
 }
 

@@ -72,7 +72,7 @@ function formatData(dataObj, fieldsArr) {    //not done
                     </select>;
                     return wrapper(el, dataObj, select);
                 case 'I':
-                    return;
+                    return 0;    //fix later
                 default:
                     return wrapper(el, dataObj, <input type='text'></input>);
                 }
