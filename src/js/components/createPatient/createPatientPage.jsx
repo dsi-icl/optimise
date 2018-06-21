@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import saveIcon from '../../statics/icons/icons8-tick-box-48.png';
-import cancelIcon from '../../statics/icons/icons8-close-window-48.png';
+import saveIcon from '../../../statics/icons/icons8-tick-box-48.png';
+import cancelIcon from '../../../statics/icons/icons8-close-window-48.png';
+
 
 
 class CreatePatientComponent_toConnect extends Component {    //get these props from state: this.props.visitFields, this.props.patientId

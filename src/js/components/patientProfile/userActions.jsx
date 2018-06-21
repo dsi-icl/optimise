@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import css from '../../css/searchPatientsById.css.js';
+import css from '../../../css/searchPatientsById.css.js';
 import { NavLink } from 'react-router-dom';
 
 export class UserActions extends Component {

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { SearchPatientsById } from './searchPatientsById.jsx';
-import { Section } from './patientProfile.jsx';
+import { SearchPatientsById } from './searchPatient/searchPatientsById';
+import { Section } from './patientProfile/patientProfile.jsx';
 import { WelcomePanel } from './welcomePage.jsx';
 import css from '../../css/scaffold.css.js';
 import { connect } from 'react-redux';
-import { CreatePatientComponent } from './createPatientPage.jsx';
-import { PatientChart } from './patientChart.jsx';
+import { CreatePatientComponent } from './createPatient/createPatientPage.jsx';
+import { PatientChart } from './patientProfile/patientChart.jsx';
 import { Switch, Route, NavLink } from 'react-router-dom';
-import { TestData } from './dataPage.jsx';
+import { TestData } from './medicalData/dataPage.jsx';
 import { History } from './exportCDSIC/history.jsx';
 import filterIcon from '../../statics/icons/icons8-conversion-48.png';
 import adminIcon from '../../statics/icons/icons8-monarch-48.png';

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import css from '../../css/searchPatientsById.css.js';
-import { Button } from './sharedComponents.jsx'; 
+import css from '../../../css/searchPatientsById.css.js';
+import { Button } from '../sharedComponents.jsx'; 
 import Radium from 'radium';
 import { connect } from 'react-redux';
-import { clickedCreatePatient } from '../redux/actions/createPatient';
-import { getPatientProfileById } from '../redux/actions/searchPatientById';
+import { clickedCreatePatient } from '../../redux/actions/createPatient';
+import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import { Link } from 'react-router-dom';
 
 export class SearchPatientsById extends Component {
