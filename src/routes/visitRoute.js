@@ -1,12 +1,12 @@
 /**
  * Route visit.
- * @description Redirect request from /api/visits to the proper controller call 
+ * @description Redirect request from /api/visits to the proper controller call
  */
 
 
 const express = require('express');
 const visit = express();
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 
 const VisitController = require('../controllers/visitController');
 

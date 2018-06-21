@@ -1,11 +1,11 @@
 /**
  * Route clinical events
- * @description Redirect request from /api/clinicalEvents to the proper controller call 
+ * @description Redirect request from /api/clinicalEvents to the proper controller call
  */
 
 const express = require('express');
 const ce = express();
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 
 const CeController = require('../controllers/ceController');
 

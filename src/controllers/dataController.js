@@ -1,5 +1,3 @@
-const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 class DataController {
@@ -17,14 +15,14 @@ class DataController {
         }
     }
 
-    //TODO : Change switch case to a better 
+    //TODO : Change switch case to a better
     _RouterDeleteData(req, res){    //req.body = {visitId = 1, delete:[1, 43, 54 (fieldIds)] }
         if (req.requester.priv === 1){
             let options = {};
             switch (req.params.dataType) {
                 case 'visit':
                     options.dataTableForeignKey = 'visit';
-                    options.dataTable = 'VISIT_DATA'; 
+                    options.dataTable = 'VISIT_DATA';
                     break;
                 case 'clinicalEvent':
                     options.dataTableForeignKey = 'clinical_event';
@@ -36,7 +34,7 @@ class DataController {
                     break;
                 default:
                     res.status(400).send(`data type ${req.params.dataType} not supported.`);
-                    return
+                    return;
             }
             if (!req.body[`${req.params.dataType}Id`]) {
                 res.status(400).send(`You have to provide ${req.params.dataType}Id in your req body.`);
@@ -60,20 +58,20 @@ class DataController {
                     if (result ===  req.body.delete.length) {
                         return result;
                     } else {
-                        throw 'The fields do not match'
+                        throw 'The fields do not match';
                     }
                 })
                 .then(trx.commit)
                 .catch(trx.rollback);
         })
-        .then(result => {res.status(200).send(`${result} entries have been successfully deleted.`)})
-        .catch(err => {console.log(err); res.status(404).send('Not all your fields are found. Nothing has been deleted.')})
+            .then(result => {res.status(200).send(`${result} entries have been successfully deleted.`);})
+            .catch(err => {console.log(err); res.status(404).send('Not all your fields are found. Nothing has been deleted.');});
     }
 
     addOrUpdateVisitData(req, res){
         let options = {
-            entryIdString: 'visitId', 
-            fieldTable: 'AVAILABLE_FIELDS_VISITS', 
+            entryIdString: 'visitId',
+            fieldTable: 'AVAILABLE_FIELDS_VISITS',
             entryTable: 'VISITS',
             errMsgForUnfoundEntry: 'cannot seem to find your visit!',
             dataTable: 'VISIT_DATA',
@@ -83,8 +81,8 @@ class DataController {
 
     addOrUpdateTestData(req, res){
         let options = {
-            entryIdString: 'testId', 
-            fieldTable: 'AVAILABLE_FIELDS_TESTS', 
+            entryIdString: 'testId',
+            fieldTable: 'AVAILABLE_FIELDS_TESTS',
             entryTable: 'ORDERED_TESTS',
             errMsgForUnfoundEntry: 'cannot seem to find your test!',
             dataTable: 'TEST_DATA',
@@ -94,8 +92,8 @@ class DataController {
 
     addOrUpdateClinicalEventData(req, res){
         let options = {
-            entryIdString: 'clinicalEventId', 
-            fieldTable: 'AVAILABLE_FIELDS_CE', 
+            entryIdString: 'clinicalEventId',
+            fieldTable: 'AVAILABLE_FIELDS_CE',
             entryTable: 'clinical_events',
             errMsgForUnfoundEntry: 'cannot seem to find your clinical event!',
             dataTable: 'CLINICAL_EVENTS_DATA',
@@ -104,7 +102,7 @@ class DataController {
     }
 
     _transactionForAddAndUpdate(req, options){
-        return function(inputData){ 
+        return function(inputData){
             return knex.transaction(trx => {
                 knex(options.dataTable)    //updating all the 'updates' entries to 'deleted'
                     .where('field', 'in', Object.keys(req.body.update))
@@ -120,8 +118,8 @@ class DataController {
                     })
                     .then(trx.commit)
                     .catch(trx.rollback);
-            })
-        }
+            });
+        };
     }
 
     _addOrUpdateDataBackbone (req, res, options, transactionFunction) {  //req.body = {visitId = 1, update : {1: 43, 54: LEFT}, add : {4324:432, 54:4} }
@@ -138,7 +136,7 @@ class DataController {
             knex(options.entryTable)
                 .select('id', 'type')
                 .where({id: req.body[options.entryIdString], deleted: 0})  //making sure the visit is found
-                .then(result => {    
+                .then(result => {
                     if (result.length === 1) {
                         return result;
                     } else {
@@ -166,7 +164,7 @@ class DataController {
                 .then(result => {    //comparing if all the input values matching the type of the field
                     const totalLength = numOfUpdates + numOfAdds;
                     for (let i = 0; i < totalLength; i++) {
-                        if (result[i].length === 1 ){
+                        if (result[i].length === 1){
                             let addOrUpdate = i < numOfUpdates ? 'update' : 'add';
                             let fieldId = result[i][0].id;
                             let fieldType = result[i][0].type;
@@ -227,36 +225,36 @@ class DataController {
                                 throw 'stopping the chain';
                             }
                             return 0;
-                        })
+                        });
                 })
                 .then(nothing => {   //transforming the req.body
                     const updates = [];
                     const adds = [];
                     for (let i = 0; i < numOfUpdates; i++) {
                         const entry = {
-                            "field": Object.keys(req.body.update)[i],
-                            "value": req.body.update[Object.keys(req.body.update)[i]],
-                            "createdByUser": req.requester.userid,
-                            "deleted": null
+                            'field': Object.keys(req.body.update)[i],
+                            'value': req.body.update[Object.keys(req.body.update)[i]],
+                            'createdByUser': req.requester.userid,
+                            'deleted': null
                         };
                         entry[options.dataTableForeignKey] = req.body[options.entryIdString];
                         updates.push(entry);
                     }
                     for (let i = 0; i < numOfAdds; i++) {
                         const entry = {
-                            "field": Object.keys(req.body.add)[i],
-                            "value": req.body.add[Object.keys(req.body.add)[i]],
-                            "createdByUser": req.requester.userid,
-                            "deleted": null
+                            'field': Object.keys(req.body.add)[i],
+                            'value': req.body.add[Object.keys(req.body.add)[i]],
+                            'createdByUser': req.requester.userid,
+                            'deleted': null
                         };
                         entry[options.dataTableForeignKey] = req.body[options.entryIdString];
                         adds.push(entry);
                     }
-                    return {"updates": updates, "adds": adds};
+                    return {'updates': updates, 'adds': adds};
                 })
                 .then(transactionFunction)
                 .then(result => res.send(`success with ${result.length} new entries added`))
-                .catch(err => {console.log(err); res.status(400).send('Error. Please try again')})
+                .catch(err => {console.log(err); res.status(400).send('Error. Please try again');})
                 .catch(err => {});
         } else {
             res.status(400).send(`please provide ${options.entryIdString} and update and/or add.`);
