@@ -19,7 +19,7 @@ describe('Visit controller tests', () => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(res.body.length).toBeGreaterThanOrEqual(1);
-            })
+            });
     });
 
     test('getting visits of a patient that does not have visit', () => {
@@ -30,7 +30,7 @@ describe('Visit controller tests', () => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(res.body.length).toBe(0);
-            })
+            });
     });
 
     test('getting visits of a patient that does not have visit', () => {
@@ -41,7 +41,7 @@ describe('Visit controller tests', () => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(res.body.length).toBe(0);
-            })
+            });
     });
 
     test('creating visit for a patient', () => {
@@ -49,13 +49,13 @@ describe('Visit controller tests', () => {
             .post('/api/visits')
             .set('token', token)
             .send({
-                "patientId": "chon",
-                "visitDate": { "day": 29, "month": 2, "year": 2000 }
+                'patientId': 'chon',
+                'visitDate': { 'day': 29, 'month': 2, 'year': 2000 }
             })
             .then(res => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            })
+            });
     });
 
     test('creating visit for a patient with malformed date', () => {
@@ -63,12 +63,12 @@ describe('Visit controller tests', () => {
             .post('/api/visits')
             .set('token', token)
             .send({
-                "patientId": "chon",
-                "visitDate": { "day": 29, "month": 2, "year": 2001 }
+                'patientId': 'chon',
+                'visitDate': { 'day': 29, 'month': 2, 'year': 2001 }
             })
             .then(res => {
                 expect(res.statusCode).toBe(400);
-            })
+            });
     });
 
     test('getting visits of this patient', () => {
@@ -79,7 +79,7 @@ describe('Visit controller tests', () => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(res.body.length).toBe(1);
-            })
+            });
     });
 
     test('deleting visit for a patient', () => {
@@ -87,11 +87,11 @@ describe('Visit controller tests', () => {
             .delete('/api/visits')
             .set('token', token)
             .send({
-                "patientId": "chon",
-                "visitDate": { "day": 29, "month": 2, "year": 2000 }
+                'patientId': 'chon',
+                'visitDate': { 'day': 29, 'month': 2, 'year': 2000 }
             })
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 });

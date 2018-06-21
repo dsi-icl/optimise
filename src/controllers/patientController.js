@@ -12,7 +12,7 @@ class PatientController {
             queryid = req.query.id;
         } else {
             res.status(400).send('The query string can only have one parameter "id"');
-            return
+            return;
         }
         queryid = '%' + queryid + '%';
         knex('PATIENTS')
@@ -49,7 +49,7 @@ class PatientController {
             .then(patientResult => {
                 if (patientResult.length === 1) {
                     const patientId = patientResult[0].patientId;
-                    return patientId
+                    return patientId;
                 } else {
                     res.status(404).send('cannot find your patient');
                     throw 'stopping the chain';
@@ -98,7 +98,7 @@ class PatientController {
 
     /**
      * @description Erase every information about te patient (demo / medical history / visists / treatments and so on).
-     * 
+     *
      * @param {*} req Request send by the client. Excpected to send the id of a patient in the query.
      * @param {*} res Response that will be answered by the server.
      * TODO : Add error handling (try/catch)
@@ -110,7 +110,7 @@ class PatientController {
             res.status(403).send('Sorry! Only admins are able to edit / delete data');
             return;
         }
-        if (isEmptyObject(req.query) || Object.keys(req.query).length > 1 && typeof (req.query.id) != 'string') {
+        if (isEmptyObject(req.query) || Object.keys(req.query).length > 1 && typeof (req.query.id) !== 'string') {
             res.status(400).send('No query found');
             return;
         }
@@ -148,7 +148,7 @@ class PatientController {
                                             for (let j = 0; !isEmptyObject(resultTest) && j < resultTest.length; j++) {
                                                 eraseEntry(req, res, 'TEST_DATA', { 'test': resultTest[j].testId }, 'Row for test data', null, false);
                                             }
-                                        })
+                                        });
                                     eraseEntry(req, res, 'ORDERED_TEST', { 'orderedDuringVisit': visitId[i] }, 'Row for tests', null, false);
                                     //Erase Treatment and Treatment Data
                                     knex('TREATMENTS')
@@ -158,7 +158,7 @@ class PatientController {
                                             for (let j = 0; !isEmptyObject(resultTreatment) && j < resultTreatment.length; j++) {
                                                 eraseEntry(req, res, 'TREATMENTS_INTERRUPTION', { 'treatment': resultTreatment[j] }, 'Row for treatment interuption', null, false);
                                             }
-                                        })
+                                        });
                                     eraseEntry(req, res, 'TREATMENTS', { 'orderedDuringVisit': visitId[i] }, 'Row for treatments', null, false);
                                     //Erase Clinical Event and Clinical Event Data
                                     knex('CLINICAL_EVENTS')
@@ -168,13 +168,13 @@ class PatientController {
                                             for (let j = 0; !isEmptyObject(resultCE) && j < resultCE.length; j++) {
                                                 eraseEntry(req, res, 'CLINICQL_EVENT_DATA', { 'clinicalEvent': resultCE[j] }, 'Row for clinical event data', null, false);
                                             }
-                                        })
+                                        });
                                     eraseEntry(req, res, 'CLINICAL_EVENTS', { 'recordedDuringVisit': visitId[i] }, 'Row for clinical event', null, false);
                                     eraseEntry(req, res, 'VISITS', {'id':visitId[i]}, 'Row for visits', null, false);
-                                }        
+                                }
                             }
                         }
-                    })
+                    });
             });
         res.status(200).send('Erasure completed. Check for any data retreivable if needed.');
     }

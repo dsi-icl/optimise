@@ -5,7 +5,7 @@
 
 const express = require('express');
 const app = express();
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 const path = require('path');
 const RequestMiddleware = require('./utils/requestMiddleware');
 
@@ -44,10 +44,10 @@ app.use('/api/clinicalEvents', ce);
 app.all('/api/demogdata/:dataType', DemographicDataController._Router);
 
 app.route('/api/:dataType/data')
-   .post(DataController._RouterAddOrUpdate)
-   .delete(DataController._RouterDeleteData);
+    .post(DataController._RouterAddOrUpdate)
+    .delete(DataController._RouterDeleteData);
 
 app.route('/api/available/:dataType')
-   .get(AvailableFieldController.getFields);
+    .get(AvailableFieldController.getFields);
 
 module.exports = app;

@@ -9,7 +9,7 @@ exports.createEntry = (req, res, tablename, entryObj, databaseErrMsg) => {
         .catch(err => {
             console.log(err);
             res.status(400).send(databaseErrMsg);
-        })
+        });
 };
 
 
@@ -22,19 +22,19 @@ exports.deleteEntry = (req, res, tablename, whereObj, whatIsDeleted, expectedNum
             switch (result){
                 case 0:
                     res.status(404).send('ID does not exist');
-                    break
+                    break;
                 case expectedNumAffected:
                     res.status(200).send(whatIsDeleted + ' has been deleted successfully.');
-                    break
+                    break;
                 default:
                     res.status(500).send('something weird happened');
-                    break
+                    break;
             }})
         .catch(err => {
             console.log(err);
             res.status(400).send('Database error');
-        })
-}
+        });
+};
 
 exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, expectedNumAffected /* LT 0 */) => {
     whereObj.deleted = null;
@@ -45,7 +45,7 @@ exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, exp
             switch (result.length){
                 case 0:
                     res.status(404).json('Entry does not exist');
-                    break
+                    break;
                 case expectedNumAffected:
                     let originalResult = result;
                     let newDeletedCol = req.requester.userid + '@' + JSON.stringify(new Date());   //saved this so that on fail, update entry back to undeleted
@@ -68,40 +68,40 @@ exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, exp
                                         .where(whereObj)
                                         .update({deleted: null})
                                         .then(result => res.status(400).send('update failed. Please check you parameters'))
-                                        .catch(err => {console.log(err); res.status(500).send('Database error')})  
-                                })
-                            })
+                                        .catch(err => {console.log(err); res.status(500).send('Database error');});
+                                });
+                        })
                         .catch(err => {
                             console.log(err);
                             res.status(400).send('Database error');
                         });
-                    break
+                    break;
                 default:
                     res.status(599).send('something weird happened');
-                    break
+                    break;
             }})
         .catch(err => {
             console.log(err);
             res.status(400).send('Database error');
-        })
-}
+        });
+};
 
 exports.eraseEntry = (req, res, tablename, whereObj, whatIsDeleted, databaseErrMsg, answering) => {
     try {
-    knex(tablename)
-        .del()
-        .where(whereObj)
-        .then(result => {
-            if (answering)
-                res.status(200).json("success");
-        })
-        .catch(err => {
-            if (answering)
-                res.status(400).send(databaseErrMsg + err)
-            return (false);
-        });
+        knex(tablename)
+            .del()
+            .where(whereObj)
+            .then(result => {
+                if (answering)
+                    res.status(200).json('success');
+            })
+            .catch(err => {
+                if (answering)
+                    res.status(400).send(databaseErrMsg + err);
+                return (false);
+            });
     } catch (error) {
         return (false);
     }
     return (true);
-}
+};
