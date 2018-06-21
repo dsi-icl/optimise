@@ -44,7 +44,7 @@ jobs:
       node_js: '8'
 
     - stage: lint
-      script: echo 'TODO - Should do linting here'
+      script: npm run lint
 
     # smoke tests use default npm.
     - &smoke
