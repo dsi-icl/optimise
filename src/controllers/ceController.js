@@ -1,5 +1,5 @@
-const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry, isThisEntryDeleted} = require('../utils/controller-utils');
+const { isEmptyObject, validateAndFormatDate } = require('../utils/basic-utils');
+const { createEntry, deleteEntry, updateEntry, isThisEntryDeleted } = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 class CeController {
@@ -25,7 +25,7 @@ class CeController {
         if (req.requester.priv !== 1) {
             res.status(401).send('Unauthorized : You should be identified as an Administrator to do so.');
         } if (req.body.ceId) {
-            deleteEntry(req, res, 'CLINICAL_EVENTS', {'id': req.body.ceId}, req.body.ceId, 1);
+            deleteEntry(req, res, 'CLINICAL_EVENTS', { 'id': req.body.ceId }, req.body.ceId, 1);
         } else {
             res.status(400).send('Missing information');
         }

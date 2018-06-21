@@ -19,10 +19,10 @@ module.exports = {
         'no-alert': 'error',
         'no-console': 'warn',
         'indent': [
-            'error',
+            'warn',
             4,
             {
-                'SwitchCase': 1
+                'SwitchCase': 4
             }
         ],
         'quotes': [
@@ -43,12 +43,17 @@ module.exports = {
         'no-trailing-spaces': 'warn',
         'no-irregular-whitespace': 'error',
         'no-unused-vars': [
-            'error',
+            'warn',
             {
                 'vars': 'all',
                 'args': 'all',
                 'argsIgnorePattern': '^__unused__'
             }
-        ]
+        ],
+        'block-spacing': ['error', 'always'],
+        'object-curly-spacing': ['error', 'always'],
+        'prefer-template': 'warn',
+        'no-var': 'error',
+        'arrow-body-style': ['error', 'as-needed']
     }
 };

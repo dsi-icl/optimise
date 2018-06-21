@@ -1,5 +1,5 @@
-const {validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
+const { validateAndFormatDate } = require('../utils/basic-utils');
+const { createEntry, deleteEntry, updateEntry } = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 
 class TreatmentController {
@@ -26,10 +26,10 @@ class TreatmentController {
     addTerminationDate(req, res){    //for adding termination date
         if (req.body.treatmentId && req.body.terminationDate && validateAndFormatDate(req.body.terminationDate) && req.body.terminatedReason) {
             knex('TREATMENTS')
-                .where({'id': req.body.treatmentId, 'deleted':null})
+                .where({ 'id': req.body.treatmentId, 'deleted':null })
                 .update({
                     'terminatedDate': validateAndFormatDate(req.body.terminationDate),
-                    'terminatedReason': req.body.terminatedReason})
+                    'terminatedReason': req.body.terminatedReason })
                 .then(result => {
                     if (result === 1) {
                         res.status(200).send(result);
@@ -41,7 +41,7 @@ class TreatmentController {
                     }
                 })
                 .catch(err => {
-                    res.status(500).send('Database Error : ' + err);
+                    res.status(500).send(`Database Error : ${  err}`);
                     return ;
                 });
         }
@@ -53,7 +53,7 @@ class TreatmentController {
 
     editTreatment(req, res){
         if (req.requester.priv == 1){
-            let whereObj = {'id': req.body.id, 'deleted':null};
+            let whereObj = { 'id': req.body.id, 'deleted':null };
             let newObj = Object.assign({}, req.body);   //need to change naming
             updateEntry(req, res, 'TREATMENTS', whereObj, newObj, req.body.id, 1 /* LT 0 */);
         }
@@ -72,7 +72,7 @@ class TreatmentController {
             res.status(400).send('Missing information to deletion');
             return ;
         }
-        deleteEntry(req, res, 'TREATMENTS', {'id': req.body.treatmentId}, req.body.treatmentId, 1);
+        deleteEntry(req, res, 'TREATMENTS', { 'id': req.body.treatmentId }, req.body.treatmentId, 1);
     }
 
     addInterruption(req, res){
@@ -93,7 +93,7 @@ class TreatmentController {
         if (req.requester.priv !== 1) {
             res.status(401).send('Unauthorized : You should be identified as an Administrator to do so.');
         }
-        deleteEntry(req, res, 'TREATMENTS_INTERRUPTIONS', {'id': req.body.treatmentInterId}, req.body.treatmentInterId, 1);
+        deleteEntry(req, res, 'TREATMENTS_INTERRUPTIONS', { 'id': req.body.treatmentInterId }, req.body.treatmentInterId, 1);
     }
 }
 

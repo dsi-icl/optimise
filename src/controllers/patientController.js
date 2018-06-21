@@ -14,7 +14,7 @@ class PatientController {
             res.status(400).send('The query string can only have one parameter "id"');
             return;
         }
-        queryid = '%' + queryid + '%';
+        queryid = `%${  queryid  }%`;
         knex('PATIENTS')
             .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENT_DEMOGRAPHIC.DOB', 'PATIENT_DEMOGRAPHIC.gender')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
@@ -116,7 +116,7 @@ class PatientController {
         }
         knex('PATIENTS')
             .select({ patientId: 'id' })
-            .where('aliasId', 'like', '%' + req.query.id + '%')
+            .where('aliasId', 'like', `%${  req.query.id  }%`)
             .then(resultPatient => {
                 patientId = resultPatient[0].patientId;
                 if (resultPatient.length > 1) {
@@ -170,7 +170,7 @@ class PatientController {
                                             }
                                         });
                                     eraseEntry(req, res, 'CLINICAL_EVENTS', { 'recordedDuringVisit': visitId[i] }, 'Row for clinical event', null, false);
-                                    eraseEntry(req, res, 'VISITS', {'id':visitId[i]}, 'Row for visits', null, false);
+                                    eraseEntry(req, res, 'VISITS', { 'id':visitId[i] }, 'Row for visits', null, false);
                                 }
                             }
                         }
