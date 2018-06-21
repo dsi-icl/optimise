@@ -3,7 +3,7 @@
 export default {
     rightPanel: 2,       //will replace this with react-router
     middlePanel: 1,
-    createPatient: {patientId: ''},
+    createPatient: { patientId: '' },
     patientProfile: {
         fetching: false, 
         data: {
@@ -84,7 +84,7 @@ export default {
                             'value': '12'
                         },
                         {   'field': 86,
-                            'value' : '123'},
+                            'value' : '123' },
                         {
                             'field': 91,
                             'value' : 'TEST NOT DONE'

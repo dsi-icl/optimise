@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {SearchPatientsById} from './searchPatientsById.jsx';
-import {Section} from './patientProfile.jsx';
-import {WelcomePanel} from './welcomePage.jsx';
+import React, { Component } from 'react';
+import { SearchPatientsById } from './searchPatientsById.jsx';
+import { Section } from './patientProfile.jsx';
+import { WelcomePanel } from './welcomePage.jsx';
 import css from '../../css/scaffold.css.js';
 import { connect } from 'react-redux';
 import { CreatePatientComponent } from './createPatientPage.jsx';
@@ -14,7 +14,7 @@ import adminIcon from '../../statics/icons/icons8-monarch-48.png';
 import csvIcon from '../../statics/icons/icons8-csv-48.png';
 import cloudIcon from '../../statics/icons/icons8-cloud-40.png';
 import searchIcon from '../../statics/icons/icons8-detective-48.png';
-import {CreateVisit} from './createMedicalElements/createVisit.jsx';
+import { CreateVisit } from './createMedicalElements/createVisit.jsx';
 
 export class MenuBar extends Component {
     render() {
@@ -134,4 +134,4 @@ export class FarRightPanel extends Component {
     }
 }
 
-export const RightPanel = connect(state => ({page: state.rightPanel}), null,null, {pure: false})(RightPanel_toConnect);
+export const RightPanel = connect(state => ({ page: state.rightPanel }), null,null, { pure: false })(RightPanel_toConnect);

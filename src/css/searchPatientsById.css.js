@@ -10,7 +10,7 @@ export default {
         width: '90%',
         padding: '5px 5px',
         textAlign: 'center',
-        ':hover': {backgroundColor: '#f5f6fa', cursor: 'pointer'}},
+        ':hover': { backgroundColor: '#f5f6fa', cursor: 'pointer' } },
     
     createPatientButton: {
         backgroundColor: 'rgb(244, 66, 66)',
@@ -24,7 +24,7 @@ export default {
         paddingTop: 5,
         textAlign: 'center',
         overflow: 'hidden',
-        ':hover': {color: '#f5f6fa', backgroundColor: '#EA2027', cursor: 'pointer'}},
+        ':hover': { color: '#f5f6fa', backgroundColor: '#EA2027', cursor: 'pointer' } },
     
     searchBar: {
         margin: '1px auto',

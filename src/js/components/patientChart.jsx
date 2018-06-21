@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PatientProfileSectionScaffold, PatientProfileTop } from './patientProfile.jsx';
 import css from '../../css/patientProfile.css.js';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import resumeIcon from '../../statics/icons/icons8-resume-48.png';
-import {getPatientProfileById } from '../redux/actions/searchPatientById';
+import { getPatientProfileById } from '../redux/actions/searchPatientById';
 import store from '../redux/store';
 
 export class PatientChart extends Component {
@@ -54,15 +54,15 @@ class SubsectionsBar extends Component {
         };
         switch (this.props.type) {
         case 'visit':
-            return <div style={{...style, backgroundColor: '#8596B0', width: '90%'}}>{this.props.title}</div>
+            return <div style={{ ...style, backgroundColor: '#8596B0', width: '90%' }}>{this.props.title}</div>
         case 'visitData':
-            return <div style={{...style, backgroundColor: 'rgb(190, 189, 190)'}}>{this.props.title}</div>
+            return <div style={{ ...style, backgroundColor: 'rgb(190, 189, 190)' }}>{this.props.title}</div>
         case 'medication':
-            return <div style={{...style, backgroundColor: '#ffca1b'}}>{this.props.title}</div>
+            return <div style={{ ...style, backgroundColor: '#ffca1b' }}>{this.props.title}</div>
         case 'clinicalEvent':
-            return <div style={{...style, backgroundColor: '#FF4745'}}>{this.props.title}</div>
+            return <div style={{ ...style, backgroundColor: '#FF4745' }}>{this.props.title}</div>
         case 'test':
-            return <div style={{...style, backgroundColor: '#99CA78'}}>{this.props.title}</div>
+            return <div style={{ ...style, backgroundColor: '#99CA78' }}>{this.props.title}</div>
         default:
             return null;
         }
@@ -144,19 +144,19 @@ class VisitSection extends Component {
                 <div>
                     <SubsectionsBar type='visitData' title='Anthropometry and Vital signs'/>
                     <div style={style}>
-                        <table style={{width: '100%'}}>
+                        <table style={{ width: '100%' }}>
                             <tbody>
                                 <tr>
-                                    <td style={{textAlign: 'left'}}>Systolic blood pressure: <input type='text' style={inputStyle}/>{' mmHg'}</td>
-                                    <td style={{textAlign: 'left'}}>Diastolic blood pressure: <input type='text' style={inputStyle}/>{' mmHg'}</td>
+                                    <td style={{ textAlign: 'left' }}>Systolic blood pressure: <input type='text' style={inputStyle}/>{' mmHg'}</td>
+                                    <td style={{ textAlign: 'left' }}>Diastolic blood pressure: <input type='text' style={inputStyle}/>{' mmHg'}</td>
                                 </tr>
                                 <tr>
-                                    <td style={{textAlign: 'left'}}>Heart rate: <input type='text' style={inputStyle}/>{' bpm'}</td>
-                                    <td style={{textAlign: 'left'}}>Height: <input type='text' style={inputStyle}/>{' cm'}</td>
+                                    <td style={{ textAlign: 'left' }}>Heart rate: <input type='text' style={inputStyle}/>{' bpm'}</td>
+                                    <td style={{ textAlign: 'left' }}>Height: <input type='text' style={inputStyle}/>{' cm'}</td>
                                 </tr>
                                 <tr>
-                                    <td style={{textAlign: 'left'}}>Weight: <input type='text' style={inputStyle}/>{' kg'}</td>
-                                    <td style={{textAlign: 'left'}}>Academic concern: <input type='text' style={inputStyle}/></td>
+                                    <td style={{ textAlign: 'left' }}>Weight: <input type='text' style={inputStyle}/>{' kg'}</td>
+                                    <td style={{ textAlign: 'left' }}>Academic concern: <input type='text' style={inputStyle}/></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -230,7 +230,7 @@ class Charts_toConnect extends Component {   //unfinsihed
             return null
         } else {
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
-                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{...css.sectionBody, width: '100%'}}>
+                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }}>
                     {this.props.data.visits.map(
                         (el, ind) => <VisitSection availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${ind+1}-th visit: ${el.visitDate}`}/>
                     )}
@@ -240,4 +240,4 @@ class Charts_toConnect extends Component {   //unfinsihed
     }
 }
 
-const Charts = connect(state => ({fetching: state.patientProfile.fetching, data: state.patientProfile.data, availableFields: state.availableFields}))(Charts_toConnect);
+const Charts = connect(state => ({ fetching: state.patientProfile.fetching, data: state.patientProfile.data, availableFields: state.availableFields }))(Charts_toConnect);

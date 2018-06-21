@@ -6,19 +6,19 @@ function availableFields(state = initialState.availableFields, action){
     return state;
 }
 
-function createVisit(state = {fetching: false, reqBody: {}}, action) {
+function createVisit(state = { fetching: false, reqBody: {} }, action) {
     switch (action.type) {
     case actionTypes.visits.CREATE_VISIT_REQUEST:
-        return {fetching: true, reqBody: action.payload};
+        return { fetching: true, reqBody: action.payload };
     case actionTypes.visits.CREATE_VISIT_SUCCESS:
-        return {fetching: false, }
+        return { fetching: false, }
     }
 }
 
-function createPatient(state = {patientId: ''}, action) {
+function createPatient(state = { patientId: '' }, action) {
     switch (action.type) {
     case 'CLICKED_CREATE_PATIENT':
-        return {patientId: action.payload};
+        return { patientId: action.payload };
     default:
         return state; 
     }
@@ -36,9 +36,9 @@ function getPatientById(state = {}, action) {
 function patientProfile(state = initialState.patientProfile, action) {
     switch (action.type) {
     case 'SEARCH_PATIENTS_BY_ID_REQUEST':
-        return {fetching: true, data: {}};
+        return { fetching: true, data: {} };
     case 'SEARCH_RESULT_BY_ID_SUCCESS':
-        return {fetching: false, data: action.payload};
+        return { fetching: false, data: action.payload };
     default:
         return state;
     }
