@@ -106,7 +106,7 @@ class PatientController {
     erasePatientInfo(req, res) {
         let patientId = undefined;
         let visitId = [];
-        if (req.requester.priv != 1) {
+        if (req.requester.priv !== 1) {
             res.status(403).send('Sorry! Only admins are able to edit / delete data');
             return;
         }
@@ -123,7 +123,7 @@ class PatientController {
                     res.status(400).send('Asked id too similar to others. Please refine your request');
                     throw ('Too much results.');
                 }
-                if (patientId == undefined) {
+                if (patientId === undefined) {
                     res.status(400).send('Error while retreiving the asked user. Check information sent');
                     throw ('Too much results.');
                 }
@@ -139,7 +139,7 @@ class PatientController {
                             for (let i = 0; i < resultVisit.length; i++) {
                                 visitId[i] = resultVisit[i].visitId;
                                 eraseEntry(req, res, 'VISIT_DATA', { 'visit': visitId[i] }, 'Row for visit data', null, false);
-                                for (let i = 0; visitId != undefined && i < visitId.length; i++) {
+                                for (let i = 0; !visitId && i < visitId.length; i++) {
                                     //Erase Ordered test and test data
                                     knex('ORDERED_TESTS')
                                         .select({ testId: 'id' })

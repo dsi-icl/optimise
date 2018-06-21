@@ -32,8 +32,8 @@ class DemographicDataController {
             .select('deleted')
             .where({ 'id': req.body.patient, 'deleted': null })
             .then(result => {
-                if (result.length != 1)
-                    res.status(404).send("User not found");
+                if (result.length !== 1)
+                    res.status(404).send('User not found');
                 knex('PATIENT_DEMOGRAPHIC')
                     .select('*')
                     .where({ 'patient':req.body.patient, 'deleted': null })
@@ -57,9 +57,9 @@ class DemographicDataController {
                             } else {
                                 res.status(400).send('Malformed date object.');
                             }
-                        } else if (result.length != 1) {
+                        } else if (result.length !== 1) {
                             res.status(404).send('Cannot seem to find your patient!');
-                        } else if (resu.length != 0) {
+                        } else if (resu.length !== 0) {
                             res.status(400).send('Patient already have demographic data.');
                         }
                     });

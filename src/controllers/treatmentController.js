@@ -52,7 +52,7 @@ class TreatmentController {
     }
 
     editTreatment(req, res){
-        if (req.requester.priv == 1){
+        if (req.requester.priv === 1){
             let whereObj = { 'id': req.body.id, 'deleted':null };
             let newObj = Object.assign({}, req.body);   //need to change naming
             updateEntry(req, res, 'TREATMENTS', whereObj, newObj, req.body.id, 1 /* LT 0 */);
