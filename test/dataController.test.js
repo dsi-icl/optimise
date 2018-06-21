@@ -1,10 +1,8 @@
 const app = require('../src/app');
 const request = require('supertest')(app);
-
-
-const token = 'd86d6e50ade67a3a0569ebc84d6041ea9bac36cb';
-const standardUserToken = '634bf7479b79aad4a5a4b3c404ea4827009833bc';
-
+const tokens = require('./token');
+const token = tokens.token;
+const standardToken = tokens.standardToken;
 
 
 describe('Data controller tests (visit data)', () => {

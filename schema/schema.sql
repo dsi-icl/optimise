@@ -13,11 +13,11 @@ CREATE TABLE USERS (
     username TEXT NOT NULL, 
     realName TEXT,
     pw TEXT NOT NULL,
-    adminPriv NUMERIC,
+    adminPriv NUMERIC NOT NULL,
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
-    deleted TEXT, /*NULL or deletion time*/
-    UNIQUE (username, deleted)
+    deleted TEXT UNIQUE, /*NULL or deletion time*/
+    CONSTRAINT constraint_username UNIQUE (username, deleted)
 );
 
 CREATE TABLE USER_SESSION (
@@ -28,7 +28,6 @@ CREATE TABLE USER_SESSION (
     deleted TEXT /*NULL or deletion time*/
 );
 
-
 /* patient basic data */
 CREATE TABLE PATIENTS (
     id INTEGER PRIMARY KEY ASC,
@@ -37,7 +36,7 @@ CREATE TABLE PATIENTS (
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
-    UNIQUE (aliasId, deleted)
+    UNIQUE (aliasId)
 );
 
 CREATE TABLE PATIENT_IMMUNISATION (
@@ -48,7 +47,7 @@ CREATE TABLE PATIENT_IMMUNISATION (
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
-    UNIQUE (patient, vaccineName, immunisationDate, deleted)
+    UNIQUE (patient, vaccineName, immunisationDate)
 );
 
 CREATE TABLE PATIENT_DEMOGRAPHIC (
@@ -276,6 +275,12 @@ INSERT INTO AVAILABLE_CLINICAL_EVENT_TYPES (name) VALUES ('Relapses');
 INSERT INTO PATIENTS (
     aliasId, study, createdTime, createdByUser, deleted
 ) VALUES ('hey', 'optimise', datetime('now'), 1, NULL);
+INSERT INTO PATIENTS ( /* For test purpose */
+    aliasId, study, createdTime, createdByUser, deleted
+) VALUES ('chon', 'optimise', datetime('now'), 1, NULL);
+INSERT INTO PATIENTS ( /* For test purpose */
+    aliasId, study, createdTime, createdByUser, deleted
+) VALUES ('css', 'optimise', datetime('now'), 1, NULL);
 
 INSERT INTO PATIENT_DEMOGRAPHIC (
     patient, DOB, gender, dominantHand, ethnicity, countryOfOrigin, alcoholUsage, smokingHistory, createdByUser, deleted

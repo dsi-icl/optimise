@@ -36,7 +36,7 @@ class SelectorUtils {
     getImmunisations(patientId) {
         return knex('PATIENT_IMMUNISATION')
             .select('vaccineName', 'immunisationDate')
-            .where({patient: patientId, deleted: null})
+            .where({'patient': patientId, 'deleted': null})
             .then(result => {
                 const returnObj = {immunisations: result};
                 return returnObj
@@ -46,7 +46,7 @@ class SelectorUtils {
     getMedicalHistory(patientId) {
         return knex('MEDICAL_HISTORY')
             .select('relation', 'conditionName', 'startDate', 'outcome', 'resolvedYear')
-            .where({patient: patientId, deleted: null})
+            .where({'patient': patientId, 'deleted': null})
             .then(result => {
                 const returnObj = {medicalHistory: result};
                 return returnObj
@@ -57,7 +57,7 @@ class SelectorUtils {
         const _this = this;
         return knex('VISITS')
             .select({visitId: 'id', visitDate: 'visitDate'})
-            .where({'patient': patientId, deleted: null})
+            .where({'patient': patientId, 'deleted': null})
             .then(result => {
                 if (result.length >= 1) {
                     const promiseArr = []
@@ -87,7 +87,7 @@ class SelectorUtils {
         return knex('ORDERED_TESTS')
                 .select({'testId': 'id'},'orderedDuringVisit', 'type', 'expectedOccurDate')
                 .where('orderedDuringVisit', 'in', subquery)
-                .andWhere({deleted: null})
+                .andWhere({'deleted': null})
                 .then(result => {
                     if (result.length >= 1) {
                         const promiseArr = []
@@ -114,10 +114,10 @@ class SelectorUtils {
     getTreatments(patientId) {
         const _this = this;
         const subquery = knex('VISITS').select({'id': 'orderedDuringVisit'}).where({'patient': patientId, deleted: null});
-        return knex('treatments')
+        return knex('TREATMENTS')
             .select('id', 'orderedDuringVisit', 'drug', 'dose', 'unit', 'form', 'timesPerDay', 'durationWeeks', 'terminatedDate', 'terminatedReason')
             .where('orderedDuringVisit', 'in', subquery)
-            .andWhere({deleted: null})
+            .andWhere({'deleted': null})
             .then(result => {
                 if (result.length >= 1) {
                     const promiseArr = []
@@ -142,21 +142,21 @@ class SelectorUtils {
     }
 
     _getVisitData(visitId){
-        return knex('visit_collected_data')
+        return knex('VISIT_DATA')
             .select('field', 'value')
             .where({'visit': visitId, 'deleted': null});
     }
 
     _getTestData(testId){
-        return knex('test_data')
+        return knex('TEST_DATA')
             .select('field', 'value')
             .where({'test': testId, 'deleted': null});
     }
 
     _getTreatmentInterruptions(treatmentId) {
-        return knex('treatments_interruptions')
+        return knex('TREATMENTS_INTERRUPTIONS')
             .select('reason', 'startDate', 'endDate')
-            .where({'treatment': treatmentId, deleted: null});
+            .where({'treatment': treatmentId, 'deleted': null});
     }
 
     _getCeData(ceId){
@@ -170,7 +170,7 @@ class SelectorUtils {
         return knex('CLINICAL_EVENTS')
             .select('recordedDuringVisit', 'type', 'dateStartDate', 'endDate')
             .where(builder => builder.where('patient', patientId).orWhere('recordedDuringVisit', 'in', subquery))
-            .andWhere({deleted: null})
+            .andWhere({'deleted': null})
             .then(result => {
                 const returnObj = {clinicalEventsWithoutData: result};
                 return returnObj;
@@ -180,10 +180,10 @@ class SelectorUtils {
     getClinicalEvents(patientId) {
         const _this = this;
         const subquery = knex('VISITS').select('id').where({'patient': patientId, deleted: null});
-        return knex('clinical_events')
+        return knex('CLINICAL_EVENTS')
             .select('id', 'recordedDuringVisit', 'type', 'dateStartDate', 'endDate')
             .where(builder => builder.where('patient', patientId).orWhere('recordedDuringVisit', 'in', subquery))
-            .andWhere({deleted: null})
+            .andWhere({'deleted': null})
             .then(result => {
                 if (result.length >= 1) {
                     const promiseArr = []
