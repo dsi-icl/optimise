@@ -20,21 +20,21 @@ class DataController {
         if (req.requester.priv === 1){
             let options = {};
             switch (req.params.dataType) {
-                case 'visit':
-                    options.dataTableForeignKey = 'visit';
-                    options.dataTable = 'VISIT_DATA';
-                    break;
-                case 'clinicalEvent':
-                    options.dataTableForeignKey = 'clinical_event';
-                    options.dataTable = 'CLINICAL_EVENTS_DATA';
-                    break;
-                case 'test':
-                    options.dataTableForeignKey = 'test';
-                    options.dataTable = 'TEST_DATA';
-                    break;
-                default:
-                    res.status(400).send(`data type ${req.params.dataType} not supported.`);
-                    return;
+                            case 'visit':
+                                options.dataTableForeignKey = 'visit';
+                                options.dataTable = 'VISIT_DATA';
+                                break;
+                            case 'clinicalEvent':
+                                options.dataTableForeignKey = 'clinical_event';
+                                options.dataTable = 'CLINICAL_EVENTS_DATA';
+                                break;
+                            case 'test':
+                                options.dataTableForeignKey = 'test';
+                                options.dataTable = 'TEST_DATA';
+                                break;
+                            default:
+                                res.status(400).send(`data type ${req.params.dataType} not supported.`);
+                                return;
             }
             if (!req.body[`${req.params.dataType}Id`]) {
                 res.status(400).send(`You have to provide ${req.params.dataType}Id in your req body.`);
@@ -52,7 +52,7 @@ class DataController {
                 .where('field', 'in', req.body.delete)
                 .andWhere('deleted', null)
                 .andWhere(options.dataTableForeignKey, req.body[`${req.params.dataType}Id`])
-                .update({'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}`})
+                .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
                 .transacting(trx)
                 .then(result => {
                     if (result ===  req.body.delete.length) {
@@ -64,8 +64,8 @@ class DataController {
                 .then(trx.commit)
                 .catch(trx.rollback);
         })
-            .then(result => {res.status(200).send(`${result} entries have been successfully deleted.`);})
-            .catch(err => {console.log(err); res.status(404).send('Not all your fields are found. Nothing has been deleted.');});
+            .then(result => { res.status(200).send(`${result} entries have been successfully deleted.`); })
+            .catch(err => { console.log(err); res.status(404).send('Not all your fields are found. Nothing has been deleted.'); });
     }
 
     addOrUpdateVisitData(req, res){
@@ -75,7 +75,7 @@ class DataController {
             entryTable: 'VISITS',
             errMsgForUnfoundEntry: 'cannot seem to find your visit!',
             dataTable: 'VISIT_DATA',
-            dataTableForeignKey: 'visit'};
+            dataTableForeignKey: 'visit' };
         this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
 
@@ -86,7 +86,7 @@ class DataController {
             entryTable: 'ORDERED_TESTS',
             errMsgForUnfoundEntry: 'cannot seem to find your test!',
             dataTable: 'TEST_DATA',
-            dataTableForeignKey: 'test'};
+            dataTableForeignKey: 'test' };
         this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
 
@@ -97,7 +97,7 @@ class DataController {
             entryTable: 'clinical_events',
             errMsgForUnfoundEntry: 'cannot seem to find your clinical event!',
             dataTable: 'CLINICAL_EVENTS_DATA',
-            dataTableForeignKey: 'clinicalEvent'};
+            dataTableForeignKey: 'clinicalEvent' };
         this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
 
@@ -108,14 +108,14 @@ class DataController {
                     .where('field', 'in', Object.keys(req.body.update))
                     .andWhere('deleted', 0)
                     .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
-                    .update({'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}`})
+                    .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
                     .transacting(trx)
-                    .then(result => {
-                        return knex.batchInsert(options.dataTable, inputData.updates, 1000).transacting(trx);    //adding all the 'updates' entries
-                    })
-                    .then(result => {
-                        return knex.batchInsert(options.dataTable, inputData.adds, 1000).transacting(trx); //adding all the 'updates' entries
-                    })
+                    .then(result =>
+                        knex.batchInsert(options.dataTable, inputData.updates, 1000).transacting(trx)    //adding all the 'updates' entries
+                    )
+                    .then(result =>
+                        knex.batchInsert(options.dataTable, inputData.adds, 1000).transacting(trx) //adding all the 'updates' entries
+                    )
                     .then(trx.commit)
                     .catch(trx.rollback);
             });
@@ -132,10 +132,10 @@ class DataController {
             if (!req.body.add) { req.body.add = {}; }   //same
             const numOfUpdates = Object.keys(req.body.update).length;
             const numOfAdds = Object.keys(req.body.add).length;
-            const findField = (fieldId, referenceType) => knex(options.fieldTable).select('id', 'type', 'permittedValues', 'referenceType').where({'id': fieldId, 'referenceType': referenceType});
+            const findField = (fieldId, referenceType) => knex(options.fieldTable).select('id', 'type', 'permittedValues', 'referenceType').where({ 'id': fieldId, 'referenceType': referenceType });
             knex(options.entryTable)
                 .select('id', 'type')
-                .where({id: req.body[options.entryIdString], deleted: 0})  //making sure the visit is found
+                .where({ id: req.body[options.entryIdString], deleted: 0 })  //making sure the visit is found
                 .then(result => {
                     if (result.length === 1) {
                         return result;
@@ -170,30 +170,30 @@ class DataController {
                             let fieldType = result[i][0].type;
                             let inputValue = req.body[addOrUpdate][fieldId];
                             switch (fieldType) {
-                                case 'B':
-                                    if (!(inputValue === 1 || inputValue === 0)) {
-                                        res.status(400).send(`Field ${fieldId} only accepts value 1 and 0.`);
-                                        throw 'stopping the chain';
-                                    }
-                                    break;
-                                case 'C':
-                                    if (!(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
-                                        res.status(400).send(`Field ${fieldId} only accepts values ${result[i][0]['permittedValues']}`);
-                                        throw 'stopping the chain';
-                                    }
-                                    break;
-                                case 'I':
-                                    if (!(parseInt(inputValue) === parseFloat(inputValue))) {
-                                        res.status(400).send(`Field ${fieldId} only accept integer`);
-                                        throw 'stopping the chain';
-                                    }
-                                    break;
-                                case 'N':
-                                    if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
-                                        res.status(400).send(`Field ${fieldId} only accept number`);
-                                        throw 'stopping the chain';
-                                    }
-                                    break;
+                                            case 'B':
+                                                if (!(inputValue === 1 || inputValue === 0)) {
+                                                    res.status(400).send(`Field ${fieldId} only accepts value 1 and 0.`);
+                                                    throw 'stopping the chain';
+                                                }
+                                                break;
+                                            case 'C':
+                                                if (!(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
+                                                    res.status(400).send(`Field ${fieldId} only accepts values ${result[i][0]['permittedValues']}`);
+                                                    throw 'stopping the chain';
+                                                }
+                                                break;
+                                            case 'I':
+                                                if (!(parseInt(inputValue) === parseFloat(inputValue))) {
+                                                    res.status(400).send(`Field ${fieldId} only accept integer`);
+                                                    throw 'stopping the chain';
+                                                }
+                                                break;
+                                            case 'N':
+                                                if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
+                                                    res.status(400).send(`Field ${fieldId} only accept number`);
+                                                    throw 'stopping the chain';
+                                                }
+                                                break;
                             }
                         } else {
                             res.status(404).send('cannot seem to find one of your fields');
@@ -202,8 +202,8 @@ class DataController {
                     }
                     return result;
                 })
-                .then(result => {  //check all the updates are all there and all the adds are NOT there
-                    return knex(options.dataTable)
+                .then(result =>   //check all the updates are all there and all the adds are NOT there
+                    knex(options.dataTable)
                         .select('id')
                         .where('field', 'in' , Object.keys(req.body.update))
                         .andWhere('deleted', null)
@@ -225,8 +225,8 @@ class DataController {
                                 throw 'stopping the chain';
                             }
                             return 0;
-                        });
-                })
+                        })
+                )
                 .then(nothing => {   //transforming the req.body
                     const updates = [];
                     const adds = [];
@@ -250,11 +250,11 @@ class DataController {
                         entry[options.dataTableForeignKey] = req.body[options.entryIdString];
                         adds.push(entry);
                     }
-                    return {'updates': updates, 'adds': adds};
+                    return { 'updates': updates, 'adds': adds };
                 })
                 .then(transactionFunction)
                 .then(result => res.send(`success with ${result.length} new entries added`))
-                .catch(err => {console.log(err); res.status(400).send('Error. Please try again');})
+                .catch(err => { console.log(err); res.status(400).send('Error. Please try again'); })
                 .catch(err => {});
         } else {
             res.status(400).send(`please provide ${options.entryIdString} and update and/or add.`);

@@ -9,16 +9,16 @@ class AvailableFieldController {
             'testTypes':'AVAILABLE_TEST_TYPES'
         };
         let moduleObj = {};
-        if (tableMap.contains(rea.params.dataType)) {
+        if (tableMap.contains(req.params.dataType)) {
             if (req.params.dataType === 'visitFields' && req.query.module) {
-                moduleObj = {module: req.query.module};
+                moduleObj = { module: req.query.module };
             }
             let table = tableMap[req.params.dataType];
             knex(table)
                 .select('*')
                 .where(moduleObj)
                 .then(result => res.status(200).json(result))
-                .catch(err => {console.log(err); res.status(500).send('database error');});
+                .catch(err => { console.log(err); res.status(500).send('database error'); });
             return ;
         }
         res.status(400).send('Unrecognized parameters');

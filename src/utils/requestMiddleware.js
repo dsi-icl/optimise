@@ -4,16 +4,16 @@ class RequestMiddleware {
     static verifySessionAndPrivilege(req, res, next) {
         if (req.headers.token) {
             knex('USER_SESSION')
-                .select({token: 'USER_SESSION.sessionToken', username: 'USERS.username', priv: 'USERS.adminPriv', userid: 'USER_SESSION.user'})
+                .select({ token: 'USER_SESSION.sessionToken', username: 'USERS.username', priv: 'USERS.adminPriv', userid: 'USER_SESSION.user' })
                 .innerJoin('USERS', 'USERS.id', 'USER_SESSION.user')
-                .where({'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': null, 'USERS.deleted': null})
+                .where({ 'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': null, 'USERS.deleted': null })
                 .then(result => {
                     if (result.length !== 0){
                         req.requester = result[0];
                         next();
                     } else {
                         res.status(400).send('You are not logged in. Please provide a valid token.');
-                    }})
+                    } })
                 .catch(err => {
                     console.log(err);
                     res.status(500).send('Database error');
@@ -33,31 +33,31 @@ class RequestMiddleware {
         if (req.headers.token != undefined) {
             knex('USER_SESSION')
                 .select('user')
-                .where({'sessionToken': req.headers.token})
+                .where({ 'sessionToken': req.headers.token })
                 .then(result => {
                     let user = 'unknown';
                     if (result.length === 1)
                         user = result[0]['user'];
                     knex('LOG_ACTIONS')
-                        .insert({'router':req.originalUrl, 'method':req.method, 'body':JSON.stringify(req.body), 'user':user })
+                        .insert({ 'router':req.originalUrl, 'method':req.method, 'body':JSON.stringify(req.body), 'user':user })
                         .then(resultInsert => {
-                            console.log(req.method + ' - ' + req.originalUrl + ' : ' + user);
+                            console.log(`${req.method  } - ${  req.originalUrl  } : ${  user}`);
                             next();
                         })
                         .catch(err => {
-                            console.log('Error catched :' + err);
+                            console.log(`Error catched :${  err}`);
                             next();
                         });
                 });
         } else if (req.body && req.body.username) {
             knex('LOG_ACTIONS')
-                .insert({'router':req.originalUrl, 'method':req.method, 'body':JSON.stringify(req.body), 'user':req.body.username })
+                .insert({ 'router':req.originalUrl, 'method':req.method, 'body':JSON.stringify(req.body), 'user':req.body.username })
                 .then(res => {
-                    console.log(req.method + ' - ' + req.originalUrl + ' : ' + req.body.username);
+                    console.log(`${req.method  } - ${  req.originalUrl  } : ${  req.body.username}`);
                     next();
                 })
                 .catch(err => {
-                    console.log('Error catched :' + err);
+                    console.log(`Error catched :${  err}`);
                     next();
                 });
         }

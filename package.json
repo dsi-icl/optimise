@@ -1,7 +1,7 @@
 {
   "name": "optimise-core",
   "version": "0.1.3",
-  "description": "",
+  "description": "Backend for OptimiseMS",
   "main": "./src/server.js",
   "scripts": {
     "lint": "eslint --ext .jsx --ext .js ./",
