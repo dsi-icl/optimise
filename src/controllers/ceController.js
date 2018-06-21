@@ -10,7 +10,7 @@ class CeController {
                     'type': req.body.type,
                     'dateStartDate': validateAndFormatDate(req.body.startDate),
                     'endDate': req.body.endDate                             //have to check for endDate format too!!
-                }
+                };
                 createEntry(req, res, 'CLINICAL_EVENTS', entryObj, 'databaseError');
             } else {
                 res.status(400).send('wrong date format');
@@ -22,7 +22,7 @@ class CeController {
 
     deleteCe(req, res) {
         if (req.requester.priv !== 1) {
-            res.status(401).send("Unauthorized : You should be identified as an Administrator to do so.");
+            res.status(401).send('Unauthorized : You should be identified as an Administrator to do so.');
         }
         deleteEntry(req, res, 'CLINICAL_EVENTS', {'id': req.body.ceId}, req.body.ceId, 1);
     }

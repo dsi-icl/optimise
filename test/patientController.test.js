@@ -19,7 +19,7 @@ describe('Patient controller tests', () => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(res.body.length).toBeGreaterThanOrEqual(1);
-            })
+            });
     });
 
     test('Searching patients with similar alias_id\'s', () => {
@@ -30,7 +30,7 @@ describe('Patient controller tests', () => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(res.body.length).toBeGreaterThanOrEqual(2);
-            })
+            });
     });
 
     test('Searching patients with similar alias_id\'s but with double "id" query', () => {
@@ -40,7 +40,7 @@ describe('Patient controller tests', () => {
             .then(res => {
                 expect(res.statusCode).not.toBe(200);
                 expect(res.headers['content-type']).toBe('text/html; charset=utf-8');
-            })
+            });
     });
 
     test('Searching patients with similar alias_id\'s but with two queries', () => {
@@ -50,7 +50,7 @@ describe('Patient controller tests', () => {
             .then(res => {
                 expect(res.statusCode).toBe(400);
                 expect(res.headers['content-type']).toBe('text/html; charset=utf-8');
-            })
+            });
     });
 
     test('Creating a new patient', () => {
@@ -58,12 +58,12 @@ describe('Patient controller tests', () => {
             .post('/api/patients')
             .set('token', token)
             .send({
-                "alias_id": "littlePatient",
-                "study": "optimise"
+                'alias_id': 'littlePatient',
+                'study': 'optimise'
             })
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 
     test('Creating the same patient again', () => {
@@ -71,12 +71,12 @@ describe('Patient controller tests', () => {
             .post('/api/patients')
             .set('token', token)
             .send({
-                "alias_id": "littlePatient",
-                "study": "optimise"
+                'alias_id': 'littlePatient',
+                'study': 'optimise'
             })
             .then(res => {
                 expect(res.statusCode).toBe(400);
-            })
+            });
     });
 
     test('getting this patient', () => {
@@ -85,28 +85,28 @@ describe('Patient controller tests', () => {
             .set('token', token)
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 
     test('Deleting a patient', () => {
         return request
             .delete('/api/patients')
             .set('token', token)
-            .send({ "alias_id": "littlePatient" })
+            .send({ 'alias_id': 'littlePatient' })
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 
     test('Deleting this patient again', () => {
         return request
             .delete('/api/patients')
             .set('token', token)
-            .send({ "alias_id": "littlePatient" })
+            .send({ 'alias_id': 'littlePatient' })
             .then(res => {
                 expect(res.statusCode).toBe(404);
-            })
+            });
     });
 
 
-})
+});

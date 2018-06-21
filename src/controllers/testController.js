@@ -9,7 +9,7 @@ class TestController {
                 'orderedDuringVisit': req.body.visitId,
                 'type': req.body.type,
                 'expectedOccurDate': validateAndFormatDate(req.body.expectedDate)
-            }
+            };
             createEntry(req, res, 'ORDERED_TESTS', entryObj, 'databaseError');
         } else {
             res.status(400).send('Please provide a date.');

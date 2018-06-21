@@ -21,11 +21,11 @@ class UserController {
             }
         }
     }
-    
+
     /**
-     * 
+     *
      * @description Send the information relative to the user.
-     * 
+     *
      * @param {*} req the request send by the user. May conatins a username specification
      * @param {*} res the response expected by the client.
      */
@@ -33,14 +33,14 @@ class UserController {
         let queryUsername;
         if (isEmptyObject(req.query)) {
             queryUsername = '';
-        } else if (Object.keys(req.query).length === 1 && typeof(req.query.username) === 'string') {
+        } else if (Object.keys(req.query).length === 1 && typeof (req.query.username) === 'string') {
             queryUsername = req.query.username;
         } else {
             res.status(400).send('The query string can only conatins one username');
-            return
+            return;
         }
         queryUsername = '%' + queryUsername + '%';
-        
+
         knex('USERS')
             .select({username:'USERS.username'}, 'USERS.realName', 'adminPriv')
             .where('USERS.username', 'like', queryUsername)
@@ -55,13 +55,13 @@ class UserController {
             bcrypt.hash(req.body.pw, saltRound)
                 .then(hashedPw => {
                     let entryObj = {
-                    "username": req.body.username,
-                    "pw": hashedPw,
-                    "adminPriv": req.body.isAdmin,
-                    "realName": req.body.realName ? req.body.realName : null};
+                        'username': req.body.username,
+                        'pw': hashedPw,
+                        'adminPriv': req.body.isAdmin,
+                        'realName': req.body.realName ? req.body.realName : null};
                     let databaseErrMsg = 'Cannot create user. ID might already exist. Also, make sure you provide the needed parameters';
                     createEntry(req, res, 'USERS', entryObj, databaseErrMsg);
-                }) 
+                });
         } else {
             res.status(401).send('You do not have permission to create users, or you did not provide the new user\'s password');
         }
@@ -80,8 +80,8 @@ class UserController {
             bcrypt.hash(req.body.pw, saltRound).then(hashedPw => {
                 let whereObj = {'username': req.body.username};
                 let newObj = {'pw': hashedPw};
-                updateEntry(req, res, 'USERS', whereObj, newObj, req.body.username + "'s password", 1);
-            })
+                updateEntry(req, res, 'USERS', whereObj, newObj, req.body.username + '\'s password', 1);
+            });
         } else {
             res.status(401).send('You do not have permission to delete this user. Or you did not provide the needed parameters');
         }
@@ -108,14 +108,14 @@ class UserController {
                                 } else {
                                     res.status(401).send('Cannot login. wrong password.');
                                 }
-                            })
+                            });
                     } else {
-                        res.status(401).send('Cannot find this user')
+                        res.status(401).send('Cannot find this user');
                     }
                 })
                 .catch(err => {
                     res.status(500).send('Server error.');
-                })
+                });
         } else {
             res.status(400).send('Please provide "username" and "pw".');
         }
@@ -123,7 +123,7 @@ class UserController {
 
     userLogout(req,res){
         if (req.requester.username === req.body.username){
-            deleteEntry(req, res, 'USER_SESSION', {'sessionToken': req.requester.token}, req.body.username + "'s session", 1);
+            deleteEntry(req, res, 'USER_SESSION', {'sessionToken': req.requester.token}, req.body.username + '\'s session', 1);
         } else {
             res.status(401).send('You do not have permission to log out this user.');
         }

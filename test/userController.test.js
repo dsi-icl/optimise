@@ -14,16 +14,16 @@ describe('User controller tests', () => {
             .post('/internalapi/userlogin')
             .set('Content-type', 'application/json')
             .send({
-                username: "flor",
-                pw: "heyhey"
-                })
+                username: 'flor',
+                pw: 'heyhey'
+            })
             .then(res => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(Object.keys(res.body).length).toBe(1);
                 expect(res.body.token).toBeDefined();
                 adminToken = res.body.token;
-            })
+            });
     });
 
     test('Admin user logging out another user (should fail)', () => {
@@ -34,7 +34,7 @@ describe('User controller tests', () => {
             .send({'username': 'chon'})
             .then(res => {
                 expect(res.statusCode).toBe(401);
-            })
+            });
     });
 
     test('Admin creating another user (no 1) without admin priv with real name', () => {
@@ -42,21 +42,21 @@ describe('User controller tests', () => {
             .post('/api/users')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
-            .send({"username": "test_user", "pw": "test_pw", "isAdmin": 0, "realName": "IAmTesting"})
+            .send({'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting'})
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
-    
+
     test('Admin creating another user (no 2) without admin priv without real name', () => {
         return request
             .post('/api/users')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
-            .send({"username": "test_user2", "pw": "test_pw2", "isAdmin": 0})
+            .send({'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0})
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 
     test('user no 1 (standard) login', () => {
@@ -64,16 +64,16 @@ describe('User controller tests', () => {
             .post('/internalapi/userlogin')
             .set('Content-type', 'application/json')
             .send({
-                username: "test_user",
-                pw: "test_pw"
-                })
+                username: 'test_user',
+                pw: 'test_pw'
+            })
             .then(res => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(Object.keys(res.body).length).toBe(1);
                 expect(res.body.token).toBeDefined();
                 standardToken = res.body.token;
-            })
+            });
     });
 
     test('user no 1 tries to delete user no 2 (should fail)', () => {
@@ -81,10 +81,10 @@ describe('User controller tests', () => {
             .delete('/api/users')
             .set('Content-type', 'application/json')
             .set('token', standardToken)
-            .send({"username": "test_user2"})
+            .send({'username': 'test_user2'})
             .then(res => {
                 expect(res.statusCode).toBe(401);
-            })
+            });
     });
 
     test('user no 1 changes user no 2 s password (should fail)', () => {  //
@@ -92,10 +92,10 @@ describe('User controller tests', () => {
             .put('/api/users')
             .set('Content-type', 'application/json')
             .set('token', standardToken)
-            .send({"username": "test_user2", "pw": "fake_password"})
+            .send({'username': 'test_user2', 'pw': 'fake_password'})
             .then(res => {
                 expect(res.statusCode).toBe(401);
-            })
+            });
     });
 
     test('user no 1 changes user no 1 s password', () => {  //
@@ -103,10 +103,10 @@ describe('User controller tests', () => {
             .put('/api/users')
             .set('Content-type', 'application/json')
             .set('token', standardToken)
-            .send({"username": "test_user", "pw": "new_password"})
+            .send({'username': 'test_user', 'pw': 'new_password'})
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 
     test('user no 1 (standard) login again', () => {
@@ -114,16 +114,16 @@ describe('User controller tests', () => {
             .post('/internalapi/userlogin')
             .set('Content-type', 'application/json')
             .send({
-                username: "test_user",
-                pw: "new_password"
-                })
+                username: 'test_user',
+                pw: 'new_password'
+            })
             .then(res => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(Object.keys(res.body).length).toBe(1);
                 expect(res.body.token).toBeDefined();
                 standardToken = res.body.token;
-            })
+            });
     });
 
     test('user no 1 deletes himself', () => {
@@ -131,10 +131,10 @@ describe('User controller tests', () => {
             .delete('/api/users')
             .set('Content-type', 'application/json')
             .set('token', standardToken)
-            .send({"username": "test_user"})
+            .send({'username': 'test_user'})
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 
     test('admin deletes user no 2', () => {
@@ -142,10 +142,10 @@ describe('User controller tests', () => {
             .delete('/api/users')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
-            .send({"username": "test_user2"})
+            .send({'username': 'test_user2'})
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 
     test('Admin creating another user (no 1) without admin priv with real name again', () => {
@@ -153,10 +153,10 @@ describe('User controller tests', () => {
             .post('/api/users')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
-            .send({"username": "test_user", "pw": "test_pw", "isAdmin": 0, "realName": "IAmTesting"})
+            .send({'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting'})
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 
     test('admin deletes user no 1 again', () => {
@@ -164,10 +164,10 @@ describe('User controller tests', () => {
             .delete('/api/users')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
-            .send({"username": "test_user"})
+            .send({'username': 'test_user'})
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 
     test('admin logging out himself', () => {
@@ -178,7 +178,7 @@ describe('User controller tests', () => {
             .send({'username': 'flor'})
             .then(res => {
                 expect(res.statusCode).toBe(200);
-            })
+            });
     });
 
 
