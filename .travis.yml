@@ -52,8 +52,7 @@ jobs:
       env: null
       before_install: true
       install:
-        - npm install --production
-        - npm install sqlite3 --build-from-source
+        - npm ci --production
       script: echo 'TODO - Should run small intantiation test'
       cache:
         directories:
