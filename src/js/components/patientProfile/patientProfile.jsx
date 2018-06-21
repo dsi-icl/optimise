@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import css from '../../css/patientProfile.css.js';
-import patientIcon from '../../statics/icons/icons8-user-48.png';
-import saveIcon from '../../statics/icons/icons8-tick-box-48.png';
+import css from '../../../css/patientProfile.css.js';
+import patientIcon from '../../../statics/icons/icons8-user-48.png';
+import saveIcon from '../../../statics/icons/icons8-tick-box-48.png';
 import { UserActions } from './userActions.jsx';
 
 

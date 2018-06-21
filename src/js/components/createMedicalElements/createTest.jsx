@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-import { BackButton } from '../dataPage.jsx';
+import { BackButton } from '../medicalData/dataPage.jsx';
 import { PickDate } from './createVisit.jsx';
 
 class CreateTest_toConnect extends Component {

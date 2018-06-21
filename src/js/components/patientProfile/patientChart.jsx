@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PatientProfileSectionScaffold, PatientProfileTop } from './patientProfile.jsx';
-import css from '../../css/patientProfile.css.js';
+import css from '../../../css/patientProfile.css.js';
 import { NavLink } from 'react-router-dom';
-import resumeIcon from '../../statics/icons/icons8-resume-48.png';
-import { getPatientProfileById } from '../redux/actions/searchPatientById';
-import store from '../redux/store';
+import resumeIcon from '../../../statics/icons/icons8-resume-48.png';
+import { getPatientProfileById } from '../../redux/actions/searchPatientById';
+import store from '../../redux/store';
 
 export class PatientChart extends Component {
     componentDidMount() {

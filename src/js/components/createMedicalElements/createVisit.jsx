@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-import { BackButton } from '../dataPage.jsx';
+import { BackButton } from '../medicalData/dataPage.jsx';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
 
 
