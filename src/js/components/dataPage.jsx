@@ -29,9 +29,9 @@ class testData_toConnect extends Component {
             data[each.field] = each.value;
         }
         return <div>
-                <BackButton to={`/patientProfile/${this.props.patientId}`}/>
-                <h2>TEST RESULT</h2> <h2>Type: 2 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> {formatData(data, this.props.fields.filter(el => el['reference_type'] === 4))}
-            </div>;   //change the type later
+            <BackButton to={`/patientProfile/${this.props.patientId}`}/>
+            <h2>TEST RESULT</h2> <h2>Type: 2 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> {formatData(data, this.props.fields.filter(el => el['reference_type'] === 4))}
+        </div>;   //change the type later
     }
 }
 
@@ -40,7 +40,7 @@ export class BackButton extends Component {
         return (
             <Link to={this.props.to} style={{textDecoration: 'none'}}>
                 <div style={{position: 'relative', left: 20, top: 20, textAlign: 'center', fontSize: 20, width: 30, paddingTop: 4, height: 26, color: 'white', borderRadius: 20, backgroundColor: '#ff6666'}}
-                    >&#8617;
+                >&#8617;
                 </div>
             </Link>
         );
@@ -60,23 +60,23 @@ function formatData(dataObj, fieldsArr) {    //not done
     return (
         <div style={style}>
             {fieldsArr.map(el => {
-                    switch(el.type) {
-                        case 'N':
-                            return wrapper(el, dataObj, <span><input style={{width: 50}} type='text' value={dataObj[el.id] ? dataObj[el.id] : null}/>{el.unit === '' ? null : `  ${el.unit}`}</span>);
-                        case 'C':
-                            const select = <select>
-                                <option value='not selected' selected={dataObj[el.id] ? false : true}>not selected</option>
-                                {el['permitted_values'].split(',').map(ele => (
-                                    <option value={ele} selected={dataObj[el.id] === ele ? true : false}>{ele}</option>
-                                ))}
-                                </select>;
-                            return wrapper(el, dataObj, select);
-                        case 'I':
-                            return;
-                        default:
-                            return wrapper(el, dataObj, <input type='text'></input>);
-                    }
+                switch(el.type) {
+                case 'N':
+                    return wrapper(el, dataObj, <span><input style={{width: 50}} type='text' value={dataObj[el.id] ? dataObj[el.id] : null}/>{el.unit === '' ? null : `  ${el.unit}`}</span>);
+                case 'C':
+                    const select = <select>
+                        <option value='not selected' selected={dataObj[el.id] ? false : true}>not selected</option>
+                        {el['permitted_values'].split(',').map(ele => (
+                            <option value={ele} selected={dataObj[el.id] === ele ? true : false}>{ele}</option>
+                        ))}
+                    </select>;
+                    return wrapper(el, dataObj, select);
+                case 'I':
+                    return;
+                default:
+                    return wrapper(el, dataObj, <input type='text'></input>);
                 }
+            }
             )}
         </div>
     );
