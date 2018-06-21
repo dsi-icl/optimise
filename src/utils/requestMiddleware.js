@@ -20,8 +20,10 @@ class RequestMiddleware {
                     console.log(err);
                     res.status(500).send('Database error');
                 })
+        } else if (req.originalUrl == '/internalapi/userlogin'){
+            next();
         } else {
-            res.status(400).send('Please provide a token in the header')
+            res.status(400).send('Please provide a token in the header');
         }
     }
 
@@ -34,11 +36,14 @@ class RequestMiddleware {
             knex('USER_SESSION')
             .select('user')
             .where({'sessionToken': req.headers.token})
-            .then(res => {
+            .then(result => {
+                let user = 'unknown';
+                if (result.length === 1) 
+                    user = result[0]['user'];
                 knex('LOG_ACTIONS')
-                    .insert({'router':req.originalUrl, 'method':req.method, 'body':JSON.stringify(req.body), 'user':res[0]['user'] })
-                    .then(result => {
-                        console.log(req.method + ' - ' + req.originalUrl + ' : ' + res[0]["user"]);
+                    .insert({'router':req.originalUrl, 'method':req.method, 'body':JSON.stringify(req.body), 'user':user })
+                    .then(resultInsert => {
+                        console.log(req.method + ' - ' + req.originalUrl + ' : ' + user);
                         next();
                     })
                     .catch(err => {

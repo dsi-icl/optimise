@@ -1,12 +1,11 @@
 const app = require('../src/app');
 const request = require('supertest')(app);
+const tokens = require('./token');
+const token = tokens.token;
+const standardToken = tokens.standardToken;
+
 
 const PatientController = require('../src/controllers/patientController');
-
-
-const token = 'd86d6e50ade67a3a0569ebc84d6041ea9bac36cb';     //place holder for test that generates token
-
-
 
 describe('Patient controller tests', () => {
     test('Getting all patients', () => {
@@ -22,7 +21,7 @@ describe('Patient controller tests', () => {
 
     test('Searching patients with similar alias_id\'s', () => {
         return request
-            .get('/api/patients?id=ch')
+            .get('/api/patients?id=hey')
             .set('token', token)
             .then(res => {
                 expect(res.statusCode).toBe(200);
@@ -56,7 +55,7 @@ describe('Patient controller tests', () => {
             .post('/api/patients')
             .set('token', token)
             .send({
-                "alias_id": "littlePatient",
+                "aliasId": "littlePatient",
                 "study": "optimise"})
             .then(res => {
                 expect(res.statusCode).toBe(200);
@@ -68,7 +67,7 @@ describe('Patient controller tests', () => {
             .post('/api/patients')
             .set('token', token)
             .send({
-                "alias_id": "littlePatient",
+                "aliasId": "littlePatient",
                 "study": "optimise"})
             .then(res => {
                 expect(res.statusCode).toBe(400);
@@ -88,7 +87,7 @@ describe('Patient controller tests', () => {
         return request
             .delete('/api/patients')
             .set('token', token)
-            .send({"alias_id": "littlePatient"})
+            .send({"aliasId": "littlePatient"})
             .then(res => {
                 expect(res.statusCode).toBe(200);
             })
@@ -98,7 +97,7 @@ describe('Patient controller tests', () => {
         return request
             .delete('/api/patients')
             .set('token', token)
-            .send({"alias_id": "littlePatient"})
+            .send({"aliasId": "littlePatient"})
             .then(res => {
                 expect(res.statusCode).toBe(404);
             })

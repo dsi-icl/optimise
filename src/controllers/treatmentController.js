@@ -8,17 +8,6 @@ class TreatmentController {
             req.body.unit && req.body.form && req.body.timesPerDay && req.body.durationInWeeks)) {
                 res.status(400).send('Missing information for creation of the treatment');
                 return ;
-            }
-        try {
-            if (isThisEntryDeleted('VISITS', {'id':req.body.visitId})) {
-                res.status(400).send('The selected visit is set as deleted');
-                return ;
-            }
-        } catch (err) {
-            if (err instanceof RangeError) {
-                res.status(400).send('The selected visit was not found');
-                return ;
-            }
         }
         let entryObj = {
             'orderedDuringVisit': req.body.visitId,
@@ -88,17 +77,6 @@ class TreatmentController {
 
     addInterruption(req, res){
         if (req.body.treatmentId) {
-            try {
-                if (isThisEntryDeleted('TREATMENTS', {'id':req.body.treatmentId})) {
-                    res.status(400).send('The selected treatment is set as deleted');
-                    return ;
-                }
-            } catch (err) {
-                if (err instanceof RangeError) {
-                    res.status(400).send('The selected visit was not found');
-                    return ;
-                }
-            }
             let entryObj = {
                 'treatment' : req.body.treatmentId,
                 'startDate' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null ),

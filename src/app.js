@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or 
 
 // Monitoring and rughts verification
 app.use('/', RequestMiddleware.addActionToCollection);
-app.use('/api/', RequestMiddleware.verifySessionAndPrivilege);
+app.use('/', RequestMiddleware.verifySessionAndPrivilege);
 
 // Modules
 app.use('/api/users', users); //Method: POST/PUT/DELETE/GET

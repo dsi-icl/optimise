@@ -5,16 +5,6 @@ const knex = require('../utils/db-connection');
 class TestController {
     createTest(req, res){
         if (req.body.visitId && req.body.expectedDate && validateAndFormatDate(req.body.expectedDate)){
-            try {
-                if (isThisEntryDeleted('VISITS', {'id':req.body.visitId}))
-                    res.status(400).send('The selected visit is set as deleted');
-                    return ;
-            } catch (err) {
-                if (err instanceof RangeError) {
-                    res.status(400).send('The selected visit was not found');
-                    return ;
-                }
-            }
             let entryObj = {
                 'orderedDuringVisit': req.body.visitId,
                 'type': req.body.type,
