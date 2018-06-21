@@ -4,7 +4,7 @@ const knex = require('../utils/db-connection');
 
 class TestController {
     createTest(req, res){
-        if (req.body.expectedDate && validateAndFormatDate(req.body.expectedDate)){
+        if (req.body.visitId && req.body.expectedDate && validateAndFormatDate(req.body.expectedDate)){
             let entryObj = {
                 'orderedDuringVisit': req.body.visitId,
                 'type': req.body.type,
@@ -12,7 +12,7 @@ class TestController {
             };
             createEntry(req, res, 'ORDERED_TESTS', entryObj, 'databaseError');
         } else {
-            res.status(400).send('Please provide a date.');
+            res.status(400).send('Please provide the required parameters');
         }
     }
 

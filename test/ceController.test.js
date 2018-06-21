@@ -1,13 +1,10 @@
 /* global describe test expect */
 
 const app = require('../src/app');
+const tokens = require('./token');
+const token = tokens.token;
+const standardToken = tokens.standardToken;
 const request = require('supertest')(app);
-
-
-const token = 'd86d6e50ade67a3a0569ebc84d6041ea9bac36cb';
-const standardUserToken = '634bf7479b79aad4a5a4b3c404ea4827009833bc';
-
-
 
 describe('Create Clinical Event controller tests', () => {
     test('Request creation whithout body (should fail)', () => {
@@ -40,13 +37,11 @@ describe('Create Clinical Event controller tests', () => {
         return request
             .post('/api/clinicalEvent')
             .set('token', token)
-            .send({
-                'visitId': 11,
+            .send({'visitId':11,
                 'type': 2,
-                'start_date': {
-                    'day': 1, 'month': 3, 'year': 2011
-                }
-            })
+                'startDate':{
+                    'day':1, 'month':3, 'year':2011
+                }})
             .then(res => {
                 expect(res.status).toBe(200);
             });
