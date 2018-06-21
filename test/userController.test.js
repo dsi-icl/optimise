@@ -1,3 +1,5 @@
+/* global describe test expect */
+
 const app = require('../src/app');
 const request = require('supertest')(app);
 

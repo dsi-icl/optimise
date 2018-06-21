@@ -1,3 +1,5 @@
+/* global describe test expect */
+
 const app = require('../src/app');
 const request = require('supertest')(app);
 
@@ -57,7 +59,8 @@ describe('Patient controller tests', () => {
             .set('token', token)
             .send({
                 "alias_id": "littlePatient",
-                "study": "optimise"})
+                "study": "optimise"
+            })
             .then(res => {
                 expect(res.statusCode).toBe(200);
             })
@@ -69,7 +72,8 @@ describe('Patient controller tests', () => {
             .set('token', token)
             .send({
                 "alias_id": "littlePatient",
-                "study": "optimise"})
+                "study": "optimise"
+            })
             .then(res => {
                 expect(res.statusCode).toBe(400);
             })
@@ -88,7 +92,7 @@ describe('Patient controller tests', () => {
         return request
             .delete('/api/patients')
             .set('token', token)
-            .send({"alias_id": "littlePatient"})
+            .send({ "alias_id": "littlePatient" })
             .then(res => {
                 expect(res.statusCode).toBe(200);
             })
@@ -98,7 +102,7 @@ describe('Patient controller tests', () => {
         return request
             .delete('/api/patients')
             .set('token', token)
-            .send({"alias_id": "littlePatient"})
+            .send({ "alias_id": "littlePatient" })
             .then(res => {
                 expect(res.statusCode).toBe(404);
             })

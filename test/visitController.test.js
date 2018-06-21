@@ -1,3 +1,5 @@
+/* global describe test expect */
+
 const app = require('../src/app');
 const request = require('supertest')(app);
 
@@ -48,7 +50,7 @@ describe('Visit controller tests', () => {
             .set('token', token)
             .send({
                 "patientId": "chon",
-                "visitDate": {"day": 29, "month": 2, "year": 2000}
+                "visitDate": { "day": 29, "month": 2, "year": 2000 }
             })
             .then(res => {
                 expect(res.statusCode).toBe(200);
@@ -62,7 +64,7 @@ describe('Visit controller tests', () => {
             .set('token', token)
             .send({
                 "patientId": "chon",
-                "visitDate": {"day": 29, "month": 2, "year": 2001}
+                "visitDate": { "day": 29, "month": 2, "year": 2001 }
             })
             .then(res => {
                 expect(res.statusCode).toBe(400);
@@ -86,7 +88,7 @@ describe('Visit controller tests', () => {
             .set('token', token)
             .send({
                 "patientId": "chon",
-                "visitDate": {"day": 29, "month": 2, "year": 2000}
+                "visitDate": { "day": 29, "month": 2, "year": 2000 }
             })
             .then(res => {
                 expect(res.statusCode).toBe(200);
