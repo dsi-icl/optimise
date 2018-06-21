@@ -20,16 +20,16 @@ exports.deleteEntry = (req, res, tablename, whereObj, whatIsDeleted, expectedNum
         .update({ deleted: `${req.requester.userid  }@${  JSON.stringify(new Date())}` })
         .then(result => {
             switch (result){
-                            case 0:
-                                res.status(404).send('ID does not exist');
-                                break;
-                            case expectedNumAffected:
-                                res.status(200).send(`${whatIsDeleted  } has been deleted successfully.`);
-                                break;
-                            default:
-                                res.status(500).send('something weird happened');
-                                break;
-            } })
+                case 0:
+                    res.status(404).send('Couldn\'t find entry');
+                    break
+                case expectedNumAffected:
+                    res.status(200).send(whatIsDeleted + ' has been deleted successfully.');
+                    break
+                default:
+                    res.status(500).send('something weird happened');
+                    break
+            }})
         .catch(err => {
             console.log(err);
             res.status(400).send('Database error');

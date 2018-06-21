@@ -6,6 +6,7 @@ const tokens = require('./token');
 const token = tokens.token;
 const standardToken = tokens.standardToken;
 
+// TO COMPLETE
 
 describe('Create demographic data for patient.', () => {
     test('Create demogdata without body (FAIL)', () => request
@@ -28,22 +29,40 @@ describe('Create demographic data for patient.', () => {
         }));
 
     // TODO
-    test('Create demogdata with wrong body (FAIL)', () => request
-        .post('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
+    test('Create demogdata with wrong body (FAIL)', () => {
+        return request
+            .post('/api/demogdata/Demographic')
+            .set('token', token)
+            .send({"patient":1, 
+                    "DOB":{"day":1, "month":3, "year":1980},
+                    "gender":"transgender",
+                    "dominantHand":"right",
+                    "ethnicity":"White",
+                    "countryOfOrigin":"France",
+                    "alcoholUsage":"More than 3 units a day",
+                    "smokingHistory":"ex-smoker"})
+            .then(res => {
+                expect(res.statusCode).toBe(400);
+            })
+    });
 
     // TODO
-    test('Create demogdata with good body (SUCCESS)', () => request
-        .post('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
+    test('Create demogdata with good body (SUCCESS)', () => {
+        return request
+            .post('/api/demogdata/Demographic')
+            .set('token', token)
+            .send({"patient":1, 
+                "DOB":{"day":1, "month":3, "year":1980},
+                "gender":"male",
+                "dominantHand":"right",
+                "ethnicity":"White",
+                "countryOfOrigin":"France",
+                "alcoholUsage":"More than 3 units a day",
+                "smokingHistory":"ex-smoker"})
+            .then(res => {
+                expect(res.statusCode).toBe(400);
+            })
+    });
 });
 
 describe('Edit demographic data for patient.', () => {
