@@ -48,8 +48,8 @@ export class SearchPatientsById extends Component {
         );
     }
 }
-
-class SearchResultForPatients_toConnect extends Component {
+@connect(null, dispatch => ({ fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName)), clickedCreatePatient: patientId => dispatch(clickedCreatePatient(patientId)) }))
+export class SearchResultForPatients extends Component {
     constructor() {
         super();
         this._handleClickWrapper = this._handleClickWrapper.bind(this);
@@ -86,6 +86,5 @@ class SearchResultForPatients_toConnect extends Component {
     }
 }
 
-SearchResultForPatients_toConnect = Radium(SearchResultForPatients_toConnect);
-const SearchResultForPatients = connect(null, dispatch => ({ fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName)), clickedCreatePatient: patientId => dispatch(clickedCreatePatient(patientId)) }))(SearchResultForPatients_toConnect);
+SearchResultForPatients = Radium(SearchResultForPatients);
 

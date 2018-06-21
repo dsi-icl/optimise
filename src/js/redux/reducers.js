@@ -11,7 +11,7 @@ function createVisit(state = { fetching: false, reqBody: {} }, action) {
     case actionTypes.visits.CREATE_VISIT_REQUEST:
         return { fetching: true, reqBody: action.payload };
     case actionTypes.visits.CREATE_VISIT_SUCCESS:
-        return { fetching: false, }
+        return { fetching: false }
     }
 }
 

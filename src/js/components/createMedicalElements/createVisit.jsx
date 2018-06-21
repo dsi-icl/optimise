@@ -25,8 +25,8 @@ export function parseDate(dateString) {
     }
 }
 
-
-class CreateVisit_toConnect extends Component {
+@connect(state => ({ patientId: state.patientProfile.data.patientId }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
+export class CreateVisit extends Component {
     constructor() {
         super();
         this.state = {
@@ -68,5 +68,3 @@ class CreateVisit_toConnect extends Component {
         </div>);
     }
 }
-
-export const CreateVisit = connect(state => ({ patientId: state.patientProfile.data.patientId }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))(CreateVisit_toConnect);

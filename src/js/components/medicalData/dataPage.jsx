@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-class testData_toConnect extends Component {
+
+function mapStateToProps(state) {
+    return {
+        fields: state.availableFields.testFields,
+        patientId: state.patientProfile.data.patientId,
+        data: state.patientProfile.data.tests
+    }
+}
+@connect(mapStateToProps)
+export class TestData extends Component {
     /* put this logic in patient Chart instead */
     constructor() {
         super();
@@ -81,13 +90,3 @@ function formatData(dataObj, fieldsArr) {    //not done
         </div>
     );
 }
-
-function mapStateToProps(state) {
-    return {
-        fields: state.availableFields.testFields,
-        patientId: state.patientProfile.data.patientId,
-        data: state.patientProfile.data.tests
-    }
-}
-
-export const TestData = connect(mapStateToProps)(testData_toConnect);

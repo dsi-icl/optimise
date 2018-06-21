@@ -224,7 +224,8 @@ class VisitSection extends Component {
     }
 }
 
-class Charts_toConnect extends Component {   //unfinsihed
+@connect(state => ({ fetching: state.patientProfile.fetching, data: state.patientProfile.data, availableFields: state.availableFields }))
+export class Charts extends Component {   //unfinsihed
     render() {
         if (this.props.fetching) {
             return null
@@ -239,5 +240,3 @@ class Charts_toConnect extends Component {   //unfinsihed
         }
     }
 }
-
-const Charts = connect(state => ({ fetching: state.patientProfile.fetching, data: state.patientProfile.data, availableFields: state.availableFields }))(Charts_toConnect);
