@@ -23,6 +23,9 @@ before_install: |
 install:
   - npm --version
   - npm ci --ignore-scripts
+  - ls -alFGh ~/
+  - ls -alFGh ~/node_modules/sqlite3/lib/binding/
+  
 cache:
   directories:
     - ~/.npm # cache npm's cache
