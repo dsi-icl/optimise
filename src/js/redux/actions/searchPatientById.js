@@ -4,7 +4,7 @@ export const searchResultByIdSuccess = data => ({ type: 'SEARCH_RESULT_BY_ID_SUC
 
 export const getPatientProfileById = (searchString) => dispatch => {
     dispatch(searchPatientsByIdRequest(searchString));
-    return fetch(`/api/patientProfile/${searchString}`,{
+    return fetch(`/api/patientProfile/${searchString}`, {
         mode: 'cors',
         headers: { 'token': 'd86d6e50ade67a3a0569ebc84d6041ea9bac36cb' }   //change later
     })

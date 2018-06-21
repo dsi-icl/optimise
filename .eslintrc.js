@@ -19,6 +19,8 @@ module.exports = {
         'object-curly-spacing': ['error', 'always'],
         'prefer-template': ['warn'],
         'no-var': ['error'],
-        'arrow-body-style': ['error', 'as-needed']
+        'arrow-body-style': ['error', 'as-needed'],
+        'comma-dangle': ['error', 'never'],
+        'comma-spacing': ["error", { "before": false, "after": true }]
     }
 };

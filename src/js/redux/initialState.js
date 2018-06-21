@@ -170,7 +170,7 @@ export default {
                 'type': 'D',
                 'unit': '',
                 'module': '',
-                'permitted_values': null,
+                'permitted_values': null
             },
             {
                 'id': 2,

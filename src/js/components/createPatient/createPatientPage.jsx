@@ -4,8 +4,8 @@ import saveIcon from '../../../statics/icons/icons8-tick-box-48.png';
 import cancelIcon from '../../../statics/icons/icons8-close-window-48.png';
 
 
-
-class CreatePatientComponent_toConnect extends Component {    //get these props from state: this.props.visitFields, this.props.patientId
+@connect(state => ({ fields: state.availableFields.demoFields, patientId: state.createPatient.patientId }))
+export class CreatePatientComponent extends Component {    //get these props from state: this.props.visitFields, this.props.patientId
     render() {
         const style = {
             textAlign: 'center',
@@ -30,8 +30,6 @@ class CreatePatientComponent_toConnect extends Component {    //get these props 
         )
     }
 }
-
-export const CreatePatientComponent = connect(state => ({ fields: state.availableFields.demoFields, patientId: state.createPatient.patientId }))(CreatePatientComponent_toConnect);
 
 
 export class DataField extends Component {

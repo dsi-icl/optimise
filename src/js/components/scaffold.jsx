@@ -95,7 +95,8 @@ function RightPanelWrapper(children) {
 
 
 
-class RightPanel_toConnect extends Component {
+@connect(state => ({ page: state.rightPanel }), null, null, { pure: false })
+export class RightPanel extends Component {
     render() {
         return (
             <Switch>
@@ -133,5 +134,3 @@ export class FarRightPanel extends Component {
         );
     }
 }
-
-export const RightPanel = connect(state => ({ page: state.rightPanel }), null,null, { pure: false })(RightPanel_toConnect);

@@ -5,7 +5,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { BackButton } from '../medicalData/dataPage.jsx';
 import { PickDate } from './createVisit.jsx';
 
-class CreateTest_toConnect extends Component {
+@connect(state => ({ patientId: state.patientProfile.data.patientId, availableTypes: state.availableFields.testTypes }))
+export class CreateTest extends Component {
     constructor() {
         super();
         this.state = {
@@ -63,5 +64,3 @@ class CreateTest_toConnect extends Component {
         </div>);
     }
 }
-
-export const CreateTest = connect(state => ({ patientId: state.patientProfile.data.patientId, availableTypes: state.availableFields.testTypes }))(CreateTest_toConnect);

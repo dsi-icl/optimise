@@ -2,7 +2,7 @@ export const createPatientRequest = patientId => ({ type: 'CREATE_PATIENT_REQUES
 export const createPatientSuccess = patientId => ({ type: 'CREATE_PATIENT_SUCCESS', payload: patientId });
 export const createPatientCall = (patientId) => dispatch => {
     dispatch(createPatientRequest(patientId));
-    return fetch('/api/patients',{
+    return fetch('/api/patients', {
         method: 'POST',
         mode: 'cors',
         headers: { 'content-type': 'application/json',

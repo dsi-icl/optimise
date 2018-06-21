@@ -5,8 +5,8 @@ import patientIcon from '../../../statics/icons/icons8-user-48.png';
 import saveIcon from '../../../statics/icons/icons8-tick-box-48.png';
 import { UserActions } from './userActions.jsx';
 
-
-class Section_toConnect extends Component {
+@connect(state => ({ fetching: state.patientProfile.fetching }))
+export class Section extends Component {
     render() {
         if (this.props.fetching) {
             return <span> FETCHING PROFILE </span>
@@ -21,8 +21,6 @@ class Section_toConnect extends Component {
         }
     }
 }
-export const Section = connect(state => ({ fetching: state.patientProfile.fetching }))(Section_toConnect);
-
 
 
 export class PatientProfileSectionScaffold extends Component {
@@ -47,9 +45,8 @@ class SaveButton extends Component {
 }
 
 
-/* All the components below are connected to the store separately, 
-so that updating one part of the data only re-renders one of them */
-class PatientProfileTop_toConnect extends Component {
+@connect(state => ({ patientId: state.patientProfile.data.patientId }))
+export class PatientProfileTop extends Component {
     render(){
         return (
             <div style={{ marginBottom: 20 }}>
@@ -59,10 +56,8 @@ class PatientProfileTop_toConnect extends Component {
     }
 }
 
-export const PatientProfileTop = connect(state => ({ patientId: state.patientProfile.data.patientId }))(PatientProfileTop_toConnect);
-
-
-class DemographicSection_toConnect extends Component {
+@connect(state => ({ demographicData: state.patientProfile.data.demographicData }))
+class DemographicSection extends Component {
     render() {
         return (
             <PatientProfileSectionScaffold sectionName='Profile'>
@@ -72,10 +67,8 @@ class DemographicSection_toConnect extends Component {
     }
 }
 
-const DemographicSection = connect(state => ({ demographicData: state.patientProfile.data.demographicData }))(DemographicSection_toConnect);
-
-
-class ImmunisationSection_toConnect extends Component {
+@connect(state => ({ immunisations: state.patientProfile.data.immunisations }))
+class ImmunisationSection extends Component {
     render() {
         return (
             <PatientProfileSectionScaffold sectionName='Immunisations'>
@@ -85,10 +78,9 @@ class ImmunisationSection_toConnect extends Component {
     }
 }
 
-const ImmunisationSection = connect(state => ({ immunisations: state.patientProfile.data.immunisations }))(ImmunisationSection_toConnect);
 
-
-class MedicalHistorySection_toConnect extends Component {
+@connect(state => ({ medicalHistory: state.patientProfile.data.medicalHistory }))
+class MedicalHistorySection extends Component {
     render() {
         return (
             <div>
@@ -106,5 +98,3 @@ class MedicalHistorySection_toConnect extends Component {
         );
     }
 }
-
-const MedicalHistorySection = connect(state => ({ medicalHistory: state.patientProfile.data.medicalHistory }))(MedicalHistorySection_toConnect);
