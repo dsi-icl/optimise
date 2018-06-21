@@ -47,7 +47,7 @@ class RequestMiddleware {
                         next();
                     })
                     .catch(err => {
-                        console.log('Error catched :' + err);
+                        console.log('Error caught :' + err);
                         next();
                     })
             })
@@ -59,7 +59,7 @@ class RequestMiddleware {
                     next();
                 })
                 .catch(err => {
-                    console.log('Error catched :' + err);
+                    console.log('Error caught :' + err);
                     next();
                 });
         }
