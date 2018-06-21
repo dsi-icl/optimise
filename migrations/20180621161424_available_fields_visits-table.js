@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
       table.text('idname').notNullable();
       table.text('type').notNullable();
       table.text('unit').nullable();
+      table.
       table.text('deleted').notNullable().defaultTo('-');  
     });
   };

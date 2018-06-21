@@ -32,6 +32,8 @@ class DemographicDataController {
             .select('deleted')
             .where({ 'id': req.body.patient, 'deleted': null })
             .then(result => {
+                if (result.length != 1)
+                    res.status(404).send("User not found");
                 knex('PATIENT_DEMOGRAPHIC')
                     .select('*')
                     .where({ 'patient':req.body.patient, 'deleted': null })

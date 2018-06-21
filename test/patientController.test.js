@@ -10,14 +10,37 @@ const standardToken = tokens.standardToken;
 const PatientController = require('../src/controllers/patientController');
 
 describe('Patient controller tests', () => {
-    test('Getting all patients', () => request
-        .get('/api/patients')
-        .set('token', token)
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(res.body.length).toBeGreaterThanOrEqual(1);
-        }));
+    test('Getting all patients', () => {
+        return request
+            .get('/api/patients')
+            .set('token', token)
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+                expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+                expect(res.body.length).toBeGreaterThanOrEqual(1);
+            })
+    });
+
+    test('Searching patients with similar alias_id\'s', () => {
+        return request
+            .get('/api/patients?id=c')
+            .set('token', token)
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+                expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+                expect(res.body.length).toBeGreaterThanOrEqual(2);
+            })
+    });
+
+    test('Searching patients with similar alias_id\'s but with double "id" query', () => {
+        return request
+            .get('/api/patients?id=ch&id=css')
+            .set('token', token)
+            .then(res => {
+                expect(res.statusCode).not.toBe(200);
+                expect(res.headers['content-type']).toBe('text/html; charset=utf-8');
+            })
+    });
 
     test('Searching patients with similar alias_id\'s', () => request
         .get('/api/patients?id=hey')

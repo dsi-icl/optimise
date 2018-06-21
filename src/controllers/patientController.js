@@ -36,9 +36,9 @@ class PatientController {
 
     setPatientAsDeleted(req, res) {
         if (req.requester.priv === 1) {
-            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId }, req.body.aliasId, 1);
+            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId, 'deleted':null }, req.body.aliasId, 1);
         } else {
-            res.status(403).send('Sorry! Only admins are able to edit / delete data');
+            res.status(401).send('Sorry! Only admins are able to edit / delete data');
         }
     }
 
