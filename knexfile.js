@@ -2,16 +2,16 @@
 
 module.exports = {
 
-  development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './db/optimise-db.sqlite'
+    development: {
+        client: 'sqlite3',
+        connection: {
+            filename: './db/optimise-db.sqlite'
+        },
+        seeds: {
+            directory: './seed'
+        },
+        useNullAsDefault: true,
+        multipleStatements: true
     },
-    seeds: {
-      directory: './seed'
-    },
-    useNullAsDefault: true,
-    multipleStatements: true
-  },
 
 };
