@@ -76,10 +76,10 @@ class SearchResultForPatients_toConnect extends Component {
                     const ind = el['alias_id'].indexOf(this.props.searchString);
                     const name = <span>{el['alias_id'].substring(0, ind)}<b>{el['alias_id'].substring(ind, this.props.searchString.length+ind)}</b>{el['alias_id'].substring(this.props.searchString.length+ind, el['alias_id'].length)}</span>;
                     return (<Link to={`/patientProfile/${el['alias_id']}`} style={{color: 'rgba(0,0,0,0)'}}>
-                            <div onClick={this._handleClickWrapper(el['alias_id'])} style={css.patientBanner} key={el.patientId}>
-                                {name} in {el.study} <br/>{el.DOB ? el.DOB : 'DOB unavailable'}  {el.gender ? el.DOB : 'Gender unavailable'}
-                            </div>
-                        </Link>);
+                        <div onClick={this._handleClickWrapper(el['alias_id'])} style={css.patientBanner} key={el.patientId}>
+                            {name} in {el.study} <br/>{el.DOB ? el.DOB : 'DOB unavailable'}  {el.gender ? el.DOB : 'Gender unavailable'}
+                        </div>
+                    </Link>);
                 })}
             </div>
         );

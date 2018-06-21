@@ -32,8 +32,8 @@ class CreateTest_toConnect extends Component {
             expectedDate: {day: date.getDate(),
                 month: date.getMonth() + 1,
                 year: date.getFullYear()
-                }
-            };
+            }
+        };
     }
 
     _handleSubmitClick() {
@@ -48,21 +48,21 @@ class CreateTest_toConnect extends Component {
 
     render() {
         return (<div>
-                <BackButton to={`/patientProfile/${this.props.patientId}`}/>
-                <h2>CREATE A NEW TEST</h2>
-                <span style={{textAlign: 'center', display: 'block', width: '60%', margin:'0 auto'}}>Select test type:
-                    <br/>
-                    <select value={this.state.type} onChange={this._handleSelectOption}>
-                        <option key='not selected' value='not selected'>not selected</option>
-                        {this.props.availableTypes.map(el => 
+            <BackButton to={`/patientProfile/${this.props.patientId}`}/>
+            <h2>CREATE A NEW TEST</h2>
+            <span style={{textAlign: 'center', display: 'block', width: '60%', margin:'0 auto'}}>Select test type:
+                <br/>
+                <select value={this.state.type} onChange={this._handleSelectOption}>
+                    <option key='not selected' value='not selected'>not selected</option>
+                    {this.props.availableTypes.map(el => 
                         <option key={el.id} value={el.id}>{el.name}</option>
-                        )}
-                    </select>
-                    <br/><br/><br/>
-                </span>
-                <span style={{textAlign: 'center', display: 'block', width: '60%', margin:'0 auto'}}>Date on which test occurred or is expected to occur: <br/> <span style={{display: 'block', width: '50%', margin:'0 auto'}}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
-                <div onClick={this._handleSubmitClick} style={{cursor: 'pointer', textAlign: 'center', backgroundColor: 'lightgrey', borderRadius: 20, width: '30%', marginLeft: 'auto', marginRight: 'auto', marginTop: 15}}>Submit</div>
-            </div>);
+                    )}
+                </select>
+                <br/><br/><br/>
+            </span>
+            <span style={{textAlign: 'center', display: 'block', width: '60%', margin:'0 auto'}}>Date on which test occurred or is expected to occur: <br/> <span style={{display: 'block', width: '50%', margin:'0 auto'}}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
+            <div onClick={this._handleSubmitClick} style={{cursor: 'pointer', textAlign: 'center', backgroundColor: 'lightgrey', borderRadius: 20, width: '30%', marginLeft: 'auto', marginRight: 'auto', marginTop: 15}}>Submit</div>
+        </div>);
     }
 }
 

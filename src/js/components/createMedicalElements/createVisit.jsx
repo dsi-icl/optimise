@@ -10,10 +10,10 @@ import {createVisitAPICall} from '../../redux/actions/createVisit';
 
 export class PickDate extends Component {
     render() {
-      return <DatePicker
-          selected={this.props.startDate}
-          onChange={this.props.handleChange}
-      />;
+        return <DatePicker
+            selected={this.props.startDate}
+            onChange={this.props.handleChange}
+        />;
     }
 }
 
@@ -40,7 +40,7 @@ class CreateVisit_toConnect extends Component {
 
     _handleDateChange(date) {
         this.setState({
-          startDate: date
+            startDate: date
         });
     }
 
@@ -51,8 +51,8 @@ class CreateVisit_toConnect extends Component {
             visitDate: {day: date.getDate(),
                 month: date.getMonth() + 1,
                 year: date.getFullYear()
-                }
-            };
+            }
+        };
     }
 
     _handleSubmitClick() {
@@ -62,11 +62,11 @@ class CreateVisit_toConnect extends Component {
 
     render() {
         return (<div>
-                <BackButton to={`/patientProfile/${this.props.patientId}`}/>
-                <h2>CREATE A NEW VISIT</h2>
-                <span style={{display: 'block', width: '60%', margin:'0 auto'}}>Please enter date on which the visit occurs / occured: <br/> <span style={{display: 'block', width: '50%', margin:'0 auto'}}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
-                <div onClick={this._handleSubmitClick} style={{cursor: 'pointer', textAlign: 'center', backgroundColor: 'lightgrey', borderRadius: 20, width: '30%', marginLeft: 'auto', marginRight: 'auto', marginTop: 15}}>Submit</div>
-            </div>);
+            <BackButton to={`/patientProfile/${this.props.patientId}`}/>
+            <h2>CREATE A NEW VISIT</h2>
+            <span style={{display: 'block', width: '60%', margin:'0 auto'}}>Please enter date on which the visit occurs / occured: <br/> <span style={{display: 'block', width: '50%', margin:'0 auto'}}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
+            <div onClick={this._handleSubmitClick} style={{cursor: 'pointer', textAlign: 'center', backgroundColor: 'lightgrey', borderRadius: 20, width: '30%', marginLeft: 'auto', marginRight: 'auto', marginTop: 15}}>Submit</div>
+        </div>);
     }
 }
 

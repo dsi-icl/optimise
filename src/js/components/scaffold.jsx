@@ -65,9 +65,9 @@ export class MenuBar extends Component {
 function MiddlePanelWrapper(children) {
     return (
         () =>
-        <div style={css.middlePanel}>
-            {children}
-        </div>
+            <div style={css.middlePanel}>
+                {children}
+            </div>
     );
 }
 
@@ -88,9 +88,9 @@ export class MiddlePanel extends Component {
 function RightPanelWrapper(children) {
     return (
         () => 
-        <div style={css.rightPanel}>
-            {children}
-        </div>
+            <div style={css.rightPanel}>
+                {children}
+            </div>
     );
 }
 
@@ -113,9 +113,9 @@ class RightPanel_toConnect extends Component {
 function FarRightPanelWrapper(children) {
     return (
         () =>
-        <div style={css.farRightPanel}>
-            {children}
-        </div>
+            <div style={css.farRightPanel}>
+                {children}
+            </div>
     );
 }
 
