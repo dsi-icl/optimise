@@ -122,7 +122,7 @@ class UserController {
     }
 
     userLogout(req,res){
-        if (req.requester.username === req.body.username){
+        if (req.body.username && req.requester.username == req.body.username){
             deleteEntry(req, res, 'USER_SESSION', {'sessionToken': req.requester.token}, req.body.username + '\'s session', 1);
         } else {
             res.status(401).send('You do not have permission to log out this user.');

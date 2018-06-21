@@ -14,8 +14,8 @@ describe('User controller tests', () => {
             .post('/internalapi/userlogin')
             .set('Content-type', 'application/json')
             .send({
-                username: 'flor',
-                pw: 'heyhey'
+                username: 'admin',
+                pw: 'admin'
             })
             .then(res => {
                 expect(res.statusCode).toBe(200);
@@ -175,7 +175,7 @@ describe('User controller tests', () => {
             .post('/internalapi/userlogout')
             .set('Content-type', 'application/json')
             .set('token', adminToken)
-            .send({'username': 'flor'})
+            .send({'username': 'admin'})
             .then(res => {
                 expect(res.statusCode).toBe(200);
             });

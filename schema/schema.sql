@@ -13,11 +13,11 @@ CREATE TABLE USERS (
     username TEXT NOT NULL, 
     realName TEXT,
     pw TEXT NOT NULL,
-    adminPriv NUMERIC,
+    adminPriv NUMERIC NOT NULL,
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
-    deleted TEXT, /*NULL or deletion time*/
-    UNIQUE (username, deleted)
+    deleted TEXT UNIQUE, /*NULL or deletion time*/
+    CONSTRAINT constraint_username UNIQUE (username, deleted)
 );
 
 CREATE TABLE USER_SESSION (
@@ -28,7 +28,6 @@ CREATE TABLE USER_SESSION (
     deleted TEXT /*NULL or deletion time*/
 );
 
-
 /* patient basic data */
 CREATE TABLE PATIENTS (
     id INTEGER PRIMARY KEY ASC,
@@ -37,7 +36,7 @@ CREATE TABLE PATIENTS (
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
-    UNIQUE (aliasId, deleted)
+    UNIQUE (aliasId)
 );
 
 CREATE TABLE PATIENT_IMMUNISATION (
@@ -48,16 +47,16 @@ CREATE TABLE PATIENT_IMMUNISATION (
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
-    UNIQUE (patient, vaccineName, immunisationDate, deleted)
+    UNIQUE (patient, vaccineName, immunisationDate)
 );
 
 CREATE TABLE PATIENT_DEMOGRAPHIC (
     id INTEGER PRIMARY KEY ASC,
     patient INTEGER NOT NULL REFERENCES PATIENTS(id),
     DOB TEXT NOT NULL,
-    gender TEXT NOT NULL CHECK (gender IN ('male', 'female', 'other/prefer not to say')), /* Will link to a list table */
-    dominantHand TEXT NOT NULL CHECK (dominantHand IN ('left', 'right', 'ambidextrous', 'amputated')), /* Will link to a list table */
-    ethnicity TEXT NOT NULL CHECK (ethnicity IN ('white', 'black', 'chinese', 'other asian', 'native american', 'arab', 'persian', 'other mixed', 'unknown')), /* Will link to a list table */
+    gender TEXT NOT NULL CHECK (gender IN ('male', 'female', 'other', 'prefer not to say', 'unknown')), /* Will link to a list table */
+    dominantHand TEXT NOT NULL CHECK (dominantHand IN ('left', 'right', 'ambidextrous', 'amputated', 'unknown')), /* Will link to a list table */
+    ethnicity TEXT NOT NULL CHECK (ethnicity IN ('White', 'Asian', 'Black', 'Mixed/Multiple ethnic groups', 'Other ethnic group', 'Unknown')), /* Will link to a list table */
     countryOfOrigin TEXT, /* CHECCCCCCCCCCCCCCK */ /* Will link to a list table */
     alcoholUsage TEXT NOT NULL CHECK (alcoholUsage IN ('More than 3 units a day', 'Less than 3 units a day', 'Less than 3 units a week', 'No alcohol consumption', 'unknown')),
     smokingHistory TEXT NOT NULL CHECK (smokingHistory IN ('smoker', 'ex-smoker','never smoked', 'electronic cigarette', 'unknown')),
@@ -93,7 +92,7 @@ CREATE TABLE VISITS (
     id INTEGER PRIMARY KEY ASC,
     patient INTEGER NOT NULL REFERENCES PATIENTS(id),
     visitDate TEXT NOT NULL,
-    type INTERGER NOT NULL DEFAULT(1),
+    type INTEGER NOT NULL DEFAULT(1),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
@@ -220,8 +219,8 @@ CREATE TABLE ORDERED_TESTS (
 
 CREATE TABLE TEST_DATA (
     id INTEGER PRIMARY KEY ASC,
-    test INTEGER NOT NULL REFERENCES orderedTests(id),
-    field INTEGER NOT NULL REFERENCES availableFields(id),
+    test INTEGER NOT NULL REFERENCES ORDERED_TESTS(id),
+    field INTEGER NOT NULL REFERENCES AVAILABLE_FIELDS_TESTS(id),
     value TEXT NOT NULL,
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
@@ -276,6 +275,12 @@ INSERT INTO AVAILABLE_CLINICAL_EVENT_TYPES (name) VALUES ('Relapses');
 INSERT INTO PATIENTS (
     aliasId, study, createdTime, createdByUser, deleted
 ) VALUES ('hey', 'optimise', datetime('now'), 1, NULL);
+INSERT INTO PATIENTS ( /* For test purpose */
+    aliasId, study, createdTime, createdByUser, deleted
+) VALUES ('chon', 'optimise', datetime('now'), 1, NULL);
+INSERT INTO PATIENTS ( /* For test purpose */
+    aliasId, study, createdTime, createdByUser, deleted
+) VALUES ('css', 'optimise', datetime('now'), 1, NULL);
 
 INSERT INTO PATIENT_DEMOGRAPHIC (
     patient, DOB, gender, dominantHand, ethnicity, countryOfOrigin, alcoholUsage, smokingHistory, createdByUser, deleted
