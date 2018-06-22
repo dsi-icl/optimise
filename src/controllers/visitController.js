@@ -8,7 +8,7 @@ class VisitController {
             knex('PATIENTS')
                 .select({ patientId:'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.visitDate')
                 .leftOuterJoin('VISITS', 'PATIENTS.id', 'VISITS.patient')
-                .where({ 'PATIENTS.aliasId': req.query.patientId, 'VISITS.deleted': null })
+                .where({ 'PATIENTS.aliasId': req.query.patientId, 'VISITS.deleted': '-' })
                 .then(result => res.status(200).json(result));
         } else {
             res.status(400).send('The query string must have one and only one parameter "patientId"');
@@ -39,7 +39,7 @@ class VisitController {
         if (req.requester.priv === 1 && req.body.visitId) {
             knex('VISITS')
                 .select('id')
-                .where({ 'id': req.body.visitId, 'deleted': null })
+                .where({ 'id': req.body.visitId, 'deleted': '-' })
                 .then(result => {
                     if (result.length === 0) {
                         res.status(404).send('Can\'t seem to find your visit!');

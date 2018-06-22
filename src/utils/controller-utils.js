@@ -1,7 +1,7 @@
 const knex = require('../utils/db-connection');
 
 exports.createEntry = (req, res, tablename, entryObj, databaseErrMsg) => {
-    entryObj.deleted = null;
+    entryObj.deleted = '-';
     entryObj['createdByUser'] = req.requester.userid;
     knex(tablename)
         .insert(entryObj)
@@ -14,7 +14,7 @@ exports.createEntry = (req, res, tablename, entryObj, databaseErrMsg) => {
 
 
 exports.deleteEntry = (req, res, tablename, whereObj, whatIsDeleted, expectedNumAffected /* LT 0 */) => {
-    whereObj.deleted = null;
+    whereObj.deleted = '-';
     knex(tablename)
         .where(whereObj)
         .update({ deleted: `${req.requester.userid  }@${  JSON.stringify(new Date())}` })

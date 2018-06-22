@@ -1,15 +1,13 @@
 /* global describe test expect */
 
 const app = require('../src/app');
-const tokens = require('./token');
-const token = tokens.token;
-const standardToken = tokens.standardToken;
+const adminToken = require('./token').adminToken;
 const request = require('supertest')(app);
 
 describe('Create Clinical Event controller tests', () => {
     test('Request creation whithout body (should fail)', () => request
         .post('/api/clinicalEvent')
-        .set('token', token)
+        .set('token', adminToken)
         .send({})
         .then(res => {
             expect(res.status).toBe(400);
@@ -17,7 +15,7 @@ describe('Create Clinical Event controller tests', () => {
 
     test('Request creation whith bad body (should fail)', () => request
         .post('/api/clinicalEvent')
-        .set('token', token)
+        .set('token', adminToken)
         .send({
             'visit_-Id': 11,
             'tYpE': 2,
@@ -31,7 +29,7 @@ describe('Create Clinical Event controller tests', () => {
 
     test('Request creation whith good body (should success)', () => request
         .post('/api/clinicalEvent')
-        .set('token', token)
+        .set('token', adminToken)
         .send({ 'visitId':11,
             'type': 2,
             'startDate':{
@@ -43,7 +41,7 @@ describe('Create Clinical Event controller tests', () => {
 
     test('Request creation whith good patient and visit (should fail)', () => request
         .post('/api/clinicalEvent')
-        .set('token', token)
+        .set('token', adminToken)
         .send({
             'visitId': 11,
             'patientId': 3,
@@ -61,7 +59,7 @@ describe('Create Clinical Event controller tests', () => {
 describe('Delete Clinical Event controller tests', () => {
     test('Request deletion whithout body (should fail)', () => request
         .delete('/api/clinicalEvent')
-        .set('token', token)
+        .set('token', adminToken)
         .send({})
         .then(res => {
             expect(res.status).toBe(400);
@@ -69,7 +67,7 @@ describe('Delete Clinical Event controller tests', () => {
 
     test('Request deletion whith bad body (should fail)', () => request
         .delete('/api/clinicalEvent')
-        .set('token', token)
+        .set('token', adminToken)
         .send({ 'visit_-Id': 11 })
         .then(res => {
             expect(res.status).toBe(400);
@@ -77,7 +75,7 @@ describe('Delete Clinical Event controller tests', () => {
 
     test('Request deletion whith good body (should success)', () => request
         .delete('/api/clinicalEvent')
-        .set('token', token)
+        .set('token', adminToken)
         .send({ 'ceID': 2 })
         .then(res => {
             expect(res.status).toBe(200);
@@ -85,7 +83,7 @@ describe('Delete Clinical Event controller tests', () => {
 
     test('Request deletion whith bad ID type (should fail)', () => request
         .delete('/api/clinicalEvent')
-        .set('token', token)
+        .set('token', adminToken)
         .send({ 'ceID': 'WRONG' })
         .then(res => {
             expect(res.status).toBe(400);
@@ -93,7 +91,7 @@ describe('Delete Clinical Event controller tests', () => {
 
     test('Request deletion whith bad ID reference (should fail)', () => request
         .delete('/api/clinicalEvent')
-        .set('token', token)
+        .set('token', adminToken)
         .send({ 'ceID': 99999999 })
         .then(res => {
             expect(res.status).toBe(400);
