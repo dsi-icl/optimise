@@ -19,7 +19,7 @@ class VisitController {
         if (req.body.patientId && req.body.visitDate && validateAndFormatDate(req.body.visitDate)){
             knex('PATIENTS')
                 .select('id')
-                .where({ 'aliasId': req.body.patientId, 'deleted': null })
+                .where({ 'aliasId': req.body.patientId, 'deleted': '-' })
                 .then(result => {
                     if (result.length === 0) {
                         res.status(404).send('Can\'t seem to find your patient!');

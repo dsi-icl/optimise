@@ -50,7 +50,7 @@ class DataController {
         knex.transaction(trx => {
             knex(options.dataTable)
                 .where('field', 'in', req.body.delete)
-                .andWhere('deleted', null)
+                .andWhere('deleted', '-')
                 .andWhere(options.dataTableForeignKey, req.body[`${req.params.dataType}Id`])
                 .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
                 .transacting(trx)
@@ -106,7 +106,7 @@ class DataController {
             return knex.transaction(trx => {
                 knex(options.dataTable)    //updating all the 'updates' entries to 'deleted'
                     .where('field', 'in', Object.keys(req.body.update))
-                    .andWhere('deleted', 0)
+                    .andWhere('deleted', '-')
                     .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
                     .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
                     .transacting(trx)
@@ -135,7 +135,7 @@ class DataController {
             const findField = (fieldId, referenceType) => knex(options.fieldTable).select('id', 'type', 'permittedValues', 'referenceType').where({ 'id': fieldId, 'referenceType': referenceType });
             knex(options.entryTable)
                 .select('id', 'type')
-                .where({ id: req.body[options.entryIdString], deleted: 0 })  //making sure the visit is found
+                .where({ id: req.body[options.entryIdString], deleted: '-' })  //making sure the visit is found
                 .then(result => {
                     if (result.length === 1) {
                         return result;
@@ -206,7 +206,7 @@ class DataController {
                     knex(options.dataTable)
                         .select('id')
                         .where('field', 'in' , Object.keys(req.body.update))
-                        .andWhere('deleted', null)
+                        .andWhere('deleted', '-')
                         .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
                         .then(entries => {
                             if (entries.length !== numOfUpdates){
@@ -216,7 +216,7 @@ class DataController {
                             return knex(options.dataTable)
                                 .select('id')
                                 .where('field', 'in' , Object.keys(req.body.add))
-                                .andWhere('deleted', null)
+                                .andWhere('deleted', '-')
                                 .andWhere(options.dataTableForeignKey, req.body[options.entryIdString]);
                         })
                         .then(entries => {
@@ -235,7 +235,7 @@ class DataController {
                             'field': Object.keys(req.body.update)[i],
                             'value': req.body.update[Object.keys(req.body.update)[i]],
                             'createdByUser': req.requester.userid,
-                            'deleted': null
+                            'deleted': '-'
                         };
                         entry[options.dataTableForeignKey] = req.body[options.entryIdString];
                         updates.push(entry);
@@ -245,7 +245,7 @@ class DataController {
                             'field': Object.keys(req.body.add)[i],
                             'value': req.body.add[Object.keys(req.body.add)[i]],
                             'createdByUser': req.requester.userid,
-                            'deleted': null
+                            'deleted': '-'
                         };
                         entry[options.dataTableForeignKey] = req.body[options.entryIdString];
                         adds.push(entry);
