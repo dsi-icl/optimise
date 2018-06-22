@@ -22,7 +22,7 @@ before_install: |
 # this avoids compilation in most cases (where we don't need it)
 install:
   - npm --version
-  - npm ci --ignore-scripts
+  - npm ci
 
 cache:
   directories:
@@ -53,7 +53,7 @@ jobs:
       env: null
       before_install: true
       install:
-        - npm ci --production
+        - npm install --production
       script: echo 'TODO - Should run small intantiation test'
       cache:
         directories:
