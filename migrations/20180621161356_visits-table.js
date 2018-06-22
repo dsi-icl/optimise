@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
       table.increments('id').primary();
       table.integer('patient').notNullable().references('id').inTable('PATIENTS');
       table.text('visitDate').notNullable();
-      table.integer('type').notNullable().defaultTo(1);
+      table.integer('type').notNullable().references('id').inTable('VISIT_TYPES')
       table.text('createdTime').notNullable().defaultTo(knex.fn.now());
       table.integer('createdByUser').notNullable().references('id').inTable('USERS');
       table.text('deleted').notNullable().defaultTo('-');  
@@ -12,6 +12,6 @@ exports.up = function(knex, Promise) {
   };
   
   exports.down = function(knex, Promise) {
-    return knex.schema.dropTable('');
+    return knex.schema.dropTable('VISITS');
   };
   
