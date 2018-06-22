@@ -1,7 +1,7 @@
 const knex = require('../utils/db-connection');
 
 exports.createEntry = (req, res, tablename, entryObj, databaseErrMsg) => {
-    entryObj.deleted = null;
+    entryObj.deleted = '-';
     entryObj['createdByUser'] = req.requester.userid;
     knex(tablename)
         .insert(entryObj)
@@ -14,7 +14,7 @@ exports.createEntry = (req, res, tablename, entryObj, databaseErrMsg) => {
 
 
 exports.deleteEntry = (req, res, tablename, whereObj, whatIsDeleted, expectedNumAffected /* LT 0 */) => {
-    whereObj.deleted = null;
+    whereObj.deleted = '-';
     knex(tablename)
         .where(whereObj)
         .update({ deleted: `${req.requester.userid  }@${  JSON.stringify(new Date())}` })
@@ -37,7 +37,7 @@ exports.deleteEntry = (req, res, tablename, whereObj, whatIsDeleted, expectedNum
 };
 
 exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, expectedNumAffected /* LT 0 */) => {
-    whereObj.deleted = null;
+    whereObj.deleted = '-';
     knex(tablename)
         .select('*')
         .where(whereObj)
@@ -56,7 +56,7 @@ exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, exp
                                         let newEntry = Object.assign(originalResult[0], newObj);
                                         delete newEntry.id;
                                         delete newEntry['createdTime'];
-                                        newEntry.deleted = null;
+                                        newEntry.deleted = '-';
                                         newEntry['createdByUser'] = req.requester.userid;
                                         knex(tablename)
                                             .insert(newEntry)
@@ -66,7 +66,7 @@ exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, exp
                                                 whereObj.deleted = newDeletedCol;
                                                 knex(tablename)
                                                     .where(whereObj)
-                                                    .update({ deleted: null })
+                                                    .update({ deleted: '-' })
                                                     .then(result => res.status(400).send('update failed. Please check you parameters'))
                                                     .catch(err => { console.log(err); res.status(500).send('Database error'); });
                                             });
