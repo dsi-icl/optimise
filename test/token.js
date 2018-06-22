@@ -1,5 +1,5 @@
-const token = 'd933300813f985bfa96e56f4eb3aa74e9717b698';
-const standardToken = '2b3f70290577cd56bf39d0a5b041ae5d190b0860';
+const adminToken = '63bbff9b42783f395c1876b3b031a02c3509ae7c';
+const standardToken = 'd844e282491350d2939efdbb8154cf801335af3b';
 
-exports.token = token;
+exports.adminToken = adminToken;
 exports.standardToken = standardToken;
