@@ -1,8 +1,8 @@
 
 exports.up = function(knex, Promise) {
-    return knex.schema.createTable('', function(table) {
+    return knex.schema.createTable('AVAILABLE_CLINICAL_EVENT_TYPES', function(table) {
       table.increments('id').primary();
-      table.text('deleted').notNullable().defaultTo('-');  
+      table.text('name').notNullable().unique();
     });
   };
   
