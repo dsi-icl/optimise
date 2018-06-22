@@ -66,7 +66,6 @@ CREATE TABLE PATIENT_DEMOGRAPHIC (
     UNIQUE (patient, deleted)
 );
 
-
 CREATE TABLE MEDICAL_HISTORY (
     id INTEGER PRIMARY KEY ASC,
     patient INTEGER NOT NULL REFERENCES PATIENTS(id),
@@ -136,6 +135,7 @@ CREATE TABLE AVAILABLE_FIELDS_CE (
 
 CREATE TABLE CLINICAL_EVENTS (
     id INTEGER PRIMARY KEY ASC,
+    patient INTEGER REFERENCES PATIENTS(id),
     recordedDuringVisit INTEGER REFERENCES VISITS(id),
     type INTEGER NOT NULL REFERENCES AVAILABLE_CLINICAL_EVENT_TYPES(id),
     dateStartDate TEXT NOT NULL,
@@ -258,6 +258,13 @@ INSERT INTO USERS (
         'admin', 'admin', 'a92e2c29eccc56ea49ed627a2656c4d5be74c29d80bd31709dd8b196a7f30825', 1, 1, NULL
 );
 
+/* Insert non admin user with password 'pm' */
+INSERT INTO USERS (
+    username, realName, pw, adminPriv, createdByUser, deleted
+) VALUES (
+    'pm', 'Pierre-Marie', '4e9ad5555a1a33711c74a9be2e31b38d1eb02058259fdef60a5cfa0c3216f88d', 0, 1, NULL
+);
+
 INSERT INTO AVAILABLE_TEST_TYPES (name) VALUES ('Laboratory test');
 INSERT INTO AVAILABLE_TEST_TYPES (name) VALUES ('Evoked potential');
 INSERT INTO AVAILABLE_TEST_TYPES (name) VALUES ('MRI');
@@ -284,7 +291,7 @@ INSERT INTO PATIENTS ( /* For test purpose */
 
 INSERT INTO PATIENT_DEMOGRAPHIC (
     patient, DOB, gender, dominantHand, ethnicity, countryOfOrigin, alcoholUsage, smokingHistory, createdByUser, deleted
-) VALUES (1, date('now'), 'male', 'right', 'white', 'd', 'More than 3 units a day', 'smoker', 1, NULL);
+) VALUES (1, date('now'), 'male', 'right', 'White', 'd', 'More than 3 units a day', 'smoker', 1, NULL);
 
 INSERT INTO MEDICAL_HISTORY (
     patient, relation, conditionname, outcome, resolvedyear, createdByUser, deleted

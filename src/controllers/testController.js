@@ -43,7 +43,7 @@ class TestController {
             deleteEntry(req, res, 'ORDERED_TESTS', { 'id': req.body.testID }, 'test', 1);
         }
         else {
-            if (req.requester.priv != 1)
+            if (req.requester.priv !== 1)
                 res.status(400).send('You don\'t have the right to do that.');
             else {
                 res.status(400).send('Missing information to do that.');

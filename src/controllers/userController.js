@@ -44,7 +44,7 @@ class UserController {
         knex('USERS')
             .select({ username:'USERS.username' }, 'USERS.realName', 'adminPriv')
             .where('USERS.username', 'like', queryUsername)
-            .andWhere('USERS.deleted', null)
+            .andWhere('USERS.deleted', '-')
             .then(result => {
                 res.status(200).json(result);
             });
@@ -91,7 +91,7 @@ class UserController {
         if (req.body.username && req.body.pw) {
             knex('USERS')
                 .select('pw','id')
-                .where({ 'username': req.body.username, 'deleted': null })
+                .where({ 'username': req.body.username, 'deleted': '-' })
                 .then(result => {
                     if (result.length === 1) {
                         bcrypt.compare(req.body.pw, result[0]['pw'])
@@ -102,7 +102,7 @@ class UserController {
                                         .insert({
                                             user: result[0]['id'],
                                             sessionToken: token,
-                                            deleted: null })
+                                            deleted: '-' })
                                         .then(result => res.status(200).json({ 'token': token }))
                                         .catch(err => res.status(500).send(`Database error.${  err}`));
                                 } else {
@@ -122,7 +122,7 @@ class UserController {
     }
 
     userLogout(req,res){
-        if (req.body.username && req.requester.username == req.body.username){
+        if (req.body.username && req.requester.username === req.body.username){
             deleteEntry(req, res, 'USER_SESSION', { 'sessionToken': req.requester.token }, `${req.body.username  }'s session`, 1);
         } else {
             res.status(401).send('You do not have permission to log out this user.');

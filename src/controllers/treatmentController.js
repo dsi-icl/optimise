@@ -26,7 +26,7 @@ class TreatmentController {
     addTerminationDate(req, res){    //for adding termination date
         if (req.body.treatmentId && req.body.terminationDate && validateAndFormatDate(req.body.terminationDate) && req.body.terminatedReason) {
             knex('TREATMENTS')
-                .where({ 'id': req.body.treatmentId, 'deleted':null })
+                .where({ 'id': req.body.treatmentId, 'deleted':'-' })
                 .update({
                     'terminatedDate': validateAndFormatDate(req.body.terminationDate),
                     'terminatedReason': req.body.terminatedReason })
@@ -52,8 +52,8 @@ class TreatmentController {
     }
 
     editTreatment(req, res){
-        if (req.requester.priv == 1){
-            let whereObj = { 'id': req.body.id, 'deleted':null };
+        if (req.requester.priv === 1){
+            let whereObj = { 'id': req.body.id, 'deleted':'-' };
             let newObj = Object.assign({}, req.body);   //need to change naming
             updateEntry(req, res, 'TREATMENTS', whereObj, newObj, req.body.id, 1 /* LT 0 */);
         }

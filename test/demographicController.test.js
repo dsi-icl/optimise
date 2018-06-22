@@ -6,6 +6,7 @@ const tokens = require('./token');
 const token = tokens.token;
 const standardToken = tokens.standardToken;
 
+// TO COMPLETE
 
 describe('Create demographic data for patient.', () => {
     test('Create demogdata without body (FAIL)', () => request
@@ -31,7 +32,14 @@ describe('Create demographic data for patient.', () => {
     test('Create demogdata with wrong body (FAIL)', () => request
         .post('/api/demogdata/Demographic')
         .set('token', token)
-        .send({})
+        .send({ 'patient':1,
+            'DOB':{ 'day':1, 'month':3, 'year':1980 },
+            'gender':'transgender',
+            'dominantHand':'right',
+            'ethnicity':'White',
+            'countryOfOrigin':'France',
+            'alcoholUsage':'More than 3 units a day',
+            'smokingHistory':'ex-smoker' })
         .then(res => {
             expect(res.statusCode).toBe(400);
         }));
@@ -40,7 +48,14 @@ describe('Create demographic data for patient.', () => {
     test('Create demogdata with good body (SUCCESS)', () => request
         .post('/api/demogdata/Demographic')
         .set('token', token)
-        .send({})
+        .send({ 'patient':1,
+            'DOB':{ 'day':1, 'month':3, 'year':1980 },
+            'gender':'male',
+            'dominantHand':'right',
+            'ethnicity':'White',
+            'countryOfOrigin':'France',
+            'alcoholUsage':'More than 3 units a day',
+            'smokingHistory':'ex-smoker' })
         .then(res => {
             expect(res.statusCode).toBe(400);
         }));

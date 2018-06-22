@@ -30,11 +30,13 @@ class DemographicDataController {
         }
         knex('PATIENTS')
             .select('deleted')
-            .where({ 'id': req.body.patient, 'deleted': null })
+            .where({ 'id': req.body.patient, 'deleted': '-' })
             .then(result => {
+                if (result.length !== 1)
+                    res.status(404).send('User not found');
                 knex('PATIENT_DEMOGRAPHIC')
                     .select('*')
-                    .where({ 'patient':req.body.patient, 'deleted': null })
+                    .where({ 'patient':req.body.patient, 'deleted': '-' })
                     .then(resu => {
                         if (resu.length === 0 && result.length === 1){
                             let entryObj = {
@@ -55,9 +57,9 @@ class DemographicDataController {
                             } else {
                                 res.status(400).send('Malformed date object.');
                             }
-                        } else if (result.length != 1) {
+                        } else if (result.length !== 1) {
                             res.status(404).send('Cannot seem to find your patient!');
-                        } else if (resu.length != 0) {
+                        } else if (resu.length !== 0) {
                             res.status(400).send('Patient already have demographic data.');
                         }
                     });
@@ -72,7 +74,7 @@ class DemographicDataController {
         if (req.body.patient && req.body.immunisationDate && validateAndFormatDate(req.body.immunisationDate) && req.body.vaccineName){
             knex('PATIENTS')
                 .select('id')
-                .where({ 'id': req.body.patient, 'deleted': null })
+                .where({ 'id': req.body.patient, 'deleted': '-' })
                 .then(result => {
                     if (result.length === 0) {
                         res.status(404).send('Can\'t seem to find your patient!');
@@ -94,7 +96,7 @@ class DemographicDataController {
         if (req.body.patient && (req.body.startDate && validateAndFormatDate(req.body.startDate)) && req.body.outcome && req.body.conditionName && req.body.relation){
             knex('PATIENTS')
                 .select('id')
-                .where({ 'id': req.body.patient, 'deleted': null })
+                .where({ 'id': req.body.patient, 'deleted': '-' })
                 .then(result => {
                     if (result.length === 0) {
                         res.status(404).send('Can\'t seem to find your patient!');
@@ -122,7 +124,7 @@ class DemographicDataController {
         if(req.query.patientId){
             knex('PATIENTS')
                 .select('id')
-                .where({ 'id': req.query.patientId, 'deleted': null })
+                .where({ 'id': req.query.patientId, 'deleted': '-' })
                 .then(result => {
                     if (result.length === 0) {
                         res.status(404).send('Can\'t seem to find your patient!');
@@ -141,7 +143,7 @@ class DemographicDataController {
                         }
                         knex(querytable)
                             .select('*')
-                            .where({ 'patient': result[0].id, 'deleted': null })
+                            .where({ 'patient': result[0].id, 'deleted': '-' })
                             .then(result => {
                                 for (let i = 0; i < result.length; i++){
                                     result[i]['patient'] = req.query.patientId;
@@ -163,7 +165,7 @@ class DemographicDataController {
 
     DELETEDemographic(req, res) {
         if (req.requester.priv === 1 && req.body.id) {
-            deleteEntry(req, res, 'PATIENT_DEMOGRAPHIC', { 'id': req.body.id, 'deleted':null }, `Demographic information with id ${  req.body.id}`, 1);
+            deleteEntry(req, res, 'PATIENT_DEMOGRAPHIC', { 'id': req.body.id, 'deleted':'-' }, `Demographic information with id ${  req.body.id}`, 1);
         } else {
             res.status(401).send('Error. You do not have permission; or the request is malformed');
         }
@@ -171,7 +173,7 @@ class DemographicDataController {
 
     DELETEImmunisation(req, res){
         if (req.requester.priv === 1 && req.body.id) {
-            const whereObj = { 'id': req.body.id, 'deleted':null };
+            const whereObj = { 'id': req.body.id, 'deleted':'-' };
             deleteEntry(req, res, 'PATIENT_IMMUNISATION', whereObj,`Immunisation of id ${  req.body.id}`, 1);
         } else {
             res.status(401).send('Error. You do not have permission; or the request is malformed');
@@ -180,7 +182,7 @@ class DemographicDataController {
 
     DELETEMedicalCondition(req, res){
         if (req.requester.priv === 1 && req.body.id) {
-            const whereObj = { 'id': req.body.id, 'deleted':null };
+            const whereObj = { 'id': req.body.id, 'deleted':'-' };
             deleteEntry(req, res, 'MEDICAL_HISTORY', whereObj, 'Entry', 1);
         } else {
             res.status(401).send('Error. You do not have permission; or the request is malformed');
@@ -190,7 +192,7 @@ class DemographicDataController {
     PUTDemographic(req, res){
         if (req.requester.priv === 1 && req.body.id) {
             let newObj = Object.assign({}, req.body);
-            const whereObj = { 'id': req.body.id, 'deleted':null };
+            const whereObj = { 'id': req.body.id, 'deleted':'-' };
             if (req.body.DOB && validateAndFormatDate(req.body.DOB)) {
                 newObj.DOB = validateAndFormatDate(req.body.DOB);
             }
@@ -203,7 +205,7 @@ class DemographicDataController {
     PUTImmunisation(req, res){
         if (req.requester.priv === 1 && req.body.id) {
             let newObj = Object.assign({}, req.body);
-            const whereObj = { 'id': req.body.id, 'deleted':null };
+            const whereObj = { 'id': req.body.id, 'deleted':'-' };
             if (req.body.immunisationDate && validateAndFormatDate(req.body.immunisationDate)) {
                 newObj.immunisationDate = validateAndFormatDate(req.body.immunisationDate);
             }
@@ -219,7 +221,7 @@ class DemographicDataController {
             let tmp;
             if (req.body.startDate)
                 newObj.startDate = (tmp = validateAndFormatDate(req.body.startDate)) ? tmp : null;
-            const whereObj = { 'id': req.body.id, 'deleted':null };
+            const whereObj = { 'id': req.body.id, 'deleted':'-' };
             updateEntry(req, res, 'MEDICAL_HISTORY', whereObj, newObj, 'Row for Medical Condition', 1);
         } else {
             res.status(401).send('Error. You do not have permission; or the request is malformed');
