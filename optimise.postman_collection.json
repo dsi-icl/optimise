@@ -180,7 +180,7 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value":"application/txt"								
+								"value":"application/csv"								
 							},
 							{
 								"key": "token",
@@ -201,7 +201,7 @@
 								"exportDb"
 							]
 						},
-						"description": "Exports all data"
+						"description": "Exports all data for all patients in database"
 					},
 					"response": []
 				}
