@@ -72,7 +72,7 @@ describe('Delete test controller tests', () => {
         .then(res => {
             expect(res.status).toBe(200);
         }));
-    
+
     test('Request deletion with good body by standard User (should fail)', () => request
         .patch('/api/tests')
         .set('token', standardToken)
