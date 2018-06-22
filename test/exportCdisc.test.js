@@ -15,8 +15,8 @@ describe('Export database tests', () => {
         //.set('token', token)
         .then(res => {
             expect(res.statusCode).toBe(200);
-            //expect(res.headers['content-type']).toBe('application/csv; charset=utf-8');
-            //expect(res.body.length).toBeGreaterThanOrEqual(1);
+            expect(res.headers['content-type']).toBe('application/csv; charset=utf-8');
+            expect(res.body.length).toBeGreaterThanOrEqual(1);
         }));
 
 
