@@ -190,9 +190,9 @@ describe('Create treatment interruption controller tests', () => {
         .set('token', adminToken)
         .send({
             'treatmentId': 'WRONG',
-            'start_date' : { 'day':3, 'month':4, 'year':2010 },
-            'end_date' : { 'day':3, 'month':4, 'year':2011 },
-            'reason' : 'pregnancy'
+            'start_date': { 'day': 3, 'month': 4, 'year': 2010 },
+            'end_date': { 'day': 3, 'month': 4, 'year': 2011 },
+            'reason': 'pregnancy'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -203,9 +203,9 @@ describe('Create treatment interruption controller tests', () => {
         .set('token', adminToken)
         .send({
             'treatmentId': 999999999,
-            'start_date' : { 'day':3, 'month':4, 'year':2010 },
-            'end_date' : { 'day':3, 'month':4, 'year':2011 },
-            'reason' : 'pregnancy'
+            'start_date': { 'day': 3, 'month': 4, 'year': 2010 },
+            'end_date': { 'day': 3, 'month': 4, 'year': 2011 },
+            'reason': 'pregnancy'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -216,9 +216,9 @@ describe('Create treatment interruption controller tests', () => {
         .set('token', adminToken)
         .send({
             'treatmentId': 1,
-            'start_date' : { 'day':3, 'month':4, 'year':2010 },
-            'end_date' : { 'day':3, 'month':4, 'year':2011 },
-            'reason' : 'pregnancy'
+            'start_date': { 'day': 3, 'month': 4, 'year': 2010 },
+            'end_date': { 'day': 3, 'month': 4, 'year': 2011 },
+            'reason': 'pregnancy'
         })
         .then(res => {
             expect(res.status).toBe(200);
