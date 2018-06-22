@@ -19,7 +19,7 @@ class PatientController {
             .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENT_DEMOGRAPHIC.DOB', 'PATIENT_DEMOGRAPHIC.gender')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .where('PATIENTS.aliasId', 'like', queryid)
-            .andWhere('PATIENTS.deleted', null)
+            .andWhere('PATIENTS.deleted', '-')
             .then(result => {
                 res.status(200).json(result);
             });
@@ -36,7 +36,7 @@ class PatientController {
 
     setPatientAsDeleted(req, res) {
         if (req.requester.priv === 1) {
-            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId, 'deleted':null }, req.body.aliasId, 1);
+            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId, 'deleted': '-' }, req.body.aliasId, 1);
         } else {
             res.status(401).send('Sorry! Only admins are able to edit / delete data');
         }
@@ -45,7 +45,7 @@ class PatientController {
     getPatientProfileById(req, res) {
         knex('PATIENTS')
             .select({ patientId: 'id', study: 'study' })
-            .where({ 'aliasId': req.params.patientId, deleted: null })
+            .where({ 'aliasId': req.params.patientId, deleted: '-' })
             .then(patientResult => {
                 if (patientResult.length === 1) {
                     const patientId = patientResult[0].patientId;
@@ -62,12 +62,10 @@ class PatientController {
                     getOnlyArr = Array.from(getOnlyArr);    //prevent if someone put loads of the same parameters, slowing down the server
                     const promiseArr = [];
                     for (let i = 0; i < getOnlyArr.length; i++) {
-                        console.log(SelectorUtils);
-                        console.log(Object.keys(SelectorUtils));
                         try {
                             promiseArr.push(SelectorUtils[`get${getOnlyArr[i]}`](patientId));
                         } catch (e) {
-                            res.status(400).send('something in your ?getOnly is not permitted!');
+                            res.status(400).send('something in your ?getOnly is not permitted! The options are "getDemographicData", "getImmunisations", "getMedicalHistory", "getVisits", "getTests", "getTreatments", "ClinicalEvents"');
                             throw 'stopping the chain';
                         }
                     }
