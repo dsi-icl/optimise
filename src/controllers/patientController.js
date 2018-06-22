@@ -36,7 +36,7 @@ class PatientController {
 
     setPatientAsDeleted(req, res) {
         if (req.requester.priv === 1) {
-            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId, 'deleted':'-' }, req.body.aliasId, 1);
+            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId, 'deleted': '-' }, req.body.aliasId, 1);
         } else {
             res.status(401).send('Sorry! Only admins are able to edit / delete data');
         }
@@ -62,12 +62,10 @@ class PatientController {
                     getOnlyArr = Array.from(getOnlyArr);    //prevent if someone put loads of the same parameters, slowing down the server
                     const promiseArr = [];
                     for (let i = 0; i < getOnlyArr.length; i++) {
-                        console.log(SelectorUtils);
-                        console.log(Object.keys(SelectorUtils));
                         try {
                             promiseArr.push(SelectorUtils[`get${getOnlyArr[i]}`](patientId));
                         } catch (e) {
-                            res.status(400).send('something in your ?getOnly is not permitted!');
+                            res.status(400).send('something in your ?getOnly is not permitted! The options are "getDemographicData", "getImmunisations", "getMedicalHistory", "getVisits", "getTests", "getTreatments", "ClinicalEvents"');
                             throw 'stopping the chain';
                         }
                     }
