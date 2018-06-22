@@ -4,7 +4,6 @@ const app = require('../src/app');
 const request = require('supertest')(app);
 const tokens = require('./token');
 const token = tokens.token;
-const standardToken = tokens.standardToken;
 
 
 describe('Create test controller tests', () => {
