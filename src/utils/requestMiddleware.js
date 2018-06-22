@@ -30,7 +30,7 @@ class RequestMiddleware {
     ** Purpose: Monitor behavior of the user and save in the database each action taken by the user.
     */
     static addActionToCollection(req, res, next) {
-        if (!req.headers.token) {
+        if (req.headers.token) {
             knex('USER_SESSION')
                 .select('user')
                 .where({ 'sessionToken': req.headers.token })
