@@ -44,7 +44,7 @@ class TestController {
         }
         else {
             if (req.requester.priv !== 1)
-                res.status(400).send('You don\'t have the right to do that.');
+                res.status(401).send('You don\'t have the right to do that.');
             else {
                 res.status(400).send('Missing information to do that.');
             }
