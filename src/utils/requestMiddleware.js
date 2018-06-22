@@ -6,7 +6,7 @@ class RequestMiddleware {
             knex('USER_SESSION')
                 .select({ token: 'USER_SESSION.sessionToken', username: 'USERS.username', priv: 'USERS.adminPriv', userid: 'USER_SESSION.user' })
                 .innerJoin('USERS', 'USERS.id', 'USER_SESSION.user')
-                .where({ 'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': null, 'USERS.deleted': null })
+                .where({ 'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': '-', 'USERS.deleted': '-' })
                 .then(result => {
                     if (result.length !== 0){
                         req.requester = result[0];
