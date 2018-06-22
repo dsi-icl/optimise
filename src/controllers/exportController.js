@@ -1,19 +1,6 @@
 const knex = require('../utils/db-connection');
 const SelectorUtils = require('../utils/selector-utils');
-var Stream = require('stream');
-var fs = require('fs');
-
-var cdiscTermsDM = {
-    aliasId : "USUBJID",
-    study : "STUDYID",
-    DOB : "BRTHDTC",
-    gender : "SEX",
-    dominantHand : "DOMINANT",
-    ethnicity : "ETHNIC",
-    countryOfOrigin : "COUNTRY",
-    alcoholUsage : "ALCOHOL", // TODO: CHANGE TO SU 
-    smokingHistory : "SMOKING" // TODO: CHANGE TO SC
-};
+const fs = require('fs');
 
 class ExportController {
 
@@ -21,39 +8,40 @@ class ExportController {
 
     exportDb(req, res) {
 
-        //let fileName = 'optimiseData' + new Date() + '.csv';
-        let fileName = 'optimiseData' + new Date();
+        let fileName = 'OptimiseData.csv';
 
-        // May replace with using SelectorUtils to reuse the queries passing an array of all IDs
+        // TODO: replace with using SelectorUtils to reuse the queries passing an array of all IDs
 
-        // Patient demographics file
+        // Patient demographic data file
         // All files should include aliasId
 
         knex('PATIENTS')
             .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENT_DEMOGRAPHIC.DOB', 'PATIENT_DEMOGRAPHIC.gender', 'PATIENT_DEMOGRAPHIC.dominantHand', 'PATIENT_DEMOGRAPHIC.ethnicity', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
-            .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT.id', 'PATIENT_DEMOGRAPHIC.patient')
+            .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .where('PATIENTS.deleted', null)
             .then(result => {
-                const returnObj = { dmData: result };
-                let fileName = 'dm' + fileName;
-                let fileContents = Buffer.from(returnObj);
-                let tempSavedPath = '/temp/' + fileName;
-                fs.writeFile(tempSavedPath, fileContents, function(err) {
+                // TODO: CDISC mapping for headers
+                let tempfileName = `dm${fileName}`;
+                let keys = Object.keys(result[0]); // get the keys from result to create headers
+                let tempResult = `${keys.join(',')}\n`; 
+                result.forEach(function(obj) {
+                    keys.forEach(function(a, b){
+                        if (b) tempResult += ',';
+                        tempResult += obj[a];
+                    });
+                    tempResult += '\n';
+                });
+                let fileContents = Buffer.from(tempResult);
+                let tempSavedPath = `/temp/${tempfileName}`;
+                fs.writeFile(tempSavedPath, fileContents, err => {
                     if (err) {
-                        return console.log(err);
+                        throw err;
+                    } else {
+                        res.status(200).download(tempSavedPath, tempfileName);
                     }
-                    res.status(200).download(tempSavedPath, fileName);
-                })
-                return;
+                });
             });
-
-        // res.setHeader('Content-type', 'application/csv');
-        // res.setHeader('Access-Control-Allow-Origin', '*');
-        // res.setHeader('Content-disposition', 'attachment; filename=db.csv');    
-        // res.end();   
-
     }
-    
-};
+}
 
 module.exports = new ExportController();
