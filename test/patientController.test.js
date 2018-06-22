@@ -20,6 +20,23 @@ describe('Patient controller tests', () => {
         }));
 
     test('Searching patients with similar alias_id\'s', () => request
+        .get('/api/patients?id=c')
+        .set('token', token)
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+            expect(res.body.length).toBeGreaterThanOrEqual(2);
+        }));
+
+    test('Searching patients with similar alias_id\'s but with double "id" query', () => request
+        .get('/api/patients?id=ch&id=css')
+        .set('token', token)
+        .then(res => {
+            expect(res.statusCode).not.toBe(200);
+            expect(res.headers['content-type']).toBe('text/html; charset=utf-8');
+        }));
+
+    test('Searching patients with similar alias_id\'s', () => request
         .get('/api/patients?id=hey')
         .set('token', token)
         .then(res => {

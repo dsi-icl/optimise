@@ -26,7 +26,7 @@ module.exports = {
             }
         ],
         'quotes': [
-            'warn',
+            'error',
             'single'
         ],
         'semi': [
@@ -54,6 +54,8 @@ module.exports = {
         'object-curly-spacing': ['error', 'always'],
         'prefer-template': 'warn',
         'no-var': 'error',
-        'arrow-body-style': ['error', 'as-needed']
+        'arrow-body-style': ['error', 'as-needed'],
+        'no-case-declarations': 'warn',
+        'no-eq-null': 'error'
     }
 };

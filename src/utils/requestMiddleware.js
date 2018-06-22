@@ -6,7 +6,7 @@ class RequestMiddleware {
             knex('USER_SESSION')
                 .select({ token: 'USER_SESSION.sessionToken', username: 'USERS.username', priv: 'USERS.adminPriv', userid: 'USER_SESSION.user' })
                 .innerJoin('USERS', 'USERS.id', 'USER_SESSION.user')
-                .where({ 'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': null, 'USERS.deleted': null })
+                .where({ 'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': '-', 'USERS.deleted': '-' })
                 .then(result => {
                     if (result.length !== 0){
                         req.requester = result[0];
@@ -18,7 +18,7 @@ class RequestMiddleware {
                     console.log(err);
                     res.status(500).send('Database error');
                 });
-        } else if (req.originalUrl == '/internalapi/userlogin'){
+        } else if (req.originalUrl === '/internalapi/userlogin'){
             next();
         } else {
             res.status(400).send('Please provide a token in the header');
@@ -30,7 +30,7 @@ class RequestMiddleware {
     ** Purpose: Monitor behavior of the user and save in the database each action taken by the user.
     */
     static addActionToCollection(req, res, next) {
-        if (req.headers.token != undefined) {
+        if (req.headers.token) {
             knex('USER_SESSION')
                 .select('user')
                 .where({ 'sessionToken': req.headers.token })
@@ -45,7 +45,7 @@ class RequestMiddleware {
                             next();
                         })
                         .catch(err => {
-                            console.log(`Error catched :${  err}`);
+                            console.log(`Error caught :${  err}`);
                             next();
                         });
                 });
@@ -57,7 +57,7 @@ class RequestMiddleware {
                     next();
                 })
                 .catch(err => {
-                    console.log(`Error catched :${  err}`);
+                    console.log(`Error caught :${err}`);
                     next();
                 });
         }

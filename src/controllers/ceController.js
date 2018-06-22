@@ -10,7 +10,7 @@ class CeController {
                     'recordedDuringVisit': req.body.visitId,
                     'type': (req.body.type ? req.body.type : null),
                     'dateStartDate': validateAndFormatDate(req.body.startDate),
-                    'endDate': (req.body.endDate && validateAndFormatDate(rea.body.endDate) ? validateAndFormatDate(rea.body.endDate) : null)
+                    'endDate': (req.body.endDate && validateAndFormatDate(req.body.endDate) ? validateAndFormatDate(req.body.endDate) : null)
                 };
                 createEntry(req, res, 'CLINICAL_EVENTS', entryObj, 'databaseError');
             } else {

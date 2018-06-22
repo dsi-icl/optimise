@@ -19,7 +19,7 @@ class PatientController {
             .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENT_DEMOGRAPHIC.DOB', 'PATIENT_DEMOGRAPHIC.gender')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .where('PATIENTS.aliasId', 'like', queryid)
-            .andWhere('PATIENTS.deleted', null)
+            .andWhere('PATIENTS.deleted', '-')
             .then(result => {
                 res.status(200).json(result);
             });
@@ -36,16 +36,16 @@ class PatientController {
 
     setPatientAsDeleted(req, res) {
         if (req.requester.priv === 1) {
-            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId }, req.body.aliasId, 1);
+            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId, 'deleted':'-' }, req.body.aliasId, 1);
         } else {
-            res.status(403).send('Sorry! Only admins are able to edit / delete data');
+            res.status(401).send('Sorry! Only admins are able to edit / delete data');
         }
     }
 
     getPatientProfileById(req, res) {
         knex('PATIENTS')
             .select({ patientId: 'id', study: 'study' })
-            .where({ 'aliasId': req.params.patientId, deleted: null })
+            .where({ 'aliasId': req.params.patientId, deleted: '-' })
             .then(patientResult => {
                 if (patientResult.length === 1) {
                     const patientId = patientResult[0].patientId;
@@ -106,7 +106,7 @@ class PatientController {
     erasePatientInfo(req, res) {
         let patientId = undefined;
         let visitId = [];
-        if (req.requester.priv != 1) {
+        if (req.requester.priv !== 1) {
             res.status(403).send('Sorry! Only admins are able to edit / delete data');
             return;
         }
@@ -123,7 +123,7 @@ class PatientController {
                     res.status(400).send('Asked id too similar to others. Please refine your request');
                     throw ('Too much results.');
                 }
-                if (patientId == undefined) {
+                if (patientId === undefined) {
                     res.status(400).send('Error while retreiving the asked user. Check information sent');
                     throw ('Too much results.');
                 }
@@ -139,7 +139,7 @@ class PatientController {
                             for (let i = 0; i < resultVisit.length; i++) {
                                 visitId[i] = resultVisit[i].visitId;
                                 eraseEntry(req, res, 'VISIT_DATA', { 'visit': visitId[i] }, 'Row for visit data', null, false);
-                                for (let i = 0; visitId != undefined && i < visitId.length; i++) {
+                                for (let i = 0; !visitId && i < visitId.length; i++) {
                                     //Erase Ordered test and test data
                                     knex('ORDERED_TESTS')
                                         .select({ testId: 'id' })
