@@ -7,6 +7,6 @@ exports.up = function(knex, Promise) {
   };
   
   exports.down = function(knex, Promise) {
-    return knex.schema.dropTable('');
+    return knex.schema.dropTable('AVAILABLE_CLINICAL_EVENT_TYPES');
   };
   
