@@ -35,6 +35,7 @@ module.exports = {
         'no-var': 'error',
         'arrow-body-style': ['error', 'as-needed'],
         'no-case-declarations': 'warn',
-        'no-eq-null': 'error'
+        'no-eq-null': 'error',
+        'key-spacing': ["error", { "beforeColon": false, "afterColon": true}]
     }
 };

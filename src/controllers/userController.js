@@ -42,7 +42,7 @@ class UserController {
         queryUsername = `%${  queryUsername  }%`;
 
         knex('USERS')
-            .select({ username:'USERS.username' }, 'USERS.realName', 'adminPriv')
+            .select({ username: 'USERS.username' }, 'USERS.realName', 'adminPriv')
             .where('USERS.username', 'like', queryUsername)
             .andWhere('USERS.deleted', '-')
             .then(result => {

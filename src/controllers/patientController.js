@@ -160,15 +160,15 @@ class PatientController {
                                     eraseEntry(req, res, 'TREATMENTS', { 'orderedDuringVisit': visitId[i] }, 'Row for treatments', null, false);
                                     //Erase Clinical Event and Clinical Event Data
                                     knex('CLINICAL_EVENTS')
-                                        .select({ ceId : 'id' })
-                                        .where({ 'recordedDuringVisit' : visitId })
+                                        .select({ ceId: 'id' })
+                                        .where({ 'recordedDuringVisit': visitId })
                                         .then(resultCE => {
                                             for (let j = 0; !isEmptyObject(resultCE) && j < resultCE.length; j++) {
                                                 eraseEntry(req, res, 'CLINICQL_EVENT_DATA', { 'clinicalEvent': resultCE[j] }, 'Row for clinical event data', null, false);
                                             }
                                         });
                                     eraseEntry(req, res, 'CLINICAL_EVENTS', { 'recordedDuringVisit': visitId[i] }, 'Row for clinical event', null, false);
-                                    eraseEntry(req, res, 'VISITS', { 'id':visitId[i] }, 'Row for visits', null, false);
+                                    eraseEntry(req, res, 'VISITS', { 'id': visitId[i] }, 'Row for visits', null, false);
                                 }
                             }
                         }

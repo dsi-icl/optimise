@@ -78,10 +78,10 @@ class TreatmentController {
     addInterruption(req, res){    //need to search if treatment exists
         if (req.body.treatmentId) {
             let entryObj = {
-                'treatment' : req.body.treatmentId,
-                'startDate' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null),
-                'endDate' : (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null),
-                'reason' : req.body.reason,
+                'treatment': req.body.treatmentId,
+                'startDate': (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null),
+                'endDate': (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null),
+                'reason': req.body.reason,
             };
             createEntry(req, res, 'TREATMENTS_INTERRUPTIONS', entryObj, 'Couldn\'t create entry');
             return ;
