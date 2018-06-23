@@ -13,6 +13,6 @@ exports.seed = function(knex, Promise) {
             }));
     }
 
-    return Promise.all(allPromises);
+    return Promise.all(allPromises).then(() => console.log('loaded example data')).catch(err => console.log(err));
 
 };
