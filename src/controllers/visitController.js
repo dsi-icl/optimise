@@ -16,7 +16,7 @@ class VisitController {
     }
 
     static createVisit(req, res){
-        if (req.body.patientId && req.body.type && req.body.visitDate && validateAndFormatDate(req.body.visitDate)){
+        if (req.body.patientId && req.body.visitDate && validateAndFormatDate(req.body.visitDate)){
             knex('PATIENTS')
                 .select('id')
                 .where({ 'aliasId': req.body.patientId, 'deleted': '-' })
@@ -24,7 +24,9 @@ class VisitController {
                     if (result.length === 0) {
                         res.status(404).send('Can\'t seem to find your patient!');
                     } else if (result.length === 1) {
-                        const entryObj = { 'patient': result[0]['id'], 'visitDate': validateAndFormatDate(req.body.visitDate), 'type': req.body.type };
+                        const entryObj = { 'patient': result[0]['id'], 'visitDate': validateAndFormatDate(req.body.visitDate) };
+                        if (req.body.type && typeof(req.body.type) === "number")
+                            entryObj.type = req.body.type;
                         createEntry(req, res, 'VISITS', entryObj, 'Error. Visit might already exists.');
                     } else {
                         res.status(500).send('Database error');
@@ -36,6 +38,8 @@ class VisitController {
     }
 
     static deleteVisit(req, res){
+        if (req.requester.priv !== 1)
+            console.log('BAD PRIVILEDGES');
         if (req.requester.priv === 1 && req.body.visitId) {
             knex('VISITS')
                 .select('id')
