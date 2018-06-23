@@ -6,7 +6,8 @@ export default {
         backgroundColor: '#3a3c46',
         padding: padding,
         gridColumn: '1/2',
-        gridRow: '1/2'
+        gridRow: '1/2',
+        position: 'relative'
     },
 
     middlePanel: {
@@ -34,6 +35,7 @@ export default {
     },
 
     statusBar: {
+        position: 'relative',
         backgroundColor: '#ff5151',
         gridColumn: '1/5',
         overflow: 'auto',
