@@ -28,7 +28,10 @@ export default {
         ':hover': { color: '#f5f6fa', backgroundColor: '#EA2027', cursor: 'pointer' } },
     
     searchBar: {
-        margin: '1px auto',
+        marginTop: 1,
+        marginBottom: 10,
+        marginLeft: 'auto',
+        marginRight: 'auto',
         width: '55%'
     },
 
