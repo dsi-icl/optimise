@@ -175,7 +175,7 @@ describe('Create treatment controller tests', () => {
             expect(res.status).toBe(200);
         }));
 
-        test('Request creation same treatment as before (should fail)', () => request
+    test('Request creation same treatment as before (should fail)', () => request
         .post('/api/treatments')
         .set('token', adminToken)
         .send({
