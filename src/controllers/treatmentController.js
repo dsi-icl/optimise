@@ -4,16 +4,16 @@ const knex = require('../utils/db-connection');
 
 class TreatmentController {
     createTreatment(req, res){
-        if (!(req.body.visitId && req.body.drugId && req.body.dose &&
-            req.body.unit && req.body.form && req.body.timesPerDay && req.body.durationInWeeks)) {
+        if (!(req.body.visitId !== undefined && req.body.drugId !== undefined && req.body.dose !== undefined &&
+            req.body.unit !== undefined && req.body.form !== undefined && req.body.timesPerDay !== undefined && req.body.durationInWeeks !== undefined)) {
             res.status(400).send('Missing information for creation of the treatment');
             return ;
         }
-        if ((req.body.unit != 'mg' && req.body.unit != 'cc') ||
-            (req.body.form != 'oral' && req.body.form != 'IV')) {
-                res.status(400).send('Wrong format in unit or form');
-                return ;
-            }
+        if ((req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
+            (req.body.form !== 'oral' && req.body.form !== 'IV')) {
+            res.status(400).send('Wrong format in unit or form');
+            return ;
+        }
         if (req.body.timesPerDay <= 0 || req.body.durationInWeeks <= 0) {
             res.status(400).send('Wrong value in Times per day or duration in week');
             return ;
