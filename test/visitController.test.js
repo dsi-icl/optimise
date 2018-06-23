@@ -5,6 +5,8 @@ const request = require('supertest')(app);
 const adminToken = require('./token').adminToken;
 const standardToken = require('./token').standardToken;
 
+let createdVisitId;
+
 describe('Visit controller tests', () => {
     test('getting visits of a patient', () => request
         .get('/api/visits?patientId=florian')
@@ -52,6 +54,7 @@ describe('Visit controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+            createdVisitId = res[0];
         }));
 
     test('creating the same visit for a patient (should fail; for duplication)', () => request
@@ -88,7 +91,7 @@ describe('Visit controller tests', () => {
     test('deleting visit from visitId', () => request
         .delete('/api/visits')
         .set('token', adminToken)
-        .send({ 'visitId': 2 })
+        .send({ 'visitId': createdVisitId })
         .then(res => {
             expect(res.statusCode).toBe(200);
         }));

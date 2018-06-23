@@ -5,6 +5,8 @@ const adminToken = require('./token').adminToken;
 const standardToken = require('./token').standardToken;
 const request = require('supertest')(app);
 
+let createCeId;
+
 describe('Create Clinical Event controller tests', () => {
     test('Request creation whithout body (should fail)', () => request
         .post('/api/clinicalEvents')
@@ -41,7 +43,7 @@ describe('Create Clinical Event controller tests', () => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request creation with good patient and visit (should fail)', () => request
+    test('Request creation with good patient and visit (should succeed)', () => request
         .post('/api/clinicalEvents')
         .set('token', adminToken)
         .send({
@@ -53,6 +55,7 @@ describe('Create Clinical Event controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(200);
+            createCeId = res[0];
         }));
 });
 
@@ -60,7 +63,7 @@ describe('Delete Clinical Event controller tests', () => {
     test('Request deletion with a standard token (should fail)', () => request
         .delete('/api/clinicalEvents')
         .set('token', standardToken)
-        .send({ ceId: 1 })
+        .send({ ceId: createCeId })
         .then(res => {
             expect(res.status).toBe(401);
         }));
@@ -75,7 +78,7 @@ describe('Delete Clinical Event controller tests', () => {
     test('Request deletion with bad body (should fail)', () => request
         .delete('/api/clinicalEvents')
         .set('token', adminToken)
-        .send({ 'ce_-Id': 1 })
+        .send({ 'ce_-Id': createCeId })
         .then(res => {
             expect(res.status).toBe(400);
         }));
@@ -91,7 +94,7 @@ describe('Delete Clinical Event controller tests', () => {
     test('Request deletion with good body (should success)', () => request
         .delete('/api/clinicalEvents')
         .set('token', adminToken)
-        .send({ 'ceId': 1 })
+        .send({ 'ceId': createCeId })
         .then(res => {
             expect(res.status).toBe(200);
         }));
