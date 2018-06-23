@@ -20,21 +20,21 @@ class DataController {
         if (req.requester.priv === 1){
             let options = {};
             switch (req.params.dataType) {
-                            case 'visit':
-                                options.dataTableForeignKey = 'visit';
-                                options.dataTable = 'VISIT_DATA';
-                                break;
-                            case 'clinicalEvent':
-                                options.dataTableForeignKey = 'clinical_event';
-                                options.dataTable = 'CLINICAL_EVENTS_DATA';
-                                break;
-                            case 'test':
-                                options.dataTableForeignKey = 'test';
-                                options.dataTable = 'TEST_DATA';
-                                break;
-                            default:
-                                res.status(400).send(`data type ${req.params.dataType} not supported.`);
-                                return;
+                case 'visit':
+                    options.dataTableForeignKey = 'visit';
+                    options.dataTable = 'VISIT_DATA';
+                    break;
+                case 'clinicalEvent':
+                    options.dataTableForeignKey = 'clinical_event';
+                    options.dataTable = 'CLINICAL_EVENTS_DATA';
+                    break;
+                case 'test':
+                    options.dataTableForeignKey = 'test';
+                    options.dataTable = 'TEST_DATA';
+                    break;
+                default:
+                    res.status(400).send(`data type ${req.params.dataType} not supported.`);
+                    return;
             }
             if (!req.body[`${req.params.dataType}Id`]) {
                 res.status(400).send(`You have to provide ${req.params.dataType}Id in your req body.`);
@@ -170,30 +170,30 @@ class DataController {
                             let fieldType = result[i][0].type;
                             let inputValue = req.body[addOrUpdate][fieldId];
                             switch (fieldType) {
-                                            case 'B':
-                                                if (!(inputValue === 1 || inputValue === 0)) {
-                                                    res.status(400).send(`Field ${fieldId} only accepts value 1 and 0.`);
-                                                    throw 'stopping the chain';
-                                                }
-                                                break;
-                                            case 'C':
-                                                if (!(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
-                                                    res.status(400).send(`Field ${fieldId} only accepts values ${result[i][0]['permittedValues']}`);
-                                                    throw 'stopping the chain';
-                                                }
-                                                break;
-                                            case 'I':
-                                                if (!(parseInt(inputValue) === parseFloat(inputValue))) {
-                                                    res.status(400).send(`Field ${fieldId} only accept integer`);
-                                                    throw 'stopping the chain';
-                                                }
-                                                break;
-                                            case 'N':
-                                                if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
-                                                    res.status(400).send(`Field ${fieldId} only accept number`);
-                                                    throw 'stopping the chain';
-                                                }
-                                                break;
+                                case 'B':
+                                    if (!(inputValue === 1 || inputValue === 0)) {
+                                        res.status(400).send(`Field ${fieldId} only accepts value 1 and 0.`);
+                                        throw 'stopping the chain';
+                                    }
+                                    break;
+                                case 'C':
+                                    if (!(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
+                                        res.status(400).send(`Field ${fieldId} only accepts values ${result[i][0]['permittedValues']}`);
+                                        throw 'stopping the chain';
+                                    }
+                                    break;
+                                case 'I':
+                                    if (!(parseInt(inputValue) === parseFloat(inputValue))) {
+                                        res.status(400).send(`Field ${fieldId} only accept integer`);
+                                        throw 'stopping the chain';
+                                    }
+                                    break;
+                                case 'N':
+                                    if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
+                                        res.status(400).send(`Field ${fieldId} only accept number`);
+                                        throw 'stopping the chain';
+                                    }
+                                    break;
                             }
                         } else {
                             res.status(404).send('cannot seem to find one of your fields');
