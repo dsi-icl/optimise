@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
         table.text('unit').nullable();
         table.text('module').nullable();
         table.text('permittedValues').nullable();
-        table.text('referenceType').notNullable().references('id').inTable('AVAILABLE_VISITS_TYPES');
+        table.text('referenceType').notNullable().references('id').inTable('AVAILABLE_VISIT_TYPES');
         table.text('deleted').notNullable().defaultTo('-');
         table.unique(['idname', 'type', 'unit', 'module']);
     });

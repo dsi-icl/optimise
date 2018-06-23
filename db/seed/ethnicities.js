@@ -1,5 +1,5 @@
 /*eslint no-unused-vars: "off"*/
-const ethnicityList = require('./availableFields/availableCountriesAndEthnicities').ethnicities;
+const ethnicityList = require('../availableFields/availableCountriesAndEthnicities').ethnicities;
 
 exports.seed = function(knex, Promise) {
     // Deletes ALL existing entries
