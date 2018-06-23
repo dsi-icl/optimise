@@ -7,8 +7,11 @@ module.exports = {
         connection: {
             filename: './db/optimise-db.sqlite'
         },
+        migrations: {
+            directory: './db/migrations'
+        },
         seeds: {
-            directory: './seed'
+            directory: './db/seed'
         },
         useNullAsDefault: true,
         multipleStatements: true
