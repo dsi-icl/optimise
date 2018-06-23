@@ -9,12 +9,8 @@ import { PatientChart } from './patientProfile/patientChart.jsx';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import { TestData } from './medicalData/dataPage.jsx';
 import { History } from './exportCDSIC/history.jsx';
-import filterIcon from '../../statics/icons/icons8-conversion-48.png';
-import adminIcon from '../../statics/icons/icons8-monarch-48.png';
-import csvIcon from '../../statics/icons/icons8-csv-48.png';
-import cloudIcon from '../../statics/icons/icons8-cloud-40.png';
-import searchIcon from '../../statics/icons/icons8-detective-48.png';
 import { CreateVisit } from './createMedicalElements/createVisit.jsx';
+import { SearchIcon, SettingIcon, CloudIcon, ExportIcon, FilterIcon } from '../../statics/svg/icons.jsx';
 
 export class MenuBar extends Component {
     render() {
@@ -30,29 +26,29 @@ export class MenuBar extends Component {
         return (
             <div style={css.menuBar}>
                 <br/><br/><br/>
-                <NavLink to='/searchPatientById' activeClassName='menuButton'>
+                <NavLink to='/searchPatientById' className='menuButton' activeStyle={{ fill: 'white' }}>
                     <div>
-                        <img src={searchIcon} alt='search patient by id' title='Search Patient by Id' style={style}/>
+                        <SearchIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/filterPatients' activeClassName='menuButton'>
-                    <div>
-                        <img src={filterIcon} alt='filter patient' title='Filter patients' style={style}/>
+                <NavLink to='/filterPatients' className='menuButton' activeStyle={{ fill: 'white' }}>
+                    <div style={{ textAlign: 'center', marginTop: 20 }}>
+                        <FilterIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/exportCDISC' activeClassName='menuButton'>
-                    <div>
-                        <img src={csvIcon} alt='export CDISC' title='Export as CDISC' style={style}/>
+                <NavLink to='/exportCDISC' className='menuButton' activeStyle={{ fill: 'white' }}>
+                    <div style={{ textAlign: 'center', marginTop: 20 }}>
+                        <ExportIcon width='40%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/uploadToCloud' activeClassName='menuButton'>
-                    <div>
-                        <img src={cloudIcon} alt='upload to cloud' title='Upload to central db' style={style}/>
+                <NavLink to='/uploadToCloud' className='menuButton' activeStyle={{ fill: 'white' }}>
+                    <div style={{ textAlign: 'center', marginTop: 20 }}>
+                        <CloudIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/administration' activeClassName='menuButton'>
-                    <div>
-                        <img src={adminIcon} alt='admin' title='Administration' style={style}/>     
+                <NavLink to='/administration' className='menuButton' activeStyle={{ fill: 'white' }}>
+                    <div style={{ textAlign: 'center', marginTop: 20 }}>
+                        <SettingIcon width='50%'/>
                     </div>
                 </NavLink>
       
@@ -132,5 +128,15 @@ export class FarRightPanel extends Component {
                 <Route exact path='/' component={FarRightPanelWrapper(<SearchPatientsById/>)}/>
             </Switch>
         );
+    }
+}
+
+export class StatusBar extends Component {
+    render() {
+        return (
+            <div style={css.statusBar}>
+                <span style={{ marginLeft: 10, marginTop: '0.2em', display: 'block' }}> You are logged in as </span>
+            </div>
+        )
     }
 }

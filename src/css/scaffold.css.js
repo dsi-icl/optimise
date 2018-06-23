@@ -3,10 +3,11 @@ const padding = 0; //for dev
 
 export default {
     menuBar: {
-        backgroundColor: '#313E51',
+        backgroundColor: '#3a3c46',
         height: height,
         padding: padding,
-        gridColumn: '1/2'
+        gridColumn: '1/2',
+        gridRow: '1/2'
     },
 
     middlePanel: {
@@ -14,7 +15,8 @@ export default {
         height: height,
         padding: padding,
         gridColumn: '2/3',
-        overflow: 'auto'
+        overflow: 'auto',
+        gridRow: '1/2'
     },
 
     rightPanel: {
@@ -22,7 +24,8 @@ export default {
         height: height,
         padding: padding,
         gridColumn: '3/4',
-        overflow: 'auto'
+        overflow: 'auto',
+        gridRow: '1/2'
     },
 
     farRightPanel: {
@@ -30,6 +33,16 @@ export default {
         height: height,
         padding: padding,
         gridColumn: '4/5',
-        overflow: 'auto'
+        overflow: 'auto',
+        gridRow: '1/2'
+    },
+
+    statusBar: {
+        backgroundColor: '#ff5151',
+        padding: padding,
+        gridColumn: '1/5',
+        overflow: 'auto',
+        gridRow: '2/3',
+        color: 'white'
     }
 }
