@@ -10,7 +10,7 @@ import { Switch, Route, NavLink } from 'react-router-dom';
 import { TestData } from './medicalData/dataPage.jsx';
 import { History } from './exportCDSIC/history.jsx';
 import { CreateVisit } from './createMedicalElements/createVisit.jsx';
-import { SearchIcon, SettingIcon, CloudIcon, ExportIcon, FilterIcon } from '../../statics/svg/icons.jsx';
+import { SearchIcon, SettingIcon, CloudIcon, ExportIcon, FilterIcon, LogoutIcon } from '../../statics/svg/icons.jsx';
 
 export class MenuBar extends Component {
     render() {
@@ -26,29 +26,34 @@ export class MenuBar extends Component {
         return (
             <div style={css.menuBar}>
                 <br/><br/><br/>
-                <NavLink to='/searchPatientById' className='menuButton' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/searchPatientById' className='menuButton' title='Search and edit patients' activeStyle={{ fill: 'white' }}>
                     <div>
                         <SearchIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/filterPatients' className='menuButton' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/filterPatients' className='menuButton' title='Filter patients' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center', marginTop: 20 }}>
                         <FilterIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/exportCDISC' className='menuButton' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/exportCDISC' className='menuButton' title='Export as CDISC' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center', marginTop: 20 }}>
                         <ExportIcon width='40%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/uploadToCloud' className='menuButton' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/uploadToCloud' className='menuButton' title='Upload to central DB' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center', marginTop: 20 }}>
                         <CloudIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/administration' className='menuButton' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/administration' className='menuButton' title='Admin settings' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center', marginTop: 20 }}>
                         <SettingIcon width='50%'/>
+                    </div>
+                </NavLink>
+                <NavLink id='logoutButton' to='/logout' title='Logout' className='menuButton'>
+                    <div style={{ textAlign: 'center', position: 'absolute', bottom: '1%' }}>
+                        <LogoutIcon width='45%'/>
                     </div>
                 </NavLink>
       
@@ -135,8 +140,38 @@ export class StatusBar extends Component {
     render() {
         return (
             <div style={css.statusBar}>
-                <span style={{ marginLeft: 10, marginTop: '0.2em', display: 'block' }}> You are logged in as </span>
+                <span style={{ float: 'left', marginLeft: 10, marginTop: '0.2em', display: 'block' }}> You are logged in as </span>
+                <Clock/>
             </div>
         )
+    }
+}
+
+class Clock extends Component {
+    constructor(){
+        super();
+        const date = new Date(); 
+        this.state = { time: `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()} ${date.getUTCHours()}:${date.getUTCMinutes()}` };
+        this._ticktock = this._ticktock.bind(this);
+    }
+
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this._ticktock(),
+            60000
+        );
+    }
+    
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    _ticktock() {
+        const date = new Date(); 
+        this.setState({ time: `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()} ${date.getUTCHours()}:${date.getUTCMinutes()}` });
+    }
+
+    render() {
+        return <span style={{ display: 'block', marginTop: '0.2em', position: 'absolute', float: 'left', right: 10 }}> Your every action will be logged at UTC {this.state.time}</span> 
     }
 }
