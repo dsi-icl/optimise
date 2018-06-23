@@ -5,6 +5,8 @@ const request = require('supertest')(app);
 const adminToken = require('./token').adminToken;
 const standardToken = require('./token').standardToken;
 
+let createdTestId;
+
 describe('Create test controller tests', () => {
     test('Request creation without body (should fail)', () => request
         .post('/api/tests')
@@ -27,6 +29,7 @@ describe('Create test controller tests', () => {
         .send({ 'visitId': 1, 'type': 1, 'expectedDate': { 'day': 1, 'month': 1, 'year': 2020 } })
         .then(res => {
             expect(res.status).toBe(200);
+            createdTestId = res[0];
         }));
 
 });
@@ -60,23 +63,15 @@ describe('Delete test controller tests', () => {
     test('Request deletion with bad body (should fail)', () => request
         .post('/api/tests')
         .set('token', adminToken)
-        .send({ 'visit_-Id': 11 })
+        .send({ 'visit_-Id': createdTestId })
         .then(res => {
             expect(res.status).toBe(400);
-        }));
-
-    test('Request deletion with good body (should success)', () => request
-        .patch('/api/tests')
-        .set('token', adminToken)
-        .send({ 'testID': 2 })
-        .then(res => {
-            expect(res.status).toBe(200);
         }));
 
     test('Request deletion with good body by standard User (should fail)', () => request
         .patch('/api/tests')
         .set('token', standardToken)
-        .send({ 'testID': 2 })
+        .send({ 'testID': createdTestId })
         .then(res => {
             expect(res.status).toBe(401);
         }));
@@ -95,5 +90,13 @@ describe('Delete test controller tests', () => {
         .send({ 'testID': 99999999 })
         .then(res => {
             expect(res.status).toBe(404);
+        }));
+
+    test('Request deletion with good body (should success)', () => request
+        .patch('/api/tests')
+        .set('token', adminToken)
+        .send({ 'testID': createdTestId })
+        .then(res => {
+            expect(res.status).toBe(200);
         }));
 });

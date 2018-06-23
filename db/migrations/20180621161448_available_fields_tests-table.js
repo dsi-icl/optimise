@@ -8,6 +8,7 @@ exports.up = function(knex, Promise) {
         table.integer('type').notNullable().references('id').inTable('TYPES');
         table.text('unit').nullable();
         table.text('module').nullable();
+        table.text('permittedValues').nullable();
         table.text('referenceType').notNullable().references('id').inTable('AVAILABLE_TEST_TYPES');
         table.text('deleted').notNullable().defaultTo('-');
         table.unique(['idname', 'type', 'unit', 'module']);

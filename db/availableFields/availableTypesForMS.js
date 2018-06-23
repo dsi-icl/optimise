@@ -1,0 +1,13 @@
+const availableTypes = {
+    clinicalEvents: [
+        { id: 1, name: 'Relapse' }
+    ],
+    tests: [
+        { id: 1, name: 'Laboratory test' },
+        { id: 2, name: 'Evoked potential' },
+        { id: 3, name: 'MRI' },
+        { id: 4, name: 'Lumbar Puncture' }
+    ]
+};
+
+module.exports = availableTypes;

@@ -1,14 +1,14 @@
-// Update with your config settings.
+/* run 'knex seed:run' here to seed the db with example data*/
 
 module.exports = {
 
     development: {
         client: 'sqlite3',
         connection: {
-            filename: './optimise-db.sqlite'
+            filename: '../optimise-db.sqlite'
         },
         migrations: {
-            directory: './migrations'
+            directory: '.'
         },
         seeds: {
             directory: './seed'
