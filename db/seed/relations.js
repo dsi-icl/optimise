@@ -1,6 +1,6 @@
 /*eslint no-unused-vars: "off"*/
 
-exports.seed = function(knex, Promise) {
+exports.seed = function(knex, ignore) {
     // Deletes ALL existing entries
     return knex('RELATIONS').del()
         .then(function () {

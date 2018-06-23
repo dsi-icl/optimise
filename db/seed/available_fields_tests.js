@@ -2,7 +2,7 @@
 
 const availableFields = require('./availableFields/availableFieldsForMS');
 
-exports.seed = function(knex, Promise) {
+exports.seed = function(knex, ignore) {
     // Deletes ALL existing entries
     return knex('AVAILABLE_FIELDS_TESTS').del()
         .then(function () {

@@ -1,6 +1,6 @@
 /*eslint no-unused-vars: "off"*/
 
-exports.up = function(knex, Promise) {
+exports.up = function(knex, ignore) {
     return knex.schema.createTable('ETHNICITIES', function(table){
         table.increments('id').primary().notNullable();
         table.text('value').notNullable();
