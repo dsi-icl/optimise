@@ -1,19 +1,18 @@
 
-exports.up = function(knex, Promise) {
+exports.up = function(knex, ignore) {
     return knex.schema.createTable('AVAILABLE_FIELDS_TESTS', function(table) {
-      table.increments('id').primary();
-      table.text('definition').notNullable();
-      table.text('idname').notNullable();
-      table.integer('type').notNullable().references('id').inTable('TYPES');
-      table.text('unit').nullable();
-      table.text('module').nullable();
-      table.text('referenceType').notNullable().references('id').inTable('AVAILABLE_TEST_TYPES');
-      table.text('deleted').notNullable().defaultTo('-');
-      table.unique(['idname', 'type', 'unit', 'module']);
+        table.increments('id').primary();
+        table.text('definition').notNullable();
+        table.text('idname').notNullable();
+        table.integer('type').notNullable().references('id').inTable('TYPES');
+        table.text('unit').nullable();
+        table.text('module').nullable();
+        table.text('referenceType').notNullable().references('id').inTable('AVAILABLE_TEST_TYPES');
+        table.text('deleted').notNullable().defaultTo('-');
+        table.unique(['idname', 'type', 'unit', 'module']);
     });
-  };
-  
-  exports.down = function(knex, Promise) {
+};
+
+exports.down = function(knex, ignore) {
     return knex.schema.dropTable('AVAILABLE_FIELDS_TESTS');
-  };
-  
+};
