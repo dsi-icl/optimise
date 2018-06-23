@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: "off"*/
 const knex = require('../utils/db-connection');
 
 exports.createEntry = (req, res, tablename, entryObj, databaseErrMsg) => {
