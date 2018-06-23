@@ -39,7 +39,7 @@ jobs:
       after_script: cat ./coverage/lcov.info | codacy-coverage --token $CODACY_COVERAGE_TOKEN
 
     - &node
-      script: npm test
+      script: npm test -- --coverage
       node_js: '9'
 
     - <<: *node
@@ -55,7 +55,7 @@ jobs:
       before_install: true
       install:
         - npm install --production
-      script: echo 'TODO - Should run small intantiation test'
+      script: echo 'TODO - Should run small instantiation test'
       cache:
         directories:
           - ~/.npm
