@@ -6,11 +6,12 @@ exports.seed = function(knex, Promise) {
         .then(function () {
             // Inserts seed entries
             return knex('TYPES').insert([
-                { value: 'I' },
-                { value: 'F' },
-                { value: 'C' },
-                { value: 'T' },
-                { value: 'B' }
+                { id: 1, value: 'I' },
+                { id: 2, value: 'F' },
+                { id: 3, value: 'C' },
+                { id: 4, value: 'T' },
+                { id: 5, value: 'B' },
+                { id: 6, value: 'BLOB' }
             ]);
         });
 };

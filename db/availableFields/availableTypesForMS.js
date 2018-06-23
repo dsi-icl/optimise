@@ -1,12 +1,12 @@
 const availableTypes = {
     clinicalEvents: [
-        { name: 'Relapse' }
+        { id: 1, name: 'Relapse' }
     ],
     tests: [
-        { name: 'Laboratory test' },
-        { name: 'Evoked potential' },
-        { name: 'MRI' },
-        { name: 'Lumbar Puncture' }
+        { id: 1, name: 'Laboratory test' },
+        { id: 2, name: 'Evoked potential' },
+        { id: 3, name: 'MRI' },
+        { id: 4, name: 'Lumbar Puncture' }
     ]
 };
 
