@@ -26,7 +26,7 @@ class TreatmentController {
     addTerminationDate(req, res){    //for adding termination date
         if (req.body.treatmentId && req.body.terminationDate && validateAndFormatDate(req.body.terminationDate) && req.body.terminatedReason) {
             knex('TREATMENTS')
-                .where({ 'id': req.body.treatmentId, 'deleted':'-' })
+                .where({ 'id': req.body.treatmentId, 'deleted': '-' })
                 .update({
                     'terminatedDate': validateAndFormatDate(req.body.terminationDate),
                     'terminatedReason': req.body.terminatedReason })
@@ -41,7 +41,7 @@ class TreatmentController {
                     }
                 })
                 .catch(err => {
-                    res.status(500).send(`Database Error : ${  err}`);
+                    res.status(500).send(`Database Error : ${err}`);
                     return ;
                 });
         }
@@ -53,7 +53,7 @@ class TreatmentController {
 
     editTreatment(req, res){
         if (req.requester.priv === 1){
-            let whereObj = { 'id': req.body.id, 'deleted':'-' };
+            let whereObj = { 'id': req.body.id, 'deleted': '-' };
             let newObj = Object.assign({}, req.body);   //need to change naming
             updateEntry(req, res, 'TREATMENTS', whereObj, newObj, req.body.id, 1 /* LT 0 */);
         }
@@ -75,13 +75,13 @@ class TreatmentController {
         deleteEntry(req, res, 'TREATMENTS', { 'id': req.body.treatmentId }, req.body.treatmentId, 1);
     }
 
-    addInterruption(req, res){
+    addInterruption(req, res){    //need to search if treatment exists
         if (req.body.treatmentId) {
             let entryObj = {
-                'treatment' : req.body.treatmentId,
-                'startDate' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null),
-                'endDate' : (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null),
-                'reason' : req.body.reason,
+                'treatment': req.body.treatmentId,
+                'startDate': (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null),
+                'endDate': (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null),
+                'reason': req.body.reason,
             };
             createEntry(req, res, 'TREATMENTS_INTERRUPTIONS', entryObj, 'Couldn\'t create entry');
             return ;

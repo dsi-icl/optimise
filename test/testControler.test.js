@@ -2,31 +2,28 @@
 
 const app = require('../src/app');
 const request = require('supertest')(app);
-const tokens = require('./token');
-const token = tokens.token;
-const standardToken = tokens.standardToken;
-
+const adminToken = require('./token').adminToken;
+const standardToken = require('./token').standardToken;
 
 describe('Create test controller tests', () => {
-    test('Request creation whithout body (should fail)', () => request
-        .post('/api/test')
-        .set('token', token)
-        .send({})
+    test('Request creation without body (should fail)', () => request
+        .post('/api/tests')
+        .set('token', adminToken)
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request creation whith bad body (should fail)', () => request
-        .post('/api/test')
-        .set('token', token)
+    test('Request creation with bad body (should fail)', () => request
+        .post('/api/tests')
+        .set('token', adminToken)
         .send({ 'vis': 1, 'teep': 1, 'Date': { 'day': 1, 'month': 1, 'year': 2020 } })
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request creation whith good body (should success)', () => request
-        .post('/api/test')
-        .set('token', token)
+    test('Request creation with good body (should success)', () => request
+        .post('/api/tests')
+        .set('token', adminToken)
         .send({ 'visitId': 1, 'type': 1, 'expectedDate': { 'day': 1, 'month': 1, 'year': 2020 } })
         .then(res => {
             expect(res.status).toBe(200);
@@ -35,62 +32,68 @@ describe('Create test controller tests', () => {
 });
 
 describe('Create test add occurence date controller tests', () => {
-    test('Request creation add occurence date whith bad body (should fail)', () => request
-        .post('/api/test')
-        .set('token', token)
+    test('Request creation add occurence date with bad body (should fail)', () => request
+        .post('/api/tests')
+        .set('token', adminToken)
         .send({ 'vis': 1, 'teep': 1, 'Date': { 'day': 1, 'month': 1, 'year': 2020 } })
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request creation add occurence date whith good body (should success)', () => request
-        .post('/api/test')
-        .set('token', token)
-        .send({ 'visitId': 1, 'type': 1, 'expectedDate': { 'day': 1, 'month': 1, 'year': 2020 }, 'actualOccurredDate': { 'day': 4, 'month': 1, 'year': 2020 } })
+    test('Request creation add occurence date with good body (should success)', () => request
+        .post('/api/tests')
+        .set('token', adminToken)
+        .send({ 'visitId': 1, 'type': 1, 'expectedDate': { 'day': 12, 'month': 1, 'year': 2020 }, 'actualOccurredDate': { 'day': 4, 'month': 1, 'year': 2020 } })
         .then(res => {
             expect(res.status).toBe(200);
         }));
-
 });
 
 describe('Delete test controller tests', () => {
-    test('Request deletion whithout body (should fail)', () => request
-        .delete('/api/test')
-        .set('token', token)
-        .send({})
+    test('Request deletion without body (should fail)', () => request
+        .patch('/api/tests')
+        .set('token', adminToken)
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request deletion whith bad body (should fail)', () => request
-        .post('/api/test')
-        .set('token', token)
+    test('Request deletion with bad body (should fail)', () => request
+        .post('/api/tests')
+        .set('token', adminToken)
         .send({ 'visit_-Id': 11 })
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request deletion whith good body (should success)', () => request
-        .delete('/api/test')
-        .set('token', token)
+    test('Request deletion with good body (should success)', () => request
+        .patch('/api/tests')
+        .set('token', adminToken)
         .send({ 'testID': 2 })
         .then(res => {
             expect(res.status).toBe(200);
         }));
 
-    test('Request deletion whith bad ID type (should fail)', () => request
-        .delete('/api/test')
-        .set('token', token)
-        .send({ 'testID': 'WRONG' })
+    test('Request deletion with good body by standard User (should fail)', () => request
+        .patch('/api/tests')
+        .set('token', standardToken)
+        .send({ 'testID': 2 })
         .then(res => {
-            expect(res.status).toBe(400);
+            expect(res.status).toBe(401);
         }));
 
-    test('Request deletion whith bad ID reference (should fail)', () => request
-        .delete('/api/test')
-        .set('token', token)
+    test('Request deletion with bad ID type (should fail)', () => request
+        .patch('/api/tests')
+        .set('token', adminToken)
+        .send({ 'testID': 'WRONG' })
+        .then(res => {
+            expect(res.status).toBe(404);
+        }));
+
+    test('Request deletion with bad ID reference (should fail)', () => request
+        .patch('/api/tests')
+        .set('token', adminToken)
         .send({ 'testID': 99999999 })
         .then(res => {
-            expect(res.status).toBe(400);
+            expect(res.status).toBe(404);
         }));
 });
