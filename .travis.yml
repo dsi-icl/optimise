@@ -22,7 +22,9 @@ before_install: |
 # this avoids compilation in most cases (where we don't need it)
 install:
   - npm --version
-  - npm ci
+  - npm ci -g
+  - knex migrate:latest && knex seed:run
+  - cd ./db/exampleDataForTesting && knex seed:run && cd -
 
 cache:
   directories:
