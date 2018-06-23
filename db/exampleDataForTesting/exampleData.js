@@ -1,11 +1,11 @@
 const exampleData = {
     'PATIENTS': [
-        { id: 1, aliasId: 'chon', study: 'example', createdByUser: 1 },
-        { id: 2, aliasId: 'florian', study: 'example', createdByUser: 1 },
-        { id: 3, aliasId: 'eleni', study: 'example', createdByUser: 1 },
-        { id: 4, aliasId: 'chonnie', study: 'example', createdByUser: 1 },
-        { id: 5, aliasId: 'floriana', study: 'example', createdByUser: 1 },
-        { id: 6, aliasId: 'eleno', study: 'example', createdByUser: 1 },
+        { id: 1, aliasId: 'chon', study: 'example', createdByUser: 1, deleted: '-' },
+        { id: 2, aliasId: 'florian', study: 'example', createdByUser: 1, deleted: '-' },
+        { id: 3, aliasId: 'eleni', study: 'example', createdByUser: 1, deleted: '-' },
+        { id: 4, aliasId: 'chonnie', study: 'example', createdByUser: 1, deleted: '-' },
+        { id: 5, aliasId: 'floriana', study: 'example', createdByUser: 1, deleted: '-' },
+        { id: 6, aliasId: 'eleno', study: 'example', createdByUser: 1, deleted: '-' },
     ],
     'PATIENT_DEMOGRAPHIC': [
         { id: 1, patient: 1, DOB: '1/1/2018', gender: 1, dominantHand: 2, ethnicity: 1, countryOfOrigin: 1, alcoholUsage: 1, smokingHistory: 1, createdByUser: 2, deleted: '1@xxxxxxxx' },
