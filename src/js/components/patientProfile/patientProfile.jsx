@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import css from '../../../css/patientProfile.css.js';
-import patientIcon from '../../../statics/icons/icons8-user-48.png';
 import saveIcon from '../../../statics/icons/icons8-tick-box-48.png';
 import { UserActions } from './userActions.jsx';
+import { CheckIcon, AddVisitIcon } from '../../../statics/svg/icons.jsx';
 
 @connect(state => ({ fetching: state.patientProfile.fetching }))
 export class Section extends Component {
@@ -12,8 +12,7 @@ export class Section extends Component {
             return <span> FETCHING PROFILE </span>
         } else {
             return (<div style={css.bigWrapper}>     
-                <UserActions/>           
-                <img src={patientIcon} alt='patientIcon'/>
+                <UserActions/> <br/> <br/>      
                 <DemographicSection/>
                 <ImmunisationSection/>
                 <MedicalHistorySection/>
@@ -27,11 +26,13 @@ export class PatientProfileSectionScaffold extends Component {
     render() {
         return (
             <div>
-                <div style={css.sectionTitleBar}>{this.props.sectionName.toUpperCase()}</div>
+                <div style={css.sectionTitleBar}>{this.props.sectionName.toUpperCase()}
+                    {this.props.titleButton ? this.props.titleButton : null}
+                </div>
                 <div style={this.props.suppressSectionBodyCss ? this.props.bodyStyle : css.sectionBody}>
                     {this.props.children}
                 </div>
-                <SaveButton/>
+                <div className='checkMark' style={{ width: '1.5em' }}><CheckIcon/></div>
             </div>
         );
     }
