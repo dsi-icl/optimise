@@ -8,7 +8,8 @@ exports.up = function(knex, Promise) {
       table.text('unit').nullable();
       table.text('module').nullable();
       table.text('referenceType').notNullable().references('id').inTable('AVAILABLE_TEST_TYPES');
-      table.text('deleted').notNullable().defaultTo('-');  
+      table.text('deleted').notNullable().defaultTo('-');
+      table.unique(['idname', 'type', 'unit', 'module']);
     });
   };
   
