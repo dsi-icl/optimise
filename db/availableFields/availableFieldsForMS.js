@@ -1918,30 +1918,7 @@ const availableFields = {
             'reference_type': 4
         }
     ],
-    clinicalEvents: [
-        {
-            'id': 1,
-            'name': 'Relapses'
-        }
-    ],
-    testTypes: [
-        {
-            'id': 1,
-            'name': 'Laboratory test'
-        },
-        {
-            'id': 2,
-            'name': 'Evoked potential'
-        },
-        {
-            'id': 3,
-            'name': 'MRI'
-        },
-        {
-            'id': 4,
-            'name': 'Lumbar Puncture'
-        }
-    ]
+    ceFields: []
 };
 
 module.exports = availableFields;
