@@ -1,5 +1,18 @@
 import React, { Component } from 'react';
 
+function dragover_handler(ev) {
+    ev.preventDefault();
+}
+   
+function drop_handler(ev) {
+    ev.preventDefault();
+    console.log(ev.target);
+    if (ev.target.className === 'selectbox') {
+        const data = ev.dataTransfer.getData('text');
+        ev.target.appendChild(document.getElementById(data).cloneNode(true));
+    };
+}
+
 class DragBox extends Component {
     render() {
         const style = {
@@ -10,11 +23,10 @@ class DragBox extends Component {
             borderRadius: 7,
             marginLeft: 'auto',
             marginRight: 'auto',
-            minHeight: '8em',
-            overflow: 'auto'
+            minHeight: '8em'
         }
         return (
-            <div style={style}></div>
+            <div className='selectbox' style={style} onDrop={drop_handler} onDragOver={dragover_handler}></div>
         )
     }
 }
