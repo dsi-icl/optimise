@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
         table.integer('recordedDuringVisit').nullable().references('id').inTable('VISITS');
         table.integer('type').notNullable().references('id').inTable('AVAILABLE_CLINICAL_EVENT_TYPES');
         table.text('dateStartDate').notNullable();
-        table.text('enDate').nullable();
+        table.text('endDate').nullable();
         table.text('createdTime').notNullable().defaultTo(knex.fn.now());
         table.integer('createdByUser').notNullable().references('id').inTable('USERS');
         table.text('deleted').notNullable().defaultTo('-');
