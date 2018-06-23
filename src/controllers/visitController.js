@@ -25,7 +25,7 @@ class VisitController {
                         res.status(404).send('Can\'t seem to find your patient!');
                     } else if (result.length === 1) {
                         const entryObj = { 'patient': result[0]['id'], 'visitDate': validateAndFormatDate(req.body.visitDate) };
-                        if (req.body.type && typeof(req.body.type) === "number")
+                        if (req.body.type && typeof (req.body.type) === 'number')
                             entryObj.type = req.body.type;
                         createEntry(req, res, 'VISITS', entryObj, 'Error. Visit might already exists.');
                     } else {
