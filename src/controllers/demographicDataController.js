@@ -131,15 +131,15 @@ class DemographicDataController {
                     } else if (result.length === 1) {
                         let querytable;
                         switch (req.params.dataType){
-                                        case 'Demographic':
-                                            querytable = 'PATIENT_DEMOGRAPHIC';
-                                            break;
-                                        case 'Immunisation':
-                                            querytable = 'PATIENT_IMMUNISATION';
-                                            break;
-                                        case 'MedicalCondition':
-                                            querytable = 'MEDICAL_HISTORY';
-                                            break;
+                            case 'Demographic':
+                                querytable = 'PATIENT_DEMOGRAPHIC';
+                                break;
+                            case 'Immunisation':
+                                querytable = 'PATIENT_IMMUNISATION';
+                                break;
+                            case 'MedicalCondition':
+                                querytable = 'MEDICAL_HISTORY';
+                                break;
                         }
                         knex(querytable)
                             .select('*')
