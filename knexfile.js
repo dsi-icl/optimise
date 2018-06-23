@@ -11,7 +11,7 @@ module.exports = {
             directory: './db/migrations'
         },
         seeds: {
-            directory: './db/seed/okay'
+            directory: './db/seed'
         },
         useNullAsDefault: true,
         multipleStatements: true
