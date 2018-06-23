@@ -1,5 +1,5 @@
 const { isEmptyObject } = require('../utils/basic-utils');
-const { createEntry, deleteEntry, updateEntry, eraseEntry } = require('../utils/controller-utils');
+const { createEntry, deleteEntry, eraseEntry } = require('../utils/controller-utils');
 const SelectorUtils = require('../utils/selector-utils');
 const knex = require('../utils/db-connection');
 

@@ -1,3 +1,5 @@
+/*eslint no-unused-vars: "off"*/
+
 const availableFields = require('./availableFields/availableFieldsForMS');
 
 exports.seed = function(knex, Promise) {

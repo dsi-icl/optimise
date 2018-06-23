@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: "off"*/
 
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('ETHNICITIES', function(table){
@@ -7,5 +8,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-    return knex.schema.dropTable('ETNICITIES');
+    return knex.schema.dropTable('ETHNICITIES');
 };

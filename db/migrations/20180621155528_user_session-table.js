@@ -1,4 +1,6 @@
 
+/*eslint no-unused-vars: "off"*/
+
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('USER_SESSION', function(table){
         table.increments('id').primary();

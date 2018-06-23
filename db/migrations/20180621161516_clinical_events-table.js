@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: "off"*/
 
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('CLINICAL_EVENTS', function(table) {
