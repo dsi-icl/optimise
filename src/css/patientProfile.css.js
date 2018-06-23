@@ -4,16 +4,17 @@ export default {
     },
 
     sectionTitleBar: {
-        backgroundColor: '#777171',
-        color: '#FBFBFB',
-        borderRadius: 3,
+        backgroundColor: 'rgba(0,0,0,0)',
+        color: '#393939',
+        borderRadius: 0,
         fontWeight: 'bold',
         fontFamily: 'sans-serif',
         fontSize: 15,
         height: 22,
         margin: '0 auto',
+        borderBottom: '2px solid #393939',
         width: '100%',
-        paddingTop: 10,
+        paddingTop: '2em',
         paddingLeft: 15,
         textAlign: 'left' },
 
