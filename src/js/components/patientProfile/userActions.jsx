@@ -6,7 +6,6 @@ export class UserActions extends Component {
     render() {
         return (
             <div>
-                <h3>Select action:</h3>
                 <NavLink to={`${window.location.pathname}/createVisit`} style={{ textDecoration: 'none' }}>
                     <div className='patientBanner UserActionButton' style={{ borderRadius: '8px 8px 0 0' }}>
                         <b>&#9679; Create visit</b>
