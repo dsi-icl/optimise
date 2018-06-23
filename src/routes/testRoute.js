@@ -15,7 +15,7 @@ test.use(bodyParser.urlencoded({ extended: true }));
 
 test.route('/')
     .post(TestController.createTest)
-    .delete(TestController.deleteTest);
+    .patch(TestController.deleteTest);
 
 test.route('/addOccurredDate')
     .post(TestController.addActualOccurredDate);

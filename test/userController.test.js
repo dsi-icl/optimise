@@ -3,9 +3,6 @@
 const app = require('../src/app');
 const request = require('supertest')(app);
 
-const PatientController = require('../src/controllers/patientController');
-
-
 let adminToken, standardToken;
 
 describe('User controller tests', () => {
@@ -158,7 +155,4 @@ describe('User controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
         }));
-
-
-
 });

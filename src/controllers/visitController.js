@@ -6,7 +6,7 @@ class VisitController {
     static getVisitsOfPatient(req, res){
         if (!isEmptyObject(req.query) && Object.keys(req.query).length === 1 && typeof (req.query.patientId) === 'string') {
             knex('PATIENTS')
-                .select({ patientId:'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.visitDate')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.visitDate')
                 .leftOuterJoin('VISITS', 'PATIENTS.id', 'VISITS.patient')
                 .where({ 'PATIENTS.aliasId': req.query.patientId, 'VISITS.deleted': '-' })
                 .then(result => res.status(200).json(result));
