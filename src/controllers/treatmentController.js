@@ -9,6 +9,15 @@ class TreatmentController {
             res.status(400).send('Missing information for creation of the treatment');
             return ;
         }
+        if ((req.body.unit != 'mg' && req.body.unit != 'cc') ||
+            (req.body.form != 'oral' && req.body.form != 'IV')) {
+                res.status(400).send('Wrong format in unit or form');
+                return ;
+            }
+        if (req.body.timesPerDay <= 0 || req.body.durationInWeeks <= 0) {
+            res.status(400).send('Wrong value in Times per day or duration in week');
+            return ;
+        }
         let entryObj = {
             'orderedDuringVisit': req.body.visitId,
             'drug': req.body.drugId,
