@@ -10,7 +10,8 @@ exports.up = function(knex, Promise) {
       table.integer('resolvedYear');
       table.text('createdTime').notNullable().defaultTo(knex.fn.now());
       table.integer('createdByUser').notNullable().references('id').inTable('USERS');
-      table.text('deleted').notNullable().defaultTo('-');  
+      table.text('deleted').notNullable().defaultTo('-');
+      table.unique(['patient', 'relation', 'conditionName', 'startDate', 'deleted']);
     });
   };
   
