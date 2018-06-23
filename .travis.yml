@@ -23,8 +23,7 @@ before_install: |
 install:
   - npm --version
   - npm ci
-  - knex migrate:latest && knex seed:run
-  - cd ./db/exampleDataForTesting && knex seed:run && cd -
+  - node ./installDB.js
 
 cache:
   directories:
