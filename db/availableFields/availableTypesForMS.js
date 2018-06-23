@@ -7,6 +7,9 @@ const availableTypes = {
         { id: 2, name: 'Evoked potential' },
         { id: 3, name: 'MRI' },
         { id: 4, name: 'Lumbar Puncture' }
+    ],
+    visits: [
+        { id: 1, value: 'In-patient' }
     ]
 };
 

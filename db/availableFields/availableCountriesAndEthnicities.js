@@ -203,12 +203,14 @@ const availableCountriesAndEthnicities = {
         { country: 'Zambia' },
         { country: 'Zimbabwe' }],
     ethnicities: [
+        { value: 'East Asian' },
+        { value: 'South Asian' },
+        { value: 'Southeast Asian' },
         { value: 'White' },
-        { value: 'Asian' },
         { value: 'Black' },
-        { value: 'Mixed/Multiple ethnic groups' },
-        { value: 'Other ethnic group' },
-        { value: 'Unknown' }
+        { value: 'Native American' },
+        { value: 'Latino' },
+        { value: 'Mixed/Multiple ethnic groups' }
     ]
 };
 
