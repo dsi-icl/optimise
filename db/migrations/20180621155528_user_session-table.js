@@ -1,4 +1,3 @@
-
 /*eslint no-unused-vars: "off"*/
 
 exports.up = function(knex, Promise) {
@@ -11,6 +10,6 @@ exports.up = function(knex, Promise) {
     });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex, ignore) {
     return knex.schema.droptable('USER_SESSION');
 };
