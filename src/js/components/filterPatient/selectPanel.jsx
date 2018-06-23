@@ -10,7 +10,7 @@ class DragBox extends Component {
             borderRadius: 7,
             marginLeft: 'auto',
             marginRight: 'auto',
-            minHeight: '10em',
+            minHeight: '8em',
             overflow: 'auto'
         }
         return (
