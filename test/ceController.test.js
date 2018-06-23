@@ -94,7 +94,7 @@ describe('Delete Clinical Event controller tests', () => {
     test('Request deletion with good body (should success)', () => request
         .delete('/api/clinicalEvents')
         .set('token', adminToken)
-        .send({ 'ceId': createCeId })
+        .send({ 'ceId': 1 })
         .then(res => {
             expect(res.status).toBe(200);
         }));
