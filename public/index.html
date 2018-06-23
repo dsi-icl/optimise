@@ -41,6 +41,15 @@
         height: 100vh;
       }
 
+      .menuButton {
+        fill: darkgrey;
+        text-align: center
+      }
+
+      .menuButton:hover {
+        fill: white;
+      }
+
       input[type=text] {
         border: none;
         background-color: #D2D2D2;
@@ -52,17 +61,49 @@
         font-size: 11.5px;
       }
 
-      .menuButton div {
-        background-color: #aaaaaa;
-        width: 100%;
-        margin: 0 auto;
-        transition: background-color linear 0.2s;
-      }
-
       .selectedResult div {
         background-color: #ff471a;
         color: white;
       }
+
+      .patientBanner:hover {
+        background-color: #ff5151;
+        cursor: pointer;
+        color: white;
+      }
+
+      .patientBanner {
+        background-color: #E7E5E6;
+        color: black;
+        border-radius: 0px;
+        font-family: sans-serif;
+        font-size: 100%;
+        min-height: 1em;
+        margin: 0;
+        width: calc(100% - 3em);
+        padding: 0.5em 1.5em;
+        text-align: left
+      }
+
+      .patientBanner .selectedPatient {
+        color: #ff3737
+      }
+
+      .patientBanner:hover .selectedPatient {
+        color: white;
+      }
+
+      .checkMark:hover {
+        fill: #ff5151;
+        cursor: pointer
+      }
+      .checkMark {
+        fill: #393939;
+        cursor: pointer
+      }
+
+
+
 
       select {
         border: none;

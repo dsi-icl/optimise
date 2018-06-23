@@ -74,10 +74,10 @@ export class SearchResultForPatients extends Component {
                 {this.props.listOfPatients.filter(el => el['alias_id'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Link to='/createPatient' style={{ color: 'rgba(0,0,0,0)' }}><Button text={`Create patient ${this.props.searchString}`} style={css.createPatientButton} clicked={this._handleClickCreate(this.props.searchString)}/></Link> : null}
                 {this.props.listOfPatients.map(el => {
                     const ind = el['alias_id'].indexOf(this.props.searchString);
-                    const name = <span>{el['alias_id'].substring(0, ind)}<b>{el['alias_id'].substring(ind, this.props.searchString.length+ind)}</b>{el['alias_id'].substring(this.props.searchString.length+ind, el['alias_id'].length)}</span>;
+                    const name = <span><b>{el['alias_id'].substring(0, ind)}<span className='selectedPatient'>{el['alias_id'].substring(ind, this.props.searchString.length+ind)}</span>{el['alias_id'].substring(this.props.searchString.length+ind, el['alias_id'].length)}</b></span>;
                     return (<Link to={`/patientProfile/${el['alias_id']}`} style={{ color: 'rgba(0,0,0,0)' }}>
-                        <div onClick={this._handleClickWrapper(el['alias_id'])} style={css.patientBanner} key={el.patientId}>
-                            {name} in {el.study} <br/>{el.DOB ? el.DOB : 'DOB unavailable'}  {el.gender ? el.DOB : 'Gender unavailable'}
+                        <div onClick={this._handleClickWrapper(el['alias_id'])} className='patientBanner' key={el.patientId}>
+                            {name} in {el.study}
                         </div>
                     </Link>);
                 })}
@@ -85,6 +85,3 @@ export class SearchResultForPatients extends Component {
         );
     }
 }
-
-SearchResultForPatients = Radium(SearchResultForPatients);
-

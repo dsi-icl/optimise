@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import { PatientProfileSectionScaffold, PatientProfileTop } from './patientProfile.jsx';
 import css from '../../../css/patientProfile.css.js';
 import { NavLink } from 'react-router-dom';
-import resumeIcon from '../../../statics/icons/icons8-resume-48.png';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import store from '../../redux/store';
-
+import { AddVisitIcon } from '../../../statics/svg/icons.jsx';
 export class PatientChart extends Component {
     componentDidMount() {
         store.dispatch(getPatientProfileById(window.location.pathname.split('/')[2]));
@@ -15,7 +14,7 @@ export class PatientChart extends Component {
     render() {
         return (
             <div style={css.bigWrapper}>
-                <PatientProfileTop image={<img src={resumeIcon} alt='resumeIcon'/>}/>
+                <PatientProfileTop/>
                 <Timeline/>
                 <Charts/>
             </div>
@@ -231,7 +230,7 @@ export class Charts extends Component {   //unfinsihed
             return null
         } else {
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
-                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }}>
+            <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }} titleButton={<div className='checkMark' title='create visit' style={{ marginRight: '1.5em', width: '1em', display: 'inline-block', float:'right' }}><AddVisitIcon/></div>}>
                     {this.props.data.visits.map(
                         (el, ind) => <VisitSection availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${ind+1}-th visit: ${el.visitDate}`}/>
                     )}
