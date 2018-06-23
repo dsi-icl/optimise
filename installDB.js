@@ -1,5 +1,11 @@
 /*eslint no-console: "off"*/
 const knex = require('./src/utils/db-connection');
+const usage = `USAGE: node ${process.argv[1]} [testing / MS_fields / bare]`;
+
+if (!process.argv[2]) {
+    console.log(usage);
+    return ;
+}
 
 switch (process.argv[2]) {
     case 'testing':
