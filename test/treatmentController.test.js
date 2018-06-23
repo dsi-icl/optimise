@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: "off"*/
 /* global describe test expect */
 
 const app = require('../src/app');
