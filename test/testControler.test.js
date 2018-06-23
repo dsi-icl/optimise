@@ -95,7 +95,7 @@ describe('Delete test controller tests', () => {
     test('Request deletion with good body (should success)', () => request
         .patch('/api/tests')
         .set('token', adminToken)
-        .send({ 'testID': createdTestId })
+        .send({ 'testID': 4 })
         .then(res => {
             expect(res.status).toBe(200);
         }));
