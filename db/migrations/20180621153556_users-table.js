@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: "off"*/
 
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('USERS', function(table) {
@@ -8,7 +9,7 @@ exports.up = function(knex, Promise) {
         table.integer('adminPriv').notNullable();
         table.timestamp('createdTime').notNullable().defaultTo(knex.fn.now());
         table.integer('createdByUser').notNullable().references('id').inTable('USERS');
-        table.integer('deleted').notNullable().defaultTo('-');
+        table.text('deleted').notNullable().defaultTo('-');
         table.unique(['username', 'deleted']);
     });
 

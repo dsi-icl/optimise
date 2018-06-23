@@ -110,10 +110,10 @@ class DataController {
                     .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
                     .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
                     .transacting(trx)
-                    .then(result =>
+                    .then(() =>
                         knex.batchInsert(options.dataTable, inputData.updates, 1000).transacting(trx)    //adding all the 'updates' entries
                     )
-                    .then(result =>
+                    .then(() =>
                         knex.batchInsert(options.dataTable, inputData.adds, 1000).transacting(trx) //adding all the 'updates' entries
                     )
                     .then(trx.commit)
@@ -202,7 +202,7 @@ class DataController {
                     }
                     return result;
                 })
-                .then(result =>   //check all the updates are all there and all the adds are NOT there
+                .then(() =>   //check all the updates are all there and all the adds are NOT there
                     knex(options.dataTable)
                         .select('id')
                         .where('field', 'in' , Object.keys(req.body.update))
@@ -227,7 +227,7 @@ class DataController {
                             return 0;
                         })
                 )
-                .then(nothing => {   //transforming the req.body
+                .then(() => {   //transforming the req.body
                     const updates = [];
                     const adds = [];
                     for (let i = 0; i < numOfUpdates; i++) {
@@ -255,7 +255,7 @@ class DataController {
                 .then(transactionFunction)
                 .then(result => res.send(`success with ${result.length} new entries added`))
                 .catch(err => { console.log(err); res.status(400).send('Error. Please try again'); })
-                .catch(err => {});
+                .catch(() => {});
         } else {
             res.status(400).send(`please provide ${options.entryIdString} and update and/or add.`);
         }

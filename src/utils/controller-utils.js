@@ -60,14 +60,14 @@ exports.updateEntry = (req, res, tablename, whereObj, newObj, whatIsUpdated, exp
                                         newEntry['createdByUser'] = req.requester.userid;
                                         knex(tablename)
                                             .insert(newEntry)
-                                            .then(result => res.status(200).send(`${whatIsUpdated  } has been succesfully updated.`))
+                                            .then(() => res.status(200).send(`${whatIsUpdated  } has been succesfully updated.`))
                                             .catch(err => {        //if the original entry is deleted and the new one can't be written. need to reverse it
                                                 console.log(err);
                                                 whereObj.deleted = newDeletedCol;
                                                 knex(tablename)
                                                     .where(whereObj)
                                                     .update({ deleted: '-' })
-                                                    .then(result => res.status(400).send('update failed. Please check you parameters'))
+                                                    .then(() => res.status(400).send('update failed. Please check you parameters'))
                                                     .catch(err => { console.log(err); res.status(500).send('Database error'); });
                                             });
                                     })
@@ -91,7 +91,7 @@ exports.eraseEntry = (req, res, tablename, whereObj, whatIsDeleted, databaseErrM
         knex(tablename)
             .del()
             .where(whereObj)
-            .then(result => {
+            .then(() => {
                 if (answering)
                     res.status(200).json('success');
             })
