@@ -1,11 +1,5 @@
 /*eslint no-console: "off"*/
 const knex = require('./src/utils/db-connection');
-const usage = `USAGE: node ${process.argv[1]} [testing / MS_fields / bare]`;
-
-if (!process.argv[2]) {
-    console.log(usage);
-    return ;
-}
 
 switch (process.argv[2]) {
     case 'testing':
@@ -30,5 +24,5 @@ switch (process.argv[2]) {
             .catch(err => { console.log(err); knex.destroy(); });
         break;
     default:
-        console.log('Error! Please provide argument "testing" (for loading test data), "MS_fields" (for empty database for MS use) or "bare" (only schema)');
+        console.log(`Error: please provide the correct argument. USAGE: node ${process.argv[1]} [testing / MS_fields / bare]`);
 }
