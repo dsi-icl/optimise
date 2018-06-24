@@ -12,7 +12,6 @@ class App extends Component {
                 <RightPanel/>
                 <FarRightPanel/>
                 <StatusBar/>
-
             </div>
         );
     }
