@@ -52,7 +52,7 @@ describe('Create treatment controller tests', () => {
         .set('token', adminToken)
         .send({
             'visitId': 1,
-            'drugId': 1,
+            'drugId': 4,
             'dose': 3,
             'unit': 'WRONG',
             'form': 'oral',
@@ -164,7 +164,7 @@ describe('Create treatment controller tests', () => {
         .set('token', adminToken)
         .send({
             'visitId': 1,
-            'drugId': 1,
+            'drugId': 3,
             'dose': 3,
             'unit': 'cc',
             'form': 'oral',
@@ -175,6 +175,21 @@ describe('Create treatment controller tests', () => {
             expect(res.status).toBe(200);
         }));
 
+    test('Request creation same treatment as before (should fail)', () => request
+        .post('/api/treatments')
+        .set('token', adminToken)
+        .send({
+            'visitId': 1,
+            'drugId': 3,
+            'dose': 3,
+            'unit': 'cc',
+            'form': 'oral',
+            'timesPerDay': 3,
+            'durationInWeeks': 3
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
 });
 
 describe('Create treatment interruption controller tests', () => {
@@ -193,7 +208,7 @@ describe('Create treatment interruption controller tests', () => {
             'treatmentId': 'WRONG',
             'start_date': { 'day': 3, 'month': 4, 'year': 2010 },
             'end_date': { 'day': 3, 'month': 4, 'year': 2011 },
-            'reason': 'pregnancy'
+            'reason': 7
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -206,7 +221,7 @@ describe('Create treatment interruption controller tests', () => {
             'treatmentId': 999999999,
             'start_date': { 'day': 3, 'month': 4, 'year': 2010 },
             'end_date': { 'day': 3, 'month': 4, 'year': 2011 },
-            'reason': 'pregnancy'
+            'reason': 7
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -219,7 +234,7 @@ describe('Create treatment interruption controller tests', () => {
             'treatmentId': 1,
             'start_date': { 'day': 3, 'month': 4, 'year': 2010 },
             'end_date': { 'day': 3, 'month': 4, 'year': 2011 },
-            'reason': 'pregnancy'
+            'reason': 7
         })
         .then(res => {
             expect(res.status).toBe(200);
