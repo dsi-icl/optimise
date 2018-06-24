@@ -81,8 +81,8 @@ function formatData(medicalElement, fieldList, dataTypes) {
         marginLeft: 'auto'
     };
     //reformating the field list to hash table with fieldId as key for easier lookup later without need array filter:
-    const fieldHashTable = fieldList.filter(field => field['referenceType'] === medicalElement.type)
-                                    .reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
+    const filteredFieldList = fieldList.filter(field => field.referenceType == medicalElement.type );   // eslint-disable-line eqeqeq
+    const fieldHashTable = filteredFieldList.reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
     //same with data:
     const dataHashTable = medicalElement.data.reduce((map, el) => { map[el.field] = el.value; return map }, {});
     //same with dataTypes:
@@ -90,7 +90,7 @@ function formatData(medicalElement, fieldList, dataTypes) {
     return (
         <div style={style}>
             {
-                fieldList.map(field => {
+                filteredFieldList.map(field => {
                     const { id, definition, idname, type, unit, module, permittedValues, referenceType } = field;
                     const originalValue = dataHashTable[field.id]; //assigned either the value or undefined, which is falsy, which is used below
                     const key = `${medicalElement.testId}_FIELD${id}`;
@@ -131,7 +131,7 @@ function formatData(medicalElement, fieldList, dataTypes) {
 
 /* 
 undone:
-the backend is broken for data
+rendering tests directly throws error
 input field has to be controlled component
-
+now the test input is hardcode
 */
