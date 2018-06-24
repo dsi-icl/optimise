@@ -20,11 +20,11 @@ export class SearchPatientsById extends Component {
         if (ev.target.value !== ''){
             fetch(`/api/patients?id=${ev.target.value}`, {
                 mode: 'cors',
-                headers: { 'token': 'd86d6e50ade67a3a0569ebc84d6041ea9bac36cb' }   //change later
+                headers: { 'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a' }   //change later
             })
                 .then(res => res.json())
                 .then(json => { this.setState({ searchResult: json }) })
-                .catch(e => { console.log(e); this.setState({ searchResult: [{ 'alias_id': 'not found' }] }) })   // what if the server fails
+                .catch(e => { console.log(e); this.setState({ searchResult: [{ 'aliasId': 'not found' }] }) })   // what if the server fails
         } else {
             this.setState({ searchResult: [] });
         }
@@ -71,12 +71,12 @@ export class SearchResultForPatients extends Component {
     render() {
         return (
             <div>
-                {this.props.listOfPatients.filter(el => el['alias_id'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Link to='/createPatient' style={{ color: 'rgba(0,0,0,0)' }}><Button text={`Create patient ${this.props.searchString}`} style={css.createPatientButton} clicked={this._handleClickCreate(this.props.searchString)}/></Link> : null}
+                {this.props.listOfPatients.filter(el => el['aliasId'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Link to='/createPatient' style={{ color: 'rgba(0,0,0,0)' }}><Button text={`Create patient ${this.props.searchString}`} style={css.createPatientButton} clicked={this._handleClickCreate(this.props.searchString)}/></Link> : null}
                 {this.props.listOfPatients.map(el => {
-                    const ind = el['alias_id'].indexOf(this.props.searchString);
-                    const name = <span><b>{el['alias_id'].substring(0, ind)}<span className='selectedPatient'>{el['alias_id'].substring(ind, this.props.searchString.length+ind)}</span>{el['alias_id'].substring(this.props.searchString.length+ind, el['alias_id'].length)}</b></span>;
-                    return (<Link to={`/patientProfile/${el['alias_id']}`} style={{ color: 'rgba(0,0,0,0)' }}>
-                        <div onClick={this._handleClickWrapper(el['alias_id'])} className='patientBanner' key={el.patientId}>
+                    const ind = el['aliasId'].indexOf(this.props.searchString);
+                    const name = <span><b>{el['aliasId'].substring(0, ind)}<span className='selectedPatient'>{el['aliasId'].substring(ind, this.props.searchString.length+ind)}</span>{el['aliasId'].substring(this.props.searchString.length+ind, el['aliasId'].length)}</b></span>;
+                    return (<Link to={`/patientProfile/${el['aliasId']}`} style={{ color: 'rgba(0,0,0,0)' }}>
+                        <div onClick={this._handleClickWrapper(el['aliasId'])} className='patientBanner' key={el.patientId}>
                             {name} in {el.study}
                         </div>
                     </Link>);
