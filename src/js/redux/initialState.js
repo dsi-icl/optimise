@@ -2289,6 +2289,32 @@ export default {
                 'id': 4,
                 'name': 'Lumbar Puncture'
             }
+        ],
+        dataTypes: [
+            {
+                'id': 1,
+                'value': 'I'
+            },
+            {
+                'id': 2,
+                'value': 'F'
+            },
+            {
+                'id': 3,
+                'value': 'C'
+            },
+            {
+                'id': 4,
+                'value': 'T'
+            },
+            {
+                'id': 5,
+                'value': 'B'
+            },
+            {
+                'id': 6,
+                'value': 'BLOB'
+            }
         ]
     }
 };

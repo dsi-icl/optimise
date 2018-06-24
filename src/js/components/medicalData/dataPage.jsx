@@ -7,18 +7,18 @@ function mapStateToProps(state) {
     return {
         fields: state.availableFields.testFields,
         patientId: state.patientProfile.data.patientId,
-        data: state.patientProfile.data.tests
+        data: state.patientProfile.data.tests[0],
+        dataTypes: state.availableFields.dataTypes
     }
 }
 @connect(mapStateToProps)
 export class TestData extends Component {
-    /* put this logic in patient Chart instead */
     constructor() {
         super();
         this.state = { pathname: '' };
     }
 
-    componentDidMount() {
+    componentDidMount() { /* put this logic in patient Chart instead */
         this.setState({ pathname: window.location.pathname });
         document.getElementById(window.location.pathname).className = 'selectedResult';
 
@@ -32,15 +32,11 @@ export class TestData extends Component {
 
     render(){
         /* formating the data for easier mapping later */
-        const testData = this.props.data.filter(el => el.testId === 1)[0].data;    //change the id later
-        const data = {};
-        for (let each of testData) {
-            data[each.field] = each.value;
-        }
-        return <div>
+        return (<div>
             <BackButton to={`/patientProfile/${this.props.patientId}`}/>
-            <h2>TEST RESULT</h2> <h2>Type: 2 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> {formatData(data, this.props.fields.filter(el => el['reference_type'] === 4))}
-        </div>;   //change the type later
+            <h2>TEST RESULT</h2> <h2>Type: 1 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> 
+            {formatData(this.props.data, this.props.fields, this.props.dataTypes)}
+        </div>);   //change the type later
     }
 }
 
@@ -57,36 +53,85 @@ export class BackButton extends Component {
 }
 
 
-function formatData(dataObj, fieldsArr) {    //not done
-    const wrapper = (el, dataObj, inputField) => <span key={el.id}>{el.definition}: {inputField}<br/><br/></span>;
+/**
+ * @function formatData
+ * @example
+ * // medicalElement = {
+ * //     'testId': 1,
+ * //     'orderedDuringVisit': 10,
+ * //     'type': 2,
+ * //     'expectedOccurDate': '5/6/1',
+ * //     'data': [
+ * //        { 'field': 64, 'value': '13' },
+ * //        { 'field': 65, 'value': '12' },
+ * //        { 'field': 86, 'value': '123' },
+ * //        { 'field': 91, 'value' : 'TEST NOT DONE' }]}
+ * @description Take the data of a test, event, or visit as sent by the backend and format it to react component / JSX for display.
+ * @param {Object} medicalElement - medical element object (test, events, visits) as is from the {test, event, visit} entries from /api/patientProfile/:patientId
+ * @param {Array} fieldList - the available fields as is returned from calling /api/getAvailable{testFields|eventFields,etc}
+ * @param {Array} dataTypes - the datatype array returned by backend
+ * @returns {JSX} Formatted data for display on frontend
+ */
+function formatData(medicalElement, fieldList, dataTypes) {
     const style = {
         width: '87%',
         marginTop: 30,
         marginBottom: 40,
         marginRight: 'auto',
         marginLeft: 'auto'
-    }
+    };
+    //reformating the field list to hash table with fieldId as key for easier lookup later without need array filter:
+    const fieldHashTable = fieldList.filter(field => field['referenceType'] === medicalElement.type)
+                                    .reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
+    //same with data:
+    const dataHashTable = medicalElement.data.reduce((map, el) => { map[el.field] = el.value; return map }, {});
+    //same with dataTypes:
+    const dataTypesHashTable = dataTypes.reduce((map, dataType) => { map[dataType.id] = dataType.value; return map }, {});
     return (
         <div style={style}>
-            {fieldsArr.map(el => {
-                switch(el.type) {
-                case 'N':
-                    return wrapper(el, dataObj, <span><input style={{ width: 50 }} type='text' value={dataObj[el.id] ? dataObj[el.id] : null}/>{el.unit === '' ? null : `  ${el.unit}`}</span>);
-                case 'C':
-                    const select = <select>
-                        <option value='not selected' selected={dataObj[el.id] ? false : true}>not selected</option>
-                        {el['permitted_values'].split(',').map(ele => (
-                            <option value={ele} selected={dataObj[el.id] === ele ? true : false}>{ele}</option>
-                        ))}
-                    </select>;
-                    return wrapper(el, dataObj, select);
-                case 'I':
-                    return 0;    //fix later
-                default:
-                    return wrapper(el, dataObj, <input type='text'></input>);
-                }
+            {
+                fieldList.map(field => {
+                    const { id, definition, idname, type, unit, module, permittedValues, referenceType } = field;
+                    const originalValue = dataHashTable[field.id]; //assigned either the value or undefined, which is falsy, which is used below
+                    const key = `${medicalElement.testId}_FIELD${id}`;
+                    console.log(originalValue);
+                    switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
+                        case 'I':
+                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='I' type='text' value={originalValue}/><br/><br/></span>;
+                        case 'F':
+                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='F' type='text' value={originalValue}/><br/><br/></span>;
+                        case 'C':
+                            return (<span key={key}>{definition}: 
+                                <select dataType='C' originalValue={originalValue} value={originalValue ? originalValue : 'unselected'}>
+                                    <option value='unselected'>unselected</option>
+                                    {permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
+                                </select>
+                                <br/><br/></span>);
+                        case 'T':
+                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='T' type='text' value={originalValue}/><br/><br/></span>;
+                        case 'B':
+                            return (<span key={key}>{definition}: 
+                                <select dataType='B' originalValue={originalValue} value={originalValue ? originalValue : 'unselected'}>
+                                    <option value='unselected'>unselected</option>
+                                    <option value='1'>True</option>
+                                    <option value='0'>False</option>
+                                </select>
+                                <br/><br/></span>);
+                        case 'BLOB':
+                            return <span key={key}> BLOB<br/><br/></span>;
+                        default:
+                            return <span key={key}>This field cannot be displayed. Please contact admin. <br/><br/></span>;
+                    }
+                })
             }
-            )}
         </div>
     );
 }
+
+
+/* 
+undone:
+the backend is broken for data
+input field has to be controlled component
+
+*/
