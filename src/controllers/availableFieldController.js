@@ -9,7 +9,7 @@ class AvailableFieldController {
             'testTypes': 'AVAILABLE_TEST_TYPES'
         };
         let moduleObj = {};
-        if (tableMap.contains(req.params.dataType)) {
+        if (tableMap.hasOwnProperty(req.params.dataType)) {
             if (req.params.dataType === 'visitFields' && req.query.module) {
                 moduleObj = { module: req.query.module };
             }
