@@ -73,7 +73,7 @@ class ImmunisationSection extends Component {
     render() {
         return (
             <PatientProfileSectionScaffold sectionName='Immunisations'>
-                {this.props.immunisations.map(el => <span key={`${el['vaccine_name']}:${el[ 'immunisation_date']}`}><b>{el['vaccine_name']}</b>: {el[ 'immunisation_date']}</span>)}
+                coming
             </PatientProfileSectionScaffold>
         );
     }
@@ -86,14 +86,10 @@ class MedicalHistorySection extends Component {
         return (
             <div>
                 <PatientProfileSectionScaffold sectionName='Existing Medical Conditions'>
-                    {this.props.medicalHistory.filter(el => el.relation === 'self').map(el => (
-                        <span key={`${el['condition_name']}:${el['start_date']}`}>{`${el['condition_name']}: ${el['start_date']} : ${el.outcome} : ${el['resolved_year']}`}<br/></span>
-                    ))}
+                coming
                 </PatientProfileSectionScaffold>
                 <PatientProfileSectionScaffold sectionName='Family Medical History'>
-                    {this.props.medicalHistory.filter(el => el.relation !== 'self').map(el => (
-                        <span key={`${el.relation}:${el['condition_name']}:${el['start_date']}`}>{`${el.relation} : ${el['condition_name']}: ${el['start_date']} : ${el.outcome} : ${el['resolved_year']}`}<br/></span>
-                    ))}
+                coming
                 </PatientProfileSectionScaffold>
             </div>
         );

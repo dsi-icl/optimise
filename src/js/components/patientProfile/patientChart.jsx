@@ -52,18 +52,18 @@ class SubsectionsBar extends Component {
             marginBottom: 8
         };
         switch (this.props.type) {
-        case 'visit':
-            return <div style={{ ...style, backgroundColor: '#8596B0', width: '90%' }}>{this.props.title}</div>
-        case 'visitData':
-            return <div style={{ ...style, backgroundColor: 'rgb(190, 189, 190)' }}>{this.props.title}</div>
-        case 'medication':
-            return <div style={{ ...style, backgroundColor: '#ffca1b' }}>{this.props.title}</div>
-        case 'clinicalEvent':
-            return <div style={{ ...style, backgroundColor: '#FF4745' }}>{this.props.title}</div>
-        case 'test':
-            return <div style={{ ...style, backgroundColor: '#99CA78' }}>{this.props.title}</div>
-        default:
-            return null;
+            case 'visit':
+                return <div style={{ ...style, backgroundColor: '#8596B0', width: '90%' }}>{this.props.title}</div>
+            case 'visitData':
+                return <div style={{ ...style, backgroundColor: 'rgb(190, 189, 190)' }}>{this.props.title}</div>
+            case 'medication':
+                return <div style={{ ...style, backgroundColor: '#ffca1b' }}>{this.props.title}</div>
+            case 'clinicalEvent':
+                return <div style={{ ...style, backgroundColor: '#FF4745' }}>{this.props.title}</div>
+            case 'test':
+                return <div style={{ ...style, backgroundColor: '#99CA78' }}>{this.props.title}</div>
+            default:
+                return null;
         }
     }
 }
@@ -86,12 +86,12 @@ function mapTests(patientId, typeMap) {
             paddingRight: 2
         };
         const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
-        return formatRow([testType, el['expected_occur_date'], <NavLink id={`/patientProfile/${patientId}/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results➠ </div></NavLink>]);
+        return formatRow([testType, el['expectedOccurDate'], <NavLink id={`/patientProfile/${patientId}/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results➠ </div></NavLink>]);
     }
 }
 
 function mapMedications(el) {
-    return formatRow([el.drug, el.dose, el.unit, el.form, el['times_per_day'], el['duration_weeks']]);
+    return formatRow([el.drug, el.dose, el.unit, el.form, el['timesPerDay'], el['durationWeeks']]);
 }
 
 function mapClinicalEvents(patientId) {
@@ -111,7 +111,7 @@ function mapClinicalEvents(patientId) {
             paddingLeft: 3,
             paddingRight: 2
         };
-        return formatRow([el.type, el['date_start_date'], <NavLink to={`/patientProfile/${patientId}/ce/${el.id}`} activeClassName='selectedResult' style={style}><div style={divStyle}> results➠ </div></NavLink>]);
+        return formatRow([el.type, <NavLink to={`/patientProfile/${patientId}/ce/${el.id}`} activeClassName='selectedResult' style={style}><div style={divStyle}> results➠ </div></NavLink>]);
     }
 }
 
@@ -134,9 +134,9 @@ class VisitSection extends Component {
         const inputStyle ={
             width: 40
         };
-        const visitHasTests = this.props.data.tests.filter(el => el['ordered_during_visit'] === this.props.visitId).length !== 0;
-        const visitHasMedications = this.props.data.treatments.filter(el => el['ordered_during_visit'] === this.props.visitId).length !== 0;
-        const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recorded_during_visit'] === this.props.visitId).length !== 0;
+        const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
+        const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
+        const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         return(
             <div>
                 <SubsectionsBar type='visit' title={this.props.title}/>
@@ -175,7 +175,7 @@ class VisitSection extends Component {
                                     </thead>
                                     <tbody>
                                         {this.props.data.tests
-                                            .filter(el => el['ordered_during_visit'] === this.props.visitId)
+                                            .filter(el => el['orderedDuringVisit'] === this.props.visitId)
                                             .map(mapTests(this.props.data.patientId, this.props.availableFields.testTypes))}
                                     </tbody>
                                 </table>
@@ -192,7 +192,7 @@ class VisitSection extends Component {
                                     </thead>
                                     <tbody>
                                         {this.props.data.treatments
-                                            .filter(el => el['ordered_during_visit'] === this.props.visitId)
+                                            .filter(el => el['orderedDuringVisit'] === this.props.visitId)
                                             .map(mapMedications)}
                                     </tbody>
                                 </table>
@@ -209,7 +209,7 @@ class VisitSection extends Component {
                                     </thead>
                                     <tbody>
                                         {this.props.data.clinicalEvents
-                                            .filter(el => el['recorded_during_visit'] === this.props.visitId)
+                                            .filter(el => el['recordedDuringVisit'] === this.props.visitId)
                                             /* change this map later to calculated patientId*/ 
                                             .map(mapClinicalEvents(this.props.data.patientId))}
                                     </tbody>
@@ -230,7 +230,7 @@ export class Charts extends Component {   //unfinsihed
             return null
         } else {
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
-            <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }} titleButton={<div className='checkMark' title='create visit' style={{ marginRight: '1.5em', width: '1em', display: 'inline-block', float:'right' }}><AddVisitIcon/></div>}>
+                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }} titleButton={<div className='checkMark' title='create visit' style={{ marginRight: '1.5em', width: '1em', display: 'inline-block', float:'right' }}><AddVisitIcon/></div>}>
                     {this.props.data.visits.map(
                         (el, ind) => <VisitSection availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${ind+1}-th visit: ${el.visitDate}`}/>
                     )}

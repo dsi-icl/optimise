@@ -38,13 +38,13 @@ export class DataField extends Component {
             if (this.props.value === undefined){
                 return (
                     <select>
-                        {this.props.field['permitted_values'].split(',').map(el => <option key={el} value={el}>{el}</option>)}
+                        {this.props.field['permittedValues'].split(',').map(el => <option key={el} value={el}>{el}</option>)}
                     </select>
                 )
             } else {
                 return (
                     <select>
-                        {this.props.field['permitted_values'].split(',').map(el => 
+                        {this.props.field['permittedValues'].split(',').map(el => 
                             el === this.props.value ? <option value={el} selected>{el}</option> : <option value={el}>{el}</option>
                         )}
                     </select>
