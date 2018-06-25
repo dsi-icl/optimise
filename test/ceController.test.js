@@ -26,7 +26,7 @@ describe('Create Clinical Event controller tests', () => {
             }
         })
         .then(res => {
-            expect(res.status).toBe(401);
+            expect(res.status).toBe(400);
         }));
 
     test('Request creation with bad body (should fail)', () => request

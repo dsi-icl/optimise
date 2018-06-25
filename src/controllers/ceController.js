@@ -14,7 +14,7 @@ class CeController {
                 };
                 createEntry(req, res, 'CLINICAL_EVENTS', entryObj, 'databaseError');
             } else {
-                res.status(401).send('wrong date format');
+                res.status(400).send('wrong date format');
             }
         } else {
             res.status(400).send('Missing visit id');
