@@ -151,37 +151,8 @@ export class StatusBar extends Component {
         return (
             <div style={css.statusBar}>
                 <span style={{ float: 'left', marginLeft: 10, marginTop: '0.2em', display: 'block' }}> You are logged in as </span>
-                <Clock/>
+                <span style={{ display: 'block', marginTop: '0.2em', position: 'absolute', float: 'left', right: 10 }}> OptimiseMS v1.0.0</span>
             </div>
         )
-    }
-}
-
-class Clock extends Component {
-    constructor(){
-        super();
-        const date = new Date(); 
-        this.state = { time: `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()} ${date.getUTCHours()}:${date.getUTCMinutes()}` };
-        this._ticktock = this._ticktock.bind(this);
-    }
-
-    componentDidMount() {
-        this.timerID = setInterval(
-            () => this._ticktock(),
-            60000
-        );
-    }
-    
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
-
-    _ticktock() {
-        const date = new Date(); 
-        this.setState({ time: `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()} ${date.getUTCHours()}:${date.getUTCMinutes()}` });
-    }
-
-    render() {
-        return <span style={{ display: 'block', marginTop: '0.2em', position: 'absolute', float: 'left', right: 10 }}> Your every action will be logged at UTC {this.state.time}</span> 
     }
 }
