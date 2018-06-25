@@ -13,10 +13,14 @@ export class PatientChart extends Component {
 
     render() {
         return (
-            <div style={css.bigWrapper}>
-                <PatientProfileTop/>
-                <Timeline/>
-                <Charts/>
+            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                <div style={{ zIndex: 1000, boxSizing: 'border-box', textAlign: 'center', height: '8%', position: 'absolute', width: '100%', left: 0, Top: 0 }}>
+                    <PatientProfileTop/>
+                </div>
+                <div style={{ zIndex: 998, height: '92%', position: 'absolute', top: '8%', overflow: 'auto', width: '100%' }}>
+                    <Timeline/>
+                    <Charts/>
+                </div>
             </div>
         )
     }

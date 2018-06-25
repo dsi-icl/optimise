@@ -38,6 +38,7 @@ export default {
         overflow: 'auto',
         color: 'white',
         bottom: 0,
-        left: 0
+        left: 0,
+        zIndex: 1001
     }
 }
