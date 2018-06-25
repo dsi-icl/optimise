@@ -35,7 +35,7 @@ env:
 
 jobs:
   include:
-    - script: npm test -- --coverage --maxWorkers=2
+    - script: npm test -- --coverage --runInBand
       after_script: cat ./coverage/lcov.info | codacy-coverage --token $CODACY_COVERAGE_TOKEN
 
     - &node
