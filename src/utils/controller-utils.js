@@ -3,7 +3,7 @@ const knex = require('../utils/db-connection');
 
 exports.createEntry = (req, res, tablename, entryObj, databaseErrMsg) => {
     entryObj.deleted = '-';
-    entryObj['createdByUser'] = req.requester.userid;
+    entryObj.createdByUser = req.requester.userid;
     knex(tablename)
         .insert(entryObj)
         .then(result => res.status(200).json(result))
