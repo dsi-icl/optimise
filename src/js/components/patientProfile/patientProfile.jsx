@@ -50,7 +50,7 @@ class SaveButton extends Component {
 export class PatientProfileTop extends Component {
     render(){
         return (
-            <div style={{ marginBottom: 20 }}>
+            <div style={{ marginTop: '0.5em', marginBottom: 20 }}>
                 <span>{this.props.image}<h1 style={{ display: 'inline' }}> Patient ID: <b>{this.props.patientId}</b></h1></span>
             </div>
         );

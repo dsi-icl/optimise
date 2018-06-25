@@ -1,6 +1,7 @@
 export default {
     bigWrapper: {
-        padding: '40px 40px'
+        padding: '40px 40px',
+        position: 'relative'
     },
 
     sectionTitleBar: {
