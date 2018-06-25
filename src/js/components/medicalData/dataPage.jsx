@@ -97,21 +97,21 @@ function formatData(medicalElement, fieldList, dataTypes) {
                     console.log(originalValue);
                     switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
                         case 'I':
-                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='I' type='text' value={originalValue}/><br/><br/></span>;
+                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='I' type='text' defaultValue={originalValue}/><br/><br/></span>;
                         case 'F':
-                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='F' type='text' value={originalValue}/><br/><br/></span>;
+                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='F' type='text' defaultValue={originalValue}/><br/><br/></span>;
                         case 'C':
                             return (<span key={key}>{definition}: 
-                                <select dataType='C' originalValue={originalValue} value={originalValue ? originalValue : 'unselected'}>
+                                <select dataType='C' originalValue={originalValue} selected={originalValue ? originalValue : 'unselected'}>
                                     <option value='unselected'>unselected</option>
                                     {permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
                                 </select>
                                 <br/><br/></span>);
                         case 'T':
-                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='T' type='text' value={originalValue}/><br/><br/></span>;
+                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='T' type='text' defaultValue={originalValue}/><br/><br/></span>;
                         case 'B':
                             return (<span key={key}>{definition}: 
-                                <select dataType='B' originalValue={originalValue} value={originalValue ? originalValue : 'unselected'}>
+                                <select dataType='B' originalValue={originalValue} selected={originalValue ? originalValue : 'unselected'}>
                                     <option value='unselected'>unselected</option>
                                     <option value='1'>True</option>
                                     <option value='0'>False</option>
