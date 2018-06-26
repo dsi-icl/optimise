@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 
 function mapStateToProps(state) {
     return {
@@ -12,7 +12,13 @@ function mapStateToProps(state) {
     }
 }
 
-@connect(mapStateToProps)
+function mapDispatchToProps(dispatch) {
+    return {
+        submitData: data => dispatch(alterDataCall(data))
+    };
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export class TestData extends Component {
     constructor() {
         super();
@@ -27,21 +33,23 @@ export class TestData extends Component {
 
     _handleSubmit(ev){
         ev.preventDefault();
-        const body = { add: {}, update: {} };
+        const bodydata = { add: {}, update: {}, testId: 1 };
         console.log(ev.target);
         for (let i = 0, length = ev.target.length - 1; i < length; i++) {   //length - 1 to exclude 'save' button
             const originalValue = ev.target[i].attributes.originalvalue ? ev.target[i].attributes.originalvalue.nodeValue : undefined;
             if (originalValue) {
                 if (originalValue !== ev.target[i].value) {
-                    body.update[ev.target[i].name] = ev.target[i].value;
+                    bodydata.update[ev.target[i].name] = ev.target[i].value;
                 }
             } else {
                 if (ev.target[i].value !== '' && ev.target[i].value !== 'unselected') {
-                    body.add[ev.target[i].name] = ev.target[i].value;
+                    bodydata.add[ev.target[i].name] = ev.target[i].value;
                 }
             }
         }
-        console.log(body);
+        const body = { data: bodydata, patientId: this.props.patientId, type: 'test' };
+        this.props.submitData(body);
+
     }
 
     render(){
