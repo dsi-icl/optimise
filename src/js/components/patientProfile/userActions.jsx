@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import css from '../../../css/searchPatientsById.css.js';
 import { NavLink } from 'react-router-dom';
-import { PatientProfileSectionScaffold } from './patientProfile.jsx';
 export class UserActions extends Component {
     render() {
         return (
