@@ -1,5 +1,5 @@
 const { isEmptyObject } = require('../utils/basic-utils');
-const { createEntry, deleteEntry, updateEntry, eraseEntry } = require('../utils/controller-utils');
+const { createEntry, deleteEntry, eraseEntry } = require('../utils/controller-utils');
 const SelectorUtils = require('../utils/selector-utils');
 const knex = require('../utils/db-connection');
 
@@ -36,7 +36,7 @@ class PatientController {
 
     setPatientAsDeleted(req, res) {
         if (req.requester.priv === 1) {
-            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId, 'deleted':'-' }, req.body.aliasId, 1);
+            deleteEntry(req, res, 'PATIENTS', { 'aliasId': req.body.aliasId, 'deleted': '-' }, req.body.aliasId, 1);
         } else {
             res.status(401).send('Sorry! Only admins are able to edit / delete data');
         }
@@ -62,12 +62,10 @@ class PatientController {
                     getOnlyArr = Array.from(getOnlyArr);    //prevent if someone put loads of the same parameters, slowing down the server
                     const promiseArr = [];
                     for (let i = 0; i < getOnlyArr.length; i++) {
-                        console.log(SelectorUtils);
-                        console.log(Object.keys(SelectorUtils));
                         try {
                             promiseArr.push(SelectorUtils[`get${getOnlyArr[i]}`](patientId));
                         } catch (e) {
-                            res.status(400).send('something in your ?getOnly is not permitted!');
+                            res.status(400).send('something in your ?getOnly is not permitted! The options are "getDemographicData", "getImmunisations", "getMedicalHistory", "getVisits", "getTests", "getTreatments", "ClinicalEvents"');
                             throw 'stopping the chain';
                         }
                     }
@@ -162,15 +160,15 @@ class PatientController {
                                     eraseEntry(req, res, 'TREATMENTS', { 'orderedDuringVisit': visitId[i] }, 'Row for treatments', null, false);
                                     //Erase Clinical Event and Clinical Event Data
                                     knex('CLINICAL_EVENTS')
-                                        .select({ ceId : 'id' })
-                                        .where({ 'recordedDuringVisit' : visitId })
+                                        .select({ ceId: 'id' })
+                                        .where({ 'recordedDuringVisit': visitId })
                                         .then(resultCE => {
                                             for (let j = 0; !isEmptyObject(resultCE) && j < resultCE.length; j++) {
                                                 eraseEntry(req, res, 'CLINICQL_EVENT_DATA', { 'clinicalEvent': resultCE[j] }, 'Row for clinical event data', null, false);
                                             }
                                         });
                                     eraseEntry(req, res, 'CLINICAL_EVENTS', { 'recordedDuringVisit': visitId[i] }, 'Row for clinical event', null, false);
-                                    eraseEntry(req, res, 'VISITS', { 'id':visitId[i] }, 'Row for visits', null, false);
+                                    eraseEntry(req, res, 'VISITS', { 'id': visitId[i] }, 'Row for visits', null, false);
                                 }
                             }
                         }

@@ -19,7 +19,7 @@ class TestController {
     addActualOccurredDate(req, res){
         if (req.body.testId && req.body.actualOccurredDate && validateAndFormatDate(req.body.actualOccurredDate)){
             knex('ORDERED_TESTS')
-                .where({ 'id':req.body.testId })
+                .where({ 'id': req.body.testId })
                 .update({ 'actualOccurredDate': validateAndFormatDate(req.body.actualOccurredDate) })
                 .then(result => {
                     if (result === 1){
@@ -44,7 +44,7 @@ class TestController {
         }
         else {
             if (req.requester.priv !== 1)
-                res.status(400).send('You don\'t have the right to do that.');
+                res.status(401).send('You don\'t have the right to do that.');
             else {
                 res.status(400).send('Missing information to do that.');
             }

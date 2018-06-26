@@ -6,7 +6,7 @@ class VisitController {
     static getVisitsOfPatient(req, res){
         if (!isEmptyObject(req.query) && Object.keys(req.query).length === 1 && typeof (req.query.patientId) === 'string') {
             knex('PATIENTS')
-                .select({ patientId:'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.visitDate')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.visitDate')
                 .leftOuterJoin('VISITS', 'PATIENTS.id', 'VISITS.patient')
                 .where({ 'PATIENTS.aliasId': req.query.patientId, 'VISITS.deleted': '-' })
                 .then(result => res.status(200).json(result));
@@ -25,6 +25,8 @@ class VisitController {
                         res.status(404).send('Can\'t seem to find your patient!');
                     } else if (result.length === 1) {
                         const entryObj = { 'patient': result[0]['id'], 'visitDate': validateAndFormatDate(req.body.visitDate) };
+                        if (req.body.type && typeof (req.body.type) === 'number')
+                            entryObj.type = req.body.type;
                         createEntry(req, res, 'VISITS', entryObj, 'Error. Visit might already exists.');
                     } else {
                         res.status(500).send('Database error');
@@ -36,6 +38,8 @@ class VisitController {
     }
 
     static deleteVisit(req, res){
+        if (req.requester.priv !== 1)
+            console.log('BAD PRIVILEDGES');
         if (req.requester.priv === 1 && req.body.visitId) {
             knex('VISITS')
                 .select('id')
