@@ -34,8 +34,10 @@ class DemographicDataController {
             .select('deleted')
             .where({ 'id': req.body.patient, 'deleted': '-' })
             .then(result => {
-                if (result.length !== 1)
+                if (result.length !== 1) {
                     res.status(404).send('User not found');
+                    return ;
+                }
                 knex('PATIENT_DEMOGRAPHIC')
                     .select('*')
                     .where({ 'patient': req.body.patient, 'deleted': '-' })
@@ -58,6 +60,9 @@ class DemographicDataController {
                         } else if (resu.length !== 0) {
                             res.status(400).send('Patient already have demographic data.');
                         }
+                    }).catch(err => {
+                        console.log(err);
+                        res.status(500).send(`Problem catched: error message : ${err}`);
                     });
             })
             .catch(err => {
@@ -82,6 +87,9 @@ class DemographicDataController {
                     } else {
                         res.status(500).send('Database error');
                     }
+                }).catch(err => {
+                    console.log(err);
+                    res.status(500).send(`Problem catched: error message : ${err}`);
                 });
         } else {
             res.status(400).send('Error. Please provide the suitable parameters.');
@@ -146,10 +154,16 @@ class DemographicDataController {
                                     delete result[i]['createdByUser'];
                                 }
                                 res.status(200).json(result);
+                            }).catch(err => {
+                                console.log(err);
+                                res.status(500).send(`Problem catched: error message : ${err}`);
                             });
                     } else {
                         res.status(500).send('Database error');
                     }
+                }).catch(err => {
+                    console.log(err);
+                    res.status(500).send(`Problem catched: error message : ${err}`);
                 });
         } else {
             res.status(400).send('Please provide patient ID in the form of "?patientId="');
