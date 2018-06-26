@@ -33,6 +33,11 @@ const exampleData = {
     'MEDICAL_HISTORY': [
         { id: 1, patient: 3, relation: 1, conditionName: 1, outcome: 'ongoing', createdByUser: 1, deleted: '-'},
         { id: 2, patient: 4, relation: 1, conditionName: 1, outcome: 'resolved', createdByUser: 1, deleted: '@xxx'}
+    ],
+    'PATIENT_IMMUNISATION': [
+        { id: 1, patient: 2, vaccineName: 'vaccine A', immunisationDate: '1/2/3921', createdByUser: 1, deleted: '-'},
+        { id: 2, patient: 3, vaccineName: 'vaccine B', immunisationDate: '1/5/3921', createdByUser: 1, deleted: 'x'},
+        { id: 3, patient: 3, vaccineName: 'vaccine C', immunisationDate: '1/6/3921', createdByUser: 1, deleted: '-'}
     ]
 };
 
