@@ -7,7 +7,8 @@ function mapStateToProps(state) {
     return {
         fields: state.availableFields.testFields,
         patientId: state.patientProfile.data.patientId,
-        allTestData: state.patientProfile.data.tests[0],
+        allTestData: state.patientProfile.data.tests ? state.patientProfile.data.tests : null,
+        fetching: state.patientProfile.fetching,
         dataTypes: state.availableFields.dataTypes
     }
 }
@@ -53,11 +54,17 @@ export class TestData extends Component {
     }
 
     render(){
-        return (<div>
-            <BackButton to={`/patientProfile/${this.props.patientId}`}/>
-            <h2>TEST RESULT</h2> <h2>Type: 1 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> 
-            {formatData(this.props.allTestData, this.props.fields, this.props.dataTypes, this._handleSubmit)}
-        </div>);   //change the type later
+        if (!this.props.fetching) {
+            const test = this.props.allTestData.filter(test => test.testId == this.props.match.params.testId)[0];  // eslint-disable-line eqeqeq
+            console.log(test);
+            return (<div>
+                <BackButton to={`/patientProfile/${this.props.patientId}`}/>
+                <h2>TEST RESULT</h2> <h2>Type: 1 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> 
+                {formatData(test, this.props.fields, this.props.dataTypes, this._handleSubmit)}
+            </div>);   //change the type later
+        } else {
+            return <div>LOADING</div>
+        }
     }
 }
 
