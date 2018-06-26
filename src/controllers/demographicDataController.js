@@ -239,8 +239,8 @@ class DemographicDataController {
             let newObj = Object.assign({}, req.body);
             delete newObj.id;
             let tmp;
-            if (req.body.startDate)
-                newObj.startDate = (tmp = validateAndFormatDate(req.body.startDate)) ? tmp : null;
+            if (req.body.startDate && validateAndFormatDate(req.body.startDate))
+                newObj.startDate = validateAndFormatDate(req.body.startDate);
             const whereObj = { 'id': req.body.id, 'deleted': '-' };
             updateEntry(req, res, 'MEDICAL_HISTORY', whereObj, newObj, 'Row for Medical Condition', 1);
         } else if (req.requester.priv !== 1) {
