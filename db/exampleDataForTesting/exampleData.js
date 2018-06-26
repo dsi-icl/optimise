@@ -29,6 +29,10 @@ const exampleData = {
     ],
     'TREATMENTS': [
         { id: 1, orderedDuringVisit: 1, drug: 1, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' }
+    ],
+    'MEDICAL_HISTORY': [
+        { id: 1, patient: 3, relation: 1, conditionName: 1, outcome: 'ongoing', createdByUser: 1, deleted: '-'},
+        { id: 2, patient: 4, relation: 1, conditionName: 1, outcome: 'resolved', createdByUser: 1, deleted: '@xxx'}
     ]
 };
 
