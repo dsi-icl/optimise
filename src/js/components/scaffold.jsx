@@ -16,15 +16,6 @@ import { FilterPanel } from './filterPatient/selectPanel.jsx';
 import { Fields } from './filterPatient/fieldPanel.jsx';
 export class MenuBar extends Component {
     render() {
-        const style = {
-            display: 'block',
-            margin: '0 auto',
-            cursor: 'pointer',
-            width: 'calc(80%)',
-            marginTop: 10,
-            marginBottom: 10
-        };
-
         return (
             <div style={css.menuBar}>
                 <br/><br/><br/>
@@ -64,84 +55,61 @@ export class MenuBar extends Component {
     }
 }
 
-function MiddlePanelWrapper(children) {
-    return (
-        () =>
-            <div style={css.middlePanel}>
-                {children}
-            </div>
-    );
-}
-
 export class MiddlePanel extends Component {
     render() {
         return (
-            <Switch>
-                <Route exact path='/' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
-                <Route exact path='/searchPatientById' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
-                <Route exact path='/createPatient' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
-                <Route exact path='/exportCDISC' component={MiddlePanelWrapper(<History/>)}/>
-                <Route exact path='/administration' component={MiddlePanelWrapper(<AdminActions/>)}/>
-                <Route exact path='/filterPatients' component={MiddlePanelWrapper(<FilterPanel/>)}/>
-                <Route path='/patientProfile/:patientId' component={MiddlePanelWrapper(<SearchPatientsById/>)}/>
-            </Switch>
+            <div style={css.middlePanel}>
+                <Switch>
+                    <Route exact path='/' component={SearchPatientsById}/>
+                    <Route exact path='/searchPatientById' component={SearchPatientsById}/>
+                    <Route exact path='/createPatient' component={SearchPatientsById}/>
+                    <Route exact path='/exportCDISC' component={History}/>
+                    <Route exact path='/administration' component={AdminActions}/>
+                    <Route exact path='/filterPatients' component={FilterPanel}/>
+                    <Route path='/patientProfile/:patientId' component={SearchPatientsById}/>
+                </Switch>
+            </div>
         );
     }
 }
-
-function RightPanelWrapper(children) {
-    return (
-        () => 
-            <div style={css.rightPanel}>
-                {children}
-            </div>
-    );
-}
-
-
 
 @connect(state => ({ page: state.rightPanel }), null, null, { pure: false })
 export class RightPanel extends Component {
     render() {
         return (
-            <Switch>
-                <Route path='/patientProfile/:patientId' render={RightPanelWrapper(<PatientChart/>)}/>
-                <Route exact path='/searchPatientById'component={RightPanelWrapper('')}/>
-                <Route exact path='/' component={RightPanelWrapper(<WelcomePanel/>)}/>
-                <Route exact path='/exportCDISC' component={RightPanelWrapper(<div></div>)}/>
-                <Route exact path='/administration' component={RightPanelWrapper(<div></div>)}/>
-                <Route exact path='/createPatient' component={RightPanelWrapper(<CreatePatientComponent/>)}/>
-                <Route exact path='/filterPatients' component={RightPanelWrapper(<Fields/>)}/>
-                <Route component={() => <span>Oops! seems like we cannot find your url</span>}/>
-            </Switch>
+            <div style={css.rightPanel}>
+                <Switch>
+                    <Route path='/patientProfile/:patientId' render={({ match }) => <PatientChart match={match}/>}/>
+                    <Route exact path='/searchPatientById'component={''}/>
+                    <Route exact path='/' component={WelcomePanel}/>
+                    <Route exact path='/exportCDISC' component={''}/>
+                    <Route exact path='/administration' component={''}/>
+                    <Route exact path='/createPatient' component={CreatePatientComponent}/>
+                    <Route exact path='/filterPatients' component={Fields}/>
+                    <Route component={() => <span>Oops! seems like we cannot find your url</span>}/>
+                </Switch>
+            </div>
         );
     }
-}
-
-function FarRightPanelWrapper(children) {
-    return (
-        ({ match }) =>
-            <div style={css.farRightPanel} match={match}>
-                {children}
-            </div>
-    );
 }
 
 export class FarRightPanel extends Component {
     render() {
         return (
-            <Switch>
-                <Route path='/patientProfile/:patientId/ce/:ceId' component={FarRightPanelWrapper('CE')}/>
-                <Route path='/patientProfile/:patientId/test/:testId' render={({ match }) => <div style={css.farRightPanel}><TestData match={match}/></div>}/>
-                <Route path='/patientProfile/:patientId/createVisit' render={FarRightPanelWrapper(<CreateVisit/>)}/>
-                <Route path='/patientProfile/:patientId' render={FarRightPanelWrapper(<Section/>)}/>
-                <Route exact path='/exportCDISC' component={FarRightPanelWrapper(<div></div>)}/>
-                <Route exact path='/administration' component={FarRightPanelWrapper(<div></div>)}/>
-                <Route exact path='/searchPatientById'component={FarRightPanelWrapper('')}/>
-                <Route exact path='/createPatient' component={FarRightPanelWrapper('')}/>
-                <Route exact path='/filterPatients' component={FarRightPanelWrapper(<div></div>)}/>
-                <Route exact path='/' component={FarRightPanelWrapper(<div></div>)}/>
-            </Switch>
+            <div style={css.farRightPanel}>
+                <Switch>
+                    <Route path='/patientProfile/:patientId/ce/:ceId' component={'CE'}/>
+                    <Route path='/patientProfile/:patientId/test/:testId' render={({ match }) => <TestData match={match}/>}/>
+                    <Route path='/patientProfile/:patientId/createVisit' render={({ match }) => <CreateVisit match={match}/>}/>
+                    <Route path='/patientProfile/:patientId' render={({ match }) => <Section match={match}/>}/>
+                    <Route exact path='/exportCDISC' component={''}/>
+                    <Route exact path='/administration' component={''}/>
+                    <Route exact path='/searchPatientById'component={''}/>
+                    <Route exact path='/createPatient' component={''}/>
+                    <Route exact path='/filterPatients' component={''}/>
+                    <Route exact path='/' component={''}/>
+                </Switch>
+            </div>
         );
     }
 }
