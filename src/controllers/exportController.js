@@ -8,7 +8,7 @@ class ExportController {
 
     exportDb(req, res) {
 
-        let fileName = 'OptimiseData.csv';
+        const fileName = 'OptimiseData.csv';
 
         // TODO: replace with using SelectorUtils to reuse the queries passing an array of all IDs
 
@@ -21,7 +21,7 @@ class ExportController {
             .where('PATIENTS.deleted', null)
             .then(result => {
                 // TODO: CDISC mapping for headers
-                let tempfileName = `dm${fileName}`;
+                const tempfileName = `dm${fileName}`;
                 let keys = Object.keys(result[0]); // get the keys from result to create headers
                 let tempResult = `${keys.join(',')}\n`; 
                 result.forEach(function(obj) {
@@ -32,7 +32,7 @@ class ExportController {
                     tempResult += '\n';
                 });
                 let fileContents = Buffer.from(tempResult);
-                let tempSavedPath = `/temp/${tempfileName}`;
+                const tempSavedPath = __dirname+`/temp/${tempfileName}`;
                 fs.writeFile(tempSavedPath, fileContents, err => {
                     if (err) {
                         throw err;
