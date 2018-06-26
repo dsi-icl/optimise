@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { PatientProfileSectionScaffold, PatientProfileTop } from './patientProfile.jsx';
+import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedComponents.jsx';
 import css from '../../../css/patientProfile.css.js';
 import { NavLink } from 'react-router-dom';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import store from '../../redux/store';
-import { AddVisitIcon } from '../../../statics/svg/icons.jsx';
+
+
 export class PatientChart extends Component {
     componentDidMount() {
         store.dispatch(getPatientProfileById(window.location.pathname.split('/')[2]));
@@ -14,10 +15,10 @@ export class PatientChart extends Component {
     render() {
         return (
             <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                <div style={{ zIndex: 1000, boxSizing: 'border-box', textAlign: 'center', height: '8%', position: 'absolute', width: '100%', left: 0, Top: 0 }}>
+                <div style={{ zIndex: 1000, textAlign: 'center', height: '8%', position: 'absolute', width: '100%', left: 0, Top: 0 }}>
                     <PatientProfileTop/>
                 </div>
-                <div style={{ zIndex: 998, height: '92%', position: 'absolute', top: '8%', overflow: 'auto', width: '100%' }}>
+                <div style={{ zIndex: 998, height: 'calc(92% - 1.2em)', position: 'absolute', top: '8%', overflow: 'auto', width: '100%', paddingBottom: 30, paddingLeft: 30, paddingRight: 30 }}>
                     <Timeline/>
                     <Charts/>
                 </div>
@@ -25,7 +26,6 @@ export class PatientChart extends Component {
         )
     }
 }
-
 
 class Timeline extends Component {   //unfinsihed
     render() {
@@ -35,7 +35,6 @@ class Timeline extends Component {   //unfinsihed
         )
     }
 }
-
 
 class SubsectionsBar extends Component {
     render(){
@@ -122,10 +121,6 @@ function mapClinicalEvents(patientId) {
 function formatRow(arr) {
     return <tr>{arr.map(el => <td>{el}</td>)}</tr>;
 }
-
-
-
-
 
 class VisitSection extends Component {
     render() {
@@ -234,7 +229,7 @@ export class Charts extends Component {   //unfinsihed
             return null
         } else {
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
-                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }} titleButton={<div className='checkMark' title='create visit' style={{ marginRight: '1.5em', width: '1em', display: 'inline-block', float:'right' }}><AddVisitIcon/></div>}>
+                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }} titleButton={<div className='checkMark' title='create visit' style={{ marginRight: '1.5em', width: '1em', display: 'inline-block', float:'right' }}></div>}>
                     {this.props.data.visits.map(
                         (el, ind) => <VisitSection availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${ind+1}-th visit: ${el.visitDate}`}/>
                     )}

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import css from '../../../css/patientProfile.css.js';
-import saveIcon from '../../../statics/icons/icons8-tick-box-48.png';
-import { UserActions } from './userActions.jsx';
-import { CheckIcon, AddVisitIcon } from '../../../statics/svg/icons.jsx';
+
+import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 
 @connect(state => ({ fetching: state.patientProfile.fetching }))
 export class Section extends Component {
@@ -11,49 +10,12 @@ export class Section extends Component {
         if (this.props.fetching) {
             return <span> FETCHING PROFILE </span>
         } else {
-            return (<div style={css.bigWrapper}>     
-                <UserActions/> <br/> <br/>      
+            return (<div style={css.bigWrapper}>        
                 <DemographicSection/>
                 <ImmunisationSection/>
                 <MedicalHistorySection/>
             </div>)
         }
-    }
-}
-
-
-export class PatientProfileSectionScaffold extends Component {
-    render() {
-        return (
-            <div>
-                <div style={css.sectionTitleBar}>{this.props.sectionName.toUpperCase()}
-                    {this.props.titleButton ? this.props.titleButton : null}
-                </div>
-                <div style={this.props.suppressSectionBodyCss ? this.props.bodyStyle : css.sectionBody}>
-                    {this.props.children}
-                </div>
-                <div className='checkMark' style={{ width: '1.5em' }}><CheckIcon/></div>
-            </div>
-        );
-    }
-}
-
-class SaveButton extends Component {
-    render(){
-        const style = { width: 40, cursor: 'pointer' };
-        return <img style={style} src={saveIcon} alt='save'/>
-    }
-}
-
-
-@connect(state => ({ patientId: state.patientProfile.data.patientId }))
-export class PatientProfileTop extends Component {
-    render(){
-        return (
-            <div style={{ marginTop: '0.5em', marginBottom: 20 }}>
-                <span>{this.props.image}<h1 style={{ display: 'inline' }}> Patient ID: <b>{this.props.patientId}</b></h1></span>
-            </div>
-        );
     }
 }
 
@@ -78,7 +40,6 @@ class ImmunisationSection extends Component {
         );
     }
 }
-
 
 @connect(state => ({ medicalHistory: state.patientProfile.data.medicalHistory }))
 class MedicalHistorySection extends Component {

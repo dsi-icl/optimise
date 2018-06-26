@@ -54,7 +54,7 @@ export class MenuBar extends Component {
                     </div>
                 </NavLink>
                 <NavLink id='logoutButton' to='/logout' title='Logout' className='menuButton'>
-                    <div style={{ textAlign: 'center', position: 'absolute', bottom: '1%' }}>
+                    <div style={{ textAlign: 'center', position: 'absolute', bottom: '3%' }}>
                         <LogoutIcon width='45%'/>
                     </div>
                 </NavLink>
