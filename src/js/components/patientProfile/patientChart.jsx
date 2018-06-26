@@ -15,10 +15,10 @@ export class PatientChart extends Component {
     render() {
         return (
             <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                <div style={{ zIndex: 1000, textAlign: 'center', height: '8%', position: 'absolute', width: '100%', left: 0, Top: 0 }}>
+                <div style={{ zIndex: 1000, textAlign: 'center', height: 65, position: 'absolute', width: '100%', left: 0, Top: 0 }}>
                     <PatientProfileTop/>
                 </div>
-                <div style={{ zIndex: 998, height: 'calc(92% - 1.2em)', position: 'absolute', top: '8%', overflow: 'auto', width: '100%', paddingBottom: 30, paddingLeft: 30, paddingRight: 30 }}>
+                <div style={{ zIndex: 998, height: 'calc(100% - 1.2em - 65px)', position: 'absolute', top: 65, overflow: 'auto', width: '100%', paddingBottom: 30, paddingLeft: 30, paddingRight: 30 }}>
                     <Timeline/>
                     <Charts/>
                 </div>
