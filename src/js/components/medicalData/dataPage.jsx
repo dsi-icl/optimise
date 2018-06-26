@@ -7,7 +7,7 @@ function mapStateToProps(state) {
     return {
         fields: state.availableFields.testFields,
         patientId: state.patientProfile.data.patientId,
-        data: state.patientProfile.data.tests[0],
+        allTestData: state.patientProfile.data.tests[0],
         dataTypes: state.availableFields.dataTypes
     }
 }
@@ -16,25 +16,39 @@ function mapStateToProps(state) {
 export class TestData extends Component {
     constructor() {
         super();
-        this.state = { pathname: '', inputData: [] };
+        this.state = { data: null };
         this._handleSubmit = this._handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        this.setState({ pathname: window.location.pathname, inputData: this.props.data });
+        console.log(this.props.allTestData);
+        console.log(this.props.match.params.testId);
     }
 
     _handleSubmit(ev){
         ev.preventDefault();
-        console.log(ev);
+        const body = { add: {}, update: {} };
+        console.log(ev.target);
+        for (let i = 0, length = ev.target.length - 1; i < length; i++) {   //length - 1 to exclude 'save' button
+            const originalValue = ev.target[i].attributes.originalvalue ? ev.target[i].attributes.originalvalue.nodeValue : undefined;
+            if (originalValue) {
+                if (originalValue !== ev.target[i].value) {
+                    body.update[ev.target[i].name] = ev.target[i].value;
+                }
+            } else {
+                if (ev.target[i].value !== '' && ev.target[i].value !== 'unselected') {
+                    body.add[ev.target[i].name] = ev.target[i].value;
+                }
+            }
+        }
+        console.log(body);
     }
 
     render(){
-        /* formating the data for easier mapping later */
         return (<div>
             <BackButton to={`/patientProfile/${this.props.patientId}`}/>
             <h2>TEST RESULT</h2> <h2>Type: 1 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> 
-            {formatData(this.props.data, this.props.fields, this.props.dataTypes, this._handleSubmit)}
+            {formatData(this.props.allTestData, this.props.fields, this.props.dataTypes, this._handleSubmit)}
         </div>);   //change the type later
     }
 }
@@ -191,7 +205,7 @@ class ControlledInputField extends Component {
     }
 
     render(){
-        return <span> <input name={this.props.fieldId} fieldid={this.props.fieldId}  type='text' style={ this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' }) } value={this.state.value} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/> <a onClick={this._handleResetClick} style={{ cursor: 'pointer', textDecoration: 'underline' }}>reset</a></span>;
+        return <span> <input originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} type='text' style={ this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' }) } value={this.state.value} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/> <a onClick={this._handleResetClick} style={{ cursor: 'pointer', textDecoration: 'underline' }}>reset</a></span>;
     }
 }
 
@@ -228,7 +242,7 @@ class ControlledSelectField extends Component {
 
     render(){
         const setThisValue = this.props.originalValue ?  this.props.originalValue : 'unselected';
-        return (<span><select name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} style={{ color: (this.state.value === setThisValue ? 'black' : 'green') }}>
+        return (<span><select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} style={{ color: (this.state.value === setThisValue ? 'black' : 'green') }}>
             <option value='unselected'>unselected</option>
             {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
         </select>

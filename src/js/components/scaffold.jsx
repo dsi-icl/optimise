@@ -120,8 +120,8 @@ export class RightPanel extends Component {
 
 function FarRightPanelWrapper(children) {
     return (
-        () =>
-            <div style={css.farRightPanel}>
+        ({ match }) =>
+            <div style={css.farRightPanel} match={match}>
                 {children}
             </div>
     );
@@ -132,7 +132,7 @@ export class FarRightPanel extends Component {
         return (
             <Switch>
                 <Route path='/patientProfile/:patientId/ce/:ceId' component={FarRightPanelWrapper('CE')}/>
-                <Route path='/patientProfile/:patientId/test/:testId' component={FarRightPanelWrapper(<TestData/>)}/>
+                <Route path='/patientProfile/:patientId/test/:testId' render={({ match }) => <div style={css.farRightPanel}><TestData match={match}/></div>}/>
                 <Route path='/patientProfile/:patientId/createVisit' render={FarRightPanelWrapper(<CreateVisit/>)}/>
                 <Route path='/patientProfile/:patientId' render={FarRightPanelWrapper(<Section/>)}/>
                 <Route exact path='/exportCDISC' component={FarRightPanelWrapper(<div></div>)}/>
