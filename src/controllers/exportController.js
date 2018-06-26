@@ -23,7 +23,7 @@ class ExportController {
                 // TODO: CDISC mapping for headers
                 const tempfileName = `dm${fileName}`;
                 let keys = Object.keys(result[0]); // get the keys from result to create headers
-                let tempResult = `${keys.join(',')}\n`; 
+                let tempResult = `${keys.join(',')}\n`;
                 result.forEach(function(obj) {
                     keys.forEach(function(a, b){
                         if (b) tempResult += ',';
@@ -32,7 +32,7 @@ class ExportController {
                     tempResult += '\n';
                 });
                 let fileContents = Buffer.from(tempResult);
-                const tempSavedPath = __dirname+`/temp/${tempfileName}`;
+                const tempSavedPath = `${__dirname}/temp/${tempfileName}`;
                 fs.writeFile(tempSavedPath, fileContents, err => {
                     if (err) {
                         throw err;
