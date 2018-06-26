@@ -6,7 +6,6 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const path = require('path');
 const RequestMiddleware = require('./utils/requestMiddleware');
 
 // ROUTES
@@ -29,7 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or not
 
 // Monitoring and rughts verification
-app.use('/', RequestMiddleware.addActionToCollection);
+//app.use('/', RequestMiddleware.addActionToCollection);
 app.use('/', RequestMiddleware.verifySessionAndPrivilege);
 
 // Modules

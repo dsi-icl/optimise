@@ -3,9 +3,6 @@
 const app = require('../src/app');
 const request = require('supertest')(app);
 
-const PatientController = require('../src/controllers/patientController');
-
-
 let adminToken, standardToken;
 
 describe('User controller tests', () => {
@@ -24,15 +21,6 @@ describe('User controller tests', () => {
             adminToken = res.body.token;
         }));
 
-    test('Admin user logging out another user (should fail)', () => request
-        .post('/internalapi/userlogout')
-        .set('Content-type', 'application/json')
-        .set('token', adminToken)
-        .send({ 'username': 'chon' })
-        .then(res => {
-            expect(res.statusCode).toBe(401);
-        }));
-
     test('Admin creating another user (no 1) without admin priv with real name', () => request
         .post('/api/users')
         .set('Content-type', 'application/json')
@@ -41,6 +29,17 @@ describe('User controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
         }));
+
+
+    test('Admin user logging out another user (no 1) (should fail)', () => request
+        .post('/internalapi/userlogout')
+        .set('Content-type', 'application/json')
+        .set('token', adminToken)
+        .send({ 'username': 'test_user' })
+        .then(res => {
+            expect(res.statusCode).toBe(401);
+        }));
+
 
     test('Admin creating another user (no 2) without admin priv without real name', () => request
         .post('/api/users')
@@ -156,7 +155,4 @@ describe('User controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
         }));
-
-
-
 });

@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: "off"*/
 const { isEmptyObject } = require('../utils/basic-utils');
 const { createEntry, deleteEntry, updateEntry } = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
@@ -42,7 +43,7 @@ class UserController {
         queryUsername = `%${  queryUsername  }%`;
 
         knex('USERS')
-            .select({ username:'USERS.username' }, 'USERS.realName', 'adminPriv')
+            .select({ username: 'USERS.username' }, 'USERS.realName', 'adminPriv')
             .where('USERS.username', 'like', queryUsername)
             .andWhere('USERS.deleted', '-')
             .then(result => {

@@ -4,9 +4,18 @@ const knex = require('../utils/db-connection');
 
 class TreatmentController {
     createTreatment(req, res){
-        if (!(req.body.visitId && req.body.drugId && req.body.dose &&
-            req.body.unit && req.body.form && req.body.timesPerDay && req.body.durationInWeeks)) {
+        if (!(req.body.visitId !== undefined && req.body.drugId !== undefined && req.body.dose !== undefined &&
+            req.body.unit !== undefined && req.body.form !== undefined && req.body.timesPerDay !== undefined && req.body.durationInWeeks !== undefined)) {
             res.status(400).send('Missing information for creation of the treatment');
+            return ;
+        }
+        if ((req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
+            (req.body.form !== 'oral' && req.body.form !== 'IV')) {
+            res.status(400).send('Wrong format in unit or form');
+            return ;
+        }
+        if (req.body.timesPerDay <= 0 || req.body.durationInWeeks <= 0) {
+            res.status(400).send('Wrong value in Times per day or duration in week');
             return ;
         }
         let entryObj = {
@@ -26,7 +35,7 @@ class TreatmentController {
     addTerminationDate(req, res){    //for adding termination date
         if (req.body.treatmentId && req.body.terminationDate && validateAndFormatDate(req.body.terminationDate) && req.body.terminatedReason) {
             knex('TREATMENTS')
-                .where({ 'id': req.body.treatmentId, 'deleted':'-' })
+                .where({ 'id': req.body.treatmentId, 'deleted': '-' })
                 .update({
                     'terminatedDate': validateAndFormatDate(req.body.terminationDate),
                     'terminatedReason': req.body.terminatedReason })
@@ -41,7 +50,7 @@ class TreatmentController {
                     }
                 })
                 .catch(err => {
-                    res.status(500).send(`Database Error : ${  err}`);
+                    res.status(500).send(`Database Error : ${err}`);
                     return ;
                 });
         }
@@ -53,7 +62,7 @@ class TreatmentController {
 
     editTreatment(req, res){
         if (req.requester.priv === 1){
-            let whereObj = { 'id': req.body.id, 'deleted':'-' };
+            let whereObj = { 'id': req.body.id, 'deleted': '-' };
             let newObj = Object.assign({}, req.body);   //need to change naming
             updateEntry(req, res, 'TREATMENTS', whereObj, newObj, req.body.id, 1 /* LT 0 */);
         }
@@ -75,13 +84,13 @@ class TreatmentController {
         deleteEntry(req, res, 'TREATMENTS', { 'id': req.body.treatmentId }, req.body.treatmentId, 1);
     }
 
-    addInterruption(req, res){
+    addInterruption(req, res){    //need to search if treatment exists
         if (req.body.treatmentId) {
             let entryObj = {
-                'treatment' : req.body.treatmentId,
-                'startDate' : (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null),
-                'endDate' : (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null),
-                'reason' : req.body.reason,
+                'treatment': req.body.treatmentId,
+                'startDate': (req.body.start_date && validateAndFormatDate(req.body.start_date) ? validateAndFormatDate(req.body.start_date) : null),
+                'endDate': (req.body.end_date && validateAndFormatDate(req.body.end_date) ? validateAndFormatDate(req.body.end_date) : null),
+                'reason': req.body.reason,
             };
             createEntry(req, res, 'TREATMENTS_INTERRUPTIONS', entryObj, 'Couldn\'t create entry');
             return ;

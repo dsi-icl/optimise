@@ -1,491 +1,515 @@
+/*eslint no-unused-vars: "off"*/
 /* global describe test expect */
-
 const app = require('../src/app');
+const adminToken = require('./token').adminToken;
+const standardToken = require('./token').standardToken;
 const request = require('supertest')(app);
-const tokens = require('./token');
-const token = tokens.token;
-const standardToken = tokens.standardToken;
 
-// TO COMPLETE
-
-describe('Create demographic data for patient.', () => {
-    test('Create demogdata without body (FAIL)', () => request
+describe('Create Demographic controller test', () => {
+    test('Creating demographic without body', () => request
         .post('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
+        .set('token', adminToken)
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
 
-    test('Create demogdata with bad body (FAIL)', () => request
+    test('Creating demographic with body but empty property (Should Fail)', () => request
         .post('/api/demogdata/Demographic')
-        .set('token', token)
+        .set('token', adminToken)
         .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
+            'patient': null,
+            'DOB': null,
+            'gender': null,
+            'dominant_hand': null,
+            'ethnicity': null,
+            'country_of_origin': null,
+            'alcohol_usage': null,
+            'smoking_history': null
         })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
 
-    // TODO
-    test('Create demogdata with wrong body (FAIL)', () => request
+    test('Creating demographic with body but badly formated property (Should Fail)', () => request
         .post('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({ 'patient':1,
-            'DOB':{ 'day':1, 'month':3, 'year':1980 },
-            'gender':'transgender',
-            'dominantHand':'right',
-            'ethnicity':'White',
-            'countryOfOrigin':'France',
-            'alcoholUsage':'More than 3 units a day',
-            'smokingHistory':'ex-smoker' })
+        .set('token', adminToken)
+        .send({
+            'patient': 'HEY',
+            'DOB': 2,
+            'gender': 'null',
+            'dominant_hand': 'null',
+            'ethnicity': 'null',
+            'country_of_origin': 'null',
+            'alcohol_usage': 'null',
+            'smoking_history': 'null'
+        })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
 
-    // TODO
-    test('Create demogdata with good body (SUCCESS)', () => request
+    test('Creating demographic with body but wrong patient (Should Fail)', () => request
         .post('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({ 'patient':1,
-            'DOB':{ 'day':1, 'month':3, 'year':1980 },
-            'gender':'male',
-            'dominantHand':'right',
-            'ethnicity':'White',
-            'countryOfOrigin':'France',
-            'alcoholUsage':'More than 3 units a day',
-            'smokingHistory':'ex-smoker' })
+        .set('token', adminToken)
+        .send({
+            'patient': 9,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominant_hand': 1,
+            'ethnicity': 1,
+            'country_of_origin': 1,
+            'alcohol_usage': 1,
+            'smoking_history': 1
+        })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(404);
         }));
+
+    test('Creating demographic with body but badly formatted DOB (Should Fail)', () => request
+        .post('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'patient': 1,
+            'DOB': 1,
+            'gender': 1,
+            'dominant_hand': 1,
+            'ethnicity': 1,
+            'country_of_origin': 1,
+            'alcohol_usage': 1,
+            'smoking_history': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Creating demographic with body but wrong DOB (Should Fail)', () => request
+        .post('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'patient': 1,
+            'DOB': { 'day': 29, 'month': 2, 'year': 2001 },
+            'gender': 1,
+            'dominant_hand': 1,
+            'ethnicity': 1,
+            'country_of_origin': 1,
+            'alcohol_usage': 1,
+            'smoking_history': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Creating demographic with body but wrong gender (Should Fail)', () => request
+        .post('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 10,
+            'dominant_hand': 1,
+            'ethnicity': 1,
+            'country_of_origin': 1,
+            'alcohol_usage': 1,
+            'smoking_history': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Creating demographic with body but wrong dominant hand (Should Fail)', () => request
+        .post('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominant_hand': 10,
+            'ethnicity': 1,
+            'country_of_origin': 1,
+            'alcohol_usage': 1,
+            'smoking_history': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Creating demographic with body but wrong ethnicity (Should Fail)', () => request
+        .post('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominant_hand': 1,
+            'ethnicity': 10,
+            'country_of_origin': 1,
+            'alcohol_usage': 1,
+            'smoking_history': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Creating demographic with body but wrong country of origin (Should Fail)', () => request
+        .post('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominant_hand': 1,
+            'ethnicity': 1,
+            'country_of_origin': 15000,
+            'alcohol_usage': 1,
+            'smoking_history': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Creating demographic with body but wrong alcohol usage (Should Fail)', () => request
+        .post('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominant_hand': 1,
+            'ethnicity': 1,
+            'country_of_origin': 1,
+            'alcohol_usage': 10,
+            'smoking_history': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Creating demographic with body but wrong smoking history (Should Fail)', () => request
+        .post('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominant_hand': 1,
+            'ethnicity': 1,
+            'country_of_origin': 1,
+            'alcohol_usage': 1,
+            'smoking_history': 10
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Creating demographic well formatted (Should Works)', () => request
+        .post('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'patient': 7,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominant_hand': 1,
+            'ethnicity': 1,
+            'country_of_origin': 1,
+            'alcohol_usage': 1,
+            'smoking_history': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+        }));
+
 });
 
-describe('Edit demographic data for patient.', () => {
-    test('Edit demogdata without body (FAIL)', () => request
+describe('Edit Demographic controller test', () => {
+    test('Editing demographic without body', () => request
         .put('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
+        .set('token', adminToken)
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
 
-    test('Edit demogdata with bad body (FAIL)', () => request
+    test('Editing demographic with body but empty property (Should Fail)', () => request
         .put('/api/demogdata/Demographic')
-        .set('token', token)
+        .set('token', adminToken)
         .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
+            'id': null,
+            'patient': null,
+            'DOB': null,
+            'gender': null,
+            'dominantHand': null,
+            'ethnicity': null,
+            'countryOfOrigin': null,
+            'alcoholUsage': null,
+            'smokingHistory': null
         })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
 
-    // TODO
-    test('Edit demogdata with wrong body (FAIL)', () => request
+    test('Editing demographic with body but badly formated property (Should Fail)', () => request
         .put('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
+        .set('token', adminToken)
+        .send({
+            'id': 'WRONG',
+            'patient': 'HEY',
+            'DOB': 2,
+            'gender': 'null',
+            'dominantHand': 'null',
+            'ethnicity': 'null',
+            'countryOfOrigin': 'null',
+            'alcoholUsage': 'null',
+            'smokingHistory': 'null'
+        })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
 
-    // TODO
-    test('Edit demogdata with good body (SUCCESS)', () => request
+    test('Editing demographic with body but wrong id (Should Fail)', () => request
         .put('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-});
-
-describe('Get demographic data for patient.', () => {
-    test('Get demogdata without body (FAIL)', () => request
-        .get('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    test('Get demogdata with bad body (FAIL)', () => request
-        .get('/api/demogdata/Demographic')
-        .set('token', token)
+        .set('token', adminToken)
         .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
+            'id': 80,
+            'patient': 9,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominantHand': 1,
+            'ethnicity': 1,
+            'countryOfOrigin': 1,
+            'alcoholUsage': 1,
+            'smokingHistory': 1
         })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(404);
         }));
 
-    // TODO
-    test('Get demogdata with wrong body (FAIL)', () => request
-        .get('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
+
+    test('Editing demographic with body but wrong patient (Should Fail)', () => request
+        .put('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'id': 8,
+            'patient': 9,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominantHand': 1,
+            'ethnicity': 1,
+            'countryOfOrigin': 1,
+            'alcoholUsage': 1,
+            'smokingHistory': 1
+        })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
 
-    // TODO
-    test('Get demogdata with good body (SUCCESS)', () => request
-        .get('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
+    test('Editing demographic with body but badly formatted DOB (Should Fail)', () => request
+        .put('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'id': 8,
+            'patient': 1,
+            'DOB': 1,
+            'gender': 1,
+            'dominantHand': 1,
+            'ethnicity': 1,
+            'countryOfOrigin': 1,
+            'alcoholUsage': 1,
+            'smokingHistory': 1
+        })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
+
+    test('Editing demographic with body but wrong DOB (Should Fail)', () => request
+        .put('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'id': 8,
+            'patient': 1,
+            'DOB': { 'day': 29, 'month': 2, 'year': 2001 },
+            'gender': 1,
+            'dominantHand': 1,
+            'ethnicity': 1,
+            'countryOfOrigin': 1,
+            'alcoholUsage': 1,
+            'smokingHistory': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Editing demographic with body but wrong gender (Should Fail)', () => request
+        .put('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'id': 8,
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 10,
+            'dominantHand': 1,
+            'ethnicity': 1,
+            'countryOfOrigin': 1,
+            'alcoholUsage': 1,
+            'smokingHistory': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Editing demographic with body but wrong dominant hand (Should Fail)', () => request
+        .put('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'id': 8,
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominantHand': 10,
+            'ethnicity': 1,
+            'countryOfOrigin': 1,
+            'alcoholUsage': 1,
+            'smokingHistory': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Editing demographic with body but wrong ethnicity (Should Fail)', () => request
+        .put('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'id': 8,
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominantHand': 1,
+            'ethnicity': 10,
+            'countryOfOrigin': 1,
+            'alcoholUsage': 1,
+            'smokingHistory': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Editing demographic with body but wrong country of origin (Should Fail)', () => request
+        .put('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'id': 8,
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominantHand': 1,
+            'ethnicity': 1,
+            'countryOfOrigin': 15000,
+            'alcoholUsage': 1,
+            'smokingHistory': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Editing demographic with body but wrong alcohol usage (Should Fail)', () => request
+        .put('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'id': 8,
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominantHand': 1,
+            'ethnicity': 1,
+            'countryOfOrigin': 1,
+            'alcoholUsage': 10,
+            'smokingHistory': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Editing demographic with body but wrong smoking history (Should Fail)', () => request
+        .put('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'id': 8,
+            'patient': 1,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominantHand': 1,
+            'ethnicity': 1,
+            'countryOfOrigin': 1,
+            'alcoholUsage': 1,
+            'smokingHistory': 10
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+        }));
+
+    test('Editing demographic well formatted (Should Works)', () => request
+        .put('/api/demogdata/Demographic')
+        .set('token', adminToken)
+        .send({
+            'id': 8,
+            'patient': 7,
+            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'gender': 1,
+            'dominantHand': 1,
+            'ethnicity': 1,
+            'countryOfOrigin': 1,
+            'alcoholUsage': 1,
+            'smokingHistory': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+        }));
+
 });
 
-describe('Delete demographic data for patient.', () => {
-    test('Delete demogdata without body (FAIL)', () => request
+describe('Delete Demographic controller test', () => {
+    test('Deleting demographic without body', () => request
         .delete('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
+        .set('token', adminToken)
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
 
-    test('Delete demogdata with bad body (FAIL)', () => request
+    test('Deleting demographic with body but empty property (Should Fail)', () => request
         .delete('/api/demogdata/Demographic')
-        .set('token', token)
+        .set('token', adminToken)
         .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
+            'id': null
         })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
 
-    // TODO
-    test('Delete demogdata with wrong body (FAIL)', () => request
+    test('Deleting demographic with body but badly formated property (Should Fail)', () => request
         .delete('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
+        .set('token', adminToken)
+        .send({
+            'id': 'WRONG'
+        })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(400);
         }));
 
-    // TODO
-    test('Delete demogdata with good body (SUCCESS)', () => request
+    test('Deleting demographic with body but out of bound id (Should Fail)', () => request
         .delete('/api/demogdata/Demographic')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-});
-
-describe('Create immunisation data for patient.', () => {
-    test('Create immudata without body (FAIL)', () => request
-        .post('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    test('Create immudata with bad body (FAIL)', () => request
-        .post('/api/demogdata/Immunisation')
-        .set('token', token)
+        .set('token', adminToken)
         .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
+            'id': 90
         })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(404);
         }));
 
-    // TODO
-    test('Create immudata with wrong body (FAIL)', () => request
-        .post('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Create immudata with good body (SUCCESS)', () => request
-        .post('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-});
-
-describe('Edit Immunisation data for patient.', () => {
-    test('Edit immudata without body (FAIL)', () => request
-        .put('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    test('Edit immudata with bad body (FAIL)', () => request
-        .put('/api/demogdata/Immunisation')
-        .set('token', token)
+    test('Deleting demographic with good preperty (Should Works)', () => request
+        .delete('/api/demogdata/Demographic')
+        .set('token', adminToken)
         .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
+            'id': 7
         })
         .then(res => {
-            expect(res.statusCode).toBe(400);
+            expect(res.status).toBe(200);
         }));
 
-    // TODO
-    test('Edit immudata with wrong body (FAIL)', () => request
-        .put('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Edit immudata with good body (SUCCESS)', () => request
-        .put('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-});
-
-describe('Get Immunisation data for patient.', () => {
-    test('Get immudata without body (FAIL)', () => request
-        .get('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    test('Get immudata with bad body (FAIL)', () => request
-        .get('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
-        })
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Get immudata with wrong body (FAIL)', () => request
-        .get('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Get immudata with good body (SUCCESS)', () => request
-        .get('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-});
-
-describe('Delete Immunisation data for patient.', () => {
-    test('Delete immudata without body (FAIL)', () => request
-        .delete('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    test('Delete immudata with bad body (FAIL)', () => request
-        .delete('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
-        })
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Delete immudata with wrong body (FAIL)', () => request
-        .delete('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Delete immudata with good body (SUCCESS)', () => request
-        .delete('/api/demogdata/Immunisation')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-});
-
-describe('Create MedicalCondition data for patient.', () => {
-    test('Create medcondata without body (FAIL)', () => request
-        .post('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    test('Create medcondata with bad body (FAIL)', () => request
-        .post('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
-        })
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Create medcondata with wrong body (FAIL)', () => request
-        .post('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Create medcondata with good body (SUCCESS)', () => request
-        .post('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-});
-
-describe('Edit MedicalCondition data for patient.', () => {
-    test('Edit medcondata without body (FAIL)', () => request
-        .put('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    test('Edit medcondata with bad body (FAIL)', () => request
-        .put('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
-        })
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Edit medcondata with wrong body (FAIL)', () => request
-        .put('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Edit medcondata with good body (SUCCESS)', () => request
-        .put('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-});
-
-describe('Get MedicalCondition data for patient.', () => {
-    test('Get medcondata without body (FAIL)', () => request
-        .get('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    test('Get medcondata with bad body (FAIL)', () => request
-        .get('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
-        })
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Get medcondata with wrong body (FAIL)', () => request
-        .get('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Get medcondata with good body (SUCCESS)', () => request
-        .get('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-});
-
-describe('Delete MedicalCondition data for patient.', () => {
-    test('Delete medcondata without body (FAIL)', () => request
-        .delete('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    test('Delete medcondata with bad body (FAIL)', () => request
-        .delete('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({
-            'ERROR': 123,
-            'WRONG': 'NOTGOOD'
-        })
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Delete medcondata with wrong body (FAIL)', () => request
-        .delete('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    // TODO
-    test('Delete medcondata with good body (SUCCESS)', () => request
-        .delete('/api/demogdata/MedicalCondition')
-        .set('token', token)
-        .send({})
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
 });
