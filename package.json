@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --ext .jsx --ext .js ./",
     "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
-    "test": "jest --colors --verbose --detectOpenHandles --forceExit",
+    "test": "jest --colors --verbose --detectOpenHandles --forceExit --runInBand",
     "start": "node ./src/server.js"
   },
   "contributors": [
