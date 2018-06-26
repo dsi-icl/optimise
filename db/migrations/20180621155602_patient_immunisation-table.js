@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
         table.text('createdTime').notNullable().defaultTo(knex.fn.now());
         table.integer('createdByUser').notNullable().references('id').inTable('USERS');
         table.text('deleted').notNullable().defaultTo('-');
-        table.unique(['patient', 'vaccineName', 'immunisationDate']);
+        table.unique(['patient', 'vaccineName', 'immunisationDate', 'deleted']);
     });
 };
 
