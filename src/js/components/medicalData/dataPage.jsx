@@ -11,23 +11,22 @@ function mapStateToProps(state) {
         dataTypes: state.availableFields.dataTypes
     }
 }
+
 @connect(mapStateToProps)
 export class TestData extends Component {
     constructor() {
         super();
-        this.state = { pathname: '' };
+        this.state = { pathname: '', inputData: [] };
+        this._handleSubmit = this._handleSubmit.bind(this);
     }
 
-    componentDidMount() { /* put this logic in patient Chart instead */
-        this.setState({ pathname: window.location.pathname });
-        document.getElementById(window.location.pathname).className = 'selectedResult';
-
+    componentDidMount() {
+        this.setState({ pathname: window.location.pathname, inputData: this.props.data });
     }
 
-    componentWillUnmount() {
-        if (document.getElementById(this.state.pathname)) {
-            document.getElementById(this.state.pathname).classList.remove('selectedResult');
-        }
+    _handleSubmit(ev){
+        ev.preventDefault();
+        console.log(ev);
     }
 
     render(){
@@ -35,7 +34,7 @@ export class TestData extends Component {
         return (<div>
             <BackButton to={`/patientProfile/${this.props.patientId}`}/>
             <h2>TEST RESULT</h2> <h2>Type: 1 <br/>Date ordered: 1/1/2001 <br/> Date sample taken: </h2> 
-            {formatData(this.props.data, this.props.fields, this.props.dataTypes)}
+            {formatData(this.props.data, this.props.fields, this.props.dataTypes, this._handleSubmit)}
         </div>);   //change the type later
     }
 }
@@ -72,7 +71,7 @@ export class BackButton extends Component {
  * @param {Array} dataTypes - the datatype array returned by backend
  * @returns {JSX} Formatted data for display on frontend
  */
-function formatData(medicalElement, fieldList, dataTypes) {
+function formatData(medicalElement, fieldList, dataTypes, submitFunction) {
     const style = {
         width: '87%',
         marginTop: 30,
@@ -89,41 +88,37 @@ function formatData(medicalElement, fieldList, dataTypes) {
     const dataTypesHashTable = dataTypes.reduce((map, dataType) => { map[dataType.id] = dataType.value; return map }, {});
     return (
         <div style={style}>
-            {
-                filteredFieldList.map(field => {
-                    const { id, definition, idname, type, unit, module, permittedValues, referenceType } = field;
-                    const originalValue = dataHashTable[field.id]; //assigned either the value or undefined, which is falsy, which is used below
-                    const key = `${medicalElement.testId}_FIELD${id}`;
-                    console.log(originalValue);
-                    switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
-                        case 'I':
-                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='I' type='text' defaultValue={originalValue}/><br/><br/></span>;
-                        case 'F':
-                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='F' type='text' defaultValue={originalValue}/><br/><br/></span>;
-                        case 'C':
-                            return (<span key={key}>{definition}: 
-                                <select dataType='C' originalValue={originalValue} selected={originalValue ? originalValue : 'unselected'}>
-                                    <option value='unselected'>unselected</option>
-                                    {permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
-                                </select>
-                                <br/><br/></span>);
-                        case 'T':
-                            return <span key={key}>{definition}: <input originalValue={originalValue} dataType='T' type='text' defaultValue={originalValue}/><br/><br/></span>;
-                        case 'B':
-                            return (<span key={key}>{definition}: 
-                                <select dataType='B' originalValue={originalValue} selected={originalValue ? originalValue : 'unselected'}>
-                                    <option value='unselected'>unselected</option>
-                                    <option value='1'>True</option>
-                                    <option value='0'>False</option>
-                                </select>
-                                <br/><br/></span>);
-                        case 'BLOB':
-                            return <span key={key}> BLOB<br/><br/></span>;
-                        default:
-                            return <span key={key}>This field cannot be displayed. Please contact admin. <br/><br/></span>;
-                    }
-                })
-            }
+            <form onSubmit={submitFunction}>
+                {
+                    filteredFieldList.map(field => {
+                        const { id, definition, idname, type, unit, module, permittedValues, referenceType } = field;
+                        const originalValue = dataHashTable[field.id]; //assigned either the value or undefined, which is falsy, which is used below
+                        const key = `${medicalElement.testId}_FIELD${id}`;
+                        console.log(originalValue);
+                        switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
+                            case 'I':
+                                return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='I'/><br/><br/></span>;
+                            case 'F':
+                                return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='F'/><br/><br/></span>;
+                            case 'C':
+                                return (<span key={key}>{definition}: 
+                                    <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues={permittedValues}/>
+                                    <br/><br/></span>);
+                            case 'T':
+                                return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='T'/><br/><br/></span>;
+                            case 'B':
+                                return (<span key={key}>{definition}: 
+                                    <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues='true,false'/>
+                                    <br/><br/></span>);
+                            case 'BLOB':
+                                return <span key={key}> BLOB<br/><br/></span>;
+                            default:
+                                return <span key={key}>This field cannot be displayed. Please contact admin. <br/><br/></span>;
+                        }
+                    })
+                }
+                <input style={{ position: 'absolute', bottom: 30, right: 30 }} type="submit" value="Save"/>
+            </form>
         </div>
     );
 }
@@ -135,3 +130,109 @@ rendering tests directly throws error
 input field has to be controlled component
 now the test input is hardcode
 */
+
+
+/**
+ * @class
+ * @name ControlledInputField
+ * @description An html input element. If the input is same as the original value, the color is black. If the input is valid for the dataType, the color is green; if not, the color is red.
+ * @prop {string} this.props.originalValue
+ * @prop {string} this.props.dataType - 'I': integer, 'F': float, 'T': free text
+ * @prop {string} this.props.fieldId - fieldid
+*/
+class ControlledInputField extends Component {
+    constructor() {
+        super();
+        this.state = { value: '', valid: true };
+        this._handleKeyStroke = this._handleKeyStroke.bind(this);
+        this._handleEnterKey = this._handleEnterKey.bind(this);
+        this._validateInput = this._validateInput.bind(this);
+        this._handleResetClick = this._handleResetClick.bind(this);
+    }
+
+    componentDidMount(){
+        this.setState({ value: this.props.originalValue });
+    }
+
+    _handleKeyStroke(ev){
+        this.setState({ value: ev.target.value, valid: this._validateInput(ev.target.value) });
+    }
+
+    _handleEnterKey(ev) {
+        if (ev.key === 'Enter') {
+            ev.preventDefault();
+        }
+    }
+
+    _handleResetClick(){
+        this.setState({ value: this.props.originalValue });
+    }
+
+    _validateInput(value) {
+        switch(this.props.dataType){
+            case 'I':
+                if(parseInt(value, 10) && parseInt(value, 10) === parseFloat(value, 10) && parseInt(value, 10) == value) {  // eslint-disable-line eqeqeq
+                    return true;
+                } else {
+                    return false;
+                }
+            case 'F':
+                if(parseFloat(value, 10) && parseFloat(value, 10) == value) { // eslint-disable-line eqeqeq
+                    return true;
+                } else {
+                    return false;
+                }
+            case 'T':
+                return true;
+            default:
+                throw new Error('wrong dataType');
+        }
+
+    }
+
+    render(){
+        return <span> <input name={this.props.fieldId} fieldid={this.props.fieldId}  type='text' style={ this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' }) } value={this.state.value} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/> <a onClick={this._handleResetClick} style={{ cursor: 'pointer', textDecoration: 'underline' }}>reset</a></span>;
+    }
+}
+
+
+/**
+ * @class
+ * @name ControlledSelectField
+ * @description An html select element.
+ * @prop {string} this.props.permittedValues - a string of permitted value separated by commas. As is from the database
+ * @prop {string} this.props.fieldId - fieldid
+ * @prop {string} this.props.originalValue
+*/
+class ControlledSelectField extends Component {
+    constructor() {
+        super();
+        this.state = { value: 'unselected' };
+        this._handleResetClick = this._handleResetClick.bind(this);
+        this._handleChange = this._handleChange.bind(this);
+    }
+
+    componentDidMount(){
+        if (this.props.originalValue) {
+            this.setState({ value: this.props.originalValue });
+        }
+    }
+
+    _handleChange(ev){
+        this.setState({ value: ev.target.value });
+    }
+
+    _handleResetClick(){
+        this.setState({ value: this.props.originalValue ?  this.props.originalValue : 'unselected' });
+    }
+
+    render(){
+        const setThisValue = this.props.originalValue ?  this.props.originalValue : 'unselected';
+        return (<span><select name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} style={{ color: (this.state.value === setThisValue ? 'black' : 'green') }}>
+            <option value='unselected'>unselected</option>
+            {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
+        </select>
+        <a onClick={this._handleResetClick} style={{ cursor: 'pointer', textDecoration: 'underline' }}>reset</a>
+        </span>);
+    }
+}
