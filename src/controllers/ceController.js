@@ -1,10 +1,9 @@
 const { validateAndFormatDate } = require('../utils/basic-utils');
 const { createEntry, deleteEntry } = require('../utils/controller-utils');
-const knex = require('../utils/db-connection');
 
 class CeController {
-    createCe(req, res){    //need to change
-        if (req.body.visitId){
+    createCe(req, res) {    //need to change
+        if (req.body.visitId) {
             if (req.body.startDate && validateAndFormatDate(req.body.startDate)) {    //have to check for patient / visit existence!
                 let entryObj = {
                     'recordedDuringVisit': req.body.visitId,
