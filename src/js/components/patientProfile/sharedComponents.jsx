@@ -26,7 +26,7 @@ export class PatientProfileTop extends Component {
             <div style={{ position: 'relative' }}>
                 <span>{this.props.image}<h1 style={{ display: 'inline-block', fontSize: '1.5rem', position: 'relative', top: '1rem' }}> Patient ID: <b>{this.props.patientId}</b></h1></span>
                 <div style={{ position: 'absolute', right: '2em' }}>
-                    <NavLink to={`${window.location.pathname}/createVisit`} style={{ textDecoration: 'none' }}>
+                    <NavLink to={`/patientProfile/${this.props.patientId}/createVisit`} style={{ textDecoration: 'none' }}>
                         <div className='patientBanner UserActionButton' style={{ borderRadius: 5, width: '1.7em', height: '2em', float: 'left', position: 'relative', right: 10 }}><AddVisitIcon width='1.7em'/></div>
                     </NavLink>
                     <div class='patientBanner UserActionButton' style={{ borderRadius: '5px 0 0 5px', width: '1.7em', height: '2em', float: 'left' }}><AddTestIcon width='1.7em'/></div>
