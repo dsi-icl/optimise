@@ -1,8 +1,6 @@
-/*eslint no-unused-vars: "off"*/
-
 const visitFields = require('../availableFields/availableFieldsForMS').visitFields;
 
-exports.seed = function(knex, Promise) {
+exports.seed = function (knex) {
     // Deletes ALL existing entries
     return knex('AVAILABLE_FIELDS_VISITS').del()
         .then(function () {
