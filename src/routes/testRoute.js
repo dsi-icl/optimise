@@ -5,13 +5,8 @@
 
 const express = require('express');
 const test = express();
-const bodyParser = require('body-parser');
 
 const TestController = require('../controllers/testController');
-
-test.set('x-powered-by', false);
-test.use(bodyParser.json());
-test.use(bodyParser.urlencoded({ extended: true }));
 
 test.route('/')
     .post(TestController.createTest)
