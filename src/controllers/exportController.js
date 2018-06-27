@@ -1,14 +1,12 @@
 /* Export data for all patients */
 
 const knex = require('../utils/db-connection');
-const selectorUtils = require('../utils/selector-utils');
 const fs = require('fs');
-const path = require('path');
-const zip = require('express-zip');
+require('express-zip');
 
 class ExportController {
 
-    exportDb(req, res) {
+    exportDb(__unused__req, res) {
 
         const fileName = 'OptimiseData.csv';
         let fileArray = [];
