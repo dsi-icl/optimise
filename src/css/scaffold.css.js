@@ -28,8 +28,7 @@ export default {
         padding: padding,
         gridColumn: '4/5',
         height: 'calc(100% - 1.2em)',
-        overflow: 'auto',
-        position: 'relative'
+        overflow: 'auto'
     },
 
     statusBar: {
