@@ -1,24 +1,26 @@
+/* Export data for all patients */
+
 const knex = require('../utils/db-connection');
 const selectorUtils = require('../utils/selector-utils');
 const fs = require('fs');
 const path = require('path');
+const zip = require('express-zip');
 
 class ExportController {
-
-    // export data for ALL patients
 
     exportDb(req, res) {
 
         const fileName = 'OptimiseData.csv';
+        let fileArray = [];
 
-        /* Patient demographic data file */
+        /* Patient demographic data */
 
         knex('PATIENTS')
             .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENT_DEMOGRAPHIC.DOB', 'PATIENT_DEMOGRAPHIC.gender', 'PATIENT_DEMOGRAPHIC.dominantHand', 'PATIENT_DEMOGRAPHIC.ethnicity', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .where('PATIENTS.deleted', '-')
             .then(result => {
-                helper(result, 'dm');
+                fileArray.push(new createDataFile(result, 'dm'));
             });
 
         /* Patient medical history data */
@@ -29,7 +31,7 @@ class ExportController {
             .where('PATIENTS.deleted', '-')
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
-                helper(result, 'mh');
+                fileArray.push(new createDataFile(result, 'mh'));
             });
 
         /* Patient immunisation data */
@@ -40,7 +42,7 @@ class ExportController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
             .then(result => {
-                helper(result, 'immunisation');
+                fileArray.push(new createDataFile(result, 'immunisation'));
             });
 
         /* Patient visit data */
@@ -52,7 +54,7 @@ class ExportController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('VISIT_DATA.deleted', '-')
             .then(result => {
-                helper(result, 'visit');
+                fileArray.push(new createDataFile(result, 'visit'));
             });
 
         /* Patient test data */
@@ -65,7 +67,7 @@ class ExportController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('TEST_DATA.deleted', '-')
             .then(result => {
-                helper(result, 'test');
+                fileArray.push(new createDataFile(result, 'test'));
             });
 
         /* Patient clinical event data - visit not required */
@@ -77,10 +79,10 @@ class ExportController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .where('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
-                helper(result, 'test');
+                fileArray.push(new createDataFile(result, 'clinicalEvent'));
             });
 
-        /* Patient treatment data - visit not required */
+        /* Patient treatment data */
 
         knex('TREATMENTS')
             .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'TREATMENTS.dose', 'TREATMENTS.unit', 'TREATMENTS.form', 'TREATMENTS.timesPerDay', 'TREATMENTS.durationWeeks', 'TREATMENTS.terminatedDate', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module', 'PATIENTS.aliasId', 'TREATMENTS_INTERRUPTIONS.startDate', 'TREATMENTS_INTERRUPTIONS.endDate', 'TREATMENTS_INTERRUPTIONS.reason')
@@ -90,12 +92,13 @@ class ExportController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('TREATMENTS.deleted', '-')
             .then(result => {
-                helper(result, 'treatment');
+                fileArray.push(new createDataFile(result, 'treatment'));
+                zipFiles(fileArray);
             });
 
-        /* result: promise, prefix: (string) filename prefix */
+        /* function to create a csv file for the result passed as an argument- prefix: (string) filename */
 
-        let helper = function(result, prefix) {
+        function createDataFile(result, prefix) {
 
             if (result.length >= 1) {
                 const tempfileName = `${prefix}${fileName}`;
@@ -114,14 +117,21 @@ class ExportController {
                 fs.writeFile(tempSavedPath, fileContents, err => {
                     if (err) {
                         throw err;
-                    } else {
-                        //res.status(200).download(tempSavedPath, tempfileName);
                     }
                 });
+                return { path: tempSavedPath, name: tempfileName };
+            }
+        }
+
+        /* creates a zip attachment- arr: an array of file paths and file names */
+
+        function zipFiles(arr) {
+            if (arr.length >= 1) {
+                res.status(200).zip(arr);
             } else {
                 res.status(204).send('There are no patient entries in the database.');
             }
-        };
+        }
     }
 }
 
