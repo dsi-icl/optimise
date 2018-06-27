@@ -64,7 +64,7 @@ export class TestData extends Component {
                 {formatData(test, this.props.fields, this.props.dataTypes, this._handleSubmit)}
             </div>);   //change the type later
         } else {
-            return <div style={{ textAlign: 'center', height: 100, width: 100, position: 'absolute', left: 200, top: 200, fill: '#ff5151' }}><LoadingIcon/></div>
+            return <div style={{ textAlign: 'center', height: 100, width: 100, marginTop: 200, marginLeft: 'auto', marginRight: 'auto', fill: '#ff5151' }}><LoadingIcon/></div>
         }
     }
 }
