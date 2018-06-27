@@ -18,7 +18,9 @@ class ExportController {
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .where('PATIENTS.deleted', '-')
             .then(result => {
-                fileArray.push(new createDataFile(result, 'dm'));
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'dm'));
+                }
             });
 
         /* Patient medical history data */
@@ -29,7 +31,9 @@ class ExportController {
             .where('PATIENTS.deleted', '-')
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
-                fileArray.push(new createDataFile(result, 'mh'));
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'mh'));
+                }
             });
 
         /* Patient immunisation data */
@@ -40,7 +44,9 @@ class ExportController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
             .then(result => {
-                fileArray.push(new createDataFile(result, 'immunisation'));
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'immunisation'));
+                }
             });
 
         /* Patient visit data */
@@ -52,7 +58,9 @@ class ExportController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('VISIT_DATA.deleted', '-')
             .then(result => {
-                fileArray.push(new createDataFile(result, 'visit'));
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'visit'));
+                }
             });
 
         /* Patient test data */
@@ -65,7 +73,9 @@ class ExportController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('TEST_DATA.deleted', '-')
             .then(result => {
-                fileArray.push(new createDataFile(result, 'test'));
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'test'));
+                }
             });
 
         /* Patient clinical event data - visit not required */
@@ -77,7 +87,9 @@ class ExportController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .where('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
-                fileArray.push(new createDataFile(result, 'clinicalEvent'));
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'clinicalEvent'));
+                }
             });
 
         /* Patient treatment data */
@@ -90,7 +102,9 @@ class ExportController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('TREATMENTS.deleted', '-')
             .then(result => {
-                fileArray.push(new createDataFile(result, 'treatment'));
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'treatment'));
+                }
                 zipFiles(fileArray);
             });
 
@@ -98,27 +112,25 @@ class ExportController {
 
         function createDataFile(result, prefix) {
 
-            if (result.length >= 1) {
-                const tempfileName = `${prefix}${fileName}`;
-                let keys = Object.keys(result[0]); // get the keys from result to create headers
-                let tempResult = `${keys.join(',')}\n`;
-                result.forEach(function(obj) {
-                    keys.forEach(function(a, b){
-                        if (b) tempResult += ',';
-                        tempResult += obj[a];
-                    });
-                    tempResult += '\n';
+            const tempfileName = `${prefix}${fileName}`;
+            let keys = Object.keys(result[0]); // get the keys from result to create headers
+            let tempResult = `${keys.join(',')}\n`;
+            result.forEach(function(obj) {
+                keys.forEach(function(a, b){
+                    if (b) tempResult += ',';
+                    tempResult += obj[a];
                 });
-                let fileContents = Buffer.from(tempResult);
-                let tempSavedPath = `/temp/${tempfileName}`;
-                //tempSavedPath = path.normalize(tempSavedPath);
-                fs.writeFile(tempSavedPath, fileContents, err => {
-                    if (err) {
-                        throw err;
-                    }
-                });
-                return { path: tempSavedPath, name: tempfileName };
-            }
+                tempResult += '\n';
+            });
+            let fileContents = Buffer.from(tempResult);
+            let tempSavedPath = `/temp/${tempfileName}`;
+            //tempSavedPath = path.normalize(tempSavedPath);
+            fs.writeFile(tempSavedPath, fileContents, err => {
+                if (err) {
+                    throw err;
+                }
+            });
+            return { path: tempSavedPath, name: tempfileName };
         }
 
         /* creates a zip attachment- arr: an array of file paths and file names */
