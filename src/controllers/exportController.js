@@ -80,9 +80,22 @@ class ExportController {
                 helper(result, 'test');
             });
 
+        /* Patient treatment data - visit not required */
+
+        knex('TREATMENTS')
+            .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'TREATMENTS.dose', 'TREATMENTS.unit', 'TREATMENTS.form', 'TREATMENTS.timesPerDay', 'TREATMENTS.durationWeeks', 'TREATMENTS.terminatedDate', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module', 'PATIENTS.aliasId', 'TREATMENTS_INTERRUPTIONS.startDate', 'TREATMENTS_INTERRUPTIONS.endDate', 'TREATMENTS_INTERRUPTIONS.reason')
+            .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
+            .leftOuterJoin('TREATMENTS_INTERRUPTIONS', 'TREATMENTS_INTERRUPTIONS.treatment', 'TREATMENTS.id')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .where('TREATMENTS.deleted', '-')
+            .then(result => {
+                helper(result, 'treatment');
+            });
+
         /* result: promise, prefix: (string) filename prefix */
 
-        var helper = function(result, prefix) {
+        let helper = function(result, prefix) {
 
             if (result.length >= 1) {
                 const tempfileName = `${prefix}${fileName}`;
