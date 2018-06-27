@@ -1482,7 +1482,40 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'TEST NOT DONE, NOT DETECTED, DETECTED',
             referenceType: 4 }],
-    ceFields: []
+    ceFields: [
+        { id: 1,
+            definition: 'Functional system affected: Pyramidal Tract',
+            idname: 'Functional_system_affected_pyramidal_tract',
+            type: 2,
+            unit: null,
+            module: 'MS',
+            permittedValues: 'YES, NO, UNKNOWN',
+            referenceType: 1 },
+        { id: 2,
+            definition: 'Functional system affected: Cerebellum',
+            idname: 'Functional_system_affected_cerebellum',
+            type: 2,
+            unit: null,
+            module: 'MS',
+            permittedValues: 'YES, NO, UNKNOWN',
+            referenceType: 1 },
+        { id: 3,
+            definition: 'Functional system affected:Brain Stem',
+            idname: 'Functional_system_affected_Brain_Stem',
+            type: 2,
+            unit: null,
+            module: 'MS',
+            permittedValues: 'YES, NO, UNKNOWN',
+            referenceType: 1 },
+        { id: 4,
+            definition: 'Functional system affected: Sensory',
+            idname: 'Functional_system_affected_Sensory',
+            type: 2,
+            unit: null,
+            module: 'MS',
+            permittedValues: 'YES, NO, UNKNOWN',
+            referenceType: 1 }
+    ]
 };
 
 module.exports = availableFields;
