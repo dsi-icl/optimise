@@ -101,3 +101,20 @@ export class AddEventIcon extends Component {
         </svg>)
     }
 }
+
+export class LoadingIcon extends Component {
+    render() {
+        const style = { width: 35,
+            height: 35,
+            border: '4px solid #ff5151',
+            borderTop: '4px solid white',
+            borderRadius: '50%',
+            animationName: 'spin',
+            animationDuration: '2000ms',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'linear',
+            transformOrigin: '50% 50%' }
+        return (<div style={Object.assign(style, this.props.style)}>
+        </div>)
+    }
+}

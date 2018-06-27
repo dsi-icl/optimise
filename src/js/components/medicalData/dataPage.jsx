@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
+import { LoadingIcon } from '../../../statics/svg/icons.jsx';
 
 function mapStateToProps(state) {
     return {
@@ -63,7 +64,7 @@ export class TestData extends Component {
                 {formatData(test, this.props.fields, this.props.dataTypes, this._handleSubmit)}
             </div>);   //change the type later
         } else {
-            return <div>LOADING</div>
+            return <div style={{ textAlign: 'center', height: 100, width: 100, position: 'absolute', left: 200, top: 200, fill: '#ff5151' }}><LoadingIcon/></div>
         }
     }
 }

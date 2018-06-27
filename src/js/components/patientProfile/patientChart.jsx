@@ -5,7 +5,7 @@ import css from '../../../css/patientProfile.css.js';
 import { NavLink } from 'react-router-dom';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import store from '../../redux/store';
-
+import { LoadingIcon } from '../../../statics/svg/icons.jsx';
 
 export class PatientChart extends Component {
     componentDidMount() {
@@ -226,7 +226,7 @@ class VisitSection extends Component {
 export class Charts extends Component {   //unfinsihed
     render() {
         if (this.props.fetching) {
-            return null
+            return <div style={{ textAlign: 'center', height: 100, width: 100, position: 'absolute', left: 200, top: 200, fill: '#ff5151' }}><LoadingIcon/></div>;
         } else {
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
                 <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }} titleButton={<div className='checkMark' title='create visit' style={{ marginRight: '1.5em', width: '1em', display: 'inline-block', float:'right' }}></div>}>
