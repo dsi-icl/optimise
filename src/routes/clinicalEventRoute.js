@@ -5,13 +5,8 @@
 
 const express = require('express');
 const ce = express();
-const bodyParser = require('body-parser');
 
 const CeController = require('../controllers/ceController');
-
-ce.set('x-powered-by', false);
-ce.use(bodyParser.json());
-ce.use(bodyParser.urlencoded({ extended: true }));
 
 ce.route('/')
     .post(CeController.createCe)
