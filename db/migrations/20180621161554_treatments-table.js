@@ -1,7 +1,5 @@
-/*eslint no-unused-vars: "off"*/
-
-exports.up = function(knex, Promise) {
-    return knex.schema.createTable('TREATMENTS', function(table) {
+exports.up = function (knex) {
+    return knex.schema.createTable('TREATMENTS', function (table) {
         table.increments('id').primary();
         table.integer('orderedDuringVisit').notNullable().references('id').inTable('VISITS');
         table.integer('drug').notNullable().references('id').inTable('AVAILABLE_DRUGS');
@@ -19,6 +17,6 @@ exports.up = function(knex, Promise) {
     });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex) {
     return knex.schema.dropTable('TREATMENTS');
 };
