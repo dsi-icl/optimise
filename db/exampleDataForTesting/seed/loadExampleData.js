@@ -1,9 +1,7 @@
-/*eslint no-unused-vars: "off"*/
-
 // run 'knex seed:run' in ../ to load example data
 const data = require('../exampleData');
 
-exports.seed = function(knex, Promise) {
+exports.seed = function (knex) {
     const allPromises = [];
 
     for (let each in data) {
