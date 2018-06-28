@@ -57,7 +57,7 @@ class DemographicDataController {
                             createEntry(req, res, 'PATIENT_DEMOGRAPHIC', entryObj, databaseErrMsg);
                         } else if (result.length !== 1) {
                             res.status(404).send('Cannot seem to find your patient!');
-                            return
+                            return ;
                         } else if (resu.length !== 0) {
                             res.status(400).send('Patient already have demographic data.');
                             return ;
