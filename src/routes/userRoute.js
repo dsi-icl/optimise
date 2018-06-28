@@ -5,13 +5,8 @@
 
 const express = require('express');
 const user = express();
-const bodyParser = require('body-parser');
 
 const UserController = require('../controllers/userController');
-
-user.set('x-powered-by', false);
-user.use(bodyParser.json());
-user.use(bodyParser.urlencoded({ extended: true }));
 
 // Log the user in
 // real path is /internapi/userlogin

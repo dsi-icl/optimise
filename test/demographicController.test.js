@@ -1,8 +1,6 @@
-/*eslint no-unused-vars: "off"*/
 /* global describe test expect */
 const app = require('../src/app');
 const adminToken = require('./token').adminToken;
-const standardToken = require('./token').standardToken;
 const request = require('supertest')(app);
 
 describe('Create Demographic controller test', () => {
