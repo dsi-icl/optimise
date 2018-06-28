@@ -36,11 +36,7 @@ class DemographicDataController {
             .then(result => {
                 if (result.length !== 1) {
                     res.status(404).send('User not found');
-<<<<<<< HEAD
                     return;
-=======
-                    return ;
->>>>>>> origin/develop-FixingPromise
                 }
                 knex('PATIENT_DEMOGRAPHIC')
                     .select('*')
@@ -246,16 +242,10 @@ class DemographicDataController {
         if (req.requester.priv === 1 && req.body.id && typeof req.body.id === 'number') {
             let newObj = Object.assign({}, req.body);
             delete newObj.id;
-<<<<<<< HEAD
             if (req.body.startDate) {
                 let tmp = validateAndFormatDate(req.body.startDate);
                 newObj.startDate = tmp !== false ? tmp : null;
             }
-=======
-            let tmp;
-            if (req.body.startDate && validateAndFormatDate(req.body.startDate))
-                newObj.startDate = validateAndFormatDate(req.body.startDate);
->>>>>>> origin/develop-FixingPromise
             const whereObj = { 'id': req.body.id, 'deleted': '-' };
             updateEntry(req, res, 'MEDICAL_HISTORY', whereObj, newObj, 'Row for Medical Condition', 1);
         } else if (req.requester.priv !== 1) {
