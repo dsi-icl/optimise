@@ -242,7 +242,6 @@ class DemographicDataController {
         if (req.requester.priv === 1 && req.body.id && typeof req.body.id === 'number') {
             let newObj = Object.assign({}, req.body);
             delete newObj.id;
-            let tmp;
             if (req.body.startDate && validateAndFormatDate(req.body.startDate))
                 newObj.startDate = validateAndFormatDate(req.body.startDate);
 
