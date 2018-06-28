@@ -1,57 +1,103 @@
 swagger: "2.0"
 info:
-  description: "REST-API documentation for optimise"
+  description: "REST-API documentation for OPTIMISE MS"
   version: "1.0.0"
-  title: "Optimise REST-API"
+  title: "OPTIMISE MS REST-API"
   contact:
     email: "c.sou16@imperial.ac.uk"
+  license:
+    name: "MIT Licence"
 host: "localhost:3000"
 basePath: "/"
 paths:
   /internalapi/userlogin:
     post:
-      summary: 'User login'
+      summary: "User login"
   /internalapi/userlogout:
     post:
-      summary: 'User logout'
+      summary: "User logout"
   /api/users:
     post:
-      summary: 'create a new user (admin only)'
+      summary: "Create a new user (admin only)"
+      parameters:
+      - in: body
+        required: true
+
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Cannot create user. ID might already exist. Also, make sure you provide the needed parameters"
+        401:
+          description: "You do not have permission to create users, or you did not provide the new user\'s password"
+        500:
+          description: "Server error!"
     put:
-      summary: "change a user's password (self only)"
+      summary: "Change a user password (self only)"
+      responses:
+        200:
+          description: "has been succesfully updated."
+        400:
+          description: "Database error"
+        401:
+          description: "You do not have permission to delete this user. Or you did not provide the needed parameters"
+        404:
+          description: "Entry does not exist"
+        500:
+          description: "Database error"
+        599:
+          description: "something weird happened"
     delete:
-      summary: "delete a user (admin only)"
+      summary: "Delete a user (admin only)"
+      responses:
+        200:
+          description:
+        400:
+          description:
+        401:
+          description: "You do not have permission to delete this user."
+        500:
+          description:
     get:
-      summary: 'get the list of all users (admin only)'
+      summary: "Get the list of all users (admin only)"
+      responses:
+        200:
+          description:
+        400:
+          description: "The query string can only conatins one username"
+        401:
+          description:
+        500:
+          description:
   /api/patients:
     get:
-      summary: 'search patient'
-      description: 'if query string is not provided, then it returns all the patients. if query string "id={id}" is provided, then it returns patients with id containing "id"'
+      summary: "Search patient"
+      description: "If query string is not provided, then it returns all the patients. if query string "id={id}" is provided, then it returns patients with id containing "id""
       produces: 
       - "application/json"
       responses:
         400:
-          description: 'The query string can only have one parameter "id"'
+          description: "The query string can only have one parameter "id""
         200:
-          description: 'Result'
+          description: "Result"
     post:
-      summary: 'create a patient'
+      summary: "Create a patient"
     delete:
-      summary: 'delete a patient (admin only)'
+      summary: "Delete a patient (admin only)"
   /api/patientProfile/:id:
     get:
-      summary: 'get patient information by id'
-      description: 'get patient information by id'
+      summary: "Get patient information by id"
+      description: "Get patient information by id"
       produces: 
       - "application/json"
       responses:
         200:
-          description: 'Result. Could be empty'
+          description: "Result. Could be empty"
   /api/visit:
     get:
-      summary: 'get all visits of a certain patient'
+      summary: "Get all visits of a certain patient"
     post:
-      summary: 'create a visit'
+      summary: "Create a visit"
     delete:
-      summary: 'delete a visit'
+      summary: "Delete a visit"
   
