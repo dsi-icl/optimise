@@ -10,12 +10,12 @@ export class Timeline extends Component {   //unfinsihed
             const allTestDates = this.props.data.tests.map(el => el.expectedOccurDate);
             const allDates = [...allVisitDates, ...allTestDates];
             allDates.sort();
-            const numOfCols = '10% ' + '1fr '.repeat(1000 + 1);
+            const numOfCols = `10% ${'1fr '.repeat(1000 + 1)}`;
             const bigWrapper = {
-                backgroundColor: 'darkgrey',
+                backgroundColor: 'rgb(210, 210, 210)',
                 borderRadius: 10,
                 width: '100%',
-                height: 200,
+                height: 130,
                 display: 'grid',
                 padding: 7,
                 gridTemplateColumns: numOfCols,
@@ -36,7 +36,7 @@ export class Timeline extends Component {   //unfinsihed
                         <div style={{  backgroundColor: 'green', gridColumn: '1/2', gridRow: '4/5', overflow: 'hidden' }}>
                         Events
                         </div>
-                        <div style={{  backgroundColor: 'yellow', color: 'yellow', gridColumn: '55/56', gridRow: '3/4' }}>
+                        <div style={{  borderRadius: '20%', backgroundColor: 'yellow', color: 'yellow', gridColumn: '55/56', gridRow: '3/4' }}>
                             <a href="#trialanchor">-</a>
                         </div>
                     </div>
