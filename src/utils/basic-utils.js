@@ -15,7 +15,7 @@ exports.validateAndFormatDate = function(dateObj){
         const months = [1,2,3,4,5,6,7,8,9,10,11,12];
         if ((!(dateObj.year % 4) && dateObj.year % 100) || !(dateObj.year % 400)) { daysInAMonth[1] = 29; }
         if (dateObj.day in days && dateObj.month in months && dateObj.day <= daysInAMonth[dateObj.month - 1]) {
-            return `${dateObj.day  }/${  dateObj.month  }/${  dateObj.year}`;
+            return new Date(dateObj.year, dateObj.month - 1, dateObj.day).getTime();
         } else {
             return false;
         }
