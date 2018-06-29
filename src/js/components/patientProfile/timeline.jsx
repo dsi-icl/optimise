@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 
+
+
+/*
+Timeline:
+Currently it takes the latest date and the earliest date in all the visits, tests, meds, and events in the patient profile,
+and defined the css grid column number as the difference in days between the two. And then for each medical elements it calculates
+from its date which css grid area it belongs to, by calculating the ratio and then rounding off.
+*/
 @connect(state => ({ data: state.patientProfile.data }))
 export class Timeline extends Component {   //unfinsihed
     render() {
@@ -21,39 +29,50 @@ export class Timeline extends Component {   //unfinsihed
                 display: 'grid',
                 padding: 7,
                 gridTemplateColumns: numOfCols,
-                gridTemplateRows: '1fr 1fr 1fr 1fr 1fr'
+                gridTemplateRows: '1fr 1fr 1fr 1fr 1fr',
+                overflow: 'hidden'
             }
-            const mappingFunction = visit => {
+            const mappingVisitFunction = visit => {
                 const date = visit.visitDate;
                 const ratio = parseInt((date - allDates[0]) / 86400000, 10);
                 console.log('ratio: ' + ratio);
                 return (
-                    <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}`} href="#trialanchor" style={{ gridColumn: `${ratio}/${ratio+1}`, gridRow: '1/2' }}>
-                        <div style={{  borderRadius: '20%', backgroundColor: 'rgb(133, 150, 176)', color: 'rgb(133, 150, 176)' }}>
+                    <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}`} href="#trialanchor" style={{ gridColumn: `${ratio}/${ratio+1}`, gridRow: '1/2', textDecoration: 'none' }}>
+                        <div style={{  borderRadius: '30%', backgroundColor: 'rgb(133, 150, 176)', color: 'rgb(133, 150, 176)' }}>
                             -
                         </div>
                     </a>
                 );
             };
+            const mappingTestFunction = test => {
+                const date = test.expectedOccurDate;
+                const ratio = parseInt((date - allDates[0]) / 86400000, 10);
+                console.log('ratio: ' + ratio);
+                return (
+                    <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}test`} href="#trialanchor" style={{ gridColumn: `${ratio}/${ratio+1}`, gridRow: '3/4', textDecoration: 'none' }}>
+                        <div style={{  borderRadius: '30%', backgroundColor: 'rgb(153, 202, 120)', color: 'rgb(153, 202, 120)' }}>
+                            -
+                        </div>
+                    </a>
+                );
+            }
             return (
                 <PatientProfileSectionScaffold sectionName='Timeline'>
                     <div style={bigWrapper}>
-                        <div style={{  backgroundColor: 'green', gridColumn: '1/2', gridRow: '1/2', overflow: 'hidden' }}>
+                        <div style={{ gridColumn: '1/2', gridRow: '1/2', overflow: 'hidden' }}>
                         Visits
                         </div>
-                        <div style={{  backgroundColor: 'green', gridColumn: '1/2', gridRow: '2/3', overflow: 'hidden' }}>
+                        <div style={{ gridColumn: '1/2', gridRow: '2/3', overflow: 'hidden' }}>
                         Meds
                         </div>
-                        <div style={{  backgroundColor: 'green', gridColumn: '1/2', gridRow: '3/4', overflow: 'hidden' }}>
+                        <div style={{ gridColumn: '1/2', gridRow: '3/4', overflow: 'hidden' }}>
                         Tests
                         </div>
-                        <div style={{  backgroundColor: 'green', gridColumn: '1/2', gridRow: '4/5', overflow: 'hidden' }}>
+                        <div style={{ gridColumn: '1/2', gridRow: '4/5', overflow: 'hidden' }}>
                         Events
                         </div>
-                        {this.props.data.visits.map(mappingFunction)}
-                        <a href="#trialanchor" style={{ gridColumn: '55/56', gridRow: '3/4' }}><div style={{  borderRadius: '20%', backgroundColor: 'yellow', color: 'yellow' }}>
-                            -
-                        </div></a>
+                        {this.props.data.visits.map(mappingVisitFunction)}
+                        {this.props.data.tests.map(mappingTestFunction)}
                     </div>
                 </PatientProfileSectionScaffold>
             )
