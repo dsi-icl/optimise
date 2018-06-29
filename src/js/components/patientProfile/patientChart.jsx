@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import store from '../../redux/store';
 import { LoadingIcon } from '../../../statics/svg/icons.jsx';
+import { Timeline } from './timeline.jsx';
 
 export class PatientChart extends Component {
     componentDidMount() {
@@ -27,14 +28,6 @@ export class PatientChart extends Component {
     }
 }
 
-class Timeline extends Component {   //unfinsihed
-    render() {
-        return (
-            <PatientProfileSectionScaffold sectionName='Timeline'>
-            </PatientProfileSectionScaffold>
-        )
-    }
-}
 
 class SubsectionsBar extends Component {
     render(){
