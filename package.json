@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --ext .jsx --ext .js ./",
     "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
-    "test": "jest --colors --verbose --detectOpenHandles --forceExit",
+    "test": "jest --colors --verbose --detectOpenHandles --forceExit --runInBand",
     "start": "node ./src/server.js"
   },
   "contributors": [
@@ -19,16 +19,16 @@
     "body-parser": "1.18.3",
     "express": "4.16.3",
     "knex": "0.14.6",
-    "sqlite3": "4.0.0"
+    "sqlite3": "4.0.1"
   },
   "devDependencies": {
     "chalk": "2.4.1",
     "babel-core": "6.26.3",
-    "babel-eslint": "8.2.3",
+    "babel-eslint": "8.2.5",
     "babel-preset-env": "1.7.0",
-    "eslint": "4.19.1",
+    "eslint": "5.0.1",
     "codacy-coverage": "3.0.0",
-    "jest": "23.1.0",
+    "jest": "23.2.0",
     "supertest": "3.1.0"
   }
 }

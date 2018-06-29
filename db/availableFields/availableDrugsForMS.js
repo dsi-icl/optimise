@@ -34,11 +34,3 @@ const availableDrugs = [
 module.exports = availableDrugs;
 
 
-
-
-
-
-
-
-
-
