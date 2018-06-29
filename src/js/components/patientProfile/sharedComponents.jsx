@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon } from '../../../statics/svg/icons.jsx';
 import css from '../../../css/patientProfile.css.js';
 import { NavLink } from 'react-router-dom';
+import { VisitPicker } from './popup.jsx';
 
 export class PatientProfileSectionScaffold extends Component {
     render() {
@@ -29,7 +30,7 @@ export class PatientProfileTop extends Component {
                     <NavLink to={`/patientProfile/${this.props.patientId}/createVisit`} style={{ textDecoration: 'none' }}>
                         <div className='patientBanner UserActionButton' style={{ borderRadius: 5, width: '1.7em', height: '2em', float: 'left', position: 'relative', right: 10 }}><AddVisitIcon width='1.7em'/></div>
                     </NavLink>
-                    <div class='patientBanner UserActionButton' style={{ borderRadius: '5px 0 0 5px', width: '1.7em', height: '2em', float: 'left' }}><AddTestIcon width='1.7em'/></div>
+                    <div class='patientBanner UserActionButton' style={{ borderRadius: '5px 0 0 5px', width: '1.7em', height: '2em', float: 'left', position: 'relative' }}><AddTestIcon width='1.7em'/></div>
                     <div class='patientBanner UserActionButton' style={{ width: '1.7em', height: '2em', float: 'left' }}><AddTreatmentIcon width='1.7em'/></div>
                     <div class='patientBanner UserActionButton' style={{ borderRadius: '0 5px 5px 0', width: '1.7em', height: '2em', float: 'left' }}><AddEventIcon width='0.6em' style={{ height: '1.7em' }}/></div>
                 </div>
