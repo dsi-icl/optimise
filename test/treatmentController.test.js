@@ -1,10 +1,8 @@
-/*eslint no-unused-vars: "off"*/
 /* global describe test expect */
 
 const app = require('../src/app');
 const request = require('supertest')(app);
 const adminToken = require('./token').adminToken;
-const standardToken = require('./token').standardToken;
 
 
 describe('Create treatment controller tests', () => {
