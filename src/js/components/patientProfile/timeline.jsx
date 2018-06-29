@@ -35,9 +35,8 @@ export class Timeline extends Component {   //unfinsihed
             const mappingVisitFunction = visit => {
                 const date = visit.visitDate;
                 const ratio = parseInt((date - allDates[0]) / 86400000, 10);
-                console.log('ratio: ' + ratio);
                 return (
-                    <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}`} href="#trialanchor" style={{ gridColumn: `${ratio}/${ratio+1}`, gridRow: '1/2', textDecoration: 'none' }}>
+                    <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}`} href="#trialanchor" style={{ gridColumn: `${ratio+3}/${ratio+4}`, gridRow: '1/2', textDecoration: 'none' }}>
                         <div style={{  borderRadius: '30%', backgroundColor: 'rgb(133, 150, 176)', color: 'rgb(133, 150, 176)' }}>
                             -
                         </div>
@@ -47,15 +46,27 @@ export class Timeline extends Component {   //unfinsihed
             const mappingTestFunction = test => {
                 const date = test.expectedOccurDate;
                 const ratio = parseInt((date - allDates[0]) / 86400000, 10);
-                console.log('ratio: ' + ratio);
                 return (
-                    <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}test`} href="#trialanchor" style={{ gridColumn: `${ratio}/${ratio+1}`, gridRow: '3/4', textDecoration: 'none' }}>
+                    <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}test`} href="#trialanchor" style={{ gridColumn: `${ratio+3}/${ratio+4}`, gridRow: '3/4', textDecoration: 'none' }}>
                         <div style={{  borderRadius: '30%', backgroundColor: 'rgb(153, 202, 120)', color: 'rgb(153, 202, 120)' }}>
                             -
                         </div>
                     </a>
                 );
-            }
+            };
+            const mappingMedFunction = med => {
+                const date = 1514764800000;    //change this later
+                const ratio = parseInt((date - allDates[0]) / 86400000, 10);
+                const durationInDays = med.durationWeeks * 7; 
+                console.log(`durationInDays = ${durationInDays} || ${ratio}`);
+                return (
+                    <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}med`} href="#trialanchor" style={{ gridColumn: `${ratio+3}/${ratio+durationInDays+4}`, gridRow: '2/3', textDecoration: 'none' }}>
+                        <div style={{  borderRadius: '30%', backgroundColor: '#ffca1b', color: '#ffca1b' }}>
+                            -
+                        </div>
+                    </a>
+                );
+            };
             return (
                 <PatientProfileSectionScaffold sectionName='Timeline'>
                     <div style={bigWrapper}>
@@ -73,6 +84,7 @@ export class Timeline extends Component {   //unfinsihed
                         </div>
                         {this.props.data.visits.map(mappingVisitFunction)}
                         {this.props.data.tests.map(mappingTestFunction)}
+                        {this.props.data.treatments.map(mappingMedFunction)}
                     </div>
                 </PatientProfileSectionScaffold>
             )
