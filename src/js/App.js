@@ -19,24 +19,3 @@ class App extends Component {
 
 
 export default App;
-
-
-/*
-
-/
-
-/searchPatientById
-
-/filterPatients
-
-/patientProfile/:patientId
-
-/administration
-
-/exportCDISC
-
-/patientProfile/:patientId/{test, CE, treatment, visit}?id=xxxxx
-
-/createPatient
-
-*/
