@@ -60,7 +60,7 @@ export class TestData extends Component {
             console.log(test);
             return (<div style={{ overflow: 'auto' }}>
                 <BackButton to={`/patientProfile/${this.props.patientId}`}/>
-                <h2>TEST RESULT</h2> <h2>Type: {test.testId} <br/>Date ordered: {test.expectedOccurDate}<br/> Date sample taken: </h2> 
+                <h2>TEST RESULT</h2> <h2>Type: {test.type} <br/>Date ordered: {new Date(parseInt(test.expectedOccurDate, 10)).toDateString()}<br/> Date sample taken: </h2> 
                 {formatData(test, this.props.fields, this.props.dataTypes, this._handleSubmit)}
             </div>);   //change the type later
         } else {

@@ -82,7 +82,7 @@ function mapTests(patientId, typeMap) {
             paddingRight: 2
         };
         const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
-        return formatRow([testType, el['expectedOccurDate'], <NavLink id={`/patientProfile/${patientId}/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results➠ </div></NavLink>]);
+        return formatRow([testType, new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(), <NavLink id={`/patientProfile/${patientId}/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results➠ </div></NavLink>]);
     }
 }
 
@@ -224,7 +224,7 @@ export class Charts extends Component {   //unfinsihed
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
                 <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }} titleButton={<div className='checkMark' title='create visit' style={{ marginRight: '1.5em', width: '1em', display: 'inline-block', float:'right' }}></div>}>
                     {sortVisits(this.props.data.visits).map(
-                        (el, ind) => <VisitSection availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${ind+1}-th visit: ${el.visitDate}`}/>
+                        (el, ind) => <VisitSection availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${this.props.data.visits.length-ind}-th visit: ${new Date(parseInt(el.visitDate, 10)).toDateString()}`}/>
                     )}
                 </PatientProfileSectionScaffold>
             )
@@ -234,17 +234,12 @@ export class Charts extends Component {   //unfinsihed
 
 
 
-function sortVisits(visitList) {   //TEMPORARY: change how the date is parsed once the backend is patched...and change the sorting algorithm later...
-    const parsedList = visitList.map(visit => {
-        const firstInd = visit.visitDate.indexOf('/');
-        const secondInd = visit.visitDate.indexOf('/', firstInd + 1);
-        const dateReformated = visit.visitDate.slice(firstInd + 1, secondInd) + '/' + visit.visitDate.slice(0, firstInd) + '/' + visit.visitDate.slice(secondInd+1, visit.visitDate.length);  
-        return `${new Date(`${visit.visitDate} UTC`).getTime()}||${visit.visitId}`;
-    });
-    parsedList.sort();
+function sortVisits(visitList) {   //TEMPORARY: change the sorting algorithm later...
+    const allVisitDates = visitList.map(visit => `${visit.visitDate}||${visit.visitId}`);
+    allVisitDates.sort().reverse();
     const sortedVisits = [];
-    console.log(parsedList)
-    for (let each of parsedList) {
+    console.log(allVisitDates)
+    for (let each of allVisitDates) {
         console.log(each.split('||')[1]);
         let thisVisit = visitList.filter(visit => visit.visitId == each.split('||')[1])[0];  // eslint-disable-line eqeqeq
         sortedVisits.push(thisVisit);
