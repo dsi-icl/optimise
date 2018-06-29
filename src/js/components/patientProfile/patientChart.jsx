@@ -230,11 +230,31 @@ export class Charts extends Component {   //unfinsihed
         } else {
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
                 <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }} titleButton={<div className='checkMark' title='create visit' style={{ marginRight: '1.5em', width: '1em', display: 'inline-block', float:'right' }}></div>}>
-                    {this.props.data.visits.map(
+                    {sortVisits(this.props.data.visits).map(
                         (el, ind) => <VisitSection availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${ind+1}-th visit: ${el.visitDate}`}/>
                     )}
                 </PatientProfileSectionScaffold>
             )
         }
     }
+}
+
+
+
+function sortVisits(visitList) {   //TEMPORARY: change how the date is parsed once the backend is patched...and change the sorting algorithm later...
+    const parsedList = visitList.map(visit => {
+        const firstInd = visit.visitDate.indexOf('/');
+        const secondInd = visit.visitDate.indexOf('/', firstInd + 1);
+        const dateReformated = visit.visitDate.slice(firstInd + 1, secondInd) + '/' + visit.visitDate.slice(0, firstInd) + '/' + visit.visitDate.slice(secondInd+1, visit.visitDate.length);  
+        return `${new Date(`${visit.visitDate} UTC`).getTime()}||${visit.visitId}`;
+    });
+    parsedList.sort();
+    const sortedVisits = [];
+    console.log(parsedList)
+    for (let each of parsedList) {
+        console.log(each.split('||')[1]);
+        let thisVisit = visitList.filter(visit => visit.visitId == each.split('||')[1])[0];  // eslint-disable-line eqeqeq
+        sortedVisits.push(thisVisit);
+    }
+    return sortedVisits;
 }
