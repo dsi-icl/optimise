@@ -11,7 +11,7 @@ and defined the css grid column number as the difference in days between the two
 from its date which css grid area it belongs to, by calculating the ratio and then rounding off.
 */
 @connect(state => ({ data: state.patientProfile.data }))
-export class Timeline extends Component {   //unfinsihed
+export class TimelineBox extends Component {   //unfinsihed
     render() {
         if (this.props.data.visits && this.props.data.tests) {
             const allVisitDates = this.props.data.visits.map(el => el.visitDate);
@@ -61,7 +61,7 @@ export class Timeline extends Component {   //unfinsihed
                 console.log(`durationInDays = ${durationInDays} || ${ratio}`);
                 return (
                     <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}med`} href="#trialanchor" style={{ gridColumn: `${ratio+3}/${ratio+durationInDays+4}`, gridRow: '2/3', textDecoration: 'none' }}>
-                        <div style={{  borderRadius: '30%', backgroundColor: '#ffca1b', color: '#ffca1b' }}>
+                        <div style={{  borderRadius: 10, backgroundColor: '#ffca1b', color: '#ffca1b' }}>
                             -
                         </div>
                     </a>
