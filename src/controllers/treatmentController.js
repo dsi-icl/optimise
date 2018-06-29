@@ -101,8 +101,13 @@ class TreatmentController {
     deleteInterruption(req, res) {
         if (req.requester.priv !== 1) {
             res.status(401).send('Unauthorized : You should be identified as an Administrator to do so.');
+            return ;
         }
-        deleteEntry(req, res, 'TREATMENTS_INTERRUPTIONS', { 'id': req.body.treatmentInterId }, req.body.treatmentInterId, 1);
+        if (req.body.treatmentInterId)
+            deleteEntry(req, res, 'TREATMENTS_INTERRUPTIONS', { 'id': req.body.treatmentInterId }, req.body.treatmentInterId, 1);
+        else {
+            res.status(400).send('Missing treatment interruption ID');
+        }
     }
 }
 

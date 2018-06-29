@@ -57,9 +57,14 @@ class DemographicDataController {
                             createEntry(req, res, 'PATIENT_DEMOGRAPHIC', entryObj, databaseErrMsg);
                         } else if (result.length !== 1) {
                             res.status(404).send('Cannot seem to find your patient!');
+                            return ;
                         } else if (resu.length !== 0) {
                             res.status(400).send('Patient already have demographic data.');
+                            return ;
                         }
+                    }).catch(err => {
+                        console.log(err);
+                        res.status(500).send(`Problem catched: error message : ${err}`);
                     });
             })
             .catch(err => {
@@ -86,6 +91,9 @@ class DemographicDataController {
                     } else {
                         res.status(500).send('Database error');
                     }
+                }).catch(err => {
+                    console.log(err);
+                    res.status(500).send(`Problem catched: error message : ${err}`);
                 });
         } else {
             res.status(400).send('Error. Please provide the suitable parameters.');
@@ -152,10 +160,16 @@ class DemographicDataController {
                                     delete result[i]['createdByUser'];
                                 }
                                 res.status(200).json(result);
+                            }).catch(err => {
+                                console.log(err);
+                                res.status(500).send(`Problem catched: error message : ${err}`);
                             });
                     } else {
                         res.status(500).send('Database error');
                     }
+                }).catch(err => {
+                    console.log(err);
+                    res.status(500).send(`Problem catched: error message : ${err}`);
                 });
         } else {
             res.status(400).send('Please provide patient ID in the form of "?patientId="');
