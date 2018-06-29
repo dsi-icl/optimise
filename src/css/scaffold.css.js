@@ -17,7 +17,7 @@ export default {
     },
 
     rightPanel: {
-        backgroundColor: '#f5f6fa',
+        backgroundColor: '#f2f2f2',
         padding: 0,
         gridColumn: '3/4',
         overflow: 'auto'

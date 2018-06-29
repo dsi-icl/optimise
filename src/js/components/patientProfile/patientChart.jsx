@@ -6,7 +6,9 @@ import { NavLink } from 'react-router-dom';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import store from '../../redux/store';
 import { LoadingIcon } from '../../../statics/svg/icons.jsx';
-import { Timeline } from './timeline.jsx';
+import { TimelineBox } from './timeline.jsx';
+import { Timeline, TimelineEvent } from 'react-event-timeline';
+import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon, AddVSIcon, SignAndSymptomIcon } from '../../../statics/svg/icons.jsx';
 
 export class PatientChart extends Component {
     componentDidMount() {
@@ -20,47 +22,11 @@ export class PatientChart extends Component {
                     <PatientProfileTop/>
                 </div>
                 <div style={{ zIndex: 998, height: 'calc(100% - 1.2em - 65px)', position: 'absolute', top: 65, overflow: 'auto', width: '100%', paddingBottom: 30, paddingLeft: 30, paddingRight: 30 }}>
-                    <Timeline/>
+                    <TimelineBox/>
                     <Charts/>
                 </div>
             </div>
         )
-    }
-}
-
-
-class SubsectionsBar extends Component {
-    render(){
-        const style = {
-            borderRadius: 10,
-            paddingLeft: 20,
-            height: 20,
-            paddingTop: 4,
-            textAlign: 'left',
-            fontSize: 13,
-            color: 'white',
-            fontWeight: 'bold',
-            fontFamily: 'sans-serif',
-            width: '80%',
-            marginRight: 0,
-            marginLeft: 'auto',
-            marginTop: 8,
-            marginBottom: 8
-        };
-        switch (this.props.type) {
-            case 'visit':
-                return <div style={{ ...style, backgroundColor: '#8596B0', width: '90%' }}>{this.props.title}</div>
-            case 'visitData':
-                return <div style={{ ...style, backgroundColor: 'rgb(190, 189, 190)' }}>{this.props.title}</div>
-            case 'medication':
-                return <div style={{ ...style, backgroundColor: '#ffca1b' }}>{this.props.title}</div>
-            case 'clinicalEvent':
-                return <div style={{ ...style, backgroundColor: '#FF4745' }}>{this.props.title}</div>
-            case 'test':
-                return <div style={{ ...style, backgroundColor: '#99CA78' }}>{this.props.title}</div>
-            default:
-                return null;
-        }
     }
 }
 
@@ -114,8 +80,7 @@ function mapClinicalEvents(patientId) {
 function formatRow(arr) {
     return <tr>{arr.map(el => <td>{el}</td>)}</tr>;
 }
-
-class VisitSection extends Component {
+class OneVisit extends Component {
     render() {
         const style={
             width: '80%',
@@ -130,90 +95,82 @@ class VisitSection extends Component {
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         return(
-            <div>
-                <SubsectionsBar type='visit' title={this.props.title}/>
-                <div>
-                    <SubsectionsBar type='visitData' title='Anthropometry and Vital signs'/>
-                    <div style={style}>
-                        <table style={{ width: '100%' }}>
+            <TimelineEvent subtitleStyle={{ fontSize: '0.7rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50 }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: '#f5f6fa', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='Anthropometry and Vital signs' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
+                    <table style={{ width: '100%' }}>
+                        <tbody>
+                            <tr>
+                                <td style={{ textAlign: 'left' }}>Systolic blood pressure: <input type='text' style={inputStyle}/>{' mmHg'}</td>
+                                <td style={{ textAlign: 'left' }}>Diastolic blood pressure: <input type='text' style={inputStyle}/>{' mmHg'}</td>
+                            </tr>
+                            <tr>
+                                <td style={{ textAlign: 'left' }}>Heart rate: <input type='text' style={inputStyle}/>{' bpm'}</td>
+                                <td style={{ textAlign: 'left' }}>Height: <input type='text' style={inputStyle}/>{' cm'}</td>
+                            </tr>
+                            <tr>
+                                <td style={{ textAlign: 'left' }}>Weight: <input type='text' style={inputStyle}/>{' kg'}</td>
+                                <td style={{ textAlign: 'left' }}>Academic concern: <input type='text' style={inputStyle}/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </TimelineEvent>
+
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='Signs and Symptoms' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
+                </TimelineEvent>
+                
+                
+                {visitHasTests ?
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='Ordered Tests' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon style={{ fill: '#68e03a' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                        <table>
+                            <thead>
+                                <tr><th>Type</th><th>Expected date</th></tr>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <td style={{ textAlign: 'left' }}>Systolic blood pressure: <input type='text' style={inputStyle}/>{' mmHg'}</td>
-                                    <td style={{ textAlign: 'left' }}>Diastolic blood pressure: <input type='text' style={inputStyle}/>{' mmHg'}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{ textAlign: 'left' }}>Heart rate: <input type='text' style={inputStyle}/>{' bpm'}</td>
-                                    <td style={{ textAlign: 'left' }}>Height: <input type='text' style={inputStyle}/>{' cm'}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{ textAlign: 'left' }}>Weight: <input type='text' style={inputStyle}/>{' kg'}</td>
-                                    <td style={{ textAlign: 'left' }}>Academic concern: <input type='text' style={inputStyle}/></td>
-                                </tr>
+                                {this.props.data.tests
+                                    .filter(el => el['orderedDuringVisit'] === this.props.visitId)
+                                    .map(mapTests(this.props.data.patientId, this.props.availableFields.testTypes))}
                             </tbody>
                         </table>
-                    </div>
-                    <SubsectionsBar type='visitData' title='Sign and Symptoms'/>
-                    <div style={style}>
-                        
-                    </div>
-
-                    {visitHasTests ?
-                        <div>
-                            <SubsectionsBar type='test' title='Ordered tests'/>
-                            <div style={style}>
-                                <table>
-                                    <thead>
-                                        <tr><th>Type</th><th>Expected date</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.props.data.tests
-                                            .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                            .map(mapTests(this.props.data.patientId, this.props.availableFields.testTypes))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> : null }
-
-                    {visitHasMedications ?
-                        <div>
-                            <SubsectionsBar type='medication' title='Prescriptions'/>
-                            <div style={style}>
-                                <table>
-                                    <thead>
-                                        <tr><th>Drug</th><th>Dose</th><th>Unit</th><th>Form</th><th>Times per day</th><th>Duration in weeks</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.props.data.treatments
-                                            .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                            .map(mapMedications)}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> : null }
-
-                    {visitHasClinicalEvents ? 
-                        <div>
-                            <SubsectionsBar type='clinicalEvent' title='Clinical events'/>
-                            <div style={style}>
-                                <table>
-                                    <thead>
-                                        <tr><th>Type</th><th>Start date</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.props.data.clinicalEvents
-                                            .filter(el => el['recordedDuringVisit'] === this.props.visitId)
-                                            /* change this map later to calculated patientId*/ 
-                                            .map(mapClinicalEvents(this.props.data.patientId))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> : null }
-                    <br/><br/><br/>
-                </div>
-            </div>
-        )
+                    </div></TimelineEvent>: null
+                }
+                
+                
+                {visitHasMedications ?
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='Prescribed Medications' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                        <table>
+                            <thead>
+                                <tr><th>Drug</th><th>Dose</th><th>Unit</th><th>Form</th><th>Times per day</th><th>Duration in weeks</th></tr>
+                            </thead>
+                            <tbody>
+                                {this.props.data.treatments
+                                    .filter(el => el['orderedDuringVisit'] === this.props.visitId)
+                                    .map(mapMedications)}
+                            </tbody>
+                        </table>
+                    </div></TimelineEvent> : null 
+                }
+                
+                
+                {visitHasClinicalEvents ? 
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='Clinical Events' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon style={{ fill: '#FF4745' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                        <table>
+                            <thead>
+                                <tr><th>Type</th><th>Start date</th></tr>
+                            </thead>
+                            <tbody>
+                                {this.props.data.clinicalEvents
+                                    .filter(el => el['recordedDuringVisit'] === this.props.visitId)
+                                    /* change this map later to calculated patientId*/ 
+                                    .map(mapClinicalEvents(this.props.data.patientId))}
+                            </tbody>
+                        </table>
+                    </div></TimelineEvent> : null 
+                }
+            </TimelineEvent>
+        );
     }
 }
+
 
 @connect(state => ({ fetching: state.patientProfile.fetching, data: state.patientProfile.data, availableFields: state.availableFields }))
 export class Charts extends Component {   //unfinsihed
@@ -223,9 +180,11 @@ export class Charts extends Component {   //unfinsihed
         } else {
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
                 <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }} titleButton={<div className='checkMark' title='create visit' style={{ marginRight: '1.5em', width: '1em', display: 'inline-block', float:'right' }}></div>}>
-                    {sortVisits(this.props.data.visits).map(
-                        (el, ind) => <VisitSection availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${this.props.data.visits.length-ind}-th visit: ${new Date(parseInt(el.visitDate, 10)).toDateString()}`}/>
-                    )}
+                    <Timeline lineColor='#d1d1d1'>
+                        {sortVisits(this.props.data.visits).map(
+                            (el, ind) => <OneVisit availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${this.props.data.visits.length-ind}-th visit`} visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()}/>
+                        )}
+                    </Timeline>
                 </PatientProfileSectionScaffold>
             )
         }

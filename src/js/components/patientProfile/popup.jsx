@@ -7,7 +7,7 @@ export class VisitPicker extends Component {
         return (
             <div className='visitPicker'>
                 To which visit?
-                {this.props.visitList ? this.props.visitList.map(visit => <div className='patientBanner'>{visit.visitDate}</div>) : null}
+                {this.props.visitList ? this.props.visitList.map(visit => <div className='patientBanner'>{new Date(parseInt(visit.visitDate, 10)).toDateString()}</div>) : null}
             </div>
         )
     }
