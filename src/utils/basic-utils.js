@@ -14,7 +14,7 @@ exports.validateAndFormatDate = function(dateObj){
         const days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
         const months = [1,2,3,4,5,6,7,8,9,10,11,12];
         if ((!(dateObj.year % 4) && dateObj.year % 100) || !(dateObj.year % 400)) { daysInAMonth[1] = 29; }
-        if (dateObj.day in days && dateObj.month in months && dateObj.day <= daysInAMonth[dateObj.month - 1]) {
+        if (days.includes(dateObj.day) && months.includes(dateObj.month) && dateObj.day <= daysInAMonth[dateObj.month - 1]) {
             return new Date(dateObj.year, dateObj.month - 1, dateObj.day).getTime();
         } else {
             return false;
