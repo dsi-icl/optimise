@@ -96,7 +96,7 @@ class OneVisit extends Component {
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         return(
             <TimelineEvent subtitleStyle={{ fontSize: '0.7rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50 }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: '#f5f6fa', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='Anthropometry and Vital signs' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
                     <table style={{ width: '100%' }}>
                         <tbody>
                             <tr>
@@ -115,12 +115,12 @@ class OneVisit extends Component {
                     </table>
                 </TimelineEvent>
 
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='Signs and Symptoms' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='SIGNS AND SYMPTOMS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
                 </TimelineEvent>
                 
                 
                 {visitHasTests ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='Ordered Tests' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon style={{ fill: '#68e03a' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ORDERED TESTS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon style={{ fill: '#68e03a' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Expected date</th></tr>
@@ -136,7 +136,7 @@ class OneVisit extends Component {
                 
                 
                 {visitHasMedications ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='Prescribed Medications' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='PRESCRIBED MEDICATIONS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Drug</th><th>Dose</th><th>Unit</th><th>Form</th><th>Times per day</th><th>Duration in weeks</th></tr>
@@ -152,7 +152,7 @@ class OneVisit extends Component {
                 
                 
                 {visitHasClinicalEvents ? 
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='Clinical Events' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon style={{ fill: '#FF4745' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='CLINICAL EVENTS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon style={{ fill: '#FF4745' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Start date</th></tr>
