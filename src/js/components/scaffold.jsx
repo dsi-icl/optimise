@@ -20,33 +20,33 @@ export class MenuBar extends Component {
         return (
             <div className={css.MenuBar}>
                 <br/><br/><br/>
-                <NavLink to='/searchPatientById' className={cssButtons.menuButton} title='Search and edit patients' activeStyle={{ fill: 'white' }}>
-                    <div>
+                <NavLink to='/searchPatientById'  style={{ gridRow: '2/3' }} className={cssButtons.menuButton} title='Search and edit patients' activeStyle={{ fill: 'white' }}>
+                    <div style={{ textAlign: 'center' }}>
                         <SearchIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/filterPatients' className={cssButtons.menuButton} title='Filter patients' activeStyle={{ fill: 'white' }}>
-                    <div style={{ textAlign: 'center', marginTop: 20 }}>
+                <NavLink to='/filterPatients' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Filter patients' activeStyle={{ fill: 'white' }}>
+                    <div style={{ textAlign: 'center' }}>
                         <FilterIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/exportCDISC' className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
-                    <div style={{ textAlign: 'center', marginTop: 20 }}>
+                <NavLink to='/exportCDISC' style={{ gridRow: '4/5' }} className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
+                    <div style={{ textAlign: 'center' }}>
                         <ExportIcon width='40%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/uploadToCloud' className={cssButtons.menuButton} title='Upload to central DB' activeStyle={{ fill: 'white' }}>
-                    <div style={{ textAlign: 'center', marginTop: 20 }}>
+                <NavLink to='/uploadToCloud' style={{ gridRow: '5/6' }} className={cssButtons.menuButton} title='Upload to central DB' activeStyle={{ fill: 'white' }}>
+                    <div style={{ textAlign: 'center' }}>
                         <CloudIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/administration' className={cssButtons.menuButton} title='Admin settings' activeStyle={{ fill: 'white' }}>
-                    <div style={{ textAlign: 'center', marginTop: 20 }}>
+                <NavLink to='/administration' style={{ gridRow: '6/7' }} className={cssButtons.menuButton} title='Admin settings' activeStyle={{ fill: 'white' }}>
+                    <div style={{ textAlign: 'center' }}>
                         <SettingIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink id='logoutButton' to='/logout' title='Logout' className={cssButtons.menuButton}>
-                    <div style={{ textAlign: 'center', position: 'absolute', bottom: '3%' }}>
+                <NavLink id='logoutButton' to='/logout' style={{ gridRow: '8/9' }} title='Logout' className={cssButtons.menuButton}>
+                    <div style={{ textAlign: 'center' }}>
                         <LogoutIcon width='45%'/>
                     </div>
                 </NavLink>

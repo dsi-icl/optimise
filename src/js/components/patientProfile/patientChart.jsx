@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedComponents.jsx';
-import css from '../../../css/patientProfile.css.js';
 import { NavLink } from 'react-router-dom';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import store from '../../redux/store';
@@ -9,6 +8,7 @@ import { LoadingIcon } from '../../../statics/svg/icons.jsx';
 import { TimelineBox } from './timeline.jsx';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
 import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon, AddVSIcon, SignAndSymptomIcon } from '../../../statics/svg/icons.jsx';
+import cssSectioning from '../../../css/sectioning.css';
 
 export class PatientChart extends Component {
     componentDidMount() {
@@ -187,7 +187,7 @@ export class Charts extends Component {   //unfinsihed
             return <div style={{ textAlign: 'center', height: 100, width: 100, position: 'absolute', left: 200, top: 200, fill: '#ff5151' }}><LoadingIcon/></div>;
         } else {
             return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
-                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' suppressSectionBodyCss={true} bodyStyle={{ ...css.sectionBody, width: '100%' }} titleButton={<div className='checkMark' title='create visit' style={{ marginRight: '1.5em', width: '1em', display: 'inline-block', float:'right' }}></div>}>
+                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
                     <Timeline lineColor='#d1d1d1'>
                         {sortVisits(this.props.data.visits).map(
                             (el, ind) => <OneVisit availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${this.props.data.visits.length-ind}-th visit`} visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()}/>

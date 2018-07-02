@@ -1,0 +1,13 @@
+.searchBar {
+    margin-top: 1px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 55%
+}
+
+.searchBarInput {
+    background-color: white;
+    margin: 1px auto;
+    width: 100%;
+}

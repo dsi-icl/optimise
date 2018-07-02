@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon } from '../../../statics/svg/icons.jsx';
-import css from '../../../css/patientProfile.css.js';
 import { NavLink } from 'react-router-dom';
 import { VisitPicker } from './popup.jsx';
 import cssButtons from '../../../css/buttons.css';
 import cssDropdowns from '../../../css/dropdowns.css';
+import cssSectioning from '../../../css/sectioning.css';
 
 export class PatientProfileSectionScaffold extends Component {
     render() {
         return (
             <div>
-                <div style={css.sectionTitleBar}>{this.props.sectionName.toUpperCase()}
+                <div className={cssSectioning.sectionTitleBar}>{this.props.sectionName.toUpperCase()}
                     {this.props.titleButton ? this.props.titleButton : null}
                 </div>
-                <div style={this.props.suppressSectionBodyCss ? this.props.bodyStyle : css.sectionBody}>
+                <div className={cssSectioning.sectionBody} style={ this.props.bodyStyle ? this.props.bodyStyle : null }>
                     {this.props.children}
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold.jsx'; 
-import css from '../css/app.css';
+import css from '../css/scaffold.css';
 
 
 class App extends Component {

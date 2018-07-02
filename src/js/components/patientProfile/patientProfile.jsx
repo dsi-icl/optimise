@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import css from '../../../css/patientProfile.css.js';
 
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 
@@ -10,7 +9,7 @@ export class Section extends Component {
         if (this.props.fetching) {
             return <span> FETCHING PROFILE </span>
         } else {
-            return (<div style={css.bigWrapper}>        
+            return (<div style={{ padding: '40px 40px', position: 'relative' }}>        
                 <DemographicSection/>
                 <ImmunisationSection/>
                 <MedicalHistorySection/>

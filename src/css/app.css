@@ -1,9 +1,0 @@
-.App {
-    display: grid;
-    grid-template-columns: 1.7fr 8fr 24fr 17fr;
-    height: 100%;
-    color: #363A3B;
-    font-family: sans-serif;
-    font-size: 12px;
-    background-color: #f5f6fa
-}
