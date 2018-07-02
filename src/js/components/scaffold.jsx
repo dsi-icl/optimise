@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { SearchPatientsById } from './searchPatient/searchPatientsById';
 import { Section } from './patientProfile/patientProfile.jsx';
 import { WelcomePanel } from './welcomePage.jsx';
-import css from '../../css/scaffold.css.js';
+import css from '../../css/scaffold.css';
+import cssButtons from '../../css/buttons.css';
 import { connect } from 'react-redux';
 import { CreatePatientComponent } from './createPatient/createPatientPage.jsx';
 import { PatientChart } from './patientProfile/patientChart.jsx';
@@ -17,34 +18,34 @@ import { Fields } from './filterPatient/fieldPanel.jsx';
 export class MenuBar extends Component {
     render() {
         return (
-            <div style={css.menuBar}>
+            <div className={css.MenuBar}>
                 <br/><br/><br/>
-                <NavLink to='/searchPatientById' className='menuButton' title='Search and edit patients' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/searchPatientById' className={cssButtons.menuButton} title='Search and edit patients' activeStyle={{ fill: 'white' }}>
                     <div>
                         <SearchIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/filterPatients' className='menuButton' title='Filter patients' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/filterPatients' className={cssButtons.menuButton} title='Filter patients' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center', marginTop: 20 }}>
                         <FilterIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/exportCDISC' className='menuButton' title='Export as CDISC' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/exportCDISC' className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center', marginTop: 20 }}>
                         <ExportIcon width='40%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/uploadToCloud' className='menuButton' title='Upload to central DB' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/uploadToCloud' className={cssButtons.menuButton} title='Upload to central DB' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center', marginTop: 20 }}>
                         <CloudIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/administration' className='menuButton' title='Admin settings' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/administration' className={cssButtons.menuButton} title='Admin settings' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center', marginTop: 20 }}>
                         <SettingIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink id='logoutButton' to='/logout' title='Logout' className='menuButton'>
+                <NavLink id='logoutButton' to='/logout' title='Logout' className={cssButtons.menuButton}>
                     <div style={{ textAlign: 'center', position: 'absolute', bottom: '3%' }}>
                         <LogoutIcon width='45%'/>
                     </div>
@@ -58,7 +59,7 @@ export class MenuBar extends Component {
 export class MiddlePanel extends Component {
     render() {
         return (
-            <div style={css.middlePanel}>
+            <div className={css.LeftPanel}>
                 <Switch>
                     <Route exact path='/' component={SearchPatientsById}/>
                     <Route exact path='/searchPatientById' component={SearchPatientsById}/>
@@ -77,7 +78,7 @@ export class MiddlePanel extends Component {
 export class RightPanel extends Component {
     render() {
         return (
-            <div style={css.rightPanel}>
+            <div className={css.MiddlePanel}>
                 <Switch>
                     <Route path='/patientProfile/:patientId' render={({ match }) => <PatientChart match={match}/>}/>
                     <Route exact path='/searchPatientById'component={''}/>
@@ -96,7 +97,7 @@ export class RightPanel extends Component {
 export class FarRightPanel extends Component {
     render() {
         return (
-            <div style={css.farRightPanel}>
+            <div className={css.RightPanel}>
                 <Switch>
                     <Route path='/patientProfile/:patientId/ce/:ceId' component={'CE'}/>
                     <Route path='/patientProfile/:patientId/test/:testId' render={({ match }) => <TestData match={match}/>}/>
@@ -117,7 +118,7 @@ export class FarRightPanel extends Component {
 export class StatusBar extends Component {
     render() {
         return (
-            <div style={css.statusBar}>
+            <div className={css.StatusBar}>
                 <span style={{ float: 'left', marginLeft: 10, marginTop: '0.2em', display: 'block' }}> You are logged in as </span>
                 <span style={{ display: 'block', marginTop: '0.2em', position: 'absolute', float: 'left', right: 10 }}> OptimiseMS v1.0.0</span>
             </div>

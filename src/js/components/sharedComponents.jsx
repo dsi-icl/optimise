@@ -9,11 +9,3 @@ export class Button extends Component {
         return <div style={this.props.style} onClick={this.props.clicked}>{this.props.text}</div>
     }
 }
-
-Button = Radium(Button);
-
-export class PlusButton extends Component {
-    render() {
-        return <img src={plusSignIcon} style={css.plusSign} alt='plusSignIcon'/>
-    }
-}
