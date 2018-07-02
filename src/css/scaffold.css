@@ -1,36 +1,49 @@
+.App {
+    display: grid;
+    grid-template-columns: 48px 8fr 24fr 17fr;
+    grid-template-rows: 1fr 15px;
+    height: 100%;
+    color: #363A3B;
+    font-family: sans-serif;
+    background-color: #f5f6fa
+}
+
 .MenuBar {
     background-color: #3a3c46;
+    display: grid;
+    grid-template-rows: 30px 52px 52px 55px 52px 52px 1fr 50px;
+    grid-template-columns: 1fr;
     grid-column: 1/2;
+    grid-row: 1/2;
     position: relative;
 }
 
 .LeftPanel {
     background-color: #E7E5E6;
     grid-column: 2/3;
+    grid-row: 1/2;
     overflow: auto;
 }
 
 .MiddlePanel {
     background-color: #f2f2f2;
     grid-column: 3/4;
+    grid-row: 1/2;
     overflow: auto;
 }
 
 .RightPanel {
     background-color: #E7E5E6;
     grid-column: 4/5;
-    height: calc(100% - 1.2em);
+    grid-row: 1/2;
     overflow: auto;
 }
 
 .StatusBar {
-    position: fixed;
     background-color: #ff5151;
-    width: 100%;
-    min-height: 1.2em;
-    overflow: auto;
+    font-size: 12px;
+    overflow: hidden;
     color: white;
-    bottom: 0;
-    left: 0;
-    z-index: 1001
+    grid-column: 1/5;
+    grid-row: 2/3;
 }

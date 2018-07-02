@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import css from '../../../css/searchPatientsById.css.js';
 import { Button } from '../sharedComponents.jsx'; 
 import cssButtons from '../../../css/buttons.css';
+import cssInputs from '../../../css/inputfields.css';
 import { connect } from 'react-redux';
 import { clickedCreatePatient } from '../../redux/actions/createPatient';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
@@ -40,8 +40,8 @@ export class SearchPatientsById extends Component {
         return(
             <div>
                 <h2>SEARCH FOR / CREATE A PATIENT</h2>
-                <form  style={css.searchBar}>
-                    Enter Patient ID: <br/><input style={css.searchBarInput} type='text' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/>
+                <form  className={cssInputs.searchBar}>
+                    Enter Patient ID: <br/><input className={cssInputs.searchBarInput} style={{ backgroundColor: 'white' }} type='text' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/>
                 </form>
                 <SearchResultForPatients listOfPatients={this.state.searchResult} searchString={this.state.searchString}/>
             </div>
@@ -71,7 +71,7 @@ export class SearchResultForPatients extends Component {
     render() {
         return (
             <div>
-                {this.props.listOfPatients.filter(el => el['aliasId'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Link to='/createPatient' style={{ color: 'rgba(0,0,0,0)' }}><Button text={`Create patient ${this.props.searchString}`} className={cssButtons.createPatientButton} clicked={this._handleClickCreate(this.props.searchString)}/></Link> : null}
+                {this.props.listOfPatients.filter(el => el['aliasId'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Link to='/createPatient' style={{ color: 'rgba(0,0,0,0)' }} className><Button text={`Create patient ${this.props.searchString}`} className={cssButtons.createPatientButton} clicked={this._handleClickCreate(this.props.searchString)}/></Link> : null}
                 {this.props.listOfPatients.map(el => {
                     const ind = el['aliasId'].indexOf(this.props.searchString);
                     const name = <span><b>{el['aliasId'].substring(0, ind)}<span className={cssButtons.matchedString}>{el['aliasId'].substring(ind, this.props.searchString.length+ind)}</span>{el['aliasId'].substring(this.props.searchString.length+ind, el['aliasId'].length)}</b></span>;
