@@ -91,6 +91,11 @@ class OneVisit extends Component {
         const inputStyle ={
             width: 40
         };
+        const divStyle = {
+            borderRadius: 5,
+            paddingLeft: 3,
+            paddingRight: 2
+        };
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
@@ -100,16 +105,19 @@ class OneVisit extends Component {
                     <table style={{ width: '100%' }}>
                         <tbody>
                             <tr>
-                                <td style={{ textAlign: 'left' }}>Systolic blood pressure: <input type='text' style={inputStyle}/>{' mmHg'}</td>
-                                <td style={{ textAlign: 'left' }}>Diastolic blood pressure: <input type='text' style={inputStyle}/>{' mmHg'}</td>
+                                <td style={{ textAlign: 'left' }}>Systolic blood pressure: {' mmHg'}</td>
+                                <td style={{ textAlign: 'left' }}>Diastolic blood pressure: {' mmHg'}</td>
                             </tr>
                             <tr>
-                                <td style={{ textAlign: 'left' }}>Heart rate: <input type='text' style={inputStyle}/>{' bpm'}</td>
-                                <td style={{ textAlign: 'left' }}>Height: <input type='text' style={inputStyle}/>{' cm'}</td>
+                                <td style={{ textAlign: 'left' }}>Heart rate: {' bpm'}</td>
+                                <td style={{ textAlign: 'left' }}>Height: {' cm'}</td>
                             </tr>
                             <tr>
-                                <td style={{ textAlign: 'left' }}>Weight: <input type='text' style={inputStyle}/>{' kg'}</td>
-                                <td style={{ textAlign: 'left' }}>Academic concern: <input type='text' style={inputStyle}/></td>
+                                <td style={{ textAlign: 'left' }}>Weight: {' kg'}</td>
+                                <td style={{ textAlign: 'left' }}>Academic concern: </td>
+                            </tr>
+                            <tr>
+                                <div style={divStyle}>edit➠ </div>
                             </tr>
                         </tbody>
                     </table>
