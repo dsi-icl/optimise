@@ -1,0 +1,13 @@
+.centeredBlock {
+    display: block;
+    width: 60%;
+    margin: 0 auto 
+}
+
+.welcomeText {
+    font-family: sans-serif;
+    font-size: 50px;
+    text-align: center;
+    color: grey;
+    margin-top: 15%
+}

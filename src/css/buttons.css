@@ -18,7 +18,7 @@
     margin: 0;
     width: calc(100%);
     padding: 0.5em 1.5em;
-    text-align: left
+    text-align: left;
 }
 
 .patientBanner:hover {
@@ -41,7 +41,7 @@
     border-radius: 20px;
     margin: 13px auto;
     width: 80%;
-    padding-top: 0.2em;
+    padding: 0.2em 1.5em;
     text-align: center;
     overflow: hidden;
 }
@@ -54,4 +54,30 @@
 
 .userActionButton {
     background-color: #E7E5E6
+}
+
+.dataSubmitButton {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+}
+
+.resetButton {
+    cursor: pointer;
+    text-decoration: underline
+}
+
+.NavLink {
+    cursor: pointer;
+    display: table;
+    text-decoration: none
+}
+
+.dataResultButton {
+    border-radius: 5px;
+    padding-left: 3px;
+    padding-right: 2px;
+    background-color: lightgrey;
+    overflow: hidden;
+    max-width: 4em;
 }

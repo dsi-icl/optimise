@@ -9,6 +9,9 @@ import { TimelineBox } from './timeline.jsx';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
 import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon, AddVSIcon, SignAndSymptomIcon } from '../../../statics/svg/icons.jsx';
 import cssSectioning from '../../../css/sectioning.css';
+import cssScaffold from '../../../css/scaffold.css';
+import cssButtons from '../../../css/buttons.css';
+import cssIcons from '../../../css/icons.css';
 
 export class PatientChart extends Component {
     componentDidMount() {
@@ -17,11 +20,11 @@ export class PatientChart extends Component {
 
     render() {
         return (
-            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                <div style={{ zIndex: 1000, textAlign: 'center', height: 65, position: 'absolute', width: '100%', left: 0, Top: 0 }}>
+            <div className={cssScaffold.patientChart}>
+                <div className={cssScaffold.patientChartTop}>
                     <PatientProfileTop/>
                 </div>
-                <div style={{ zIndex: 998, height: 'calc(100% - 1.2em - 65px)', position: 'absolute', top: 65, overflow: 'auto', width: '100%', paddingBottom: 30, paddingLeft: 30, paddingRight: 30 }}>
+                <div className={cssScaffold.patientChartBody}>
                     <TimelineBox/>
                     <Charts/>
                 </div>
@@ -32,23 +35,13 @@ export class PatientChart extends Component {
 
 function mapTests(patientId, typeMap) {
     return el => {
-        const style={
-            cursor: 'pointer',
-            backgroundColor: 'lightgrey',
-            display: 'table',
-            textDecoration: 'none',
-            color: 'rgb(54, 58, 59)',
-            paddingLeft: 5,
-            paddingRight: 5,
-            borderRadius: 5
-        };
-        const divStyle = {
-            borderRadius: 5,
-            paddingLeft: 3,
-            paddingRight: 2
-        };
         const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
-        return formatRow([testType, new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(), <NavLink id={`/patientProfile/${patientId}/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' style={style}><div style={divStyle}>results➠ </div></NavLink>]);
+        return formatRow([testType, 
+            new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
+            <NavLink id={`/patientProfile/${patientId}/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+                <div className={cssButtons.dataResultButton}>results➠ </div>
+            </NavLink>
+        ]);
     }
 }
 
@@ -57,45 +50,19 @@ function mapMedications(el) {
 }
 
 function mapClinicalEvents(patientId) {
-    return el => {
-        const style={
-            cursor: 'pointer',
-            backgroundColor: 'lightgrey',
-            display: 'table',
-            textDecoration: 'none',
-            color: 'rgb(54, 58, 59)',
-            paddingLeft: 3,
-            paddingRight: 3,
-            borderRadius: 5
-        };
-        const divStyle = {
-            borderRadius: 5,
-            paddingLeft: 3,
-            paddingRight: 2
-        };
-        return formatRow([el.type, <NavLink to={`/patientProfile/${patientId}/ce/${el.id}`} activeClassName='selectedResult' style={style}><div style={divStyle}> results➠ </div></NavLink>]);
-    }
+    return el => 
+        formatRow([el.type, 
+            <NavLink to={`/patientProfile/${patientId}/ce/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+                <div className={cssButtons.dataResultButton}> results➠ </div>
+            </NavLink>
+        ]);
 }
 
 function formatRow(arr) {
-    return <tr>{arr.map(el => <td>{el}</td>)}</tr>;
+    return <tr>{arr.map((el, ind) => <td key={ind}>{el}</td>)}</tr>;
 }
 class OneVisit extends Component {
     render() {
-        const style={
-            width: '80%',
-            marginLeft: 'auto',
-            marginRight: 0,
-            overflow: 'auto'
-        };
-        const inputStyle ={
-            width: 40
-        };
-        const divStyle = {
-            borderRadius: 5,
-            paddingLeft: 3,
-            paddingRight: 2
-        };
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
@@ -116,11 +83,9 @@ class OneVisit extends Component {
                                 <td style={{ textAlign: 'left' }}>Weight: {' kg'}</td>
                                 <td style={{ textAlign: 'left' }}>Academic concern: </td>
                             </tr>
-                            <tr>
-                                <div style={divStyle}>edit➠ </div>
-                            </tr>
                         </tbody>
                     </table>
+                    <div className={cssButtons.dataResultButton}>edit➠ </div>
                 </TimelineEvent>
 
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='SIGNS AND SYMPTOMS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
@@ -184,9 +149,9 @@ class OneVisit extends Component {
 export class Charts extends Component {   //unfinsihed
     render() {
         if (this.props.fetching) {
-            return <div style={{ textAlign: 'center', height: 100, width: 100, position: 'absolute', left: 200, top: 200, fill: '#ff5151' }}><LoadingIcon/></div>;
+            return <div className={cssIcons.spinner}><LoadingIcon/></div>;
         } else {
-            return (  //make the server return visit in date order? ALSo, 1 = st, 2 =nd , 3 = rd
+            return (
                 <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
                     <Timeline lineColor='#d1d1d1'>
                         {sortVisits(this.props.data.visits).map(
