@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
-
+import cssTimeline from '../../../css/timelineelements.css';
 
 
 /*
@@ -19,18 +19,9 @@ export class TimelineBox extends Component {   //unfinsihed
             const allDates = [...allVisitDates, ...allTestDates];
             allDates.sort();
             const daySpan = parseInt(((parseInt(allDates[allDates.length - 1], 10) - parseInt(allDates[0], 10)) / 86400000 ), 10);
-            console.log(daySpan);
             const numOfCols = `10% ${'1fr '.repeat(daySpan + 3)}`;
-            const bigWrapper = {
-                backgroundColor: 'rgb(210, 210, 210)',
-                borderRadius: 10,
-                width: '100%',
-                height: 130,
-                display: 'grid',
-                padding: 7,
-                gridTemplateColumns: numOfCols,
-                gridTemplateRows: '1fr 1fr 1fr 1fr 1fr',
-                overflow: 'hidden'
+            const TimelineDynamicStyle = {
+                gridTemplateColumns: numOfCols
             }
             const mappingVisitFunction = visit => {
                 const date = visit.visitDate;
@@ -69,18 +60,18 @@ export class TimelineBox extends Component {   //unfinsihed
             };
             return (
                 <PatientProfileSectionScaffold sectionName='Timeline'>
-                    <div style={bigWrapper}>
+                    <div className={cssTimeline.timelineBox} style={TimelineDynamicStyle}>
                         <div style={{ gridColumn: '1/2', gridRow: '1/2', overflow: 'hidden' }}>
-                        Visits
+                            Visits
                         </div>
                         <div style={{ gridColumn: '1/2', gridRow: '2/3', overflow: 'hidden' }}>
-                        Meds
+                            Meds
                         </div>
                         <div style={{ gridColumn: '1/2', gridRow: '3/4', overflow: 'hidden' }}>
-                        Tests
+                            Tests
                         </div>
                         <div style={{ gridColumn: '1/2', gridRow: '4/5', overflow: 'hidden' }}>
-                        Events
+                            Events
                         </div>
                         {this.props.data.visits.map(mappingVisitFunction)}
                         {this.props.data.tests.map(mappingTestFunction)}

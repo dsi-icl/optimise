@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { LoadingIcon } from '../../../statics/svg/icons.jsx';
+import cssIcons from '../../../css/icons.css';
+import cssButtons from '../../../css/buttons.css';
+import cssInputs from '../../../css/inputfields.css';
 
 function mapStateToProps(state) {
     return {
@@ -64,7 +67,7 @@ export class TestData extends Component {
                 {formatData(test, this.props.fields, this.props.dataTypes, this._handleSubmit)}
             </div>);   //change the type later
         } else {
-            return <div style={{ textAlign: 'center', height: 100, width: 100, marginTop: 200, marginLeft: 'auto', marginRight: 'auto', fill: '#ff5151' }}><LoadingIcon/></div>
+            return <div className={cssIcons.spinner}><LoadingIcon/></div>
         }
     }
 }
@@ -102,13 +105,6 @@ export class BackButton extends Component {
  * @returns {JSX} Formatted data for display on frontend
  */
 function formatData(medicalElement, fieldList, dataTypes, submitFunction) {
-    const style = {
-        width: '87%',
-        marginTop: 30,
-        marginBottom: 40,
-        marginRight: 'auto',
-        marginLeft: 'auto'
-    };
     //reformating the field list to hash table with fieldId as key for easier lookup later without need array filter:
     const filteredFieldList = fieldList.filter(field => field.referenceType == medicalElement.type );   // eslint-disable-line eqeqeq
     const fieldHashTable = filteredFieldList.reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
@@ -117,14 +113,13 @@ function formatData(medicalElement, fieldList, dataTypes, submitFunction) {
     //same with dataTypes:
     const dataTypesHashTable = dataTypes.reduce((map, dataType) => { map[dataType.id] = dataType.value; return map }, {});
     return (
-        <div style={style}>
+        <div>
             <form onSubmit={submitFunction}>
                 {
                     filteredFieldList.map(field => {
                         const { id, definition, idname, type, unit, module, permittedValues, referenceType } = field;
                         const originalValue = dataHashTable[field.id]; //assigned either the value or undefined, which is falsy, which is used below
                         const key = `${medicalElement.testId}_FIELD${id}`;
-                        console.log(originalValue);
                         switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
                             case 'I':
                                 return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='I'/><br/><br/></span>;
@@ -147,7 +142,7 @@ function formatData(medicalElement, fieldList, dataTypes, submitFunction) {
                         }
                     })
                 }
-                <input style={{ position: 'absolute', bottom: 30, right: 30 }} type="submit" value="Save"/>
+                <input className={cssButtons.dataSubmitButton} type="submit" value="Save"/>
             </form>
         </div>
     );
@@ -195,7 +190,7 @@ class ControlledInputField extends Component {
     }
 
     _handleResetClick(){
-        this.setState({ value: this.props.originalValue });
+        this.setState({ value: this.props.originalValue ? this.props.originalValue : '' });
     }
 
     _validateInput(value) {
@@ -221,7 +216,19 @@ class ControlledInputField extends Component {
     }
 
     render(){
-        return <span> <input originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} type='text' style={ this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' }) } value={this.state.value} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}/> <a onClick={this._handleResetClick} style={{ cursor: 'pointer', textDecoration: 'underline' }}>reset</a></span>;
+        return (<span>
+            <input 
+                originalvalue={this.props.originalValue}
+                name={this.props.fieldId}
+                fieldid={this.props.fieldId}
+                type='text' 
+                style={ this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' }) } 
+                value={this.state.value} 
+                onChange={this._handleKeyStroke}
+                onKeyPress={this._handleEnterKey}
+            />
+            <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
+        </span>);
     }
 }
 
@@ -262,7 +269,7 @@ class ControlledSelectField extends Component {
             <option value='unselected'>unselected</option>
             {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
         </select>
-        <a onClick={this._handleResetClick} style={{ cursor: 'pointer', textDecoration: 'underline' }}>reset</a>
+        <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
         </span>);
     }
 }

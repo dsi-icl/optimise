@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker.css';
 import { BackButton } from '../medicalData/dataPage.jsx';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
+import cssTexts from '../../../css/inlinetexts.css';
+import cssButtons from '../../../css/buttons.css';
 
 
 export class PickDate extends Component {
@@ -63,8 +64,8 @@ export class CreateVisit extends Component {
         return (<div>
             <BackButton to={`/patientProfile/${this.props.patientId}`}/>
             <h2>CREATE A NEW VISIT</h2>
-            <span style={{ display: 'block', width: '60%', margin:'0 auto' }}>Please enter date on which the visit occurs / occured: <br/> <span style={{ display: 'block', width: '50%', margin:'0 auto' }}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
-            <div onClick={this._handleSubmitClick} style={{ cursor: 'pointer', textAlign: 'center', backgroundColor: 'lightgrey', borderRadius: 20, width: '30%', marginLeft: 'auto', marginRight: 'auto', marginTop: 15 }}>Submit</div>
+            <span class={cssTexts.centeredBlock}>Please enter date on which the visit occurs / occured: <br/> <span className={cssTexts.centeredBlock}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
+            <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
         </div>);
     }
 }

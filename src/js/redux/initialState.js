@@ -1,8 +1,6 @@
 //import {Map} from 'immutable';
 
 export default {
-    rightPanel: 2,       //will replace this with react-router
-    middlePanel: 1,
     createPatient: { patientId: '' },
     patientProfile: {
         fetching: false, 

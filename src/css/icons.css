@@ -1,0 +1,9 @@
+.spinner {
+    text-align: center;
+    height: 100px;
+    width: 100px;
+    margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    fill: #ff5151
+}

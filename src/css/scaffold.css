@@ -30,6 +30,8 @@
     grid-column: 3/4;
     grid-row: 1/2;
     overflow: auto;
+    padding-left: 3%;
+    padding-right: 3%
 }
 
 .RightPanel {
@@ -37,6 +39,8 @@
     grid-column: 4/5;
     grid-row: 1/2;
     overflow: auto;
+    padding-left: 8%;
+    padding-right: 8%
 }
 
 .StatusBar {
@@ -46,4 +50,20 @@
     color: white;
     grid-column: 1/5;
     grid-row: 2/3;
+}
+
+.patientChart {
+    display: grid; 
+    grid-template-rows: 65px 1fr;
+    min-height: 0;
+    min-width: 0;
+}
+
+.patientChartTop {
+    grid-row: 1/2;
+}
+
+.patientChartBody {
+    grid-row: 2/3;
+    overflow: auto;
 }
