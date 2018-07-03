@@ -172,7 +172,7 @@ paths:
           name: "id"
           schema:
             type: "string"
-          description: "Get information for the patient(s) with the given id"
+          description: "Get information for the patient(s) with IDs that contain id"
       responses:
         400:
           description: "The query string can only have one parameter "id""
