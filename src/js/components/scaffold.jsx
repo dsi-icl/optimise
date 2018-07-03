@@ -15,6 +15,8 @@ import { SearchIcon, SettingIcon, CloudIcon, ExportIcon, FilterIcon, LogoutIcon 
 import { AdminActions } from './admin/actions.jsx';
 import { FilterPanel } from './filterPatient/selectPanel.jsx';
 import { Fields } from './filterPatient/fieldPanel.jsx';
+import { CreateElementRouter } from './createMedicalElements/router.jsx';
+
 export class MenuBar extends Component {
     render() {
         return (
@@ -99,6 +101,7 @@ export class FarRightPanel extends Component {
         return (
             <div className={css.RightPanel}>
                 <Switch>
+                    <Route path='/patientProfile/:patientId/create/:visitId/:type' render={({ match }) => <CreateElementRouter match={match}/>}/>
                     <Route path='/patientProfile/:patientId/ce/:ceId' component={'CE'}/>
                     <Route path='/patientProfile/:patientId/test/:testId' render={({ match }) => <TestData match={match}/>}/>
                     <Route path='/patientProfile/:patientId/createVisit' render={({ match }) => <CreateVisit match={match}/>}/>
