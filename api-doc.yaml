@@ -13,16 +13,48 @@ paths:
   /internalapi/userlogin:
     post:
       summary: "User login"
+    parameters:
+      - in: "body"
+        name: "body"
+        description: "User log-in credentials"
+        required: true
+    responses:
+      200:
+        description: "OK" {'token': token}
+      400:
+        description: "Please provide "username" and "pw"."
+      401:
+        description: "Cannot find this user" "Cannot login. wrong password."
+      500:
+        description: "Server error." "Database error"
   /internalapi/userlogout:
     post:
       summary: "User logout"
+    responses:
+      200:
+        description: "...has been deleted successfully."
+      400:
+        description: "Database error"
+      401:
+        description: "You do not have permission to log out this user."
+      404:
+        description: "Couldn\'t find entry"
+      500:
+        description: "something weird happened"
   /api/users:
     post:
       summary: "Create a new user (admin only)"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
       parameters:
-      - in: body
+      - in: "body"
+        name: "body"
+        description: "User object that needs to be added to the users"
         required: true
-
+        schema:
+          $ref: "#/definitions/User"
       responses:
         200:
           description: "OK"
@@ -100,4 +132,137 @@ paths:
       summary: "Create a visit"
     delete:
       summary: "Delete a visit"
+  /api/visit/data:
+    post:
+      summary:
+    delete:
+      summary:
+  /api/test/data:
+    post:
+      summary:
+    delete:
+      summary:
+  /api/clinicalEvent/data:
+    post:
+      summary:
+    delete:
+      summary:
+  /api/demogdata/Demographic:
+    post:
+      summary: "Create Demographic"
+    delete:
+      summary: "Delete Demographic"
+    put:
+      summary: "Edit Demographic data"
+  /api/demogdata/Immunisation:
+    post:
+      summary: "Create Immunisation"
+    delete:
+      summary: "Delete Immunisation"
+    put:
+      summary: "Edit Immunisation data"
+  /api/demogdata/MedicalCondition:
+    post:
+      summary: "Create MedicalCondition"
+    delete:
+      summary: "Delete MedicalCondition"
+    put:
+      summary: "Edit MedicalCondition"
+  /api/treatments:
+    post:
+      summary:
+    put:
+      summary:
+    delete:
+      summary:
+    patch:
+      summary:
+  /api/treatments/interrupt:
+    post:
+      summary: "Create a treatment interruption"
+      consumes:
+        - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Treatment interruption object to be added to treatment information"
+        required: true
+        schema:
+          $ref: "#/definitions/TreatmentInterruption"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Missing information to proceed the request" "Couldn\'t create entry"
+    delete:
+      summary: "Delete a treatment interruption"
+      consumes:
+        - "application/json"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Missing treatment interruption ID"
+        401:
+          description: "Unauthorized : You should be identified as an Administrator to do so."
+        404:
+          description: "Couldn't find entry"
+  /api/clinicalEvents:
+    post:
+      summary:
+    delete:
+      summary:
+  /api/available/visitFields:
+    get:
+      summary:
+  /api/available/testFields:
+    get:
+      summary:
+  /api/available/clinicalEvents:
+    get:
+      summary:
+  /api/available/testTypes:
+    get:
+      summary:
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      username:
+        type: "string"
+      realname:
+        type: "string"
+      pw:
+        type: "string"
+      adminPriv:
+        type: "integer"
+    xml:
+      name: "User"
+  TreatmentInterruption:
+    type: "object"
+    properties:
+      treatmentId:
+        type: "integer"
+      start_date:
+        $ref: "#/definitions/Date"
+      end_date:
+        $ref: "#/definitions/Date"
+      reason:
+        type: "string"
+  Date:
+    type: "object"
+    properties:
+      day:
+        type: "integer"
+      month:
+        type: "integer"
+      year:
+        type: "integer"
+
+      
+
+
   
