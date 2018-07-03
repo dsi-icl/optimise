@@ -26,7 +26,7 @@ export class PatientChart extends Component {
                 </div>
                 <div className={cssScaffold.patientChartBody}>
                     <TimelineBox/>
-                    <Charts/>
+                    <Charts location={this.props.location}/>
                 </div>
             </div>
         )

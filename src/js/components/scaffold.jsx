@@ -82,7 +82,7 @@ export class RightPanel extends Component {
         return (
             <div className={css.MiddlePanel}>
                 <Switch>
-                    <Route path='/patientProfile/:patientId' render={({ match }) => <PatientChart match={match}/>}/>
+                    <Route path='/patientProfile/:patientId' render={({ match, location }) => <PatientChart location={location.pathname} match={match}/>}/>
                     <Route exact path='/searchPatientById'component={''}/>
                     <Route exact path='/' component={WelcomePanel}/>
                     <Route exact path='/exportCDISC' component={''}/>
