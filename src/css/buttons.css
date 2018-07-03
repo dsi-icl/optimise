@@ -77,7 +77,7 @@
 .NavLink {
     cursor: pointer;
     display: table;
-    text-decoration: none
+    text-decoration: none;
 }
 
 .dataResultButton {
@@ -87,4 +87,8 @@
     background-color: lightgrey;
     overflow: hidden;
     max-width: 4em;
+}
+
+.NavLink:active {
+    color: #ff5151;
 }
