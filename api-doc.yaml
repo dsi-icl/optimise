@@ -18,9 +18,19 @@ paths:
         name: "body"
         description: "User log-in credentials"
         required: true
+        schema:
+          $ref: Login
     responses:
       200:
-        description: "OK" {'token': token}
+        description: "OK"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: A token.
       400:
         description: "Please provide "username" and "pw"."
       401:
@@ -225,6 +235,13 @@ paths:
     get:
       summary:
 definitions:
+  Login:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      pw:
+        type: "string"      
   User:
     type: "object"
     properties:
