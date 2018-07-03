@@ -8,8 +8,9 @@ import cssTexts from '../../../css/inlinetexts.css';
 import cssButtons from '../../../css/buttons.css';
 
 //not yet finished the dispatch
-@connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.testTypes }), dispatch => ({ createVisit: body => dispatch('') }))
-export class CreateTest extends Component {
+/* patch the drug mapping from state and to UI when the backend API is finished */
+@connect(state => ({ visits: state.patientProfile.data.visits, types: [{ id: 1, name: 'placeholder' }] }), dispatch => ({ createVisit: body => dispatch('') }))
+export class CreateTreatment extends Component {
     constructor() {
         super();
         this.state = {
@@ -46,15 +47,21 @@ export class CreateTest extends Component {
         if (this.props.visits) {
             const params = this.props.match.params;
             const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId == params.visitId)[0].visitDate, 10)).toDateString();
-            console.log(visitDate);
             return (<div>
                 <BackButton to={`/patientProfile/${params.patientId}`}/>
-                <h2>CREATE A NEW TEST</h2>
+                <h2>CREATE A NEW TREATMENT</h2>
                 <span class={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
                 <br/>
-                <span class={cssTexts.centeredBlock}>Please enter date on which the test is expected to occur: <br/> <span className={cssTexts.centeredBlock}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
+                Dose: <input name='dose' type='text'/>
                 <br/>
-                <span class={cssTexts.centeredBlock}>What type of test is it? 
+                Unit: <input name='unit' type='text'/>
+                <br/>
+                Form: <input name='form' type='text'/>
+                <br/>
+                Times per day: <input name='tpd' type='text'/>
+                <br/>
+                Duration in weeks: <input name='duration' type='text'/>
+                <span class={cssTexts.centeredBlock}>What drug is it? 
                     <select>
                         {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                     </select>

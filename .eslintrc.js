@@ -13,7 +13,7 @@ module.exports = {
     },
     rules: {
         quotes: ['error', 'single'],
-        eqeqeq: ['error', 'always'],
+        eqeqeq: ['warn', 'always'],
         indent: ['warn', 4, { 'SwitchCase': 1 }],
         'block-spacing': ['error', 'always'],
         'object-curly-spacing': ['error', 'always'],

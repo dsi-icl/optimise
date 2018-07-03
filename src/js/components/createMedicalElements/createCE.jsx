@@ -8,8 +8,8 @@ import cssTexts from '../../../css/inlinetexts.css';
 import cssButtons from '../../../css/buttons.css';
 
 //not yet finished the dispatch
-@connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.testTypes }), dispatch => ({ createVisit: body => dispatch('') }))
-export class CreateTest extends Component {
+@connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEvents }), dispatch => ({ createVisit: body => dispatch('') }))
+export class CreateCE extends Component {
     constructor() {
         super();
         this.state = {
@@ -46,15 +46,14 @@ export class CreateTest extends Component {
         if (this.props.visits) {
             const params = this.props.match.params;
             const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId == params.visitId)[0].visitDate, 10)).toDateString();
-            console.log(visitDate);
             return (<div>
                 <BackButton to={`/patientProfile/${params.patientId}`}/>
-                <h2>CREATE A NEW TEST</h2>
+                <h2>CREATE A NEW EVENT</h2>
                 <span class={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
                 <br/>
-                <span class={cssTexts.centeredBlock}>Please enter date on which the test is expected to occur: <br/> <span className={cssTexts.centeredBlock}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
+                <span class={cssTexts.centeredBlock}>Please enter date on which the event occurred: <br/> <span className={cssTexts.centeredBlock}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange}/></span> </span>
                 <br/>
-                <span class={cssTexts.centeredBlock}>What type of test is it? 
+                <span class={cssTexts.centeredBlock}>What type of event is it? 
                     <select>
                         {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                     </select>
