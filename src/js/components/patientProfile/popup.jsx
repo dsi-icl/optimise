@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import cssButtons from '../../../css/buttons.css';
 import cssDropdowns from '../../../css/dropdowns.css';
+import { NavLink } from 'react-router-dom';
 
-@connect(state => ({ visitList: state.patientProfile.data.visits, patientId: state.patientProfile.patientId }))
+@connect(state => ({ visitList: state.patientProfile.data.visits, patientId: state.patientProfile.data.patientId }))
 export class VisitPicker extends Component {
     render() {
         return (
@@ -11,7 +12,9 @@ export class VisitPicker extends Component {
                 To which visit?
                 {this.props.visitList ? 
                     this.props.visitList.map(visit => 
-                        <div className={cssButtons.patientBanner}>{new Date(parseInt(visit.visitDate, 10)).toDateString()}</div>) 
+                        <NavLink to={`/patientProfile/${this.props.patientId}/create/${visit.visitId}/${this.props.elementType}`} className={cssButtons.NavLink}>
+                            <div className={cssButtons.patientBanner}>{new Date(parseInt(visit.visitDate, 10)).toDateString()}</div>
+                        </NavLink>) 
                     : null}
             </div>
         )

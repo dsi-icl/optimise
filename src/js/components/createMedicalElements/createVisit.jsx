@@ -1,21 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { BackButton } from '../medicalData/dataPage.jsx';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
 import cssTexts from '../../../css/inlinetexts.css';
 import cssButtons from '../../../css/buttons.css';
-
-
-export class PickDate extends Component {
-    render() {
-        return <DatePicker
-            selected={this.props.startDate}
-            onChange={this.props.handleChange}
-        />;
-    }
-}
+import { PickDate } from './datepicker.jsx';
 
 export function parseDate(dateString) {
     const dateArr = dateString.split('/');
