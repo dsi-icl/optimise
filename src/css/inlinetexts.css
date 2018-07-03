@@ -11,3 +11,12 @@
     color: grey;
     margin-top: 15%
 }
+
+.patientID {
+    display: inline-block;
+    font-size: 1.5rem;
+}
+
+.consentText {
+    font-size: 0.8rem;
+}
