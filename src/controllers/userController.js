@@ -26,7 +26,7 @@ class UserController {
      *
      * @description Send the information relative to the user.
      *
-     * @param {*} req the request send by the user. May conatins a username specification
+     * @param {*} req the request send by the user. May contain a username specification
      * @param {*} res the response expected by the client.
      */
     GET(req, res) {
@@ -36,7 +36,7 @@ class UserController {
         } else if (Object.keys(req.query).length === 1 && typeof (req.query.username) === 'string') {
             queryUsername = req.query.username;
         } else {
-            res.status(400).send('The query string can only conatins one username');
+            res.status(400).send('The query string can only contain one username');
             return;
         }
         queryUsername = `%${queryUsername}%`;

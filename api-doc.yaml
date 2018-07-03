@@ -13,44 +13,52 @@ paths:
   /internalapi/userlogin:
     post:
       summary: "User login"
-    parameters:
+      parameters:
       - in: "body"
         name: "body"
         description: "User log-in credentials"
         required: true
         schema:
-          $ref: Login
-    responses:
-      200:
-        description: "OK"
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                token:
-                  type: string
-                  description: A token.
-      400:
-        description: "Please provide "username" and "pw"."
-      401:
-        description: "Cannot find this user" "Cannot login. wrong password."
-      500:
-        description: "Server error." "Database error"
+          $ref: "#/definitions/Login"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  token:
+                    type: "string"
+                    description: "A token."
+        400:
+          description: "Please provide 'username' and 'pw'."
+        401:
+          description: "Cannot find this user" "Cannot login. wrong password."
+        500:
+          description: "Server error." "Database error"
   /internalapi/userlogout:
     post:
       summary: "User logout"
-    responses:
-      200:
-        description: "...has been deleted successfully."
-      400:
-        description: "Database error"
-      401:
-        description: "You do not have permission to log out this user."
-      404:
-        description: "Couldn\'t find entry"
-      500:
-        description: "something weird happened"
+      responses:
+        200:
+          description: "admin's session has been deleted successfully."
+          content:
+            application/json:
+            schema:
+              type: "object"
+              properties:
+                username:
+                  type: "string"
+                  description: "Username of logged-out user."
+        400:
+          description: "Database error"
+        401:
+          description: "You do not have permission to log out this user."
+        404:
+          description: "Couldn\'t find entry"
+        500:
+          description: "something weird happened"
   /api/users:
     post:
       summary: "Create a new user (admin only)"
@@ -76,11 +84,25 @@ paths:
           description: "Server error!"
     put:
       summary: "Change a user password (self only)"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "New password for username"
+        required: true
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+            pw:
+              type: string
       responses:
         200:
-          description: "has been succesfully updated."
+          description: "Username's password has been succesfully updated."
         400:
-          description: "Database error"
+          description: "Database error" "update failed. Please check you parameters"
         401:
           description: "You do not have permission to delete this user. Or you did not provide the needed parameters"
         404:
@@ -91,32 +113,66 @@ paths:
           description: "something weird happened"
     delete:
       summary: "Delete a user (admin only)"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Username to delete"
+        required: true
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+              description: The username to be deleted.
       responses:
         200:
-          description:
+          description: "'username' has been deleted successfully."
         400:
-          description:
+          description: "Database error"
         401:
           description: "You do not have permission to delete this user."
+        404:
+          description: "Couldn't find entry"
         500:
-          description:
+          description: "something weird happened"
     get:
-      summary: "Get the list of all users (admin only)"
+      summary: "Get the list of all users (admin only) if no query string parameters specified"
+      parameters:
+        - in: "query"
+          name: "username"
+          schema:
+            type: "string"
+          description: "Get the user with the given username"
       responses:
         200:
-          description:
+          description: "OK"
+          content:
+            application/json:
+            schema:
+              type: "object"
+              properties:
+                username:
+                  type: "string"
+                realname:
+                  type: "string"
+                adminPriv:
+                  type: "integer"
         400:
-          description: "The query string can only conatins one username"
-        401:
-          description:
-        500:
-          description:
+          description: "The query string can only contain one username"
   /api/patients:
     get:
       summary: "Search patient"
       description: "If query string is not provided, then it returns all the patients. if query string "id={id}" is provided, then it returns patients with id containing "id""
       produces: 
       - "application/json"
+      parameters:
+        - in: "query"
+          name: "id"
+          schema:
+            type: "string"
+          description: "Get information for the patient(s) with the given id"
       responses:
         400:
           description: "The query string can only have one parameter "id""
@@ -245,17 +301,14 @@ definitions:
   User:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        format: "int64"
       username:
-        type: "string"
-      realname:
         type: "string"
       pw:
         type: "string"
-      adminPriv:
+      isAdmin:
         type: "integer"
+      realName:
+        type: "string"
     xml:
       name: "User"
   TreatmentInterruption:
