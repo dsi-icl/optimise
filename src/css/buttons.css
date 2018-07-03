@@ -53,7 +53,14 @@
 }
 
 .userActionButton {
-    background-color: #E7E5E6
+    position: relative;
+    background-color: #E7E5E6;
+    width: 3em;
+    float: left;
+    max-height: 2em;
+    padding:  0.4em;
+    text-align: center;
+    border-radius: 6px;
 }
 
 .dataSubmitButton {

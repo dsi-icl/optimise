@@ -30,8 +30,7 @@
     grid-column: 3/4;
     grid-row: 1/2;
     overflow: auto;
-    padding-left: 3%;
-    padding-right: 3%
+    height: 100%
 }
 
 .RightPanel {
@@ -57,13 +56,21 @@
     grid-template-rows: 65px 1fr;
     min-height: 0;
     min-width: 0;
+    height: 100%
 }
 
 .patientChartTop {
+    padding-top: 2%;
+    padding-bottom: 2%;
     grid-row: 1/2;
+    padding-left: 3%;
+    padding-right: 3%
 }
 
 .patientChartBody {
     grid-row: 2/3;
     overflow: auto;
+    padding-left: 3%;
+    padding-right: 3%;
+    height: 100%
 }
