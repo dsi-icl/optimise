@@ -32,11 +32,11 @@ export class PatientProfileTop extends Component {
                 <br/><span className={cssTexts.consentText}>This patient consents to have their data recorded for clinical trial purposes.</span>
                 <div style={{ position: 'absolute', right: '1.7em', top: '0.5em' }}>
                     <NavLink to={`/patientProfile/${this.props.patientId}/createVisit`} style={{ textDecoration: 'none' }}>
-                        <div className={[cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ marginRight: 5 }}><AddVisitIcon width='1.3em'/></div>
+                        <div title='Create visit' className={[cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ marginRight: 5 }}><AddVisitIcon width='1.3em'/></div>
                     </NavLink>
-                    <div class={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ borderRadius: '6px 0 0 6px' }}><AddTestIcon width='1.2em'/><VisitPicker elementType='test'/></div>
-                    <div class={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ borderRadius: 0 }}><AddTreatmentIcon width='1.3em'/><VisitPicker elementType='treatment'/></div>
-                    <div class={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ borderRadius: '0 6px 6px 0' }}><AddEventIcon width='0.45em'/><VisitPicker elementType='clinicalEvent'/></div>
+                    <div title='Order test' class={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ borderRadius: '6px 0 0 6px' }}><AddTestIcon width='1.2em'/><VisitPicker elementType='test'/></div>
+                    <div title='Add prescription' class={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ borderRadius: 0 }}><AddTreatmentIcon width='1.3em'/><VisitPicker elementType='treatment'/></div>
+                    <div title='Record event' class={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ borderRadius: '0 6px 6px 0' }}><AddEventIcon width='1.2em'/><VisitPicker elementType='clinicalEvent'/></div>
                 </div>
             </div>
         );

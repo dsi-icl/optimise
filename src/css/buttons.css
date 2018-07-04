@@ -80,6 +80,14 @@
     text-decoration: none;
 }
 
+.NavLink:visited {
+    color: black;
+}
+
+.NavLink:link {
+    color: black;
+}
+
 .dataResultButton {
     border-radius: 5px;
     padding-left: 3px;
@@ -87,8 +95,4 @@
     background-color: lightgrey;
     overflow: hidden;
     max-width: 4em;
-}
-
-.NavLink:active {
-    color: #ff5151;
 }
