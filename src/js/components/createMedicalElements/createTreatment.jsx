@@ -6,41 +6,63 @@ import { PickDate } from './datepicker.jsx';
 import { BackButton } from '../medicalData/dataPage.jsx';
 import cssTexts from '../../../css/inlinetexts.css';
 import cssButtons from '../../../css/buttons.css';
+import { createTreatmentAPICall } from '../../redux/actions/treatments.js';
 
 //not yet finished the dispatch
 /* patch the drug mapping from state and to UI when the backend API is finished */
-@connect(state => ({ visits: state.patientProfile.data.visits, types: [{ id: 1, name: 'placeholder' }] }), dispatch => ({ createVisit: body => dispatch('') }))
+@connect(state => ({ visits: state.patientProfile.data.visits, types: [{ id: 1, name: 'placeholder' }] }), dispatch => ({ createTreatment: body => dispatch(createTreatmentAPICall(body)) }))
 export class CreateTreatment extends Component {
     constructor() {
         super();
         this.state = {
-            startDate: moment()
+            drugType: '',
+            dose: '',
+            unit: '',
+            form: '',
+            timesPerDay: '',
+            durationInWeeks: ''
         };
-        this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
         this._formatRequestBody = this._formatRequestBody.bind(this);
+        this._handleTypeChange = this._handleTypeChange.bind(this);
+        this._handleInputChange = this._handleInputChange.bind(this);
     }
 
-    _handleDateChange(date) {
+    componentDidMount(){
         this.setState({
-            startDate: date
+            drugType: this.props.types[0].id
         });
     }
 
     _formatRequestBody() {
-        const date = this.state.startDate._d;
-        return {
-            patientId: this.props.patientId,
-            visitDate: { day: date.getDate(),
-                month: date.getMonth() + 1,
-                year: date.getFullYear()
+        return { patientId: this.props.match.params.patientId,
+            data: {
+                visitId: this.props.match.params.visitId,
+                drugId: this.state.drugType,
+                dose: this.state.dose,
+                unit: this.state.unit,
+                form: this.state.form,
+                timesPerDay: this.state.form,
+                durationInWeeks: this.state.durationInWeeks
             }
         };
     }
 
+    _handleTypeChange(ev) {
+        this.setState({
+            drugType: parseInt(ev.target.value, 10)
+        });
+    }
+
     _handleSubmitClick() {
         const requestBody = this._formatRequestBody();
-        this.props.createVisit(requestBody);
+        this.props.createTreatment(requestBody);
+    }
+
+    _handleInputChange(ev) {
+        const newState = {};
+        newState[ev.target.name] = ev.target.value;
+        this.setState(newState);
     }
 
     render() {
@@ -52,17 +74,17 @@ export class CreateTreatment extends Component {
                 <h2>CREATE A NEW TREATMENT</h2>
                 <span class={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
                 <br/>
-                Dose: <input name='dose' type='text'/>
+                Dose: <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text'/>
                 <br/>
-                Unit: <input name='unit' type='text'/>
+                Unit: <input value={this.state.unit} onChange={this._handleInputChange} name='unit' type='text'/>
                 <br/>
-                Form: <input name='form' type='text'/>
+                Form: <input value={this.state.form} onChange={this._handleInputChange} name='form' type='text'/>
                 <br/>
-                Times per day: <input name='tpd' type='text'/>
+                Times per day: <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text'/>
                 <br/>
-                Duration in weeks: <input name='duration' type='text'/>
+                Duration in weeks: <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text'/>
                 <span class={cssTexts.centeredBlock}>What drug is it? 
-                    <select>
+                    <select value={this.state.drugType} onChange={this._handleTypeChange}>
                         {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                     </select>
                 </span>

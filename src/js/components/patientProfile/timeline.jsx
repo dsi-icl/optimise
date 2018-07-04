@@ -46,7 +46,7 @@ export class TimelineBox extends Component {   //unfinsihed
                 );
             };
             const mappingMedFunction = med => {
-                const date = 1514764800000;    //change this later
+                const date = 1514764800000;    //change this later to real visit date
                 const ratio = parseInt((date - allDates[0]) / 86400000, 10);
                 const durationInDays = med.durationWeeks * 7; 
                 console.log(`durationInDays = ${durationInDays} || ${ratio}`);
