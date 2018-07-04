@@ -89,6 +89,9 @@ class OneVisit extends Component {
                 </TimelineEvent>
 
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='SIGNS AND SYMPTOMS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
+                    <NavLink to={`/patientProfile/${this.props.data.patientId}/symptoms/${this.props.visitId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+                        <div className={cssButtons.dataResultButton}>edit/add➠ </div>
+                    </NavLink>
                 </TimelineEvent>
                 
                 
