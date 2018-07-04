@@ -7,15 +7,6 @@ import cssTexts from '../../../css/inlinetexts.css';
 import cssButtons from '../../../css/buttons.css';
 import { PickDate } from './datepicker.jsx';
 
-export function parseDate(dateString) {
-    const dateArr = dateString.split('/');
-    if (dateArr.length === 3 && dateArr.filter(el => (Number.isInteger(el) && el > 0 ))) {
-        return { day: parseInt(dateArr[0], 10), month: parseInt(dateArr[1], 10), year: parseInt(dateArr[2], 10) };
-    } else {
-        throw new Error('wrong date format');
-    }
-}
-
 @connect(state => ({ patientId: state.patientProfile.data.patientId }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
 export class CreateVisit extends Component {
     constructor() {
