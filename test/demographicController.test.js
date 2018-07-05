@@ -2,6 +2,9 @@
 const app = require('../src/app');
 const adminToken = require('./token').adminToken;
 const request = require('supertest')(app);
+// const {destroyAndMigrate} = require('../src/utils/db-handler');
+
+// beforeAll(() => {destroyAndMigrate('testing')});
 
 describe('Create Demographic controller test', () => {
     test('Creating demographic without body', () => request
@@ -50,7 +53,7 @@ describe('Create Demographic controller test', () => {
         .set('token', adminToken)
         .send({
             'patient': 9,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -59,7 +62,7 @@ describe('Create Demographic controller test', () => {
             'smoking_history': 1
         })
         .then(res => {
-            expect(res.status).toBe(404);
+            expect(res.status).toBe(400);
         }));
 
     test('Creating demographic with body but badly formatted DOB (Should Fail)', () => request
@@ -84,7 +87,7 @@ describe('Create Demographic controller test', () => {
         .set('token', adminToken)
         .send({
             'patient': 1,
-            'DOB': { 'day': 29, 'month': 2, 'year': 2001 },
+            'DOB': '29 Feb 2001',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -101,7 +104,7 @@ describe('Create Demographic controller test', () => {
         .set('token', adminToken)
         .send({
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 10,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -118,7 +121,7 @@ describe('Create Demographic controller test', () => {
         .set('token', adminToken)
         .send({
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominant_hand': 10,
             'ethnicity': 1,
@@ -135,7 +138,7 @@ describe('Create Demographic controller test', () => {
         .set('token', adminToken)
         .send({
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 10,
@@ -152,7 +155,7 @@ describe('Create Demographic controller test', () => {
         .set('token', adminToken)
         .send({
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -169,7 +172,7 @@ describe('Create Demographic controller test', () => {
         .set('token', adminToken)
         .send({
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -186,7 +189,7 @@ describe('Create Demographic controller test', () => {
         .set('token', adminToken)
         .send({
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -203,7 +206,7 @@ describe('Create Demographic controller test', () => {
         .set('token', adminToken)
         .send({
             'patient': 7,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -267,7 +270,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 80,
             'patient': 9,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -276,7 +279,7 @@ describe('Edit Demographic controller test', () => {
             'smokingHistory': 1
         })
         .then(res => {
-            expect(res.status).toBe(404);
+            expect(res.status).toBe(400);
         }));
 
 
@@ -286,7 +289,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 9,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -340,7 +343,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 10,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -358,7 +361,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominantHand': 10,
             'ethnicity': 1,
@@ -376,7 +379,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 10,
@@ -394,7 +397,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -412,7 +415,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -430,7 +433,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -446,9 +449,9 @@ describe('Edit Demographic controller test', () => {
         .put('/api/demogdata/Demographic')
         .set('token', adminToken)
         .send({
-            'id': 8,
+            'id': 7,
             'patient': 7,
-            'DOB': { 'day': 2, 'month': 3, 'year': 1980 },
+            'DOB': '1 Jan 1980',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -497,7 +500,8 @@ describe('Delete Demographic controller test', () => {
             'id': 90
         })
         .then(res => {
-            expect(res.status).toBe(404);
+            expect(res.status).toBe(200);
+            expect(res.body).toBe(0);
         }));
 
     test('Deleting demographic with good preperty (Should Works)', () => request
