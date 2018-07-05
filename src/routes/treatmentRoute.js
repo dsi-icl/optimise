@@ -6,8 +6,7 @@
 const express = require('express');
 const treatment = express();
 
-const Treatment = require('../controllers/treatmentController');
-const TreatmentController = new Treatment();
+const TreatmentController = require('../controllers/treatmentController');
 
 treatment.route('/')
     .post(TreatmentController.createTreatment)

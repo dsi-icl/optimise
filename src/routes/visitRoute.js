@@ -7,8 +7,7 @@
 const express = require('express');
 const visit = express();
 
-const VisitCtrl = require('../controllers/visitController');
-const VisitController = new VisitCtrl();
+const VisitController = require('../controllers/visitController');
 
 visit.route('/')
     .get(VisitController.getVisitsOfPatient)

@@ -4,9 +4,6 @@ const app = require('../src/app');
 const request = require('supertest')(app);
 const adminToken = require('./token').adminToken;
 const standardToken = require('./token').standardToken;
-// const {destroyAndMigrate} = require('../src/utils/db-handler');
-
-// beforeAll(() => {destroyAndMigrate('testing')});
 
 describe('Visit controller tests', () => {
     test('getting visits of a patient', () => request
@@ -49,8 +46,8 @@ describe('Visit controller tests', () => {
         .post('/api/visits')
         .set('token', adminToken)
         .send({
-            'patientId': 6,
-            'visitDate': '29 Jan 2000'
+            'patientId': 'eleno',
+            'visitDate': { 'day': 29, 'month': 2, 'year': 2000 }
         })
         .then(res => {
             expect(res.statusCode).toBe(200);
@@ -61,8 +58,8 @@ describe('Visit controller tests', () => {
         .post('/api/visits')
         .set('token', adminToken)
         .send({
-            'patientId': 6,
-            'visitDate': '29 Jan 2000'
+            'patientId': 'eleno',
+            'visitDate': { 'day': 29, 'month': 2, 'year': 2000 }
         })
         .then(res => {
             expect(res.statusCode).not.toBe(200);
@@ -72,8 +69,8 @@ describe('Visit controller tests', () => {
         .post('/api/visits')
         .set('token', adminToken)
         .send({
-            'patientId': 6,
-            'visitDate': '32 Mar 2000'
+            'patientId': 'eleno',
+            'visitDate': { 'day': 29, 'month': 2, 'year': 2001 }
         })
         .then(res => {
             expect(res.statusCode).toBe(400);

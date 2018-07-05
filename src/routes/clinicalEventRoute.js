@@ -6,8 +6,7 @@
 const express = require('express');
 const ce = express();
 
-const CECtrl = require('../controllers/ceController');
-const CeController = new CECtrl();
+const CeController = require('../controllers/ceController');
 
 ce.route('/')
     .post(CeController.createCe)
