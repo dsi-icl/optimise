@@ -6,8 +6,8 @@
 const express = require('express');
 const patient = express();
 
-const PatientController = require('../controllers/patientController');
-
+const PatientCtrl = require('../controllers/patientController');
+const PatientController = new PatientCtrl();
 // Interacts with the patients in the DB
 // Real path expected is /api/patients
 patient.route('/')

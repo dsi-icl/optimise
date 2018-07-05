@@ -1,11 +1,13 @@
 /* global describe test expect */
 
-
 //UNFINISHED: test erase patients
 const app = require('../src/app');
 const request = require('supertest')(app);
 const adminToken = require('./token').adminToken;
 const standardToken = require('./token').standardToken;
+// const {destroyAndMigrate} = require('../src/utils/db-handler');
+
+// beforeAll(() => {destroyAndMigrate('testing')});
 
 describe('Patient controller tests', () => {
     test('Getting all patients', () => request
@@ -85,11 +87,11 @@ describe('Patient controller tests', () => {
             expect(res.statusCode).toBe(200);
         }));
 
-    test('Deleting this patient again', () => request
+    test('Deleting this patient again (should return 200)', () => request
         .patch('/api/patients')
         .set('token', adminToken)
         .send({ 'aliasId': 'littlePatient' })
         .then(res => {
-            expect(res.statusCode).toBe(404);
+            expect(res.statusCode).toBe(200);
         }));
 });

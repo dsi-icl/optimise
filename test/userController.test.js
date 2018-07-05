@@ -3,7 +3,7 @@
 const app = require('../src/app');
 const request = require('supertest')(app);
 
-let adminToken, standardToken;
+let { adminToken, standardToken } = require('../test/token');
 
 describe('User controller tests', () => {
     test('First user (admin) login', () => request
