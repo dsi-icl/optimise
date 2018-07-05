@@ -59,7 +59,7 @@ UserController.prototype.updateUser = function (req, res) {
     }
 
     if (req.requester.username !== req.body.username) {
-        res.status(401).jaon(ErrorHelper(message.userError.NORIGHTS));
+        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }
 
