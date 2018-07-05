@@ -1,13 +1,15 @@
 const knex = require('../utils/db-connection');
+//const ErrorHelper = require('../utils/error_helper');
+//const message = require('../utils/message-utils');
 
 class DataController {
-    constructor(){
+    constructor() {
         this._RouterAddOrUpdate = this._RouterAddOrUpdate.bind(this);
         this._RouterDeleteData = this._RouterDeleteData.bind(this);
     }
 
-    _RouterAddOrUpdate(req, res){
-        const dataType = req.params.dataType.substring(0,1).toUpperCase() + req.params.dataType.substring(1, req.params.dataType.length);
+    _RouterAddOrUpdate(req, res) {
+        const dataType = req.params.dataType.substring(0, 1).toUpperCase() + req.params.dataType.substring(1, req.params.dataType.length);
         try {
             this[`addOrUpdate${dataType}Data`](req, res);
         } catch (e) {
@@ -16,8 +18,8 @@ class DataController {
     }
 
     //TODO : Change switch case to a better
-    _RouterDeleteData(req, res){    //req.body = {visitId = 1, delete:[1, 43, 54 (fieldIds)] }
-        if (req.requester.priv === 1){
+    _RouterDeleteData(req, res) {    //req.body = {visitId = 1, delete:[1, 43, 54 (fieldIds)] }
+        if (req.requester.priv === 1) {
             let options = {};
             switch (req.params.dataType) {
                 case 'visit':
@@ -46,7 +48,7 @@ class DataController {
         }
     }
 
-    deleteData(req, res, options){
+    deleteData(req, res, options) {
         knex.transaction(trx => {
             knex(options.dataTable)
                 .where('field', 'in', req.body.delete)
@@ -55,7 +57,7 @@ class DataController {
                 .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
                 .transacting(trx)
                 .then(result => {
-                    if (result ===  req.body.delete.length) {
+                    if (result === req.body.delete.length) {
                         return result;
                     } else {
                         throw 'The fields do not match';
@@ -68,41 +70,44 @@ class DataController {
             .catch(err => { console.log(err); res.status(404).send('Not all your fields are found. Nothing has been deleted.'); });
     }
 
-    addOrUpdateVisitData(req, res){
+    addOrUpdateVisitData(req, res) {
         let options = {
             entryIdString: 'visitId',
             fieldTable: 'AVAILABLE_FIELDS_VISITS',
             entryTable: 'VISITS',
             errMsgForUnfoundEntry: 'cannot seem to find your visit!',
             dataTable: 'VISIT_DATA',
-            dataTableForeignKey: 'visit' };
+            dataTableForeignKey: 'visit'
+        };
         this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
 
-    addOrUpdateTestData(req, res){
+    addOrUpdateTestData(req, res) {
         let options = {
             entryIdString: 'testId',
             fieldTable: 'AVAILABLE_FIELDS_TESTS',
             entryTable: 'ORDERED_TESTS',
             errMsgForUnfoundEntry: 'cannot seem to find your test!',
             dataTable: 'TEST_DATA',
-            dataTableForeignKey: 'test' };
+            dataTableForeignKey: 'test'
+        };
         this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
 
-    addOrUpdateClinicalEventData(req, res){
+    addOrUpdateClinicalEventData(req, res) {
         let options = {
             entryIdString: 'clinicalEventId',
             fieldTable: 'AVAILABLE_FIELDS_CE',
             entryTable: 'clinical_events',
             errMsgForUnfoundEntry: 'cannot seem to find your clinical event!',
             dataTable: 'CLINICAL_EVENTS_DATA',
-            dataTableForeignKey: 'clinicalEvent' };
+            dataTableForeignKey: 'clinicalEvent'
+        };
         this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
     }
 
-    _transactionForAddAndUpdate(req, options){
-        return function(inputData){
+    _transactionForAddAndUpdate(req, options) {
+        return function (inputData) {
             return knex.transaction(trx => {
                 knex(options.dataTable)    //updating all the 'updates' entries to 'deleted'
                     .where('field', 'in', Object.keys(req.body.update))
@@ -122,7 +127,7 @@ class DataController {
         };
     }
 
-    _addOrUpdateDataBackbone (req, res, options, transactionFunction) {  //req.body = {visitId = 1, update : {1: 43, 54: LEFT}, add : {4324:432, 54:4} }
+    _addOrUpdateDataBackbone(req, res, options, transactionFunction) {  //req.body = {visitId = 1, update : {1: 43, 54: LEFT}, add : {4324:432, 54:4} }
         if (req.body[options.entryIdString] && (req.body.update || req.body.add)) {
             if (req.body.update && req.requester.priv !== 1) {
                 res.status(401).send('Only admin can update data');
@@ -155,7 +160,7 @@ class DataController {
                         promiseArr.push(findField(Object.keys(req.body.add)[i], referenceType));
                         allFieldIds.push(Object.keys(req.body.add)[i]);
                     }
-                    if (Array.from(new Set(allFieldIds)).length !== allFieldIds.length){
+                    if (Array.from(new Set(allFieldIds)).length !== allFieldIds.length) {
                         res.status(400).send('fields in add and update cannot have overlaps!');
                         throw 'stopping the chain';
                     }
@@ -164,7 +169,7 @@ class DataController {
                 .then(result => {    //comparing if all the input values matching the type of the field
                     const totalLength = numOfUpdates + numOfAdds;
                     for (let i = 0; i < totalLength; i++) {
-                        if (result[i].length === 1){
+                        if (result[i].length === 1) {
                             let addOrUpdate = i < numOfUpdates ? 'update' : 'add';
                             let fieldId = result[i][0].id;
                             let fieldType = result[i][0].type;
@@ -205,22 +210,22 @@ class DataController {
                 .then(() =>   //check all the updates are all there and all the adds are NOT there
                     knex(options.dataTable)
                         .select('id')
-                        .where('field', 'in' , Object.keys(req.body.update))
+                        .where('field', 'in', Object.keys(req.body.update))
                         .andWhere('deleted', '-')
                         .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
                         .then(entries => {
-                            if (entries.length !== numOfUpdates){
+                            if (entries.length !== numOfUpdates) {
                                 res.status(400).send('you can only update when the data is already there!');
                                 throw 'stopping the chain';
                             }
                             return knex(options.dataTable)
                                 .select('id')
-                                .where('field', 'in' , Object.keys(req.body.add))
+                                .where('field', 'in', Object.keys(req.body.add))
                                 .andWhere('deleted', '-')
                                 .andWhere(options.dataTableForeignKey, req.body[options.entryIdString]);
                         })
                         .then(entries => {
-                            if (entries.length !== 0){
+                            if (entries.length !== 0) {
                                 res.status(400).send('you can only add when the data is not already there!');
                                 throw 'stopping the chain';
                             }
@@ -255,7 +260,7 @@ class DataController {
                 .then(transactionFunction)
                 .then(result => res.send(`success with ${result.length} new entries added`))
                 .catch(err => { console.log(err); res.status(400).send('Error. Please try again'); })
-                .catch(() => {});
+                .catch(() => { });
         } else {
             res.status(400).send(`please provide ${options.entryIdString} and update and/or add.`);
         }
