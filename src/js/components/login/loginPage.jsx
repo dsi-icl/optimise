@@ -68,7 +68,7 @@ export class LoginPage extends Component {
     render() {
         console.log(`logging ${this.props.loggingIn}`);
         return (<div className={cssLogin.loginPage}>
-            <div className={cssLogin.logoText}> OptimiseMS </div>
+            <div className={cssLogin.background}><div className={cssLogin.logoText}> OptimiseMS </div></div>
             <form onKeyPress={this._handleEnterKey}>
                 Username: <input onChange={this._handleUsernameInput} value={this.state.username} style={{ backgroundColor: '#efefef' }} type='text'/> <br/><br/>
                 Password: <input onChange={this._handlePwInput} value={this.state.pw} style={{ backgroundColor: '#efefef' }} className={cssLogin.input} type='text'/> <br/><br/><br/>
