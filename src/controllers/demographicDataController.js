@@ -59,47 +59,6 @@ DemographicDataController.prototype.createMedicalCondition = function (req, res)
         if (req.body.resolvedYear) {
             entryObj.resolvedYear = req.body.resolvedYear;
         }
-<<<<<<< HEAD
-        knex('PATIENTS')
-            .select('deleted')
-            .where({ 'id': req.body.patient, 'deleted': '-' })
-            .then(result => {
-                if (result.length !== 1) {
-                    res.status(404).send('User not found');
-                    return ;
-                }
-                knex('PATIENT_DEMOGRAPHIC')
-                    .select('*')
-                    .where({ 'patient': req.body.patient, 'deleted': '-' })
-                    .then(resu => {
-                        if (resu.length === 0 && result.length === 1) {
-                            let entryObj = {
-                                'patient': req.body.patient,
-                                'DOB': validateAndFormatDate(req.body.DOB),
-                                'gender': req.body.gender,
-                                'dominantHand': req.body.dominant_hand,
-                                'ethnicity': req.body.ethnicity,
-                                'countryOfOrigin': req.body.country_of_origin,
-                                'alcoholUsage': req.body.alcohol_usage,
-                                'smokingHistory': req.body.smoking_history
-                            };
-                            let databaseErrMsg = 'Cannot create entry. Please check your parameters, and that the values be one of the permitted values. Or the entry might already exist.';
-                            createEntry(req, res, 'PATIENT_DEMOGRAPHIC', entryObj, databaseErrMsg);
-                        } else if (result.length !== 1) {
-                            res.status(404).send('Cannot seem to find your patient!');
-                        } else if (resu.length !== 0) {
-                            res.status(400).send('Patient already have demographic data.');
-                        }
-                    }).catch(err => {
-                        console.log(err);
-                        res.status(500).send(`Problem catched: error message : ${err}`);
-                    });
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).send('Server error.');
-            });
-=======
         this.medicalhistory.createMedicalHistory(entryObj).then(function (result) {
             res.status(200).json(result);
             return;
@@ -110,7 +69,6 @@ DemographicDataController.prototype.createMedicalCondition = function (req, res)
     } else {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
->>>>>>> origin/develop-FixingPromise
     }
 };
 
@@ -262,24 +220,6 @@ DemographicDataController.prototype.getDemogData = function (req, res) {
     }
 };
 
-<<<<<<< HEAD
-    PUTMedicalCondition(req, res) {
-        if (req.requester.priv === 1 && req.body.id && typeof req.body.id === 'number') {
-            let newObj = Object.assign({}, req.body);
-            delete newObj.id;
-            if (req.body.startDate && validateAndFormatDate(req.body.startDate))
-                newObj.startDate = validateAndFormatDate(req.body.startDate);
-
-            const whereObj = { 'id': req.body.id, 'deleted': '-' };
-            updateEntry(req, res, 'MEDICAL_HISTORY', whereObj, newObj, 'Row for Medical Condition', 1);
-        } else if (req.requester.priv !== 1) {
-            res.status(401).send('Error. You do not have permission; or the request is malformed');
-        } else {
-            res.status(400).send('Wrong parameters send. Check if ID is well formatted.');
-        }
-    }
-}
-=======
 module.exports = DemographicDataController;
 
 // class DemographicDataController {
@@ -564,6 +504,5 @@ module.exports = DemographicDataController;
 //         }
 //     }
 // }
->>>>>>> origin/develop-FixingPromise
 
 // module.exports = new DemographicDataController();
