@@ -30,7 +30,7 @@ class LoginFailed extends Component {
         setTimeout(() => { clearInterval(interval) }, 300);
     }
     render() {
-        return <span style={this.state}>'Login failed. Please try again'</span>;
+        return <span style={this.state}>Login failed. Please try again</span>;
     }
 }
 
