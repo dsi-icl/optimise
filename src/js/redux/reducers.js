@@ -28,25 +28,35 @@ function fetchingFinished(state) {
 }
 
 function availableFields(state = initialState.availableFields, action){
-    const allFetchFinished = fetchingFinished(state);
+    let newState;
     switch (action.type){
         case actionTypes.availableFields.GET_CE_TYPES_SUCCESS:
-            return { ...state, clinicalEventTypes: action.payload, fetching: !allFetchFinished };
+            newState = { ...state, clinicalEventTypes: action.payload };
+            break;
         case actionTypes.availableFields.GET_DEMO_FIELDS_SUCCESS:
-            return { ...state, demoFields: action.payload, fetching: !allFetchFinished };
+            newState = { ...state, demoFields: action.payload };
+            break;
         case actionTypes.availableFields.GET_DRUGS_SUCCESS:
-            return { ...state, drugs: action.payload, fetching: !allFetchFinished };
+            newState = { ...state, drugs: action.payload };
+            break;
         case actionTypes.availableFields.GET_INPUT_TYPES_SUCCESS:
-            return { ...state, inputTypes: action.payload, fetching: !allFetchFinished };
+            newState = { ...state, inputTypes: action.payload };
+            break;
         case actionTypes.availableFields.GET_TEST_FIELDS_SUCCESS:
-            return { ...state, testFields: action.payload, fetching: !allFetchFinished };
+            newState = { ...state, testFields: action.payload };
+            break;
         case actionTypes.availableFields.GET_TEST_TYPES_SUCCESS:
-            return { ...state, testTypes: action.payload, fetching: !allFetchFinished };
+            newState = { ...state, testTypes: action.payload };
+            break;
         case actionTypes.availableFields.GET_VISIT_FIELDS_SUCCESS:
-            return { ...state, visitFields: action.payload, fetching: !allFetchFinished };
+            newState = { ...state, visitFields: action.payload };
+            break;
         default:
-            return state
+            return state;
     }
+    newState.fetching = !fetchingFinished(newState);
+    console.log(newState);
+    return newState;
 }
 
 function createPatient(state = initialState.createPatient, action) {

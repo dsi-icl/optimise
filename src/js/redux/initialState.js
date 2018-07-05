@@ -6,7 +6,12 @@ export default {
     },
     availableFields: {
         fetching: true,
-        demoFields: [],
+        demoFields: [
+            {
+                'id': 1,
+                'name': 'placeholder'
+            }
+        ],
         visitFields: [],
         testFields: [],
         clinicalEventTypes: [], 
