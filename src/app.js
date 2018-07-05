@@ -16,9 +16,9 @@ const tests = require('./routes/testRoute');
 const patients = require('./routes/patientRoute');
 const ce = require('./routes/clinicalEventRoute');
 const exportDb = require('./routes/exportRoute');
-const demog = require('./routes/demographicRoute');
 
 // CONTROLLERS
+const DemographicDataController = require('./controllers/demographicDataController');
 const DataController = require('./controllers/dataController');
 const AvailableFieldController = require('./controllers/availableFieldController');
 
@@ -42,7 +42,7 @@ app.use('/api/patientProfile/', patients);
 app.use('/api/clinicalEvents', ce);
 app.use('/api/exportDb', exportDb);
 
-app.use('/api/demogdata/', demog);
+app.all('/api/demogdata/:dataType', DemographicDataController._Router);
 
 app.route('/api/:dataType/data')
     .post(DataController._RouterAddOrUpdate)

@@ -8,13 +8,11 @@ const test = express();
 
 const TestController = require('../controllers/testController');
 
-const testCtrl = new TestController();
-
 test.route('/')
-    .post(testCtrl.createTest)
-    .patch(testCtrl.deleteTest);
+    .post(TestController.createTest)
+    .patch(TestController.deleteTest);
 
 test.route('/addOccurredDate')
-    .post(testCtrl.addActualOccurredDate);
+    .post(TestController.addActualOccurredDate);
 
 module.exports = test;
