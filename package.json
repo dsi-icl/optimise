@@ -20,6 +20,7 @@
     "express": "4.16.3",
     "express-zip": "^2.0.1",
     "knex": "0.14.6",
+    "save": "^2.3.2",
     "sqlite3": "4.0.1"
   },
   "devDependencies": {
