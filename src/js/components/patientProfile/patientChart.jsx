@@ -67,7 +67,7 @@ class OneVisit extends Component {
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         return(
-            <TimelineEvent subtitleStyle={{ fontSize: '0.7rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: '#f5f6fa', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
+            <TimelineEvent subtitleStyle={{ fontSize: '0.7rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
                     <table style={{ width: '100%' }}>
                         <tbody>
