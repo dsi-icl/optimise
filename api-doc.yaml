@@ -92,12 +92,12 @@ paths:
         description: "New password for username"
         required: true
         schema:
-          type: object
+          type: "object"
           properties:
             username:
-              type: string
+              type: "string"
             pw:
-              type: string
+              type: "string"
       responses:
         200:
           description: "Username's password has been succesfully updated."
@@ -174,14 +174,97 @@ paths:
             type: "string"
           description: "Get information for the patient(s) with IDs that contain id"
       responses:
-        400:
-          description: "The query string can only have one parameter "id""
         200:
           description: "Result"
+          schema:
+            type: "array"
+            description: "All patients if no query string, patients with IDs containing `id` if query string"
+            items:
+              $ref: '#/definitions/Patient'
+        400:
+          description: "The query string can only have one parameter `id`"
     post:
       summary: "Create a patient"
-    delete:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            aliasId:
+              type: "string"
+            study:
+              type: "string"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "array"
+                    description: "Id"
+        400:
+          description: "Cannot create patient. ID might already exist. Also, make sure you provide `aliasId` and `study` as keys."
+    patch:
       summary: "Delete a patient (admin only)"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            aliasId:
+              type: "string"
+      responses:
+        200:
+          description: "`aliasId` has been deleted successfully."
+        400:
+          description: "Database error"
+        401:
+          description: "Sorry! Only admins are able to edit / delete data"
+        404:
+          description: "Couldn\'t find entry"
+        500:
+          description: "something weird happened"
+    delete:
+      summary: "Erase patient information"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: ""
+        required: true
+        schema:
+          type: "object"
+          properties:
+            aliasId:
+              type: "string"
+      responses:
+        200:
+          description: "Erasure completed. Check for any data retreivable if needed."
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  result:
+                    type: "string"
+                    description: "Successful erasure"
+        400:
+          description: "No query found"
+        403:
+          description: "Sorry! Only admins are able to edit / delete data"
   /api/patientProfile/:id:
     get:
       summary: "Get patient information by id"
@@ -311,6 +394,19 @@ definitions:
         type: "string"
     xml:
       name: "User"
+  Patient:
+    type: "object"
+    properties:
+      patientId:
+        type: "integer"
+      aliasId:
+        type: "string"
+      study:
+        type: "string"
+      DOB:
+        type: "date"
+      gender:
+        type: "integer"
   TreatmentInterruption:
     type: "object"
     properties:
