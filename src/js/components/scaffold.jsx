@@ -76,7 +76,7 @@ export class MiddlePanel extends Component {
     }
 }
 
-@connect(state => ({ page: state.rightPanel }), null, null, { pure: false })
+@connect(null, null, null, { pure: false })
 export class RightPanel extends Component {
     render() {
         return (

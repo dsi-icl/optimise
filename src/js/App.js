@@ -52,16 +52,15 @@ class LoadingFields extends Component {
         if (this.props.fetching) {
             return <div className={cssLogin.loadingFields}><div className={cssIcons.spinner}><LoadingIcon/></div> Loading project data..</div>;
         } else {
-            return <div>GOOD</div>;
-            // return (
-            //     <div className={cssScaffold.App}>
-            //         <MenuBar/>
-            //         <MiddlePanel/>
-            //         <RightPanel/>
-            //         <FarRightPanel/>
-            //         <StatusBar/>
-            //     </div>
-            // );
+            return (
+                <div className={cssScaffold.App}>
+                    <MenuBar/>
+                    <MiddlePanel/>
+                    <RightPanel/>
+                    <FarRightPanel/>
+                    <StatusBar/>
+                </div>
+            );
         }
     }
 }
