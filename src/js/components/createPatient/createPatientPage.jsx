@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import saveIcon from '../../../statics/icons/icons8-tick-box-48.png';
-import cancelIcon from '../../../statics/icons/icons8-close-window-48.png';
 
 
 @connect(state => ({ fields: state.availableFields.demoFields, patientId: state.createPatient.patientId }))
@@ -19,12 +17,10 @@ export class CreatePatientComponent extends Component {    //get these props fro
         }
         return (
             <div style={style}>
-                <img title='cancel' style={imgStyle} src={cancelIcon} alt='cancel'/>
                 <b> To create patient {this.props.patientId}, please enter the following data: </b><br/><br/>
                 {this.props.fields.map(el => 
                     <span key={el.id}>{el.definition}: <DataField field={el}/> <br/><br/></span>
                 )}
-                <img title='create this patient' style={imgStyle} src={saveIcon} alt='save'/>
 
             </div>
         )
