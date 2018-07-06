@@ -2,10 +2,11 @@
     background: linear-gradient(to top right, rgb(43,120,212), rgb(235,149,188));
     font-size: 15px;
     height: 100%;
-    padding-top: 5%;
+    padding-top: 10%;
     color: #efefef;
     text-align: center;
     font-family: Arial ;
+    overflow: auto;
 }
 
 .logoText {
