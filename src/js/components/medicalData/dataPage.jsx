@@ -9,11 +9,8 @@ import cssInputs from '../../../css/inputfields.css';
 
 function mapStateToProps(state) {
     return {
-        fields: state.availableFields.testFields,
-        patientId: state.patientProfile.data.patientId,
-        allTestData: state.patientProfile.data.tests ? state.patientProfile.data.tests : null,
-        fetching: state.patientProfile.fetching,
-        dataTypes: state.availableFields.dataTypes
+        fields: state.availableFields,
+        patientProfile: state.patientProfile
     }
 }
 
@@ -24,16 +21,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-export class TestData extends Component {
+export class DataTemplate extends Component {
     constructor() {
         super();
         this.state = { data: null };
         this._handleSubmit = this._handleSubmit.bind(this);
-    }
-
-    componentDidMount() {
-        console.log(this.props.allTestData);
-        console.log(this.props.match.params.testId);
     }
 
     _handleSubmit(ev){
@@ -58,14 +50,17 @@ export class TestData extends Component {
     }
 
     render(){
-        if (!this.props.fetching) {
-            const test = this.props.allTestData.filter(test => test.testId == this.props.match.params.testId)[0];  // eslint-disable-line eqeqeq
-            console.log(test);
-            return (<div style={{ overflow: 'auto' }}>
-                <BackButton to={`/patientProfile/${this.props.patientId}`}/>
-                <h2>TEST RESULT</h2> <h2>Type: {test.type} <br/>Date ordered: {new Date(parseInt(test.expectedOccurDate, 10)).toDateString()}<br/> Date sample taken: </h2> 
-                {formatData(test, this.props.fields, this.props.dataTypes, this._handleSubmit)}
-            </div>);   //change the type later
+        if (!this.props.patientProfile.fetching) {
+            const elementsMatched = this.props.allTestData.filter(test => test.testId == this.props.match.params.testId);  // eslint-disable-line eqeqeq
+            if (elementsMatched.length === 0) {
+                return <div>Cannot find your test! </div>;
+            } else {
+                return (<div style={{ overflow: 'auto' }}>
+                    <BackButton to={`/patientProfile/${this.props.patientId}`}/>
+                    <h2>TEST RESULT</h2> <h2>Type: {test.type} <br/>Date ordered: {new Date(parseInt(test.expectedOccurDate, 10)).toDateString()}<br/> Date sample taken: </h2> 
+                    {formatData(test, this.props.fields, this.props.dataTypes, this._handleSubmit)}
+                </div>);   //change the type later
+            }
         } else {
             return <div className={cssIcons.spinner}><LoadingIcon/></div>
         }
