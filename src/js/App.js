@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold.jsx'; 
 import { LoginPage } from './components/login/loginPage.jsx';
@@ -10,7 +11,7 @@ import { getVisitFieldsCall, getTestFieldsCall, getClinicalEventTypesCall, getTe
 require('react-datepicker/dist/react-datepicker-cssmodules.css');
 
 
-// WHAT IF USERS DIRECTLY GO TO A DEEP LINK ?   maybe <ROUTE render={(match)} => App/>
+@withRouter
 @connect(state => ({ loggedIn: state.login.loggedIn }))
 class App extends Component {
     componentWillUnmount(){
@@ -38,7 +39,7 @@ function mapDispatchToProps(dispatch) {
         getTestTypesCall: () => dispatch(getTestTypesCall())
     };
 }
-
+@withRouter
 @connect(state => ({ fetching: state.availableFields.fetching }), mapDispatchToProps)
 class LoadingFields extends Component {
     componentDidMount() {
