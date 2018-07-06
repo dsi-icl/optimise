@@ -21,7 +21,7 @@ class App extends Component {
     }
 
     render() {
-        if (this.props.loggedIn) {
+        if (true) {     //if (this.props.loggedIn) {
             return <LoadingFields/>;
         } else {
             return <LoginPage/>;
