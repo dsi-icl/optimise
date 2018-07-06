@@ -75,10 +75,16 @@ export class LoginPage extends Component {
             borderBottom: '2px solid rgba(255,255,255,0.3)',
             borderRadius: 0,
             margin: '10px',
-            textAlign: 'center'
+            textAlign: 'center',
+            paddingLeft: 30,
+            paddingRight: 28,
+            position: 'relative',
+            right: 9
         };
         const iconStyle={
-            fill: 'rgba(255,255,255,0.3)'
+            fill: 'rgba(255,255,255,0.3)',
+            position: 'relative',
+            left: 21
         };
         console.log(`logging ${this.props.loggingIn}`);
         return (<div className={cssLogin.loginPage}>
@@ -86,14 +92,10 @@ export class LoginPage extends Component {
             <div className={cssLogin.logoText}> Optimise MS </div>
             <div className={cssLogin.lowerCircle}> </div>
             <form onKeyPress={this._handleEnterKey}>
-                <div className={cssLogin.inputField}>
-                    <UserIcon style={iconStyle} width='15px'/>
-                    <input onChange={this._handleUsernameInput} value={this.state.username} style={inputStyle} type='text'/>
-                </div>
-                <div className={cssLogin.inputField}>
-                    <KeyIcon style={iconStyle} width='17px'/>
-                    <input onChange={this._handlePwInput} type='password' value={this.state.pw} style={inputStyle} className={cssLogin.input}/>
-                </div>
+                <UserIcon style={iconStyle} width='15px'/>
+                <input onChange={this._handleUsernameInput} value={this.state.username} style={inputStyle} type='text'/> <br/>
+                <KeyIcon style={iconStyle} width='17px'/>
+                <input onChange={this._handlePwInput} type='password' value={this.state.pw} style={inputStyle} className={cssLogin.input}/>
                 {this.props.loggingIn ? 
                     <div style={{ marginTop: 20 }} className={cssIcons.spinner}><LoadingIcon/></div>
                     :
