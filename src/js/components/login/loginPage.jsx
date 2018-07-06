@@ -95,7 +95,7 @@ export class LoginPage extends Component {
                     <input onChange={this._handlePwInput} type='password' value={this.state.pw} style={inputStyle} className={cssLogin.input}/>
                 </div>
                 {this.props.loggingIn ? 
-                    <div style={{ marginTop: 0 }} className={cssIcons.spinner}><LoadingIcon/></div>
+                    <div style={{ marginTop: 20 }} className={cssIcons.spinner}><LoadingIcon/></div>
                     :
                     <div><div onClick={this._handleSubmit} style={{ margin: '30px auto', float: 'none' }} className={[cssButton.patientBanner, cssLogin.loginButton].join(' ')}>
                         Sign in
