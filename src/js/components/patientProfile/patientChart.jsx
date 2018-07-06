@@ -38,7 +38,7 @@ function mapTests(patientId, typeMap) {
         const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
         return formatRow([testType, 
             new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
-            <NavLink id={`/patientProfile/${patientId}/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+            <NavLink id={`/patientProfile/${patientId}/data/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                 <div className={cssButtons.dataResultButton}>results➠ </div>
             </NavLink>
         ]);
@@ -52,7 +52,7 @@ function mapMedications(el) {
 function mapClinicalEvents(patientId) {
     return el => 
         formatRow([el.type, 
-            <NavLink to={`/patientProfile/${patientId}/ce/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+            <NavLink to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                 <div className={cssButtons.dataResultButton}> results➠ </div>
             </NavLink>
         ]);
@@ -89,7 +89,7 @@ class OneVisit extends Component {
                 </TimelineEvent>
 
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='SIGNS AND SYMPTOMS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
-                    <NavLink to={`/patientProfile/${this.props.data.patientId}/symptoms/${this.props.visitId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+                    <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                         <div className={cssButtons.dataResultButton}>edit/add➠ </div>
                     </NavLink>
                 </TimelineEvent>

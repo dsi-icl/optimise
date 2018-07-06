@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { CreatePatientComponent } from './createPatient/createPatientPage.jsx';
 import { PatientChart } from './patientProfile/patientChart.jsx';
 import { Switch, Route, NavLink } from 'react-router-dom';
-import { TestData } from './medicalData/dataPage.jsx';
+import { DataPageRouter } from './medicalData/router.jsx';
 import { History } from './exportCDSIC/history.jsx';
 import { CreateVisit } from './createMedicalElements/createVisit.jsx';
 import { SearchIcon, SettingIcon, CloudIcon, ExportIcon, FilterIcon, LogoutIcon } from '../../statics/svg/icons.jsx';
@@ -76,7 +76,6 @@ export class MiddlePanel extends Component {
     }
 }
 
-@connect(null, null, null, { pure: false })
 export class RightPanel extends Component {
     render() {
         return (
@@ -101,10 +100,8 @@ export class FarRightPanel extends Component {
         return (
             <div className={css.RightPanel}>
                 <Switch>
-                    <Route path='/patientProfile/:patientId/symptoms/:visitId' render={({ match }) => <SymptomPage match={match}/>}/>
                     <Route path='/patientProfile/:patientId/create/:visitId/:type' render={({ match }) => <CreateElementRouter match={match}/>}/>
-                    <Route path='/patientProfile/:patientId/ce/:ceId' component={'CE'}/>
-                    <Route path='/patientProfile/:patientId/test/:testId' render={({ match }) => <TestData match={match}/>}/>
+                    <Route path='/patientProfile/:patientId/data/:elementType/:elementId' render={({ match }) => <DataPageRouter match={match}/>}/>
                     <Route path='/patientProfile/:patientId/createVisit' render={({ match }) => <CreateVisit match={match}/>}/>
                     <Route path='/patientProfile/:patientId' render={({ match }) => <Section match={match}/>}/>
                     <Route exact path='/exportCDISC' component={''}/>
