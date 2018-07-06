@@ -66,12 +66,26 @@ export class LoginPage extends Component {
     }
 
     render() {
+        const inputStyle= {
+            background: 'transparent',
+            fontSize: 16,
+            color: 'white',
+            borderBottom: '1.5px solid white',
+            borderRadius: 0,
+            margin: '10px auto'
+        };
         console.log(`logging ${this.props.loggingIn}`);
         return (<div className={cssLogin.loginPage}>
-            <div className={cssLogin.background}><div className={cssLogin.logoText}> OptimiseMS </div></div>
+            <div className={cssLogin.upperCircle}> </div>
+            <div className={cssLogin.logoText}> Optimise MS </div>
+            <div className={cssLogin.lowerCircle}> </div>
             <form onKeyPress={this._handleEnterKey}>
-                Username: <input onChange={this._handleUsernameInput} value={this.state.username} style={{ backgroundColor: '#efefef' }} type='text'/> <br/><br/>
-                Password: <input onChange={this._handlePwInput} value={this.state.pw} style={{ backgroundColor: '#efefef' }} className={cssLogin.input} type='text'/> <br/><br/><br/>
+                <div className={cssLogin.inputField}>
+                U: <input onChange={this._handleUsernameInput} value={this.state.username} style={inputStyle} type='text'/>
+                </div>
+                <div className={cssLogin.inputField}>
+                P: <input onChange={this._handlePwInput} value={this.state.pw} style={inputStyle} className={cssLogin.input} type='text'/>
+                </div>
                 {this.props.loggingIn ? 
                     <div style={{ marginTop: 0 }} className={cssIcons.spinner}><LoadingIcon/></div>
                     :
