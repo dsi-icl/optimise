@@ -1,5 +1,5 @@
 .loginPage {
-    background: linear-gradient(to top right, rgb(200, 56, 90), rgb(75, 150, 180));
+    background: linear-gradient(to top right, rgb(43,120,212), rgb(235,149,188));
     font-size: 15px;
     height: 100%;
     padding-top: 5%;
@@ -10,22 +10,23 @@
 
 .logoText {
     color: white;
-    font-size: 50px;
+    font-size: 35px;
     text-align: center;
     margin: 0 auto;
     font-weight: bold;
-    height: 70px;
+    font-family: arial;
+    height: 40px;
     overflow: hidden;
     z-index: 100;
 }
 
 .lowerCircle {
     border-bottom: 1px solid white;
-    width: 200px;
-    height: 140px;
+    width: 100px;
+    height: 70px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: -70px;
+    margin-top: -20px;
     margin-bottom: 20px;
     border-radius: 50%;
     z-index: 90;
@@ -37,13 +38,25 @@
     border-top: 1px solid white;
     border-bottom: 0;
     margin-top: 0;
-    margin-bottom: -70px;
+    margin-bottom: -20px;
 }
 
 
 .loadingFields {
     composes: loginPage;
     background-color: #f2f2f2;
-    color: #363A3B
+    color: #363A3B;
+    position: relative
 }
 
+.loginButton {
+    background-color: rgb(123,210,225);
+    height: 40px;
+    width: 200px;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    border-radius: 4px;
+    line-height: 40px;
+    padding: 0px;
+}
