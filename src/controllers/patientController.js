@@ -76,7 +76,7 @@ PatientController.prototype.setPatientAsDeleted = function (req, res) {
 
 PatientController.prototype.getPatientProfileById = function (req, res) {
     if (req.params.hasOwnProperty('patientId')) {
-        this.patient.getPatient({ patientId: 'id', study: 'study' }, { 'aliasId': req.params.patientId, deleted: '-' }).then(function (Patientresult) {
+        this.patient.getPatient({ 'aliasId': req.params.patientId, deleted: '-' }, { patientId: 'id', study: 'study' }).then(function (Patientresult) {
             let patientId;
             if (Patientresult.length === 1) {
                 patientId = Patientresult[0].patientId;

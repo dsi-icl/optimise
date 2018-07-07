@@ -15,7 +15,7 @@ function Treatment(){
 
 Treatment.prototype.getTreatment = function(treatment){
     return new Promise(function(resolve, reject){
-        getEntry('TREATMENTS', treatment).then(function(result){
+        getEntry('TREATMENTS', treatment, '*').then(function(result){
             resolve(result);
         }, function(error){
             reject(ErrorHelper(message.errorMessages.NOTFOUND, error));

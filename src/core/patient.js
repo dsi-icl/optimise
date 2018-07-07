@@ -15,9 +15,10 @@ function Patient() {
     this.deletePatient = Patient.prototype.deletePatient.bind(this);
 }
 
-Patient.prototype.getPatient = function(selectObj, whereObj) {
+Patient.prototype.getPatient = function(whereObj, selectedObj) {
     return new Promise(function (resolve, reject) {
-        getEntry('PATIENTS', whereObj, selectObj).then(function(result) {
+        whereObj.deleted = '-';
+        getEntry('PATIENTS', whereObj, selectedObj).then(function(result) {
             resolve(result);
         }, function(error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));

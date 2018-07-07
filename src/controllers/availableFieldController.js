@@ -1,4 +1,6 @@
 const knex = require('../utils/db-connection');
+const ErrorHelper = require('../utils/error_helper');
+const message = require('../utils/message-utils');
 
 class AvailableFieldController {
     getFields(req, res){     //bound to GETclinicalEvents and GETtestTypes too
@@ -16,12 +18,16 @@ class AvailableFieldController {
             let table = tableMap[req.params.dataType];
             knex(table)
                 .select('*')
-                .where(moduleObj)
-                .then(result => res.status(200).json(result))
-                .catch(err => { console.log(err); res.status(500).send('database error'); });
+                .where(moduleObj).thenThrow(function(result){
+                    res.status(200).json(result);
+                    return ;
+                }, function(error){
+                    res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+                    return ;
+                });
             return ;
         }
-        res.status(400).send('Unrecognized parameters');
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS, error));
     }
 }
 
