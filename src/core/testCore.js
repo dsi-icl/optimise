@@ -9,9 +9,9 @@ function Test() {
     this.deleteTest = Test.prototype.deleteTest.bind(this);
 }
 
-Test.prototype.getTest = function(idTest){
+Test.prototype.getTest = function(whereObj){
     return new Promise(function(resolve, reject){
-        getEntry('ORDERED_TESTS', { id: idTest }, '*').then(function(result){
+        getEntry('ORDERED_TESTS', whereObj, '*').then(function(result){
             resolve(result);
         }, function(error){
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));

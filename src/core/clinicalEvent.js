@@ -23,7 +23,7 @@ function ClinicalEvent() {
  */
 ClinicalEvent.prototype.getClinicalEvent = function(requestedObj) {
     return new Promise(function (resolve, reject) {
-        getEntry('CLINICAL_EVENTS', requestedObj).then(function(result) {
+        getEntry('CLINICAL_EVENTS', requestedObj, '*').then(function(result) {
             resolve(result);
         }, function(error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
