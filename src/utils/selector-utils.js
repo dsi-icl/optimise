@@ -14,7 +14,7 @@ class SelectorUtils {
     getDemographicData(patientId) {
         return knex('PATIENT_DEMOGRAPHIC')
             .select('DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin', 'alcoholUsage', 'smokingHistory')
-            .where({ 'patient': patientId, 'deleted': '-' })
+            .where({ 'patient': patientId, deleted: '-' })
             .then(result => {
                 const returnObj = { demographicData: result[0] };
                 return returnObj;
