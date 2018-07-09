@@ -17,7 +17,6 @@ demogdata.route('/Demographic')
     .put(DemographicController.editDemographic)
     .delete(DemographicController.deleteDemographic);
 
-
 demogdata.route('/Immunisation')
     .post(DemographicController.createImmunisation)
     .put(DemographicController.editImmunisation)
@@ -32,5 +31,8 @@ demogdata.route('/MedicalCondition')
 // Real path expected is /api/patientProfile
 demogdata.route('/:dataType')
     .get(DemographicController.getDemogData);
+
+demogdata.route('/Fields/:dataType')
+    .get(DemographicController.getFields);
 
 module.exports = demogdata;
