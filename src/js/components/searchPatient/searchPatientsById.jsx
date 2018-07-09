@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import cssButtons from '../../../css/buttons.css';
 import cssInputs from '../../../css/inputfields.css';
 import { connect } from 'react-redux';
-import { clickedCreatePatient } from '../../redux/actions/createPatient';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import { Link } from 'react-router-dom';
 
@@ -47,7 +46,7 @@ export class SearchPatientsById extends Component {
         );
     }
 }
-@connect(null, dispatch => ({ fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName)), clickedCreatePatient: patientId => dispatch(clickedCreatePatient(patientId)) }))
+@connect(null, dispatch => ({ fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName)) }))
 export class SearchResultForPatients extends Component {
     constructor() {
         super();
@@ -63,7 +62,7 @@ export class SearchResultForPatients extends Component {
 
     _handleClickCreate(patientName) {
         return (ev) => {
-            this.props.clickedCreatePatient(patientName);
+            //
         }
     }
 
