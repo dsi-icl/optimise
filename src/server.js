@@ -1,7 +1,13 @@
 /*eslint no-console: "off"*/
 const app = require('./app');
 
-let server = app.listen(3030, () => { console.log('listening on port 3030!'); });
+var portSelected = 3030;
+
+if (process.argv.length >= 3) {
+    portSelected = parseInt(process.argv[2]);
+}
+
+let server = app.listen(portSelected, () => { console.log(`listening on port ${portSelected}!`); });
 
 process.on('exit', function () {
     server.close(function () {
