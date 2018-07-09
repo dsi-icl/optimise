@@ -44,7 +44,7 @@ DataCore.prototype.deleteData = function (requester, options, idData, deleteObj)
                 })
                 .then(trx.commit)
                 .catch(trx.rollback);
-        })
+        });
     });
 };
 

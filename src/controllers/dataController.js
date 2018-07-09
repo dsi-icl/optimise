@@ -113,27 +113,26 @@ class DataController {
     }
 
     // deleteData(req, res, options) {
-        // knex.transaction(trx => {
-        //     knex(options.dataTable)
-        //         .where('field', 'in', req.body.delete)
-        //         .andWhere('deleted', '-')
-        //         .andWhere(options.dataTableForeignKey, req.body[`${req.params.dataType}Id`])
-        //         .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
-        //         .transacting(trx)
-        //         .then(result => {
-        //             if (result === req.body.delete.length) {
-        //                 return result;
-        //             } else {
-        //                 throw 'The fields do not match';
-        //             }
-        //         })
-        //         .then(trx.commit)
-        //         .catch(trx.rollback);
-        // })
+    // knex.transaction(trx => {
+    //     knex(options.dataTable)
+    //         .where('field', 'in', req.body.delete)
+    //         .andWhere('deleted', '-')
+    //         .andWhere(options.dataTableForeignKey, req.body[`${req.params.dataType}Id`])
+    //         .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
+    //         .transacting(trx)
+    //         .then(result => {
+    //             if (result === req.body.delete.length) {
+    //                 return result;
+    //             } else {
+    //                 throw 'The fields do not match';
+    //             }
+    //         })
+    //         .then(trx.commit)
+    //         .catch(trx.rollback);
+    // })
 
-        // result => { res.status(200).send(`${result} entries have been successfully deleted.`); })
-        // .catch(err => { console.log(err); res.status(404).send('Not all your fields are found. Nothing has been deleted.'); });
-    }
+    // result => { res.status(200).send(`${result} entries have been successfully deleted.`); })
+    // .catch(err => { console.log(err); res.status(404).send('Not all your fields are found. Nothing has been deleted.'); });
 
     // addOrUpdateVisitData(req, res) {
     //     let options = {

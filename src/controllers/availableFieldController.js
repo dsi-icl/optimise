@@ -27,7 +27,7 @@ class AvailableFieldController {
                 });
             return ;
         }
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS, error));
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
     }
 }
 
