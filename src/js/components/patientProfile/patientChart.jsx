@@ -15,7 +15,7 @@ import cssIcons from '../../../css/icons.css';
 
 export class PatientChart extends Component {
     componentDidMount() {
-        store.dispatch(getPatientProfileById(window.location.pathname.split('/')[2]));
+        store.dispatch(getPatientProfileById(this.props.match.params.patientId));
     }
 
     render() {
