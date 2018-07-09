@@ -2,7 +2,7 @@
 /*eslint no-var: "off"*/
 const app = require('./app');
 
-var portSelected = 3030;
+let portSelected = 3030;
 
 if (process.argv.length >= 3) {
     portSelected = parseInt(process.argv[2]);
