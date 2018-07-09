@@ -187,7 +187,7 @@ module.exports = UserController;
 //                     return ;
 //                 })
 //                 .catch(err => {
-//                     if (process.env.NODE_ENV !== 'prod')
+//                     if (process.env.NODE_ENV !== 'production')
 //                         console.log(`Error catched : ${err}`);
 //                     res.status(500).send('error');
 //                     return ;

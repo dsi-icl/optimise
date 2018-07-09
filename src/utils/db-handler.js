@@ -2,29 +2,29 @@
 const knex = require('./db-connection');
 const fs = require('fs');
 
-function migrate(type){
+function migrate(type) {
     switch (type) {
         case 'testing':
             knex.migrate.latest({ directory: './db/migrations' })
                 .then(() => knex.seed.run({ directory: './db/seed' }))
                 .then(() => knex.seed.run({ directory: './db/exampleDataForTesting/seed' }))
-                .then(() => { if (process.env.NODE_ENV !== 'PROD') console.log('CREATED DATABASE AND POPULATED WITH MS MODULES AND TESTING DATA'); })
+                .then(() => { if (process.env.NODE_ENV !== 'production') console.log('CREATED DATABASE AND POPULATED WITH MS MODULES AND TESTING DATA'); })
                 .then(() => knex.destroy())
                 .catch(err => { console.log(err); knex.destroy(); });
             break;
-        case  'MS_fields':
+        case 'MS_fields':
             knex.migrate.latest({ directory: './db/migrations' })
                 .then(() => knex.seed.run({ directory: './db/seed' }))
-                .then(() => { if (process.env.NODE_ENV !== 'PROD') console.log('CREATED DATABASE AND POPULATED WITH MS MODULES'); })
+                .then(() => { if (process.env.NODE_ENV !== 'production') console.log('CREATED DATABASE AND POPULATED WITH MS MODULES'); })
                 .then(() => knex.destroy())
                 .catch(err => { console.log(err); knex.destroy(); });
             break;
         case 'bare':
             knex.migrate.latest({ directory: './db/migrations' })
-                .then(() => { if (process.env.NODE_ENV !== 'PROD') console.log('CREATED DATABASE WITH BARE SCHEMA'); })
+                .then(() => { if (process.env.NODE_ENV !== 'production') console.log('CREATED DATABASE WITH BARE SCHEMA'); })
                 .then(() => knex.destroy())
                 .catch(err => { console.log(err); knex.destroy(); });
-            break ;
+            break;
         default:
             throw TypeError('Wrong parameter used');
     }

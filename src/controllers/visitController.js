@@ -35,7 +35,7 @@ VisitController.prototype.createVisit = function (req, res) {
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        return ;
+        return;
     });
 };
 
@@ -96,7 +96,7 @@ module.exports = VisitController;
 //                     }
 //                 })
 //                 .catch(err => {
-//                     if (process.env.NODE_ENV !== 'prod')
+//                     if (process.env.NODE_ENV !== 'production')
 //                         console.log(`Error catched : ${err}`);
 //                     res.status(500).send(err);
 //                     return ;
@@ -128,7 +128,7 @@ module.exports = VisitController;
 //                     }
 //                 })
 //                 .catch(err => {
-//                     if (process.env.NODE_ENV !== 'prod')
+//                     if (process.env.NODE_ENV !== 'production')
 //                         console.log(`Error catched : ${err}`);
 //                     res.status(500).send(err);
 //                     return ;
