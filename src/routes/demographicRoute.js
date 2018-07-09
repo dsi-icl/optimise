@@ -11,7 +11,6 @@ const DemographicController = new DemogdataCrtrl();
 // Interacts with the patients in the DB
 // Real path expected is /api/patients
 
-
 demogdata.route('/Demographic')
     .post(DemographicController.createDemographic)
     .put(DemographicController.editDemographic)

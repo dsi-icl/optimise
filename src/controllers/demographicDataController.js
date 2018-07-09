@@ -19,8 +19,7 @@ function DemographicDataController() {
     this.deleteMedicalCondition = DemographicDataController.prototype.deleteMedicalCondition.bind(this);
     this.getFields = DemographicDataController.prototype.getFields.bind(this);
     this.getDemographicFields = DemographicDataController.prototype.getDemographicFields.bind(this);
-//    this.getMedicalConditionFields = DemographicDataController.prototype.getMedicalConditionFields.bind(this);
-//    this.getImmunisationFields = DemographicDataController.prototype.getImmunisationFields.bind(this);
+    this.getMedicalConditionFields = DemographicDataController.prototype.getMedicalConditionFields.bind(this);
 }
 
 DemographicDataController.prototype.createDemographic = function (req, res) {
@@ -228,13 +227,17 @@ DemographicDataController.prototype.getFields = function (req, res) {
     if (req.params.hasOwnProperty('dataType')) {
         let action = {
             'Demographic': this.getDemographicFields,
-            'Immunisation': this.getImmunisationFields,
             'MedicalCondition': this.getMedicalConditionFields
         };
-        action[req.params.dataType](req, res);
-        return;
+        if (!action.hasOwnProperty(req.params.dataType)) {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        } else {
+            action[req.params.dataType](req, res);
+            return;
+        }
     } else {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
 };
@@ -247,6 +250,45 @@ DemographicDataController.prototype.getDemographicFields = function (req, res) {
         'country': this.demographic.getCountryFields,
         'alcohol_usage': this.demographic.getAlcoholUsageFields,
         'smoking_history': this.demographic.getSmokingFields
+    };
+
+    if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('fieldName')) {
+        if (action.hasOwnProperty(req.query.fieldName)) {
+            action[req.query.fieldName]().then(function (result) {
+                res.status(200).json(result);
+                return;
+            }, function (error) {
+                res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+                return;
+            });
+        } else {
+            res.status(404).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+    } else {
+        const promiseArray = [];
+        for (let key = 0; key < Object.keys(action).length; key++) {
+            promiseArray.push(action[Object.keys(action)[key]]());
+        }
+        let promiseHandler = Promise.all(promiseArray);
+        promiseHandler.then(function (result) {
+            const responseObj = {};
+            for (let i = 0; i < result.length; i++) {
+                responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
+            }
+            res.status(200).json(responseObj);
+            return;
+        }, function (error) {
+            res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
+            return;
+        });
+    }
+};
+
+DemographicDataController.prototype.getMedicalConditionFields = function (req, res) {
+    let action = {
+        'relations': this.medicalhistory.getRelations,
+        'conditions': this.medicalhistory.getConditions
     };
 
     if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('fieldName')) {

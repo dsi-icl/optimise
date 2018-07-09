@@ -20,6 +20,8 @@ function MedicalHistory() {
     this.editMedicalHistory = MedicalHistory.prototype.editMedicalHistory.bind(this);
     this.createMedicalHistory = MedicalHistory.prototype.createMedicalHistory.bind(this);
     this.deleteMedicalHistory = MedicalHistory.prototype.deleteMedicalHistory.bind(this);
+    this.getRelations = MedicalHistory.prototype.getRelations.bind(this);
+    this.getConditions = MedicalHistory.prototype.getConditions.bind(this);
 }
 
 function Immunisation() {
@@ -212,6 +214,28 @@ MedicalHistory.prototype.deleteMedicalHistory = function (requester, whereObj) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        });
+    });
+};
+
+MedicalHistory.prototype.getRelations = function () {
+    return new Promise(function (resolve, reject) {
+        getEntry('RELATIONS', {}, '*').then(function (result) {
+            let returnObj = { 'relations': result };
+            resolve(returnObj);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+MedicalHistory.prototype.getConditions = function () {
+    return new Promise(function (resolve, reject) {
+        getEntry('CONDITIONS', {}, '*').then(function (result) {
+            let returnObj = { 'conditions': result };
+            resolve(returnObj);
+        }, function (error) {
+            reject(error);
         });
     });
 };
