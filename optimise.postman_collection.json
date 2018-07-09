@@ -258,7 +258,7 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patients?id=o",
+							"raw": "{{url}}/api/patients?id=e",
 							"host": [
 								"{{url}}"
 							],
@@ -269,7 +269,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "o"
+									"value": "e"
 								}
 							]
 						},
@@ -328,14 +328,14 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patientProfile/littlePatient",
+							"raw": "{{url}}/api/patientProfile/chon",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"patientProfile",
-								"littlePatient"
+								"chon"
 							]
 						},
 						"description": "shows all patients with id similar to the one provided"
@@ -361,14 +361,14 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patientProfile/hey?getOnly=Visits,Tests",
+							"raw": "{{url}}/api/patientProfile/chon?getOnly=Visits,Tests",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"patientProfile",
-								"hey"
+								"chon"
 							],
 							"query": [
 								{
@@ -870,6 +870,64 @@
 								"interrupt"
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get drugs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/api/treatments/drugs",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"treatments",
+								"drugs"
+							]
+						},
+						"description": "Get all drugs"
+					},
+					"response": []
+				},
+				{
+					"name": "Search drug",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/api/treatments/drugs?name=on",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"treatments",
+								"drugs"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "on"
+								}
+							]
+						},
+						"description": "Get drugs from a query"
 					},
 					"response": []
 				}
