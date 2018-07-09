@@ -4,9 +4,9 @@ const knex = require('../utils/db-connection');
 const fs = require('fs');
 require('express-zip');
 
-class ExportController {
+class ExportDataController {
 
-    exportDb(__unused__req, res) {
+    exportDatabase(__unused__req, res) {
 
         const fileName = 'OptimiseData.csv';
         let fileArray = [];
@@ -145,4 +145,4 @@ class ExportController {
     }
 }
 
-module.exports = new ExportController();
+module.exports = new ExportDataController();
