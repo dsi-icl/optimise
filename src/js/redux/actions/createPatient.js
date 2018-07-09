@@ -1,5 +1,8 @@
-export const createPatientRequest = patientId => ({ type: 'CREATE_PATIENT_REQUEST', payload: patientId });
-export const createPatientSuccess = patientId => ({ type: 'CREATE_PATIENT_SUCCESS', payload: patientId });
+import actionTypes from './listOfActions.js';
+import { getPatientProfileById } from './searchPatientById.js';
+
+export const createPatientRequest = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_REQUEST, payload: patientId });
+export const createPatientSuccess = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_SUCCESS, payload: patientId });
 export const createPatientCall = (patientId) => dispatch => {
     dispatch(createPatientRequest(patientId));
     return fetch('/api/patients', {
@@ -12,9 +15,6 @@ export const createPatientCall = (patientId) => dispatch => {
         .then(res => res.json(), err => console.log(err))
         .then(json => {
             console.log(json);
-            dispatch(createPatientSuccess(json))
+            dispatch(getPatientProfileById(patientId));
         })
 }
-
-
-export const clickedCreatePatient = patientId => ({ type: 'CLICKED_CREATE_PATIENT', payload: patientId });

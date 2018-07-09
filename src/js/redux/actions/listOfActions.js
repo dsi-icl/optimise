@@ -8,6 +8,10 @@ export default {
         SEARCH_PATIENTS_BY_ID_REQUEST: 'SEARCH_PATIENTS_BY_ID_REQUEST',
         SEARCH_RESULT_BY_ID_SUCCESS: 'SEARCH_RESULT_BY_ID_SUCCESS'
     },
+    createPatients: {
+        CREATE_PATIENT_REQUEST: 'CREATE_PATIENT_REQUEST',
+        CREATE_PATIENT_SUCCESS: 'CREATE_PATIENT_SUCCESS'
+    },
     patientProfile: {
         
     },
