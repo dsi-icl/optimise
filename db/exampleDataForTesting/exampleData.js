@@ -20,14 +20,52 @@ const exampleData = {
         { id: 1, patient: 1, visitDate: '1514764800000', type: 1, createdByUser: 1, deleted: '-' },
         { id: 2, patient: 1, visitDate: '1517443200000', type: 1, createdByUser: 1, deleted: '-' },
         { id: 3, patient: 3, visitDate: '1517875200000', type: 1, createdByUser: 2, deleted: '-' },
+        { id: 4, patient: 7, visitDate: '1517875200000', type: 1, createdByUser: 2, deleted: '-' }
+    ],
+    'VISIT_DATA': [
+        { id: 1, visit: 1, field: 1, value: 150, createdByUser: 1, deleted: '1@xxxxxxxx' },
+        { id: 2, visit: 2, field: 5, value: 60, createdByUser: 1, deleted: '-' },
+        { id: 3, visit: 1, field: 6, value: 'NO', createdByUser: 1, deleted: '-' },
+        { id: 4, visit: 3, field: 20, value: 'BOTH', createdByUser: 1, deleted: '-' },
+        { id: 5, visit: 4, field: 18, value: 'NO', createdByUser: 1, deleted: '-' }
     ],
     'ORDERED_TESTS': [
         { id: 1, orderedDuringVisit: 1, type: 1, expectedOccurDate: '1520294400000', createdByUser: 1, deleted: '-' },
         { id: 2, orderedDuringVisit: 3, type: 1, expectedOccurDate: '1517875200000', createdByUser: 1, deleted: '-' },
         { id: 3, orderedDuringVisit: 2, type: 1, expectedOccurDate: '1517443200000', createdByUser: 1, deleted: '-' },
     ],
+    'TEST_DATA': [
+        { id: 1, test: 1, field: 5, value: 'negative', createdByUser: 1, deleted: '-' },
+        { id: 2, test: 1, field: 15, value: 'unknown', createdByUser: 1, deleted: '-' },
+        { id: 3, test: 2, field: 34, value: 'positive', createdByUser: 1, deleted: '-' }
+    ],
+    'CLINICAL_EVENTS': [
+        { id: 1, patient: 1, type: 1, dateStartDate: '1514764800000', createdByUser: 1, deleted: '-' },
+        { id: 2, patient: 3, type: 1, dateStartDate: '1517443200000', createdByUser: 1, deleted: '-' },
+        { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', createdByUser: 1, deleted: '-' }
+    ],
+    'CLINICAL_EVENTS_DATA': [
+        { id: 1, clinicalEvent: 1, field: 3, value: 'YES, NO, UNKNOWN', createdByUser: 1, deleted: '-' },
+        { id: 2, clinicalEvent: 3, field: 2, value: 'UNKNOWN', createdByUser: 1, deleted: '-' },
+        { id: 3, clinicalEvent: 2, field: 2, value: 'YES', createdByUser: 1, deleted: '-' },
+        { id: 4, clinicalEvent: 2, field: 4, value: 'UNKNOWN', createdByUser: 1, deleted: '-' }
+    ],
     'TREATMENTS': [
-        { id: 1, orderedDuringVisit: 1, drug: 1, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' }
+        { id: 1, orderedDuringVisit: 1, drug: 1, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' },
+        { id: 2, orderedDuringVisit: 3, drug: 4, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' }
+    ],
+    'TREATMENTS_INTERRUPTIONS': [
+        { id: 1, treatment: 1, startDate: '1484006400000', endDate: '1516406400000', reason: 2, createdByUser: 1, deleted: '-' },
+        { id: 2, treatment: 1, startDate: '1514764800000', createdByUser: 1, deleted: '-' }
+    ],
+    'MEDICAL_HISTORY': [
+        { id: 1, patient: 3, relation: 1, conditionName: 1, outcome: 'ongoing', createdByUser: 1, deleted: '-' },
+        { id: 2, patient: 4, relation: 1, conditionName: 1, outcome: 'resolved', createdByUser: 1, deleted: '1@xxxxxxxx' }
+    ],
+    'PATIENT_IMMUNISATION': [
+        { id: 1, patient: 2, vaccineName: 'vaccine A', immunisationDate: '1517443200000', createdByUser: 1, deleted: '-' },
+        { id: 2, patient: 3, vaccineName: 'vaccine B', immunisationDate: '1114905600000', createdByUser: 1, deleted: '1@xxxxxxxx' },
+        { id: 3, patient: 3, vaccineName: 'vaccine C', immunisationDate: '1275350400000', createdByUser: 1, deleted: '-' }
     ]
 };
 
