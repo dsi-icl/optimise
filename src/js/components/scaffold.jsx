@@ -16,7 +16,6 @@ import { AdminActions } from './admin/actions.jsx';
 import { FilterPanel } from './filterPatient/selectPanel.jsx';
 import { Fields } from './filterPatient/fieldPanel.jsx';
 import { CreateElementRouter } from './createMedicalElements/router.jsx';
-import { SymptomPage } from './medicalData/symptoms.jsx';
 export class MenuBar extends Component {
     render() {
         return (

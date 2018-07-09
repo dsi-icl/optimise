@@ -71,7 +71,7 @@ export class DataTemplate extends Component {
             } else {
                 const fieldString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Fields` : null;   //this is because id naming is inconsistent on backend - might change..?
                 return (<div style={{ overflow: 'auto' }}>
-                    <BackButton to={`/patientProfile/${this.props.match.patientId}`}/>
+                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`}/>
                     <h2>TEST RESULT</h2>  
                     <div>{JSON.stringify(this.state.data)}</div>
                     {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit)}
