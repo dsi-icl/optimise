@@ -1,4 +1,3 @@
-const { isEmptyObject } = require('../utils/basic-utils');
 const SelectorUtils = require('../utils/selector-utils');
 const PatientCore = require('../core/patient');
 const knex = require('../utils/db-connection');
@@ -18,7 +17,7 @@ function PatientController() {
 
 PatientController.prototype.searchPatients = function (req, res) {  //get all list of patient if no query string; get similar if querystring is provided
     let queryid;
-    if (isEmptyObject(req.query)) {
+    if (Object.keys(req.query).length === 0) {
         queryid = '';
     } else if (Object.keys(req.query).length === 1 && typeof (req.query.id) === 'string') {
         queryid = req.query.id;
@@ -141,7 +140,7 @@ PatientController.prototype.erasePatientInfo = function (req, res) {
         res.status(403).send('Sorry! Only admins are able to edit / delete data');
         return;
     }
-    if (isEmptyObject(req.query) || Object.keys(req.query).length > 1 && typeof (req.query.id) !== 'string') {
+    if (Object.keys(req.query).length === 0 || Object.keys(req.query).length > 1 && typeof (req.query.id) !== 'string') {
         res.status(400).send('No query found');
         return;
     }
@@ -166,7 +165,7 @@ PatientController.prototype.erasePatientInfo = function (req, res) {
                 .select({ visitId: 'id' })
                 .where({ 'patient': patientId })
                 .then(resultVisit => {
-                    if (!isEmptyObject(resultVisit) || resultVisit.length > 0) {
+                    if (resultVisit.length > 0) {
                         for (let i = 0; i < resultVisit.length; i++) {
                             visitId[i] = resultVisit[i].visitId;
                             eraseEntry(res, 'VISIT_DATA', { 'visit': visitId[i] }, 'Row for visit data', null, false);
@@ -176,7 +175,7 @@ PatientController.prototype.erasePatientInfo = function (req, res) {
                                     .select({ testId: 'id' })
                                     .where({ 'orderedDuringVisit': visitId[i] })
                                     .then(resultTest => {
-                                        for (let j = 0; !isEmptyObject(resultTest) && j < resultTest.length; j++) {
+                                        for (let j = 0; resultTest.length !== 0 && j < resultTest.length; j++) {
                                             eraseEntry(res, 'TEST_DATA', { 'test': resultTest[j].testId }, 'Row for test data', null, false);
                                         }
                                     });
@@ -186,7 +185,7 @@ PatientController.prototype.erasePatientInfo = function (req, res) {
                                     .select({ treatmentId: 'id' })
                                     .where({ 'orderedDuringVisit': visitId[i] })
                                     .then(resultTreatment => {
-                                        for (let j = 0; !isEmptyObject(resultTreatment) && j < resultTreatment.length; j++) {
+                                        for (let j = 0; resultTreatment.length !== 0 && j < resultTreatment.length; j++) {
                                             eraseEntry(res, 'TREATMENTS_INTERRUPTION', { 'treatment': resultTreatment[j] }, 'Row for treatment interuption', null, false);
                                         }
                                     });
@@ -196,7 +195,7 @@ PatientController.prototype.erasePatientInfo = function (req, res) {
                                     .select({ ceId: 'id' })
                                     .where({ 'recordedDuringVisit': visitId })
                                     .then(resultCE => {
-                                        for (let j = 0; !isEmptyObject(resultCE) && j < resultCE.length; j++) {
+                                        for (let j = 0; resultCE.length !== 0 && j < resultCE.length; j++) {
                                             eraseEntry(res, 'CLINICQL_EVENT_DATA', { 'clinicalEvent': resultCE[j] }, 'Row for clinical event data', null, false);
                                         }
                                     });
