@@ -26,7 +26,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const date = visit.visitDate;
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}`} href="#trialanchor" style={{ gridColumn: `${ratio+3}/${ratio+4}`, gridRow: '1/2', textDecoration: 'none' }}>
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}`} href={`#visit/${visit.visitId}`} style={{ gridColumn: `${ratio+3}/${ratio+4}`, gridRow: '1/2', textDecoration: 'none' }}>
                     <div style={{  borderRadius: '30%', backgroundColor: 'rgb(133, 150, 176)', color: 'rgb(133, 150, 176)' }}>
                         -
                     </div>
@@ -37,7 +37,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const date = test.expectedOccurDate;
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}test`} href="#trialanchor" style={{ gridColumn: `${ratio+3}/${ratio+4}`, gridRow: '3/4', textDecoration: 'none' }}>
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}test`} href={`#test/${test.testId}`} style={{ gridColumn: `${ratio+3}/${ratio+4}`, gridRow: '3/4', textDecoration: 'none' }}>
                     <div style={{  borderRadius: '30%', backgroundColor: 'rgb(153, 202, 120)', color: 'rgb(153, 202, 120)' }}>
                         -
                     </div>
