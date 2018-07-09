@@ -7,7 +7,7 @@ import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 export class Section extends Component {
     render() {
         if (this.props.fetching) {
-            return <span> FETCHING PROFILE </span>
+            return <span></span>;
         } else {
             return (<div style={{ position: 'relative' }}>        
                 <DemographicSection/>

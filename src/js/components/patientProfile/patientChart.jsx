@@ -13,6 +13,7 @@ import cssScaffold from '../../../css/scaffold.css';
 import cssButtons from '../../../css/buttons.css';
 import cssIcons from '../../../css/icons.css';
 
+@connect(state => ({ fetching: state.patientProfile.fetching }))
 export class PatientChart extends Component {
     componentDidMount() {
         store.dispatch(getPatientProfileById(this.props.match.params.patientId));
@@ -24,10 +25,12 @@ export class PatientChart extends Component {
                 <div className={cssScaffold.patientChartTop}>
                     <PatientProfileTop/>
                 </div>
-                <div className={cssScaffold.patientChartBody}>
-                    <TimelineBox/>
-                    <Charts location={this.props.location}/>
-                </div>
+                { this.props.fetching ? <div className={cssIcons.spinner}><LoadingIcon/></div> :
+                    <div className={cssScaffold.patientChartBody}>
+                        <TimelineBox/>
+                        <Charts location={this.props.location}/>
+                    </div>
+                }
             </div>
         )
     }
@@ -148,22 +151,18 @@ class OneVisit extends Component {
 }
 
 
-@connect(state => ({ fetching: state.patientProfile.fetching, data: state.patientProfile.data, availableFields: state.availableFields }))
+@connect(state => ({ data: state.patientProfile.data, availableFields: state.availableFields }))
 export class Charts extends Component {   //unfinsihed
     render() {
-        if (this.props.fetching) {
-            return <div className={cssIcons.spinner}><LoadingIcon/></div>;
-        } else {
-            return (
-                <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
-                    <Timeline lineColor='#d1d1d1'>
-                        {sortVisits(this.props.data.visits).map(
-                            (el, ind) => <OneVisit availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${this.props.data.visits.length-ind}-th visit`} visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()}/>
-                        )}
-                    </Timeline>
-                </PatientProfileSectionScaffold>
-            )
-        }
+        return (
+            <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
+                <Timeline lineColor='#d1d1d1'>
+                    {sortVisits(this.props.data.visits).map(
+                        (el, ind) => <OneVisit availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${this.props.data.visits.length-ind}-th visit`} visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()}/>
+                    )}
+                </Timeline>
+            </PatientProfileSectionScaffold>
+        )
     }
 }
 
