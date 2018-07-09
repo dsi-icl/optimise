@@ -19,4 +19,7 @@ treatment.route('/interrupt')
     .post(TreatmentController.addInterruption)
     .delete(TreatmentController.deleteInterruption);
 
+treatment.route('/drugs')
+    .get(TreatmentController.getDrugs);
+
 module.exports = treatment;
