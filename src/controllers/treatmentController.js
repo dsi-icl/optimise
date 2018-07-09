@@ -156,7 +156,7 @@ TreatmentController.prototype.getDrugs = function (req, res) {
             res.status(200).json(result);
             return;
         }, function (error) {
-            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return;
         });
         return;
@@ -165,7 +165,7 @@ TreatmentController.prototype.getDrugs = function (req, res) {
             res.status(200).json(result);
             return;
         }, function (error) {
-            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return;
         });
         return;
