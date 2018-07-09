@@ -112,7 +112,7 @@ class DataController {
         }
     }
 
-    deleteData(req, res, options) {
+    // deleteData(req, res, options) {
         // knex.transaction(trx => {
         //     knex(options.dataTable)
         //         .where('field', 'in', req.body.delete)
