@@ -20,6 +20,16 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
+/**
+ * @class DataTemplate
+ * @description Renders the data page for test / visit / treatment / event data
+ * @prop {String} this.props.elementType - 'test', 'visit', 'treatment', 'clinicalEvent'
+ * @prop {Object} this.props.match - from router
+ * @prop {Object} this.props.fields - from store
+ * @prop {Object} this.props.patientProfile - from store
+ * @prop {Function} this.props.submitData - from connect
+ */
+
 @connect(mapStateToProps, mapDispatchToProps)
 export class DataTemplate extends Component {
     constructor() {
@@ -30,8 +40,9 @@ export class DataTemplate extends Component {
 
     _handleSubmit(ev){
         ev.preventDefault();
-        const bodydata = { add: {}, update: {}, testId: 1 };
-        console.log(ev.target);
+        const idString = `${this.props.elementType}Id`;
+        const bodydata = { add: {}, update: {} };
+        bodydata[idString] = this.props.match.params.elementId;
         for (let i = 0, length = ev.target.length - 1; i < length; i++) {   //length - 1 to exclude 'save' button
             const originalValue = ev.target[i].attributes.originalvalue ? ev.target[i].attributes.originalvalue.nodeValue : undefined;
             if (originalValue) {
@@ -44,21 +55,26 @@ export class DataTemplate extends Component {
                 }
             }
         }
-        const body = { data: bodydata, patientId: this.props.patientId, type: 'test' };
-        this.props.submitData(body);
+        const body = { data: bodydata, patientId: this.props.match.params.patientId };
+        console.log(body);
+        this.setState(body);
+        //this.props.submitData(body);
 
     }
 
     render(){
         if (!this.props.patientProfile.fetching) {
-            const elementsMatched = this.props.allTestData.filter(test => test.testId == this.props.match.params.testId);  // eslint-disable-line eqeqeq
+            const idString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Id` : 'id';   //this is because id naming is inconsistent on backend - might change..?
+            const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element[idString] == this.props.match.params.elementId);  // eslint-disable-line eqeqeq
             if (elementsMatched.length === 0) {
                 return <div>Cannot find your test! </div>;
             } else {
+                const fieldString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Fields` : null;   //this is because id naming is inconsistent on backend - might change..?
                 return (<div style={{ overflow: 'auto' }}>
-                    <BackButton to={`/patientProfile/${this.props.patientId}`}/>
-                    <h2>TEST RESULT</h2> <h2>Type: {test.type} <br/>Date ordered: {new Date(parseInt(test.expectedOccurDate, 10)).toDateString()}<br/> Date sample taken: </h2> 
-                    {formatData(test, this.props.fields, this.props.dataTypes, this._handleSubmit)}
+                    <BackButton to={`/patientProfile/${this.props.match.patientId}`}/>
+                    <h2>TEST RESULT</h2>  
+                    <div>{JSON.stringify(this.state.data)}</div>
+                    {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit)}
                 </div>);   //change the type later
             }
         } else {
@@ -99,14 +115,14 @@ export class BackButton extends Component {
  * @param {Array} dataTypes - the datatype array returned by backend
  * @returns {JSX} Formatted data for display on frontend
  */
-function formatData(medicalElement, fieldList, dataTypes, submitFunction) {
-    //reformating the field list to hash table with fieldId as key for easier lookup later without need array filter:
+function formatData(medicalElement, fieldList, inputTypes, submitFunction) {
+    //reformating the field list to hash table with fieldId as key for easier lookup later without needing array filter:
     const filteredFieldList = fieldList.filter(field => field.referenceType == medicalElement.type );   // eslint-disable-line eqeqeq
     const fieldHashTable = filteredFieldList.reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
     //same with data:
     const dataHashTable = medicalElement.data.reduce((map, el) => { map[el.field] = el.value; return map }, {});
-    //same with dataTypes:
-    const dataTypesHashTable = dataTypes.reduce((map, dataType) => { map[dataType.id] = dataType.value; return map }, {});
+    //same with inputTypes:
+    const dataTypesHashTable = inputTypes.reduce((map, dataType) => { map[dataType.id] = dataType.value; return map }, {});
     return (
         <div>
             <form onSubmit={submitFunction}>
