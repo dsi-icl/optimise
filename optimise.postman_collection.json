@@ -200,44 +200,6 @@
 			]
 		},
 		{
-			"name": "export",
-			"description": null,
-			"item": [
-				{
-					"name": "export full database",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value":"application/csv"								
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
-						},
-						"url": {
-							"raw": "{{url}}/api/exportDb",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"exportDb"
-							]
-						},
-						"description": "Exports all data for all patients in database"
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "patients",
 			"description": null,
 			"item": [
@@ -294,6 +256,8 @@
 							}
 						],
 						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/patients",

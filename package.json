@@ -15,11 +15,9 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "2.0.1",
+    "bcrypt": "3.0.0",
     "body-parser": "1.18.3",
     "express": "4.16.3",
-    "express-zip": "^2.0.1",
-    "save": "^2.3.2",
     "knex": "0.15.0",
     "sqlite3": "4.0.1"
   },
@@ -28,9 +26,9 @@
     "babel-core": "6.26.3",
     "babel-eslint": "8.2.5",
     "babel-preset-env": "1.7.0",
-    "eslint": "5.0.1",
+    "eslint": "5.1.0",
     "codacy-coverage": "3.0.0",
-    "jest": "23.2.0",
+    "jest": "23.3.0",
     "supertest": "3.1.0"
   }
 }
