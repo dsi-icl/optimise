@@ -74,6 +74,8 @@ function patientProfile(state = initialState.patientProfile, action) {
             return { fetching: true, data: {} };
         case actionTypes.searchPatientById.SEARCH_RESULT_BY_ID_SUCCESS:
             return { fetching: false, data: action.payload };
+        case actionTypes.searchPatientById.SEARCH_RESULT_BY_ID_FAILURE:
+            return { fetching: true, data: { patientId: 'cannot find you patient :(' } }
         default:
             return state;
     }
