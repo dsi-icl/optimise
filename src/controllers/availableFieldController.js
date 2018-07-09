@@ -18,7 +18,7 @@ class AvailableFieldController {
             let table = tableMap[req.params.dataType];
             knex(table)
                 .select('*')
-                .where(moduleObj).thenThrow(function(result){
+                .where(moduleObj).then(function(result){
                     res.status(200).json(result);
                     return ;
                 }, function(error){
