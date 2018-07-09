@@ -37,6 +37,7 @@ Patient.prototype.searchPatients = function(queryid) {
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .where('PATIENTS.aliasId', 'like', queryid)
             .andWhere('PATIENTS.deleted', '-')
+            .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(function(result){
                 resolve(result);
             }, function(error) {
