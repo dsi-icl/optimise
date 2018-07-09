@@ -176,7 +176,7 @@ now the test input is hardcode
  * @prop {string} this.props.dataType - 'I': integer, 'F': float, 'T': free text
  * @prop {string} this.props.fieldId - fieldid
 */
-class ControlledInputField extends Component {
+export class ControlledInputField extends Component {
     constructor() {
         super();
         this.state = { value: '', valid: true };
@@ -252,7 +252,7 @@ class ControlledInputField extends Component {
  * @prop {string} this.props.fieldId - fieldid
  * @prop {string} this.props.originalValue
 */
-class ControlledSelectField extends Component {
+export class ControlledSelectField extends Component {
     constructor() {
         super();
         this.state = { value: 'unselected' };

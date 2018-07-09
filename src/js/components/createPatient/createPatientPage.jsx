@@ -1,84 +1,50 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-
+import { ControlledInputField, ControlledSelectField } from '../medicalData/dataPage.jsx';
+import moment from 'moment';
+import { PickDate } from '../createMedicalElements/datepicker.jsx';
+import cssButtons from '../../../css/buttons.css';
 
 @connect(state => ({ fields: state.availableFields.demoFields, patientId: state.createPatient.patientId }))
 export class CreatePatientComponent extends Component {    //get these props from state: this.props.visitFields, this.props.patientId
+    constructor() {
+        super();
+        this.state = { DOB: moment() };
+        this._handleDateChange = this._handleDateChange.bind(this);
+    }
+
+    _handleDateChange(date) {
+        this.setState({
+            DOB: date
+        });
+    }
+
+    _handleSubmit(ev){
+        const bodydata = {}
+    }
+
     render() {
         const style = {
             textAlign: 'center',
             fontSize: 14,
             marginTop: 40
-        }
-
-        const imgStyle = {
-            width: 40,
-            cursor: 'pointer'
-        }
+        };
         return (
             <div style={style}>
-                <b> To create patient {this.props.patientId}, please enter the following data: </b><br/><br/>
-                {this.props.fields.map(el => 
-                    <span key={el.id}>{el.definition}: <DataField field={el}/> <br/><br/></span>
-                )}
+                <b> To create patient {this.props.match.params.patientIdCreated}, please enter the following data: </b><br/><br/>
+                {this.props.fields.map(el => {
+                    if (el.definition !== 'DOB') {
+                        return <span key={el.id}>{el.definition}: <ControlledSelectField permittedValues={el.permittedValues} fieldId={el.id}/> <br/><br/></span>;
+                    } else {
+                        return <span key={el.id}>{el.definition}: <PickDate startDate={this.state.DOB} handleChange={this._handleDateChange}/> <br/><br/></span>;
+                    }
+                })
+                }
+
+                <div className={cssButtons.createPatientButton} style={{ width: '30%' }} onClick={this._handleSubmit}>Submit</div>
 
             </div>
         )
     }
 }
 
-
-export class DataField extends Component {
-    render() {
-        if (this.props.field.type === 'C'){    //if field is category
-            if (this.props.value === undefined){
-                return (
-                    <select>
-                        {this.props.field['permittedValues'].split(',').map(el => <option key={el} value={el}>{el}</option>)}
-                    </select>
-                )
-            } else {
-                return (
-                    <select>
-                        {this.props.field['permittedValues'].split(',').map(el => 
-                            el === this.props.value ? <option value={el} selected>{el}</option> : <option value={el}>{el}</option>
-                        )}
-                    </select>
-                )
-            }
-        } else if (this.props.field.type === 'D') {
-            return <DateSelector/>;
-        } else {
-            if (this.props.value === undefined){
-                return <input type='text'></input>
-            } else {
-                return <input type='text' value={this.props.value}></input>
-            }
-        }
-    }
-}
-
-export class DateSelector extends Component {     //not finished
-    constructor(){
-        super();
-        this.state = { date: { day: 'dd', month: 'mm', year: 'yyyy' }, value: '' };
-        this._handleEnterKey = this._handleEnterKey.bind(this);
-        this._handleKeyStroke = this._handleKeyStroke.bind(this);
-    }
-
-    _handleKeyStroke(ev){
-        this.setState({ value: ev.target.value });
-    }
-
-    _handleEnterKey(ev) {
-        if (ev.key === 'Enter') {
-            ev.preventDefault();
-        }
-    }
-
-    render(){
-        return (
-            <input type='text' value={this.state.value} onFocus={this._handleFocus} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey}></input>
-        )
-    }
-}

@@ -64,7 +64,7 @@ export class MiddlePanel extends Component {
                 <Switch>
                     <Route exact path='/' component={SearchPatientsById}/>
                     <Route exact path='/searchPatientById' component={SearchPatientsById}/>
-                    <Route exact path='/createPatient' component={SearchPatientsById}/>
+                    <Route path='/createPatient' component={SearchPatientsById}/>
                     <Route exact path='/exportCDISC' component={History}/>
                     <Route exact path='/administration' component={AdminActions}/>
                     <Route exact path='/filterPatients' component={FilterPanel}/>
@@ -85,7 +85,7 @@ export class RightPanel extends Component {
                     <Route exact path='/' component={WelcomePanel}/>
                     <Route exact path='/exportCDISC' component={''}/>
                     <Route exact path='/administration' component={''}/>
-                    <Route exact path='/createPatient' component={CreatePatientComponent}/>
+                    <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatientComponent match={match}/>}/>
                     <Route exact path='/filterPatients' component={Fields}/>
                     <Route component={() => <span>Oops! seems like we cannot find your url</span>}/>
                 </Switch>
