@@ -8,17 +8,17 @@ class RequestMiddleware {
                 .innerJoin('USERS', 'USERS.id', 'USER_SESSION.user')
                 .where({ 'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': '-', 'USERS.deleted': '-' })
                 .then(result => {
-                    if (result.length !== 0){
+                    if (result.length !== 0) {
                         req.requester = result[0];
                         next();
                     } else {
                         res.status(400).send('You are not logged in. Please provide a valid token.');
-                    } })
+                    }
+                })
                 .catch(err => {
-                    console.log(err);
-                    res.status(500).send('Database error');
+                    res.status(500).send(`Database error ${JSON.stringify(err)}`);
                 });
-        } else if (req.originalUrl === '/internalapi/userlogin'){
+        } else if (req.originalUrl === '/internalapi/userlogin') {
             next();
         } else {
             res.status(400).send('Please provide a token in the header');

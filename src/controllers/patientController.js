@@ -206,9 +206,9 @@ PatientController.prototype.erasePatientInfo = function (req, res) {
                         }
                     }
                 });
-        }).catch(err => {
+        }).catch(__unused__err => {
             if (process.env.NODE_ENV !== 'prod')
-                console.log(err);
+                ; //console.log(err);
             return;
         });
     res.status(200).send('Erasure completed. Check for any data retreivable if needed.');
