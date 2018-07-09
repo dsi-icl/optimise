@@ -1,3 +1,4 @@
+/*eslint no-console: "off"*/
 // run 'knex seed:run' in ../ to load example data
 const data = require('../exampleData');
 
