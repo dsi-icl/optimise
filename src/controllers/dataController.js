@@ -322,7 +322,7 @@ class DataController {
                 })
                 .then(transactionFunction)
                 .then(result => res.send(`success with ${result.length} new entries added`))
-                .catch(err => { console.log(err); res.status(400).send('Error. Please try again'); })
+                // .catch(err => { console.log(err); res.status(400).send('Error. Please try again'); })
                 .catch(() => { });
         } else {
             res.status(400).send(`please provide ${options.entryIdString} and update and/or add.`);
