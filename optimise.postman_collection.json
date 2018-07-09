@@ -1418,6 +1418,66 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get Demographic Fields",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Fields/Demographic",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Fields",
+										"Demographic"
+									]
+								},
+								"description": "Getting all the fields"
+							},
+							"response": []
+						},
+						{
+							"name": "Get specific demographic field",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Fields/Demographic?fieldName=gender",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Fields",
+										"Demographic"
+									],
+									"query": [
+										{
+											"key": "fieldName",
+											"value": "gender"
+										}
+									]
+								},
+								"description": "Getting a specific field in demographic"
+							},
+							"response": []
 						}
 					],
 					"_postman_isSubFolder": true
@@ -1622,6 +1682,66 @@
 										"MedicalCondition"
 									]
 								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get MedCond Fields",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Fields/MedicalCondition",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Fields",
+										"MedicalCondition"
+									]
+								},
+								"description": "Getting all fields in Medical Condition"
+							},
+							"response": []
+						},
+						{
+							"name": "Get specific MedCond Fields",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Fields/MedicalCondition?fieldName=relations",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Fields",
+										"MedicalCondition"
+									],
+									"query": [
+										{
+											"key": "fieldName",
+											"value": "relations"
+										}
+									]
+								},
+								"description": "Getting a specific fields in Medical Condition"
 							},
 							"response": []
 						}
