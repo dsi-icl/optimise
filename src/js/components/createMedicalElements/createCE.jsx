@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { NavLink } from 'react-router-dom';
 import { PickDate } from './datepicker.jsx';
 import { BackButton } from '../medicalData/dataPage.jsx';
 import cssTexts from '../../../css/inlinetexts.css';
@@ -9,7 +8,7 @@ import cssButtons from '../../../css/buttons.css';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents.js';
 
 //not yet finished the dispatch
-@connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEvents }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
+@connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
 export class CreateCE extends Component {
     constructor() {
         super();
