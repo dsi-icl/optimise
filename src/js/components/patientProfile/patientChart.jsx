@@ -38,7 +38,7 @@ function mapTests(patientId, typeMap) {
         const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
         return formatRow([testType, 
             new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
-            <NavLink id={`/patientProfile/${patientId}/data/test/${el.testId}`} to={`/patientProfile/${patientId}/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+            <NavLink id={`/patientProfile/${patientId}/data/test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                 <div className={cssButtons.dataResultButton}>results➠ </div>
             </NavLink>
         ]);
@@ -52,7 +52,7 @@ function mapMedications(el) {
 function mapClinicalEvents(patientId) {
     return el => 
         formatRow([el.type, 
-            <NavLink to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+            <NavLink id={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                 <div className={cssButtons.dataResultButton}> results➠ </div>
             </NavLink>
         ]);
