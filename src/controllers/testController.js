@@ -40,26 +40,6 @@ TestController.prototype.addActualOccurredDate = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return;
         });
-        // knex('ORDERED_TESTS')
-        //     .where({ 'id': req.body.testId })
-        //     .update({ 'actualOccurredDate': validateAndFormatDate(req.body.actualOccurredDate) })
-        //     .then(result => {
-        //         if (result === 1) {
-        //             res.status(200).json(result);
-        //             return;
-        //         } else if (result === 0) {
-        //             res.status(404).send('cannot find your entry');
-        //             return;
-        //         } else {
-        //             res.status(500).send('error');
-        //             return;
-        //         }
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //         res.status(500).send(err);
-        //         return;
-        //     });
     } else {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;

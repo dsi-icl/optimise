@@ -1,4 +1,5 @@
 /*eslint no-console: "off"*/
+/*eslint no-var: "off"*/
 const app = require('./app');
 
 var portSelected = 3030;

@@ -3,31 +3,6 @@ const DataCore = require('../core/data');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 
-// function DataController() {
-//     this.data = new DataCore();
-// }
-
-// DataController.prototype._RouterAddOrUpdate = function (req, res) {
-//     const dataType = req.params.dataType.substring(0, 1).toUpperCase() + req.params.dataType.substring(1, req.params.dataType.length);
-//     try {
-//         this[`addOrUpdate${dataType}Data`](req, res);
-//     } catch (e) {
-//         res.status(400).send('well you cannot POST to this endpoint!');
-//     }
-// };
-
-// DataController.prototype.addOrUpdateClinicalEventData = function (req, res) {
-
-// };
-
-// DataController.prototype.addOrUpdateTestData = function (req, res) {
-
-// };
-
-// DataController.prototype.addOrUpdateVisitData = function (req, res) {
-
-// };
-
 const deleteOptionsContainer = {
     'visit': {
         dataTable: 'VISIT_DATA',
@@ -111,63 +86,6 @@ class DataController {
             return;
         }
     }
-
-    // deleteData(req, res, options) {
-    // knex.transaction(trx => {
-    //     knex(options.dataTable)
-    //         .where('field', 'in', req.body.delete)
-    //         .andWhere('deleted', '-')
-    //         .andWhere(options.dataTableForeignKey, req.body[`${req.params.dataType}Id`])
-    //         .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
-    //         .transacting(trx)
-    //         .then(result => {
-    //             if (result === req.body.delete.length) {
-    //                 return result;
-    //             } else {
-    //                 throw 'The fields do not match';
-    //             }
-    //         })
-    //         .then(trx.commit)
-    //         .catch(trx.rollback);
-    // })
-
-    // result => { res.status(200).send(`${result} entries have been successfully deleted.`); })
-    // .catch(err => { console.log(err); res.status(404).send('Not all your fields are found. Nothing has been deleted.'); });
-
-    // addOrUpdateVisitData(req, res) {
-    //     let options = {
-    //         entryIdString: 'visitId',
-    //         fieldTable: 'AVAILABLE_FIELDS_VISITS',
-    //         entryTable: 'VISITS',
-    //         errMsgForUnfoundEntry: 'cannot seem to find your visit!',
-    //         dataTable: 'VISIT_DATA',
-    //         dataTableForeignKey: 'visit'
-    //     };
-    // }
-
-    // addOrUpdateTestData(req, res) {
-    //     let options = {
-    //         entryIdString: 'testId',
-    //         fieldTable: 'AVAILABLE_FIELDS_TESTS',
-    //         entryTable: 'ORDERED_TESTS',
-    //         errMsgForUnfoundEntry: 'cannot seem to find your test!',
-    //         dataTable: 'TEST_DATA',
-    //         dataTableForeignKey: 'test'
-    //     };
-    //     this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
-    // }
-
-    // addOrUpdateClinicalEventData(req, res) {
-    //     let options = {
-    //         entryIdString: 'clinicalEventId',
-    //         fieldTable: 'AVAILABLE_FIELDS_CE',
-    //         entryTable: 'clinical_events',
-    //         errMsgForUnfoundEntry: 'cannot seem to find your clinical event!',
-    //         dataTable: 'CLINICAL_EVENTS_DATA',
-    //         dataTableForeignKey: 'clinicalEvent'
-    //     };
-    //     this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
-    // }
 
     _transactionForAddAndUpdate(req, options) {
         return function (inputData) {
