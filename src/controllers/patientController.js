@@ -207,7 +207,7 @@ PatientController.prototype.erasePatientInfo = function (req, res) {
                     }
                 });
         }).catch(__unused__err => {
-            if (process.env.NODE_ENV !== 'prod')
+            if (process.env.NODE_ENV !== 'production')
                 ; //console.log(err);
             return;
         });
