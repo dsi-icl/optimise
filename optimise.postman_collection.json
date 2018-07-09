@@ -200,6 +200,42 @@
 			]
 		},
 		{
+			"name": "export",
+			"description": null,
+			"item": [
+				{
+					"name": "export full database",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/zip"
+
+							},
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/api/exportDatabase/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"exportDatabase"
+							]
+						},
+						"description": "Exports data for all patients in database"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "patients",
 			"description": null,
 			"item": [
