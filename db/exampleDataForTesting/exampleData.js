@@ -17,14 +17,14 @@ const exampleData = {
         { id: 6, patient: 5, DOB: '1/1/2001', gender: 4, dominantHand: 3, ethnicity: 2, countryOfOrigin: 2, alcoholUsage: 2, smokingHistory: 3, createdByUser: 1, deleted: '-' }
     ],
     'VISITS': [
-        { id: 1, patient: 1, visitDate: '1/1/2031', type: 1, createdByUser: 1, deleted: '-' },
-        { id: 2, patient: 1, visitDate: '1/2/2031', type: 1, createdByUser: 1, deleted: '-' },
-        { id: 3, patient: 3, visitDate: '1/1/1931', type: 1, createdByUser: 2, deleted: '-' },
+        { id: 1, patient: 1, visitDate: '1514764800000', type: 1, createdByUser: 1, deleted: '-' },
+        { id: 2, patient: 1, visitDate: '1517443200000', type: 1, createdByUser: 1, deleted: '-' },
+        { id: 3, patient: 3, visitDate: '1517875200000', type: 1, createdByUser: 2, deleted: '-' },
     ],
     'ORDERED_TESTS': [
-        { id: 1, orderedDuringVisit: 1, type: 1, expectedOccurDate: '1/2/3921', createdByUser: 1, deleted: '-' },
-        { id: 2, orderedDuringVisit: 3, type: 1, expectedOccurDate: '1/1/3921', createdByUser: 1, deleted: '-' },
-        { id: 3, orderedDuringVisit: 2, type: 1, expectedOccurDate: '1/4/3921', createdByUser: 1, deleted: '-' },
+        { id: 1, orderedDuringVisit: 1, type: 1, expectedOccurDate: '1520294400000', createdByUser: 1, deleted: '-' },
+        { id: 2, orderedDuringVisit: 3, type: 1, expectedOccurDate: '1517875200000', createdByUser: 1, deleted: '-' },
+        { id: 3, orderedDuringVisit: 2, type: 1, expectedOccurDate: '1517443200000', createdByUser: 1, deleted: '-' },
     ],
     'TREATMENTS': [
         { id: 1, orderedDuringVisit: 1, drug: 1, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' }
