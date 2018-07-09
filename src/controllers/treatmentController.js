@@ -11,6 +11,7 @@ function TreatmentController() {
     this.deleteTreatment = TreatmentController.prototype.deleteTreatment.bind(this);
     this.addInterruption = TreatmentController.prototype.addInterruption.bind(this);
     this.deleteInterruption = TreatmentController.prototype.deleteInterruption.bind(this);
+    this.getDrugs = TreatmentController.prototype.getDrugs.bind(this);
 }
 
 TreatmentController.prototype.createTreatment = function (req, res) {
@@ -145,6 +146,28 @@ TreatmentController.prototype.deleteInterruption = function (req, res) {
         });
     } else {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    }
+};
+
+TreatmentController.prototype.getDrugs = function (req, res) {
+    if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
+        this.treatment.searchDrugs(`%${req.query.name}%`).then(function (result) {
+            res.status(200).json(result);
+            return;
+        }, function (error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return;
+        });
+        return;
+    } else {
+        this.treatment.getDrugs().then(function (result) {
+            res.status(200).json(result);
+            return;
+        }, function (error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return;
+        });
         return;
     }
 };

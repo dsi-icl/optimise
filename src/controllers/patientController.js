@@ -110,6 +110,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                 selectorPromises.then(function (result) {
                     const responseObj = {};
                     responseObj.patientId = req.params.patientId;
+                    responseObj.id = patientId;
                     for (let i = 0; i < result.length; i++) {
                         responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
                     }
