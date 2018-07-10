@@ -25,11 +25,11 @@ export function APICall(endpoint, cbDispatch) {
     }
 };
 
-// export const getDrugsCall = APICall('/api/')
+export const getDrugsCall = APICall('/api/treatments/drugs', getDrugsSuccess)
 
-// export function getDrugsSuccess(payload) {
-//     return { type: actions.availableFields.GET_DRUGS_SUCCESS, payload: payload }
-// }
+export function getDrugsSuccess(payload) {
+    return { type: actions.availableFields.GET_DRUGS_SUCCESS, payload: payload }
+}
 
 export const getVisitFieldsCall = APICall('/api/available/visitFields', getVisitFieldsSuccess);
 
