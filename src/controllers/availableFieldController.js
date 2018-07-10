@@ -1,35 +1,34 @@
-const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
+const ErrorHelper = require('../utils/error_helper');
+const message = require('../utils/message-utils');
 
 class AvailableFieldController {
-    getFields(req, res){     //bound to GETclinicalEvents and GETtestTypes too
+    getFields(req, res) {     //bound to GETclinicalEvents and GETtestTypes too
+        const tableMap = {
+            'visitFields': 'AVAILABLE_FIELDS_VISITS',
+            'testFields': 'AVAILABLE_FIELDS_TESTS',
+            'clinicalEvents': 'AVAILABLE_CLINICAL_EVENT_TYPES',
+            'testTypes': 'AVAILABLE_TEST_TYPES'
+        };
         let moduleObj = {};
-        if (req.params.dataType === 'visitFields' && req.query.module) {
-            moduleObj = {module: req.query.module};
+        if (tableMap.hasOwnProperty(req.params.dataType)) {
+            if (req.params.dataType === 'visitFields' && req.query.module) {
+                moduleObj = { module: req.query.module };
+            }
+            let table = tableMap[req.params.dataType];
+            knex(table)
+                .select('*')
+                .where(moduleObj).then(function(result){
+                    res.status(200).json(result);
+                    return;
+                }, function (error) {
+                    res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+                    return;
+                });
+            return;
         }
-        let table;
-        switch (req.params.dataType) {
-            case 'visitFields':
-                table = 'available_fields_visits';
-                break
-            case 'testFields':
-                table = 'available_fields_tests';
-                break
-            case 'clinicalEvents':
-                table = 'available_clinical_event_types';
-                break
-            case 'testTypes':
-                table = 'available_test_types';
-                break
-        }
-        knex(table)
-            .select('*')
-            .where(moduleObj)
-            .then(result => res.status(200).json(result))
-            .catch(err => {console.log(err); res.status(500).send('database error')});
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
     }
-
 }
 
 const _singleton = new AvailableFieldController();
