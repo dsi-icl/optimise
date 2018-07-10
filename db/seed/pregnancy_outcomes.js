@@ -1,8 +1,6 @@
-/*eslint no-unused-vars: "off"*/
-
 const pregnancyOutcomeList = require('../availableFields/availablePregnancyOutcomes');
 
-exports.seed = function(knex, Promise) {
+exports.seed = function (knex) {
     // Deletes ALL existing entries
     return knex('PREGNANCY_OUTCOMES').del()
         .then(function () {

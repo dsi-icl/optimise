@@ -1,9 +1,7 @@
-/*eslint no-unused-vars: "off"*/
-
 /* Need to rename file */
 
-exports.up = function(knex, Promise) {
-    return knex.schema.createTable('PATIENT_PII', function(table) {
+exports.up = function (knex) {
+    return knex.schema.createTable('PATIENT_PII', function (table) {
         table.increments('id').primary();
         table.integer('patient').notNullable().references('id').inTable('PATIENTS');
         table.text('firstName').notNullable();
@@ -17,6 +15,6 @@ exports.up = function(knex, Promise) {
     });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex) {
     return knex.schema.dropTable('PATIENT_PII');
 };

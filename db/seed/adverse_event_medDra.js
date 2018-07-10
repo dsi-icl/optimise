@@ -1,5 +1,3 @@
-/*eslint no-unused-vars: "off"*/
-
 const aeMedDRAList = require('../availableFields/availableLltMedDRA');
 
 exports.seed = function(knex) {
