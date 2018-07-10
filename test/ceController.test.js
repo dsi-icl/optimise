@@ -4,10 +4,6 @@ const app = require('../src/app');
 const adminToken = require('./token').adminToken;
 const standardToken = require('./token').standardToken;
 const request = require('supertest')(app);
-// const {destroyAndMigrate} = require('../src/utils/db-handler');
-
-// beforeAll(() => {destroyAndMigrate('testing')});
-// afterAll(() => {destroyConnection()});
 
 let createCeId;
 

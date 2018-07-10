@@ -4,9 +4,6 @@ const app = require('../src/app');
 const request = require('supertest')(app);
 const adminToken = require('./token').adminToken;
 const standardToken = require('./token').standardToken;
-// const {destroyAndMigrate} = require('../src/utils/db-handler');
-
-// beforeAll(() => {destroyAndMigrate('testing')});
 
 describe('Visit controller tests', () => {
     test('Getting visits of a patient', () => request

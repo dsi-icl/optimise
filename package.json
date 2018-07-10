@@ -35,7 +35,7 @@
     "supertest": "3.1.0"
   },
   "jest": {
-    "globalSetup": "./test/setup.js",
-    "globalTeardown": "./test/teardown.js"
+    "globalSetup": "<rootDir>/test/setup.js",
+    "globalTeardown": "<rootDir>/test/teardown.js"
   }
 }
