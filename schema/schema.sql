@@ -33,10 +33,25 @@ CREATE TABLE PATIENTS (
     id INTEGER PRIMARY KEY ASC,
     aliasId TEXT NOT NULL,
     study TEXT NOT NULL,
+    consent TEXT NOT NULL DEFAULT (datetime('now')),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
     UNIQUE (aliasId)
+);
+
+/* Patient Identifiable Information (PII)*/
+CREATE TABLE PATIENT_PII (
+    id INTEGER PRIMARY KEY ASC,
+    patient INTEGER NOT NULL REFERENCES PATIENTS(id),
+    firstName TEXT NOT NULL,
+    surname TEXT NOT NULL,
+    fullAddress TEXT NOT NULL,
+    postcode TEXT NOT NULL,
+    createdTime TEXT NOT NULL DEFAULT (datetime('now')),
+    createdByUser INTEGER NOT NULL REFERENCES USERS(id),
+    deleted TEXT, /*NULL or deletion time*/
+    UNIQUE (patient, deleted)
 );
 
 CREATE TABLE PATIENT_IMMUNISATION (
@@ -48,6 +63,23 @@ CREATE TABLE PATIENT_IMMUNISATION (
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
     UNIQUE (patient, vaccineName, immunisationDate)
+);
+
+CREATE TABLE PATIENT_PREGNANCY (
+    id INTEGER PRIMARY KEY ASC,
+    patient INTEGER NOT NULL REFERENCES PATIENTS(id),
+    startDate TEXT,
+    outcome INTEGER NOT NULL REFERENCES PREGNANCY_OUTCOMES(id),
+    outcomeDate TEXT,
+    createdTime TEXT NOT NULL DEFAULT (datetime('now')),
+    createdByUser INTEGER NOT NULL REFERENCES USERS(id),
+    deleted TEXT, /*NULL or deletion time*/
+    UNIQUE (patient, startDate, deleted)
+);
+
+CREATE TABLE PREGNANCY_OUTCOMES (
+    id INTEGER PRIMARY KEY ASC,
+    value TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE PATIENT_DEMOGRAPHIC (
