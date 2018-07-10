@@ -5,8 +5,6 @@ PRAGMA foreign_keys = ON;
 /*add check constaints*/
 /*check if unique constriaints are right*/
 
-
-
 /* user data */
 CREATE TABLE USERS (
     id INTEGER PRIMARY KEY ASC,
@@ -116,7 +114,21 @@ CREATE TABLE MEDICAL_HISTORY (
         (outcome in ('resolved') AND resolvedYear < 2100 AND resolvedYear > 1900) /* Need to change */
     )
 );
+CREATE TABLE PATIENT_DIAGNOSIS (
+    id INTEGER PRIMARY KEY ASC,
+    patient INTEGER NOT NULL REFERENCES PATIENTS(id),
+    diagnosis INTEGER NOT NULL REFERENCES AVAILABLE_DIAGNOSES(id),
+    diagnosisDate TEXT NOT NULL
+    createdTime TEXT NOT NULL DEFAULT (datetime('now')),
+    createdByUser INTEGER NOT NULL REFERENCES USERS(id),
+    deleted TEXT, /*NULL or deletion time*/
+    UNIQUE (patient, deleted)
+);
 
+CREATE TABLE AVAILABLE_DIAGNOSES (
+    id INTEGER PRIMARY KEY ASC,
+    value TEXT NOT NULL
+);
 
 /* patient visits data */
 CREATE TABLE VISITS (
