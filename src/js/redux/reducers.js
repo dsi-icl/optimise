@@ -1,7 +1,6 @@
 import initialState from './initialState.js';
 import { combineReducers } from 'redux';
 import actionTypes from './actions/listOfActions.js';
-import { all } from 'promise/lib/es6-extensions';
 
 function login(state = initialState.login, action) {
     switch (action.type) {
@@ -34,7 +33,7 @@ function availableFields(state = initialState.availableFields, action){
             newState = { ...state, clinicalEventTypes: action.payload };
             break;
         case actionTypes.availableFields.GET_DEMO_FIELDS_SUCCESS:
-            newState = { ...state, demoFields: action.payload };
+            newState = { ...state, demoFields: [action.payload] };
             break;
         case actionTypes.availableFields.GET_DRUGS_SUCCESS:
             newState = { ...state, drugs: action.payload };
@@ -50,6 +49,9 @@ function availableFields(state = initialState.availableFields, action){
             break;
         case actionTypes.availableFields.GET_VISIT_FIELDS_SUCCESS:
             newState = { ...state, visitFields: action.payload };
+            break;
+        case actionTypes.availableFields.GET_RELATIONS_SUCCESS:
+            newState = { ...state, relations: action.payload.relations };
             break;
         default:
             return state;
