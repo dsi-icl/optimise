@@ -2,7 +2,7 @@ const availableTypes = {
     clinicalEvents: [
         { id: 1, name: 'Relapse' },
         { id: 2, name: 'Infection' },
-        { id: 3, name: 'OpportunisticInfection' }
+        { id: 3, name: 'Opportunistic Infection' }
     ],
     tests: [
         { id: 1, name: 'Laboratory test' },
