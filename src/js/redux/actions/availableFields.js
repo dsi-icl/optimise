@@ -31,6 +31,18 @@ export function getDrugsSuccess(payload) {
     return { type: actions.availableFields.GET_DRUGS_SUCCESS, payload: payload }
 }
 
+export const getDemoCall = APICall('/api/demogdata/Fields/Demographic', getDemoSuccess)
+
+export function getDemoSuccess(payload) {
+    return { type: actions.availableFields.GET_DEMO_FIELDS_SUCCESS, payload: payload }
+}
+
+export const getRelationCall = APICall('/api/demogdata/Fields/MedicalCondition', getRelationSuccess)
+
+export function getRelationSuccess(payload) {
+    return { type: actions.availableFields.GET_RELATIONS_SUCCESS, payload: payload }
+}
+
 export const getVisitFieldsCall = APICall('/api/available/visitFields', getVisitFieldsSuccess);
 
 export function getVisitFieldsSuccess(payload) {
