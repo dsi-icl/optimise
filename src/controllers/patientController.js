@@ -93,7 +93,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                         promiseArr.push(SelectorUtils[`get${getOnlyArr[i]}`](patientId));
                     } catch (e) {
                         res.status(400).send('something in your ?getOnly is not permitted! The options are "getDemographicData", "getImmunisations", "getMedicalHistory", "getVisits", "getTests", "getTreatments", "ClinicalEvents"');
-                        throw 'stopping the chain';
+                        return;
                     }
                 }
                 return Promise.all(promiseArr);
@@ -152,11 +152,11 @@ PatientController.prototype.erasePatientInfo = function (req, res) {
             patientId = resultPatient[0].patientId;
             if (resultPatient.length > 1) {
                 res.status(400).send('Asked id too similar to others. Please refine your request');
-                throw ('Too much results.');
+                return;
             }
             if (patientId === undefined) {
                 res.status(400).send('Error while retreiving the asked user. Check information sent');
-                throw ('Too much results.');
+                return;
             }
             eraseEntry(res, 'patient_immunisation', { 'patient': patientId }, 'Row for patient immunisation', null, false);
             eraseEntry(res, 'PATIENT_DEMOGRAPHIC', { 'patient': patientId }, 'Row for patient demographic data', null, false);
