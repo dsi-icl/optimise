@@ -1,4 +1,5 @@
 const availablePregnancyOutcomes = [
+    { value: 'ongoing' },
     { value: 'delivery of healthy child' },
     { value: 'delivery of unhealthy child' },
     { value: 'delivery with post-natal complications' },

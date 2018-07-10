@@ -3,6 +3,10 @@ exports.seed = function (knex) {
     return knex('CONDITIONS').del()
         .then(function () {
             // Inserts seed entries
-            return knex('CONDITIONS').insert([{ value: 'testing' }]);
+            return knex('CONDITIONS').insert([
+                { value: 'Asthma' },
+                { value: 'Rheumatoid Arthritis' },
+                { value: 'Multiple Sclerosis' }
+            ]);
         });
 };
