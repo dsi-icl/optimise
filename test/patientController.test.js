@@ -5,9 +5,6 @@ const app = require('../src/app');
 const request = require('supertest')(app);
 const adminToken = require('./token').adminToken;
 const standardToken = require('./token').standardToken;
-// const {destroyAndMigrate} = require('../src/utils/db-handler');
-
-// beforeAll(() => {destroyAndMigrate('testing')});
 
 describe('Patient controller tests', () => {
     test('Getting all patients', () => request
@@ -49,7 +46,8 @@ describe('Patient controller tests', () => {
         .set('token', adminToken)
         .send({
             'aliasId': 'littlePatient',
-            'study': 'optimise' })
+            'study': 'optimise'
+        })
         .then(res => {
             expect(res.statusCode).toBe(200);
         }));
@@ -59,7 +57,8 @@ describe('Patient controller tests', () => {
         .set('token', adminToken)
         .send({
             'aliasId': 'littlePatient',
-            'study': 'optimise' })
+            'study': 'optimise'
+        })
         .then(res => {
             expect(res.statusCode).toBe(400);
         }));
