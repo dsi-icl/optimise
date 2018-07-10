@@ -28,7 +28,7 @@ function migrate(type) {
                     .then(() => resolve())
                     .catch(err => reject(err));
             default:
-                throw TypeError('Wrong parameter used');
+                reject('Wrong parameter used');
         }
     });
 }
