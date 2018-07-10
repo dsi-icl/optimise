@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint --ext .jsx --ext .js ./",
     "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
+    "seed": "node ./installDB.js MS_fields",
     "test": "jest --colors --verbose --detectOpenHandles --forceExit --runInBand",
     "start": "node ./src/server.js"
   },
@@ -20,6 +21,7 @@
     "express": "4.16.3",
     "express-zip": "^2.0.1",
     "knex": "0.15.0",
+    "path": "0.12.7",
     "sqlite3": "4.0.1"
   },
   "devDependencies": {
@@ -31,5 +33,9 @@
     "codacy-coverage": "3.0.0",
     "jest": "23.3.0",
     "supertest": "3.1.0"
+  },
+  "jest": {
+    "globalSetup": "./test/setup.js",
+    "globalTeardown": "./test/teardown.js"
   }
 }
