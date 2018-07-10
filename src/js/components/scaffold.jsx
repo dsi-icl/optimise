@@ -26,22 +26,14 @@ export class MenuBar extends Component {
                         <SearchIcon width='50%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/filterPatients' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Filter patients' activeStyle={{ fill: 'white' }}>
-                    <div style={{ textAlign: 'center' }}>
-                        <FilterIcon width='50%'/>
-                    </div>
-                </NavLink>
-                <NavLink to='/exportCDISC' style={{ gridRow: '4/5' }} className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
+
+                <NavLink to='/exportCDISC' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center' }}>
                         <ExportIcon width='40%'/>
                     </div>
                 </NavLink>
-                <NavLink to='/uploadToCloud' style={{ gridRow: '5/6' }} className={cssButtons.menuButton} title='Upload to central DB' activeStyle={{ fill: 'white' }}>
-                    <div style={{ textAlign: 'center' }}>
-                        <CloudIcon width='50%'/>
-                    </div>
-                </NavLink>
-                <NavLink to='/administration' style={{ gridRow: '6/7' }} className={cssButtons.menuButton} title='Admin settings' activeStyle={{ fill: 'white' }}>
+
+                <NavLink to='/administration' style={{ gridRow: '4/5' }} className={cssButtons.menuButton} title='Admin settings' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center' }}>
                         <SettingIcon width='50%'/>
                     </div>
@@ -56,6 +48,17 @@ export class MenuBar extends Component {
         );
     }
 }
+
+/* <NavLink to='/filterPatients' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Filter patients' activeStyle={{ fill: 'white' }}>
+<div style={{ textAlign: 'center' }}>
+    <FilterIcon width='50%'/>
+</div>
+</NavLink>
+<NavLink to='/uploadToCloud' style={{ gridRow: '5/6' }} className={cssButtons.menuButton} title='Upload to central DB' activeStyle={{ fill: 'white' }}>
+<div style={{ textAlign: 'center' }}>
+    <CloudIcon width='50%'/>
+</div>
+</NavLink> */
 
 export class MiddlePanel extends Component {
     render() {
