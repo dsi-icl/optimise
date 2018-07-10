@@ -1,6 +1,8 @@
-const { eraseAndMigrate } = require('../src/utils/db-handler');
+/*eslint no-console: "off"*/
+const { erase, migrate } = require('../src/utils/db-handler');
 
-module.exports = () => new Promise(function (resolve, __unused__reject) {
+module.exports = () => new Promise(function (resolve, reject) {
     process.env.NODE_ENV = 'test';
-    resolve(eraseAndMigrate('testing'));
+    if (process.env.NODE_ENV !== 'production') console.log('\n');
+    erase().then(() => migrate('testing').then(() => resolve(true)).catch(err => reject(err))).catch(err => reject(err));
 });
