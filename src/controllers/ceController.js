@@ -1,27 +1,54 @@
-const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
-const knex = require('../utils/db-connection');
+const ErrorHelper = require('../utils/error_helper');
+const clinicalEventCore = require('../core/clinicalEvent');
+const message = require('../utils/message-utils');
 
-class CeController {
-    createCe(req, res){
-        if ((req.body.visitId && !req.body.patientId) || (!req.body.visitId && req.body.patientId)){
-            if (req.body.startDate && validateAndFormatDate(req.body.startDate)) {    //have to check for patient / visit existence!
-                let entryObj = {
-                    'patient': req.body.patientId ? req.body.patientId :null,
-                    'recorded_during_visit': req.body.visitId ? req.body.visitId : null,
-                    'type': req.body.type,
-                    'date_start_date': validateAndFormatDate(req.body.startDate),
-                    'end_date': req.body.endDate                             //have to check for endDate format too!!
-                }
-                createEntry(req, res, 'clinical_events', entryObj, 'databaseError');
-            } else {
-                res.status(400).send('wrong date format');
-            }
-        } else {
-            res.status(400).send('You can either send patientId or visitId but not both.');
-        }
-    }
+function CeController() {
+    this.clinicalEvent = new clinicalEventCore();
+
+    this.createCe = CeController.prototype.createCe.bind(this);
+    this.deleteCe = CeController.prototype.deleteCe.bind(this);
 }
 
-const _singleton = new CeController();
-module.exports = _singleton;
+CeController.prototype.createCe = function(req, res) {    //need to change
+    if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type')) {
+        let ce = {};
+        if (req.body.hasOwnProperty('visitId'))
+            ce.recordedDuringVisit = req.body.visitId;
+        if (req.body.hasOwnProperty('patient'))
+            ce.patient = req.body.patient;
+        ce.type = req.body.type;
+        ce.dateStartDate = Date.parse(req.body.startDate);
+        this.clinicalEvent.createClinicalEvent(req.requester, ce).then(function(result) {
+            res.status(200).json(result);
+            return ;
+        }, function(error){
+            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+            return ;
+        });
+    } else {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return ;
+    }
+
+};
+
+CeController.prototype.deleteCe = function(req, res) {
+    if (req.requester.priv !== 1) {
+        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    }
+    if (req.body.hasOwnProperty('ceId')) {
+        this.clinicalEvent.deleteClinicalEvent(req.requester, { 'id': req.body.ceId }).then(function(result) {
+            res.status(200).json(result);
+            return ;
+        }, function(error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+            return ;
+        });
+    } else {
+        res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return ;
+    }
+};
+
+module.exports = CeController;

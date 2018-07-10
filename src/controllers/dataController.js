@@ -1,159 +1,252 @@
-const {isEmptyObject, validateAndFormatDate} = require('../utils/basic-utils');
-const {createEntry, deleteEntry, updateEntry} = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
+const DataCore = require('../core/data');
+const ErrorHelper = require('../utils/error_helper');
+const message = require('../utils/message-utils');
+
+const deleteOptionsContainer = {
+    'visit': {
+        dataTable: 'VISIT_DATA',
+        dataTableForeignKey: 'visit'
+    },
+    'clinicalEvent': {
+        dataTable: 'CLINICAL_EVENTS_DATA',
+        dataTableForeignKey: 'clinical_event'
+    },
+    'test': {
+        dataTable: 'TEST_DATA',
+        dataTableForeignKey: 'test'
+    }
+};
+
+const createOptionsContainer = {
+    'visit': {
+        entryIdString: 'visitId',
+        fieldTable: 'AVAILABLE_FIELDS_VISITS',
+        entryTable: 'VISITS',
+        errMsgForUnfoundEntry: 'cannot seem to find your visit!',
+        dataTable: 'VISIT_DATA',
+        dataTableForeignKey: 'visit'
+    },
+    'clinicalEvent': {
+        entryIdString: 'clinicalEventId',
+        fieldTable: 'AVAILABLE_FIELDS_CE',
+        entryTable: 'clinical_events',
+        errMsgForUnfoundEntry: 'cannot seem to find your clinical event!',
+        dataTable: 'CLINICAL_EVENTS_DATA',
+        dataTableForeignKey: 'clinicalEvent'
+    },
+    'test': {
+        entryIdString: 'testId',
+        fieldTable: 'AVAILABLE_FIELDS_TESTS',
+        entryTable: 'ORDERED_TESTS',
+        errMsgForUnfoundEntry: 'cannot seem to find your test!',
+        dataTable: 'TEST_DATA',
+        dataTableForeignKey: 'test'
+    }
+};
 
 class DataController {
-    addVisitData(req, res){             //see if I should make an api that accepts updating multiple fields instead
-        if (req.body.visit){
-            knex('visits')
-                .select('id')
-                .where({id: req.body.visit, deleted: 0})
+    constructor() {
+        this.dataCore = new DataCore;
+        this._RouterAddOrUpdate = this._RouterAddOrUpdate.bind(this);
+        this._RouterDeleteData = this._RouterDeleteData.bind(this);
+    }
+
+    _RouterAddOrUpdate(req, res) {
+        if (createOptionsContainer.hasOwnProperty(`${req.params.dataType}`)) {
+            let options = createOptionsContainer[req.params.dataType];
+            this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
+            return;
+        } else {
+            res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
+        }
+    }
+
+    _RouterDeleteData(req, res) {    //req.body = {visitId = 1, delete:[1, 43, 54 (fieldIds)] }
+        if (req.requester.priv === 1) {
+            let options = deleteOptionsContainer[`${req.params.dataType}`];
+            if (options === undefined) {
+                res.status(400).json(ErrorHelper(`data type ${req.params.dataType} not supported.`));
+                return;
+            }
+            if (!req.body.hasOwnProperty(`${req.params.dataType}Id`) || !req.body.hasOwnProperty('delete')) {
+                res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+                return;
+            }
+            this.dataCore.deleteData(req.requester, options, req.body[`${req.params.dataType}Id`], req.body.delete)
+                .then(function (result) {
+                    res.status(200).json(result);
+                    return;
+                }, function (error) {
+                    res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+                    return;
+                });
+        } else {
+            res.status(401).send('You do not have permission to delete data');
+            return;
+        }
+    }
+
+    _transactionForAddAndUpdate(req, options) {
+        return function (inputData) {
+            return knex.transaction(trx => {
+                knex(options.dataTable)    //updating all the 'updates' entries to 'deleted'
+                    .where('field', 'in', Object.keys(req.body.update))
+                    .andWhere('deleted', '-')
+                    .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
+                    .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
+                    .transacting(trx)
+                    .then(() =>
+                        knex.batchInsert(options.dataTable, inputData.updates, 1000).transacting(trx)    //adding all the 'updates' entries
+                    )
+                    .then(() =>
+                        knex.batchInsert(options.dataTable, inputData.adds, 1000).transacting(trx) //adding all the 'updates' entries
+                    )
+                    .then(trx.commit)
+                    .catch(trx.rollback);
+            });
+        };
+    }
+
+    _addOrUpdateDataBackbone(req, res, options, transactionFunction) {  //req.body = {visitId = 1, update : {1: 43, 54: LEFT}, add : {4324:432, 54:4} }
+        if (req.body[options.entryIdString] && (req.body.update || req.body.add)) {
+            if (req.body.update && req.requester.priv !== 1) {
+                res.status(401).send('Only admin can update data');
+                return;
+            }
+            if (!req.body.update) { req.body.update = {}; }  //adding an empty obj so that the code later doesn't throw error for undefined
+            if (!req.body.add) { req.body.add = {}; }   //same
+            const numOfUpdates = Object.keys(req.body.update).length;
+            const numOfAdds = Object.keys(req.body.add).length;
+            const findField = (fieldId, referenceType) => knex(options.fieldTable).select('id', 'type', 'permittedValues', 'referenceType').where({ 'id': fieldId, 'referenceType': referenceType });
+            knex(options.entryTable)
+                .select('id', 'type')
+                .where({ id: req.body[options.entryIdString], deleted: '-' })  //making sure the visit is found
                 .then(result => {
-                    if (result.length === 1)  {
-                        knex('available_fields_visits')
-                            .select('type', 'permitted_values')
-                            .where('id', req.body.field)
-                            .then(result => {
-                                if (result.length === 1){
-                                    switch (result[0].type) {
-                                        case 'B':
-                                            if (req.body.value === 1 || req.body.value === 0) {
-                                                createEntry(req, res, 'visit_collected_data', req.body, 'Error. Malformed request.');
-                                            } else {res.status(400).send('This field only accept value 1 and 0.')}
-                                            break
-                                        case 'C':
-                                            if (result[0]['permitted_values'].split(', ').indexOf(req.body.value) !== -1) {  //see if the value is in the permitted values
-                                                createEntry(req, res, 'visit_collected_data', req.body, 'Error. Malformed request.');
-                                            } else {
-                                                res.status(400).send(`This field only accept values ${result[0]['permitted_values']}`)}
-                                            break
-                                        case 'I':
-                                            if (parseInt(req.body.value)) {
-                                                createEntry(req, res, 'visit_collected_data', req.body, 'Error. Malformed request.');
-                                            } else {res.status(400).send(`This field only accept integer`)}
-                                            break
-                                        case 'N':
-                                            if (parseFloat(req.body.value)) {
-                                                createEntry(req, res, 'visit_collected_data', req.body, 'Error. Malformed request.');
-                                            } else {res.status(400).send(`This field only accept number`)}
-                                            break
-                                    }
-                                } else {
-                                    res.status(404).send('cannot seem to find your field');
-                                }
-                            })
+                    if (result.length === 1) {
+                        return result;
                     } else {
-                        res.status(404).send('seems like the visit does not exist!');
+                        res.status(404).send(options.errMsgForUnfoundEntry);
                     }
                 })
-        } else {
-            res.status(400).send('please provide visit id as key "visit"');
-        }
-    }
-
-    addTestData(req, res){
-        if (req.body.test){
-            knex('ordered_tests')
-                .select('id', 'type')
-                .where({id: req.body.test, deleted: 0})
-                .then(result1 => {
-                    if (result1.length === 1)  {
-                        knex('available_fields_tests')
-                            .select('type', 'permitted_values', 'test_type')
-                            .where('id', req.body.field)
-                            .then(result2 => {
-                                if (result2.length === 1 && result1[0].type === result2[0]['test_type']){
-                                    switch (result2[0].type) {
-                                        case 'B':
-                                            if (req.body.value === 1 || req.body.value === 0) {
-                                                createEntry(req, res, 'test_data', req.body, 'Error. Malformed request.');
-                                            } else {res.status(400).send('This field only accept value 1 and 0.')}
-                                            break
-                                        case 'C':
-                                            if (result2[0]['permitted_values'].split(', ').indexOf(req.body.value) !== -1) {  //see if the value is in the permitted values
-                                                createEntry(req, res, 'test_data', req.body, 'Error. Malformed request.');
-                                            } else {
-                                                res.status(400).send(`This field only accept values ${result2[0]['permitted_values']}`)}
-                                            break
-                                        case 'I':
-                                            if (parseInt(req.body.value) === parseFloat(req.body.value)) {
-                                                createEntry(req, res, 'test_data', req.body, 'Error. Malformed request.');
-                                            } else {res.status(400).send(`This field only accept integer`)}
-                                            break
-                                        case 'N':
-                                            if (parseFloat(req.body.value)) {
-                                                createEntry(req, res, 'test_data', req.body, 'Error. Malformed request.');
-                                            } else {res.status(400).send(`This field only accept number`)}
-                                            break
-                                    }
-                                } else {
-                                    res.status(404).send('cannot seem to find your field or your field does not match your test type!');
-                                }
-                            })
-                    } else {
-                        res.status(404).send('seems like the test does not exist!');
+                .then(result => { //get all the fields types and check theres no overlap for update and add
+                    const referenceType = result[0].type;
+                    const promiseArr = [];
+                    const allFieldIds = [];
+                    for (let i = 0; i < numOfUpdates; i++) {
+                        promiseArr.push(findField(Object.keys(req.body.update)[i], referenceType));
+                        allFieldIds.push(Object.keys(req.body.update)[i]);
                     }
-                })
-        } else {
-            res.status(400).send('please provide test id as key "test"');
-        }
-    }
-
-    addCeData(req, res){
-        if (req.body['clinical_event']){
-            knex('clinical_events')
-                .select('id', 'type')
-                .where({id: req.body['clinical_event'], deleted: 0})
-                .then(result1 => {
-                    if (result1.length === 1)  {
-                        knex('available_fields_ce')
-                            .select('type', 'permitted_values', 'event_type')
-                            .where('id', req.body.field)
-                            .then(result2 => {
-                                if (result2.length === 1 && result1[0].type === result2[0]['event_type']){
-                                    switch (result2[0].type) {
-                                        case 'B':
-                                            if (req.body.value === 1 || req.body.value === 0) {
-                                                createEntry(req, res, 'clinical_events_data', req.body, 'Error. Malformed request.');
-                                            } else {res.status(400).send('This field only accept value 1 and 0.')}
-                                            break
-                                        case 'C':
-                                            if (result2[0]['permitted_values'].split(', ').indexOf(req.body.value) !== -1) {  //see if the value is in the permitted values
-                                                createEntry(req, res, 'clinical_events_data', req.body, 'Error. Malformed request.');
-                                            } else {
-                                                res.status(400).send(`This field only accept values ${result2[0]['permitted_values']}`)}
-                                            break
-                                        case 'I':
-                                            if (parseInt(req.body.value) === parseFloat(req.body.value)) {
-                                                createEntry(req, res, 'clinical_events_data', req.body, 'Error. Malformed request.');
-                                            } else {res.status(400).send(`This field only accept integer`)}
-                                            break
-                                        case 'N':
-                                            if (parseFloat(req.body.value)) {
-                                                createEntry(req, res, 'clinical_events_data', req.body, 'Error. Malformed request.');
-                                            } else {res.status(400).send(`This field only accept number`)}
-                                            break
-                                    }
-                                } else {
-                                    res.status(404).send('cannot seem to find your field or your field does not match your event type!');
-                                }
-                            })
-                    } else {
-                        res.status(404).send('seems like the event does not exist!');
+                    for (let i = 0; i < numOfAdds; i++) {
+                        promiseArr.push(findField(Object.keys(req.body.add)[i], referenceType));
+                        allFieldIds.push(Object.keys(req.body.add)[i]);
                     }
+                    if (Array.from(new Set(allFieldIds)).length !== allFieldIds.length) {
+                        res.status(400).send('fields in add and update cannot have overlaps!');
+                        throw 'stopping the chain';
+                    }
+                    return Promise.all(promiseArr);
                 })
+                .then(result => {    //comparing if all the input values matching the type of the field
+                    const totalLength = numOfUpdates + numOfAdds;
+                    for (let i = 0; i < totalLength; i++) {
+                        if (result[i].length === 1) {
+                            let addOrUpdate = i < numOfUpdates ? 'update' : 'add';
+                            let fieldId = result[i][0].id;
+                            let fieldType = result[i][0].type;
+                            let inputValue = req.body[addOrUpdate][fieldId];
+                            switch (fieldType) {
+                                case 'B':
+                                    if (!(inputValue === 1 || inputValue === 0)) {
+                                        res.status(400).send(`Field ${fieldId} only accepts value 1 and 0.`);
+                                        throw 'stopping the chain';
+                                    }
+                                    break;
+                                case 'C':
+                                    if (!(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
+                                        res.status(400).send(`Field ${fieldId} only accepts values ${result[i][0]['permittedValues']}`);
+                                        throw 'stopping the chain';
+                                    }
+                                    break;
+                                case 'I':
+                                    if (!(parseInt(inputValue) === parseFloat(inputValue))) {
+                                        res.status(400).send(`Field ${fieldId} only accept integer`);
+                                        throw 'stopping the chain';
+                                    }
+                                    break;
+                                case 'N':
+                                    if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
+                                        res.status(400).send(`Field ${fieldId} only accept number`);
+                                        throw 'stopping the chain';
+                                    }
+                                    break;
+                            }
+                        } else {
+                            res.status(404).send('cannot seem to find one of your fields');
+                            throw 'stopping the chain';
+                        }
+                    }
+                    return result;
+                })
+                .then(() =>   //check all the updates are all there and all the adds are NOT there
+                    knex(options.dataTable)
+                        .select('id')
+                        .where('field', 'in', Object.keys(req.body.update))
+                        .andWhere('deleted', '-')
+                        .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
+                        .then(entries => {
+                            if (entries.length !== numOfUpdates) {
+                                res.status(400).send('you can only update when the data is already there!');
+                                throw 'stopping the chain';
+                            }
+                            return knex(options.dataTable)
+                                .select('id')
+                                .where('field', 'in', Object.keys(req.body.add))
+                                .andWhere('deleted', '-')
+                                .andWhere(options.dataTableForeignKey, req.body[options.entryIdString]);
+                        })
+                        .then(entries => {
+                            if (entries.length !== 0) {
+                                res.status(400).send('you can only add when the data is not already there!');
+                                throw 'stopping the chain';
+                            }
+                            return 0;
+                        })
+                )
+                .then(() => {   //transforming the req.body
+                    const updates = [];
+                    const adds = [];
+                    for (let i = 0; i < numOfUpdates; i++) {
+                        const entry = {
+                            'field': Object.keys(req.body.update)[i],
+                            'value': req.body.update[Object.keys(req.body.update)[i]],
+                            'createdByUser': req.requester.userid,
+                            'deleted': '-'
+                        };
+                        entry[options.dataTableForeignKey] = req.body[options.entryIdString];
+                        updates.push(entry);
+                    }
+                    for (let i = 0; i < numOfAdds; i++) {
+                        const entry = {
+                            'field': Object.keys(req.body.add)[i],
+                            'value': req.body.add[Object.keys(req.body.add)[i]],
+                            'createdByUser': req.requester.userid,
+                            'deleted': '-'
+                        };
+                        entry[options.dataTableForeignKey] = req.body[options.entryIdString];
+                        adds.push(entry);
+                    }
+                    return { 'updates': updates, 'adds': adds };
+                })
+                .then(transactionFunction)
+                .then(result => res.send(`success with ${result.length} new entries added`))
+                // .catch(err => { console.log(err); res.status(400).send('Error. Please try again'); })
+                .catch(() => { });
         } else {
-            res.status(400).send('please provide event id as key "clinical_event"');
+            res.status(400).send(`please provide ${options.entryIdString} and update and/or add.`);
         }
     }
 }
 
-//treatment
-//treatment data
-//relapse
-//relapse data
-//test
-//test data
-
-
-module.exports = new DataController();
+const _singleton = new DataController();
+module.exports = _singleton;

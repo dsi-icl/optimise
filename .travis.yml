@@ -22,7 +22,9 @@ before_install: |
 # this avoids compilation in most cases (where we don't need it)
 install:
   - npm --version
-  - npm ci --ignore-scripts
+  - npm ci
+  - node ./installDB.js testing
+
 cache:
   directories:
     - ~/.npm # cache npm's cache
@@ -44,15 +46,16 @@ jobs:
       node_js: '8'
 
     - stage: lint
-      script: echo 'TODO - Should do linting here'
+      script: npm run lint
 
     # smoke tests use default npm.
     - &smoke
       stage: smoke
       env: null
       before_install: true
-      install: npm install --production
-      script: echo 'TODO - Should run small intantiation test'
+      install:
+        - npm install --production
+      script: echo 'TODO - Should run small instantiation test'
       cache:
         directories:
           - ~/.npm
