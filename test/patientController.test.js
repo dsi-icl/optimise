@@ -1,6 +1,5 @@
 /* global describe test expect */
 
-
 //UNFINISHED: test erase patients
 const app = require('../src/app');
 const request = require('supertest')(app);
@@ -47,7 +46,8 @@ describe('Patient controller tests', () => {
         .set('token', adminToken)
         .send({
             'aliasId': 'littlePatient',
-            'study': 'optimise' })
+            'study': 'optimise'
+        })
         .then(res => {
             expect(res.statusCode).toBe(200);
         }));
@@ -57,7 +57,8 @@ describe('Patient controller tests', () => {
         .set('token', adminToken)
         .send({
             'aliasId': 'littlePatient',
-            'study': 'optimise' })
+            'study': 'optimise'
+        })
         .then(res => {
             expect(res.statusCode).toBe(400);
         }));
@@ -85,11 +86,11 @@ describe('Patient controller tests', () => {
             expect(res.statusCode).toBe(200);
         }));
 
-    test('Deleting this patient again', () => request
+    test('Deleting this patient again (should return 200)', () => request
         .patch('/api/patients')
         .set('token', adminToken)
         .send({ 'aliasId': 'littlePatient' })
         .then(res => {
-            expect(res.statusCode).toBe(404);
+            expect(res.statusCode).toBe(200);
         }));
 });

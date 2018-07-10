@@ -52,7 +52,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"admin\"}"
+							"raw": "{\"username\": \"chon\"}"
 						},
 						"url": {
 							"raw": "{{url}}/internalapi/userlogout",
@@ -89,7 +89,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"flo\", \"pw\": \"flolf\", \"isAdmin\": 1, \"realName\": \"Florian Guitton\"}"
+							"raw": "{\"username\": \"test\", \"pw\": \"admin\", \"isAdmin\": 1, \"realName\": \"Pierre-Marie\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/users",
@@ -151,7 +151,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"flo\", \"pw\": \"floooo\"}"
+							"raw": "{\"username\": \"pm\", \"pw\": \"admin\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/users/",
@@ -164,6 +164,72 @@
 								""
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUser",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/api/users?username=test_user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "test_user"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "export",
+			"description": null,
+			"item": [
+				{
+					"name": "export full database",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/zip"
+
+							},
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/api/exportDatabase/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"exportDatabase"
+							]
+						},
+						"description": "Exports data for all patients in database"
 					},
 					"response": []
 				}
@@ -192,7 +258,7 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patients?id=flo",
+							"raw": "{{url}}/api/patients?id=e",
 							"host": [
 								"{{url}}"
 							],
@@ -203,7 +269,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "flo"
+									"value": "e"
 								}
 							]
 						},
@@ -262,14 +328,14 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patientProfile/hey",
+							"raw": "{{url}}/api/patientProfile/chon",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"patientProfile",
-								"hey"
+								"chon"
 							]
 						},
 						"description": "shows all patients with id similar to the one provided"
@@ -295,14 +361,14 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patientProfile/hey?getOnly=Visits,Tests",
+							"raw": "{{url}}/api/patientProfile/chon?getOnly=Visits,Tests",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"patientProfile",
-								"hey"
+								"chon"
 							],
 							"query": [
 								{
@@ -331,7 +397,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"aliasId\": \"chanTaiMan\", \"study\": \"optimise\"}"
+							"raw": "{\"aliasId\": \"littlePatient\", \"study\": \"optimise\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/patients",
@@ -363,7 +429,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"aliasId\": \"chanTaiMan\"}"
+							"raw": "{\"aliasId\": \"littlePlanet\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/patients",
@@ -433,7 +499,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 3, \"type\": 1, \"expectedDate\": {\"day\": 1, \"month\": 1, \"year\": 2020} }"
+							"raw": "{\"visitId\": 3, \"type\": 1, \"expectedDate\": \"1 Jan 2020\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/tests",
@@ -464,7 +530,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"testId\": 2, \"actualOccurredDate\":  {\"day\": 4, \"month\": 1, \"year\": 2020} }"
+							"raw": "{\"testId\": 1, \"actualOccurredDate\":  \"4 Jan 2020\" }"
 						},
 						"url": {
 							"raw": "{{url}}/api/tests/addOccurredDate",
@@ -483,7 +549,7 @@
 				{
 					"name": "delete a test (only admin)",
 					"request": {
-						"method": "DELETE",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -534,7 +600,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"patientId\": \"hey\", \"visitDate\": {\"day\": 4, \"month\": 7, \"year\": 2000} }"
+							"raw": "{\"patientId\": 5, \"visitDate\": \"2018-2-29\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/visits",
@@ -579,6 +645,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get a visit",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/api/visits?patientId=chon",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"visits"
+							],
+							"query": [
+								{
+									"key": "patientId",
+									"value": "chon"
+								}
+							]
+						},
+						"description": "Get a visit relative to a patient"
+					},
+					"response": []
 				}
 			]
 		},
@@ -602,7 +699,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\t\"drugId\": 1,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationInWeeks\": 3}"
+							"raw": "{\"visitId\": 1,\n\t\"drugId\": 5,\n\t\"dose\": 4,\n\t\"unit\": \"mg\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationInWeeks\": 3}"
 						},
 						"url": {
 							"raw": "{{url}}/api/treatments",
@@ -633,7 +730,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"treatmentId\":1, \"terminatedReason\":\"death\", \"terminationDate\": {\"day\": 4, \"month\": 7, \"year\": 2000}}"
+							"raw": "{\"treatmentId\":1, \"terminatedReason\":1, \"terminationDate\": \"4 July 2000\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/treatments",
@@ -665,7 +762,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\":3,\n\t\"orderedDuringVisit\": 1,\n\t\"drug\": 3,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationWeeks\": 3}"
+							"raw": "{\n\t\"id\":1,\n\t\"orderedDuringVisit\": 1,\n\t\"drug\": 3,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationWeeks\": 3}"
 						},
 						"url": {
 							"raw": "{{url}}/api/treatments",
@@ -696,7 +793,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"treatmentId\":1}"
+							"raw": "{\"treatmentId\":\"lol\"}"
 						},
 						"url": {
 							"raw": "{{url}}/api/treatments",
@@ -728,7 +825,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"treatmentId\" : 1,\n    \"start_date\" : {\"day\":3, \"month\":4, \"year\":2010},\n    \"end_date\" : {\"day\":3, \"month\":4, \"year\":2011},\n    \"reason\" : \"pregnancy\"\n}"
+							"raw": "{\n\t\"treatmentId\" : 2,\n    \"start_date\" : \"3 March 2010\",\n    \"end_date\" : \"3 March 2011\",\n    \"reason\" : 3\n}"
 						},
 						"url": {
 							"raw": "{{url}}/api/treatments/interrupt",
@@ -775,6 +872,64 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get drugs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/api/treatments/drugs",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"treatments",
+								"drugs"
+							]
+						},
+						"description": "Get all drugs"
+					},
+					"response": []
+				},
+				{
+					"name": "Search drug",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/api/treatments/drugs?name=on",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"treatments",
+								"drugs"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "on"
+								}
+							]
+						},
+						"description": "Get drugs from a query"
+					},
+					"response": []
 				}
 			]
 		},
@@ -798,7 +953,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": {\"day\": 1, \"month\":3, \"year\": 2010}\n}"
+							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": \"1 March 2010\"\n}"
 						},
 						"url": {
 							"raw": "{{url}}/api/clinicalEvents",
@@ -829,7 +984,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"ceId\":1}"
+							"raw": "{\"ceId\":800}"
 						},
 						"url": {
 							"raw": "{{url}}/api/clinicalEvents",
@@ -1220,7 +1375,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"patient\":1,\n\t\"DOB\" : {\"day\":1, \"month\":1, \"year\":1966},\n\t\"gender\" : \"male\",\n    \"dominant_hand\" : \"left\",\n    \"ethnicity\" : \"white\",\n    \"country_of_origin\" : \"France\",\n    \"alcohol_usage\" : \"unknown\",\n    \"smoking_history\" : \"unknown\"\n}"
+									"raw": "{\n  \"patient\":7,\n  \"DOB\" : \"1 Jan 1966\",\n  \"gender\" : 1,\n    \"dominant_hand\" : 1,\n    \"ethnicity\" : 1,\n    \"country_of_origin\" : 1,\n    \"alcohol_usage\" : 1,\n    \"smoking_history\" : 1\n}"
 								},
 								"url": {
 									"raw": "{{url}}/api/demogdata/Demographic",
@@ -1252,7 +1407,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"id\":4\n}"
+									"raw": "{\n  \"id\":6\n}"
 								},
 								"url": {
 									"raw": "{{url}}/api/demogdata/Demographic",
@@ -1284,7 +1439,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"id\":3,\n\t\"patient\":1,\n\t\"DOB\" : {\"day\":1, \"month\":1, \"year\":1966},\n\t\"gender\" : \"male\",\n    \"dominantHand\" : \"left\",\n    \"ethnicity\" : \"white\",\n    \"countryOfOrigin\" : \"Germany\",\n    \"alcoholUsage\" : \"unknown\",\n    \"smokingHistory\" : \"unknown\"\n}"
+									"raw": "{\n  \"id\":7,\n  \"patient\":1,\n  \"gender\" : 2,\n    \"dominantHand\" : 2,\n    \"ethnicity\" : 3,\n    \"countryOfOrigin\" : 4,\n    \"alcoholUsage\" : 2,\n    \"smokingHistory\" : 2\n}"
 								},
 								"url": {
 									"raw": "{{url}}/api/demogdata/Demographic",
@@ -1297,6 +1452,66 @@
 										"Demographic"
 									]
 								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Demographic Fields",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Fields/Demographic",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Fields",
+										"Demographic"
+									]
+								},
+								"description": "Getting all the fields"
+							},
+							"response": []
+						},
+						{
+							"name": "Get specific demographic field",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Fields/Demographic?fieldName=gender",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Fields",
+										"Demographic"
+									],
+									"query": [
+										{
+											"key": "fieldName",
+											"value": "gender"
+										}
+									]
+								},
+								"description": "Getting a specific field in demographic"
 							},
 							"response": []
 						}
@@ -1490,7 +1705,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"id\":3,\n    \"patient\":1,\n    \"relation\":\"mother\",\n    \"conditionName\":\"Cold\",\n    \"startDate\": {\"day\":1, \"month\":1, \"year\":2001},\n    \"outcome\": \"ongoing\",\n    \"resolvedYear\":null\n}"
+									"raw": "{\n\t\"id\":2,\n    \"patient\":1,\n    \"relation\":\"mother\",\n    \"conditionName\":\"Cold\",\n    \"startDate\": {\"day\":1, \"month\":1, \"year\":2001},\n    \"outcome\": \"ongoing\",\n    \"resolvedYear\":null\n}"
 								},
 								"url": {
 									"raw": "{{url}}/api/demogdata/MedicalCondition",
@@ -1503,6 +1718,66 @@
 										"MedicalCondition"
 									]
 								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get MedCond Fields",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Fields/MedicalCondition",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Fields",
+										"MedicalCondition"
+									]
+								},
+								"description": "Getting all fields in Medical Condition"
+							},
+							"response": []
+						},
+						{
+							"name": "Get specific MedCond Fields",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/api/demogdata/Fields/MedicalCondition?fieldName=relations",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"demogdata",
+										"Fields",
+										"MedicalCondition"
+									],
+									"query": [
+										{
+											"key": "fieldName",
+											"value": "relations"
+										}
+									]
+								},
+								"description": "Getting a specific fields in Medical Condition"
 							},
 							"response": []
 						}

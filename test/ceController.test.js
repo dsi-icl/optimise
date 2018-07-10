@@ -49,9 +49,7 @@ describe('Create Clinical Event controller tests', () => {
         .send({
             'visitId': 1,
             'type': 1,
-            'startDate': {
-                'day': 1, 'month': 3, 'year': 2011
-            }
+            'startDate': '1 Jan 1980'
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -88,7 +86,7 @@ describe('Delete Clinical Event controller tests', () => {
         .set('token', adminToken)
         .send({ 'ceId': 99999999 })
         .then(res => {
-            expect(res.status).toBe(404);
+            expect(res.status).toBe(200);
         }));
 
     test('Request deletion with good body (should success)', () => request

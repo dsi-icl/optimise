@@ -1,4 +1,5 @@
 /**
+ *
  * @param {*} error_obj Personalised error message
  * @param {*} error_stack Raised error
  */

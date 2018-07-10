@@ -11,7 +11,9 @@ const UserRelatedErrorMessage = {
     WRONGARGUMENTS: 'Wrong value in the given arguments',
     BADPASSWORD: 'The password provided doesn\'t match',
     BADCREDENTIALS: 'Invalid credentials',
-    NORIGHTS: 'Unauthorized to do this action'
+    NORIGHTS: 'Unauthorized to do this action',
+    INVALIDDATE: 'The date provided is not valid',
+    WRONGPATH: 'The requested url doesn\'t exists'
 };
 
 module.exports = { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage };

@@ -23,7 +23,6 @@ before_install: |
 install:
   - npm --version
   - npm ci
-  - node ./installDB.js testing
 
 cache:
   directories:
@@ -39,7 +38,7 @@ jobs:
       after_script: cat ./coverage/lcov.info | codacy-coverage --token $CODACY_COVERAGE_TOKEN
 
     - &node
-      script: npm test -- --coverage
+      script: npm test
       node_js: '9'
 
     - <<: *node
