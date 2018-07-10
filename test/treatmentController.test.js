@@ -3,9 +3,6 @@
 const app = require('../src/app');
 const request = require('supertest')(app);
 const adminToken = require('./token').adminToken;
-// const {destroyAndMigrate} = require('../src/utils/db-handler');
-
-// beforeAll(() => {destroyAndMigrate('testing')});
 
 describe('Create treatment controller tests', () => {
     test('Request creation without body (should fail)', () => request
