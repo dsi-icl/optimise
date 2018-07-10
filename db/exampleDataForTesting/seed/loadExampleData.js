@@ -1,3 +1,4 @@
+/*eslint no-console: "off"*/
 // run 'knex seed:run' in ../ to load example data
 const data = require('../exampleData');
 
@@ -11,6 +12,5 @@ exports.seed = function (knex) {
             }));
     }
 
-    return Promise.all(allPromises).then(() => console.log('loaded example data')).catch(err => console.log(err));
-
+    return Promise.all(allPromises).catch(err => console.log(err));
 };
