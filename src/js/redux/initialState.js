@@ -75,12 +75,7 @@ export default {
         testFields: [],
         clinicalEventTypes: [], 
         testTypes: [],
-        drugs: [
-            {
-                'id': 1,
-                'name': 'placeholder'
-            }
-        ],
+        drugs: [],
         inputTypes: [     //'I', 'F', 'BLOB' etc
             {
                 'id': 1,

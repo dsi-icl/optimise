@@ -7,7 +7,7 @@ import cssLogin from '../css/loginpage.css';
 import { LoadingIcon } from '../statics/svg/icons.jsx';
 import cssIcons from '../css/icons.css';
 import cssScaffold from '../css/scaffold.css';
-import { getVisitFieldsCall, getTestFieldsCall, getClinicalEventTypesCall, getTestTypesCall } from './redux/actions/availableFields.js';
+import { getVisitFieldsCall, getTestFieldsCall, getClinicalEventTypesCall, getTestTypesCall, getDrugsCall } from './redux/actions/availableFields.js';
 require('react-datepicker/dist/react-datepicker-cssmodules.css');
 
 
@@ -36,7 +36,8 @@ function mapDispatchToProps(dispatch) {
         getVisitFieldsCall: () => dispatch(getVisitFieldsCall()),
         getTestFieldsCall: () => dispatch(getTestFieldsCall()),
         getClinicalEventTypesCall: () => dispatch(getClinicalEventTypesCall()),
-        getTestTypesCall: () => dispatch(getTestTypesCall())
+        getTestTypesCall: () => dispatch(getTestTypesCall()),
+        getDrugsCall: () => dispatch(getDrugsCall())
     };
 }
 @withRouter
@@ -47,6 +48,8 @@ class LoadingFields extends Component {
         this.props.getTestFieldsCall();
         this.props.getClinicalEventTypesCall();
         this.props.getTestTypesCall();
+        this.props.getDrugsCall();
+
     }
 
     render(){
