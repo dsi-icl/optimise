@@ -1,6 +1,6 @@
 /**
  * Route visit.
- * @description Redirect request from /api/visits to the proper controller call
+ * @description Redirect request from /visits to the proper controller call
  */
 
 
