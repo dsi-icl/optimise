@@ -1,14 +1,13 @@
 /* global describe test expect */
 
 //UNFINISHED: test erase patients
-const app = require('../src/app');
-const request = require('supertest')(app);
+const request = require('supertest')(global.optimiseRouter);
 const adminToken = require('./token').adminToken;
 const standardToken = require('./token').standardToken;
 
 describe('Patient controller tests', () => {
     test('Getting all patients', () => request
-        .get('/api/patients')
+        .get('/patients')
         .set('token', adminToken)
         .then(res => {
             expect(res.statusCode).toBe(200);
@@ -17,7 +16,7 @@ describe('Patient controller tests', () => {
         }));
 
     test('Searching patients with similar alias_id\'s', () => request
-        .get('/api/patients?id=o')
+        .get('/patients?id=o')
         .set('token', adminToken)
         .then(res => {
             expect(res.statusCode).toBe(200);
@@ -26,7 +25,7 @@ describe('Patient controller tests', () => {
         }));
 
     test('Searching patients with similar alias_id\'s but with double "id" query', () => request
-        .get('/api/patients?id=ch&id=css')
+        .get('/patients?id=ch&id=css')
         .set('token', adminToken)
         .then(res => {
             expect(res.statusCode).not.toBe(200);
@@ -34,7 +33,7 @@ describe('Patient controller tests', () => {
         }));
 
     test('Searching patients with similar alias_id\'s but with two queries', () => request
-        .get('/api/patients?id=ch&iddd=css')
+        .get('/patients?id=ch&iddd=css')
         .set('token', adminToken)
         .then(res => {
             expect(res.statusCode).toBe(400);
@@ -42,7 +41,7 @@ describe('Patient controller tests', () => {
         }));
 
     test('Creating a new patient', () => request
-        .post('/api/patients')
+        .post('/patients')
         .set('token', adminToken)
         .send({
             'aliasId': 'littlePatient',
@@ -53,7 +52,7 @@ describe('Patient controller tests', () => {
         }));
 
     test('Creating the same patient again (should fail)', () => request
-        .post('/api/patients')
+        .post('/patients')
         .set('token', adminToken)
         .send({
             'aliasId': 'littlePatient',
@@ -64,14 +63,14 @@ describe('Patient controller tests', () => {
         }));
 
     test('getting this patient', () => request
-        .get('/api/patientProfile/littlePatient')
+        .get('/patients/littlePatient')
         .set('token', adminToken)
         .then(res => {
             expect(res.statusCode).toBe(200);
         }));
 
     test('Deleting a patient by standard User (should fail)', () => request
-        .patch('/api/patients')
+        .patch('/patients')
         .set('token', standardToken)
         .send({ 'aliasId': 'littlePatient' })
         .then(res => {
@@ -79,7 +78,7 @@ describe('Patient controller tests', () => {
         }));
 
     test('Deleting a patient', () => request
-        .patch('/api/patients')
+        .patch('/patients')
         .set('token', adminToken)
         .send({ 'aliasId': 'littlePatient' })
         .then(res => {
@@ -87,7 +86,7 @@ describe('Patient controller tests', () => {
         }));
 
     test('Deleting this patient again (should return 200)', () => request
-        .patch('/api/patients')
+        .patch('/patients')
         .set('token', adminToken)
         .send({ 'aliasId': 'littlePatient' })
         .then(res => {

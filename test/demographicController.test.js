@@ -1,18 +1,17 @@
 /* global describe test expect */
-const app = require('../src/app');
 const adminToken = require('./token').adminToken;
-const request = require('supertest')(app);
+const request = require('supertest')(global.optimiseRouter);
 
 describe('Create Demographic controller test', () => {
     test('Creating demographic without body', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
     test('Creating demographic with body but empty property (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': null,
@@ -29,7 +28,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic with body but badly formated property (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 'HEY',
@@ -46,7 +45,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic with body but wrong patient (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 9,
@@ -63,7 +62,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic with body but badly formatted DOB (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 1,
@@ -80,7 +79,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic with body but wrong DOB (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 1,
@@ -97,7 +96,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic with body but wrong gender (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 1,
@@ -114,7 +113,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic with body but wrong dominant hand (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 1,
@@ -131,7 +130,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic with body but wrong ethnicity (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 1,
@@ -148,7 +147,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic with body but wrong country of origin (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 1,
@@ -165,7 +164,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic with body but wrong alcohol usage (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 1,
@@ -182,7 +181,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic with body but wrong smoking history (Should Fail)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 1,
@@ -199,7 +198,7 @@ describe('Create Demographic controller test', () => {
         }));
 
     test('Creating demographic well formatted (Should Works)', () => request
-        .post('/api/demogdata/Demographic')
+        .post('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'patient': 7,
@@ -219,14 +218,14 @@ describe('Create Demographic controller test', () => {
 
 describe('Edit Demographic controller test', () => {
     test('Editing demographic without body', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
     test('Editing demographic with body but empty property (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': null,
@@ -244,7 +243,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic with body but badly formated property (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 'WRONG',
@@ -262,7 +261,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic with body but wrong id (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 80,
@@ -281,7 +280,7 @@ describe('Edit Demographic controller test', () => {
 
 
     test('Editing demographic with body but wrong patient (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 8,
@@ -299,7 +298,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic with body but badly formatted DOB (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 8,
@@ -317,7 +316,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic with body but wrong DOB (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 8,
@@ -335,7 +334,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic with body but wrong gender (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 8,
@@ -353,7 +352,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic with body but wrong dominant hand (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 8,
@@ -371,7 +370,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic with body but wrong ethnicity (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 8,
@@ -389,7 +388,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic with body but wrong country of origin (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 8,
@@ -407,7 +406,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic with body but wrong alcohol usage (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 8,
@@ -425,7 +424,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic with body but wrong smoking history (Should Fail)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 8,
@@ -443,7 +442,7 @@ describe('Edit Demographic controller test', () => {
         }));
 
     test('Editing demographic well formatted (Should Works)', () => request
-        .put('/api/demogdata/Demographic')
+        .put('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 7,
@@ -464,14 +463,14 @@ describe('Edit Demographic controller test', () => {
 
 describe('Delete Demographic controller test', () => {
     test('Deleting demographic without body', () => request
-        .delete('/api/demogdata/Demographic')
+        .delete('/demographics/Demographic')
         .set('token', adminToken)
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
     test('Deleting demographic with body but empty property (Should Fail)', () => request
-        .delete('/api/demogdata/Demographic')
+        .delete('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': null
@@ -481,7 +480,7 @@ describe('Delete Demographic controller test', () => {
         }));
 
     test('Deleting demographic with body but badly formated property (Should Fail)', () => request
-        .delete('/api/demogdata/Demographic')
+        .delete('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 'WRONG'
@@ -491,7 +490,7 @@ describe('Delete Demographic controller test', () => {
         }));
 
     test('Deleting demographic with body but out of bound id (Should Fail)', () => request
-        .delete('/api/demogdata/Demographic')
+        .delete('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 90
@@ -502,7 +501,7 @@ describe('Delete Demographic controller test', () => {
         }));
 
     test('Deleting demographic with good preperty (Should Works)', () => request
-        .delete('/api/demogdata/Demographic')
+        .delete('/demographics/Demographic')
         .set('token', adminToken)
         .send({
             'id': 7
