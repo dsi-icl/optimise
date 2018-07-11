@@ -1341,7 +1341,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"Demographic"
 									]
 								}
@@ -1372,7 +1372,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"Demographic"
 									]
 								}
@@ -1403,7 +1403,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"Demographic"
 									]
 								}
@@ -1427,7 +1427,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"Fields",
 										"Demographic"
 									]
@@ -1453,7 +1453,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"Fields",
 										"Demographic"
 									],
@@ -1499,7 +1499,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"Immunisation"
 									]
 								}
@@ -1530,7 +1530,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"Immunisation"
 									]
 								}
@@ -1561,7 +1561,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"Immunisation"
 									]
 								}
@@ -1599,7 +1599,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"MedicalCondition"
 									]
 								}
@@ -1630,7 +1630,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"MedicalCondition"
 									]
 								}
@@ -1661,7 +1661,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"MedicalCondition"
 									]
 								}
@@ -1685,7 +1685,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"Fields",
 										"MedicalCondition"
 									]
@@ -1711,7 +1711,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"demogdata",
+										"demographics",
 										"Fields",
 										"MedicalCondition"
 									],
