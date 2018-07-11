@@ -7,7 +7,7 @@ export const searchResultByIdSuccess = data => ({ type: actionTypes.searchPatien
 
 export const getPatientProfileById = (searchString) => dispatch => {
     dispatch(searchPatientsByIdRequest(searchString));
-    return fetch(`/api/patientProfile/${searchString}`, {
+    return fetch(`/patients/${searchString}`, {
         mode: 'cors',
         headers: { 'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a' }   //change later
     })
