@@ -23,6 +23,7 @@ function OptimiseServer(config) {
     this.setupTests = OptimiseServer.prototype.setupTests.bind(this);
     this.setupData = OptimiseServer.prototype.setupData.bind(this);
     this.setupExport = OptimiseServer.prototype.setupExport.bind(this);
+    this.setupLogs = OptimiseServer.prototype.setupLogs.bind(this);
 
     // Define config in global scope (needed for server extensions)
     global.config = this.config;
@@ -39,7 +40,7 @@ function OptimiseServer(config) {
         });
     }
     // Middleware imports
-    this.userPermissionsMiddleware = require('./utils/requestMiddleware');
+    this.requestMiddleware = require('./utils/requestMiddleware');
 }
 
 /**
@@ -63,8 +64,9 @@ OptimiseServer.prototype.start = function () {
         _this.app.use(body_parser.urlencoded({ extended: true }));
         _this.app.use(body_parser.json());
 
-        // Adding session checks
-        _this.app.use('/', _this.userPermissionsMiddleware.verifySessionAndPrivilege);
+        // Adding session checks and monitoring
+        _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
+        _this.app.use('/', _this.requestMiddleware.addActionToCollection);
 
         // Setup remaining route using controllers
         _this.setupUsers();
@@ -76,6 +78,7 @@ OptimiseServer.prototype.start = function () {
         _this.setupTests();
         _this.setupData();
         _this.setupExport();
+        _this.setupLogs();
 
         _this.app.all('/*', function (__unused__req, res) {
             res.status(400);
@@ -209,6 +212,18 @@ OptimiseServer.prototype.setupExport = function () {
 
     // Modules
     this.app.use('/export', this.routeExport);
+};
+
+/**
+ * @fn setupLogs
+ * @desc Initialize the logs related routes
+ */
+OptimiseServer.prototype.setupLogs = function () {
+    // Import the controller
+    this.routeLogs = require('./routes/actionRoute');
+
+    // Modules
+    this.app.use('/logs', this.routeLogs);
 };
 
 module.exports = OptimiseServer;
