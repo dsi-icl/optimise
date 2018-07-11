@@ -48,7 +48,7 @@ function availableFields(state = initialState.availableFields, action){
             newState = { ...state, testTypes: action.payload };
             break;
         case actionTypes.availableFields.GET_VISIT_FIELDS_SUCCESS:
-            newState = { ...state, visitFields: action.payload };
+            newState = { ...state, VSFields: action.payload.slice(0, 6), visitFields: action.payload.slice(6) };
             break;
         case actionTypes.availableFields.GET_RELATIONS_SUCCESS:
             newState = { ...state, relations: action.payload.relations };

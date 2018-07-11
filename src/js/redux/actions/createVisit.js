@@ -14,7 +14,7 @@ export const createVisitAPICall = (body) => dispatch => {
             'content-type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify(body)
+        body: JSON.stringify(body.data)
     })
         .then(res => {
             if (res.status === 200) {

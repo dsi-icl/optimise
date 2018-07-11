@@ -46,10 +46,7 @@ export class CreateCE extends Component {
         return { patientId: this.props.match.params.patientId,
             data: {
                 visitId: this.props.match.params.visitId,
-                startDate: { day: date.getDate(),
-                    month: date.getMonth() + 1,
-                    year: date.getFullYear()
-                },
+                startDate: date.toDateString(),
                 type: this.state.ceType
             }
         };
