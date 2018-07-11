@@ -27,7 +27,7 @@ const exampleData = {
         { id: 3, orderedDuringVisit: 2, type: 1, expectedOccurDate: '1517443200000', createdByUser: 1, deleted: '-' },
     ],
     'TREATMENTS': [
-        { id: 1, orderedDuringVisit: 1, drug: 1, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' }
+        { id: 1, orderedDuringVisit: 1, drug: 1, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, adverseEvent: 5, createdByUser: 2, deleted: '-' }
     ]
 };
 
