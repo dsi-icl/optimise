@@ -1,7 +1,7 @@
 let express = require('express');
 let os = require('os');
-let config = require('../config/optimise.config.js');
-let OptimiseServer = require('./optimiseServer.js');
+let config = require('../config/optimise.config');
+let OptimiseServer = require('./optimiseServer');
 
 let web_app = express();
 let optimise_server = new OptimiseServer(config);

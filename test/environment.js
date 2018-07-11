@@ -1,6 +1,6 @@
 /*eslint no-console: "off"*/
 
-const OptimiseServer = require('../src/optimiseServer.js');
+const OptimiseServer = require('../src/optimiseServer');
 const { erase, migrate } = require('../src/utils/db-handler');
 const knex = require('../src/utils/db-connection');
 const NodeEnvironment = require('jest-environment-node');
