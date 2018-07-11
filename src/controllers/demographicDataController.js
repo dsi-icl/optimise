@@ -51,13 +51,14 @@ DemographicDataController.prototype.createDemographic = function (req, res) {
 };
 
 DemographicDataController.prototype.createMedicalCondition = function (req, res) {
-    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('immunisationDate') && req.body.hasOwnProperty('vaccineName')) {
+    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('relation')) {
         const entryObj = {
             'patient': req.body.patient,
             'startDate': Date.parse(req.body.startDate),
             'relation': req.body.relation,
             'outcome': req.body.outcome,
-            'conditionName': req.body.conditionName
+            'conditionName': req.body.conditionName,
+            'createdByUser': req.requester.userid
         };
         if (req.body.resolvedYear) {
             entryObj.resolvedYear = req.body.resolvedYear;
@@ -80,7 +81,8 @@ DemographicDataController.prototype.createImmunisation = function (req, res) {
         const entryObj = {
             'patient': req.body.patient,
             'immunisationDate': Date.parse(req.body.immunisationDate),
-            'vaccineName': req.body.vaccineName
+            'vaccineName': req.body.vaccineName,
+            'createdByUser': req.requester.userid
         };
         this.immunisation.createImmunisation(entryObj).then(function (result) {
             res.status(200).json(result);
