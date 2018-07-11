@@ -74,7 +74,7 @@ function mapSymptoms(fieldHashTable) {
 }
 
 
-function formatRow(arr) {
+export function formatRow(arr) {
     return <tr>{arr.map((el, ind) => <td key={ind}>{el}</td>)}</tr>;
 }
 
