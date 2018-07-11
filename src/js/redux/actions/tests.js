@@ -3,10 +3,12 @@ import actionTypes from './listOfActions.js';
 
 export const createTestAPICall = (body) => dispatch => {
     console.log(body);
-    return fetch('/api/tests', {
+    return fetch('/tests', {
         mode: 'cors',
-        headers: { 'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a', //change later
-            'content-type': 'application/json' },  
+        headers: {
+            'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a', //change later
+            'content-type': 'application/json'
+        },
         method: 'POST',
         body: JSON.stringify(body.data)
     })

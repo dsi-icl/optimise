@@ -38,7 +38,7 @@ export class DataTemplate extends Component {
         this._handleSubmit = this._handleSubmit.bind(this);
     }
 
-    _handleSubmit(ev){
+    _handleSubmit(ev) {
         ev.preventDefault();
         const idString = `${this.props.elementType}Id`;
         const bodydata = { add: {}, update: {} };
@@ -62,7 +62,7 @@ export class DataTemplate extends Component {
 
     }
 
-    render(){
+    render() {
         if (!this.props.patientProfile.fetching) {
             const idString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Id` : 'id';   //this is because id naming is inconsistent on backend - might change..?
             const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element[idString] == this.props.match.params.elementId);  // eslint-disable-line eqeqeq
@@ -71,14 +71,14 @@ export class DataTemplate extends Component {
             } else {
                 const fieldString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Fields` : null;   //this is because id naming is inconsistent on backend - might change..?
                 return (<div style={{ overflow: 'auto' }}>
-                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`}/>
-                    <h2>TEST RESULT</h2>  
+                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+                    <h2>TEST RESULT</h2>
                     <div>{JSON.stringify(this.state.data)}</div>
                     {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit)}
                 </div>);   //change the type later
             }
         } else {
-            return <div className={cssIcons.spinner}><LoadingIcon/></div>
+            return <div className={cssIcons.spinner}><LoadingIcon /></div>
         }
     }
 }
@@ -110,14 +110,14 @@ export class BackButton extends Component {
  * //        { 'field': 86, 'value': '123' },
  * //        { 'field': 91, 'value' : 'TEST NOT DONE' }]}
  * @description Take the data of a test, event, or visit as sent by the backend and format it to react component / JSX for display.
- * @param {Object} medicalElement - medical element object (test, events, visits) as is from the {test, event, visit} entries from /api/patientProfile/:patientId
- * @param {Array} fieldList - the available fields as is returned from calling /api/getAvailable{testFields|eventFields,etc}
+ * @param {Object} medicalElement - medical element object (test, events, visits) as is from the {test, event, visit} entries from /patientProfile/:patientId
+ * @param {Array} fieldList - the available fields as is returned from calling /getAvailable{testFields|eventFields,etc}
  * @param {Array} dataTypes - the datatype array returned by backend
  * @returns {JSX} Formatted data for display on frontend
  */
 function formatData(medicalElement, fieldList, inputTypes, submitFunction) {
     //reformating the field list to hash table with fieldId as key for easier lookup later without needing array filter:
-    const filteredFieldList = fieldList.filter(field => field.referenceType == medicalElement.type );   // eslint-disable-line eqeqeq
+    const filteredFieldList = fieldList.filter(field => field.referenceType == medicalElement.type);   // eslint-disable-line eqeqeq
     const fieldHashTable = filteredFieldList.reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
     //same with data:
     const dataHashTable = medicalElement.data.reduce((map, el) => { map[el.field] = el.value; return map }, {});
@@ -133,27 +133,27 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction) {
                         const key = `${medicalElement.testId}_FIELD${id}`;
                         switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
                             case 'I':
-                                return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='I'/><br/><br/></span>;
+                                return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='I' /><br /><br /></span>;
                             case 'F':
-                                return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='F'/><br/><br/></span>;
+                                return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='F' /><br /><br /></span>;
                             case 'C':
-                                return (<span key={key}>{definition}: 
-                                    <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues={permittedValues}/>
-                                    <br/><br/></span>);
+                                return (<span key={key}>{definition}:
+                                    <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues={permittedValues} />
+                                    <br /><br /></span>);
                             case 'T':
-                                return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='T'/><br/><br/></span>;
+                                return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='T' /><br /><br /></span>;
                             case 'B':
-                                return (<span key={key}>{definition}: 
-                                    <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues='true,false'/>
-                                    <br/><br/></span>);
+                                return (<span key={key}>{definition}:
+                                    <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues='true,false' />
+                                    <br /><br /></span>);
                             case 'BLOB':
-                                return <span key={key}> BLOB<br/><br/></span>;
+                                return <span key={key}> BLOB<br /><br /></span>;
                             default:
-                                return <span key={key}>This field cannot be displayed. Please contact admin. <br/><br/></span>;
+                                return <span key={key}>This field cannot be displayed. Please contact admin. <br /><br /></span>;
                         }
                     })
                 }
-                <input className={cssButtons.dataSubmitButton} type="submit" value="Save"/>
+                <input className={cssButtons.dataSubmitButton} type="submit" value="Save" />
             </form>
         </div>
     );
@@ -186,11 +186,11 @@ export class ControlledInputField extends Component {
         this._handleResetClick = this._handleResetClick.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.setState({ value: this.props.originalValue });
     }
 
-    _handleKeyStroke(ev){
+    _handleKeyStroke(ev) {
         this.setState({ value: ev.target.value, valid: this._validateInput(ev.target.value) });
     }
 
@@ -200,20 +200,20 @@ export class ControlledInputField extends Component {
         }
     }
 
-    _handleResetClick(){
+    _handleResetClick() {
         this.setState({ value: this.props.originalValue ? this.props.originalValue : '' });
     }
 
     _validateInput(value) {
-        switch(this.props.dataType){
+        switch (this.props.dataType) {
             case 'I':
-                if(parseInt(value, 10) && parseInt(value, 10) === parseFloat(value, 10) && parseInt(value, 10) == value) {  // eslint-disable-line eqeqeq
+                if (parseInt(value, 10) && parseInt(value, 10) === parseFloat(value, 10) && parseInt(value, 10) == value) {  // eslint-disable-line eqeqeq
                     return true;
                 } else {
                     return false;
                 }
             case 'F':
-                if(parseFloat(value, 10) && parseFloat(value, 10) == value) { // eslint-disable-line eqeqeq
+                if (parseFloat(value, 10) && parseFloat(value, 10) == value) { // eslint-disable-line eqeqeq
                     return true;
                 } else {
                     return false;
@@ -226,15 +226,15 @@ export class ControlledInputField extends Component {
 
     }
 
-    render(){
+    render() {
         return (<span>
-            <input 
+            <input
                 originalvalue={this.props.originalValue}
                 name={this.props.fieldId}
                 fieldid={this.props.fieldId}
-                type='text' 
-                style={ this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' }) } 
-                value={this.state.value} 
+                type='text'
+                style={this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' })}
+                value={this.state.value}
                 onChange={this._handleKeyStroke}
                 onKeyPress={this._handleEnterKey}
             />
@@ -260,27 +260,27 @@ export class ControlledSelectField extends Component {
         this._handleChange = this._handleChange.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         if (this.props.originalValue) {
             this.setState({ value: this.props.originalValue });
         }
     }
 
-    _handleChange(ev){
+    _handleChange(ev) {
         this.setState({ value: ev.target.value });
     }
 
-    _handleResetClick(){
-        this.setState({ value: this.props.originalValue ?  this.props.originalValue : 'unselected' });
+    _handleResetClick() {
+        this.setState({ value: this.props.originalValue ? this.props.originalValue : 'unselected' });
     }
 
-    render(){
-        const setThisValue = this.props.originalValue ?  this.props.originalValue : 'unselected';
+    render() {
+        const setThisValue = this.props.originalValue ? this.props.originalValue : 'unselected';
         return (<span><select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} style={{ color: (this.state.value === setThisValue ? 'black' : 'green') }}>
             <option value='unselected'>unselected</option>
             {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
         </select>
-        <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
+            <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
         </span>);
     }
 }
