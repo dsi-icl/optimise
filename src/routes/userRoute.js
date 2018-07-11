@@ -1,6 +1,6 @@
 /**
  * Route user
- * @description Redirect request from /internalapi and /api/users to the proper controller call
+ * @description Redirect request from /users to the proper controller call
  */
 
 const express = require('express');
@@ -10,18 +10,16 @@ const UserCtrl = require('../controllers/userController');
 const UserController = new UserCtrl();
 
 // Log the user in
-// real path is /internapi/userlogin
-user.route('/userlogin')
+user.route('/login')
     .post(UserController.loginUser);
 
 // Log the user out
-// real path is /internapi/userlogout
-user.route('/userlogout')
+user.route('/logout')
     .post(UserController.logoutUser);
 
 // Interacts with the user in the DB
 // (POST : create / DELETE : delete / PUT : modify)
-// Real path is /api/users
+// Real path is /users
 user.route('/')
     .get(UserController.getUser)
     .post(UserController.createUser)

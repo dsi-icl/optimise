@@ -8,7 +8,7 @@ info:
 host: "localhost:3030"
 basePath: "/"
 paths:
-  /internalapi/userlogin:
+  /users/login:
     post:
       summary: "User login"
       parameters:
