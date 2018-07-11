@@ -1,22 +1,18 @@
 /* global describe test expect */
 
-const app = require('../src/app');
-const request = require('supertest')(app);
+const request = require('supertest')(global.optimiseRouter);
 const adminToken = require('./token').adminToken;
-// const {destroyAndMigrate} = require('../src/utils/db-handler');
-
-// beforeAll(() => {destroyAndMigrate('testing')});
 
 describe('Create treatment controller tests', () => {
     test('Request creation without body (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
     test('Request creation with bad body (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'aaaa': 11,
@@ -32,7 +28,7 @@ describe('Create treatment controller tests', () => {
         }));
 
     test('Request creation with invalid drug (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'visitId': 1,
@@ -48,7 +44,7 @@ describe('Create treatment controller tests', () => {
         }));
 
     test('Request creation with bad unit (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'visitId': 1,
@@ -64,7 +60,7 @@ describe('Create treatment controller tests', () => {
         }));
 
     test('Request creation with bad form (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'visitId': 1,
@@ -80,7 +76,7 @@ describe('Create treatment controller tests', () => {
         }));
 
     test('Request creation with invalid time zero (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'visitId': 1,
@@ -96,7 +92,7 @@ describe('Create treatment controller tests', () => {
         }));
 
     test('Request creation with invalid time neg (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'visitId': 1,
@@ -112,7 +108,7 @@ describe('Create treatment controller tests', () => {
         }));
 
     test('Request creation with invalid duration zero (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'visitId': 1,
@@ -128,7 +124,7 @@ describe('Create treatment controller tests', () => {
         }));
 
     test('Request creation with invalid duration neg (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'visitId': 1,
@@ -144,7 +140,7 @@ describe('Create treatment controller tests', () => {
         }));
 
     test('Request creation with invalid duration huge (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'visitId': 1,
@@ -160,7 +156,7 @@ describe('Create treatment controller tests', () => {
         }));
 
     test('Request creation with good body (should success)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'visitId': 1,
@@ -176,7 +172,7 @@ describe('Create treatment controller tests', () => {
         }));
 
     test('Request creation same treatment as before (should fail)', () => request
-        .post('/api/treatments')
+        .post('/treatments')
         .set('token', adminToken)
         .send({
             'visitId': 1,
@@ -194,7 +190,7 @@ describe('Create treatment controller tests', () => {
 
 describe('Create treatment interruption controller tests', () => {
     test('Request treatment interuption without body (should fail)', () => request
-        .post('/api/treatments/interrupt')
+        .post('/treatments/interrupt')
         .set('token', adminToken)
         .send({})
         .then(res => {
@@ -202,7 +198,7 @@ describe('Create treatment interruption controller tests', () => {
         }));
 
     test('Request treatment interuption with bad ID (should fail)', () => request
-        .post('/api/treatments/interrupt')
+        .post('/treatments/interrupt')
         .set('token', adminToken)
         .send({
             'treatmentId': 'WRONG',
@@ -215,7 +211,7 @@ describe('Create treatment interruption controller tests', () => {
         }));
 
     test('Request treatment interuption with invalid ID (should fail)', () => request
-        .post('/api/treatments/interrupt')
+        .post('/treatments/interrupt')
         .set('token', adminToken)
         .send({
             'treatmentId': 999999999,
@@ -228,7 +224,7 @@ describe('Create treatment interruption controller tests', () => {
         }));
 
     test('Request treatment interuption with good body (should success)', () => request
-        .post('/api/treatments/interrupt')
+        .post('/treatments/interrupt')
         .set('token', adminToken)
         .send({
             'treatmentId': 1,
@@ -243,14 +239,14 @@ describe('Create treatment interruption controller tests', () => {
 
 describe('Delete treatment interruption controller tests', () => {
     test('Request deletion treatment interrupt without body (should fail)', () => request
-        .delete('/api/treatments/interrupt')
+        .delete('/treatments/interrupt')
         .set('token', adminToken)
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
     test('Request deletion treatment interrupt with bad id (should fail)', () => request
-        .delete('/api/treatments/interrupt')
+        .delete('/treatments/interrupt')
         .set('token', adminToken)
         .send({ 'treatmentInterId': 'WRONG' })
         .then(res => {
@@ -258,7 +254,7 @@ describe('Delete treatment interruption controller tests', () => {
         }));
 
     test('Request deletion treatment interrupt with invalid id (should fail)', () => request
-        .delete('/api/treatments/interrupt')
+        .delete('/treatments/interrupt')
         .set('token', adminToken)
         .send({ 'treatmentInterId': 99999 })
         .then(res => {
@@ -266,7 +262,7 @@ describe('Delete treatment interruption controller tests', () => {
         }));
 
     test('Request deletion treatment interrupt with good id (should success)', () => request
-        .delete('/api/treatments/interrupt')
+        .delete('/treatments/interrupt')
         .set('token', adminToken)
         .send({ 'treatmentInterId': 1 })
         .then(res => {
@@ -276,14 +272,14 @@ describe('Delete treatment interruption controller tests', () => {
 
 describe('Delete treatment controller tests', () => {
     test('Request deletion treatment without body (should fail)', () => request
-        .delete('/api/treatments')
+        .delete('/treatments')
         .set('token', adminToken)
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
     test('Request deletion treatment with bad body (should fail)', () => request
-        .delete('/api/treatments')
+        .delete('/treatments')
         .set('token', adminToken)
         .send({
             'INVALID': 1,
@@ -294,7 +290,7 @@ describe('Delete treatment controller tests', () => {
         }));
 
     test('Request deletion treatment with bad ID (should fail)', () => request
-        .delete('/api/treatments')
+        .delete('/treatments')
         .set('token', adminToken)
         .send({ 'treatmentId': 'WRONG' })
         .then(res => {
@@ -302,7 +298,7 @@ describe('Delete treatment controller tests', () => {
         }));
 
     test('Request deletion treatment with invalid ID (should fail)', () => request
-        .delete('/api/treatments')
+        .delete('/treatments')
         .set('token', adminToken)
         .send({ 'treatmentId': 999999 })
         .then(res => {
@@ -310,7 +306,7 @@ describe('Delete treatment controller tests', () => {
         }));
 
     test('Request deletion treatment with good ID (should success)', () => request
-        .delete('/api/treatments')
+        .delete('/treatments')
         .set('token', adminToken)
         .send({ 'treatmentId': 1 })
         .then(res => {
