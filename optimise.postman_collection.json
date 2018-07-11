@@ -179,7 +179,7 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{url}}/api/users?username=test_user",
+							"raw": "{{url}}/api/users?username=",
 							"host": [
 								"{{url}}"
 							],
@@ -190,46 +190,10 @@
 							"query": [
 								{
 									"key": "username",
-									"value": "test_user"
+									"value": ""
 								}
 							]
 						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "export",
-			"description": null,
-			"item": [
-				{
-					"name": "export full database",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/zip"
-
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
-						"body": {},
-						"url": {
-							"raw": "{{url}}/api/exportDatabase/",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"exportDatabase"
-							]
-						},
-						"description": "Exports data for all patients in database"
 					},
 					"response": []
 				}
@@ -1538,7 +1502,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"patient\":1,\n\t\"vaccineName\":\"Vacthing\",\n\t\"immunisationDate\":{\"day\":2, \"month\":5, \"year\":2009}\n}"
+									"raw": "{\n\t\"patient\":1,\n\t\"vaccineName\":\"Vacthing\",\n\t\"immunisationDate\":\"2/5/2009\"\n}"
 								},
 								"url": {
 									"raw": "{{url}}/api/demogdata/Immunisation",
@@ -1641,7 +1605,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"patient\":1,\n    \"relation\":\"mother\",\n    \"conditionName\":\"Cold\",\n    \"startDate\": {\"day\":1, \"month\":1, \"year\":2001},\n    \"outcome\": \"resolved\",\n    \"resolvedYear\":2002\n}"
+									"raw": "{\n    \"patient\":1,\n    \"relation\":1,\n    \"conditionName\":1,\n    \"startDate\": \"1/1/2001\",\n    \"outcome\": \"resolved\",\n    \"resolvedYear\":2002\n}"
 								},
 								"url": {
 									"raw": "{{url}}/api/demogdata/MedicalCondition",
@@ -1785,6 +1749,31 @@
 					"_postman_isSubFolder": true
 				}
 			]
+		},
+		{
+			"name": "Get Actions Log",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{admin_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/internalapi/logs",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"internalapi",
+						"logs"
+					]
+				},
+				"description": "Get the logs of the API"
+			},
+			"response": []
 		}
 	]
 }
