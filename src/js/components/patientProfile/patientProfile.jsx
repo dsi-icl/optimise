@@ -27,7 +27,7 @@ class DemographicSection extends Component {
         if (demographicData) {
             let { DOB, alcoholUsage, countryOfOrigin, dominantHand, ethnicity, gender, smokingHistory } = demographicData;
             alcoholUsage = fields['alcohol_usage'].filter(el => el.id === alcoholUsage)[0].value;
-            countryOfOrigin = fields['countries'].filter(el => el.id === countryOfOrigin)[0].country;
+            countryOfOrigin = fields['countries'].filter(el => el.id === countryOfOrigin)[0].value;
             dominantHand = fields['dominant_hands'].filter(el => el.id === dominantHand)[0].value;
             ethnicity = fields['ethnicities'].filter(el => el.id === ethnicity)[0].value;
             gender = fields['genders'].filter(el => el.id === gender)[0].value;
