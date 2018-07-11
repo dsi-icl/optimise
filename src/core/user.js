@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const saltRound = require('../config/hashKeyConfig');
 const message = require('../utils/message-utils');
+const knex = require('../utils/db-connection');
 
 function User() {
     this.createUser = User.prototype.createUser.bind(this);
@@ -12,7 +13,7 @@ function User() {
 
 User.prototype.getUser = function(user) {
     return new Promise(function(resolve, reject) {
-        getEntry('USERS', user, { id: 'id', username: 'username', realname: 'realname' }).then(function(result){
+        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname' }).where('username', 'like', user).then(function(result){
             resolve(result);
         }, function(error){
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
