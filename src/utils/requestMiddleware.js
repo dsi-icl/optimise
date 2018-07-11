@@ -16,16 +16,12 @@ class RequestMiddleware {
                     }
                 })
                 .catch(err => {
-                    console.error(err);
                     res.status(500).send(`Database error ${JSON.stringify(err)}`);
                 });
         } else if (req.originalUrl === '/users/login') {
             next();
         } else {
-            res.status(400).send({
-                status: 'KO',
-                message: 'Please provide a token in the header'
-            });
+            res.status(400).send('Please provide a token in the header');
         }
     }
 
