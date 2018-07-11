@@ -1,6 +1,6 @@
 /**
  * Route test
- * @description Redirect request from /api/tests to the proper controller call
+ * @description Redirect request from /tests to the proper controller call
  */
 
 const express = require('express');
