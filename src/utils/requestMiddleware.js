@@ -19,7 +19,7 @@ class RequestMiddleware {
                 .catch(err => {
                     res.status(500).send(`Database error ${JSON.stringify(err)}`);
                 });
-        } else if (req.originalUrl === '/internalapi/userlogin') {
+        } else if (req.originalUrl === '/users/login') {
             next();
         } else {
             res.status(400).send('Please provide a token in the header');
@@ -42,12 +42,12 @@ class RequestMiddleware {
                     knex('LOG_ACTIONS')
                         .insert({ 'router': req.originalUrl, 'method': req.method, 'body': JSON.stringify(req.body), 'user': user })
                         .then(__unused__resultInsert => {
-                            if (process.env.NODE_ENV !== 'production')
+                            if (process.env.NODE_ENV === 'developpment')
                                 console.log(`${req.method} - ${req.originalUrl} : ${user}`);
                             next();
                         })
                         .catch(err => {
-                            if (process.env.NODE_ENV !== 'production')
+                            if (process.env.NODE_ENV === 'developpment')
                                 console.log(`Error caught :${err}`);
                             next();
                         });
@@ -56,12 +56,12 @@ class RequestMiddleware {
             knex('LOG_ACTIONS')
                 .insert({ 'router': req.originalUrl, 'method': req.method, 'body': JSON.stringify(req.body), 'user': req.body.username })
                 .then(__unused__res => {
-                    if (process.env.NODE_ENV !== 'production')
+                    if (process.env.NODE_ENV === 'developpment')
                         console.log(`${req.method} - ${req.originalUrl} : ${req.body.username}`);
                     next();
                 })
                 .catch(err => {
-                    if (process.env.NODE_ENV !== 'production')
+                    if (process.env.NODE_ENV === 'developpment')
                         console.log(`Error caught :${err}`);
                     next();
                 });

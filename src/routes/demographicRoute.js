@@ -1,6 +1,6 @@
 /**
  * Route patient
- * @description Redirect request from /api/patients and /api/patientProfile to the proper controller call
+ * @description Redirect request from /demographics to the proper controller call
  */
 
 const express = require('express');
@@ -9,7 +9,7 @@ const demogdata = express();
 const DemogdataCrtrl = require('../controllers/demographicDataController');
 const DemographicController = new DemogdataCrtrl();
 // Interacts with the patients in the DB
-// Real path expected is /api/patients
+// Real path expected is /patients
 
 demogdata.route('/Demographic')
     .post(DemographicController.createDemographic)
@@ -27,7 +27,7 @@ demogdata.route('/MedicalCondition')
     .delete(DemographicController.deleteMedicalCondition);
 
 // Get the profile of a certain user
-// Real path expected is /api/patientProfile
+// Real path expected is /patientProfile
 demogdata.route('/:dataType')
     .get(DemographicController.getDemogData);
 
