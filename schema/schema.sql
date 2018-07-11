@@ -167,6 +167,7 @@ CREATE TABLE TREATMENTS (
     durationWeeks NUMERIC NOT NULL CHECK (durationWeeks > 0),
     terminatedDate TEXT,
     terminatedReason TEXT CHECK (terminatedReason IN ('patient preference','disease progresssion', 'death', 'life threatening reaction to drug', 'permanent / serious disability', 'prolonged hospitalization')),
+    adverseEvent INTEGER REFERENCES ADVERSE_EVENT_MEDDRA(id),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
@@ -187,6 +188,11 @@ CREATE TABLE TREATMENTS_INTERRUPTIONS (
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
     UNIQUE(treatment, startDate, deleted)
+);
+
+CREATE TABLE ADVERSE_EVENT_MEDDRA (
+    id INTEGER PRIMARY KEY ASC,
+    name TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE AVAILABLE_TEST_TYPES (
