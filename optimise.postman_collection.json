@@ -1743,12 +1743,11 @@
 				],
 				"body": {},
 				"url": {
-					"raw": "{{url}}/internalapi/logs",
+					"raw": "{{url}}/logs",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"internalapi",
 						"logs"
 					]
 				},
