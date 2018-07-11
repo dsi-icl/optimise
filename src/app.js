@@ -17,6 +17,7 @@ const patients = require('./routes/patientRoute');
 const ce = require('./routes/clinicalEventRoute');
 const demog = require('./routes/demographicRoute');
 const exportData = require('./routes/exportDataRoute');
+const log = require('./routes/action');
 
 // CONTROLLERS
 const DataController = require('./controllers/dataController');
@@ -27,13 +28,14 @@ app.set('x-powered-by', false);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));  //don't know if to keep or not
 
-// Monitoring and rughts verification
-//app.use('/', RequestMiddleware.addActionToCollection);
+// Monitoring and rights verification
 app.use('/', RequestMiddleware.verifySessionAndPrivilege);
+app.use('/', RequestMiddleware.addActionToCollection);
 
 // Modules
 app.use('/api/users', users); //Method: POST/PUT/DELETE/GET
 app.use('/internalapi/', users);
+app.use('/internalapi/logs', log);
 app.use('/api/visits/', visits);
 app.use('/api/treatments/', treatments);
 app.use('/api/tests/', tests);
