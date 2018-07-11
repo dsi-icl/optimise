@@ -9,10 +9,7 @@ export class Section extends Component {
         if (this.props.fetching) {
             return <span></span>;
         } else {
-            return (<div style={{ position: 'relative' }}>        
-                <DemographicSection/>
-                <ImmunisationSection/>
-                <MedicalHistorySection/>
+            return (<div style={{ position: 'relative' }}>
             </div>)
         }
     }
