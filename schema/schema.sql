@@ -211,7 +211,7 @@ CREATE TABLE TREATMENTS (
     durationWeeks NUMERIC NOT NULL CHECK (durationWeeks > 0),
     terminatedDate TEXT,
     terminatedReason TEXT CHECK (terminatedReason IN ('patient preference','disease progresssion', 'death', 'life threatening reaction to drug', 'permanent / serious disability', 'prolonged hospitalization')),
-    adverseEvent TEXT REFERENCES ADVERSE_EVENT_MEDDRA(id),
+    adverseEvent INTEGER REFERENCES ADVERSE_EVENT_MEDDRA(id),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
