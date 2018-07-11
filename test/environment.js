@@ -1,6 +1,5 @@
 /*eslint no-console: "off"*/
 
-const config = require('../config/optimise.config.js');
 const OptimiseServer = require('../src/optimiseServer.js');
 const { erase, migrate } = require('../src/utils/db-handler');
 const knex = require('../src/utils/db-connection');
@@ -21,7 +20,7 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
         return new Promise(function (resolve, reject) {
             erase().then(() => migrate('testing').then(() => resolve(true)).catch(err => reject(err))).catch(err => reject(err));
         }).then(() => {
-            optimiseServer = new OptimiseServer(config);
+            optimiseServer = new OptimiseServer({});
             return optimiseServer.start();
         }).then((optimise_router) => {
             optimiseRouter = optimise_router;
