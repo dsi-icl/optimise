@@ -5,6 +5,9 @@ import cssButtons from '../../../css/buttons.css';
 import { PickDate } from '../createMedicalElements/datepicker.jsx';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 import moment from 'moment';
+import { formatRow } from './patientChart.jsx';
+import store from '../../redux/store.js';
+import { createImmunisationAPICall } from '../../redux/actions/demographicData.js'
 
 @connect(state => ({ fetching: state.patientProfile.fetching }))
 export class Section extends Component {
@@ -77,7 +80,9 @@ class ImmunisationSection extends Component {
     }
 
     _handleSubmit(){
-        console.log(this.state);
+        const data = this.props.data;
+        const body = { patientId: data.patientId, data: { patient: data.id, vaccineName: this.state.newName, immunisationDate: this.state.newDate._d.toDateString() } };
+        store.dispatch(createImmunisationAPICall(body));
     }
 
     render() {
@@ -85,15 +90,18 @@ class ImmunisationSection extends Component {
         return (
             <PatientProfileSectionScaffold sectionName='Immunisations'>
                 { data.immunisations.length !== 0 ? 
-                    <table>
+                    <table style={{ width: '100%' }}>
                         <thead>
                             <tr><th>Vaccine name</th><th>Date</th></tr>
                         </thead>
+                        <tbody>
+                            {data.immunisations.map(el => formatRow([el.vaccineName, new Date(parseInt(el.immunisationDate, 10)).toDateString()]))}
+                        </tbody>
                     </table>
                     : null }
                 {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Add immunisation</div> : 
                     <form>
-                        <table>
+                        <table style={{ width: '100%' }}>
                             <tbody>
                                 <tr>
                                     <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text'/></td>
