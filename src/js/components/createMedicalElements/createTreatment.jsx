@@ -10,7 +10,7 @@ import { createTreatmentAPICall } from '../../redux/actions/treatments.js';
 
 //not yet finished the dispatch
 /* patch the drug mapping from state and to UI when the backend API is finished */
-@connect(state => ({ visits: state.patientProfile.data.visits, types: [{ id: 1, name: 'placeholder' }] }), dispatch => ({ createTreatment: body => dispatch(createTreatmentAPICall(body)) }))
+@connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.drugs }), dispatch => ({ createTreatment: body => dispatch(createTreatmentAPICall(body)) }))
 export class CreateTreatment extends Component {
     constructor() {
         super();
@@ -73,16 +73,17 @@ export class CreateTreatment extends Component {
                 <BackButton to={`/patientProfile/${params.patientId}`}/>
                 <h2>CREATE A NEW TREATMENT</h2>
                 <span class={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
-                <br/>
+                <br/><br/>
                 Dose: <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text'/>
-                <br/>
+                <br/><br/>
                 Unit: <input value={this.state.unit} onChange={this._handleInputChange} name='unit' type='text'/>
-                <br/>
+                <br/><br/>
                 Form: <input value={this.state.form} onChange={this._handleInputChange} name='form' type='text'/>
-                <br/>
+                <br/><br/>
                 Times per day: <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text'/>
-                <br/>
+                <br/><br/>
                 Duration in weeks: <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text'/>
+                <br/><br/>
                 <span class={cssTexts.centeredBlock}>What drug is it? 
                     <select value={this.state.drugType} onChange={this._handleTypeChange}>
                         {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}

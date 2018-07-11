@@ -46,10 +46,7 @@ export class CreateTest extends Component {
         return { patientId: this.props.match.params.patientId,
             data: {
                 visitId: this.props.match.params.visitId,
-                expectedDate: { day: date.getDate(),
-                    month: date.getMonth() + 1,
-                    year: date.getFullYear()
-                },
+                expectedDate: date.toDateString(),
                 type: this.state.testType
             }
         };
