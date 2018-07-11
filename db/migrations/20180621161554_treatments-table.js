@@ -10,6 +10,7 @@ exports.up = function (knex) {
         table.integer('durationWeeks').notNullable();
         table.text('terminatedDate').nullable();
         table.integer('terminatedReason').nullable().references('id').inTable('REASONS');
+        table.integer('adverseEvent').nullable().references('id').inTable('ADVERSE_EVENT_MEDDRA');
         table.text('createdTime').notNullable().defaultTo(knex.fn.now());
         table.integer('createdByUser').notNullable().references('id').inTable('USERS');
         table.text('deleted').notNullable().defaultTo('-');
