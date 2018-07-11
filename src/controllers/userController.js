@@ -23,7 +23,7 @@ UserController.prototype.getUser = function (req, res) {
         res.status(400).send('The query string can only conatins one username');
         return;
     }
-    queryUsername = `%${queryUsername}%`
+    queryUsername = `%${queryUsername}%`;
     this.user.getUser(queryUsername).then(function (result) {
         res.status(200).json(result);
         return;
