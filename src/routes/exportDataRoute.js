@@ -1,6 +1,6 @@
 /**
  * Route export
- * @description Redirect request from /api/exportDatabase to the proper controller call
+ * @description Redirect request from /export to the proper controller call
  */
 
 const express = require('express');

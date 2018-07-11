@@ -1,6 +1,6 @@
 /**
  * Route treatment
- * @description Redirect request from /api/treatments to the proper controller call
+ * @description Redirect request from /treatments to the proper controller call
  */
 
 const express = require('express');

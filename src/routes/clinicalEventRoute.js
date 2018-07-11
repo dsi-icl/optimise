@@ -1,6 +1,6 @@
 /**
  * Route clinical events
- * @description Redirect request from /api/clinicalEvents to the proper controller call
+ * @description Redirect request from /clinicalEvents to the proper controller call
  */
 
 const express = require('express');

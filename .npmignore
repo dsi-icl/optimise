@@ -30,7 +30,7 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
 
@@ -52,3 +52,7 @@ Thumbs.db
 **/__tests__/**
 **/*.test.config.js
 Dockerfile
+
+# Example data
+db/exampleDataForTesting
+**/*.sqlite
