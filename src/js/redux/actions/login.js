@@ -9,9 +9,9 @@ export const loginFailure = () => ({ type: actionTypes.login.LOGIN_FAILURE })
 
 export const loginAPICall = (body) => dispatch => {
     dispatch(loginRequest());
-    return fetch('/internalapi/userlogin', {
+    return fetch('/users/login', {
         mode: 'cors',
-        headers: { 'content-type': 'application/json' },  
+        headers: { 'content-type': 'application/json' },
         method: 'POST',
         body: JSON.stringify(body)
     })
@@ -25,4 +25,5 @@ export const loginAPICall = (body) => dispatch => {
         .then(json => {
             dispatch(loginSuccess(json));         //think about abortion later    //and think about not having to refresh the whole page
         })
-        .catch(err => { console.log(err); dispatch(loginFailure()) }) }
+        .catch(err => { console.log(err); dispatch(loginFailure()) })
+}
