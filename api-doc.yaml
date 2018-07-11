@@ -8,13 +8,13 @@ info:
 host: "localhost:3000"
 basePath: "/"
 paths:
-  /internalapi/userlogin:
+  /users/login:
     post:
       summary: 'User login'
-  /internalapi/userlogout:
+  /users/logout:
     post:
       summary: 'User logout'
-  /api/users:
+  /users:
     post:
       summary: 'create a new user (admin only)'
     put:
@@ -23,7 +23,7 @@ paths:
       summary: "delete a user (admin only)"
     get:
       summary: 'get the list of all users (admin only)'
-  /api/patients:
+  /patients:
     get:
       summary: 'search patient'
       description: 'if query string is not provided, then it returns all the patients. if query string "id={id}" is provided, then it returns patients with id containing "id"'
@@ -38,7 +38,7 @@ paths:
       summary: 'create a patient'
     delete:
       summary: 'delete a patient (admin only)'
-  /api/patientProfile/:id:
+  /patientProfile/:id:
     get:
       summary: 'get patient information by id'
       description: 'get patient information by id'
@@ -47,7 +47,7 @@ paths:
       responses:
         200:
           description: 'Result. Could be empty'
-  /api/visit:
+  /visit:
     get:
       summary: 'get all visits of a certain patient'
     post:

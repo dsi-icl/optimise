@@ -1,64 +1,48 @@
 /*eslint no-console: "off"*/
 const knex = require('./db-connection');
 const fs = require('fs');
+const path = require('path');
 
 function migrate(type) {
-    switch (type) {
-        case 'testing':
-            knex.migrate.latest({ directory: './db/migrations' })
-                .then(() => knex.seed.run({ directory: './db/seed' }))
-                .then(() => knex.seed.run({ directory: './db/exampleDataForTesting/seed' }))
-                .then(() => { if (process.env.NODE_ENV !== 'production') console.log('CREATED DATABASE AND POPULATED WITH MS MODULES AND TESTING DATA'); })
-                .then(() => knex.destroy())
-                .catch(err => { console.log(err); knex.destroy(); });
-            break;
-        case 'MS_fields':
-            knex.migrate.latest({ directory: './db/migrations' })
-                .then(() => knex.seed.run({ directory: './db/seed' }))
-                .then(() => { if (process.env.NODE_ENV !== 'production') console.log('CREATED DATABASE AND POPULATED WITH MS MODULES'); })
-                .then(() => knex.destroy())
-                .catch(err => { console.log(err); knex.destroy(); });
-            break;
-        case 'bare':
-            knex.migrate.latest({ directory: './db/migrations' })
-                .then(() => { if (process.env.NODE_ENV !== 'production') console.log('CREATED DATABASE WITH BARE SCHEMA'); })
-                .then(() => knex.destroy())
-                .catch(err => { console.log(err); knex.destroy(); });
-            break;
-        default:
-            throw TypeError('Wrong parameter used');
-    }
-}
-
-function eraseRuntime() {
-    knex.destroy()
-        .catch(err => { console.log(err); });
+    return new Promise((resolve, reject) => {
+        switch (type) {
+            case 'testing':
+                if (process.env.NODE_ENV !== 'production') console.log('Migrating database with MS modules and testing data ...');
+                return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
+                    .then(() => knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)}/../../db/seed`) }))
+                    .then(() => knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)} /../../db/exampleDataForTesting/seed`) }))
+                    .then(() => resolve())
+                    .catch(err => reject(err));
+            case 'MS_fields':
+                if (process.env.NODE_ENV !== 'production') console.log('Migrating database with MS modules ...');
+                return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
+                    .then(() => knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)} /../../db/seed`) }))
+                    .then(() => resolve())
+                    .catch(err => reject(err));
+            case 'bare':
+                if (process.env.NODE_ENV !== 'production') console.log('Migrating database ...');
+                return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
+                    .then(() => resolve())
+                    .catch(err => reject(err));
+            default:
+                reject('Wrong parameter used');
+        }
+    });
 }
 
 function erase() {
-    let filename = knex.client.config.connection.filename;
-    if (fs.existsSync(filename))
-        fs.unlinkSync(filename);
+    return new Promise((resolve, __unused__reject) => {
+        if (process.env.NODE_ENV !== 'production') console.log('Removing database file ...');
+        let filename = knex.client.config.connection.filename;
+        try {
+            if (fs.existsSync(filename))
+                fs.unlinkSync(filename);
+        } catch (err) {
+            //__unused__reject(err);
+        }
+        resolve();
+    });
 }
 
-exports.migrateAndSeed = (type) => {
-    migrate(type);
-};
-
-exports.destroyAndMigrate = (type) => {
-    eraseRuntime();
-    migrate(type);
-};
-
-exports.destroyConnection = () => {
-    knex.destroy();
-};
-
-exports.eraseAndMigrate = (type) => {
-    erase();
-    migrate(type);
-};
-
-exports.eraseDatabase = () => {
-    erase();
-};
+exports.migrate = migrate;
+exports.erase = erase;
