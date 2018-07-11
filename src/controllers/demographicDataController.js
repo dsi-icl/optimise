@@ -50,6 +50,27 @@ DemographicDataController.prototype.createDemographic = function (req, res) {
     });
 };
 
+DemographicDataController.prototype.createImmunisation = function (req, res) {
+    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('immunisationDate') && req.body.hasOwnProperty('vaccineName')) {
+        const entryObj = {
+            'patient': req.body.patient,
+            'immunisationDate': Date.parse(req.body.immunisationDate),
+            'vaccineName': req.body.vaccineName,
+            'createdByUser': req.requester.userid
+        };
+        this.immunisation.createImmunisation(entryObj).then(function (result) {
+            res.status(200).json(result);
+            return;
+        }, function (error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+            return;
+        });
+    } else {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    }
+};
+
 DemographicDataController.prototype.createMedicalCondition = function (req, res) {
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('relation')) {
         const entryObj = {
@@ -64,27 +85,6 @@ DemographicDataController.prototype.createMedicalCondition = function (req, res)
             entryObj.resolvedYear = req.body.resolvedYear;
         }
         this.medicalhistory.createMedicalHistory(entryObj).then(function (result) {
-            res.status(200).json(result);
-            return;
-        }, function (error) {
-            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            return;
-        });
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-};
-
-DemographicDataController.prototype.createImmunisation = function (req, res) {
-    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('immunisationDate') && req.body.hasOwnProperty('vaccineName')) {
-        const entryObj = {
-            'patient': req.body.patient,
-            'immunisationDate': Date.parse(req.body.immunisationDate),
-            'vaccineName': req.body.vaccineName,
-            'createdByUser': req.requester.userid
-        };
-        this.immunisation.createImmunisation(entryObj).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
