@@ -10,12 +10,13 @@ export const createPatientCall = (body) => dispatch => fetch('/patients', {
         'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a' },   //change later
     body: JSON.stringify(body.patientData)
 })
-    .then(res => { dispatch(searchPatientsByIdRequest()); res.json() }, err => console.log(err))
+    .then(res => { dispatch(searchPatientsByIdRequest()); return res.json() }, err => console.log(err))
     .then(json => {
         const patientId = json[0];
+        console.log(`${patientId} is patientId`);
         const demoData = { ...body.demoData, patient: patientId };
         console.log(demoData);
-        return fetch('/api/demogdata/Demographic', {
+        return fetch('/demographics/Demographic', {
             method: 'POST',
             mode: 'cors',
             headers: { 'content-type': 'application/json',

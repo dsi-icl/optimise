@@ -35,7 +35,7 @@ class DemographicSection extends Component {
 
             return (
                 <PatientProfileSectionScaffold sectionName='Profile'>
-                    <span><b>Date of birth:</b> {DOB}</span><br/>
+                    <span><b>Date of birth:</b> {new Date(parseInt(DOB, 10)).toDateString()}</span><br/>
                     <span><b>Gender:</b> {gender} </span><br/>
                     <span><b>Dominant hand:</b> {dominantHand} </span><br/>
                     <span><b>Ethnicity:</b> {ethnicity} </span><br/>
