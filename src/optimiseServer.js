@@ -4,6 +4,7 @@ const body_parser = require('body-parser');
 
 const optimiseOptions = require('./core/options');
 const knex = require('./utils/db-connection');
+const { migrate } = require('../src/utils/db-handler');
 const ErrorHelper = require('./utils/error_helper');
 
 function OptimiseServer(config) {
@@ -50,7 +51,7 @@ function OptimiseServer(config) {
  */
 OptimiseServer.prototype.start = function () {
     let _this = this;
-    return new Promise(function (resolve, __unused__reject) {
+    return new Promise(function (resolve, reject) {
 
         // Keeping a pointer to the original mounting point of the server
         _this.app.use(function (req, __unused__res, next) {
@@ -82,7 +83,7 @@ OptimiseServer.prototype.start = function () {
         });
 
         // All good, return the express app router
-        resolve(_this.app);
+        migrate('bare').then(() => resolve(_this.app)).catch(err => reject(err))
     });
 };
 
