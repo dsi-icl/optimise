@@ -57,7 +57,6 @@ function availableFields(state = initialState.availableFields, action){
             return state;
     }
     newState.fetching = !fetchingFinished(newState);
-    console.log(newState);
     return newState;
 }
 
