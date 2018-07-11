@@ -8,6 +8,7 @@ export default {
         fetching: true,
         demoFields: [],
         visitFields: [],
+        VSFields: [],
         testFields: [],
         clinicalEventTypes: [], 
         testTypes: [],

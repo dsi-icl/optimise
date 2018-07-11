@@ -60,7 +60,8 @@ function mapClinicalEvents(patientId, typeList) {
     return el => {
         const typeFiltered = typeList.filter(type => type.id === el.type);
         const type = typeFiltered.length === 1 ? typeFiltered[0].name : el.type;
-        return formatRow([type, 
+        const date = new Date(parseInt(el.dateStartDate, 10)).toDateString();
+        return formatRow([type, date,
             <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                 <div className={cssButtons.dataResultButton}> results➠ </div>
             </NavLink>
@@ -68,14 +69,33 @@ function mapClinicalEvents(patientId, typeList) {
     }
 }
 
+function mapSymptoms(fieldHashTable) {
+    return el => formatRow([fieldHashTable[el.field].definition, el.value]);
+}
+
+
 function formatRow(arr) {
     return <tr>{arr.map((el, ind) => <td key={ind}>{el}</td>)}</tr>;
 }
+
+/**
+ * @prop {Object} this.props.availableFieldsdata
+ * @prop {String} visitId
+ * @prop {Array} visitData
+ * @prop {Object} data - state.patientProfile.data
+ * @prop {String} type
+ * @prop {String} title - `${this.props.data.visits.length-ind}-th visit`
+ * @prop {String} visitDate - new Date(parseInt(el.visitDate, 10)).toDateString()
+ */
 class OneVisit extends Component {
     render() {
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
+        const allSymptoms = this.props.visitData.map(symptom => symptom.field);
+        const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
+        const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
+        console.log(fieldHashTable)
         return(
             <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.7rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
@@ -99,6 +119,14 @@ class OneVisit extends Component {
                 </TimelineEvent>
 
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='SIGNS AND SYMPTOMS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
+                    { allSymptoms.length !== 0 ? <table>
+                        <thead>
+                            <tr><th>Recorded symptoms</th><th>Value</th></tr>
+                        </thead>
+                        <tbody>
+                            {this.props.visitData.map(mapSymptoms(fieldHashTable))}
+                        </tbody>
+                    </table> : null }
                     <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                         <div className={cssButtons.dataResultButton}>edit/add➠ </div>
                     </NavLink>
@@ -141,7 +169,7 @@ class OneVisit extends Component {
                     <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='CLINICAL EVENTS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon style={{ fill: '#FF4745' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
-                                <tr><th>Type</th><th>Start date</th></tr>
+                                <tr><th>Type</th><th>Start date</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.clinicalEvents
@@ -165,7 +193,7 @@ export class Charts extends Component {   //unfinsihed
             <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
                 <Timeline lineColor='#d1d1d1'>
                     {sortVisits(this.props.data.visits).map(
-                        (el, ind) => <OneVisit availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${this.props.data.visits.length-ind}-th visit`} visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()}/>
+                        (el, ind) => <OneVisit visitData={el.data} availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${this.props.data.visits.length-ind}-th visit`} visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()}/>
                     )}
                 </Timeline>
             </PatientProfileSectionScaffold>

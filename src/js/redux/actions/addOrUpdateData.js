@@ -1,5 +1,6 @@
 import actionTypes from './listOfActions.js';
 import { getPatientProfileById } from './searchPatientById.js';
+import { promises } from 'fs';
 
 
 export const alterDataRequest = (body) => ({ type: actionTypes.data.ALTER_DATA_REQUEST, payload: body });
@@ -18,7 +19,7 @@ export const alterDataCall = (body) => dispatch => fetch(`/api/${body.type}/data
         if (res.status === 200) {
             res.text();
         } else {
-            throw new Error('breaking the chain');
+            return Promise.reject(res);
         }
     }, err => console.log(err))
     .then(text => {
