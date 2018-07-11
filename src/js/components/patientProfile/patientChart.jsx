@@ -48,17 +48,24 @@ function mapTests(patientId, typeMap) {
     }
 }
 
-function mapMedications(el) {
-    return formatRow([el.drug, el.dose, el.unit, el.form, el['timesPerDay'], el['durationWeeks']]);
+function mapMedications(drugList) {
+    return el => {
+        const drugFiltered = drugList.filter(drug => drug.id === el.drug);
+        const drug = drugFiltered.length === 1 ? drugFiltered[0].name : el.drug;
+        return formatRow([drug, el.dose, el.unit, el.form, el['timesPerDay'], el['durationWeeks']]);
+    }
 }
 
-function mapClinicalEvents(patientId) {
-    return el => 
-        formatRow([el.type, 
+function mapClinicalEvents(patientId, typeList) {
+    return el => {
+        const typeFiltered = typeList.filter(type => type.id === el.type);
+        const type = typeFiltered.length === 1 ? typeFiltered[0].name : el.type;
+        return formatRow([type, 
             <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                 <div className={cssButtons.dataResultButton}> results➠ </div>
             </NavLink>
         ]);
+    }
 }
 
 function formatRow(arr) {
@@ -123,7 +130,7 @@ class OneVisit extends Component {
                             <tbody>
                                 {this.props.data.treatments
                                     .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                    .map(mapMedications)}
+                                    .map(mapMedications(this.props.availableFields.drugs))}
                             </tbody>
                         </table>
                     </div></TimelineEvent> : null 
@@ -140,7 +147,7 @@ class OneVisit extends Component {
                                 {this.props.data.clinicalEvents
                                     .filter(el => el['recordedDuringVisit'] === this.props.visitId)
                                     /* change this map later to calculated patientId*/ 
-                                    .map(mapClinicalEvents(this.props.data.patientId))}
+                                    .map(mapClinicalEvents(this.props.data.patientId, this.props.availableFields.clinicalEventTypes))}
                             </tbody>
                         </table>
                     </div></TimelineEvent> : null 
