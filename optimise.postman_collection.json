@@ -24,7 +24,7 @@
 							"raw": "{\"username\": \"admin\", \"pw\": \"admin\"}"
 						},
 						"url": {
-							"raw": "{{url}}/internalapi/userlogin",
+							"raw": "{{url}}/users/login",
 							"host": [
 								"{{url}}"
 							],
@@ -55,7 +55,7 @@
 							"raw": "{\"username\": \"chon\"}"
 						},
 						"url": {
-							"raw": "{{url}}/internalapi/userlogout",
+							"raw": "{{url}}/users/logout",
 							"host": [
 								"{{url}}"
 							],
@@ -92,7 +92,7 @@
 							"raw": "{\"username\": \"test\", \"pw\": \"admin\", \"isAdmin\": 1, \"realName\": \"Pierre-Marie\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/users",
+							"raw": "{{url}}/users",
 							"host": [
 								"{{url}}"
 							],
@@ -123,7 +123,7 @@
 							"raw": "{\"username\": \"chon\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/users",
+							"raw": "{{url}}/users",
 							"host": [
 								"{{url}}"
 							],
@@ -154,7 +154,7 @@
 							"raw": "{\"username\": \"pm\", \"pw\": \"admin\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/users/",
+							"raw": "{{url}}/users/",
 							"host": [
 								"{{url}}"
 							],
@@ -179,7 +179,7 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{url}}/api/users?username=test_user",
+							"raw": "{{url}}/users?username=test_user",
 							"host": [
 								"{{url}}"
 							],
@@ -211,7 +211,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/zip"
-
 							},
 							{
 								"key": "token",
@@ -220,7 +219,7 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{url}}/api/exportDatabase/",
+							"raw": "{{url}}/exportDatabase/",
 							"host": [
 								"{{url}}"
 							],
@@ -258,7 +257,7 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patients?id=e",
+							"raw": "{{url}}/patients?id=e",
 							"host": [
 								"{{url}}"
 							],
@@ -296,7 +295,7 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patients",
+							"raw": "{{url}}/patients",
 							"host": [
 								"{{url}}"
 							],
@@ -328,7 +327,7 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patientProfile/chon",
+							"raw": "{{url}}/patientProfile/chon",
 							"host": [
 								"{{url}}"
 							],
@@ -361,7 +360,7 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patientProfile/chon?getOnly=Visits,Tests",
+							"raw": "{{url}}/patientProfile/chon?getOnly=Visits,Tests",
 							"host": [
 								"{{url}}"
 							],
@@ -400,7 +399,7 @@
 							"raw": "{\"aliasId\": \"littlePatient\", \"study\": \"optimise\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patients",
+							"raw": "{{url}}/patients",
 							"host": [
 								"{{url}}"
 							],
@@ -432,7 +431,7 @@
 							"raw": "{\"aliasId\": \"littlePlanet\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patients",
+							"raw": "{{url}}/patients",
 							"host": [
 								"{{url}}"
 							],
@@ -464,7 +463,7 @@
 							"raw": "{\"aliasId\": \"chanTaiMan\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/patients",
+							"raw": "{{url}}/patients",
 							"host": [
 								"{{url}}"
 							],
@@ -502,7 +501,7 @@
 							"raw": "{\"visitId\": 3, \"type\": 1, \"expectedDate\": \"1 Jan 2020\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/tests",
+							"raw": "{{url}}/tests",
 							"host": [
 								"{{url}}"
 							],
@@ -533,7 +532,7 @@
 							"raw": "{\"testId\": 1, \"actualOccurredDate\":  \"4 Jan 2020\" }"
 						},
 						"url": {
-							"raw": "{{url}}/api/tests/addOccurredDate",
+							"raw": "{{url}}/tests/addOccurredDate",
 							"host": [
 								"{{url}}"
 							],
@@ -565,7 +564,7 @@
 							"raw": "{\"testID\": 1}"
 						},
 						"url": {
-							"raw": "{{url}}/api/tests/",
+							"raw": "{{url}}/tests/",
 							"host": [
 								"{{url}}"
 							],
@@ -603,7 +602,7 @@
 							"raw": "{\"patientId\": 5, \"visitDate\": \"2018-2-29\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/visits",
+							"raw": "{{url}}/visits",
 							"host": [
 								"{{url}}"
 							],
@@ -634,7 +633,7 @@
 							"raw": "{\"visitId\":1}"
 						},
 						"url": {
-							"raw": "{{url}}/api/visits",
+							"raw": "{{url}}/visits",
 							"host": [
 								"{{url}}"
 							],
@@ -658,7 +657,7 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{url}}/api/visits?patientId=chon",
+							"raw": "{{url}}/visits?patientId=chon",
 							"host": [
 								"{{url}}"
 							],
@@ -699,10 +698,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\t\"drugId\": 5,\n\t\"dose\": 4,\n\t\"unit\": \"mg\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationInWeeks\": 3}"
+							"raw": "{\"visitId\": 1,\n\t\"drugId\": 5,\n\t\"dose\": 4,\n\t\"unit\": \"mg\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationInWeeks\": 3,\n\t\"adverseEvent\": 4}"
 						},
 						"url": {
-							"raw": "{{url}}/api/treatments",
+							"raw": "{{url}}/treatments",
 							"host": [
 								"{{url}}"
 							],
@@ -733,7 +732,7 @@
 							"raw": "{\"treatmentId\":1, \"terminatedReason\":1, \"terminationDate\": \"4 July 2000\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/treatments",
+							"raw": "{{url}}/treatments",
 							"host": [
 								"{{url}}"
 							],
@@ -762,10 +761,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\":1,\n\t\"orderedDuringVisit\": 1,\n\t\"drug\": 3,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationWeeks\": 3}"
+							"raw": "{\n\t\"id\":1,\n\t\"orderedDuringVisit\": 1,\n\t\"drug\": 3,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"oral\",\n\t\"timesPerDay\": 3,\n\t\"durationWeeks\": 3, \n\t\"adverseEvent\":4}"
 						},
 						"url": {
-							"raw": "{{url}}/api/treatments",
+							"raw": "{{url}}/treatments",
 							"host": [
 								"{{url}}"
 							],
@@ -796,7 +795,7 @@
 							"raw": "{\"treatmentId\":\"lol\"}"
 						},
 						"url": {
-							"raw": "{{url}}/api/treatments",
+							"raw": "{{url}}/treatments",
 							"host": [
 								"{{url}}"
 							],
@@ -828,7 +827,7 @@
 							"raw": "{\n\t\"treatmentId\" : 2,\n    \"start_date\" : \"3 March 2010\",\n    \"end_date\" : \"3 March 2011\",\n    \"reason\" : 3\n}"
 						},
 						"url": {
-							"raw": "{{url}}/api/treatments/interrupt",
+							"raw": "{{url}}/treatments/interrupt",
 							"host": [
 								"{{url}}"
 							],
@@ -860,7 +859,7 @@
 							"raw": "{\"treatmentInterId\":1}"
 						},
 						"url": {
-							"raw": "{{url}}/api/treatments/interrupt",
+							"raw": "{{url}}/treatments/interrupt",
 							"host": [
 								"{{url}}"
 							],
@@ -885,7 +884,7 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{url}}/api/treatments/drugs",
+							"raw": "{{url}}/treatments/drugs",
 							"host": [
 								"{{url}}"
 							],
@@ -911,7 +910,7 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{url}}/api/treatments/drugs?name=on",
+							"raw": "{{url}}/treatments/drugs?name=on",
 							"host": [
 								"{{url}}"
 							],
@@ -956,7 +955,7 @@
 							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": \"1 March 2010\"\n}"
 						},
 						"url": {
-							"raw": "{{url}}/api/clinicalEvents",
+							"raw": "{{url}}/clinicalEvents",
 							"host": [
 								"{{url}}"
 							],
@@ -987,7 +986,7 @@
 							"raw": "{\"ceId\":800}"
 						},
 						"url": {
-							"raw": "{{url}}/api/clinicalEvents",
+							"raw": "{{url}}/clinicalEvents",
 							"host": [
 								"{{url}}"
 							],
@@ -1020,7 +1019,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/api/available/visitFields",
+							"raw": "{{url}}/available/visitFields",
 							"host": [
 								"{{url}}"
 							],
@@ -1048,7 +1047,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/api/available/visitFields?module=MS",
+							"raw": "{{url}}/available/visitFields?module=MS",
 							"host": [
 								"{{url}}"
 							],
@@ -1082,7 +1081,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/api/available/testFields",
+							"raw": "{{url}}/available/testFields",
 							"host": [
 								"{{url}}"
 							],
@@ -1110,7 +1109,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/api/available/clinicalEvents",
+							"raw": "{{url}}/available/clinicalEvents",
 							"host": [
 								"{{url}}"
 							],
@@ -1138,7 +1137,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/api/available/testTypes",
+							"raw": "{{url}}/available/testTypes",
 							"host": [
 								"{{url}}"
 							],
@@ -1176,7 +1175,7 @@
 							"raw": "{\"visitId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
 						},
 						"url": {
-							"raw": "{{url}}/api/visit/data",
+							"raw": "{{url}}/visit/data",
 							"host": [
 								"{{url}}"
 							],
@@ -1208,7 +1207,7 @@
 							"raw": "{\"visitId\": 1,\n\"delete\": [1,42,5,2]\n}"
 						},
 						"url": {
-							"raw": "{{url}}/api/visit/data",
+							"raw": "{{url}}/visit/data",
 							"host": [
 								"{{url}}"
 							],
@@ -1240,7 +1239,7 @@
 							"raw": "{\"testId\": 1,\n\"delete\": [1,42,5,2]\n}"
 						},
 						"url": {
-							"raw": "{{url}}/api/test/data",
+							"raw": "{{url}}/test/data",
 							"host": [
 								"{{url}}"
 							],
@@ -1272,7 +1271,7 @@
 							"raw": "{\"clinicalEventId\": 1,\n\"delete\": [1,42,5,2]\n}"
 						},
 						"url": {
-							"raw": "{{url}}/api/clinicalEvent/data",
+							"raw": "{{url}}/clinicalEvent/data",
 							"host": [
 								"{{url}}"
 							],
@@ -1304,7 +1303,7 @@
 							"raw": "{\"clinicalEventId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
 						},
 						"url": {
-							"raw": "{{url}}/api/clinicalEvent/data",
+							"raw": "{{url}}/clinicalEvent/data",
 							"host": [
 								"{{url}}"
 							],
@@ -1336,7 +1335,7 @@
 							"raw": "{\"testId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
 						},
 						"url": {
-							"raw": "{{url}}/api/test/data",
+							"raw": "{{url}}/test/data",
 							"host": [
 								"{{url}}"
 							],
@@ -1378,7 +1377,7 @@
 									"raw": "{\n  \"patient\":7,\n  \"DOB\" : \"1 Jan 1966\",\n  \"gender\" : 1,\n    \"dominant_hand\" : 1,\n    \"ethnicity\" : 1,\n    \"country_of_origin\" : 1,\n    \"alcohol_usage\" : 1,\n    \"smoking_history\" : 1\n}"
 								},
 								"url": {
-									"raw": "{{url}}/api/demogdata/Demographic",
+									"raw": "{{url}}/demographics/Demographic",
 									"host": [
 										"{{url}}"
 									],
@@ -1410,7 +1409,7 @@
 									"raw": "{\n  \"id\":6\n}"
 								},
 								"url": {
-									"raw": "{{url}}/api/demogdata/Demographic",
+									"raw": "{{url}}/demographics/Demographic",
 									"host": [
 										"{{url}}"
 									],
@@ -1442,7 +1441,7 @@
 									"raw": "{\n  \"id\":7,\n  \"patient\":1,\n  \"gender\" : 2,\n    \"dominantHand\" : 2,\n    \"ethnicity\" : 3,\n    \"countryOfOrigin\" : 4,\n    \"alcoholUsage\" : 2,\n    \"smokingHistory\" : 2\n}"
 								},
 								"url": {
-									"raw": "{{url}}/api/demogdata/Demographic",
+									"raw": "{{url}}/demographics/Demographic",
 									"host": [
 										"{{url}}"
 									],
@@ -1467,7 +1466,7 @@
 								],
 								"body": {},
 								"url": {
-									"raw": "{{url}}/api/demogdata/Fields/Demographic",
+									"raw": "{{url}}/demographics/Fields/Demographic",
 									"host": [
 										"{{url}}"
 									],
@@ -1494,7 +1493,7 @@
 								],
 								"body": {},
 								"url": {
-									"raw": "{{url}}/api/demogdata/Fields/Demographic?fieldName=gender",
+									"raw": "{{url}}/demographics/Fields/Demographic?fieldName=gender",
 									"host": [
 										"{{url}}"
 									],
@@ -1541,7 +1540,7 @@
 									"raw": "{\n\t\"patient\":1,\n\t\"vaccineName\":\"Vacthing\",\n\t\"immunisationDate\":{\"day\":2, \"month\":5, \"year\":2009}\n}"
 								},
 								"url": {
-									"raw": "{{url}}/api/demogdata/Immunisation",
+									"raw": "{{url}}/demographics/Immunisation",
 									"host": [
 										"{{url}}"
 									],
@@ -1573,7 +1572,7 @@
 									"raw": "{\n\t\"id\":2\n}"
 								},
 								"url": {
-									"raw": "{{url}}/api/demogdata/Immunisation",
+									"raw": "{{url}}/demographics/Immunisation",
 									"host": [
 										"{{url}}"
 									],
@@ -1605,7 +1604,7 @@
 									"raw": "{\n\t\"id\":1,\n\t\"patient\":1,\n\t\"vaccineName\":\"A good vaccine\",\n\t\"immunisationDate\":{\"day\":3, \"month\":5, \"year\":2009}\n}"
 								},
 								"url": {
-									"raw": "{{url}}/api/demogdata/Immunisation",
+									"raw": "{{url}}/demographics/Immunisation",
 									"host": [
 										"{{url}}"
 									],
@@ -1644,7 +1643,7 @@
 									"raw": "{\n    \"patient\":1,\n    \"relation\":\"mother\",\n    \"conditionName\":\"Cold\",\n    \"startDate\": {\"day\":1, \"month\":1, \"year\":2001},\n    \"outcome\": \"resolved\",\n    \"resolvedYear\":2002\n}"
 								},
 								"url": {
-									"raw": "{{url}}/api/demogdata/MedicalCondition",
+									"raw": "{{url}}/demographics/MedicalCondition",
 									"host": [
 										"{{url}}"
 									],
@@ -1676,7 +1675,7 @@
 									"raw": "{\n\t\"id\":4\n}"
 								},
 								"url": {
-									"raw": "{{url}}/api/demogdata/MedicalCondition",
+									"raw": "{{url}}/demographics/MedicalCondition",
 									"host": [
 										"{{url}}"
 									],
@@ -1708,7 +1707,7 @@
 									"raw": "{\n\t\"id\":2,\n    \"patient\":1,\n    \"relation\":\"mother\",\n    \"conditionName\":\"Cold\",\n    \"startDate\": {\"day\":1, \"month\":1, \"year\":2001},\n    \"outcome\": \"ongoing\",\n    \"resolvedYear\":null\n}"
 								},
 								"url": {
-									"raw": "{{url}}/api/demogdata/MedicalCondition",
+									"raw": "{{url}}/demographics/MedicalCondition",
 									"host": [
 										"{{url}}"
 									],
@@ -1733,7 +1732,7 @@
 								],
 								"body": {},
 								"url": {
-									"raw": "{{url}}/api/demogdata/Fields/MedicalCondition",
+									"raw": "{{url}}/demographics/Fields/MedicalCondition",
 									"host": [
 										"{{url}}"
 									],
@@ -1760,7 +1759,7 @@
 								],
 								"body": {},
 								"url": {
-									"raw": "{{url}}/api/demogdata/Fields/MedicalCondition?fieldName=relations",
+									"raw": "{{url}}/demographics/Fields/MedicalCondition?fieldName=relations",
 									"host": [
 										"{{url}}"
 									],

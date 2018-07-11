@@ -1,3 +1,3 @@
-const { erase } = require('../src/utils/db-handler');
+const OptimiseNodeEnvironment = require('./environment');
 
-module.exports = () => erase();
+module.exports = async () => OptimiseNodeEnvironment.globalTeardown();

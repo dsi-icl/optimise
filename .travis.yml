@@ -23,7 +23,6 @@ before_install: |
 install:
   - npm --version
   - npm ci
-  - node ./installDB.js testing
 
 cache:
   directories:

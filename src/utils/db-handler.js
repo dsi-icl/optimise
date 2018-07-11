@@ -7,24 +7,21 @@ function migrate(type) {
     return new Promise((resolve, reject) => {
         switch (type) {
             case 'testing':
-                if (process.env.NODE_ENV !== 'production') console.log('Creating database with MS modules and testing data ...');
+                if (process.env.NODE_ENV !== 'production') console.log('Migrating database with MS modules and testing data ...');
                 return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
                     .then(() => knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)}/../../db/seed`) }))
                     .then(() => knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)} /../../db/exampleDataForTesting/seed`) }))
-                    .then(() => knex.destroy())
                     .then(() => resolve())
                     .catch(err => reject(err));
             case 'MS_fields':
-                if (process.env.NODE_ENV !== 'production') console.log('Creating database with MS modules ...');
+                if (process.env.NODE_ENV !== 'production') console.log('Migrating database with MS modules ...');
                 return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
                     .then(() => knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)} /../../db/seed`) }))
-                    .then(() => knex.destroy())
                     .then(() => resolve())
                     .catch(err => reject(err));
             case 'bare':
-                if (process.env.NODE_ENV !== 'production') console.log('Creating empty database ...');
+                if (process.env.NODE_ENV !== 'production') console.log('Migrating database ...');
                 return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
-                    .then(() => knex.destroy())
                     .then(() => resolve())
                     .catch(err => reject(err));
             default:
