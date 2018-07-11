@@ -3,7 +3,7 @@ import { getPatientProfileById, searchPatientsByIdRequest } from './searchPatien
 
 export const createPatientRequest = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_REQUEST, payload: patientId });
 export const createPatientSuccess = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_SUCCESS, payload: patientId });
-export const createPatientCall = (body) => dispatch => fetch('/api/patients', {
+export const createPatientCall = (body) => dispatch => fetch('/patients', {
     method: 'POST',
     mode: 'cors',
     headers: { 'content-type': 'application/json',

@@ -7,10 +7,12 @@ const createVisitSuccess = (json) => ({ type: actionTypes.visits.CREATE_VISIT_SU
 
 export const createVisitAPICall = (body) => dispatch => {
     console.log(body);
-    return fetch('/api/visits', {
+    return fetch('/visits', {
         mode: 'cors',
-        headers: { 'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a', //change later
-            'content-type': 'application/json' },  
+        headers: {
+            'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a', //change later
+            'content-type': 'application/json'
+        },
         method: 'POST',
         body: JSON.stringify(body.data)
     })
@@ -24,4 +26,5 @@ export const createVisitAPICall = (body) => dispatch => {
         .then(text => {
             dispatch(getPatientProfileById(body.patientId));         //think about abortion later    //and think about not having to refresh the whole page
         })
-        .catch(res => res.text().then(msg => console.log(msg))); }
+        .catch(res => res.text().then(msg => console.log(msg)));
+}
