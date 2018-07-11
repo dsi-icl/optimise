@@ -7,7 +7,7 @@ import cssTexts from '../../../css/inlinetexts.css';
 import cssButtons from '../../../css/buttons.css';
 import { PickDate } from './datepicker.jsx';
 
-@connect(state => ({ patientId: state.patientProfile.data.patientId }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
+@connect(state => ({ patientId: state.patientProfile.data.id }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
 export class CreateVisit extends Component {
     constructor() {
         super();
@@ -28,11 +28,11 @@ export class CreateVisit extends Component {
     _formatRequestBody() {
         const date = this.state.startDate._d;
         return {
-            patientId: this.props.patientId,
-            visitDate: { day: date.getDate(),
-                month: date.getMonth() + 1,
-                year: date.getFullYear()
-            }
+            data: {
+                patientId: this.props.patientId,
+                visitDate: date.toDateString()
+            },
+            patientId: this.props.match.params.patientId
         };
     }
 
