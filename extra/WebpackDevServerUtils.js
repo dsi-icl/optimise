@@ -172,13 +172,13 @@ function createCompiler(webpack, config, appName, urls, useYarn) {
 
             // Teach some ESLint tricks.
             console.log(
-                `\nSearch for the ${ 
-                    chalk.underline(chalk.yellow('keywords')) 
+                `\nSearch for the ${
+                    chalk.underline(chalk.yellow('keywords'))
                 } to learn more about each warning.`
             );
             console.log(
-                `To ignore, add ${ 
-                    chalk.cyan('// eslint-disable-next-line') 
+                `To ignore, add ${
+                    chalk.cyan('// eslint-disable-next-line')
                 } to the line before.\n`
             );
         }
@@ -221,18 +221,18 @@ function onProxyError(proxy) {
     return (err, req, res) => {
         const host = req.headers && req.headers.host;
         console.log(
-            `${chalk.red('Proxy error:') 
-            } Could not proxy request ${ 
-                chalk.cyan(req.url) 
-            } from ${ 
-                chalk.cyan(host) 
-            } to ${ 
-                chalk.cyan(proxy) 
+            `${chalk.red('Proxy error:')
+            } Could not proxy request ${
+                chalk.cyan(req.url)
+            } from ${
+                chalk.cyan(host)
+            } to ${
+                chalk.cyan(proxy)
             }.`
         );
         console.log(
-            `See https://nodejs.org/api/errors.html#errors_common_system_errors for more information (${ 
-                chalk.cyan(err.code) 
+            `See https://nodejs.org/api/errors.html#errors_common_system_errors for more information (${
+                chalk.cyan(err.code)
             }).`
         );
         console.log();
@@ -243,14 +243,14 @@ function onProxyError(proxy) {
             res.writeHead(500);
         }
         res.end(
-            `Proxy error: Could not proxy request ${ 
-                req.url 
-            } from ${ 
-                host 
-            } to ${ 
-                proxy 
-            } (${ 
-                err.code 
+            `Proxy error: Could not proxy request ${
+                req.url
+            } from ${
+                host
+            } to ${
+                proxy
+            } (${
+                err.code
             }).`
         );
     };
@@ -396,7 +396,7 @@ function choosePort(host, defaultPort) {
                         name: 'shouldChangePort',
                         message:
                             `${chalk.yellow(
-                                `${message 
+                                `${message
                                 }${existingProcess ? ` Probably:\n  ${existingProcess}` : ''}`
                             )  }\n\nWould you like to run the app on another port instead?`,
                         default: true
@@ -415,9 +415,9 @@ function choosePort(host, defaultPort) {
             }),
         err => {
             throw new Error(
-                `${chalk.red(`Could not find an open port at ${chalk.bold(host)}.`) 
-                }\n${ 
-                    `Network error message: ${  err.message}` || err 
+                `${chalk.red(`Could not find an open port at ${chalk.bold(host)}.`)
+                }\n${
+                    `Network error message: ${  err.message}` || err
                 }\n`
             );
         }
