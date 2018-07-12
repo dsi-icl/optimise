@@ -45,11 +45,11 @@ export class TimelineBox extends Component {   //unfinsihed
             );
         };
         const mappingMedFunction = med => {
-            const date = 1514764800000;    //change this later to real visit date
+            const date = med.visitDate;
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             const durationInDays = med.durationWeeks * 7;
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}med`} href="#trialanchor" style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '2/3', textDecoration: 'none' }}>
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}med`} href={`#treatment/${med.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '2/3', textDecoration: 'none' }}>
                     <div style={{ backgroundColor: '#ffca1b', color: '#ffca1b' }}>
                         -
                     </div>

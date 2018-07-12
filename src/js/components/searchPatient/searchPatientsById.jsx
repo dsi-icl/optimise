@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import cssButtons from '../../../css/buttons.module.css';
 import cssInputs from '../../../css/inputfields.module.css';
 import { connect } from 'react-redux';
-import { getPatientProfileById } from '../../redux/actions/searchPatientById';
+import { searchPatientByIdRequest, searchPatientByIdFailure, searchPatientByIdSuccess, searchPatientByIdAPICall, getPatientProfileById } from '../../redux/actions/searchPatientById';
 import { Link } from 'react-router-dom';
+import store from '../../redux/store.js';
 
+@connect(state => ({ data: state.searchPatientById }))
 export class SearchPatientsById extends Component {
     constructor() {
         super();
-        this.state = { searchString: '', searchResult: [] };
+        this.state = { searchString: '' };
         this._handleKeyStroke = this._handleKeyStroke.bind(this);
         this._handleEnterKey = this._handleEnterKey.bind(this);
     }
@@ -16,15 +18,10 @@ export class SearchPatientsById extends Component {
     _handleKeyStroke(ev) {
         this.setState({ searchString: ev.target.value });
         if (ev.target.value !== '') {
-            fetch(`/patients?id=${ev.target.value}`, {
-                mode: 'cors',
-                headers: { 'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a' }   //change later
-            })
-                .then(res => res.json())
-                .then(json => { this.setState({ searchResult: json }); })
-                .catch(() => { this.setState({ searchResult: [{ 'aliasId': 'not found' }] }); });   // what if the server fails
+            store.dispatch(searchPatientByIdRequest(ev.target.value));
+            store.dispatch(searchPatientByIdAPICall(ev.target.value));
         } else {
-            this.setState({ searchResult: [] });
+            store.dispatch(searchPatientByIdRequest(ev.target.value));
         }
     }
 
@@ -41,7 +38,7 @@ export class SearchPatientsById extends Component {
                 <form className={cssInputs.searchBar}>
                     Enter Patient ID: <br /><input className={cssInputs.searchBarInput} style={{ backgroundColor: 'white' }} type='text' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} />
                 </form>
-                <SearchResultForPatients listOfPatients={this.state.searchResult} searchString={this.state.searchString} />
+                <SearchResultForPatients listOfPatients={this.props.data.result} searchString={this.state.searchString} />
             </div>
         );
     }
@@ -60,6 +57,7 @@ export class SearchResultForPatients extends Component {
     }
 
     render() {
+        console.debug('AM I RUNNING > ', this.props.listOfPatients);
         return (
             <div>
                 {this.props.listOfPatients.filter(el => el['aliasId'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Link to={`/createPatient/${this.props.searchString}`} style={{ color: 'rgba(0,0,0,0)' }} className><div className={cssButtons.createPatientButton}>{`Create patient ${this.props.searchString}`}</div></Link> : null}
