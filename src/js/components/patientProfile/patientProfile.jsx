@@ -17,11 +17,11 @@ export class Section extends Component {
             return <span></span>;
         } else {
             return (<div style={{ position: 'relative' }}>
-                <DemographicSection/>
-                <PrimaryDiagnosis/>
-                <ImmunisationSection/>
-                <Pregnancy/>
-                <SuggestionInput possibleValues={mockList}/>
+                <DemographicSection />
+                <PrimaryDiagnosis />
+                <ImmunisationSection />
+                <Pregnancy />
+                <SuggestionInput possibleValues={mockList} />
             </div>)
         }
     }
@@ -42,13 +42,13 @@ class DemographicSection extends Component {
 
             return (
                 <PatientProfileSectionScaffold sectionName='Profile'>
-                    <span><b>Date of birth:</b> {new Date(parseInt(DOB, 10)).toDateString()}</span><br/>
-                    <span><b>Gender:</b> {gender} </span><br/>
-                    <span><b>Dominant hand:</b> {dominantHand} </span><br/>
-                    <span><b>Ethnicity:</b> {ethnicity} </span><br/>
-                    <span><b>Country of origin:</b> {countryOfOrigin} </span><br/>
-                    <span><b>Alcohol usage:</b> {alcoholUsage} </span><br/>
-                    <span><b>Smoking history:</b> {smokingHistory} </span><br/>
+                    <span><b>Date of birth:</b> {new Date(parseInt(DOB, 10)).toDateString()}</span><br />
+                    <span><b>Gender:</b> {gender} </span><br />
+                    <span><b>Dominant hand:</b> {dominantHand} </span><br />
+                    <span><b>Ethnicity:</b> {ethnicity} </span><br />
+                    <span><b>Country of origin:</b> {countryOfOrigin} </span><br />
+                    <span><b>Alcohol usage:</b> {alcoholUsage} </span><br />
+                    <span><b>Smoking history:</b> {smokingHistory} </span><br />
                 </PatientProfileSectionScaffold>
             );
         } else {
@@ -68,7 +68,7 @@ class ImmunisationSection extends Component {
         this._handleSubmit = this._handleSubmit.bind(this);
     }
 
-    _handleClickingAdd(ev) {
+    _handleClickingAdd() {
         this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: null });
     }
 
@@ -83,7 +83,7 @@ class ImmunisationSection extends Component {
         });
     }
 
-    _handleSubmit(){
+    _handleSubmit() {
         const data = this.props.data;
         const body = { patientId: data.patientId, data: { patient: data.id, vaccineName: this.state.newName, immunisationDate: this.state.newDate._d.toDateString() } };
         store.dispatch(createImmunisationAPICall(body));
@@ -97,16 +97,16 @@ class ImmunisationSection extends Component {
                 <table style={{ width: '100%' }}>
                     {this.state.addMore || data.immunisations.length !== 0 ? <thead>
                         <tr><th>Vaccine name</th><th>Date</th></tr>
-                    </thead> : null }
+                    </thead> : null}
                     <tbody>
                         {data.immunisations.map(el => formatRow([el.vaccineName, new Date(parseInt(el.immunisationDate, 10)).toDateString()]))}
                         {!this.state.addMore ? null : <tr>
-                            <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text'/></td>
-                            <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange}/></td>
+                            <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
+                            <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
                         </tr>}
                     </tbody>
                 </table>
-                {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Add immunisation</div> : 
+                {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Add immunisation</div> :
                     <div>
                         <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
                         <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
@@ -140,8 +140,8 @@ class Pregnancy extends Component {
         this._handleSubmit = this._handleSubmit.bind(this);
     }
 
-    _handleClickingAdd(ev) {
-        this.setState({ addMore: !this.state.addMore, newDate: moment(), SOC: null, outcome: ''  });
+    _handleClickingAdd() {
+        this.setState({ addMore: !this.state.addMore, newDate: moment(), SOC: null, outcome: '' });
     }
 
     _handleInput(ev) {
@@ -154,7 +154,7 @@ class Pregnancy extends Component {
         });
     }
 
-    _handleSubmit(){
+    _handleSubmit() {
         const data = this.props.data;
         const body = { patientId: data.patientId, data: { patient: data.id, vaccineName: this.state.newName, immunisationDate: this.state.newDate._d.toDateString() } };
         store.dispatch(createImmunisationAPICall(body));
@@ -162,7 +162,7 @@ class Pregnancy extends Component {
 
     render() {
         const { data } = this.props;
-        if (data.demographicData && data.demographicData.gender !== 1 && data.pregnancy ) {
+        if (data.demographicData && data.demographicData.gender !== 1 && data.pregnancy) {
             const inputStyle = { width: '100%', margin: 0 };
             return (
                 <div>
@@ -170,21 +170,21 @@ class Pregnancy extends Component {
                         <table style={{ width: '100%' }}>
                             {this.state.addMore || data.pregnancy.length !== 0 ? <thead>
                                 <tr><th>Birth date</th><th>meDRA</th><th>Outcome</th></tr>
-                            </thead> : null }
+                            </thead> : null}
                             <tbody>
-                                {data.immunisations.map(el => formatRow(['a', 'b', 'c']))}
+                                {data.immunisations.map(() => formatRow(['a', 'b', 'c']))}
                                 {!this.state.addMore ? null : <tr>
-                                    <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange}/></td>
-                                    <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='meDRA' name='meDRA' type='text'/></td>
-                                    <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='outcome' name='outcome' type='text'/></td>
+                                    <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
+                                    <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='meDRA' name='meDRA' type='text' /></td>
+                                    <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='outcome' name='outcome' type='text' /></td>
                                 </tr>}
                             </tbody>
                         </table>
-                        {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Record pregnancy</div> : 
+                        {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Record pregnancy</div> :
                             <div>
                                 <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
                                 <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
-                            </div> }
+                            </div>}
                     </PatientProfileSectionScaffold>
                 </div>);
         } else {

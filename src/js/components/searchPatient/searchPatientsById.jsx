@@ -54,7 +54,7 @@ export class SearchResultForPatients extends Component {
     }
 
     _handleClickWrapper(patientName) {
-        return (ev) => {
+        return () => {
             this.props.fetchPatientProfile(patientName);
         }
     }

@@ -23,7 +23,7 @@ export const alterDataCall = (body) => dispatch => fetch(`/data/${body.type}`, {
             return Promise.reject(res);
         }
     }, err => console.log(err))
-    .then(text => {
+    .then(() => {
         dispatch(getPatientProfileById(body.patientId));         //think about abortion later    //and think about not having to refresh the whole page
     })
     .catch(err => console.log(err))
