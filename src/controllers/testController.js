@@ -33,7 +33,7 @@ TestController.prototype.createTest = function (req, res) {
 
 TestController.prototype.addActualOccurredDate = function (req, res) {
     if (req.body.hasOwnProperty('testId') && req.body.hasOwnProperty('actualOccurredDate')) {
-        this.test.addActualOccurDateTest(req.requester, { id: req.body.testId, actualOccurDate: req.body.actualOccurDate }).then(function (result) {
+        this.test.addActualOccurDateTest(req.requester, { id: req.body.testId, actualOccuredDate: req.body.actualOccuredDate }).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
