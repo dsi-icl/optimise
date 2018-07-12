@@ -10,11 +10,10 @@ export const getPatientProfileById = (searchString) => dispatch => {
     dispatch(getPatientProfileByIdRequest(searchString));
     return apiHelper(`/patients/${searchString}`)
         .then(json => {
-            console.log(json);
-            dispatch(getPatientProfileByIdSuccess(json))
+            dispatch(getPatientProfileByIdSuccess(json));
         })
-        .catch(err => { dispatch(getPatientProfileByIdFailure(searchString)) })
-}
+        .catch(() => { dispatch(getPatientProfileByIdFailure(searchString)); });
+};
 
 
 export const searchPatientByIdRequest = searchString => ({ type: actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_REQUEST, payload: searchString });
@@ -25,8 +24,7 @@ export const searchPatientByIdAPICall = (searchString) => dispatch => {
     dispatch(searchPatientByIdRequest());
     return apiHelper(`/patients?id=${searchString}`)
         .then(json => {
-            console.log(json);
-            dispatch(searchPatientByIdSuccess(json))
+            dispatch(searchPatientByIdSuccess(json));
         })
-        .catch(err => { dispatch(searchPatientByIdFailure(searchString)) })
-}
+        .catch(() => { dispatch(searchPatientByIdFailure(searchString)); });
+};

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/dataPage.jsx';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
-import cssTexts from '../../../css/inlinetexts.css';
-import cssButtons from '../../../css/buttons.css';
+import cssTexts from '../../../css/inlinetexts.module.css';
+import cssButtons from '../../../css/buttons.module.css';
 import { PickDate } from './datepicker.jsx';
 
 @connect(state => ({ patientId: state.patientProfile.data.id }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))

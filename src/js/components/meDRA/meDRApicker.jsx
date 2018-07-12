@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 export const mockList = [
     {
@@ -382,19 +381,18 @@ export class SuggestionInput extends Component {
         this._handleKeyPress = this._handleKeyPress.bind(this);
     }
 
-    _handleKeyPress(ev){
-        console.log(ev.target);
-        this.setState({ 
+    _handleKeyPress(ev) {
+        this.setState({
             value: ev.target.value
-        }, () => { console.log(this.state) });
+        }, () => { });
     }
 
-    render(){
+    render() {
         return (
             <div>
-                <input type='text' onChange={this._handleKeyPress} value={this.state.value} list='datalist'/>
+                <input type='text' onChange={this._handleKeyPress} value={this.state.value} list='datalist' />
                 <datalist id='datalist'>
-                    {this.props.possibleValues.map(el => <option key={el.id} value={el.name}/>)}
+                    {this.props.possibleValues.map(el => <option key={el.id} value={el.name} />)}
                 </datalist>
             </div>
         );

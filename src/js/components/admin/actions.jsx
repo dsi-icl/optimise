@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import cssButtons from '../../../css/buttons.css';
+import cssButtons from '../../../css/buttons.module.css';
 
 export class AdminActions extends Component {
     render() {
@@ -16,6 +16,6 @@ export class AdminActions extends Component {
                     <b>View access log</b>
                 </div>
             </div>
-        )
+        );
     }
 }

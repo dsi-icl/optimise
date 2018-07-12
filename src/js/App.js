@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold.jsx'; 
+import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold.jsx';
 import { LoginPage } from './components/login/loginPage.jsx';
-import cssLogin from '../css/loginpage.css';
+import cssLogin from '../css/loginpage.module.css';
 import { LoadingIcon } from '../statics/svg/icons.jsx';
-import cssIcons from '../css/icons.css';
-import cssScaffold from '../css/scaffold.css';
+import cssIcons from '../css/icons.module.css';
+import cssScaffold from '../css/scaffold.module.css';
 import { getVisitFieldsCall, getTestFieldsCall, getClinicalEventTypesCall, getTestTypesCall, getDrugsCall, getDemoCall, getRelationCall } from './redux/actions/availableFields.js';
 require('react-datepicker/dist/react-datepicker-cssmodules.css');
 
@@ -14,17 +14,17 @@ require('react-datepicker/dist/react-datepicker-cssmodules.css');
 @withRouter
 @connect(state => ({ loggedIn: state.login.loggedIn }))
 class App extends Component {
-    componentWillUnmount(){
+    componentWillUnmount() {
         if (this.props.loggedIn) {
             // dispatch logout
         }
     }
 
     render() {
-        if (true) {     //if (this.props.loggedIn) {
-            return <LoadingFields/>;
+        if (this.props.loggedIn) {
+            return <LoadingFields />;
         } else {
-            return <LoginPage/>;
+            return <LoginPage />;
         }
     }
 }
@@ -56,17 +56,17 @@ class LoadingFields extends Component {
 
     }
 
-    render(){
+    render() {
         if (this.props.fetching) {
-            return <div className={cssLogin.loadingFields}><div className={cssIcons.spinner}><LoadingIcon/></div> Loading project data..</div>;
+            return <div className={cssLogin.loadingFields}><div className={cssIcons.spinner}><LoadingIcon /></div> Loading project data..</div>;
         } else {
             return (
                 <div className={cssScaffold.App}>
-                    <MenuBar/>
-                    <MiddlePanel/>
-                    <RightPanel/>
-                    <FarRightPanel/>
-                    <StatusBar/>
+                    <MenuBar />
+                    <MiddlePanel />
+                    <RightPanel />
+                    <FarRightPanel />
+                    <StatusBar />
                 </div>
             );
         }

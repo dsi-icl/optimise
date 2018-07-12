@@ -9,11 +9,9 @@ export const createPatientCall = (body) => dispatch => (
         .then(json => {
             dispatch(getPatientProfileByIdRequest());
             const patientId = json[0];
-            console.log(`${patientId} is patientId`);
             const demoData = { ...body.demoData, patient: patientId };
-            console.log(demoData);
-            return apiHelper('/demographics/Demographic', { method: 'POST', body: JSON.stringify(demoData) })
+            return apiHelper('/demographics/Demographic', { method: 'POST', body: JSON.stringify(demoData) });
         })
-        .then(json => { console.log(json); dispatch(getPatientProfileById(body.patientId)) })
+        .then(() => { dispatch(getPatientProfileById(body.patientId)); })
 
 );
