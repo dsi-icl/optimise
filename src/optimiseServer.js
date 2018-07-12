@@ -6,10 +6,14 @@ const optimiseOptions = require('./core/options');
 const knex = require('./utils/db-connection');
 const { migrate } = require('../src/utils/db-handler');
 const ErrorHelper = require('./utils/error_helper');
+const Meddra = require('./controllers/meddraController');
 
 function OptimiseServer(config) {
     this.config = new optimiseOptions(config);
     this.app = express();
+
+    // initializing the meddra controller
+    this.meddra = new Meddra();
 
     // Bind member functions
     this.start = OptimiseServer.prototype.start.bind(this);
@@ -28,6 +32,7 @@ function OptimiseServer(config) {
     this.setupPPII = OptimiseServer.prototype.setupPPII.bind(this);
     this.setupPregnancy = OptimiseServer.prototype.setupPregnancy.bind(this);
     this.setupPatientDiagnosis = OptimiseServer.prototype.setupPatientDiagnosis.bind(this);
+    this.setupMeddra = OptimiseServer.prototype.setupMeddra.bind(this);
 
     // Define config in global scope (needed for server extensions)
     global.config = this.config;
@@ -87,6 +92,7 @@ OptimiseServer.prototype.start = function () {
         _this.setupPPII();
         _this.setupPregnancy();
         _this.setupPatientDiagnosis();
+        _this.setupMeddra();
 
         _this.app.all('/*', function (__unused__req, res) {
             res.status(400);
@@ -267,6 +273,14 @@ OptimiseServer.prototype.setupPregnancy = function () {
 
     // Modules
     this.app.use('/patientPregnancy', this.routePregnancy);
+};
+
+/** 
+ * @function setupMeddra initialize the route for meddra
+ */
+OptimiseServer.prototype.setupMeddra = function () {
+    this.app.route('/meddra')
+        .get(this.meddra.getMeddraField);
 };
 
 /**
