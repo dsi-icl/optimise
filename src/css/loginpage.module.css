@@ -41,12 +41,6 @@
 }
 
 
-.loadingFields {
-    background-color: #f2f2f2;
-    color: #363A3B;
-    position: relative
-}
-
 .loginButton {
     background-color: rgb(123,210,225);
     height: 40px;
