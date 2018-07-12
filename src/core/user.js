@@ -62,7 +62,7 @@ User.prototype.deleteUser = function (requester, userId) {
 User.prototype.loginUser = function (user) {
     return new Promise(function (resolve, reject) {
         getEntry('USERS', { username: user.username }, { pw: 'pw', id: 'id' }).then(function (result) {
-            if (result.length !== 1)
+            if (result.length <= 0)
                 reject(ErrorHelper(message.errorMessages.GETFAIL));
             try {
                 if (!bcrypt.compareSync(user.pw, result[0].pw)) {
