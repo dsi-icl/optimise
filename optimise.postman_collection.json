@@ -370,6 +370,136 @@
 					"_postman_isSubFolder": true
 				},
 				{
+					"name": "PatientDiagnosis",
+					"description": "Request related to table PATIENT_DIAGNOSIS",
+					"item": [
+						{
+							"name": "Create patientDiagnosis",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"patient\":2,\n\t\"diagnosis\":3,\n\t\"diagnosisDate\":\"158184811\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/patientDiagnosis/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientDiagnosis",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Diagnosis",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/patientDiagnosis?patient=1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientDiagnosis"
+									],
+									"query": [
+										{
+											"key": "patient",
+											"value": "1"
+										}
+									]
+								},
+								"description": "Get the Diagnosis of a patient or all of them\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Diagnosis",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":2,\n\t\"diagnosis\":3\n}"
+								},
+								"url": {
+									"raw": "{{url}}/patientDiagnosis",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientDiagnosis"
+									]
+								},
+								"description": "Update Diagnosis of a patient"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Diagnosis",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":1\n}"
+								},
+								"url": {
+									"raw": "{{url}}/patientDiagnosis",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientDiagnosis"
+									]
+								},
+								"description": "Delete a specific Diagnosis"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "PatientPregnancy",
 					"description": "Request related to table patientPregnancy",
 					"item": [
@@ -450,7 +580,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"id\":2,\n\t\"firstName\":\"Modified\"\n}"
+									"raw": "{\n\t\"id\":2,\n\t\"outcome\":2}"
 								},
 								"url": {
 									"raw": "{{url}}/patientPregnancy",
