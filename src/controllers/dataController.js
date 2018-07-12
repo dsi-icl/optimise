@@ -63,7 +63,7 @@ class DataController {
     }
 
     _RouterDeleteData(req, res) {    //req.body = {visitId = 1, delete:[1, 43, 54 (fieldIds)] }
-        if (req.requester.priv === 1) {
+        if (req.user.priv === 1) {
             let options = deleteOptionsContainer[`${req.params.dataType}`];
             if (options === undefined) {
                 res.status(400).json(ErrorHelper(`data type ${req.params.dataType} not supported.`));
@@ -73,7 +73,7 @@ class DataController {
                 res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
                 return;
             }
-            this.dataCore.deleteData(req.requester, options, req.body[`${req.params.dataType}Id`], req.body.delete)
+            this.dataCore.deleteData(req.user, options, req.body[`${req.params.dataType}Id`], req.body.delete)
                 .then(function (result) {
                     res.status(200).json(result);
                     return;
@@ -94,7 +94,7 @@ class DataController {
                     .where('field', 'in', Object.keys(req.body.update))
                     .andWhere('deleted', '-')
                     .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
-                    .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
+                    .update({ 'deleted': `${req.user.id}@${JSON.stringify(new Date())}` })
                     .transacting(trx)
                     .then(() =>
                         knex.batchInsert(options.dataTable, inputData.updates, 1000).transacting(trx)    //adding all the 'updates' entries
@@ -110,7 +110,7 @@ class DataController {
 
     _addOrUpdateDataBackbone(req, res, options, transactionFunction) {  //req.body = {visitId = 1, update : {1: 43, 54: LEFT}, add : {4324:432, 54:4} }
         if (req.body[options.entryIdString] && (req.body.update || req.body.add)) {
-            if (req.body.update && req.requester.priv !== 1) {
+            if (req.body.update && req.user.priv !== 1) {
                 res.status(401).send('Only admin can update data');
                 return;
             }
@@ -220,7 +220,7 @@ class DataController {
                         const entry = {
                             'field': Object.keys(req.body.update)[i],
                             'value': req.body.update[Object.keys(req.body.update)[i]],
-                            'createdByUser': req.requester.userid,
+                            'createdByUser': req.user.id,
                             'deleted': '-'
                         };
                         entry[options.dataTableForeignKey] = req.body[options.entryIdString];
@@ -230,7 +230,7 @@ class DataController {
                         const entry = {
                             'field': Object.keys(req.body.add)[i],
                             'value': req.body.add[Object.keys(req.body.add)[i]],
-                            'createdByUser': req.requester.userid,
+                            'createdByUser': req.user.id,
                             'deleted': '-'
                         };
                         entry[options.dataTableForeignKey] = req.body[options.entryIdString];

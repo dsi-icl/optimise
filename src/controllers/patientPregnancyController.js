@@ -42,7 +42,7 @@ PatientPregnancyController.prototype.getPatientPregnancy = function (req, res) {
 PatientPregnancyController.prototype.createPatientPregnancy = function (req, res) {
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('outcomeDate') && req.body.hasOwnProperty('meddra')) {
         let entryObj = Object.assign({}, PatientPregnancyModel, req.body);
-        entryObj.createdByUser = req.requester.userid;
+        entryObj.createdByUser = req.user.id;
         this.patientPregnancy.createPatientPregnancy(entryObj).then(function (result) {
             res.status(200).json(result);
             return;
@@ -60,8 +60,8 @@ PatientPregnancyController.prototype.updatePatientPregnancy = function (req, res
     if (req.body.hasOwnProperty('id')) {
         let entryObj = Object.assign({}, PatientPregnancyModel, req.body);
         delete entryObj.id;
-        entryObj.createdByUser = req.requester.userid;
-        this.patientPregnancy.updatePatientPregnancy(req.requester, req.body.id, entryObj).then(function (result) {
+        entryObj.createdByUser = req.user.id;
+        this.patientPregnancy.updatePatientPregnancy(req.user, req.body.id, entryObj).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
@@ -76,7 +76,7 @@ PatientPregnancyController.prototype.updatePatientPregnancy = function (req, res
 
 PatientPregnancyController.prototype.deletePatientPregnancy = function (req, res) {
     if (req.body.hasOwnProperty('id')) {
-        this.patientPregnancy.deletePatientPregnancy(req.requester, { 'id': req.body.id }).then(function (result) {
+        this.patientPregnancy.deletePatientPregnancy(req.user, { 'id': req.body.id }).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {

@@ -16,7 +16,7 @@ TestController.prototype.createTest = function (req, res) {
             'orderedDuringVisit': req.body.visitId,
             'type': req.body.type,
             'expectedOccurDate': Date.parse(req.body.expectedDate),
-            'createdByUser': req.requester.userid
+            'createdByUser': req.user.id
         };
         this.test.createTest(entryObj).then(function (result) {
             res.status(200).json(result);
@@ -33,7 +33,7 @@ TestController.prototype.createTest = function (req, res) {
 
 TestController.prototype.addActualOccurredDate = function (req, res) {
     if (req.body.hasOwnProperty('testId') && req.body.hasOwnProperty('actualOccurredDate')) {
-        this.test.addActualOccurDateTest(req.requester, { id: req.body.testId, actualOccuredDate: req.body.actualOccuredDate }).then(function (result) {
+        this.test.addActualOccurDateTest(req.user, { id: req.body.testId, actualOccuredDate: req.body.actualOccuredDate }).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
@@ -47,8 +47,8 @@ TestController.prototype.addActualOccurredDate = function (req, res) {
 };
 
 TestController.prototype.deleteTest = function (req, res) {
-    if (req.requester.priv === 1 && req.body.hasOwnProperty('testID')) {
-        this.test.deleteTest(req.requester, { 'id': req.body.testID }).then(function (result) {
+    if (req.user.priv === 1 && req.body.hasOwnProperty('testID')) {
+        this.test.deleteTest(req.user, { 'id': req.body.testID }).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
@@ -57,7 +57,7 @@ TestController.prototype.deleteTest = function (req, res) {
         });
     }
     else {
-        if (req.requester.priv !== 1) {
+        if (req.user.priv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         } else {
