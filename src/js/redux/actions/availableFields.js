@@ -22,7 +22,7 @@ export function APICall(endpoint, cbDispatch) {
                 .then(json => {
                     dispatch(cbDispatch(json));
                 })
-                .catch(res => res.text().then(msg => console.log(msg)))
+                .catch(msg => console.log(msg))
         }
     }
 };

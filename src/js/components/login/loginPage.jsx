@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import cssLogin from '../../../css/loginpage.css';
-import cssButton from '../../../css/buttons.css';
+import cssLogin from '../../../css/loginpage.module.css';
+import cssButton from '../../../css/buttons.module.css';
 import { LoadingIcon } from '../../../statics/svg/icons.jsx';
-import cssIcons from '../../../css/icons.css';
+import cssIcons from '../../../css/icons.module.css';
 import { loginAPICall } from '../../redux/actions/login.js';
 import { UserIcon, KeyIcon } from '../../../statics/svg/icons.jsx';
 

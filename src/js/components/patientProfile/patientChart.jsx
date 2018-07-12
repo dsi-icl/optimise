@@ -8,10 +8,10 @@ import { LoadingIcon } from '../../../statics/svg/icons.jsx';
 import { TimelineBox } from './timeline.jsx';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
 import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon, AddVSIcon, SignAndSymptomIcon } from '../../../statics/svg/icons.jsx';
-import cssSectioning from '../../../css/sectioning.css';
-import cssScaffold from '../../../css/scaffold.css';
-import cssButtons from '../../../css/buttons.css';
-import cssIcons from '../../../css/icons.css';
+import cssSectioning from '../../../css/sectioning.module.css';
+import cssScaffold from '../../../css/scaffold.module.css';
+import cssButtons from '../../../css/buttons.module.css';
+import cssIcons from '../../../css/icons.module.css';
 
 @connect(state => ({ fetching: state.patientProfile.fetching }))
 export class PatientChart extends Component {

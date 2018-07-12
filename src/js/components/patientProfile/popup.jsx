@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import cssButtons from '../../../css/buttons.css';
-import cssDropdowns from '../../../css/dropdowns.css';
+import cssButtons from '../../../css/buttons.module.css';
+import cssDropdowns from '../../../css/dropdowns.module.css';
 import { NavLink } from 'react-router-dom';
 
 @connect(state => ({ visitList: state.patientProfile.data.visits, patientId: state.patientProfile.data.patientId }))

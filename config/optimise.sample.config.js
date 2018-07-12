@@ -1,4 +1,4 @@
 module.exports = {
-    server: require('optimise-server'),
-    port: 3030
+    port: 3030,
+    apiEndpoint: '/api'
 };

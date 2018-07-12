@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from './datepicker.jsx';
 import { BackButton } from '../medicalData/dataPage.jsx';
-import cssTexts from '../../../css/inlinetexts.css';
-import cssButtons from '../../../css/buttons.css';
+import cssTexts from '../../../css/inlinetexts.module.css';
+import cssButtons from '../../../css/buttons.module.css';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents.js';
 
 //not yet finished the dispatch

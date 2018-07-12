@@ -18,7 +18,7 @@ export const createVisitAPICall = (body) => dispatch => {
     })
         .then(res => {
             if (res.status === 200) {
-                return res.text();
+                return res.text;
             } else {
                 return Promise.reject(res);
             }
@@ -26,5 +26,5 @@ export const createVisitAPICall = (body) => dispatch => {
         .then(text => {
             dispatch(getPatientProfileById(body.patientId));         //think about abortion later    //and think about not having to refresh the whole page
         })
-        .catch(res => res.text().then(msg => console.log(msg)));
+        .catch(msg => console.log(msg))
 }

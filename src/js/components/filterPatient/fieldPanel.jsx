@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import cssButtons from '../../../css/buttons.css';
+import cssButtons from '../../../css/buttons.module.css';
 
 function drag(ev) {
     ev.dataTransfer.setData('text', ev.target.id);
