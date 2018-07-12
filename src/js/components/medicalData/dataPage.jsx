@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { LoadingIcon } from '../../../statics/svg/icons.jsx';
-import cssIcons from '../../../css/icons.css';
-import cssButtons from '../../../css/buttons.css';
-import cssInputs from '../../../css/inputfields.css';
+import cssIcons from '../../../css/icons.module.css';
+import cssButtons from '../../../css/buttons.module.css';
+import cssInputs from '../../../css/inputfields.module.css';
 
 function mapStateToProps(state) {
     return {

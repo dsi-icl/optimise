@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { ControlledInputField, ControlledSelectField } from '../medicalData/dataPage.jsx';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker.jsx';
-import cssButtons from '../../../css/buttons.css';
+import cssButtons from '../../../css/buttons.module.css';
 import store from '../../redux/store.js';
 import { createPatientCall } from '../../redux/actions/createPatient.js';
 

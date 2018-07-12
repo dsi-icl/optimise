@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import cssButtons from '../../../css/buttons.css';
-import cssInputs from '../../../css/inputfields.css';
+import cssButtons from '../../../css/buttons.module.css';
+import cssInputs from '../../../css/inputfields.module.css';
 import { connect } from 'react-redux';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import { Link } from 'react-router-dom';

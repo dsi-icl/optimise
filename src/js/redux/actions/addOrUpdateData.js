@@ -19,7 +19,7 @@ export const alterDataCall = (body) => dispatch => fetch(`/data/${body.type}`, {
 })
     .then(res => {
         if (res.status === 200) {
-            res.text();
+            return res.text;
         } else {
             return Promise.reject(res);
         }

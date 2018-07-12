@@ -4,8 +4,8 @@ import moment from 'moment';
 import { NavLink } from 'react-router-dom';
 import { PickDate } from './datepicker.jsx';
 import { BackButton } from '../medicalData/dataPage.jsx';
-import cssTexts from '../../../css/inlinetexts.css';
-import cssButtons from '../../../css/buttons.css';
+import cssTexts from '../../../css/inlinetexts.module.css';
+import cssButtons from '../../../css/buttons.module.css';
 import { createTreatmentAPICall } from '../../redux/actions/treatments.js';
 
 //not yet finished the dispatch
