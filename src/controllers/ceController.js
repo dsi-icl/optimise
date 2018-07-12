@@ -9,14 +9,15 @@ function CeController() {
     this.deleteCe = CeController.prototype.deleteCe.bind(this);
 }
 
-CeController.prototype.createCe = function(req, res) {    //need to change
-    if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type')) {
+CeController.prototype.createCe = function(req, res) {
+    if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra')) {
         let ce = {};
         if (req.body.hasOwnProperty('visitId'))
             ce.recordedDuringVisit = req.body.visitId;
         if (req.body.hasOwnProperty('patient'))
             ce.patient = req.body.patient;
         ce.type = req.body.type;
+        ce.meddra = req.body.meddra;
         ce.dateStartDate = Date.parse(req.body.startDate);
         this.clinicalEvent.createClinicalEvent(req.requester, ce).then(function(result) {
             res.status(200).json(result);
