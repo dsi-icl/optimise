@@ -73,8 +73,8 @@ const exampleData = {
         { id: 2, orderedDuringVisit: 3, drug: 4, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' }
     ],
     'TREATMENTS_INTERRUPTIONS': [
-        { id: 1, treatment: 1, startDate: '1484006400000', endDate: '1516406400000', reason: 2, createdByUser: 1, deleted: '-' },
-        { id: 2, treatment: 1, startDate: '1514764800000', createdByUser: 1, deleted: '-' }
+        { id: 1, treatment: 1, startDate: '1484006400000', endDate: '1516406400000', reason: 2, meddra: 2 ,createdByUser: 1, deleted: '-' },
+        { id: 2, treatment: 1, startDate: '1514764800000', meddra: 1, createdByUser: 1, deleted: '-' }
     ],
     'MEDICAL_HISTORY': [
         { id: 1, patient: 3, relation: 1, conditionName: 1, outcome: 'ongoing', createdByUser: 1, deleted: '-' },
