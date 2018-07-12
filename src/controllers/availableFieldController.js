@@ -7,6 +7,7 @@ class AvailableFieldController {
         const tableMap = {
             'visitFields': 'AVAILABLE_FIELDS_VISITS',
             'testFields': 'AVAILABLE_FIELDS_TESTS',
+            'ceFields':'AVAILABLE_FIELDS_CE',
             'clinicalEvents': 'AVAILABLE_CLINICAL_EVENT_TYPES',
             'testTypes': 'AVAILABLE_TEST_TYPES'
         };
