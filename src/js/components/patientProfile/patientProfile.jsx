@@ -19,6 +19,7 @@ export class Section extends Component {
                 <DemographicSection/>
                 <PrimaryDiagnosis/>
                 <ImmunisationSection/>
+                <Pregnancy/>
             </div>)
         }
     }
@@ -131,13 +132,17 @@ class PrimaryDiagnosis extends Component {
 }
 
 @connect(state => ({ data: state.patientProfile.data }))
-class Baseline extends Component {
+class Pregnancy extends Component {
     render() {
-        return (
-            <div>
-                <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
-                </PatientProfileSectionScaffold>
-            </div>
-        );
+        const { data } = this.props;
+        if (data.demographicData && data.demographicData.gender !== 1) {
+            return (
+                <div>
+                    <PatientProfileSectionScaffold sectionName='Pregnancies'>
+                    </PatientProfileSectionScaffold>
+                </div>);
+        } else {
+            return null;
+        }
     }
 }
