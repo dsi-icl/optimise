@@ -17,6 +17,7 @@ export class Section extends Component {
         } else {
             return (<div style={{ position: 'relative' }}>
                 <DemographicSection/>
+                <PrimaryDiagnosis/>
                 <ImmunisationSection/>
             </div>)
         }
@@ -118,15 +119,23 @@ class ImmunisationSection extends Component {
 }
 
 @connect(state => ({ data: state.patientProfile.data }))
-class MedicalHistorySection extends Component {
+class PrimaryDiagnosis extends Component {
     render() {
         return (
             <div>
-                <PatientProfileSectionScaffold sectionName='Existing Medical Conditions'>
-                coming
+                <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
                 </PatientProfileSectionScaffold>
-                <PatientProfileSectionScaffold sectionName='Family Medical History'>
-                coming
+            </div>
+        );
+    }
+}
+
+@connect(state => ({ data: state.patientProfile.data }))
+class Baseline extends Component {
+    render() {
+        return (
+            <div>
+                <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
                 </PatientProfileSectionScaffold>
             </div>
         );
