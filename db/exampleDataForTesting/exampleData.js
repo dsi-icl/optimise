@@ -13,8 +13,8 @@ const exampleData = {
         { id: 2, patient: 3, firstName: 'Eleni', surname: 'Jones', fullAddress: 'Flat 20 Mast House London', postcode: 'SW7 2', createdByUser: 1, deleted: '-' },
     ],
     'PATIENT_PREGNANCY': [
-        { id: 1, patient: 3, startDate: '1531239767000', outcome: 2, createdByUser: 1, deleted: '-' },
-        { id: 2, patient: 3, startDate: '1531239113000', outcome: 1, createdByUser: 1, deleted: '-' }
+        { id: 1, patient: 3, startDate: '1531239767000', meddra: 13688, outcome: 2, createdByUser: 1, deleted: '-' },
+        { id: 2, patient: 3, startDate: '1531239113000', meddra: 13688, outcome: 1, createdByUser: 1, deleted: '-' }
     ],
     'PATIENT_IMMUNISATION': [
         { id: 1, patient: 2, vaccineName: 'vaccine A', immunisationDate: '1517443200000', createdByUser: 1, deleted: '-' },
@@ -58,9 +58,9 @@ const exampleData = {
         { id: 3, test: 2, field: 34, value: 'positive', createdByUser: 1, deleted: '-' }
     ],
     'CLINICAL_EVENTS': [
-        { id: 1, patient: 1, type: 1, dateStartDate: '1514764800000', createdByUser: 1, deleted: '-' },
-        { id: 2, patient: 3, type: 1, dateStartDate: '1517443200000', createdByUser: 1, deleted: '-' },
-        { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', createdByUser: 1, deleted: '-' }
+        { id: 1, patient: 1, type: 1, dateStartDate: '1514764800000', meddra: 1, createdByUser: 1, deleted: '-' },
+        { id: 2, patient: 3, type: 1, dateStartDate: '1517443200000', meddra: 1, createdByUser: 1, deleted: '-' },
+        { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' }
     ],
     'CLINICAL_EVENTS_DATA': [
         { id: 1, clinicalEvent: 1, field: 3, value: 'YES', createdByUser: 1, deleted: '-' },

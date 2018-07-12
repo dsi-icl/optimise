@@ -5,6 +5,7 @@ exports.up = function (knex) {
         table.text('startDate').notNullable();
         table.text('endDate').nullable();
         table.integer('reason').nullable().references('id').inTable('REASONS');
+        table.integer('meddra').notNullable().references('id').inTable('ADVERSE_EVENT_MEDDRA');
         table.text('createdTime').notNullable().defaultTo(knex.fn.now());
         table.integer('createdByUser').notNullable().references('id').inTable('USERS');
         table.text('deleted').notNullable().defaultTo('-');
