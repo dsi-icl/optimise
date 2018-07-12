@@ -9,7 +9,8 @@ class AvailableFieldController {
             'testFields': 'AVAILABLE_FIELDS_TESTS',
             'ceFields': 'AVAILABLE_FIELDS_CE',
             'clinicalEvents': 'AVAILABLE_CLINICAL_EVENT_TYPES',
-            'testTypes': 'AVAILABLE_TEST_TYPES'
+            'testTypes': 'AVAILABLE_TEST_TYPES',
+            'diagnoses': 'AVAILABLE_DIAGNOSES'
         };
         let moduleObj = {};
         if (tableMap.hasOwnProperty(req.params.dataType)) {
