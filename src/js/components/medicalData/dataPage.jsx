@@ -284,7 +284,7 @@ export class ControlledSelectField extends Component {
             <option value='unselected'>unselected</option>
             {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
         </select>
-            <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
+        <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
         </span>);
     }
 }
