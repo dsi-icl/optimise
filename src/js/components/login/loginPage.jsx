@@ -51,7 +51,6 @@ export class LoginPage extends Component {
     }
 
     _handlePwInput(ev) {
-        console.log(ev.target.value);
         this.setState({ pw: ev.target.value });
     }
 
@@ -86,7 +85,6 @@ export class LoginPage extends Component {
             position: 'relative',
             left: 21
         };
-        console.log(`logging ${this.props.loggingIn}`);
         return (<div className={cssLogin.loginPage}>
             <div className={cssLogin.upperCircle}> </div>
             <div className={cssLogin.logoText}> Optimise MS </div>

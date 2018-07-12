@@ -22,7 +22,7 @@ export class SearchPatientsById extends Component {
             })
                 .then(res => res.json())
                 .then(json => { this.setState({ searchResult: json }) })
-                .catch(e => { console.log(e); this.setState({ searchResult: [{ 'aliasId': 'not found' }] }) })   // what if the server fails
+                .catch(() => { this.setState({ searchResult: [{ 'aliasId': 'not found' }] }) })   // what if the server fails
         } else {
             this.setState({ searchResult: [] });
         }

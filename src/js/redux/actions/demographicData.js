@@ -1,7 +1,6 @@
 import { getPatientProfileById } from './searchPatientById.js';
 
 export const createImmunisationAPICall = (body) => dispatch => {
-    console.log(body);
     return fetch('/demographics/Immunisation', {
         mode: 'cors',
         headers: {

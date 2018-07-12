@@ -35,7 +35,6 @@ export class CreateCE extends Component {
     }
 
     _handleTypeChange(ev) {
-        console.log(ev.target.value);
         this.setState({
             ceType: parseInt(ev.target.value, 10)
         });

@@ -1,7 +1,6 @@
 import { getPatientProfileById } from './searchPatientById.js';
 
 export const createCEAPICall = (body) => dispatch => {
-    console.log(body);
     return fetch('/clinicalEvents', {
         mode: 'cors',
         headers: {

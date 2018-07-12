@@ -114,11 +114,9 @@ export class BackButton extends Component {
  * @returns {JSX} Formatted data for display on frontend
  */
 function formatData(medicalElement, fieldList, inputTypes, submitFunction, idString, type) {
-    console.log(medicalElement);
     if (type === 'visit') {
         medicalElement = { ...medicalElement, type: 1 };
     }
-    console.log(medicalElement)
     //reformating the field list to hash table with fieldId as key for easier lookup later without needing array filter:
     const filteredFieldList = fieldList.filter(field => field.referenceType === medicalElement.type);
     //same with data:

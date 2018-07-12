@@ -382,10 +382,9 @@ export class SuggestionInput extends Component {
     }
 
     _handleKeyPress(ev) {
-        console.log(ev.target);
         this.setState({
             value: ev.target.value
-        }, () => { console.log(this.state) });
+        }, () => { });
     }
 
     render() {
