@@ -36,7 +36,6 @@
   }
 
 .createPatientButton {
-    composes: patientBanner;
     background-color: #ff5151;
     border-radius: 20px;
     margin: 13px auto;

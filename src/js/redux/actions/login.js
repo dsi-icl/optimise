@@ -5,7 +5,7 @@ export const loginRequest = () => ({ type: actionTypes.login.LOGIN_REQUESTED });
 
 export const loginSuccess = (body) => ({ type: actionTypes.login.LOGIN_SUCCESS, payload: body });
 
-export const loginFailure = () => ({ type: actionTypes.login.LOGIN_FAILURE })
+export const loginFailure = () => ({ type: actionTypes.login.LOGIN_FAILURE });
 
 export const loginAPICall = (body) => dispatch => {
     dispatch(loginRequest());
@@ -13,5 +13,5 @@ export const loginAPICall = (body) => dispatch => {
         .then(json => {
             dispatch(loginSuccess(json));
         })
-        .catch(err => { console.log(err); dispatch(loginFailure()) })
-}
+        .catch(err => { dispatch(loginFailure(err)); });
+};

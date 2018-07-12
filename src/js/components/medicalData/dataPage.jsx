@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { LoadingIcon } from '../../../statics/svg/icons.jsx';
-import cssIcons from '../../../css/icons.css';
-import cssButtons from '../../../css/buttons.css';
-import cssInputs from '../../../css/inputfields.css';
+import cssIcons from '../../../css/icons.module.css';
+import cssButtons from '../../../css/buttons.module.css';
 
 function mapStateToProps(state) {
     return {
         fields: state.availableFields,
         patientProfile: state.patientProfile
-    }
+    };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -64,20 +63,20 @@ export class DataTemplate extends Component {
     render() {
         if (!this.props.patientProfile.fetching) {
             const idString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Id` : 'id';   //this is because id naming is inconsistent on backend - might change..?
-            const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element[idString] == this.props.match.params.elementId);  // eslint-disable-line eqeqeq
+            const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element[idString] === this.props.match.params.elementId);
             if (elementsMatched.length === 0) {
                 return <div>{`Cannot find your ${this.props.elementType}!`}</div>;
             } else {
                 const fieldString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Fields` : null;   //this is because id naming is inconsistent on backend - might change..?
                 return (<div style={{ overflow: 'auto' }}>
-                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`}/>
+                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                     <h2>RESULT</h2>
                     <div>{JSON.stringify(this.state.data)}</div>
                     {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit, idString, this.props.elementType)}
                 </div>);   //change the type later
             }
         } else {
-            return <div className={cssIcons.spinner}><LoadingIcon /></div>
+            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
         }
     }
 }
@@ -115,24 +114,21 @@ export class BackButton extends Component {
  * @returns {JSX} Formatted data for display on frontend
  */
 function formatData(medicalElement, fieldList, inputTypes, submitFunction, idString, type) {
-    console.log(medicalElement);
     if (type === 'visit') {
         medicalElement = { ...medicalElement, type: 1 };
     }
-    console.log(medicalElement)
     //reformating the field list to hash table with fieldId as key for easier lookup later without needing array filter:
-    const filteredFieldList = fieldList.filter(field => field.referenceType == medicalElement.type);   // eslint-disable-line eqeqeq
-    const fieldHashTable = filteredFieldList.reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
+    const filteredFieldList = fieldList.filter(field => field.referenceType === medicalElement.type);
     //same with data:
-    const dataHashTable = medicalElement.data.reduce((map, el) => { map[el.field] = el.value; return map }, {});
+    const dataHashTable = medicalElement.data.reduce((map, el) => { map[el.field] = el.value; return map; }, {});
     //same with inputTypes:
-    const dataTypesHashTable = inputTypes.reduce((map, dataType) => { map[dataType.id] = dataType.value; return map }, {});
+    const dataTypesHashTable = inputTypes.reduce((map, dataType) => { map[dataType.id] = dataType.value; return map; }, {});
     return (
         <div>
             <form onSubmit={submitFunction}>
                 {
                     filteredFieldList.map(field => {
-                        const { id, definition, idname, type, unit, module, permittedValues, referenceType } = field;
+                        const { id, definition, type, permittedValues } = field;
                         const originalValue = dataHashTable[field.id]; //assigned either the value or undefined, which is falsy, which is used below
                         const key = `${medicalElement[idString]}_FIELD${id}`;
                         switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
@@ -164,7 +160,7 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
 }
 
 
-/* 
+/*
 undone:
 rendering tests directly throws error
 input field has to be controlled component
@@ -211,13 +207,13 @@ export class ControlledInputField extends Component {
     _validateInput(value) {
         switch (this.props.dataType) {
             case 'I':
-                if (parseInt(value, 10) && parseInt(value, 10) === parseFloat(value, 10) && parseInt(value, 10) == value) {  // eslint-disable-line eqeqeq
+                if (parseInt(value, 10) && parseInt(value, 10) === parseFloat(value, 10) && parseInt(value, 10) === value) {
                     return true;
                 } else {
                     return false;
                 }
             case 'F':
-                if (parseFloat(value, 10) && parseFloat(value, 10) == value) { // eslint-disable-line eqeqeq
+                if (parseFloat(value, 10) && parseFloat(value, 10) === value) {
                     return true;
                 } else {
                     return false;
@@ -231,19 +227,21 @@ export class ControlledInputField extends Component {
     }
 
     render() {
-        return (<span>
-            <input
-                originalvalue={this.props.originalValue}
-                name={this.props.fieldId}
-                fieldid={this.props.fieldId}
-                type='text'
-                style={this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' })}
-                value={this.state.value}
-                onChange={this._handleKeyStroke}
-                onKeyPress={this._handleEnterKey}
-            />
-            <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
-        </span>);
+        return (
+            <span>
+                <input
+                    originalvalue={this.props.originalValue}
+                    name={this.props.fieldId}
+                    fieldid={this.props.fieldId}
+                    type='text'
+                    style={this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' })}
+                    value={this.state.value}
+                    onChange={this._handleKeyStroke}
+                    onKeyPress={this._handleEnterKey}
+                />
+                <span onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</span>
+            </span>
+        );
     }
 }
 
@@ -280,11 +278,14 @@ export class ControlledSelectField extends Component {
 
     render() {
         const setThisValue = this.props.originalValue ? this.props.originalValue : 'unselected';
-        return (<span><select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} style={{ color: (this.state.value === setThisValue ? 'black' : 'green') }}>
-            <option value='unselected'>unselected</option>
-            {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
-        </select>
-        <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
-        </span>);
+        return (
+            <span>
+                <select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} style={{ color: (this.state.value === setThisValue ? 'black' : 'green') }}>
+                    <option value='unselected'>unselected</option>
+                    {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
+                </select>
+                <span onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</span>
+            </span>
+        );
     }
 }

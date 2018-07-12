@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon } from '../../../statics/svg/icons.jsx';
 import { NavLink } from 'react-router-dom';
 import { VisitPicker } from './popup.jsx';
-import cssButtons from '../../../css/buttons.css';
-import cssDropdowns from '../../../css/dropdowns.css';
-import cssSectioning from '../../../css/sectioning.css';
-import cssTexts from '../../../css/inlinetexts.css';
+import cssButtons from '../../../css/buttons.module.css';
+import cssDropdowns from '../../../css/dropdowns.module.css';
+import cssSectioning from '../../../css/sectioning.module.css';
+import cssTexts from '../../../css/inlinetexts.module.css';
 
 export class PatientProfileSectionScaffold extends Component {
     render() {
