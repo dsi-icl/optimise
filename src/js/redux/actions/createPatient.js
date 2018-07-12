@@ -15,9 +15,7 @@ export const createPatientCall = (body) => dispatch => fetch('/patients', {
     .then(res => { dispatch(getPatientProfileByIdRequest()); return res.json() }, err => console.log(err))
     .then(json => {
         const patientId = json[0];
-        console.log(`${patientId} is patientId`);
         const demoData = { ...body.demoData, patient: patientId };
-        console.log(demoData);
         return fetch('/demographics/Demographic', {
             method: 'POST',
             mode: 'cors',
@@ -29,6 +27,6 @@ export const createPatientCall = (body) => dispatch => fetch('/patients', {
         });
     })
     .then(res => res.json(), err => console.log(err))
-    .then(json => { console.log(json); dispatch(getPatientProfileById(body.patientId)) })
+    .then(() => { dispatch(getPatientProfileById(body.patientId)) })
 
 //unfinished

@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 function dragover_handler(ev) {
     ev.preventDefault();
 }
-   
+
 function drop_handler(ev) {
     ev.preventDefault();
-    console.log(ev.target);
     if (ev.target.className === 'selectbox') {
         const data = ev.dataTransfer.getData('text');
         ev.target.appendChild(document.getElementById(data).cloneNode(true));
@@ -37,8 +36,8 @@ export class FilterPanel extends Component {
             <div>
                 <h2>FILTER PATIENTS</h2>
                 <span style={{ display: 'block', width: '90%', margin: '0 auto' }}>Refine your criteria:</span>
-                <DragBox/>
-                <DragBox/>
+                <DragBox />
+                <DragBox />
             </div>
         )
     }

@@ -1,7 +1,6 @@
 import { getPatientProfileById } from './searchPatientById.js';
 
 export const createVisitAPICall = (body) => dispatch => {
-    console.log(body);
     return fetch('/visits', {
         mode: 'cors',
         headers: {

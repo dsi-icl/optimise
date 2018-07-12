@@ -25,5 +25,5 @@ export const loginAPICall = (body) => dispatch => {
         .then(json => {
             dispatch(loginSuccess(json));         //think about abortion later    //and think about not having to refresh the whole page
         })
-        .catch(err => { console.log(err); dispatch(loginFailure()) })
+        .catch(err => { dispatch(loginFailure(err)) })
 }

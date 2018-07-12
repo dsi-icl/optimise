@@ -35,7 +35,6 @@ export class CreateTest extends Component {
     }
 
     _handleTypeChange(ev) {
-        console.log(ev.target.value);
         this.setState({
             testType: parseInt(ev.target.value, 10)
         });

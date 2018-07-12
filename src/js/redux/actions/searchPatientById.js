@@ -20,7 +20,6 @@ export const getPatientProfileById = (searchString) => dispatch => {
             }
         }, err => console.log(err))
         .then(json => {
-            console.log(json);
             dispatch(getPatientProfileByIdSuccess(json))
         })
 }
@@ -45,7 +44,6 @@ export const searchPatientByIdAPICall = (searchString) => dispatch => {
             }
         }, err => console.log(err))
         .then(json => {
-            console.log(json);
             dispatch(searchPatientByIdSuccess(json))
         })
 }

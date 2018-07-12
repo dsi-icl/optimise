@@ -97,7 +97,6 @@ class OneVisit extends Component {
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
         const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map }, {});
-        console.log(fieldHashTable)
         return (
             <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em' />} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
@@ -243,9 +242,7 @@ function sortVisits(visitList) {   //TEMPORARY: change the sorting algorithm lat
     const allVisitDates = visitList.map(visit => `${visit.visitDate}||${visit.visitId}`);
     allVisitDates.sort().reverse();
     const sortedVisits = [];
-    console.log(allVisitDates)
     for (let each of allVisitDates) {
-        console.log(each.split('||')[1]);
         let thisVisit = visitList.filter(visit => visit.visitId === each.split('||')[1])[0];
         sortedVisits.push(thisVisit);
     }
