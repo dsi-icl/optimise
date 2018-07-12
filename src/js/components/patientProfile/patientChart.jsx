@@ -51,7 +51,7 @@ function mapTests(patientId, typeMap) {
 function mapMedications(drugList) {
     return el => {
         const drugFiltered = drugList.filter(drug => drug.id === el.drug);
-        const drug = drugFiltered.length === 1 ? drugFiltered[0].name : el.drug;
+        const drug = drugFiltered.length === 1 ? `${drugFiltered[0].name} (${drugFiltered[0].module})` : el.drug;
         return formatRow([drug, el.dose, el.unit, el.form, el['timesPerDay'], el['durationWeeks']]);
     }
 }
@@ -74,7 +74,7 @@ function mapSymptoms(fieldHashTable) {
 }
 
 
-function formatRow(arr) {
+export function formatRow(arr) {
     return <tr>{arr.map((el, ind) => <td key={ind}>{el}</td>)}</tr>;
 }
 
@@ -86,9 +86,11 @@ function formatRow(arr) {
  * @prop {String} type
  * @prop {String} title - `${this.props.data.visits.length-ind}-th visit`
  * @prop {String} visitDate - new Date(parseInt(el.visitDate, 10)).toDateString()
+ * @prop {Boolean} baselineVisit - Indicating whether it is a baseline visit
  */
 class OneVisit extends Component {
     render() {
+        const { baselineVisit } = this.props;
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
@@ -97,7 +99,7 @@ class OneVisit extends Component {
         const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
         console.log(fieldHashTable)
         return(
-            <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.7rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
+            <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
                     <table style={{ width: '100%' }}>
                         <tbody>
@@ -118,7 +120,7 @@ class OneVisit extends Component {
                     <div className={cssButtons.dataResultButton}>edit➠ </div>
                 </TimelineEvent>
 
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='SIGNS AND SYMPTOMS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
                     { allSymptoms.length !== 0 ? <table>
                         <thead>
                             <tr><th>Recorded symptoms</th><th>Value</th></tr>
@@ -134,7 +136,7 @@ class OneVisit extends Component {
                 
                 
                 {visitHasTests ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ORDERED TESTS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon style={{ fill: '#68e03a' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon style={{ fill: '#68e03a' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Expected date</th></tr>
@@ -150,7 +152,7 @@ class OneVisit extends Component {
                 
                 
                 {visitHasMedications ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='PRESCRIBED MEDICATIONS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Drug</th><th>Dose</th><th>Unit</th><th>Form</th><th>Times per day</th><th>Duration in weeks</th></tr>
@@ -166,7 +168,7 @@ class OneVisit extends Component {
                 
                 
                 {visitHasClinicalEvents ? 
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='CLINICAL EVENTS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon style={{ fill: '#FF4745' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS CLINICAL EVENTS':'CLINICAL EVENTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon style={{ fill: '#FF4745' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Start date</th><th></th></tr>
@@ -189,13 +191,42 @@ class OneVisit extends Component {
 @connect(state => ({ data: state.patientProfile.data, availableFields: state.availableFields }))
 export class Charts extends Component {   //unfinsihed
     render() {
+        const { visits } = this.props.data;
         return (
             <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
-                <Timeline lineColor='#d1d1d1'>
-                    {sortVisits(this.props.data.visits).map(
-                        (el, ind) => <OneVisit visitData={el.data} availableFields={this.props.availableFields} key={el.visitId}  data={this.props.data} visitId={el.visitId} type='visit' title={`${this.props.data.visits.length-ind}-th visit`} visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()}/>
-                    )}
-                </Timeline>
+                
+                {visits.length !== 0 ? <Timeline lineColor='#d1d1d1'>{sortVisits(this.props.data.visits).map(
+                    (el, ind) => {
+                        const order = this.props.data.visits.length-ind;
+                        let suffix;
+                        switch (order) {
+                            case 1:
+                                suffix = 'st';
+                                break;
+                            case 2:
+                                suffix = 'nd';
+                                break;
+                            case 3:
+                                suffix = 'rd';
+                                break;
+                            default:
+                                suffix = 'th';
+                        };
+                        const baselineVisit = order === 1 ? true : false;
+                        return <OneVisit visitData={el.data} 
+                            availableFields={this.props.availableFields} 
+                            key={el.visitId}  data={this.props.data} 
+                            visitId={el.visitId} 
+                            baselineVisit={baselineVisit}
+                            type='visit' 
+                            title={ baselineVisit ? `${order}-${suffix} visit (Baseline visit)` : `${order}-${suffix} visit (Ongoing assessment)` } 
+                            visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()}/>
+                    }
+                ) }</Timeline>: <div>
+                    <br/><br/>
+                    This patient currently has no visits nor baseline data. Please add a visit by clicking the button above. This will automatically count as the baseline visit / data.
+                </div>}
+                
             </PatientProfileSectionScaffold>
         )
     }

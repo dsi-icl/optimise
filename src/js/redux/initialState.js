@@ -14,6 +14,7 @@ export default {
         testTypes: [],
         drugs: [],
         relations: [],
+        medicalConditions: [],
         inputTypes: [     //'I', 'F', 'BLOB' etc
             {
                 'id': 1,

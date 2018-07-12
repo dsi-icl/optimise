@@ -53,7 +53,7 @@ export class CreatePatientComponent extends Component {    //get these props fro
         const demoData = { ...this.state };
         delete demoData.error;
         delete demoData.dispatched;
-        demoData.DOB = date
+        demoData.DOB = date;
         const patientData = { aliasId: patientId, study: 'optimise' };
         const body = { patientData: patientData, demoData: demoData, patientId: patientId };
         store.dispatch(createPatientCall(body));
