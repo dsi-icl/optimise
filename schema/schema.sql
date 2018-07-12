@@ -5,8 +5,6 @@ PRAGMA foreign_keys = ON;
 /*add check constaints*/
 /*check if unique constriaints are right*/
 
-
-
 /* user data */
 CREATE TABLE USERS (
     id INTEGER PRIMARY KEY ASC,
@@ -33,10 +31,25 @@ CREATE TABLE PATIENTS (
     id INTEGER PRIMARY KEY ASC,
     aliasId TEXT NOT NULL,
     study TEXT NOT NULL,
+    consent TEXT NOT NULL DEFAULT (datetime('now')),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
     UNIQUE (aliasId)
+);
+
+/* Patient Identifiable Information (PII)*/
+CREATE TABLE PATIENT_PII (
+    id INTEGER PRIMARY KEY ASC,
+    patient INTEGER NOT NULL REFERENCES PATIENTS(id),
+    firstName TEXT NOT NULL,
+    surname TEXT NOT NULL,
+    fullAddress TEXT NOT NULL,
+    postcode TEXT NOT NULL,
+    createdTime TEXT NOT NULL DEFAULT (datetime('now')),
+    createdByUser INTEGER NOT NULL REFERENCES USERS(id),
+    deleted TEXT, /*NULL or deletion time*/
+    UNIQUE (patient, deleted)
 );
 
 CREATE TABLE PATIENT_IMMUNISATION (
@@ -48,6 +61,24 @@ CREATE TABLE PATIENT_IMMUNISATION (
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
     UNIQUE (patient, vaccineName, immunisationDate)
+);
+
+CREATE TABLE PATIENT_PREGNANCY (
+    id INTEGER PRIMARY KEY ASC,
+    patient INTEGER NOT NULL REFERENCES PATIENTS(id),
+    startDate TEXT,
+    outcome INTEGER NOT NULL REFERENCES PREGNANCY_OUTCOMES(id),
+    outcomeDate TEXT,
+    meddra INTEGER NOT NULL REFERENCES ADVERSE_EVENT_MEDDRA(id),
+    createdTime TEXT NOT NULL DEFAULT (datetime('now')),
+    createdByUser INTEGER NOT NULL REFERENCES USERS(id),
+    deleted TEXT, /*NULL or deletion time*/
+    UNIQUE (patient, startDate, deleted)
+);
+
+CREATE TABLE PREGNANCY_OUTCOMES (
+    id INTEGER PRIMARY KEY ASC,
+    value TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE PATIENT_DEMOGRAPHIC (
@@ -84,7 +115,21 @@ CREATE TABLE MEDICAL_HISTORY (
         (outcome in ('resolved') AND resolvedYear < 2100 AND resolvedYear > 1900) /* Need to change */
     )
 );
+CREATE TABLE PATIENT_DIAGNOSIS (
+    id INTEGER PRIMARY KEY ASC,
+    patient INTEGER NOT NULL REFERENCES PATIENTS(id),
+    diagnosis INTEGER NOT NULL REFERENCES AVAILABLE_DIAGNOSES(id),
+    diagnosisDate TEXT NOT NULL
+    createdTime TEXT NOT NULL DEFAULT (datetime('now')),
+    createdByUser INTEGER NOT NULL REFERENCES USERS(id),
+    deleted TEXT, /*NULL or deletion time*/
+    UNIQUE (patient, deleted)
+);
 
+CREATE TABLE AVAILABLE_DIAGNOSES (
+    id INTEGER PRIMARY KEY ASC,
+    value TEXT NOT NULL
+);
 
 /* patient visits data */
 CREATE TABLE VISITS (
@@ -140,6 +185,7 @@ CREATE TABLE CLINICAL_EVENTS (
     type INTEGER NOT NULL REFERENCES AVAILABLE_CLINICAL_EVENT_TYPES(id),
     dateStartDate TEXT NOT NULL,
     endDate TEXT,
+    meddra INTEGER NOT NULL REFERENCES ADVERSE_EVENT_MEDDRA(id),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT /*NULL or deletion time*/
@@ -167,7 +213,6 @@ CREATE TABLE TREATMENTS (
     durationWeeks NUMERIC NOT NULL CHECK (durationWeeks > 0),
     terminatedDate TEXT,
     terminatedReason TEXT CHECK (terminatedReason IN ('patient preference','disease progresssion', 'death', 'life threatening reaction to drug', 'permanent / serious disability', 'prolonged hospitalization')),
-    adverseEvent INTEGER REFERENCES ADVERSE_EVENT_MEDDRA(id),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
@@ -184,6 +229,7 @@ CREATE TABLE TREATMENTS_INTERRUPTIONS (
     startDate TEXT NOT NULL,
     endDate TEXT,
     reason TEXT CHECK (reason IN ('pregnancy', 'convenience', 'adverse event', 'unknown')),
+    meddra INTEGER REFERENCES ADVERSE_EVENT_MEDDRA(id),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
