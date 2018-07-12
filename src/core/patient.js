@@ -34,11 +34,9 @@ Patient.prototype.getPatient = function (whereObj, selectedObj) {
 /**
  * @description Search a patient from a 'like' query.
  * @returns Promise that contains the patient in the success callback and the error stack in the error callback
- * @param {string} query The aliasId of the patient seeking for 
+ * @param {string} query The aliasId of the patient seeking for
  */
 Patient.prototype.searchPatients = function (queryid) {
-    let _this = this;
-    let returnObj = [];
     return new Promise(function (resolve, reject) {
         knex('PATIENTS')
             .select({ patientId: 'id' }, 'aliasId', 'study')
@@ -50,7 +48,7 @@ Patient.prototype.searchPatients = function (queryid) {
                 reject(ErrorHelper(message.errorMessages.GETFAIL, error));
             });
     });
-}
+};
 
 /**
  * @description Create a new patient

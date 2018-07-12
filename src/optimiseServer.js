@@ -191,13 +191,13 @@ OptimiseServer.prototype.setupTests = function () {
 /**
  * @fn setupFields
  * @desc Initialize the available fields related routes
- */OptimiseServer.prototype.setupFields = function() {
+ */OptimiseServer.prototype.setupFields = function () {
     //Import the controller
     this.routeFields = require('./routes/fieldsRoute');
 
     // Modules
     this.app.use('/available', this.routeFields);
-}
+};
 
 /**
  * @fn setupData
