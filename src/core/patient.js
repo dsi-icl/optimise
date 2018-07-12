@@ -2,57 +2,68 @@ const { getEntry, createEntry, deleteEntry } = require('../utils/controller-util
 const knex = require('../utils/db-connection');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
+const { DemographicCore } = require('../core/demographic');
 
 const patientModel = {
     aliasId: '',
     study: ''
 };
 
+/**
+ * @description Patient Core allow to get, search, create and delete a patient
+ */
 function Patient() {
+    this.demo = new DemographicCore();
     this.getPatient = Patient.prototype.getPatient.bind(this);
     this.searchPatients = Patient.prototype.searchPatients.bind(this);
     this.createPatient = Patient.prototype.createPatient.bind(this);
     this.deletePatient = Patient.prototype.deletePatient.bind(this);
 }
 
-Patient.prototype.getPatient = function(whereObj, selectedObj) {
+Patient.prototype.getPatient = function (whereObj, selectedObj) {
     return new Promise(function (resolve, reject) {
         whereObj.deleted = '-';
-        getEntry('PATIENTS', whereObj, selectedObj).then(function(result) {
+        getEntry('PATIENTS', whereObj, selectedObj).then(function (result) {
             resolve(result);
-        }, function(error) {
+        }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
 
 /**
- *
- * @param {*} query
+ * @description Search a patient from a 'like' query.
+ * @returns Promise that contains the patient in the success callback and the error stack in the error callback
+ * @param {string} query The aliasId of the patient seeking for 
  */
-Patient.prototype.searchPatients = function(queryid) {
-    return new Promise(function(resolve, reject){
+Patient.prototype.searchPatients = function (queryid) {
+    let _this = this;
+    let returnObj = [];
+    return new Promise(function (resolve, reject) {
         knex('PATIENTS')
-            .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENT_DEMOGRAPHIC.DOB', 'PATIENT_DEMOGRAPHIC.gender')
-            .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-            .where('PATIENTS.aliasId', 'like', queryid)
+            .select({ patientId: 'id' }, 'aliasId', 'study')
+            .where('aliasId', 'like', queryid)
             .andWhere('PATIENTS.deleted', '-')
-            .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
-            .then(function(result){
+            .then(function (result) {
                 resolve(result);
-            }, function(error) {
+            }, function (error) {
                 reject(ErrorHelper(message.errorMessages.GETFAIL, error));
             });
     });
-};
+}
 
-Patient.prototype.createPatient = function(requester, patient) {
+/**
+ * @description Create a new patient
+ * @param {*} requester  Information about the requester
+ * @param {*} patient The new created patient
+ */
+Patient.prototype.createPatient = function (requester, patient) {
     return new Promise(function (resolve, reject) {
         let entryObj = Object.assign({}, patientModel, patient);
         entryObj.createdByUser = requester.userid;
-        createEntry('PATIENTS', entryObj).then(function(result){
+        createEntry('PATIENTS', entryObj).then(function (result) {
             resolve(result);
-        }, function(error){
+        }, function (error) {
             reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         });
     });
@@ -64,11 +75,11 @@ Patient.prototype.createPatient = function(requester, patient) {
  * @param {*} requester Information about the requester
  * @param {*} idObj ID of the entry that is going to be deleted
  */
-Patient.prototype.deletePatient = function(requester, idObj) {
-    return new Promise(function(resolve, reject) {
+Patient.prototype.deletePatient = function (requester, idObj) {
+    return new Promise(function (resolve, reject) {
         deleteEntry('PATIENTS', requester, idObj).then(function (success) {
             resolve(success);
-        }, function(error) {
+        }, function (error) {
             reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
         });
     });
