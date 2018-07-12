@@ -40,7 +40,7 @@ PatientDiagnosisController.prototype.getPatientDiagnosis = function (req, res) {
 PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res) {
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('diagnosis') && req.body.hasOwnProperty('diagnosisDate')) {
         let entryObj = Object.assign({}, PatientDiagnosisModel, req.body);
-        entryObj.createdByUser = req.requester.userid;
+        entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.createPatientDiagnosis(entryObj).then(function (result) {
             res.status(200).json(result);
             return;
@@ -58,8 +58,8 @@ PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res
     if (req.body.hasOwnProperty('id')) {
         let entryObj = Object.assign({}, PatientDiagnosisModel, req.body);
         delete entryObj.id;
-        entryObj.createdByUser = req.requester.userid;
-        this.patientDiagnosis.updatePatientDiagnosis(req.requester, req.body.id, entryObj).then(function (result) {
+        entryObj.createdByUser = req.user.id;
+        this.patientDiagnosis.updatePatientDiagnosis(req.user, req.body.id, entryObj).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
@@ -74,7 +74,7 @@ PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res
 
 PatientDiagnosisController.prototype.deletePatientDiagnosis = function (req, res) {
     if (req.body.hasOwnProperty('id')) {
-        this.patientDiagnosis.deletePatientDiagnosis(req.requester, { 'id': req.body.id }).then(function (result) {
+        this.patientDiagnosis.deletePatientDiagnosis(req.user, { 'id': req.body.id }).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {

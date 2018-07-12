@@ -36,7 +36,7 @@ Visit.prototype.createVisit = function (requester, visit) {
         entryObj.patient = visit.patientId;
         if (visit.hasOwnProperty('type'))
             entryObj.type = visit.type;
-        entryObj.createdByUser = requester.userid;
+        entryObj.createdByUser = requester.id;
         createEntry('VISITS', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {
