@@ -63,17 +63,15 @@ export class MenuBar extends Component {
 export class MiddlePanel extends Component {
     render() {
         return (
-            <div className={css.LeftPanel}>
-                <Switch>
-                    <Route exact path='/' component={SearchPatientsById}/>
-                    <Route exact path='/searchPatientById' component={SearchPatientsById}/>
-                    <Route path='/createPatient' component={SearchPatientsById}/>
-                    <Route exact path='/exportCDISC' component={History}/>
-                    <Route exact path='/administration' component={AdminActions}/>
-                    <Route exact path='/filterPatients' component={FilterPanel}/>
-                    <Route path='/patientProfile/:patientId' component={SearchPatientsById}/>
-                </Switch>
-            </div>
+            <Switch>
+                <Route exact path='/' component={SearchPatientsById}/>
+                <Route exact path='/searchPatientById' component={SearchPatientsById}/>
+                <Route path='/createPatient' component={SearchPatientsById}/>
+                <Route exact path='/exportCDISC' component={History}/>
+                <Route exact path='/administration' component={AdminActions}/>
+                <Route exact path='/filterPatients' component={FilterPanel}/>
+                <Route path='/patientProfile/:patientId' component={null}/>
+            </Switch>
         );
     }
 }
@@ -81,18 +79,16 @@ export class MiddlePanel extends Component {
 export class RightPanel extends Component {
     render() {
         return (
-            <div className={css.MiddlePanel}>
-                <Switch>
-                    <Route path='/patientProfile/:patientId' render={({ match, location }) => <PatientChart location={location.pathname} match={match}/>}/>
-                    <Route exact path='/searchPatientById'component={''}/>
-                    <Route exact path='/' component={WelcomePanel}/>
-                    <Route exact path='/exportCDISC' component={''}/>
-                    <Route exact path='/administration' component={''}/>
-                    <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatientComponent match={match}/>}/>
-                    <Route exact path='/filterPatients' component={Fields}/>
-                    <Route component={() => <span>Oops! seems like we cannot find your url</span>}/>
-                </Switch>
-            </div>
+            <Switch>
+                <Route path='/patientProfile/:patientId' render={({ match, location }) => <PatientChart location={location.pathname} match={match}/>}/>
+                <Route exact path='/searchPatientById'component={''}/>
+                <Route exact path='/' component={WelcomePanel}/>
+                <Route exact path='/exportCDISC' component={''}/>
+                <Route exact path='/administration' component={''}/>
+                <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatientComponent match={match}/>}/>
+                <Route exact path='/filterPatients' component={Fields}/>
+                <Route component={() => <span>Oops! seems like we cannot find your url</span>}/>
+            </Switch>
         );
     }
 }
