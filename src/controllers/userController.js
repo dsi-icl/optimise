@@ -61,8 +61,7 @@ UserController.prototype.updateUser = function (req, res) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }
-
-    this.user.updateUser(req.requester, req.body).then(function (result) {
+    this.user.updateUser(req.body).then(function (result) {
         res.status(200).json(result);
         return;
     }, function (error) {

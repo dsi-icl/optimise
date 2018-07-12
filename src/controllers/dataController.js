@@ -126,7 +126,7 @@ class DataController {
                     if (result.length === 1) {
                         return result;
                     } else {
-                        res.status(404).send(options.errMsgForUnfoundEntry);
+                        res.status(404).json(ErrorHelper(options.errMsgForUnfoundEntry));
                     }
                 })
                 .then(result => { //get all the fields types and check theres no overlap for update and add
@@ -142,7 +142,7 @@ class DataController {
                         allFieldIds.push(Object.keys(req.body.add)[i]);
                     }
                     if (Array.from(new Set(allFieldIds)).length !== allFieldIds.length) {
-                        res.status(400).send('fields in add and update cannot have overlaps!');
+                        res.status(400).json(ErrorHelper('fields in add and update cannot have overlaps!'));
                         throw 'stopping the chain';
                     }
                     return Promise.all(promiseArr);
@@ -158,31 +158,31 @@ class DataController {
                             switch (fieldType) {
                                 case 'B':
                                     if (!(inputValue === 1 || inputValue === 0)) {
-                                        res.status(400).send(`Field ${fieldId} only accepts value 1 and 0.`);
+                                        res.status(400).json(ErrorHelper(`Field ${fieldId} only accepts value 1 and 0.`));
                                         throw 'stopping the chain';
                                     }
                                     break;
                                 case 'C':
                                     if (!(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
-                                        res.status(400).send(`Field ${fieldId} only accepts values ${result[i][0]['permittedValues']}`);
+                                        res.status(400).json(ErrorHelper(`Field ${fieldId} only accepts values ${result[i][0]['permittedValues']}`));
                                         throw 'stopping the chain';
                                     }
                                     break;
                                 case 'I':
                                     if (!(parseInt(inputValue) === parseFloat(inputValue))) {
-                                        res.status(400).send(`Field ${fieldId} only accept integer`);
+                                        res.status(400).json(ErrorHelper(`Field ${fieldId} only accept integer`));
                                         throw 'stopping the chain';
                                     }
                                     break;
                                 case 'N':
                                     if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
-                                        res.status(400).send(`Field ${fieldId} only accept number`);
+                                        res.status(400).json(ErrorHelper(`Field ${fieldId} only accept number`));
                                         throw 'stopping the chain';
                                     }
                                     break;
                             }
                         } else {
-                            res.status(404).send('cannot seem to find one of your fields');
+                            res.status(404).json(ErrorHelper('cannot seem to find one of your fields'));
                             throw 'stopping the chain';
                         }
                     }
@@ -196,7 +196,7 @@ class DataController {
                         .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
                         .then(entries => {
                             if (entries.length !== numOfUpdates) {
-                                res.status(400).send('you can only update when the data is already there!');
+                                res.status(400).json(ErrorHelper('you can only update when the data is already there!'));
                                 throw 'stopping the chain';
                             }
                             return knex(options.dataTable)
@@ -207,7 +207,7 @@ class DataController {
                         })
                         .then(entries => {
                             if (entries.length !== 0) {
-                                res.status(400).send('you can only add when the data is not already there!');
+                                res.status(400).json(ErrorHelper('you can only add when the data is not already there!'));
                                 throw 'stopping the chain';
                             }
                             return 0;
@@ -239,11 +239,11 @@ class DataController {
                     return { 'updates': updates, 'adds': adds };
                 })
                 .then(transactionFunction)
-                .then(result => res.send(`success with ${result.length} new entries added`))
+                .then(result => res.json({ msg: `success with ${result.length} new entries added` }))
                 // .catch(err => { console.log(err); res.status(400).send('Error. Please try again'); })
                 .catch(() => { });
         } else {
-            res.status(400).send(`please provide ${options.entryIdString} and update and/or add.`);
+            res.status(400).json(ErrorHelper(`please provide ${options.entryIdString} and update and/or add.`));
         }
     }
 }

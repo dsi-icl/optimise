@@ -1,4 +1,4 @@
-const { getEntry, createEntry, deleteEntry, updateEntry } = require('../utils/controller-utils');
+const { getEntry, createEntry, deleteEntry } = require('../utils/controller-utils');
 const ErrorHelper = require('../utils/error_helper');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
@@ -38,10 +38,10 @@ User.prototype.createUser = function (requester, user) {
     });
 };
 
-User.prototype.updateUser = function (requester, user) {
+User.prototype.updateUser = function (user) {
     return new Promise(function (resolve, reject) {
-        let hashed = bcrypt.hashSync(user.pw, saltRound);
-        updateEntry('USERS', requester, '*', { 'username': user.username }, { pw: hashed }).then(function (result) {
+        const hashed = bcrypt.hashSync(user.pw, saltRound);
+        knex('USERS').update({ 'pw': hashed }).where({ username: user.username, deleted: '-' }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
