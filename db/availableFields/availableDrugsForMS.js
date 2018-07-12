@@ -13,6 +13,7 @@ const availableDrugs = [
     { name: 'Methotrexate', module: 'Disease Modifying' },
     { name: 'Mitoxantrone', module: 'Disease Modifying' },
     { name: 'Natalizumab (Tysabri)', module: 'Disease Modifying' },
+    { name: 'Ocrelizumab (Ocrevus)', module: 'Disease Modifying' },
     { name: 'Plegridy (peginterferon beta-1a)', module: 'Disease Modifying' },
     { name: 'Rebif (beta interferon-1a)', module: 'Disease Modifying' },
     { name: 'Rituximab', module: 'Disease Modifying' },
