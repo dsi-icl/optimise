@@ -240,6 +240,136 @@
 			"description": null,
 			"item": [
 				{
+					"name": "PatientPii",
+					"description": "Request relateds to table patientPii",
+					"item": [
+						{
+							"name": "Create patientPii",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"patient\":2,\n\t\"firstName\":\"Chon\",\n\t\"surname\":\"Sou\",\n\t\"fullAddress\":\"ICL, South Kensington, London\",\n\t\"postcode\":\"W6 ICL\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/patientPii/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientPii",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get PPII",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/patientPii?patient=1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientPii"
+									],
+									"query": [
+										{
+											"key": "patient",
+											"value": "1"
+										}
+									]
+								},
+								"description": "Get the PPII of a patient or all of them\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Edit PPII",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":2,\n\t\"firstName\":\"Modified\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/patientPii",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientPii"
+									]
+								},
+								"description": "Update PPII of a patient"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete PII",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":1\n}"
+								},
+								"url": {
+									"raw": "{{url}}/patientPii",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientPii"
+									]
+								},
+								"description": "Delete a specific PII"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "search for a patient by Id",
 					"request": {
 						"method": "GET",
@@ -326,13 +456,13 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/patients/chon",
+							"raw": "{{url}}/patients/eleni",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"patients",
-								"chon"
+								"eleni"
 							]
 						},
 						"description": "shows all patients with id similar to the one provided"
@@ -941,7 +1071,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": \"1 March 2010\"\n}"
+							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": \"1 March 2010\",\n\t\"meddra\":1\n}"
 						},
 						"url": {
 							"raw": "{{url}}/clinicalEvents",
@@ -1151,6 +1281,30 @@
 							"path": [
 								"available",
 								"ceFields"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get diagnoses",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/available/diagnoses",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"available",
+								"diagnoses"
 							]
 						}
 					},
@@ -1759,7 +1913,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "{{url}}/demographics/Fields/MedicalCondition?fieldName=relations",
+									"raw": "{{url}}/demographics/Fields/MedicalCondition?fieldName=conditions",
 									"host": [
 										"{{url}}"
 									],
@@ -1771,11 +1925,191 @@
 									"query": [
 										{
 											"key": "fieldName",
-											"value": "relations"
+											"value": "conditions"
 										}
 									]
 								},
 								"description": "Getting a specific fields in Medical Condition"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Pregnancy",
+					"description": "Pregnancy related requests",
+					"item": [
+						{
+							"name": "Get All Pregnancy",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/demographics/Pregnancy",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"demographics",
+										"Pregnancy"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get specific patient pregnancy",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/demographics/Pregnancy?patient=3",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"demographics",
+										"Pregnancy"
+									],
+									"query": [
+										{
+											"key": "patient",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Pregnancy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"patient\":4,\n\t\"outcome\":2,\n\t\"startDate\":\"1 Jan 2000\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/demographics/Pregnancy",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"demographics",
+										"Pregnancy"
+									]
+								},
+								"description": "Create a [rgnancy to a patient]"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Pregnancy",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":3\n}"
+								},
+								"url": {
+									"raw": "{{url}}/demographics/Pregnancy",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"demographics",
+										"Pregnancy"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Pregnancy Fields",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{url}}/demographics/Fields/Pregnancy",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"demographics",
+										"Fields",
+										"Pregnancy"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit pregnancy",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":2,\n\t\"outcome\":4\n}"
+								},
+								"url": {
+									"raw": "{{url}}/demographics/Pregnancy",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"demographics",
+										"Pregnancy"
+									]
+								}
 							},
 							"response": []
 						}
