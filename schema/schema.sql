@@ -229,7 +229,7 @@ CREATE TABLE TREATMENTS_INTERRUPTIONS (
     startDate TEXT NOT NULL,
     endDate TEXT,
     reason TEXT CHECK (reason IN ('pregnancy', 'convenience', 'adverse event', 'unknown')),
-    meddra INTEGER NOT NULL REFERENCES ADVERSE_EVENT_MEDDRA(id),
+    meddra INTEGER REFERENCES ADVERSE_EVENT_MEDDRA(id),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
