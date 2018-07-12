@@ -90,9 +90,8 @@ module.exports = function (proxy, allowedHost) {
             public: allowedHost,
             proxy,
             before(app) {
-                console.log('PLOP');
                 // Adding Optimise endpoints
-                app.use(optimiseConfig.apiEndpoint, router);
+                app.use('/api', router);
                 // This lets us open files from the runtime error overlay.
                 app.use(errorOverlayMiddleware());
                 // This service worker file is effectively a 'no-op' that will reset any
