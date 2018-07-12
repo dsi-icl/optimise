@@ -39,7 +39,8 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'durationWeeks': req.body.durationInWeeks,
         'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
-        'adverseEvent': (req.body.hasOwnProperty('adverseEvent') ? req.body.adverseEvent : null),
+        // field adverseEvent coming up soon.
+        //        'adverseEvent': (req.body.hasOwnProperty('adverseEvent') ? req.body.adverseEvent : null),
         'createdByUser': req.requester.userid
     };
     this.treatment.createTreatment(entryObj).then(function (result) {
@@ -112,6 +113,7 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
         let entryObj = {
             'treatment': req.body.treatmentId,
             'startDate': Date.parse(req.body.start_date),
+            'meddra': req.body.hasOwnProperty('meddra') ? req.body.meddra : null,
             'endDate': (req.body.hasOwnProperty('end_date') ? Date.parse(req.body.end_date) : null),
             'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
             'createdByUser': req.requester.userid
