@@ -1,5 +1,4 @@
 import { getPatientProfileById } from './searchPatientById.js';
-import actionTypes from './listOfActions.js';
 
 export const createTestAPICall = (body) => dispatch => {
     console.log(body);

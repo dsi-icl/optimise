@@ -5,7 +5,6 @@ import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { LoadingIcon } from '../../../statics/svg/icons.jsx';
 import cssIcons from '../../../css/icons.module.css';
 import cssButtons from '../../../css/buttons.module.css';
-import cssInputs from '../../../css/inputfields.module.css';
 
 function mapStateToProps(state) {
     return {
@@ -122,7 +121,6 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
     console.log(medicalElement)
     //reformating the field list to hash table with fieldId as key for easier lookup later without needing array filter:
     const filteredFieldList = fieldList.filter(field => field.referenceType === medicalElement.type);
-    const fieldHashTable = filteredFieldList.reduce((map, field) => { map[field.id] = field; return map }, {});
     //same with data:
     const dataHashTable = medicalElement.data.reduce((map, el) => { map[el.field] = el.value; return map }, {});
     //same with inputTypes:
@@ -132,7 +130,7 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
             <form onSubmit={submitFunction}>
                 {
                     filteredFieldList.map(field => {
-                        const { id, definition, idname, type, unit, module, permittedValues, referenceType } = field;
+                        const { id, definition, type, permittedValues } = field;
                         const originalValue = dataHashTable[field.id]; //assigned either the value or undefined, which is falsy, which is used below
                         const key = `${medicalElement[idString]}_FIELD${id}`;
                         switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field

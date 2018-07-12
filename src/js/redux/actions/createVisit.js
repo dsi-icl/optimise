@@ -1,9 +1,4 @@
 import { getPatientProfileById } from './searchPatientById.js';
-import actionTypes from './listOfActions.js';
-import { promises } from 'fs';
-
-const createVisitRequest = (body) => ({ type: actionTypes.visits.CREATE_VISIT_REQUEST, payload: body });
-const createVisitSuccess = (json) => ({ type: actionTypes.visits.CREATE_VISIT_SUCCESS, payload: json });
 
 export const createVisitAPICall = (body) => dispatch => {
     console.log(body);
