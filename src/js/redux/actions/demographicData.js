@@ -1,4 +1,3 @@
-import actionTypes from './listOfActions.js';
 import { getPatientProfileById } from './searchPatientById.js';
 
 export const createImmunisationAPICall = (body) => dispatch => {

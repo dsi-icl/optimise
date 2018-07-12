@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
-import { NavLink } from 'react-router-dom';
-import { PickDate } from './datepicker.jsx';
 import { BackButton } from '../medicalData/dataPage.jsx';
 import cssTexts from '../../../css/inlinetexts.module.css';
 import cssButtons from '../../../css/buttons.module.css';

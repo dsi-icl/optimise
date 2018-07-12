@@ -1,6 +1,5 @@
 import actionTypes from './listOfActions.js';
 import { getPatientProfileById } from './searchPatientById.js';
-import { promises } from 'fs';
 
 
 export const alterDataRequest = (body) => ({ type: actionTypes.data.ALTER_DATA_REQUEST, payload: body });
