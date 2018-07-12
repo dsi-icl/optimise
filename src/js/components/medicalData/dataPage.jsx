@@ -64,13 +64,13 @@ export class DataTemplate extends Component {
     render() {
         if (!this.props.patientProfile.fetching) {
             const idString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Id` : 'id';   //this is because id naming is inconsistent on backend - might change..?
-            const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element[idString] == this.props.match.params.elementId);  // eslint-disable-line eqeqeq
+            const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element[idString] === this.props.match.params.elementId);
             if (elementsMatched.length === 0) {
                 return <div>{`Cannot find your ${this.props.elementType}!`}</div>;
             } else {
                 const fieldString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Fields` : null;   //this is because id naming is inconsistent on backend - might change..?
                 return (<div style={{ overflow: 'auto' }}>
-                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`}/>
+                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                     <h2>RESULT</h2>
                     <div>{JSON.stringify(this.state.data)}</div>
                     {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit, idString, this.props.elementType)}
@@ -121,8 +121,8 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
     }
     console.log(medicalElement)
     //reformating the field list to hash table with fieldId as key for easier lookup later without needing array filter:
-    const filteredFieldList = fieldList.filter(field => field.referenceType == medicalElement.type);   // eslint-disable-line eqeqeq
-    const fieldHashTable = filteredFieldList.reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
+    const filteredFieldList = fieldList.filter(field => field.referenceType === medicalElement.type);
+    const fieldHashTable = filteredFieldList.reduce((map, field) => { map[field.id] = field; return map }, {});
     //same with data:
     const dataHashTable = medicalElement.data.reduce((map, el) => { map[el.field] = el.value; return map }, {});
     //same with inputTypes:
@@ -211,13 +211,13 @@ export class ControlledInputField extends Component {
     _validateInput(value) {
         switch (this.props.dataType) {
             case 'I':
-                if (parseInt(value, 10) && parseInt(value, 10) === parseFloat(value, 10) && parseInt(value, 10) == value) {  // eslint-disable-line eqeqeq
+                if (parseInt(value, 10) && parseInt(value, 10) === parseFloat(value, 10) && parseInt(value, 10) === value) {
                     return true;
                 } else {
                     return false;
                 }
             case 'F':
-                if (parseFloat(value, 10) && parseFloat(value, 10) == value) { // eslint-disable-line eqeqeq
+                if (parseFloat(value, 10) && parseFloat(value, 10) === value) {
                     return true;
                 } else {
                     return false;
@@ -284,7 +284,7 @@ export class ControlledSelectField extends Component {
             <option value='unselected'>unselected</option>
             {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
         </select>
-        <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
+            <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
         </span>);
     }
 }

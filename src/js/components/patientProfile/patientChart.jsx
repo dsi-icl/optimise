@@ -23,12 +23,12 @@ export class PatientChart extends Component {
         return (
             <div className={cssScaffold.patientChart}>
                 <div className={cssScaffold.patientChartTop}>
-                    <PatientProfileTop/>
+                    <PatientProfileTop />
                 </div>
-                { this.props.fetching ? <div className={cssIcons.spinner}><LoadingIcon/></div> :
+                {this.props.fetching ? <div className={cssIcons.spinner}><LoadingIcon /></div> :
                     <div className={cssScaffold.patientChartBody}>
-                        <TimelineBox/>
-                        <Charts location={this.props.location}/>
+                        <TimelineBox />
+                        <Charts location={this.props.location} />
                     </div>
                 }
             </div>
@@ -39,7 +39,7 @@ export class PatientChart extends Component {
 function mapTests(patientId, typeMap) {
     return el => {
         const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
-        return formatRow([testType, 
+        return formatRow([testType,
             new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
             <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                 <div className={cssButtons.dataResultButton}>results➠ </div>
@@ -96,11 +96,11 @@ class OneVisit extends Component {
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
-        const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
+        const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map }, {});
         console.log(fieldHashTable)
-        return(
-            <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
+        return (
+            <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em' />} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
                     <table style={{ width: '100%' }}>
                         <tbody>
                             <tr>
@@ -120,23 +120,23 @@ class OneVisit extends Component {
                     <div className={cssButtons.dataResultButton}>edit➠ </div>
                 </TimelineEvent>
 
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em'/>} bubbleStyle={{ backgroundColor: null, border: null }}>
-                    { allSymptoms.length !== 0 ? <table>
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
+                    {allSymptoms.length !== 0 ? <table>
                         <thead>
                             <tr><th>Recorded symptoms</th><th>Value</th></tr>
                         </thead>
                         <tbody>
                             {this.props.visitData.map(mapSymptoms(fieldHashTable))}
                         </tbody>
-                    </table> : null }
+                    </table> : null}
                     <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                         <div className={cssButtons.dataResultButton}>edit/add➠ </div>
                     </NavLink>
                 </TimelineEvent>
-                
-                
+
+
                 {visitHasTests ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon style={{ fill: '#68e03a' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon style={{ fill: '#68e03a' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Expected date</th></tr>
@@ -147,12 +147,12 @@ class OneVisit extends Component {
                                     .map(mapTests(this.props.data.patientId, this.props.availableFields.testTypes))}
                             </tbody>
                         </table>
-                    </div></TimelineEvent>: null
+                    </div></TimelineEvent> : null
                 }
-                
-                
+
+
                 {visitHasMedications ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Drug</th><th>Dose</th><th>Unit</th><th>Form</th><th>Times per day</th><th>Duration in weeks</th></tr>
@@ -163,12 +163,12 @@ class OneVisit extends Component {
                                     .map(mapMedications(this.props.availableFields.drugs))}
                             </tbody>
                         </table>
-                    </div></TimelineEvent> : null 
+                    </div></TimelineEvent> : null
                 }
-                
-                
-                {visitHasClinicalEvents ? 
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS CLINICAL EVENTS':'CLINICAL EVENTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon style={{ fill: '#FF4745' }}/>} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+
+
+                {visitHasClinicalEvents ?
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon style={{ fill: '#FF4745' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Start date</th><th></th></tr>
@@ -176,11 +176,11 @@ class OneVisit extends Component {
                             <tbody>
                                 {this.props.data.clinicalEvents
                                     .filter(el => el['recordedDuringVisit'] === this.props.visitId)
-                                    /* change this map later to calculated patientId*/ 
+                                    /* change this map later to calculated patientId*/
                                     .map(mapClinicalEvents(this.props.data.patientId, this.props.availableFields.clinicalEventTypes))}
                             </tbody>
                         </table>
-                    </div></TimelineEvent> : null 
+                    </div></TimelineEvent> : null
                 }
             </TimelineEvent>
         );
@@ -194,10 +194,10 @@ export class Charts extends Component {   //unfinsihed
         const { visits } = this.props.data;
         return (
             <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
-                
+
                 {visits.length !== 0 ? <Timeline lineColor='#d1d1d1'>{sortVisits(this.props.data.visits).map(
                     (el, ind) => {
-                        const order = this.props.data.visits.length-ind;
+                        const order = this.props.data.visits.length - ind;
                         let suffix;
                         switch (order) {
                             case 1:
@@ -213,20 +213,20 @@ export class Charts extends Component {   //unfinsihed
                                 suffix = 'th';
                         };
                         const baselineVisit = order === 1 ? true : false;
-                        return <OneVisit visitData={el.data} 
-                            availableFields={this.props.availableFields} 
-                            key={el.visitId}  data={this.props.data} 
-                            visitId={el.visitId} 
+                        return <OneVisit visitData={el.data}
+                            availableFields={this.props.availableFields}
+                            key={el.visitId} data={this.props.data}
+                            visitId={el.visitId}
                             baselineVisit={baselineVisit}
-                            type='visit' 
-                            title={ baselineVisit ? `${order}-${suffix} visit (Baseline visit)` : `${order}-${suffix} visit (Ongoing assessment)` } 
-                            visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()}/>
+                            type='visit'
+                            title={baselineVisit ? `${order}-${suffix} visit (Baseline visit)` : `${order}-${suffix} visit (Ongoing assessment)`}
+                            visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()} />
                     }
-                ) }</Timeline>: <div>
-                    <br/><br/>
-                    This patient currently has no visits nor baseline data. Please add a visit by clicking the button above. This will automatically count as the baseline visit / data.
+                )}</Timeline> : <div>
+                        <br /><br />
+                        This patient currently has no visits nor baseline data. Please add a visit by clicking the button above. This will automatically count as the baseline visit / data.
                 </div>}
-                
+
             </PatientProfileSectionScaffold>
         )
     }
@@ -241,7 +241,7 @@ function sortVisits(visitList) {   //TEMPORARY: change the sorting algorithm lat
     console.log(allVisitDates)
     for (let each of allVisitDates) {
         console.log(each.split('||')[1]);
-        let thisVisit = visitList.filter(visit => visit.visitId == each.split('||')[1])[0];  // eslint-disable-line eqeqeq
+        let thisVisit = visitList.filter(visit => visit.visitId === each.split('||')[1])[0];
         sortedVisits.push(thisVisit);
     }
     return sortedVisits;
