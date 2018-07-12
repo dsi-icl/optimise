@@ -2,8 +2,6 @@ const PatientPiiCore = require('../core/patientPii');
 const ErrorHelper = require('../utils/error_helper');
 const messages = require('../utils/message-utils');
 
-
-
 const PatientPiiModel = {
     'patient': 0,
     'firstName': '',
@@ -29,7 +27,7 @@ PatientPiiController.prototype.getPatientPii = function (req, res) {
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
             return;
-        })
+        });
     } else {
         this.patientPii.getPatientPii({}).then(function (result) {
             res.status(200).json(result);
@@ -37,7 +35,7 @@ PatientPiiController.prototype.getPatientPii = function (req, res) {
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
             return;
-        })
+        });
     }
 };
 
@@ -51,7 +49,7 @@ PatientPiiController.prototype.createPatientPii = function (req, res) {
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.CREATIONFAIL, error));
             return;
-        })
+        });
     } else {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
@@ -69,7 +67,7 @@ PatientPiiController.prototype.updatePatientPii = function (req, res) {
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.UPDATEFAIL, error));
             return;
-        })
+        });
     } else {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
