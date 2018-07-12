@@ -19,7 +19,34 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .then(result => {
                 if (result.length >= 1){
-                    fileArray.push(new createDataFile(result, 'dm'));
+                    fileArray.push(new createDataFile(result, 'demographics'));
+                }
+            });
+
+        /* Patient Identifiable Information */
+
+        knex('PATIENTS')
+            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_PII.firstName', 'PATIENT_PII.surname', 'PATIENT_PII.fullAddress', 'PATIENT_PII.postcode')
+            .leftOuterJoin('PATIENT_PII', 'PATIENTS.id', 'PATIENT_PII.patient')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENT_PII.deleted', '-')
+            .then(result => {
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'pii'));
+                }
+            });
+
+        /* Patient pregnancy data */
+
+        knex('PATIENTS')
+            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_PREGNANCY.startDate', 'PATIENT_PREGNANCY.outcome', 'PATIENT_PREGNANCY.outcomeDate', 'PATIENT_PREGNANCY.meddra')
+            .leftOuterJoin('PATIENT_PREGNANCY', 'PATIENT_PREGNANCY.id', 'PATIENT_PREGNANCY.patient')
+            .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENT_PREGNANCY.deleted', '-')
+            .then(result => {
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'pregnancy'));
                 }
             });
 
@@ -32,7 +59,7 @@ class ExportDataController {
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
                 if (result.length >= 1){
-                    fileArray.push(new createDataFile(result, 'mh'));
+                    fileArray.push(new createDataFile(result, 'medicalHistory'));
                 }
             });
 
@@ -46,6 +73,19 @@ class ExportDataController {
             .then(result => {
                 if (result.length >= 1){
                     fileArray.push(new createDataFile(result, 'immunisation'));
+                }
+            });
+
+        /* Patient diagnosis data */
+
+        knex('PATIENTS')
+            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_DIAGNOSIS.diagnosis', 'PATIENT_DIAGNOSIS.diagnosisDate')
+            .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENTS.id', 'PATIENT_DIAGNOSIS.patient')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
+            .then(result => {
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'diagnosis'));
                 }
             });
 
@@ -81,9 +121,10 @@ class ExportDataController {
         /* Patient clinical event data - visit not required */
 
         knex('CLINICAL_EVENTS_DATA')
-            .select('CLINICAL_EVENTS_DATA.value', 'CLINICAL_EVENTS_DATA.field', 'CLINICAL_EVENTS.dateStartDate', 'CLINICAL_EVENTS.endDate', 'AVAILABLE_FIELDS_CE.definition', 'CLINICAL_EVENTS.patient', 'PATIENTS.aliasId')
+            .select('CLINICAL_EVENTS_DATA.value', 'CLINICAL_EVENTS_DATA.field', 'CLINICAL_EVENTS.dateStartDate', 'CLINICAL_EVENTS.endDate', 'CLINICAL_EVENTS.meddra', 'AVAILABLE_FIELDS_CE.definition', 'CLINICAL_EVENTS.patient', 'PATIENTS.aliasId')
             .leftOuterJoin('CLINICAL_EVENTS', 'CLINICAL_EVENTS.id', 'CLINICAL_EVENTS_DATA.clinicalEvent')
             .leftOuterJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
+            .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'CLINICAL_EVENTS.meddra')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .where('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
@@ -95,10 +136,11 @@ class ExportDataController {
         /* Patient treatment data */
 
         knex('TREATMENTS')
-            .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'TREATMENTS.dose', 'TREATMENTS.unit', 'TREATMENTS.form', 'TREATMENTS.timesPerDay', 'TREATMENTS.durationWeeks', 'TREATMENTS.terminatedDate', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module', 'PATIENTS.aliasId', 'TREATMENTS_INTERRUPTIONS.startDate', 'TREATMENTS_INTERRUPTIONS.endDate', 'TREATMENTS_INTERRUPTIONS.reason')
+            .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'TREATMENTS.dose', 'TREATMENTS.unit', 'TREATMENTS.form', 'TREATMENTS.timesPerDay', 'TREATMENTS.durationWeeks', 'TREATMENTS.terminatedDate', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module', 'PATIENTS.aliasId', 'TREATMENTS_INTERRUPTIONS.startDate', 'TREATMENTS_INTERRUPTIONS.endDate', 'TREATMENTS_INTERRUPTIONS.reason', 'TREATMENTS_INTERRUPTIONS.meddra')
             .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
             .leftOuterJoin('TREATMENTS_INTERRUPTIONS', 'TREATMENTS_INTERRUPTIONS.treatment', 'TREATMENTS.id')
             .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
+            .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'TREATMENTS_INTERRUPTIONS.meddra')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('TREATMENTS.deleted', '-')
             .then(result => {
