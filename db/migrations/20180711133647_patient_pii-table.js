@@ -3,9 +3,9 @@ exports.up = function (knex) {
         table.increments('id').primary();
         table.integer('patient').notNullable().references('id').inTable('PATIENTS');
         table.text('firstName').notNullable();
-        table.integer('surname').notNullable();
-        table.integer('fullAddress').notNullable();
-        table.integer('postcode').notNullable();
+        table.text('surname').notNullable();
+        table.text('fullAddress').notNullable();
+        table.text('postcode').notNullable();
         table.text('createdTime').notNullable().defaultTo(knex.fn.now());
         table.integer('createdByUser').notNullable().references('id').inTable('USERS');
         table.text('deleted').notNullable().defaultTo('-');
