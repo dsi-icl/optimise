@@ -4,12 +4,13 @@ import { apiHelper } from '../fetchHelper.js';
 export const createVisitAPICall = (body) => dispatch => {
     return apiHelper('/visits', { method: 'POST', body: JSON.stringify(body.visitData) })
         .then(json => {
-            body.VSData.patientId = json[0];
+            body.VSData.visitId = json[0];
+            console.log(body.VSData);
             return apiHelper('/data/visit', { method: 'POST', body: JSON.stringify(body.VSData) })
         })
         .then(json => {
             console.debug('VISIT cREATEED > ', json);
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(res => res.text().then(msg => console.log(msg)));
+        .catch(msg => console.log(msg));
 };
