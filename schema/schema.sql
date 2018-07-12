@@ -69,6 +69,7 @@ CREATE TABLE PATIENT_PREGNANCY (
     startDate TEXT,
     outcome INTEGER NOT NULL REFERENCES PREGNANCY_OUTCOMES(id),
     outcomeDate TEXT,
+    meddra INTEGER NOT NULL REFERENCES ADVERSE_EVENT_MEDDRA(id),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
@@ -184,6 +185,7 @@ CREATE TABLE CLINICAL_EVENTS (
     type INTEGER NOT NULL REFERENCES AVAILABLE_CLINICAL_EVENT_TYPES(id),
     dateStartDate TEXT NOT NULL,
     endDate TEXT,
+    meddra INTEGER NOT NULL REFERENCES ADVERSE_EVENT_MEDDRA(id),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT /*NULL or deletion time*/
@@ -227,21 +229,11 @@ CREATE TABLE TREATMENTS_INTERRUPTIONS (
     startDate TEXT NOT NULL,
     endDate TEXT,
     reason TEXT CHECK (reason IN ('pregnancy', 'convenience', 'adverse event', 'unknown')),
+    meddra INTEGER REFERENCES ADVERSE_EVENT_MEDDRA(id),
     createdTime TEXT NOT NULL DEFAULT (datetime('now')),
     createdByUser INTEGER NOT NULL REFERENCES USERS(id),
     deleted TEXT, /*NULL or deletion time*/
     UNIQUE(treatment, startDate, deleted)
-);
-
-CREATE TABLE SERIOUS_ADVERSE_EVENTS (
-    id INTEGER PRIMARY KEY ASC,
-    treatment INTEGER NOT NULL REFERENCES TREATMENTS(id),
-    adverseEventDate TEXT NOT NULL,
-    reason INTEGER NOT NULL REFERENCES ADVERSE_EVENT_MEDDRA(id) /* reason code from MedDRA */
-    createdTime TEXT NOT NULL DEFAULT (datetime('now')),
-    createdByUser INTEGER NOT NULL REFERENCES USERS(id),
-    deleted TEXT, /*NULL or deletion time*/
-    UNIQUE(treatment, adverseEventDate, reason, deleted)
 );
 
 CREATE TABLE ADVERSE_EVENT_MEDDRA (

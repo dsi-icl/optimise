@@ -1515,6 +1515,22 @@ const availableFields = {
             unit: 'Units/Liter',
             module: 'MS',
             permittedValues: null,
+            referenceType: 1 },
+        { id: 95,
+            definition: 'Total WBC',
+            idname: 'Total_WBC',
+            type: 2,
+            unit: 'mcL',
+            module: 'MS',
+            permittedValues: null,
+            referenceType: 1 },
+        { id: 96,
+            definition: 'Bilirubin',
+            idname: 'Bilirubin',
+            type: 2,
+            unit: 'mg/dL',
+            module: 'MS',
+            permittedValues: null,
             referenceType: 1 }
     ],
     ceFields: [
@@ -1620,7 +1636,7 @@ const availableFields = {
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'UTI, Bronchitis, Sinusitis, Gastroenteritis, Tinea Infection, Sepsis, Other, Unknown',
+            permittedValues: 'UTI, Bronchitis, Sinusitis, Gastroenteritis, Tinea Infection, Sepsis, Bacterial, Viral, Abscess, Other, Unknown',
             referenceType: 2 },
         { id: 14,
             definition: 'Date of onset',
@@ -1668,7 +1684,7 @@ const availableFields = {
             type: 2,
             unit: null,
             module: 'MS',
-            permittedValues: 'PML, Herpes Zoster, Herpes Simplex, Varicella, Viral Hepatitis, Mycosis, Abscess, Other, Unknown',
+            permittedValues: 'PML, Herpes Zoster, Herpes Simplex, Varicella, Viral Hepatitis, Bacterial infection- listeria, Other infection, Mycosis, Abscess, Other, Unknown',
             referenceType: 3 },
         { id: 20,
             definition: 'Date of onset',
@@ -1693,7 +1709,15 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 3 }
+            referenceType: 3 },
+        { id: 23,
+            definition: 'Primary and underlying cause of death',
+            idname: 'Primary_and_underlying_cause_of_death',
+            type: 3,
+            unit: null,
+            module: 'MS',
+            permittedValues: null,
+            referenceType: 4 }
     ]
 };
 
