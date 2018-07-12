@@ -36,7 +36,7 @@ export class SearchPatientsById extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{ backgroundColor: '#E7E5E6' }}>
                 <h2>SEARCH FOR / CREATE A PATIENT</h2>
                 <form className={cssInputs.searchBar}>
                     Enter Patient ID: <br /><input className={cssInputs.searchBarInput} style={{ backgroundColor: 'white' }} type='text' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} />
