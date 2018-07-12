@@ -55,11 +55,10 @@ export class DataTemplate extends Component {
                 }
             }
         }
-        const body = { data: bodydata, patientId: this.props.match.params.patientId };
-        console.log(body);
-        this.setState(body);
-        //this.props.submitData(body);
-
+        const body = { data: bodydata, type: this.props.elementType, patientId: this.props.match.params.patientId };
+        // console.log(body);
+        // this.setState(body);
+        this.props.submitData(body);
     }
 
     render() {
@@ -67,14 +66,14 @@ export class DataTemplate extends Component {
             const idString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Id` : 'id';   //this is because id naming is inconsistent on backend - might change..?
             const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element[idString] == this.props.match.params.elementId);  // eslint-disable-line eqeqeq
             if (elementsMatched.length === 0) {
-                return <div>Cannot find your test! </div>;
+                return <div>{`Cannot find your ${this.props.elementType}!`}</div>;
             } else {
                 const fieldString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Fields` : null;   //this is because id naming is inconsistent on backend - might change..?
                 return (<div style={{ overflow: 'auto' }}>
-                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
-                    <h2>TEST RESULT</h2>
+                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`}/>
+                    <h2>RESULT</h2>
                     <div>{JSON.stringify(this.state.data)}</div>
-                    {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit)}
+                    {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit, idString, this.props.elementType)}
                 </div>);   //change the type later
             }
         } else {
@@ -115,7 +114,12 @@ export class BackButton extends Component {
  * @param {Array} dataTypes - the datatype array returned by backend
  * @returns {JSX} Formatted data for display on frontend
  */
-function formatData(medicalElement, fieldList, inputTypes, submitFunction) {
+function formatData(medicalElement, fieldList, inputTypes, submitFunction, idString, type) {
+    console.log(medicalElement);
+    if (type === 'visit') {
+        medicalElement = { ...medicalElement, type: 1 };
+    }
+    console.log(medicalElement)
     //reformating the field list to hash table with fieldId as key for easier lookup later without needing array filter:
     const filteredFieldList = fieldList.filter(field => field.referenceType == medicalElement.type);   // eslint-disable-line eqeqeq
     const fieldHashTable = filteredFieldList.reduce((map, field) => { map[field.id] = field; return map }, {}); // eslint-disable-line indent
@@ -130,7 +134,7 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction) {
                     filteredFieldList.map(field => {
                         const { id, definition, idname, type, unit, module, permittedValues, referenceType } = field;
                         const originalValue = dataHashTable[field.id]; //assigned either the value or undefined, which is falsy, which is used below
-                        const key = `${medicalElement.testId}_FIELD${id}`;
+                        const key = `${medicalElement[idString]}_FIELD${id}`;
                         switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
                             case 'I':
                                 return <span key={key}>{definition}: <ControlledInputField fieldId={id} originalValue={originalValue} dataType='I' /><br /><br /></span>;

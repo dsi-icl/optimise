@@ -51,7 +51,6 @@ export class SearchResultForPatients extends Component {
     constructor() {
         super();
         this._handleClickWrapper = this._handleClickWrapper.bind(this);
-        this._handleClickCreate = this._handleClickCreate.bind(this);
     }
 
     _handleClickWrapper(patientName) {
@@ -60,16 +59,10 @@ export class SearchResultForPatients extends Component {
         }
     }
 
-    _handleClickCreate(patientName) {
-        return (ev) => {
-            //
-        }
-    }
-
     render() {
         return (
             <div>
-                {this.props.listOfPatients.filter(el => el['aliasId'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Link to={`/createPatient/${this.props.searchString}`} style={{ color: 'rgba(0,0,0,0)' }} className><div className={cssButtons.createPatientButton} onclick={this._handleClickCreate(this.props.searchString)}>{`Create patient ${this.props.searchString}`}</div></Link> : null}
+                {this.props.listOfPatients.filter(el => el['aliasId'] === this.props.searchString).length === 0 && this.props.searchString !== '' ? <Link to={`/createPatient/${this.props.searchString}`} style={{ color: 'rgba(0,0,0,0)' }} className><div className={cssButtons.createPatientButton}>{`Create patient ${this.props.searchString}`}</div></Link> : null}
                 {this.props.listOfPatients.map(el => {
                     const ind = el['aliasId'].indexOf(this.props.searchString);
                     const name = <span><b>{el['aliasId'].substring(0, ind)}<span className={cssButtons.matchedString}>{el['aliasId'].substring(ind, this.props.searchString.length + ind)}</span>{el['aliasId'].substring(this.props.searchString.length + ind, el['aliasId'].length)}</b></span>;
