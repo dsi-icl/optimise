@@ -112,6 +112,7 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
         let entryObj = {
             'treatment': req.body.treatmentId,
             'startDate': Date.parse(req.body.start_date),
+            'meddra': req.body.hasOwnProperty('meddra') ? req.body.meddra : null,
             'endDate': (req.body.hasOwnProperty('end_date') ? Date.parse(req.body.end_date) : null),
             'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
             'createdByUser': req.requester.userid
