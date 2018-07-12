@@ -69,7 +69,7 @@ const exampleData = {
         { id: 4, clinicalEvent: 2, field: 4, value: 'UNKNOWN', createdByUser: 1, deleted: '-' }
     ],
     'TREATMENTS': [
-        { id: 1, orderedDuringVisit: 1, drug: 1, dose: 2, unit: 'cc', form: 'IV', adverseEvent: 3, timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' },
+        { id: 1, orderedDuringVisit: 1, drug: 1, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' },
         { id: 2, orderedDuringVisit: 3, drug: 4, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' }
     ],
     'TREATMENTS_INTERRUPTIONS': [
