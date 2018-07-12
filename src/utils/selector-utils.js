@@ -166,7 +166,7 @@ class SelectorUtils {
         let pregnancy = new PregnancyCore();
         return pregnancy.getPregnancy({ 'patient': patientId, 'deleted': '-' }).then(function (result) {
             return { 'pregnancy': result };
-        }, function (error) {
+        }, function (__unused__error) {
             return { 'pregnancy': [] };
         });
     }

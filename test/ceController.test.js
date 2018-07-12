@@ -49,7 +49,7 @@ describe('Create Clinical Event controller tests', () => {
             'visitId': 1,
             'type': 1,
             'startDate': '1 Jan 1980',
-            'meddra':1
+            'meddra': 1
         })
         .then(res => {
             expect(res.status).toBe(200);
