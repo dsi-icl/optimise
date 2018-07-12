@@ -21,6 +21,7 @@ function OptimiseServer(config) {
     this.setupClinicalEvents = OptimiseServer.prototype.setupClinicalEvents.bind(this);
     this.setupTreatments = OptimiseServer.prototype.setupTreatments.bind(this);
     this.setupTests = OptimiseServer.prototype.setupTests.bind(this);
+    this.setupFields = OptimiseServer.prototype.setupFields.bind(this);
     this.setupData = OptimiseServer.prototype.setupData.bind(this);
     this.setupExport = OptimiseServer.prototype.setupExport.bind(this);
     this.setupLogs = OptimiseServer.prototype.setupLogs.bind(this);
@@ -76,6 +77,7 @@ OptimiseServer.prototype.start = function () {
         _this.setupClinicalEvents();
         _this.setupTreatments();
         _this.setupTests();
+        _this.setupFields();
         _this.setupData();
         _this.setupExport();
         _this.setupLogs();
@@ -184,6 +186,17 @@ OptimiseServer.prototype.setupTests = function () {
 
     // Modules
     this.app.use('/tests', this.routeTests);
+};
+
+/**
+ * @fn setupFields
+ * @desc Initialize the available fields related routes
+ */OptimiseServer.prototype.setupFields = function () {
+    //Import the controller
+    this.routeFields = require('./routes/fieldsRoute');
+
+    // Modules
+    this.app.use('/available', this.routeFields);
 };
 
 /**
