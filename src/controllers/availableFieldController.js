@@ -7,8 +7,10 @@ class AvailableFieldController {
         const tableMap = {
             'visitFields': 'AVAILABLE_FIELDS_VISITS',
             'testFields': 'AVAILABLE_FIELDS_TESTS',
+            'ceFields': 'AVAILABLE_FIELDS_CE',
             'clinicalEvents': 'AVAILABLE_CLINICAL_EVENT_TYPES',
-            'testTypes': 'AVAILABLE_TEST_TYPES'
+            'testTypes': 'AVAILABLE_TEST_TYPES',
+            'diagnoses': 'AVAILABLE_DIAGNOSES'
         };
         let moduleObj = {};
         if (tableMap.hasOwnProperty(req.params.dataType)) {
@@ -18,7 +20,7 @@ class AvailableFieldController {
             let table = tableMap[req.params.dataType];
             knex(table)
                 .select('*')
-                .where(moduleObj).then(function(result){
+                .where(moduleObj).then(function (result) {
                     res.status(200).json(result);
                     return;
                 }, function (error) {

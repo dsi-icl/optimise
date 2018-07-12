@@ -31,6 +31,14 @@ function Immunisation() {
     this.deleteImmunisation = Immunisation.prototype.deleteImmunisation.bind(this);
 }
 
+function Pregnancy() {
+    this.getPregnancy = Pregnancy.prototype.getPregnancy.bind(this);
+    this.createPregnancy = Pregnancy.prototype.createPregnancy.bind(this);
+    this.editPregnancy = Pregnancy.prototype.editPregnancy.bind(this);
+    this.deletePregnancy = Pregnancy.prototype.deletePregnancy.bind(this);
+    this.getPregnancyOutcomes = Pregnancy.prototype.getPregnancyOutcomes.bind(this);
+}
+
 Demographic.prototype.getDemographic = function (whereObj) {
     return new Promise(function (resolve, reject) {
         getEntry('PATIENT_DEMOGRAPHIC', whereObj, '*').then(function (result) {
@@ -138,7 +146,7 @@ Demographic.prototype.getGenderFields = function () {
 
 Immunisation.prototype.getImmunisation = function (whereObj) {
     return new Promise(function (resolve, reject) {
-        getEntry('IMMUNISATION', whereObj, '*').then(function (result) {
+        getEntry('PATIENT_IMMUNISATION', whereObj, '*').then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -149,7 +157,7 @@ Immunisation.prototype.getImmunisation = function (whereObj) {
 
 Immunisation.prototype.editImmunisation = function (requester, demogEntry) {
     return new Promise(function (resolve, reject) {
-        updateEntry('IMMUNISATION', requester, '*', { id: demogEntry.id }, demogEntry).then(function (result) {
+        updateEntry('PATIENT_IMMUNISATION', requester, '*', { id: demogEntry.id }, demogEntry).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
@@ -159,7 +167,7 @@ Immunisation.prototype.editImmunisation = function (requester, demogEntry) {
 
 Immunisation.prototype.createImmunisation = function (entryObj) {
     return new Promise(function (resolve, reject) {
-        createEntry('IMMUNISATION', entryObj).then(function (result) {
+        createEntry('PATIENT_IMMUNISATION', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
@@ -169,7 +177,7 @@ Immunisation.prototype.createImmunisation = function (entryObj) {
 
 Immunisation.prototype.deleteImmunisation = function (requester, whereObj) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('IMMUNISATION', requester, whereObj).then(function (result) {
+        deleteEntry('PATIENT_IMMUNISATION', requester, whereObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
@@ -240,4 +248,54 @@ MedicalHistory.prototype.getConditions = function () {
     });
 };
 
-module.exports = { DemographicCore: Demographic, MedicalHistoryCore: MedicalHistory, ImmunisationCore: Immunisation };
+Pregnancy.prototype.getPregnancy = function (whereObj) {
+    return new Promise(function (resolve, reject) {
+        getEntry('PATIENT_PREGNANCY', whereObj, '*').then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Pregnancy.prototype.createPregnancy = function (entryObj) {
+    return new Promise(function (resolve, reject) {
+        createEntry('PATIENT_PREGNANCY', entryObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Pregnancy.prototype.editPregnancy = function (requester, entryObj) {
+    return new Promise(function (resolve, reject) {
+        updateEntry('PATIENT_PREGNANCY', requester, '*', { 'id': entryObj.id }, entryObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Pregnancy.prototype.deletePregnancy = function (requester, whereObj) {
+    return new Promise(function (resolve, reject) {
+        deleteEntry('PATIENT_PREGNANCY', requester, whereObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Pregnancy.prototype.getPregnancyOutcomes = function () {
+    return new Promise(function (resolve, reject) {
+        getEntry('PREGNANCY_OUTCOMES', {}).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+module.exports = { DemographicCore: Demographic, MedicalHistoryCore: MedicalHistory, ImmunisationCore: Immunisation, PregnancyCore: Pregnancy };

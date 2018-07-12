@@ -102,7 +102,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                 return;
             } else {
                 const promiseArr = [];
-                const availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents'];
+                const availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy'];
                 for (let i = 0; i < availableFunctions.length; i++) {
                     promiseArr.push(SelectorUtils[availableFunctions[i]](patientId));
                 }
