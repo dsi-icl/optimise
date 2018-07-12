@@ -53,7 +53,7 @@ function mapMedications(patientId, drugList) {
         const drugFiltered = drugList.filter(drug => drug.id === el.drug);
         const drug = drugFiltered.length === 1 ? `${drugFiltered[0].name} (${drugFiltered[0].module})` : el.drug;
         return formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'],
-            <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+            <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                 <div className={cssButtons.dataResultButton}>results➠ </div>
             </NavLink>
         ]);
