@@ -1,19 +1,26 @@
 swagger: "2.0"
 info:
-  description: "REST-API documentation for OPTIMISE MS"
+  description: "REST-API documentation for OptimiseMS"
   version: "1.0.0"
   title: "OptimiseMS REST-API"
   license:
     name: "MIT Licence"
+securityDefinitions:
+   APIKeyHeader:
+     type: apiKey
+     in: header
+     name: token
 host: "localhost:3030"
 basePath: "/"
+security:
+  - APIKeyHeader: []
 paths:
   /users/login:
     post:
       summary: "User login"
       parameters:
         - in: "body"
-          name: "user login"
+          name: "userlogin"
           description: "User log-in credentials."
           schema:
             type: "object"
@@ -26,7 +33,7 @@ paths:
               pw:
                 type: "string"
       responses:
-        200:
+        "200":
           description: "OK"
           schema:
             type: "object"
@@ -34,13 +41,17 @@ paths:
               token:
                 type: "string"
                 description: "A token for the user session."
-  /internalapi/userlogout:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /users/logout:
     post:
       summary: "User logout"
       parameters:
         - in: "body"
-          name: "user logout"
-          description: "User log-out."
+          name: "userlogout"
+          description: "Username to log-out."
           schema:
             type: "object"
             required:
@@ -49,9 +60,11 @@ paths:
               username:
                 type: "string"
       responses:
-        200:
+        "200":
           description: "OK"
-  /api/users:
+        "400":
+          description: "You are not logged in. Please provide a valid token."
+  /users:
     post:
       summary: "Create a new user (admin only)"
       consumes:
@@ -66,6 +79,24 @@ paths:
       responses:
         "200":
           description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+        "401":
+          description: "NORIGHTS"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
     put:
       summary: "Change a user password (self only)"
       consumes:
@@ -83,8 +114,21 @@ paths:
               pw:
                 type: "string"
       responses:
-        200:
+        "200":
           description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: ""
+        "401":
+          description: "NORIGHTS"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
     delete:
       summary: "Delete a user (admin only)"
       consumes:
@@ -101,8 +145,25 @@ paths:
               type: "string"
               description: "The username to be deleted."
       responses:
-        200:
+        "200":
           description: "OK"
+          schema:
+            type: "integer"
+            description: "If user is deleted, returns 1. If no user is deleted, returns 0."
+        "400":
+          description: "DELETE FAIL OR MISSING ARGUMENTS"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+        "401":
+          description: "NORIGHTS"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
     get:
       summary: "Get basic info about the user"
       parameters:
@@ -111,23 +172,31 @@ paths:
           type: "string"
           description: "Get the user with the given username"
       responses:
-        200:
+        "200":
           description: "OK"
           schema:
             type: "array"
             items:
               $ref: "#/definitions/UserBasicInfo"
-  /api/exportDatabase:
+        "400":
+          description: "MISSING ARGUMENTS OR CREATION FAIL"
+          schema:
+            $ref: "#/definitions/Error"
+  /export:
     get:
-      summary: "Export the database as separate csv files"
+      summary: "Export the database as zip folder of csv files"
       produces:
       - "application/zip"
       responses:
-        200:
+        "200":
           description: "OK"
-  /api/patients:
+        "204":
+          description: "There are no patient entries in the database."
+        "400":
+          description: "You are not logged in. Please provide a valid token."
+  /patients:
     get:
-      summary: "Search patient"
+      summary: "Get patient basic info"
       description: "If query string is not provided, then it returns all the patients. if query string 'id={id}' is provided, then it returns patients with id containing 'id'"
       produces: 
         - "application/json"
@@ -137,13 +206,19 @@ paths:
           type: "string"
           description: "Get information for the patient(s) with IDs that contain id"
       responses:
-        200:
+        "200":
           description: "Basic information about the patient"
           schema:
             type: "array"
             description: "All patients if no query string, patients with IDs containing `id` if query string"
             items:
               $ref: "#/definitions/PatientBasicInfo"
+        "400":
+          description: "The query string can only have one parameter id"
+        "404":
+          description: "NOT FOUND"
+          schema:
+            $ref: "#/definitions/Error"
     post:
       summary: "Create a new patient"
       consumes:
@@ -160,12 +235,16 @@ paths:
               study:
                 type: "string"
       responses:
-        200:
+        "200":
           description: "OK"
           schema:
             type: "array"
             items:
               type: "integer"
+        "400":
+          description: "WRONG ARGUMENTS"
+          schema:
+            $ref: "#/definitions/Error"
     patch:
       summary: "Delete a patient (admin only)"
       consumes:
@@ -180,23 +259,378 @@ paths:
               aliasId:
                 type: "string"
       responses:
-        200:
+        "200":
           description: "OK"
           schema:
             type: "integer"
-            description: "Number of rows affected TO UPDATE AFTER RES OBJECT UPDATES"
+            description: "Number of rows affected"
+        "400":
+          description: "NO RIGHTS"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "NO RIGHTS"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "NOT FOUND"
+          schema:
+            $ref: "#/definitions/Error"
     delete:
       summary: "Erase patient"
       consumes:
         - "application/json"
       parameters:
-        - in: "query"
-          name: "id"
-          type: "string"
+        - in: "body"
+          name: "erasepatientid"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              aliasId:
+                type: "string"
       responses:
-        200:
+        "200":
           description: "Erasure completed. Check for any data retreivable if needed."
-  /api/patientProfile/{id}/getOnly:
+        "400":
+          description: "Patient not erased"
+        "403":
+          description: "Sorry! Only admins are able to edit / delete data"
+  /patientPii:
+    post:
+      summary: "Create patient PII"
+      parameters:
+        - in: "body"
+          name: "pii"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              patient:
+                type: "integer"
+              firstName:
+                type: "string"
+              surname:
+                type: "string"
+              fullAddress:
+                type: "string"
+              postcode:
+                type: "string"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+              description: "the last created id"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+    get:
+      summary: "Get PII for all patients if no query string"
+      parameters:
+        - in: "query"
+          name: "patient"
+          type: "integer"
+          description: "Patient id (integer)"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "integer"
+                patient:
+                  type: "integer"
+                firstName:
+                  type: "string"
+                surname:
+                  type: "string"
+                fullAddress:
+                  type: "string"
+                postcode:
+                  type: "string"
+                createdTime:
+                  type: "string"
+                createdByUser:
+                  type: "string"
+                deleted:
+                  type: "string"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      summary: "Edit PII"
+      parameters:
+        - in: "body"
+          name: "newpii"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              firstName:
+                type: "string"
+              surname:
+                type: "string"
+              fullAddress:
+                type: "string"
+              postcode:
+                type: "string"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "BAD REQUEST"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      summary: "Delete PII"
+      parameters:
+        - in: "body"
+          name: "delpii"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "integer"
+            description: "1 if patient PII is deleted successfully"
+        "400":
+          description: "Bad request or no rights"
+          schema:
+            $ref: "#/definitions/Error"
+  /patientDiagnosis:
+    post:
+      summary: "Create patient diagnosis"
+      parameters:
+        - in: "body"
+          name: "newpatientdiagnosis"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              patient:
+                type: "integer"
+              diagnosis:
+                type: "integer"
+              diagnosisDate:
+                type: "string"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+    get:
+      summary: "Get patient diagnosis"
+      description: "Returns diagnoses of all patients if no query string."
+      parameters:
+        - in: "query"
+          name: "patient"
+          type: "integer"
+          description: "The integer id of the patient to get the diagnosis of"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "integer"
+                patient:
+                  type: "integer"
+                diagnosis:
+                  type: "integer"
+                diagnosisDate:
+                  type: "string"
+                createdTime:
+                  type: "string"
+                createdByUser:
+                  type: "integer"
+                deleted:
+                  type: "string"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      summary: "Edit diagnosis"
+      parameters:
+        - in: "body"
+          name: "newdiagnosis"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              diagnosis:
+                type: "integer"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      summary: "Delete patient diagnosis"
+      parameters:
+        - in: "body"
+          name: "deldiagnosis"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /patientPregnancy:
+    post:
+      summary: "Create patient pregnancy"
+      parameters:
+        - in: "body"
+          name: "newpatientpregnancy"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              patient:
+                type: "integer"
+              startDate:
+                type: "string"
+              outcome:
+                type: "integer"
+              outcomeDate:
+                type: "string"
+              meddra:
+                type: "integer"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+    get:
+      summary: "Get patient pregnancy"
+      description: "Returns pregnancies of all patients if no query string."
+      parameters:
+        - in: "query"
+          name: "patient"
+          type: "integer"
+          description: "The integer id of the patient to get the pregnancy information for"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "integer"
+                patient:
+                  type: "integer"
+                diagnosis:
+                  type: "integer"
+                diagnosisDate:
+                  type: "string"
+                createdTime:
+                  type: "string"
+                createdByUser:
+                  type: "integer"
+                deleted:
+                  type: "string"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      summary: "Edit pregnancy"
+      parameters:
+        - in: "body"
+          name: "newpregnancy"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              outcome:
+                type: "integer"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      summary: "Delete patient pregnancy"
+      parameters:
+        - in: "body"
+          name: "delpregnancy"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /patients/{id}:
     get:
       summary: "Get patient information by id"
       description: "Get patient information by id. Return specified data sets if query string is provided (getOnly)"
@@ -213,11 +647,19 @@ paths:
           items:
             type: "string"
       responses:
-        200:
+        "200":
           description: "OK"
           schema:
             $ref: "#/definitions/PatientProfile"
-  /api/tests:
+        "400":
+          description: "BAD REQUEST"
+          schema:
+            $ref: "#/definitions/Error"
+        "404":
+          description: "NOT FOUND"
+          schema:
+            $ref: "#/definitions/Error"
+  /tests:
     post:
       summary: "Create a new test"
       consumes:
@@ -242,6 +684,14 @@ paths:
       responses:
         "200":
           description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
     patch:
       summary: "Delete a test (admin only)"
       consumes:
@@ -260,7 +710,17 @@ paths:
       responses:
         "200":
           description: "OK"
-  /api/tests/addOccurredDate:
+          schema:
+            type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "NO RIGHTS"
+          schema:
+            $ref: "#/definitions/Error"
+  /tests/addOccurredDate:
     post:
       summary: "Add date of actual occurence of test"
       consumes:
@@ -282,7 +742,15 @@ paths:
       responses:
         "200":
           description: "OK"
-  /api/visits:
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /visits:
     get:
       summary: "Get visit data for the specified patient"
       parameters:
@@ -296,6 +764,10 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/PatientBasicVisitInfo"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
     post:
       summary: "Create a new visit"
       consumes:
@@ -318,6 +790,10 @@ paths:
             type: "array"
             items:
               type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
     delete:
       summary: "Delete a visit (admin only)"
       consumes:
@@ -337,7 +813,11 @@ paths:
           schema:
             type: "integer"
             description: "The number of records affected"
-  /api/treatments:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /treatments:
     post:
       summary: "Create a new treatment"
       consumes:
@@ -349,6 +829,8 @@ paths:
           schema:
             type: "object"
             properties:
+              patient:
+                type: "integer"
               visitId:
                 type: "integer"
               drugId:
@@ -371,6 +853,10 @@ paths:
             items:
               type: "integer"
               description: "The id of the most recent entry"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
     patch:
       summary: "Add termination date for treatment"
       consumes:
@@ -428,6 +914,14 @@ paths:
             items:
               type: "integer"
               description: "First insert id"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "NO RIGHTS"
+          schema:
+            $ref: "#/definitions/Error"
     delete:
       summary: "Delete a treatment"
       consumes:
@@ -446,7 +940,15 @@ paths:
           description: "OK"
           schema:
             type: "integer"
-  /api/treatments/interrupt:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "NO RIGHTS"
+          schema:
+            $ref: "#/definitions/Error"
+  /treatments/interrupt:
     post:
       summary: "Create treatment interruption"
       consumes:
@@ -466,6 +968,8 @@ paths:
                 type: "string"
               reason:
                 type: "integer"
+              meddra:
+                type: "integer"
       responses:
         "200":
           description: "OK"
@@ -473,6 +977,10 @@ paths:
             type: "array"
             items:
               type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
     delete:
       summary: "Delete a treatment interruption"
       consumes:
@@ -491,7 +999,11 @@ paths:
           description: "OK"
           schema:
             type: "integer"
-  /api/treatments/drugs:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /treatments/drugs:
     get:
       summary: "Get drugs"
       parameters:
@@ -513,7 +1025,11 @@ paths:
                   type: "string"
                 module:
                   type: "string"
-  /api/clinicalEvents:
+        "404":
+          description: "FAIL"
+          schema:
+            $ref: "#/definitions/Error"
+  /clinicalEvents:
     post:
       summary: "Create a new clinical event"
       parameters:
@@ -522,12 +1038,16 @@ paths:
           schema:
             type: "object"
             properties:
+              patient:
+                type: "integer"
               visitId:
                 type: "integer"
               type:
                 type: "integer"
               startDate:
                 type: "string"
+              meddra:
+                type: "integer"
       responses:
         "200":
           description: "OK"
@@ -535,6 +1055,10 @@ paths:
             type: "array"
             items:
               type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
     delete:
       summary: "Delete a clinical event"
       parameters:
@@ -550,7 +1074,15 @@ paths:
           description: "OK"
           schema:
             type: "integer"
-  /api/available/visitFields:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "NO RIGHTS"
+          schema:
+            $ref: "#/definitions/Error"
+  /available/visitFields:
     get:
       summary: "Get all visit fields"
       parameters:
@@ -565,7 +1097,11 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Fields"
-  /api/available/testFields:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /available/testFields:
     get:
       summary: "Get all test fields"
       responses:
@@ -575,7 +1111,11 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Fields"
-  /api/available/clinicalEvents:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /available/clinicalEvents:
     get:
       summary: "Get all clinical event types"
       responses:
@@ -585,7 +1125,11 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Types"
-  /api/available/testTypes:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /available/testTypes:
     get:
       summary: "Get all test types"
       responses:
@@ -595,7 +1139,25 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Types"
-  /api/visit/data:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /available/diagnoses:
+    get:
+      summary: "Get all diagnosis options"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Types"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /data/visit:
     post:
       summary: "Add or update visit data. Update can only be done by an admin."
       parameters:
@@ -613,6 +1175,10 @@ paths:
       responses:
         "200":
           description: "OK"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "No rights"
     delete:
       summary: "Delete visit data. Update can only be done by an admin."
       parameters:
@@ -632,7 +1198,13 @@ paths:
           description: "OK"
           schema:
             type: "integer"
-  /api/test/data:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+  /data/test:
     post:
       summary: "Add or update test data. Update by admin only."
       parameters:
@@ -650,6 +1222,8 @@ paths:
       responses:
         "200":
           description: "OK"
+        "401":
+          description: "No rights"
     delete:
       summary: "Delete test data. Update can only be done by an admin."
       parameters:
@@ -669,7 +1243,13 @@ paths:
           description: "OK"
           schema:
             type: "integer"
-  /api/clinicalEvent/data:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+  /data/clinicalEvent:
     post:
       summary: "Add or update clinical event data. Update by admin only."
       parameters:
@@ -687,6 +1267,8 @@ paths:
       responses:
         "200":
           description: "OK"
+        "401":
+          description: "No rights"
     delete:
       summary: "Delete clinical event data. Update can only be done by an admin."
       parameters:
@@ -706,7 +1288,13 @@ paths:
           description: "OK"
           schema:
             type: "integer"
-  /api/demogdata/Demographic:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+  /demographics/Demographic:
     post:
       summary: "Create demographic entry"
       parameters:
@@ -738,6 +1326,10 @@ paths:
             type: "array"
             items:
               type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
     delete:
       summary: "Delete demographic entry"
       parameters:
@@ -753,6 +1345,14 @@ paths:
           description: "OK"
           schema:
             type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+          schema:
+            $ref: "#/definitions/Error"
     put:
       summary: "Edit demographic data"
       parameters:
@@ -784,7 +1384,15 @@ paths:
             type: "array"
             items:
               type: "integer"
-  /api/demogdata/Fields/Demographic:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+          schema:
+            $ref: "#/definitions/Error"
+  /demographics/Fields/Demographic:
     get:
       summary: "Get all demographic fields"
       parameters:
@@ -796,7 +1404,11 @@ paths:
           description: "OK"
           schema:
             $ref: "#/definitions/DemographicFields"
-  /api/demogdata/Immunisation:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /demographics/Immunisation:
     post:
       summary: "Create immunisation"
       parameters:
@@ -819,6 +1431,10 @@ paths:
             type: "array"
             items:
               type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
     delete:
       summary: "Delete immunisation"
       parameters:
@@ -833,6 +1449,16 @@ paths:
       responses:
         "200":
           description: "OK"
+          schema:
+            type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+          schema:
+            $ref: "#/definitions/Error"
     put:
       summary: "Edit immunisation data"
       parameters:
@@ -857,7 +1483,15 @@ paths:
             type: "array"
             items:
               type: "integer"
-  /api/demogdata/MedicalCondition:
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+          schema:
+            $ref: "#/definitions/Error"
+  /demographics/MedicalCondition:
     post:
       summary: "Create medical condition"
       parameters:
@@ -882,6 +1516,10 @@ paths:
       responses:
         "200":
           description: "OK"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
     delete:
       summary: "Delete medical condition"
       parameters:
@@ -898,6 +1536,14 @@ paths:
           description: "OK"
           schema:
             type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+          schema:
+            $ref: "#/definitions/Error"
     put:
       summary: "Edit medical condition"
       parameters:
@@ -924,7 +1570,19 @@ paths:
       responses:
         "200":
           description: "OK"
-  /api/demogdata/Fields/MedicalCondition:
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+          schema:
+            $ref: "#/definitions/Error"
+  /demographics/Fields/MedicalCondition:
     get:
       summary: "Get medical condition fields"
       parameters:
@@ -937,7 +1595,151 @@ paths:
           description: "OK"
           schema:
             $ref: "#/definitions/MedicalConditionFields"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /demographics/Pregnancy:
+    post:
+      summary: "Create pregnancy"
+      parameters:
+        - in: "body"
+          name: "createpregnancydata"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              patient:
+                type: "integer"
+              vaccineName:
+                type: "string"
+              immunisationDate:
+                $ref: "#/definitions/Date"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      summary: "Delete pregnancy"
+      parameters:
+        - in: "body"
+          name: "deletepregnancy"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      summary: "Edit pregnancy data"
+      parameters:
+        - in: "body"
+          name: "editpregnancydata"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              patient:
+                type: "string"
+              vaccineName:
+                type: "string"
+              immunisationDate:
+                $ref: "#/definitions/Date"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "No rights"
+          schema:
+            $ref: "#/definitions/Error"
+  /demographics/Fields/Pregnancy:
+    get:
+      summary: "Get pregnancy outcomes"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+  /logs:
+    get:
+      summary: "Get Actions Log"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "integer"
+                router:
+                  type: "string"
+                method:
+                  type: "string"
+                user:
+                  type: "string"
+                body:
+                  type: "string"
+                createdTime:
+                  type: "string"
+        "400":
+          description: "You are not logged in. Please provide a valid token."
+        "401":
+          description: "NORIGHTS"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                description: "Unauthorized to do this action"
 definitions:
+  Error:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+      stack:
+        type: "object"
+        properties:
+          error:
+            type: "string"
   User:
     type: "object"
     properties:
@@ -1015,6 +1817,10 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/ClinicalEvent"
+      pregnancy:
+        type: "array"
+        items:
+          $ref: "#/definitions/Pregnancy"
   Demographic:
     type: "object"
     properties:
@@ -1114,6 +1920,8 @@ definitions:
         type: "string"
       endDate:
         type: "string"
+      meddra:
+        type: "integer"
   ClinicalEvent:
     type: "object"
     properties:
@@ -1127,10 +1935,27 @@ definitions:
         type: "string"
       endDate:
         type: "string"
+      meddra:
+        type: "integer"
       data:
         type: "array"
         items:
           $ref: "#/definitions/Data"
+  Pregnancy:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      patient:
+        type: "integer"
+      startDate:
+        type: "string"
+      outcome:
+        type: "integer"
+      outcomeDate:
+        type: "string"
+      meddra:
+        type: "integer"
   Data:
     type: "object"
     properties:
