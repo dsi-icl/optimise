@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "694ddf50-f897-4100-936e-b2334c0cd2fa",
+		"_postman_id": "cafeb72f-d1cf-4725-a9a4-64e9e99444f5",
 		"name": "optimise copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -24,7 +24,7 @@
 							"raw": "{\"username\": \"admin\", \"pw\": \"admin\"}"
 						},
 						"url": {
-							"raw": "{{url}}/internalapi/userlogin",
+							"raw": "{{url}}/users/login",
 							"host": [
 								"{{url}}"
 							],
@@ -55,7 +55,7 @@
 							"raw": "{\"username\": \"chon\"}"
 						},
 						"url": {
-							"raw": "{{url}}/internalapi/userlogout",
+							"raw": "{{url}}/users/logout",
 							"host": [
 								"{{url}}"
 							],
@@ -221,7 +221,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/export/",
+							"raw": "{{url}}/export",
 							"host": [
 								"{{url}}"
 							],
@@ -326,12 +326,13 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/patients/{{user}}",
+							"raw": "{{url}}/patients/chon",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"patients"
+								"patients",
+								"chon"
 							]
 						},
 						"description": "shows all patients with id similar to the one provided"
@@ -357,12 +358,13 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/patients/{{user}}?getOnly=Visits,Tests",
+							"raw": "{{url}}/patients/chon?getOnly=Visits,Tests",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"patients"
+								"patients",
+								"chon"
 							],
 							"query": [
 								{
@@ -1004,7 +1006,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/data/visitFields",
+							"raw": "{{url}}/available/visitFields",
 							"host": [
 								"{{url}}"
 							],
@@ -1031,7 +1033,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/data/visitFields?module=MS",
+							"raw": "{{url}}/available/visitFields?module=MS",
 							"host": [
 								"{{url}}"
 							],
@@ -1064,7 +1066,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/data/testFields",
+							"raw": "{{url}}/available/testFields",
 							"host": [
 								"{{url}}"
 							],
@@ -1091,7 +1093,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/data/clinicalEvents",
+							"raw": "{{url}}/available/clinicalEvents",
 							"host": [
 								"{{url}}"
 							],
@@ -1118,13 +1120,37 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/data/testTypes",
+							"raw": "{{url}}/available/testTypes",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"available",
 								"testTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get CE Fields",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/available/ceFields",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"available",
+								"ceFields"
 							]
 						}
 					},
