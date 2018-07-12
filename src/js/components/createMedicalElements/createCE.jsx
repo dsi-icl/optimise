@@ -54,13 +54,14 @@ export class CreateCE extends Component {
 
     _handleSubmitClick() {
         const requestBody = this._formatRequestBody();
+        console.log('REQUEST> ', requestBody);
         this.props.createCE(requestBody);
     }
 
     render() {
         if (this.props.visits) {
             const params = this.props.match.params;
-            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId === params.visitId)[0].visitDate, 10)).toDateString();
+            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
             return (<div>
                 <BackButton to={`/patientProfile/${params.patientId}`} />
                 <h2>CREATE A NEW EVENT</h2>

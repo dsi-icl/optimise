@@ -48,11 +48,15 @@ function mapTests(patientId, typeMap) {
     };
 }
 
-function mapMedications(drugList) {
+function mapMedications(patientId, drugList) {
     return el => {
         const drugFiltered = drugList.filter(drug => drug.id === el.drug);
         const drug = drugFiltered.length === 1 ? `${drugFiltered[0].name} (${drugFiltered[0].module})` : el.drug;
-        return formatRow([drug, el.dose, el.unit, el.form, el['timesPerDay'], el['durationWeeks']]);
+        return formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'],
+            <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+                <div className={cssButtons.dataResultButton}>results➠ </div>
+            </NavLink>
+        ]);
     };
 }
 
@@ -154,12 +158,12 @@ class OneVisit extends Component {
                     <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
-                                <tr><th>Drug</th><th>Dose</th><th>Unit</th><th>Form</th><th>Times per day</th><th>Duration in weeks</th></tr>
+                                <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.treatments
                                     .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                    .map(mapMedications(this.props.availableFields.drugs))}
+                                    .map(mapMedications(this.props.data.patientId, this.props.availableFields.drugs))}
                             </tbody>
                         </table>
                     </div></TimelineEvent> : null
@@ -239,12 +243,6 @@ export class Charts extends Component {   //unfinsihed
 
 
 function sortVisits(visitList) {   //TEMPORARY: change the sorting algorithm later...
-    const allVisitDates = visitList.map(visit => `${visit.visitDate}||${visit.visitId}`);
-    allVisitDates.sort().reverse();
-    const sortedVisits = [];
-    for (let each of allVisitDates) {
-        let thisVisit = visitList.filter(visit => visit.visitId === each.split('||')[1])[0];
-        sortedVisits.push(thisVisit);
-    }
-    return sortedVisits;
+    const visits = [...visitList];
+    return visits.sort((a,b) => parseInt(a.visitDate, 10) < parseInt(b.visitDate, 10));
 }

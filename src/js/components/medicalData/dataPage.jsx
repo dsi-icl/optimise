@@ -57,13 +57,14 @@ export class DataTemplate extends Component {
         const body = { data: bodydata, type: this.props.elementType, patientId: this.props.match.params.patientId };
         // console.log(body);
         // this.setState(body);
+        console.debug('MEDICAL DATA BODY > ', body);
         this.props.submitData(body);
     }
 
     render() {
         if (!this.props.patientProfile.fetching) {
             const idString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Id` : 'id';   //this is because id naming is inconsistent on backend - might change..?
-            const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element[idString] === this.props.match.params.elementId);
+            const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element[idString] === parseInt(this.props.match.params.elementId, 10));
             if (elementsMatched.length === 0) {
                 return <div>{`Cannot find your ${this.props.elementType}!`}</div>;
             } else {
