@@ -99,6 +99,9 @@ class OneVisit extends Component {
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
+        const VS = this.props.visitData.filter(el => [1,2,3,4,5,6].includes(el.field));
+        const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
+        console.debug('HASH VS > ', VSHashTable)
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
         const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map; }, {});
         return (
@@ -107,24 +110,23 @@ class OneVisit extends Component {
                     <table style={{ width: '100%' }}>
                         <tbody>
                             <tr>
-                                <td style={{ textAlign: 'left' }}>Systolic blood pressure: {' mmHg'}</td>
-                                <td style={{ textAlign: 'left' }}>Diastolic blood pressure: {' mmHg'}</td>
+                                <td style={{ textAlign: 'left' }}>Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
+                                <td style={{ textAlign: 'left' }}>Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
                             </tr>
                             <tr>
-                                <td style={{ textAlign: 'left' }}>Heart rate: {' bpm'}</td>
-                                <td style={{ textAlign: 'left' }}>Height: {' cm'}</td>
+                                <td style={{ textAlign: 'left' }}>Heart rate: {`${VSHashTable['2']} bpm`}</td>
+                                <td style={{ textAlign: 'left' }}>Height: {`${VSHashTable['4']} cm`}</td>
                             </tr>
                             <tr>
-                                <td style={{ textAlign: 'left' }}>Weight: {' kg'}</td>
-                                <td style={{ textAlign: 'left' }}>Academic concern: </td>
+                                <td style={{ textAlign: 'left' }}>Weight: {`${VSHashTable['5']} kg`}</td>
+                                <td style={{ textAlign: 'left' }}>Academic concern: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td>
                             </tr>
                         </tbody>
                     </table>
-                    <div className={cssButtons.dataResultButton}>edit➠ </div>
                 </TimelineEvent>
 
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
-                    {allSymptoms.length !== 0 ? <table>
+                    {allSymptoms.length !== 0 && relevantFields.length > 0 ? <table>
                         <thead>
                             <tr><th>Recorded symptoms</th><th>Value</th></tr>
                         </thead>

@@ -19,5 +19,5 @@ export function apiHelper(endpoint, options) {
             } else {
                 return Promise.reject(res);
             }
-        }, err => console.log(err));
+        }, err => err.json());
 }

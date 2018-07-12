@@ -18,7 +18,7 @@ export class CreateVisit extends Component {
             DBP: '',
             HR: '',
             weight: '',
-            academicConcern: 'true',
+            academicConcern: '0',
             height: ''
         };
         this._handleDateChange = this._handleDateChange.bind(this);
@@ -36,7 +36,6 @@ export class CreateVisit extends Component {
     _handleKeyChange(ev) {
         const newState = {};
         newState[ev.target.name] = ev.target.value;
-        console.log(newState);
         this.setState(newState);
     }
 
@@ -49,7 +48,14 @@ export class CreateVisit extends Component {
                 visitDate: date.toDateString()
             },
             VSData :{
-                add: {1: SBP, 2: HR, 3: DBP, 4: height, 5: weight, 6: academicConcern }
+                add: {
+                    1: parseInt(SBP),
+                    2: parseInt(HR),
+                    3: parseInt(DBP),
+                    4: parseInt(height),
+                    5: parseInt(weight),
+                    6: parseInt(academicConcern)
+                }
             },
             patientId: this.props.match.params.patientId
         };
@@ -57,6 +63,7 @@ export class CreateVisit extends Component {
 
     _handleSubmitClick() {
         const requestBody = this._formatRequestBody();
+        console.debug('VISIT REQ > ', requestBody);
         this.props.createVisit(requestBody);
     }
 
@@ -73,8 +80,8 @@ export class CreateVisit extends Component {
             <br/><br/><span>Height: <input name='height' value={height} onChange={this._handleKeyChange}/> cm </span>
             <br/><br/><span>Academic concern: 
                 <select name='academicConcern' onChange={this._handleKeyChange} value={academicConcern}>
-                    <option value='true'>true</option>
-                    <option value='false'>false</option>
+                    <option value='1'>true</option>
+                    <option value='0'>false</option>
                 </select>
             </span>
             <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
