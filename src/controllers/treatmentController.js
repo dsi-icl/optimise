@@ -39,7 +39,8 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'durationWeeks': req.body.durationInWeeks,
         'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
-        'adverseEvent': (req.body.hasOwnProperty('adverseEvent') ? req.body.adverseEvent : null),
+        // field adverseEvent coming up soon.
+//        'adverseEvent': (req.body.hasOwnProperty('adverseEvent') ? req.body.adverseEvent : null),
         'createdByUser': req.requester.userid
     };
     this.treatment.createTreatment(entryObj).then(function (result) {
