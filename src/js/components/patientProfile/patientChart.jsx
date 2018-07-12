@@ -51,7 +51,7 @@ function mapTests(patientId, typeMap) {
 function mapMedications(drugList) {
     return el => {
         const drugFiltered = drugList.filter(drug => drug.id === el.drug);
-        const drug = drugFiltered.length === 1 ? drugFiltered[0].name : el.drug;
+        const drug = drugFiltered.length === 1 ? `${drugFiltered[0].name} (${drugFiltered[0].module})` : el.drug;
         return formatRow([drug, el.dose, el.unit, el.form, el['timesPerDay'], el['durationWeeks']]);
     }
 }
