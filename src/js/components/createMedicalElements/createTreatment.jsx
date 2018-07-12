@@ -16,6 +16,7 @@ export class CreateTreatment extends Component {
         super();
         this.state = {
             drugType: '',
+            drugModule: '',
             dose: '',
             unit: '',
             form: '',
@@ -30,7 +31,8 @@ export class CreateTreatment extends Component {
 
     componentDidMount(){
         this.setState({
-            drugType: this.props.types[0].id
+            drugType: this.props.types[0].id,
+            drugModule: this.props.types[0].module
         });
     }
 
@@ -50,7 +52,8 @@ export class CreateTreatment extends Component {
 
     _handleTypeChange(ev) {
         this.setState({
-            drugType: parseInt(ev.target.value, 10)
+            drugType: parseInt(ev.target.value, 10),
+            drugModule: ev.target.selectedOptions[0].attributes.drugModule.nodeValue
         });
     }
 
@@ -74,6 +77,12 @@ export class CreateTreatment extends Component {
                 <h2>CREATE A NEW TREATMENT</h2>
                 <span class={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
                 <br/><br/>
+                <span class={cssTexts.centeredBlock}>What drug is it? 
+                    <select value={this.state.drugType} onChange={this._handleTypeChange}>
+                        {this.props.types.map(type => <option key={type.id} drugModule={type.module} value={type.id}>{type.name}</option>)}
+                    </select>
+                </span><br/>
+                {this.state.drugType !== '' ? <div>{`You have selected a drug of type '${this.state.drugModule}'`}<br/><br/></div> : null}
                 Dose: <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text'/>
                 <br/><br/>
                 Unit: <input value={this.state.unit} onChange={this._handleInputChange} name='unit' type='text'/>
@@ -83,12 +92,7 @@ export class CreateTreatment extends Component {
                 Times per day: <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text'/>
                 <br/><br/>
                 Duration in weeks: <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text'/>
-                <br/><br/>
-                <span class={cssTexts.centeredBlock}>What drug is it? 
-                    <select value={this.state.drugType} onChange={this._handleTypeChange}>
-                        {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
-                    </select>
-                </span>
+                <br/>
                 <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
             </div>);
         } else {

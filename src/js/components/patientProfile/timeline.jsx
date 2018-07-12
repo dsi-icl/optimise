@@ -27,7 +27,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             return (
                 <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}`} href={`#visit/${visit.visitId}`} style={{ gridColumn: `${ratio+3}/${ratio+4}`, gridRow: '1/2', textDecoration: 'none' }}>
-                    <div style={{  borderRadius: '30%', backgroundColor: 'rgb(133, 150, 176)', color: 'rgb(133, 150, 176)' }}>
+                    <div style={{  backgroundColor: 'rgb(133, 150, 176)', color: 'rgb(133, 150, 176)' }}>
                         -
                     </div>
                 </a>
@@ -38,7 +38,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             return (
                 <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}test`} href={`#test/${test.testId}`} style={{ gridColumn: `${ratio+3}/${ratio+4}`, gridRow: '3/4', textDecoration: 'none' }}>
-                    <div style={{  borderRadius: '30%', backgroundColor: 'rgb(153, 202, 120)', color: 'rgb(153, 202, 120)' }}>
+                    <div style={{  backgroundColor: 'rgb(153, 202, 120)', color: 'rgb(153, 202, 120)' }}>
                         -
                     </div>
                 </a>
@@ -51,7 +51,7 @@ export class TimelineBox extends Component {   //unfinsihed
             console.log(`durationInDays = ${durationInDays} || ${ratio}`);
             return (
                 <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}med`} href="#trialanchor" style={{ gridColumn: `${ratio+3}/${ratio+durationInDays+4}`, gridRow: '2/3', textDecoration: 'none' }}>
-                    <div style={{  borderRadius: 10, backgroundColor: '#ffca1b', color: '#ffca1b' }}>
+                    <div style={{  backgroundColor: '#ffca1b', color: '#ffca1b' }}>
                         -
                     </div>
                 </a>
