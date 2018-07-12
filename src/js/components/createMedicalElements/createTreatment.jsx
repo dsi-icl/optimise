@@ -29,7 +29,7 @@ export class CreateTreatment extends Component {
         this._handleInputChange = this._handleInputChange.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.setState({
             drugType: this.props.types[0].id,
             drugModule: this.props.types[0].module
@@ -37,7 +37,8 @@ export class CreateTreatment extends Component {
     }
 
     _formatRequestBody() {
-        return { patientId: this.props.match.params.patientId,
+        return {
+            patientId: this.props.match.params.patientId,
             data: {
                 visitId: this.props.match.params.visitId,
                 drugId: this.state.drugType,
@@ -71,28 +72,28 @@ export class CreateTreatment extends Component {
     render() {
         if (this.props.visits) {
             const params = this.props.match.params;
-            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId == params.visitId)[0].visitDate, 10)).toDateString();
+            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId === params.visitId)[0].visitDate, 10)).toDateString();
             return (<div>
-                <BackButton to={`/patientProfile/${params.patientId}`}/>
+                <BackButton to={`/patientProfile/${params.patientId}`} />
                 <h2>CREATE A NEW TREATMENT</h2>
                 <span class={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
-                <br/><br/>
-                <span class={cssTexts.centeredBlock}>What drug is it? 
+                <br /><br />
+                <span class={cssTexts.centeredBlock}>What drug is it?
                     <select value={this.state.drugType} onChange={this._handleTypeChange}>
                         {this.props.types.map(type => <option key={type.id} drugModule={type.module} value={type.id}>{type.name}</option>)}
                     </select>
-                </span><br/>
-                {this.state.drugType !== '' ? <div>{`You have selected a drug of type '${this.state.drugModule}'`}<br/><br/></div> : null}
-                Dose: <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text'/>
-                <br/><br/>
-                Unit: <input value={this.state.unit} onChange={this._handleInputChange} name='unit' type='text'/>
-                <br/><br/>
-                Form: <input value={this.state.form} onChange={this._handleInputChange} name='form' type='text'/>
-                <br/><br/>
-                Times per day: <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text'/>
-                <br/><br/>
-                Duration in weeks: <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text'/>
-                <br/>
+                </span><br />
+                {this.state.drugType !== '' ? <div>{`You have selected a drug of type '${this.state.drugModule}'`}<br /><br /></div> : null}
+                Dose: <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text' />
+                <br /><br />
+                Unit: <input value={this.state.unit} onChange={this._handleInputChange} name='unit' type='text' />
+                <br /><br />
+                Form: <input value={this.state.form} onChange={this._handleInputChange} name='form' type='text' />
+                <br /><br />
+                Times per day: <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text' />
+                <br /><br />
+                Duration in weeks: <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text' />
+                <br />
                 <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
             </div>);
         } else {
