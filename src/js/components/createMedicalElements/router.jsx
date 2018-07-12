@@ -12,6 +12,6 @@ export class CreateElementRouter extends Component {
                 <Route path='/patientProfile/:patientId/create/:visitId/treatment' render={({ match }) => <CreateTreatment match={match} />} />
                 <Route path='/' render={() => <div>This element type is not allowed ;) URL error</div>} />
             </Switch>
-        )
+        );
     }
 }

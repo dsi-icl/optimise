@@ -1,32 +1,17 @@
 import actionTypes from './listOfActions.js';
 import { getPatientProfileById, getPatientProfileByIdRequest } from './searchPatientById.js';
+import { apiHelper } from '../fetchHelper.js';
 
 export const createPatientRequest = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_REQUEST, payload: patientId });
 export const createPatientSuccess = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_SUCCESS, payload: patientId });
-export const createPatientCall = (body) => dispatch => fetch('/patients', {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-        'content-type': 'application/json',
-        'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a'
-    },   //change later
-    body: JSON.stringify(body.patientData)
-})
-    .then(res => { dispatch(getPatientProfileByIdRequest()); return res.json() }, err => console.log(err))
-    .then(json => {
-        const patientId = json[0];
-        const demoData = { ...body.demoData, patient: patientId };
-        return fetch('/demographics/Demographic', {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'content-type': 'application/json',
-                'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a'
-            },   //change later
-            body: JSON.stringify(demoData)
-        });
-    })
-    .then(res => res.json(), err => console.log(err))
-    .then(() => { dispatch(getPatientProfileById(body.patientId)) })
+export const createPatientCall = (body) => dispatch => (
+    apiHelper('/patients', { method: 'POST', body: JSON.stringify(body.patientData) })
+        .then(json => {
+            dispatch(getPatientProfileByIdRequest());
+            const patientId = json[0];
+            const demoData = { ...body.demoData, patient: patientId };
+            return apiHelper('/demographics/Demographic', { method: 'POST', body: JSON.stringify(demoData) });
+        })
+        .then(() => { dispatch(getPatientProfileById(body.patientId)); })
 
-//unfinished
+);

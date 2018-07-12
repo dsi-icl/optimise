@@ -120,6 +120,6 @@ export class StatusBar extends Component {
                 <span style={{ float: 'left', marginLeft: 10, marginTop: '0.2em', display: 'block' }}> You are logged in as </span>
                 <span style={{ display: 'block', marginTop: '0.2em', position: 'absolute', float: 'left', right: 10 }}> OptimiseMS v1.0.0</span>
             </div>
-        )
+        );
     }
 }

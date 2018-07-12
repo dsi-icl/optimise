@@ -32,7 +32,7 @@ export class PatientChart extends Component {
                     </div>
                 }
             </div>
-        )
+        );
     }
 }
 
@@ -45,7 +45,7 @@ function mapTests(patientId, typeMap) {
                 <div className={cssButtons.dataResultButton}>results➠ </div>
             </NavLink>
         ]);
-    }
+    };
 }
 
 function mapMedications(drugList) {
@@ -53,7 +53,7 @@ function mapMedications(drugList) {
         const drugFiltered = drugList.filter(drug => drug.id === el.drug);
         const drug = drugFiltered.length === 1 ? `${drugFiltered[0].name} (${drugFiltered[0].module})` : el.drug;
         return formatRow([drug, el.dose, el.unit, el.form, el['timesPerDay'], el['durationWeeks']]);
-    }
+    };
 }
 
 function mapClinicalEvents(patientId, typeList) {
@@ -66,7 +66,7 @@ function mapClinicalEvents(patientId, typeList) {
                 <div className={cssButtons.dataResultButton}> results➠ </div>
             </NavLink>
         ]);
-    }
+    };
 }
 
 function mapSymptoms(fieldHashTable) {
@@ -96,7 +96,7 @@ class OneVisit extends Component {
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
-        const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map }, {});
+        const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map; }, {});
         return (
             <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em' />} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
@@ -220,7 +220,7 @@ export class Charts extends Component {   //unfinsihed
                                 baselineVisit={baselineVisit}
                                 type='visit'
                                 title={baselineVisit ? `${order}-${suffix} visit (Baseline visit)` : `${order}-${suffix} visit (Ongoing assessment)`}
-                                visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()} />
+                                visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()} />;
                         }
                     )}
                     </Timeline>
@@ -232,7 +232,7 @@ export class Charts extends Component {   //unfinsihed
                     )}
 
             </PatientProfileSectionScaffold>
-        )
+        );
     }
 }
 

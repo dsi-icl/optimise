@@ -6,8 +6,7 @@ import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 import moment from 'moment';
 import { formatRow } from './patientChart.jsx';
 import store from '../../redux/store.js';
-import { createImmunisationAPICall } from '../../redux/actions/demographicData.js'
-import { SuggestionInput, mockList } from '../meDRA/meDRApicker.jsx';
+import { createImmunisationAPICall } from '../../redux/actions/demographicData.js';
 
 @connect(state => ({ fetching: state.patientProfile.fetching }))
 export class Section extends Component {
@@ -15,13 +14,14 @@ export class Section extends Component {
         if (this.props.fetching) {
             return <span></span>;
         } else {
-            return (<div style={{ position: 'relative' }}>
-                <DemographicSection />
-                <PrimaryDiagnosis />
-                <ImmunisationSection />
-                <Pregnancy />
-                <SuggestionInput possibleValues={mockList} />
-            </div>)
+            return (
+                <div style={{ position: 'relative' }}>
+                    <DemographicSection />
+                    <PrimaryDiagnosis />
+                    <ImmunisationSection />
+                    <Pregnancy />
+                </div>
+            );
         }
     }
 }

@@ -19,6 +19,6 @@ export class Fields extends Component {
             <div>
                 {visitFields.map(el => <div id={`field${el.id}`} draggable='true' onDragStart={drag} key={el.id} className={cssButtons.patientBanner} style={style}>{el.definition}</div>)}
             </div>
-        )
+        );
     }
 }

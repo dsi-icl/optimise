@@ -11,7 +11,7 @@ function mapStateToProps(state) {
     return {
         loggingIn: state.login.loggingIn,
         loginFailed: state.login.loginFailed
-    }
+    };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -26,9 +26,9 @@ class LoginFailed extends Component {
         this.state = { left: 0, position: 'relative' };
     }
     componentDidMount() {
-        const shake = () => { this.setState({ left: -5 }); setTimeout(() => { this.setState({ left: 5 }) }, 50) };
+        const shake = () => { this.setState({ left: -5 }); setTimeout(() => this.setState({ left: 5 }), 50); };
         const interval = setInterval(shake, 100);
-        setTimeout(() => { clearInterval(interval) }, 300);
+        setTimeout(() => clearInterval(interval), 300);
     }
     render() {
         return <span style={this.state}>Login failed. Please try again</span>;

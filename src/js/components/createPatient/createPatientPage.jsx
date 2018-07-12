@@ -83,7 +83,7 @@ export class CreatePatientComponent extends Component {    //get these props fro
                     {this.state.error ? <div style={{ color: 'red' }}><br />None of the fields can be unselected! Please try again.</div> : null}
 
                 </div>
-            )
+            );
         } else {
             return <Redirect to={`/patientProfile/${this.props.match.params.patientIdCreated}`} />;
         }
@@ -99,9 +99,11 @@ export class CreatePatientComponent extends Component {    //get these props fro
  */
 class SelectField extends Component {
     render() {
-        return (<select onChange={this.props.handler} name={this.props.name} value={this.props.value}>
-            <option value={0}>unselected</option>
-            {this.props.options.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-        </select>)
+        return (
+            <select onChange={this.props.handler} name={this.props.name} value={this.props.value}>
+                <option value={0}>unselected</option>
+                {this.props.options.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+            </select>
+        );
     }
 }

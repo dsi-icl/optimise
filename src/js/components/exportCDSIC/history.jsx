@@ -6,6 +6,6 @@ export class History extends Component {
             <div>
                 <h2>EXPORT HISTORY</h2>
             </div>
-        )
+        );
     }
 }

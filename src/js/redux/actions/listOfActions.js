@@ -19,7 +19,7 @@ export default {
         CREATE_PATIENT_SUCCESS: 'CREATE_PATIENT_SUCCESS'
     },
     patientProfile: {
-        
+
     },
     visits: {
         CREATE_VISIT_REQUEST: 'CREATE_VISIT_REQUEST',
@@ -52,4 +52,4 @@ export default {
         GET_INPUT_TYPES_SUCCESS: 'GET_INPUT_TYPES_SUCCESS',
         GET_RELATIONS_SUCCESS: 'GET_RELATIONS_SUCCESS'
     }
-}
+};
