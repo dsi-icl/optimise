@@ -25,7 +25,7 @@ class LoginFailed extends Component {
         super();
         this.state = { left: 0, position: 'relative' };
     }
-    componentDidMount(){
+    componentDidMount() {
         const shake = () => { this.setState({ left: -5 }); setTimeout(() => { this.setState({ left: 5 }) }, 50) };
         const interval = setInterval(shake, 100);
         setTimeout(() => { clearInterval(interval) }, 300);
@@ -37,7 +37,7 @@ class LoginFailed extends Component {
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class LoginPage extends Component {
-    constructor(){
+    constructor() {
         super();
         this.state = { username: '', pw: '' };
         this._handlePwInput = this._handlePwInput.bind(this);
@@ -55,7 +55,7 @@ export class LoginPage extends Component {
         this.setState({ pw: ev.target.value });
     }
 
-    _handleSubmit(ev){
+    _handleSubmit(ev) {
         ev.preventDefault();
         this.props.requestLogin(this.state);
     }
@@ -68,7 +68,7 @@ export class LoginPage extends Component {
     }
 
     render() {
-        const inputStyle= {
+        const inputStyle = {
             background: 'transparent',
             fontSize: 14,
             color: 'white',
@@ -81,7 +81,7 @@ export class LoginPage extends Component {
             position: 'relative',
             right: 9
         };
-        const iconStyle={
+        const iconStyle = {
             fill: 'rgba(255,255,255,0.3)',
             position: 'relative',
             left: 21
@@ -92,16 +92,16 @@ export class LoginPage extends Component {
             <div className={cssLogin.logoText}> Optimise MS </div>
             <div className={cssLogin.lowerCircle}> </div>
             <form onKeyPress={this._handleEnterKey}>
-                <UserIcon style={iconStyle} width='15px'/>
-                <input onChange={this._handleUsernameInput} value={this.state.username} style={inputStyle} type='text'/> <br/>
-                <KeyIcon style={iconStyle} width='17px'/>
-                <input onChange={this._handlePwInput} type='password' value={this.state.pw} style={inputStyle} className={cssLogin.input}/>
-                {this.props.loggingIn ? 
-                    <div style={{ marginTop: 20 }} className={cssIcons.spinner}><LoadingIcon/></div>
+                <UserIcon style={iconStyle} width='15px' />
+                <input onChange={this._handleUsernameInput} value={this.state.username} style={inputStyle} type='text' /> <br />
+                <KeyIcon style={iconStyle} width='17px' />
+                <input onChange={this._handlePwInput} type='password' value={this.state.pw} style={inputStyle} className={cssLogin.input} />
+                {this.props.loggingIn ?
+                    <div style={{ marginTop: 20 }} className={cssIcons.spinner}><LoadingIcon /></div>
                     :
                     <div><div onClick={this._handleSubmit} style={{ margin: '30px auto', float: 'none' }} className={[cssButton.patientBanner, cssLogin.loginButton].join(' ')}>
                         Sign in
-                    </div><div>{this.props.loginFailed ? <LoginFailed/> : null}</div></div>
+                    </div><div>{this.props.loginFailed ? <LoginFailed /> : null}</div></div>
                 }
             </form>
         </div>);

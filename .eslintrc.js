@@ -3,7 +3,9 @@ module.exports = {
     parser: 'babel-eslint',
     extends: ['react-app'],
     env: {
-        browser: true
+        browser: true,
+        node: true,
+        es6: true
     },
     parserOptions: {
         ecmaFeatures: {
@@ -12,15 +14,41 @@ module.exports = {
         }
     },
     rules: {
-        quotes: ['error', 'single'],
-        eqeqeq: ['warn', 'always'],
-        indent: ['warn', 4, { 'SwitchCase': 1 }],
-        'block-spacing': ['error', 'always'],
-        'object-curly-spacing': ['error', 'always'],
-        'prefer-template': ['warn'],
-        'no-var': ['error'],
-        'arrow-body-style': ['error', 'as-needed'],
-        'comma-dangle': ['error', 'never'],
-        'comma-spacing': ["error", { "before": false, "after": true }]
+        'eqeqeq': 'error',
+        'no-var': 'error',
+        'no-alert': 'error',
+        'no-console': 'warn',
+        'indent': [
+            'warn',
+            4,
+            {
+                'SwitchCase': 1
+            }
+        ],
+        'quotes': [
+            'warn',
+            'single'
+        ],
+        'semi': [
+            'warn',
+            'always'
+        ],
+        'strict': [
+            'warn',
+            'global'
+        ],
+        'space-infix-ops': 'error',
+        'space-in-parens': 'error',
+        'space-unary-ops': 'error',
+        'no-trailing-spaces': 'warn',
+        'no-irregular-whitespace': 'error',
+        'no-unused-vars': [
+            'warn',
+            {
+                'vars': 'all',
+                'args': 'all',
+                'argsIgnorePattern': '^__unused__'
+            }
+        ]
     }
 };

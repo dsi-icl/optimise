@@ -18,7 +18,7 @@ export const createTestAPICall = (body) => dispatch => {
                 return '';
             }
         }, err => console.log(err))
-        .then(json => {
+        .then(() => {
             dispatch(getPatientProfileById(body.patientId));         //think about abortion later    //and think about not having to refresh the whole page
         })
 }
