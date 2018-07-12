@@ -15,6 +15,19 @@ function login(state = initialState.login, action) {
     }
 }
 
+function searchPatientById(state = initialState.searchPatientById, action) {
+    switch (action.type) {
+        case actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_REQUEST:
+            return { ...state, fetching: true, error: false };
+        case actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_FAILURE:
+            return { ...state, result: [], error: true };
+        case actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_SUCCESS:
+            return { ...state, result: action.payload, error: false, fetching: false };
+        default:
+            return state;
+    }
+}
+
 function fetchingFinished(state) {
     const stateCopy = Object.assign({}, state);
     delete stateCopy.fetching;
@@ -71,11 +84,11 @@ function createPatient(state = initialState.createPatient, action) {
 
 function patientProfile(state = initialState.patientProfile, action) {
     switch (action.type) {
-        case actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_REQUEST:
+        case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_REQUEST:
             return { fetching: true, data: {} };
-        case actionTypes.searchPatientById.SEARCH_RESULT_BY_ID_SUCCESS:
+        case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_SUCCESS:
             return { fetching: false, data: action.payload };
-        case actionTypes.searchPatientById.SEARCH_RESULT_BY_ID_FAILURE:
+        case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_FAILURE:
             return { fetching: true, data: { patientId: 'cannot find you patient :(' } }
         default:
             return state;
@@ -84,6 +97,7 @@ function patientProfile(state = initialState.patientProfile, action) {
 
 export const rootReducer = combineReducers({
     createPatient,
+    searchPatientById,
     patientProfile,
     availableFields,
     login
