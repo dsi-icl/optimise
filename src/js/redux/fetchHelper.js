@@ -5,19 +5,19 @@ const defaultOptions = {
         'content-type': 'application/json'
     },
     method: 'GET'
-}
+};
 
 export function apiHelper(endpoint, options) {
     if (!options) {
         options = {};
     }
     const fetchOptions = { ...defaultOptions, ...options };
-    return fetch(endpoint, fetchOptions)
+    return fetch(`/api${endpoint}`, fetchOptions)
         .then(res => {
             if (res.status === 200) {
                 return res.json();
             } else {
                 return Promise.reject(res);
             }
-        }, err => console.log(err))
+        }, err => console.log(err));
 }
