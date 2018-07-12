@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import cssButtons from '../../../css/buttons.css';
 import { PickDate } from '../createMedicalElements/datepicker.jsx';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
@@ -8,7 +7,6 @@ import moment from 'moment';
 import { formatRow } from './patientChart.jsx';
 import store from '../../redux/store.js';
 import { createImmunisationAPICall } from '../../redux/actions/demographicData.js'
-import { SuggestionInput, mockList } from '../meDRA/meDRApicker.jsx';
 
 @connect(state => ({ fetching: state.patientProfile.fetching }))
 export class Section extends Component {
@@ -21,7 +19,6 @@ export class Section extends Component {
                 <PrimaryDiagnosis/>
                 <ImmunisationSection/>
                 <Pregnancy/>
-                <SuggestionInput possibleValues={mockList}/>
             </div>)
         }
     }
