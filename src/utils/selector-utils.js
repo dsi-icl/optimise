@@ -1,4 +1,5 @@
 const knex = require('../utils/db-connection');
+const { PregnancyCore } = require('../core/demographic');
 
 class SelectorUtils {
     getVisitsWithoutData(patientId) {
@@ -123,16 +124,21 @@ class SelectorUtils {
 
     getTreatments(patientId) {
         const _this = this;
-        return knex('VISITS').select('id').where({ 'patient': patientId, deleted: '-' }).then(resu => {
+        return knex('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate' }).where({ 'patient': patientId, deleted: '-' }).then(resu => {
             let ids = [];
+            let dates = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
+                dates[resu[i].id] = resu[i].visitDate;
             }
             return knex('TREATMENTS')
                 .select('id', 'orderedDuringVisit', 'drug', 'dose', 'unit', 'form', 'timesPerDay', 'durationWeeks', 'terminatedDate', 'terminatedReason')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere({ 'deleted': '-' })
                 .then(result => {
+                    for (let i = 0; i < result.length; i++) {
+                        result[i].visitDate = dates[result[i].orderedDuringVisit];
+                    }
                     if (result.length >= 1) {
                         const promiseArr = [];
                         for (let i = 0; i < result.length; i++) {
@@ -153,6 +159,15 @@ class SelectorUtils {
                         return returnObj;
                     }
                 });
+        });
+    }
+
+    getPregnancy(patientId) {
+        let pregnancy = new PregnancyCore();
+        return pregnancy.getPregnancy({ 'patient': patientId, 'deleted': '-' }).then(function (result) {
+            return { 'pregnancy': result };
+        }, function (__unused__error) {
+            return { 'pregnancy': [] };
         });
     }
 
