@@ -231,19 +231,21 @@ export class ControlledInputField extends Component {
     }
 
     render() {
-        return (<span>
-            <input
-                originalvalue={this.props.originalValue}
-                name={this.props.fieldId}
-                fieldid={this.props.fieldId}
-                type='text'
-                style={this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' })}
-                value={this.state.value}
-                onChange={this._handleKeyStroke}
-                onKeyPress={this._handleEnterKey}
-            />
-            <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
-        </span>);
+        return (
+            <span>
+                <input
+                    originalvalue={this.props.originalValue}
+                    name={this.props.fieldId}
+                    fieldid={this.props.fieldId}
+                    type='text'
+                    style={this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' })}
+                    value={this.state.value}
+                    onChange={this._handleKeyStroke}
+                    onKeyPress={this._handleEnterKey}
+                />
+                <span onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</span>
+            </span>
+        );
     }
 }
 
@@ -280,11 +282,14 @@ export class ControlledSelectField extends Component {
 
     render() {
         const setThisValue = this.props.originalValue ? this.props.originalValue : 'unselected';
-        return (<span><select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} style={{ color: (this.state.value === setThisValue ? 'black' : 'green') }}>
-            <option value='unselected'>unselected</option>
-            {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
-        </select>
-            <a onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</a>
-        </span>);
+        return (
+            <span>
+                <select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} style={{ color: (this.state.value === setThisValue ? 'black' : 'green') }}>
+                    <option value='unselected'>unselected</option>
+                    {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
+                </select>
+                <span onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</span>
+            </span>
+        );
     }
 }
