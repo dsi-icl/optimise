@@ -21,7 +21,7 @@ export class TimelineBox extends Component {   //unfinsihed
         const numOfCols = `10% ${'1fr '.repeat(daySpan + 3)}`;
         const TimelineDynamicStyle = {
             gridTemplateColumns: numOfCols
-        }
+        };
         const mappingVisitFunction = visit => {
             const date = visit.visitDate;
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
@@ -76,6 +76,6 @@ export class TimelineBox extends Component {   //unfinsihed
                     {this.props.data.treatments.map(mappingMedFunction)}
                 </div>
             </PatientProfileSectionScaffold>
-        )
+        );
     }
 }

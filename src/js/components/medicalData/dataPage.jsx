@@ -10,7 +10,7 @@ function mapStateToProps(state) {
     return {
         fields: state.availableFields,
         patientProfile: state.patientProfile
-    }
+    };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -76,7 +76,7 @@ export class DataTemplate extends Component {
                 </div>);   //change the type later
             }
         } else {
-            return <div className={cssIcons.spinner}><LoadingIcon /></div>
+            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
         }
     }
 }
@@ -120,9 +120,9 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
     //reformating the field list to hash table with fieldId as key for easier lookup later without needing array filter:
     const filteredFieldList = fieldList.filter(field => field.referenceType === medicalElement.type);
     //same with data:
-    const dataHashTable = medicalElement.data.reduce((map, el) => { map[el.field] = el.value; return map }, {});
+    const dataHashTable = medicalElement.data.reduce((map, el) => { map[el.field] = el.value; return map; }, {});
     //same with inputTypes:
-    const dataTypesHashTable = inputTypes.reduce((map, dataType) => { map[dataType.id] = dataType.value; return map }, {});
+    const dataTypesHashTable = inputTypes.reduce((map, dataType) => { map[dataType.id] = dataType.value; return map; }, {});
     return (
         <div>
             <form onSubmit={submitFunction}>
@@ -160,7 +160,7 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
 }
 
 
-/* 
+/*
 undone:
 rendering tests directly throws error
 input field has to be controlled component

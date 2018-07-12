@@ -21,8 +21,8 @@ export class SearchPatientsById extends Component {
                 headers: { 'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a' }   //change later
             })
                 .then(res => res.json())
-                .then(json => { this.setState({ searchResult: json }) })
-                .catch(() => { this.setState({ searchResult: [{ 'aliasId': 'not found' }] }) })   // what if the server fails
+                .then(json => { this.setState({ searchResult: json }); })
+                .catch(() => { this.setState({ searchResult: [{ 'aliasId': 'not found' }] }); });   // what if the server fails
         } else {
             this.setState({ searchResult: [] });
         }
@@ -56,7 +56,7 @@ export class SearchResultForPatients extends Component {
     _handleClickWrapper(patientName) {
         return () => {
             this.props.fetchPatientProfile(patientName);
-        }
+        };
     }
 
     render() {

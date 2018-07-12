@@ -9,7 +9,7 @@ function login(state = initialState.login, action) {
         case actionTypes.login.LOGIN_FAILURE:
             return { ...state, loginFailed: true, loggingIn: false, loggedIn: false };
         case actionTypes.login.LOGIN_SUCCESS:
-            return { loggingIn: false, loggedIn: true, loginFailed: false, token: action.payload.token }
+            return { loggingIn: false, loggedIn: true, loginFailed: false, token: action.payload.token };
         default:
             return state;
     }
@@ -39,9 +39,9 @@ function fetchingFinished(state) {
     return true;
 }
 
-function availableFields(state = initialState.availableFields, action){
+function availableFields(state = initialState.availableFields, action) {
     let newState;
-    switch (action.type){
+    switch (action.type) {
         case actionTypes.availableFields.GET_CE_TYPES_SUCCESS:
             newState = { ...state, clinicalEventTypes: action.payload };
             break;
@@ -78,7 +78,7 @@ function createPatient(state = initialState.createPatient, action) {
         case 'CLICKED_CREATE_PATIENT':
             return { patientId: action.payload };
         default:
-            return state; 
+            return state;
     }
 }
 
@@ -89,7 +89,7 @@ function patientProfile(state = initialState.patientProfile, action) {
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_SUCCESS:
             return { fetching: false, data: action.payload };
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_FAILURE:
-            return { fetching: true, data: { patientId: 'cannot find you patient :(' } }
+            return { fetching: true, data: { patientId: 'cannot find you patient :(' } };
         default:
             return state;
     }
@@ -101,5 +101,5 @@ export const rootReducer = combineReducers({
     patientProfile,
     availableFields,
     login
-})
+});
 

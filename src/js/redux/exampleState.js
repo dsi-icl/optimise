@@ -3,7 +3,7 @@
 export default {
     createPatient: { patientId: '' },
     patientProfile: {
-        fetching: false, 
+        fetching: false,
         data: {
             'patientId': 'chons',
             'demographicData': {
@@ -81,11 +81,13 @@ export default {
                             'field': 65,
                             'value': '12'
                         },
-                        {   'field': 86,
-                            'value' : '123' },
+                        {
+                            'field': 86,
+                            'value': '123'
+                        },
                         {
                             'field': 91,
-                            'value' : 'TEST NOT DONE'
+                            'value': 'TEST NOT DONE'
                         }
                     ]
                 }

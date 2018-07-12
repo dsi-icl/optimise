@@ -1,12 +1,12 @@
 export default {
-    searchPatientById: { 
+    searchPatientById: {
         fetching: false,
         error: false,
         result: []
     },
     createPatient: { patientId: '' },
     patientProfile: {
-        fetching: true, 
+        fetching: true,
         data: {}
     },
     availableFields: {
@@ -15,7 +15,7 @@ export default {
         visitFields: [],
         VSFields: [],
         testFields: [],
-        clinicalEventTypes: [], 
+        clinicalEventTypes: [],
         testTypes: [],
         drugs: [],
         relations: [],
@@ -53,4 +53,4 @@ export default {
         loginFailed: false,
         token: ''
     }
-}
+};

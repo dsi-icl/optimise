@@ -16,6 +16,6 @@ export class AdminActions extends Component {
                     <b>View access log</b>
                 </div>
             </div>
-        )
+        );
     }
 }

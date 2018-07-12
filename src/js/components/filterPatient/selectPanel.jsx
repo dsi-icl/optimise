@@ -23,10 +23,10 @@ class DragBox extends Component {
             marginLeft: 'auto',
             marginRight: 'auto',
             minHeight: '8em'
-        }
+        };
         return (
             <div className='selectbox' style={style} onDrop={drop_handler} onDragOver={dragover_handler}></div>
-        )
+        );
     }
 }
 
@@ -39,6 +39,6 @@ export class FilterPanel extends Component {
                 <DragBox />
                 <DragBox />
             </div>
-        )
+        );
     }
 }
