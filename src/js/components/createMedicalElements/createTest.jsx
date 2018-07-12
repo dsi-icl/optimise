@@ -64,11 +64,11 @@ export class CreateTest extends Component {
             return (<div>
                 <BackButton to={`/patientProfile/${params.patientId}`} />
                 <h2>CREATE A NEW TEST</h2>
-                <span class={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
+                <span className={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
                 <br />
-                <span class={cssTexts.centeredBlock}>Please enter date on which the test is expected to occur: <br /> <span className={cssTexts.centeredBlock}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /></span> </span>
+                <span className={cssTexts.centeredBlock}>Please enter date on which the test is expected to occur: <br /> <span className={cssTexts.centeredBlock}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /></span> </span>
                 <br />
-                <span class={cssTexts.centeredBlock}>What type of test is it?
+                <span className={cssTexts.centeredBlock}>What type of test is it?
                     <select value={this.state.testType} onChange={this._handleTypeChange}>
                         {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                     </select>

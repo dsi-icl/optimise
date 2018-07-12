@@ -64,11 +64,11 @@ export class CreateCE extends Component {
             return (<div>
                 <BackButton to={`/patientProfile/${params.patientId}`} />
                 <h2>CREATE A NEW EVENT</h2>
-                <span class={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
+                <span className={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
                 <br />
-                <span class={cssTexts.centeredBlock}>Please enter date on which the event occurred: <br /> <span className={cssTexts.centeredBlock}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /></span> </span>
+                <span className={cssTexts.centeredBlock}>Please enter date on which the event occurred: <br /> <span className={cssTexts.centeredBlock}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /></span> </span>
                 <br />
-                <span class={cssTexts.centeredBlock}>What type of event is it?
+                <span className={cssTexts.centeredBlock}>What type of event is it?
                     <select value={this.state.testType} onChange={this._handleTypeChange}>
                         {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                     </select>

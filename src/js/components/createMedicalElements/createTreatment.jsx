@@ -73,9 +73,9 @@ export class CreateTreatment extends Component {
             return (<div>
                 <BackButton to={`/patientProfile/${params.patientId}`} />
                 <h2>CREATE A NEW TREATMENT</h2>
-                <span class={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
+                <span className={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
                 <br /><br />
-                <span class={cssTexts.centeredBlock}>What drug is it?
+                <span className={cssTexts.centeredBlock}>What drug is it?
                     <select value={this.state.drugType} onChange={this._handleTypeChange}>
                         {this.props.types.map(type => <option key={type.id} drugModule={type.module} value={type.id}>{type.name}</option>)}
                     </select>
