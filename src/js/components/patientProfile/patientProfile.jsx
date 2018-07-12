@@ -8,6 +8,7 @@ import moment from 'moment';
 import { formatRow } from './patientChart.jsx';
 import store from '../../redux/store.js';
 import { createImmunisationAPICall } from '../../redux/actions/demographicData.js'
+import { SuggestionInput, mockList } from '../meDRA/meDRApicker.jsx';
 
 @connect(state => ({ fetching: state.patientProfile.fetching }))
 export class Section extends Component {
@@ -20,6 +21,7 @@ export class Section extends Component {
                 <PrimaryDiagnosis/>
                 <ImmunisationSection/>
                 <Pregnancy/>
+                <SuggestionInput possibleValues={mockList}/>
             </div>)
         }
     }
@@ -92,23 +94,23 @@ class ImmunisationSection extends Component {
         const inputStyle = { width: '100%', margin: 0 };
         return (
             <PatientProfileSectionScaffold sectionName='Immunisations'>
-                { data.immunisations.length !== 0 ? 
-                    <table style={{ width: '100%' }}>
-                        <thead>
-                            <tr><th>Vaccine name</th><th>Date</th></tr>
-                        </thead>
-                        <tbody>
-                            {data.immunisations.map(el => formatRow([el.vaccineName, new Date(parseInt(el.immunisationDate, 10)).toDateString()]))}
-                            {!this.state.addMore ? null : <tr>
-                                <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text'/></td>
-                                <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange}/></td>
-                            </tr>}
-                        </tbody>
-                    </table>
-                    : null }
+                <table style={{ width: '100%' }}>
+                    {this.state.addMore || data.immunisations.length !== 0 ? <thead>
+                        <tr><th>Vaccine name</th><th>Date</th></tr>
+                    </thead> : null }
+                    <tbody>
+                        {data.immunisations.map(el => formatRow([el.vaccineName, new Date(parseInt(el.immunisationDate, 10)).toDateString()]))}
+                        {!this.state.addMore ? null : <tr>
+                            <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text'/></td>
+                            <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange}/></td>
+                        </tr>}
+                    </tbody>
+                </table>
                 {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Add immunisation</div> : 
-                    <div><div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
-                        <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div> </div>}
+                    <div>
+                        <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
+                        <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
+                    </div>}
             </PatientProfileSectionScaffold>
         );
     }
@@ -160,30 +162,28 @@ class Pregnancy extends Component {
 
     render() {
         const { data } = this.props;
-        if (data.demographicData && data.demographicData.gender !== 1) {
+        if (data.demographicData && data.demographicData.gender !== 1 && data.pregnancy ) {
             const inputStyle = { width: '100%', margin: 0 };
             return (
                 <div>
                     <PatientProfileSectionScaffold sectionName='Pregnancies'>
-                        { data.immunisations.length !== 0 ? 
-                            <table style={{ width: '100%' }}>
-                                <thead>
-                                    <tr><th>Birth date</th><th>meDRA</th><th>Outcome</th></tr>
-                                </thead>
-                                <tbody>
-                                    {data.immunisations.map(el => formatRow(['a', 'b', 'c']))}
-                                    {!this.state.addMore ? null : <tr>
-                                        <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange}/></td>
-                                        <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='meDRA' name='meDRA' type='text'/></td>
-                                        <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='outcome' name='outcome' type='text'/></td>
-                                    </tr>}
-                                </tbody>
-                            </table>
-                            : null }
+                        <table style={{ width: '100%' }}>
+                            {this.state.addMore || data.pregnancy.length !== 0 ? <thead>
+                                <tr><th>Birth date</th><th>meDRA</th><th>Outcome</th></tr>
+                            </thead> : null }
+                            <tbody>
+                                {data.immunisations.map(el => formatRow(['a', 'b', 'c']))}
+                                {!this.state.addMore ? null : <tr>
+                                    <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange}/></td>
+                                    <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='meDRA' name='meDRA' type='text'/></td>
+                                    <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='outcome' name='outcome' type='text'/></td>
+                                </tr>}
+                            </tbody>
+                        </table>
                         {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Record pregnancy</div> : 
                             <div>
-                                <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
                                 <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
+                                <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
                             </div> }
                     </PatientProfileSectionScaffold>
                 </div>);
