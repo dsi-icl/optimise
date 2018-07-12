@@ -1,5 +1,5 @@
 import actionTypes from './listOfActions.js';
-import { promises } from 'fs';
+import { apiHelper } from '../fetchHelper.js';
 
 export const getPatientProfileByIdRequest = searchString => ({ type: actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_REQUEST, payload: searchString });
 export const getPatientProfileByIdFailure = patientId => ({ type: actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_FAILURE, payload: patientId });
@@ -8,22 +8,12 @@ export const getPatientProfileByIdSuccess = data => ({ type: actionTypes.getPati
 
 export const getPatientProfileById = (searchString) => dispatch => {
     dispatch(getPatientProfileByIdRequest(searchString));
-    return fetch(`/patients/${searchString}`, {
-        mode: 'cors',
-        headers: { 'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a' }   //change later
-    })
-        .then(res => {
-            if (res.status === 200) {
-                return res.json();
-            } else {
-                dispatch(getPatientProfileByIdFailure(searchString));
-                return Promise.reject('404');
-            }
-        }, err => console.log(err))
+    return apiHelper(`/patients/${searchString}`)
         .then(json => {
             console.log(json);
             dispatch(getPatientProfileByIdSuccess(json))
         })
+        .catch(err => { dispatch(getPatientProfileByIdFailure(searchString)) })
 }
 
 
@@ -33,20 +23,10 @@ export const searchPatientByIdSuccess = data => ({ type: actionTypes.searchPatie
 
 export const searchPatientByIdAPICall = (searchString) => dispatch => {
     dispatch(searchPatientByIdRequest());
-    return fetch(`/patients?id=${searchString}`, {
-        mode: 'cors',
-        headers: { 'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a' }   //change later
-    })
-        .then(res => {
-            if (res.status === 200) {
-                return res.json();
-            } else {
-                dispatch(searchPatientByIdFailure(searchString));
-                return Promise.reject('404');
-            }
-        }, err => console.log(err))
+    return apiHelper(`/patients?id=${searchString}`)
         .then(json => {
             console.log(json);
             dispatch(searchPatientByIdSuccess(json))
         })
+        .catch(err => { dispatch(searchPatientByIdFailure(searchString)) })
 }

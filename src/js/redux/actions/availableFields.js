@@ -1,24 +1,10 @@
 import actions from './listOfActions.js';
+import { apiHelper } from '../fetchHelper.js';
 
 export function APICall(endpoint, cbDispatch) {
-    return function (body) {
+    return function () {
         return function (dispatch) {
-            return fetch(endpoint, {
-                mode: 'cors',
-                headers: {
-                    'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a', //change later
-                    'content-type': 'application/json'
-                },
-                method: 'GET',
-                body: JSON.stringify(body)
-            })
-                .then(res => {
-                    if (res.status === 200) {
-                        return res.json();
-                    } else {
-                        return Promise.reject(res);
-                    }
-                }, err => console.log(err))
+            return apiHelper(endpoint)
                 .then(json => {
                     dispatch(cbDispatch(json));
                 })
