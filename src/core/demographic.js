@@ -31,6 +31,14 @@ function Immunisation() {
     this.deleteImmunisation = Immunisation.prototype.deleteImmunisation.bind(this);
 }
 
+function Pregnancy() {
+    this.getPregnancy = Pregnancy.prototype.getPregnancy.bind(this);
+    this.createPregnancy = Pregnancy.prototype.createPregnancy.bind(this);
+    this.editPregnancy = Pregnancy.prototype.editPregnancy.bind(this);
+    this.deletePregnancy = Pregnancy.prototype.deletePregnancy.bind(this);
+    this.getPregnancyOutcomes = Pregnancy.prototype.getPregnancyOutcomes.bind(this);
+}
+
 Demographic.prototype.getDemographic = function (whereObj) {
     return new Promise(function (resolve, reject) {
         getEntry('PATIENT_DEMOGRAPHIC', whereObj, '*').then(function (result) {
@@ -240,4 +248,54 @@ MedicalHistory.prototype.getConditions = function () {
     });
 };
 
-module.exports = { DemographicCore: Demographic, MedicalHistoryCore: MedicalHistory, ImmunisationCore: Immunisation };
+Pregnancy.prototype.getPregnancy = function (whereObj) {
+    return new Promise(function (resolve, reject) {
+        getEntry('PATIENT_PREGNANCY', whereObj, '*').then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Pregnancy.prototype.createPregnancy = function (entryObj) {
+    return new Promise(function (resolve, reject) {
+        createEntry('PATIENT_PREGNANCY', entryObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Pregnancy.prototype.editPregnancy = function (requester, entryObj) {
+    return new Promise(function (resolve, reject) {
+        updateEntry('PATIENT_PREGNANCY', requester, '*', { 'id': entryObj.id }, entryObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Pregnancy.prototype.deletePregnancy = function (requester, whereObj) {
+    return new Promise(function (resolve, reject) {
+        deleteEntry('PATIENT_PREGNANCY', requester, whereObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Pregnancy.prototype.getPregnancyOutcomes = function () {
+    return new Promise(function (resolve, reject) {
+        getEntry('PREGNANCY_OUTCOMES', {}).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+module.exports = { DemographicCore: Demographic, MedicalHistoryCore: MedicalHistory, ImmunisationCore: Immunisation, PregnancyCore: Pregnancy };
