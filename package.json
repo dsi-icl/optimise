@@ -1,6 +1,6 @@
 {
   "name": "optimise-core",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Backend for OptimiseMS",
   "main": "./src/optimiseServer.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "start": "node ./src/index.js"
   },
   "contributors": [
+    "Pierre-Marie <p.danieau@imperial.ac.uk>",
     "Chon Sou <c.sou16@imperial.ac.uk>",
     "Florian Guitton <f.guitton@imperial.ac.uk>"
   ],

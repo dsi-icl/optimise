@@ -29,8 +29,8 @@
 								"{{url}}"
 							],
 							"path": [
-								"internalapi",
-								"userlogin"
+								"users",
+								"login"
 							]
 						}
 					},
@@ -60,8 +60,8 @@
 								"{{url}}"
 							],
 							"path": [
-								"internalapi",
-								"userlogout"
+								"users",
+								"logout"
 							]
 						}
 					},
@@ -97,7 +97,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"users"
 							]
 						}
@@ -128,7 +127,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"users"
 							]
 						}
@@ -159,7 +157,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"users",
 								""
 							]
@@ -184,7 +181,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"users"
 							],
 							"query": [
@@ -219,13 +215,12 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{url}}/exportDatabase/",
+							"raw": "{{url}}/export/",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"exportDatabase"
+								"export"
 							]
 						},
 						"description": "Exports data for all patients in database"
@@ -262,7 +257,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"patients"
 							],
 							"query": [
@@ -300,7 +294,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"patients"
 							]
 						},
@@ -327,14 +320,12 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/patientProfile/chon",
+							"raw": "{{url}}/patients/{{user}}",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"patientProfile",
-								"chon"
+								"patients"
 							]
 						},
 						"description": "shows all patients with id similar to the one provided"
@@ -360,14 +351,12 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/patientProfile/chon?getOnly=Visits,Tests",
+							"raw": "{{url}}/patients/{{user}}?getOnly=Visits,Tests",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"patientProfile",
-								"chon"
+								"patients"
 							],
 							"query": [
 								{
@@ -404,7 +393,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"patients"
 							]
 						},
@@ -436,7 +424,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"patients"
 							]
 						},
@@ -468,7 +455,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"patients"
 							]
 						},
@@ -506,7 +492,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"tests"
 							]
 						}
@@ -537,7 +522,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"tests",
 								"addOccurredDate"
 							]
@@ -569,7 +553,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"tests",
 								""
 							]
@@ -607,7 +590,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"visits"
 							]
 						}
@@ -638,7 +620,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"visits"
 							]
 						}
@@ -662,7 +643,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"visits"
 							],
 							"query": [
@@ -706,7 +686,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"treatments"
 							]
 						}
@@ -737,7 +716,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"treatments"
 							]
 						},
@@ -769,7 +747,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"treatments"
 							]
 						}
@@ -800,7 +777,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"treatments"
 							]
 						},
@@ -832,7 +808,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"treatments",
 								"interrupt"
 							]
@@ -864,7 +839,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"treatments",
 								"interrupt"
 							]
@@ -889,7 +863,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"treatments",
 								"drugs"
 							]
@@ -915,7 +888,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"treatments",
 								"drugs"
 							],
@@ -960,7 +932,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"clinicalEvents"
 							]
 						}
@@ -991,7 +962,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"clinicalEvents"
 							]
 						}
@@ -1019,13 +989,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/available/visitFields",
+							"raw": "{{url}}/data/visitFields",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"available",
+								"data",
 								"visitFields"
 							]
 						}
@@ -1047,13 +1016,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/available/visitFields?module=MS",
+							"raw": "{{url}}/data/visitFields?module=MS",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"available",
+								"data",
 								"visitFields"
 							],
 							"query": [
@@ -1081,13 +1049,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/available/testFields",
+							"raw": "{{url}}/data/testFields",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"available",
+								"data",
 								"testFields"
 							]
 						}
@@ -1109,13 +1076,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/available/clinicalEvents",
+							"raw": "{{url}}/data/clinicalEvents",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"available",
+								"data",
 								"clinicalEvents"
 							]
 						}
@@ -1137,13 +1103,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/available/testTypes",
+							"raw": "{{url}}/data/testTypes",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"available",
+								"data",
 								"testTypes"
 							]
 						}
@@ -1180,7 +1145,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"visit",
 								"data"
 							]
@@ -1212,7 +1176,6 @@
 								"{{url}}"
 							],
 							"path": [
-								"api",
 								"visit",
 								"data"
 							]
@@ -1239,13 +1202,12 @@
 							"raw": "{\"testId\": 1,\n\"delete\": [1,42,5,2]\n}"
 						},
 						"url": {
-							"raw": "{{url}}/test/data",
+							"raw": "{{url}}/tests/data",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"test",
+								"tests",
 								"data"
 							]
 						}
@@ -1271,13 +1233,12 @@
 							"raw": "{\"clinicalEventId\": 1,\n\"delete\": [1,42,5,2]\n}"
 						},
 						"url": {
-							"raw": "{{url}}/clinicalEvent/data",
+							"raw": "{{url}}/clinicalEvents/data",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"clinicalEvent",
+								"clinicalEvents",
 								"data"
 							]
 						}
@@ -1303,13 +1264,12 @@
 							"raw": "{\"clinicalEventId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
 						},
 						"url": {
-							"raw": "{{url}}/clinicalEvent/data",
+							"raw": "{{url}}/clinicalEvents/data",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"clinicalEvent",
+								"clinicalEvents",
 								"data"
 							]
 						}
@@ -1335,13 +1295,12 @@
 							"raw": "{\"testId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
 						},
 						"url": {
-							"raw": "{{url}}/test/data",
+							"raw": "{{url}}/tests/data",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"api",
-								"test",
+								"tests",
 								"data"
 							]
 						}
@@ -1382,8 +1341,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"Demographic"
 									]
 								}
@@ -1414,8 +1372,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"Demographic"
 									]
 								}
@@ -1446,8 +1403,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"Demographic"
 									]
 								}
@@ -1471,8 +1427,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"Fields",
 										"Demographic"
 									]
@@ -1498,8 +1453,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"Fields",
 										"Demographic"
 									],
@@ -1545,8 +1499,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"Immunisation"
 									]
 								}
@@ -1577,8 +1530,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"Immunisation"
 									]
 								}
@@ -1609,8 +1561,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"Immunisation"
 									]
 								}
@@ -1648,8 +1599,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"MedicalCondition"
 									]
 								}
@@ -1680,8 +1630,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"MedicalCondition"
 									]
 								}
@@ -1712,8 +1661,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"MedicalCondition"
 									]
 								}
@@ -1737,8 +1685,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"Fields",
 										"MedicalCondition"
 									]
@@ -1764,8 +1711,7 @@
 										"{{url}}"
 									],
 									"path": [
-										"api",
-										"demogdata",
+										"demographics",
 										"Fields",
 										"MedicalCondition"
 									],
