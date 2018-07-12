@@ -21,9 +21,13 @@ function OptimiseServer(config) {
     this.setupClinicalEvents = OptimiseServer.prototype.setupClinicalEvents.bind(this);
     this.setupTreatments = OptimiseServer.prototype.setupTreatments.bind(this);
     this.setupTests = OptimiseServer.prototype.setupTests.bind(this);
+    this.setupFields = OptimiseServer.prototype.setupFields.bind(this);
     this.setupData = OptimiseServer.prototype.setupData.bind(this);
     this.setupExport = OptimiseServer.prototype.setupExport.bind(this);
     this.setupLogs = OptimiseServer.prototype.setupLogs.bind(this);
+    this.setupPPII = OptimiseServer.prototype.setupPPII.bind(this);
+    this.setupPregnancy = OptimiseServer.prototype.setupPregnancy.bind(this);
+    this.setupPatientDiagnosis = OptimiseServer.prototype.setupPatientDiagnosis.bind(this);
 
     // Define config in global scope (needed for server extensions)
     global.config = this.config;
@@ -76,9 +80,13 @@ OptimiseServer.prototype.start = function () {
         _this.setupClinicalEvents();
         _this.setupTreatments();
         _this.setupTests();
+        _this.setupFields();
         _this.setupData();
         _this.setupExport();
         _this.setupLogs();
+        _this.setupPPII();
+        _this.setupPregnancy();
+        _this.setupPatientDiagnosis();
 
         _this.app.all('/*', function (__unused__req, res) {
             res.status(400);
@@ -187,6 +195,17 @@ OptimiseServer.prototype.setupTests = function () {
 };
 
 /**
+ * @fn setupFields
+ * @desc Initialize the available fields related routes
+ */OptimiseServer.prototype.setupFields = function () {
+    //Import the controller
+    this.routeFields = require('./routes/fieldsRoute');
+
+    // Modules
+    this.app.use('/available', this.routeFields);
+};
+
+/**
  * @fn setupData
  * @desc Initialize the data related routes
  */
@@ -225,5 +244,42 @@ OptimiseServer.prototype.setupLogs = function () {
     // Modules
     this.app.use('/logs', this.routeLogs);
 };
+
+/**
+ * @fn setupPPII
+ * @desc Initialize the PPII related routes
+ */
+OptimiseServer.prototype.setupPPII = function () {
+    // Import the controller
+    this.routePPII = require('./routes/patientPiiRoute');
+
+    // Modules
+    this.app.use('/patientPii', this.routePPII);
+};
+
+/**
+ * @fn setupPregnancy
+ * @desc Initialize the Pregnancy related routes
+ */
+OptimiseServer.prototype.setupPregnancy = function () {
+    // Import the controller
+    this.routePregnancy = require('./routes/patientPregnancyRoute');
+
+    // Modules
+    this.app.use('/patientPregnancy', this.routePregnancy);
+};
+
+/**
+ * @fn setupPatientDiagnosis
+ * @desc Initialize the Patient Diagnosis related routes
+ */
+OptimiseServer.prototype.setupPatientDiagnosis = function () {
+    // Import the controller
+    this.routePatientDiagnosis = require('./routes/patientDiagnosisRoute');
+
+    // Modules
+    this.app.use('/patientDiagnosis', this.routePatientDiagnosis);
+};
+
 
 module.exports = OptimiseServer;
