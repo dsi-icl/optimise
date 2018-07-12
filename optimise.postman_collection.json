@@ -1201,7 +1201,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"treatmentId\" : 2,\n    \"start_date\" : \"3 March 2010\",\n    \"end_date\" : \"3 March 2011\",\n    \"reason\" : 3\n}"
+							"raw": "{\n\t\"treatmentId\" : 2,\n    \"start_date\" : \"3 March 2010\",\n    \"end_date\" : \"3 March 2011\",\n    \"reason\" : 3,\n    \"meddra\" : 5}"
 						},
 						"url": {
 							"raw": "{{url}}/treatments/interrupt",
@@ -1331,7 +1331,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": \"1 March 2010\"\n}"
+							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": \"1 March 2010\",\n\t\"meddra\" : 1}"
 						},
 						"url": {
 							"raw": "{{url}}/clinicalEvents",
