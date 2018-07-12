@@ -2,8 +2,6 @@ const PatientPiiCore = require('../core/patientPii');
 const ErrorHelper = require('../utils/error_helper');
 const messages = require('../utils/message-utils');
 
-
-
 const PatientPiiModel = {
     'patient': 0,
     'firstName': '',
@@ -23,13 +21,13 @@ function PatientPiiController() {
 
 PatientPiiController.prototype.getPatientPii = function (req, res) {
     if (req.query.hasOwnProperty('patient')) {
-        this.patientPii.getPatientPii({ 'patient': parseInt(req.query.patient) }).then(function (result) {
+        this.patientPii.getPatientPii({ 'patient': parseInt(req.query.patient), 'deleted': '-' }).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
             return;
-        })
+        });
     } else {
         this.patientPii.getPatientPii({}).then(function (result) {
             res.status(200).json(result);
@@ -37,7 +35,7 @@ PatientPiiController.prototype.getPatientPii = function (req, res) {
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
             return;
-        })
+        });
     }
 };
 
@@ -51,7 +49,7 @@ PatientPiiController.prototype.createPatientPii = function (req, res) {
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.CREATIONFAIL, error));
             return;
-        })
+        });
     } else {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
@@ -59,7 +57,7 @@ PatientPiiController.prototype.createPatientPii = function (req, res) {
 };
 
 PatientPiiController.prototype.updatePatientPii = function (req, res) {
-    if (req.body.hasOwnProperty('id')) {
+    if (req.requester.priv === 1 && req.body.hasOwnProperty('id')) {
         let entryObj = Object.assign({}, PatientPiiModel, req.body);
         delete entryObj.id;
         entryObj.createdByUser = req.requester.userid;
@@ -69,7 +67,10 @@ PatientPiiController.prototype.updatePatientPii = function (req, res) {
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.UPDATEFAIL, error));
             return;
-        })
+        });
+    } else if (req.requester.priv !== 1) {
+        res.status(400).json(ErrorHelper(messages.userError.NORIGHTS));
+        return;
     } else {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
@@ -77,7 +78,7 @@ PatientPiiController.prototype.updatePatientPii = function (req, res) {
 };
 
 PatientPiiController.prototype.deletePatientPii = function (req, res) {
-    if (req.body.hasOwnProperty('id')) {
+    if (req.requester.priv === 1 && req.body.hasOwnProperty('id')) {
         this.patientPii.deletePatientPii(req.requester, { 'id': req.body.id }).then(function (result) {
             res.status(200).json(result);
             return;
@@ -85,6 +86,9 @@ PatientPiiController.prototype.deletePatientPii = function (req, res) {
             res.status(400).json(ErrorHelper(messages.errorMessages.DELETEFAIL, error));
             return;
         });
+    } else if (req.requester.priv !== 1) {
+        res.status(400).json(ErrorHelper(messages.userError.NORIGHTS));
+        return;
     } else {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
