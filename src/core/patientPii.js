@@ -31,7 +31,7 @@ PatientPiiCore.prototype.createPatientPii = function (entryObj) {
 
 PatientPiiCore.prototype.updatePatientPii = function (requester, idPatient, updatedObj) {
     return new Promise(function (resolve, reject) {
-        updateEntry('PATIENT_PII', requester, '*', {'patient':idPatient}, updatedObj).then(function (result) {
+        updateEntry('PATIENT_PII', requester, '*', { 'patient': idPatient }, updatedObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
