@@ -1,5 +1,5 @@
 import actionTypes from './listOfActions.js';
-import { getPatientProfileById, searchPatientsByIdRequest } from './searchPatientById.js';
+import { getPatientProfileById, getPatientProfileByIdRequest } from './searchPatientById.js';
 
 export const createPatientRequest = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_REQUEST, payload: patientId });
 export const createPatientSuccess = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_SUCCESS, payload: patientId });
@@ -12,7 +12,7 @@ export const createPatientCall = (body) => dispatch => fetch('/patients', {
     },   //change later
     body: JSON.stringify(body.patientData)
 })
-    .then(res => { dispatch(searchPatientsByIdRequest()); return res.json() }, err => console.log(err))
+    .then(res => { dispatch(getPatientProfileByIdRequest()); return res.json() }, err => console.log(err))
     .then(json => {
         const patientId = json[0];
         console.log(`${patientId} is patientId`);
