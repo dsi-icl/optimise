@@ -91,9 +91,9 @@ export class LoginPage extends Component {
             <div className={cssLogin.lowerCircle}> </div>
             <form onKeyPress={this._handleEnterKey}>
                 <UserIcon style={iconStyle} width='15px' />
-                <input onChange={this._handleUsernameInput} value={this.state.username} style={inputStyle} type='text' /> <br />
+                <input onChange={this._handleUsernameInput} value={this.state.username} style={inputStyle} type='text' autoComplete="username" /> <br />
                 <KeyIcon style={iconStyle} width='17px' />
-                <input onChange={this._handlePwInput} type='password' value={this.state.pw} style={inputStyle} className={cssLogin.input} />
+                <input onChange={this._handlePwInput} type='password' value={this.state.pw} style={inputStyle} className={cssLogin.input} autoComplete="current-password" />
                 {this.props.loggingIn ?
                     <div style={{ marginTop: 20 }} className={cssIcons.spinner}><LoadingIcon /></div>
                     :
