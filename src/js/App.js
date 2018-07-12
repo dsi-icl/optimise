@@ -58,7 +58,7 @@ class LoadingFields extends Component {
 
     render() {
         if (this.props.fetching) {
-            return <div className={cssLogin.loadingFields}><div className={cssIcons.spinner}><LoadingIcon /></div> Loading project data..</div>;
+            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
         } else {
             return (
                 <div className={cssScaffold.App}>
