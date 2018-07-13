@@ -55,5 +55,8 @@ export default {
         loggingIn: false,
         loginFailed: false,
         username: ''
+    },
+    meddra: {
+        result: []
     }
 };
