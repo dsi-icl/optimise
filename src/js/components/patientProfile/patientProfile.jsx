@@ -118,12 +118,21 @@ class ImmunisationSection extends Component {
     }
 }
 
-@connect(state => ({ data: state.patientProfile.data }))
+@connect(state => ({ data: state.patientProfile.data, fields: state.availableFields.diagnoses }))
 class PrimaryDiagnosis extends Component {
     render() {
+        if (this.props.data.diagnosis.length === 0){
+            return null;
+        }
+        const diagnosis = this.props.fields.filter(el => el.id === this.props.data.diagnosis[0].diagnosis);
+        if (diagnosis.length === 0){
+            return null;
+        }
         return (
             <div>
                 <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
+                    <b>Primary Diagnosis: </b>{ diagnosis[0].value } <br/>
+                    <b>Date of diagnosis: </b>{ new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
                 </PatientProfileSectionScaffold>
             </div>
         );
