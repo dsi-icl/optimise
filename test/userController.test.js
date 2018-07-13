@@ -15,28 +15,47 @@ describe('User controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(Object.keys(res.body).length).toBe(1);
-            expect(res.body.token).toBeDefined();
-            adminToken = res.body.token;
+            expect(Object.keys(res.body).length).toBe(2);
+            expect(res.body.status).toBeDefined();
+            expect(res.body.status).toBe('OK');
+            expect(res.body.message).toBeDefined();
+            expect(res.body.message).toBe('Successfully logged in');
         }));
+
+    test('Testing connected', function () {
+        request.get('/whoami')
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+                expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+                expect(Object.keys(res.body).length).toBe(4);
+                expect(res.body.id).toBeDefined();
+                expect(res.body.username).toBeDefined();
+                expect(res.body.realname).toBeDefined();
+                expect(res.body.priv).toBeDefined();
+                expect(res.body.id).toBe(1);
+                expect(res.body.username).toBe('admin');
+                expect(res.body.realname).toBe('admin');
+                expect(res.body.priv).toBeDefined(1);
+            });
+    });
 
     test('Admin creating another user (no 1) without admin priv with real name', () => request
         .post('/users')
         .set('Content-type', 'application/json')
-        .set('token', adminToken)
         .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting' })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            expect(Array.isArray(res.body)).toBe(true);
+            expect(typeof res.body[0]).toBe('number');
         }));
 
-
-    test('Admin user logging out another user (no 1) (should fail)', () => request
+    test('Admin user login out ()', () => request
         .post('/users/logout')
         .set('Content-type', 'application/json')
-        .set('token', adminToken)
-        .send({ 'username': 'test_user' })
         .then(res => {
-            expect(res.statusCode).toBe(401);
+            expect(res.statusCode).toBe(200);
+            expect(res.body.message).toBeDefined();
+            expect(res.body.message).toBe('Successfully logged out');
         }));
 
 
