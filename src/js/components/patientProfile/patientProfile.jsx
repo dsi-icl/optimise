@@ -131,7 +131,7 @@ class PrimaryDiagnosis extends Component {
 }
 
 
-@connect(state => ({ data: state.patientProfile.data, outcomes: state.availableFields.pregnancyOutcomes, meddra: state.meddra.result }))
+@connect(state => ({ data: state.patientProfile.data, allMeddra: state.availableFields.allMeddra, outcomes: state.availableFields.pregnancyOutcomes, meddra: state.meddra.result }))
 class Pregnancy extends Component {
     constructor() {
         super();
@@ -211,9 +211,9 @@ class Pregnancy extends Component {
                     <PatientProfileSectionScaffold sectionName='Pregnancies'>
                         {data.pregnancy.map(el =>
                             <div className={cssSections.profileSubDataSection}>
-                                <b>Start date: </b> {el.startDate} <br/>
-                                <b>Outcome date: </b> {el.outcomeDate} <br/>
-                                <b>MedDRA: </b> {el.meddra} <br/>
+                                <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br/>
+                                <b>Outcome date: </b> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br/>
+                                <b>MedDRA: </b> {this.props.allMeddra[0][el.meddra]} <br/>
                                 <b>Outcome: </b> {el.outcome} <br/>
                             </div>)}
                         {!this.state.addMore ? null : 
