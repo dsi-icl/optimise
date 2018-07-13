@@ -66,6 +66,12 @@ function availableFields(state = initialState.availableFields, action) {
         case actionTypes.availableFields.GET_RELATIONS_SUCCESS:
             newState = { ...state, relations: action.payload.relations, medicalConditions: action.payload.conditions };
             break;
+        case actionTypes.availableFields.GET_DIAGNOSES_SUCCESS:
+            newState = { ...state, diagnoses: action.payload };
+            break;
+        case actionTypes.availableFields.GET_CE_FIELDS_SUCCESS:
+            newState = { ...state, CEFields: action.payload };
+            break;
         default:
             return state;
     }

@@ -18,7 +18,9 @@ export default {
         clinicalEventTypes: [],
         testTypes: [],
         drugs: [],
+        diagnoses: [],
         relations: [],
+        CEFields: [],
         medicalConditions: [],
         inputTypes: [     //'I', 'F', 'BLOB' etc
             {
