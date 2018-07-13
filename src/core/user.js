@@ -13,7 +13,7 @@ function User() {
 
 User.prototype.getUserByUsername = function (user) {
     return new Promise(function (resolve, reject) {
-        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname' }).where('username', 'like', user).then(function (result) {
+        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname' }).where('username', 'like', user).andWhere({ deleted: '-' }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
