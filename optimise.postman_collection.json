@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "cafeb72f-d1cf-4725-a9a4-64e9e99444f5",
-		"name": "optimise copy",
+		"_postman_id": "7f9ffcc4-6a7d-47e2-9429-85f2a2040201",
+		"name": "optimise copy copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -77,6 +77,10 @@
 								"value": "application/json"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/whoami",
 							"host": [
@@ -306,7 +310,10 @@
 										"value": "{{admin_token}}"
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "{{url}}/patientPii?patient=1",
 									"host": [
@@ -436,7 +443,10 @@
 										"value": "{{admin_token}}"
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "{{url}}/patientDiagnosis?patient=1",
 									"host": [
@@ -515,136 +525,6 @@
 									]
 								},
 								"description": "Delete a specific Diagnosis"
-							},
-							"response": []
-						}
-					],
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "PatientPregnancy",
-					"description": "Request related to table patientPregnancy",
-					"item": [
-						{
-							"name": "Create patientPregnancy",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"patient\":3,\n\t\"startDate\":\"100000\",\n\t\"outcome\":1,\n\t\"outcomeDate\":\"1500000\",\n\t\"meddra\":5}"
-								},
-								"url": {
-									"raw": "{{url}}/patientPregnancy/",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientPregnancy",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Pregnancy",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
-								"body": {},
-								"url": {
-									"raw": "{{url}}/patientPregnancy?patient=1",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientPregnancy"
-									],
-									"query": [
-										{
-											"key": "patient",
-											"value": "1"
-										}
-									]
-								},
-								"description": "Get the Pregnancy of a patient or all of them\n"
-							},
-							"response": []
-						},
-						{
-							"name": "Edit Pregnancy",
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":2,\n\t\"outcome\":2}"
-								},
-								"url": {
-									"raw": "{{url}}/patientPregnancy",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientPregnancy"
-									]
-								},
-								"description": "Update Pregnancy of a patient"
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Pregnancy",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":1\n}"
-								},
-								"url": {
-									"raw": "{{url}}/patientPregnancy",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientPregnancy"
-									]
-								},
-								"description": "Delete a specific Pregnancy"
 							},
 							"response": []
 						}
@@ -1554,7 +1434,10 @@
 								"value": "{{admin_token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/available/ceFields",
 							"host": [
@@ -1578,7 +1461,10 @@
 								"value": "{{admin_token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/available/diagnoses",
 							"host": [
@@ -2232,7 +2118,10 @@
 										"value": "{{admin_token}}"
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "{{url}}/demographics/Pregnancy",
 									"host": [
@@ -2256,7 +2145,10 @@
 										"value": "{{admin_token}}"
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "{{url}}/demographics/Pregnancy?patient=3",
 									"host": [
@@ -2349,7 +2241,10 @@
 										"value": "{{admin_token}}"
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "{{url}}/demographics/Fields/Pregnancy",
 									"host": [
@@ -2424,6 +2319,35 @@
 					]
 				},
 				"description": "Get the logs of the API"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Meddra",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{admin_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/meddra?search=oxyl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"meddra"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "oxyl"
+						}
+					]
+				}
 			},
 			"response": []
 		}
