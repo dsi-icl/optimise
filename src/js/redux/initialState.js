@@ -54,7 +54,6 @@ export default {
         initialCheckingStatus: true,
         loggingIn: false,
         loginFailed: false,
-        username: '',
-        realname: ''
+        username: ''
     }
 };
