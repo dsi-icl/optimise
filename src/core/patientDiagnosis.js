@@ -29,9 +29,9 @@ PatientDiagnosisCore.prototype.createPatientDiagnosis = function (entryObj) {
     });
 };
 
-PatientDiagnosisCore.prototype.updatePatientDiagnosis = function (requester, idPatient, updatedObj) {
+PatientDiagnosisCore.prototype.updatePatientDiagnosis = function (user, idPatient, updatedObj) {
     return new Promise(function (resolve, reject) {
-        updateEntry('PATIENT_DIAGNOSIS', requester, '*', { 'patient': idPatient }, updatedObj).then(function (result) {
+        updateEntry('PATIENT_DIAGNOSIS', user, '*', { 'patient': idPatient }, updatedObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
@@ -39,9 +39,9 @@ PatientDiagnosisCore.prototype.updatePatientDiagnosis = function (requester, idP
     });
 };
 
-PatientDiagnosisCore.prototype.deletePatientDiagnosis = function (requester, whereObj) {
+PatientDiagnosisCore.prototype.deletePatientDiagnosis = function (user, whereObj) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('PATIENT_DIAGNOSIS', requester, whereObj).then(function (result) {
+        deleteEntry('PATIENT_DIAGNOSIS', user, whereObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(messages.errorMessages.GETFAIL, error));

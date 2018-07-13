@@ -13,7 +13,7 @@ function User() {
 
 User.prototype.getUserByUsername = function (user) {
     return new Promise(function (resolve, reject) {
-        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname' }).where('username', 'like', user).then(function (result) {
+        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname' }).where('username', 'like', user).andWhere({ deleted: '-' }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -23,7 +23,7 @@ User.prototype.getUserByUsername = function (user) {
 
 User.prototype.getUserByID = function (uid) {
     return new Promise(function (resolve, reject) {
-        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname' }).where('id', 'like', uid).then(function (result) {
+        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('id', uid).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -31,7 +31,7 @@ User.prototype.getUserByID = function (uid) {
     });
 };
 
-User.prototype.createUser = function (requester, user) {
+User.prototype.createUser = function (userReq, user) {
     return new Promise(function (resolve, reject) {
         let entryObj = {};
         entryObj.username = user.username;
@@ -39,7 +39,7 @@ User.prototype.createUser = function (requester, user) {
             entryObj.realname = user.realName;
         entryObj.pw = bcrypt.hashSync(user.pw, saltRound);
         entryObj.adminPriv = user.isAdmin;
-        entryObj.createdByUser = requester.id;
+        entryObj.createdByUser = userReq.id;
         createEntry('USERS', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {
@@ -59,9 +59,9 @@ User.prototype.updateUser = function (user) {
     });
 };
 
-User.prototype.deleteUser = function (requester, userId) {
+User.prototype.deleteUser = function (user, userReq) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('USERS', requester, userId).then(function (result) {
+        deleteEntry('USERS', user, userReq).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));

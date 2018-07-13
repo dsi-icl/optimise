@@ -1,22 +1,31 @@
 /* global describe test expect */
 
-const adminToken = require('./token').adminToken;
-const standardToken = require('./token').standardToken;
-const request = require('supertest')(global.optimiseRouter);
+const request = require('supertest');
+const admin = request.agent(global.optimiseRouter);
+const user = request.agent(global.optimiseRouter);
+const { connectAdmin, connectUser, deconnectAgent } = require('./connection');
+
+beforeAll(async() => { //eslint-disable-line no-undef
+    await connectAdmin(admin);
+    await connectUser(user).then();
+});
+
+afterAll(async() => { //eslint-disable-line no-undef
+    await deconnectAgent(admin);
+    await deconnectAgent(user);
+});
 
 let createCeId;
 
 describe('Create Clinical Event controller tests', () => {
-    test('Request creation whithout body (should fail)', () => request
+    test('Request creation whithout body (should fail)', () => admin
         .post('/clinicalEvents')
-        .set('token', adminToken)
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request creation with bad date format (should fail)', () => request
+    test('Request creation with bad date format (should fail)', () => admin
         .post('/clinicalEvents')
-        .set('token', adminToken)
         .send({
             'visitId': 1,
             'type': 1,
@@ -28,9 +37,8 @@ describe('Create Clinical Event controller tests', () => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request creation with bad body (should fail)', () => request
+    test('Request creation with bad body (should fail)', () => admin
         .post('/clinicalEvents')
-        .set('token', adminToken)
         .send({
             'visit_-Id': 1,
             'tYpE': 2,
@@ -42,9 +50,8 @@ describe('Create Clinical Event controller tests', () => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request creation with good patient and visit (should succeed)', () => request
+    test('Request creation with good patient and visit (should succeed)', () => admin
         .post('/clinicalEvents')
-        .set('token', adminToken)
         .send({
             'visitId': 1,
             'type': 1,
@@ -58,40 +65,35 @@ describe('Create Clinical Event controller tests', () => {
 });
 
 describe('Delete Clinical Event controller tests', () => {
-    test('Request deletion with a standard token (should fail)', () => request
+    test('Request deletion with a standard token (should fail)', () => user
         .delete('/clinicalEvents')
-        .set('token', standardToken)
         .send({ ceId: createCeId })
         .then(res => {
             expect(res.status).toBe(401);
         }));
 
-    test('Request deletion without body (should fail)', () => request
+    test('Request deletion without body (should fail)', () => admin
         .delete('/clinicalEvents')
-        .set('token', adminToken)
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request deletion with bad body (should fail)', () => request
+    test('Request deletion with bad body (should fail)', () => admin
         .delete('/clinicalEvents')
-        .set('token', adminToken)
         .send({ 'ce_-Id': createCeId })
         .then(res => {
             expect(res.status).toBe(400);
         }));
 
-    test('Request deletion with bad ID reference (should fail)', () => request
+    test('Request deletion with bad ID reference (should fail)', () => admin
         .delete('/clinicalEvents')
-        .set('token', adminToken)
         .send({ 'ceId': 99999999 })
         .then(res => {
             expect(res.status).toBe(200);
         }));
 
-    test('Request deletion with good body (should success)', () => request
+    test('Request deletion with good body (should success)', () => admin
         .delete('/clinicalEvents')
-        .set('token', adminToken)
         .send({ 'ceId': 1 })
         .then(res => {
             expect(res.status).toBe(200);
