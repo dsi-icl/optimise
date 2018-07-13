@@ -1,6 +1,4 @@
 const knex = require('../utils/db-connection');
-const ErrorHelper = require('../utils/error_helper');
-const message = require('../utils/message-utils');
 
 function MeddraController() {
     this.MeddraCollection = null;
