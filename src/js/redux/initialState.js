@@ -18,6 +18,7 @@ export default {
         clinicalEventTypes: [],
         testTypes: [],
         drugs: [],
+        allMeddra: [],
         pregnancyOutcomes: [],
         diagnoses: [],
         relations: [],
