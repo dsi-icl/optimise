@@ -80,6 +80,9 @@ function availableFields(state = initialState.availableFields, action) {
         case actionTypes.availableFields.GET_CE_FIELDS_SUCCESS:
             newState = { ...state, CEFields: action.payload };
             break;
+        case actionTypes.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS:
+            newState = { ...state, pregnancyOutcomes: action.payload };
+            break;
         default:
             return state;
     }
