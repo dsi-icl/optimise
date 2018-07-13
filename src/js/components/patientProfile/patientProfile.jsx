@@ -8,6 +8,7 @@ import { formatRow } from './patientChart.jsx';
 import store from '../../redux/store.js';
 import { createImmunisationAPICall } from '../../redux/actions/demographicData.js';
 
+
 @connect(state => ({ fetching: state.patientProfile.fetching }))
 export class Section extends Component {
     render() {

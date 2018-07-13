@@ -109,11 +109,23 @@ function patientProfile(state = initialState.patientProfile, action) {
     }
 }
 
+function meddra(state = initialState.meddra, action) {
+    switch (action.type) {
+        case actionTypes.searchMedDRA.SEARCH_MEDDRA_SUCCESS:
+            return { result: action.payload };
+        case actionTypes.searchMedDRA.SEARCH_MEDDRA_FAILURE:
+            return { result: [] };
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatientById,
     patientProfile,
     availableFields,
-    login
+    login,
+    meddra
 });
 
