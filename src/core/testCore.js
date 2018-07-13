@@ -29,9 +29,9 @@ Test.prototype.createTest = function(entryTest){
     });
 };
 
-Test.prototype.addActualOccurDateTest = function(requester, entryTest){
+Test.prototype.addActualOccurDateTest = function(user, entryTest){
     return new Promise(function(resolve, reject){
-        updateEntry('ORDERED_TESTS', requester, '*', { id: entryTest.id }, entryTest).then(function(result){
+        updateEntry('ORDERED_TESTS', user, '*', { id: entryTest.id }, entryTest).then(function(result){
             resolve(result);
         }, function(error){
             reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
