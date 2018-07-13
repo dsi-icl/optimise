@@ -14,9 +14,9 @@ import moment from 'moment';
 export class TreatmentInterruption extends Component {
     constructor() {
         super();
-        this.state = { 
-            addMore: false, 
-            newStartDate: moment(), 
+        this.state = {
+            addMore: false,
+            newStartDate: moment(),
             newEndDate: moment(),
             noEndDate: false,
             newReason: null,
@@ -31,7 +31,7 @@ export class TreatmentInterruption extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: null });
+        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: '' });
     }
 
     _handleInput(ev) {
@@ -62,7 +62,7 @@ export class TreatmentInterruption extends Component {
     }
 
     render() {
-        const { patientProfile , fields} = this.props;
+        const { patientProfile, fields } = this.props;
         const inputStyle = { width: '100%', margin: 0 };
         if (!patientProfile.fetching) {
             const { params } = this.props.match;
@@ -87,10 +87,10 @@ export class TreatmentInterruption extends Component {
                                 {!this.state.addMore ? null : <tr>
                                     <td><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /></td>
                                     <td>
-                                        <PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null } handleChange={this._handleEndDateChange} />
+                                        <PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} />
                                     </td>
                                     <td>
-                                        <input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate}/>
+                                        <input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} />
                                     </td>
                                     <td>
                                     </td>
