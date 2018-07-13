@@ -15,7 +15,14 @@ export class TimelineBox extends Component {   //unfinsihed
     render() {
         const allVisitDates = this.props.data.visits.map(el => el.visitDate);
         const allTestDates = this.props.data.tests.map(el => el.expectedOccurDate);
-        const allDates = [...allVisitDates, ...allTestDates];
+        const allCEDates = [];
+        this.props.data.clinicalEvents.forEach(function(el){
+            allCEDates.push(el.dateStartDate);
+            if (el.endDate){
+                allCEDates.push(el.endDate);
+            }
+        });
+        const allDates = [...allVisitDates, ...allTestDates, ...allCEDates];
         allDates.sort();
         const daySpan = parseInt(((parseInt(allDates[allDates.length - 1], 10) - parseInt(allDates[0], 10)) / 86400000), 10);
         const numOfCols = `10% ${'1fr '.repeat(daySpan + 3)}`;
@@ -56,6 +63,20 @@ export class TimelineBox extends Component {   //unfinsihed
                 </a>
             );
         };
+
+        const mappingCEFunction = CE => {
+            const date = parseInt(CE.dateStartDate);
+            const ratio = parseInt((date - allDates[0]) / 86400000, 10);
+            const durationInDays = CE.endDate ? parseInt((parseInt(CE.endDate) - date) / 86400000, 10)  : 1;
+            return (
+                <a title={new Date(date).toDateString()} key={`${date}ce`} href={`#clinicalEvent/${CE.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '4/5', textDecoration: 'none' }}>
+                    <div style={{ backgroundColor: CE.type === 4 ? 'black' : 'rgb(255, 102, 102)', color: CE.type === 4 ? 'black' : 'rgb(255, 102, 102)' }}>
+                        -
+                    </div>
+                </a>
+            );
+        };
+
         return (
             <PatientProfileSectionScaffold sectionName='Timeline'>
                 <div className={cssTimeline.timelineBox} style={TimelineDynamicStyle}>
@@ -74,6 +95,7 @@ export class TimelineBox extends Component {   //unfinsihed
                     {this.props.data.visits.map(mappingVisitFunction)}
                     {this.props.data.tests.map(mappingTestFunction)}
                     {this.props.data.treatments.map(mappingMedFunction)}
+                    {this.props.data.clinicalEvents.map(mappingCEFunction)}
                 </div>
             </PatientProfileSectionScaffold>
         );
