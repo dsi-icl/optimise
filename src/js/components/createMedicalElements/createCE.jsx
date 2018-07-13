@@ -15,7 +15,7 @@ export class CreateCE extends Component {
         super();
         this.state = {
             startDate: moment(),
-            ceType: '',
+            ceType: '1',
             meddra: React.createRef()
         };
         this._handleDateChange = this._handleDateChange.bind(this);
@@ -37,6 +37,7 @@ export class CreateCE extends Component {
     }
 
     _handleTypeChange(ev) {
+        console.log('TYPE |>', ev.target.value);
         this.setState({
             ceType: parseInt(ev.target.value, 10)
         });
