@@ -42,7 +42,7 @@ PatientPiiController.prototype.getPatientPii = function (req, res) {
 PatientPiiController.prototype.createPatientPii = function (req, res) {
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('firstName') && req.body.hasOwnProperty('surname') && req.body.hasOwnProperty('fullAddress') && req.body.hasOwnProperty('postcode')) {
         let entryObj = Object.assign({}, PatientPiiModel, req.body);
-        entryObj.createdByUser = req.requester.userid;
+        entryObj.createdByUser = req.user.id;
         this.patientPii.createPatientPii(entryObj).then(function (result) {
             res.status(200).json(result);
             return;
@@ -57,18 +57,18 @@ PatientPiiController.prototype.createPatientPii = function (req, res) {
 };
 
 PatientPiiController.prototype.updatePatientPii = function (req, res) {
-    if (req.requester.priv === 1 && req.body.hasOwnProperty('id')) {
+    if (req.user.priv === 1 && req.body.hasOwnProperty('id')) {
         let entryObj = Object.assign({}, PatientPiiModel, req.body);
         delete entryObj.id;
-        entryObj.createdByUser = req.requester.userid;
-        this.patientPii.updatePatientPii(req.requester, req.body.id, entryObj).then(function (result) {
+        entryObj.createdByUser = req.user.id;
+        this.patientPii.updatePatientPii(req.user, req.body.id, entryObj).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.UPDATEFAIL, error));
             return;
         });
-    } else if (req.requester.priv !== 1) {
+    } else if (req.user.priv !== 1) {
         res.status(400).json(ErrorHelper(messages.userError.NORIGHTS));
         return;
     } else {
@@ -78,15 +78,15 @@ PatientPiiController.prototype.updatePatientPii = function (req, res) {
 };
 
 PatientPiiController.prototype.deletePatientPii = function (req, res) {
-    if (req.requester.priv === 1 && req.body.hasOwnProperty('id')) {
-        this.patientPii.deletePatientPii(req.requester, { 'id': req.body.id }).then(function (result) {
+    if (req.user.priv === 1 && req.body.hasOwnProperty('id')) {
+        this.patientPii.deletePatientPii(req.user, { 'id': req.body.id }).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.DELETEFAIL, error));
             return;
         });
-    } else if (req.requester.priv !== 1) {
+    } else if (req.user.priv !== 1) {
         res.status(400).json(ErrorHelper(messages.userError.NORIGHTS));
         return;
     } else {

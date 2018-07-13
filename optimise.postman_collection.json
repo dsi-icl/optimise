@@ -66,6 +66,28 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "whoami",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/whoami",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"whoami"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

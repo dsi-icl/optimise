@@ -41,7 +41,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         // field adverseEvent coming up soon.
         //        'adverseEvent': (req.body.hasOwnProperty('adverseEvent') ? req.body.adverseEvent : null),
-        'createdByUser': req.requester.userid
+        'createdByUser': req.user.id
     };
     this.treatment.createTreatment(entryObj).then(function (result) {
         res.status(200).json(result);
@@ -69,9 +69,9 @@ TreatmentController.prototype.addTerminationDate = function (req, res) {    //fo
 };
 
 TreatmentController.prototype.editTreatment = function (req, res) {
-    if (req.requester.priv === 1) { // Is it really needed that the user must be admin to edit a treatment ?
+    if (req.user.priv === 1) { // Is it really needed that the user must be admin to edit a treatment ?
         let newObj = Object.assign({}, req.body);   //need to change naming
-        this.treatment.updateTreatment(req.requester, req.body.id, newObj).then(function (result) {
+        this.treatment.updateTreatment(req.user, req.body.id, newObj).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
@@ -87,7 +87,7 @@ TreatmentController.prototype.editTreatment = function (req, res) {
 };
 
 TreatmentController.prototype.deleteTreatment = function (req, res) {
-    if (req.requester.priv !== 1) {
+    if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }
@@ -95,7 +95,7 @@ TreatmentController.prototype.deleteTreatment = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    this.treatment.deleteTreatment(req.requester, req.body.treatmentId).then(function (result) {
+    this.treatment.deleteTreatment(req.user, req.body.treatmentId).then(function (result) {
         if (result.body === 0) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
         } else {
@@ -116,9 +116,9 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
             'meddra': req.body.hasOwnProperty('meddra') ? req.body.meddra : null,
             'endDate': (req.body.hasOwnProperty('end_date') ? Date.parse(req.body.end_date) : null),
             'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
-            'createdByUser': req.requester.userid
+            'createdByUser': req.user.id
         };
-        this.treatment.addInterruption(req.requester, entryObj).then(function (result) {
+        this.treatment.addInterruption(req.user, entryObj).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
@@ -132,12 +132,12 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
 };
 
 TreatmentController.prototype.deleteInterruption = function (req, res) {
-    if (req.requester.priv !== 1) {
+    if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }
     if (req.body.hasOwnProperty('treatmentInterId')) {
-        this.treatment.deleteInterruption(req.requester, req.body.treatmentInterId).then(function (result) {
+        this.treatment.deleteInterruption(req.user, req.body.treatmentInterId).then(function (result) {
             if (result.body === 0) {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
             } else {

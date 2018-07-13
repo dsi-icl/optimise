@@ -9,7 +9,7 @@ function ActionCtrl() {
 }
 
 ActionCtrl.prototype.getLogs = function (req, res) {
-    if (req.requester.priv !== 1) {
+    if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }

@@ -1,6 +1,8 @@
 //External node module imports
 const express = require('express');
+const expressSession = require('express-session');
 const body_parser = require('body-parser');
+const passport = require('passport');
 
 const optimiseOptions = require('./core/options');
 const knex = require('./utils/db-connection');
@@ -58,6 +60,19 @@ function OptimiseServer(config) {
 OptimiseServer.prototype.start = function () {
     let _this = this;
     return new Promise(function (resolve, reject) {
+
+        // Setup sessions with third party middleware
+        _this.app.use(expressSession({
+            secret: 'optimise',
+            saveUninitialized: false,
+            resave: false,
+            cookie: { secure: false },
+            store: _this.mongoStore
+        })
+        );
+
+        _this.app.use(passport.initialize());
+        _this.app.use(passport.session());
 
         // Keeping a pointer to the original mounting point of the server
         _this.app.use(function (req, __unused__res, next) {
@@ -117,11 +132,32 @@ OptimiseServer.prototype.stop = function () {
  * @desc Initialize the users related routes
  */
 OptimiseServer.prototype.setupUsers = function () {
-    // Import the controller
-    this.routeUsers = require('./routes/userRoute');
 
-    // Modules
-    this.app.use('/users', this.routeUsers);
+    // Import the controller
+    const UserCtrl = require('./controllers/userController');
+    this.userController = new UserCtrl();
+
+    //Passport session serialize and deserialize
+    passport.serializeUser(this.userController.serializeUser);
+    passport.deserializeUser(this.userController.deserializeUser);
+
+    this.app.route('/whoami')
+        .get(this.userController.whoAmI); //GET current session user
+
+    // Log the user in
+    this.app.route('/users/login').post(this.userController.loginUser);
+
+    // Log the user out
+    this.app.route('/users/logout').post(this.userController.logoutUser);
+
+    // Interacts with the user in the DB
+    // (POST : create / DELETE : delete / PUT : modify)
+    // Real path is /users
+    this.app.route('/users')
+        .get(this.userController.getUser)
+        .post(this.userController.createUser)
+        .put(this.userController.updateUser)
+        .delete(this.userController.deleteUser);
 };
 
 /**

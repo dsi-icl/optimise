@@ -58,7 +58,7 @@ Patient.prototype.searchPatients = function (queryid) {
 Patient.prototype.createPatient = function (requester, patient) {
     return new Promise(function (resolve, reject) {
         let entryObj = Object.assign({}, patientModel, patient);
-        entryObj.createdByUser = requester.userid;
+        entryObj.createdByUser = requester.id;
         createEntry('PATIENTS', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {

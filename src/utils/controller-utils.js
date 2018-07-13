@@ -15,7 +15,7 @@ function createEntry(tablename, entryObj) {
 function deleteEntry(tablename, requester, whereObj) {
     whereObj.deleted = '-';
     return new Promise(function (resolve, reject) {
-        knex(tablename).where(whereObj).update({ deleted: `${requester.userid}@${JSON.stringify(new Date())}` }).then(function (result) {
+        knex(tablename).where(whereObj).update({ deleted: `${requester.id}@${JSON.stringify(new Date())}` }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(error);
@@ -39,16 +39,16 @@ function updateEntry(tablename, requester, originObj, whereObj, newObj) {
         getEntry(tablename, whereObj, originObj).then(function (getResult) {
             if (getResult.length !== 1) {
                 reject(message.errorMessages.NOTFOUND);
-                return ;
+                return;
             }
             deleteEntry(tablename, requester, whereObj).then(function (__unused__deleteResult) {
                 let newEntry = Object.assign(getResult[0], newObj);
                 delete newEntry.id;
                 delete newEntry.createdTime;
                 delete newEntry.deleted;
-                createEntry(tablename, newEntry).then(function(createResult){
+                createEntry(tablename, newEntry).then(function (createResult) {
                     resolve(createResult);
-                }, function(createError){
+                }, function (createError) {
                     reject(createError);
                 });
             }, function (deleteError) {
@@ -70,7 +70,7 @@ function updateEntry(tablename, requester, originObj, whereObj, newObj) {
     //                 break;
     //             case expectedNumAffected:
     //                 originalResult = result;
-    //                 newDeletedCol = `${req.requester.userid}@${JSON.stringify(new Date())}`;   //saved this so that on fail, update entry back to undeleted
+    //                 newDeletedCol = `${req.user.id}@${JSON.stringify(new Date())}`;   //saved this so that on fail, update entry back to undeleted
     //                 knex(tablename)
     //                     .where(whereObj)
     //                     .update({ deleted: newDeletedCol })
@@ -79,7 +79,7 @@ function updateEntry(tablename, requester, originObj, whereObj, newObj) {
     //                         delete newEntry.id;
     //                         delete newEntry['createdTime'];
     //                         newEntry.deleted = '-';
-    //                         newEntry['createdByUser'] = req.requester.userid;
+    //                         newEntry['createdByUser'] = req.user.id;
     //                         knex(tablename)
     //                             .insert(newEntry)
     //                             .then(() => res.status(200).send(`${whatIsUpdated} has been succesfully updated.`))
