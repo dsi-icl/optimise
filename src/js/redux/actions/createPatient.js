@@ -9,9 +9,22 @@ export const createPatientCall = (body) => dispatch => (
         .then(json => {
             dispatch(getPatientProfileByIdRequest());
             const patientId = json[0];
+            body.PIIData.patient = json[0];
+            body.diagnosisData.patient = json[0];
             const demoData = { ...body.demoData, patient: patientId };
             return apiHelper('/demographics/Demographic', { method: 'POST', body: JSON.stringify(demoData) });
         })
+        .then(json => {
+            console.debug('DIAGNOSIS CALL > ', body.diagnosisData);
+            dispatch(getPatientProfileByIdRequest());
+            return apiHelper('/patientDiagnosis/', { method: 'POST', body: JSON.stringify(body.diagnosisData) });
+        })
+        .then(json => {
+            dispatch(getPatientProfileByIdRequest());
+            console.debug('PII CALL > ', body.PIIData);
+            return apiHelper('/patientPii/', { method: 'POST', body: JSON.stringify(body.PIIData) });
+        })
         .then(() => { dispatch(getPatientProfileById(body.patientId)); })
+        .catch(err => console.debug('ERROR! > ', err))
 
 );

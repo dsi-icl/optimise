@@ -19,6 +19,18 @@ export function getDrugsSuccess(payload) {
     return { type: actions.availableFields.GET_DRUGS_SUCCESS, payload: payload };
 }
 
+export const getCEFieldsCall = APICall('/available/ceFields', getCEFieldsSuccess);
+
+export function getCEFieldsSuccess(payload) {
+    return { type: actions.availableFields.GET_CE_FIELDS_SUCCESS, payload: payload };
+}
+
+export const getDiagnosesCall = APICall('/available/diagnoses', getDiagnosesSuccess);
+
+export function getDiagnosesSuccess(payload) {
+    return { type: actions.availableFields.GET_DIAGNOSES_SUCCESS, payload: payload };
+}
+
 export const getDemoCall = APICall('/demographics/Fields/Demographic', getDemoSuccess);
 
 export function getDemoSuccess(payload) {

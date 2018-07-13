@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { DataTemplate } from './dataPage.jsx';
+import { TreatmentInterruption } from './treatmentInterruptions.jsx';
 
 export class DataPageRouter extends Component {
     render() {
@@ -11,7 +12,7 @@ export class DataPageRouter extends Component {
             <Switch>
                 <Route path='/patientProfile/:patientId/data/test/:elementId' render={({ match }) => <DataTemplate elementType='test' match={match} />} />
                 <Route path='/patientProfile/:patientId/data/visit/:elementId' render={({ match }) => <DataTemplate elementType='visit' match={match} />} />
-                <Route path='/patientProfile/:patientId/data/treatment/:elementId' render={({ match }) => <DataTemplate elementType='treatment' match={match} />} />
+                <Route path='/patientProfile/:patientId/data/treatment/:elementId' render={({ match }) => <TreatmentInterruption match={match} />} />
                 <Route path='/patientProfile/:patientId/data/clinicalEvent/:elementId' render={({ match }) => <DataTemplate elementType='clinicalEvent' match={match} />} />
                 <Route path='/' render={() => <div>This element type is not allowed ;) URL error</div>} />
             </Switch>
