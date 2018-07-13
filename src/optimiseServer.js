@@ -109,7 +109,7 @@ OptimiseServer.prototype.start = function () {
         });
 
         // All good, return the express app router
-        migrate('bare').then(() => resolve(_this.app)).catch(err => reject(err));
+        migrate('ms').then(() => resolve(_this.app)).catch(err => reject(err));
     });
 };
 
