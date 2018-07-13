@@ -42,7 +42,7 @@ export class CreateTreatment extends Component {
                 dose: this.state.dose,
                 unit: this.state.unit,
                 form: this.state.form,
-                timesPerDay: this.state.form,
+                timesPerDay: this.state.timesPerDay,
                 durationInWeeks: this.state.durationInWeeks
             }
         };
