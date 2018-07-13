@@ -192,6 +192,7 @@ const availableCountriesAndEthnicities = {
         { value: 'Uganda' },
         { value: 'Ukraine' },
         { value: 'United Arab Emirates' },
+        { value: 'United Kingdom' },
         { value: 'United States of America (USA)' },
         { value: 'Uruguay' },
         { value: 'Uzbekistan' },
