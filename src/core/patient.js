@@ -52,13 +52,12 @@ Patient.prototype.searchPatients = function (queryid) {
 
 /**
  * @description Create a new patient
- * @param {*} requester  Information about the requester
+ * @param {*} user  Information about the user
  * @param {*} patient The new created patient
  */
-Patient.prototype.createPatient = function (requester, patient) {
+Patient.prototype.createPatient = function (user, patient) {
     return new Promise(function (resolve, reject) {
         let entryObj = Object.assign({}, patientModel, patient);
-        entryObj.createdByUser = requester.id;
         createEntry('PATIENTS', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {
@@ -70,12 +69,12 @@ Patient.prototype.createPatient = function (requester, patient) {
 /**
  * @function deletePatient delete an entry of Patient from an ID.
  *
- * @param {*} requester Information about the requester
+ * @param {*} user Information about the user
  * @param {*} idObj ID of the entry that is going to be deleted
  */
-Patient.prototype.deletePatient = function (requester, idObj) {
+Patient.prototype.deletePatient = function (user, idObj) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('PATIENTS', requester, idObj).then(function (success) {
+        deleteEntry('PATIENTS', user, idObj).then(function (success) {
             resolve(success);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
