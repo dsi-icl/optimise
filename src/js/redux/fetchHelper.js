@@ -1,10 +1,10 @@
 const defaultOptions = {
     mode: 'cors',
     headers: {
-        'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a',
         'content-type': 'application/json'
     },
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include'
 };
 
 export function apiHelper(endpoint, options) {
