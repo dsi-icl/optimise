@@ -39,6 +39,14 @@ function Pregnancy() {
     this.getPregnancyOutcomes = Pregnancy.prototype.getPregnancyOutcomes.bind(this);
 }
 
+function Diagnosis() {
+    this.getDiagnosis = Diagnosis.prototype.getDiagnosis.bind(this);
+    this.createDiagnosis = Diagnosis.prototype.createDiagnosis.bind(this);
+    this.editDiagnosis = Diagnosis.prototype.editDiagnosis.bind(this);
+    this.deleteDiagnosis = Diagnosis.prototype.deleteDiagnosis.bind(this);
+    this.getDiagnosisOptions = Diagnosis.prototype.getDiagnosisOptions.bind(this);
+}
+
 Demographic.prototype.getDemographic = function (whereObj) {
     return new Promise(function (resolve, reject) {
         getEntry('PATIENT_DEMOGRAPHIC', whereObj, '*').then(function (result) {
@@ -291,6 +299,56 @@ Pregnancy.prototype.deletePregnancy = function (requester, whereObj) {
 Pregnancy.prototype.getPregnancyOutcomes = function () {
     return new Promise(function (resolve, reject) {
         getEntry('PREGNANCY_OUTCOMES', {}).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Diagnosis.prototype.getDiagnosis = function (whereObj) {
+    return new Promise(function (resolve, reject) {
+        getEntry('PATIENT_DIAGNOSIS', whereObj, '*').then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Diagnosis.prototype.createDiagnosis = function (entryObj) {
+    return new Promise(function (resolve, reject) {
+        createEntry('PATIENT_DIAGNOSIS', entryObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Diagnosis.prototype.editDiagnosis = function (requester, entryObj) {
+    return new Promise(function (resolve, reject) {
+        updateEntry('PATIENT_DIAGNOSIS', requester, '*', { 'id': entryObj.id }, entryObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Diagnosis.prototype.deleteDiagnosis = function (requester, whereObj) {
+    return new Promise(function (resolve, reject) {
+        deleteEntry('PATIENT_DIAGNOSIS', requester, whereObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+
+Diagnosis.prototype.getDiagnosisOptions = function () {
+    return new Promise(function (resolve, reject) {
+        getEntry('AVAILABLE_DIAGNOSES', {}).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(error);
