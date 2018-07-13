@@ -10,9 +10,6 @@ export class AdminActions extends Component {
                     <b>Manage users </b>
                 </div>
                 <div className={cssButtons.patientBanner}>
-                    <b>Export database for backup</b>
-                </div>
-                <div className={cssButtons.patientBanner}>
                     <b>View access log</b>
                 </div>
             </div>
