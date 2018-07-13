@@ -83,6 +83,9 @@ function availableFields(state = initialState.availableFields, action) {
         case actionTypes.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS:
             newState = { ...state, pregnancyOutcomes: action.payload };
             break;
+        case actionTypes.availableFields.GET_INTERRUPTION_REASONS_SUCESS:
+            newState = { ...state, interruptionReasons: action.payload };
+            break;
         case actionTypes.availableFields.GET_MEDDRA_SUCESS:
             const meddraHashTable = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
             newState = { ...state, allMeddra: [meddraHashTable] };

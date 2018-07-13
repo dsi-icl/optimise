@@ -6,11 +6,14 @@ import { PickDate } from '../createMedicalElements/datepicker.jsx';
 import { formatRow } from '../patientProfile/patientChart.jsx';
 import cssButtons from '../../../css/buttons.module.css';
 import cssIcons from '../../../css/icons.module.css';
+import cssSection from '../../../css/sectioning.module.css';
 import store from '../../redux/store.js';
 import { LoadingIcon } from '../../../statics/svg/icons.jsx';
+import { SuggestionInput } from '../meDRA/meDRApicker.jsx';
+import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments.js';
 import moment from 'moment';
 
-@connect(state => ({ patientProfile: state.patientProfile, fields: state.availableFields }))
+@connect(state => ({ patientProfile: state.patientProfile, fields: state.availableFields, meddra: state.meddra }))
 export class TreatmentInterruption extends Component {
     constructor() {
         super();
@@ -19,9 +22,10 @@ export class TreatmentInterruption extends Component {
             newStartDate: moment(),
             newEndDate: moment(),
             noEndDate: false,
-            newReason: null,
-            newMeddra: null
+            error: false
         };
+        this.reasonRef = React.createRef();
+        this.meddraRef = React.createRef();
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
         this._handleInput = this._handleInput.bind(this);
         this._handleEndDateChange = this._handleEndDateChange.bind(this);
@@ -31,38 +35,57 @@ export class TreatmentInterruption extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: '' });
+        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: '', error: false });
     }
 
     _handleInput(ev) {
-        this.setState({ newName: ev.target.value });
+        this.setState({ newName: ev.target.value, error: false });
     }
 
 
     _handleStartDateChange(date) {
         this.setState({
-            newStartDate: date
+            newStartDate: date,
+            error: false
         });
     }
 
     _handleEndDateChange(date) {
         this.setState({
-            newEndDate: date
+            newEndDate: date,
+            error: false
         });
     }
 
     _handleToggleNoEndDate(ev) {
-        this.setState({ noEndDate: ev.target.checked });
+        this.setState({ noEndDate: ev.target.checked, error: false });
     }
 
     _handleSubmit() {
-        const data = this.props.data;
-        const body = { patientId: data.patientId, data: { patient: data.id, vaccineName: this.state.newName, immunisationDate: this.state.newDate._d.toDateString() } };
+        const meddraFields = this.props.meddra.result.filter(el => el.name === this.meddraRef.current.value);
+        if (meddraFields.length === 0) {
+            this.setState({ error: true });
+            return;
+        }
+        const data = this.props.patientProfile.data;
+        const body = { 
+            patientId: data.patientId,
+            data: {
+                treatmentId: parseInt(this.props.match.params.elementId, 10),
+                start_date: this.state.newStartDate._d.toDateString(),
+                end_date: this.state.noEndDate ? null : this.state.newEndDate._d.toDateString(),
+                reason: parseInt(this.reasonRef.current.value, 10),
+                meddra: meddraFields[0].id
+            }
+        };
+        console.log(body);
+        store.dispatch(createTreatmentInterruptionAPICall(body));
 
     }
 
     render() {
         const { patientProfile, fields } = this.props;
+        const { interruptionReasons, allMeddra } = fields;
         const inputStyle = { width: '100%', margin: 0 };
         if (!patientProfile.fetching) {
             const { params } = this.props.match;
@@ -73,36 +96,35 @@ export class TreatmentInterruption extends Component {
                     <div>
                         <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                         <h2>TREATMENT INTERRUPTIONS</h2>
-                        <table style={{ width: '100%' }}>
-                            {this.state.addMore || treatment.interruptions.length !== 0 ? <thead>
-                                <tr><th>Start date</th><th>End date</th><th>No end date</th><th>Reason</th><th>MedDRA</th></tr>
-                            </thead> : null}
-                            <tbody>
-                                {treatment.interruptions.map(el => formatRow([
-                                    new Date(parseInt(el.startDate, 10)).toDateString(),
-                                    el.endDate ? new Date(parseInt(el.endDate, 10)).toDateString() : 'NA',
-                                    el.endDate ? 'False' : 'True',
+                        {treatment.interruptions.map(el => (
+                            <div key={el.id} className={cssSection.profileSubDataSection}>
+                                <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br/>
+                                {el.endDate ? <span><b>End date: </b>{new Date(parseInt(el.endDate, 10)).toDateString()}<br/></span> : null}
+                                <b>Reason: </b>{interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br/>
+                                <b>MedDRA: </b>{/*allMeddra[el.meddra].value*/ 'NA'}
+                            </div>
+                        ))}
 
-                                ]))}
-                                {!this.state.addMore ? null : <tr>
-                                    <td><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /></td>
-                                    <td>
-                                        <PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} />
-                                    </td>
-                                    <td>
-                                        <input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} />
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>}
-                            </tbody>
-                        </table>
-                        {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Add interruptions</div> :
+
+                        {!this.state.addMore ? 
+                            <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Add interruptions</div> 
+                            : 
                             <div>
-                                <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
-                                <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
+                                <div className={cssSection.profileSubDataSection}>
+                                    <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br/>
+                                    <b>End date: </b><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br/>
+                                    No end date: <input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} /><br/>
+                                    <b>Reason: </b>
+                                    <select ref={this.reasonRef}>
+                                        {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                    </select><br/>
+                                    <b>MedDRA: </b><SuggestionInput reference={this.meddraRef}/>
+                                </div>
+                                <div>
+                                    <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
+                                    <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
+                                    { this.state.error ? <div> Your medDRA code is not a permitted value.</div> : null }
+                                </div>
                             </div>}
                     </div>
                 );
