@@ -84,9 +84,63 @@
                     <p>OPTIMISE MS is a system for recording data including demographics, clinical events, treatments and tests according to CDISC standards for Multiple Sclerosis. OPTIMISE MS allows researchers to better monitor MS patients’ progress, record outcomes and evaluate treatments.</p>
                     <p>The user can enter demographic, medical history and family medical history, clinical event, visit, test and treatment data.</p>
                     <p>OPTIMISE MS can be used in two modes; the off-site mode when networking is enabled and the on-premise mode when networking is disabled.</p>
-                    <h3 id="ug-entering">Logging in</h2>
+                    <h2 id="ug-entering">Logging in</h2>
                     <p>To start using the OPTIMISE portal first open your favorite modern browser.</p>
                     <p>Then, enter the hosting address in the address bar.</p>
+                    <p>You should see the following screen. Enter the user name and password that were given to you and click the Log in button. The default username is <em>admin</em> and the password is <em>admin</em>.</p>
+                    <img src="img/helloPage.png" alt="hello"><br/><br/>
+                    <p>If the log-in is successful, you should see the following screen.</p>
+                    <img src="img/optimise.png" alt="initial"><br/><br/>
+                    <p>If the log-in is unsuccessful, you will get a message. Re-enter user credentials.</p>
+                    <h2 id="ug-search">Searching patients</h2>
+                    <p>In order to search for patients, click in the search box (highlighted in red) and enter the patient ID. Choose from the list of patient IDs below the search box.</p>
+                    <img src="img/searchResult.png" alt="search"><br/><br/>
+                    <p>A timeline and any Medical History information about the patient already in the database will be available in the left panel. The patient profile is available in the right panel. Primary Diagnosis (if entered), Immunisation and Pregnancy information is also available in the right panel.</p>
+                    <img src="img/searchBasicInfo.png" alt="searchResults"><br/><br/>
+                    <h2 id="ug-create">Creating a new patient</h2>
+                    <p>In order to create a new patient, click on the search box button and enter the patient ID. If there are no patients with the entered ID, you may create a new patient by clicking the button as shown below.</p>
+                    <img src="img/createNewPatient.png" alt="createNewPatient"><br/><br/>
+                    <p>Once you click the Create button, you should fill the following form and click Submit in order to create the patient. A warning message will be shown if any of the field(s) are not filled.</p>
+                    <img src="img/newPatient.png" alt="newPatient"><br/><br/>
+                    <p>If the patient creation is successful, the data sections described in Searching patients above are shown on screen.</p>
+                    <h2 id="ug-timeline">Using the Timeline</h2>
+                    <p>You may click on the Timeline to access the corresponding entry in Medical History Summary.</p>
+                    <img src="img/timeline.png" alt="timeline"><br/><br/>
+                    <h2 id="ug-dataentry">Entering patient data</h2>
+                    <p>If there are no visits created for the patient, the Timeline and Medical History should be empty as shown below.</p>
+                    <img src="img/noData.png" alt="visit"><br/><br/>
+                    <p>In order to enter Immunisation or Pregnancy data, click on the buttons in the highlighted sections.</p>
+                    <img src="img/immunisationPregnancy.png" alt="immPreg"><br/><br/>
+                    <p>In order to create a visit, click on the Create visit button at the top centre of the page. To enter Test, Treatment and Clinical Event data, you need to create a visit first.</p>
+                    <img src="img/newVisit.png" alt="visit"><br/><br/>
+                    <p>Fill in the required fields and click submit to create the visit which will be added to the Medical History section.</p>
+                    <img src="img/newVisitMedHistory.png" alt="visit"><br/><br/>
+                    <p>Click on Edit/Add and fill the fields in the right panel as required. Click Save at the bottom right of the page to save the entry.</p>
+                    <img src="img/newVisitMedHistory2.png" alt="visit"><br/><br/>
+                    <p>In order to create a new Test, Treatment or Clinical Event, hover over the appropriate button and select a visit as shown below.</p>
+                    <img src="img/otherData.png" alt="otherData"><br/><br/>
+                    <p>Fill in the new test form in the right panel and click submit to create a new test.</p>
+                    <img src="img/newTest.png" alt="newtest"><br/><br/>
+                    <p>The new entry will be added to the relevant Visit entry in the Medical History section. Click on 'results' to enter further test data.</p>
+                    <img src="img/testData.png" alt="testdata"><br/><br/>
+                    <p>In order to create a new Treatment, hover over the appropriate button and select a visit. Click 'results' in the Medical History section to enter treatment interruptions.</p>
+                    <img src="img/newTrt.png" alt="newtreatment"><br/><br/>
+                    <img src="img/treatmentData.png" alt="treatmentdata"><br/><br/>                    
+                    <p>In order to create a new Clinical Event, hover over the appropriate button and select a visit. Click 'results' to enter further information about the clinical event.</p>
+                    <img src="img/newEvent.png" alt="newclinicalevent"><br/><br/>
+                    <img src="img/eventData.png" alt="clinicaleventdata"><br/><br/>
+                    <h2 id="ug-export">Exporting patient data</h2>
+                    <p>In order to export the database as separate csv files, click on the export button (highlighted in red) and choose where to save the files.</p>
+                    <img src="img/export.png" alt="export"><br/><br/>
+                    <h2 id="ug-adminManage">Managing users (admin)</h2>
+                    <p>The administrator can manage the users (create and delete user accounts) by accessing the relevant option (Manage users) in Admin menu. The Admin menu can be accessed by clicking the icon highlighted in red.</p>
+                    <img src="img/adminMenuManage.png" alt="adminManage"><br/><br/>                    
+                    <h2 id="ug-adminView">Viewing access log (admin)</h2>
+                    <p>The administrator can view the access log by clicking on View access log in the Admin menu.</p>
+                    <img src="img/adminMenuView.png" alt="adminView"><br/><br/>
+                    <h2 id="ug-logout">Logging out</h2>
+                    <p>To log out click on the icon located at the bottom left of the page as shown below.</p>
+                    <img src="img/logout.png" alt="logout"><br/><br/>
                     <div class="bs-callout bs-callout-info" id="migration">
                         <h4>Where is the source code ?</h4>
                         <p>As we are currently in preview; the source code is <strong>not yet available</strong>. Keep watching for some update soon</p>
@@ -148,7 +202,7 @@
                 </div>
                 <div class="bs-docs-section">
                     <h1 class="page-header" id="license-faqs">License FAQs</h1>
-                    <p class="lead">OPTIMISE is released under the MIT license and is copyright 2017 Imperial College London. Boiled down to smaller chunks, it can be described with the following conditions.</p>
+                    <p class="lead">OPTIMISE is released under the MIT license and is copyright 2018 Imperial College London. Boiled down to smaller chunks, it can be described with the following conditions.</p>
                     <h3 id="it-requires-you-to">It requires you to:</h3>
                     <ul>
                         <li>Keep the license and copyright notice included in OPTIMISE's CSS and JavaScript files when you use them in your works</li>
@@ -185,16 +239,12 @@
                                 <li><a href="#ug-entering">Logging in</a> </li>
                                 <li><a href="#ug-search">Searching patients</a> </li>
                                 <li><a href="#ug-create">Creating a new patient</a> </li>
-                                <li><a href="#ug-viewreminders">Viewing all reminders</a> </li>
-                                <li><a href="#ug-export">Dataset export</a> </li>
+                                <li><a href="#ug-timeline">Using the timeline</a> </li>
+                                <li><a href="#ug-dataentry">Entering patient data</a> </li>
+                                <li><a href="#ug-export">Exporting patient data</a> </li>
+                                <li><a href="ug-adminManage">Managing users</a> </li>
+                                <li><a href="ug-adminView">Viewing access log (admin)</a> </li>
                                 <li><a href="#ug-logout">Logging out</a></li>
-                                <li><a href="#ug-profileinput">Entering profile data</a> </li>
-                                <li><a href="#ug-visitinput">Entering visit data</a> </li>
-                                <li><a href="#ug-clinicalinput">Entering event data</a> </li>
-                                <li><a href="#ug-testinput">Entering test data</a> </li>
-                                <li><a href="#ug-treatmentinput">Entering treatment data</a> </li>
-                                <li><a href="#ug-timeline">Patient timeline</a> </li>
-                                <li><a href="#ug-remindersinput">Entering reminders</a> </li>
                             </ul>
                         </li>
                         <li> <a href="#release-note">Release Note</a> </li>
