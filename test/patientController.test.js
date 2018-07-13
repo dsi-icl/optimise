@@ -4,14 +4,18 @@
 const request = require('supertest');
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const { connectAdmin, connectUser } = require('./connection');
-
 const userSeeded = require('../db/exampleDataForTesting/exampleData')['PATIENTS'];
 const message = require('../src/utils/message-utils');
+const { connectAdmin, connectUser, deconnectAgent } = require('./connection');
 
-beforeAll(async () => { //eslint-disable-line no-undef
+beforeAll(async() => { //eslint-disable-line no-undef
     await connectAdmin(admin);
     await connectUser(user).then();
+});
+
+afterAll(async() => { //eslint-disable-line no-undef
+    await deconnectAgent(admin);
+    await deconnectAgent(user);
 });
 
 describe('Patient controller tests', () => {
