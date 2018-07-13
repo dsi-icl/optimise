@@ -27,6 +27,11 @@
     color: white;
 }
 
+.adminActionButtonClicked div{
+    background-color: #ff5151;
+    color: white;
+}
+
 .patientBanner .matchedString {
     color: #ff3737
   }
