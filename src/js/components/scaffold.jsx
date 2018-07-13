@@ -43,11 +43,11 @@ export class MenuBar extends Component {
                     </div>
                 </NavLink>
 
-                <NavLink to='/exportCDISC' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
+                <a href='/export' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center' }}>
                         <ExportIcon width='40%' />
                     </div>
-                </NavLink>
+                </a>
 
                 <NavLink to='/administration' style={{ gridRow: '4/5' }} className={cssButtons.menuButton} title='Admin settings' activeStyle={{ fill: 'white' }}>
                     <div style={{ textAlign: 'center' }}>
@@ -65,7 +65,13 @@ export class MenuBar extends Component {
     }
 }
 
-/* <NavLink to='/filterPatients' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Filter patients' activeStyle={{ fill: 'white' }}>
+/* 
+<NavLink to='/exportCDISC' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
+    <div style={{ textAlign: 'center' }}>
+        <ExportIcon width='40%' />
+    </div>
+</NavLink>
+<NavLink to='/filterPatients' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Filter patients' activeStyle={{ fill: 'white' }}>
 <div style={{ textAlign: 'center' }}>
     <FilterIcon width='50%'/>
 </div>
@@ -83,7 +89,7 @@ export class MiddlePanel extends Component {
                 <Route exact path='/' component={SearchPatientsById} />
                 <Route exact path='/searchPatientById' component={SearchPatientsById} />
                 <Route path='/createPatient' component={SearchPatientsById} />
-                <Route exact path='/exportCDISC' component={History} />
+                <Route exact path='/export' component={() => <></>} />
                 <Route path='/administration' render={({ match, location }) => < AdminActions location={location.pathname} match={match} />} />
                 <Route exact path='/filterPatients' component={FilterPanel} />
                 <Route path='/patientProfile/:patientId' component={null} />
@@ -99,7 +105,7 @@ export class RightPanel extends Component {
                 <Route path='/patientProfile/:patientId' render={({ match, location }) => <PatientChart location={location.pathname} match={match} />} />
                 <Route exact path='/searchPatientById' component={() => <></>} />
                 <Route exact path='/' component={WelcomePanel} />
-                <Route exact path='/exportCDISC' component={() => <></>} />
+                <Route exact path='/export' component={() => <></>} />
                 <Route path='/administration' render={() => <AdminRouter/>} />
                 <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatientComponent match={match} />} />
                 <Route exact path='/filterPatients' component={Fields} />
@@ -118,7 +124,7 @@ export class FarRightPanel extends Component {
                     <Route path='/patientProfile/:patientId/data/:elementType/:elementId' render={({ match }) => <DataPageRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/createVisit' render={({ match }) => <CreateVisit match={match} />} />
                     <Route path='/patientProfile/:patientId' render={({ match }) => <Section match={match} />} />
-                    <Route exact path='/exportCDISC' component={() => <></>} />
+                    <Route exact path='/export' component={() => <></>} />
                     <Route exact path='/administration' component={() => <></>} />
                     <Route exact path='/searchPatientById' component={() => <></>} />
                     <Route exact path='/createPatient' component={() => <></>} />
