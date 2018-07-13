@@ -35,16 +35,15 @@ ClinicalEvent.prototype.getClinicalEvent = function (requestedObj) {
 /**
  * @function createClinicalEvent add a new entry of clinicalEvent
  *
- * @param {Requester} requester Information about the requester
+ * @param {user} user Information about the user
  * @param {ClinicalEventModel} ce The added clinicalEvent
  *
  * @returns a new Promise
  */
-ClinicalEvent.prototype.createClinicalEvent = function (requester, ce) {
+ClinicalEvent.prototype.createClinicalEvent = function(ce) {
     return new Promise(function (resolve, reject) {
         let entryObj = Object.assign({}, ClinicalEventModel, ce);
-        entryObj.createdByUser = requester.id;
-        createEntry('CLINICAL_EVENTS', entryObj).then(function (result) {
+        createEntry('CLINICAL_EVENTS', entryObj).then(function(result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
@@ -55,12 +54,12 @@ ClinicalEvent.prototype.createClinicalEvent = function (requester, ce) {
 /**
  * @function deleteClinicalEvent delete an entry of clinicalEvent from an ID.
  *
- * @param {*} requester Information about the requester
+ * @param {*} user Information about the user
  * @param {*} idObj ID of the entry that is going to be deleted
  */
-ClinicalEvent.prototype.deleteClinicalEvent = function (requester, idObj) {
-    return new Promise(function (resolve, reject) {
-        deleteEntry('CLINICAL_EVENTS', requester, idObj).then(function (success) {
+ClinicalEvent.prototype.deleteClinicalEvent = function(user, idObj) {
+    return new Promise(function(resolve, reject) {
+        deleteEntry('CLINICAL_EVENTS', user, idObj).then(function (success) {
             resolve(success);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
