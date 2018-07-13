@@ -22,4 +22,6 @@ treatment.route('/interrupt')
 treatment.route('/drugs')
     .get(TreatmentController.getDrugs);
 
+treatment.route('/reasons')
+    .get(TreatmentController.getReasons);
 module.exports = treatment;
