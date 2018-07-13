@@ -40,7 +40,7 @@ function mapTests(patientId, typeMap) {
     return el => {
         const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
         return (
-            <tr key={patientId} >
+            <tr key={el.testId} >
                 {formatRow([testType,
                     new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
                     <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
@@ -56,9 +56,10 @@ function mapMedications(patientId, drugList) {
     return el => {
         const drugFiltered = drugList.filter(drug => drug.id === el.drug);
         const drug = drugFiltered.length === 1 ? `${drugFiltered[0].name} (${drugFiltered[0].module})` : el.drug;
+        const numberOfInterruptions = el.interruptions ? el.interruptions.length : 0;
         return (
-            <tr key={patientId} >
-                {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'],
+            <tr key={el.id} >
+                {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'],numberOfInterruptions,
                     <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                         <div className={cssButtons.dataResultButton}>results➠ </div>
                     </NavLink>
@@ -74,7 +75,7 @@ function mapClinicalEvents(patientId, typeList) {
         const type = typeFiltered.length === 1 ? typeFiltered[0].name : el.type;
         const date = new Date(parseInt(el.dateStartDate, 10)).toDateString();
         return (
-            <tr key={patientId} >
+            <tr key={el.id} >
                 {formatRow([type, date,
                     <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                         <div className={cssButtons.dataResultButton}> results➠ </div>
@@ -181,7 +182,7 @@ class OneVisit extends Component {
                     <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
-                                <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th></th></tr>
+                                <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.treatments
