@@ -20,7 +20,7 @@ function connectUser(user) {
         user.post('/users/login')
             .set('Content-type', 'application/json')
             .send({
-                username: 'pm',
+                username: 'user',
                 pw: 'admin'
             })
             .then(res => {
@@ -32,4 +32,16 @@ function connectUser(user) {
     });
 }
 
-module.exports = { connectAdmin: connectAdmin, connectUser: connectUser };
+function deconnectAgent(agent) {
+    return new Promise(function (resolve, reject) {
+        agent.post('/users/logout')
+            .then(res => {
+                if (res.statusCode === 200)
+                    resolve();
+                else
+                    reject();
+            });
+    });
+}
+
+module.exports = { connectAdmin: connectAdmin, connectUser: connectUser, deconnectAgent: deconnectAgent };

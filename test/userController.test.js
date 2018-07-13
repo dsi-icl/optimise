@@ -35,7 +35,7 @@ describe('User controller tests', () => {
                 expect(res.body.priv).toBeDefined();
                 expect(res.body.id).toBe(1);
                 expect(res.body.username).toBe('admin');
-                expect(res.body.realname).toBe('admin');
+                expect(res.body.realname).toBe('Administrator');
                 expect(res.body.priv).toBe(1);
             });
     });
