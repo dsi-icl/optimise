@@ -115,7 +115,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"test\", \"pw\": \"admin\", \"isAdmin\": 1, \"realName\": \"Pierre-Marie\"}"
+							"raw": "{\"username\": \"normal\", \"pw\": \"admin\", \"isAdmin\": 0}"
 						},
 						"url": {
 							"raw": "{{url}}/users",
@@ -418,7 +418,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"patient\":2,\n\t\"diagnosis\":3,\n\t\"diagnosisDate\":\"158184811\"\n}"
+									"raw": "{\n\t\"patient\":1,\n\t\"diagnosis\":4,\n\t\"diagnosisDate\":\"1 jan 2001\"\n}"
 								},
 								"url": {
 									"raw": "{{url}}/patientDiagnosis/",
@@ -618,13 +618,13 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/patients/eleni",
+							"raw": "{{url}}/patients/chon",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"patients",
-								"eleni"
+								"chon"
 							]
 						},
 						"description": "shows all patients with id similar to the one provided"
@@ -677,15 +677,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"aliasId\": \"littlePatient\", \"study\": \"optimise\"}"
+							"raw": "{\"aliasId\": \"littleP\", \"study\": \"optimise\"}"
 						},
 						"url": {
 							"raw": "{{url}}/patients",
@@ -1208,6 +1204,25 @@
 							]
 						},
 						"description": "Get drugs from a query"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reasons",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/treatments/reasons",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"treatments",
+								"reasons"
+							]
+						}
 					},
 					"response": []
 				}
