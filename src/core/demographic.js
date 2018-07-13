@@ -356,4 +356,4 @@ Diagnosis.prototype.getDiagnosisOptions = function () {
     });
 };
 
-module.exports = { DemographicCore: Demographic, MedicalHistoryCore: MedicalHistory, ImmunisationCore: Immunisation, PregnancyCore: Pregnancy };
+module.exports = { DemographicCore: Demographic, MedicalHistoryCore: MedicalHistory, ImmunisationCore: Immunisation, PregnancyCore: Pregnancy, DiagnosisCore: Diagnosis };
