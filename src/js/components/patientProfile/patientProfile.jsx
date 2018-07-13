@@ -291,7 +291,7 @@ class DeletePatient extends Component {
 
     _handleClickWithdrawConsent(){
         const { consent, id } = this.props.data;
-        const body = { patientId: this.props.match.params.patientId, data: { consent: !consent, patient: id } };
+        const body = { patientId: this.props.match.params.patientId, data: { consent: !consent, patientId: id } };
         store.dispatch(updateConsentAPICall(body));
     }
 
