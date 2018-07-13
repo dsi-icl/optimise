@@ -19,7 +19,9 @@ export class SuggestionInput extends Component {
     }
 
     _handleKeyPress(ev) {
-        this.props.extraHandler(ev);
+        if (this.props.extraHandler) {
+            this.props.extraHandler(ev);
+        }
         store.dispatch(searchMedDRAAPICall(ev.target.value));
         this.setState({
             value: ev.target.value
