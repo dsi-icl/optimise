@@ -12,6 +12,7 @@ function PatientController() {
     this.createPatient = PatientController.prototype.createPatient.bind(this);
     this.setPatientAsDeleted = PatientController.prototype.setPatientAsDeleted.bind(this);
     this.getPatientProfileById = PatientController.prototype.getPatientProfileById.bind(this);
+    this.updateConsent = PatientController.prototype.updateConsent.bind(this);
     this.erasePatientInfo = PatientController.prototype.erasePatientInfo.bind(this);
 }
 
@@ -55,6 +56,26 @@ PatientController.prototype.createPatient = function (req, res) {
     }
 };
 
+PatientController.prototype.updateConsent = function (req, res) {
+    if (!(req.body.hasOwnProperty('patientId') && req.body.hasOwnProperty('consent'))) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } if (!(typeof req.body.patientId === 'number' && typeof req.body.consent === 'boolean')) {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
+    } if (req.user.priv !== 1) {
+        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    }
+    knex('PATIENTS').update({ consent: req.body.consent }).where({ id: req.body.patientId }).then(function (result) {
+        res.status(200).json(result);
+        return;
+    }, function (error) {
+        res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return;
+    });
+};
+
 PatientController.prototype.setPatientAsDeleted = function (req, res) {
     if (req.user.priv === 1 && req.body.hasOwnProperty('aliasId')) {
         this.patient.deletePatient(req.user, { aliasId: req.body.aliasId, deleted: '-' }).then(function (result) {
@@ -75,7 +96,7 @@ PatientController.prototype.setPatientAsDeleted = function (req, res) {
 
 PatientController.prototype.getPatientProfileById = function (req, res) {
     if (req.params.hasOwnProperty('patientId')) {
-        this.patient.getPatient({ 'aliasId': req.params.patientId, deleted: '-' }, { patientId: 'id', study: 'study' }).then(function (Patientresult) {
+        this.patient.getPatient({ 'aliasId': req.params.patientId, deleted: '-' }, { patientId: 'id', study: 'study', consent: 'consent' }).then(function (Patientresult) {
             let patientId;
             if (Patientresult.length === 1) {
                 patientId = Patientresult[0].patientId;
@@ -111,6 +132,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                     const responseObj = {};
                     responseObj.patientId = req.params.patientId;
                     responseObj.id = patientId;
+                    responseObj.consent = Boolean(Patientresult[0].consent);
                     for (let i = 0; i < result.length; i++) {
                         responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
                     }

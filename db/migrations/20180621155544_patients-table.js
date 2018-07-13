@@ -1,6 +1,7 @@
 exports.up = function (knex) {
     return knex.schema.createTable('PATIENTS', function (table) {
         table.increments('id').primary();
+        table.boolean('consent').notNullable().defaultTo(false);
         table.text('aliasId').notNullable();
         table.text('study').notNullable();
         table.text('createdTime').notNullable().defaultTo(knex.fn.now());
