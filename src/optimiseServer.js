@@ -85,8 +85,8 @@ OptimiseServer.prototype.start = function () {
         _this.app.use(body_parser.json());
 
         // Adding session checks and monitoring
-        _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
         _this.app.use('/', _this.requestMiddleware.addActionToCollection);
+        _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
 
         // Setup remaining route using controllers
         _this.setupUsers();
