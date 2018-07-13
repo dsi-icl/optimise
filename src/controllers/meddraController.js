@@ -9,7 +9,7 @@ function Meddra() {
     this.setMeddraCollection = Meddra.prototype.setMeddraCollection.bind(this);
     knex('ADVERSE_EVENT_MEDDRA').select('*').then(function (result) {
         that.setMeddraCollection(result);
-    }, function (__unused__error) {
+    }, function () {
         that.setMeddraCollection(null);
     });
 }
