@@ -40,9 +40,9 @@ PatientController.prototype.createPatient = function (req, res) {
         let entryObj = {
             aliasId: req.body.aliasId,
             study: req.body.study,
-            createdByUser: req.requester.id
+            createdByUser: req.user.id
         };
-        this.patient.createPatient(req.requester, entryObj).then(function (result) {
+        this.patient.createPatient(req.user, entryObj).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
@@ -56,15 +56,15 @@ PatientController.prototype.createPatient = function (req, res) {
 };
 
 PatientController.prototype.setPatientAsDeleted = function (req, res) {
-    if (req.requester.priv === 1 && req.body.hasOwnProperty('aliasId')) {
-        this.patient.deletePatient(req.requester, { aliasId: req.body.aliasId, deleted: '-' }).then(function (result) {
+    if (req.user.priv === 1 && req.body.hasOwnProperty('aliasId')) {
+        this.patient.deletePatient(req.user, { aliasId: req.body.aliasId, deleted: '-' }).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
             res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
             return;
         });
-    } else if (req.requester.priv !== 1) {
+    } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     } else {
@@ -137,7 +137,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
 PatientController.prototype.erasePatientInfo = function (req, res) {
     let patientId = undefined;
     let visitId = [];
-    if (req.requester.priv !== 1) {
+    if (req.user.priv !== 1) {
         res.status(403).send('Sorry! Only admins are able to edit / delete data');
         return;
     }

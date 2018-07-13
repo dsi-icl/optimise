@@ -1,19 +1,17 @@
 //External node module imports
 const express = require('express');
+const expressSession = require('express-session');
 const body_parser = require('body-parser');
+const passport = require('passport');
 
 const optimiseOptions = require('./core/options');
 const knex = require('./utils/db-connection');
 const { migrate } = require('../src/utils/db-handler');
 const ErrorHelper = require('./utils/error_helper');
-const Meddra = require('./controllers/meddraController');
 
 function OptimiseServer(config) {
     this.config = new optimiseOptions(config);
     this.app = express();
-
-    // initializing the meddra controller
-    this.meddra = new Meddra();
 
     // Bind member functions
     this.start = OptimiseServer.prototype.start.bind(this);
@@ -62,6 +60,19 @@ OptimiseServer.prototype.start = function () {
     let _this = this;
     return new Promise(function (resolve, reject) {
 
+        // Setup sessions with third party middleware
+        _this.app.use(expressSession({
+            secret: 'optimise',
+            saveUninitialized: false,
+            resave: false,
+            cookie: { secure: false },
+            store: _this.mongoStore
+        })
+        );
+
+        _this.app.use(passport.initialize());
+        _this.app.use(passport.session());
+
         // Keeping a pointer to the original mounting point of the server
         _this.app.use(function (req, __unused__res, next) {
             req.optimiseRootUrl = req.baseUrl;
@@ -73,8 +84,8 @@ OptimiseServer.prototype.start = function () {
         _this.app.use(body_parser.json());
 
         // Adding session checks and monitoring
-        _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
         _this.app.use('/', _this.requestMiddleware.addActionToCollection);
+        _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
 
         // Setup remaining route using controllers
         _this.setupUsers();
@@ -119,11 +130,32 @@ OptimiseServer.prototype.stop = function () {
  * @desc Initialize the users related routes
  */
 OptimiseServer.prototype.setupUsers = function () {
-    // Import the controller
-    this.routeUsers = require('./routes/userRoute');
 
-    // Modules
-    this.app.use('/users', this.routeUsers);
+    // Import the controller
+    const UserCtrl = require('./controllers/userController');
+    this.userController = new UserCtrl();
+
+    //Passport session serialize and deserialize
+    passport.serializeUser(this.userController.serializeUser);
+    passport.deserializeUser(this.userController.deserializeUser);
+
+    this.app.route('/whoami')
+        .get(this.userController.whoAmI); //GET current session user
+
+    // Log the user in
+    this.app.route('/users/login').post(this.userController.loginUser);
+
+    // Log the user out
+    this.app.route('/users/logout').post(this.userController.logoutUser);
+
+    // Interacts with the user in the DB
+    // (POST : create / DELETE : delete / PUT : modify)
+    // Real path is /users
+    this.app.route('/users')
+        .get(this.userController.getUser)
+        .post(this.userController.createUser)
+        .put(this.userController.updateUser)
+        .delete(this.userController.deleteUser);
 };
 
 /**
@@ -265,6 +297,11 @@ OptimiseServer.prototype.setupPPII = function () {
  * @function setupMeddra initialize the route for meddra
  */
 OptimiseServer.prototype.setupMeddra = function () {
+
+    // initializing the meddra controller
+    const MeddraController = require('./controllers/meddraController');
+    this.meddra = new MeddraController();
+
     this.app.route('/meddra')
         .get(this.meddra.getMeddraField);
 };
