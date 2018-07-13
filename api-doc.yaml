@@ -4,7 +4,7 @@ info:
   version: "1.0.0"
   title: "OptimiseMS REST-API"
   license:
-    name: "MIT Licence"
+    name: "MIT License"
 securityDefinitions:
   Cookie:
     type: apiKey
@@ -1740,6 +1740,33 @@ paths:
               error:
                 type: "string"
                 description: "Unauthorized to do this action"
+  /meddra:
+    get:
+      summary: "Get MedDRA"
+      description: "Get all MedDRA low level terms or a subset based on the query string"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "query"
+          name: "search"
+          type: "string"
+          description: "low level term to search for"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "integer"
+                name:
+                  type: "string"
+        "400":
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
 definitions:
   ResponseMessage:
     type: "object"
