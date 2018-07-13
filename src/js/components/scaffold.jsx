@@ -8,6 +8,7 @@ import { CreatePatientComponent } from './createPatient/createPatientPage.jsx';
 import { PatientChart } from './patientProfile/patientChart.jsx';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import { DataPageRouter } from './medicalData/router.jsx';
+import { connect } from 'react-redux';
 import { History } from './exportCDSIC/history.jsx';
 import { CreateVisit } from './createMedicalElements/createVisit.jsx';
 import { SearchIcon, SettingIcon, ExportIcon, LogoutIcon } from '../../statics/svg/icons.jsx';
@@ -15,6 +16,7 @@ import { AdminActions } from './admin/actions.jsx';
 import { FilterPanel } from './filterPatient/selectPanel.jsx';
 import { Fields } from './filterPatient/fieldPanel.jsx';
 import { CreateElementRouter } from './createMedicalElements/router.jsx';
+
 export class MenuBar extends Component {
     render() {
         return (
@@ -113,11 +115,12 @@ export class FarRightPanel extends Component {
     }
 }
 
+@connect(state => ({ username: state.login.username }))
 export class StatusBar extends Component {
     render() {
         return (
             <div className={css.StatusBar}>
-                <span style={{ float: 'left', marginLeft: 10, marginTop: '0.2em', display: 'block' }}> You are logged in as </span>
+                <span style={{ float: 'left', marginLeft: 10, marginTop: '0.2em', display: 'block' }}> You are logged in as {this.props.username}</span>
                 <span style={{ display: 'block', marginTop: '0.2em', position: 'absolute', float: 'left', right: 10 }}> OptimiseMS v1.0.0</span>
             </div>
         );
