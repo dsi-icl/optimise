@@ -50,13 +50,10 @@ UserController.prototype.deserializeUser = function (serializedUser, done) {
 
 UserController.prototype.getUser = function (req, res) {
     let queryUsername;
-    if (req.query.length === 0) {
+    if (!req.query.hasOwnProperty('username')) {
         queryUsername = '';
-    } else if (Object.keys(req.query).length === 1 && typeof (req.query.username) === 'string') {
-        queryUsername = req.query.username;
     } else {
-        res.status(400).send('The query string can only conatins one username');
-        return;
+        queryUsername = req.query.username;
     }
     queryUsername = `%${queryUsername}%`;
     this.user.getUserByUsername(queryUsername).then(function (result) {
