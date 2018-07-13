@@ -11,6 +11,7 @@ function TreatmentController() {
     this.deleteTreatment = TreatmentController.prototype.deleteTreatment.bind(this);
     this.addInterruption = TreatmentController.prototype.addInterruption.bind(this);
     this.deleteInterruption = TreatmentController.prototype.deleteInterruption.bind(this);
+    this.getReasons = TreatmentController.prototype.getReasons.bind(this);
     this.getDrugs = TreatmentController.prototype.getDrugs.bind(this);
 }
 
@@ -149,6 +150,28 @@ TreatmentController.prototype.deleteInterruption = function (req, res) {
         });
     } else {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    }
+};
+
+TreatmentController.prototype.getReasons = function(req, res) {
+    if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
+        this.treatment.searchReasons(`%${req.query.name}%`).then(function (result) {
+            res.status(200).json(result);
+            return;
+        }, function (error) {
+            res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return;
+        });
+        return;
+    } else {
+        this.treatment.getReasons().then(function (result) {
+            res.status(200).json(result);
+            return;
+        }, function (error) {
+            res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return;
+        });
         return;
     }
 };
