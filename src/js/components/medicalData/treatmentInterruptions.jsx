@@ -101,7 +101,7 @@ export class TreatmentInterruption extends Component {
                                 <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br/>
                                 {el.endDate ? <span><b>End date: </b>{new Date(parseInt(el.endDate, 10)).toDateString()}<br/></span> : null}
                                 <b>Reason: </b>{interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br/>
-                                <b>MedDRA: </b>{/*allMeddra[el.meddra].value*/ 'NA'}
+                                <b>MedDRA: </b>{el.meddra ? allMeddra[0][el.meddra] : 'NA'}
                             </div>
                         ))}
 
