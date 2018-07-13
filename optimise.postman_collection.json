@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "cafeb72f-d1cf-4725-a9a4-64e9e99444f5",
-		"name": "optimise copy",
+		"_postman_id": "7f9ffcc4-6a7d-47e2-9429-85f2a2040201",
+		"name": "optimise copy copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -52,7 +52,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"admin\"}"
+							"raw": "{\"username\": \"chon\"}"
 						},
 						"url": {
 							"raw": "{{url}}/users/logout",
@@ -62,6 +62,32 @@
 							"path": [
 								"users",
 								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "whoami",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/whoami",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"whoami"
 							]
 						}
 					},
@@ -149,7 +175,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"admin\", \"pw\": \"admin\"}"
+							"raw": "{\"username\": \"pm\", \"pw\": \"admin\"}"
 						},
 						"url": {
 							"raw": "{{url}}/users/",
@@ -241,7 +267,7 @@
 			"item": [
 				{
 					"name": "PatientPii",
-					"description": "Request relateds to table patientPii",
+					"description": "Request related to table patientPii",
 					"item": [
 						{
 							"name": "Create patientPii",
@@ -284,7 +310,10 @@
 										"value": "{{admin_token}}"
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "{{url}}/patientPii?patient=1",
 									"host": [
@@ -363,6 +392,139 @@
 									]
 								},
 								"description": "Delete a specific PII"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "PatientDiagnosis",
+					"description": "Request related to table PATIENT_DIAGNOSIS",
+					"item": [
+						{
+							"name": "Create patientDiagnosis",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"patient\":2,\n\t\"diagnosis\":3,\n\t\"diagnosisDate\":\"158184811\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/patientDiagnosis/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientDiagnosis",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Diagnosis",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{url}}/patientDiagnosis?patient=1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientDiagnosis"
+									],
+									"query": [
+										{
+											"key": "patient",
+											"value": "1"
+										}
+									]
+								},
+								"description": "Get the Diagnosis of a patient or all of them\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Diagnosis",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":2,\n\t\"diagnosis\":3\n}"
+								},
+								"url": {
+									"raw": "{{url}}/patientDiagnosis",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientDiagnosis"
+									]
+								},
+								"description": "Update Diagnosis of a patient"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Diagnosis",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{admin_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":1\n}"
+								},
+								"url": {
+									"raw": "{{url}}/patientDiagnosis",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"patientDiagnosis"
+									]
+								},
+								"description": "Delete a specific Diagnosis"
 							},
 							"response": []
 						}
@@ -456,13 +618,13 @@
 							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
 						},
 						"url": {
-							"raw": "{{url}}/patients/chon",
+							"raw": "{{url}}/patients/eleni",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"patients",
-								"chon"
+								"eleni"
 							]
 						},
 						"description": "shows all patients with id similar to the one provided"
@@ -941,7 +1103,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"treatmentId\" : 2,\n    \"start_date\" : \"3 March 2010\",\n    \"end_date\" : \"3 March 2011\",\n    \"reason\" : 3\n}"
+							"raw": "{\n\t\"treatmentId\" : 2,\n    \"start_date\" : \"3 March 2010\",\n    \"end_date\" : \"3 March 2011\",\n    \"reason\" : 3,\n    \"meddra\" : 5}"
 						},
 						"url": {
 							"raw": "{{url}}/treatments/interrupt",
@@ -1071,7 +1233,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": \"1 March 2010\",\n\t\"meddra\":1\n}"
+							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": \"1 March 2010\",\n\t\"meddra\" : 1}"
 						},
 						"url": {
 							"raw": "{{url}}/clinicalEvents",
@@ -1272,7 +1434,10 @@
 								"value": "{{admin_token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/available/ceFields",
 							"host": [
@@ -1296,7 +1461,10 @@
 								"value": "{{admin_token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/available/diagnoses",
 							"host": [
@@ -1332,7 +1500,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42}\n}"
+							"raw": "{\"visitId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
 						},
 						"url": {
 							"raw": "{{url}}/data/visit",
@@ -1950,7 +2118,10 @@
 										"value": "{{admin_token}}"
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "{{url}}/demographics/Pregnancy",
 									"host": [
@@ -1974,7 +2145,10 @@
 										"value": "{{admin_token}}"
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "{{url}}/demographics/Pregnancy?patient=3",
 									"host": [
@@ -2067,7 +2241,10 @@
 										"value": "{{admin_token}}"
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "{{url}}/demographics/Fields/Pregnancy",
 									"host": [
@@ -2157,7 +2334,7 @@
 				],
 				"body": {},
 				"url": {
-					"raw": "{{url}}/meddra?search= ",
+					"raw": "{{url}}/meddra?search=oxyl",
 					"host": [
 						"{{url}}"
 					],
@@ -2167,7 +2344,7 @@
 					"query": [
 						{
 							"key": "search",
-							"value": " "
+							"value": "oxyl"
 						}
 					]
 				}
