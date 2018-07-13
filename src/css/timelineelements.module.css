@@ -2,9 +2,9 @@
     background-color: rgb(210, 210, 210);
     border-radius: 10px;
     width: 100%;
-    height: 130px;
+    height: 96px;
     display: grid;
     padding: 7px;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     overflow: hidden;
 }
