@@ -7,7 +7,7 @@ import cssLogin from '../css/loginpage.module.css';
 import { LoadingIcon } from '../statics/svg/icons.jsx';
 import cssIcons from '../css/icons.module.css';
 import cssScaffold from '../css/scaffold.module.css';
-import { getVisitFieldsCall, getTestFieldsCall, getClinicalEventTypesCall, getTestTypesCall, getDrugsCall, getDemoCall, getRelationCall } from './redux/actions/availableFields.js';
+import { getVisitFieldsCall, getTestFieldsCall, getClinicalEventTypesCall, getCEFieldsCall, getTestTypesCall, getDrugsCall, getDemoCall, getRelationCall, getDiagnosesCall } from './redux/actions/availableFields.js';
 require('react-datepicker/dist/react-datepicker-cssmodules.css');
 
 
@@ -39,7 +39,9 @@ function mapDispatchToProps(dispatch) {
         getTestTypesCall: () => dispatch(getTestTypesCall()),
         getDrugsCall: () => dispatch(getDrugsCall()),
         getDemoCall: () => dispatch(getDemoCall()),
-        getRelationCall: () => dispatch(getRelationCall())
+        getRelationCall: () => dispatch(getRelationCall()),
+        getDiagnosesCall: () => dispatch(getDiagnosesCall()),
+        getCEFieldsCall: () => dispatch(getCEFieldsCall())
     };
 }
 @withRouter
@@ -53,6 +55,8 @@ class LoadingFields extends Component {
         this.props.getDrugsCall();
         this.props.getDemoCall();
         this.props.getRelationCall();
+        this.props.getDiagnosesCall();
+        this.props.getCEFieldsCall();
 
     }
 
