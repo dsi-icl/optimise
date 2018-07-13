@@ -71,7 +71,7 @@ User.prototype.deleteUser = function (requester, userId) {
 
 User.prototype.loginUser = function (user) {
     return new Promise(function (resolve, reject) {
-        getEntry('USERS', { username: user.username }, { pw: 'pw', id: 'id', priv: 'adminPriv' }).then(function (result) {
+        getEntry('USERS', { username: user.username }, { pw: 'pw', id: 'id', username: 'username', priv: 'adminPriv' }).then(function (result) {
             if (result.length <= 0)
                 reject(ErrorHelper(message.errorMessages.GETFAIL));
             try {
