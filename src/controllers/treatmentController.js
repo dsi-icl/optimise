@@ -18,7 +18,7 @@ function TreatmentController() {
 TreatmentController.prototype.createTreatment = function (req, res) {
     if (!(req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('drugId') && req.body.hasOwnProperty('dose') &&
         req.body.hasOwnProperty('unit') && req.body.hasOwnProperty('form') && req.body.hasOwnProperty('timesPerDay') && req.body.hasOwnProperty('durationInWeeks'))) {
-        res.status(400).json(message.userError.MISSINGARGUMENT);
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
     if ((req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
