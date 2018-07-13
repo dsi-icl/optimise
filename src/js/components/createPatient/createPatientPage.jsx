@@ -138,7 +138,7 @@ export class CreatePatientComponent extends Component {    //get these props fro
  * @prop {Array} this.props.options - list of options to be rendered; each option would be {id: x, value: 'abc'}
  * @prop {Function} this.props.handler - event listener passed down by parent to change the state of parent
  */
-class SelectField extends Component {
+export class SelectField extends Component {
     render() {
         return (
             <select onChange={this.props.handler} name={this.props.name} value={this.props.value}>

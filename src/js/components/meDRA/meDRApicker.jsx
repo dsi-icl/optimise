@@ -7,6 +7,7 @@ import store from '../../redux/store.js';
  * @class SuggestionInput
  * @prop {Array} this.props.result - from store
  * @prop {REF} this.props.myRef
+ * @prop {func} this.props.extraHandler
  */
 
 @connect(state => ({ result: state.meddra.result }))
@@ -18,6 +19,7 @@ export class SuggestionInput extends Component {
     }
 
     _handleKeyPress(ev) {
+        this.props.extraHandler(ev);
         store.dispatch(searchMedDRAAPICall(ev.target.value));
         this.setState({
             value: ev.target.value
