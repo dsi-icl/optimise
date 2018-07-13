@@ -68,11 +68,10 @@ export class DataTemplate extends Component {
             if (elementsMatched.length === 0) {
                 return <div>{`Cannot find your ${this.props.elementType}!`}</div>;
             } else {
-                const fieldString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Fields` : null;   //this is because id naming is inconsistent on backend - might change..?
+                const fieldString = `${this.props.elementType}Fields`;
                 return (<div style={{ overflow: 'auto' }}>
                     <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                     <h2>RESULT</h2>
-                    <div>{JSON.stringify(this.state.data)}</div>
                     {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit, idString, this.props.elementType)}
                 </div>);   //change the type later
             }

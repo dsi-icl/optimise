@@ -22,7 +22,7 @@ export default {
         pregnancyOutcomes: [],
         diagnoses: [],
         relations: [],
-        CEFields: [],
+        clinicalEventFields: [],
         medicalConditions: [],
         inputTypes: [     //'I', 'F', 'BLOB' etc
             {

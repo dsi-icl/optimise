@@ -78,7 +78,7 @@ function availableFields(state = initialState.availableFields, action) {
             newState = { ...state, diagnoses: action.payload };
             break;
         case actionTypes.availableFields.GET_CE_FIELDS_SUCCESS:
-            newState = { ...state, CEFields: action.payload };
+            newState = { ...state, clinicalEventFields: action.payload };
             break;
         case actionTypes.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS:
             newState = { ...state, pregnancyOutcomes: action.payload };
