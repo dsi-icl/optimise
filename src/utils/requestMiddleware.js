@@ -22,7 +22,7 @@ class RequestMiddleware {
         let user = req.user ? req.user.id : null;
         if (user !== null) {
             next();
-        } else if (req.baseUrl === '/users/login') {
+        } else if (req.url === '/users/login') {
             next();
         } else {
             res.status(400).send({ status: 'error', message: 'Please login first' });
