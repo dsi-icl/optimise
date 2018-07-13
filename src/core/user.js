@@ -96,14 +96,15 @@ User.prototype.loginUser = function (user) {
     });
 };
 
-User.prototype.logoutUser = function (requester) {
-    return new Promise(function (resolve, reject) {
-        deleteEntry('USER_SESSION', requester, { sessionToken: requester.token }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        });
-    });
+User.prototype.logoutUser = function (__unused__user) {
+    // return new Promise(function (resolve, reject) {
+    //     deleteEntry('USER_SESSION', requester, { sessionToken: requester.token }).then(function (result) {
+    //         resolve(result);
+    //     }, function (error) {
+    //         reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+    //     });
+    // });
+    return Promise.resolve(true);
 };
 
 module.exports = User;
