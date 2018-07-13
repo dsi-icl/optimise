@@ -63,7 +63,7 @@ class DemographicSection extends Component {
 class ImmunisationSection extends Component {
     constructor() {
         super();
-        this.state = { addMore: false, newDate: moment(), newName: null };
+        this.state = { addMore: false, newDate: moment(), newName: '' };
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
         this._handleInput = this._handleInput.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
@@ -71,7 +71,7 @@ class ImmunisationSection extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: null });
+        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: '' });
     }
 
     _handleInput(ev) {
@@ -101,7 +101,11 @@ class ImmunisationSection extends Component {
                         <tr><th>Vaccine name</th><th>Date</th></tr>
                     </thead> : null}
                     <tbody>
-                        {data.immunisations.map(el => formatRow([el.vaccineName, new Date(parseInt(el.immunisationDate, 10)).toDateString()]))}
+                        {data.immunisations.map(el => (
+                            <tr key={el.vaccineName}>
+                                {formatRow([el.vaccineName, new Date(parseInt(el.immunisationDate, 10)).toDateString()])}
+                            </tr>
+                        ))}
                         {!this.state.addMore ? null : <tr>
                             <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
                             <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
@@ -121,18 +125,18 @@ class ImmunisationSection extends Component {
 @connect(state => ({ data: state.patientProfile.data, fields: state.availableFields.diagnoses }))
 class PrimaryDiagnosis extends Component {
     render() {
-        if (this.props.data.diagnosis.length === 0){
+        if (this.props.data.diagnosis.length === 0) {
             return null;
         }
         const diagnosis = this.props.fields.filter(el => el.id === this.props.data.diagnosis[0].diagnosis);
-        if (diagnosis.length === 0){
+        if (diagnosis.length === 0) {
             return null;
         }
         return (
             <div>
                 <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
-                    <b>Primary Diagnosis: </b>{ diagnosis[0].value } <br/>
-                    <b>Date of diagnosis: </b>{ new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
+                    <b>Primary Diagnosis: </b>{diagnosis[0].value} <br />
+                    <b>Date of diagnosis: </b>{new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
                 </PatientProfileSectionScaffold>
             </div>
         );
@@ -184,7 +188,7 @@ class Pregnancy extends Component {
         });
     }
 
-    _handleMeddra(){
+    _handleMeddra() {
         this.setState({
             error: false
         });
@@ -197,7 +201,7 @@ class Pregnancy extends Component {
             this.setState({ error: true });
             return;
         }
-        const body = { 
+        const body = {
             patientId: data.patientId,
             data: {
                 patient: data.id,
@@ -219,18 +223,18 @@ class Pregnancy extends Component {
                 <div>
                     <PatientProfileSectionScaffold sectionName='Pregnancies'>
                         {data.pregnancy.map(el =>
-                            <div className={cssSections.profileSubDataSection}>
-                                <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br/>
-                                <b>Outcome date: </b> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br/>
-                                <b>MedDRA: </b> {this.props.allMeddra[0][el.meddra]} <br/>
-                                <b>Outcome: </b> {el.outcome} <br/>
+                            <div key={`${el.meddra}${el.outcomeDate}`} className={cssSections.profileSubDataSection}>
+                                <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
+                                <b>Outcome date: </b> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
+                                <b>MedDRA: </b> {this.props.allMeddra[0][el.meddra]} <br />
+                                <b>Outcome: </b> {el.outcome} <br />
                             </div>)}
-                        {!this.state.addMore ? null : 
+                        {!this.state.addMore ? null :
                             <div className={cssSections.profileSubDataSection}>
-                                <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br/>
-                                <b>Outcome date: </b><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br/>
-                                <b>MedDRA: </b><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra}/><br/>
-                                <b>Outcome: </b><br/><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome'/>
+                                <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
+                                <b>Outcome date: </b><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
+                                <b>MedDRA: </b><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} /><br />
+                                <b>Outcome: </b><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' />
                             </div>
                         }
                         {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Record pregnancy</div> :

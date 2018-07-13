@@ -39,12 +39,16 @@ export class PatientChart extends Component {
 function mapTests(patientId, typeMap) {
     return el => {
         const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
-        return formatRow([testType,
-            new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
-            <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                <div className={cssButtons.dataResultButton}>results➠ </div>
-            </NavLink>
-        ]);
+        return (
+            <tr key={patientId} >
+                {formatRow([testType,
+                    new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
+                    <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+                        <div className={cssButtons.dataResultButton}>results➠ </div>
+                    </NavLink>
+                ])}
+            </tr>
+        );
     };
 }
 
@@ -52,11 +56,15 @@ function mapMedications(patientId, drugList) {
     return el => {
         const drugFiltered = drugList.filter(drug => drug.id === el.drug);
         const drug = drugFiltered.length === 1 ? `${drugFiltered[0].name} (${drugFiltered[0].module})` : el.drug;
-        return formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'],
-            <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                <div className={cssButtons.dataResultButton}>results➠ </div>
-            </NavLink>
-        ]);
+        return (
+            <tr key={patientId} >
+                {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'],
+                    <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+                        <div className={cssButtons.dataResultButton}>results➠ </div>
+                    </NavLink>
+                ])}
+            </tr>
+        );
     };
 }
 
@@ -65,21 +73,32 @@ function mapClinicalEvents(patientId, typeList) {
         const typeFiltered = typeList.filter(type => type.id === el.type);
         const type = typeFiltered.length === 1 ? typeFiltered[0].name : el.type;
         const date = new Date(parseInt(el.dateStartDate, 10)).toDateString();
-        return formatRow([type, date,
-            <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                <div className={cssButtons.dataResultButton}> results➠ </div>
-            </NavLink>
-        ]);
+        return (
+            <tr key={patientId} >
+                {formatRow([type, date,
+                    <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
+                        <div className={cssButtons.dataResultButton}> results➠ </div>
+                    </NavLink>
+                ])}
+            </tr>
+        );
     };
 }
 
 function mapSymptoms(fieldHashTable) {
-    return el => {console.log('MAPPING FIELD', el.field, fieldHashTable); return formatRow([fieldHashTable[el.field].definition, el.value]);};
+    return el => {
+        console.log('MAPPING FIELD', el.field, fieldHashTable);
+        return (
+            <tr key={el.field} >
+                {formatRow([fieldHashTable[el.field].definition, el.value])}
+            </tr>
+        );
+    };
 }
 
 
 export function formatRow(arr) {
-    return <tr>{arr.map((el, ind) => <td key={ind}>{el}</td>)}</tr>;
+    return arr.map((el, ind) => <td key={ind}>{el}</td>);
 }
 
 /**
@@ -99,7 +118,7 @@ class OneVisit extends Component {
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
-        const VS = this.props.visitData.filter(el => [1,2,3,4,5,6].includes(el.field));
+        const VS = this.props.visitData.filter(el => [1, 2, 3, 4, 5, 6].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
         console.debug('HASH VS > ', VSHashTable)
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
@@ -128,7 +147,7 @@ class OneVisit extends Component {
                 </TimelineEvent>
 
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
-                    { relevantFields.length !== 0 ? <table>
+                    {relevantFields.length !== 0 ? <table>
                         <thead>
                             <tr><th>Recorded symptoms</th><th>Value</th></tr>
                         </thead>
@@ -248,5 +267,5 @@ export class Charts extends Component {   //unfinsihed
 
 function sortVisits(visitList) {   //TEMPORARY: change the sorting algorithm later...
     const visits = [...visitList];
-    return visits.sort((a,b) => parseInt(a.visitDate, 10) < parseInt(b.visitDate, 10));
+    return visits.sort((a, b) => parseInt(a.visitDate, 10) < parseInt(b.visitDate, 10));
 }
