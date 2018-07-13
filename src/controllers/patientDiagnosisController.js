@@ -40,6 +40,7 @@ PatientDiagnosisController.prototype.getPatientDiagnosis = function (req, res) {
 PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res) {
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('diagnosis') && req.body.hasOwnProperty('diagnosisDate')) {
         let entryObj = Object.assign({}, PatientDiagnosisModel, req.body);
+        entryObj.diagnosisDate = Date.parse(req.body.diagnosisDate);
         entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.createPatientDiagnosis(entryObj).then(function (result) {
             res.status(200).json(result);
