@@ -275,7 +275,7 @@ OptimiseServer.prototype.setupPregnancy = function () {
     this.app.use('/patientPregnancy', this.routePregnancy);
 };
 
-/** 
+/**
  * @function setupMeddra initialize the route for meddra
  */
 OptimiseServer.prototype.setupMeddra = function () {

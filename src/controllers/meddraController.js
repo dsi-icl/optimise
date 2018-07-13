@@ -2,8 +2,6 @@ const knex = require('../utils/db-connection');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 
-let MeddraCollection = null;
-
 function Meddra() {
     let that = this;
     this.MeddraCollection = null;
@@ -11,31 +9,30 @@ function Meddra() {
     this.setMeddraCollection = Meddra.prototype.setMeddraCollection.bind(this);
     knex('ADVERSE_EVENT_MEDDRA').select('*').then(function (result) {
         that.setMeddraCollection(result);
-    }, function (error) {
+    }, function (__unused__error) {
         that.setMeddraCollection(null);
     });
 }
 
-Meddra.prototype.setMeddraCollection = function(collection) {
+Meddra.prototype.setMeddraCollection = function (collection) {
     this.MeddraCollection = collection;
-}
+};
 
-Meddra.prototype.getMeddraField = function(req, res) {
+Meddra.prototype.getMeddraField = function (req, res) {
     let result = [];
+    let maxOccurency = 20;
     if (this.MeddraCollection === null) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL));
         return;
     }
     if (req.query.hasOwnProperty('search')) {
         let j = 0;
-        result = this.MeddraCollection.filter(obj => obj.name.indexOf(req.query.search) > -1)
-
-        // for (let i = 0; i < this.MeddraCollection.length; i++) {
-        //     if (this.MeddraCollection[i].name.indexOf(req.query.search) > -1) {
-        //         result[j] = this.MeddraCollection[i];
-        //         j++;
-        //     }
-        // }
+        for (let i = 0; i < this.MeddraCollection.length && j < maxOccurency; i++) {
+            if (this.MeddraCollection[i].name.indexOf(req.query.search) > -1) {
+                result[j] = this.MeddraCollection[i];
+                j++;
+            }
+        }
         res.status(200).json(result);
         return;
     }
@@ -43,6 +40,6 @@ Meddra.prototype.getMeddraField = function(req, res) {
         res.status(200).json(this.MeddraCollection);
         return;
     }
-}
+};
 
 module.exports = Meddra;
