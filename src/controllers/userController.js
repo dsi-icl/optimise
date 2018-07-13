@@ -96,7 +96,7 @@ UserController.prototype.updateUser = function (req, res) {
         return;
     }
 
-    this.user.updateUser(req.user, req.body).then(function (result) {
+    this.user.updateUser(req.body).then(function (result) {
         res.status(200).json(result);
         return;
     }, function (error) {
