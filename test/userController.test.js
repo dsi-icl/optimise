@@ -1,11 +1,12 @@
 /* global describe test expect */
 
-const request = require('supertest')(global.optimiseRouter);
-
-let { adminToken, standardToken } = require('../test/token');
+const request = require('supertest');
+const admin = request.agent(global.optimiseRouter);
+const user = request.agent(global.optimiseRouter);
+const message = require('../src/utils/message-utils');
 
 describe('User controller tests', () => {
-    test('First user (admin) login', () => request
+    test('First user (admin) login', () => admin
         .post('/users/login')
         .set('Content-type', 'application/json')
         .send({
@@ -22,8 +23,8 @@ describe('User controller tests', () => {
             expect(res.body.message).toBe('Successfully logged in');
         }));
 
-    test('Testing connected', function () {
-        request.get('/whoami')
+    test('Testing connection with whoami', function () {
+        admin.get('/whoami')
             .then(res => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
@@ -35,11 +36,11 @@ describe('User controller tests', () => {
                 expect(res.body.id).toBe(1);
                 expect(res.body.username).toBe('admin');
                 expect(res.body.realname).toBe('admin');
-                expect(res.body.priv).toBeDefined(1);
+                expect(res.body.priv).toBe(1);
             });
     });
 
-    test('Admin creating another user (no 1) without admin priv with real name', () => request
+    test('Admin creating user (no 1) without admin priv with real name', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
         .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting' })
@@ -49,7 +50,34 @@ describe('User controller tests', () => {
             expect(typeof res.body[0]).toBe('number');
         }));
 
-    test('Admin user login out ()', () => request
+    test('Admin creating user (no 2) without admin priv without real name', () => admin
+        .post('/users')
+        .set('Content-type', 'application/json')
+        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0 })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+        }));
+
+    test('Admin get the users matching with "test" in their name', function () {
+        admin.get('/users?username=test')
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+                expect(Array.isArray(res.body)).toBe(true);
+                expect(res.body.length).toBe(2);
+                expect(res.body[0]).toHaveProperty('id');
+                expect(res.body[0]).toHaveProperty('username');
+                expect(res.body[0]).toHaveProperty('realname');
+                expect(res.body[0].username).toBe('test_user');
+                expect(res.body[0].realname).toBe('IAmTesting');
+                expect(res.body[1]).toHaveProperty('id');
+                expect(res.body[1]).toHaveProperty('username');
+                expect(res.body[1]).toHaveProperty('realname');
+                expect(res.body[1].username).toBe('test_user2');
+                expect(res.body[1].realname).toBeNull();
+            });
+    });
+
+    test('Admin user login out ()', () => admin
         .post('/users/logout')
         .set('Content-type', 'application/json')
         .then(res => {
@@ -59,16 +87,7 @@ describe('User controller tests', () => {
         }));
 
 
-    test('Admin creating another user (no 2) without admin priv without real name', () => request
-        .post('/users')
-        .set('Content-type', 'application/json')
-        .set('token', adminToken)
-        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0 })
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-        }));
-
-    test('user no 1 (standard) login', () => request
+    test('user no 1 (standard) login', () => user
         .post('/users/login')
         .set('Content-type', 'application/json')
         .send({
@@ -78,99 +97,135 @@ describe('User controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(Object.keys(res.body).length).toBe(1);
-            expect(res.body.token).toBeDefined();
-            standardToken = res.body.token;
+            expect(Object.keys(res.body).length).toBe(2);
+            expect(res.body.status).toBeDefined();
+            expect(res.body.status).toBe('OK');
+            expect(res.body.message).toBeDefined();
+            expect(res.body.message).toBe('Successfully logged in');
         }));
 
-    test('user no 1 tries to delete user no 2 (should fail)', () => request
+    test('user no 1 tries to delete user no 2 (should fail)', () => user
         .delete('/users')
         .set('Content-type', 'application/json')
-        .set('token', standardToken)
         .send({ 'username': 'test_user2' })
         .then(res => {
             expect(res.statusCode).toBe(401);
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.NORIGHTS);
         }));
 
     test('user no 1 changes user no 2 s password (should fail)', () =>   //
-        request
+        user
             .put('/users')
             .set('Content-type', 'application/json')
-            .set('token', standardToken)
             .send({ 'username': 'test_user2', 'pw': 'fake_password' })
             .then(res => {
                 expect(res.statusCode).toBe(401);
+                expect(res.body.error).toBeDefined();
+                expect(res.body.error).toBe(message.userError.NORIGHTS);
             })
     );
 
     test('user no 1 changes user no 1 s password', () =>   //
-        request
+        user
             .put('/users')
             .set('Content-type', 'application/json')
-            .set('token', standardToken)
             .send({ 'username': 'test_user', 'pw': 'new_password' })
             .then(res => {
                 expect(res.statusCode).toBe(200);
+                expect(res.body).toBe(1);
             })
     );
 
-    test('user no 1 (standard) login again', () => request
+    test('User no 1 user login out ()', () =>
+        user
+            .post('/users/logout')
+            .set('Content-type', 'application/json')
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+                expect(res.body.message).toBeDefined();
+                expect(res.body.message).toBe('Successfully logged out');
+            }));
+
+    test('user no 1 (standard) login again with new password', () =>
+        user
+            .post('/users/login')
+            .set('Content-type', 'application/json')
+            .send({
+                username: 'test_user',
+                pw: 'new_password'
+            })
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+                expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+                expect(Object.keys(res.body).length).toBe(2);
+                expect(res.body.status).toBeDefined();
+                expect(res.body.status).toBe('OK');
+                expect(res.body.message).toBeDefined();
+                expect(res.body.message).toBe('Successfully logged in');
+            }));
+
+    test('user no 1 deletes himself', () =>
+        user
+            .delete('/users')
+            .set('Content-type', 'application/json')
+            .send({ 'username': 'test_user' })
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+                expect(res.body).toBe(1);
+            }));
+
+    test('First user (admin) login', () => admin
         .post('/users/login')
         .set('Content-type', 'application/json')
         .send({
-            username: 'test_user',
-            pw: 'new_password'
+            username: 'admin',
+            pw: 'admin'
         })
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(Object.keys(res.body).length).toBe(1);
-            expect(res.body.token).toBeDefined();
-            standardToken = res.body.token;
+            expect(Object.keys(res.body).length).toBe(2);
+            expect(res.body.status).toBeDefined();
+            expect(res.body.status).toBe('OK');
+            expect(res.body.message).toBeDefined();
+            expect(res.body.message).toBe('Successfully logged in');
         }));
 
-    test('user no 1 deletes himself', () => request
+    test('admin deletes user no 2', () => admin
         .delete('/users')
         .set('Content-type', 'application/json')
-        .set('token', standardToken)
-        .send({ 'username': 'test_user' })
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-        }));
-
-    test('admin deletes user no 2', () => request
-        .delete('/users')
-        .set('Content-type', 'application/json')
-        .set('token', adminToken)
         .send({ 'username': 'test_user2' })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            expect(res.body).toBe(1);
         }));
 
-    test('Admin creating another user (no 1) without admin priv with real name again', () => request
+    test('Admin creating another user (no 1) without admin priv with real name again', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
-        .set('token', adminToken)
         .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting' })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            expect(Array.isArray(res.body)).toBe(true);
+            expect(typeof res.body[0]).toBe('number');
         }));
 
-    test('admin deletes user no 1 again', () => request
+    test('admin deletes user no 1 again', () => admin
         .delete('/users')
         .set('Content-type', 'application/json')
-        .set('token', adminToken)
         .send({ 'username': 'test_user' })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            expect(res.body).toBe(1);
         }));
 
-    test('admin logging out himself', () => request
+    test('Admin user login out ()', () => admin
         .post('/users/logout')
         .set('Content-type', 'application/json')
-        .set('token', adminToken)
-        .send({ 'username': 'admin' })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            expect(res.body.message).toBeDefined();
+            expect(res.body.message).toBe('Successfully logged out');
         }));
 });
