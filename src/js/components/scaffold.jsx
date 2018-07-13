@@ -80,10 +80,10 @@ export class RightPanel extends Component {
         return (
             <Switch>
                 <Route path='/patientProfile/:patientId' render={({ match, location }) => <PatientChart location={location.pathname} match={match} />} />
-                <Route exact path='/searchPatientById' component={''} />
+                <Route exact path='/searchPatientById' component={() => <></>} />
                 <Route exact path='/' component={WelcomePanel} />
-                <Route exact path='/exportCDISC' component={''} />
-                <Route exact path='/administration' component={''} />
+                <Route exact path='/exportCDISC' component={() => <></>} />
+                <Route exact path='/administration' component={() => <></>} />
                 <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatientComponent match={match} />} />
                 <Route exact path='/filterPatients' component={Fields} />
                 <Route component={() => <span>Oops! seems like we cannot find your url</span>} />
@@ -101,12 +101,12 @@ export class FarRightPanel extends Component {
                     <Route path='/patientProfile/:patientId/data/:elementType/:elementId' render={({ match }) => <DataPageRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/createVisit' render={({ match }) => <CreateVisit match={match} />} />
                     <Route path='/patientProfile/:patientId' render={({ match }) => <Section match={match} />} />
-                    <Route exact path='/exportCDISC' component={''} />
-                    <Route exact path='/administration' component={''} />
-                    <Route exact path='/searchPatientById' component={''} />
-                    <Route exact path='/createPatient' component={''} />
-                    <Route exact path='/filterPatients' component={''} />
-                    <Route exact path='/' component={''} />
+                    <Route exact path='/exportCDISC' component={() => <></>} />
+                    <Route exact path='/administration' component={() => <></>} />
+                    <Route exact path='/searchPatientById' component={() => <></>} />
+                    <Route exact path='/createPatient' component={() => <></>} />
+                    <Route exact path='/filterPatients' component={() => <></>} />
+                    <Route exact path='/' component={() => <></>} />
                 </Switch>
             </div>
         );

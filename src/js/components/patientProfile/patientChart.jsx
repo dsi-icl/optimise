@@ -197,13 +197,14 @@ class OneVisit extends Component {
 export class Charts extends Component {   //unfinsihed
     render() {
         const { visits } = this.props.data;
+        console.debug(visits, sortVisits(visits));
         return (
             <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
 
                 {visits.length !== 0 ?
-                    (<Timeline lineColor='#d1d1d1'>{sortVisits(this.props.data.visits).map(
+                    (<Timeline lineColor='#d1d1d1'>{sortVisits(visits).map(
                         (el, ind) => {
-                            const order = this.props.data.visits.length - ind;
+                            const order = visits.length - ind;
                             let suffix;
                             switch (order) {
                                 case 1:
@@ -241,7 +242,6 @@ export class Charts extends Component {   //unfinsihed
         );
     }
 }
-
 
 
 function sortVisits(visitList) {   //TEMPORARY: change the sorting algorithm later...
