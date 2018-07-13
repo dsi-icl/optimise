@@ -19,7 +19,8 @@ CeController.prototype.createCe = function (req, res) {
         ce.type = req.body.type;
         ce.meddra = req.body.meddra;
         ce.dateStartDate = Date.parse(req.body.startDate);
-        this.clinicalEvent.createClinicalEvent(req.user, ce).then(function (result) {
+        ce.createdByUser = req.user.id;
+        this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {
@@ -39,7 +40,7 @@ CeController.prototype.deleteCe = function (req, res) {
         return;
     }
     if (req.body.hasOwnProperty('ceId')) {
-        this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then(function (result) {
+        this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then(function(result) {
             res.status(200).json(result);
             return;
         }, function (error) {
