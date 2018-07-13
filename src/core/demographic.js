@@ -250,7 +250,7 @@ MedicalHistory.prototype.getConditions = function () {
 
 Pregnancy.prototype.getPregnancy = function (whereObj) {
     return new Promise(function (resolve, reject) {
-        getEntry('PATIENT_PREGNANCY', whereObj, '*').then(function (result) {
+        getEntry('PATIENT_PREGNANCY', whereObj, { id: 'id', patient: 'patient', startDate: 'startDate', outcome: 'outcome', outcomeDate: 'outcomeDate', meddra: 'meddra' }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(error);
