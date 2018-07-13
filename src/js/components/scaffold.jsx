@@ -17,6 +17,7 @@ import { FilterPanel } from './filterPatient/selectPanel.jsx';
 import { Fields } from './filterPatient/fieldPanel.jsx';
 import { CreateElementRouter } from './createMedicalElements/router.jsx';
 import { logoutAPICall } from '../redux/actions/login.js';
+import { AdminRouter } from './admin/router.jsx';
 import store from '../redux/store.js';
 
 @connect(state => ({ username: state.login.username }))
@@ -83,7 +84,7 @@ export class MiddlePanel extends Component {
                 <Route exact path='/searchPatientById' component={SearchPatientsById} />
                 <Route path='/createPatient' component={SearchPatientsById} />
                 <Route exact path='/exportCDISC' component={History} />
-                <Route exact path='/administration' component={AdminActions} />
+                <Route path='/administration' render={({ match, location }) => < AdminActions location={location.pathname} match={match} />} />
                 <Route exact path='/filterPatients' component={FilterPanel} />
                 <Route path='/patientProfile/:patientId' component={null} />
             </Switch>
@@ -99,7 +100,7 @@ export class RightPanel extends Component {
                 <Route exact path='/searchPatientById' component={() => <></>} />
                 <Route exact path='/' component={WelcomePanel} />
                 <Route exact path='/exportCDISC' component={() => <></>} />
-                <Route exact path='/administration' component={() => <></>} />
+                <Route path='/administration' render={() => <AdminRouter/>} />
                 <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatientComponent match={match} />} />
                 <Route exact path='/filterPatients' component={Fields} />
                 <Route component={() => <span>Oops! seems like we cannot find your url</span>} />

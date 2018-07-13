@@ -127,12 +127,42 @@ function meddra(state = initialState.meddra, action) {
     }
 }
 
+function log(state = initialState.log, action) {
+    switch(action.type) {
+        case actionTypes.admin.GET_LOG_REQUEST:
+            return { result: [], fetching: true, error: false };
+        case actionTypes.admin.GET_LOG_SUCCESS:
+            return { result: action.payload, fetching: false, error: false };
+        case actionTypes.admin.GET_LOG_FAILURE:
+            return { result: [], fetching: false, error: true };
+        default:
+            return state;
+
+    }
+}
+
+function getAllUsers(state = initialState.getAllUsers, action) {
+    switch(action.type) {
+        case actionTypes.admin.GET_ALL_USERS_REQUEST:
+            return { result: [], fetching: true, error: false };
+        case actionTypes.admin.GET_ALL_USERS_SUCCESS:
+            return { result: action.payload, fetching: false, error: false };
+        case actionTypes.admin.GET_ALL_USERS_FAILURE:
+            return { result: [], fetching: false, error: true };
+        default:
+            return state;
+
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatientById,
     patientProfile,
     availableFields,
     login,
-    meddra
+    meddra,
+    log,
+    getAllUsers
 });
 

@@ -60,5 +60,15 @@ export default {
     },
     meddra: {
         result: []
+    },
+    log: {
+        fetching: true,
+        error: false,
+        result: []
+    },
+    getAllUsers: {
+        fetching: true,
+        error: false,
+        result: []
     }
 };
