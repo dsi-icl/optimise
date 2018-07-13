@@ -40,7 +40,7 @@ CeController.prototype.deleteCe = function (req, res) {
         return;
     }
     if (req.body.hasOwnProperty('ceId')) {
-        this.clinicalEvent.deleteClinicalEvent(userId, { 'id': req.body.ceId }).then(function(result) {
+        this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then(function(result) {
             res.status(200).json(result);
             return;
         }, function (error) {

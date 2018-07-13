@@ -55,7 +55,7 @@ Patient.prototype.searchPatients = function (queryid) {
  * @param {*} user  Information about the user
  * @param {*} patient The new created patient
  */
-Patient.prototype.createPatient = function (user, patient) {
+Patient.prototype.createPatient = function (patient) {
     return new Promise(function (resolve, reject) {
         let entryObj = Object.assign({}, patientModel, patient);
         createEntry('PATIENTS', entryObj).then(function (result) {
