@@ -20,3 +20,10 @@
     margin: 10px auto;
     width: 90%
 }
+
+.profileSubDataSection {
+    background-color: #bfbfbf;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+}

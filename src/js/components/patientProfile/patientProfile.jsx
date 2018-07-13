@@ -9,6 +9,8 @@ import store from '../../redux/store.js';
 import { createImmunisationAPICall, createPregnancyAPICall } from '../../redux/actions/demographicData.js';
 import { SuggestionInput } from '../meDRA/meDRApicker.jsx';
 import { SelectField } from '../createPatient/createPatientPage.jsx';
+import cssSections from '../../../css/sectioning.module.css';
+
 @connect(state => ({ fetching: state.patientProfile.fetching }))
 export class Section extends Component {
     render() {
@@ -137,18 +139,20 @@ class Pregnancy extends Component {
             error: false,
             addMore: false,
             newStartDate: moment(),
+            newOutcomeDate: moment(),
             newMeddra: React.createRef(),
             newOutcome: 1
         };
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
         this._handleInput = this._handleInput.bind(this);
-        this._handleDateChange = this._handleDateChange.bind(this);
+        this._handleOutcomeDateChange = this._handleOutcomeDateChange.bind(this);
+        this._handleStartDateChange = this._handleStartDateChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleMeddra = this._handleMeddra.bind(this);
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore });
+        this.setState({ addMore: !this.state.addMore, error: false });
     }
 
     _handleInput(ev) {
@@ -157,9 +161,16 @@ class Pregnancy extends Component {
         this.setState(newState);
     }
 
-    _handleDateChange(date) {
+    _handleOutcomeDateChange(date) {
         this.setState({
-            newDate: date,
+            newOutcomeDate: date,
+            error: false
+        });
+    }
+
+    _handleStartDateChange(date) {
+        this.setState({
+            newStartDate: date,
             error: false
         });
     }
@@ -183,7 +194,8 @@ class Pregnancy extends Component {
                 patient: data.id,
                 outcome: this.state.newOutcome,
                 startDate: this.state.newStartDate._d.toDateString(),
-                meddra: meddraField[0].id
+                meddra: meddraField[0].id,
+                outcomeDate: this.state.newOutcomeDate._d.toDateString()
             }
         };
         console.log(body);
@@ -197,19 +209,21 @@ class Pregnancy extends Component {
             return (
                 <div>
                     <PatientProfileSectionScaffold sectionName='Pregnancies'>
-                        <table style={{ width: '100%' }}>
-                            {this.state.addMore || data.pregnancy.length !== 0 ? <thead>
-                                <tr><th>Start date</th><th>meDRA</th><th>Outcome</th></tr>
-                            </thead> : null}
-                            <tbody>
-                                {data.immunisations.map(() => formatRow(['a', 'b', 'c']))}
-                                {!this.state.addMore ? null : <tr>
-                                    <td><PickDate startDate={this.state.newStartDate} handleChange={this._handleDateChange} /></td>
-                                    <td><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra}/></td>
-                                    <td><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome'/></td>
-                                </tr>}
-                            </tbody>
-                        </table>
+                        {data.pregnancy.map(el =>
+                            <div className={cssSections.profileSubDataSection}>
+                                <b>Start date: </b> {el.startDate} <br/>
+                                <b>Outcome date: </b> {el.outcomeDate} <br/>
+                                <b>MedDRA: </b> {el.meddra} <br/>
+                                <b>Outcome: </b> {el.outcome} <br/>
+                            </div>)}
+                        {!this.state.addMore ? null : 
+                            <div className={cssSections.profileSubDataSection}>
+                                <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br/>
+                                <b>Outcome date: </b><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br/>
+                                <b>MedDRA: </b><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra}/><br/>
+                                <b>Outcome: </b><br/><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome'/>
+                            </div>
+                        }
                         {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Record pregnancy</div> :
                             <div>
                                 <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
