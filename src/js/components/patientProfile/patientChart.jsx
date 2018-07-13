@@ -74,7 +74,7 @@ function mapClinicalEvents(patientId, typeList) {
 }
 
 function mapSymptoms(fieldHashTable) {
-    return el => formatRow([fieldHashTable[el.field].definition, el.value]);
+    return el => {console.log('MAPPING FIELD', el.field, fieldHashTable); return formatRow([fieldHashTable[el.field].definition, el.value]);};
 }
 
 
@@ -104,6 +104,8 @@ class OneVisit extends Component {
         console.debug('HASH VS > ', VSHashTable)
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
         const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map; }, {});
+        console.log('VISIT', this.props.visitId, fieldHashTable, relevantFields, allSymptoms);
+        const symptoms = this.props.visitData.filter(el => el.field > 6);
         return (
             <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em' />} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
@@ -126,12 +128,12 @@ class OneVisit extends Component {
                 </TimelineEvent>
 
                 <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
-                    {allSymptoms.length !== 0 && relevantFields.length > 0 ? <table>
+                    { relevantFields.length !== 0 ? <table>
                         <thead>
                             <tr><th>Recorded symptoms</th><th>Value</th></tr>
                         </thead>
                         <tbody>
-                            {this.props.visitData.map(mapSymptoms(fieldHashTable))}
+                            {symptoms.map(mapSymptoms(fieldHashTable))}
                         </tbody>
                     </table> : null}
                     <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
