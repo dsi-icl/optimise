@@ -5,11 +5,17 @@ import actionTypes from './actions/listOfActions.js';
 function login(state = initialState.login, action) {
     switch (action.type) {
         case actionTypes.login.LOGIN_REQUESTED:
-            return { ...state, loggingIn: true, loginFailed: false, loggedIn: false };
+            return { loggingIn: true, loginFailed: false, loggedIn: false, initialCheckingStatus: false };
         case actionTypes.login.LOGIN_FAILURE:
-            return { ...state, loginFailed: true, loggingIn: false, loggedIn: false };
+            return { ...state, loginFailed: true, loggingIn: false, loggedIn: false, initialCheckingStatus: false };
         case actionTypes.login.LOGIN_SUCCESS:
-            return { loggingIn: false, loggedIn: true, loginFailed: false, token: action.payload.token };
+            return { loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false };
+        case actionTypes.login.CHECKING_LOGIN:
+            return { loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: true };
+        case actionTypes.login.LOGGED_IN:
+            return { loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false };
+        case actionTypes.login.NOT_LOGGED_IN:
+            return { loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: false };
         default:
             return state;
     }

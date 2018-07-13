@@ -7,13 +7,18 @@ import cssLogin from '../css/loginpage.module.css';
 import { LoadingIcon } from '../statics/svg/icons.jsx';
 import cssIcons from '../css/icons.module.css';
 import cssScaffold from '../css/scaffold.module.css';
+import { whoami } from './redux/actions/login.js';
 import { getVisitFieldsCall, getTestFieldsCall, getClinicalEventTypesCall, getCEFieldsCall, getTestTypesCall, getDrugsCall, getDemoCall, getRelationCall, getDiagnosesCall } from './redux/actions/availableFields.js';
 require('react-datepicker/dist/react-datepicker-cssmodules.css');
 
 
 @withRouter
-@connect(state => ({ loggedIn: state.login.loggedIn }))
+@connect(state => ({ loggedIn: state.login.loggedIn, checking: state.login.initialCheckingStatus }), dispatch => ({ whoami: () => dispatch(whoami()) }))
 class App extends Component {
+    componentDidMount() {
+        this.props.whoami();
+    }
+
     componentWillUnmount() {
         if (this.props.loggedIn) {
             // dispatch logout
@@ -21,10 +26,14 @@ class App extends Component {
     }
 
     render() {
-        if (this.props.loggedIn) {
-            return <LoadingFields />;
+        if(this.props.checking) {
+            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
         } else {
-            return <LoginPage />;
+            if (this.props.loggedIn) {
+                return <LoadingFields />;
+            } else {
+                return <LoginPage />;
+            }
         }
     }
 }

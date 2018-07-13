@@ -51,8 +51,10 @@ export default {
     },
     login: {
         loggedIn: false,
+        initialCheckingStatus: true,
         loggingIn: false,
         loginFailed: false,
-        token: ''
+        username: '',
+        realname: ''
     }
 };
