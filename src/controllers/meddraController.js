@@ -3,27 +3,35 @@ const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 
 function Meddra() {
-    let that = this;
     this.MeddraCollection = null;
     this.getMeddraField = Meddra.prototype.getMeddraField.bind(this);
     this.setMeddraCollection = Meddra.prototype.setMeddraCollection.bind(this);
-    knex('ADVERSE_EVENT_MEDDRA').select('*').then(function (result) {
-        that.setMeddraCollection(result);
-    }, function () {
-        that.setMeddraCollection(null);
-    });
+    this.loadMeddraCollection = Meddra.prototype.loadMeddraCollection.bind(this);
+    this.loadMeddraCollection();
 }
+
+Meddra.prototype.loadMeddraCollection = function () {
+    let that = this;
+    return new Promise(function (resolve, reject) {
+        knex('ADVERSE_EVENT_MEDDRA').select('*').then(function (result) {
+            that.setMeddraCollection(result);
+            resolve();
+        }, function () {
+            that.setMeddraCollection(null);
+            reject();
+        });
+    });
+};
 
 Meddra.prototype.setMeddraCollection = function (collection) {
     this.MeddraCollection = collection;
 };
 
-Meddra.prototype.getMeddraField = function (req, res) {
+Meddra.prototype.getMeddraField = async function (req, res) {
     let result = [];
     let maxOccurency = 20;
     if (this.MeddraCollection === null) {
-        res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL));
-        return;
+        await this.loadMeddraCollection();
     }
     if (req.query.hasOwnProperty('search')) {
         let j = 0;
