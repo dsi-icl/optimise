@@ -6,14 +6,10 @@ const optimiseOptions = require('./core/options');
 const knex = require('./utils/db-connection');
 const { migrate } = require('../src/utils/db-handler');
 const ErrorHelper = require('./utils/error_helper');
-const Meddra = require('./controllers/meddraController');
 
 function OptimiseServer(config) {
     this.config = new optimiseOptions(config);
     this.app = express();
-
-    // initializing the meddra controller
-    this.meddra = new Meddra();
 
     // Bind member functions
     this.start = OptimiseServer.prototype.start.bind(this);
@@ -275,10 +271,15 @@ OptimiseServer.prototype.setupPregnancy = function () {
     this.app.use('/patientPregnancy', this.routePregnancy);
 };
 
-/** 
+/**
  * @function setupMeddra initialize the route for meddra
  */
 OptimiseServer.prototype.setupMeddra = function () {
+
+    // initializing the meddra controller
+    const MeddraController = require('./controllers/meddraController');
+    this.meddra = new MeddraController();
+
     this.app.route('/meddra')
         .get(this.meddra.getMeddraField);
 };
