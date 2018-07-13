@@ -8,3 +8,11 @@ export const createImmunisationAPICall = (body) => dispatch => (
         })
         .catch(msg => console.log(msg))
 );
+
+export const createPregnancyAPICall = (body) => dispatch => (
+    apiHelper('/demographics/Pregnancy', { method: 'POST', body: JSON.stringify(body.data) })
+        .then(() => {
+            dispatch(getPatientProfileById(body.patientId));
+        })
+        .catch(msg => console.log(msg))
+);
