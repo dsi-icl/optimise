@@ -29,9 +29,9 @@ PatientPiiCore.prototype.createPatientPii = function (entryObj) {
     });
 };
 
-PatientPiiCore.prototype.updatePatientPii = function (requester, idPatient, updatedObj) {
+PatientPiiCore.prototype.updatePatientPii = function (user, idPatient, updatedObj) {
     return new Promise(function (resolve, reject) {
-        updateEntry('PATIENT_PII', requester, '*', { 'patient': idPatient }, updatedObj).then(function (result) {
+        updateEntry('PATIENT_PII', user, '*', { 'patient': idPatient }, updatedObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
@@ -39,9 +39,9 @@ PatientPiiCore.prototype.updatePatientPii = function (requester, idPatient, upda
     });
 };
 
-PatientPiiCore.prototype.deletePatientPii = function (requester, whereObj) {
+PatientPiiCore.prototype.deletePatientPii = function (user, whereObj) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('PATIENT_PII', requester, whereObj).then(function (result) {
+        deleteEntry('PATIENT_PII', user, whereObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(messages.errorMessages.GETFAIL, error));

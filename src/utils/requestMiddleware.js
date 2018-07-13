@@ -21,6 +21,7 @@ class RequestMiddleware {
         //         });
         let user = req.user ? req.user.id : null;
         if (user !== null) {
+            req.user = req.user[0];
             next();
         } else if (req.url === '/users/login') {
             next();
