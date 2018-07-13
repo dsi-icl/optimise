@@ -7,6 +7,16 @@
         "Chon Sou <c.sou16@imperial.ac.uk>",
         "Florian Guitton <f.guitton@imperial.ac.uk>"
     ],
+    "keywords": [
+        "borderline",
+        "etriks",
+        "server"
+    ],
+    "homepage": "https://github.com/dsi-icl/optimise#readme",
+    "bugs": {
+        "url": "https://github.com/dsi-icl/optimise/issues"
+    },
+    "repository": "https://github.com/dsi-icl/optimise",
     "main": "./electron.js",
     "scripts": {
         "electron": "electron ./electron.js",
@@ -15,7 +25,9 @@
         "react:build": "node scripts/build.js",
         "react:start": "cross-env BROWSER=none node bin/optimise-devutils.js start",
         "react:test": "node bin/optimise-devutils.js test -- --env=jsdom --colors --verbose --forceExit",
-        "start": "nf start"
+        "start": "nf start",
+        "build": "build --win",
+        "ship": "build --win -p always"
     },
     "dependencies": {
         "@babel/core": "7.0.0-beta.53",
@@ -36,6 +48,7 @@
         "css-loader": "1.0.0",
         "dotenv": "6.0.0",
         "dotenv-expand": "4.2.0",
+        "electron-updater": "^2.23.3",
         "eslint": "5.1.0",
         "eslint-config-react-app": "3.0.0-next.3e165448",
         "eslint-loader": "2.0.0",
@@ -87,6 +100,7 @@
     "devDependencies": {
         "codacy-coverage": "3.0.0",
         "electron": "^2.0.4",
+        "electron-builder": "^20.20.4",
         "foreman": "^3.0.1",
         "redux-logger": "3.0.6"
     },
