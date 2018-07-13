@@ -7,10 +7,10 @@ export const erasePatientFailure = (body) => ({ type: actionTypes.erasePatient.E
 export const erasePatientReset = () => ({ type: actionTypes.erasePatient.ERASE_PATIENT_RESET });
 
 export const erasePatientAPICall = (body) => dispatch => {
-    erasePatientRequest();
+    dispatch(erasePatientRequest());
     apiHelper('/patients', { method: 'DELETE', body: JSON.stringify(body.data) })
         .then(() => {
             dispatch(erasePatientSuccess(body.patientId));
         })
-        .catch(err => { console.log(err); erasePatientFailure(); });
+        .catch(err => { console.log(err); dispatch(erasePatientFailure()); });
 }
