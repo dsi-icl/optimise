@@ -70,7 +70,7 @@ export class CreateVisit extends Component {
     render() {
         const { startDate, SBP, DBP, HR, weight, academicConcern, height } = this.state;
         return (<div>
-            <BackButton to={`/patientProfile/${this.props.patientId}`}/>
+            <BackButton to={`/patientProfile/${this.props.patientId}`} />
             <h2>CREATE A NEW VISIT</h2>
             <span class={cssTexts.centeredBlock}>Please enter date on which the visit occurs / occured: <br/> <span className={cssTexts.centeredBlock}><PickDate startDate={startDate} handleChange={this._handleDateChange}/></span> </span>
             <br/><br/><span>Systolic blood pressure: <input name='SBP' value={SBP} onChange={this._handleKeyChange}/> mmHg </span>
