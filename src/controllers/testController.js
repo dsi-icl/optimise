@@ -11,6 +11,7 @@ function TestController() {
 }
 
 TestController.prototype.createTest = function (req, res) {
+    console.log(JSON.stringify(req.user));
     if (req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('expectedDate')) {
         let entryObj = {
             'orderedDuringVisit': req.body.visitId,
