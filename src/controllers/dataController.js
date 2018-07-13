@@ -82,7 +82,7 @@ class DataController {
                     return;
                 });
         } else {
-            res.status(401).send('You do not have permission to delete data');
+            res.status(401).json(ErrorHelper('You do not have permission to delete data'));
             return;
         }
     }

@@ -20,19 +20,19 @@ Meddra.prototype.setMeddraCollection = function (collection) {
 
 Meddra.prototype.getMeddraField = function (req, res) {
     let result = [];
+    let maxOccurency = 20;
     if (this.MeddraCollection === null) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL));
         return;
     }
     if (req.query.hasOwnProperty('search')) {
-        result = this.MeddraCollection.filter(obj => obj.name.indexOf(req.query.search) > -1);
-
-        // for (let i = 0; i < this.MeddraCollection.length; i++) {
-        //     if (this.MeddraCollection[i].name.indexOf(req.query.search) > -1) {
-        //         result[j] = this.MeddraCollection[i];
-        //         j++;
-        //     }
-        // }
+        let j = 0;
+        for (let i = 0; i < this.MeddraCollection.length && j < maxOccurency; i++) {
+            if (this.MeddraCollection[i].name.indexOf(req.query.search) > -1) {
+                result[j] = this.MeddraCollection[i];
+                j++;
+            }
+        }
         res.status(200).json(result);
         return;
     }
