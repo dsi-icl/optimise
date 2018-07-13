@@ -60,56 +60,61 @@ OptimiseServer.prototype.start = function () {
     let _this = this;
     return new Promise(function (resolve, reject) {
 
-        // Setup sessions with third party middleware
-        _this.app.use(expressSession({
-            secret: 'optimise',
-            saveUninitialized: false,
-            resave: false,
-            cookie: { secure: false },
-            store: _this.mongoStore
-        })
-        );
+        // Operate database migration if necessary
+        migrate('ms').then(() => {
 
-        _this.app.use(passport.initialize());
-        _this.app.use(passport.session());
+            // Setup sessions with third party middleware
+            _this.app.use(expressSession({
+                secret: 'optimise',
+                saveUninitialized: false,
+                resave: false,
+                cookie: { secure: false },
+                store: _this.mongoStore
+            })
+            );
 
-        // Keeping a pointer to the original mounting point of the server
-        _this.app.use(function (req, __unused__res, next) {
-            req.optimiseRootUrl = req.baseUrl;
-            next();
-        });
+            _this.app.use(passport.initialize());
+            _this.app.use(passport.session());
 
-        // Init third party middleware for parsing HTTP requests body
-        _this.app.use(body_parser.urlencoded({ extended: true }));
-        _this.app.use(body_parser.json());
+            // Keeping a pointer to the original mounting point of the server
+            _this.app.use(function (req, __unused__res, next) {
+                req.optimiseRootUrl = req.baseUrl;
+                next();
+            });
 
-        // Adding session checks and monitoring
-        _this.app.use('/', _this.requestMiddleware.addActionToCollection);
-        _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
+            // Init third party middleware for parsing HTTP requests body
+            _this.app.use(body_parser.urlencoded({ extended: true }));
+            _this.app.use(body_parser.json());
 
-        // Setup remaining route using controllers
-        _this.setupUsers();
-        _this.setupPatients();
-        _this.setupVisits();
-        _this.setupDemographics();
-        _this.setupClinicalEvents();
-        _this.setupTreatments();
-        _this.setupTests();
-        _this.setupFields();
-        _this.setupData();
-        _this.setupExport();
-        _this.setupLogs();
-        _this.setupPPII();
-        _this.setupPatientDiagnosis();
-        _this.setupMeddra();
+            // Adding session checks and monitoring
+            _this.app.use('/', _this.requestMiddleware.addActionToCollection);
+            _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
 
-        _this.app.all('/*', function (__unused__req, res) {
-            res.status(400);
-            res.json(ErrorHelper('Bad request'));
-        });
+            // Setup remaining route using controllers
+            _this.setupUsers();
+            _this.setupPatients();
+            _this.setupVisits();
+            _this.setupDemographics();
+            _this.setupClinicalEvents();
+            _this.setupTreatments();
+            _this.setupTests();
+            _this.setupFields();
+            _this.setupData();
+            _this.setupExport();
+            _this.setupLogs();
+            _this.setupPPII();
+            _this.setupPatientDiagnosis();
+            _this.setupMeddra();
 
-        // All good, return the express app router
-        migrate('ms').then(() => resolve(_this.app)).catch(err => reject(err));
+            _this.app.all('/*', function (__unused__req, res) {
+                res.status(400);
+                res.json(ErrorHelper('Bad request'));
+            });
+
+            // Return the Express application
+            resolve(_this.app);
+
+        }).catch(err => reject(err));
     });
 };
 
