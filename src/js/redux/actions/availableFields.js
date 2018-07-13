@@ -19,6 +19,12 @@ export function getDrugsSuccess(payload) {
     return { type: actions.availableFields.GET_DRUGS_SUCCESS, payload: payload };
 }
 
+export const getPregnancyOutcomesCall = APICall('/demographics/Fields/Pregnancy', getPregnancyOutcomesSuccess);
+
+export function getPregnancyOutcomesSuccess(payload) {
+    return { type: actions.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS, payload: payload };
+}
+
 export const getCEFieldsCall = APICall('/available/ceFields', getCEFieldsSuccess);
 
 export function getCEFieldsSuccess(payload) {
