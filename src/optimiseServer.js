@@ -28,7 +28,6 @@ function OptimiseServer(config) {
     this.setupExport = OptimiseServer.prototype.setupExport.bind(this);
     this.setupLogs = OptimiseServer.prototype.setupLogs.bind(this);
     this.setupPPII = OptimiseServer.prototype.setupPPII.bind(this);
-    this.setupPregnancy = OptimiseServer.prototype.setupPregnancy.bind(this);
     this.setupPatientDiagnosis = OptimiseServer.prototype.setupPatientDiagnosis.bind(this);
     this.setupMeddra = OptimiseServer.prototype.setupMeddra.bind(this);
 
@@ -101,7 +100,6 @@ OptimiseServer.prototype.start = function () {
         _this.setupExport();
         _this.setupLogs();
         _this.setupPPII();
-        _this.setupPregnancy();
         _this.setupPatientDiagnosis();
         _this.setupMeddra();
 
@@ -293,18 +291,6 @@ OptimiseServer.prototype.setupPPII = function () {
 
     // Modules
     this.app.use('/patientPii', this.routePPII);
-};
-
-/**
- * @fn setupPregnancy
- * @desc Initialize the Pregnancy related routes
- */
-OptimiseServer.prototype.setupPregnancy = function () {
-    // Import the controller
-    this.routePregnancy = require('./routes/patientPregnancyRoute');
-
-    // Modules
-    this.app.use('/patientPregnancy', this.routePregnancy);
 };
 
 /**
