@@ -70,5 +70,10 @@ export default {
         fetching: true,
         error: false,
         result: []
+    },
+    erasePatient: {
+        requesting: false,
+        success: false,
+        error: false
     }
 };

@@ -155,6 +155,22 @@ function getAllUsers(state = initialState.getAllUsers, action) {
     }
 }
 
+function erasePatient(state = initialState.erasePatient, action) {
+    switch(action.type) {
+        case actionTypes.erasePatient.ERASE_PATIENT_REQUEST:
+            return { requesting: true, success: false, error: false };
+        case actionTypes.erasePatient.ERASE_PATIENT_FAILTURE:
+            return { requesting: false, success: false, error: true };
+        case actionTypes.erasePatient.ERASE_PATIENT_SUCCESS:
+            return { requesting: false, success: true, error: false };
+        case actionTypes.erasePatient.ERASE_PATIENT_RESET:
+            return { requesting: false, success: false, error: false };
+        default:
+            return state;
+
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatientById,
@@ -163,6 +179,7 @@ export const rootReducer = combineReducers({
     login,
     meddra,
     log,
-    getAllUsers
+    getAllUsers,
+    erasePatient
 });
 
