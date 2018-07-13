@@ -177,9 +177,9 @@ now the test input is hardcode
  * @prop {string} this.props.fieldId - fieldid
 */
 export class ControlledInputField extends Component {
-    constructor() {
-        super();
-        this.state = { value: '', valid: true };
+    constructor(props) {
+        super(props);
+        this.state = { value: props.originalValue, valid: true };
         this._handleKeyStroke = this._handleKeyStroke.bind(this);
         this._handleEnterKey = this._handleEnterKey.bind(this);
         this._validateInput = this._validateInput.bind(this);
@@ -230,7 +230,6 @@ export class ControlledInputField extends Component {
         return (
             <span>
                 <input
-                    originalvalue={this.props.originalValue}
                     name={this.props.fieldId}
                     fieldid={this.props.fieldId}
                     type='text'
@@ -282,7 +281,7 @@ export class ControlledSelectField extends Component {
             <span>
                 <select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} style={{ color: (this.state.value === setThisValue ? 'black' : 'green') }}>
                     <option value='unselected'>unselected</option>
-                    {this.props.permittedValues.split(',').map(option => <option value={option}>{option}</option>)}
+                    {this.props.permittedValues.split(',').map(option => <option key={option} value={option}>{option}</option>)}
                 </select>
                 <span onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</span>
             </span>
