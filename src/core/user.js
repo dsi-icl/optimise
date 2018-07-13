@@ -23,7 +23,7 @@ User.prototype.getUserByUsername = function (user) {
 
 User.prototype.getUserByID = function (uid) {
     return new Promise(function (resolve, reject) {
-        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv:'adminPriv' }).where('id', uid).then(function (result) {
+        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('id', uid).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
