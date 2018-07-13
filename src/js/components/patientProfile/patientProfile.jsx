@@ -296,7 +296,7 @@ class DeletePatient extends Component {
         const { consent } = this.props.data;
         return (
             <div>
-                <PatientProfileSectionScaffold sectionName='HEY'>
+                <PatientProfileSectionScaffold sectionName='DELETE PATIENT AND CONSENT'>
                     <div onClick={this._handleClickDelete} className={cssButtons.createPatientButton}>Delete this patient</div>
                     <div onClick={this._handleClickWithdrawConsent} className={cssButtons.createPatientButton}>{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</div>
                 </PatientProfileSectionScaffold>
