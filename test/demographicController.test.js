@@ -1,10 +1,12 @@
 /* global describe test expect */
+
+
 const request = require('supertest');
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
 const { connectAdmin, connectUser } = require('./connection');
 
-beforeAll(async () => {
+beforeAll(async () => { //eslint-disable-line no-undef
     await connectAdmin(admin);
     await connectUser(user).then();
 });
