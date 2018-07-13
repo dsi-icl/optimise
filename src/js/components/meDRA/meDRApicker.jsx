@@ -6,6 +6,7 @@ import store from '../../redux/store.js';
 /**
  * @class SuggestionInput
  * @prop {Array} this.props.result - from store
+ * @prop {REF} this.props.myRef
  */
 
 @connect(state => ({ result: state.meddra.result }))
@@ -26,7 +27,7 @@ export class SuggestionInput extends Component {
     render() {
         return (
             <div>
-                <input type='text' onChange={this._handleKeyPress} value={this.state.value} list='datalist' />
+                <input type='text' ref={this.props.reference} onChange={this._handleKeyPress} value={this.state.value} list='datalist' />
                 <datalist id='datalist'>
                     {this.props.result.map(el => <option key={el.id} value={el.name} />)}
                 </datalist>
