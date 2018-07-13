@@ -28,6 +28,7 @@ UserController.prototype.serializeUser = function (deserializedUser, done) {
     else {
         done(null, {
             id: deserializedUser.id,
+            username: deserializedUser.username,
             priv: deserializedUser.priv
         });
     }
