@@ -12,9 +12,9 @@ export const whoami = (body) => dispatch => {
     return apiHelper('/whoami')
         .then(json => {
             console.debug('LOGGEDIN > ', json);
-            dispatch(loggedIn(json[0]));
+            dispatch(loggedIn(json));
         })
-        .catch(() => { dispatch(notLoggedIn()); });
+        .catch((err) => { console.log('ERROR', err); dispatch(notLoggedIn()); });
 };
 
 export const loginRequest = body => ({ type: actionTypes.login.LOGIN_REQUESTED, payload: body });
