@@ -35,7 +35,7 @@ DataCore.prototype.deleteData = function (requester, options, idData, deleteObj)
                 .where('field', 'in', deleteObj)
                 .andWhere('deleted', '-')
                 .andWhere(options.dataTableForeignKey, idData)
-                .update({ 'deleted': `${requester.userid}@${JSON.stringify(new Date())}` })
+                .update({ 'deleted': `${requester.id}@${JSON.stringify(new Date())}` })
                 .transacting(trx)
                 .then(function (result) {
                     resolve(result);

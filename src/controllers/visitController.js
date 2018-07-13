@@ -30,7 +30,7 @@ VisitController.prototype.createVisit = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    this.visit.createVisit(req.requester, req.body).then(function (result) {
+    this.visit.createVisit(req.user, req.body).then(function (result) {
         res.status(200).json(result);
         return;
     }, function (error) {
@@ -40,7 +40,7 @@ VisitController.prototype.createVisit = function (req, res) {
 };
 
 VisitController.prototype.deleteVisit = function (req, res) {
-    if (req.requester.priv !== 1) {
+    if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }
@@ -48,7 +48,7 @@ VisitController.prototype.deleteVisit = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    this.visit.deleteVisit(req.requester, req.body.visitId).then(function (result) {
+    this.visit.deleteVisit(req.user, req.body.visitId).then(function (result) {
         res.status(200).json(result);
         return;
     }, function (error) {

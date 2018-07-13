@@ -9,7 +9,7 @@ function CeController() {
     this.deleteCe = CeController.prototype.deleteCe.bind(this);
 }
 
-CeController.prototype.createCe = function(req, res) {
+CeController.prototype.createCe = function (req, res) {
     if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra')) {
         let ce = {};
         if (req.body.hasOwnProperty('visitId'))
@@ -19,36 +19,36 @@ CeController.prototype.createCe = function(req, res) {
         ce.type = req.body.type;
         ce.meddra = req.body.meddra;
         ce.dateStartDate = Date.parse(req.body.startDate);
-        this.clinicalEvent.createClinicalEvent(req.requester, ce).then(function(result) {
+        this.clinicalEvent.createClinicalEvent(req.user, ce).then(function (result) {
             res.status(200).json(result);
-            return ;
-        }, function(error){
+            return;
+        }, function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            return ;
+            return;
         });
     } else {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return ;
+        return;
     }
 
 };
 
-CeController.prototype.deleteCe = function(req, res) {
-    if (req.requester.priv !== 1) {
+CeController.prototype.deleteCe = function (req, res) {
+    if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }
     if (req.body.hasOwnProperty('ceId')) {
-        this.clinicalEvent.deleteClinicalEvent(req.requester, { 'id': req.body.ceId }).then(function(result) {
+        this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then(function (result) {
             res.status(200).json(result);
-            return ;
-        }, function(error) {
+            return;
+        }, function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-            return ;
+            return;
         });
     } else {
         res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return ;
+        return;
     }
 };
 
