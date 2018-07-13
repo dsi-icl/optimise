@@ -16,8 +16,22 @@ import { AdminActions } from './admin/actions.jsx';
 import { FilterPanel } from './filterPatient/selectPanel.jsx';
 import { Fields } from './filterPatient/fieldPanel.jsx';
 import { CreateElementRouter } from './createMedicalElements/router.jsx';
+import { logoutAPICall } from '../redux/actions/login.js';
+import store from '../redux/store.js';
 
+@connect(state => ({ username: state.login.username }))
 export class MenuBar extends Component {
+    constructor(){
+        super();
+        this._handleLogout = this._handleLogout.bind(this);
+    }
+
+    _handleLogout(){
+        store.dispatch(logoutAPICall({
+            username: this.props.username
+        }));
+    }
+
     render() {
         return (
             <div className={css.MenuBar}>
@@ -39,11 +53,11 @@ export class MenuBar extends Component {
                         <SettingIcon width='50%' />
                     </div>
                 </NavLink>
-                <NavLink id='logoutButton' to='/logout' style={{ gridRow: '8/9' }} title='Logout' className={cssButtons.menuButton}>
+                <div onClick={this._handleLogout} id='logoutButton' style={{ gridRow: '8/9' }} title='Logout' className={cssButtons.menuButton}>
                     <div style={{ textAlign: 'center' }}>
                         <LogoutIcon width='45%' />
                     </div>
-                </NavLink>
+                </div>
 
             </div>
         );

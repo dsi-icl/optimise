@@ -16,6 +16,8 @@ function login(state = initialState.login, action) {
             return { ...state, loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false, username: action.payload.username };
         case actionTypes.login.NOT_LOGGED_IN:
             return { ...state, loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: false };
+        case actionTypes.login.LOGOUT_REQUEST:
+            return { username: '', loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: false };
         default:
             return state;
     }

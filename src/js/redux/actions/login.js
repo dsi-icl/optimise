@@ -32,3 +32,13 @@ export const loginAPICall = (body) => dispatch => {
         })
         .catch(err => { dispatch(loginFailure(err)); });
 };
+
+
+export const logoutRequest = () => ({ type: actionTypes.login.LOGOUT_REQUEST });
+
+export const logoutAPICall = (body) => dispatch => {
+    console.log('BODY > ', body);
+    dispatch(logoutRequest(body));
+    return apiHelper('/users/logout', { method: 'POST', body: JSON.stringify(body) })
+        .catch(err => console.log(err));
+};
