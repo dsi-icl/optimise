@@ -2,15 +2,15 @@ const knex = require('../utils/db-connection');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 
-function Meddra() {
+function MeddraController() {
     this.MeddraCollection = null;
-    this.getMeddraField = Meddra.prototype.getMeddraField.bind(this);
-    this.setMeddraCollection = Meddra.prototype.setMeddraCollection.bind(this);
-    this.loadMeddraCollection = Meddra.prototype.loadMeddraCollection.bind(this);
+    this.getMeddraField = MeddraController.prototype.getMeddraField.bind(this);
+    this.setMeddraCollection = MeddraController.prototype.setMeddraCollection.bind(this);
+    this.loadMeddraCollection = MeddraController.prototype.loadMeddraCollection.bind(this);
     this.loadMeddraCollection();
 }
 
-Meddra.prototype.loadMeddraCollection = function () {
+MeddraController.prototype.loadMeddraCollection = function () {
     let that = this;
     return new Promise(function (resolve, reject) {
         knex('ADVERSE_EVENT_MEDDRA').select('*').then(function (result) {
@@ -23,11 +23,11 @@ Meddra.prototype.loadMeddraCollection = function () {
     });
 };
 
-Meddra.prototype.setMeddraCollection = function (collection) {
+MeddraController.prototype.setMeddraCollection = function (collection) {
     this.MeddraCollection = collection;
 };
 
-Meddra.prototype.getMeddraField = async function (req, res) {
+MeddraController.prototype.getMeddraField = async function (req, res) {
     let result = [];
     let maxOccurency = 20;
     if (this.MeddraCollection === null) {
