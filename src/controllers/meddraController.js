@@ -50,4 +50,4 @@ Meddra.prototype.getMeddraField = async function (req, res) {
     }
 };
 
-module.exports = Meddra;
+module.exports = MeddraController;
