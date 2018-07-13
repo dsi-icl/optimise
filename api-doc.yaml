@@ -6,14 +6,14 @@ info:
   license:
     name: "MIT Licence"
 securityDefinitions:
-   APIKeyHeader:
-     type: apiKey
-     in: header
-     name: token
+  Cookie:
+    type: apiKey
+    name: cookie
+    in: header
 host: "localhost:3030"
 basePath: "/"
 security:
-  - APIKeyHeader: []
+  - Cookie: []
 paths:
   /users/login:
     post:
@@ -36,11 +36,7 @@ paths:
         "200":
           description: "OK"
           schema:
-            type: "object"
-            properties:
-              token:
-                type: "string"
-                description: "A token for the user session."
+            $ref: "#/definitions/ResponseMessage"
         "400":
           description: "Bad request"
           schema:
@@ -62,8 +58,23 @@ paths:
       responses:
         "200":
           description: "OK"
+          schema:
+            $ref: "#/definitions/ResponseMessage"
         "400":
           description: "You are not logged in. Please provide a valid token."
+  /whoami:
+    get:
+      summary: "The logged in username"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "object"
+            description: "The user"
+        "404":
+          description: "An unknown unicorn"
+          schema:
+            $ref: "#/definitions/Error"
   /users:
     post:
       summary: "Create a new user (admin only)"
@@ -1730,6 +1741,13 @@ paths:
                 type: "string"
                 description: "Unauthorized to do this action"
 definitions:
+  ResponseMessage:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+      message:
+        type: "string"
   Error:
     type: "object"
     properties:
