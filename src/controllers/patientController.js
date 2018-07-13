@@ -42,7 +42,7 @@ PatientController.prototype.createPatient = function (req, res) {
             study: req.body.study,
             createdByUser: req.user.id
         };
-        this.patient.createPatient(req.user, entryObj).then(function (result) {
+        this.patient.createPatient(entryObj).then(function (result) {
             res.status(200).json(result);
             return;
         }, function (error) {

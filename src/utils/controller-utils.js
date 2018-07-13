@@ -12,10 +12,10 @@ function createEntry(tablename, entryObj) {
 }
 
 
-function deleteEntry(tablename, requester, whereObj) {
+function deleteEntry(tablename, user, whereObj) {
     whereObj.deleted = '-';
     return new Promise(function (resolve, reject) {
-        knex(tablename).where(whereObj).update({ deleted: `${requester.id}@${JSON.stringify(new Date())}` }).then(function (result) {
+        knex(tablename).where(whereObj).update({ deleted: `${user.id}@${JSON.stringify(new Date())}` }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(error);
@@ -33,7 +33,7 @@ function getEntry(tablename, whereObj, selectedObj) {
     });
 }
 
-function updateEntry(tablename, requester, originObj, whereObj, newObj) {
+function updateEntry(tablename, user, originObj, whereObj, newObj) {
     whereObj.deleted = '-';
     return new Promise(function (resolve, reject) {
         getEntry(tablename, whereObj, originObj).then(function (getResult) {
@@ -41,7 +41,7 @@ function updateEntry(tablename, requester, originObj, whereObj, newObj) {
                 reject(message.errorMessages.NOTFOUND);
                 return;
             }
-            deleteEntry(tablename, requester, whereObj).then(function (__unused__deleteResult) {
+            deleteEntry(tablename, user, whereObj).then(function (__unused__deleteResult) {
                 let newEntry = Object.assign(getResult[0], newObj);
                 delete newEntry.id;
                 delete newEntry.createdTime;
