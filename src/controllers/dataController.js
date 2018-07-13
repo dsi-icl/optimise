@@ -82,7 +82,7 @@ class DataController {
                     return;
                 });
         } else {
-            res.status(401).send('You do not have permission to delete data');
+            res.status(401).json(ErrorHelper('You do not have permission to delete data'));
             return;
         }
     }
@@ -111,7 +111,7 @@ class DataController {
     _addOrUpdateDataBackbone(req, res, options, transactionFunction) {  //req.body = {visitId = 1, update : {1: 43, 54: LEFT}, add : {4324:432, 54:4} }
         if (req.body[options.entryIdString] && (req.body.update || req.body.add)) {
             if (req.body.update && req.requester.priv !== 1) {
-                res.status(401).send('Only admin can update data');
+                res.status(401).json(ErrorHelper('Only admin can update data'));
                 return;
             }
             if (!req.body.update) { req.body.update = {}; }  //adding an empty obj so that the code later doesn't throw error for undefined
