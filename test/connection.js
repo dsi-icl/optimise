@@ -1,5 +1,5 @@
 function connectAdmin(admin) {
-    return new Promise(function (resolve, __unused__reject) {
+    return new Promise(function (resolve, reject) {
         admin.post('/users/login')
             .set('Content-type', 'application/json')
             .send({
@@ -7,14 +7,16 @@ function connectAdmin(admin) {
                 pw: 'admin'
             })
             .then(res => {
-                expect(res.statusCode).toBe(200);
-                resolve();
+                if (res.statusCode === 200)
+                    resolve();
+                else
+                    reject();
             });
-    })
+    });
 }
 
 function connectUser(user) {
-    return new Promise(function (resolve, __unused__reject) {
+    return new Promise(function (resolve, reject) {
         user.post('/users/login')
             .set('Content-type', 'application/json')
             .send({
@@ -22,10 +24,12 @@ function connectUser(user) {
                 pw: 'admin'
             })
             .then(res => {
-                expect(res.statusCode).toBe(200);
-                resolve();
+                if (res.statusCode === 200)
+                    resolve();
+                else
+                    reject();
             });
-    })
+    });
 }
 
-module.exports = { connectAdmin: connectAdmin, connectUser: connectUser};
+module.exports = { connectAdmin: connectAdmin, connectUser: connectUser };

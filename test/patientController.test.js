@@ -9,7 +9,7 @@ const { connectAdmin, connectUser } = require('./connection');
 const userSeeded = require('../db/exampleDataForTesting/exampleData')['PATIENTS'];
 const message = require('../src/utils/message-utils');
 
-beforeAll(async () => {
+beforeAll(async () => { //eslint-disable-line no-undef
     await connectAdmin(admin);
     await connectUser(user).then();
 });
@@ -27,7 +27,7 @@ describe('Patient controller tests', () => {
                 delete userSeeded[i].createdByUser;
                 delete userSeeded[i].deleted;
                 expect(res.body[i]).toMatchObject(userSeeded[i]);
-             }
+            }
         }));
 
     test('Searching patients with similar alias_id\'s', () => admin
