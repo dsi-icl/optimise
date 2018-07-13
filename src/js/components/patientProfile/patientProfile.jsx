@@ -12,6 +12,7 @@ import { SuggestionInput } from '../meDRA/meDRApicker.jsx';
 import { SelectField } from '../createPatient/createPatientPage.jsx';
 import cssSections from '../../../css/sectioning.module.css';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient.js';
+import { updateConsentAPICall } from '../../redux/actions/consent.js';
 
 @connect(state => ({ fetching: state.patientProfile.fetching, erasePatient: state.erasePatient }))
 export class Section extends Component {
@@ -275,6 +276,7 @@ class Pregnancy extends Component {
 /**
  * @prop {Object} this.props.match
  */
+@connect(state => ({data: state.patientProfile.data}))
 class DeletePatient extends Component {
     constructor() {
         super();
@@ -288,15 +290,19 @@ class DeletePatient extends Component {
     }
 
     _handleClickWithdrawConsent(){
+        const { consent, id } = this.props.data;
+        const body = { patientId: this.props.match.params.patientId, data: { consent: !consent, patient: id } };
+        store.dispatch(updateConsentAPICall(body));
     }
 
 
     render() {
+        const { consent } = this.props.data;
         return (
             <div>
-                <PatientProfileSectionScaffold sectionName='HEY'>
+                <PatientProfileSectionScaffold sectionName='DELETE PATIENT AND CONSENT'>
                     <div onClick={this._handleClickDelete} className={cssButtons.createPatientButton}>Delete this patient</div>
-                    <div className={cssButtons.createPatientButton}>This patient withdraws consent</div>
+                    <div onClick={this._handleClickWithdrawConsent} className={cssButtons.createPatientButton}>{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</div>
                 </PatientProfileSectionScaffold>
             </div>
         );
