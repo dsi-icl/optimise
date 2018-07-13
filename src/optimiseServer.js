@@ -30,6 +30,7 @@ function OptimiseServer(config) {
     this.setupPPII = OptimiseServer.prototype.setupPPII.bind(this);
     this.setupPregnancy = OptimiseServer.prototype.setupPregnancy.bind(this);
     this.setupPatientDiagnosis = OptimiseServer.prototype.setupPatientDiagnosis.bind(this);
+    this.setupMeddra = OptimiseServer.prototype.setupMeddra.bind(this);
 
     // Define config in global scope (needed for server extensions)
     global.config = this.config;
@@ -102,6 +103,7 @@ OptimiseServer.prototype.start = function () {
         _this.setupPPII();
         _this.setupPregnancy();
         _this.setupPatientDiagnosis();
+        _this.setupMeddra();
 
         _this.app.all('/*', function (__unused__req, res) {
             res.status(400);
@@ -303,6 +305,19 @@ OptimiseServer.prototype.setupPregnancy = function () {
 
     // Modules
     this.app.use('/patientPregnancy', this.routePregnancy);
+};
+
+/**
+ * @function setupMeddra initialize the route for meddra
+ */
+OptimiseServer.prototype.setupMeddra = function () {
+
+    // initializing the meddra controller
+    const MeddraController = require('./controllers/meddraController');
+    this.meddra = new MeddraController();
+
+    this.app.route('/meddra')
+        .get(this.meddra.getMeddraField);
 };
 
 /**
