@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import cssButtons from '../../../css/buttons.module.css';
 import { PickDate } from '../createMedicalElements/datepicker.jsx';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
@@ -10,21 +11,40 @@ import { createImmunisationAPICall, createPregnancyAPICall } from '../../redux/a
 import { SuggestionInput } from '../meDRA/meDRApicker.jsx';
 import { SelectField } from '../createPatient/createPatientPage.jsx';
 import cssSections from '../../../css/sectioning.module.css';
+import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient.js';
 
-@connect(state => ({ fetching: state.patientProfile.fetching }))
+@connect(state => ({ fetching: state.patientProfile.fetching, erasePatient: state.erasePatient }))
 export class Section extends Component {
+    componentWillUnmount() {
+        store.dispatch(erasePatientReset());
+    }
+
     render() {
-        if (this.props.fetching) {
+        const { fetching, erasePatient } = this.props;
+        if (fetching) {
             return <span></span>;
         } else {
-            return (
-                <div style={{ position: 'relative' }}>
-                    <DemographicSection />
-                    <PrimaryDiagnosis />
-                    <ImmunisationSection />
-                    <Pregnancy />
-                </div>
-            );
+            if (erasePatient.requesting) {
+                return <div>Trying to delete the patient..</div>;
+            } else {
+                if (erasePatient.error) {
+                    return <div> Cannot delete this patient </div>;
+                } else {
+                    if (erasePatient.success) {
+                        return <Redirect to='/searchPatientById'/>;
+                    } else {
+                        return (
+                            <div style={{ position: 'relative' }}>
+                                <DemographicSection />
+                                <PrimaryDiagnosis />
+                                <ImmunisationSection />
+                                <Pregnancy />
+                                <DeletePatient match={this.props.match}/>
+                            </div>
+                        );
+                    }
+                }
+            }
         }
     }
 }
@@ -248,5 +268,37 @@ class Pregnancy extends Component {
         } else {
             return null;
         }
+    }
+}
+
+
+/**
+ * @prop {Object} this.props.match
+ */
+class DeletePatient extends Component {
+    constructor() {
+        super();
+        this._handleClickDelete = this._handleClickDelete.bind(this);
+        this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
+    }
+
+    _handleClickDelete(){
+        const body = { alias_id: this.props.match.params.patientId };
+        store.dispatch(erasePatientAPICall(body));
+    }
+
+    _handleClickWithdrawConsent(){
+    }
+
+
+    render() {
+        return (
+            <div>
+                <PatientProfileSectionScaffold sectionName='HEY'>
+                    <div onClick={this._handleClickDelete} className={cssButtons.createPatientButton}>Delete this patient</div>
+                    <div className={cssButtons.createPatientButton}>This patient withdraws consent</div>
+                </PatientProfileSectionScaffold>
+            </div>
+        );
     }
 }
