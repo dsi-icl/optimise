@@ -19,7 +19,8 @@ export class CreateVisit extends Component {
             HR: '',
             weight: '',
             academicConcern: '0',
-            height: ''
+            height: '',
+            error: false
         };
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
@@ -42,6 +43,11 @@ export class CreateVisit extends Component {
     _formatRequestBody() {
         const date = this.state.startDate._d;
         const { SBP, DBP, HR, weight, academicConcern, height } = this.state;
+        for (let each of [SBP, DBP, HR, weight, academicConcern, height]){
+            if (!parseInt(each, 10)){
+                return false;
+            }
+        }
         return {
             visitData: {
                 patientId: this.props.patientId,
@@ -62,13 +68,17 @@ export class CreateVisit extends Component {
     }
 
     _handleSubmitClick() {
+        if (!this._formatRequestBody()){
+            this.setState({ error: true });
+            return;
+        }
         const requestBody = this._formatRequestBody();
         console.debug('VISIT REQ > ', requestBody);
         this.props.createVisit(requestBody);
     }
 
     render() {
-        const { startDate, SBP, DBP, HR, weight, academicConcern, height } = this.state;
+        const { startDate, SBP, DBP, HR, weight, academicConcern, height, error } = this.state;
         return (<div>
             <BackButton to={`/patientProfile/${this.props.patientId}`} />
             <h2>CREATE A NEW VISIT</h2>
@@ -85,6 +95,7 @@ export class CreateVisit extends Component {
                 </select>
             </span>
             <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
+            { error ? <div> Please only provide integers! </div> : null}
         </div>);
     }
 }
