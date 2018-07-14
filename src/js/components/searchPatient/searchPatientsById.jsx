@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getPatientProfileById, searchPatientByIdAPICall, searchPatientByIdRequest } from '../../redux/actions/searchPatientById';
+import store from '../../redux/store.js';
 import cssButtons from '../../../css/buttons.module.css';
 import cssInputs from '../../../css/inputfields.module.css';
-import { connect } from 'react-redux';
-import { searchPatientByIdRequest, searchPatientByIdAPICall, getPatientProfileById } from '../../redux/actions/searchPatientById';
-import { Link } from 'react-router-dom';
-import store from '../../redux/store.js';
 
 @connect(state => ({ data: state.searchPatientById }))
 export class SearchPatientsById extends Component {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/dataPage';
+import { createTreatmentAPICall } from '../../redux/actions/treatments.js';
 import cssTexts from '../../../css/inlinetexts.module.css';
 import cssButtons from '../../../css/buttons.module.css';
-import { createTreatmentAPICall } from '../../redux/actions/treatments.js';
 
 //not yet finished the dispatch
 /* patch the drug mapping from state and to UI when the backend API is finished */

@@ -1,4 +1,5 @@
 @import './fonts.css';
+@import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 :root {
 

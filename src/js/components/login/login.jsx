@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { default as T } from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter, Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { loginAPICall } from '../../redux/actions/login';
 import LoadBar from '../loadBar';
 import style from './login.module.css';

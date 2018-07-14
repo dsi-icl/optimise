@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { SearchPatientsById } from '../searchPatient/searchPatientsById';
-import { Switch, Route } from 'react-router-dom';
 import { AdminActions } from '../admin/actions';
 import { FilterPanel } from '../filterPatient/selectPanel';
 import style from './scaffold.module.css';

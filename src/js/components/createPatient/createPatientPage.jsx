@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';

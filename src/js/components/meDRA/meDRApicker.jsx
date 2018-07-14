@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { searchMedDRAAPICall } from '../../redux/actions/MedDRA.js';
 import { connect } from 'react-redux';
+import { searchMedDRAAPICall } from '../../redux/actions/MedDRA.js';
 import store from '../../redux/store.js';
 
 /**

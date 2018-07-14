@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import cssButtons from '../../../css/buttons.module.css';
+import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
 import { PatientProfileSectionScaffold } from './sharedComponents';
-import moment from 'moment';
 import { formatRow } from './patientChart';
 import store from '../../redux/store.js';
 import { createImmunisationAPICall, createPregnancyAPICall } from '../../redux/actions/demographicData.js';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import { SelectField } from '../createPatient/createPatientPage';
-import cssSections from '../../../css/sectioning.module.css';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient.js';
 import { updateConsentAPICall } from '../../redux/actions/consent.js';
+import cssSections from '../../../css/sectioning.module.css';
+import cssButtons from '../../../css/buttons.module.css';
 
 @connect(state => ({ fetching: state.patientProfile.fetching, erasePatient: state.erasePatient }))
 export class Section extends Component {

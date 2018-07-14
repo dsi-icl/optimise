@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { Section } from '../patientProfile/patientProfile';
-import { Switch, Route } from 'react-router-dom';
 import { DataPageRouter } from '../medicalData/router';
 import { CreateVisit } from '../createMedicalElements/createVisit';
 import { CreateElementRouter } from '../createMedicalElements/router';

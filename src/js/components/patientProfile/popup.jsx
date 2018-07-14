@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import cssButtons from '../../../css/buttons.module.css';
 import cssDropdowns from '../../../css/dropdowns.module.css';
-import { NavLink } from 'react-router-dom';
 
 @connect(state => ({ visitList: state.patientProfile.data.visits, patientId: state.patientProfile.data.patientId }))
 export class VisitPicker extends Component {
