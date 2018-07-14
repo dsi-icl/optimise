@@ -20,6 +20,7 @@
 }
 
 .form input {
+    color: var(--color-font-active);
     background: rgba(255, 255, 255, 0.2);
 }
 
