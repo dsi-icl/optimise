@@ -6,13 +6,13 @@
 const express = require('express');
 const patient = express();
 
-const PatientPiiCtrl = require('../controllers/patientPiiController');
-const PatientController = new PatientPiiCtrl();
+const PatientController = require('../controllers/patientPiiController');
+const PatientPiiCtrl = new PatientController();
 // Interacts with the patientsPII in the DB
 patient.route('/')
-    .get(PatientController.getPatientPii)
-    .post(PatientController.createPatientPii)
-    .patch(PatientController.updatePatientPii)
-    .delete(PatientController.deletePatientPii);
+    .get(PatientPiiCtrl.getPatientPii)
+    .post(PatientPiiCtrl.createPatientPii)
+    .patch(PatientPiiCtrl.updatePatientPii)
+    .delete(PatientPiiCtrl.deletePatientPii);
 
 module.exports = patient;

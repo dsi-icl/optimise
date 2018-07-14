@@ -34,5 +34,4 @@ class AvailableFieldController {
     }
 }
 
-const _singleton = new AvailableFieldController();
-module.exports = _singleton;
+module.exports = AvailableFieldController;

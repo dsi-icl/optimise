@@ -3,13 +3,13 @@ const message = require('../utils/message-utils');
 const ActionCore = require('../core/actionLog');
 const formatToJSON = require('../utils/format-response');
 
-function ActionCtrl() {
+function ActionController() {
     this.action = new ActionCore();
 
-    this.getLogs = ActionCtrl.prototype.getLogs.bind(this);
+    this.getLogs = ActionController.prototype.getLogs.bind(this);
 }
 
-ActionCtrl.prototype.getLogs = function (req, res) {
+ActionController.prototype.getLogs = function (req, res) {
     if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
@@ -23,4 +23,4 @@ ActionCtrl.prototype.getLogs = function (req, res) {
     });
 };
 
-module.exports = ActionCtrl;
+module.exports = ActionController;
