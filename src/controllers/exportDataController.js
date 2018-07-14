@@ -2,6 +2,7 @@
 
 const knex = require('../utils/db-connection');
 const fs = require('fs');
+const path = require('path');
 require('express-zip');
 
 class ExportDataController {
@@ -165,8 +166,14 @@ class ExportDataController {
                 tempResult += '\n';
             });
             let fileContents = Buffer.from(tempResult);
-            let tempSavedPath = `/temp/${tempfileName}`;
-            //tempSavedPath = path.normalize(tempSavedPath);
+            // check if dir temp exists
+            const dir = './temp/';
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+
+            let tempSavedPath = `${dir}${tempfileName}`;
+            tempSavedPath = path.normalize(tempSavedPath);
             fs.writeFile(tempSavedPath, fileContents, err => {
                 if (err) {
                     throw err;
