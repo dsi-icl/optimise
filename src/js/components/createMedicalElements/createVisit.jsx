@@ -5,7 +5,6 @@ import { BackButton } from '../medicalData/dataPage';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
 import { PickDate } from './datepicker';
 import cssTexts from '../../../css/inlinetexts.module.css';
-import cssButtons from '../../../css/buttons.module.css';
 
 @connect(state => ({ patientId: state.patientProfile.data.id }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
 export class CreateVisit extends Component {
@@ -92,7 +91,7 @@ export class CreateVisit extends Component {
                     <option value='0'>false</option>
                 </select>
             </span>
-            <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} >Submit</div>
+            <button onClick={this._handleSubmitClick} >Submit</button>
             {error ? <div> Please only provide integers! </div> : null}
         </div>);
     }

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { getLogAPICall } from '../../redux/actions/admin';
 import Icon from '../icon';
-import cssIcons from '../../../css/icons.module.css';
 
 @connect(state => ({ log: state.log }))
 export class Log extends Component {
@@ -14,7 +13,7 @@ export class Log extends Component {
     render() {
         const { fetching, error, result } = this.props.log;
         if (fetching) {
-            return <div className={cssIcons.spinner}><Icon symbol='loading' /></div>;
+            return <div><Icon symbol='loading' /></div>;
         } else {
             if (error) {
                 return <div> Cannot fetch.. </div>;

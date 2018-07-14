@@ -7,8 +7,6 @@ import store from '../../redux/store';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments';
 import Icon from '../icon';
-import cssButtons from '../../../css/buttons.module.css';
-import cssIcons from '../../../css/icons.module.css';
 import cssSection from '../../../css/sectioning.module.css';
 
 @connect(state => ({ patientProfile: state.patientProfile, fields: state.availableFields, meddra: state.meddra }))
@@ -103,7 +101,7 @@ export class TreatmentInterruption extends Component {
 
 
                         {!this.state.addMore ?
-                            <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Add interruptions</div>
+                            <button onClick={this._handleClickingAdd}>Add interruptions</button>
                             :
                             <div>
                                 <div className={cssSection.profileSubDataSection}>
@@ -117,8 +115,8 @@ export class TreatmentInterruption extends Component {
                                     <b>MedDRA: </b><SuggestionInput reference={this.meddraRef} />
                                 </div>
                                 <div>
-                                    <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
-                                    <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
+                                    <button onClick={this._handleSubmit}>Submit</button>
+                                    <button onClick={this._handleClickingAdd}>Cancel</button>
                                     {this.state.error ? <div> Your medDRA code is not a permitted value.</div> : null}
                                 </div>
                             </div>}
@@ -128,7 +126,7 @@ export class TreatmentInterruption extends Component {
                 return <div> Cannot find your treatment! Please check the id in your url. </div>;
             }
         } else {
-            return <div className={cssIcons.spinner}><Icon symbol='loading' /></div>;
+            return <div><Icon symbol='loading' /></div>;
         }
     }
 }

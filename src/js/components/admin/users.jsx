@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { createUserAPICall, getAllUsersAPICall } from '../../redux/actions/admin';
 import Icon from '../icon';
-import cssIcons from '../../../css/icons.module.css';
-import cssButtons from '../../../css/buttons.module.css';
 
 export class Users extends Component {
     render() {
@@ -27,7 +25,7 @@ export class UserList extends Component {
     render() {
         const { fetching, error, result } = this.props.getAllUsers;
         if (fetching) {
-            return <div className={cssIcons.spinner}><Icon symbol='loading' /></div>;
+            return <div><Icon symbol='loading' /></div>;
         } else {
             if (error) {
                 return <div> Cannot fetch.. </div>;
@@ -92,7 +90,7 @@ class CreateUser extends Component {
     render() {
         return (<div>
             {!this.state.addMore ?
-                <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Create new user</div>
+                <button onClick={this._handleClickingAdd}>Create new user</button>
                 :
                 <div>
                     <table>
@@ -117,8 +115,8 @@ class CreateUser extends Component {
                         </tbody>
                     </table>
                     <div>
-                        <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
-                        <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
+                        <button onClick={this._handleSubmit}>Submit</button>
+                        <button onClick={this._handleClickingAdd}>Cancel</button>
                     </div>
                     {this.state.error ? <div> None of the fields can be empty! </div> : null}
                 </div>

@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import Icon from '../icon';
-import cssIcons from '../../../css/icons.module.css';
-import cssButtons from '../../../css/buttons.module.css';
 
 function mapStateToProps(state) {
     return {
@@ -75,7 +73,7 @@ export class DataTemplate extends Component {
                 </div>);   //change the type later
             }
         } else {
-            return <div className={cssIcons.spinner}><Icon symbol='loading' /></div>;
+            return <div><Icon symbol='loading' /></div>;
         }
     }
 }
@@ -152,7 +150,7 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
                         }
                     })
                 }
-                <input className={cssButtons.dataSubmitButton} type="submit" value="Save" />
+                <input type="submit" value="Save" />
             </form>
         </div>
     );
@@ -236,7 +234,7 @@ export class ControlledInputField extends Component {
                     onChange={this._handleKeyStroke}
                     onKeyPress={this._handleEnterKey}
                 />
-                <span onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</span>
+                <span onClick={this._handleResetClick}>reset</span>
             </span>
         );
     }
@@ -280,7 +278,7 @@ export class ControlledSelectField extends Component {
                     <option value='unselected'>unselected</option>
                     {this.props.permittedValues.split(',').map(option => <option key={option} value={option}>{option}</option>)}
                 </select>
-                <span onClick={this._handleResetClick} className={cssButtons.resetButton}>reset</span>
+                <span onClick={this._handleResetClick}>reset</span>
             </span>
         );
     }
