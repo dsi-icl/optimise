@@ -39,10 +39,14 @@ Patient.prototype.getPatient = function (whereObj, selectedObj) {
 Patient.prototype.searchPatients = function (queryid) {
     return new Promise(function (resolve, reject) {
         knex('PATIENTS')
-            .select({ patientId: 'id' }, 'aliasId', 'study')
+            .select({ patientId: 'id' }, 'aliasId', 'study', 'consent')
             .where('aliasId', 'like', queryid)
             .andWhere('PATIENTS.deleted', '-')
             .then(function (result) {
+                if (Array.isArray(result))
+                    for (let i = 0; i < result.length; i++) {
+                        result[i].consent = Boolean(result[i].consent);
+                    }
                 resolve(result);
             }, function (error) {
                 reject(ErrorHelper(message.errorMessages.GETFAIL, error));

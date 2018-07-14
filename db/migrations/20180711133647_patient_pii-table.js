@@ -1,7 +1,7 @@
 exports.up = function (knex) {
     return knex.schema.createTable('PATIENT_PII', function (table) {
         table.increments('id').primary();
-        table.integer('patient').notNullable().references('id').inTable('PATIENTS');
+        table.integer('patient').notNullable().references('id').inTable('PATIENTS').onDelete('CASCADE');
         table.text('firstName').notNullable();
         table.text('surname').notNullable();
         table.text('fullAddress').notNullable();

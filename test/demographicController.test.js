@@ -214,6 +214,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 
 });
@@ -482,16 +485,20 @@ describe('Delete Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(200);
-            expect(res.body).toBe(0);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(0);
         }));
 
     test('Deleting demographic with good preperty (Should Works)', () => admin
         .delete('/demographics/Demographic')
         .send({
-            'id': 7
+            'id': 6
         })
         .then(res => {
             expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(0);
         }));
-
 });
