@@ -249,5 +249,4 @@ class DataController {
     }
 }
 
-const _singleton = new DataController();
-module.exports = _singleton;
+module.exports = DataController;

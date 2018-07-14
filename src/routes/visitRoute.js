@@ -7,12 +7,12 @@
 const express = require('express');
 const visit = express();
 
-const VisitCtrl = require('../controllers/visitController');
-const VisitController = new VisitCtrl();
+const VisitController = require('../controllers/visitController');
+const VisitCtrl = new VisitController();
 
 visit.route('/')
-    .get(VisitController.getVisitsOfPatient)
-    .post(VisitController.createVisit)
-    .delete(VisitController.deleteVisit);
+    .get(VisitCtrl.getVisitsOfPatient)
+    .post(VisitCtrl.createVisit)
+    .delete(VisitCtrl.deleteVisit);
 
 module.exports = visit;

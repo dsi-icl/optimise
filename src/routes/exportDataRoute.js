@@ -6,8 +6,9 @@
 const express = require('express');
 const exportDB = express();
 const ExportDataController = require('../controllers/exportDataController');
+const ExportDataCtrl = new ExportDataController();
 
 exportDB.route('/')
-    .get(ExportDataController.exportDatabase);
+    .get(ExportDataCtrl.exportDatabase);
 
 module.exports = exportDB;
