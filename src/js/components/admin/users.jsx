@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import store from '../../redux/store.js';
-import { createUserAPICall, getAllUsersAPICall } from '../../redux/actions/admin.js';
+import store from '../../redux/store';
+import { createUserAPICall, getAllUsersAPICall } from '../../redux/actions/admin';
 import { LoadingIcon } from '../../../statics/svg/icons';
 import cssIcons from '../../../css/icons.module.css';
 import cssButtons from '../../../css/buttons.module.css';

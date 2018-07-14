@@ -1,6 +1,6 @@
-import initialState from './initialState.js';
+import initialState from './initialState';
 import { combineReducers } from 'redux';
-import actionTypes from './actions/listOfActions.js';
+import actionTypes from './actions/listOfActions';
 
 function login(state = initialState.login, action) {
     switch (action.type) {

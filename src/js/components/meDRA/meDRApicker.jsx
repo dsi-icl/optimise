@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { searchMedDRAAPICall } from '../../redux/actions/MedDRA.js';
-import store from '../../redux/store.js';
+import { searchMedDRAAPICall } from '../../redux/actions/MedDRA';
+import store from '../../redux/store';
 
 /**
  * @class SuggestionInput

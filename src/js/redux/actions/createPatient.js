@@ -1,6 +1,6 @@
-import actionTypes from './listOfActions.js';
-import { getPatientProfileById, getPatientProfileByIdRequest } from './searchPatientById.js';
-import { apiHelper } from '../fetchHelper.js';
+import actionTypes from './listOfActions';
+import { getPatientProfileById, getPatientProfileByIdRequest } from './searchPatientById';
+import { apiHelper } from '../fetchHelper';
 
 export const createPatientRequest = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_REQUEST, payload: patientId });
 export const createPatientSuccess = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_SUCCESS, payload: patientId });

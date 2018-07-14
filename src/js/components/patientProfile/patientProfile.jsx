@@ -5,12 +5,12 @@ import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
 import { PatientProfileSectionScaffold } from './sharedComponents';
 import { formatRow } from './patientChart';
-import store from '../../redux/store.js';
-import { createImmunisationAPICall, createPregnancyAPICall } from '../../redux/actions/demographicData.js';
+import store from '../../redux/store';
+import { createImmunisationAPICall, createPregnancyAPICall } from '../../redux/actions/demographicData';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import { SelectField } from '../createPatient/createPatientPage';
-import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient.js';
-import { updateConsentAPICall } from '../../redux/actions/consent.js';
+import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
+import { updateConsentAPICall } from '../../redux/actions/consent';
 import cssSections from '../../../css/sectioning.module.css';
 import cssButtons from '../../../css/buttons.module.css';
 

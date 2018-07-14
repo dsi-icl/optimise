@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/dataPage';
-import { createTreatmentAPICall } from '../../redux/actions/treatments.js';
+import { createTreatmentAPICall } from '../../redux/actions/treatments';
 import cssTexts from '../../../css/inlinetexts.module.css';
 import cssButtons from '../../../css/buttons.module.css';
 

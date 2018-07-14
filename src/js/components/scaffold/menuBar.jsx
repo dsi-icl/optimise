@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ExportIcon, LogoutIcon, SearchIcon, SettingIcon } from '../../../statics/svg/icons';
-import { logoutAPICall } from '../../redux/actions/login.js';
-import store from '../../redux/store.js';
+import { logoutAPICall } from '../../redux/actions/login';
+import store from '../../redux/store';
 import style from './scaffold.module.css';
 
 @connect(state => ({ username: state.login.username }))

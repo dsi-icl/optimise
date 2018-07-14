@@ -1,5 +1,5 @@
-import { getPatientProfileById } from './searchPatientById.js';
-import { apiHelper } from '../fetchHelper.js';
+import { getPatientProfileById } from './searchPatientById';
+import { apiHelper } from '../fetchHelper';
 
 export const createCEAPICall = (body) => dispatch => {
     return apiHelper('/clinicalEvents', { method: 'POST', body: JSON.stringify(body.data) })
