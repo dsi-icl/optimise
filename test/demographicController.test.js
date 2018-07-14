@@ -6,12 +6,12 @@ const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
 const { connectAdmin, connectUser, deconnectAgent } = require('./connection');
 
-beforeAll(async() => { //eslint-disable-line no-undef
+beforeAll(async () => { //eslint-disable-line no-undef
     await connectAdmin(admin);
     await connectUser(user).then();
 });
 
-afterAll(async() => { //eslint-disable-line no-undef
+afterAll(async () => { //eslint-disable-line no-undef
     await deconnectAgent(admin);
     await deconnectAgent(user);
 });
@@ -216,7 +216,7 @@ describe('Create Demographic controller test', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(7); 
+            expect(res.body.state).toBe(7);
         }));
 
 });
