@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { BackButton } from '../medicalData/dataPage.jsx';
+import { BackButton } from '../medicalData/dataPage';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
 import cssTexts from '../../../css/inlinetexts.module.css';
 import cssButtons from '../../../css/buttons.module.css';
-import { PickDate } from './datepicker.jsx';
+import { PickDate } from './datepicker';
 
 @connect(state => ({ patientId: state.patientProfile.data.id }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
 export class CreateVisit extends Component {

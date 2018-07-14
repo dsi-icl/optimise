@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedComponents.jsx';
+import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedComponents';
 import { NavLink } from 'react-router-dom';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import store from '../../redux/store';
-import { LoadingIcon } from '../../../statics/svg/icons.jsx';
-import { TimelineBox } from './timeline.jsx';
+import { LoadingIcon } from '../../../statics/svg/icons';
+import { TimelineBox } from './timeline';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
-import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon, AddVSIcon, SignAndSymptomIcon } from '../../../statics/svg/icons.jsx';
+import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon, AddVSIcon, SignAndSymptomIcon } from '../../../statics/svg/icons';
 import cssSectioning from '../../../css/sectioning.module.css';
 import cssScaffold from '../../../css/scaffold.module.css';
 import cssButtons from '../../../css/buttons.module.css';
