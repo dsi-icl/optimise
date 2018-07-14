@@ -6,6 +6,7 @@
     position: relative;
     color: var(--color-font-active);
     background-color: hsl(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l));
+    padding: 0.35em 1.2em;
 }
 
 .menuBar {    
