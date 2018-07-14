@@ -6,11 +6,11 @@
 const express = require('express');
 const ce = express();
 
-const CECtrl = require('../controllers/ceController');
-const CeController = new CECtrl();
+const CeController = require('../controllers/ceController');
+const CECtrl = new CeController();
 
 ce.route('/')
-    .post(CeController.createCe)
-    .delete(CeController.deleteCe);
+    .post(CECtrl.createCe)
+    .delete(CECtrl.deleteCe);
 
 module.exports = ce;
