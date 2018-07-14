@@ -113,7 +113,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                     try {
                         promiseArr.push(SelectorUtils[`get${getOnlyArr[i]}`](patientId));
                     } catch (e) {
-                        res.status(400).send('something in your ?getOnly is not permitted! The options are "getDemographicData", "getImmunisations", "getMedicalHistory", "getVisits", "getTests", "getTreatments", "ClinicalEvents"');
+                        res.status(400).send('something in your ?getOnly is not permitted! The options are "getDemographicData", "getImmunisations", "getMedicalHistory", "getVisits", "getTests", "getTreatments", "ClinicalEvents", "Pregnancy", "Diagnosis"');
                         throw 'stopping the chain';
                     }
                 }
@@ -123,7 +123,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                 return;
             } else {
                 const promiseArr = [];
-                const availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy'];
+                const availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis'];
                 for (let i = 0; i < availableFunctions.length; i++) {
                     promiseArr.push(SelectorUtils[availableFunctions[i]](patientId));
                 }
