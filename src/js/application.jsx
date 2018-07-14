@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold.jsx';
 import { LoginPage } from './components/login/loginPage.jsx';
-import cssLogin from '../css/loginpage.module.css';
 import { LoadingIcon } from '../statics/svg/icons.jsx';
 import cssIcons from '../css/icons.module.css';
 import cssScaffold from '../css/scaffold.module.css';
@@ -26,7 +25,7 @@ class App extends Component {
     }
 
     render() {
-        if(this.props.checking) {
+        if (this.props.checking) {
             return <div className={cssIcons.spinner}><LoadingIcon /></div>;
         } else {
             if (this.props.loggedIn) {
