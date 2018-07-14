@@ -43,7 +43,7 @@ export class CreateVisit extends Component {
     _formatRequestBody() {
         const date = this.state.startDate._d;
         const { SBP, DBP, HR, weight, academicConcern, height } = this.state;
-        for (let each of [SBP, DBP, HR, weight, academicConcern, height]){
+        for (let each of [SBP, DBP, HR, weight, height]){
             if (!parseInt(each, 10)){
                 return false;
             }
@@ -68,6 +68,7 @@ export class CreateVisit extends Component {
     }
 
     _handleSubmitClick() {
+        console.log(this._formatRequestBody());
         if (!this._formatRequestBody()){
             this.setState({ error: true });
             return;

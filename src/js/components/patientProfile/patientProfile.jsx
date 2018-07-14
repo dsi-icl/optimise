@@ -285,7 +285,7 @@ class DeletePatient extends Component {
     }
 
     _handleClickDelete(){
-        const body = { alias_id: this.props.match.params.patientId };
+        const body = { patientId: this.props.match.params.patientId, data: {patientId: this.props.data.id }} ;
         store.dispatch(erasePatientAPICall(body));
     }
 

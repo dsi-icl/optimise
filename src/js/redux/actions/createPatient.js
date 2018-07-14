@@ -8,9 +8,9 @@ export const createPatientCall = (body) => dispatch => (
     apiHelper('/patients', { method: 'POST', body: JSON.stringify(body.patientData) })
         .then(json => {
             dispatch(getPatientProfileByIdRequest());
-            const patientId = json[0];
-            body.PIIData.patient = json[0];
-            body.diagnosisData.patient = json[0];
+            const patientId = json.state;
+            body.PIIData.patient = json.state;
+            body.diagnosisData.patient = json.state;
             const demoData = { ...body.demoData, patient: patientId };
             return apiHelper('/demographics/Demographic', { method: 'POST', body: JSON.stringify(demoData) });
         })
