@@ -7,7 +7,7 @@ export const loggedIn = body => ({ type: actionTypes.login.LOGGED_IN, payload: b
 
 export const notLoggedIn = () => ({ type: actionTypes.login.NOT_LOGGED_IN });
 
-export const whoami = (body) => dispatch => {
+export const whoami = () => dispatch => {
     dispatch(checkingLogin());
     return apiHelper('/whoami')
         .then(json => {
@@ -24,7 +24,6 @@ export const loginSuccess = (body) => ({ type: actionTypes.login.LOGIN_SUCCESS, 
 export const loginFailure = () => ({ type: actionTypes.login.LOGIN_FAILURE });
 
 export const loginAPICall = (body) => dispatch => {
-    console.log('BODY > ', body);
     dispatch(loginRequest(body));
     return apiHelper('/users/login', { method: 'POST', body: JSON.stringify(body) })
         .then(json => {
@@ -37,7 +36,6 @@ export const loginAPICall = (body) => dispatch => {
 export const logoutRequest = () => ({ type: actionTypes.login.LOGOUT_REQUEST });
 
 export const logoutAPICall = (body) => dispatch => {
-    console.log('BODY > ', body);
     dispatch(logoutRequest(body));
     return apiHelper('/users/logout', { method: 'POST', body: JSON.stringify(body) })
         .catch(err => console.log(err));
