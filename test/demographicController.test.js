@@ -216,7 +216,7 @@ describe('Create Demographic controller test', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+            expect(res.body.state).toBe(1); 
         }));
 
 });
@@ -499,6 +499,6 @@ describe('Delete Demographic controller test', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(0);
+            expect(res.body.state).toBe(1);
         }));
 });
