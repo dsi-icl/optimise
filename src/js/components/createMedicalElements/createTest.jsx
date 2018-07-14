@@ -73,7 +73,7 @@ export class CreateTest extends Component {
                         {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                     </select>
                 </span>
-                <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
+                <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} >Submit</div>
             </div>);
         } else {
             return null;

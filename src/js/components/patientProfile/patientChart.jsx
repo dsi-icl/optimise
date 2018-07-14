@@ -59,7 +59,7 @@ function mapMedications(patientId, drugList) {
         const numberOfInterruptions = el.interruptions ? el.interruptions.length : 0;
         return (
             <tr key={el.id} >
-                {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'],numberOfInterruptions,
+                {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'], numberOfInterruptions,
                     <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
                         <div className={cssButtons.dataResultButton}>results➠ </div>
                     </NavLink>
@@ -88,7 +88,6 @@ function mapClinicalEvents(patientId, typeList) {
 
 function mapSymptoms(fieldHashTable) {
     return el => {
-        console.log('MAPPING FIELD', el.field, fieldHashTable);
         return (
             <tr key={el.field} >
                 {formatRow([fieldHashTable[el.field].definition, el.value])}
@@ -121,33 +120,31 @@ class OneVisit extends Component {
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
         const VS = this.props.visitData.filter(el => [1, 2, 3, 4, 5, 6].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
-        console.debug('HASH VS > ', VSHashTable)
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
         const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map; }, {});
-        console.log('VISIT', this.props.visitId, fieldHashTable, relevantFields, allSymptoms);
         const symptoms = this.props.visitData.filter(el => el.field > 6);
         return (
-            <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em' />} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
-                    <table style={{ width: '100%' }}>
+            <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon width='2.5em' />} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
+                    <table >
                         <tbody>
                             <tr>
-                                <td style={{ textAlign: 'left' }}>Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
-                                <td style={{ textAlign: 'left' }}>Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
+                                <td >Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
+                                <td >Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
                             </tr>
                             <tr>
-                                <td style={{ textAlign: 'left' }}>Heart rate: {`${VSHashTable['2']} bpm`}</td>
-                                <td style={{ textAlign: 'left' }}>Height: {`${VSHashTable['4']} cm`}</td>
+                                <td >Heart rate: {`${VSHashTable['2']} bpm`}</td>
+                                <td >Height: {`${VSHashTable['4']} cm`}</td>
                             </tr>
                             <tr>
-                                <td style={{ textAlign: 'left' }}>Weight: {`${VSHashTable['5']} kg`}</td>
-                                <td style={{ textAlign: 'left' }}>Academic concern: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td>
+                                <td >Weight: {`${VSHashTable['5']} kg`}</td>
+                                <td >Academic concern: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td>
                             </tr>
                         </tbody>
                     </table>
                 </TimelineEvent>
 
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
                     {relevantFields.length !== 0 ? <table>
                         <thead>
                             <tr><th>Recorded symptoms</th><th>Value</th></tr>
@@ -163,7 +160,7 @@ class OneVisit extends Component {
 
 
                 {visitHasTests ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon style={{ fill: '#68e03a' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Expected date</th></tr>
@@ -179,7 +176,7 @@ class OneVisit extends Component {
 
 
                 {visitHasMedications ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
@@ -195,7 +192,7 @@ class OneVisit extends Component {
 
 
                 {visitHasClinicalEvents ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon style={{ fill: '#FF4745' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Start date</th><th></th></tr>
@@ -219,7 +216,6 @@ class OneVisit extends Component {
 export class Charts extends Component {   //unfinsihed
     render() {
         const { visits } = this.props.data;
-        console.debug(visits, sortVisits(visits));
         return (
             <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
 

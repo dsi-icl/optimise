@@ -6,7 +6,6 @@ import { createVisitAPICall } from '../../redux/actions/createVisit';
 import cssTexts from '../../../css/inlinetexts.module.css';
 import cssButtons from '../../../css/buttons.module.css';
 import { PickDate } from './datepicker.jsx';
-import { timingSafeEqual } from 'crypto';
 
 @connect(state => ({ patientId: state.patientProfile.data.id }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
 export class CreateVisit extends Component {
@@ -43,8 +42,8 @@ export class CreateVisit extends Component {
     _formatRequestBody() {
         const date = this.state.startDate._d;
         const { SBP, DBP, HR, weight, academicConcern, height } = this.state;
-        for (let each of [SBP, DBP, HR, weight, height]){
-            if (!parseInt(each, 10)){
+        for (let each of [SBP, DBP, HR, weight, height]) {
+            if (!parseInt(each, 10)) {
                 return false;
             }
         }
@@ -68,13 +67,11 @@ export class CreateVisit extends Component {
     }
 
     _handleSubmitClick() {
-        console.log(this._formatRequestBody());
-        if (!this._formatRequestBody()){
+        if (!this._formatRequestBody()) {
             this.setState({ error: true });
             return;
         }
         const requestBody = this._formatRequestBody();
-        console.debug('VISIT REQ > ', requestBody);
         this.props.createVisit(requestBody);
     }
 
@@ -95,8 +92,8 @@ export class CreateVisit extends Component {
                     <option value='0'>false</option>
                 </select>
             </span>
-            <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
-            { error ? <div> Please only provide integers! </div> : null}
+            <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} >Submit</div>
+            {error ? <div> Please only provide integers! </div> : null}
         </div>);
     }
 }

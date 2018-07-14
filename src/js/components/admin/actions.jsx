@@ -5,14 +5,14 @@ import { NavLink } from 'react-router-dom';
 export class AdminActions extends Component {
     render() {
         return (
-            <div style={{ backgroundColor: '#E7E5E6' }}>
+            <div >
                 <h2> ADMIN MENU </h2>
-                <NavLink to='/administration/users' style={{ textDecoration: 'none' }} activeClassName={cssButtons.adminActionButtonClicked}>
+                <NavLink to='/administration/users' activeClassName={cssButtons.adminActionButtonClicked}>
                     <div className={cssButtons.patientBanner}>
                         <b>Manage users</b>
                     </div>
                 </NavLink>
-                <NavLink to='/administration/log' style={{ textDecoration: 'none' }} activeClassName={cssButtons.adminActionButtonClicked}>
+                <NavLink to='/administration/log' activeClassName={cssButtons.adminActionButtonClicked}>
                     <div className={cssButtons.patientBanner}>
                         <b>View access log</b>
                     </div>

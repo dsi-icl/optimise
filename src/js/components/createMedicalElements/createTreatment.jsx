@@ -91,7 +91,7 @@ export class CreateTreatment extends Component {
                 <br /><br />
                 Duration in weeks: <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text' />
                 <br />
-                <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
+                <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} >Submit</div>
             </div>);
         } else {
             return null;

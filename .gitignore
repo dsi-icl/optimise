@@ -21,3 +21,4 @@ yarn-error.log*
 *.sqlite
 
 To-Do.txt
+/electron-builder.yml

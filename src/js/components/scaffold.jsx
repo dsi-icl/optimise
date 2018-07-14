@@ -9,7 +9,6 @@ import { PatientChart } from './patientProfile/patientChart.jsx';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import { DataPageRouter } from './medicalData/router.jsx';
 import { connect } from 'react-redux';
-import { History } from './exportCDSIC/history.jsx';
 import { CreateVisit } from './createMedicalElements/createVisit.jsx';
 import { SearchIcon, SettingIcon, ExportIcon, LogoutIcon } from '../../statics/svg/icons.jsx';
 import { AdminActions } from './admin/actions.jsx';
@@ -22,12 +21,12 @@ import store from '../redux/store.js';
 
 @connect(state => ({ username: state.login.username }))
 export class MenuBar extends Component {
-    constructor(){
+    constructor() {
         super();
         this._handleLogout = this._handleLogout.bind(this);
     }
 
-    _handleLogout(){
+    _handleLogout() {
         store.dispatch(logoutAPICall({
             username: this.props.username
         }));
@@ -37,25 +36,25 @@ export class MenuBar extends Component {
         return (
             <div className={css.MenuBar}>
                 <br /><br /><br />
-                <NavLink to='/searchPatientById' style={{ gridRow: '2/3' }} className={cssButtons.menuButton} title='Search and edit patients' activeStyle={{ fill: 'white' }}>
-                    <div style={{ textAlign: 'center' }}>
+                <NavLink to='/searchPatientById' className={cssButtons.menuButton} title='Search and edit patients' activeStyle={{ fill: 'white' }}>
+                    <div >
                         <SearchIcon width='50%' />
                     </div>
                 </NavLink>
 
-                <a href='/export' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
-                    <div style={{ textAlign: 'center' }}>
+                <a href='/export' className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
+                    <div >
                         <ExportIcon width='40%' />
                     </div>
                 </a>
 
-                <NavLink to='/administration' style={{ gridRow: '4/5' }} className={cssButtons.menuButton} title='Admin settings' activeStyle={{ fill: 'white' }}>
-                    <div style={{ textAlign: 'center' }}>
+                <NavLink to='/administration' className={cssButtons.menuButton} title='Admin settings' activeStyle={{ fill: 'white' }}>
+                    <div >
                         <SettingIcon width='50%' />
                     </div>
                 </NavLink>
-                <div onClick={this._handleLogout} id='logoutButton' style={{ gridRow: '8/9' }} title='Logout' className={cssButtons.menuButton}>
-                    <div style={{ textAlign: 'center' }}>
+                <div onClick={this._handleLogout} id='logoutButton' title='Logout' className={cssButtons.menuButton}>
+                    <div >
                         <LogoutIcon width='45%' />
                     </div>
                 </div>
@@ -65,19 +64,19 @@ export class MenuBar extends Component {
     }
 }
 
-/* 
-<NavLink to='/exportCDISC' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
-    <div style={{ textAlign: 'center' }}>
+/*
+<NavLink to='/exportCDISC' className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
+    <div >
         <ExportIcon width='40%' />
     </div>
 </NavLink>
-<NavLink to='/filterPatients' style={{ gridRow: '3/4' }} className={cssButtons.menuButton} title='Filter patients' activeStyle={{ fill: 'white' }}>
-<div style={{ textAlign: 'center' }}>
+<NavLink to='/filterPatients' className={cssButtons.menuButton} title='Filter patients' activeStyle={{ fill: 'white' }}>
+<div >
     <FilterIcon width='50%'/>
 </div>
 </NavLink>
-<NavLink to='/uploadToCloud' style={{ gridRow: '5/6' }} className={cssButtons.menuButton} title='Upload to central DB' activeStyle={{ fill: 'white' }}>
-<div style={{ textAlign: 'center' }}>
+<NavLink to='/uploadToCloud' className={cssButtons.menuButton} title='Upload to central DB' activeStyle={{ fill: 'white' }}>
+<div >
     <CloudIcon width='50%'/>
 </div>
 </NavLink> */
@@ -106,7 +105,7 @@ export class RightPanel extends Component {
                 <Route exact path='/searchPatientById' component={() => <></>} />
                 <Route exact path='/' component={WelcomePanel} />
                 <Route exact path='/export' component={() => <></>} />
-                <Route path='/administration' render={() => <AdminRouter/>} />
+                <Route path='/administration' render={() => <AdminRouter />} />
                 <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatientComponent match={match} />} />
                 <Route exact path='/filterPatients' component={Fields} />
                 <Route component={() => <span>Oops! seems like we cannot find your url</span>} />
@@ -141,8 +140,8 @@ export class StatusBar extends Component {
     render() {
         return (
             <div className={css.StatusBar}>
-                <span style={{ float: 'left', marginLeft: 10, marginTop: '0.2em', display: 'block' }}> You are logged in as {this.props.username}</span>
-                <span style={{ display: 'block', marginTop: '0.2em', position: 'absolute', float: 'left', right: 10 }}> OptimiseMS v1.0.0</span>
+                <span > You are logged in as {this.props.username}</span>
+                <span > OptimiseMS v1.0.0</span>
             </div>
         );
     }
