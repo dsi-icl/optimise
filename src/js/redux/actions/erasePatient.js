@@ -13,4 +13,4 @@ export const erasePatientAPICall = (body) => dispatch => {
             dispatch(erasePatientSuccess(body.patientId));
         })
         .catch(err => { console.log(err); dispatch(erasePatientFailure()); });
-}
+};

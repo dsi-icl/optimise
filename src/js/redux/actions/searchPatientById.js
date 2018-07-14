@@ -10,7 +10,6 @@ export const searchPatientByIdAPICall = (searchString) => dispatch => {
     dispatch(searchPatientByIdRequest());
     return apiHelper(`/patients?id=${searchString}`)
         .then(json => {
-            console.debug('WHYNOT', json);
             dispatch(searchPatientByIdSuccess(json));
         })
         .catch(() => { dispatch(searchPatientByIdFailure(searchString)); });

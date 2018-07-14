@@ -14,14 +14,12 @@ export const createPatientCall = (body) => dispatch => (
             const demoData = { ...body.demoData, patient: patientId };
             return apiHelper('/demographics/Demographic', { method: 'POST', body: JSON.stringify(demoData) });
         })
-        .then(json => {
-            console.debug('DIAGNOSIS CALL > ', body.diagnosisData);
+        .then(() => {
             dispatch(getPatientProfileByIdRequest());
             return apiHelper('/patientDiagnosis/', { method: 'POST', body: JSON.stringify(body.diagnosisData) });
         })
-        .then(json => {
+        .then(() => {
             dispatch(getPatientProfileByIdRequest());
-            console.debug('PII CALL > ', body.PIIData);
             return apiHelper('/patientPii/', { method: 'POST', body: JSON.stringify(body.PIIData) });
         })
         .then(() => { dispatch(getPatientProfileById(body.patientId)); })
