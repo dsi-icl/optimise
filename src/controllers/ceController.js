@@ -1,6 +1,7 @@
 const ErrorHelper = require('../utils/error_helper');
 const clinicalEventCore = require('../core/clinicalEvent');
 const message = require('../utils/message-utils');
+const formatToJSON = require('../utils/format-response');
 
 function CeController() {
     this.clinicalEvent = new clinicalEventCore();
@@ -21,7 +22,7 @@ CeController.prototype.createCe = function (req, res) {
         ce.dateStartDate = Date.parse(req.body.startDate);
         ce.createdByUser = req.user.id;
         this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
@@ -40,8 +41,8 @@ CeController.prototype.deleteCe = function (req, res) {
         return;
     }
     if (req.body.hasOwnProperty('ceId')) {
-        this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then(function(result) {
-            res.status(200).json(result);
+        this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then(function (result) {
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));

@@ -13,6 +13,7 @@ patient.route('/')
     .get(PatientController.searchPatients)
     .post(PatientController.createPatient)
     .patch(PatientController.setPatientAsDeleted)
+    .put(PatientController.updateConsent)
     .delete(PatientController.erasePatientInfo);
 
 // Get the profile of a certain user

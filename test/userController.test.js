@@ -46,8 +46,9 @@ describe('User controller tests', () => {
         .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting' })
         .then(res => {
             expect(res.statusCode).toBe(200);
-            expect(Array.isArray(res.body)).toBe(true);
-            expect(typeof res.body[0]).toBe('number');
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            // Not checking the value of res.body.state because it can change
         }));
 
     test('Admin creating user (no 2) without admin priv without real name', () => admin
@@ -56,6 +57,9 @@ describe('User controller tests', () => {
         .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0 })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            // Not checking the value of res.body.state because it can change
         }));
 
     test('Admin get the users matching with "test" in their name', function () {
@@ -133,7 +137,9 @@ describe('User controller tests', () => {
             .send({ 'username': 'test_user', 'pw': 'new_password' })
             .then(res => {
                 expect(res.statusCode).toBe(200);
-                expect(res.body).toBe(1);
+                expect(typeof res.body).toBe('object');
+                expect(res.body.state).toBeDefined();
+                expect(res.body.state).toBe(1);
             })
     );
 
@@ -172,7 +178,9 @@ describe('User controller tests', () => {
             .send({ 'username': 'test_user' })
             .then(res => {
                 expect(res.statusCode).toBe(200);
-                expect(res.body).toBe(1);
+                expect(typeof res.body).toBe('object');
+                expect(res.body.state).toBeDefined();
+                expect(res.body.state).toBe(1);
             }));
 
     test('First user (admin) login', () => admin
@@ -198,7 +206,9 @@ describe('User controller tests', () => {
         .send({ 'username': 'test_user2' })
         .then(res => {
             expect(res.statusCode).toBe(200);
-            expect(res.body).toBe(1);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 
     test('Admin creating another user (no 1) without admin priv with real name again', () => admin
@@ -207,8 +217,9 @@ describe('User controller tests', () => {
         .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting' })
         .then(res => {
             expect(res.statusCode).toBe(200);
-            expect(Array.isArray(res.body)).toBe(true);
-            expect(typeof res.body[0]).toBe('number');
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            // Not checking the value of res.body.state because it can change
         }));
 
     test('admin deletes user no 1 again', () => admin
@@ -217,7 +228,9 @@ describe('User controller tests', () => {
         .send({ 'username': 'test_user' })
         .then(res => {
             expect(res.statusCode).toBe(200);
-            expect(res.body).toBe(1);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 
     test('Admin user login out ()', () => admin

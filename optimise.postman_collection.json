@@ -757,6 +757,32 @@
 						"description": "Erase in the database the user"
 					},
 					"response": []
+				},
+				{
+					"name": "Update consent of patient",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"patientId\":1,\n\t\"consent\":true\n}"
+						},
+						"url": {
+							"raw": "{{url}}/patients",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"patients"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

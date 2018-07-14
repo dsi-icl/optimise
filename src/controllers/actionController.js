@@ -1,6 +1,7 @@
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const ActionCore = require('../core/actionLog');
+const formatToJSON = require('../utils/format-response');
 
 function ActionCtrl() {
     this.action = new ActionCore();
@@ -14,7 +15,7 @@ ActionCtrl.prototype.getLogs = function (req, res) {
         return;
     }
     this.action.getLogs().then(function (result) {
-        res.status(200).json(result);
+        res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
