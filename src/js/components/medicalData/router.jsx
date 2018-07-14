@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { DataTemplate } from './dataPage.jsx';
-import { TreatmentInterruption } from './treatmentInterruptions.jsx';
+import { DataTemplate } from './dataPage';
+import { TreatmentInterruption } from './treatmentInterruptions';
 
 export class DataPageRouter extends Component {
     render() {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import store from '../../redux/store.js';
 import { getLogAPICall } from '../../redux/actions/admin.js';
 import cssIcons from '../../../css/icons.module.css';
-import { LoadingIcon } from '../../../statics/svg/icons.jsx';
+import { LoadingIcon } from '../../../statics/svg/icons';
 
 @connect(state => ({ log: state.log }))
 export class Log extends Component {

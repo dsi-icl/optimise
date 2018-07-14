@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon } from '../../../statics/svg/icons.jsx';
+import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon } from '../../../statics/svg/icons';
 import { NavLink } from 'react-router-dom';
-import { VisitPicker } from './popup.jsx';
+import { VisitPicker } from './popup';
 import cssButtons from '../../../css/buttons.module.css';
 import cssDropdowns from '../../../css/dropdowns.module.css';
 import cssSectioning from '../../../css/sectioning.module.css';

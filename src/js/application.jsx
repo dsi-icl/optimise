@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold.jsx';
+import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold';
 import Body from './components/body';
 import Login from './components/login';
 import { LoadingIcon } from '../statics/svg/icons';

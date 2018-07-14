@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
-import { PickDate } from '../createMedicalElements/datepicker.jsx';
+import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store.js';
 import { createPatientCall } from '../../redux/actions/createPatient.js';
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
+import { PatientProfileSectionScaffold } from './sharedComponents';
 import cssTimeline from '../../../css/timelineelements.module.css';
 
 

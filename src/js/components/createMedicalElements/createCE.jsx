@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { PickDate } from './datepicker.jsx';
-import { BackButton } from '../medicalData/dataPage.jsx';
+import { PickDate } from './datepicker';
+import { BackButton } from '../medicalData/dataPage';
 import cssTexts from '../../../css/inlinetexts.module.css';
 import cssButtons from '../../../css/buttons.module.css';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents.js';
-import { SuggestionInput } from '../meDRA/meDRApicker.jsx';
+import { SuggestionInput } from '../meDRA/meDRApicker';
 
 //not yet finished the dispatch
 @connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes, meddra: state.meddra.result }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))

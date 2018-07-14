@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { PickDate } from './datepicker.jsx';
-import { BackButton } from '../medicalData/dataPage.jsx';
+import { PickDate } from './datepicker';
+import { BackButton } from '../medicalData/dataPage';
 import cssTexts from '../../../css/inlinetexts.module.css';
 import cssButtons from '../../../css/buttons.module.css';
 import { createTestAPICall } from '../../redux/actions/tests.js';

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { BackButton } from './dataPage.jsx';
-import { PickDate } from '../createMedicalElements/datepicker.jsx';
-import { formatRow } from '../patientProfile/patientChart.jsx';
+import { BackButton } from './dataPage';
+import { PickDate } from '../createMedicalElements/datepicker';
+import { formatRow } from '../patientProfile/patientChart';
 import cssButtons from '../../../css/buttons.module.css';
 import cssIcons from '../../../css/icons.module.css';
 import cssSection from '../../../css/sectioning.module.css';
 import store from '../../redux/store.js';
-import { LoadingIcon } from '../../../statics/svg/icons.jsx';
-import { SuggestionInput } from '../meDRA/meDRApicker.jsx';
+import { LoadingIcon } from '../../../statics/svg/icons';
+import { SuggestionInput } from '../meDRA/meDRApicker';
 import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments.js';
 import moment from 'moment';
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { CreateTest } from './createTest.jsx';
-import { CreateCE } from './createCE.jsx';
-import { CreateTreatment } from './createTreatment.jsx';
+import { CreateTest } from './createTest';
+import { CreateCE } from './createCE';
+import { CreateTreatment } from './createTreatment';
 export class CreateElementRouter extends Component {
     render() {
         return (

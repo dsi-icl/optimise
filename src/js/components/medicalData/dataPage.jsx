@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
-import { LoadingIcon } from '../../../statics/svg/icons.jsx';
+import { LoadingIcon } from '../../../statics/svg/icons';
 import cssIcons from '../../../css/icons.module.css';
 import cssButtons from '../../../css/buttons.module.css';
 

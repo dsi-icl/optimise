@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Log } from './log.jsx';
-import { Users } from './users.jsx';
+import { Log } from './log';
+import { Users } from './users';
 
 export class AdminRouter extends Component {
     render() {

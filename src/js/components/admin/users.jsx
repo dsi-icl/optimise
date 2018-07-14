@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import store from '../../redux/store.js';
 import { getAllUsersAPICall, createUserAPICall } from '../../redux/actions/admin.js';
 import cssIcons from '../../../css/icons.module.css';
-import { LoadingIcon } from '../../../statics/svg/icons.jsx';
+import { LoadingIcon } from '../../../statics/svg/icons';
 import cssButtons from '../../../css/buttons.module.css';
 
 export class Users extends Component {
