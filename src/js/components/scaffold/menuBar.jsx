@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { SearchIcon, SettingIcon, ExportIcon, LogoutIcon } from '../../../statics/svg/icons';
 import { logoutAPICall } from '../../redux/actions/login.js';
 import store from '../../redux/store.js';
-import css from '../../../css/scaffold.module.css';
-import cssButtons from '../../../css/buttons.module.css';
+import style from './scaffold.module.css';
 
 @connect(state => ({ username: state.login.username }))
 export default class MenuBar extends Component {
@@ -22,26 +21,26 @@ export default class MenuBar extends Component {
 
     render() {
         return (
-            <div className={css.MenuBar}>
+            <div className={style.menuBar}>
                 <br /><br /><br />
-                <NavLink to='/searchPatientById' className={cssButtons.menuButton} title='Search and edit patients' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/searchPatientById' className={style.menuButton} title='Search and edit patients' activeClassName={style.menuButtonActive}>
                     <div >
                         <SearchIcon width='50%' />
                     </div>
                 </NavLink>
 
-                <a href='/export' className={cssButtons.menuButton} title='Export as CDISC' activeStyle={{ fill: 'white' }}>
+                <a href='/export' className={style.menuButton} title='Export as CDISC'>
                     <div >
                         <ExportIcon width='40%' />
                     </div>
                 </a>
 
-                <NavLink to='/administration' className={cssButtons.menuButton} title='Admin settings' activeStyle={{ fill: 'white' }}>
+                <NavLink to='/administration' className={style.menuButton} title='Admin settings' activeClassName={style.menuButtonActive}>
                     <div >
                         <SettingIcon width='50%' />
                     </div>
                 </NavLink>
-                <div onClick={this._handleLogout} id='logoutButton' title='Logout' className={cssButtons.menuButton}>
+                <div onClick={this._handleLogout} id='logoutButton' title='Logout' className={style.menuButton}>
                     <div >
                         <LogoutIcon width='45%' />
                     </div>
