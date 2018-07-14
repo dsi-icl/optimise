@@ -137,30 +137,30 @@ OptimiseServer.prototype.stop = function () {
 OptimiseServer.prototype.setupUsers = function () {
 
     // Import the controller
-    const UserCtrl = require('./controllers/userController');
-    this.userController = new UserCtrl();
+    const UserController = require('./controllers/userController');
+    this.userCtrl = new UserController();
 
     //Passport session serialize and deserialize
-    passport.serializeUser(this.userController.serializeUser);
-    passport.deserializeUser(this.userController.deserializeUser);
+    passport.serializeUser(this.userCtrl.serializeUser);
+    passport.deserializeUser(this.userCtrl.deserializeUser);
 
     this.app.route('/whoami')
-        .get(this.userController.whoAmI); //GET current session user
+        .get(this.userCtrl.whoAmI); //GET current session user
 
     // Log the user in
-    this.app.route('/users/login').post(this.userController.loginUser);
+    this.app.route('/users/login').post(this.userCtrl.loginUser);
 
     // Log the user out
-    this.app.route('/users/logout').post(this.userController.logoutUser);
+    this.app.route('/users/logout').post(this.userCtrl.logoutUser);
 
     // Interacts with the user in the DB
     // (POST : create / DELETE : delete / PUT : modify)
     // Real path is /users
     this.app.route('/users')
-        .get(this.userController.getUser)
-        .post(this.userController.createUser)
-        .put(this.userController.updateUser)
-        .delete(this.userController.deleteUser);
+        .get(this.userCtrl.getUser)
+        .post(this.userCtrl.createUser)
+        .put(this.userCtrl.updateUser)
+        .delete(this.userCtrl.deleteUser);
 };
 
 /**
@@ -252,14 +252,17 @@ OptimiseServer.prototype.setupTests = function () {
  */
 OptimiseServer.prototype.setupData = function () {
     // Import the controller
-    this.dataController = require('./controllers/dataController');
-    this.availableFieldController = require('./controllers/availableFieldController');
+    const DataController = require('./controllers/dataController');
+    const AvailableFieldController = require('./controllers/availableFieldController');
+
+    this.dataCtrl = new DataController();
+    this.availableFieldCtrl = new AvailableFieldController();
 
     // Modules
     this.app.route('/data/:dataType')
-        .post(this.dataController._RouterAddOrUpdate)
-        .delete(this.dataController._RouterDeleteData)
-        .get(this.availableFieldController.getFields);
+        .post(this.dataCtrl._RouterAddOrUpdate)
+        .delete(this.dataCtrl._RouterDeleteData)
+        .get(this.availableFieldCtrl.getFields);
 };
 
 /**
@@ -305,10 +308,11 @@ OptimiseServer.prototype.setupMeddra = function () {
 
     // initializing the meddra controller
     const MeddraController = require('./controllers/meddraController');
-    this.meddra = new MeddraController();
+
+    this.meddraCtrl = new MeddraController();
 
     this.app.route('/meddra')
-        .get(this.meddra.getMeddraField);
+        .get(this.meddraCtrl.getMeddraField);
 };
 
 /**

@@ -6,10 +6,10 @@
 const express = require('express');
 const action = express();
 
-const ActionCtrl = require('../controllers/actionController');
-const ActionController = new ActionCtrl();
+const ActionController = require('../controllers/actionController');
+const ActionCtrl = new ActionController();
 
 action.route('/')
-    .get(ActionController.getLogs);
+    .get(ActionCtrl.getLogs);
 
 module.exports = action;
