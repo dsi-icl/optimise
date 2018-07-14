@@ -70,7 +70,6 @@ const availableCountriesAndEthnicities = {
         { value: 'Georgia' },
         { value: 'Germany' },
         { value: 'Ghana' },
-        { value: 'Great Britain' },
         { value: 'Greece' },
         { value: 'Grenada' },
         { value: 'Guadeloupe' },
