@@ -10,7 +10,6 @@ export const searchMedDRAAPICall = (searchString) => dispatch => {
     dispatch(searchMedDRARequest());
     return apiHelper(`/meddra?search=${searchString}`)
         .then(json => {
-            console.debug('WHYNOT', json);
             dispatch(searchMedDRASuccess(json));
         })
         .catch(() => { dispatch(searchMedDRAFailure(searchString)); });

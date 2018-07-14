@@ -37,7 +37,6 @@ export class CreateCE extends Component {
     }
 
     _handleTypeChange(ev) {
-        console.log('TYPE |>', ev.target.value);
         this.setState({
             ceType: parseInt(ev.target.value, 10)
         });
@@ -58,11 +57,10 @@ export class CreateCE extends Component {
 
     _handleSubmitClick() {
         const meddra = this.props.meddra.filter(el => el.name === this.state.meddra.current.value);
-        if (meddra.length === 0){
+        if (meddra.length === 0) {
             return;
         }
         const requestBody = this._formatRequestBody();
-        console.log('REQUEST> ', requestBody);
         this.props.createCE(requestBody);
     }
 
@@ -80,10 +78,10 @@ export class CreateCE extends Component {
                 <span className={cssTexts.centeredBlock}>What type of event is it?
                     <select value={this.state.testType} onChange={this._handleTypeChange}>
                         {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
-                    </select> <br/><br/>
+                    </select> <br /><br />
                 </span>
                 <span>MedDRA:
-                    <SuggestionInput reference={this.state.meddra}/><br/>
+                    <SuggestionInput reference={this.state.meddra} /><br />
                 </span>
                 <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} >Submit</div>
             </div>);

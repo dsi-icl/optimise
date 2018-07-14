@@ -11,7 +11,6 @@ export const whoami = () => dispatch => {
     dispatch(checkingLogin());
     return apiHelper('/whoami')
         .then(json => {
-            console.debug('LOGGEDIN > ', json);
             dispatch(loggedIn(json));
         })
         .catch((err) => { console.log('ERROR', err); dispatch(notLoggedIn()); });

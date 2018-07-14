@@ -57,7 +57,6 @@ export class DataTemplate extends Component {
         const body = { data: bodydata, type: this.props.elementType, patientId: this.props.match.params.patientId };
         // console.log(body);
         // this.setState(body);
-        console.debug('MEDICAL DATA BODY > ', body);
         this.props.submitData(body);
     }
 
@@ -275,7 +274,6 @@ export class ControlledSelectField extends Component {
     }
 
     render() {
-        const setThisValue = this.props.originalValue ? this.props.originalValue : 'unselected';
         return (
             <span>
                 <select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} >

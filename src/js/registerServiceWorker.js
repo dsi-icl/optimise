@@ -1,3 +1,4 @@
+/* eslint no-console: "off" */
 // In production, we register a service worker to serve assets from local cache.
 
 // This lets the app load faster on subsequent visits in production, and gives
@@ -20,7 +21,7 @@ const isLocalhost = Boolean(
 
 export default function register() {
     if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-    // The URL constructor is available in all browsers that support SW.
+        // The URL constructor is available in all browsers that support SW.
         const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
         if (publicUrl.origin !== window.location.origin) {
             // Our service worker won't work if PUBLIC_URL is on a different origin
@@ -41,7 +42,7 @@ export default function register() {
                 navigator.serviceWorker.ready.then(() => {
                     console.log(
                         'This web app is being served cache-first by a service ' +
-              'worker. To learn more, visit https://goo.gl/SC7cgQ'
+                        'worker. To learn more, visit https://goo.gl/SC7cgQ'
                     );
                 });
             } else {
@@ -88,7 +89,7 @@ function checkValidServiceWorker(swUrl) {
             // Ensure service worker exists, and that we really are getting a JS file.
             if (
                 response.status === 404 ||
-        response.headers.get('content-type').indexOf('javascript') === -1
+                response.headers.get('content-type').indexOf('javascript') === -1
             ) {
                 // No service worker found. Probably a different app. Reload the page.
                 navigator.serviceWorker.ready.then(registration => {
