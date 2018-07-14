@@ -1,5 +1,6 @@
 const knex = require('../utils/db-connection');
 const { PregnancyCore } = require('../core/demographic');
+const { DiagnosisCore } = require('../core/demographic');
 
 class SelectorUtils {
     getVisitsWithoutData(patientId) {
@@ -244,6 +245,15 @@ class SelectorUtils {
                         return returnObj;
                     }
                 });
+        });
+    }
+
+    getDiagnosis(patientId) {
+        let diagnosis = new DiagnosisCore();
+        return diagnosis.getDiagnosis({ 'patient': patientId, 'deleted': '-' }).then(function (result) {
+            return { 'diagnosis': result };
+        }, function (__unused__error) {
+            return { 'diagnosis': [] };
         });
     }
 }

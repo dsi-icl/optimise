@@ -11,6 +11,8 @@ function Treatment() {
     this.deleteTreatment = Treatment.prototype.deleteTreatment.bind(this);
     this.addInterruption = Treatment.prototype.addInterruption.bind(this);
     this.deleteInterruption = Treatment.prototype.deleteInterruption.bind(this);
+    this.getReasons = Treatment.prototype.getReasons.bind(this);
+    this.searchReasons = Treatment.prototype.searchReasons.bind(this);
     this.getDrugs = Treatment.prototype.getDrugs.bind(this);
     this.searchDrugs = Treatment.prototype.searchDrugs.bind(this);
 }
@@ -84,6 +86,27 @@ Treatment.prototype.deleteInterruption = function (user, idInterruption) {
         });
     });
 };
+
+Treatment.prototype.getReasons = function () {
+    return new Promise(function (resolve, reject) {
+        getEntry('REASONS', {}, '*').then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        });
+    });
+};
+
+Treatment.prototype.searchReasons = function (reason) {
+    return new Promise(function (resolve, reject) {
+        knex('REASONS').select('*').where('value', 'like', reason).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        });
+    });
+};
+
 
 Treatment.prototype.getDrugs = function () {
     return new Promise(function (resolve, reject) {
