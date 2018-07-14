@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { ExportIcon, LogoutIcon, SearchIcon, SettingIcon } from '../../../statics/svg/icons';
+import Icon from '../icon';
 import { logoutAPICall } from '../../redux/actions/login';
 import store from '../../redux/store';
 import style from './scaffold.module.css';
@@ -23,28 +23,21 @@ export default class MenuBar extends Component {
         return (
             <div className={style.menuBar}>
                 <br /><br /><br />
-                <NavLink to='/searchPatientById' className={style.menuButton} title='Search and edit patients' activeClassName={style.menuButtonActive}>
-                    <div >
-                        <SearchIcon width='50%' />
-                    </div>
+                <NavLink to='/searchPatientById' title='Search and edit patients' activeClassName={style.active}>
+                    <Icon symbol='search' />
                 </NavLink>
 
-                <a href='/export' className={style.menuButton} title='Export as CDISC'>
-                    <div >
-                        <ExportIcon width='40%' />
-                    </div>
+                <a title='Export as CDISC' href='/export'>
+                    <Icon symbol='export' />
                 </a>
 
-                <NavLink to='/administration' className={style.menuButton} title='Admin settings' activeClassName={style.menuButtonActive}>
-                    <div >
-                        <SettingIcon width='50%' />
-                    </div>
+                <NavLink to='/administration' title='Admin settings' activeClassName={style.active}>
+                    <Icon symbol='setting' />
                 </NavLink>
-                <div onClick={this._handleLogout} id='logoutButton' title='Logout' className={style.menuButton}>
-                    <div >
-                        <LogoutIcon width='45%' />
-                    </div>
-                </div>
+
+                <a title='Logout' href='#logout' onClick={this._handleLogout} id='logoutButton'>
+                    <Icon symbol='logout' />
+                </a>
 
             </div>
         );

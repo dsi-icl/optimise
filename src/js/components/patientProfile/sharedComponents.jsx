@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { VisitPicker } from './popup';
-import { AddEventIcon, AddTestIcon, AddTreatmentIcon, AddVisitIcon } from '../../../statics/svg/icons';
+import Icon from '../icon';
 import cssButtons from '../../../css/buttons.module.css';
 import cssDropdowns from '../../../css/dropdowns.module.css';
 import cssSectioning from '../../../css/sectioning.module.css';
@@ -33,11 +33,11 @@ export class PatientProfileTop extends Component {
                 <br /><span className={cssTexts.consentText}>{`This patient ${consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span>
                 <div >
                     <NavLink to={`/patientProfile/${patientId}/createVisit`} >
-                        <div title='Create visit' className={[cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} ><AddVisitIcon width='1.3em' /></div>
+                        <div title='Create visit' className={[cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} ><Icon symbol='addVisit' /></div>
                     </NavLink>
-                    <div title='Order test' className={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} ><AddTestIcon width='1.2em' /><VisitPicker elementType='test' /></div>
-                    <div title='Add prescription' className={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} ><AddTreatmentIcon width='1.3em' /><VisitPicker elementType='treatment' /></div>
-                    <div title='Record event' className={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} ><AddEventIcon width='1.2em' /><VisitPicker elementType='clinicalEvent' /></div>
+                    <div title='Order test' className={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} ><Icon symbol='addTest' /><VisitPicker elementType='test' /></div>
+                    <div title='Add prescription' className={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} ><Icon symbol='addTreatment' /><VisitPicker elementType='treatment' /></div>
+                    <div title='Record event' className={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} ><Icon symbol='addEvent' /><VisitPicker elementType='clinicalEvent' /></div>
                 </div>
             </div>
         );

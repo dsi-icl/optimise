@@ -6,7 +6,7 @@ import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments';
-import { LoadingIcon } from '../../../statics/svg/icons';
+import Icon from '../icon';
 import cssButtons from '../../../css/buttons.module.css';
 import cssIcons from '../../../css/icons.module.css';
 import cssSection from '../../../css/sectioning.module.css';
@@ -128,7 +128,7 @@ export class TreatmentInterruption extends Component {
                 return <div> Cannot find your treatment! Please check the id in your url. </div>;
             }
         } else {
-            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
+            return <div className={cssIcons.spinner}><Icon symbol='loading' /></div>;
         }
     }
 }

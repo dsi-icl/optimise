@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { createUserAPICall, getAllUsersAPICall } from '../../redux/actions/admin';
-import { LoadingIcon } from '../../../statics/svg/icons';
+import Icon from '../icon';
 import cssIcons from '../../../css/icons.module.css';
 import cssButtons from '../../../css/buttons.module.css';
 
@@ -27,7 +27,7 @@ export class UserList extends Component {
     render() {
         const { fetching, error, result } = this.props.getAllUsers;
         if (fetching) {
-            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
+            return <div className={cssIcons.spinner}><Icon symbol='loading' /></div>;
         } else {
             if (error) {
                 return <div> Cannot fetch.. </div>;
