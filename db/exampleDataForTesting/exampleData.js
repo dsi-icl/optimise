@@ -1,12 +1,12 @@
 const exampleData = {
     'PATIENTS': [
-        { id: 1, aliasId: 'chon', study: 'example', createdByUser: 1, deleted: '-' },
-        { id: 2, aliasId: 'florian', study: 'example', createdByUser: 1, deleted: '-' },
-        { id: 3, aliasId: 'eleni', study: 'example', createdByUser: 1, deleted: '-' },
-        { id: 4, aliasId: 'chonnie', study: 'example', createdByUser: 1, deleted: '-' },
-        { id: 5, aliasId: 'floriana', study: 'example', createdByUser: 1, deleted: '-' },
-        { id: 6, aliasId: 'eleno', study: 'example', createdByUser: 1, deleted: '-' },
-        { id: 7, aliasId: 'pm', study: 'example', createdByUser: 1, deleted: '-' }
+        { id: 1, aliasId: 'chon', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 2, aliasId: 'florian', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 3, aliasId: 'eleni', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 4, aliasId: 'chonnie', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 5, aliasId: 'floriana', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 6, aliasId: 'eleno', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 7, aliasId: 'pm', study: 'example', createdByUser: 1, deleted: '-', consent: true }
     ],
     'PATIENT_PII': [
         { id: 1, patient: 1, firstName: 'Chon', surname: 'Jones', fullAddress: 'Flat 10 Mast House London', postcode: 'SW7 1', createdByUser: 1, deleted: '-' },
@@ -73,13 +73,13 @@ const exampleData = {
         { id: 2, orderedDuringVisit: 3, drug: 4, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, durationWeeks: 1, createdByUser: 2, deleted: '-' }
     ],
     'TREATMENTS_INTERRUPTIONS': [
-        { id: 1, treatment: 1, startDate: '1484006400000', endDate: '1516406400000', reason: 2, meddra: 2 ,createdByUser: 1, deleted: '-' },
+        { id: 1, treatment: 1, startDate: '1484006400000', endDate: '1516406400000', reason: 2, meddra: 2, createdByUser: 1, deleted: '-' },
         { id: 2, treatment: 1, startDate: '1514764800000', meddra: 1, createdByUser: 1, deleted: '-' }
     ],
     'MEDICAL_HISTORY': [
         { id: 1, patient: 3, relation: 1, conditionName: 1, outcome: 'ongoing', createdByUser: 1, deleted: '-' },
         { id: 2, patient: 4, relation: 1, conditionName: 1, outcome: 'resolved', createdByUser: 1, deleted: '1@1531239113000' },
-        { id: 3, patient: 6, relation: 3, conditionName: 3, outcome: 'unknown',  createdByUser: 2 , deleted: '-' }
+        { id: 3, patient: 6, relation: 3, conditionName: 3, outcome: 'unknown', createdByUser: 2, deleted: '-' }
     ]
 };
 
