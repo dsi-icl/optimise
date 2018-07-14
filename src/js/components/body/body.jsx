@@ -1,9 +1,9 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import { default as T } from 'prop-types';
 import browserBehaviour from '../../utilities/browserBehaviour';
 import './body.css';
 
-export default class Body extends Component {
+export default class Body extends PureComponent {
 
     // Custom name for container
     static displayName = 'Body';
