@@ -1,0 +1,119 @@
+@import './fonts.css';
+
+:root {
+
+    /* stylelint-disable-next-line */
+    --font-size: 12px;
+    --font-family: 'Optimise', menu, sans-serif;
+    --color-accent-h: 188;
+    --color-accent-s: 64%;
+    --color-accent-l: 64%;
+    --color-accent: hsl(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l));
+    --color-error-h: 339;
+    --color-error-s: 93%;
+    --color-error-l: 27%;
+    --color-error: hsl(var(--color-error-h), var(--color-error-s), var(--color-error-l));
+    --color-background-h: 0;
+    --color-background-s: 0%;
+    --color-background-l: 13%;
+    --color-background: hsl(var(--color-background-h), var(--color-background-s), var(--color-background-l));
+    --color-shade-one-h: 333;
+    --color-shade-one-s: 65%;
+    --color-shade-one-l: 75%;
+    --color-shade-one: hsl(var(--color-shade-one-h), var(--color-shade-one-s), var(--color-shade-one-l));
+    --color-shade-two-h: 213;
+    --color-shade-two-s: 66%;
+    --color-shade-two-l: 50%;
+    --color-shade-two: hsl(var(--color-shade-two-h), var(--color-shade-two-s), var(--color-shade-two-l));
+    --color-font: rgba(173, 173, 173, 255);
+    --color-font-active: rgba(255, 255, 255, 255);
+}
+
+* {
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-decoration: none;
+    vertical-align: top;
+}
+
+html,
+body {
+    color: var(--color-font);
+    font-size: var(--font-size);
+    font-family: var(--font-family);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 0.8));
+    user-select: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body > div {
+    display: grid;
+    grid: "navigation ariane" 0 "navigation content" calc(100% - 2em) "status status" 2em / 4em calc(100% - 4em);
+    width: 100%;
+    height: 100%;
+}
+
+a:hover,
+a:hover * {
+    cursor: pointer;
+}
+
+input,
+button,
+textarea {
+    font-family: var(--font-family);
+    font-size: 1em;
+    display: inline-block;
+    height: 2.7em;
+    line-height: 2em;
+    width: 100%;
+    padding: 0 0.7em;
+    outline: none;
+}
+
+input,
+textarea {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 2));
+    color: var(--color-font-active);
+}
+
+input:hover,
+textarea:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 2.2));
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 4));
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: none;
+  -webkit-text-fill-color: var(--color-background);
+  -webkit-box-shadow: 0 0 0px 1000px hsl(var(--color-accent-h), var(--color-accent-s), calc(var(--color-accent-l) * 10)) inset;
+  transition: background-color 0s ease-in-out 0s;
+}
+
+button {
+    background-color: var(--color-accent);
+    color: var(--color-font-active);
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: hsl(var(--color-accent-h), var(--color-accent-s), calc(var(--color-accent-l) * 1.05));
+}

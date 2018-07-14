@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold.jsx';
-import { LoginPage } from './components/login/loginPage.jsx';
+import Body from './components/body';
+import Login from './components/login';
 import { LoadingIcon } from '../statics/svg/icons.jsx';
 import cssIcons from '../css/icons.module.css';
 import cssScaffold from '../css/scaffold.module.css';
@@ -10,10 +11,10 @@ import { whoami } from './redux/actions/login.js';
 import { getInterruptionReasonsCall, getMeddraCall, getVisitFieldsCall, getTestFieldsCall, getPregnancyOutcomesCall, getClinicalEventTypesCall, getCEFieldsCall, getTestTypesCall, getDrugsCall, getDemoCall, getRelationCall, getDiagnosesCall } from './redux/actions/availableFields.js';
 require('react-datepicker/dist/react-datepicker-cssmodules.css');
 
-
 @withRouter
 @connect(state => ({ loggedIn: state.login.loggedIn, checking: state.login.initialCheckingStatus }), dispatch => ({ whoami: () => dispatch(whoami()) }))
 class App extends Component {
+
     componentDidMount() {
         this.props.whoami();
     }
@@ -25,15 +26,11 @@ class App extends Component {
     }
 
     render() {
-        if (this.props.checking) {
-            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
-        } else {
-            if (this.props.loggedIn) {
-                return <LoadingFields />;
-            } else {
-                return <LoginPage />;
-            }
-        }
+        return (
+            <Body>
+                {this.props.checking ? <LoadingIcon /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+            </Body>
+        );
     }
 }
 
