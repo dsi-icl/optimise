@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Section } from '../patientProfile/patientProfile';
-import css from '../../../css/scaffold.module.css';
 import { Switch, Route } from 'react-router-dom';
 import { DataPageRouter } from '../medicalData/router';
 import { CreateVisit } from '../createMedicalElements/createVisit';
 import { CreateElementRouter } from '../createMedicalElements/router';
+import style from './scaffold.module.css';
 
 export default class FarRightPanel extends Component {
     render() {
         return (
-            <div className={css.RightPanel}>
+            <div className={style.farRightPanel}>
                 <Switch>
                     <Route path='/patientProfile/:patientId/create/:visitId/:type' render={({ match }) => <CreateElementRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/data/:elementType/:elementId' render={({ match }) => <DataPageRouter match={match} />} />

@@ -54,7 +54,7 @@ body {
 
 body > div {
     display: grid;
-    grid: "navigation ariane" 0 "navigation content" calc(100% - 2em) "status status" 2em / 4em calc(100% - 4em);
+    grid: "navigation sidebarariane contentariane annexariane" 4em "navigation sidebar content annex" calc(100% - 6em) "status status status status" 2em / 4em 20em calc(50% - 12em) calc(50% - 12em);
     width: 100%;
     height: 100%;
 }
