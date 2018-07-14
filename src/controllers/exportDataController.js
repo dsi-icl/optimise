@@ -187,4 +187,4 @@ class ExportDataController {
     }
 }
 
-module.exports = new ExportDataController();
+module.exports = ExportDataController;

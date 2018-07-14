@@ -6,13 +6,13 @@
 const express = require('express');
 const patient = express();
 
-const PatientDiagnosisCtrl = require('../controllers/patientDiagnosisController');
-const PatientController = new PatientDiagnosisCtrl();
+const PatientDiagnosisController = require('../controllers/patientDiagnosisController');
+const PatientDiagnosisCtrl = new PatientDiagnosisController();
 // Interacts with the patientsPregnancy in the DB
 patient.route('/')
-    .get(PatientController.getPatientDiagnosis)
-    .post(PatientController.createPatientDiagnosis)
-    .patch(PatientController.updatePatientDiagnosis)
-    .delete(PatientController.deletePatientDiagnosis);
+    .get(PatientDiagnosisCtrl.getPatientDiagnosis)
+    .post(PatientDiagnosisCtrl.createPatientDiagnosis)
+    .patch(PatientDiagnosisCtrl.updatePatientDiagnosis)
+    .delete(PatientDiagnosisCtrl.deletePatientDiagnosis);
 
 module.exports = patient;
