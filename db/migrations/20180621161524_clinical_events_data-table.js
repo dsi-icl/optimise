@@ -1,7 +1,7 @@
 exports.up = function (knex) {
     return knex.schema.createTable('CLINICAL_EVENTS_DATA', function (table) {
         table.increments('id').primary();
-        table.integer('clinicalEvent').notNullable().references('id').inTable('CLINICAL_EVENTS');
+        table.integer('clinicalEvent').notNullable().references('id').inTable('CLINICAL_EVENTS').onDelete('CASCADE');
         table.integer('field').notNullable().references('id').inTable('AVAILABLE_FIELDS_CE');
         table.text('value').notNullable();
         table.text('createdTime').notNullable().defaultTo(knex.fn.now());

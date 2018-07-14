@@ -1,6 +1,7 @@
 const ErrorHelper = require('../utils/error_helper');
 const userCore = require('../core/user');
 const message = require('../utils/message-utils');
+const formatToJSON = require('../utils/format-response');
 
 function UserController() {
     this.user = new userCore();
@@ -57,7 +58,7 @@ UserController.prototype.getUser = function (req, res) {
     }
     queryUsername = `%${queryUsername}%`;
     this.user.getUserByUsername(queryUsername).then(function (result) {
-        res.status(200).json(result);
+        res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -75,7 +76,7 @@ UserController.prototype.createUser = function (req, res) {
         return;
     }
     this.user.createUser(req.user, req.body).then(function (result) {
-        res.status(200).json(result);
+        res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
@@ -95,7 +96,7 @@ UserController.prototype.updateUser = function (req, res) {
     }
 
     this.user.updateUser(req.body).then(function (result) {
-        res.status(200).json(result);
+        res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
@@ -111,7 +112,7 @@ UserController.prototype.deleteUser = function (req, res) {
     if ((req.user.username !== req.body.username && req.user.priv === 1) ||
         req.user.username === req.body.username) {
         this.user.deleteUser(req.user, { username: req.body.username }).then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));

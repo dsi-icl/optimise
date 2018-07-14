@@ -186,7 +186,7 @@ class SelectorUtils {
 
     _getTreatmentInterruptions(treatmentId) {
         return knex('TREATMENTS_INTERRUPTIONS')
-            .select('reason', 'startDate', 'endDate')
+            .select('reason', 'startDate', 'endDate', 'meddra')
             .where({ 'treatment': treatmentId, 'deleted': '-' });
     }
 

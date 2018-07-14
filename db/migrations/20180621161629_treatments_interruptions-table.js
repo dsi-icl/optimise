@@ -1,7 +1,7 @@
 exports.up = function (knex) {
     return knex.schema.createTable('TREATMENTS_INTERRUPTIONS', function (table) {
         table.increments('id').primary();
-        table.integer('treatment').notNullable().references('id').inTable('TREATMENTS');
+        table.integer('treatment').notNullable().references('id').inTable('TREATMENTS').onDelete('CASCADE');
         table.text('startDate').notNullable();
         table.text('endDate').nullable();
         table.integer('reason').nullable().references('id').inTable('REASONS');
