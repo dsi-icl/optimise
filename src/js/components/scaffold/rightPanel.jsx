@@ -19,7 +19,6 @@ export default class RightPanel extends Component {
                     <Route path='/administration' render={() => <AdminRouter />} />
                     <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatientComponent match={match} />} />
                     <Route exact path='/filterPatients' component={Fields} />
-                    <Route component={() => <span>Oops! seems like we cannot find your url</span>} />
                 </Switch>
             </div>
         );

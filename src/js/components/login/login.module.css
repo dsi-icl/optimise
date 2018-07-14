@@ -1,5 +1,5 @@
 .page {
-    grid-area: navigation / navigation / status / annex;
+    grid-area: navigation / navigation / status / annexe;
     background: linear-gradient(to top right, var(--color-shade-two), var(--color-shade-one));
     height: 100%;
     width: 100%;
