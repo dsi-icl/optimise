@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold.jsx';
 import Body from './components/body';
 import Login from './components/login';
-import { LoadingIcon } from '../statics/svg/icons.jsx';
+import { LoadingIcon } from '../statics/svg/icons';
 import cssIcons from '../css/icons.module.css';
-import cssScaffold from '../css/scaffold.module.css';
-import { whoami } from './redux/actions/login.js';
-import { getInterruptionReasonsCall, getMeddraCall, getVisitFieldsCall, getTestFieldsCall, getPregnancyOutcomesCall, getClinicalEventTypesCall, getCEFieldsCall, getTestTypesCall, getDrugsCall, getDemoCall, getRelationCall, getDiagnosesCall } from './redux/actions/availableFields.js';
+import { whoami } from './redux/actions/login';
+import { getInterruptionReasonsCall, getMeddraCall, getVisitFieldsCall, getTestFieldsCall, getPregnancyOutcomesCall, getClinicalEventTypesCall, getCEFieldsCall, getTestTypesCall, getDrugsCall, getDemoCall, getRelationCall, getDiagnosesCall } from './redux/actions/availableFields';
 require('react-datepicker/dist/react-datepicker-cssmodules.css');
 
 @withRouter
@@ -76,13 +75,13 @@ class LoadingFields extends Component {
             return <div className={cssIcons.spinner}><LoadingIcon /></div>;
         } else {
             return (
-                <div className={cssScaffold.App}>
+                <>
                     <MenuBar />
                     <MiddlePanel />
                     <RightPanel />
                     <FarRightPanel />
                     <StatusBar />
-                </div>
+                </>
             );
         }
     }
