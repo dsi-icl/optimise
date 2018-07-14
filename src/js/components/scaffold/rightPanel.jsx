@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { WelcomePanel } from '../welcomePage';
 import { CreatePatientComponent } from '../createPatient/createPatientPage';
 import { PatientChart } from '../patientProfile/patientChart';
-import { Switch, Route } from 'react-router-dom';
 import { Fields } from '../filterPatient/fieldPanel';
 import { AdminRouter } from '../admin/router';
 import style from './scaffold.module.css';

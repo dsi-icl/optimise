@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import cssButtons from '../../../css/buttons.module.css';
 import { NavLink } from 'react-router-dom';
+import cssButtons from '../../../css/buttons.module.css';
 
 export class AdminActions extends Component {
     render() {

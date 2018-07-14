@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { BackButton } from './dataPage';
 import { PickDate } from '../createMedicalElements/datepicker';
+import store from '../../redux/store.js';
+import { SuggestionInput } from '../meDRA/meDRApicker';
+import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments.js';
+import { LoadingIcon } from '../../../statics/svg/icons';
 import cssButtons from '../../../css/buttons.module.css';
 import cssIcons from '../../../css/icons.module.css';
 import cssSection from '../../../css/sectioning.module.css';
-import store from '../../redux/store.js';
-import { LoadingIcon } from '../../../statics/svg/icons';
-import { SuggestionInput } from '../meDRA/meDRApicker';
-import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments.js';
-import moment from 'moment';
 
 @connect(state => ({ patientProfile: state.patientProfile, fields: state.availableFields, meddra: state.meddra }))
 export class TreatmentInterruption extends Component {

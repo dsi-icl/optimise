@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold';
+import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, StatusBar } from './components/scaffold';
 import Body from './components/body';
 import Login from './components/login';
+import { whoami } from './redux/actions/login';
+import { getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
 import { LoadingIcon } from '../statics/svg/icons';
 import cssIcons from '../css/icons.module.css';
-import { whoami } from './redux/actions/login';
-import { getInterruptionReasonsCall, getMeddraCall, getVisitFieldsCall, getTestFieldsCall, getPregnancyOutcomesCall, getClinicalEventTypesCall, getCEFieldsCall, getTestTypesCall, getDrugsCall, getDemoCall, getRelationCall, getDiagnosesCall } from './redux/actions/availableFields';
-require('react-datepicker/dist/react-datepicker-cssmodules.css');
 
 @withRouter
 @connect(state => ({ loggedIn: state.login.loggedIn, checking: state.login.initialCheckingStatus }), dispatch => ({ whoami: () => dispatch(whoami()) }))
