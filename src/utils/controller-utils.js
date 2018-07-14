@@ -109,24 +109,10 @@ function updateEntry(tablename, user, originObj, whereObj, newObj) {
     //     });
 }
 
-function eraseEntry(res, tablename, whereObj, __unused__whatIsDeleted, databaseErrMsg, answering) {
-    try {
-        knex(tablename)
-            .del()
-            .where(whereObj)
-            .then(() => {
-                if (answering)
-                    res.status(200).json('success');
-            })
-            .catch(err => {
-                if (answering)
-                    res.status(400).send(databaseErrMsg + err);
-                return (false);
-            });
-    } catch (error) {
-        return (false);
-    }
-    return (true);
+function eraseEntry(tablename, whereObj) {
+    return knex(tablename)
+        .del()
+        .where(whereObj);
 }
 
 module.exports = { getEntry: getEntry, createEntry: createEntry, updateEntry: updateEntry, deleteEntry: deleteEntry, eraseEntry: eraseEntry };

@@ -1,7 +1,7 @@
 exports.up = function (knex) {
     return knex.schema.createTable('PATIENT_DEMOGRAPHIC', function (table) {
         table.increments('id').primary();
-        table.integer('patient').notNullable().references('id').inTable('PATIENTS');
+        table.integer('patient').notNullable().references('id').inTable('PATIENTS').onDelete('CASCADE');
         table.text('DOB').notNullable();
         table.integer('gender').notNullable().references('id').inTable('GENDERS');
         table.integer('dominantHand').notNullable().references('id').inTable('DOMINANT_HANDS');

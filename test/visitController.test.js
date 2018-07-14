@@ -59,14 +59,14 @@ describe('Visit controller tests', () => {
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
         }));
 
-    test('Creating the same visit for a patient (should fail; for duplication)', () => admin
+    test('Creating the same visit for a patient (should works; even for duplication)', () => admin
         .post('/visits')
         .send({
             'patientId': 6,
             'visitDate': '29 Jan 2000'
         })
         .then(res => {
-            expect(res.statusCode).not.toBe(200);
+            expect(res.statusCode).toBe(200);
         }));
 
     test('Creating visit for a patient with malformed date', () => admin
@@ -84,7 +84,7 @@ describe('Visit controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(res.body.length).toBe(1);
+            expect(res.body.length).toBe(2);
         }));
 
     test('Deleting visit from visitId', () => admin

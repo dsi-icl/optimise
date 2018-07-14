@@ -2,6 +2,7 @@ const knex = require('../utils/db-connection');
 const DataCore = require('../core/data');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
+const formatToJSON = require('../utils/format-response');
 
 const deleteOptionsContainer = {
     'visit': {
@@ -75,7 +76,7 @@ class DataController {
             }
             this.dataCore.deleteData(req.user, options, req.body[`${req.params.dataType}Id`], req.body.delete)
                 .then(function (result) {
-                    res.status(200).json(result);
+                    res.status(200).json(formatToJSON(result));
                     return;
                 }, function (error) {
                     res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
