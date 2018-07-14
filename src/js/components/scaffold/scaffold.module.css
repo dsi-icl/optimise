@@ -4,7 +4,8 @@
     width: 100%;
     height: 100%;
     position: relative;
-    background-color: var(--color-shade-one);
+    color: var(--color-font-active);
+    background-color: hsl(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l));
 }
 
 .menuBar {    
@@ -16,30 +17,34 @@
 }
 
 .middlePanel {    
-    grid-area: sidebarariane / auto / sidebar / auto;
-    display: block;
+    grid-area: sidebar;
     width: 100%;
     height: 100%;
     position: relative;
     background-color: var(--color-font-active);
+    border-right: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
-.rightPanel {    
-    grid-area: contentariane / auto / content / auto;
-    display: block;
+.rightPanel {
+    grid-area: content;
     width: 100%;
     height: 100%;
     position: relative;
-    background-color: grey;
+    background-color: var(--color-font-active);
+    border-right: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
 .farRightPanel {    
-    grid-area: annexariane / auto / annex / auto;
-    display: block;
+    grid-area: annexe;
     width: 100%;
     height: 100%;
     position: relative;
-    background-color: red;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
+}
+
+.middlePanel, .rightPanel, .farRightPanel {
+    grid: "ariane" 4em "panel" calc(100% - 4em) / 100%;
+    display: grid;
 }
 
 .navigation {

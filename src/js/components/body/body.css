@@ -54,7 +54,7 @@ body {
 
 body > div {
     display: grid;
-    grid: "navigation sidebarariane contentariane annexariane" 4em "navigation sidebar content annex" calc(100% - 6em) "status status status status" 2em / 4em 20em calc(50% - 12em) calc(50% - 12em);
+    grid: "navigation sidebar content annexe" calc(100% - 2em) "navigation status status status" 2em / 4em 20em calc(50% - 12em) calc(50% - 12em);
     width: 100%;
     height: 100%;
 }
@@ -66,7 +66,8 @@ a:hover * {
 
 input,
 button,
-textarea {
+textarea,
+select {
     font-family: var(--font-family);
     font-size: 1em;
     display: inline-block;
@@ -78,14 +79,16 @@ textarea {
 }
 
 input,
-textarea {
-    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 2));
-    color: var(--color-font-active);
+textarea,
+select {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
+    color: var(--color-background);
 }
 
 input:hover,
-textarea:hover {
-    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 2.2));
+textarea:hover,
+select:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 94%);
 }
 
 input::placeholder,
@@ -102,10 +105,10 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: none;
-  -webkit-text-fill-color: var(--color-background);
-  -webkit-box-shadow: 0 0 0px 1000px hsl(var(--color-accent-h), var(--color-accent-s), calc(var(--color-accent-l) * 10)) inset;
-  transition: background-color 0s ease-in-out 0s;
+    border: none;
+    -webkit-text-fill-color: var(--color-background);
+    -webkit-box-shadow: 0 0 0px 1000px hsl(var(--color-accent-h), var(--color-accent-s), calc(var(--color-accent-l) * 1.5)) inset;
+    transition: background-color 0s ease-in-out 0s;
 }
 
 button {
@@ -116,4 +119,11 @@ button {
 
 button:hover {
     background-color: hsl(var(--color-accent-h), var(--color-accent-s), calc(var(--color-accent-l) * 1.05));
+}
+
+h2 {
+    font-size: 1.7em;
+    line-height: 0.7em;
+    font-variant-caps: all-small-caps;
+    color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 2));
 }
