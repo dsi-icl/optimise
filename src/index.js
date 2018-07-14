@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './js/App';
+import App from './js/application';
 import store from './js/redux/store.js';
 import { Provider } from 'react-redux';
 import registerServiceWorker from './js/registerServiceWorker.js';
