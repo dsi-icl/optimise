@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
-import { LoadingIcon } from '../../../statics/svg/icons';
+import Icon from '../icon';
 import cssIcons from '../../../css/icons.module.css';
 import cssButtons from '../../../css/buttons.module.css';
 
@@ -75,7 +75,7 @@ export class DataTemplate extends Component {
                 </div>);   //change the type later
             }
         } else {
-            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
+            return <div className={cssIcons.spinner}><Icon symbol='loading' /></div>;
         }
     }
 }

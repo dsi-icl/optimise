@@ -6,8 +6,7 @@ import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedCompon
 import { TimelineBox } from './timeline';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import store from '../../redux/store';
-import { LoadingIcon } from '../../../statics/svg/icons';
-import { AddEventIcon, AddTestIcon, AddTreatmentIcon, AddVSIcon, AddVisitIcon, SignAndSymptomIcon } from '../../../statics/svg/icons';
+import Icon from '../icon';
 import cssSectioning from '../../../css/sectioning.module.css';
 import cssScaffold from '../../../css/scaffold.module.css';
 import cssButtons from '../../../css/buttons.module.css';
@@ -25,7 +24,7 @@ export class PatientChart extends Component {
                 <div className={cssScaffold.patientChartTop}>
                     <PatientProfileTop />
                 </div>
-                {this.props.fetching ? <div className={cssIcons.spinner}><LoadingIcon /></div> :
+                {this.props.fetching ? <div className={cssIcons.spinner}><Icon symbol='loading' /></div> :
                     <div className={cssScaffold.patientChartBody}>
                         <TimelineBox />
                         <Charts location={this.props.location} />
@@ -124,8 +123,8 @@ class OneVisit extends Component {
         const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map; }, {});
         const symptoms = this.props.visitData.filter(el => el.field > 6);
         return (
-            <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon width='2.5em' />} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
+            <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<Icon symbol='addVisit' />} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='addVS' />} bubbleStyle={{ backgroundColor: null, border: null }}>
                     <table >
                         <tbody>
                             <tr>
@@ -144,7 +143,7 @@ class OneVisit extends Component {
                     </table>
                 </TimelineEvent>
 
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
+                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='symptom' />} bubbleStyle={{ backgroundColor: null, border: null }}>
                     {relevantFields.length !== 0 ? <table>
                         <thead>
                             <tr><th>Recorded symptoms</th><th>Value</th></tr>
@@ -160,7 +159,7 @@ class OneVisit extends Component {
 
 
                 {visitHasTests ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='addTest' />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Expected date</th></tr>
@@ -176,7 +175,7 @@ class OneVisit extends Component {
 
 
                 {visitHasMedications ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='addTreatment' />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
@@ -192,7 +191,7 @@ class OneVisit extends Component {
 
 
                 {visitHasClinicalEvents ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='addEvent' />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Start date</th><th></th></tr>

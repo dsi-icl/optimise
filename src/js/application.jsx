@@ -6,7 +6,7 @@ import Body from './components/body';
 import Login from './components/login';
 import { whoami } from './redux/actions/login';
 import { getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
-import { LoadingIcon } from '../statics/svg/icons';
+import Icon from './components/icon';
 import cssIcons from '../css/icons.module.css';
 
 @withRouter
@@ -26,7 +26,7 @@ class App extends Component {
     render() {
         return (
             <Body>
-                {this.props.checking ? <LoadingIcon /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+                {this.props.checking ? <Icon symbol='loading' /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
             </Body>
         );
     }
@@ -71,7 +71,7 @@ class LoadingFields extends Component {
 
     render() {
         if (this.props.fetching) {
-            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
+            return <div className={cssIcons.spinner}><Icon symbol='loading' /></div>;
         } else {
             return (
                 <>
