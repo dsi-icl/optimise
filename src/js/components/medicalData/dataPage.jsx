@@ -69,7 +69,7 @@ export class DataTemplate extends Component {
                 return <div>{`Cannot find your ${this.props.elementType}!`}</div>;
             } else {
                 const fieldString = `${this.props.elementType}Fields`;
-                return (<div style={{ overflow: 'auto' }}>
+                return (<div >
                     <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                     <h2>RESULT</h2>
                     {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit, idString, this.props.elementType)}
@@ -84,8 +84,8 @@ export class DataTemplate extends Component {
 export class BackButton extends Component {
     render() {
         return (
-            <Link to={this.props.to} style={{ textDecoration: 'none' }}>
-                <div style={{ position: 'relative', left: 20, top: 20, textAlign: 'center', fontSize: 20, width: 30, paddingTop: 4, height: 26, color: 'white', borderRadius: 20, backgroundColor: '#ff6666' }}
+            <Link to={this.props.to} >
+                <div
                 >&#8617;
                 </div>
             </Link>
@@ -233,7 +233,6 @@ export class ControlledInputField extends Component {
                     name={this.props.fieldId}
                     fieldid={this.props.fieldId}
                     type='text'
-                    style={this.state.value === this.props.originalValue ? { color: 'black' } : (this.state.valid ? { color: 'green' } : { color: 'red' })}
                     value={this.state.value}
                     onChange={this._handleKeyStroke}
                     onKeyPress={this._handleEnterKey}
@@ -279,7 +278,7 @@ export class ControlledSelectField extends Component {
         const setThisValue = this.props.originalValue ? this.props.originalValue : 'unselected';
         return (
             <span>
-                <select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} style={{ color: (this.state.value === setThisValue ? 'black' : 'green') }}>
+                <select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} >
                     <option value='unselected'>unselected</option>
                     {this.props.permittedValues.split(',').map(option => <option key={option} value={option}>{option}</option>)}
                 </select>

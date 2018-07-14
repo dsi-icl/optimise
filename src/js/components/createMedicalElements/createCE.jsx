@@ -70,7 +70,7 @@ export class CreateCE extends Component {
         if (this.props.visits) {
             const params = this.props.match.params;
             const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
-            return (<div style={{ textAlign: 'center' }}>
+            return (<div >
                 <BackButton to={`/patientProfile/${params.patientId}`} />
                 <h2>CREATE A NEW EVENT</h2>
                 <span className={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
@@ -85,7 +85,7 @@ export class CreateCE extends Component {
                 <span>MedDRA:
                     <SuggestionInput reference={this.state.meddra}/><br/>
                 </span>
-                <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
+                <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} >Submit</div>
             </div>);
         } else {
             return null;

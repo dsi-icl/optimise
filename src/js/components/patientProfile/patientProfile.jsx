@@ -32,15 +32,15 @@ export class Section extends Component {
                     return <div> Cannot delete this patient </div>;
                 } else {
                     if (erasePatient.success) {
-                        return <Redirect to='/searchPatientById'/>;
+                        return <Redirect to='/searchPatientById' />;
                     } else {
                         return (
-                            <div style={{ position: 'relative' }}>
+                            <div >
                                 <DemographicSection />
                                 <PrimaryDiagnosis />
                                 <ImmunisationSection />
                                 <Pregnancy />
-                                <DeletePatient match={this.props.match}/>
+                                <DeletePatient match={this.props.match} />
                             </div>
                         );
                     }
@@ -114,10 +114,9 @@ class ImmunisationSection extends Component {
 
     render() {
         const { data } = this.props;
-        const inputStyle = { width: '100%', margin: 0 };
         return (
             <PatientProfileSectionScaffold sectionName='Immunisations'>
-                <table style={{ width: '100%' }}>
+                <table >
                     {this.state.addMore || data.immunisations.length !== 0 ? <thead>
                         <tr><th>Vaccine name</th><th>Date</th></tr>
                     </thead> : null}
@@ -128,7 +127,7 @@ class ImmunisationSection extends Component {
                             </tr>
                         ))}
                         {!this.state.addMore ? null : <tr>
-                            <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
+                            <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
                             <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
                         </tr>}
                     </tbody>
@@ -232,14 +231,12 @@ class Pregnancy extends Component {
                 outcomeDate: this.state.newOutcomeDate._d.toDateString()
             }
         };
-        console.log(body);
         store.dispatch(createPregnancyAPICall(body));
     }
 
     render() {
         const { data } = this.props;
         if (data.demographicData && data.demographicData.gender !== 1 && data.pregnancy) {
-            const inputStyle = { width: '100%', margin: 0 };
             return (
                 <div>
                     <PatientProfileSectionScaffold sectionName='Pregnancies'>
@@ -276,7 +273,7 @@ class Pregnancy extends Component {
 /**
  * @prop {Object} this.props.match
  */
-@connect(state => ({data: state.patientProfile.data}))
+@connect(state => ({ data: state.patientProfile.data }))
 class DeletePatient extends Component {
     constructor() {
         super();
@@ -284,12 +281,12 @@ class DeletePatient extends Component {
         this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
     }
 
-    _handleClickDelete(){
-        const body = { patientId: this.props.match.params.patientId, data: {patientId: this.props.data.id }} ;
+    _handleClickDelete() {
+        const body = { patientId: this.props.match.params.patientId, data: { patientId: this.props.data.id } };
         store.dispatch(erasePatientAPICall(body));
     }
 
-    _handleClickWithdrawConsent(){
+    _handleClickWithdrawConsent() {
         const { consent, id } = this.props.data;
         const body = { patientId: this.props.match.params.patientId, data: { consent: !consent, patientId: id } };
         store.dispatch(updateConsentAPICall(body));

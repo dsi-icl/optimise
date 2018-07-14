@@ -31,7 +31,7 @@ class LoginFailed extends Component {
         setTimeout(() => clearInterval(interval), 300);
     }
     render() {
-        return <span style={this.state}>Login failed. Please try again</span>;
+        return <span >Login failed. Please try again</span>;
     }
 }
 
@@ -67,37 +67,19 @@ export class LoginPage extends Component {
     }
 
     render() {
-        const inputStyle = {
-            background: 'transparent',
-            fontSize: 14,
-            color: 'white',
-            borderBottom: '2px solid rgba(255,255,255,0.3)',
-            borderRadius: 0,
-            margin: '10px',
-            textAlign: 'center',
-            paddingLeft: 30,
-            paddingRight: 28,
-            position: 'relative',
-            right: 9
-        };
-        const iconStyle = {
-            fill: 'rgba(255,255,255,0.3)',
-            position: 'relative',
-            left: 21
-        };
         return (<div className={cssLogin.loginPage}>
             <div className={cssLogin.upperCircle}> </div>
             <div className={cssLogin.logoText}> Optimise MS </div>
             <div className={cssLogin.lowerCircle}> </div>
             <form onKeyPress={this._handleEnterKey}>
-                <UserIcon style={iconStyle} width='15px' />
-                <input onChange={this._handleUsernameInput} value={this.state.username} style={inputStyle} type='text' autoComplete="username" /> <br />
-                <KeyIcon style={iconStyle} width='17px' />
-                <input onChange={this._handlePwInput} type='password' value={this.state.pw} style={inputStyle} className={cssLogin.input} autoComplete="current-password" />
+                <UserIcon width='15px' />
+                <input onChange={this._handleUsernameInput} value={this.state.username} type='text' autoComplete="username" /> <br />
+                <KeyIcon width='17px' />
+                <input onChange={this._handlePwInput} type='password' value={this.state.pw} className={cssLogin.input} autoComplete="current-password" />
                 {this.props.loggingIn ?
-                    <div style={{ marginTop: 20 }} className={cssIcons.spinner}><LoadingIcon /></div>
+                    <div className={cssIcons.spinner}><LoadingIcon /></div>
                     :
-                    <div><div onClick={this._handleSubmit} style={{ margin: '30px auto', float: 'none' }} className={[cssButton.patientBanner, cssLogin.loginButton].join(' ')}>
+                    <div><div onClick={this._handleSubmit} className={[cssButton.patientBanner, cssLogin.loginButton].join(' ')}>
                         Sign in
                     </div><div>{this.props.loginFailed ? <LoginFailed /> : null}</div></div>
                 }
