@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { WelcomePanel } from '../welcomePage';
-import { CreatePatientComponent } from '../createPatient/createPatientPage';
+import { CreatePatient } from '../createPatient';
 import { PatientChart } from '../patientProfile/patientChart';
 import { Fields } from '../filterPatient/fieldPanel';
 import { AdminRouter } from '../admin/router';
@@ -17,7 +17,7 @@ export default class RightPanel extends Component {
                     <Route exact path='/' component={WelcomePanel} />
                     <Route exact path='/export' component={() => <></>} />
                     <Route path='/administration' render={() => <AdminRouter />} />
-                    <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatientComponent match={match} />} />
+                    <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatient match={match} />} />
                     <Route exact path='/filterPatients' component={Fields} />
                 </Switch>
             </div>

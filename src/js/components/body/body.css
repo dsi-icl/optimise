@@ -121,9 +121,20 @@ button:hover {
     background-color: hsl(var(--color-accent-h), var(--color-accent-s), calc(var(--color-accent-l) * 1.05));
 }
 
+label {
+    display: inline-block;
+    margin-bottom: 0.6em;
+}
+
 h2 {
     font-size: 1.7em;
     line-height: 0.7em;
     font-variant-caps: all-small-caps;
+    color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 2));
+}
+
+h4 {
+    font-size: 1.1em;
+    line-height: 0.7em;
     color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 2));
 }

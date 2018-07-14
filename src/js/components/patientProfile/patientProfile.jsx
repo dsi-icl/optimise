@@ -8,7 +8,7 @@ import { formatRow } from './patientChart';
 import store from '../../redux/store';
 import { createImmunisationAPICall, createPregnancyAPICall } from '../../redux/actions/demographicData';
 import { SuggestionInput } from '../meDRA/meDRApicker';
-import { SelectField } from '../createPatient/createPatientPage';
+import { SelectField } from '../createPatient';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
 import { updateConsentAPICall } from '../../redux/actions/consent';
 import cssSections from '../../../css/sectioning.module.css';
