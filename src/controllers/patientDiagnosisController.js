@@ -1,6 +1,7 @@
 const PatientDiagnosisCore = require('../core/patientDiagnosis');
 const ErrorHelper = require('../utils/error_helper');
 const messages = require('../utils/message-utils');
+const formatToJSON = require('../utils/format-response');
 
 const PatientDiagnosisModel = {
     'patient': 0,
@@ -20,7 +21,7 @@ function PatientDiagnosisController() {
 PatientDiagnosisController.prototype.getPatientDiagnosis = function (req, res) {
     if (req.query.hasOwnProperty('patient')) {
         this.patientDiagnosis.getPatientDiagnosis({ 'patient': parseInt(req.query.patient) }).then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
@@ -28,7 +29,7 @@ PatientDiagnosisController.prototype.getPatientDiagnosis = function (req, res) {
         });
     } else {
         this.patientDiagnosis.getPatientDiagnosis({}).then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
@@ -43,7 +44,7 @@ PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res
         entryObj.diagnosisDate = Date.parse(req.body.diagnosisDate);
         entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.createPatientDiagnosis(entryObj).then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.CREATIONFAIL, error));
@@ -61,7 +62,7 @@ PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res
         delete entryObj.id;
         entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.updatePatientDiagnosis(req.user, req.body.id, entryObj).then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.UPDATEFAIL, error));
@@ -76,7 +77,7 @@ PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res
 PatientDiagnosisController.prototype.deletePatientDiagnosis = function (req, res) {
     if (req.body.hasOwnProperty('id')) {
         this.patientDiagnosis.deletePatientDiagnosis(req.user, { 'id': req.body.id }).then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.DELETEFAIL, error));

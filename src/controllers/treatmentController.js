@@ -1,6 +1,7 @@
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const TreatmentCore = require('../core/treatment');
+const formatToJSON = require('../utils/format-response');
 
 function TreatmentController() {
     this.treatment = new TreatmentCore();
@@ -45,7 +46,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'createdByUser': req.user.id
     };
     this.treatment.createTreatment(entryObj).then(function (result) {
-        res.status(200).json(result);
+        res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
@@ -57,7 +58,7 @@ TreatmentController.prototype.addTerminationDate = function (req, res) {    //fo
     if ((req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('terminationDate')) && req.body.hasOwnProperty('terminatedReason')) {
         this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': Date.parse(req.body.terminationDate), 'terminatedReason': req.body.terminatedReason })
             .then(function (result) {
-                res.status(200).json(result);
+                res.status(200).json(formatToJSON(result));
                 return;
             }, function (error) {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
@@ -73,7 +74,7 @@ TreatmentController.prototype.editTreatment = function (req, res) {
     if (req.user.priv === 1) { // Is it really needed that the user must be admin to edit a treatment ?
         let newObj = Object.assign({}, req.body);   //need to change naming
         this.treatment.updateTreatment(req.user, req.body.id, newObj).then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(message.userError.UPDATEFAIL, error));
@@ -100,7 +101,7 @@ TreatmentController.prototype.deleteTreatment = function (req, res) {
         if (result.body === 0) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
         } else {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }
     }, function (error) {
@@ -120,7 +121,7 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
             'createdByUser': req.user.id
         };
         this.treatment.addInterruption(req.user, entryObj).then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
@@ -142,7 +143,7 @@ TreatmentController.prototype.deleteInterruption = function (req, res) {
             if (result.body === 0) {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
             } else {
-                res.status(200).json(result);
+                res.status(200).json(formatToJSON(result));
                 return;
             }
         }, function (error) {
@@ -179,7 +180,7 @@ TreatmentController.prototype.getReasons = function(req, res) {
 TreatmentController.prototype.getDrugs = function (req, res) {
     if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
         this.treatment.searchDrugs(`%${req.query.name}%`).then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -188,7 +189,7 @@ TreatmentController.prototype.getDrugs = function (req, res) {
         return;
     } else {
         this.treatment.getDrugs().then(function (result) {
-            res.status(200).json(result);
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));

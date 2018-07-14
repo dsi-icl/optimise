@@ -1,4 +1,5 @@
 const knex = require('../utils/db-connection');
+const formatToJSON = require('../utils/format-response');
 
 function MeddraController() {
     this.MeddraCollection = null;
@@ -39,11 +40,11 @@ MeddraController.prototype.getMeddraField = async function (req, res) {
                 j++;
             }
         }
-        res.status(200).json(result);
+        res.status(200).json(formatToJSON(result));
         return;
     }
     else {
-        res.status(200).json(this.MeddraCollection);
+        res.status(200).json(formatToJSON(this.MeddraCollection));
         return;
     }
 };

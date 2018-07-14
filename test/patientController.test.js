@@ -96,15 +96,19 @@ describe('Patient controller tests', () => {
         .patch('/patients')
         .send({ 'aliasId': 'littlePatient' })
         .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(res.body).toBe(1);
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 
-    test('Deleting this patient again (should return 200)', () => admin
+    test('Deleting this patient again (should return 200 amd state:0)', () => admin
         .patch('/patients')
         .send({ 'aliasId': 'littlePatient' })
         .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(res.body).toBe(0);
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(0);
         }));
 });
