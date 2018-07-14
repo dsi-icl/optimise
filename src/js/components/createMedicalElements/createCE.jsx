@@ -6,7 +6,6 @@ import { BackButton } from '../medicalData/dataPage';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import cssTexts from '../../../css/inlinetexts.module.css';
-import cssButtons from '../../../css/buttons.module.css';
 
 //not yet finished the dispatch
 @connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes, meddra: state.meddra.result }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
@@ -83,7 +82,7 @@ export class CreateCE extends Component {
                 <span>MedDRA:
                     <SuggestionInput reference={this.state.meddra} /><br />
                 </span>
-                <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} >Submit</div>
+                <button onClick={this._handleSubmitClick}>Submit</button>
             </div>);
         } else {
             return null;

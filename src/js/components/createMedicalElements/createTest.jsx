@@ -5,7 +5,6 @@ import { PickDate } from './datepicker';
 import { BackButton } from '../medicalData/dataPage';
 import { createTestAPICall } from '../../redux/actions/tests';
 import cssTexts from '../../../css/inlinetexts.module.css';
-import cssButtons from '../../../css/buttons.module.css';
 
 //not yet finished the dispatch
 @connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.testTypes }), dispatch => ({ createTest: body => dispatch(createTestAPICall(body)) }))
@@ -73,7 +72,7 @@ export class CreateTest extends Component {
                         {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                     </select>
                 </span>
-                <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} >Submit</div>
+                <button onClick={this._handleSubmitClick}>Submit</button>
             </div>);
         } else {
             return null;

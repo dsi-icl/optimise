@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/dataPage';
 import { createTreatmentAPICall } from '../../redux/actions/treatments';
 import cssTexts from '../../../css/inlinetexts.module.css';
-import cssButtons from '../../../css/buttons.module.css';
 
 //not yet finished the dispatch
 /* patch the drug mapping from state and to UI when the backend API is finished */
@@ -91,7 +90,7 @@ export class CreateTreatment extends Component {
                 <br /><br />
                 Duration in weeks: <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text' />
                 <br />
-                <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} >Submit</div>
+                <button onClick={this._handleSubmitClick} >Submit</button>
             </div>);
         } else {
             return null;
