@@ -1,5 +1,5 @@
-import actionTypes from './listOfActions.js';
-import { apiHelper } from '../fetchHelper.js';
+import actionTypes from './listOfActions';
+import { apiHelper } from '../fetchHelper';
 
 
 export const searchPatientByIdRequest = searchString => ({ type: actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_REQUEST, payload: searchString });

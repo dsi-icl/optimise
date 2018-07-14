@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from './datepicker';
 import { BackButton } from '../medicalData/dataPage';
-import { createTestAPICall } from '../../redux/actions/tests.js';
+import { createTestAPICall } from '../../redux/actions/tests';
 import cssTexts from '../../../css/inlinetexts.module.css';
 import cssButtons from '../../../css/buttons.module.css';
 

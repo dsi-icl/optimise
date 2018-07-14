@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
-import store from '../../redux/store.js';
-import { createPatientCall } from '../../redux/actions/createPatient.js';
+import store from '../../redux/store';
+import { createPatientCall } from '../../redux/actions/createPatient';
 
 @connect(state => ({ diagnosesfields: state.availableFields.diagnoses, demofields: state.availableFields.demoFields[0], patientId: state.createPatient.patientId, }))
 export class CreatePatientComponent extends Component {    //get these props from state: this.props.visitFields, this.props.patientId

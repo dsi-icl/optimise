@@ -1,5 +1,5 @@
-import actionTypes from './listOfActions.js';
-import { apiHelper } from '../fetchHelper.js';
+import actionTypes from './listOfActions';
+import { apiHelper } from '../fetchHelper';
 
 
 export const searchMedDRARequest = searchString => ({ type: actionTypes.searchMedDRA.SEARCH_MEDDRA_REQUEST, payload: searchString });

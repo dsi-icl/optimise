@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPatientProfileById, searchPatientByIdAPICall, searchPatientByIdRequest } from '../../redux/actions/searchPatientById';
-import store from '../../redux/store.js';
+import store from '../../redux/store';
 import cssButtons from '../../../css/buttons.module.css';
 import cssInputs from '../../../css/inputfields.module.css';
 

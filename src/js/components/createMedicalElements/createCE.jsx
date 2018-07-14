@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from './datepicker';
 import { BackButton } from '../medicalData/dataPage';
-import { createCEAPICall } from '../../redux/actions/clinicalEvents.js';
+import { createCEAPICall } from '../../redux/actions/clinicalEvents';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import cssTexts from '../../../css/inlinetexts.module.css';
 import cssButtons from '../../../css/buttons.module.css';

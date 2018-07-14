@@ -1,5 +1,5 @@
-import { getPatientProfileById } from './searchPatientById.js';
-import { apiHelper } from '../fetchHelper.js';
+import { getPatientProfileById } from './searchPatientById';
+import { apiHelper } from '../fetchHelper';
 
 export const createTreatmentAPICall = (body) => dispatch => {
     return apiHelper('/treatments', { method: 'POST', body: JSON.stringify(body.data) })
