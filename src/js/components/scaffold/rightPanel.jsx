@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { WelcomePanel } from '../welcomePage';
-import { CreatePatient } from '../createPatient';
 import { PatientChart } from '../patientProfile/patientChart';
-import { Fields } from '../filterPatient/fieldPanel';
+import { SearchPatient } from '../searchPatient';
+import { AdminActions } from '../admin/actions';
+import { FilterPanel } from '../filterPatient/selectPanel';
 import { AdminRouter } from '../admin/router';
 import style from './scaffold.module.css';
 
@@ -12,13 +12,13 @@ export default class RightPanel extends Component {
         return (
             <div className={style.rightPanel}>
                 <Switch>
-                    <Route path='/patientProfile/:patientId' render={({ match, location }) => <PatientChart location={location.pathname} match={match} />} />
-                    <Route exact path='/searchPatientById' component={() => <></>} />
-                    <Route exact path='/' component={WelcomePanel} />
-                    <Route exact path='/export' component={() => <></>} />
                     <Route path='/administration' render={() => <AdminRouter />} />
-                    <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatient match={match} />} />
-                    <Route exact path='/filterPatients' component={Fields} />
+                    <Route path='/createPatient' component={SearchPatient} />
+                    <Route path='/patientProfile/:patientId' render={({ match, location }) => <PatientChart location={location.pathname} match={match} />} />
+                    <Route exact path='/searchPatientById' component={SearchPatient} />
+                    <Route exact path='/filterPatients' component={FilterPanel} />
+                    <Route exact path='/' component={SearchPatient} />
+                    <Route path='/administration' render={({ match, location }) => < AdminActions location={location.pathname} match={match} />} />
                 </Switch>
             </div>
         );
