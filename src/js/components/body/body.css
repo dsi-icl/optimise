@@ -35,7 +35,7 @@
     margin: 0;
     border: 0;
     box-sizing: border-box;
-    white-space: nowrap;
+    white-space: normal;
     text-decoration: none;
     vertical-align: top;
 }

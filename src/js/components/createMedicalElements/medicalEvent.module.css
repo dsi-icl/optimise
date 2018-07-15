@@ -12,7 +12,8 @@
     top: 0;
     right: 0;
     padding: 1.2em;
-    font-size: 1.1em;
+    font-size: 1.3em;
+    line-height: 0.9em;
 }
 
 .ariane a:hover {
@@ -53,4 +54,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+}
+
+.backButton {
+    font-size: 1.4em;
+    line-height: 0.8em;
+    color: hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+
+.backButton:hover {
+    color: var(--color-background);
 }
