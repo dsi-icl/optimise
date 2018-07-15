@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { VisitPicker } from './popup';
 import Icon from '../icon';
 import cssDropdowns from '../../../css/dropdowns.module.css';
@@ -21,13 +21,11 @@ export class PatientProfileTop extends Component {
     render() {
         const { patientId } = this.props.data;
         return (
-            <div >
-                <NavLink to={`/patientProfile/${patientId}/createVisit`} >
-                    <div title='Create visit' ><Icon symbol='addVisit' /></div>
-                </NavLink>
-                <div title='Order test' className={[cssDropdowns.dropDownMenu]} ><Icon symbol='addTest' /><VisitPicker elementType='test' /></div>
-                <div title='Add prescription' className={[cssDropdowns.dropDownMenu].join(' ')} ><Icon symbol='addTreatment' /><VisitPicker elementType='treatment' /></div>
-                <div title='Record event' className={[cssDropdowns.dropDownMenu].join(' ')} ><Icon symbol='addEvent' /><VisitPicker elementType='clinicalEvent' /></div>
+            <div className='profileActions'>
+                <Link title='Create visit' to={`/patientProfile/${patientId}/createVisit`} ><Icon symbol='addVisit' /></Link>
+                <a title='Order test' className={[cssDropdowns.dropDownMenu]} ><Icon symbol='addTest' /><VisitPicker elementType='test' /></a>
+                <a title='Add prescription' className={[cssDropdowns.dropDownMenu].join(' ')} ><Icon symbol='addTreatment' /><VisitPicker elementType='treatment' /></a>
+                <a title='Record event' className={[cssDropdowns.dropDownMenu].join(' ')} ><Icon symbol='addEvent' /><VisitPicker elementType='clinicalEvent' /></a>
             </div>
         );
     }
