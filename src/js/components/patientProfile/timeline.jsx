@@ -33,9 +33,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             return (
                 <a title={new Date(parseInt(date, 10)).toDateString()} key={`${visit.visitId}`} href={`#visit/${visit.visitId}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '1/2', textDecoration: 'none' }}>
-                    <div style={{ backgroundColor: 'rgb(133, 150, 176)', color: 'rgb(133, 150, 176)' }}>
-                        -
-                    </div>
+                    <div className={style.timelineVisit}>-</div>
                 </a>
             );
         };
@@ -44,9 +42,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             return (
                 <a title={new Date(parseInt(date, 10)).toDateString()} key={`${test.testId}test`} href={`#test/${test.testId}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '3/4', textDecoration: 'none' }}>
-                    <div style={{ backgroundColor: 'rgb(153, 202, 120)', color: 'rgb(153, 202, 120)' }}>
-                        -
-                    </div>
+                    <div className={style.timelineTest}>-</div>
                 </a>
             );
         };
@@ -56,9 +52,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const durationInDays = med.durationWeeks * 7;
             return (
                 <a title={new Date(parseInt(date, 10)).toDateString()} key={`${med.id}med`} href={`#treatment/${med.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '2/3', textDecoration: 'none' }}>
-                    <div style={{ backgroundColor: '#ffca1b', color: '#ffca1b' }}>
-                        -
-                    </div>
+                    <div className={style.timelineMed}>-</div>
                 </a>
             );
         };
@@ -69,9 +63,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const durationInDays = CE.endDate ? parseInt((parseInt(CE.endDate) - date) / 86400000, 10) : 1;
             return (
                 <a title={new Date(date).toDateString()} key={`${CE.id}ce`} href={`#clinicalEvent/${CE.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '4/5', textDecoration: 'none' }}>
-                    <div style={{ backgroundColor: CE.type === 4 ? 'black' : 'rgb(255, 102, 102)', color: CE.type === 4 ? 'black' : 'rgb(255, 102, 102)' }}>
-                        -
-                    </div>
+                    <div className={CE.type === 4 ? style.timelineCEBlack : style.timelineCE}>-</div>
                 </a>
             );
         };
