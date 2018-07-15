@@ -69,7 +69,7 @@ export class SearchResultForPatients extends Component {
                     <Link to={`/createPatient/${this.props.searchString}`} >
                         <button>
                             {`Create patient ${this.props.searchString}`}
-                        </button>
+                        </button><br /><br />
                     </Link>
                     : null}
                 {this.props.listOfPatients.map(el => {
@@ -86,11 +86,13 @@ export class SearchResultForPatients extends Component {
                         </span>
                     );
                     return (
-                        <Link key={el['aliasId']} to={`/patientProfile/${el['aliasId']}`} >
-                            <div onClick={this._handleClickWrapper(el['aliasId'])} className={style.patientBanner} key={el.patientId}>
-                                {name} in {el.study}
-                            </div>
-                        </Link>
+                        <>
+                            <Link key={el['aliasId']} to={`/patientProfile/${el['aliasId']}`} >
+                                <div onClick={this._handleClickWrapper(el['aliasId'])} className={style.searchItem} key={el.patientId}>
+                                    {name} in {el.study}
+                                </div>
+                            </Link> <br /> <br />
+                        </>
                     );
                 })}
             </div>
