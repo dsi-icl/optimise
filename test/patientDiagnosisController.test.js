@@ -216,9 +216,8 @@ describe('Editing Diagnosis test suite', () => {
     test('Editing with good parameters', () =>
         admin.put('/patientDiagnosis')
             .send({
-                'id': 4,
-                'patient': 1,
-                'diagnosis': 3
+                'id': 2,
+                'diagnosis': 6
             })
             .then(res => {
                 expect(res.status).toBe(200);
@@ -267,7 +266,7 @@ describe('Delete diagnosis test suite', () => {
     test('Deleting with good parameters', () =>
         admin.delete('/patientDiagnosis')
             .send({
-                'id': 5
+                'id': 3
             })
             .then(res => {
                 expect(res.status).toBe(200);
