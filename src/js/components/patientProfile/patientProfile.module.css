@@ -21,10 +21,15 @@
     display: inline-block;
 }
 
+.ariane span:hover {
+    cursor: pointer;
+}
+
 .ariane svg {
     fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
 }
-.ariane a:hover svg {
+.ariane a:hover svg,
+.ariane span:hover svg {
     fill: hsl(var(--color-background-h), var(--color-background-s), 20%);
 }
 
