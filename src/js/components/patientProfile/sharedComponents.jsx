@@ -23,9 +23,9 @@ export class PatientProfileTop extends Component {
         return (
             <div className='profileActions'>
                 <Link title='Create visit' to={`/patientProfile/${patientId}/createVisit`} ><Icon symbol='addVisit' /></Link>
-                <a title='Order test' className={[cssDropdowns.dropDownMenu]} ><Icon symbol='addTest' /><VisitPicker elementType='test' /></a>
-                <a title='Add prescription' className={[cssDropdowns.dropDownMenu].join(' ')} ><Icon symbol='addTreatment' /><VisitPicker elementType='treatment' /></a>
-                <a title='Record event' className={[cssDropdowns.dropDownMenu].join(' ')} ><Icon symbol='addEvent' /><VisitPicker elementType='clinicalEvent' /></a>
+                <span title='Order test' className={[cssDropdowns.dropDownMenu]} ><Icon symbol='addTest' /><VisitPicker elementType='test' /></span>
+                <span title='Add prescription' className={[cssDropdowns.dropDownMenu].join(' ')} ><Icon symbol='addTreatment' /><VisitPicker elementType='treatment' /></span>
+                <span title='Record event' className={[cssDropdowns.dropDownMenu].join(' ')} ><Icon symbol='addEvent' /><VisitPicker elementType='clinicalEvent' /></span>
             </div>
         );
     }
