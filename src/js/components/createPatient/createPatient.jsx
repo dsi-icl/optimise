@@ -105,26 +105,26 @@ export default class CreatePatient extends Component {    //get these props from
                         </span><br /><br />
                         <form onSubmit={this._handleSubmit}>
                             <h4>Personal information</h4><br />
-                            <label>Given name:</label><br /> <input value={this.state.givenName} name='givenName' onChange={this._handleFreeTextChange} /><br /><br />
-                            <label>Surname:</label><br /> <input value={this.state.surname} name='surname' onChange={this._handleFreeTextChange} /><br /><br />
-                            <label>Full Address:</label><br /><input value={this.state.address} name='address' onChange={this._handleFreeTextChange} /><br /><br />
-                            <label>Postcode:</label><br /> <input value={this.state.postcode} name='postcode' onChange={this._handleFreeTextChange} /><br /><br />
+                            <label htmlFor='givenName'>Given name:</label><br /> <input value={this.state.givenName} name='givenName' onChange={this._handleFreeTextChange} /><br /><br />
+                            <label htmlFor='surname'>Surname:</label><br /> <input value={this.state.surname} name='surname' onChange={this._handleFreeTextChange} /><br /><br />
+                            <label htmlFor='address'>Full Address:</label><br /><input value={this.state.address} name='address' onChange={this._handleFreeTextChange} /><br /><br />
+                            <label htmlFor='postcode'>Postcode:</label><br /> <input value={this.state.postcode} name='postcode' onChange={this._handleFreeTextChange} /><br /><br />
                             <br />
                             <h4>Basic demographic data</h4><br />
                             <label>Date of birth:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDateChange} /> <br />
-                            <label>Gender:</label><br /> <SelectField name='gender' value={this.state.gender} options={genders} handler={this._handleChange} /> <br /><br />
-                            <label>Dominant hand:</label><br /> <SelectField name='dominant_hand' value={this.state['dominant_hand']} options={dominant_hands} handler={this._handleChange} /> <br /><br />
-                            <label>Ethnicity:</label><br /> <SelectField name='ethnicity' value={this.state['ethnicity']} options={ethnicities} handler={this._handleChange} /> <br /><br />
-                            <label>Country of origin:</label><br /> <SelectField name='country_of_origin' value={this.state['country_of_origin']} options={countries} handler={this._handleChange} /> <br /><br />
-                            <label>Alcohol usage:</label><br /> <SelectField name='alcohol_usage' value={this.state['alcohol_usage']} options={alcohol_usage} handler={this._handleChange} /> <br /><br />
-                            <label>Smoking history:</label><br /> <SelectField name='smoking_history' value={this.state['smoking_history']} options={smoking_history} handler={this._handleChange} /> <br /><br />
+                            <label htmlFor='gender'>Gender:</label><br /> <SelectField name='gender' value={this.state.gender} options={genders} handler={this._handleChange} /> <br /><br />
+                            <label htmlFor='dominant_hand'>Dominant hand:</label><br /> <SelectField name='dominant_hand' value={this.state['dominant_hand']} options={dominant_hands} handler={this._handleChange} /> <br /><br />
+                            <label htmlFor='ethnicity'>Ethnicity:</label><br /> <SelectField name='ethnicity' value={this.state['ethnicity']} options={ethnicities} handler={this._handleChange} /> <br /><br />
+                            <label htmlFor='country_of_origin'>Country of origin:</label><br /> <SelectField name='country_of_origin' value={this.state['country_of_origin']} options={countries} handler={this._handleChange} /> <br /><br />
+                            <label htmlFor='alcohol_usage'>Alcohol usage:</label><br /> <SelectField name='alcohol_usage' value={this.state['alcohol_usage']} options={alcohol_usage} handler={this._handleChange} /> <br /><br />
+                            <label htmlFor='smoking_history'>Smoking history:</label><br /> <SelectField name='smoking_history' value={this.state['smoking_history']} options={smoking_history} handler={this._handleChange} /> <br /><br />
                             <br />
                             <h4>Primary diagnosis</h4><br />
                             <label>Diagnosis date:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDateChange} /> <br />
-                            <label>Diagnosis:</label><br /> <SelectField name='diagnosis' value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} /> <br /><br />
+                            <label htmlFor='diagnosis'>Diagnosis:</label><br /> <SelectField name='diagnosis' value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} /> <br /><br />
                             <input type="submit" value="Submit" />
                         </form>
-                        {this.state.error ? <div ><br />None of the fields can be unselected or empty! Please try again.</div> : null}
+                        {this.state.error ? <><br /><br /><div className={style.error}>None of the fields can be unselected or empty! Please try again.</div></> : null}
 
                     </div>
                 </>

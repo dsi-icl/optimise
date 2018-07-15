@@ -38,7 +38,7 @@ export default class SearchPatientsById extends Component {
                 </div>
                 <div className={style.panel}>
                     <form>
-                        <label htmlFor='searchTerm'>Enter Patient ID:</label><br />
+                        <label htmlhtmlFor='searchTerm'>Enter Patient ID:</label><br />
                         <input type='text' name='searchTerm' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} />
                     </form><br />
                     <SearchResultForPatients listOfPatients={this.props.data.result} searchString={this.state.searchString} />

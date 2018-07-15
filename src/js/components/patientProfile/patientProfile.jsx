@@ -12,7 +12,6 @@ import { SelectField } from '../createPatient';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
 import { updateConsentAPICall } from '../../redux/actions/consent';
 import cssSections from '../../../css/sectioning.module.css';
-import cssButtons from '../../../css/buttons.module.css';
 
 @connect(state => ({ fetching: state.patientProfile.fetching, erasePatient: state.erasePatient }))
 export class Section extends Component {
@@ -132,10 +131,10 @@ class ImmunisationSection extends Component {
                         </tr>}
                     </tbody>
                 </table>
-                {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Add immunisation</div> :
+                {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Add immunisation</button> :
                     <div>
-                        <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
-                        <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
+                        <button onClick={this._handleSubmit}>Submit</button>
+                        <button onClick={this._handleClickingAdd}>Cancel</button>
                     </div>}
             </PatientProfileSectionScaffold>
         );
@@ -255,10 +254,10 @@ class Pregnancy extends Component {
                                 <b>Outcome: </b><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' />
                             </div>
                         }
-                        {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Record pregnancy</div> :
+                        {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Record pregnancy</button> :
                             <div>
-                                <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
-                                <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
+                                <button onClick={this._handleSubmit}>Submit</button>
+                                <button onClick={this._handleClickingAdd}>Cancel</button>
                             </div>}
                         {this.state.error ? <div>Your MedDRA field is not permitted</div> : null}
                     </PatientProfileSectionScaffold>
@@ -296,12 +295,12 @@ class DeletePatient extends Component {
     render() {
         const { consent } = this.props.data;
         return (
-            <div>
+            <>
                 <PatientProfileSectionScaffold sectionName='DELETE PATIENT AND CONSENT'>
-                    <div onClick={this._handleClickDelete} className={cssButtons.createPatientButton}>Delete this patient</div>
-                    <div onClick={this._handleClickWithdrawConsent} className={cssButtons.createPatientButton}>{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</div>
+                    <button onClick={this._handleClickDelete} >Delete this patient</button><br /><br />
+                    <button onClick={this._handleClickWithdrawConsent} >{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</button>
                 </PatientProfileSectionScaffold>
-            </div>
+            </>
         );
     }
 }
