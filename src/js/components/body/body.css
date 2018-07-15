@@ -135,7 +135,7 @@ h2 {
 
 h4 {
     font-size: 1.1em;
-    line-height: 0.5em;
+    line-height: 1em;
     color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 2));
 }
 
@@ -144,8 +144,15 @@ svg {
     width: 100%;
 }
 
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
 th, td {
     height: 2em;
     line-height: 2.7em;
     text-align: left;
+    vertical-align: middle;
 }
