@@ -84,13 +84,13 @@ export class CreateVisit extends Component {
                 </div>
                 <form className={style.panel}>
                     <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br />
-                    <label htmlFor='SBP'>Systolic blood pressure (mmHg):</label><br /> <input name='SBP' value={SBP} onChange={this._handleKeyChange} /><br /><br />
-                    <label htmlFor='DBP'>Diastolic blood pressure (mmHg):</label><br /> <input name='DBP' value={DBP} onChange={this._handleKeyChange} /><br /><br />
-                    <label htmlFor='HR'>Heart rate (bpm):</label><br /> <input name='HR' value={HR} onChange={this._handleKeyChange} /><br /><br />
-                    <label htmlFor='weight'>Weight (kg):</label><br /> <input name='weight' value={weight} onChange={this._handleKeyChange} /><br /><br />
-                    <label htmlFor='height'>Height (cm):</label><br /> <input name='height' value={height} onChange={this._handleKeyChange} /><br /><br />
+                    <label htmlFor='SBP'>Systolic blood pressure (mmHg):</label><br /> <input name='SBP' value={SBP} onChange={this._handleKeyChange} autoComplete="off" /><br /><br />
+                    <label htmlFor='DBP'>Diastolic blood pressure (mmHg):</label><br /> <input name='DBP' value={DBP} onChange={this._handleKeyChange} autoComplete="off" /><br /><br />
+                    <label htmlFor='HR'>Heart rate (bpm):</label><br /> <input name='HR' value={HR} onChange={this._handleKeyChange} autoComplete="off" /><br /><br />
+                    <label htmlFor='weight'>Weight (kg):</label><br /> <input name='weight' value={weight} onChange={this._handleKeyChange} autoComplete="off" /><br /><br />
+                    <label htmlFor='height'>Height (cm):</label><br /> <input name='height' value={height} onChange={this._handleKeyChange} autoComplete="off" /><br /><br />
                     <label htmlFor='academicConcern'>Academic concern:</label><br />
-                    <select name='academicConcern' onChange={this._handleKeyChange} value={academicConcern}>
+                    <select name='academicConcern' onChange={this._handleKeyChange} value={academicConcern} autoComplete="off">
                         <option value='1'>true</option>
                         <option value='0'>false</option>
                     </select><br /><br />
