@@ -46,6 +46,13 @@
     color: var(--color-shade-one);
 }
 
+.timelineBox {
+    border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 98%);
+    width: 100%;
+    height: 10em;
+}
+
 .history svg {
     padding: 1em;
 }
