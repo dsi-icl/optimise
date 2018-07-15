@@ -155,7 +155,7 @@ class OneVisit extends Component {
 
                 {relevantFields.length !== 0 ? (
                     <>
-                        <h4><Icon symbol='symptom' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
+                        <h4><Icon symbol='symptom' className={style.timelineCE} />&nbsp;SIGNS AND SYMPTOMS</h4>
                         <table>
                             <thead>
                                 <tr><th>Recorded symptoms</th><th>Value</th></tr>
@@ -173,7 +173,7 @@ class OneVisit extends Component {
 
                 {visitHasTests ? (
                     <>
-                        <h4><Icon symbol='addTest' />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'}</h4>
+                        <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Expected date</th></tr>
@@ -191,7 +191,7 @@ class OneVisit extends Component {
 
                 {visitHasMedications ? (
                     <>
-                        <h4><Icon symbol='addTreatment' />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
+                        <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
@@ -209,7 +209,7 @@ class OneVisit extends Component {
 
                 {visitHasClinicalEvents ? (
                     <>
-                        <h4>{baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
+                        <h4><Icon symbol='symptom' className={style.timelineCE} />&nbsp;{baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Start date</th><th></th></tr>
