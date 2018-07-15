@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
 import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedComponents';
 import { TimelineBox } from './timeline';
-import { getPatientProfileById } from '../../redux/actions/searchPatientById';
+import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import Icon from '../icon';
 import style from './patientProfile.module.css';

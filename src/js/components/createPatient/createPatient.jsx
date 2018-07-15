@@ -97,7 +97,7 @@ export default class CreatePatient extends Component {    //get these props from
                 <>
                     <div className={style.ariane}>
                         <h2>+ New Patient Profile</h2>
-                        <BackButton to={'/searchPatientById'} />
+                        <BackButton to={'/searchPatient'} />
                     </div>
                     <div className={style.panel}>
                         <span>Please fill the following information about

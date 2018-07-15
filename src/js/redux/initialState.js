@@ -1,5 +1,5 @@
 export default {
-    searchPatientById: {
+    searchPatient: {
         fetching: false,
         error: false,
         result: []

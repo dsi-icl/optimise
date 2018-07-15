@@ -2,17 +2,17 @@ import actionTypes from './listOfActions';
 import { apiHelper } from '../fetchHelper';
 
 
-export const searchPatientByIdRequest = searchString => ({ type: actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_REQUEST, payload: searchString });
-export const searchPatientByIdFailure = patientId => ({ type: actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_FAILURE, payload: patientId });
-export const searchPatientByIdSuccess = data => ({ type: actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_SUCCESS, payload: data });
+export const searchPatientRequest = searchString => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_REQUEST, payload: searchString });
+export const searchPatientFailure = patientId => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_FAILURE, payload: patientId });
+export const searchPatientSuccess = data => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_SUCCESS, payload: data });
 
-export const searchPatientByIdAPICall = (searchString) => dispatch => {
-    dispatch(searchPatientByIdRequest());
+export const searchPatientAPICall = (searchString) => dispatch => {
+    dispatch(searchPatientRequest());
     return apiHelper(`/patients?id=${searchString}`)
         .then(json => {
-            dispatch(searchPatientByIdSuccess(json));
+            dispatch(searchPatientSuccess(json));
         })
-        .catch(() => { dispatch(searchPatientByIdFailure(searchString)); });
+        .catch(() => { dispatch(searchPatientFailure(searchString)); });
 };
 
 

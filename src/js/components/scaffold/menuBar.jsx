@@ -23,7 +23,7 @@ export default class MenuBar extends Component {
         return (
             <div className={style.menuBar}>
                 <br /><br /><br />
-                <NavLink to='/searchPatientById' title='Search and edit patients' activeClassName={style.active}>
+                <NavLink to='/searchPatient' title='Search and edit patients' activeClassName={style.active}>
                     <Icon symbol='search' />
                 </NavLink>
 

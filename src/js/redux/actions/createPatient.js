@@ -1,5 +1,5 @@
 import actionTypes from './listOfActions';
-import { getPatientProfileById, getPatientProfileByIdRequest } from './searchPatientById';
+import { getPatientProfileById, getPatientProfileByIdRequest } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
 
 export const createPatientRequest = patientId => ({ type: actionTypes.createPatients.CREATE_PATIENT_REQUEST, payload: patientId });

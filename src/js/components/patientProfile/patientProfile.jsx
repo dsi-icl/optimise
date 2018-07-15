@@ -31,7 +31,7 @@ export class Section extends Component {
                     return <div> Cannot delete this patient </div>;
                 } else {
                     if (erasePatient.success) {
-                        return <Redirect to='/searchPatientById' />;
+                        return <Redirect to='/searchPatient' />;
                     } else {
                         return (
                             <>
