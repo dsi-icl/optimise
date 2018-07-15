@@ -7,6 +7,7 @@ import store from '../../redux/store';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments';
 import Icon from '../icon';
+import style from '../createMedicalElements/medicalEvent.module.css';
 
 @connect(state => ({ patientProfile: state.patientProfile, fields: state.availableFields, meddra: state.meddra }))
 export class TreatmentInterruption extends Component {
@@ -56,7 +57,8 @@ export class TreatmentInterruption extends Component {
         this.setState({ noEndDate: ev.target.checked, error: false });
     }
 
-    _handleSubmit() {
+    _handleSubmit(ev) {
+        ev.preventDefault();
         const meddraFields = this.props.meddra.result.filter(el => el.name === this.meddraRef.current.value);
         if (meddraFields.length === 0) {
             this.setState({ error: true });
@@ -87,39 +89,46 @@ export class TreatmentInterruption extends Component {
                 const treatment = treatmentsFiltered[0];
                 return (
                     <>
-                        <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
-                        <h2>TREATMENT INTERRUPTIONS</h2>
-                        {treatment.interruptions.map(el => (
-                            <div key={el.id}>
-                                <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
-                                {el.endDate ? <span><b>End date: </b>{new Date(parseInt(el.endDate, 10)).toDateString()}<br /></span> : null}
-                                <b>Reason: </b>{interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br />
-                                <b>MedDRA: </b>{el.meddra ? allMeddra[0][el.meddra] : 'NA'}
-                            </div>
-                        ))}
-
-
-                        {!this.state.addMore ?
-                            <button onClick={this._handleClickingAdd}>Add interruptions</button>
-                            :
-                            <>
-                                <div>
-                                    <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
-                                    <b>End date: </b><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br />
-                                    No end date: <input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} /><br />
-                                    <b>Reason: </b>
-                                    <select ref={this.reasonRef}>
-                                        {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                                    </select><br />
-                                    <b>MedDRA: </b><SuggestionInput reference={this.meddraRef} />
+                        <div className={style.ariane}>
+                            <h2>Treatment Interuption</h2>
+                            <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+                        </div>
+                        <form className={style.panel}>
+                            {treatment.interruptions.map(el => (
+                                <div key={el.id}>
+                                    <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
+                                    {el.endDate ? <span><b>End date: </b>{new Date(parseInt(el.endDate, 10)).toDateString()}<br /></span> : null}
+                                    <b>Reason: </b>{interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br />
+                                    <b>MedDRA: </b>{el.meddra ? allMeddra[0][el.meddra] : 'NA'}
                                 </div>
+                            ))}
+
+
+                            {!this.state.addMore ?
                                 <>
-                                    <br /><br />
-                                    <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                                    <button onClick={this._handleClickingAdd}>Cancel</button>
-                                    {this.state.error ? <div> Your medDRA code is not a permitted value.</div> : null}
+                                    <br />
+                                    <button onClick={this._handleClickingAdd}>Add interruptions</button>
                                 </>
-                            </>}
+                                :
+                                <>
+                                    <div>
+                                        <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
+                                        <b>End date: </b><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br />
+                                        No end date: <input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} /><br />
+                                        <b>Reason: </b>
+                                        <select ref={this.reasonRef}>
+                                            {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                        </select><br /><br />
+                                        <b>MedDRA: </b><SuggestionInput reference={this.meddraRef} />
+                                    </div>
+                                    <>
+                                        <br /><br />
+                                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                                        <button onClick={this._handleClickingAdd}>Cancel</button>
+                                        {this.state.error ? <div> Your medDRA code is not a permitted value.</div> : null}
+                                    </>
+                                </>}
+                        </form>
                     </>
                 );
             } else {

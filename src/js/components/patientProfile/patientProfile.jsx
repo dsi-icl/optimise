@@ -120,7 +120,7 @@ class ImmunisationSection extends Component {
         const { data } = this.props;
         return (
             <PatientProfileSectionScaffold sectionName='Immunisations'>
-                <table >
+                <table>
                     {this.state.addMore || data.immunisations.length !== 0 ? <thead>
                         <tr><th>Vaccine name</th><th>Date</th></tr>
                     </thead> : null}

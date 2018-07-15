@@ -54,7 +54,8 @@ export class CreateTreatment extends Component {
         });
     }
 
-    _handleSubmitClick() {
+    _handleSubmitClick(e) {
+        e.preventDefault();
         const requestBody = this._formatRequestBody();
         this.props.createTreatment(requestBody);
     }
@@ -83,8 +84,18 @@ export class CreateTreatment extends Component {
                         </select><br /><br />
                         {this.state.drugType !== '' ? <span><i>{`You have selected a drug of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
                         <label htmlFor='dose'>Dose:</label><br /> <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text' autoComplete="off" /><br /><br />
-                        <label htmlFor='unit'>Unit:</label><br /> <input value={this.state.unit} onChange={this._handleInputChange} name='unit' type='text' autoComplete="off" /><br /><br />
-                        <label htmlFor='form'>Form:</label><br /> <input value={this.state.form} onChange={this._handleInputChange} name='form' type='text' autoComplete="off" /><br /><br />
+                        <label htmlFor='unit'>Unit:</label><br />
+                        <select name='unit' value={this.state.unit} onChange={this._handleInputChange} autoComplete="off">
+                            <option value=''></option>
+                            <option value='mg'>mg</option>
+                            <option value='cc'>cc</option>
+                        </select><br /><br />
+                        <label htmlFor='form'>Form:</label><br />
+                        <select name='form' value={this.state.form} onChange={this._handleInputChange} autoComplete="off">
+                            <option value=''></option>
+                            <option value='oral'>oral</option>
+                            <option value='IV'>IV</option>
+                        </select><br /><br />
                         <label htmlFor='timesPerDay'>Times per day:</label><br /> <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text' autoComplete="off" /><br /><br />
                         <label htmlFor='durationInWeeks'>Duration in weeks:</label><br /> <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text' autoComplete="off" /><br /><br />
                         <button onClick={this._handleSubmitClick} >Submit</button>

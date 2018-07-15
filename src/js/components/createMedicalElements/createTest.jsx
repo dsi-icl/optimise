@@ -51,7 +51,8 @@ export class CreateTest extends Component {
         };
     }
 
-    _handleSubmitClick() {
+    _handleSubmitClick(e) {
+        e.preventDefault();
         const requestBody = this._formatRequestBody();
         this.props.createTest(requestBody);
     }
