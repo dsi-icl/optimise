@@ -1,4 +1,4 @@
-import { getPatientProfileById } from './searchPatientById';
+import { getPatientProfileById } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
 
 export const updateConsentAPICall = (body) => dispatch => {

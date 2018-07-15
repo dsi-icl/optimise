@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPatientProfileById, searchPatientByIdAPICall, searchPatientByIdRequest } from '../../redux/actions/searchPatientById';
+import { getPatientProfileById, searchPatientAPICall, searchPatientRequest } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import style from './searchPatient.module.css';
 
-@connect(state => ({ data: state.searchPatientById }))
+@connect(state => ({ data: state.searchPatient }))
 export default class SearchPatientsById extends Component {
     constructor() {
         super();
@@ -17,10 +17,10 @@ export default class SearchPatientsById extends Component {
     _handleKeyStroke(ev) {
         this.setState({ searchString: ev.target.value });
         if (ev.target.value !== '') {
-            store.dispatch(searchPatientByIdRequest(ev.target.value));
-            store.dispatch(searchPatientByIdAPICall(ev.target.value));
+            store.dispatch(searchPatientRequest(ev.target.value));
+            store.dispatch(searchPatientAPICall(ev.target.value));
         } else {
-            store.dispatch(searchPatientByIdRequest(ev.target.value));
+            store.dispatch(searchPatientRequest(ev.target.value));
         }
     }
 

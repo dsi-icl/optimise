@@ -1,5 +1,5 @@
 import actionTypes from './listOfActions';
-import { getPatientProfileById } from './searchPatientById';
+import { getPatientProfileById } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
 
 export const alterDataRequest = (body) => ({ type: actionTypes.data.ALTER_DATA_REQUEST, payload: body });
