@@ -154,9 +154,6 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
     }
 };
 
-/**
- * TODO : Patch flow
- */
 PatientController.prototype.erasePatientInfo = function (req, res) {
     let patientId = undefined;
     if (req.user.priv !== 1) {
@@ -177,58 +174,6 @@ PatientController.prototype.erasePatientInfo = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL));
             return;
         }
-        // eraseEntry('PATIENTS', { id: patientId });
-        // eraseEntry('PATIENT_PII', { 'patient': patientId });
-        // eraseEntry('PATIENT_IMMUNISATION', { 'patient': patientId });
-        // eraseEntry('PATIENT_DEMOGRAPHIC', { 'patient': patientId });
-        // eraseEntry('MEDICAL_HISTORY', { 'patient': patientId });
-        // eraseEntry('PATIENT_PREGNANCY', { 'patient': patientId });
-        // eraseEntry('PATIENT_DIAGNOSIS', { 'patient': patientId });
-        // //Erase the visit and all the linked row in other tables depending on visitId
-        // knex('VISITS')
-        //     .select({ visitId: 'id' })
-        //     .where({ 'patient': patientId })
-        //     .then(resultVisit => {
-        //         if (resultVisit.length > 0) {
-        //             for (let i = 0; i < resultVisit.length; i++) {
-        //                 visitId[i] = resultVisit[i].visitId;
-        //                 eraseEntry('VISIT_DATA', { 'visit': visitId[i] });
-        //                 for (let i = 0; !visitId && i < visitId.length; i++) {
-        //                     //Erase Ordered test and test data
-        //                     knex('ORDERED_TESTS')
-        //                         .select({ testId: 'id' })
-        //                         .where({ 'orderedDuringVisit': visitId[i] })
-        //                         .then(resultTest => {
-        //                             for (let j = 0; resultTest.length !== 0 && j < resultTest.length; j++) {
-        //                                 eraseEntry('TEST_DATA', { 'test': resultTest[j].testId });
-        //                             }
-        //                         });
-        //                     eraseEntry('ORDERED_TEST', { 'orderedDuringVisit': visitId[i] });
-        //                     //Erase Treatment and Treatment Data
-        //                     knex('TREATMENTS')
-        //                         .select({ treatmentId: 'id' })
-        //                         .where({ 'orderedDuringVisit': visitId[i] })
-        //                         .then(resultTreatment => {
-        //                             for (let j = 0; resultTreatment.length !== 0 && j < resultTreatment.length; j++) {
-        //                                 eraseEntry('TREATMENTS_INTERRUPTION', { 'treatment': resultTreatment[j] });
-        //                             }
-        //                         });
-        //                     eraseEntry('TREATMENTS', { 'orderedDuringVisit': visitId[i] });
-        //                     //Erase Clinical Event and Clinical Event Data
-        //                     knex('CLINICAL_EVENTS')
-        //                         .select({ ceId: 'id' })
-        //                         .where({ 'recordedDuringVisit': visitId })
-        //                         .then(resultCE => {
-        //                             for (let j = 0; resultCE.length !== 0 && j < resultCE.length; j++) {
-        //                                 eraseEntry('CLINICQL_EVENT_DATA', { 'clinicalEvent': resultCE[j] });
-        //                             }
-        //                         });
-        //                     eraseEntry('CLINICAL_EVENTS', { 'recordedDuringVisit': visitId[i] });
-        //                     eraseEntry('VISITS', { 'id': visitId[i] });
-        //                 }
-        //             }
-        //         }
-        //     });
         eraseEntry('PATIENTS', { id: patientId }).then(function (__unused__result) {
             res.status(200).json({ success: true, messageg: 'Erasure completed. Check for any data retreivable if needed.' });
             return;
