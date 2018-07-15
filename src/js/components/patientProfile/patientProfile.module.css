@@ -36,3 +36,7 @@
     padding: 1.2em;
     overflow: auto;
 }
+
+.history svg {
+    padding: 1em;
+}

@@ -222,7 +222,7 @@ export class Charts extends Component {   //unfinsihed
         return (
             <PatientProfileSectionScaffold sectionName='Medical History Summary'>
                 {visits.length !== 0 ?
-                    (<Timeline lineColor='#d1d1d1'>{sortVisits(visits).map(
+                    (<Timeline lineColor='#d1d1d1' className={style.history}>{sortVisits(visits).map(
                         (el, ind) => {
                             const order = visits.length - ind;
                             let suffix;

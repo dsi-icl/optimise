@@ -138,3 +138,8 @@ h4 {
     line-height: 0.5em;
     color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 2));
 }
+
+svg {
+    height: 100%;
+    width: 100%;
+}
