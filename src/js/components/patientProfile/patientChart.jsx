@@ -28,10 +28,10 @@ export class PatientChart extends Component {
                 <div className={style.panel}>
                     <span>{`This patient ${this.props.data.consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
                     {this.props.fetching ? <div><Icon symbol='loading' /></div> :
-                        <div>
+                        <>
                             <TimelineBox />
                             <Charts location={this.props.location} />
-                        </div>
+                        </>
                     }
                 </div>
             </>

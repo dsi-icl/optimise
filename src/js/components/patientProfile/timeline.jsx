@@ -24,47 +24,28 @@ export class TimelineBox extends Component {   //unfinsihed
         });
         const allDates = [...allVisitDates, ...allTestDates, ...allCEDates];
         allDates.sort();
-        const mappingVisitFunction = visit => {
-            const date = visit.visitDate;
-            return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}`} href={`#visit/${visit.visitId}`} >
-                    <div >
-                        -
-                    </div>
-                </a>
-            );
-        };
-        const mappingTestFunction = test => {
-            const date = test.expectedOccurDate;
-            return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}test`} href={`#test/${test.testId}`} >
-                    <div >
-                        -
-                    </div>
-                </a>
-            );
-        };
-        const mappingMedFunction = med => {
-            const date = med.visitDate;
-            return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}med`} href={`#treatment/${med.id}`} >
-                    <div >
-                        -
-                    </div>
-                </a>
-            );
-        };
+        const mappingVisitFunction = visit => (
+            <a title={new Date(parseInt(visit.visitDate, 10)).toDateString()} key={`${visit.visitId}visit`} href={`#visit/${visit.visitId}`} >
+                <div> - </div>
+            </a>
+        );
 
-        const mappingCEFunction = CE => {
-            const date = parseInt(CE.dateStartDate);
-            return (
-                <a title={new Date(date).toDateString()} key={`${date}ce`} href={`#clinicalEvent/${CE.id}`} >
-                    <div >
-                        -
-                    </div>
-                </a>
-            );
-        };
+        const mappingTestFunction = test => (
+            <a title={new Date(parseInt(test.expectedOccurDate, 10)).toDateString()} key={`${test.testId}test`} href={`#test/${test.testId}`} >
+                <div> - </div>
+            </a>
+        );
+        const mappingMedFunction = med => (
+            <a title={new Date(parseInt(med.visitDate, 10)).toDateString()} key={`${med.id}med`} href={`#treatment/${med.id}`} >
+                <div> - </div>
+            </a>
+        );
+
+        const mappingCEFunction = CE => (
+            <a title={new Date(parseInt(CE.dateStartDate)).toDateString()} key={`${CE.id}ce`} href={`#clinicalEvent/${CE.id}`} >
+                <div> - </div>
+            </a>
+        );
 
         return (
             <PatientProfileSectionScaffold sectionName='Timeline'>
