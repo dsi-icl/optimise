@@ -72,7 +72,7 @@ export class CreateTreatment extends Component {
             return (
                 <>
                     <div className={style.ariane}>
-                        <h2>Create a new Treatment</h2>
+                        <h2>Creating a new Treatment</h2>
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
                     <form className={style.panel}>

@@ -63,7 +63,7 @@ export class CreateTest extends Component {
             return (
                 <>
                     <div className={style.ariane}>
-                        <h2>Create a new Test</h2>
+                        <h2>Creating a new Test</h2>
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
                     <form className={style.panel}>

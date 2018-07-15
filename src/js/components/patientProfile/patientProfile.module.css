@@ -45,3 +45,18 @@
 .history svg {
     padding: 1em;
 }
+
+.visitSelectorButton {
+    font-size: 1em;
+    display: inline-block;
+    height: 2.7em;
+    line-height: 1.9em;
+    width: 100%;
+    padding: 0.3em 0.8em;
+    color: var(--color-background);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 7));
+}
+
+.visitSelectorButton:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 6.8));
+}
