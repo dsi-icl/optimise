@@ -10,7 +10,10 @@ import Icon from '../icon';
 import cssSectioning from '../../../css/sectioning.module.css';
 import style from './patientProfile.module.css';
 
-@connect(state => ({ fetching: state.patientProfile.fetching }))
+@connect(state => ({
+    fetching: state.patientProfile.fetching,
+    data: state.patientProfile.data
+}))
 export class PatientChart extends Component {
     componentDidMount() {
         store.dispatch(getPatientProfileById(this.props.match.params.patientId));
@@ -20,12 +23,11 @@ export class PatientChart extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>Patient Profile</h2>
+                    <h2>Patient Profile {this.props.fetching ? '' : `(${this.props.data.patientId})`}</h2>
+                    <PatientProfileTop />
                 </div>
                 <div className={style.panel}>
-                    <div>
-                        <PatientProfileTop />
-                    </div><br />
+                    <span>{`This patient ${this.props.data.consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span>
                     {this.props.fetching ? <div><Icon symbol='loading' /></div> :
                         <div>
                             <TimelineBox />

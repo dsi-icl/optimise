@@ -87,7 +87,7 @@ export class TreatmentInterruption extends Component {
             if (treatmentsFiltered.length !== 0) {
                 const treatment = treatmentsFiltered[0];
                 return (
-                    <div>
+                    <>
                         <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                         <h2>TREATMENT INTERRUPTIONS</h2>
                         {treatment.interruptions.map(el => (
@@ -103,7 +103,7 @@ export class TreatmentInterruption extends Component {
                         {!this.state.addMore ?
                             <button onClick={this._handleClickingAdd}>Add interruptions</button>
                             :
-                            <div>
+                            <>
                                 <div className={cssSection.profileSubDataSection}>
                                     <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
                                     <b>End date: </b><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br />
@@ -114,13 +114,14 @@ export class TreatmentInterruption extends Component {
                                     </select><br />
                                     <b>MedDRA: </b><SuggestionInput reference={this.meddraRef} />
                                 </div>
-                                <div>
-                                    <button onClick={this._handleSubmit}>Submit</button>
+                                <>
+                                    <br /><br />
+                                    <button onClick={this._handleSubmit}>Submit</button><br /><br />
                                     <button onClick={this._handleClickingAdd}>Cancel</button>
                                     {this.state.error ? <div> Your medDRA code is not a permitted value.</div> : null}
-                                </div>
-                            </div>}
-                    </div>
+                                </>
+                            </>}
+                    </>
                 );
             } else {
                 return <div> Cannot find your treatment! Please check the id in your url. </div>;
