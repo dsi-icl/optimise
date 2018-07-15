@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
+import { BackButton } from '../medicalData/dataPage';
 import store from '../../redux/store';
 import { createPatientCall } from '../../redux/actions/createPatient';
 import style from './createPatient.module.css';
@@ -96,6 +97,7 @@ export default class CreatePatient extends Component {    //get these props from
                 <>
                     <div className={style.ariane}>
                         <h2>+ New Patient Profile</h2>
+                        <BackButton to={'/searchPatientById'} />
                     </div>
                     <div className={style.panel}>
                         <span>Please fill the following information about

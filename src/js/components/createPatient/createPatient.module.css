@@ -7,6 +7,14 @@
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
+.ariane a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1.2em;
+    font-size: 1.1em;
+}
+
 .panel {
     grid-area: panel;
     display: block;
