@@ -65,10 +65,24 @@ export class DataTemplate extends Component {
                 return <div>{`Cannot find your ${this.props.elementType}!`}</div>;
             } else {
                 const fieldString = `${this.props.elementType}Fields`;
+                let title = '';
+                switch (this.props.elementType) {
+                    case 'test':
+                        title = 'Ordered Test';
+                        break;
+                    case 'visit':
+                        title = 'Signs and Symptoms';
+                        break;
+                    case 'clinicalEvent':
+                        title = 'Clinical Event';
+                        break;
+                    default:
+                        title = 'Results';
+                }
                 return (
                     <>
                         <div className={style.ariane}>
-                            <h2>Results</h2>
+                            <h2>{title}</h2>
                             <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                         </div>
                         <div className={style.panel}>
