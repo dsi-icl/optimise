@@ -7,7 +7,6 @@ import store from '../../redux/store';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments';
 import Icon from '../icon';
-import cssSection from '../../../css/sectioning.module.css';
 
 @connect(state => ({ patientProfile: state.patientProfile, fields: state.availableFields, meddra: state.meddra }))
 export class TreatmentInterruption extends Component {
@@ -91,7 +90,7 @@ export class TreatmentInterruption extends Component {
                         <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                         <h2>TREATMENT INTERRUPTIONS</h2>
                         {treatment.interruptions.map(el => (
-                            <div key={el.id} className={cssSection.profileSubDataSection}>
+                            <div key={el.id}>
                                 <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
                                 {el.endDate ? <span><b>End date: </b>{new Date(parseInt(el.endDate, 10)).toDateString()}<br /></span> : null}
                                 <b>Reason: </b>{interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br />
@@ -104,7 +103,7 @@ export class TreatmentInterruption extends Component {
                             <button onClick={this._handleClickingAdd}>Add interruptions</button>
                             :
                             <>
-                                <div className={cssSection.profileSubDataSection}>
+                                <div>
                                     <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
                                     <b>End date: </b><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br />
                                     No end date: <input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} /><br />
