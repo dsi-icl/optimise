@@ -50,7 +50,7 @@ export class CreateTreatment extends Component {
     _handleTypeChange(ev) {
         this.setState({
             drugType: parseInt(ev.target.value, 10),
-            drugModule: ev.target.selectedOptions[0].attributes.drugModule.nodeValue
+            drugModule: ev.target.selectedOptions[0].attributes['data-drugmodule'].nodeValue
         });
     }
 
@@ -79,7 +79,7 @@ export class CreateTreatment extends Component {
                         <span><i>This is for the visit of the {visitDate}</i></span><br /><br />
                         <label htmlFor='drug'>What drug is it?</label><br />
                         <select name='drug' value={this.state.drugType} onChange={this._handleTypeChange}>
-                            {this.props.types.map(type => <option key={type.id} drugModule={type.module} value={type.id}>{type.name}</option>)}
+                            {this.props.types.map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}
                         </select><br /><br />
                         {this.state.drugType !== '' ? <span><i>{`You have selected a drug of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
                         <label htmlFor='dose'>Dose:</label><br /> <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text' /><br /><br />
