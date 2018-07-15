@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PatientProfileSectionScaffold } from './sharedComponents';
-import cssTimeline from '../../../css/timelineelements.module.css';
-
+import style from './patientProfile.module.css';
 
 /*
 Timeline:
@@ -49,7 +48,7 @@ export class TimelineBox extends Component {   //unfinsihed
 
         return (
             <PatientProfileSectionScaffold sectionName='Timeline'>
-                <div className={cssTimeline.timelineBox} >
+                <div className={style.timelineBox} >
                     <div >
                         Visits
                     </div>
