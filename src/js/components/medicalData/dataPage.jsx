@@ -54,8 +54,6 @@ export class DataTemplate extends Component {
             }
         }
         const body = { data: bodydata, type: this.props.elementType, patientId: this.props.match.params.patientId };
-        // console.log(body);
-        // this.setState(body);
         this.props.submitData(body);
     }
 
@@ -73,9 +71,9 @@ export class DataTemplate extends Component {
                             <h2>Results</h2>
                             <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                         </div>
-                        <form className={style.panel}>
+                        <div className={style.panel}>
                             {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit, idString, this.props.elementType)}
-                        </form>
+                        </div>
                     </>
                 );
             }
@@ -124,61 +122,59 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
     //same with inputTypes:
     const dataTypesHashTable = inputTypes.reduce((map, dataType) => { map[dataType.id] = dataType.value; return map; }, {});
     return (
-        <div>
-            <form onSubmit={submitFunction}>
-                {
-                    filteredFieldList.map(field => {
-                        const { id, definition, type, permittedValues } = field;
-                        const originalValue = dataHashTable[field.id]; //assigned either the value or undefined, which is falsy, which is used below
-                        const key = `${medicalElement[idString]}_FIELD${id}`;
-                        switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
-                            case 'I':
-                                return (
-                                    <>
-                                        <label htmlFor='' key={key}>{definition}:</label><br />
-                                        <ControlledInputField fieldId={id} originalValue={originalValue} dataType='I' /><br /><br />
-                                    </>
-                                );
-                            case 'F':
-                                return (
-                                    <>
-                                        <label htmlFor='' key={key}>{definition}:</label><br />
-                                        <ControlledInputField fieldId={id} originalValue={originalValue} dataType='F' /><br /><br />
-                                    </>
-                                );
-                            case 'C':
-                                return (
-                                    <>
-                                        <label htmlFor='' key={key}>{definition}:</label><br />
-                                        <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues={permittedValues} /><br /><br />
-                                    </>
-                                );
-                            case 'T':
-                                return (
-                                    <>
-                                        <label htmlFor='' key={key}>{definition}:</label> <br />
-                                        <ControlledInputField fieldId={id} originalValue={originalValue} dataType='T' /><br /><br />
-                                    </>
-                                );
-                            case 'B':
-                                return (
-                                    <>
-                                        <label htmlFor='' key={key}>{definition}:</label><br />
-                                        <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues='true,false' /><br /><br />
-                                    </>
-                                );
-                            default:
-                                return (
-                                    <>
-                                        <span>This field cannot be displayed. Please contact admin. </span><br /><br />
-                                    </>
-                                );
-                        }
-                    })
-                }
-                <input type="submit" value="Save" />
-            </form>
-        </div>
+        <form onSubmit={submitFunction}>
+            {
+                filteredFieldList.map(field => {
+                    const { id, definition, type, permittedValues } = field;
+                    const originalValue = dataHashTable[field.id]; //assigned either the value or undefined, which is falsy, which is used below
+                    const key = `${medicalElement[idString]}_FIELD${id}`;
+                    switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
+                        case 'I':
+                            return (
+                                <React.Fragment key={key}>
+                                    <label htmlFor=''>{definition}:</label><br />
+                                    <ControlledInputField fieldId={id} originalValue={originalValue} dataType='I' /><br /><br />
+                                </React.Fragment>
+                            );
+                        case 'F':
+                            return (
+                                <React.Fragment key={key}>
+                                    <label htmlFor='' key={key}>{definition}:</label><br />
+                                    <ControlledInputField fieldId={id} originalValue={originalValue} dataType='F' /><br /><br />
+                                </React.Fragment>
+                            );
+                        case 'C':
+                            return (
+                                <React.Fragment key={key}>
+                                    <label htmlFor='' key={key}>{definition}:</label><br />
+                                    <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues={permittedValues} /><br /><br />
+                                </React.Fragment>
+                            );
+                        case 'T':
+                            return (
+                                <React.Fragment key={key}>
+                                    <label htmlFor='' key={key}>{definition}:</label> <br />
+                                    <ControlledInputField fieldId={id} originalValue={originalValue} dataType='T' /><br /><br />
+                                </React.Fragment>
+                            );
+                        case 'B':
+                            return (
+                                <React.Fragment key={key}>
+                                    <label htmlFor='' key={key}>{definition}:</label><br />
+                                    <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues='true,false' /><br /><br />
+                                </React.Fragment>
+                            );
+                        default:
+                            return (
+                                <React.Fragment key={key}>
+                                    <span>This field cannot be displayed. Please contact admin. </span><br /><br />
+                                </React.Fragment >
+                            );
+                    }
+                })
+            }
+            <input type="submit" value="Save" />
+        </form>
     );
 }
 
