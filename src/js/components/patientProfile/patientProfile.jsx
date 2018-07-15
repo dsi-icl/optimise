@@ -11,7 +11,6 @@ import { SuggestionInput } from '../meDRA/meDRApicker';
 import { SelectField } from '../createPatient';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
 import { updateConsentAPICall } from '../../redux/actions/consent';
-import cssSections from '../../../css/sectioning.module.css';
 import style from './patientProfile.module.css';
 
 @connect(state => ({ fetching: state.patientProfile.fetching, erasePatient: state.erasePatient }))
@@ -244,19 +243,19 @@ class Pregnancy extends Component {
             return (
                 <PatientProfileSectionScaffold sectionName='Pregnancies'>
                     {data.pregnancy.map(el =>
-                        <div key={`${el.meddra}${el.outcomeDate}`} className={cssSections.profileSubDataSection}>
-                            <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
-                            <b>Outcome date: </b> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
-                            <b>MedDRA: </b> {this.props.allMeddra[0][el.meddra]} <br />
-                            <b>Outcome: </b> {el.outcome} <br />
+                        <div key={`${el.meddra}${el.outcomeDate}`}>
+                            <label>Start date: </label><br /> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
+                            <label>Outcome date: </label><br /> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
+                            <label>MedDRA: </label><br /> {this.props.allMeddra[0][el.meddra]} <br />
+                            <label>Outcome: </label><br /> {el.outcome} <br />
                         </div>)}
                     {!this.state.addMore ? null :
-                        <div className={cssSections.profileSubDataSection}>
-                            <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
-                            <b>Outcome date: </b><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
-                            <b>MedDRA: </b><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} /><br />
-                            <b>Outcome: </b><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' />
-                        </div>
+                        <>
+                            <label>Start date: </label><br /><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
+                            <label>Outcome date: </label><br /><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
+                            <label>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} /><br />
+                            <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br />
+                        </>
                     }
                     {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Record pregnancy</button> :
                         <>
