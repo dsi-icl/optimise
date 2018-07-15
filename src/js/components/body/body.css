@@ -143,3 +143,9 @@ svg {
     height: 100%;
     width: 100%;
 }
+
+th, td {
+    height: 2em;
+    line-height: 2.7em;
+    text-align: left;
+}
