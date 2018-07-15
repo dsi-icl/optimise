@@ -466,7 +466,11 @@ paths:
               state:
                 type: "integer"
         "400":
-          description: "BAD REQUEST NORIGHTS"
+          description: "BAD REQUEST"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "NO RIGHTS"
           schema:
             $ref: "#/definitions/Error"
     delete:
@@ -490,7 +494,11 @@ paths:
                 type: "integer"
                 description: "Number of deleted PII"
         "400":
-          description: "Bad request or no rights"
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "NO RIGHTS"
           schema:
             $ref: "#/definitions/Error"
   /patientDiagnosis:
