@@ -46,14 +46,18 @@ describe('Patient controller tests', () => {
         .get('/patients?id=ch&id=css')
         .then(res => {
             expect(res.statusCode).not.toBe(200);
-            expect(res.headers['content-type']).toBe('text/html; charset=utf-8');
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.INVALIDQUERY);
         }));
 
     test('Searching patients with similar alias_id\'s but with two queries', () => admin
         .get('/patients?id=ch&iddd=css')
         .then(res => {
             expect(res.statusCode).toBe(400);
-            expect(res.headers['content-type']).toBe('text/html; charset=utf-8');
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.INVALIDQUERY);
         }));
 
     test('Creating a new patient', () => admin
@@ -64,6 +68,9 @@ describe('Patient controller tests', () => {
         })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(8);
         }));
 
     test('Creating the same patient again (should fail)', () => admin
@@ -74,13 +81,15 @@ describe('Patient controller tests', () => {
         })
         .then(res => {
             expect(res.statusCode).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
     test('getting this patient', () => admin
         .get('/patients/littlePatient')
         .then(res => {
             expect(res.statusCode).toBe(200);
-
         }));
 
     test('Deleting a patient by standard User (should fail)', () => user
