@@ -5,7 +5,6 @@ import { VisitPicker } from './popup';
 import Icon from '../icon';
 import cssDropdowns from '../../../css/dropdowns.module.css';
 import cssSectioning from '../../../css/sectioning.module.css';
-import cssTexts from '../../../css/inlinetexts.module.css';
 
 export class PatientProfileSectionScaffold extends Component {
     render() {
@@ -28,8 +27,8 @@ export class PatientProfileTop extends Component {
         const { patientId, consent } = this.props.data;
         return (
             <>
-                <span>{this.props.image}<h1 className={cssTexts.patientID}> Patient ID: <b>{patientId}</b></h1></span>
-                <br /><span className={cssTexts.consentText}>{`This patient ${consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span>
+                <span>{this.props.image}<h1> Patient ID: <b>{patientId}</b></h1></span>
+                <br /><span>{`This patient ${consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span>
                 <div >
                     <NavLink to={`/patientProfile/${patientId}/createVisit`} >
                         <div title='Create visit' ><Icon symbol='addVisit' /></div>
