@@ -237,42 +237,43 @@ export class Charts extends Component {   //unfinsihed
             <PatientProfileSectionScaffold sectionName='Medical History Summary'>
                 {visits.length !== 0 ?
                     (
-                        <Timeline className={style.history}>{sortVisits(visits).map(
-                            (el, ind) => {
-                                const order = visits.length - ind;
-                                let suffix;
-                                switch (order) {
-                                    case 1:
-                                        suffix = 'st';
-                                        break;
-                                    case 2:
-                                        suffix = 'nd';
-                                        break;
-                                    case 3:
-                                        suffix = 'rd';
-                                        break;
-                                    default:
-                                        suffix = 'th';
-                                };
-                                const baselineVisit = order === 1 ? true : false;
-                                return <OneVisit visitData={el.data}
-                                    availableFields={this.props.availableFields}
-                                    key={el.visitId} data={this.props.data}
-                                    visitId={el.visitId}
-                                    baselineVisit={baselineVisit}
-                                    type='visit'
-                                    title={baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`}
-                                    visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()} />;
-                            }
-                        )}
+                        <Timeline className={style.history}>
+                            {sortVisits(visits).map(
+                                (el, ind) => {
+                                    const order = visits.length - ind;
+                                    let suffix;
+                                    switch (order) {
+                                        case 1:
+                                            suffix = 'st';
+                                            break;
+                                        case 2:
+                                            suffix = 'nd';
+                                            break;
+                                        case 3:
+                                            suffix = 'rd';
+                                            break;
+                                        default:
+                                            suffix = 'th';
+                                    };
+                                    const baselineVisit = order === 1 ? true : false;
+                                    return <OneVisit visitData={el.data}
+                                        availableFields={this.props.availableFields}
+                                        key={el.visitId} data={this.props.data}
+                                        visitId={el.visitId}
+                                        baselineVisit={baselineVisit}
+                                        type='visit'
+                                        title={baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`}
+                                        visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()} />;
+                                }
+                            )}
                         </Timeline>
                     ) : (
                         <>
                             <br /><br />
                             <span>This patient currently has no visits nor baseline data. Please add a visit by clicking the button above. This will automatically count as the baseline visit / data.</span>
                         </>
-                    )}
-
+                    )
+                }
             </PatientProfileSectionScaffold>
         );
     }

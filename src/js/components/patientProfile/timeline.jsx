@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { PatientProfileSectionScaffold } from './sharedComponents';
+import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 import style from './patientProfile.module.css';
 
 /*
@@ -23,42 +23,72 @@ export class TimelineBox extends Component {   //unfinsihed
         });
         const allDates = [...allVisitDates, ...allTestDates, ...allCEDates];
         allDates.sort();
-        const mappingVisitFunction = visit => (
-            <a title={new Date(parseInt(visit.visitDate, 10)).toDateString()} key={`${visit.visitId}visit`} href={`#visit/${visit.visitId}`} >
-                <div> - </div>
-            </a>
-        );
+        const daySpan = parseInt(((parseInt(allDates[allDates.length - 1], 10) - parseInt(allDates[0], 10)) / 86400000), 10);
+        const numOfCols = `10% ${'1fr '.repeat(daySpan + 3)}`;
+        const TimelineDynamicStyle = {
+            gridTemplateColumns: numOfCols
+        };
+        const mappingVisitFunction = visit => {
+            const date = visit.visitDate;
+            const ratio = parseInt((date - allDates[0]) / 86400000, 10);
+            return (
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${visit.visitId}`} href={`#visit/${visit.visitId}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '1/2', textDecoration: 'none' }}>
+                    <div style={{ backgroundColor: 'rgb(133, 150, 176)', color: 'rgb(133, 150, 176)' }}>
+                        -
+                    </div>
+                </a>
+            );
+        };
+        const mappingTestFunction = test => {
+            const date = test.expectedOccurDate;
+            const ratio = parseInt((date - allDates[0]) / 86400000, 10);
+            return (
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${test.testId}test`} href={`#test/${test.testId}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '3/4', textDecoration: 'none' }}>
+                    <div style={{ backgroundColor: 'rgb(153, 202, 120)', color: 'rgb(153, 202, 120)' }}>
+                        -
+                    </div>
+                </a>
+            );
+        };
+        const mappingMedFunction = med => {
+            const date = med.visitDate;
+            const ratio = parseInt((date - allDates[0]) / 86400000, 10);
+            const durationInDays = med.durationWeeks * 7;
+            return (
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${med.id}med`} href={`#treatment/${med.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '2/3', textDecoration: 'none' }}>
+                    <div style={{ backgroundColor: '#ffca1b', color: '#ffca1b' }}>
+                        -
+                    </div>
+                </a>
+            );
+        };
 
-        const mappingTestFunction = test => (
-            <a title={new Date(parseInt(test.expectedOccurDate, 10)).toDateString()} key={`${test.testId}test`} href={`#test/${test.testId}`} >
-                <div> - </div>
-            </a>
-        );
-        const mappingMedFunction = med => (
-            <a title={new Date(parseInt(med.visitDate, 10)).toDateString()} key={`${med.id}med`} href={`#treatment/${med.id}`} >
-                <div> - </div>
-            </a>
-        );
-
-        const mappingCEFunction = CE => (
-            <a title={new Date(parseInt(CE.dateStartDate)).toDateString()} key={`${CE.id}ce`} href={`#clinicalEvent/${CE.id}`} >
-                <div> - </div>
-            </a>
-        );
+        const mappingCEFunction = CE => {
+            const date = parseInt(CE.dateStartDate);
+            const ratio = parseInt((date - allDates[0]) / 86400000, 10);
+            const durationInDays = CE.endDate ? parseInt((parseInt(CE.endDate) - date) / 86400000, 10) : 1;
+            return (
+                <a title={new Date(date).toDateString()} key={`${CE.id}ce`} href={`#clinicalEvent/${CE.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '4/5', textDecoration: 'none' }}>
+                    <div style={{ backgroundColor: CE.type === 4 ? 'black' : 'rgb(255, 102, 102)', color: CE.type === 4 ? 'black' : 'rgb(255, 102, 102)' }}>
+                        -
+                    </div>
+                </a>
+            );
+        };
 
         return (
             <PatientProfileSectionScaffold sectionName='Timeline'>
-                <div className={style.timelineBox} >
-                    <div >
+                <div className={style.timelineBox} style={TimelineDynamicStyle}>
+                    <div style={{ gridColumn: '1/2', gridRow: '1/2', overflow: 'hidden' }}>
                         Visits
                     </div>
-                    <div >
+                    <div style={{ gridColumn: '1/2', gridRow: '2/3', overflow: 'hidden' }}>
                         Meds
                     </div>
-                    <div >
+                    <div style={{ gridColumn: '1/2', gridRow: '3/4', overflow: 'hidden' }}>
                         Tests
                     </div>
-                    <div >
+                    <div style={{ gridColumn: '1/2', gridRow: '4/5', overflow: 'hidden' }}>
                         Events
                     </div>
                     {this.props.data.visits.map(mappingVisitFunction)}
