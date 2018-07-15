@@ -42,6 +42,10 @@
     overflow: auto;
 }
 
+.noConsentAlert {
+    color: var(--color-shade-one);
+}
+
 .history svg {
     padding: 1em;
 }
