@@ -1,7 +1,7 @@
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const formatToJSON = require('../utils/format-response');
-const { DemographicCore, MedicalHistoryCore, ImmunisationCore, PregnancyCore, DiagnosisCore } = require('../core/demographic');
+const { DemographicCore, MedicalHistoryCore, ImmunisationCore, PregnancyCore } = require('../core/demographic');
 
 const PregnancyModel = {
     'patient': 0,
@@ -16,7 +16,6 @@ function DemographicDataController() {
     this.immunisation = new ImmunisationCore();
     this.medicalhistory = new MedicalHistoryCore();
     this.pregnancy = new PregnancyCore();
-    this.diagnosis = new DiagnosisCore();
 
     this.getDemogData = DemographicDataController.prototype.getDemogData.bind(this);
     this.createDemographic = DemographicDataController.prototype.createDemographic.bind(this);
