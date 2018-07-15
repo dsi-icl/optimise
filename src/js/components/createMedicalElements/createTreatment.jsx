@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/dataPage';
 import { createTreatmentAPICall } from '../../redux/actions/treatments';
-import cssTexts from '../../../css/inlinetexts.module.css';
 import style from './medicalEvent.module.css';
 
 //not yet finished the dispatch

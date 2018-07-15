@@ -5,7 +5,6 @@ import { PickDate } from './datepicker';
 import { BackButton } from '../medicalData/dataPage';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents';
 import { SuggestionInput } from '../meDRA/meDRApicker';
-import cssTexts from '../../../css/inlinetexts.module.css';
 import style from './medicalEvent.module.css';
 
 //not yet finished the dispatch

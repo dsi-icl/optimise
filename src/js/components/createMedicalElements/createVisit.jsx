@@ -4,7 +4,6 @@ import moment from 'moment';
 import { BackButton } from '../medicalData/dataPage';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
 import { PickDate } from './datepicker';
-import cssTexts from '../../../css/inlinetexts.module.css';
 import style from './medicalEvent.module.css';
 
 @connect(state => ({ patientId: state.patientProfile.data.id }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))

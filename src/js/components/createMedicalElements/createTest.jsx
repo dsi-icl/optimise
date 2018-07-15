@@ -4,7 +4,6 @@ import moment from 'moment';
 import { PickDate } from './datepicker';
 import { BackButton } from '../medicalData/dataPage';
 import { createTestAPICall } from '../../redux/actions/tests';
-import cssTexts from '../../../css/inlinetexts.module.css';
 import style from './medicalEvent.module.css';
 
 //not yet finished the dispatch
