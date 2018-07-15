@@ -78,15 +78,15 @@ export class CreateTreatment extends Component {
                     <form className={style.panel}>
                         <span><i>This is for the visit of the {visitDate}</i></span><br /><br />
                         <label htmlFor='drug'>What drug is it?</label><br />
-                        <select name='drug' value={this.state.drugType} onChange={this._handleTypeChange}>
+                        <select name='drug' value={this.state.drugType} onChange={this._handleTypeChange} autoComplete="off">
                             {this.props.types.map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}
                         </select><br /><br />
                         {this.state.drugType !== '' ? <span><i>{`You have selected a drug of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
-                        <label htmlFor='dose'>Dose:</label><br /> <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text' /><br /><br />
-                        <label htmlFor='unit'>Unit:</label><br /> <input value={this.state.unit} onChange={this._handleInputChange} name='unit' type='text' /><br /><br />
-                        <label htmlFor='form'>Form:</label><br /> <input value={this.state.form} onChange={this._handleInputChange} name='form' type='text' /><br /><br />
-                        <label htmlFor='timesPerDay'>Times per day:</label><br /> <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text' /><br /><br />
-                        <label htmlFor='durationInWeeks'>Duration in weeks:</label><br /> <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text' /><br /><br />
+                        <label htmlFor='dose'>Dose:</label><br /> <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text' autoComplete="off" /><br /><br />
+                        <label htmlFor='unit'>Unit:</label><br /> <input value={this.state.unit} onChange={this._handleInputChange} name='unit' type='text' autoComplete="off" /><br /><br />
+                        <label htmlFor='form'>Form:</label><br /> <input value={this.state.form} onChange={this._handleInputChange} name='form' type='text' autoComplete="off" /><br /><br />
+                        <label htmlFor='timesPerDay'>Times per day:</label><br /> <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text' autoComplete="off" /><br /><br />
+                        <label htmlFor='durationInWeeks'>Duration in weeks:</label><br /> <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text' autoComplete="off" /><br /><br />
                         <button onClick={this._handleSubmitClick} >Submit</button>
                     </form>
                 </>
