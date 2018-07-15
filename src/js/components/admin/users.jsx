@@ -88,40 +88,42 @@ class CreateUser extends Component {
     }
 
     render() {
-        return (<div>
-            {!this.state.addMore ?
-                <button onClick={this._handleClickingAdd}>Create new user</button>
-                :
-                <div>
-                    <table>
-                        <thead>
-                            <tr><th>Username</th><th>Real name</th><th>Password</th><th>Is admin?</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input type='text' ref={this.usernameRef} />
-                                </td>
-                                <td>
-                                    <input type='text' ref={this.realnameRef} />
-                                </td>
-                                <td>
-                                    <input type='text' ref={this.pwRef} />
-                                </td>
-                                <td>
-                                    <input type='checkbox' ref={this.isAdminRef} />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div>
-                        <button onClick={this._handleSubmit}>Submit</button>
-                        <button onClick={this._handleClickingAdd}>Cancel</button>
-                    </div>
-                    {this.state.error ? <div> None of the fields can be empty! </div> : null}
-                </div>
-            }
-        </div>
+        return (
+            <>
+                {!this.state.addMore ?
+                    <button onClick={this._handleClickingAdd}>Create new user</button>
+                    :
+                    <>
+                        <table>
+                            <thead>
+                                <tr><th>Username</th><th>Real name</th><th>Password</th><th>Is admin?</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type='text' ref={this.usernameRef} />
+                                    </td>
+                                    <td>
+                                        <input type='text' ref={this.realnameRef} />
+                                    </td>
+                                    <td>
+                                        <input type='text' ref={this.pwRef} />
+                                    </td>
+                                    <td>
+                                        <input type='checkbox' ref={this.isAdminRef} />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <>
+                            <br /><br />
+                            <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                            <button onClick={this._handleClickingAdd}>Cancel</button>
+                        </>
+                        {this.state.error ? <div> None of the fields can be empty! </div> : null}
+                    </>
+                }
+            </>
         );
     }
 }
