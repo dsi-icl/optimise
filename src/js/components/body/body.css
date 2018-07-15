@@ -45,7 +45,7 @@ body {
     color: var(--color-font);
     font-size: var(--font-size);
     font-family: var(--font-family);
-    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 0.8));
+    background: linear-gradient(to top right, var(--color-shade-two), var(--color-shade-one));
     user-select: none;
     width: 100%;
     height: 100%;
@@ -54,7 +54,7 @@ body {
 
 body > div {
     display: grid;
-    grid: "navigation sidebar content annexe" calc(100% - 2em) "navigation status status status" 2em / 4em 0 calc(60% - 2em) calc(40% - 2em);
+    grid: "navigation sidebar content annexe fringe" calc(100% - 2em) "navigation status status status status" 2em / 4em 0 calc(60% - 2.5em) calc(40% - 2.5em) 1em;
     width: 100%;
     height: 100%;
 }
