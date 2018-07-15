@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Icon from '../icon';
 import { logoutAPICall } from '../../redux/actions/login';
 import store from '../../redux/store';
 import style from './scaffold.module.css';
 
+@withRouter
 @connect(state => ({ username: state.login.username }))
 export default class MenuBar extends Component {
     constructor() {
@@ -27,17 +28,17 @@ export default class MenuBar extends Component {
                     <Icon symbol='search' />
                 </NavLink>
 
-                <a title='Export as CDISC' href='/export'>
+                <NavLink title='Export as CDISC' to='/export' activeClassName={style.active}>
                     <Icon symbol='export' />
-                </a>
+                </NavLink>
 
                 <NavLink to='/administration' title='Admin settings' activeClassName={style.active}>
                     <Icon symbol='setting' />
                 </NavLink>
 
-                <a title='Logout' href='#logout' onClick={this._handleLogout} id='logoutButton'>
+                <NavLink title='Logout' to='/logout' onClick={this._handleLogout} id='logoutButton' activeClassName={style.active}>
                     <Icon symbol='logout' />
-                </a>
+                </NavLink>
 
             </div>
         );
