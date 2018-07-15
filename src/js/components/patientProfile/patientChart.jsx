@@ -8,9 +8,7 @@ import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import store from '../../redux/store';
 import Icon from '../icon';
 import cssSectioning from '../../../css/sectioning.module.css';
-import cssScaffold from '../../../css/scaffold.module.css';
-import cssButtons from '../../../css/buttons.module.css';
-import cssIcons from '../../../css/icons.module.css';
+import style from './patientProfile.module.css';
 
 @connect(state => ({ fetching: state.patientProfile.fetching }))
 export class PatientChart extends Component {
@@ -20,17 +18,22 @@ export class PatientChart extends Component {
 
     render() {
         return (
-            <div className={cssScaffold.patientChart}>
-                <div className={cssScaffold.patientChartTop}>
-                    <PatientProfileTop />
+            <>
+                <div className={style.ariane}>
+                    <h2>Patient Profile</h2>
                 </div>
-                {this.props.fetching ? <div className={cssIcons.spinner}><Icon symbol='loading' /></div> :
-                    <div className={cssScaffold.patientChartBody}>
-                        <TimelineBox />
-                        <Charts location={this.props.location} />
-                    </div>
-                }
-            </div>
+                <div className={style.panel}>
+                    <div>
+                        <PatientProfileTop />
+                    </div><br />
+                    {this.props.fetching ? <div><Icon symbol='loading' /></div> :
+                        <div>
+                            <TimelineBox />
+                            <Charts location={this.props.location} />
+                        </div>
+                    }
+                </div>
+            </>
         );
     }
 }
@@ -42,8 +45,8 @@ function mapTests(patientId, typeMap) {
             <tr key={el.testId} >
                 {formatRow([testType,
                     new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
-                    <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                        <div className={cssButtons.dataResultButton}>results➠ </div>
+                    <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`}>
+                        <button>results➠ </button>
                     </NavLink>
                 ])}
             </tr>
@@ -59,8 +62,8 @@ function mapMedications(patientId, drugList) {
         return (
             <tr key={el.id} >
                 {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'], numberOfInterruptions,
-                    <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                        <div className={cssButtons.dataResultButton}>results➠ </div>
+                    <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`}>
+                        <button>results➠ </button>
                     </NavLink>
                 ])}
             </tr>
@@ -76,8 +79,8 @@ function mapClinicalEvents(patientId, typeList) {
         return (
             <tr key={el.id} >
                 {formatRow([type, date,
-                    <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                        <div className={cssButtons.dataResultButton}> results➠ </div>
+                    <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`}>
+                        <div> results➠ </div>
                     </NavLink>
                 ])}
             </tr>
@@ -152,8 +155,8 @@ class OneVisit extends Component {
                             {symptoms.map(mapSymptoms(fieldHashTable))}
                         </tbody>
                     </table> : null}
-                    <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                        <div className={cssButtons.dataResultButton}>edit/add➠ </div>
+                    <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`}>
+                        <button>edit/add➠ </button>
                     </NavLink>
                 </TimelineEvent>
 

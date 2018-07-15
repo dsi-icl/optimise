@@ -6,6 +6,7 @@ import { BackButton } from '../medicalData/dataPage';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import cssTexts from '../../../css/inlinetexts.module.css';
+import style from './medicalEvent.module.css';
 
 //not yet finished the dispatch
 @connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes, meddra: state.meddra.result }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
@@ -67,23 +68,25 @@ export class CreateCE extends Component {
         if (this.props.visits) {
             const params = this.props.match.params;
             const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
-            return (<div >
-                <BackButton to={`/patientProfile/${params.patientId}`} />
-                <h2>CREATE A NEW EVENT</h2>
-                <span className={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
-                <br />
-                <span className={cssTexts.centeredBlock}>Please enter date on which the event occurred: <br /> <span className={cssTexts.centeredBlock}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /></span> </span>
-                <br />
-                <span className={cssTexts.centeredBlock}>What type of event is it?
-                    <select value={this.state.testType} onChange={this._handleTypeChange}>
-                        {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
-                    </select> <br /><br />
-                </span>
-                <span>MedDRA:
-                    <SuggestionInput reference={this.state.meddra} /><br />
-                </span>
-                <button onClick={this._handleSubmitClick}>Submit</button>
-            </div>);
+            return (
+                <>
+                    <div className={style.ariane}>
+                        <h2>Create a New Event</h2>
+                        <BackButton to={`/patientProfile/${params.patientId}`} />
+                    </div>
+                    <div className={style.panel}>
+                        <span><i>This is for the visit of the {visitDate}</i></span><br /><br />
+                        <label htmlFor=''>Please enter date on which the event occurred:</label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
+                        <label htmlFor='event'>What type of event is it?</label><br />
+                        <select name='event' value={this.state.testType} onChange={this._handleTypeChange}>
+                            {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
+                        </select> <br /><br />
+                        <label htmlFor='meddra'>MedDRA:</label><br />
+                        <SuggestionInput reference={this.state.meddra} /><br /><br />
+                        <button onClick={this._handleSubmitClick}>Submit</button>
+                    </div>
+                </>
+            );
         } else {
             return null;
         }

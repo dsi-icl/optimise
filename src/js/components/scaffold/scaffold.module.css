@@ -43,6 +43,19 @@
     background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
 }
 
+.farRightPanel input,
+.farRightPanel textarea,
+.farRightPanel select {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 93%);
+    color: var(--color-background);
+}
+
+.farRightPanel input:hover,
+.farRightPanel textarea:hover,
+.farRightPanel select:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 91%);
+}
+
 .middlePanel, .rightPanel, .farRightPanel {
     grid: "ariane" 4em "panel" calc(100% - 4em) / 100%;
     display: grid;
