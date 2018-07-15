@@ -7,7 +7,6 @@ import { TimelineBox } from './timeline';
 import { getPatientProfileById } from '../../redux/actions/searchPatientById';
 import store from '../../redux/store';
 import Icon from '../icon';
-import cssSectioning from '../../../css/sectioning.module.css';
 import style from './patientProfile.module.css';
 
 @connect(state => ({
@@ -164,7 +163,7 @@ class OneVisit extends Component {
 
 
                 {visitHasTests ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='addTest' />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='addTest' />} bubbleStyle={{ backgroundColor: null, border: null }}>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Expected date</th></tr>
@@ -175,12 +174,12 @@ class OneVisit extends Component {
                                     .map(mapTests(this.props.data.patientId, this.props.availableFields.testTypes))}
                             </tbody>
                         </table>
-                    </div></TimelineEvent> : null
+                    </TimelineEvent> : null
                 }
 
 
                 {visitHasMedications ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='addTreatment' />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='addTreatment' />} bubbleStyle={{ backgroundColor: null, border: null }}>
                         <table>
                             <thead>
                                 <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
@@ -191,12 +190,12 @@ class OneVisit extends Component {
                                     .map(mapMedications(this.props.data.patientId, this.props.availableFields.drugs))}
                             </tbody>
                         </table>
-                    </div></TimelineEvent> : null
+                    </TimelineEvent> : null
                 }
 
 
                 {visitHasClinicalEvents ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='addEvent' />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<Icon symbol='addEvent' />} bubbleStyle={{ backgroundColor: null, border: null }}>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Start date</th><th></th></tr>
@@ -208,7 +207,7 @@ class OneVisit extends Component {
                                     .map(mapClinicalEvents(this.props.data.patientId, this.props.availableFields.clinicalEventTypes))}
                             </tbody>
                         </table>
-                    </div></TimelineEvent> : null
+                    </TimelineEvent> : null
                 }
             </TimelineEvent>
         );
@@ -221,8 +220,7 @@ export class Charts extends Component {   //unfinsihed
     render() {
         const { visits } = this.props.data;
         return (
-            <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
-
+            <PatientProfileSectionScaffold sectionName='Medical History Summary'>
                 {visits.length !== 0 ?
                     (<Timeline lineColor='#d1d1d1'>{sortVisits(visits).map(
                         (el, ind) => {
@@ -254,10 +252,10 @@ export class Charts extends Component {   //unfinsihed
                     )}
                     </Timeline>
                     ) : (
-                        <div>
+                        <>
                             <br /><br />
                             <span>This patient currently has no visits nor baseline data. Please add a visit by clicking the button above. This will automatically count as the baseline visit / data.</span>
-                        </div>
+                        </>
                     )}
 
             </PatientProfileSectionScaffold>
