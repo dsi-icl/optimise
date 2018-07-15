@@ -70,7 +70,7 @@ export class CreateCE extends Component {
             return (
                 <>
                     <div className={style.ariane}>
-                        <h2>Create a New Event</h2>
+                        <h2>Creating a New Event</h2>
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
                     <div className={style.panel}>
