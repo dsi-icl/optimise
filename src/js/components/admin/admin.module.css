@@ -1,0 +1,12 @@
+.error {
+    display: block;
+    width: 100%;
+    line-height: 2em;
+    background-color: var(--color-error);
+    color: var(--color-font-active);
+    padding: 0.5em;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}

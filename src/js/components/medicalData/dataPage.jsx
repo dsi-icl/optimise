@@ -88,9 +88,7 @@ export class DataTemplate extends Component {
 export class BackButton extends Component {
     render() {
         return (
-            <Link to={this.props.to} title='Close'>
-                <div>&#10006;</div>
-            </Link>
+            <Link to={this.props.to} title='Close' className={style.backButton}>&#10006;</Link>
         );
     }
 }

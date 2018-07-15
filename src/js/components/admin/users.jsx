@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { createUserAPICall, getAllUsersAPICall } from '../../redux/actions/admin';
 import Icon from '../icon';
+import style from './admin.module.css';
 
 export class Users extends Component {
     render() {
@@ -114,13 +115,11 @@ class CreateUser extends Component {
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
-                        <>
-                            <br /><br />
-                            <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                            <button onClick={this._handleClickingAdd}>Cancel</button>
-                        </>
-                        {this.state.error ? <div> None of the fields can be empty! </div> : null}
+                        </table><br />
+                        <br />
+                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                        <button onClick={this._handleClickingAdd}>Cancel</button>
+                        {this.state.error ? <div className={style.error}> None of the fields can be empty! </div> : null}
                     </>
                 }
             </>

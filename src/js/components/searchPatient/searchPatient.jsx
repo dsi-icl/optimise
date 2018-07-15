@@ -38,8 +38,8 @@ export default class SearchPatientsById extends Component {
                 </div>
                 <div className={style.panel}>
                     <form>
-                        <label htmlhtmlFor='searchTerm'>Enter Patient ID:</label><br />
-                        <input type='text' name='searchTerm' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} autocomplete="off" />
+                        <label htmlFor='searchTerm'>Enter Patient ID:</label><br />
+                        <input type='text' name='searchTerm' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} autoComplete="off" />
                     </form><br />
                     <SearchResultForPatients listOfPatients={this.props.data.result} searchString={this.state.searchString} />
                 </div>
@@ -86,13 +86,11 @@ export class SearchResultForPatients extends Component {
                         </span>
                     );
                     return (
-                        <>
-                            <Link key={el['aliasId']} to={`/patientProfile/${el['aliasId']}`} >
-                                <div onClick={this._handleClickWrapper(el['aliasId'])} className={style.searchItem} key={el.patientId}>
-                                    {name} in {el.study}
-                                </div>
-                            </Link> <br /> <br />
-                        </>
+                        <Link key={el['aliasId']} to={`/patientProfile/${el['aliasId']}`} >
+                            <div onClick={this._handleClickWrapper(el['aliasId'])} className={style.searchItem} key={el.patientId}>
+                                {name} in {el.study}
+                            </div>
+                        </Link>
                     );
                 })}
             </div>
