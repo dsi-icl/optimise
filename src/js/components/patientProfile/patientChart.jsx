@@ -47,7 +47,7 @@ function mapTests(patientId, typeMap) {
                 {formatRow([testType,
                     new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
                     <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`}>
-                        <button>results➠ </button>
+                        <button>Results</button>
                     </NavLink>
                 ])}
             </tr>
@@ -64,7 +64,7 @@ function mapMedications(patientId, drugList) {
             <tr key={el.id} >
                 {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'], numberOfInterruptions,
                     <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`}>
-                        <button>results➠ </button>
+                        <button>Results</button>
                     </NavLink>
                 ])}
             </tr>
@@ -81,7 +81,7 @@ function mapClinicalEvents(patientId, typeList) {
             <tr key={el.id} >
                 {formatRow([type, date,
                     <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`}>
-                        <div> results➠ </div>
+                        <button>Results</button>
                     </NavLink>
                 ])}
             </tr>
@@ -166,8 +166,9 @@ class OneVisit extends Component {
                         </table>
                     </>
                 ) : null}
+                <br />
                 <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`}>
-                    <button>edit/add➠ </button>
+                    <button>Edit / Add</button>
                 </NavLink>
 
                 {visitHasTests ? (
