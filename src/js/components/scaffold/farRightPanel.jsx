@@ -5,6 +5,7 @@ import { Section } from '../patientProfile/patientProfile';
 import { DataPageRouter } from '../medicalData/router';
 import { CreateVisit } from '../createMedicalElements/createVisit';
 import { CreateElementRouter } from '../createMedicalElements/router';
+import { AdminActions } from '../admin/actions';
 import style from './scaffold.module.css';
 
 export default class FarRightPanel extends Component {
@@ -17,7 +18,7 @@ export default class FarRightPanel extends Component {
                     <Route path='/patientProfile/:patientId/createVisit' render={({ match }) => <CreateVisit match={match} />} />
                     <Route path='/patientProfile/:patientId' render={({ match }) => <Section match={match} />} />
                     <Route exact path='/export' component={() => <></>} />
-                    <Route exact path='/administration' component={() => <></>} />
+                    <Route path='/administration' render={({ match, location }) => < AdminActions location={location.pathname} match={match} />} />
                     <Route exact path='/searchPatientById' component={() => <></>} />
                     <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatient match={match} />} />
                     <Route exact path='/filterPatients' component={() => <></>} />
