@@ -10,12 +10,11 @@ export class VisitPicker extends Component {
             <div className={cssDropdowns.visitPicker}>
                 <span>To which visit?</span><br />
                 {this.props.visitList ?
-                    this.props.visitList.map(visit =>
-                        <>
-                            <Link key={visit.visitId} to={`/patientProfile/${this.props.patientId}/create/${visit.visitId}/${this.props.elementType}`}>
-                                {new Date(parseInt(visit.visitDate, 10)).toDateString()}
-                            </Link><br />
-                        </>)
+                    this.props.visitList.map(visit => (
+                        <Link key={visit.visitId} to={`/patientProfile/${this.props.patientId}/create/${visit.visitId}/${this.props.elementType}`}>
+                            {new Date(parseInt(visit.visitDate, 10)).toDateString()}
+                        </Link>
+                    ))
                     : null}
             </div>
         );
