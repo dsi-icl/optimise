@@ -203,12 +203,12 @@ const availableCountriesAndEthnicities = {
         { value: 'Zambia' },
         { value: 'Zimbabwe' }],
     ethnicities: [
+        { value: 'Unknown' },
         { value: 'White' },
         { value: 'Asian' },
         { value: 'Black' },
         { value: 'Mixed/Multiple ethnic groups' },
-        { value: 'Other ethnic group' },
-        { value: 'Unknown' }
+        { value: 'Other ethnic group' }
     ]
 };
 
