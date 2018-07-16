@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { MenuBar, MiddlePanel, RightPanel, FarRightPanel, StatusBar } from './components/scaffold.jsx';
-import { LoginPage } from './components/login/loginPage.jsx';
-import cssLogin from '../css/loginpage.module.css';
-import { LoadingIcon } from '../statics/svg/icons.jsx';
-import cssIcons from '../css/icons.module.css';
-import cssScaffold from '../css/scaffold.module.css';
-import { whoami } from './redux/actions/login.js';
-import { getInterruptionReasonsCall, getMeddraCall, getVisitFieldsCall, getTestFieldsCall, getPregnancyOutcomesCall, getClinicalEventTypesCall, getCEFieldsCall, getTestTypesCall, getDrugsCall, getDemoCall, getRelationCall, getDiagnosesCall } from './redux/actions/availableFields.js';
-require('react-datepicker/dist/react-datepicker-cssmodules.css');
-
+import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, StatusBar } from './components/scaffold';
+import Body from './components/body';
+import Login from './components/login';
+import { whoami } from './redux/actions/login';
+import { getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
+import Icon from './components/icon';
 
 @withRouter
 @connect(state => ({ loggedIn: state.login.loggedIn, checking: state.login.initialCheckingStatus }), dispatch => ({ whoami: () => dispatch(whoami()) }))
 class App extends Component {
+
     componentDidMount() {
         this.props.whoami();
     }
@@ -26,15 +23,11 @@ class App extends Component {
     }
 
     render() {
-        if(this.props.checking) {
-            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
-        } else {
-            if (this.props.loggedIn) {
-                return <LoadingFields />;
-            } else {
-                return <LoginPage />;
-            }
-        }
+        return (
+            <Body>
+                {this.props.checking ? <Icon symbol='loading' /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+            </Body>
+        );
     }
 }
 
@@ -77,16 +70,16 @@ class LoadingFields extends Component {
 
     render() {
         if (this.props.fetching) {
-            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
+            return <div><Icon symbol='loading' /></div>;
         } else {
             return (
-                <div className={cssScaffold.App}>
+                <>
                     <MenuBar />
                     <MiddlePanel />
                     <RightPanel />
                     <FarRightPanel />
                     <StatusBar />
-                </div>
+                </>
             );
         }
     }

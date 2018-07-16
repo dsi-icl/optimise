@@ -1,5 +1,5 @@
-import actionTypes from './listOfActions.js';
-import { apiHelper } from '../fetchHelper.js';
+import actionTypes from './listOfActions';
+import { apiHelper } from '../fetchHelper';
 
 export const erasePatientRequest = (body) => ({ type: actionTypes.erasePatient.ERASE_PATIENT_REQUEST, payload: body });
 export const erasePatientSuccess = (body) => ({ type: actionTypes.erasePatient.ERASE_PATIENT_SUCCESS, payload: body });
@@ -13,4 +13,4 @@ export const erasePatientAPICall = (body) => dispatch => {
             dispatch(erasePatientSuccess(body.patientId));
         })
         .catch(err => { console.log(err); dispatch(erasePatientFailure()); });
-}
+};

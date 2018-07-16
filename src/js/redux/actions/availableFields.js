@@ -1,5 +1,5 @@
-import actions from './listOfActions.js';
-import { apiHelper } from '../fetchHelper.js';
+import actions from './listOfActions';
+import { apiHelper } from '../fetchHelper';
 
 export function APICall(endpoint, cbDispatch) {
     return function () {

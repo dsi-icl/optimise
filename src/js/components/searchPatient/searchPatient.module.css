@@ -1,0 +1,40 @@
+.ariane {
+    grid-area: ariane;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.panel {
+    grid-area: panel;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+}
+
+.searchItem {
+    height: 2.4em;
+    padding: 0.5em 0.2em;
+    font-size: 1.1em;
+    line-height: 1.2em;
+}
+
+.searchItem:hover {
+    cursor: pointer;
+}
+
+.searchItem:hover div,
+.searchItem:hover span {
+    color: hsl(var(--color-background-h), var(--color-background-s), 30%);
+}
+
+.searchItem .matchedString{
+    color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 85%);
+}
+
+.searchItem:hover .matchedString {
+    color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 70%);
+}
