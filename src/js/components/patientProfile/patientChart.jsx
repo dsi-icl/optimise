@@ -64,7 +64,7 @@ function mapMedications(patientId, drugList) {
             <tr key={el.id} >
                 {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'], numberOfInterruptions,
                     <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName={style.activeNavLink}>
-                        <button>Results</button>
+                        <button>Interruptions</button>
                     </NavLink>
                 ])}
             </tr>
@@ -155,7 +155,7 @@ class OneVisit extends Component {
 
                 {relevantFields.length !== 0 ? (
                     <>
-                        <h4><Icon symbol='symptom' className={style.timelineCE} />&nbsp;SIGNS AND SYMPTOMS</h4>
+                        <h4><Icon symbol='symptom' className={style.timelineCE} />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Recorded symptoms</th><th>Value</th></tr>
