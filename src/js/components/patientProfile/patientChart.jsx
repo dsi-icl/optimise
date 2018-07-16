@@ -43,10 +43,10 @@ function mapTests(patientId, typeMap) {
     return el => {
         const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
         return (
-            <tr key={el.testId} >
+            <tr key={el.id} >
                 {formatRow([testType,
                     new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
-                    <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`test/${el.id}`} to={`/patientProfile/${patientId}/data/test/${el.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
                 ])}
@@ -259,8 +259,8 @@ export class Charts extends Component {   //unfinsihed
                                     const baselineVisit = order === 1 ? true : false;
                                     return <OneVisit visitData={el.data}
                                         availableFields={this.props.availableFields}
-                                        key={el.visitId} data={this.props.data}
-                                        visitId={el.visitId}
+                                        key={el.id} data={this.props.data}
+                                        visitId={el.id}
                                         baselineVisit={baselineVisit}
                                         type='visit'
                                         title={baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`}

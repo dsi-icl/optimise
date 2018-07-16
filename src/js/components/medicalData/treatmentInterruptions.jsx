@@ -95,7 +95,7 @@ export class TreatmentInterruption extends Component {
                         </div>
                         <form className={style.panel}>
                             {treatment.interruptions.map((el, ind) => (
-                                <div key={el.id} className={ind === treatment.interruptions.length - 1 ? style.interruptionLast : style.interruption }>
+                                <div key={`${el.endDate}${el.startDate}${el.reason}`} className={ind === treatment.interruptions.length - 1 ? style.interruptionLast : style.interruption }>
                                     <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
                                     {el.endDate ? <span><label>End date: </label> {new Date(parseInt(el.endDate, 10)).toDateString()}<br /></span> : null}
                                     <label>Reason: </label> {interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br />
