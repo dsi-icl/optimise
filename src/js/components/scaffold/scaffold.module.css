@@ -94,6 +94,7 @@
     grid-area: annexe-start / content / auto / annexe;
     width: 100%;
     height: 100%;
+    background-color: rgba(255,255,255,0.7);
     position: relative;
 }
 
@@ -113,6 +114,7 @@
 .errorMessageDialogBox .cancelButton {
     font-size: 2rem;
     position: absolute;
+    font-weight: bold;
     right: 1rem;
     top: 0.5rem;
 }
