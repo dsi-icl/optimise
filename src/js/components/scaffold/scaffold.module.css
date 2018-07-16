@@ -96,3 +96,28 @@
     height: 100%;
     position: relative;
 }
+
+.errorMessageDialogBox {
+    position: absolute;
+    background-color: var(--color-font-active);
+    border: 1px solid darkgray;
+    padding: 1.5em;
+    height: 20%;
+    min-height: 200px;
+    width: 30%;
+    top: 30%;
+    left: 35%;
+    color: var(--color-font);
+}
+
+.errorMessageDialogBox .cancelButton {
+    font-size: 2rem;
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+}
+
+.errorMessageDialogBox .cancelButton:hover {
+    cursor: pointer;
+    color: rgb(255, 90, 90);
+}

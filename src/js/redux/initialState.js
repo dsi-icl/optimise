@@ -76,5 +76,6 @@ export default {
         requesting: false,
         success: false,
         error: false
-    }
+    },
+    appLevelError: {}
 };

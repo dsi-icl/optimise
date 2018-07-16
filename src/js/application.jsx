@@ -79,7 +79,7 @@ class LoadingFields extends Component {
                     <RightPanel />
                     <FarRightPanel />
                     <StatusBar />
-                    {/* <ErrorMessage /> */}
+                    <ErrorMessage />
                 </>
             );
         }

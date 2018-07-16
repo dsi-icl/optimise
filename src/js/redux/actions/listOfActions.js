@@ -80,5 +80,9 @@ export default {
         ERASE_PATIENT_SUCCESS: 'ERASE_PATIENT_SUCCESS',
         ERASE_PATIENT_FAILTURE: 'ERASE_PATIENT_FAILURE',
         ERASE_PATIENT_RESET: 'ERASE_PATIENT_RESET'
+    },
+    appLevelError: {
+        CLEAR_ERROR: 'CLEAR_ERROR',
+        ADD_ERROR: 'ADD_ERROR'
     }
 };

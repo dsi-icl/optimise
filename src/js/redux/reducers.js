@@ -174,6 +174,17 @@ function erasePatient(state = initialState.erasePatient, action) {
     }
 }
 
+function appLevelError(state = initialState.appLevelError, action) {
+    switch (action.type) {
+        case actionTypes.appLevelError.ADD_ERROR:
+            return action.payload;
+        case actionTypes.appLevelError.CLEAR_ERROR:
+            return {};
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatient,
@@ -183,6 +194,7 @@ export const rootReducer = combineReducers({
     meddra,
     log,
     getAllUsers,
-    erasePatient
+    erasePatient,
+    appLevelError
 });
 

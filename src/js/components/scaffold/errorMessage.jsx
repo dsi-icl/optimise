@@ -1,14 +1,25 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { SearchPatient } from '../searchPatient';
-import { FilterPanel } from '../filterPatient/selectPanel';
+import React, { Component, PureComponent } from 'react';
+import { connect } from 'react-redux';
 import style from './scaffold.module.css';
 
-export default class ErrorMessage extends Component {
+@connect(state => ({ error: state.appLevelError }))
+export default class ErrorMessage extends PureComponent {
     render() {
-        return (
-            <div className={style.errorMessage}>
-            </div>
-        );
+        const { error } = this.props;
+        if (error.error) {
+            return (
+                <div className={style.errorMessage}>
+                    <div className={style.errorMessageDialogBox}>
+                        <h4>OOPS!</h4> <span className={style.cancelButton}>&#10006;</span>
+                        Seems like you have encountered an error! <br/><br/>
+                        
+                        Message: {error.error}
+                    </div>
+                </div>
+            );
+        } else {
+            return null;
+        }
+
     }
 }
