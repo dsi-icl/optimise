@@ -8,10 +8,10 @@ import style from './admin.module.css';
 export class Users extends Component {
     render() {
         return (
-            <div>
+            <>
                 <UserList />
                 <CreateUser />
-            </div>
+            </>
         );
     }
 }
@@ -32,7 +32,7 @@ export class UserList extends Component {
                 return <div> Cannot fetch.. </div>;
             } else {
                 const users = result.slice(Math.max(0, result.length - 100));
-                return <div>{users.map(el => <LogEntry key={el.id} entry={el} />)}</div>;
+                return <>{users.map(el => <UserEntry key={el.id} entry={el} />)}</>;
             }
         }
     }
@@ -41,11 +41,11 @@ export class UserList extends Component {
 /**
  * @prop {Object} this.props.entry
  */
-export class LogEntry extends Component {    /* consider mapping the endpoints to more descriptive english later  */
+export class UserEntry extends Component {    /* consider mapping the endpoints to more descriptive english later  */
     render() {
         const el = this.props.entry;
         return (
-            <div >
+            <div>
                 <b>Id: </b> {el.id} <br />
                 <b>Username: </b> {el.username}<br />
                 <b>Real name: </b>{el.realname} <br />
