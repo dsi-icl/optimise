@@ -16,12 +16,6 @@ class App extends Component {
         this.props.whoami();
     }
 
-    componentWillUnmount() {
-        if (this.props.loggedIn) {
-            // dispatch logout
-        }
-    }
-
     render() {
         return (
             <Body>

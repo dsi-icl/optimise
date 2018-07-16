@@ -64,7 +64,7 @@ function mapMedications(patientId, drugList) {
             <tr key={el.id} >
                 {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'], numberOfInterruptions,
                     <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName={style.activeNavLink}>
-                        <button>Results</button>
+                        <button>Interruptions</button>
                     </NavLink>
                 ])}
             </tr>
@@ -128,7 +128,7 @@ class OneVisit extends Component {
         const symptoms = this.props.visitData.filter(el => el.field > 6);
         return (
             <TimelineEvent
-                id={`${this.props.visitId}`}
+                id={`visit/${this.props.visitId}`}
                 title={this.props.visitDate}
                 subtitle={this.props.title}
                 icon={<Icon symbol='addVisit' />}
@@ -155,7 +155,7 @@ class OneVisit extends Component {
 
                 {relevantFields.length !== 0 ? (
                     <>
-                        <h4><Icon symbol='symptom' className={style.timelineCE} />&nbsp;SIGNS AND SYMPTOMS</h4>
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Recorded symptoms</th><th>Value</th></tr>
@@ -209,7 +209,7 @@ class OneVisit extends Component {
 
                 {visitHasClinicalEvents ? (
                     <>
-                        <h4><Icon symbol='symptom' className={style.timelineCE} />&nbsp;{baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
+                        <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Start date</th><th></th></tr>
