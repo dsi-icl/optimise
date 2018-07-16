@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPatientProfileById, searchPatientAPICall, searchPatientRequest } from '../../redux/actions/searchPatient';
+import { getPatientProfileById, searchPatientAPICall, searchPatientRequest, searchPatientClear } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import style from './searchPatient.module.css';
 
@@ -12,6 +12,10 @@ export default class SearchPatientsById extends Component {
         this.state = { searchString: '' };
         this._handleKeyStroke = this._handleKeyStroke.bind(this);
         this._handleEnterKey = this._handleEnterKey.bind(this);
+    }
+
+    componentWillUnmount(){
+        store.dispatch(searchPatientClear());
     }
 
     _handleKeyStroke(ev) {

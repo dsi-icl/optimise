@@ -31,6 +31,8 @@ function searchPatient(state = initialState.searchPatient, action) {
             return { ...state, result: [], error: true };
         case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_SUCCESS:
             return { ...state, result: action.payload, error: false, fetching: false };
+        case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_CLEAR:
+            return { ...state, result: [], error: false, fetching: false };
         default:
             return state;
     }

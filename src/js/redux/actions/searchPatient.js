@@ -5,6 +5,7 @@ import { apiHelper } from '../fetchHelper';
 export const searchPatientRequest = searchString => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_REQUEST, payload: searchString });
 export const searchPatientFailure = patientId => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_FAILURE, payload: patientId });
 export const searchPatientSuccess = data => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_SUCCESS, payload: data });
+export const searchPatientClear = () => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_CLEAR });
 
 export const searchPatientAPICall = (searchString) => dispatch => {
     dispatch(searchPatientRequest());
