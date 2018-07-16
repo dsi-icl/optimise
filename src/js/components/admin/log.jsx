@@ -18,9 +18,9 @@ export class Log extends Component {
             if (error) {
                 return <div> Cannot fetch.. </div>;
             } else {
-                const logs = result.slice(Math.max(0, result.length - 100));
+                const logs = result.slice(Math.max(0, result.length - 200));
                 logs.reverse();
-                return <div>{logs.map(el => <LogEntry key={el.id} entry={el} />)}</div>;
+                return <>{logs.map(el => <LogEntry key={el.id} entry={el} />)}</>;
             }
         }
     }
@@ -33,7 +33,7 @@ export class LogEntry extends Component {    /* consider mapping the endpoints t
     render() {
         const el = this.props.entry;
         return (
-            <div >
+            <div>
                 <b>Action Id: </b> {el.id} <br />
                 <b>Action: </b> {`${el.method} ${el.router}`} <br />
                 <b>User: </b> {el.user}<br />
