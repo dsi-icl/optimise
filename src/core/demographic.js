@@ -42,6 +42,13 @@ function Pregnancy() {
 Demographic.prototype.getDemographic = function (whereObj) {
     return new Promise(function (resolve, reject) {
         getEntry('PATIENT_DEMOGRAPHIC', whereObj, '*').then(function (result) {
+            if (result.length > 0) {
+                for (let i = 0; i < result.length; i++) {
+                    delete result[i].createdByUser;
+                    delete result[i].createdTime;
+                    delete result[i].deleted;
+                }
+            }
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -147,6 +154,13 @@ Demographic.prototype.getGenderFields = function () {
 Immunisation.prototype.getImmunisation = function (whereObj) {
     return new Promise(function (resolve, reject) {
         getEntry('PATIENT_IMMUNISATION', whereObj, '*').then(function (result) {
+            if (result.length > 0) {
+                for (let i = 0; i < result.length; i++) {
+                    delete result[i].createdByUser;
+                    delete result[i].createdTime;
+                    delete result[i].deleted;
+                }
+            }
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -188,6 +202,13 @@ Immunisation.prototype.deleteImmunisation = function (user, whereObj) {
 MedicalHistory.prototype.getMedicalHistory = function (whereObj) {
     return new Promise(function (resolve, reject) {
         getEntry('MEDICAL_HISTORY', whereObj, '*').then(function (result) {
+            if (result.length > 0) {
+                for (let i = 0; i < result.length; i++) {
+                    delete result[i].createdByUser;
+                    delete result[i].createdTime;
+                    delete result[i].deleted;
+                }
+            }
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
