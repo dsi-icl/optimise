@@ -1,29 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import store from '../../redux/store.js';
-import { getLogAPICall } from '../../redux/actions/admin.js';
-import cssIcons from '../../../css/icons.module.css';
-import { LoadingIcon } from '../../../statics/svg/icons.jsx';
+import store from '../../redux/store';
+import { getLogAPICall } from '../../redux/actions/admin';
+import Icon from '../icon';
 
 @connect(state => ({ log: state.log }))
 export class Log extends Component {
-    componentDidMount(){
+    componentDidMount() {
         store.dispatch(getLogAPICall());
     }
 
     render() {
-        console.log('LOG >>', this.props.log);
         const { fetching, error, result } = this.props.log;
         if (fetching) {
-            console.log('FETCHING');
-            return <div style={{ marginTop: 20 }} className={cssIcons.spinner}><LoadingIcon /></div>;
+            return <div><Icon symbol='loading' /></div>;
         } else {
             if (error) {
                 return <div> Cannot fetch.. </div>;
             } else {
                 const logs = result.slice(Math.max(0, result.length - 100));
                 logs.reverse();
-                return <div>{logs.map(el => <LogEntry key={el.id} entry={el}/>)}</div>;
+                return <div>{logs.map(el => <LogEntry key={el.id} entry={el} />)}</div>;
             }
         }
     }
@@ -34,16 +31,13 @@ export class Log extends Component {
  */
 export class LogEntry extends Component {    /* consider mapping the endpoints to more descriptive english later  */
     render() {
-        const style = {
-            border: '1px solid darkgrey'
-        };
         const el = this.props.entry;
         return (
-            <div style={style}>
-                <b>Action Id: </b> {el.id} <br/>
-                <b>Action: </b> {`${el.method} ${el.router}`} <br/>
-                <b>User: </b> {el.user}<br/>
-                <b>Body: </b>{el.body} <br/>
+            <div >
+                <b>Action Id: </b> {el.id} <br />
+                <b>Action: </b> {`${el.method} ${el.router}`} <br />
+                <b>User: </b> {el.user}<br />
+                <b>Body: </b>{el.body} <br />
             </div>
         );
     }

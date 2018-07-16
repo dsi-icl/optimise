@@ -7,6 +7,6 @@ export class PickDate extends Component {
         return <DatePicker
             selected={this.props.startDate}
             onChange={this.props.handleChange}
-        />;
+            style={{ width: '100%' }} />;
     }
 }

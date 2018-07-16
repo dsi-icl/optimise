@@ -1,6 +1,6 @@
-import initialState from './initialState.js';
+import initialState from './initialState';
 import { combineReducers } from 'redux';
-import actionTypes from './actions/listOfActions.js';
+import actionTypes from './actions/listOfActions';
 
 function login(state = initialState.login, action) {
     switch (action.type) {
@@ -23,13 +23,13 @@ function login(state = initialState.login, action) {
     }
 }
 
-function searchPatientById(state = initialState.searchPatientById, action) {
+function searchPatient(state = initialState.searchPatient, action) {
     switch (action.type) {
-        case actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_REQUEST:
+        case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_REQUEST:
             return { ...state, result: [], fetching: true, error: false };
-        case actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_FAILURE:
+        case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_FAILURE:
             return { ...state, result: [], error: true };
-        case actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_SUCCESS:
+        case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_SUCCESS:
             return { ...state, result: action.payload, error: false, fetching: false };
         default:
             return state;
@@ -131,7 +131,7 @@ function meddra(state = initialState.meddra, action) {
 }
 
 function log(state = initialState.log, action) {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.admin.GET_LOG_REQUEST:
             return { result: [], fetching: true, error: false };
         case actionTypes.admin.GET_LOG_SUCCESS:
@@ -145,7 +145,7 @@ function log(state = initialState.log, action) {
 }
 
 function getAllUsers(state = initialState.getAllUsers, action) {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.admin.GET_ALL_USERS_REQUEST:
             return { result: [], fetching: true, error: false };
         case actionTypes.admin.GET_ALL_USERS_SUCCESS:
@@ -159,7 +159,7 @@ function getAllUsers(state = initialState.getAllUsers, action) {
 }
 
 function erasePatient(state = initialState.erasePatient, action) {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.erasePatient.ERASE_PATIENT_REQUEST:
             return { requesting: true, success: false, error: false };
         case actionTypes.erasePatient.ERASE_PATIENT_FAILTURE:
@@ -176,7 +176,7 @@ function erasePatient(state = initialState.erasePatient, action) {
 
 export const rootReducer = combineReducers({
     createPatient,
-    searchPatientById,
+    searchPatient,
     patientProfile,
     availableFields,
     login,

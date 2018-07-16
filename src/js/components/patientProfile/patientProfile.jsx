@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import cssButtons from '../../../css/buttons.module.css';
-import { PickDate } from '../createMedicalElements/datepicker.jsx';
-import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 import moment from 'moment';
-import { formatRow } from './patientChart.jsx';
-import store from '../../redux/store.js';
-import { createImmunisationAPICall, createPregnancyAPICall } from '../../redux/actions/demographicData.js';
-import { SuggestionInput } from '../meDRA/meDRApicker.jsx';
-import { SelectField } from '../createPatient/createPatientPage.jsx';
-import cssSections from '../../../css/sectioning.module.css';
-import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient.js';
-import { updateConsentAPICall } from '../../redux/actions/consent.js';
+import { PickDate } from '../createMedicalElements/datepicker';
+import { PatientProfileSectionScaffold } from './sharedComponents';
+import { formatRow } from './patientChart';
+import store from '../../redux/store';
+import { createImmunisationAPICall, createPregnancyAPICall } from '../../redux/actions/demographicData';
+import { SuggestionInput } from '../meDRA/meDRApicker';
+import { SelectField } from '../createPatient';
+import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
+import { updateConsentAPICall } from '../../redux/actions/consent';
+import style from './patientProfile.module.css';
 
 @connect(state => ({ fetching: state.patientProfile.fetching, erasePatient: state.erasePatient }))
 export class Section extends Component {
@@ -32,16 +31,21 @@ export class Section extends Component {
                     return <div> Cannot delete this patient </div>;
                 } else {
                     if (erasePatient.success) {
-                        return <Redirect to='/searchPatientById'/>;
+                        return <Redirect to='/searchPatient' />;
                     } else {
                         return (
-                            <div style={{ position: 'relative' }}>
-                                <DemographicSection />
-                                <PrimaryDiagnosis />
-                                <ImmunisationSection />
-                                <Pregnancy />
-                                <DeletePatient match={this.props.match}/>
-                            </div>
+                            <>
+                                <div className={style.ariane}>
+                                    <h2>Overview</h2>
+                                </div>
+                                <div className={style.panel}>
+                                    <DemographicSection />
+                                    <PrimaryDiagnosis />
+                                    <ImmunisationSection />
+                                    <Pregnancy />
+                                    <DeletePatient match={this.props.match} />
+                                </div>
+                            </>
                         );
                     }
                 }
@@ -71,7 +75,7 @@ class DemographicSection extends Component {
                     <span><b>Ethnicity:</b> {ethnicity} </span><br />
                     <span><b>Country of origin:</b> {countryOfOrigin} </span><br />
                     <span><b>Alcohol usage:</b> {alcoholUsage} </span><br />
-                    <span><b>Smoking history:</b> {smokingHistory} </span><br />
+                    <span><b>Smoking history:</b> {smokingHistory} </span>
                 </PatientProfileSectionScaffold>
             );
         } else {
@@ -114,10 +118,9 @@ class ImmunisationSection extends Component {
 
     render() {
         const { data } = this.props;
-        const inputStyle = { width: '100%', margin: 0 };
         return (
             <PatientProfileSectionScaffold sectionName='Immunisations'>
-                <table style={{ width: '100%' }}>
+                <table>
                     {this.state.addMore || data.immunisations.length !== 0 ? <thead>
                         <tr><th>Vaccine name</th><th>Date</th></tr>
                     </thead> : null}
@@ -128,16 +131,17 @@ class ImmunisationSection extends Component {
                             </tr>
                         ))}
                         {!this.state.addMore ? null : <tr>
-                            <td><input style={inputStyle} value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
+                            <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
                             <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
                         </tr>}
                     </tbody>
                 </table>
-                {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Add immunisation</div> :
-                    <div>
-                        <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
-                        <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
-                    </div>}
+                {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Add immunisation</button> :
+                    <>
+                        <br /><br />
+                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                        <button onClick={this._handleClickingAdd}>Cancel</button>
+                    </>}
             </PatientProfileSectionScaffold>
         );
     }
@@ -154,12 +158,10 @@ class PrimaryDiagnosis extends Component {
             return null;
         }
         return (
-            <div>
-                <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
-                    <b>Primary Diagnosis: </b>{diagnosis[0].value} <br />
-                    <b>Date of diagnosis: </b>{new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
-                </PatientProfileSectionScaffold>
-            </div>
+            <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
+                <b>Primary Diagnosis: </b>{diagnosis[0].value} <br />
+                <b>Date of diagnosis: </b>{new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
+            </PatientProfileSectionScaffold>
         );
     }
 }
@@ -232,40 +234,38 @@ class Pregnancy extends Component {
                 outcomeDate: this.state.newOutcomeDate._d.toDateString()
             }
         };
-        console.log(body);
         store.dispatch(createPregnancyAPICall(body));
     }
 
     render() {
         const { data } = this.props;
         if (data.demographicData && data.demographicData.gender !== 1 && data.pregnancy) {
-            const inputStyle = { width: '100%', margin: 0 };
             return (
-                <div>
-                    <PatientProfileSectionScaffold sectionName='Pregnancies'>
-                        {data.pregnancy.map(el =>
-                            <div key={`${el.meddra}${el.outcomeDate}`} className={cssSections.profileSubDataSection}>
-                                <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
-                                <b>Outcome date: </b> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
-                                <b>MedDRA: </b> {this.props.allMeddra[0][el.meddra]} <br />
-                                <b>Outcome: </b> {el.outcome} <br />
-                            </div>)}
-                        {!this.state.addMore ? null :
-                            <div className={cssSections.profileSubDataSection}>
-                                <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
-                                <b>Outcome date: </b><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
-                                <b>MedDRA: </b><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} /><br />
-                                <b>Outcome: </b><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' />
-                            </div>
-                        }
-                        {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Record pregnancy</div> :
-                            <div>
-                                <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
-                                <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
-                            </div>}
-                        {this.state.error ? <div>Your MedDRA field is not permitted</div> : null}
-                    </PatientProfileSectionScaffold>
-                </div>);
+                <PatientProfileSectionScaffold sectionName='Pregnancies'>
+                    {data.pregnancy.map(el =>
+                        <div key={`${el.meddra}${el.outcomeDate}`}>
+                            <label>Start date: </label><br /> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
+                            <label>Outcome date: </label><br /> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
+                            <label>MedDRA: </label><br /> {this.props.allMeddra[0][el.meddra]} <br />
+                            <label>Outcome: </label><br /> {el.outcome} <br />
+                        </div>)}
+                    {!this.state.addMore ? null :
+                        <>
+                            <label>Start date: </label><br /><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
+                            <label>Outcome date: </label><br /><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
+                            <label>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} /><br />
+                            <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br />
+                        </>
+                    }
+                    {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Record pregnancy</button> :
+                        <>
+                            <br /><br />
+                            <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                            <button onClick={this._handleClickingAdd}>Cancel</button>
+                        </>}
+                    {this.state.error ? <div>Your MedDRA field is not permitted</div> : null}
+                </PatientProfileSectionScaffold>
+            );
         } else {
             return null;
         }
@@ -276,7 +276,7 @@ class Pregnancy extends Component {
 /**
  * @prop {Object} this.props.match
  */
-@connect(state => ({data: state.patientProfile.data}))
+@connect(state => ({ data: state.patientProfile.data }))
 class DeletePatient extends Component {
     constructor() {
         super();
@@ -284,12 +284,12 @@ class DeletePatient extends Component {
         this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
     }
 
-    _handleClickDelete(){
-        const body = { patientId: this.props.match.params.patientId, data: {patientId: this.props.data.id }} ;
+    _handleClickDelete() {
+        const body = { patientId: this.props.match.params.patientId, data: { patientId: this.props.data.id } };
         store.dispatch(erasePatientAPICall(body));
     }
 
-    _handleClickWithdrawConsent(){
+    _handleClickWithdrawConsent() {
         const { consent, id } = this.props.data;
         const body = { patientId: this.props.match.params.patientId, data: { consent: !consent, patientId: id } };
         store.dispatch(updateConsentAPICall(body));
@@ -299,12 +299,14 @@ class DeletePatient extends Component {
     render() {
         const { consent } = this.props.data;
         return (
-            <div>
-                <PatientProfileSectionScaffold sectionName='DELETE PATIENT AND CONSENT'>
-                    <div onClick={this._handleClickDelete} className={cssButtons.createPatientButton}>Delete this patient</div>
-                    <div onClick={this._handleClickWithdrawConsent} className={cssButtons.createPatientButton}>{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</div>
+            <>
+                <PatientProfileSectionScaffold sectionName='Consent'>
+                    <button onClick={this._handleClickWithdrawConsent} >{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</button>
                 </PatientProfileSectionScaffold>
-            </div>
+                <PatientProfileSectionScaffold sectionName='Delete'>
+                    <button onClick={this._handleClickDelete} >Delete this patient</button><br /><br />
+                </PatientProfileSectionScaffold>
+            </>
         );
     }
 }

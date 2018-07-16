@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
-import cssTimeline from '../../../css/timelineelements.module.css';
-
+import style from './patientProfile.module.css';
 
 /*
 Timeline:
@@ -16,9 +15,9 @@ export class TimelineBox extends Component {   //unfinsihed
         const allVisitDates = this.props.data.visits.map(el => el.visitDate);
         const allTestDates = this.props.data.tests.map(el => el.expectedOccurDate);
         const allCEDates = [];
-        this.props.data.clinicalEvents.forEach(function(el){
+        this.props.data.clinicalEvents.forEach(function (el) {
             allCEDates.push(el.dateStartDate);
-            if (el.endDate){
+            if (el.endDate) {
                 allCEDates.push(el.endDate);
             }
         });
@@ -33,10 +32,8 @@ export class TimelineBox extends Component {   //unfinsihed
             const date = visit.visitDate;
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}`} href={`#visit/${visit.visitId}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '1/2', textDecoration: 'none' }}>
-                    <div style={{ backgroundColor: 'rgb(133, 150, 176)', color: 'rgb(133, 150, 176)' }}>
-                        -
-                    </div>
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${visit.visitId}`} href={`#visit/${visit.visitId}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '1/2', textDecoration: 'none' }}>
+                    <div className={style.timelineVisit}>-</div>
                 </a>
             );
         };
@@ -44,10 +41,8 @@ export class TimelineBox extends Component {   //unfinsihed
             const date = test.expectedOccurDate;
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}test`} href={`#test/${test.testId}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '3/4', textDecoration: 'none' }}>
-                    <div style={{ backgroundColor: 'rgb(153, 202, 120)', color: 'rgb(153, 202, 120)' }}>
-                        -
-                    </div>
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${test.testId}test`} href={`#test/${test.testId}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '3/4', textDecoration: 'none' }}>
+                    <div className={style.timelineTest}>-</div>
                 </a>
             );
         };
@@ -56,10 +51,8 @@ export class TimelineBox extends Component {   //unfinsihed
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             const durationInDays = med.durationWeeks * 7;
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${date}med`} href={`#treatment/${med.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '2/3', textDecoration: 'none' }}>
-                    <div style={{ backgroundColor: '#ffca1b', color: '#ffca1b' }}>
-                        -
-                    </div>
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${med.id}med`} href={`#treatment/${med.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '2/3', textDecoration: 'none' }}>
+                    <div className={style.timelineMed}>-</div>
                 </a>
             );
         };
@@ -67,19 +60,17 @@ export class TimelineBox extends Component {   //unfinsihed
         const mappingCEFunction = CE => {
             const date = parseInt(CE.dateStartDate);
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
-            const durationInDays = CE.endDate ? parseInt((parseInt(CE.endDate) - date) / 86400000, 10)  : 1;
+            const durationInDays = CE.endDate ? parseInt((parseInt(CE.endDate) - date) / 86400000, 10) : 1;
             return (
-                <a title={new Date(date).toDateString()} key={`${date}ce`} href={`#clinicalEvent/${CE.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '4/5', textDecoration: 'none' }}>
-                    <div style={{ backgroundColor: CE.type === 4 ? 'black' : 'rgb(255, 102, 102)', color: CE.type === 4 ? 'black' : 'rgb(255, 102, 102)' }}>
-                        -
-                    </div>
+                <a title={new Date(date).toDateString()} key={`${CE.id}ce`} href={`#clinicalEvent/${CE.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '4/5', textDecoration: 'none' }}>
+                    <div className={CE.type === 4 ? style.timelineCEBlack : style.timelineCE}>-</div>
                 </a>
             );
         };
 
         return (
             <PatientProfileSectionScaffold sectionName='Timeline'>
-                <div className={cssTimeline.timelineBox} style={TimelineDynamicStyle}>
+                <div className={style.timelineBox} style={TimelineDynamicStyle}>
                     <div style={{ gridColumn: '1/2', gridRow: '1/2', overflow: 'hidden' }}>
                         Visits
                     </div>

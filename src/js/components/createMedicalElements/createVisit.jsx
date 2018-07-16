@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { BackButton } from '../medicalData/dataPage.jsx';
+import { BackButton } from '../medicalData/dataPage';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
-import cssTexts from '../../../css/inlinetexts.module.css';
-import cssButtons from '../../../css/buttons.module.css';
-import { PickDate } from './datepicker.jsx';
-import { timingSafeEqual } from 'crypto';
+import { PickDate } from './datepicker';
+import style from './medicalEvent.module.css';
 
 @connect(state => ({ patientId: state.patientProfile.data.id }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
 export class CreateVisit extends Component {
@@ -43,8 +41,8 @@ export class CreateVisit extends Component {
     _formatRequestBody() {
         const date = this.state.startDate._d;
         const { SBP, DBP, HR, weight, academicConcern, height } = this.state;
-        for (let each of [SBP, DBP, HR, weight, height]){
-            if (!parseInt(each, 10)){
+        for (let each of [SBP, DBP, HR, weight, height]) {
+            if (!parseInt(each, 10)) {
                 return false;
             }
         }
@@ -68,35 +66,38 @@ export class CreateVisit extends Component {
     }
 
     _handleSubmitClick() {
-        console.log(this._formatRequestBody());
-        if (!this._formatRequestBody()){
+        if (!this._formatRequestBody()) {
             this.setState({ error: true });
             return;
         }
         const requestBody = this._formatRequestBody();
-        console.debug('VISIT REQ > ', requestBody);
         this.props.createVisit(requestBody);
     }
 
     render() {
         const { startDate, SBP, DBP, HR, weight, academicConcern, height, error } = this.state;
-        return (<div>
-            <BackButton to={`/patientProfile/${this.props.patientId}`} />
-            <h2>CREATE A NEW VISIT</h2>
-            <span className={cssTexts.centeredBlock}>Please enter date on which the visit occurs / occured: <br /> <span className={cssTexts.centeredBlock}><PickDate startDate={startDate} handleChange={this._handleDateChange} /></span> </span>
-            <br /><br /><span>Systolic blood pressure: <input name='SBP' value={SBP} onChange={this._handleKeyChange} /> mmHg </span>
-            <br /><br /><span>Diastolic blood pressure: <input name='DBP' value={DBP} onChange={this._handleKeyChange} /> mmHg </span>
-            <br /><br /><span>Heart rate: <input name='HR' value={HR} onChange={this._handleKeyChange} /> bpm </span>
-            <br /><br /><span>Weight: <input name='weight' value={weight} onChange={this._handleKeyChange} /> kg </span>
-            <br /><br /><span>Height: <input name='height' value={height} onChange={this._handleKeyChange} /> cm </span>
-            <br /><br /><span>Academic concern:
-                <select name='academicConcern' onChange={this._handleKeyChange} value={academicConcern}>
-                    <option value='1'>true</option>
-                    <option value='0'>false</option>
-                </select>
-            </span>
-            <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
-            { error ? <div> Please only provide integers! </div> : null}
-        </div>);
+        return (
+            <>
+                <div className={style.ariane}>
+                    <h2>Create a new Visit</h2>
+                    <BackButton to={`/patientProfile/${this.props.patientId}`} />
+                </div>
+                <form className={style.panel}>
+                    <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br />
+                    <label htmlFor='SBP'>Systolic blood pressure (mmHg):</label><br /> <input name='SBP' value={SBP} onChange={this._handleKeyChange} autoComplete="off" /><br /><br />
+                    <label htmlFor='DBP'>Diastolic blood pressure (mmHg):</label><br /> <input name='DBP' value={DBP} onChange={this._handleKeyChange} autoComplete="off" /><br /><br />
+                    <label htmlFor='HR'>Heart rate (bpm):</label><br /> <input name='HR' value={HR} onChange={this._handleKeyChange} autoComplete="off" /><br /><br />
+                    <label htmlFor='weight'>Weight (kg):</label><br /> <input name='weight' value={weight} onChange={this._handleKeyChange} autoComplete="off" /><br /><br />
+                    <label htmlFor='height'>Height (cm):</label><br /> <input name='height' value={height} onChange={this._handleKeyChange} autoComplete="off" /><br /><br />
+                    <label htmlFor='academicConcern'>Academic concern:</label><br />
+                    <select name='academicConcern' onChange={this._handleKeyChange} value={academicConcern} autoComplete="off">
+                        <option value='1'>true</option>
+                        <option value='0'>false</option>
+                    </select><br /><br />
+                    <button onClick={this._handleSubmitClick} >Submit</button>
+                    {error ? <><br /><br /><div className={style.error}> Please only provide integers! </div></> : null}
+                </form>
+            </>
+        );
     }
 }

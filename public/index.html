@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -19,14 +20,15 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Optimise MS</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
+  <title>Optimise MS</title>
+</head>
+
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -36,124 +38,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        outline: none;
-        scroll-behavior: smooth;
-      }
-      
-      html {
-        height: 100vh;
-        font-size: 13px;
-      }
-      body {
-        height: 100%;
-        width: 100%;
-      }
-      #root {
-        height: 100%
-      }
-      
-      #logoutButton:hover {
-        fill: #ff5151
-      }
+</body>
 
-      input {
-        border: none;
-        background-color: #D2D2D2;
-        padding-left: 5px;
-        padding-right: 5px;
-        color: #363A3B;
-        border-radius: 5px;
-        height: 1.4em;
-        font-size: 11.5px;
-      }
-
-      .selectedResult div {
-        background-color: #ff471a;
-        color: white;
-      }
-
-      select {
-        border: none;
-        background-color: #D2D2D2;
-        padding-left: 8px;
-        padding-right: 15px;
-        font-size: 11.5px;
-        margin-left: 3px;
-        margin-right: 3px;
-        height: 1.4em;
-        color: #363A3B;
-        border-radius: 5px;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-image:
-          linear-gradient(45deg, transparent 50%, gray 50%),
-          linear-gradient(135deg, gray 50%, transparent 50%);
-        background-position:
-          calc(100% - 10px) calc(0.5em),
-          calc(100% - 5px) calc(0.5em);
-        background-size:
-          5px 5px,
-          5px 5px,
-          1px 1.5em;
-        background-repeat: no-repeat;
-      }
-
-      h2 {
-        font-size: 1rem;
-        margin: 30px auto;
-        display: block;
-        text-align: center;
-      }
-
-      table, th, td {
-        border-left: 5px solid rgba(0,0,0,0);
-        border-right: 5px solid rgba(0,0,0,0);
-        border-collapse: collapse;
-      }
-
-      th, td {
-        padding: 3px 3px;
-        min-width: 40px;
-        text-align: right;
-        color: rgb(54, 58, 59);
-      }
-
-      ::-webkit-scrollbar {
-          width: 8px;
-      }
-
-      ::-webkit-scrollbar-track {
-          background: rgba(0,0,0,0); 
-      }
-
-      ::-webkit-scrollbar-thumb {
-          background: #aaaaaa; 
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-          background: grey; 
-      }
-
-      @-moz-keyframes spin {
-          from { -moz-transform: rotate(0deg); }
-          to { -moz-transform: rotate(360deg); }
-      }
-      @-webkit-keyframes spin {
-          from { -webkit-transform: rotate(0deg); }
-          to { -webkit-transform: rotate(360deg); }
-      }
-      @keyframes spin {
-          from {transform:rotate(0deg);}
-          to {transform:rotate(360deg);}
-      }
-    </style>
-  </body>
 </html>

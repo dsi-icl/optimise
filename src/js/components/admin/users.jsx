@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import store from '../../redux/store.js';
-import { getAllUsersAPICall, createUserAPICall } from '../../redux/actions/admin.js';
-import cssIcons from '../../../css/icons.module.css';
-import { LoadingIcon } from '../../../statics/svg/icons.jsx';
-import cssButtons from '../../../css/buttons.module.css';
+import store from '../../redux/store';
+import { createUserAPICall, getAllUsersAPICall } from '../../redux/actions/admin';
+import Icon from '../icon';
+import style from './admin.module.css';
 
 export class Users extends Component {
     render() {
         return (
             <div>
-                <UserList/>
-                <CreateUser/>
+                <UserList />
+                <CreateUser />
             </div>
         );
     }
@@ -20,20 +19,20 @@ export class Users extends Component {
 
 @connect(state => ({ getAllUsers: state.getAllUsers }))
 export class UserList extends Component {
-    componentDidMount(){
+    componentDidMount() {
         store.dispatch(getAllUsersAPICall());
     }
 
     render() {
         const { fetching, error, result } = this.props.getAllUsers;
         if (fetching) {
-            return <div style={{ marginTop: 20 }} className={cssIcons.spinner}><LoadingIcon /></div>;
+            return <div><Icon symbol='loading' /></div>;
         } else {
             if (error) {
                 return <div> Cannot fetch.. </div>;
             } else {
                 const users = result.slice(Math.max(0, result.length - 100));
-                return <div>{users.map(el => <LogEntry key={el.id} entry={el}/>)}</div>;
+                return <div>{users.map(el => <LogEntry key={el.id} entry={el} />)}</div>;
             }
         }
     }
@@ -44,15 +43,12 @@ export class UserList extends Component {
  */
 export class LogEntry extends Component {    /* consider mapping the endpoints to more descriptive english later  */
     render() {
-        const style = {
-            border: '1px solid darkgrey'
-        };
         const el = this.props.entry;
         return (
-            <div style={style}>
-                <b>Id: </b> {el.id} <br/>
-                <b>Username: </b> {el.username}<br/>
-                <b>Real name: </b>{el.realname} <br/>
+            <div >
+                <b>Id: </b> {el.id} <br />
+                <b>Username: </b> {el.username}<br />
+                <b>Real name: </b>{el.realname} <br />
             </div>
         );
     }
@@ -76,7 +72,7 @@ class CreateUser extends Component {
     }
 
     _handleSubmit() {
-        for (let each of [this.usernameRef, this.realnameRef, this.pwRef]){
+        for (let each of [this.usernameRef, this.realnameRef, this.pwRef]) {
             if (each.current.value === '') {
                 this.setState({ error: true });
                 return;
@@ -93,41 +89,40 @@ class CreateUser extends Component {
     }
 
     render() {
-        const style = { width: '100%' };
-        return (<div>
-            {!this.state.addMore ? 
-                <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Create new user</div> 
-                :
-                <div>
-                    <table>
-                        <thead>
-                            <tr><th>Username</th><th>Real name</th><th>Password</th><th>Is admin?</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input style={style} type='text' ref={this.usernameRef}/>
-                                </td>
-                                <td>
-                                    <input style={style} type='text' ref={this.realnameRef}/>
-                                </td>
-                                <td>
-                                    <input style={style} type='text' ref={this.pwRef}/>
-                                </td>
-                                <td>
-                                    <input style={style} type='checkbox' ref={this.isAdminRef}/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div>
-                        <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
-                        <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
-                    </div>
-                    { this.state.error ? <div> None of the fields can be empty! </div> : null }
-                </div>
-            }
-        </div>
+        return (
+            <>
+                {!this.state.addMore ?
+                    <button onClick={this._handleClickingAdd}>Create new user</button>
+                    :
+                    <>
+                        <table>
+                            <thead>
+                                <tr><th>Username</th><th>Real name</th><th>Password</th><th>Is admin?</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type='text' ref={this.usernameRef} />
+                                    </td>
+                                    <td>
+                                        <input type='text' ref={this.realnameRef} />
+                                    </td>
+                                    <td>
+                                        <input type='text' ref={this.pwRef} />
+                                    </td>
+                                    <td>
+                                        <input type='checkbox' ref={this.isAdminRef} />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table><br />
+                        <br />
+                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                        <button onClick={this._handleClickingAdd}>Cancel</button>
+                        {this.state.error ? <div className={style.error}> None of the fields can be empty! </div> : null}
+                    </>
+                }
+            </>
         );
     }
 }

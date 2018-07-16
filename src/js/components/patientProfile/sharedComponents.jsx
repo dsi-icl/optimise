@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon } from '../../../statics/svg/icons.jsx';
-import { NavLink } from 'react-router-dom';
-import { VisitPicker } from './popup.jsx';
-import cssButtons from '../../../css/buttons.module.css';
-import cssDropdowns from '../../../css/dropdowns.module.css';
-import cssSectioning from '../../../css/sectioning.module.css';
-import cssTexts from '../../../css/inlinetexts.module.css';
+import { Link } from 'react-router-dom';
+import Icon from '../icon';
+import { BackButton } from '../medicalData/dataPage';
 
 export class PatientProfileSectionScaffold extends Component {
     render() {
         return (
-            <div>
-                <div className={cssSectioning.sectionTitleBar}>{this.props.sectionName.toUpperCase()}
-                    {this.props.titleButton ? this.props.titleButton : null}
-                </div>
-                <div className={cssSectioning.sectionBody} style={this.props.bodyStyle ? this.props.bodyStyle : null}>
-                    {this.props.children}
-                </div>
-            </div>
+            <>
+                <h4>{this.props.sectionName}</h4><br />
+                {this.props.children}<br /><br /><br />
+            </>
         );
     }
 }
@@ -26,19 +18,14 @@ export class PatientProfileSectionScaffold extends Component {
 @connect(state => ({ data: state.patientProfile.data }))
 export class PatientProfileTop extends Component {
     render() {
-        const { patientId, consent } = this.props.data;
+        const { patientId } = this.props.data;
         return (
-            <div style={{ position: 'relative' }}>
-                <span>{this.props.image}<h1 className={cssTexts.patientID}> Patient ID: <b>{patientId}</b></h1></span>
-                <br /><span className={cssTexts.consentText}>{`This patient ${consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span>
-                <div style={{ position: 'absolute', right: '1.7em', top: '0.5em' }}>
-                    <NavLink to={`/patientProfile/${patientId}/createVisit`} style={{ textDecoration: 'none' }}>
-                        <div title='Create visit' className={[cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ marginRight: 5 }}><AddVisitIcon width='1.3em' /></div>
-                    </NavLink>
-                    <div title='Order test' className={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ borderRadius: '6px 0 0 6px' }}><AddTestIcon width='1.2em' /><VisitPicker elementType='test' /></div>
-                    <div title='Add prescription' className={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ borderRadius: 0 }}><AddTreatmentIcon width='1.3em' /><VisitPicker elementType='treatment' /></div>
-                    <div title='Record event' className={[cssDropdowns.dropDownMenu, cssButtons.patientBanner, cssButtons.userActionButton].join(' ')} style={{ borderRadius: '0 6px 6px 0' }}><AddEventIcon width='1.2em' /><VisitPicker elementType='clinicalEvent' /></div>
-                </div>
+            <div className='profileActions'>
+                <Link title='Create visit' to={`/patientProfile/${patientId}/createVisit`} ><Icon symbol='addVisit' /></Link>
+                <Link title='Order test' to={`/patientProfile/${patientId}/create/test`}><Icon symbol='addTest' /></Link>
+                <Link title='Add prescription' to={`/patientProfile/${patientId}/create/treatment`}><Icon symbol='addTreatment' /></Link>
+                <Link title='Record event' to={`/patientProfile/${patientId}/create/clinicalEvent`}><Icon symbol='addEvent' /></Link>
+                <BackButton to={'/searchPatient'} />
             </div>
         );
     }

@@ -1,5 +1,5 @@
-import actionTypes from './listOfActions.js';
-import { apiHelper } from '../fetchHelper.js';
+import actionTypes from './listOfActions';
+import { apiHelper } from '../fetchHelper';
 
 
 export const getLogRequest = payload => ({ type: actionTypes.admin.GET_LOG_REQUEST, payload: payload });

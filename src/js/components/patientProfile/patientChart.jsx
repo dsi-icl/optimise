@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedComponents.jsx';
 import { NavLink } from 'react-router-dom';
-import { getPatientProfileById } from '../../redux/actions/searchPatientById';
-import store from '../../redux/store';
-import { LoadingIcon } from '../../../statics/svg/icons.jsx';
-import { TimelineBox } from './timeline.jsx';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
-import { AddVisitIcon, AddTestIcon, AddTreatmentIcon, AddEventIcon, AddVSIcon, SignAndSymptomIcon } from '../../../statics/svg/icons.jsx';
-import cssSectioning from '../../../css/sectioning.module.css';
-import cssScaffold from '../../../css/scaffold.module.css';
-import cssButtons from '../../../css/buttons.module.css';
-import cssIcons from '../../../css/icons.module.css';
+import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedComponents';
+import { TimelineBox } from './timeline';
+import { getPatientProfileById } from '../../redux/actions/searchPatient';
+import store from '../../redux/store';
+import Icon from '../icon';
+import style from './patientProfile.module.css';
 
-@connect(state => ({ fetching: state.patientProfile.fetching }))
+@connect(state => ({
+    fetching: state.patientProfile.fetching,
+    data: state.patientProfile.data
+}))
 export class PatientChart extends Component {
     componentDidMount() {
         store.dispatch(getPatientProfileById(this.props.match.params.patientId));
@@ -21,17 +20,21 @@ export class PatientChart extends Component {
 
     render() {
         return (
-            <div className={cssScaffold.patientChart}>
-                <div className={cssScaffold.patientChartTop}>
+            <>
+                <div className={style.ariane}>
+                    <h2>Patient Profile {this.props.fetching ? '' : `(${this.props.data.patientId})`}</h2>
                     <PatientProfileTop />
                 </div>
-                {this.props.fetching ? <div className={cssIcons.spinner}><LoadingIcon /></div> :
-                    <div className={cssScaffold.patientChartBody}>
-                        <TimelineBox />
-                        <Charts location={this.props.location} />
-                    </div>
-                }
-            </div>
+                <div className={style.panel}>
+                    <span className={this.props.data.consent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
+                    {this.props.fetching ? <div><Icon symbol='loading' /></div> :
+                        <>
+                            <TimelineBox />
+                            <Charts location={this.props.location} />
+                        </>
+                    }
+                </div>
+            </>
         );
     }
 }
@@ -43,8 +46,8 @@ function mapTests(patientId, typeMap) {
             <tr key={el.testId} >
                 {formatRow([testType,
                     new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
-                    <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                        <div className={cssButtons.dataResultButton}>results➠ </div>
+                    <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`}>
+                        <button>Results</button>
                     </NavLink>
                 ])}
             </tr>
@@ -59,9 +62,9 @@ function mapMedications(patientId, drugList) {
         const numberOfInterruptions = el.interruptions ? el.interruptions.length : 0;
         return (
             <tr key={el.id} >
-                {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'],numberOfInterruptions,
-                    <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                        <div className={cssButtons.dataResultButton}>results➠ </div>
+                {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'], numberOfInterruptions,
+                    <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`}>
+                        <button>Results</button>
                     </NavLink>
                 ])}
             </tr>
@@ -77,8 +80,8 @@ function mapClinicalEvents(patientId, typeList) {
         return (
             <tr key={el.id} >
                 {formatRow([type, date,
-                    <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                        <div className={cssButtons.dataResultButton}> results➠ </div>
+                    <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`}>
+                        <button>Results</button>
                     </NavLink>
                 ])}
             </tr>
@@ -88,7 +91,6 @@ function mapClinicalEvents(patientId, typeList) {
 
 function mapSymptoms(fieldHashTable) {
     return el => {
-        console.log('MAPPING FIELD', el.field, fieldHashTable);
         return (
             <tr key={el.field} >
                 {formatRow([fieldHashTable[el.field].definition, el.value])}
@@ -121,49 +123,57 @@ class OneVisit extends Component {
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
         const VS = this.props.visitData.filter(el => [1, 2, 3, 4, 5, 6].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
-        console.debug('HASH VS > ', VSHashTable)
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
         const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map; }, {});
-        console.log('VISIT', this.props.visitId, fieldHashTable, relevantFields, allSymptoms);
         const symptoms = this.props.visitData.filter(el => el.field > 6);
         return (
-            <TimelineEvent id={`visit/${this.props.visitId}`} subtitleStyle={{ fontSize: '0.8rem' }} titleStyle={{ fontSize: '0.7rem', fontWeight: 'bold' }} contentStyle={{ backgroundColor: '#fcfcfc', fontSize: 11, fontFamily: 'sans-serif', marginBottom: 50, overflow: 'auto' }} icon={<AddVisitIcon style={{ fill: '#363A3B' }} width='2.5em' />} bubbleStyle={{ backgroundColor: '#f2f2f2', border: null }} subtitle={this.props.title} title={this.props.visitDate}>
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title='ANTHROPOMETRY AND VITAL SIGNS' contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddVSIcon style={{ fill: '#ff6060' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
-                    <table style={{ width: '100%' }}>
-                        <tbody>
-                            <tr>
-                                <td style={{ textAlign: 'left' }}>Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
-                                <td style={{ textAlign: 'left' }}>Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
-                            </tr>
-                            <tr>
-                                <td style={{ textAlign: 'left' }}>Heart rate: {`${VSHashTable['2']} bpm`}</td>
-                                <td style={{ textAlign: 'left' }}>Height: {`${VSHashTable['4']} cm`}</td>
-                            </tr>
-                            <tr>
-                                <td style={{ textAlign: 'left' }}>Weight: {`${VSHashTable['5']} kg`}</td>
-                                <td style={{ textAlign: 'left' }}>Academic concern: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </TimelineEvent>
+            <TimelineEvent
+                id={`${this.props.visitId}`}
+                title={this.props.visitDate}
+                subtitle={this.props.title}
+                icon={<Icon symbol='addVisit' />}
+                className={style.historyVisit}
+                bubbleStyle={{ borderColor: 'transparent' }}>
 
-                <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<SignAndSymptomIcon style={{ fill: '#686868' }} width='2.5em' />} bubbleStyle={{ backgroundColor: null, border: null }}>
-                    {relevantFields.length !== 0 ? <table>
-                        <thead>
-                            <tr><th>Recorded symptoms</th><th>Value</th></tr>
-                        </thead>
-                        <tbody>
-                            {symptoms.map(mapSymptoms(fieldHashTable))}
-                        </tbody>
-                    </table> : null}
-                    <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName='selectedResult' className={cssButtons.NavLink}>
-                        <div className={cssButtons.dataResultButton}>edit/add➠ </div>
-                    </NavLink>
-                </TimelineEvent>
+                <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td >Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
+                            <td >Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
+                        </tr>
+                        <tr>
+                            <td >Heart rate: {`${VSHashTable['2']} bpm`}</td>
+                            <td >Height: {`${VSHashTable['4']} cm`}</td>
+                        </tr>
+                        <tr>
+                            <td >Weight: {`${VSHashTable['5']} kg`}</td>
+                            <td >Academic concern: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
+                {relevantFields.length !== 0 ? (
+                    <>
+                        <h4><Icon symbol='symptom' className={style.timelineCE} />&nbsp;SIGNS AND SYMPTOMS</h4>
+                        <table>
+                            <thead>
+                                <tr><th>Recorded symptoms</th><th>Value</th></tr>
+                            </thead>
+                            <tbody>
+                                {symptoms.map(mapSymptoms(fieldHashTable))}
+                            </tbody>
+                        </table>
+                    </>
+                ) : null}
+                <br />
+                <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`}>
+                    <button>Edit / Add</button>
+                </NavLink>
 
-                {visitHasTests ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTestIcon style={{ fill: '#68e03a' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                {visitHasTests ? (
+                    <>
+                        <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Expected date</th></tr>
@@ -174,12 +184,14 @@ class OneVisit extends Component {
                                     .map(mapTests(this.props.data.patientId, this.props.availableFields.testTypes))}
                             </tbody>
                         </table>
-                    </div></TimelineEvent> : null
+                    </>
+                ) : null
                 }
 
 
-                {visitHasMedications ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddTreatmentIcon style={{ fill: '#ffca1b' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                {visitHasMedications ? (
+                    <>
+                        <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
@@ -190,12 +202,14 @@ class OneVisit extends Component {
                                     .map(mapMedications(this.props.data.patientId, this.props.availableFields.drugs))}
                             </tbody>
                         </table>
-                    </div></TimelineEvent> : null
+                    </>
+                ) : null
                 }
 
 
-                {visitHasClinicalEvents ?
-                    <TimelineEvent titleStyle={{ fontWeight: 'bold', fontSize: '0.7rem' }} title={baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'} contentStyle={{ backgroundColor: null, boxShadow: null }} icon={<AddEventIcon style={{ fill: '#FF4745' }} />} bubbleStyle={{ backgroundColor: null, border: null }}><div>
+                {visitHasClinicalEvents ? (
+                    <>
+                        <h4><Icon symbol='symptom' className={style.timelineCE} />&nbsp;{baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Start date</th><th></th></tr>
@@ -207,7 +221,8 @@ class OneVisit extends Component {
                                     .map(mapClinicalEvents(this.props.data.patientId, this.props.availableFields.clinicalEventTypes))}
                             </tbody>
                         </table>
-                    </div></TimelineEvent> : null
+                    </>
+                ) : null
                 }
             </TimelineEvent>
         );
@@ -219,47 +234,47 @@ class OneVisit extends Component {
 export class Charts extends Component {   //unfinsihed
     render() {
         const { visits } = this.props.data;
-        console.debug(visits, sortVisits(visits));
         return (
-            <PatientProfileSectionScaffold sectionName='MEDICAL HISTORY SUMMARY' className={cssSectioning.sectionBody} bodyStyle={{ width: '100%' }}>
-
+            <PatientProfileSectionScaffold sectionName='Medical History Summary'>
                 {visits.length !== 0 ?
-                    (<Timeline lineColor='#d1d1d1'>{sortVisits(visits).map(
-                        (el, ind) => {
-                            const order = visits.length - ind;
-                            let suffix;
-                            switch (order) {
-                                case 1:
-                                    suffix = 'st';
-                                    break;
-                                case 2:
-                                    suffix = 'nd';
-                                    break;
-                                case 3:
-                                    suffix = 'rd';
-                                    break;
-                                default:
-                                    suffix = 'th';
-                            };
-                            const baselineVisit = order === 1 ? true : false;
-                            return <OneVisit visitData={el.data}
-                                availableFields={this.props.availableFields}
-                                key={el.visitId} data={this.props.data}
-                                visitId={el.visitId}
-                                baselineVisit={baselineVisit}
-                                type='visit'
-                                title={baselineVisit ? `${order}-${suffix} visit (Baseline visit)` : `${order}-${suffix} visit (Ongoing assessment)`}
-                                visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()} />;
-                        }
-                    )}
-                    </Timeline>
+                    (
+                        <Timeline className={style.history}>
+                            {sortVisits(visits).map(
+                                (el, ind) => {
+                                    const order = visits.length - ind;
+                                    let suffix;
+                                    switch (order) {
+                                        case 1:
+                                            suffix = 'st';
+                                            break;
+                                        case 2:
+                                            suffix = 'nd';
+                                            break;
+                                        case 3:
+                                            suffix = 'rd';
+                                            break;
+                                        default:
+                                            suffix = 'th';
+                                    };
+                                    const baselineVisit = order === 1 ? true : false;
+                                    return <OneVisit visitData={el.data}
+                                        availableFields={this.props.availableFields}
+                                        key={el.visitId} data={this.props.data}
+                                        visitId={el.visitId}
+                                        baselineVisit={baselineVisit}
+                                        type='visit'
+                                        title={baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`}
+                                        visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()} />;
+                                }
+                            )}
+                        </Timeline>
                     ) : (
-                        <div>
+                        <>
                             <br /><br />
                             <span>This patient currently has no visits nor baseline data. Please add a visit by clicking the button above. This will automatically count as the baseline visit / data.</span>
-                        </div>
-                    )}
-
+                        </>
+                    )
+                }
             </PatientProfileSectionScaffold>
         );
     }
