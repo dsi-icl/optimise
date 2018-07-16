@@ -52,7 +52,6 @@
     display: grid;
     width: 100%;
     height: 100%;
-    padding: 1.2em;
     overflow: auto;
 }
 
@@ -68,11 +67,11 @@
     grid-column: 1/2;
     overflow: auto;
     height: 100%;
+    padding: 1.2em;
 }
 
 .actionsDisplay {
     grid-column: 2/3;
-    margin-left: 1.2em;
     padding: 1.2em;
     height: 100%;
     overflow: auto;
