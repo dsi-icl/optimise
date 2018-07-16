@@ -12,7 +12,7 @@ function PatientDiagnosisCore() {
 PatientDiagnosisCore.prototype.getPatientDiagnosis = function (whereObj) {
     return new Promise(function (resolve, reject) {
         whereObj.deleted = '-';
-        getEntry('PATIENT_DIAGNOSIS', whereObj, '*').then(function (result) {
+        getEntry('PATIENT_DIAGNOSIS', whereObj, { id: 'id', patient: 'patient', diagnosis: 'diagnosis', diagnosisDate: 'diagnosisDate' }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
