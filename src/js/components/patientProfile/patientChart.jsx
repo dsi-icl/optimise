@@ -155,7 +155,7 @@ class OneVisit extends Component {
 
                 {relevantFields.length !== 0 ? (
                     <>
-                        <h4><Icon symbol='symptom' className={style.timelineCE} />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Recorded symptoms</th><th>Value</th></tr>
@@ -209,7 +209,7 @@ class OneVisit extends Component {
 
                 {visitHasClinicalEvents ? (
                     <>
-                        <h4><Icon symbol='symptom' className={style.timelineCE} />&nbsp;{baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
+                        <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Type</th><th>Start date</th><th></th></tr>
