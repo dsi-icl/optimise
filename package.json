@@ -41,6 +41,10 @@
     "jest": {
         "globalSetup": "<rootDir>/test/setup.js",
         "globalTeardown": "<rootDir>/test/teardown.js",
-        "testEnvironment": "<rootDir>/test/environment.js"
+        "testEnvironment": "<rootDir>/test/environment.js",
+        "collectCoverageFrom": [
+            "<rootDir>/src/**/*.{js,jsx}",
+            "!<rootDir>/node_modules/"
+        ]
     }
 }
