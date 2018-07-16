@@ -24,31 +24,23 @@ export class Section extends Component {
         if (fetching) {
             return <span></span>;
         } else {
-            if (erasePatient.requesting) {
-                return <div>Trying to delete the patient..</div>;
+            if (erasePatient.success) {
+                return <Redirect to='/searchPatient/from/deletionSuccessful' />;
             } else {
-                if (erasePatient.error) {
-                    return <div> Cannot delete this patient </div>;
-                } else {
-                    if (erasePatient.success) {
-                        return <Redirect to='/searchPatient' />;
-                    } else {
-                        return (
-                            <>
-                                <div className={style.ariane}>
-                                    <h2>Overview</h2>
-                                </div>
-                                <div className={style.panel}>
-                                    <DemographicSection />
-                                    <PrimaryDiagnosis />
-                                    <ImmunisationSection />
-                                    <Pregnancy />
-                                    <DeletePatient match={this.props.match} />
-                                </div>
-                            </>
-                        );
-                    }
-                }
+                return (
+                    <>
+                        <div className={style.ariane}>
+                            <h2>Overview</h2>
+                        </div>
+                        <div className={style.panel}>
+                            <DemographicSection />
+                            <PrimaryDiagnosis />
+                            <ImmunisationSection />
+                            <Pregnancy />
+                            <DeletePatient match={this.props.match} />
+                        </div>
+                    </>
+                );
             }
         }
     }
