@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import { loginAPICall } from '../../redux/actions/login';
 import LoadBar from '../loadBar';
+import store from '../../redux/store';
+import { clearError } from '../../redux/actions/error';
 import style from './login.module.css';
 
 function mapStateToProps(state) {
@@ -31,6 +33,10 @@ class Login extends Component {
     static contextTypes = {
         dispatch: T.func
     };
+
+    componentWillUnmount() {
+        store.dispatch(clearError());
+    }
 
     login = (e) => {
         e.preventDefault();
