@@ -73,7 +73,7 @@ PatientPiiController.prototype.updatePatientPii = function (req, res) {
             return;
         });
     } else if (req.user.priv !== 1) {
-        res.status(400).json(ErrorHelper(messages.userError.NORIGHTS));
+        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
         return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
@@ -94,7 +94,7 @@ PatientPiiController.prototype.deletePatientPii = function (req, res) {
             return;
         });
     } else if (req.user.priv !== 1) {
-        res.status(400).json(ErrorHelper(messages.userError.NORIGHTS));
+        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
         return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
