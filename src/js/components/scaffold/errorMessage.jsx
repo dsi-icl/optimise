@@ -9,12 +9,10 @@ export default class ErrorMessage extends PureComponent {
         if (error.error) {
             return (
                 <div className={style.errorMessage}>
-                    <div className={style.errorMessageDialogBox}>
-                        <h4>OOPS!</h4> <span className={style.cancelButton}>&#10006;</span>
-                        Seems like you have encountered an error! <br/><br/>
-                        
-                        Message: {error.error}
-                    </div>
+                    <h1>OOPS!</h1> <span className={style.cancelButton}>&#10006;</span>
+                    <span>Seems like you have encountered an error!</span> <br/><br/>
+                    
+                    Message: {error.error}
                 </div>
             );
         } else {
