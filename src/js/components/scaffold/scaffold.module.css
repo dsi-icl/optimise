@@ -89,3 +89,10 @@
 .menuBar > a:hover {
     background: rgba(255, 255, 255, 0.1);
 }
+
+.errorMessage {
+    grid-area: annexe-start / content / auto / annexe;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
