@@ -24,7 +24,7 @@ PatientController.prototype.searchPatients = function (req, res) {  //get all li
     } else if (Object.keys(req.query).length === 1 && typeof (req.query.id) === 'string') {
         queryid = req.query.id;
     } else {
-        res.status(400).send('The query string can only have one parameter "id"');
+        res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
         return;
     }
     queryid = `%${queryid}%`;
