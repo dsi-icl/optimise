@@ -95,29 +95,28 @@
     width: 100%;
     height: 100%;
     position: relative;
-}
-
-.errorMessageDialogBox {
-    position: absolute;
-    background-color: var(--color-font-active);
-    border: 1px solid darkgray;
-    padding: 1.5em;
-    height: 20%;
-    min-height: 200px;
-    width: 30%;
-    top: 30%;
-    left: 35%;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 2em;
+    font-size: 1.5rem;
     color: var(--color-font);
 }
 
-.errorMessageDialogBox .cancelButton {
-    font-size: 2rem;
+.errorMessage h1 {
+    font-size: 5rem;
+}
+
+.errorMessage span {
+    font-size: 2.5rem;
+}
+
+.errorMessage .cancelButton {
+    font-size: 9rem;
     position: absolute;
-    right: 1rem;
+    right: 4rem;
     top: 0.5rem;
 }
 
-.errorMessageDialogBox .cancelButton:hover {
+.errorMessage .cancelButton:hover {
     cursor: pointer;
-    color: rgb(255, 90, 90);
+    color: grey;
 }
