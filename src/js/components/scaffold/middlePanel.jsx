@@ -10,7 +10,7 @@ export default class MiddlePanel extends Component {
             <div className={style.middlePanel}>
                 <Switch>
                     <Route exact path='/' component={SearchPatient} />
-                    <Route exact path='/searchPatient' component={SearchPatient} />
+                    <Route path='/searchPatient' component={SearchPatient} />
                     <Route path='/createPatient' component={SearchPatient} />
                     <Route exact path='/export' component={() => <></>} />
                     <Route exact path='/filterPatients' component={FilterPanel} />
