@@ -3,6 +3,7 @@
 const request = require('supertest');
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
+const message = require('../src/utils/message-utils');
 const { connectAdmin, connectUser, deconnectAgent } = require('./connection');
 
 beforeAll(async() => { //eslint-disable-line no-undef
@@ -21,6 +22,9 @@ describe('Create treatment controller tests', () => {
         .post('/treatments')
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
     test('Request creation with bad body (should fail)', () => admin
@@ -37,6 +41,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
     test('Request creation with invalid drug (should fail)', () => admin
@@ -52,6 +59,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with bad unit (should fail)', () => admin
@@ -67,6 +77,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with bad form (should fail)', () => admin
@@ -82,6 +95,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with invalid time zero (should fail)', () => admin
@@ -97,6 +113,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with invalid time neg (should fail)', () => admin
@@ -112,6 +131,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with invalid duration zero (should fail)', () => admin
@@ -127,6 +149,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with invalid duration neg (should fail)', () => admin
@@ -142,6 +167,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with invalid duration huge (should fail)', () => admin
@@ -157,6 +185,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with good body (should success)', () => admin
@@ -172,6 +203,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(3);
         }));
 
     test('Request creation same treatment as before (should fail)', () => admin
@@ -187,6 +221,9 @@ describe('Create treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 });
 
@@ -196,6 +233,9 @@ describe('Create treatment interruption controller tests', () => {
         .send({})
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
     test('Request treatment interuption with bad ID (should fail)', () => admin
@@ -208,6 +248,9 @@ describe('Create treatment interruption controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request treatment interuption with invalid ID (should fail)', () => admin
@@ -220,6 +263,9 @@ describe('Create treatment interruption controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
     test('Request treatment interuption with good body (should success)', () => admin
@@ -232,6 +278,9 @@ describe('Create treatment interruption controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(3);
         }));
 });
 
@@ -240,13 +289,19 @@ describe('Delete treatment interruption controller tests', () => {
         .delete('/treatments/interrupt')
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
     test('Request deletion treatment interrupt with bad id (should fail)', () => admin
         .delete('/treatments/interrupt')
         .send({ 'treatmentInterId': 'WRONG' })
         .then(res => {
-            expect(res.status).toBe(200);
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request deletion treatment interrupt with invalid id (should fail)', () => admin
@@ -254,6 +309,9 @@ describe('Delete treatment interruption controller tests', () => {
         .send({ 'treatmentInterId': 99999 })
         .then(res => {
             expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(0);
         }));
 
     test('Request deletion treatment interrupt with good id (should success)', () => admin
@@ -269,6 +327,9 @@ describe('Delete treatment controller tests', () => {
         .delete('/treatments')
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
     test('Request deletion treatment with bad body (should fail)', () => admin
@@ -279,13 +340,20 @@ describe('Delete treatment controller tests', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
     test('Request deletion treatment with bad ID (should fail)', () => admin
         .delete('/treatments')
         .send({ 'treatmentId': 'WRONG' })
         .then(res => {
-            expect(res.status).toBe(200);
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request deletion treatment with invalid ID (should fail)', () => admin
@@ -293,6 +361,9 @@ describe('Delete treatment controller tests', () => {
         .send({ 'treatmentId': 999999 })
         .then(res => {
             expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(0);
         }));
 
     test('Request deletion treatment with good ID (should success)', () => admin
@@ -300,5 +371,8 @@ describe('Delete treatment controller tests', () => {
         .send({ 'treatmentId': 1 })
         .then(res => {
             expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 });
