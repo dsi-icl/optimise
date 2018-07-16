@@ -4,6 +4,7 @@
 const request = require('supertest');
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
+const message = require('../src/utils/message-utils');
 const { connectAdmin, connectUser, deconnectAgent } = require('./connection');
 
 beforeAll(async () => { //eslint-disable-line no-undef
@@ -21,6 +22,9 @@ describe('Create Demographic controller test', () => {
         .post('/demographics/Demographic')
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
     test('Creating demographic with body but empty property (Should Fail)', () => admin
@@ -37,6 +41,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Creating demographic with body but badly formated property (Should Fail)', () => admin
@@ -53,6 +60,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Creating demographic with body but wrong patient (Should Fail)', () => admin
@@ -69,6 +79,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
     test('Creating demographic with body but badly formatted DOB (Should Fail)', () => admin
@@ -85,6 +98,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Creating demographic with body but wrong DOB (Should Fail)', () => admin
@@ -101,6 +117,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
     test('Creating demographic with body but wrong gender (Should Fail)', () => admin
@@ -118,6 +137,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
     test('Creating demographic with body but wrong dominant hand (Should Fail)', () => admin
@@ -134,6 +156,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
     test('Creating demographic with body but wrong ethnicity (Should Fail)', () => admin
@@ -150,6 +175,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
     test('Creating demographic with body but wrong country of origin (Should Fail)', () => admin
@@ -166,6 +194,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
     test('Creating demographic with body but wrong alcohol usage (Should Fail)', () => admin
@@ -182,6 +213,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
     test('Creating demographic with body but wrong smoking history (Should Fail)', () => admin
@@ -198,6 +232,9 @@ describe('Create Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
     test('Creating demographic well formatted (Should Works)', () => admin
@@ -243,6 +280,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Editing demographic with body but badly formated property (Should Fail)', () => admin
@@ -260,6 +300,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Editing demographic with body but wrong id (Should Fail)', () => admin
@@ -277,6 +320,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
 
@@ -295,6 +341,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
     test('Editing demographic with body but badly formatted DOB (Should Fail)', () => admin
@@ -313,6 +362,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
     test('Editing demographic with body but wrong DOB (Should Fail)', () => admin
@@ -330,6 +382,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
     test('Editing demographic with body but wrong gender (Should Fail)', () => admin
@@ -347,6 +402,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
     test('Editing demographic with body but wrong dominant hand (Should Fail)', () => admin
@@ -364,6 +422,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
     test('Editing demographic with body but wrong ethnicity (Should Fail)', () => admin
@@ -381,6 +442,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
     test('Editing demographic with body but wrong country of origin (Should Fail)', () => admin
@@ -398,6 +462,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
     test('Editing demographic with body but wrong alcohol usage (Should Fail)', () => admin
@@ -415,6 +482,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
     test('Editing demographic with body but wrong smoking history (Should Fail)', () => admin
@@ -432,6 +502,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
     test('Editing demographic well formatted (Should Works)', () => admin
@@ -449,6 +522,9 @@ describe('Edit Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(8);
         }));
 
 });
@@ -458,6 +534,9 @@ describe('Delete Demographic controller test', () => {
         .delete('/demographics/Demographic')
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
     test('Deleting demographic with body but empty property (Should Fail)', () => admin
@@ -467,6 +546,9 @@ describe('Delete Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Deleting demographic with body but badly formated property (Should Fail)', () => admin
@@ -476,6 +558,9 @@ describe('Delete Demographic controller test', () => {
         })
         .then(res => {
             expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Deleting demographic with body but out of bound id (Should Fail)', () => admin
