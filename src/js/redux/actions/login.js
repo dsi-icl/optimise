@@ -11,9 +11,13 @@ export const whoami = () => dispatch => {
     dispatch(checkingLogin());
     return apiHelper('/whoami')
         .then(json => {
-            dispatch(loggedIn(json));
+            if (json.status === 'error' && json.message === 'Please login first') {
+                dispatch(notLoggedIn());
+            } else {
+                dispatch(loggedIn(json));
+            }
         })
-        .catch((err) => { console.log('ERROR', err); dispatch(notLoggedIn()); });
+        .catch((err) => console.log('ERROR', err));
 };
 
 export const loginRequest = body => ({ type: actionTypes.login.LOGIN_REQUESTED, payload: body });
