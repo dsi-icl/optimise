@@ -59,8 +59,7 @@ export class DataTemplate extends Component {
 
     render() {
         if (!this.props.patientProfile.fetching) {
-            const idString = (this.props.elementType === 'test' || this.props.elementType === 'visit') ? `${this.props.elementType}Id` : 'id';   //this is because id naming is inconsistent on backend - might change..?
-            const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element[idString] === parseInt(this.props.match.params.elementId, 10));
+            const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element.id === parseInt(this.props.match.params.elementId, 10));
             if (elementsMatched.length === 0) {
                 return <div>{`Cannot find your ${this.props.elementType}!`}</div>;
             } else {
@@ -86,7 +85,7 @@ export class DataTemplate extends Component {
                             <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                         </div>
                         <div className={style.panel}>
-                            {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit, idString, this.props.elementType)}
+                            {formatData(elementsMatched[0], this.props.fields[fieldString], this.props.fields.inputTypes, this._handleSubmit, 'id', this.props.elementType)}
                         </div>
                     </>
                 );
