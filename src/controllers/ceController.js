@@ -11,7 +11,8 @@ function CeController() {
 }
 
 CeController.prototype.createCe = function (req, res) {
-    if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra')) {
+    if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra') &&
+        typeof req.body.visitId === 'number' && typeof req.body.startDate === 'string' && typeof req.body.type === 'number' && typeof req.body.meddra === 'number') {
         let ce = {};
         if (req.body.hasOwnProperty('visitId'))
             ce.recordedDuringVisit = req.body.visitId;
@@ -28,11 +29,13 @@ CeController.prototype.createCe = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return;
         });
-    } else {
+    } else if (!((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
+    } else {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
     }
-
 };
 
 CeController.prototype.deleteCe = function (req, res) {
@@ -48,6 +51,9 @@ CeController.prototype.deleteCe = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return;
         });
+    } else if (!req.body.hasOwnProperty('ceId')) {
+        res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
     } else {
         res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;

@@ -12,7 +12,10 @@ const PatientDiagnosisCtrl = new PatientDiagnosisController();
 patient.route('/')
     .get(PatientDiagnosisCtrl.getPatientDiagnosis)
     .post(PatientDiagnosisCtrl.createPatientDiagnosis)
-    .patch(PatientDiagnosisCtrl.updatePatientDiagnosis)
+    .put(PatientDiagnosisCtrl.updatePatientDiagnosis)
     .delete(PatientDiagnosisCtrl.deletePatientDiagnosis);
+
+patient.route('/fields')
+    .get(PatientDiagnosisCtrl.getDiagnosisOptions);
 
 module.exports = patient;
