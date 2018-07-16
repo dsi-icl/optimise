@@ -18,7 +18,6 @@ export default class ErrorMessage extends PureComponent {
                     <div className={style.errorMessageDialogBox}>
                         <h4>OOPS!</h4> <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span>
                         Seems like you have encountered an error! <br/><br/>
-                        
                         Message: {error.error}
                     </div>
                 </div>
