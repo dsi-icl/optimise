@@ -41,7 +41,7 @@ Test.prototype.addActualOccurDateTest = function(user, entryTest){
 
 Test.prototype.deleteTest = function(requester, idTest){
     return new Promise(function(resolve, reject){
-        deleteEntry('ORDERED_TESTS', requester, { id: idTest }).then(function(result){
+        deleteEntry('ORDERED_TESTS', requester, idTest).then(function(result){
             resolve(result);
         }, function(error){
             reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));

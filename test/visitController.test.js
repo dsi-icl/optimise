@@ -5,14 +5,13 @@ const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
 const message = require('../src/utils/message-utils');
 const { connectAdmin, connectUser, deconnectAgent } = require('./connection');
-const visitSeeded = require('../db/exampleDataForTesting/exampleData')['VISITS'];
 
-beforeAll(async() => { //eslint-disable-line no-undef
+beforeAll(async () => { //eslint-disable-line no-undef
     await connectAdmin(admin);
     await connectUser(user).then();
 });
 
-afterAll(async() => { //eslint-disable-line no-undef
+afterAll(async () => { //eslint-disable-line no-undef
     await deconnectAgent(admin);
     await deconnectAgent(user);
 });
@@ -82,7 +81,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
-       }));
+        }));
 
     test('Getting visits of this patient', () => admin
         .get('/visits?patientId=eleno')
