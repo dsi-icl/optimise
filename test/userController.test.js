@@ -43,7 +43,7 @@ describe('User controller tests', () => {
     test('Admin creating user (no 1) without admin priv with real name', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
-        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting' })
+        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realname': 'IAmTesting' })
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -54,7 +54,7 @@ describe('User controller tests', () => {
     test('Admin creating user (no 2) without admin priv without real name', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
-        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0 })
+        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'realname': 'IAmTesting' })
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -77,7 +77,8 @@ describe('User controller tests', () => {
                 expect(res.body[1]).toHaveProperty('username');
                 expect(res.body[1]).toHaveProperty('realname');
                 expect(res.body[1].username).toBe('test_user2');
-                expect(res.body[1].realname).toBeNull();
+                expect(res.body[1].realname).toBeDefined();
+                expect(res.body[1].realname).toBe('IAmTesting');
             });
     });
 
@@ -214,7 +215,7 @@ describe('User controller tests', () => {
     test('Admin creating another user (no 1) without admin priv with real name again', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
-        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting' })
+        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realname': 'IAmTesting' })
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(typeof res.body).toBe('object');
