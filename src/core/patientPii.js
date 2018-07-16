@@ -11,7 +11,7 @@ function PatientPiiCore() {
 
 PatientPiiCore.prototype.getPatientPii = function (whereObj) {
     return new Promise(function (resolve, reject) {
-        getEntry('PATIENT_PII', whereObj, '*').then(function (result) {
+        getEntry('PATIENT_PII', whereObj, { id: 'id', patient: 'patient', firstName: 'firstName', surname: 'surname', fullAddress: 'fullAddress', postcode: 'postcode' }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
