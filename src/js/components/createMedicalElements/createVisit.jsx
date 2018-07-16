@@ -65,7 +65,8 @@ export class CreateVisit extends Component {
         };
     }
 
-    _handleSubmitClick() {
+    _handleSubmitClick(ev) {
+        ev.preventDefault();
         if (!this._formatRequestBody()) {
             this.setState({ error: true });
             return;
