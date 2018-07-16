@@ -94,12 +94,12 @@ export class TreatmentInterruption extends Component {
                             <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                         </div>
                         <form className={style.panel}>
-                            {treatment.interruptions.map(el => (
-                                <div key={el.id}>
-                                    <b>Start date: </b> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
-                                    {el.endDate ? <span><b>End date: </b>{new Date(parseInt(el.endDate, 10)).toDateString()}<br /></span> : null}
-                                    <b>Reason: </b>{interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br />
-                                    <b>MedDRA: </b>{el.meddra ? allMeddra[0][el.meddra] : 'NA'}
+                            {treatment.interruptions.map((el, ind) => (
+                                <div key={el.id} className={ind === treatment.interruptions.length - 1 ? style.interruptionLast : style.interruption }>
+                                    <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
+                                    {el.endDate ? <span><label>End date: </label> {new Date(parseInt(el.endDate, 10)).toDateString()}<br /></span> : null}
+                                    <label>Reason: </label> {interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br />
+                                    <label>MedDRA: </label> {el.meddra ? allMeddra[0][el.meddra] : 'NA'}
                                 </div>
                             ))}
 
@@ -111,7 +111,7 @@ export class TreatmentInterruption extends Component {
                                 </>
                                 :
                                 <>
-                                    <div>
+                                    <div className={style.newInterruption}>
                                         <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
                                         <b>End date: </b><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br />
                                         <b>No end date: </b><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} /><br />

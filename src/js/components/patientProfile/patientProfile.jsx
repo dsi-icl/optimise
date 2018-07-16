@@ -69,13 +69,13 @@ class DemographicSection extends Component {
 
             return (
                 <PatientProfileSectionScaffold sectionName='Profile'>
-                    <span><b>Date of birth:</b> {new Date(parseInt(DOB, 10)).toDateString()}</span><br />
-                    <span><b>Gender:</b> {gender} </span><br />
-                    <span><b>Dominant hand:</b> {dominantHand} </span><br />
-                    <span><b>Ethnicity:</b> {ethnicity} </span><br />
-                    <span><b>Country of origin:</b> {countryOfOrigin} </span><br />
-                    <span><b>Alcohol usage:</b> {alcoholUsage} </span><br />
-                    <span><b>Smoking history:</b> {smokingHistory} </span>
+                    <label>Date of birth:</label> {new Date(parseInt(DOB, 10)).toDateString()}<br />
+                    <label>Gender:</label> {gender}<br />
+                    <label>Dominant hand:</label> {dominantHand} <br />
+                    <label>Ethnicity:</label> {ethnicity} <br />
+                    <label>Country of origin:</label> {countryOfOrigin} <br />
+                    <label>Alcohol usage:</label> {alcoholUsage} <br />
+                    <label>Smoking history:</label> {smokingHistory}
                 </PatientProfileSectionScaffold>
             );
         } else {
@@ -159,8 +159,8 @@ class PrimaryDiagnosis extends Component {
         }
         return (
             <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
-                <b>Primary Diagnosis: </b>{diagnosis[0].value} <br />
-                <b>Date of diagnosis: </b>{new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
+                <label>Primary Diagnosis: </label> {diagnosis[0].value} <br />
+                <label>Date of diagnosis: </label> {new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
             </PatientProfileSectionScaffold>
         );
     }
@@ -242,20 +242,20 @@ class Pregnancy extends Component {
         if (data.demographicData && data.demographicData.gender !== 1 && data.pregnancy) {
             return (
                 <PatientProfileSectionScaffold sectionName='Pregnancies'>
-                    {data.pregnancy.map(el =>
-                        <div key={`${el.meddra}${el.outcomeDate}`}>
-                            <label>Start date: </label><br /> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
-                            <label>Outcome date: </label><br /> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
-                            <label>MedDRA: </label><br /> {this.props.allMeddra[0][el.meddra]} <br />
-                            <label>Outcome: </label><br /> {el.outcome} <br />
+                    {data.pregnancy.map((el, ind) =>
+                        <div key={`${el.meddra}${el.outcomeDate}`} className={ind === data.pregnancy.length - 1 ? style.pregnancyLast : style.pregnancy }>
+                            <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
+                            <label>Outcome date: </label> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
+                            <label>MedDRA: </label> {this.props.allMeddra[0][el.meddra]} <br />
+                            <label>Outcome: </label> {el.outcome} <br />
                         </div>)}
                     {!this.state.addMore ? null :
-                        <>
+                        <div className={style.newPregnancy}>
                             <label>Start date: </label><br /><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
                             <label>Outcome date: </label><br /><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
                             <label>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} /><br />
                             <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br />
-                        </>
+                        </div>
                     }
                     {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Record pregnancy</button> :
                         <>
