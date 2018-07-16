@@ -58,55 +58,6 @@ function updateEntry(tablename, user, originObj, whereObj, newObj) {
             reject(error);
         });
     });
-    // knex(tablename)
-    //     .select('*')
-    //     .where(whereObj)
-    //     .then(result => {
-    //         let originalResult;
-    //         let newDeletedCol;
-    //         switch (result.length) {
-    //             case 0:
-    //                 res.status(404).json('Entry does not exist');
-    //                 break;
-    //             case expectedNumAffected:
-    //                 originalResult = result;
-    //                 newDeletedCol = `${req.user.id}@${JSON.stringify(new Date())}`;   //saved this so that on fail, update entry back to undeleted
-    //                 knex(tablename)
-    //                     .where(whereObj)
-    //                     .update({ deleted: newDeletedCol })
-    //                     .then(() => {
-    //                         let newEntry = Object.assign(originalResult[0], newObj);
-    //                         delete newEntry.id;
-    //                         delete newEntry['createdTime'];
-    //                         newEntry.deleted = '-';
-    //                         newEntry['createdByUser'] = req.user.id;
-    //                         knex(tablename)
-    //                             .insert(newEntry)
-    //                             .then(() => res.status(200).send(`${whatIsUpdated} has been succesfully updated.`))
-    //                             .catch(err => {        //if the original entry is deleted and the new one can't be written. need to reverse it
-    //                                 console.log(err);
-    //                                 whereObj.deleted = newDeletedCol;
-    //                                 knex(tablename)
-    //                                     .where(whereObj)
-    //                                     .update({ deleted: '-' })
-    //                                     .then(() => res.status(400).send('update failed. Please check you parameters'))
-    //                                     .catch(err => { console.log(err); res.status(500).send('Database error'); });
-    //                             });
-    //                     })
-    //                     .catch(err => {
-    //                         console.log(err);
-    //                         res.status(400).send('Database error');
-    //                     });
-    //                 break;
-    //             default:
-    //                 res.status(599).send('something weird happened');
-    //                 break;
-    //         }
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //         res.status(400).send('Database error');
-    //     });
 }
 
 function eraseEntry(tablename, whereObj) {

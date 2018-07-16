@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "0.9.13",
+    "version": "0.9.15",
     "description": "Backend for OptimiseMS",
     "main": "./src/optimiseServer.js",
     "scripts": {
@@ -26,7 +26,7 @@
         "knex": "0.15.1",
         "passport": "0.4.0",
         "path": "0.12.7",
-        "sqlite3": "4.0.1"
+        "sqlite3": "4.0.2"
     },
     "devDependencies": {
         "chalk": "2.4.1",
