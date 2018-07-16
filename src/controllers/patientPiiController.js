@@ -70,7 +70,7 @@ PatientPiiController.prototype.updatePatientPii = function (req, res) {
             return;
         });
     } else if (req.user.priv !== 1) {
-        res.status(400).json(ErrorHelper(messages.userError.NORIGHTS));
+        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
         return;
     } else {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
@@ -79,7 +79,7 @@ PatientPiiController.prototype.updatePatientPii = function (req, res) {
 };
 
 PatientPiiController.prototype.deletePatientPii = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id')) {
+    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.patientPii.deletePatientPii(req.user, { 'id': req.body.id }).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -88,9 +88,9 @@ PatientPiiController.prototype.deletePatientPii = function (req, res) {
             return;
         });
     } else if (req.user.priv !== 1) {
-        res.status(400).json(ErrorHelper(messages.userError.NORIGHTS));
+        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
         return;
-    } else {
+    } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
     }
