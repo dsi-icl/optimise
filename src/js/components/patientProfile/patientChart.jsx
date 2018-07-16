@@ -128,7 +128,7 @@ class OneVisit extends Component {
         const symptoms = this.props.visitData.filter(el => el.field > 6);
         return (
             <TimelineEvent
-                id={`${this.props.visitId}`}
+                id={`visit/${this.props.visitId}`}
                 title={this.props.visitDate}
                 subtitle={this.props.title}
                 icon={<Icon symbol='addVisit' />}
