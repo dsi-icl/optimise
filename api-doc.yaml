@@ -209,11 +209,6 @@ paths:
           description: "OK"
         "204":
           description: "There are no patient entries in the database."
-          schema:
-            type: "object"
-            properties:
-              message:
-                type: "string"
         "400":
           description: "You are not logged in. Please provide a valid token."
   /patients:
