@@ -4,7 +4,6 @@ import { PatientChart } from '../patientProfile/patientChart';
 import { SearchPatient } from '../searchPatient';
 import { AdminActions } from '../admin/actions';
 import { FilterPanel } from '../filterPatient/selectPanel';
-import { AdminRouter } from '../admin/router';
 import style from './scaffold.module.css';
 
 export default class RightPanel extends Component {
@@ -12,7 +11,7 @@ export default class RightPanel extends Component {
         return (
             <div className={style.rightPanel}>
                 <Switch>
-                    <Route path='/administration' render={() => <AdminRouter />} />
+                    <Route path='/administration' render={({ match, location }) => < AdminActions location={location.pathname} match={match} />} />
                     <Route path='/createPatient' component={SearchPatient} />
                     <Route path='/patientProfile/:patientId' render={({ match, location }) => <PatientChart location={location.pathname} match={match} />} />
                     <Route exact path='/searchPatient' component={SearchPatient} />

@@ -28,9 +28,9 @@ export default class MenuBar extends Component {
                     <Icon symbol='search' />
                 </NavLink>
 
-                <NavLink title='Export as CDISC' to='/export' activeClassName={style.active}>
+                <a title='Export as CDISC' target="_blank" href='/api/export'>
                     <Icon symbol='export' />
-                </NavLink>
+                </a>
 
                 <NavLink to='/administration' title='Admin settings' activeClassName={style.active}>
                     <Icon symbol='setting' />
