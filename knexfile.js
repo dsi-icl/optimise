@@ -2,7 +2,7 @@ const path = require('path');
 module.exports = {
     client: 'sqlite3',
     connection: {
-        filename: path.normalize('./db/optimise-db.sqlite')
+        filename: process.env.NODE_ENV === 'test' ? ':memory:' : path.normalize('./db/optimise-db.sqlite')
     },
     migrations: {
         directory: path.normalize(`${path.dirname(__filename)}/db/migrations`)
