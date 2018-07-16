@@ -130,6 +130,7 @@ button:hover {
 label {
     display: inline-block;
     margin-bottom: 0.6em;
+    font-weight: bold;
 }
 
 h2 {

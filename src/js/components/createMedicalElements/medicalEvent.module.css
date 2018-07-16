@@ -65,3 +65,20 @@
 .backButton:hover {
     color: var(--color-background);
 }
+
+.interruption {
+    border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+}
+
+.interruptionLast {
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+}
+
+.newInterruption {
+    border-top: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+}
