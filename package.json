@@ -19,6 +19,7 @@
     "repository": "https://github.com/dsi-icl/optimise",
     "main": "./electron.js",
     "scripts": {
+        "api": "node ./launcher/root.js",
         "electron": "electron ./electron.js",
         "lint": "eslint --ext .jsx --ext .js ./",
         "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
