@@ -39,17 +39,16 @@ function Pregnancy() {
     this.getPregnancyOutcomes = Pregnancy.prototype.getPregnancyOutcomes.bind(this);
 }
 
-function Diagnosis() {
-    this.getDiagnosis = Diagnosis.prototype.getDiagnosis.bind(this);
-    this.createDiagnosis = Diagnosis.prototype.createDiagnosis.bind(this);
-    this.editDiagnosis = Diagnosis.prototype.editDiagnosis.bind(this);
-    this.deleteDiagnosis = Diagnosis.prototype.deleteDiagnosis.bind(this);
-    this.getDiagnosisOptions = Diagnosis.prototype.getDiagnosisOptions.bind(this);
-}
-
 Demographic.prototype.getDemographic = function (whereObj) {
     return new Promise(function (resolve, reject) {
         getEntry('PATIENT_DEMOGRAPHIC', whereObj, '*').then(function (result) {
+            if (result.length > 0) {
+                for (let i = 0; i < result.length; i++) {
+                    delete result[i].createdByUser;
+                    delete result[i].createdTime;
+                    delete result[i].deleted;
+                }
+            }
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -155,6 +154,13 @@ Demographic.prototype.getGenderFields = function () {
 Immunisation.prototype.getImmunisation = function (whereObj) {
     return new Promise(function (resolve, reject) {
         getEntry('PATIENT_IMMUNISATION', whereObj, '*').then(function (result) {
+            if (result.length > 0) {
+                for (let i = 0; i < result.length; i++) {
+                    delete result[i].createdByUser;
+                    delete result[i].createdTime;
+                    delete result[i].deleted;
+                }
+            }
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -196,6 +202,13 @@ Immunisation.prototype.deleteImmunisation = function (user, whereObj) {
 MedicalHistory.prototype.getMedicalHistory = function (whereObj) {
     return new Promise(function (resolve, reject) {
         getEntry('MEDICAL_HISTORY', whereObj, '*').then(function (result) {
+            if (result.length > 0) {
+                for (let i = 0; i < result.length; i++) {
+                    delete result[i].createdByUser;
+                    delete result[i].createdTime;
+                    delete result[i].deleted;
+                }
+            }
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -306,54 +319,4 @@ Pregnancy.prototype.getPregnancyOutcomes = function () {
     });
 };
 
-Diagnosis.prototype.getDiagnosis = function (whereObj) {
-    return new Promise(function (resolve, reject) {
-        getEntry('PATIENT_DIAGNOSIS', whereObj, '*').then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(error);
-        });
-    });
-};
-
-Diagnosis.prototype.createDiagnosis = function (entryObj) {
-    return new Promise(function (resolve, reject) {
-        createEntry('PATIENT_DIAGNOSIS', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(error);
-        });
-    });
-};
-
-Diagnosis.prototype.editDiagnosis = function (requester, entryObj) {
-    return new Promise(function (resolve, reject) {
-        updateEntry('PATIENT_DIAGNOSIS', requester, '*', { 'id': entryObj.id }, entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(error);
-        });
-    });
-};
-
-Diagnosis.prototype.deleteDiagnosis = function (requester, whereObj) {
-    return new Promise(function (resolve, reject) {
-        deleteEntry('PATIENT_DIAGNOSIS', requester, whereObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(error);
-        });
-    });
-};
-
-Diagnosis.prototype.getDiagnosisOptions = function () {
-    return new Promise(function (resolve, reject) {
-        getEntry('AVAILABLE_DIAGNOSES', {}).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(error);
-        });
-    });
-};
-
-module.exports = { DemographicCore: Demographic, MedicalHistoryCore: MedicalHistory, ImmunisationCore: Immunisation, PregnancyCore: Pregnancy, DiagnosisCore: Diagnosis };
+module.exports = { DemographicCore: Demographic, MedicalHistoryCore: MedicalHistory, ImmunisationCore: Immunisation, PregnancyCore: Pregnancy };

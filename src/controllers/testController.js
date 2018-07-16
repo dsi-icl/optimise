@@ -48,7 +48,7 @@ TestController.prototype.addActualOccurredDate = function (req, res) {
 };
 
 TestController.prototype.deleteTest = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('testID')) {
+    if (req.user.priv === 1 && req.body.hasOwnProperty('testID') && typeof req.body.testID === 'number') {
         this.test.deleteTest(req.user, { 'id': req.body.testID }).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -61,8 +61,11 @@ TestController.prototype.deleteTest = function (req, res) {
         if (req.user.priv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
-        } else {
+        } else if (!req.body.hasOwnProperty('testID')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
     }
