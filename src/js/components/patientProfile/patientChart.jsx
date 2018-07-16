@@ -46,7 +46,7 @@ function mapTests(patientId, typeMap) {
             <tr key={el.testId} >
                 {formatRow([testType,
                     new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
-                    <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`}>
+                    <NavLink id={`test/${el.testId}`} to={`/patientProfile/${patientId}/data/test/${el.testId}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
                 ])}
@@ -63,7 +63,7 @@ function mapMedications(patientId, drugList) {
         return (
             <tr key={el.id} >
                 {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'], numberOfInterruptions,
-                    <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`}>
+                    <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
                 ])}
@@ -80,7 +80,7 @@ function mapClinicalEvents(patientId, typeList) {
         return (
             <tr key={el.id} >
                 {formatRow([type, date,
-                    <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`}>
+                    <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
                 ])}
@@ -167,7 +167,7 @@ class OneVisit extends Component {
                     </>
                 ) : null}
                 <br />
-                <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`}>
+                <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
                     <button>Edit / Add</button>
                 </NavLink>
 
