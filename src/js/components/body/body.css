@@ -13,6 +13,10 @@
     --color-error-s: 93%;
     --color-error-l: 27%;
     --color-error: hsl(var(--color-error-h), var(--color-error-s), var(--color-error-l));
+    --color-active-nav-h: 339;
+    --color-active-nav-s: 90%;
+    --color-active-nav-l: 50%;
+    --color-active-nav: hsl(var(--color-active-nav-h), var(--color-active-nav-s), var(--color-active-nav-l));
     --color-background-h: 0;
     --color-background-s: 0%;
     --color-background-l: 13%;
@@ -25,7 +29,8 @@
     --color-shade-two-s: 66%;
     --color-shade-two-l: 50%;
     --color-shade-two: hsl(var(--color-shade-two-h), var(--color-shade-two-s), var(--color-shade-two-l));
-    --color-font: rgba(173, 173, 173, 255);
+    --color-font-grey-scale: 130;
+    --color-font: rgba(var(--color-font-grey-scale), var(--color-font-grey-scale), var(--color-font-grey-scale), 255);
     --color-font-active: rgba(255, 255, 255, 255);
 }
 

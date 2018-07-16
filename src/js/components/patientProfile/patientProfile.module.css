@@ -170,3 +170,11 @@ div.timelineCEBlack {
 .visitSelectorButton:hover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 6.8));
 }
+
+.activeNavLink button {
+    background-color: var(--color-active-nav);
+}
+
+.activeNavLink button:hover {
+    background-color: var(--color-active-nav);
+}
