@@ -233,7 +233,8 @@ export class ControlledInputField extends Component {
         }
     }
 
-    _handleResetClick() {
+    _handleResetClick(ev) {
+        ev.preventDefault()
         this.setState({ value: this.props.originalValue ? this.props.originalValue : '' });
     }
 
@@ -303,7 +304,8 @@ export class ControlledSelectField extends Component {
         this.setState({ value: ev.target.value });
     }
 
-    _handleResetClick() {
+    _handleResetClick(ev) {
+        ev.preventDefault();
         this.setState({ value: this.props.originalValue ? this.props.originalValue : 'unselected' });
     }
 
