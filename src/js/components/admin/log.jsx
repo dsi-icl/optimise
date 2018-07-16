@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { getLogAPICall } from '../../redux/actions/admin';
@@ -29,7 +29,7 @@ export class Log extends Component {
 /**
  * @prop {Object} this.props.entry
  */
-export class LogEntry extends Component {    /* consider mapping the endpoints to more descriptive english later  */
+export class LogEntry extends PureComponent {    /* consider mapping the endpoints to more descriptive english later  */
     render() {
         const el = this.props.entry;
         return (
