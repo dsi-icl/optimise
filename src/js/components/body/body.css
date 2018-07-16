@@ -43,6 +43,7 @@
     white-space: normal;
     text-decoration: none;
     vertical-align: top;
+    scroll-behavior: smooth;
 }
 
 html,
