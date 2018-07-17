@@ -207,22 +207,7 @@ describe('Edit Immunisation controller test', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
-        }));
-
-    test('Editing Immunisation with body but wrong VaccineDate (Should Fail)', () => admin
-        .put('/demographics/Immunisation')
-        .send({
-            'id': 1,
-            'patient': 1,
-            'vaccineName': 'A good vaccine',
-            'immunisationDate': '31/2/2009'
-        })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Editing Immunisation well formatted (Should Works)', () => admin
@@ -237,7 +222,7 @@ describe('Edit Immunisation controller test', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(5);
+            expect(res.body.state).toBe(1);
         }));
 
 });

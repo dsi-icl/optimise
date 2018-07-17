@@ -209,7 +209,8 @@ DemographicDataController.prototype.editDemographic = function (req, res) {
 };
 
 DemographicDataController.prototype.editImmunisation = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number' &&
+    ((req.body.hasOwnProperty('immunisationDate') && typeof req.body.immunisationDate === 'string') || !req.body.hasOwnProperty('immunisationDate'))) {
         this.immunisation.editImmunisation(req.user, req.body).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -230,7 +231,9 @@ DemographicDataController.prototype.editImmunisation = function (req, res) {
 };
 
 DemographicDataController.prototype.editMedicalCondition = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number' &&
+        ((req.body.hasOwnProperty('outcome') && typeof req.body.outcome === 'string') || !req.body.hasOwnProperty('outcome')) &&
+        ((req.body.hasOwnProperty('resolvedYear') && typeof req.body.resolvedYear === 'number') || !req.body.hasOwnProperty('resolvedYear'))) {
         this.medicalhistory.editMedicalHistory(req.user, req.body).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
