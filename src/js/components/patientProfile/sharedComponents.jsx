@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Icon from '../icon';
@@ -16,7 +16,7 @@ export class PatientProfileSectionScaffold extends Component {
 }
 
 @connect(state => ({ data: state.patientProfile.data }))
-export class PatientProfileTop extends Component {
+export class PatientProfileTop extends PureComponent {
     render() {
         const { patientId } = this.props.data;
         return (
