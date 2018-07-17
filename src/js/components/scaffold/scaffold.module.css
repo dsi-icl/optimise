@@ -9,6 +9,13 @@
     padding: 0.35em 1.2em;
 }
 
+.rightPush {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    padding-right: 1.2em;
+}
+
 .menuBar {    
     grid-area: navigation;
     display: block;
