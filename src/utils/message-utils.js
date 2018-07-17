@@ -3,7 +3,8 @@ const ErrorMessage = {
     DELETEFAIL: 'Couldn\'t delete entry',
     UPDATEFAIL: 'Couldn\'t update entry',
     GETFAIL: 'Couldn\'t find the requested entry',
-    NOTFOUND: 'Requested entry not found'
+    NOTFOUND: 'Requested entry not found',
+    ERASEFAILED: 'Couldn\'t erase entry'
 };
 
 const UserRelatedErrorMessage = {

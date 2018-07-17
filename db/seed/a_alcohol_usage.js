@@ -8,7 +8,7 @@ exports.seed = function (knex) {
                 { value: 'Less than 3 units a day' },
                 { value: 'Less than 3 units a week' },
                 { value: 'No alcohol consumption' },
-                { value: 'unknown' }
+                { value: 'Unknown' }
             ]);
         });
 };
