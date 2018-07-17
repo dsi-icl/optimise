@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "0.9.15",
+    "version": "0.9.16",
     "description": "Backend for OptimiseMS",
     "main": "./src/optimiseServer.js",
     "scripts": {
@@ -41,6 +41,10 @@
     "jest": {
         "globalSetup": "<rootDir>/test/setup.js",
         "globalTeardown": "<rootDir>/test/teardown.js",
-        "testEnvironment": "<rootDir>/test/environment.js"
+        "testEnvironment": "<rootDir>/test/environment.js",
+        "collectCoverageFrom": [
+            "<rootDir>/src/**/*.{js,jsx}",
+            "!<rootDir>/node_modules/"
+        ]
     }
 }

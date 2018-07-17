@@ -36,31 +36,13 @@ class RequestMiddleware {
     ** Purpose: Monitor behavior of the user and save in the database each action taken by the user.
     */
     static addActionToCollection(req, __unused__res, next) {
-        // if (req.headers.hasOwnProperty('token')) {
-        //     knex('USER_SESSION')
-        //         .select('user')
-        //         .where({ 'sessionToken': req.headers.token })
-        //         .then(result => {
-        //             let user = 'unknown';
-        //             if (result.length === 1)
-        //                 user = result[0]['user'];
-        //             knex('LOG_ACTIONS')
-        //                 .insert({ 'router': req.originalUrl, 'method': req.method, 'body': JSON.stringify(req.body), 'user': user })
-        //                 .then(__unused__resultInsert => {
-        //                     if (process.env.NODE_ENV === 'developpment')
-        //                         console.log(`${req.method} - ${req.originalUrl} : ${user}`);
-        //                     next();
-        //                 })
-        //                 .catch(err => {
-        //                     if (process.env.NODE_ENV === 'developpment')
-        //                         console.log(`Error caught :${err}`);
-        //                     next();
-        //                 });
-        //         });
-        // } else if (req.body.hasOwnProperty('username')) {
         let username = req.user ? req.user.username : req.body ? req.body.username : '';
+        let body = Object.assign({}, req.body);
+        if (req.originalUrl === '/users/login') {
+            delete body.pw;
+        }
         knex('LOG_ACTIONS')
-            .insert({ 'router': req.originalUrl, 'method': req.method, 'body': JSON.stringify(req.body), 'user': username ? username : '' })
+            .insert({ 'router': req.originalUrl, 'method': req.method, 'body': JSON.stringify(body), 'user': username ? username : '' })
             .then(__unused__res => {
                 if (process.env.NODE_ENV === 'developpment')
                     console.log(`${req.method} - ${req.originalUrl} : ${username ? username : ''}`);
