@@ -1,5 +1,5 @@
 export default {
-    searchPatientById: {
+    searchPatient: {
         fetching: false,
         error: false,
         result: []
@@ -18,9 +18,12 @@ export default {
         clinicalEventTypes: [],
         testTypes: [],
         drugs: [],
+        interruptionReasons: [],
+        allMeddra: [],
+        pregnancyOutcomes: [],
         diagnoses: [],
         relations: [],
-        CEFields: [],
+        clinicalEventFields: [],
         medicalConditions: [],
         inputTypes: [     //'I', 'F', 'BLOB' etc
             {
@@ -51,8 +54,28 @@ export default {
     },
     login: {
         loggedIn: false,
+        initialCheckingStatus: true,
         loggingIn: false,
         loginFailed: false,
-        token: ''
-    }
+        username: ''
+    },
+    meddra: {
+        result: []
+    },
+    log: {
+        fetching: true,
+        error: false,
+        result: []
+    },
+    getAllUsers: {
+        fetching: true,
+        error: false,
+        result: []
+    },
+    erasePatient: {
+        requesting: false,
+        success: false,
+        error: false
+    },
+    appLevelError: {}
 };

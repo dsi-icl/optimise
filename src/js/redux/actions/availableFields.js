@@ -1,5 +1,5 @@
-import actions from './listOfActions.js';
-import { apiHelper } from '../fetchHelper.js';
+import actions from './listOfActions';
+import { apiHelper } from '../fetchHelper';
 
 export function APICall(endpoint, cbDispatch) {
     return function () {
@@ -17,6 +17,24 @@ export const getDrugsCall = APICall('/treatments/drugs', getDrugsSuccess);
 
 export function getDrugsSuccess(payload) {
     return { type: actions.availableFields.GET_DRUGS_SUCCESS, payload: payload };
+}
+
+export const getInterruptionReasonsCall = APICall('/treatments/reasons', getInterruptionReasonsSuccess);
+
+export function getInterruptionReasonsSuccess(payload) {
+    return { type: actions.availableFields.GET_INTERRUPTION_REASONS_SUCESS, payload: payload };
+}
+
+export const getMeddraCall = APICall('/meddra', getMeddraSuccess);
+
+export function getMeddraSuccess(payload) {
+    return { type: actions.availableFields.GET_MEDDRA_SUCESS, payload: payload };
+}
+
+export const getPregnancyOutcomesCall = APICall('/demographics/Fields/Pregnancy', getPregnancyOutcomesSuccess);
+
+export function getPregnancyOutcomesSuccess(payload) {
+    return { type: actions.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS, payload: payload };
 }
 
 export const getCEFieldsCall = APICall('/available/ceFields', getCEFieldsSuccess);

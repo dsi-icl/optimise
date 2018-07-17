@@ -1,10 +1,14 @@
+import { addError } from './actions/error';
+import store from './store';
+import { promises } from 'fs';
+
 const defaultOptions = {
     mode: 'cors',
     headers: {
-        'token': '69a87eeedcd5c90fea179a0c2464dff2f130a27a',
         'content-type': 'application/json'
     },
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include'
 };
 
 export function apiHelper(endpoint, options) {
@@ -13,11 +17,22 @@ export function apiHelper(endpoint, options) {
     }
     const fetchOptions = { ...defaultOptions, ...options };
     return fetch(`/api${endpoint}`, fetchOptions)
-        .then(res => {
-            if (res.status === 200) {
-                return res.json();
+        .then(res =>
+            res.json().then((json) => ({
+                status: res.status,
+                data: json
+            })),
+        err => console.log(err))
+        .then(json => {
+            if (json.status === 200) {
+                return json.data;
             } else {
-                return Promise.reject(res);
+                if (json.data.error) {
+                    store.dispatch(addError(json.data));
+                    return Promise.reject(json);
+                } else {
+                    return json.data;
+                }
             }
-        }, err => err.json());
+        });
 }

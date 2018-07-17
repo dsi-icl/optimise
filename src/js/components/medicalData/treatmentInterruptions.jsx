@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { BackButton } from './dataPage.jsx';
-import { PickDate } from '../createMedicalElements/datepicker.jsx';
-import { formatRow } from '../patientProfile/patientChart.jsx';
-import cssButtons from '../../../css/buttons.module.css';
-import cssIcons from '../../../css/icons.module.css';
-import store from '../../redux/store.js';
-import { LoadingIcon } from '../../../statics/svg/icons.jsx';
 import moment from 'moment';
+import { BackButton } from './dataPage';
+import { PickDate } from '../createMedicalElements/datepicker';
+import store from '../../redux/store';
+import { SuggestionInput } from '../meDRA/meDRApicker';
+import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments';
+import Icon from '../icon';
+import style from '../createMedicalElements/medicalEvent.module.css';
 
-@connect(state => ({ patientProfile: state.patientProfile, fields: state.availableFields }))
+@connect(state => ({ patientProfile: state.patientProfile, fields: state.availableFields, meddra: state.meddra }))
 export class TreatmentInterruption extends Component {
     constructor() {
         super();
-        this.state = { 
-            addMore: false, 
-            newStartDate: moment(), 
+        this.state = {
+            addMore: false,
+            newStartDate: moment(),
             newEndDate: moment(),
             noEndDate: false,
-            newReason: null,
-            newMeddra: null
+            error: false
         };
+        this.reasonRef = React.createRef();
+        this.meddraRef = React.createRef();
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
         this._handleInput = this._handleInput.bind(this);
         this._handleEndDateChange = this._handleEndDateChange.bind(this);
@@ -31,86 +31,111 @@ export class TreatmentInterruption extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: null });
+        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: '', error: false });
     }
 
     _handleInput(ev) {
-        this.setState({ newName: ev.target.value });
+        this.setState({ newName: ev.target.value, error: false });
     }
 
 
     _handleStartDateChange(date) {
         this.setState({
-            newStartDate: date
+            newStartDate: date,
+            error: false
         });
     }
 
     _handleEndDateChange(date) {
         this.setState({
-            newEndDate: date
+            newEndDate: date,
+            error: false
         });
     }
 
     _handleToggleNoEndDate(ev) {
-        this.setState({ noEndDate: ev.target.checked });
+        this.setState({ noEndDate: ev.target.checked, error: false });
     }
 
-    _handleSubmit() {
-        const data = this.props.data;
-        const body = { patientId: data.patientId, data: { patient: data.id, vaccineName: this.state.newName, immunisationDate: this.state.newDate._d.toDateString() } };
+    _handleSubmit(ev) {
+        ev.preventDefault();
+        const meddraFields = this.props.meddra.result.filter(el => el.name === this.meddraRef.current.value);
+        if (meddraFields.length === 0) {
+            this.setState({ error: true });
+            return;
+        }
+        const data = this.props.patientProfile.data;
+        const body = {
+            patientId: data.patientId,
+            data: {
+                treatmentId: parseInt(this.props.match.params.elementId, 10),
+                start_date: this.state.newStartDate._d.toDateString(),
+                end_date: this.state.noEndDate ? null : this.state.newEndDate._d.toDateString(),
+                reason: parseInt(this.reasonRef.current.value, 10),
+                meddra: meddraFields[0].id
+            }
+        };
+        store.dispatch(createTreatmentInterruptionAPICall(body));
 
     }
 
     render() {
-        const { patientProfile , fields} = this.props;
-        const inputStyle = { width: '100%', margin: 0 };
+        const { patientProfile, fields } = this.props;
+        const { interruptionReasons, allMeddra } = fields;
         if (!patientProfile.fetching) {
             const { params } = this.props.match;
             const treatmentsFiltered = patientProfile.data.treatments.filter(el => el.id === parseInt(params.elementId, 10));
             if (treatmentsFiltered.length !== 0) {
                 const treatment = treatmentsFiltered[0];
                 return (
-                    <div>
-                        <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
-                        <h2>TREATMENT INTERRUPTIONS</h2>
-                        <table style={{ width: '100%' }}>
-                            {this.state.addMore || treatment.interruptions.length !== 0 ? <thead>
-                                <tr><th>Start date</th><th>End date</th><th>No end date</th><th>Reason</th><th>MedDRA</th></tr>
-                            </thead> : null}
-                            <tbody>
-                                {treatment.interruptions.map(el => formatRow([
-                                    new Date(parseInt(el.startDate, 10)).toDateString(),
-                                    el.endDate ? new Date(parseInt(el.endDate, 10)).toDateString() : 'NA',
-                                    el.endDate ? 'False' : 'True',
+                    <>
+                        <div className={style.ariane}>
+                            <h2>Treatment Interuption</h2>
+                            <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+                        </div>
+                        <form className={style.panel}>
+                            {treatment.interruptions.map((el, ind) => (
+                                <div key={`${el.endDate}${el.startDate}${el.reason}`} className={ind === treatment.interruptions.length - 1 ? style.interruptionLast : style.interruption }>
+                                    <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
+                                    {el.endDate ? <span><label>End date: </label> {new Date(parseInt(el.endDate, 10)).toDateString()}<br /></span> : null}
+                                    <label>Reason: </label> {interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br />
+                                    <label>MedDRA: </label> {el.meddra ? allMeddra[0][el.meddra] : 'NA'}
+                                </div>
+                            ))}
 
-                                ]))}
-                                {!this.state.addMore ? null : <tr>
-                                    <td><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /></td>
-                                    <td>
-                                        <PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null } handleChange={this._handleEndDateChange} />
-                                    </td>
-                                    <td>
-                                        <input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate}/>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>}
-                            </tbody>
-                        </table>
-                        {!this.state.addMore ? <div className={cssButtons.createPatientButton} onClick={this._handleClickingAdd}>Add interruptions</div> :
-                            <div>
-                                <div className={cssButtons.createPatientButton} onClick={this._handleSubmit}>Submit</div>
-                                <div onClick={this._handleClickingAdd} className={cssButtons.createPatientButton}>Cancel</div>
-                            </div>}
-                    </div>
+
+                            {!this.state.addMore ?
+                                <>
+                                    <br />
+                                    <button onClick={this._handleClickingAdd}>Add interruptions</button>
+                                </>
+                                :
+                                <>
+                                    <div className={style.newInterruption}>
+                                        <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
+                                        <b>End date: </b><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br />
+                                        <b>No end date: </b><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} /><br />
+                                        <b>Reason: </b>
+                                        <select ref={this.reasonRef}>
+                                            {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                        </select><br /><br />
+                                        <b>MedDRA: </b><SuggestionInput reference={this.meddraRef} />
+                                    </div>
+                                    <>
+                                        <br /><br />
+                                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                                        <button onClick={this._handleClickingAdd}>Cancel</button>
+                                        {this.state.error ? <div> Your medDRA code is not a permitted value.</div> : null}
+                                    </>
+                                </>}
+                        </form>
+                    </>
                 );
             } else {
-                return <div> Cannot find your treatment! Please check the id in your url. </div>
+                return <div> Cannot find your treatment! Please check the id in your url. </div>;
             }
         } else {
-            return <div className={cssIcons.spinner}><LoadingIcon /></div>;
+            return <div><Icon symbol='loading' /></div>;
         }
     }
 }

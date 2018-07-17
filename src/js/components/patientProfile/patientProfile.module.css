@@ -1,0 +1,197 @@
+.ariane {
+    grid-area: ariane;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.ariane > div {
+    position: absolute;
+    padding: 1.2em;
+    top: 0;
+    right: 0;
+}
+
+.ariane a,
+.ariane span {
+    width: 1.3em;
+    margin-left: 1.2em;
+    display: inline-block;
+}
+
+.ariane span:hover {
+    cursor: pointer;
+}
+
+.ariane svg {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+.ariane a:hover svg,
+.ariane span:hover svg {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 20%);
+}
+
+.panel {
+    grid-area: panel;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    overflow: auto;
+}
+
+.noConsentAlert {
+    color: var(--color-shade-one);
+}
+
+.timelineBox {
+    border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 98%);
+    grid-template-rows: 2em 2em 2em 2em 2em;
+    width: 100%;
+    display: grid;
+    overflow: hidden;
+    padding: 1em;
+}
+
+div.timelineVisit {
+    background-color: rgb(133, 150, 176);
+    color: rgb(133, 150, 176);
+}
+
+.timelineVisit {
+    fill: rgb(133, 150, 176);
+}
+
+div.timelineMed {
+    background-color: rgb(255, 202, 27);
+    color: rgb(255, 202, 27);
+}
+
+.timelineMed {
+    fill: rgb(255, 202, 27);
+}
+
+div.timelineTest {
+    background-color: rgb(153, 202, 120);
+    color: rgb(153, 202, 120);
+}
+
+.timelineTest {
+    fill: rgb(153, 202, 120);
+}
+
+div.timelineCE {
+    background-color: rgb(255, 102, 102);
+    color: rgb(255, 102, 102);
+}
+
+.timelineCE * {
+    fill: rgb(255, 102, 102);
+}
+
+div.timelineCEBlack {
+    background-color: rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+}
+
+.timelineCEBlack {
+    color: rgb(0, 0, 0);
+}
+
+.history {
+    font-size: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.history td,
+.history th {
+    height: 1.3em;
+    line-height: 1.3em;
+}
+
+.historyVisit div:nth-child(3){
+    width: calc(100% + 4.5em) !important;
+    margin-left: -3.5em;
+    padding-left: 3.5em !important;
+    background-color: transparent !important;
+    box-shadow: none !important;    
+}
+
+.history h4 {
+    margin-top: 1.5em;
+    margin-bottom: 0.7em;
+}
+
+.history h4 svg {
+    width: 1em;
+    height: 1em;
+    padding: 0;
+}
+
+.history span svg {
+    padding: 0em 0.5em 0.7em 0.5em;
+}
+
+.history button {
+    height: 1.8em;
+    line-height: 1.8em;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 6));
+}
+
+.history button:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 6.5));
+}
+
+.history td,
+.history th {
+    display: table-cell;
+    padding: 0.4em;
+    column-gap: 0;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 7.5));
+    border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 7));
+}
+
+.visitSelectorButton {
+    font-size: 1em;
+    display: inline-block;
+    height: 2.7em;
+    line-height: 1.9em;
+    width: 100%;
+    padding: 0.3em 0.8em;
+    color: var(--color-background);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 7));
+}
+
+.visitSelectorButton:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 6.8));
+}
+
+.activeNavLink button {
+    background-color: var(--color-active-nav);
+}
+
+.activeNavLink button:hover {
+    background-color: var(--color-active-nav);
+}
+
+.pregnancy {
+    border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+}
+
+.pregnancyLast {
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+}
+
+.newPregnancy {
+    border-top: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+}
