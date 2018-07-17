@@ -12,7 +12,8 @@ function TestController() {
 }
 
 TestController.prototype.createTest = function (req, res) {
-    if (req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('expectedDate')) {
+    if (req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('expectedDate') && req.body.hasOwnProperty('type') &&
+        typeof req.body.visitId === 'number' && typeof req.body.expectedDate === 'string' && typeof req.body.type === 'number') {
         let entryObj = {
             'orderedDuringVisit': req.body.visitId,
             'type': req.body.type,
@@ -26,8 +27,11 @@ TestController.prototype.createTest = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return;
         });
-    } else {
+    } else if (!(req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('expectedDate') && req.body.hasOwnProperty('type'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
 };
