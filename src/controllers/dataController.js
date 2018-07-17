@@ -90,22 +90,29 @@ class DataController {
 
     _transactionForAddAndUpdate(req, options) {
         return function (inputData) {
-            return knex.transaction(trx => {
-                knex(options.dataTable)    //updating all the 'updates' entries to 'deleted'
-                    .where('field', 'in', Object.keys(req.body.update))
-                    .andWhere('deleted', '-')
-                    .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
-                    .update({ 'deleted': `${req.user.id}@${JSON.stringify(new Date())}` })
-                    .transacting(trx)
-                    .then(() =>
-                        knex.batchInsert(options.dataTable, inputData.updates, 1000).transacting(trx)    //adding all the 'updates' entries
-                    )
-                    .then(() =>
-                        knex.batchInsert(options.dataTable, inputData.adds, 1000).transacting(trx) //adding all the 'updates' entries
-                    )
-                    .then(trx.commit)
-                    .catch(trx.rollback);
-            });
+            return knex
+                .transaction(trx => {
+                    knex(options.dataTable)    //updating all the 'updates' entries to 'deleted'
+                        .where('field', 'in', Object.keys(req.body.update))
+                        .andWhere('deleted', '-')
+                        .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
+                        .update({ 'deleted': `${req.user.id}@${JSON.stringify(new Date())}` })
+                        .transacting(trx)
+                        .then(() =>
+                            knex
+                                .batchInsert(options.dataTable, inputData.updates, 1000)
+                                .transacting(trx)
+                                .catch(trx.rollback) //adding all the 'updates' entries
+                        )
+                        .then(() =>
+                            knex
+                                .batchInsert(options.dataTable, inputData.adds, 1000)
+                                .transacting(trx)
+                                .catch(trx.rollback) //adding all the 'updates' entries
+                        )
+                        .then(trx.commit)
+                        .catch(trx.rollback);
+                });
         };
     }
 
@@ -144,7 +151,6 @@ class DataController {
                     }
                     if (Array.from(new Set(allFieldIds)).length !== allFieldIds.length) {
                         res.status(400).json(ErrorHelper('fields in add and update cannot have overlaps!'));
-                        throw 'stopping the chain';
                     }
                     return Promise.all(promiseArr);
                 })
@@ -160,31 +166,31 @@ class DataController {
                                 case 'B':
                                     if (!(inputValue === 1 || inputValue === 0)) {
                                         res.status(400).json(ErrorHelper(`Field ${fieldId} only accepts value 1 and 0.`));
-                                        throw 'stopping the chain';
+                                        return;
                                     }
                                     break;
                                 case 'C':
                                     if (!(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
                                         res.status(400).json(ErrorHelper(`Field ${fieldId} only accepts values ${result[i][0]['permittedValues']}`));
-                                        throw 'stopping the chain';
+                                        return;
                                     }
                                     break;
                                 case 'I':
                                     if (!(parseInt(inputValue) === parseFloat(inputValue))) {
                                         res.status(400).json(ErrorHelper(`Field ${fieldId} only accept integer`));
-                                        throw 'stopping the chain';
+                                        return;
                                     }
                                     break;
                                 case 'N':
                                     if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
                                         res.status(400).json(ErrorHelper(`Field ${fieldId} only accept number`));
-                                        throw 'stopping the chain';
+                                        return;
                                     }
                                     break;
                             }
                         } else {
-                            res.status(404).json(ErrorHelper('cannot seem to find one of your fields'));
-                            throw 'stopping the chain';
+                            res.status(404).json(ErrorHelper('Cannot seem to find one of your fields'));
+                            return;
                         }
                     }
                     return result;
@@ -198,7 +204,7 @@ class DataController {
                         .then(entries => {
                             if (entries.length !== numOfUpdates) {
                                 res.status(400).json(ErrorHelper('you can only update when the data is already there!'));
-                                throw 'stopping the chain';
+                                return;
                             }
                             return knex(options.dataTable)
                                 .select('id')
@@ -209,7 +215,7 @@ class DataController {
                         .then(entries => {
                             if (entries.length !== 0) {
                                 res.status(400).json(ErrorHelper('you can only add when the data is not already there!'));
-                                throw 'stopping the chain';
+                                return;
                             }
                             return 0;
                         })
