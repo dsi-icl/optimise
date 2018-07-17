@@ -25,15 +25,19 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
         }).then((optimise_router) => {
             optimiseRouter = optimise_router;
             return true;
+        }).catch(err => {
+            console.error(err);
         });
     }
 
     static globalTeardown() {
         optimiseServer.stop().then(() =>
-            Promise(function (resolve, reject) {
+            new Promise(function (resolve, reject) {
                 erase().then(() => knex.destroy().then(() => resolve(true))).catch(err => reject(err));
             })
-        );
+        ).catch(err => {
+            console.error(err);
+        });
     }
 
     async setup() {
