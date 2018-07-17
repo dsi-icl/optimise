@@ -60,7 +60,7 @@ export class CreateTest extends Component {
     render() {
         if (this.props.visits) {
             const params = this.props.match.params;
-            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
+            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.id === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
             return (
                 <>
                     <div className={style.ariane}>
