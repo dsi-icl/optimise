@@ -1,6 +1,6 @@
 const knex = require('../utils/db-connection');
 const { PregnancyCore } = require('../core/demographic');
-const { DiagnosisCore } = require('../core/demographic');
+const DiagnosisCore = require('../core/patientDiagnosis');
 
 class SelectorUtils {
     getVisitsWithoutData(patientId) {
@@ -63,13 +63,13 @@ class SelectorUtils {
     getVisits(patientId) {
         const _this = this;
         return knex('VISITS')
-            .select({ visitId: 'id', visitDate: 'visitDate' })
+            .select({ id: 'id', visitDate: 'visitDate' })
             .where({ 'patient': patientId, 'deleted': '-' })
             .then(result => {
                 if (result.length >= 1) {
                     const promiseArr = [];
                     for (let i = 0; i < result.length; i++) {
-                        promiseArr.push(_this._getVisitData(result[i].visitId));
+                        promiseArr.push(_this._getVisitData(result[i].id));
                     }
                     const allPromisesResolving = Promise.all(promiseArr).then(
                         data => {
@@ -96,14 +96,14 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return knex('ORDERED_TESTS')
-                .select({ 'testId': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate')
+                .select({ 'id': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere({ 'deleted': '-' })
                 .then(result => {
                     if (result.length >= 1) {
                         const promiseArr = [];
                         for (let i = 0; i < result.length; i++) {
-                            promiseArr.push(_this._getTestData(result[i].testId));
+                            promiseArr.push(_this._getTestData(result[i].id));
                         }
                         const allPromisesResolving = Promise.all(promiseArr).then(
                             data => {
@@ -250,7 +250,7 @@ class SelectorUtils {
 
     getDiagnosis(patientId) {
         let diagnosis = new DiagnosisCore();
-        return diagnosis.getDiagnosis({ 'patient': patientId, 'deleted': '-' }).then(function (result) {
+        return diagnosis.getPatientDiagnosis({ 'patient': patientId, 'deleted': '-' }).then(function (result) {
             return { 'diagnosis': result };
         }, function (__unused__error) {
             return { 'diagnosis': [] };
