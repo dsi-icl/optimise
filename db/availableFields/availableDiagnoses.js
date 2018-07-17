@@ -1,13 +1,14 @@
 const availableDiagnoses = [
-    { id: 1, value: 'RIS' },
-    { id: 2, value: 'CIS' },
-    { id: 3, value: 'ADEM' },
-    { id: 4, value: 'RRMS' },
-    { id: 5, value: 'PPMS' },
-    { id: 6, value: 'SPMS' },
-    { id: 7, value: 'NMOSD Optic Neuritis' },
-    { id: 8, value: 'NMOSD Transverse Myelitis' },
-    { id: 9, value: 'NMOSD Brain Stem' }
+    { id: 1, value: 'Unknown' },
+    { id: 2, value: 'RIS' },
+    { id: 3, value: 'CIS' },
+    { id: 4, value: 'ADEM' },
+    { id: 5, value: 'RRMS' },
+    { id: 6, value: 'PPMS' },
+    { id: 7, value: 'SPMS' },
+    { id: 8, value: 'NMOSD Optic Neuritis' },
+    { id: 9, value: 'NMOSD Transverse Myelitis' },
+    { id: 10, value: 'NMOSD Brain Stem' }
 ];
 
 module.exports = availableDiagnoses;
