@@ -46,10 +46,10 @@ export class CreateCE extends Component {
         return {
             patientId: this.props.match.params.patientId,
             data: {
-                visitId: this.props.match.params.visitId,
+                visitId: Number.parseInt(this.props.match.params.visitId),
                 startDate: date.toDateString(),
-                type: this.state.ceType,
-                meddra: this.props.meddra.filter(el => el.name === this.state.meddra.current.value)[0].id
+                type: Number.parseInt(this.state.ceType),
+                meddra: Number.parseInt(this.props.meddra.filter(el => el.name === this.state.meddra.current.value)[0].id)
             }
         };
     }

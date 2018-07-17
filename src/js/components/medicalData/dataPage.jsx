@@ -53,7 +53,12 @@ export class DataTemplate extends Component {
                 }
             }
         }
-        const body = { data: bodydata, type: this.props.elementType, patientId: this.props.match.params.patientId };
+        const body = {
+            data: bodydata,
+            type: this.props.elementType,
+            patientId:
+                this.props.match.params.patientId
+        };
         this.props.submitData(body);
     }
 

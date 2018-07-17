@@ -83,7 +83,13 @@ export default class CreatePatient extends Component {    //get these props from
             diagnosisDate: this.state.diagnosisDate._d.toDateString()
         };
         const patientData = { aliasId: patientId, study: 'optimise' };
-        const body = { patientData: patientData, demoData: demoData, patientId: patientId, diagnosisData: diagnosisData, PIIData: PIIData };
+        const body = {
+            patientData: patientData,
+            demoData: demoData,
+            patientId: patientId,
+            diagnosisData: diagnosisData,
+            PIIData: PIIData
+        };
 
         store.dispatch(createPatientCall(body));
         this.setState({ dispatched: true });
