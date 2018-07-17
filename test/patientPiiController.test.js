@@ -288,7 +288,7 @@ describe('Editing PII test suite', () => {
                 expect(res.status).toBe(200);
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(4);
+                expect(res.body.state).toBe(1);
             }));
 });
 
