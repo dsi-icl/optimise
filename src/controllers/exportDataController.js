@@ -19,7 +19,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .where('PATIENTS.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'demographics'));
                 }
             });
@@ -32,7 +32,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_PII.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'pii'));
                 }
             });
@@ -46,7 +46,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'pregnancy'));
                 }
             });
@@ -59,7 +59,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'medicalHistory'));
                 }
             });
@@ -72,7 +72,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'immunisation'));
                 }
             });
@@ -99,7 +99,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('VISIT_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'visit'));
                 }
             });
@@ -114,7 +114,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('TEST_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'test'));
                 }
             });
@@ -129,7 +129,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .where('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'clinicalEvent'));
                 }
             });
@@ -145,7 +145,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('TREATMENTS.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'treatment'));
                 }
                 zipFiles(fileArray);
@@ -158,8 +158,8 @@ class ExportDataController {
             const tempfileName = `${prefix}${fileName}`;
             let keys = Object.keys(result[0]); // get the keys from result to create headers
             let tempResult = `${keys.join(',')}\n`;
-            result.forEach(function(obj) {
-                keys.forEach(function(a, b){
+            result.forEach(function (obj) {
+                keys.forEach(function (a, b) {
                     if (b) tempResult += ',';
                     tempResult += obj[a];
                 });
@@ -176,7 +176,7 @@ class ExportDataController {
             tempSavedPath = path.normalize(tempSavedPath);
             fs.writeFile(tempSavedPath, fileContents, err => {
                 if (err) {
-                    throw err;
+                    return;
                 }
             });
             return { path: tempSavedPath, name: tempfileName };

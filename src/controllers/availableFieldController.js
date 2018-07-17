@@ -21,7 +21,8 @@ class AvailableFieldController {
             let table = tableMap[req.params.dataType];
             knex(table)
                 .select('*')
-                .where(moduleObj).then(function (result) {
+                .where(moduleObj)
+                .then(function (result) {
                     if (result.length > 0) {
                         for (let i = 0; i < result.length; i++) {
                             delete result[i].deleted;
