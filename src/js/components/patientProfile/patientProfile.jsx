@@ -228,7 +228,7 @@ class Pregnancy extends Component {
             patientId: data.patientId,
             data: {
                 patient: data.id,
-                outcome: newOutcome,
+                outcome: parseInt(newOutcome,10),
                 startDate: newStartDate ? newStartDate._d.toDateString() : null,
                 meddra: meddraField[0].id,
                 outcomeDate: newOutcomeDate ? newOutcomeDate._d.toDateString() : null
