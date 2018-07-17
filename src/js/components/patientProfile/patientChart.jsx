@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
 import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedComponents';
 import { TimelineBox } from './timeline';
@@ -8,6 +8,9 @@ import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import Icon from '../icon';
 import style from './patientProfile.module.css';
+
+
+//need to pass location to buttons  - do later
 
 @connect(state => ({
     fetching: state.patientProfile.fetching,
@@ -39,64 +42,89 @@ export class PatientChart extends Component {
     }
 }
 
-function mapTests(patientId, typeMap) {
-    return el => {
-        const testType = typeMap.filter(ele => ele.id === el.type)[0].name;  //change this later, format when receiving state
+
+
+/* receives a prop data of one test*/
+@withRouter
+@connect(state => ({ typedict: state.availableFields.testTypes_Hash[0], patientId: state.patientProfile.data.patientId }))
+class Test extends PureComponent {
+    render() {
+        const { data, typedict, patientId } = this.props;
+        const date = new Date(parseInt(data.expectedOccurDate, 10)).toDateString()
         return (
-            <tr key={el.id} >
-                {formatRow([testType,
-                    new Date(parseInt(el['expectedOccurDate'], 10)).toDateString(),
-                    <NavLink id={`test/${el.id}`} to={`/patientProfile/${patientId}/data/test/${el.id}`} activeClassName={style.activeNavLink}>
+            <tr>
+                <td>{typedict[data.type]}</td>
+                <td>{date}</td>
+                <td>
+                    <NavLink id={`test/${data.id}`} to={`/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
-                ])}
+                </td>
             </tr>
+            
         );
-    };
+    }
 }
 
-function mapMedications(patientId, drugList) {
-    return el => {
-        const drugFiltered = drugList.filter(drug => drug.id === el.drug);
-        const drug = drugFiltered.length === 1 ? `${drugFiltered[0].name} (${drugFiltered[0].module})` : el.drug;
-        const numberOfInterruptions = el.interruptions ? el.interruptions.length : 0;
+/* receives a prop data of one treatment */
+@withRouter
+@connect(state => ({ typedict: state.availableFields.drugs_Hash[0], patientId: state.patientProfile.data.patientId }))
+class Medication extends PureComponent {
+    render() {
+        const { data, typedict, patientId } = this.props;
+        const numberOfInterruptions = data.interruptions ? data.interruptions.length : 0;
         return (
-            <tr key={el.id} >
-                {formatRow([drug, `${el.dose} ${el.unit}`, el.form, el['timesPerDay'], el['durationWeeks'], numberOfInterruptions,
-                    <NavLink id={`treatment/${el.id}`} to={`/patientProfile/${patientId}/data/treatment/${el.id}`} activeClassName={style.activeNavLink}>
+            <tr>
+                <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
+                <td>{`${data.dose} ${data.unit}`}</td>
+                <td>{data.form}</td>
+                <td>{data.timesPerDay}</td>
+                <td>{data.durationWeeks}</td>
+                <td>{numberOfInterruptions}</td>
+                <td>
+                    <NavLink id={`treatment/${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Interruptions</button>
                     </NavLink>
-                ])}
+                </td>
             </tr>
+            
         );
-    };
+    }
 }
 
-function mapClinicalEvents(patientId, typeList) {
-    return el => {
-        const typeFiltered = typeList.filter(type => type.id === el.type);
-        const type = typeFiltered.length === 1 ? typeFiltered[0].name : el.type;
-        const date = new Date(parseInt(el.dateStartDate, 10)).toDateString();
+/* receives a prop data of one clinical event*/
+@withRouter
+@connect(state => ({ typedict: state.availableFields.clinicalEventTypes_Hash[0], patientId: state.patientProfile.data.patientId }))
+class ClinicalEvent extends PureComponent {
+    render() {
+        const { data, typedict, patientId } = this.props;
+        const date = new Date(parseInt(data.dateStartDate, 10)).toDateString();
         return (
-            <tr key={el.id} >
-                {formatRow([type, date,
-                    <NavLink id={`clinicalEvent/${el.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${el.id}`} activeClassName={style.activeNavLink}>
+            <tr>
+                <td>{typedict[data.type]}</td>
+                <td>{date}</td>
+                <td>
+                    <NavLink id={`clinicalEvent/${data.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
-                ])}
+                </td>
             </tr>
+            
         );
-    };
+    }
 }
 
-function mapSymptoms(fieldHashTable) {
-    return el => {
+@connect(state => ({ typedict: state.availableFields.visitFields_Hash[0], patientId: state.patientProfile.data.patientId }))
+class Symptom extends PureComponent {
+    render() {
+        const { data, typedict, patientId } = this.props;
         return (
-            <tr key={el.field} >
-                {formatRow([fieldHashTable[el.field].definition, el.value])}
+            <tr>
+                <td>{typedict[data.field].definition}</td>
+                <td>{data.value}</td>
             </tr>
         );
-    };
+    }
 }
 
 
@@ -153,15 +181,15 @@ class OneVisit extends Component {
                     </tbody>
                 </table>
 
+                <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
                 {relevantFields.length !== 0 ? (
                     <>
-                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
                         <table>
                             <thead>
                                 <tr><th>Recorded symptoms</th><th>Value</th></tr>
                             </thead>
                             <tbody>
-                                {symptoms.map(mapSymptoms(fieldHashTable))}
+                                {symptoms.map(el => <Symptom key={el.field} data={el}/>)}
                             </tbody>
                         </table>
                     </>
@@ -176,12 +204,12 @@ class OneVisit extends Component {
                         <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'}</h4>
                         <table>
                             <thead>
-                                <tr><th>Type</th><th>Expected date</th></tr>
+                                <tr><th>Type</th><th>Expected date</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.tests
                                     .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                    .map(mapTests(this.props.data.patientId, this.props.availableFields.testTypes))}
+                                    .map(el => <Test key={el.id} data={el}/>)}
                             </tbody>
                         </table>
                     </>
@@ -199,7 +227,7 @@ class OneVisit extends Component {
                             <tbody>
                                 {this.props.data.treatments
                                     .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                    .map(mapMedications(this.props.data.patientId, this.props.availableFields.drugs))}
+                                    .map(el => <Medication key={el.id} data={el}/>)}
                             </tbody>
                         </table>
                     </>
@@ -218,7 +246,7 @@ class OneVisit extends Component {
                                 {this.props.data.clinicalEvents
                                     .filter(el => el['recordedDuringVisit'] === this.props.visitId)
                                     /* change this map later to calculated patientId*/
-                                    .map(mapClinicalEvents(this.props.data.patientId, this.props.availableFields.clinicalEventTypes))}
+                                    .map(el => <ClinicalEvent key={el.id} data={el}/>)}
                             </tbody>
                         </table>
                     </>
@@ -279,6 +307,8 @@ export class Charts extends Component {   //unfinsihed
         );
     }
 }
+
+
 
 
 function sortVisits(visitList) {
