@@ -38,6 +38,37 @@ describe('Create test controller tests', () => {
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
+    test('Request creation with wrong type visit (should fail)', () => admin
+        .post('/tests')
+        .send({ 'visitId': 'WRONG', 'type': 1, 'expectedDate': '1 Jan 2020' })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Request creation with wrong type type (should fail)', () => admin
+        .post('/tests')
+        .send({ 'visitId': 1, 'type': 'WRONG', 'expectedDate': '1 Jan 2020' })
+        .then(res => {
+            console.log(JSON.stringify(res.body));
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Request creation with wrong type expectedDate (should fail)', () => admin
+        .post('/tests')
+        .send({ 'visitId': 1, 'type': 1, 'expectedDate': {} })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
     test('Request creation with good body (should success)', () => admin
         .post('/tests')
         .send({ 'visitId': 1, 'type': 1, 'expectedDate': '1 Jan 2020' })
