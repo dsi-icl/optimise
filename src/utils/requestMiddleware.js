@@ -42,7 +42,7 @@ class RequestMiddleware {
         if (body.pw !== undefined)
             body.pw = '*';
         knex('LOG_ACTIONS')
-            .insert({ 'router': req.originalUrl, 'method': req.method, 'body': JSON.stringify(body), 'user': username ? username : '' })
+            .insert({ 'router': req.url, 'method': req.method, 'body': JSON.stringify(body), 'user': username ? username : '' })
             .then(__unused__res => {
                 if (process.env.NODE_ENV === 'developpment')
                     console.log(`${req.method} - ${req.originalUrl} : ${username ? username : ''}`);
