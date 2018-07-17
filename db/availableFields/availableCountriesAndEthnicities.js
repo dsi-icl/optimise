@@ -70,7 +70,6 @@ const availableCountriesAndEthnicities = {
         { value: 'Georgia' },
         { value: 'Germany' },
         { value: 'Ghana' },
-        { value: 'Great Britain' },
         { value: 'Greece' },
         { value: 'Grenada' },
         { value: 'Guadeloupe' },
@@ -192,6 +191,7 @@ const availableCountriesAndEthnicities = {
         { value: 'Uganda' },
         { value: 'Ukraine' },
         { value: 'United Arab Emirates' },
+        { value: 'United Kingdom' },
         { value: 'United States of America (USA)' },
         { value: 'Uruguay' },
         { value: 'Uzbekistan' },
@@ -203,12 +203,12 @@ const availableCountriesAndEthnicities = {
         { value: 'Zambia' },
         { value: 'Zimbabwe' }],
     ethnicities: [
+        { value: 'Unknown' },
         { value: 'White' },
         { value: 'Asian' },
         { value: 'Black' },
         { value: 'Mixed/Multiple ethnic groups' },
-        { value: 'Other ethnic group' },
-        { value: 'Unknown' }
+        { value: 'Other ethnic group' }
     ]
 };
 

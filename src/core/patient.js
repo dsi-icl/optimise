@@ -39,10 +39,14 @@ Patient.prototype.getPatient = function (whereObj, selectedObj) {
 Patient.prototype.searchPatients = function (queryid) {
     return new Promise(function (resolve, reject) {
         knex('PATIENTS')
-            .select({ patientId: 'id' }, 'aliasId', 'study')
+            .select({ patientId: 'id' }, 'aliasId', 'study', 'consent')
             .where('aliasId', 'like', queryid)
             .andWhere('PATIENTS.deleted', '-')
             .then(function (result) {
+                if (Array.isArray(result))
+                    for (let i = 0; i < result.length; i++) {
+                        result[i].consent = Boolean(result[i].consent);
+                    }
                 resolve(result);
             }, function (error) {
                 reject(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -52,13 +56,12 @@ Patient.prototype.searchPatients = function (queryid) {
 
 /**
  * @description Create a new patient
- * @param {*} requester  Information about the requester
+ * @param {*} user  Information about the user
  * @param {*} patient The new created patient
  */
-Patient.prototype.createPatient = function (requester, patient) {
+Patient.prototype.createPatient = function (patient) {
     return new Promise(function (resolve, reject) {
         let entryObj = Object.assign({}, patientModel, patient);
-        entryObj.createdByUser = requester.userid;
         createEntry('PATIENTS', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {
@@ -70,12 +73,12 @@ Patient.prototype.createPatient = function (requester, patient) {
 /**
  * @function deletePatient delete an entry of Patient from an ID.
  *
- * @param {*} requester Information about the requester
+ * @param {*} user Information about the user
  * @param {*} idObj ID of the entry that is going to be deleted
  */
-Patient.prototype.deletePatient = function (requester, idObj) {
+Patient.prototype.deletePatient = function (user, idObj) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('PATIENTS', requester, idObj).then(function (success) {
+        deleteEntry('PATIENTS', user, idObj).then(function (success) {
             resolve(success);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));

@@ -6,17 +6,18 @@
 const express = require('express');
 const patient = express();
 
-const PatientCtrl = require('../controllers/patientController');
-const PatientController = new PatientCtrl();
+const PatientController = require('../controllers/patientController');
+const PatientCtrl = new PatientController();
 // Interacts with the patients in the DB
 patient.route('/')
-    .get(PatientController.searchPatients)
-    .post(PatientController.createPatient)
-    .patch(PatientController.setPatientAsDeleted)
-    .delete(PatientController.erasePatientInfo);
+    .get(PatientCtrl.searchPatients)
+    .post(PatientCtrl.createPatient)
+    .patch(PatientCtrl.setPatientAsDeleted)
+    .put(PatientCtrl.updateConsent)
+    .delete(PatientCtrl.erasePatientInfo);
 
 // Get the profile of a certain user
 patient.route('/:patientId')
-    .get(PatientController.getPatientProfileById);
+    .get(PatientCtrl.getPatientProfileById);
 
 module.exports = patient;

@@ -12,10 +12,10 @@ function createEntry(tablename, entryObj) {
 }
 
 
-function deleteEntry(tablename, requester, whereObj) {
+function deleteEntry(tablename, user, whereObj) {
     whereObj.deleted = '-';
     return new Promise(function (resolve, reject) {
-        knex(tablename).where(whereObj).update({ deleted: `${requester.userid}@${JSON.stringify(new Date())}` }).then(function (result) {
+        knex(tablename).where(whereObj).update({ deleted: `${user.id}@${JSON.stringify(new Date())}` }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(error);
@@ -33,22 +33,22 @@ function getEntry(tablename, whereObj, selectedObj) {
     });
 }
 
-function updateEntry(tablename, requester, originObj, whereObj, newObj) {
+function updateEntry(tablename, user, originObj, whereObj, newObj) {
     whereObj.deleted = '-';
     return new Promise(function (resolve, reject) {
         getEntry(tablename, whereObj, originObj).then(function (getResult) {
             if (getResult.length !== 1) {
                 reject(message.errorMessages.NOTFOUND);
-                return ;
+                return;
             }
-            deleteEntry(tablename, requester, whereObj).then(function (__unused__deleteResult) {
+            deleteEntry(tablename, user, whereObj).then(function (__unused__deleteResult) {
                 let newEntry = Object.assign(getResult[0], newObj);
                 delete newEntry.id;
                 delete newEntry.createdTime;
                 delete newEntry.deleted;
-                createEntry(tablename, newEntry).then(function(createResult){
+                createEntry(tablename, newEntry).then(function (createResult) {
                     resolve(createResult);
-                }, function(createError){
+                }, function (createError) {
                     reject(createError);
                 });
             }, function (deleteError) {
@@ -58,75 +58,12 @@ function updateEntry(tablename, requester, originObj, whereObj, newObj) {
             reject(error);
         });
     });
-    // knex(tablename)
-    //     .select('*')
-    //     .where(whereObj)
-    //     .then(result => {
-    //         let originalResult;
-    //         let newDeletedCol;
-    //         switch (result.length) {
-    //             case 0:
-    //                 res.status(404).json('Entry does not exist');
-    //                 break;
-    //             case expectedNumAffected:
-    //                 originalResult = result;
-    //                 newDeletedCol = `${req.requester.userid}@${JSON.stringify(new Date())}`;   //saved this so that on fail, update entry back to undeleted
-    //                 knex(tablename)
-    //                     .where(whereObj)
-    //                     .update({ deleted: newDeletedCol })
-    //                     .then(() => {
-    //                         let newEntry = Object.assign(originalResult[0], newObj);
-    //                         delete newEntry.id;
-    //                         delete newEntry['createdTime'];
-    //                         newEntry.deleted = '-';
-    //                         newEntry['createdByUser'] = req.requester.userid;
-    //                         knex(tablename)
-    //                             .insert(newEntry)
-    //                             .then(() => res.status(200).send(`${whatIsUpdated} has been succesfully updated.`))
-    //                             .catch(err => {        //if the original entry is deleted and the new one can't be written. need to reverse it
-    //                                 console.log(err);
-    //                                 whereObj.deleted = newDeletedCol;
-    //                                 knex(tablename)
-    //                                     .where(whereObj)
-    //                                     .update({ deleted: '-' })
-    //                                     .then(() => res.status(400).send('update failed. Please check you parameters'))
-    //                                     .catch(err => { console.log(err); res.status(500).send('Database error'); });
-    //                             });
-    //                     })
-    //                     .catch(err => {
-    //                         console.log(err);
-    //                         res.status(400).send('Database error');
-    //                     });
-    //                 break;
-    //             default:
-    //                 res.status(599).send('something weird happened');
-    //                 break;
-    //         }
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //         res.status(400).send('Database error');
-    //     });
 }
 
-function eraseEntry(res, tablename, whereObj, __unused__whatIsDeleted, databaseErrMsg, answering) {
-    try {
-        knex(tablename)
-            .del()
-            .where(whereObj)
-            .then(() => {
-                if (answering)
-                    res.status(200).json('success');
-            })
-            .catch(err => {
-                if (answering)
-                    res.status(400).send(databaseErrMsg + err);
-                return (false);
-            });
-    } catch (error) {
-        return (false);
-    }
-    return (true);
+function eraseEntry(tablename, whereObj) {
+    return knex(tablename)
+        .del()
+        .where(whereObj);
 }
 
 module.exports = { getEntry: getEntry, createEntry: createEntry, updateEntry: updateEntry, deleteEntry: deleteEntry, eraseEntry: eraseEntry };

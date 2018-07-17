@@ -1,4 +1,6 @@
 const knex = require('../utils/db-connection');
+const { PregnancyCore } = require('../core/demographic');
+const DiagnosisCore = require('../core/patientDiagnosis');
 
 class SelectorUtils {
     getVisitsWithoutData(patientId) {
@@ -61,13 +63,13 @@ class SelectorUtils {
     getVisits(patientId) {
         const _this = this;
         return knex('VISITS')
-            .select({ visitId: 'id', visitDate: 'visitDate' })
+            .select({ id: 'id', visitDate: 'visitDate' })
             .where({ 'patient': patientId, 'deleted': '-' })
             .then(result => {
                 if (result.length >= 1) {
                     const promiseArr = [];
                     for (let i = 0; i < result.length; i++) {
-                        promiseArr.push(_this._getVisitData(result[i].visitId));
+                        promiseArr.push(_this._getVisitData(result[i].id));
                     }
                     const allPromisesResolving = Promise.all(promiseArr).then(
                         data => {
@@ -94,14 +96,14 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return knex('ORDERED_TESTS')
-                .select({ 'testId': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate')
+                .select({ 'id': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere({ 'deleted': '-' })
                 .then(result => {
                     if (result.length >= 1) {
                         const promiseArr = [];
                         for (let i = 0; i < result.length; i++) {
-                            promiseArr.push(_this._getTestData(result[i].testId));
+                            promiseArr.push(_this._getTestData(result[i].id));
                         }
                         const allPromisesResolving = Promise.all(promiseArr).then(
                             data => {
@@ -123,16 +125,21 @@ class SelectorUtils {
 
     getTreatments(patientId) {
         const _this = this;
-        return knex('VISITS').select('id').where({ 'patient': patientId, deleted: '-' }).then(resu => {
+        return knex('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate' }).where({ 'patient': patientId, deleted: '-' }).then(resu => {
             let ids = [];
+            let dates = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
+                dates[resu[i].id] = resu[i].visitDate;
             }
             return knex('TREATMENTS')
                 .select('id', 'orderedDuringVisit', 'drug', 'dose', 'unit', 'form', 'timesPerDay', 'durationWeeks', 'terminatedDate', 'terminatedReason')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere({ 'deleted': '-' })
                 .then(result => {
+                    for (let i = 0; i < result.length; i++) {
+                        result[i].visitDate = dates[result[i].orderedDuringVisit];
+                    }
                     if (result.length >= 1) {
                         const promiseArr = [];
                         for (let i = 0; i < result.length; i++) {
@@ -156,6 +163,15 @@ class SelectorUtils {
         });
     }
 
+    getPregnancy(patientId) {
+        let pregnancy = new PregnancyCore();
+        return pregnancy.getPregnancy({ 'patient': patientId, 'deleted': '-' }).then(function (result) {
+            return { 'pregnancy': result };
+        }, function (__unused__error) {
+            return { 'pregnancy': [] };
+        });
+    }
+
     _getVisitData(visitId) {
         return knex('VISIT_DATA')
             .select('field', 'value')
@@ -170,7 +186,7 @@ class SelectorUtils {
 
     _getTreatmentInterruptions(treatmentId) {
         return knex('TREATMENTS_INTERRUPTIONS')
-            .select('reason', 'startDate', 'endDate')
+            .select('reason', 'startDate', 'endDate', 'meddra')
             .where({ 'treatment': treatmentId, 'deleted': '-' });
     }
 
@@ -229,6 +245,15 @@ class SelectorUtils {
                         return returnObj;
                     }
                 });
+        });
+    }
+
+    getDiagnosis(patientId) {
+        let diagnosis = new DiagnosisCore();
+        return diagnosis.getPatientDiagnosis({ 'patient': patientId, 'deleted': '-' }).then(function (result) {
+            return { 'diagnosis': result };
+        }, function (__unused__error) {
+            return { 'diagnosis': [] };
         });
     }
 }
