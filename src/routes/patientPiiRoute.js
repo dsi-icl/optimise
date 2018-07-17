@@ -12,7 +12,7 @@ const PatientPiiCtrl = new PatientController();
 patient.route('/')
     .get(PatientPiiCtrl.getPatientPii)
     .post(PatientPiiCtrl.createPatientPii)
-    .patch(PatientPiiCtrl.updatePatientPii)
+    .put(PatientPiiCtrl.updatePatientPii)
     .delete(PatientPiiCtrl.deletePatientPii);
 
 module.exports = patient;

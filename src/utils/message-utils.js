@@ -14,7 +14,8 @@ const UserRelatedErrorMessage = {
     BADCREDENTIALS: 'Invalid credentials',
     NORIGHTS: 'Unauthorized to do this action',
     INVALIDDATE: 'The date provided is not valid',
-    WRONGPATH: 'The requested url doesn\'t exists'
+    WRONGPATH: 'The requested url doesn\'t exists',
+    INVALIDQUERY: 'The query string can only have one parameter "id"'
 };
 
 module.exports = { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage };

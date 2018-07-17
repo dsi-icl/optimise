@@ -1,19 +1,14 @@
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const formatToJSON = require('../utils/format-response');
-const { DemographicCore, MedicalHistoryCore, ImmunisationCore, PregnancyCore, DiagnosisCore } = require('../core/demographic');
+const { DemographicCore, MedicalHistoryCore, ImmunisationCore, PregnancyCore } = require('../core/demographic');
 
 const PregnancyModel = {
     'patient': 0,
     'startDate': null,
     'outcome': 0,
-    'outcomeDate': null
-};
-
-const DiagnosisModel = {
-    'patient': 0,
-    'diagnosis': 0,
-    'diagnosisDate': null
+    'outcomeDate': null,
+    'meddra': 0
 };
 
 function DemographicDataController() {
@@ -21,7 +16,6 @@ function DemographicDataController() {
     this.immunisation = new ImmunisationCore();
     this.medicalhistory = new MedicalHistoryCore();
     this.pregnancy = new PregnancyCore();
-    this.diagnosis = new DiagnosisCore();
 
     this.getDemogData = DemographicDataController.prototype.getDemogData.bind(this);
     this.createDemographic = DemographicDataController.prototype.createDemographic.bind(this);
@@ -41,19 +35,17 @@ function DemographicDataController() {
     this.createPregnancy = DemographicDataController.prototype.createPregnancy.bind(this);
     this.editPregnancy = DemographicDataController.prototype.editPregnancy.bind(this);
     this.deletePregnancy = DemographicDataController.prototype.deletePregnancy.bind(this);
-    this.getDiagnosisOptions = DemographicDataController.prototype.getDiagnosisOptions.bind(this);
-    this.getDiagnosis = DemographicDataController.prototype.getDiagnosis.bind(this);
-    this.createDiagnosis = DemographicDataController.prototype.createDiagnosis.bind(this);
-    this.editDiagnosis = DemographicDataController.prototype.editDiagnosis.bind(this);
-    this.deleteDiagnosis = DemographicDataController.prototype.deleteDiagnosis.bind(this);
 }
 
 DemographicDataController.prototype.createDemographic = function (req, res) {
     if ((!req.body.hasOwnProperty('patient') || !req.body.hasOwnProperty('DOB') || !req.body.hasOwnProperty('gender') || !req.body.hasOwnProperty('dominant_hand')
-        || !req.body.hasOwnProperty('ethnicity') || !req.body.hasOwnProperty('country_of_origin') || !req.body.hasOwnProperty('alcohol_usage') || !req.body.hasOwnProperty('smoking_history'))
-        || (typeof req.body.patient !== 'number' || typeof req.body.DOB !== 'string' || typeof req.body.gender !== 'number' || typeof req.body.dominant_hand !== 'number'
-            || typeof req.body.ethnicity !== 'number' || typeof req.body.country_of_origin !== 'number' || typeof req.body.alcohol_usage !== 'number' || typeof req.body.smoking_history !== 'number')) {
+        || !req.body.hasOwnProperty('ethnicity') || !req.body.hasOwnProperty('country_of_origin') || !req.body.hasOwnProperty('alcohol_usage') || !req.body.hasOwnProperty('smoking_history'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    }
+    if (typeof req.body.patient !== 'number' || typeof req.body.DOB !== 'string' || typeof req.body.gender !== 'number' || typeof req.body.dominant_hand !== 'number'
+        || typeof req.body.ethnicity !== 'number' || typeof req.body.country_of_origin !== 'number' || typeof req.body.alcohol_usage !== 'number' || typeof req.body.smoking_history !== 'number') {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
     let entryObj = {
@@ -77,7 +69,8 @@ DemographicDataController.prototype.createDemographic = function (req, res) {
 };
 
 DemographicDataController.prototype.createImmunisation = function (req, res) {
-    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('immunisationDate') && req.body.hasOwnProperty('vaccineName')) {
+    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('immunisationDate') && req.body.hasOwnProperty('vaccineName') &&
+        typeof req.body.patient === 'number' && typeof req.body.immunisationDate === 'string' && typeof req.body.vaccineName === 'string') {
         const entryObj = {
             'patient': req.body.patient,
             'immunisationDate': Date.parse(req.body.immunisationDate),
@@ -91,14 +84,19 @@ DemographicDataController.prototype.createImmunisation = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return;
         });
-    } else {
+    } else if (!(req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('immunisationDate') && req.body.hasOwnProperty('vaccineName'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
 };
 
 DemographicDataController.prototype.createMedicalCondition = function (req, res) {
-    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('relation')) {
+    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('relation') && req.body.hasOwnProperty('conditionName') &&
+        ((req.body.hasOwnProperty('resolvedYear') && typeof req.body.resolvedYear === 'number') || !req.body.hasOwnProperty('resolvedYear')) &&
+        typeof req.body.patient === 'number' && typeof req.body.startDate === 'string' && typeof req.body.outcome === 'string' && typeof req.body.relation === 'number' && typeof req.body.conditionName === 'number') {
         const entryObj = {
             'patient': req.body.patient,
             'startDate': Date.parse(req.body.startDate),
@@ -117,8 +115,11 @@ DemographicDataController.prototype.createMedicalCondition = function (req, res)
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return;
         });
-    } else {
+    } else if (!(req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('relation') && req.body.hasOwnProperty('conditionName'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
 };
@@ -134,6 +135,9 @@ DemographicDataController.prototype.deleteDemographic = function (req, res) {
         });
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    } else if (!req.body.hasOwnProperty('id')) {
+        res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     } else {
         res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
@@ -153,6 +157,9 @@ DemographicDataController.prototype.deleteImmunisation = function (req, res) {
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
+    } else if (!req.body.hasOwnProperty('id')) {
+        res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
     } else {
         res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
@@ -170,6 +177,9 @@ DemographicDataController.prototype.deleteMedicalCondition = function (req, res)
         });
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    } else if (!req.body.hasOwnProperty('id')) {
+        res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     } else {
         res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
@@ -189,6 +199,9 @@ DemographicDataController.prototype.editDemographic = function (req, res) {
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
+    } else if (!req.body.hasOwnProperty('id')) {
+        res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
     } else {
         res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
@@ -206,6 +219,9 @@ DemographicDataController.prototype.editImmunisation = function (req, res) {
         });
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    } else if (!req.body.hasOwnProperty('id')) {
+        res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     } else {
         res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
@@ -225,6 +241,9 @@ DemographicDataController.prototype.editMedicalCondition = function (req, res) {
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
+    } else if (!req.body.hasOwnProperty('id')) {
+        res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
     } else {
         res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
@@ -240,8 +259,7 @@ DemographicDataController.prototype.getDemogData = function (req, res) {
             'Demographic': this.demographic.getDemographic,
             'Immunisation': this.immunisation.getImmunisation,
             'MedicalCondition': this.medicalhistory.getMedicalHistory,
-            'Pregnancy': this.pregnancy.getPregnancy,
-            'Diagnosis': this.diagnosis.getDiagnosis
+            'Pregnancy': this.pregnancy.getPregnancy
         };
         action[req.params.dataType](whereObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
@@ -261,8 +279,7 @@ DemographicDataController.prototype.getFields = function (req, res) {
         let action = {
             'Demographic': this.getDemographicFields,
             'MedicalCondition': this.getMedicalConditionFields,
-            'Pregnancy': this.getPregnancyFields,
-            'Diagnosis': this.getDiagnosisOptions
+            'Pregnancy': this.getPregnancyFields
         };
         if (!action.hasOwnProperty(req.params.dataType)) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
@@ -373,7 +390,8 @@ DemographicDataController.prototype.getPregnancy = function (req, res) {
 };
 
 DemographicDataController.prototype.createPregnancy = function (req, res) {
-    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome')) {
+    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('meddra') &&
+        typeof req.body.patient === 'number' && typeof req.body.outcome === 'number' && typeof req.body.meddra === 'number') {
         let entryObj = Object.assign({}, PregnancyModel, req.body);
         if (req.body.hasOwnProperty('startDate'))
             entryObj.startDate = Date.parse(req.body.startDate);
@@ -387,8 +405,12 @@ DemographicDataController.prototype.createPregnancy = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return;
         });
-    } else {
+    } else if (!(req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('meddra'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
     }
 };
 
@@ -404,14 +426,17 @@ DemographicDataController.prototype.editPregnancy = function (req, res) {
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
-    } else {
+    } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
 };
 
 DemographicDataController.prototype.deletePregnancy = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id')) {
+    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.pregnancy.deletePregnancy(req.user, { 'id': req.body.id }).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -422,8 +447,11 @@ DemographicDataController.prototype.deletePregnancy = function (req, res) {
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
-    } else {
+    } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
 };
@@ -431,83 +459,6 @@ DemographicDataController.prototype.deletePregnancy = function (req, res) {
 DemographicDataController.prototype.getPregnancyFields = function (__unused__req, res) {
     this.pregnancy.getPregnancyOutcomes().then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
-        res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-        return;
-    });
-};
-
-DemographicDataController.prototype.getDiagnosis = function (req, res) {
-    let whereObj = {};
-    if (req.query.hasOwnProperty('patient'))
-        whereObj.patient = req.query.patient;
-    this.diagnosis.getDiagnosis(whereObj).then(function (result) {
-        res.status(200).json(result);
-        return;
-    }, function (error) {
-        res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-        return;
-    });
-};
-
-DemographicDataController.prototype.createDiagnosis = function (req, res) {
-    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('diagnosis')) {
-        let entryObj = Object.assign({}, DiagnosisModel, req.body);
-        if (req.body.hasOwnProperty('diagnosisDate'))
-            entryObj.startDate = Date.parse(req.body.startDate);
-        entryObj.createdByUser = req.user.id;
-        this.diagnosis.createDiagnosis(entryObj).then(function (result) {
-            res.status(200).json(result);
-            return;
-        }, function (error) {
-            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            return;
-        });
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-    }
-};
-
-DemographicDataController.prototype.editDiagnosis = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-        this.diagnosis.editDiagnosis(req.user, req.body).then(function (result) {
-            res.status(200).json(result);
-            return;
-        }, function (error) {
-            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-            return;
-        });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    } else {
-        res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-};
-
-DemographicDataController.prototype.deleteDiagnosis = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id')) {
-        this.diagnosis.deleteDiagnosis(req.user, { 'id': req.body.id }).then(function (result) {
-            res.status(200).json(result);
-            return;
-        }, function (error) {
-            res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-            return;
-        });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    } else {
-        res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-};
-
-DemographicDataController.prototype.getDiagnosisOptions = function (__unused__req, res) {
-    this.diagnosis.getDiagnosisOptions().then(function (result) {
-        res.status(200).json(result);
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
