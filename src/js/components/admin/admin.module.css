@@ -80,6 +80,10 @@
 
 .actionsDisplay > div {
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
-    padding-top: 0.9em;
-    padding-bottom: 0.9em;
+    padding: 0.9em;
+}
+
+.actionsDisplay > .clickable:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 95%);
+    cursor: pointer;
 }
