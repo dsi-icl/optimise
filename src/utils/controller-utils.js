@@ -52,7 +52,7 @@ function updateEntry(tablename, user, originObj, whereObj, newObj) {
             oldEntry.deleted = `${user.id}@${JSON.stringify(new Date())}`;
             createEntry(tablename, oldEntry).then(function (__unused__createResult) {
                 knex(tablename).update(newObj).where(whereObj).then(function (updateRes) {
-                    resolve(1);
+                    resolve(updateRes);
                 }, function (updateErr) {
                     reject(updateErr);
                 });
