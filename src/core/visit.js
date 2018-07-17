@@ -23,7 +23,7 @@ Visit.prototype.getVisit = function (patientInfo) {
     });
 };
 
-Visit.prototype.createVisit = function (requester, visit) {
+Visit.prototype.createVisit = function (user, visit) {
     return new Promise(function (resolve, reject) {
         let entryObj = {};
         if (isNaN(Date.parse(visit.visitDate))) {
@@ -36,7 +36,7 @@ Visit.prototype.createVisit = function (requester, visit) {
         entryObj.patient = visit.patientId;
         if (visit.hasOwnProperty('type'))
             entryObj.type = visit.type;
-        entryObj.createdByUser = requester.userid;
+        entryObj.createdByUser = user.id;
         createEntry('VISITS', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {
@@ -45,9 +45,9 @@ Visit.prototype.createVisit = function (requester, visit) {
     });
 };
 
-Visit.prototype.deleteVisit = function (requester, visitId) {
+Visit.prototype.deleteVisit = function (user, visitId) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('VISITS', requester, { id: visitId }).then(function (result) {
+        deleteEntry('VISITS', user, { id: visitId }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));

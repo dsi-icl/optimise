@@ -28,14 +28,14 @@ function DataCore() {
     this.deleteData = DataCore.prototype.deleteData.bind(this);
 }
 
-DataCore.prototype.deleteData = function (requester, options, idData, deleteObj) {
+DataCore.prototype.deleteData = function (user, options, idData, deleteObj) {
     return new Promise(function (resolve, reject) {
         knex.transaction(trx => {
             knex(options.dataTable)
                 .where('field', 'in', deleteObj)
                 .andWhere('deleted', '-')
                 .andWhere(options.dataTableForeignKey, idData)
-                .update({ 'deleted': `${requester.userid}@${JSON.stringify(new Date())}` })
+                .update({ 'deleted': `${user.id}@${JSON.stringify(new Date())}` })
                 .transacting(trx)
                 .then(function (result) {
                     resolve(result);
@@ -68,9 +68,9 @@ VisitDataCore.prototype.createVisitData = function (entryObj) {
     });
 };
 
-VisitDataCore.prototype.updateVisitData = function (requester, whereObj, newObj) {
+VisitDataCore.prototype.updateVisitData = function (user, whereObj, newObj) {
     return new Promise(function (resolve, reject) {
-        return updateEntry('VISIT_DATA', requester, '*', whereObj, newObj).then(function (result) {
+        return updateEntry('VISIT_DATA', user, '*', whereObj, newObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
@@ -78,9 +78,9 @@ VisitDataCore.prototype.updateVisitData = function (requester, whereObj, newObj)
     });
 };
 
-VisitDataCore.prototype.deleteVisitData = function (requester, whereObj) {
+VisitDataCore.prototype.deleteVisitData = function (user, whereObj) {
     return new Promise(function (resolve, reject) {
-        return deleteEntry('VISIT_DATA', requester, whereObj).then(function (result) {
+        return deleteEntry('VISIT_DATA', user, whereObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.deleteEntry, error));
@@ -108,9 +108,9 @@ TestDataCore.prototype.createTestData = function (entryObj) {
     });
 };
 
-TestDataCore.prototype.updateTestData = function (requester, whereObj, newObj) {
+TestDataCore.prototype.updateTestData = function (user, whereObj, newObj) {
     return new Promise(function (resolve, reject) {
-        return updateEntry('TEST_DATA', requester, '*', whereObj, newObj).then(function (result) {
+        return updateEntry('TEST_DATA', user, '*', whereObj, newObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
@@ -118,9 +118,9 @@ TestDataCore.prototype.updateTestData = function (requester, whereObj, newObj) {
     });
 };
 
-TestDataCore.prototype.deleteTestData = function (requester, whereObj) {
+TestDataCore.prototype.deleteTestData = function (user, whereObj) {
     return new Promise(function (resolve, reject) {
-        return deleteEntry('TEST_DATA', requester, whereObj).then(function (result) {
+        return deleteEntry('TEST_DATA', user, whereObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.deleteEntry, error));
@@ -148,9 +148,9 @@ ClinicalEventsDataCore.prototype.createClinicalEventsData = function (entryObj) 
     });
 };
 
-ClinicalEventsDataCore.prototype.updateClinicalEventsData = function (requester, whereObj, newObj) {
+ClinicalEventsDataCore.prototype.updateClinicalEventsData = function (user, whereObj, newObj) {
     return new Promise(function (resolve, reject) {
-        return updateEntry('CLINICAL_EVENTS_DATA', requester, '*', whereObj, newObj).then(function (result) {
+        return updateEntry('CLINICAL_EVENTS_DATA', user, '*', whereObj, newObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
@@ -158,9 +158,9 @@ ClinicalEventsDataCore.prototype.updateClinicalEventsData = function (requester,
     });
 };
 
-ClinicalEventsDataCore.prototype.deleteClinicalEventsData = function (requester, whereObj) {
+ClinicalEventsDataCore.prototype.deleteClinicalEventsData = function (user, whereObj) {
     return new Promise(function (resolve, reject) {
-        return deleteEntry('CLINICAL_EVENTS_DATA', requester, whereObj).then(function (result) {
+        return deleteEntry('CLINICAL_EVENTS_DATA', user, whereObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.deleteEntry, error));

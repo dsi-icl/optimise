@@ -1,6 +1,7 @@
 const visitCore = require('../core/visit');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
+const formatToJSON = require('../utils/format-response');
 
 function VisitController() {
     this.visit = new visitCore();
@@ -17,7 +18,7 @@ VisitController.prototype.getVisitsOfPatient = function (req, res) {
     }
 
     this.visit.getVisit(req.query.patientId).then(function (result) {
-        res.status(200).json(result);
+        res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
@@ -30,8 +31,8 @@ VisitController.prototype.createVisit = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    this.visit.createVisit(req.requester, req.body).then(function (result) {
-        res.status(200).json(result);
+    this.visit.createVisit(req.user, req.body).then(function (result) {
+        res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
@@ -40,7 +41,7 @@ VisitController.prototype.createVisit = function (req, res) {
 };
 
 VisitController.prototype.deleteVisit = function (req, res) {
-    if (req.requester.priv !== 1) {
+    if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }
@@ -48,8 +49,8 @@ VisitController.prototype.deleteVisit = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    this.visit.deleteVisit(req.requester, req.body.visitId).then(function (result) {
-        res.status(200).json(result);
+    this.visit.deleteVisit(req.user, req.body.visitId).then(function (result) {
+        res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));

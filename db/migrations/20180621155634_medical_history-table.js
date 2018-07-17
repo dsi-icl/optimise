@@ -1,7 +1,7 @@
 exports.up = function (knex) {
     return knex.schema.createTable('MEDICAL_HISTORY', function (table) {
         table.increments('id').primary();
-        table.integer('patient').notNullable().references('id').inTable('PATIENTS');
+        table.integer('patient').notNullable().references('id').inTable('PATIENTS').onDelete('CASCADE');
         table.integer('relation').notNullable().references('id').inTable('RELATIONS');
         table.integer('conditionName').notNullable().references('id').inTable('CONDITIONS');
         table.text('startDate');

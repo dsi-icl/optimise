@@ -7,8 +7,9 @@ const express = require('express');
 const fields = express();
 
 const AvailableFieldController = require('../controllers/availableFieldController');
+const AvailableFieldCtrl = new AvailableFieldController();
 
 fields.route('/:dataType')
-    .get(AvailableFieldController.getFields);
+    .get(AvailableFieldCtrl.getFields);
 
 module.exports = fields;

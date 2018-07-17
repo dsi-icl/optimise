@@ -1,7 +1,7 @@
 exports.up = function (knex) {
     return knex.schema.createTable('TREATMENTS', function (table) {
         table.increments('id').primary();
-        table.integer('orderedDuringVisit').notNullable().references('id').inTable('VISITS');
+        table.integer('orderedDuringVisit').notNullable().references('id').inTable('VISITS').onDelete('CASCADE');
         table.integer('drug').notNullable().references('id').inTable('AVAILABLE_DRUGS');
         table.integer('dose').notNullable();
         table.text('unit').notNullable();
@@ -10,7 +10,6 @@ exports.up = function (knex) {
         table.integer('durationWeeks').notNullable();
         table.text('terminatedDate').nullable();
         table.integer('terminatedReason').nullable().references('id').inTable('REASONS');
-        table.integer('adverseEvent').nullable().references('id').inTable('ADVERSE_EVENT_MEDDRA');
         table.text('createdTime').notNullable().defaultTo(knex.fn.now());
         table.integer('createdByUser').notNullable().references('id').inTable('USERS');
         table.text('deleted').notNullable().defaultTo('-');
