@@ -44,9 +44,9 @@ export class CreateTest extends Component {
         return {
             patientId: this.props.match.params.patientId,
             data: {
-                visitId: this.props.match.params.visitId,
+                visitId: Number.parseInt(this.props.match.params.visitId),
                 expectedDate: date.toDateString(),
-                type: this.state.testType
+                type: Number.parseInt(this.state.testType)
             }
         };
     }
