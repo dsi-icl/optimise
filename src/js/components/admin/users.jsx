@@ -45,7 +45,7 @@ export class UserEntry extends PureComponent {    /* consider mapping the endpoi
     render() {
         const el = this.props.entry;
         return (
-            <div>
+            <div className={style.clickable}>
                 <b>Id: </b> {el.id} <br />
                 <b>Username: </b> {el.username}<br />
                 <b>Real name: </b>{el.realname} <br />
