@@ -51,46 +51,75 @@ function fetchingFinished(state) {
 
 function availableFields(state = initialState.availableFields, action) {
     let newState;
+    let hash;
     switch (action.type) {
         case actionTypes.availableFields.GET_CE_TYPES_SUCCESS:
-            newState = { ...state, clinicalEventTypes: action.payload };
+            hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
+            newState = { ...state, clinicalEventTypes: action.payload, clinicalEventTypes_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_DEMO_FIELDS_SUCCESS:
-            newState = { ...state, demoFields: [action.payload] };
+            hash = {};
+            for (let each of Object.keys(action.payload)) {
+                hash[each] = action.payload[each].reduce((map, el) => { map[el.id] = el.value; return map; }, {});
+            }
+            newState = { ...state, demoFields: [action.payload], demoFields_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_DRUGS_SUCCESS:
-            newState = { ...state, drugs: action.payload };
+            hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            newState = { ...state, drugs: action.payload, drugs_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_INPUT_TYPES_SUCCESS:
             newState = { ...state, inputTypes: action.payload };
             break;
         case actionTypes.availableFields.GET_TEST_FIELDS_SUCCESS:
-            newState = { ...state, testFields: action.payload };
+            hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            newState = { ...state, testFields: action.payload, testFields_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_TEST_TYPES_SUCCESS:
-            newState = { ...state, testTypes: action.payload };
+            hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
+            newState = { ...state, testTypes: action.payload, testTypes_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_VISIT_FIELDS_SUCCESS:
-            newState = { ...state, VSFields: action.payload.slice(0, 6), visitFields: action.payload.slice(6) };
+            const VShash = action.payload.slice(0, 6).reduce((map, el) => { map[el.id] = el; return map; }, {});
+            const visitHash = action.payload.slice(6).reduce((map, el) => { map[el.id] = el; return map; }, {});
+            newState = {
+                ...state, 
+                VSFields: action.payload.slice(0, 6),
+                visitFields: action.payload.slice(6),
+                VSFields_Hash: [VShash],
+                visitFields_Hash: [visitHash]
+            };
             break;
         case actionTypes.availableFields.GET_RELATIONS_SUCCESS:
-            newState = { ...state, relations: action.payload.relations, medicalConditions: action.payload.conditions };
+            const relationHash = action.payload.relations.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
+            const medConHash = action.payload.conditions.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
+            newState = {
+                ...state,
+                relations: action.payload.relations,
+                medicalConditions: action.payload.conditions,
+                relations_Hash: [relationHash],
+                medicalConditions_Hash: [medConHash]
+            };
             break;
         case actionTypes.availableFields.GET_DIAGNOSES_SUCCESS:
-            newState = { ...state, diagnoses: action.payload };
+            hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
+            newState = { ...state, diagnoses: action.payload, diagnoses_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_CE_FIELDS_SUCCESS:
-            newState = { ...state, clinicalEventFields: action.payload };
+            hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            newState = { ...state, clinicalEventFields: action.payload, clinicalEventFields_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS:
-            newState = { ...state, pregnancyOutcomes: action.payload };
+            hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
+            newState = { ...state, pregnancyOutcomes: action.payload, pregnancyOutcomes_Hash: [hash]  };
             break;
         case actionTypes.availableFields.GET_INTERRUPTION_REASONS_SUCESS:
-            newState = { ...state, interruptionReasons: action.payload };
+            hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            newState = { ...state, interruptionReasons: action.payload, interruptionReasons_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_MEDDRA_SUCESS:
-            const meddraHashTable = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
-            newState = { ...state, allMeddra: [meddraHashTable] };
+            hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
+            newState = { ...state, allMeddra: [hash] };
             break;
         default:
             return state;
