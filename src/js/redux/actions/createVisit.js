@@ -1,15 +1,13 @@
-import { getPatientProfileById } from './searchPatientById.js';
-import { apiHelper } from '../fetchHelper.js';
+import { getPatientProfileById } from './searchPatient';
+import { apiHelper } from '../fetchHelper';
 
 export const createVisitAPICall = (body) => dispatch => {
     return apiHelper('/visits', { method: 'POST', body: JSON.stringify(body.visitData) })
         .then(json => {
-            body.VSData.visitId = json[0];
-            console.log(body.VSData);
-            return apiHelper('/data/visit', { method: 'POST', body: JSON.stringify(body.VSData) })
+            body.VSData.visitId = json.state;
+            return apiHelper('/data/visit', { method: 'POST', body: JSON.stringify(body.VSData) });
         })
-        .then(json => {
-            console.debug('VISIT cREATEED > ', json);
+        .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
         .catch(msg => console.log(msg));

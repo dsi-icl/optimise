@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { PickDate } from './datepicker.jsx';
-import { BackButton } from '../medicalData/dataPage.jsx';
-import cssTexts from '../../../css/inlinetexts.module.css';
-import cssButtons from '../../../css/buttons.module.css';
-import { createTestAPICall } from '../../redux/actions/tests.js';
+import { PickDate } from './datepicker';
+import { BackButton } from '../medicalData/dataPage';
+import { createTestAPICall } from '../../redux/actions/tests';
+import style from './medicalEvent.module.css';
 
 //not yet finished the dispatch
 @connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.testTypes }), dispatch => ({ createTest: body => dispatch(createTestAPICall(body)) }))
@@ -52,7 +51,8 @@ export class CreateTest extends Component {
         };
     }
 
-    _handleSubmitClick() {
+    _handleSubmitClick(e) {
+        e.preventDefault();
         const requestBody = this._formatRequestBody();
         this.props.createTest(requestBody);
     }
@@ -61,20 +61,23 @@ export class CreateTest extends Component {
         if (this.props.visits) {
             const params = this.props.match.params;
             const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
-            return (<div>
-                <BackButton to={`/patientProfile/${params.patientId}`} />
-                <h2>CREATE A NEW TEST</h2>
-                <span className={cssTexts.centeredBlock}><b>Visit:</b> {visitDate}</span>
-                <br />
-                <span className={cssTexts.centeredBlock}>Please enter date on which the test is expected to occur: <br /> <span className={cssTexts.centeredBlock}><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /></span> </span>
-                <br />
-                <span className={cssTexts.centeredBlock}>What type of test is it?
-                    <select value={this.state.testType} onChange={this._handleTypeChange}>
-                        {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
-                    </select>
-                </span>
-                <div onClick={this._handleSubmitClick} className={cssButtons.createPatientButton} style={{ width: '30%' }}>Submit</div>
-            </div>);
+            return (
+                <>
+                    <div className={style.ariane}>
+                        <h2>Creating a new Test</h2>
+                        <BackButton to={`/patientProfile/${params.patientId}`} />
+                    </div>
+                    <form className={style.panel}>
+                        <span><i>This is for the visit of the {visitDate}</i></span><br /><br />
+                        <label htmlFor=''>Please enter date on which the test is expected to occur: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
+                        <label htmlFor='test'>What type of test is it?</label><br />
+                        <select name='test' value={this.state.testType} onChange={this._handleTypeChange} autoComplete="off">
+                            {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
+                        </select><br /><br />
+                        <button onClick={this._handleSubmitClick}>Submit</button>
+                    </form>
+                </>
+            );
         } else {
             return null;
         }

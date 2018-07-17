@@ -1,0 +1,125 @@
+.statusBar {    
+    grid-area: status;
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    color: var(--color-font-active);
+    background-color: hsl(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l));
+    padding: 0.35em 1.2em;
+}
+
+.menuBar {    
+    grid-area: navigation;
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.middlePanel {    
+    grid-area: sidebar;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: var(--color-font-active);
+    border-right: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.rightPanel {
+    grid-area: content;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: var(--color-font-active);
+    border-right: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.farRightPanel {    
+    grid-area: annexe;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
+}
+
+.farRightPanel input,
+.farRightPanel textarea,
+.farRightPanel select {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 93%);
+    color: var(--color-background);
+}
+
+.farRightPanel input:hover,
+.farRightPanel textarea:hover,
+.farRightPanel select:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 91%);
+}
+
+.middlePanel, .rightPanel, .farRightPanel {
+    grid: "ariane" 4em "panel" calc(100% - 4em) / 100%;
+    display: grid;
+}
+
+.navigation {
+    grid-area: navigation;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 1.5));
+}
+
+.menuBar svg {
+    fill: var(--color-font-active);
+}
+
+.menuBar > a {
+    display: block;
+    width: 100%;
+    height: 4em;
+    padding: 30%;
+    color: var(--color-font);
+    border-left: 0.3em solid hsla(0, 0%, 0%, 0);
+    transition: border 200ms, color 200ms;
+}
+
+.menuBar > a.active {
+    color: var(--color-font-active);
+    background: rgba(255, 255, 255, 0.2);
+    border-left: 0.3em solid var(--color-accent);
+}
+
+.menuBar > a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.errorMessage {
+    grid-area: annexe-start / content / auto / annexe;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.7);
+    position: relative;
+}
+
+.errorMessageDialogBox {
+    position: absolute;
+    background-color: var(--color-font-active);
+    border: 1px solid darkgray;
+    padding: 1.5em;
+    height: 20%;
+    min-height: 200px;
+    width: 30%;
+    top: 30%;
+    left: 35%;
+    color: var(--color-font);
+}
+
+.errorMessageDialogBox .cancelButton {
+    font-size: 2rem;
+    position: absolute;
+    font-weight: bold;
+    right: 1rem;
+    top: 0.5rem;
+}
+
+.errorMessageDialogBox .cancelButton:hover {
+    cursor: pointer;
+    color: rgb(255, 90, 90);
+}

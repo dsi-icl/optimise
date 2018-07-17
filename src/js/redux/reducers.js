@@ -1,28 +1,38 @@
-import initialState from './initialState.js';
+import initialState from './initialState';
 import { combineReducers } from 'redux';
-import actionTypes from './actions/listOfActions.js';
+import actionTypes from './actions/listOfActions';
 
 function login(state = initialState.login, action) {
     switch (action.type) {
         case actionTypes.login.LOGIN_REQUESTED:
-            return { ...state, loggingIn: true, loginFailed: false, loggedIn: false };
+            return { ...state, loggingIn: true, loginFailed: false, loggedIn: false, initialCheckingStatus: false, username: action.payload.username };
         case actionTypes.login.LOGIN_FAILURE:
-            return { ...state, loginFailed: true, loggingIn: false, loggedIn: false };
+            return { ...state, loginFailed: true, loggingIn: false, loggedIn: false, initialCheckingStatus: false };
         case actionTypes.login.LOGIN_SUCCESS:
-            return { loggingIn: false, loggedIn: true, loginFailed: false, token: action.payload.token };
+            return { ...state, loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false };
+        case actionTypes.login.CHECKING_LOGIN:
+            return { ...state, loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: true };
+        case actionTypes.login.LOGGED_IN:
+            return { ...state, loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false, username: action.payload.username };
+        case actionTypes.login.NOT_LOGGED_IN:
+            return { ...state, loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: false };
+        case actionTypes.login.LOGOUT_REQUEST:
+            return { username: '', loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: false };
         default:
             return state;
     }
 }
 
-function searchPatientById(state = initialState.searchPatientById, action) {
+function searchPatient(state = initialState.searchPatient, action) {
     switch (action.type) {
-        case actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_REQUEST:
+        case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_REQUEST:
             return { ...state, result: [], fetching: true, error: false };
-        case actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_FAILURE:
+        case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_FAILURE:
             return { ...state, result: [], error: true };
-        case actionTypes.searchPatientById.SEARCH_PATIENTS_BY_ID_SUCCESS:
+        case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_SUCCESS:
             return { ...state, result: action.payload, error: false, fetching: false };
+        case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_CLEAR:
+            return { ...state, result: [], error: false, fetching: false };
         default:
             return state;
     }
@@ -70,7 +80,17 @@ function availableFields(state = initialState.availableFields, action) {
             newState = { ...state, diagnoses: action.payload };
             break;
         case actionTypes.availableFields.GET_CE_FIELDS_SUCCESS:
-            newState = { ...state, CEFields: action.payload };
+            newState = { ...state, clinicalEventFields: action.payload };
+            break;
+        case actionTypes.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS:
+            newState = { ...state, pregnancyOutcomes: action.payload };
+            break;
+        case actionTypes.availableFields.GET_INTERRUPTION_REASONS_SUCESS:
+            newState = { ...state, interruptionReasons: action.payload };
+            break;
+        case actionTypes.availableFields.GET_MEDDRA_SUCESS:
+            const meddraHashTable = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
+            newState = { ...state, allMeddra: [meddraHashTable] };
             break;
         default:
             return state;
@@ -101,11 +121,82 @@ function patientProfile(state = initialState.patientProfile, action) {
     }
 }
 
+function meddra(state = initialState.meddra, action) {
+    switch (action.type) {
+        case actionTypes.searchMedDRA.SEARCH_MEDDRA_SUCCESS:
+            return { result: action.payload };
+        case actionTypes.searchMedDRA.SEARCH_MEDDRA_FAILURE:
+            return { result: [] };
+        default:
+            return state;
+    }
+}
+
+function log(state = initialState.log, action) {
+    switch (action.type) {
+        case actionTypes.admin.GET_LOG_REQUEST:
+            return { result: [], fetching: true, error: false };
+        case actionTypes.admin.GET_LOG_SUCCESS:
+            return { result: action.payload, fetching: false, error: false };
+        case actionTypes.admin.GET_LOG_FAILURE:
+            return { result: [], fetching: false, error: true };
+        default:
+            return state;
+
+    }
+}
+
+function getAllUsers(state = initialState.getAllUsers, action) {
+    switch (action.type) {
+        case actionTypes.admin.GET_ALL_USERS_REQUEST:
+            return { result: [], fetching: true, error: false };
+        case actionTypes.admin.GET_ALL_USERS_SUCCESS:
+            return { result: action.payload, fetching: false, error: false };
+        case actionTypes.admin.GET_ALL_USERS_FAILURE:
+            return { result: [], fetching: false, error: true };
+        default:
+            return state;
+
+    }
+}
+
+function erasePatient(state = initialState.erasePatient, action) {
+    switch (action.type) {
+        case actionTypes.erasePatient.ERASE_PATIENT_REQUEST:
+            return { requesting: true, success: false, error: false };
+        case actionTypes.erasePatient.ERASE_PATIENT_FAILTURE:
+            return { requesting: false, success: false, error: true };
+        case actionTypes.erasePatient.ERASE_PATIENT_SUCCESS:
+            return { requesting: false, success: true, error: false };
+        case actionTypes.erasePatient.ERASE_PATIENT_RESET:
+            return { requesting: false, success: false, error: false };
+        default:
+            return state;
+
+    }
+}
+
+function appLevelError(state = initialState.appLevelError, action) {
+    switch (action.type) {
+        case actionTypes.appLevelError.ADD_ERROR:
+            return action.payload;
+        case actionTypes.appLevelError.CLEAR_ERROR:
+            return {};
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
-    searchPatientById,
+    searchPatient,
     patientProfile,
     availableFields,
-    login
+    login,
+    meddra,
+    log,
+    getAllUsers,
+    erasePatient,
+    appLevelError
 });
 
