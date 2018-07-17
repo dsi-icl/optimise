@@ -38,9 +38,9 @@ class RequestMiddleware {
     static addActionToCollection(req, __unused__res, next) {
         let username = req.user ? req.user.username : req.body ? req.body.username : '';
         let body = Object.assign({}, req.body);
-        if (req.originalUrl === '/users/login') {
-            delete body.pw;
-        }
+        // We do not filter here are assume password are always sent as 'pw'
+        if (body.pw !== undefined)
+            body.pw = '*';
         knex('LOG_ACTIONS')
             .insert({ 'router': req.originalUrl, 'method': req.method, 'body': JSON.stringify(body), 'user': username ? username : '' })
             .then(__unused__res => {
