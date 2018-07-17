@@ -132,6 +132,29 @@ export function formatRow(arr) {
     return arr.map((el, ind) => <td key={ind}>{el}</td>);
 }
 
+
+/* receives props baselineVisit, boolean; and all treatments of a visit */
+class MedicationSection extends PureComponent {
+    render(){
+        const { baselineVisit, data } = this.props;
+        return (
+        <>
+            <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
+                <table>
+                    <thead>
+                        <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        {data.map(el => <Medication key={el.id} data={el}/>)}
+                    </tbody>
+                </table>
+        </>
+        );
+    }
+}
+
+
+
 /**
  * @prop {Object} this.props.availableFieldsdata
  * @prop {String} visitId
