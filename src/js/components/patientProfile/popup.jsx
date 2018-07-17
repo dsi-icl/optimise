@@ -14,7 +14,7 @@ export class VisitPicker extends Component {
                 {this.props.visitList ?
                     this.props.visitList.map(visit => (
                         <React.Fragment key={visit.visitId}>
-                            <Link to={`/patientProfile/${this.props.patientId}/create/${visit.visitId}/${this.props.elementType}`} className={style.visitSelectorButton}>
+                            <Link to={`/patientProfile/${this.props.patientId}/create/${visit.id}/${this.props.elementType}`} className={style.visitSelectorButton}>
                                 {new Date(parseInt(visit.visitDate, 10)).toDateString()}
                             </Link><br /><br />
                         </React.Fragment>
