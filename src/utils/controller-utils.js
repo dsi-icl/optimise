@@ -41,21 +41,26 @@ function updateEntry(tablename, user, originObj, whereObj, newObj) {
                 reject(message.errorMessages.NOTFOUND);
                 return;
             }
-            deleteEntry(tablename, user, whereObj).then(function (__unused__deleteResult) {
-                let newEntry = Object.assign(getResult[0], newObj);
-                delete newEntry.id;
-                delete newEntry.createdTime;
-                delete newEntry.deleted;
-                createEntry(tablename, newEntry).then(function (createResult) {
-                    resolve(createResult);
-                }, function (createError) {
-                    reject(createError);
+            let oldEntry = getResult[0];
+            let newEntry = Object.assign(getResult[0], newObj);
+            delete oldEntry.id;
+            delete newEntry.deleted;
+            delete newEntry.id;
+            delete newEntry.createdTime;
+            delete newEntry.deleted;
+            newEntry.createdByUser = user.id;
+            oldEntry.deleted = `${user.id}@${JSON.stringify(new Date())}`;
+            createEntry(tablename, oldEntry).then(function (__unused__createResult) {
+                knex(tablename).update(newObj).where(whereObj).then(function (updateRes) {
+                    resolve(1);
+                }, function (updateErr) {
+                    reject(updateErr);
                 });
-            }, function (deleteError) {
-                reject(deleteError);
+            }, function (createErr) {
+                reject(createErr);
             });
-        }, function (error) {
-            reject(error);
+        }, function (getErr) {
+            reject(getErr);
         });
     });
 }

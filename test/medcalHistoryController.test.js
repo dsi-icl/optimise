@@ -348,7 +348,7 @@ describe('Edit Medical Historycontroller test', () => {
             expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
-    test('Editing Medical Historywith body but badly formatted startDate (Should Fail)', () => admin
+    test('Editing Medical Historywith body but badly formatted startDate (Should Success - startDate is nullable)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -360,10 +360,10 @@ describe('Edit Medical Historycontroller test', () => {
             'resolvedYear': 2002
         })
         .then(res => {
-            expect(res.status).toBe(400);
+            expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 
     test('Editing Medical Historywith body but wrong outcome (Should Fail)', () => admin
@@ -381,7 +381,7 @@ describe('Edit Medical Historycontroller test', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Editing Medical Historywith body but wrong resolved year (Should Fail)', () => admin
@@ -399,7 +399,7 @@ describe('Edit Medical Historycontroller test', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Editing Medical Historywell formatted (Should Works)', () => admin
@@ -417,7 +417,7 @@ describe('Edit Medical Historycontroller test', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(5);
+            expect(res.body.state).toBe(1);
         }));
 
 });
@@ -471,7 +471,7 @@ describe('Delete Medical Historycontroller test', () => {
     test('Deleting Medical Historywith good preperty (Should Works)', () => admin
         .delete('/demographics/MedicalCondition')
         .send({
-            'id': 5
+            'id': 1
         })
         .then(res => {
             expect(res.status).toBe(200);

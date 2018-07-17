@@ -52,7 +52,6 @@ describe('Create test controller tests', () => {
         .post('/tests')
         .send({ 'visitId': 1, 'type': 'WRONG', 'expectedDate': '1 Jan 2020' })
         .then(res => {
-            console.log(JSON.stringify(res.body));
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
@@ -98,7 +97,7 @@ describe('Create test add occurence date controller tests', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(5);
+            expect(res.body.state).toBe(1);
         }));
 });
 
@@ -154,7 +153,7 @@ describe('Delete test controller tests', () => {
 
     test('Request deletion with good body (should success)', () => admin
         .patch('/tests')
-        .send({ 'testID': 5 })
+        .send({ 'testID': 4 })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');

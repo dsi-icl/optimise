@@ -276,7 +276,7 @@ describe('Edit Pregnancy controller test', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(4);
+            expect(res.body.state).toBe(1);
         }));
 
 });
@@ -330,7 +330,7 @@ describe('Delete Pregnancy controller test', () => {
     test('Deleting Pregnancy with good preperty (Should Works)', () => admin
         .delete('/demographics/Pregnancy')
         .send({
-            'id': 4
+            'id': 3
         })
         .then(res => {
             expect(res.status).toBe(200);
