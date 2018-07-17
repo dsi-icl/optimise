@@ -1,8 +1,8 @@
 const { getEntry, createEntry, deleteEntry, eraseEntry } = require('../utils/controller-utils');
 const ErrorHelper = require('../utils/error_helper');
-// const crypto = require('crypto');
-const bcrypt = require('bcrypt');
-const saltRound = require('../config/hashKeyConfig');
+const crypto = require('crypto');
+crypto.DEFAULT_ENCODING = 'hex';
+const { saltRound, iteration } = require('../config/hashKeyConfig');
 const message = require('../utils/message-utils');
 const knex = require('../utils/db-connection');
 
@@ -42,7 +42,7 @@ User.prototype.createUser = function (userReq, user) {
         let entryObj = {};
         entryObj.username = user.username;
         entryObj.realname = user.realname;
-        entryObj.pw = bcrypt.hashSync(user.pw, saltRound);
+        entryObj.pw = crypto.pbkdf2Sync(user.pw, saltRound, iteration, 64, 'sha512');
         entryObj.adminPriv = user.isAdmin;
         entryObj.createdByUser = userReq.id;
         createEntry('USERS', entryObj).then(function (result) {
@@ -55,8 +55,7 @@ User.prototype.createUser = function (userReq, user) {
 
 User.prototype.updateUser = function (user) {
     return new Promise(function (resolve, reject) {
-        const hashed = bcrypt.hashSync(user.pw, saltRound);
-        knex('USERS').update({ 'pw': hashed }).where({ username: user.username, deleted: '-' }).then(function (result) {
+        knex('USERS').update({ 'pw': crypto.pbkdf2Sync(user.pw, saltRound, iteration, 64, 'sha512') }).where({ username: user.username, deleted: '-' }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
@@ -89,14 +88,11 @@ User.prototype.loginUser = function (user) {
         getEntry('USERS', { username: user.username }, { pw: 'pw', id: 'id', username: 'username', priv: 'adminPriv' }).then(function (result) {
             if (result.length <= 0)
                 reject(ErrorHelper(message.errorMessages.GETFAIL));
-            try {
-                if (!bcrypt.compareSync(user.pw, result[0].pw)) {
-                    reject(ErrorHelper(message.userError.BADPASSWORD, new Error(message.userError.WRONGARGUMENTS)));
-                }
-            } catch (tryError) {
-                reject(ErrorHelper(message.userError.BADPASSWORD, tryError));
-            }
-            resolve(result[0]);
+            let crypted = crypto.pbkdf2Sync(user.pw, saltRound, iteration, 64, 'sha512');
+            if (crypted !== result[0].pw)
+                reject(ErrorHelper(message.userError.BADPASSWORD, new Error(message.userError.WRONGARGUMENTS)));
+            else
+                resolve(result[0]);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
