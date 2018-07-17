@@ -87,3 +87,19 @@
     background-color: hsl(var(--color-background-h), var(--color-background-s), 95%);
     cursor: pointer;
 }
+
+.actionOther {
+    display: inline-block;
+}
+
+.actionBody {
+    background-color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 97%);
+    padding: 1em;
+    overflow: auto;
+    margin-top: 0.5em;
+}
+
+.actionOther, .actionBody {
+    overflow: auto;
+    max-width: 100%;
+}

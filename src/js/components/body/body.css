@@ -164,3 +164,7 @@ th, td {
     text-align: left;
     vertical-align: middle;
 }
+
+pre {
+    white-space: pre;
+}
