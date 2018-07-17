@@ -36,13 +36,13 @@ export class CreateTreatment extends Component {
         return {
             patientId: this.props.match.params.patientId,
             data: {
-                visitId: this.props.match.params.visitId,
-                drugId: this.state.drugType,
-                dose: this.state.dose,
+                visitId: Number.parseInt(this.props.match.params.visitId),
+                drugId: Number.parseInt(this.state.drugType),
+                dose: Number.parseInt(this.state.dose),
                 unit: this.state.unit,
                 form: this.state.form,
-                timesPerDay: this.state.timesPerDay,
-                durationInWeeks: this.state.durationInWeeks
+                timesPerDay: Number.parseInt(this.state.timesPerDay),
+                durationInWeeks: Number.parseInt(this.state.durationInWeeks)
             }
         };
     }
