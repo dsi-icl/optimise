@@ -61,9 +61,10 @@ export class SearchResultForPatients extends Component {
             <div>
                 {listOfPatients.filter(el => el['aliasId'] === searchString).length === 0 && searchString !== '' ?
                     <Link to={`/createPatient/${searchString}`} >
-                        <button>
+                        <div className={style.createPatientButton}>
+                            <span>&#43;</span> <br/>
                             {`Create patient ${searchString}`}
-                        </button><br /><br />
+                        </div>
                     </Link>
                     : null}
                 {listOfPatients.map(el => <PatientButton key={el.patientId} data={el} searchString={searchString}/>)}

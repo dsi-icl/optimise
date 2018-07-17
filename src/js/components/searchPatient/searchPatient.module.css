@@ -15,6 +15,32 @@
     padding: 1.2em;
 }
 
+.createPatientButton {
+    height: 6.5em;
+    width: 29.3%;
+    float: left;
+    padding: 1.3em;
+    font-size: 1.1em;
+    text-align: center;
+    margin-right: 2%;
+    margin-left: 2%;
+    margin-bottom: 1.5em;
+    line-height: 1.3em;
+    overflow: hidden;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 94%);
+}
+
+.createPatientButton > span {
+    font-size: 3.5em;
+    display: block;
+    font-weight: bold;
+}
+
+.createPatientButton:hover {
+    cursor: pointer;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 80%);
+}
+
 .searchItem {
     height: 6.5em;
     width: 29.3%;
@@ -24,6 +50,7 @@
     margin-right: 2%;
     margin-left: 2%;
     margin-bottom: 1.5em;
+    overflow: hidden;
     line-height: 1.2em;
     background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
     border-bottom: 4px solid var(--color-accent);
