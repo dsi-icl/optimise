@@ -81,7 +81,7 @@ class CreateUser extends Component {
         const body = {
             username: this.usernameRef.current.value,
             pw: this.pwRef.current.value,
-            realName: this.realnameRef.current.value,
+            realname: this.realnameRef.current.value,
             isAdmin: this.isAdminRef.current.checked ? 1 : 0
         };
         store.dispatch(createUserAPICall(body));
