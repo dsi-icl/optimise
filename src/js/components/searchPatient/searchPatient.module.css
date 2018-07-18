@@ -35,7 +35,8 @@
 
 .searchItem {
     flex: 1 0 10%;
-    min-width: 10em;
+    min-width: 25%;
+    max-width: 25%;
     padding: 0 0.5rem 1rem;
     height: 7.5em;
     overflow: hidden;
