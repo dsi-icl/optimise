@@ -9,6 +9,13 @@
     padding: 0.35em 1.2em;
 }
 
+.rightPush {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    padding-right: 1.2em;
+}
+
 .menuBar {    
     grid-area: navigation;
     display: block;
@@ -100,15 +107,14 @@
 
 .errorMessageDialogBox {
     position: absolute;
-    background-color: var(--color-font-active);
-    border: 1px solid darkgray;
+    background-color: rgb(255, 80, 80);
     padding: 1.5em;
     height: 20%;
     min-height: 200px;
     width: 30%;
     top: 30%;
     left: 35%;
-    color: var(--color-font);
+    color: white;
 }
 
 .errorMessageDialogBox .cancelButton {
@@ -121,5 +127,5 @@
 
 .errorMessageDialogBox .cancelButton:hover {
     cursor: pointer;
-    color: rgb(255, 90, 90);
+    color: black;
 }

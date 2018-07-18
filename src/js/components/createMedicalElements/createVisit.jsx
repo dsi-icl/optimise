@@ -72,6 +72,7 @@ export class CreateVisit extends Component {
             return;
         }
         const requestBody = this._formatRequestBody();
+        requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
         this.props.createVisit(requestBody);
     }
 
@@ -81,7 +82,7 @@ export class CreateVisit extends Component {
             <>
                 <div className={style.ariane}>
                     <h2>Create a new Visit</h2>
-                    <BackButton to={`/patientProfile/${this.props.patientId}`} />
+                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                 </div>
                 <form className={style.panel}>
                     <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br />

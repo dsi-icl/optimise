@@ -46,10 +46,10 @@ export class CreateCE extends Component {
         return {
             patientId: this.props.match.params.patientId,
             data: {
-                visitId: this.props.match.params.visitId,
+                visitId: Number.parseInt(this.props.match.params.visitId),
                 startDate: date.toDateString(),
-                type: this.state.ceType,
-                meddra: this.props.meddra.filter(el => el.name === this.state.meddra.current.value)[0].id
+                type: Number.parseInt(this.state.ceType),
+                meddra: Number.parseInt(this.props.meddra.filter(el => el.name === this.state.meddra.current.value)[0].id)
             }
         };
     }
@@ -60,13 +60,14 @@ export class CreateCE extends Component {
             return;
         }
         const requestBody = this._formatRequestBody();
+        requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
         this.props.createCE(requestBody);
     }
 
     render() {
         if (this.props.visits) {
             const params = this.props.match.params;
-            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
+            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.id === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
             return (
                 <>
                     <div className={style.ariane}>

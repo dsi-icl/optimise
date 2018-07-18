@@ -36,13 +36,13 @@ export class CreateTreatment extends Component {
         return {
             patientId: this.props.match.params.patientId,
             data: {
-                visitId: this.props.match.params.visitId,
-                drugId: this.state.drugType,
-                dose: this.state.dose,
+                visitId: Number.parseInt(this.props.match.params.visitId),
+                drugId: Number.parseInt(this.state.drugType),
+                dose: Number.parseInt(this.state.dose),
                 unit: this.state.unit,
                 form: this.state.form,
-                timesPerDay: this.state.timesPerDay,
-                durationInWeeks: this.state.durationInWeeks
+                timesPerDay: Number.parseInt(this.state.timesPerDay),
+                durationInWeeks: Number.parseInt(this.state.durationInWeeks)
             }
         };
     }
@@ -57,6 +57,7 @@ export class CreateTreatment extends Component {
     _handleSubmitClick(e) {
         e.preventDefault();
         const requestBody = this._formatRequestBody();
+        requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
         this.props.createTreatment(requestBody);
     }
 
@@ -69,7 +70,7 @@ export class CreateTreatment extends Component {
     render() {
         if (this.props.visits) {
             const params = this.props.match.params;
-            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
+            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.id === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
             return (
                 <>
                     <div className={style.ariane}>

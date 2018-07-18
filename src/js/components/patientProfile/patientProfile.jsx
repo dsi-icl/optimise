@@ -104,7 +104,14 @@ class ImmunisationSection extends Component {
 
     _handleSubmit() {
         const data = this.props.data;
-        const body = { patientId: data.patientId, data: { patient: data.id, vaccineName: this.state.newName, immunisationDate: this.state.newDate._d.toDateString() } };
+        const body = {
+            patientId: data.patientId,
+            data: {
+                patient: data.id,
+                vaccineName: this.state.newName,
+                immunisationDate: this.state.newDate._d.toDateString()
+            }
+        };
         store.dispatch(createImmunisationAPICall(body));
     }
 
@@ -216,14 +223,15 @@ class Pregnancy extends Component {
             this.setState({ error: true });
             return;
         }
+        const { newOutcome, newStartDate, newOutcomeDate } = this.state;
         const body = {
             patientId: data.patientId,
             data: {
                 patient: data.id,
-                outcome: this.state.newOutcome,
-                startDate: this.state.newStartDate._d.toDateString(),
+                outcome: parseInt(newOutcome,10),
+                startDate: newStartDate ? newStartDate._d.toDateString() : null,
                 meddra: meddraField[0].id,
-                outcomeDate: this.state.newOutcomeDate._d.toDateString()
+                outcomeDate: newOutcomeDate ? newOutcomeDate._d.toDateString() : null
             }
         };
         store.dispatch(createPregnancyAPICall(body));
@@ -235,7 +243,7 @@ class Pregnancy extends Component {
             return (
                 <PatientProfileSectionScaffold sectionName='Pregnancies'>
                     {data.pregnancy.map((el, ind) =>
-                        <div key={`${el.meddra}${el.outcomeDate}`} className={ind === data.pregnancy.length - 1 ? style.pregnancyLast : style.pregnancy }>
+                        <div key={`${el.meddra}${el.outcomeDate}`} className={ind === data.pregnancy.length - 1 ? style.pregnancyLast : style.pregnancy}>
                             <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
                             <label>Outcome date: </label> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
                             <label>MedDRA: </label> {this.props.allMeddra[0][el.meddra]} <br />
@@ -277,13 +285,24 @@ class DeletePatient extends Component {
     }
 
     _handleClickDelete() {
-        const body = { patientId: this.props.match.params.patientId, data: { patientId: this.props.data.id } };
+        const body = {
+            patientId: this.props.match.params.patientId,
+            data: {
+                patientId: this.props.data.id
+            }
+        };
         store.dispatch(erasePatientAPICall(body));
     }
 
     _handleClickWithdrawConsent() {
         const { consent, id } = this.props.data;
-        const body = { patientId: this.props.match.params.patientId, data: { consent: !consent, patientId: id } };
+        const body = {
+            patientId: this.props.match.params.patientId,
+            data: {
+                consent: !consent,
+                patientId: id
+            }
+        };
         store.dispatch(updateConsentAPICall(body));
     }
 

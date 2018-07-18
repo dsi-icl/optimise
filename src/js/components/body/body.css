@@ -32,6 +32,7 @@
     --color-font-grey-scale: 130;
     --color-font: rgba(var(--color-font-grey-scale), var(--color-font-grey-scale), var(--color-font-grey-scale), 255);
     --color-font-active: rgba(255, 255, 255, 255);
+    --color-border-grey: hsl(var(--color-background-h), var(--color-background-s), 80%);
 }
 
 * {
@@ -162,4 +163,8 @@ th, td {
     line-height: 2.7em;
     text-align: left;
     vertical-align: middle;
+}
+
+pre {
+    white-space: pre;
 }

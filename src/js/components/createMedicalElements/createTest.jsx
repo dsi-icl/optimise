@@ -44,9 +44,9 @@ export class CreateTest extends Component {
         return {
             patientId: this.props.match.params.patientId,
             data: {
-                visitId: this.props.match.params.visitId,
+                visitId: Number.parseInt(this.props.match.params.visitId),
                 expectedDate: date.toDateString(),
-                type: this.state.testType
+                type: Number.parseInt(this.state.testType)
             }
         };
     }
@@ -54,13 +54,14 @@ export class CreateTest extends Component {
     _handleSubmitClick(e) {
         e.preventDefault();
         const requestBody = this._formatRequestBody();
+        requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
         this.props.createTest(requestBody);
     }
 
     render() {
         if (this.props.visits) {
             const params = this.props.match.params;
-            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.visitId === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
+            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.id === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
             return (
                 <>
                     <div className={style.ariane}>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPatientProfileById, searchPatientAPICall, searchPatientRequest, searchPatientClear } from '../../redux/actions/searchPatient';
@@ -14,7 +14,7 @@ export default class SearchPatientsById extends Component {
         this._handleEnterKey = this._handleEnterKey.bind(this);
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         store.dispatch(searchPatientClear());
     }
 
@@ -55,49 +55,48 @@ export default class SearchPatientsById extends Component {
     fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName))
 }))
 export class SearchResultForPatients extends Component {
-    constructor() {
-        super();
-        this._handleClickWrapper = this._handleClickWrapper.bind(this);
-    }
-
-    _handleClickWrapper(patientName) {
-        return () => {
-            this.props.fetchPatientProfile(patientName);
-        };
-    }
-
     render() {
+        const { searchString, listOfPatients } = this.props;
         return (
-            <div>
-                {this.props.listOfPatients.filter(el => el['aliasId'] === this.props.searchString).length === 0 && this.props.searchString !== '' ?
-                    <Link to={`/createPatient/${this.props.searchString}`} >
-                        <button>
-                            {`Create patient ${this.props.searchString}`}
-                        </button><br /><br />
+            <div className={style.searchResultWrapper}>
+                {listOfPatients.filter(el => el['aliasId'] === searchString).length === 0 && searchString !== '' ?
+                    <Link to={`/createPatient/${searchString}`} className={style.searchItem}>
+                        <div>
+                            <span className={style.createPatientSign}>&#43;</span><br />
+                            <span className={style.createPatientText}>{`Create patient ${searchString}`}</span>
+                        </div>
                     </Link>
                     : null}
-                {this.props.listOfPatients.map(el => {
-                    const ind = el['aliasId'].indexOf(this.props.searchString);
-                    const name = (
-                        <span>
-                            <b>
-                                {el['aliasId'].substring(0, ind)}
-                                <span className={style.matchedString}>
-                                    {el['aliasId'].substring(ind, this.props.searchString.length + ind)}
-                                </span>
-                                {el['aliasId'].substring(this.props.searchString.length + ind, el['aliasId'].length)}
-                            </b>
-                        </span>
-                    );
-                    return (
-                        <Link key={el['aliasId']} to={`/patientProfile/${el['aliasId']}`} >
-                            <div onClick={this._handleClickWrapper(el['aliasId'])} className={style.searchItem} key={el.patientId}>
-                                {name} in {el.study}
-                            </div>
-                        </Link>
-                    );
-                })}
+                {listOfPatients.map(el => <PatientButton key={el.patientId} data={el} searchString={searchString} />)}
             </div>
+        );
+    }
+}
+
+/*  receives prop 'data' as one patient; and seachString*/
+class PatientButton extends PureComponent {
+    render() {
+        const { data, searchString } = this.props;
+        const ind = data.aliasId.indexOf(searchString);
+        const styledName = (
+            <span>
+                <b>
+                    {data.aliasId.substring(0, ind)}
+                    <span className={style.matchedString}>
+                        {data.aliasId.substring(ind, searchString.length + ind)}
+                    </span>
+                    {data.aliasId.substring(searchString.length + ind, data.aliasId.length)}
+                </b>
+            </span>
+        );
+        return (
+            <Link key={data.aliasId} to={`/patientProfile/${data.aliasId}`} className={style.searchItem} >
+                <div>
+                    {styledName} <br /><br />
+                    study: {data.study} <br />
+                    consent: {String(data.consent)}
+                </div>
+            </Link>
         );
     }
 }

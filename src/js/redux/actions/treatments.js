@@ -1,9 +1,11 @@
 import { getPatientProfileById } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
+import history from '../history';
 
 export const createTreatmentAPICall = (body) => dispatch => {
     return apiHelper('/treatments', { method: 'POST', body: JSON.stringify(body.data) })
         .then(() => {
+            history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
         });
 };
@@ -12,6 +14,7 @@ export const createTreatmentAPICall = (body) => dispatch => {
 export const createTreatmentInterruptionAPICall = (body) => dispatch => {
     return apiHelper('/treatments/interrupt', { method: 'POST', body: JSON.stringify(body.data) })
         .then(() => {
+            history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
         });
 };
