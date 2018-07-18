@@ -14,7 +14,7 @@ export default class SearchPatientsById extends Component {
         this._handleEnterKey = this._handleEnterKey.bind(this);
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         store.dispatch(searchPatientClear());
     }
 
@@ -58,16 +58,16 @@ export class SearchResultForPatients extends Component {
     render() {
         const { searchString, listOfPatients } = this.props;
         return (
-            <div>
+            <div className={style.searchResultWrapper}>
                 {listOfPatients.filter(el => el['aliasId'] === searchString).length === 0 && searchString !== '' ?
-                    <Link to={`/createPatient/${searchString}`} >
-                        <div className={style.createPatientButton}>
-                            <span>&#43;</span> <br/>
-                            {`Create patient ${searchString}`}
+                    <Link to={`/createPatient/${searchString}`} className={style.searchItem}>
+                        <div>
+                            <span className={style.createPatientSign}>&#43;</span><br />
+                            <span className={style.createPatientText}>{`Create patient ${searchString}`}</span>
                         </div>
                     </Link>
                     : null}
-                {listOfPatients.map(el => <PatientButton key={el.patientId} data={el} searchString={searchString}/>)}
+                {listOfPatients.map(el => <PatientButton key={el.patientId} data={el} searchString={searchString} />)}
             </div>
         );
     }
@@ -75,7 +75,7 @@ export class SearchResultForPatients extends Component {
 
 /*  receives prop 'data' as one patient; and seachString*/
 class PatientButton extends PureComponent {
-    render(){
+    render() {
         const { data, searchString } = this.props;
         const ind = data.aliasId.indexOf(searchString);
         const styledName = (
@@ -90,11 +90,11 @@ class PatientButton extends PureComponent {
             </span>
         );
         return (
-            <Link key={data.aliasId} to={`/patientProfile/${data.aliasId}`} >
-                <div className={style.searchItem} key={data.aliasId}>
-                    {styledName} <br/><br/>
-                    study: {data.study} <br/>
-                    consent: {String(data.consent)} 
+            <Link key={data.aliasId} to={`/patientProfile/${data.aliasId}`} className={style.searchItem} >
+                <div>
+                    {styledName} <br /><br />
+                    study: {data.study} <br />
+                    consent: {String(data.consent)}
                 </div>
             </Link>
         );
