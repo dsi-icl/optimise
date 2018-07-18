@@ -1,6 +1,6 @@
 const { getEntry, createEntry, deleteEntry, eraseEntry } = require('../utils/controller-utils');
 const ErrorHelper = require('../utils/error_helper');
-const crypto = require('crypto');
+const { hash, generateAndHash } = require('../utils/generate-crypto');
 const message = require('../utils/message-utils');
 const knex = require('../utils/db-connection');
 
@@ -38,14 +38,12 @@ User.prototype.getUserByID = function (uid) {
 User.prototype.createUser = function (userReq, user) {
     return new Promise(function (resolve, reject) {
         let entryObj = {};
-        let salt = crypto.randomBytes(32).toString('base64');
-        let iteration = Number.parseInt(crypto.randomBytes(2).toString('hex'), 16);
-        let hashed = crypto.pbkdf2Sync(user.pw, salt, iteration, 64, 'sha512');
+        let hashContainer = generateAndHash(user.pw);
         entryObj.username = user.username;
         entryObj.realname = user.realname;
-        entryObj.pw = hashed.toString('base64');
-        entryObj.salt = salt;
-        entryObj.iterations = iteration;
+        entryObj.pw = hashContainer.hashed;
+        entryObj.salt = hashContainer.salt;
+        entryObj.iterations = hashContainer.iteration;
         entryObj.adminPriv = user.isAdmin;
         entryObj.createdByUser = userReq.id;
         createEntry('USERS', entryObj).then(function (result) {
@@ -59,10 +57,8 @@ User.prototype.createUser = function (userReq, user) {
 User.prototype.updateUser = function (user) {
     return new Promise(function (resolve, reject) {
         try {
-            let salt = crypto.randomBytes(32).toString('base64');
-            let iteration = Number.parseInt(crypto.randomBytes(2).toString('hex'), 16);
-            let hashed = crypto.pbkdf2Sync(user.pw, salt, iteration, 64, 'sha512');
-            knex('USERS').update({ 'pw': hashed.toString('base64'), 'salt': salt, 'iterations': iteration }).where({ username: user.username, deleted: '-' }).then(function (result) {
+            let hashContainer = generateAndHash(user.pw);
+            knex('USERS').update({ 'pw': hashContainer.hashed, 'salt': hashContainer.salt, 'iterations': hashContainer.iteration }).where({ username: user.username, deleted: '-' }).then(function (result) {
                 resolve(result);
             }, function (error) {
                 reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
@@ -120,8 +116,8 @@ User.prototype.loginUser = function (user) {
             if (result.length <= 0)
                 reject(ErrorHelper(message.errorMessages.GETFAIL));
             try {
-                let crypted = crypto.pbkdf2Sync(user.pw, result[0].salt, result[0].iteration, 64, 'sha512');
-                if (crypted.toString('base64') !== result[0].pw)
+                let crypted = hash(user.pw, result[0].salt, result[0].iteration);
+                if (crypted !== result[0].pw)
                     reject(ErrorHelper(message.userError.BADPASSWORD, new Error(message.userError.WRONGARGUMENTS)));
                 else
                     resolve(result[0]);
