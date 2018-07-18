@@ -44,7 +44,10 @@ UserController.prototype.serializeUser = function (deserializedUser, done) {
  */
 UserController.prototype.deserializeUser = function (serializedUser, done) {
     this.user.getUserByID(serializedUser.id).then(function (user) {
-        done(null, user);
+        if (user.length > 0)
+            done(null, user[0]);
+        else
+            done(`Failed to retreive the user for ID ${serializedUser.id}`, null);
     }, function (error) {
         done(`Session broke: ${error}`, null);
     });
