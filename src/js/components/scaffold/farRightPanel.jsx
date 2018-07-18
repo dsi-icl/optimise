@@ -20,8 +20,6 @@ export default class FarRightPanel extends Component {
                     <Route path='/patientProfile/:patientId/data/:elementType/:elementId' render={({ match }) => <DataPageRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/createVisit' render={({ match }) => <CreateVisit match={match} />} />
                     <Route path='/patientProfile/:patientId' render={({ match }) => <Section match={match} />} />
-                    <Route exact path='/export' component={() => <></>} />
-                    <Route path='/administration' render={() => <></>} />
                     <Route exact path='/searchPatient/from/deletionSuccessful' component={() => <h3>The patient has been successfully deleted!</h3>} />
                     <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatient match={match} />} />
                     <Route exact path='/filterPatients' component={() => <></>} />
