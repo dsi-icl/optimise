@@ -64,7 +64,7 @@ User.prototype.updateUser = function (user) {
                 reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             });
         } catch (err) {
-            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, err));
             return;
         }
     });
