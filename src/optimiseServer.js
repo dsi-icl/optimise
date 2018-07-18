@@ -1,6 +1,8 @@
 //External node module imports
 const express = require('express');
 const expressSession = require('express-session');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../swagger.json');
 const body_parser = require('body-parser');
 const passport = require('passport');
 
@@ -62,6 +64,8 @@ OptimiseServer.prototype.start = function () {
 
         // Operate database migration if necessary
         migrate('ms').then(() => {
+
+            _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
             // Setup sessions with third party middleware
             _this.app.use(expressSession({
