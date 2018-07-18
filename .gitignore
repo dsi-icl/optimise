@@ -24,3 +24,5 @@ To-Do.txt
 /electron-builder.yml
 /db/
 /temp/
+/dist/
+/.vs/

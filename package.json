@@ -1,6 +1,6 @@
 {
     "name": "optimise-ui",
-    "version": "1.9.6",
+    "version": "1.9.7",
     "description": "Front-end for optimiseMS",
     "license": "MIT",
     "contributors": [
@@ -15,18 +15,22 @@
         "url": "https://github.com/dsi-icl/optimise/issues"
     },
     "repository": "https://github.com/dsi-icl/optimise",
-    "main": "./electron.js",
+    "main": "./electron/start.js",
     "scripts": {
-        "api": "node ./launcher/root.js",
-        "electron": "electron ./electron.js",
+        "api:start": "node ./launcher/root.js",
+        "api:dev": "npm run react:start",
+        "electron:build": "build --win",
+        "electron:start": "electron ./electron/start.js",
         "lint": "eslint --ext .jsx --ext .js ./",
         "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
         "react:build": "node scripts/build.js",
-        "react:start": "cross-env BROWSER=none node bin/optimise-devutils.js start",
+        "react:head": "node bin/optimise-devutils.js start",
+        "react:start": "cross-env BROWSER=none npm run react:head",
         "react:test": "node bin/optimise-devutils.js test -- --env=jsdom --colors --verbose --forceExit",
-        "start": "nf start",
-        "build": "build --win",
-        "ship": "build --win -p always"
+        "build": "npm run react:build && npm run electron:build",
+        "prod": "npm run react:build && cross-env NODE_ENV=production npm run electron:start",
+        "start": "cross-env NODE_ENV=development npm run electron:start",
+        "ship": "npm run react:build && build --win -p always"
     },
     "dependencies": {
         "@babel/core": "7.0.0-beta.54",
@@ -48,6 +52,7 @@
         "css-loader": "1.0.0",
         "dotenv": "6.0.0",
         "dotenv-expand": "4.2.0",
+        "electron-is-dev": "0.3.0",
         "electron-updater": "3.0.2",
         "eslint": "5.1.0",
         "eslint-config-react-app": "3.0.0-next.3e165448",
@@ -70,7 +75,7 @@
         "mini-css-extract-plugin": "0.4.1",
         "moment": "2.22.2",
         "object-assign": "4.1.1",
-        "optimise-core": "0.9.19",
+        "optimise-core": "0.9.20",
         "optimize-css-assets-webpack-plugin": "5.0.0",
         "postcss-flexbugs-fixes": "3.3.1",
         "postcss-loader": "2.1.6",
