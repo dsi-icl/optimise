@@ -29,15 +29,23 @@ export default class CreatePatient extends Component {    //get these props from
             diagnosis: 0,
             diagnosisDate: moment()
         };
-        this._handleDateChange = this._handleDateChange.bind(this);
+        this._handleDobDateChange = this._handleDobDateChange.bind(this);
+        this._handleDiagnosisDateChange = this._handleDiagnosisDateChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleChange = this._handleChange.bind(this);
         this._handleFreeTextChange = this._handleFreeTextChange.bind(this);
     }
 
-    _handleDateChange(date) {
+    _handleDobDateChange(date) {
         this.setState({
             DOB: date,
+            error: false
+        });
+    }
+
+    _handleDiagnosisDateChange(date) {
+        this.setState({
+            diagnosisDate: date,
             error: false
         });
     }
@@ -119,7 +127,7 @@ export default class CreatePatient extends Component {    //get these props from
                             <label htmlFor='postcode'>Postcode:</label><br /> <input value={this.state.postcode} name='postcode' onChange={this._handleFreeTextChange} autoComplete="off" /><br /><br />
                             <br />
                             <h4>Basic demographic data</h4><br />
-                            <label>Date of birth:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDateChange} /> <br />
+                            <label>Date of birth:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDobDateChange} /> <br />
                             <label htmlFor='gender'>Gender:</label><br /> <SelectField name='gender' value={this.state.gender} options={genders} handler={this._handleChange} /> <br /><br />
                             <label htmlFor='dominant_hand'>Dominant hand:</label><br /> <SelectField name='dominant_hand' value={this.state['dominant_hand']} options={dominant_hands} handler={this._handleChange} /> <br /><br />
                             <label htmlFor='ethnicity'>Ethnicity:</label><br /> <SelectField name='ethnicity' value={this.state['ethnicity']} options={ethnicities} handler={this._handleChange} /> <br /><br />
@@ -128,7 +136,7 @@ export default class CreatePatient extends Component {    //get these props from
                             <label htmlFor='smoking_history'>Smoking history:</label><br /> <SelectField name='smoking_history' value={this.state['smoking_history']} options={smoking_history} handler={this._handleChange} /> <br /><br />
                             <br />
                             <h4>Primary diagnosis</h4><br />
-                            <label>Diagnosis date:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDateChange} /> <br />
+                            <label>Diagnosis date:</label><br /> <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleDiagnosisDateChange} /> <br />
                             <label htmlFor='diagnosis'>Diagnosis:</label><br /> <SelectField name='diagnosis' value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} /> <br /><br />
                             <input type="submit" value="Submit" />
                         </form>
