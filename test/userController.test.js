@@ -48,7 +48,7 @@ describe('User controller tests', () => {
             expect(res.statusCode).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            // Not checking the value of res.body.state because it can change
+            expect(res.body.state).toBe(3);
         }));
 
     test('Admin creating user (no 2) without admin priv without real name', () => admin
@@ -59,7 +59,7 @@ describe('User controller tests', () => {
             expect(res.statusCode).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            // Not checking the value of res.body.state because it can change
+            expect(res.body.state).toBe(4);
         }));
 
     test('Admin get the users matching with "test" in their name', function () {
@@ -199,6 +199,57 @@ describe('User controller tests', () => {
             expect(res.body.status).toBe('OK');
             expect(res.body.message).toBeDefined();
             expect(res.body.message).toBe('Successfully logged in');
+        }));
+
+    test('admin change rights of user no 2 (MISSING ARGS on priv)', () => admin
+        .patch('/users')
+        .send({ id: 4, invalidArg: 1 })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        }));
+
+
+    test('admin change rights of user no 2 (MISSING ARGS on id)', () => admin
+        .patch('/users')
+        .send({ user: 4, adminPriv: 1 })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        }));
+
+    test('admin change rights of user no 2 (WRONG ARGS on priv)', () => admin
+        .patch('/users')
+        .send({ id: 4, adminPriv: {} })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('admin change rights of user no 2 (MISSING ARGS on priv)', () => admin
+        .patch('/users')
+        .send({ id: {}, adminPriv: 1 })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('admin change rights of user no 2 (Success)', () => admin
+        .patch('/users')
+        .send({ id: 4, adminPriv: 1 })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 
     test('admin deletes user no 2', () => admin
