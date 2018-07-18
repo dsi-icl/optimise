@@ -23,6 +23,10 @@ export class AdminActions extends Component {
                         <NavLink to='/administration/log' activeClassName={style.activeNavLink}>
                             <button>View access log</button>
                         </NavLink>
+                        <br /><br />
+                        <NavLink to='/administration/system' activeClassName={style.activeNavLink}>
+                            <button>System information</button>
+                        </NavLink>
                     </div>
                     <div className={style.actionsDisplay}>
                         <AdminRouter />
