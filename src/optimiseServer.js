@@ -164,6 +164,7 @@ OptimiseServer.prototype.setupUsers = function () {
         .get(this.userCtrl.getUser)
         .post(this.userCtrl.createUser)
         .put(this.userCtrl.updateUser)
+        .patch(this.userCtrl.changeRights)
         .delete(this.userCtrl.deleteUser);
 };
 
