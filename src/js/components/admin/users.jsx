@@ -45,7 +45,7 @@ export class UserEntry extends PureComponent {    /* consider mapping the endpoi
     render() {
         const el = this.props.entry;
         return (
-            <div>
+            <div className={style.clickable}>
                 <b>Id: </b> {el.id} <br />
                 <b>Username: </b> {el.username}<br />
                 <b>Real name: </b>{el.realname} <br />
@@ -81,7 +81,7 @@ class CreateUser extends Component {
         const body = {
             username: this.usernameRef.current.value,
             pw: this.pwRef.current.value,
-            realName: this.realnameRef.current.value,
+            realname: this.realnameRef.current.value,
             isAdmin: this.isAdminRef.current.checked ? 1 : 0
         };
         store.dispatch(createUserAPICall(body));

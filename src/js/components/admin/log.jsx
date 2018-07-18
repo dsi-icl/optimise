@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { getLogAPICall } from '../../redux/actions/admin';
 import Icon from '../icon';
+import style from './admin.module.css';
 
 @connect(state => ({ log: state.log }))
 export class Log extends Component {
@@ -34,10 +35,10 @@ export class LogEntry extends PureComponent {    /* consider mapping the endpoin
         const el = this.props.entry;
         return (
             <div>
-                <b>Action Id: </b> {el.id} <br />
-                <b>Action: </b> {`${el.method} ${el.router}`} <br />
-                <b>User: </b> {el.user}<br />
-                <b>Body: </b>{el.body} <br />
+                <b>Action Id: </b> <pre className={style.actionOther}>{el.id}</pre> <br />
+                <b>Action: </b> <pre className={style.actionOther}>{`${el.method} ${el.router}`}</pre><br />
+                <b>User: </b><pre className={style.actionOther}>{el.user}</pre><br />
+                <b>Body: </b><pre className={style.actionBody}>{JSON.stringify(JSON.parse(el.body), null, 2)}</pre>
             </div>
         );
     }
