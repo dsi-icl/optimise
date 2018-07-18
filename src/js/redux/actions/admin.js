@@ -39,3 +39,9 @@ export const createUserAPICall = body => dispatch => {
         })
         .catch(msg => console.log(msg));
 };
+
+
+export const changePasswordAPICall = body => dispatch => {
+    return apiHelper('/users', { method: 'PUT', body: JSON.stringify(body)})
+        .catch(msg => console.log(msg));
+};
