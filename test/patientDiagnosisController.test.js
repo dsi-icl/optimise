@@ -223,7 +223,7 @@ describe('Editing Diagnosis test suite', () => {
                 expect(res.status).toBe(200);
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(5);
+                expect(res.body.state).toBe(1);
             }));
 });
 

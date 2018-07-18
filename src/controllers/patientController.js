@@ -115,7 +115,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                         promiseArr.push(SelectorUtils[`get${getOnlyArr[i]}`](patientId));
                     } catch (e) {
                         res.status(400).send('something in your ?getOnly is not permitted! The options are "getDemographicData", "getImmunisations", "getMedicalHistory", "getVisits", "getTests", "getTreatments", "ClinicalEvents", "Pregnancy", "Diagnosis"');
-                        throw 'stopping the chain';
+                        return;
                     }
                 }
                 return Promise.all(promiseArr);

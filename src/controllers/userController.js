@@ -12,9 +12,11 @@ function UserController() {
     this.createUser = UserController.prototype.createUser.bind(this);
     this.deleteUser = UserController.prototype.deleteUser.bind(this);
     this.updateUser = UserController.prototype.updateUser.bind(this);
+    this.eraseUser = UserController.prototype.eraseUser.bind(this);
     this.loginUser = UserController.prototype.loginUser.bind(this);
     this.logoutUser = UserController.prototype.logoutUser.bind(this);
     this.whoAmI = UserController.prototype.whoAmI.bind(this);
+    this.changeRights = UserController.prototype.changeRights.bind(this);
 }
 
 /**
@@ -43,7 +45,10 @@ UserController.prototype.serializeUser = function (deserializedUser, done) {
  */
 UserController.prototype.deserializeUser = function (serializedUser, done) {
     this.user.getUserByID(serializedUser.id).then(function (user) {
-        done(null, user);
+        if (user.length > 0)
+            done(null, user[0]);
+        else
+            done(`Failed to retreive the user for ID ${serializedUser.id}`, null);
     }, function (error) {
         done(`Session broke: ${error}`, null);
     });
@@ -71,8 +76,12 @@ UserController.prototype.createUser = function (req, res) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }
-    if (!req.body.hasOwnProperty('pw') || !req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('isAdmin')) {
+    if (!req.body.hasOwnProperty('pw') || !req.body.hasOwnProperty('username') || !req.body.hasOwnProperty('isAdmin') || !req.body.hasOwnProperty('realname')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    }
+    if (typeof req.body.pw !== 'string' || typeof req.body.username !== 'string' || typeof req.body.isAdmin !== 'number' || typeof req.body.realname !== 'string') {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
     this.user.createUser(req.user, req.body).then(function (result) {
@@ -104,6 +113,28 @@ UserController.prototype.updateUser = function (req, res) {
     });
 };
 
+UserController.prototype.changeRights = function (req, res) {
+    if (req.user.priv !== 1) {
+        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    }
+    if (!req.body.hasOwnProperty('id') || !req.body.hasOwnProperty('adminPriv')) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    }
+    if (typeof req.body.id !== 'number' || typeof req.body.adminPriv !== 'number') {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
+    }
+    this.user.changeRights(req.body).then(function (result) {
+        res.status(200).json(formatToJSON(result));
+        return;
+    }, function (error) {
+        res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return;
+    });
+};
+
 UserController.prototype.deleteUser = function (req, res) {
     if (!req.body.hasOwnProperty('username')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -120,6 +151,27 @@ UserController.prototype.deleteUser = function (req, res) {
         });
     } else {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    }
+};
+
+UserController.prototype.eraseUser = function (req, res) {
+    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+        this.user.eraseUser(req.body.id).then(function (result) {
+            res.status(200).json(formatToJSON(result));
+            return;
+        }, function (error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.ERASEFAILED, error));
+            return;
+        });
+    } else if (req.user.priv !== 1) {
+        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    } else if (!req.body.hasOwnProperty('id')) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
 };
@@ -163,11 +215,6 @@ UserController.prototype.logoutUser = function (req, res) {
             res.json({ message: 'Successfully logged out' });
         }
     });
-    //     return;
-    // }, function (error) {
-    //     res.status(400).json(ErrorHelper(error));
-    //     return;
-    // });
 };
 
 /**

@@ -16,7 +16,7 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
 
     static globalSetup() {
         process.env.NODE_ENV = 'test';
-        if (process.env.NODE_ENV !== 'production') console.log('\n');
+        console.log('\n');
         return new Promise(function (resolve, reject) {
             erase().then(() => migrate('testing').then(() => resolve(true)).catch(err => reject(err))).catch(err => reject(err));
         }).then(() => {
@@ -25,15 +25,19 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
         }).then((optimise_router) => {
             optimiseRouter = optimise_router;
             return true;
+        }).catch(err => {
+            console.error(err);
         });
     }
 
     static globalTeardown() {
         optimiseServer.stop().then(() =>
-            Promise(function (resolve, reject) {
+            new Promise(function (resolve, reject) {
                 erase().then(() => knex.destroy().then(() => resolve(true))).catch(err => reject(err));
             })
-        );
+        ).catch(err => {
+            console.error(err);
+        });
     }
 
     async setup() {

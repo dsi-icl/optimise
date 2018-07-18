@@ -43,23 +43,23 @@ describe('User controller tests', () => {
     test('Admin creating user (no 1) without admin priv with real name', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
-        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting' })
+        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realname': 'IAmTesting' })
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            // Not checking the value of res.body.state because it can change
+            expect(res.body.state).toBe(3);
         }));
 
     test('Admin creating user (no 2) without admin priv without real name', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
-        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0 })
+        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'realname': 'IAmTesting' })
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            // Not checking the value of res.body.state because it can change
+            expect(res.body.state).toBe(4);
         }));
 
     test('Admin get the users matching with "test" in their name', function () {
@@ -77,7 +77,8 @@ describe('User controller tests', () => {
                 expect(res.body[1]).toHaveProperty('username');
                 expect(res.body[1]).toHaveProperty('realname');
                 expect(res.body[1].username).toBe('test_user2');
-                expect(res.body[1].realname).toBeNull();
+                expect(res.body[1].realname).toBeDefined();
+                expect(res.body[1].realname).toBe('IAmTesting');
             });
     });
 
@@ -200,6 +201,57 @@ describe('User controller tests', () => {
             expect(res.body.message).toBe('Successfully logged in');
         }));
 
+    test('admin change rights of user no 2 (MISSING ARGS on priv)', () => admin
+        .patch('/users')
+        .send({ id: 4, invalidArg: 1 })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        }));
+
+
+    test('admin change rights of user no 2 (MISSING ARGS on id)', () => admin
+        .patch('/users')
+        .send({ user: 4, adminPriv: 1 })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        }));
+
+    test('admin change rights of user no 2 (WRONG ARGS on priv)', () => admin
+        .patch('/users')
+        .send({ id: 4, adminPriv: {} })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('admin change rights of user no 2 (MISSING ARGS on priv)', () => admin
+        .patch('/users')
+        .send({ id: {}, adminPriv: 1 })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('admin change rights of user no 2 (Success)', () => admin
+        .patch('/users')
+        .send({ id: 4, adminPriv: 1 })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+        }));
+
     test('admin deletes user no 2', () => admin
         .delete('/users')
         .set('Content-type', 'application/json')
@@ -214,7 +266,7 @@ describe('User controller tests', () => {
     test('Admin creating another user (no 1) without admin priv with real name again', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
-        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realName': 'IAmTesting' })
+        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realname': 'IAmTesting' })
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(typeof res.body).toBe('object');
