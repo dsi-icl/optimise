@@ -1,6 +1,8 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import style from './admin.module.css';
+import { changePasswordAPICall} from '../../redux/actions/admin';
+import store from '../../redux/store';
 
 /* receives prop this.props.match.params.userId and store.getAllUsers*/
 @connect(state => ({ data: state.getAllUsers }))
@@ -21,8 +23,7 @@ export class UserDetail extends Component {
                         <div className={style.userDetailPanel}>
                             <div className={style.userDetail}>
                                 <UserInfo data={usersFiltered[0]}/>
-                                <ChangeUserPassword/> <br/>
-                                <ChangeUserPrivilege/>
+                                <ChangeUserPassword username={usersFiltered[0].username}/> <br/><br/>
                             </div>
                         </div>
                     </>
@@ -47,16 +48,67 @@ class UserInfo extends PureComponent {
     }
 }
 
+
+/* receive props this.props.username*/
 class ChangeUserPassword extends Component {
+    constructor() {
+        super();
+        this.state = { addMore: false, error: false };
+        this.conPwRef = React.createRef();
+        this.pwRef = React.createRef();
+        this._handleClickingAdd = this._handleClickingAdd.bind(this);
+        this._handleSubmit = this._handleSubmit.bind(this);
+    }
+
+    _handleClickingAdd() {
+        this.setState({ addMore: !this.state.addMore });
+    }
+
+    _handleSubmit() {
+        if (this.conPwRef.current.value === '' || this.pwRef.current.value === '' || this.pwRef.current.value !== this.conPwRef.current.value) {
+            this.setState({ error: true });
+            return;
+        }
+        const body = {
+            username: this.props.username,
+            pw: this.pwRef.current.value,
+        };
+        store.dispatch(changePasswordAPICall(body));
+        this.setState({ addMore: false, error: false });
+    }
+
     render() {
         return (
-            <div>
-                <button>Change user password </button>
-            </div>
+            <>
+                {!this.state.addMore ?
+                    <button onClick={this._handleClickingAdd}>Change user password</button>
+                    :
+                    <>
+                        <table>
+                            <thead>
+                                <tr><th>Password</th><th>Confirm your password</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type='password' ref={this.pwRef} />
+                                    </td>
+                                    <td>
+                                        <input type='password' ref={this.conPwRef} />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table><br />
+                        <br />
+                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                        <button onClick={this._handleClickingAdd}>Cancel</button>
+                        {this.state.error ? <div className={style.error}> Error: The two passwords are different; or empty. </div> : null}
+                    </>
+                }
+            </>
         );
     }
 }
-
 class ChangeUserPrivilege extends Component {
     render() {
         return (

@@ -57,7 +57,7 @@ export class UserEntry extends PureComponent {    /* consider mapping the endpoi
     }
 }
 
-@connect(state => ({ data: state.patientProfile.data }))
+
 class CreateUser extends Component {
     constructor() {
         super();
