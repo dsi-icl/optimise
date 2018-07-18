@@ -1,14 +1,18 @@
-const { getEntry, createEntry, deleteEntry } = require('../utils/controller-utils');
+const { getEntry, createEntry, deleteEntry, eraseEntry } = require('../utils/controller-utils');
 const ErrorHelper = require('../utils/error_helper');
-// const crypto = require('crypto');
-const bcrypt = require('bcrypt');
-const saltRound = require('../config/hashKeyConfig');
+const crypto = require('crypto');
 const message = require('../utils/message-utils');
 const knex = require('../utils/db-connection');
 
 function User() {
     this.createUser = User.prototype.createUser.bind(this);
     this.updateUser = User.prototype.updateUser.bind(this);
+    this.getUserByID = User.prototype.getUserByID.bind(this);
+    this.getUserByUsername = User.prototype.getUserByUsername.bind(this);
+    this.deleteUser = User.prototype.deleteUser.bind(this);
+    this.eraseUser = User.prototype.eraseUser.bind(this);
+    this.loginUser = User.prototype.loginUser.bind(this);
+    this.logoutUser = User.prototype.logoutUser.bind(this);
 }
 
 User.prototype.getUserByUsername = function (user) {
@@ -34,10 +38,14 @@ User.prototype.getUserByID = function (uid) {
 User.prototype.createUser = function (userReq, user) {
     return new Promise(function (resolve, reject) {
         let entryObj = {};
+        let salt = crypto.randomBytes(32).toString('base64');
+        let iteration = Number.parseInt(crypto.randomBytes(2).toString('hex'), 16);
+        let hashed = crypto.pbkdf2Sync(user.pw, salt, iteration, 64, 'sha512');
         entryObj.username = user.username;
-        if (user.hasOwnProperty('realName'))
-            entryObj.realname = user.realName;
-        entryObj.pw = bcrypt.hashSync(user.pw, saltRound);
+        entryObj.realname = user.realname;
+        entryObj.pw = hashed.toString('base64');
+        entryObj.salt = salt;
+        entryObj.iterations = iteration;
         entryObj.adminPriv = user.isAdmin;
         entryObj.createdByUser = userReq.id;
         createEntry('USERS', entryObj).then(function (result) {
@@ -50,8 +58,35 @@ User.prototype.createUser = function (userReq, user) {
 
 User.prototype.updateUser = function (user) {
     return new Promise(function (resolve, reject) {
-        const hashed = bcrypt.hashSync(user.pw, saltRound);
-        knex('USERS').update({ 'pw': hashed }).where({ username: user.username, deleted: '-' }).then(function (result) {
+        try {
+            let salt = crypto.randomBytes(32).toString('base64');
+            let iteration = Number.parseInt(crypto.randomBytes(2).toString('hex'), 16);
+            let hashed = crypto.pbkdf2Sync(user.pw, salt, iteration, 64, 'sha512');
+            knex('USERS').update({ 'pw': hashed.toString('base64'), 'salt': salt, 'iterations': iteration }).where({ username: user.username, deleted: '-' }).then(function (result) {
+                resolve(result);
+            }, function (error) {
+                reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+            });
+        } catch (err) {
+            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, err));
+            return;
+        }
+    });
+};
+
+User.prototype.changeRights = function (user) {
+    return new Promise(function (resolve, reject) {
+        knex('USERS').update({ 'adminPriv': user.adminPriv }).where({ id: user.id, deleted: '-' }).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        });
+    });
+};
+
+User.prototype.changeRights = function (user) {
+    return new Promise(function (resolve, reject) {
+        knex('USERS').update({ 'adminPriv': user.adminPriv }).where({ id: user.id, deleted: '-' }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
@@ -69,27 +104,31 @@ User.prototype.deleteUser = function (user, userReq) {
     });
 };
 
+User.prototype.eraseUser = function (id) {
+    return new Promise(function (resolve, reject) {
+        eraseEntry('USERS', { 'id': id }).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(ErrorHelper(message.errorMessages.ERASEFAILED, error));
+        });
+    });
+};
+
 User.prototype.loginUser = function (user) {
     return new Promise(function (resolve, reject) {
-        getEntry('USERS', { username: user.username }, { pw: 'pw', id: 'id', username: 'username', priv: 'adminPriv' }).then(function (result) {
+        getEntry('USERS', { username: user.username }, { pw: 'pw', id: 'id', username: 'username', priv: 'adminPriv', salt: 'salt', iteration: 'iterations' }).then(function (result) {
             if (result.length <= 0)
                 reject(ErrorHelper(message.errorMessages.GETFAIL));
             try {
-                if (!bcrypt.compareSync(user.pw, result[0].pw)) {
+                let crypted = crypto.pbkdf2Sync(user.pw, result[0].salt, result[0].iteration, 64, 'sha512');
+                if (crypted.toString('base64') !== result[0].pw)
                     reject(ErrorHelper(message.userError.BADPASSWORD, new Error(message.userError.WRONGARGUMENTS)));
-                }
-            } catch (tryError) {
-                reject(ErrorHelper(message.userError.BADPASSWORD, tryError));
+                else
+                    resolve(result[0]);
+            } catch (err) {
+                reject(err);
+                return;
             }
-            resolve(result[0]);
-            // let entryObj = {};
-            // entryObj.user = result[0];
-            // entryObj.sessionToken = crypto.randomBytes(20).toString('hex');
-            // createEntry('USER_SESSION', { user: entryObj.user.id }).then(function (__unused__result) {
-            // resolve(entryObj);
-            // }, function (error) {
-            //     reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            // });
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
@@ -97,13 +136,6 @@ User.prototype.loginUser = function (user) {
 };
 
 User.prototype.logoutUser = function (__unused__user) {
-    // return new Promise(function (resolve, reject) {
-    //     deleteEntry('USER_SESSION', requester, { sessionToken: requester.token }).then(function (result) {
-    //         resolve(result);
-    //     }, function (error) {
-    //         reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-    //     });
-    // });
     return Promise.resolve(true);
 };
 

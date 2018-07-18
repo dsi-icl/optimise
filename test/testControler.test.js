@@ -38,6 +38,36 @@ describe('Create test controller tests', () => {
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
+    test('Request creation with wrong type visit (should fail)', () => admin
+        .post('/tests')
+        .send({ 'visitId': 'WRONG', 'type': 1, 'expectedDate': '1 Jan 2020' })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Request creation with wrong type type (should fail)', () => admin
+        .post('/tests')
+        .send({ 'visitId': 1, 'type': 'WRONG', 'expectedDate': '1 Jan 2020' })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Request creation with wrong type expectedDate (should fail)', () => admin
+        .post('/tests')
+        .send({ 'visitId': 1, 'type': 1, 'expectedDate': {} })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
     test('Request creation with good body (should success)', () => admin
         .post('/tests')
         .send({ 'visitId': 1, 'type': 1, 'expectedDate': '1 Jan 2020' })
@@ -67,7 +97,7 @@ describe('Create test add occurence date controller tests', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(5);
+            expect(res.body.state).toBe(1);
         }));
 });
 
@@ -123,7 +153,7 @@ describe('Delete test controller tests', () => {
 
     test('Request deletion with good body (should success)', () => admin
         .patch('/tests')
-        .send({ 'testID': 5 })
+        .send({ 'testID': 4 })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
