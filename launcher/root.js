@@ -16,10 +16,10 @@ optimise.start().then(function (router) {
     root.use('/api', router);
 
     // Binding static resources folder
-    root.use(express.static('../build'));
+    root.use(express.static(path.normalize(`${__dirname}/../build`)));
 
     // Referencing any other requests to the /public/index.html 
-    root.use('/*', function (req, res, next) {
+    root.use('/', function (__unused__req, res) {
         res.sendFile(path.resolve('build/index.html'));
     });
 
