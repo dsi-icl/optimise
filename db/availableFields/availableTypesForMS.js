@@ -3,7 +3,8 @@ const availableTypes = {
         { id: 1, name: 'Relapse' },
         { id: 2, name: 'Infection' },
         { id: 3, name: 'Opportunistic Infection' },
-        { id: 4, name: 'Death' }
+        { id: 4, name: 'Death' },
+        { id: 5, name: 'Other SAE likely related to treatment and malignancies' }
     ],
     tests: [
         { id: 1, name: 'Laboratory test' },
