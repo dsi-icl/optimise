@@ -166,7 +166,7 @@ class PrimaryDiagnosis extends Component {
 }
 
 
-@connect(state => ({ data: state.patientProfile.data, allMeddra: state.availableFields.allMeddra, outcomes: state.availableFields.pregnancyOutcomes, meddra: state.meddra.result }))
+@connect(state => ({ outcomeHash: state.availableFields.pregnancyOutcomes_Hash[0], data: state.patientProfile.data, allMeddra: state.availableFields.allMeddra, outcomes: state.availableFields.pregnancyOutcomes, meddra: state.meddra.result }))
 class Pregnancy extends Component {
     constructor() {
         super();
@@ -238,7 +238,7 @@ class Pregnancy extends Component {
     }
 
     render() {
-        const { data } = this.props;
+        const { data, outcomeHash } = this.props;
         if (data.demographicData && data.demographicData.gender !== 1 && data.pregnancy) {
             return (
                 <PatientProfileSectionScaffold sectionName='Pregnancies'>
@@ -247,7 +247,7 @@ class Pregnancy extends Component {
                             <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
                             <label>Outcome date: </label> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
                             <label>MedDRA: </label> {this.props.allMeddra[0][el.meddra]} <br />
-                            <label>Outcome: </label> {el.outcome} <br />
+                            <label>Outcome: </label> {outcomeHash[el.outcome]} <br />
                         </div>)}
                     {!this.state.addMore ? null :
                         <div className={style.newPregnancy}>
