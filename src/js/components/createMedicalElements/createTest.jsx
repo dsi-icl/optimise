@@ -54,6 +54,7 @@ export class CreateTest extends Component {
     _handleSubmitClick(e) {
         e.preventDefault();
         const requestBody = this._formatRequestBody();
+        requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
         this.props.createTest(requestBody);
     }
 

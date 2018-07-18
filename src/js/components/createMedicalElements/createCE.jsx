@@ -60,6 +60,7 @@ export class CreateCE extends Component {
             return;
         }
         const requestBody = this._formatRequestBody();
+        requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
         this.props.createCE(requestBody);
     }
 
