@@ -16,7 +16,7 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
 
     static globalSetup() {
         process.env.NODE_ENV = 'test';
-        if (process.env.NODE_ENV !== 'production') console.log('\n');
+        console.log('\n');
         return new Promise(function (resolve, reject) {
             erase().then(() => migrate('testing').then(() => resolve(true)).catch(err => reject(err))).catch(err => reject(err));
         }).then(() => {
