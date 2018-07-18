@@ -10,7 +10,7 @@ export class AdminRouter extends Component {
         return (
             <Switch>
                 <Route exact path='/administration/log' render={({ match }) => <Log match={match} />} />
-                <Route exact path='/administration/users' render={({ match }) => <Users match={match} />} />
+                <Route path='/administration/users' render={({ match }) => <Users match={match} />} />
                 <Route exact path='/administration/messages' render={({ match }) => <Messages match={match} />} />
                 <Route exact path='/administration/system' render={({ match }) => <SystemInfo match={match} />} />
                 <Route path='/' component={() => <></>} />

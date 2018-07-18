@@ -7,6 +7,7 @@ import { CreateVisit } from '../createMedicalElements/createVisit';
 import { CreateElementRouter } from '../createMedicalElements/router';
 import { VisitSelector } from '../createMedicalElements/visitSelector';
 import { AdminRouter } from '../admin/router';
+import { UserDetail } from '../admin/userDetailPage';
 
 import style from './scaffold.module.css';
 
@@ -23,6 +24,7 @@ export default class FarRightPanel extends Component {
                     <Route exact path='/searchPatient/from/deletionSuccessful' component={() => <h3>The patient has been successfully deleted!</h3>} />
                     <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatient match={match} />} />
                     <Route exact path='/filterPatients' component={() => <></>} />
+                    <Route exact path='/administration/users/:userId' render={({ match }) => <UserDetail match={match} />} />
                     <Route path='/' component={() => <></>} />
                 </Switch>
             </div>
