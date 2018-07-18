@@ -84,6 +84,16 @@ User.prototype.changeRights = function (user) {
     });
 };
 
+User.prototype.changeRights = function (user) {
+    return new Promise(function (resolve, reject) {
+        knex('USERS').update({ 'adminPriv': user.adminPriv }).where({ id: user.id, deleted: '-' }).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        });
+    });
+};
+
 User.prototype.deleteUser = function (user, userReq) {
     return new Promise(function (resolve, reject) {
         deleteEntry('USERS', user, userReq).then(function (result) {
