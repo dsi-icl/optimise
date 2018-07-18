@@ -36,9 +36,9 @@ export class LogEntry extends PureComponent {    /* consider mapping the endpoin
         return (
             <div>
                 <b>Id: </b> <pre className={style.actionOther}>{el.id}</pre> <br />
+                <b>User: </b><pre className={style.actionOther}>{el.user}</pre><br />
                 <b>Time: </b><pre className={style.actionOther}>{el.createdTime}</pre><br />
                 <b>Action: </b> <pre className={style.actionOther}>{`${el.method} ${el.router}`}</pre><br />
-                <b>User: </b><pre className={style.actionOther}>{el.user}</pre><br />
                 {Object.keys(JSON.parse(el.body)).length > 0 ?
                     <>
                         <b>Body: </b>
