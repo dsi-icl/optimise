@@ -11,13 +11,15 @@ export default class RightPanel extends Component {
         return (
             <div className={style.rightPanel}>
                 <Switch>
-                    <Route path='/administration' render={({ match, location }) => < AdminActions location={location.pathname} match={match} />} />
+                    <Route path='/administration' render={({ match, location }) =>
+                        <AdminActions location={location.pathname} match={match} />
+                    } />
                     <Route path='/createPatient' component={SearchPatient} />
-                    <Route path='/patientProfile/:patientId' render={({ match, location }) => <PatientChart location={location.pathname} match={match} />} />
-                    <Route path='/searchPatient' component={SearchPatient} />
-                    <Route exact path='/filterPatients' component={FilterPanel} />
-                    <Route exact path='/' component={SearchPatient} />
-                    <Route path='/administration' render={({ match, location }) => < AdminActions location={location.pathname} match={match} />} />
+                    <Route path='/patientProfile/:patientId' render={({ match, location }) =>
+                        <PatientChart location={location.pathname} match={match} />
+                    } />
+                    <Route path='/filterPatients' component={FilterPanel} />
+                    <Route path='/' component={SearchPatient} />
                 </Switch>
             </div>
         );
