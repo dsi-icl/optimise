@@ -109,6 +109,7 @@
     max-width: 100%;
 }
 
+
 .userDetailPanel {
     grid-area: panel;
     grid-template-rows: 100%;
@@ -121,4 +122,11 @@
     height: 100%;
     overflow: auto;
     padding: 1em;
+}
+
+.packageName {
+    display: inline-block;
+    padding: 0.2em 0.5em;
+    margin-top: -0.2em;
+    background-color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 97%);
 }
