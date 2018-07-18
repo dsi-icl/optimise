@@ -35,10 +35,16 @@ export class LogEntry extends PureComponent {    /* consider mapping the endpoin
         const el = this.props.entry;
         return (
             <div>
-                <b>Action Id: </b> <pre className={style.actionOther}>{el.id}</pre> <br />
-                <b>Action: </b> <pre className={style.actionOther}>{`${el.method} ${el.router}`}</pre><br />
+                <b>Id: </b> <pre className={style.actionOther}>{el.id}</pre> <br />
                 <b>User: </b><pre className={style.actionOther}>{el.user}</pre><br />
-                <b>Body: </b><pre className={style.actionBody}>{JSON.stringify(JSON.parse(el.body), null, 2)}</pre>
+                <b>Time: </b><pre className={style.actionOther}>{el.createdTime}</pre><br />
+                <b>Action: </b> <pre className={style.actionOther}>{`${el.method} ${el.router}`}</pre><br />
+                {Object.keys(JSON.parse(el.body)).length > 0 ?
+                    <>
+                        <b>Body: </b>
+                        <pre className={style.actionBody}>{JSON.stringify(JSON.parse(el.body), null, 2)}</pre>
+                    </>
+                    : null}
             </div>
         );
     }

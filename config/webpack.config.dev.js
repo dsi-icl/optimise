@@ -231,7 +231,7 @@ module.exports = {
                                             {
                                                 loaderMap: {
                                                     svg: {
-                                                        ReactComponent: 'svgr/webpack![path]',
+                                                        ReactComponent: '@svgr/webpack![path]',
                                                     },
                                                 },
                                             },
