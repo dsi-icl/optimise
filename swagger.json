@@ -308,6 +308,58 @@
             }
           }
         }
+      },
+      "patch": {
+        "summary": "Update user rights (admin or self only)",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "updaterights",
+            "description": "User ID and admin priv",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "user id"
+                },
+                "adminPriv": {
+                  "type": "integer",
+                  "description": "new admin priv"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Update fail or Missing arguments",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "No rights",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
       }
     },
     "/export": {
