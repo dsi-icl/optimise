@@ -16,6 +16,7 @@ function UserController() {
     this.loginUser = UserController.prototype.loginUser.bind(this);
     this.logoutUser = UserController.prototype.logoutUser.bind(this);
     this.whoAmI = UserController.prototype.whoAmI.bind(this);
+    this.changeRights = UserController.prototype.changeRights.bind(this);
 }
 
 /**
@@ -104,6 +105,28 @@ UserController.prototype.updateUser = function (req, res) {
     }
 
     this.user.updateUser(req.body).then(function (result) {
+        res.status(200).json(formatToJSON(result));
+        return;
+    }, function (error) {
+        res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return;
+    });
+};
+
+UserController.prototype.changeRights = function (req, res) {
+    if (req.user.priv !== 1) {
+        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    }
+    if (!req.body.hasOwnProperty('id') || !req.body.hasOwnProperty('adminPriv')) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    }
+    if (typeof req.body.id !== 'number' || typeof req.body.adminPriv !== 'number') {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
+    }
+    this.user.changeRights(req.body).then(function (result) {
         res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
