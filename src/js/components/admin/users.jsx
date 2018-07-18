@@ -1,5 +1,6 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import store from '../../redux/store';
 import { createUserAPICall, getAllUsersAPICall } from '../../redux/actions/admin';
 import Icon from '../icon';
@@ -45,11 +46,13 @@ export class UserEntry extends PureComponent {    /* consider mapping the endpoi
     render() {
         const el = this.props.entry;
         return (
-            <div className={style.clickable}>
-                <b>Id: </b> {el.id} <br />
-                <b>Username: </b> {el.username}<br />
-                <b>Real name: </b>{el.realname} <br />
-            </div>
+            <NavLink to={`/administration/users/${el.id}`}>
+                <div className={style.clickable}>
+                    <b>Id: </b> {el.id} <br />
+                    <b>Username: </b> {el.username}<br />
+                    <b>Real name: </b>{el.realname} <br />
+                </div>
+            </NavLink>
         );
     }
 }
