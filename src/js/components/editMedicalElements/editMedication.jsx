@@ -6,6 +6,7 @@ import { BackButton } from '../medicalData/dataPage';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { addAlert } from '../../redux/actions/alert';
+import { deleteTreatmentCall } from '../../redux/actions/treatments';
 import { Redirect } from 'react-router-dom';
 
 
@@ -13,7 +14,6 @@ import { Redirect } from 'react-router-dom';
 export default class EditMed extends Component {
     constructor() {
         super();
-        this.state = { deleteclicked: false };
         this._handleClick = this._handleClick.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
     }
@@ -24,31 +24,27 @@ export default class EditMed extends Component {
     }
 
     _deleteFunction() {
-        this.setState({ deleteclicked: true });
-        ///PLACEHOLDER
+        const { params } = this.props.match;
+        const body = { patientId: params.patientId, data: { treatmentId: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
+        store.dispatch(deleteTreatmentCall(body));
     }
 
     render() {
         const { params } = this.props.match;
-        const { deleteclicked } = this.state;
-        if (deleteclicked) {
-            return <Redirect to={`/patientProfile/${params.patientId}`} />;
-        } else {
-            return (
-                <>
-                    <div className={style.ariane}>
-                        <h2>Edit Medication</h2>
-                        <BackButton to={`/patientProfile/${params.patientId}`} />
-                    </div>
-                    <form className={style.panel}>
-                        <h3>Please select the following options: </h3>
-                        <br/>
-                        <button>Change drug, dose, form or frequency</button><br/><br/><br/><br/>
-                        <button onClick={this._handleClick} className={style.deleteButton}>Delete this medication</button>
-                        <br/><br/>
-                    </form>
-                </>
-            );
-        }
+        return (
+            <>
+                <div className={style.ariane}>
+                    <h2>Edit Medication</h2>
+                    <BackButton to={`/patientProfile/${params.patientId}`} />
+                </div>
+                <form className={style.panel}>
+                    <h3>Please select the following options: </h3>
+                    <br/>
+                    <button>Change drug, dose, form or frequency</button><br/><br/><br/><br/>
+                    <button onClick={this._handleClick} className={style.deleteButton}>Delete this medication</button>
+                    <br/><br/>
+                </form>
+            </>
+        );
     }
 }

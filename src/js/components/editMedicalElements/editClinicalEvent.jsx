@@ -6,13 +6,13 @@ import { BackButton } from '../medicalData/dataPage';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { addAlert } from '../../redux/actions/alert';
+import { deleteCEAPICall } from '../../redux/actions/clinicalEvents';
 import { Redirect } from 'react-router-dom';
 
 
 export default class EditCE extends Component {
     constructor() {
         super();
-        this.state = { deleteclicked: false };
         this._handleClick = this._handleClick.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
     }
@@ -23,34 +23,30 @@ export default class EditCE extends Component {
     }
 
     _deleteFunction() {
-        this.setState({ deleteclicked: true });
-        ///PLACEHOLDER
+        const { params } = this.props.match;
+        const body = { patientId: params.patientId, data: { ceId: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
+        store.dispatch(deleteCEAPICall(body));
     }
 
     render() {
         const { params } = this.props.match;
-        const { deleteclicked } = this.state;
-        if (deleteclicked) {
-            return <Redirect to={`/patientProfile/${params.patientId}`} />;
-        } else {
-            return (
-                <>
-                    <div className={style.ariane}>
-                        <h2>Edit Clinical Event</h2>
-                        <BackButton to={`/patientProfile/${params.patientId}`} />
-                    </div>
-                    <form className={style.panel}>
-                        <h3>Please select the following options: </h3>
-                        <br/>
-                        <button>Change start date</button> <br/><br/>
-                        <button>Change end date</button> <br/><br/>
-                        <button>Change severity</button> <br/><br/><br/><br/>
-                        <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
-                        <br/><br/>
-                        Note: event type is not allowed to be changed. If you entered an event of the wrong type by error, you can delete the event and create a new one.
-                    </form>
-                </>
-            );
-        }
+        return (
+            <>
+                <div className={style.ariane}>
+                    <h2>Edit Clinical Event</h2>
+                    <BackButton to={`/patientProfile/${params.patientId}`} />
+                </div>
+                <form className={style.panel}>
+                    <h3>Please select the following options: </h3>
+                    <br/>
+                    <button>Change start date</button> <br/><br/>
+                    <button>Change end date</button> <br/><br/>
+                    <button>Change severity</button> <br/><br/><br/><br/>
+                    <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
+                    <br/><br/>
+                    Note: event type is not allowed to be changed. If you entered an event of the wrong type by error, you can delete the event and create a new one.
+                </form>
+            </>
+        );
     }
 }
