@@ -2,7 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
-import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedComponents';
+import { PatientProfileSectionScaffold, PatientProfileTop, EditButton } from './sharedComponents';
 import { TimelineBox } from './timeline';
 import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
@@ -53,6 +53,7 @@ class Test extends PureComponent {
         const date = new Date(parseInt(data.expectedOccurDate, 10)).toDateString();
         return (
             <tr>
+                <td><EditButton to={`/patientProfile/${patientId}/edit/test/${data.id}`}/></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>
@@ -75,6 +76,7 @@ class Medication extends PureComponent {
         const numberOfInterruptions = data.interruptions ? data.interruptions.length : 0;
         return (
             <tr>
+                <td><EditButton to={`/patientProfile/${patientId}/edit/treatment/${data.id}`}/></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{`${data.dose} ${data.unit}`}</td>
                 <td>{data.form}</td>
@@ -101,6 +103,7 @@ class ClinicalEvent extends PureComponent {
         const date = new Date(parseInt(data.dateStartDate, 10)).toDateString();
         return (
             <tr>
+                <td><EditButton to={`/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`}/></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>
@@ -225,9 +228,9 @@ class OneVisit extends Component {
                 {visitHasTests ? (
                     <>
                         <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'}</h4>
-                        <table>
+                        <table className={style.editableTable}>
                             <thead>
-                                <tr><th>Type</th><th>Expected date</th><th></th></tr>
+                                <tr><th></th><th>Type</th><th>Expected date</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.tests
@@ -243,9 +246,9 @@ class OneVisit extends Component {
                 {visitHasMedications ? (
                     <>
                         <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
-                        <table>
+                        <table className={style.editableTable}>
                             <thead>
-                                <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
+                                <tr><th></th><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.treatments
@@ -261,9 +264,9 @@ class OneVisit extends Component {
                 {visitHasClinicalEvents ? (
                     <>
                         <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
-                        <table>
+                        <table className={style.editableTable}>
                             <thead>
-                                <tr><th>Type</th><th>Start date</th><th></th></tr>
+                                <tr><th></th><th>Type</th><th>Start date</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.clinicalEvents

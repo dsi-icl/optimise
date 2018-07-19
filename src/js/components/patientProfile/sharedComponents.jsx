@@ -1,6 +1,6 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Icon from '../icon';
 import { BackButton } from '../medicalData/dataPage';
 import style from './patientProfile.module.css';
@@ -40,6 +40,17 @@ export class DeleteButton extends Component {
     render() {
         return (
             <span title='Delete' onClick={this.props.clickhandler} className={style.cancelButton}><Icon symbol='trash'/></span>
+        );
+    }
+}
+
+/*  receive props  this.props.to*/
+export class EditButton extends Component {
+    render() {
+        return (
+            <NavLink to={this.props.to} className={style.editButton}>
+                <div title='Edit'><Icon symbol='edit'/></div>
+            </NavLink>
         );
     }
 }
