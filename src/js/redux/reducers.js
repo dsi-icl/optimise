@@ -83,7 +83,7 @@ function availableFields(state = initialState.availableFields, action) {
             const VShash = action.payload.slice(0, 6).reduce((map, el) => { map[el.id] = el; return map; }, {});
             const visitHash = action.payload.slice(6).reduce((map, el) => { map[el.id] = el; return map; }, {});
             newState = {
-                ...state, 
+                ...state,
                 VSFields: action.payload.slice(0, 6),
                 visitFields: action.payload.slice(6),
                 VSFields_Hash: [VShash],

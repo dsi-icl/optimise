@@ -50,7 +50,7 @@ export class PatientChart extends Component {
 class Test extends PureComponent {
     render() {
         const { data, typedict, patientId } = this.props;
-        const date = new Date(parseInt(data.expectedOccurDate, 10)).toDateString()
+        const date = new Date(parseInt(data.expectedOccurDate, 10)).toDateString();
         return (
             <tr>
                 <td>{typedict[data.type]}</td>
@@ -61,7 +61,7 @@ class Test extends PureComponent {
                     </NavLink>
                 </td>
             </tr>
-            
+
         );
     }
 }
@@ -87,7 +87,7 @@ class Medication extends PureComponent {
                     </NavLink>
                 </td>
             </tr>
-            
+
         );
     }
 }
@@ -109,7 +109,7 @@ class ClinicalEvent extends PureComponent {
                     </NavLink>
                 </td>
             </tr>
-            
+
         );
     }
 }
