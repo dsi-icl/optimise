@@ -216,6 +216,17 @@ function appLevelError(state = initialState.appLevelError, action) {
     }
 }
 
+function alert(state = initialState.alert, action) {
+    switch (action.type) {
+        case actionTypes.alert.ADD_ALERT:
+            return action.payload;
+        case actionTypes.alert.CLEAR_ALERT:
+            return {};
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatient,
@@ -226,6 +237,7 @@ export const rootReducer = combineReducers({
     log,
     getAllUsers,
     erasePatient,
-    appLevelError
+    appLevelError,
+    alert
 });
 

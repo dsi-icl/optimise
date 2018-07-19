@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
-import { PatientProfileSectionScaffold } from './sharedComponents';
+import { PatientProfileSectionScaffold, DeleteButton } from './sharedComponents';
 import { formatRow } from './patientChart';
 import store from '../../redux/store';
-import { createImmunisationAPICall, createPregnancyAPICall } from '../../redux/actions/demographicData';
+import { createImmunisationAPICall, createPregnancyAPICall, deleteImmunisationAPICall } from '../../redux/actions/demographicData';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import { SelectField } from '../createPatient';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
 import { updateConsentAPICall } from '../../redux/actions/consent';
+import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
 
 @connect(state => ({ fetching: state.patientProfile.fetching, erasePatient: state.erasePatient }))
@@ -85,6 +86,8 @@ class ImmunisationSection extends Component {
         this._handleInput = this._handleInput.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
+        this._handleClickDelete = this._handleClickDelete.bind(this);
+        this._deleteFunction = this._deleteFunction.bind(this);
     }
 
     _handleClickingAdd() {
@@ -93,6 +96,20 @@ class ImmunisationSection extends Component {
 
     _handleInput(ev) {
         this.setState({ newName: ev.target.value });
+    }
+
+    _handleClickDelete() {
+        store.dispatch(addAlert({ alert: 'about deleting this immunisation record?', handler: this._deleteFunction }));
+    }
+
+    _deleteFunction() {
+        const body = {
+            patientId: this.props.match.params.patientId,
+            data: {
+                patientId: this.props.data.id  //PLACEHOLDERBODY
+            }
+        };
+        store.dispatch(deleteImmunisationAPICall(body));
     }
 
 
@@ -126,7 +143,11 @@ class ImmunisationSection extends Component {
                     <tbody>
                         {data.immunisations.map(el => (
                             <tr key={el.vaccineName}>
-                                {formatRow([el.vaccineName, new Date(parseInt(el.immunisationDate, 10)).toDateString()])}
+                                {formatRow([
+                                    el.vaccineName,
+                                    new Date(parseInt(el.immunisationDate, 10)).toDateString(),
+                                    <DeleteButton clickhandler={this._handleClickDelete}/>
+                                ])}
                             </tr>
                         ))}
                         {!this.state.addMore ? null : <tr>
@@ -282,9 +303,14 @@ class DeletePatient extends Component {
         super();
         this._handleClickDelete = this._handleClickDelete.bind(this);
         this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
+        this._deleteFunction = this._deleteFunction.bind(this);
     }
 
     _handleClickDelete() {
+        store.dispatch(addAlert({ alert: `about deleting patient ${this.props.data.patientId}?`, handler: this._deleteFunction }));
+    }
+
+    _deleteFunction() {
         const body = {
             patientId: this.props.match.params.patientId,
             data: {

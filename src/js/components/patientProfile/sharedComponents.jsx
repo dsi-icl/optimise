@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Icon from '../icon';
 import { BackButton } from '../medicalData/dataPage';
+import style from './patientProfile.module.css';
 
 export class PatientProfileSectionScaffold extends Component {
     render() {
@@ -31,3 +32,14 @@ export class PatientProfileTop extends PureComponent {
     }
 }
 
+
+
+
+/*  receive props handler function this.props.clickhandler*/
+export class DeleteButton extends Component {
+    render() {
+        return (
+            <span title='Delete' onClick={this.props.clickhandler} className={style.cancelButton}>&#10006;</span>
+        );
+    }
+}
