@@ -45,3 +45,10 @@ export const changePasswordAPICall = body => dispatch => {
     return apiHelper('/users', { method: 'PUT', body: JSON.stringify(body)})
         .catch(msg => console.log(msg));
 };
+
+
+export const deleteUserAPICall = body => dispatch => {
+    return apiHelper('/users', { method: 'DELETE', body: JSON.stringify(body)})
+        .then(dispatch(getAllUsersAPICall()))
+        .catch(msg => console.log(msg));
+};
