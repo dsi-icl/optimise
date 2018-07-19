@@ -223,3 +223,11 @@ div.timelineCEBlack {
 .editButton > div:hover {
     fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
 }
+
+.activeEdit > div {
+    fill: var(--color-active-nav);
+}
+
+.activeEdit > div:hover {
+    fill: var(--color-active-nav);
+}
