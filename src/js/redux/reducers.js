@@ -111,7 +111,7 @@ function availableFields(state = initialState.availableFields, action) {
             break;
         case actionTypes.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
-            newState = { ...state, pregnancyOutcomes: action.payload, pregnancyOutcomes_Hash: [hash]  };
+            newState = { ...state, pregnancyOutcomes: action.payload, pregnancyOutcomes_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_INTERRUPTION_REASONS_SUCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
@@ -142,7 +142,7 @@ function patientProfile(state = initialState.patientProfile, action) {
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_REQUEST:
             return { fetching: true, data: {} };
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_SUCCESS:
-            return { fetching: false, data: action.payload };
+            return { fetching: false, data: action.payload, currentPatient: action.payload.patientId };
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_FAILURE:
             return { fetching: true, data: { patientId: 'cannot find you patient :(' } };
         default:

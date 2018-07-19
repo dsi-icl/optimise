@@ -53,7 +53,7 @@ class Test extends PureComponent {
         const date = new Date(parseInt(data.expectedOccurDate, 10)).toDateString();
         return (
             <tr>
-                <td><EditButton to={`/patientProfile/${patientId}/edit/test/${data.id}`}/></td>
+                <td><EditButton to={`/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>
@@ -76,7 +76,7 @@ class Medication extends PureComponent {
         const numberOfInterruptions = data.interruptions ? data.interruptions.length : 0;
         return (
             <tr>
-                <td><EditButton to={`/patientProfile/${patientId}/edit/treatment/${data.id}`}/></td>
+                <td><EditButton to={`/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{`${data.dose} ${data.unit}`}</td>
                 <td>{data.form}</td>
@@ -103,7 +103,7 @@ class ClinicalEvent extends PureComponent {
         const date = new Date(parseInt(data.dateStartDate, 10)).toDateString();
         return (
             <tr>
-                <td><EditButton to={`/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`}/></td>
+                <td><EditButton to={`/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>
@@ -138,20 +138,20 @@ export function formatRow(arr) {
 
 /* receives props baselineVisit, boolean; and all treatments of a visit */
 class MedicationSection extends PureComponent {
-    render(){
+    render() {
         const { baselineVisit, data } = this.props;
         return (
-        <>
-            <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
+            <>
+                <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
                 <table>
                     <thead>
                         <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
                     </thead>
                     <tbody>
-                        {data.map(el => <Medication key={el.id} data={el}/>)}
+                        {data.map(el => <Medication key={el.id} data={el} />)}
                     </tbody>
                 </table>
-        </>
+            </>
         );
     }
 }
@@ -215,7 +215,7 @@ class OneVisit extends Component {
                                 <tr><th>Recorded symptoms</th><th>Value</th></tr>
                             </thead>
                             <tbody>
-                                {symptoms.map(el => <Symptom key={el.field} data={el}/>)}
+                                {symptoms.map(el => <Symptom key={el.field} data={el} />)}
                             </tbody>
                         </table>
                     </>
@@ -235,7 +235,7 @@ class OneVisit extends Component {
                             <tbody>
                                 {this.props.data.tests
                                     .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                    .map(el => <Test key={el.id} data={el}/>)}
+                                    .map(el => <Test key={el.id} data={el} />)}
                             </tbody>
                         </table>
                     </>
@@ -253,7 +253,7 @@ class OneVisit extends Component {
                             <tbody>
                                 {this.props.data.treatments
                                     .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                    .map(el => <Medication key={el.id} data={el}/>)}
+                                    .map(el => <Medication key={el.id} data={el} />)}
                             </tbody>
                         </table>
                     </>
@@ -272,7 +272,7 @@ class OneVisit extends Component {
                                 {this.props.data.clinicalEvents
                                     .filter(el => el['recordedDuringVisit'] === this.props.visitId)
                                     /* change this map later to calculated patientId*/
-                                    .map(el => <ClinicalEvent key={el.id} data={el}/>)}
+                                    .map(el => <ClinicalEvent key={el.id} data={el} />)}
                             </tbody>
                         </table>
                     </>

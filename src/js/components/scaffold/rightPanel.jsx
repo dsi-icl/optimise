@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { PatientChart } from '../patientProfile/patientChart';
+import { PatientDispatch } from '../patientProfile/patientDispatch';
 import { SearchPatient } from '../searchPatient';
 import { AdminActions } from '../admin/actions';
 import { FilterPanel } from '../filterPatient/selectPanel';
@@ -18,6 +19,7 @@ export default class RightPanel extends Component {
                     <Route path='/patientProfile/:patientId' render={({ match, location }) =>
                         <PatientChart location={location.pathname} match={match} />
                     } />
+                    <Route path='/patientProfile' component={PatientDispatch} />
                     <Route path='/filterPatients' component={FilterPanel} />
                     <Route path='/' component={SearchPatient} />
                 </Switch>

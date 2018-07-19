@@ -7,7 +7,8 @@ export default {
     createPatient: { patientId: '' },
     patientProfile: {
         fetching: true,
-        data: {}
+        data: {},
+        currentPatient: null
     },
     availableFields: {
         fetching: true,
