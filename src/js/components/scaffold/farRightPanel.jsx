@@ -5,6 +5,7 @@ import { Section } from '../patientProfile/patientProfile';
 import { DataPageRouter } from '../medicalData/router';
 import { CreateVisit } from '../createMedicalElements/createVisit';
 import { CreateElementRouter } from '../createMedicalElements/router';
+import { EditElementRouter } from '../editMedicalElements/router';
 import { VisitSelector } from '../createMedicalElements/visitSelector';
 import { AdminRouter } from '../admin/router';
 import { UserDetail } from '../admin/userDetailPage';
@@ -18,6 +19,7 @@ export default class FarRightPanel extends Component {
                 <Switch>
                     <Route path='/patientProfile/:patientId/create/:visitId/:type' render={({ match }) => <CreateElementRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/create/:type' render={({ match }) => <VisitSelector match={match} />} />
+                    <Route path='/patientProfile/:patientId/edit/:elementType/:elementId' render={({ match }) => <EditElementRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/data/:elementType/:elementId' render={({ match }) => <DataPageRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/createVisit' render={({ match }) => <CreateVisit match={match} />} />
                     <Route path='/patientProfile/:patientId' render={({ match }) => <Section match={match} />} />
