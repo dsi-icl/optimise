@@ -3,32 +3,32 @@ const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const knex = require('../utils/db-connection');
 
-function VisitDataCore() {
-    this.getVisitData = VisitDataCore.prototype.getVisitData.bind(this);
-    this.createVisitData = VisitDataCore.prototype.createVisitData.bind(this);
-    this.updateVisitData = VisitDataCore.prototype.updateVisitData.bind(this);
-    this.deleteVisitData = VisitDataCore.prototype.deleteVisitData.bind(this);
+function VisitData() {
+    this.getVisitData = VisitData.prototype.getVisitData.bind(this);
+    this.createVisitData = VisitData.prototype.createVisitData.bind(this);
+    this.updateVisitData = VisitData.prototype.updateVisitData.bind(this);
+    this.deleteVisitData = VisitData.prototype.deleteVisitData.bind(this);
 }
 
-function TestDataCore() {
-    this.getTestData = TestDataCore.prototype.getTestData.bind(this);
-    this.createTestData = TestDataCore.prototype.createTestData.bind(this);
-    this.updateTestData = TestDataCore.prototype.updateTestData.bind(this);
-    this.deleteTestData = TestDataCore.prototype.deleteTestData.bind(this);
+function TestData() {
+    this.getTestData = TestData.prototype.getTestData.bind(this);
+    this.createTestData = TestData.prototype.createTestData.bind(this);
+    this.updateTestData = TestData.prototype.updateTestData.bind(this);
+    this.deleteTestData = TestData.prototype.deleteTestData.bind(this);
 }
 
-function ClinicalEventsDataCore() {
-    this.getClinicalEventsData = ClinicalEventsDataCore.prototype.getClinicalEventsData.bind(this);
-    this.createClinicalEventsData = ClinicalEventsDataCore.prototype.createClinicalEventsData.bind(this);
-    this.updateClinicalEventsData = ClinicalEventsDataCore.prototype.updateClinicalEventsData.bind(this);
-    this.deleteClinicalEventsData = ClinicalEventsDataCore.prototype.deleteClinicalEventsData.bind(this);
+function ClinicalEventsData() {
+    this.getClinicalEventsData = ClinicalEventsData.prototype.getClinicalEventsData.bind(this);
+    this.createClinicalEventsData = ClinicalEventsData.prototype.createClinicalEventsData.bind(this);
+    this.updateClinicalEventsData = ClinicalEventsData.prototype.updateClinicalEventsData.bind(this);
+    this.deleteClinicalEventsData = ClinicalEventsData.prototype.deleteClinicalEventsData.bind(this);
 }
 
-function DataCore() {
-    this.deleteData = DataCore.prototype.deleteData.bind(this);
+function Data() {
+    this.deleteData = Data.prototype.deleteData.bind(this);
 }
 
-DataCore.prototype.deleteData = function (user, options, idData, deleteObj) {
+Data.prototype.deleteData = function (user, options, idData, deleteObj) {
     return new Promise(function (resolve, reject) {
         knex.transaction(trx => {
             knex(options.dataTable)
@@ -48,7 +48,7 @@ DataCore.prototype.deleteData = function (user, options, idData, deleteObj) {
     });
 };
 
-VisitDataCore.prototype.getVisitData = function (whereObj) {
+VisitData.prototype.getVisitData = function (whereObj) {
     return new Promise(function (resolve, reject) {
         return getEntry('VISIT_DATA', whereObj, '*').then(function (result) {
             resolve(result);
@@ -58,7 +58,7 @@ VisitDataCore.prototype.getVisitData = function (whereObj) {
     });
 };
 
-VisitDataCore.prototype.createVisitData = function (entryObj) {
+VisitData.prototype.createVisitData = function (entryObj) {
     return new Promise(function (resolve, reject) {
         return createEntry('VISIT_DATA', entryObj).then(function (result) {
             resolve(result);
@@ -68,7 +68,7 @@ VisitDataCore.prototype.createVisitData = function (entryObj) {
     });
 };
 
-VisitDataCore.prototype.updateVisitData = function (user, whereObj, newObj) {
+VisitData.prototype.updateVisitData = function (user, whereObj, newObj) {
     return new Promise(function (resolve, reject) {
         return updateEntry('VISIT_DATA', user, '*', whereObj, newObj).then(function (result) {
             resolve(result);
@@ -78,7 +78,7 @@ VisitDataCore.prototype.updateVisitData = function (user, whereObj, newObj) {
     });
 };
 
-VisitDataCore.prototype.deleteVisitData = function (user, whereObj) {
+VisitData.prototype.deleteVisitData = function (user, whereObj) {
     return new Promise(function (resolve, reject) {
         return deleteEntry('VISIT_DATA', user, whereObj).then(function (result) {
             resolve(result);
@@ -88,7 +88,7 @@ VisitDataCore.prototype.deleteVisitData = function (user, whereObj) {
     });
 };
 
-TestDataCore.prototype.getTestData = function (whereObj) {
+TestData.prototype.getTestData = function (whereObj) {
     return new Promise(function (resolve, reject) {
         return getEntry('TEST_DATA', whereObj, '*').then(function (result) {
             resolve(result);
@@ -98,7 +98,7 @@ TestDataCore.prototype.getTestData = function (whereObj) {
     });
 };
 
-TestDataCore.prototype.createTestData = function (entryObj) {
+TestData.prototype.createTestData = function (entryObj) {
     return new Promise(function (resolve, reject) {
         return createEntry('TEST_DATA', entryObj).then(function (result) {
             resolve(result);
@@ -108,7 +108,7 @@ TestDataCore.prototype.createTestData = function (entryObj) {
     });
 };
 
-TestDataCore.prototype.updateTestData = function (user, whereObj, newObj) {
+TestData.prototype.updateTestData = function (user, whereObj, newObj) {
     return new Promise(function (resolve, reject) {
         return updateEntry('TEST_DATA', user, '*', whereObj, newObj).then(function (result) {
             resolve(result);
@@ -118,7 +118,7 @@ TestDataCore.prototype.updateTestData = function (user, whereObj, newObj) {
     });
 };
 
-TestDataCore.prototype.deleteTestData = function (user, whereObj) {
+TestData.prototype.deleteTestData = function (user, whereObj) {
     return new Promise(function (resolve, reject) {
         return deleteEntry('TEST_DATA', user, whereObj).then(function (result) {
             resolve(result);
@@ -128,7 +128,7 @@ TestDataCore.prototype.deleteTestData = function (user, whereObj) {
     });
 };
 
-ClinicalEventsDataCore.prototype.getClinicalEventsData = function (whereObj) {
+ClinicalEventsData.prototype.getClinicalEventsData = function (whereObj) {
     return new Promise(function (resolve, reject) {
         return getEntry('CLINICAL_EVENTS_DATA', whereObj, '*').then(function (result) {
             resolve(result);
@@ -138,7 +138,7 @@ ClinicalEventsDataCore.prototype.getClinicalEventsData = function (whereObj) {
     });
 };
 
-ClinicalEventsDataCore.prototype.createClinicalEventsData = function (entryObj) {
+ClinicalEventsData.prototype.createClinicalEventsData = function (entryObj) {
     return new Promise(function (resolve, reject) {
         return createEntry('CLINICAL_EVENTS_DATA', entryObj).then(function (result) {
             resolve(result);
@@ -148,7 +148,7 @@ ClinicalEventsDataCore.prototype.createClinicalEventsData = function (entryObj) 
     });
 };
 
-ClinicalEventsDataCore.prototype.updateClinicalEventsData = function (user, whereObj, newObj) {
+ClinicalEventsData.prototype.updateClinicalEventsData = function (user, whereObj, newObj) {
     return new Promise(function (resolve, reject) {
         return updateEntry('CLINICAL_EVENTS_DATA', user, '*', whereObj, newObj).then(function (result) {
             resolve(result);
@@ -158,7 +158,7 @@ ClinicalEventsDataCore.prototype.updateClinicalEventsData = function (user, wher
     });
 };
 
-ClinicalEventsDataCore.prototype.deleteClinicalEventsData = function (user, whereObj) {
+ClinicalEventsData.prototype.deleteClinicalEventsData = function (user, whereObj) {
     return new Promise(function (resolve, reject) {
         return deleteEntry('CLINICAL_EVENTS_DATA', user, whereObj).then(function (result) {
             resolve(result);
@@ -168,5 +168,5 @@ ClinicalEventsDataCore.prototype.deleteClinicalEventsData = function (user, wher
     });
 };
 
-module.exports = DataCore;
-//module.exports = { VisitDataCore: VisitDataCore, TestDataCore: TestDataCore, ClinicalEventsDataCore: ClinicalEventsDataCore };
+module.exports = Data;
+//module.exports = { VisitData: VisitData, TestData: TestData, ClinicalEventsData: ClinicalEventsData };

@@ -12,9 +12,7 @@ const testCtrl = new TestController();
 
 test.route('/')
     .post(testCtrl.createTest)
-    .patch(testCtrl.deleteTest);
-
-test.route('/addOccurredDate')
-    .post(testCtrl.addActualOccurredDate);
+    .patch(testCtrl.deleteTest)
+    .put(testCtrl.updateTest);
 
 module.exports = test;

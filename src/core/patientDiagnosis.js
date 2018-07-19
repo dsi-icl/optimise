@@ -2,14 +2,14 @@ const { getEntry, createEntry, updateEntry, deleteEntry } = require('../utils/co
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 
-function PatientDiagnosisCore() {
-    this.getPatientDiagnosis = PatientDiagnosisCore.prototype.getPatientDiagnosis.bind(this);
-    this.createPatientDiagnosis = PatientDiagnosisCore.prototype.createPatientDiagnosis.bind(this);
-    this.updatePatientDiagnosis = PatientDiagnosisCore.prototype.updatePatientDiagnosis.bind(this);
-    this.deletePatientDiagnosis = PatientDiagnosisCore.prototype.deletePatientDiagnosis.bind(this);
+function PatientDiagnosis() {
+    this.getPatientDiagnosis = PatientDiagnosis.prototype.getPatientDiagnosis.bind(this);
+    this.createPatientDiagnosis = PatientDiagnosis.prototype.createPatientDiagnosis.bind(this);
+    this.updatePatientDiagnosis = PatientDiagnosis.prototype.updatePatientDiagnosis.bind(this);
+    this.deletePatientDiagnosis = PatientDiagnosis.prototype.deletePatientDiagnosis.bind(this);
 }
 
-PatientDiagnosisCore.prototype.getPatientDiagnosis = function (whereObj) {
+PatientDiagnosis.prototype.getPatientDiagnosis = function (whereObj) {
     return new Promise(function (resolve, reject) {
         whereObj.deleted = '-';
         getEntry('PATIENT_DIAGNOSIS', whereObj, { id: 'id', patient: 'patient', diagnosis: 'diagnosis', diagnosisDate: 'diagnosisDate' }).then(function (result) {
@@ -20,7 +20,7 @@ PatientDiagnosisCore.prototype.getPatientDiagnosis = function (whereObj) {
     });
 };
 
-PatientDiagnosisCore.prototype.createPatientDiagnosis = function (entryObj) {
+PatientDiagnosis.prototype.createPatientDiagnosis = function (entryObj) {
     return new Promise(function (resolve, reject) {
         createEntry('PATIENT_DIAGNOSIS', entryObj).then(function (result) {
             resolve(result);
@@ -30,7 +30,7 @@ PatientDiagnosisCore.prototype.createPatientDiagnosis = function (entryObj) {
     });
 };
 
-PatientDiagnosisCore.prototype.updatePatientDiagnosis = function (user, idDiagnosis, updatedObj) {
+PatientDiagnosis.prototype.updatePatientDiagnosis = function (user, idDiagnosis, updatedObj) {
     return new Promise(function (resolve, reject) {
         updateEntry('PATIENT_DIAGNOSIS', user, '*', { id: idDiagnosis }, updatedObj).then(function (result) {
             resolve(result);
@@ -40,7 +40,7 @@ PatientDiagnosisCore.prototype.updatePatientDiagnosis = function (user, idDiagno
     });
 };
 
-PatientDiagnosisCore.prototype.deletePatientDiagnosis = function (user, whereObj) {
+PatientDiagnosis.prototype.deletePatientDiagnosis = function (user, whereObj) {
     return new Promise(function (resolve, reject) {
         deleteEntry('PATIENT_DIAGNOSIS', user, whereObj).then(function (result) {
             resolve(result);
@@ -50,4 +50,4 @@ PatientDiagnosisCore.prototype.deletePatientDiagnosis = function (user, whereObj
     });
 };
 
-module.exports = PatientDiagnosisCore;
+module.exports = PatientDiagnosis;
