@@ -11,6 +11,6 @@ export class Messages extends Component {
                     <br /><br />
                 <button>Update NOW</button>
             </>
-        )
+        );
     }
 }
