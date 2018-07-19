@@ -48,7 +48,7 @@ export class DeleteButton extends Component {
 export class EditButton extends Component {
     render() {
         return (
-            <NavLink to={this.props.to} className={style.editButton}>
+            <NavLink to={this.props.to} className={style.editButton} activeClassName={style.activeEdit}>
                 <div title='Edit'><Icon symbol='edit'/></div>
             </NavLink>
         );
