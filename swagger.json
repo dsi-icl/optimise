@@ -1344,6 +1344,46 @@
             }
           }
         }
+      },
+      "put": {
+        "summary": "Update visit",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "visitupdate",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Update fail",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }    
       }
     },
     "/treatments": {
