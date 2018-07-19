@@ -1,7 +1,8 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import style from './admin.module.css';
-import { changePasswordAPICall} from '../../redux/actions/admin';
+import { changePasswordAPICall, deleteUserAPICall} from '../../redux/actions/admin';
 import store from '../../redux/store';
 
 /* receives prop this.props.match.params.userId and store.getAllUsers*/
@@ -24,6 +25,7 @@ export class UserDetail extends Component {
                             <div className={style.userDetail}>
                                 <UserInfo data={usersFiltered[0]}/>
                                 <ChangeUserPassword username={usersFiltered[0].username}/> <br/><br/>
+                                <ChangeUserPrivilege username={usersFiltered[0].username}/>
                             </div>
                         </div>
                     </>
@@ -110,11 +112,26 @@ class ChangeUserPassword extends Component {
     }
 }
 class ChangeUserPrivilege extends Component {
+    constructor() {
+        super();
+        this.state = { clicked: false };
+        this._handleClick = this._handleClick.bind(this);
+    }
+
+    _handleClick() {
+        this.setState({ clicked: true });
+        store.dispatch(deleteUserAPICall({ username: this.props.username }));
+    }
+
     render() {
-        return (
-            <div>
-                <button>Change user privilege </button>
-            </div>
-        );
+        if (this.state.clicked) {
+            return <Redirect to='/administration/users'/>;
+        } else {
+            return (
+                <div>
+                    <button onClick={this._handleClick}>Delete this user</button>
+                </div>
+            );
+        }
     }
 }
