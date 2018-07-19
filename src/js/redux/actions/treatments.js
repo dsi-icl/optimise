@@ -18,3 +18,12 @@ export const createTreatmentInterruptionAPICall = (body) => dispatch => {
             dispatch(getPatientProfileById(body.patientId));
         });
 };
+
+
+export const deleteTreatmentCall = (body) => dispatch => {
+    return apiHelper('/treatments', { method: 'DELETE', body: JSON.stringify(body.data) })
+        .then(() => {
+            history.push(body.to);
+            dispatch(getPatientProfileById(body.patientId));
+        });
+};

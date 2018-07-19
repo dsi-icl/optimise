@@ -10,3 +10,13 @@ export const createCEAPICall = (body) => dispatch => {
         })
         .catch(err => console.log(err));
 };
+
+
+export const deleteCEAPICall = (body) => dispatch => {
+    return apiHelper('/clinicalEvents', { method: 'DELETE', body: JSON.stringify(body.data) })
+        .then(() => {
+            history.push(body.to);
+            dispatch(getPatientProfileById(body.patientId));
+        })
+        .catch(err => console.log(err));
+};
