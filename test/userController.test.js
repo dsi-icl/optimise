@@ -71,14 +71,17 @@ describe('User controller tests', () => {
                 expect(res.body[0]).toHaveProperty('id');
                 expect(res.body[0]).toHaveProperty('username');
                 expect(res.body[0]).toHaveProperty('realname');
+                expect(res.body[0]).toHaveProperty('priv');
                 expect(res.body[0].username).toBe('test_user');
                 expect(res.body[0].realname).toBe('IAmTesting');
+                expect(res.body[0].priv).toBe(0);
                 expect(res.body[1]).toHaveProperty('id');
                 expect(res.body[1]).toHaveProperty('username');
                 expect(res.body[1]).toHaveProperty('realname');
+                expect(res.body[1]).toHaveProperty('priv');
                 expect(res.body[1].username).toBe('test_user2');
-                expect(res.body[1].realname).toBeDefined();
                 expect(res.body[1].realname).toBe('IAmTesting');
+                expect(res.body[1].priv).toBe(0);
             });
     });
 
