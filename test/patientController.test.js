@@ -92,6 +92,20 @@ describe('Patient controller tests', () => {
             expect(res.statusCode).toBe(200);
         }));
 
+    test('getting this patient but only demographics and visits', () => admin
+        .get('/patients/littlePatient')
+        .send({ 'getOnly': 'getDemographicData,getVisits' })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+        }));
+
+    test('getting this patient but only invalid properties', () => admin
+        .get('/patients/littlePatient')
+        .send({ 'getOnly': 'must,not,work' })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+        }));
+
     test('Deleting a patient by standard User (should fail)', () => user
         .patch('/patients')
         .send({ 'aliasId': 'littlePatient' })
