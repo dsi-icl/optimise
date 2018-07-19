@@ -12,9 +12,9 @@ const PatientCtrl = new PatientController();
 patient.route('/')
     .get(PatientCtrl.searchPatients)
     .post(PatientCtrl.createPatient)
-    .patch(PatientCtrl.setPatientAsDeleted)
-    .put(PatientCtrl.updateConsent)
-    .delete(PatientCtrl.erasePatientInfo);
+    .patch(PatientCtrl.deletePatient)
+    .put(PatientCtrl.updatePatient)
+    .delete(PatientCtrl.erasePatient);
 
 // Get the profile of a certain user
 patient.route('/:patientId')

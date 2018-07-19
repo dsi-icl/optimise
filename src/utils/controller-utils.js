@@ -11,7 +11,6 @@ function createEntry(tablename, entryObj) {
     });
 }
 
-
 function deleteEntry(tablename, user, whereObj) {
     whereObj.deleted = '-';
     return new Promise(function (resolve, reject) {

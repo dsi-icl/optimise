@@ -86,24 +86,62 @@ describe('Patient controller tests', () => {
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
-    test('getting this patient', () => admin
+    test('Getting this patient', () => admin
         .get('/patients/littlePatient')
         .then(res => {
             expect(res.statusCode).toBe(200);
+            expect(res.body.patientId).toBe('littlePatient');
+            expect(res.body.id).toBe(8);
+            expect(res.body.consent).toBe(false);
+            expect(res.body.immunisations).toBeDefined();
+            expect(res.body.medicalHistory).toBeDefined();
+            expect(res.body.visits).toBeDefined();
+            expect(res.body.tests).toBeDefined();
+            expect(res.body.treatments).toBeDefined();
+            expect(res.body.clinicalEvents).toBeDefined();
+            expect(res.body.pregnancy).toBeDefined();
+            expect(res.body.diagnosis).toBeDefined();
+            expect(res.body.demographicData).toBeUndefined();
         }));
 
-    test('getting this patient but only demographics and visits', () => admin
-        .get('/patients/littlePatient')
+    test('Getting this patient but only demographics and visits', () => admin
+        .get('/patients/chon')
         .send({ 'getOnly': 'getDemographicData,getVisits' })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            expect(res.body.patientId).toBe('chon');
+            expect(res.body.id).toBe(1);
+            expect(res.body.consent).toBe(true);
+            expect(res.body.demographicData).toBeDefined();
+            expect(res.body.visits).toBeDefined();
+            expect(res.body.tests).toBeUndefined();
         }));
 
-    test('getting this patient but only invalid properties', () => admin
+    test('Getting this patient but only invalid properties', () => admin
         .get('/patients/littlePatient')
         .send({ 'getOnly': 'must,not,work' })
         .then(res => {
             expect(res.statusCode).toBe(200);
+        }));
+
+    test('Updating this patient', () => admin
+        .put('/patients/')
+        .send({
+            'id': 8,
+            'study': 'unknown',
+            'consent': true
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+        }));
+
+    test('Verifying patient consent update', () => admin
+        .get('/patients/littlePatient')
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(res.body.patientId).toBe('littlePatient');
+            expect(res.body.id).toBe(8);
+            expect(res.body.consent).toBe(true);
         }));
 
     test('Deleting a patient by standard User (should fail)', () => user
