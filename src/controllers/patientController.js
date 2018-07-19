@@ -17,17 +17,22 @@ function PatientController() {
 }
 
 PatientController.prototype.searchPatients = function (req, res) {  //get all list of patient if no query string; get similar if querystring is provided
-    let queryid;
+    let queryfield;
+    let queryvalue;
+
     if (Object.keys(req.query).length === 0) {
-        queryid = '';
-    } else if (Object.keys(req.query).length === 1 && typeof (req.query.id) === 'string') {
-        queryid = req.query.id;
+        queryfield = '';
+        queryvalue = '';
+    } else if (Object.keys(req.query).length === 2 && typeof (req.query.field) === 'string' && typeof (req.query.value) === 'string') {
+        queryfield = req.query.field;
+        queryvalue = req.query.value;
     } else {
         res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
         return;
     }
-    queryid = `%${queryid}%`;
-    this.patient.searchPatients(queryid).then(function (result) {
+    queryfield = `%${queryfield}%`;
+    queryvalue = `%${queryvalue}%`;
+    this.patient.searchPatients(queryfield,queryvalue).then(function (result) {
         res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
