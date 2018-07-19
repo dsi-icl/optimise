@@ -18,7 +18,8 @@ module.exports = (rootDir) => {
             "src/**/*.{js,jsx,mjs}"
         ],
         setupFiles: [
-            "<rootDir>/config/polyfills.js"
+            "<rootDir>/config/polyfills.js",
+            "<rootDir>/config/enzyme-adapter.js"
         ],
         setupTestFrameworkScriptFile: setupTestsFile,
         testMatch: [
