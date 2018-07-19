@@ -33,6 +33,8 @@
     --color-font: rgba(var(--color-font-grey-scale), var(--color-font-grey-scale), var(--color-font-grey-scale), 255);
     --color-font-active: rgba(255, 255, 255, 255);
     --color-border-grey: hsl(var(--color-background-h), var(--color-background-s), 80%);
+    --color-button-red: hsl(0, 89%, 61%);
+    --color-button-red-lighter: hsl(0, 100%, 67%)
 }
 
 * {

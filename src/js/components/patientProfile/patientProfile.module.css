@@ -225,9 +225,9 @@ div.timelineCEBlack {
 }
 
 .activeEdit > div {
-    fill: var(--color-active-nav);
+    fill: var(--color-button-red);
 }
 
 .activeEdit > div:hover {
-    fill: var(--color-active-nav);
+    fill: var(--color-button-red);
 }
