@@ -18,4 +18,22 @@ const UserRelatedErrorMessage = {
     INVALIDQUERY: 'The query string can only have one parameter "id"'
 };
 
-module.exports = { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage };
+const DataControllerMessageRelated = {
+    VISIT: 'Cannot seem to find your visit.',
+    CLINICALEVENT: 'Cannot seem to find your clinical event.',
+    TEST: 'Cannot seem to find your test.',
+    OVERLAPERROR: 'Fields in add and update cannot have overlaps.',
+    MISSINGVALUE: 'Missing arguments : Please provide at least an add or update field and an id (number) for ', //add datatype id here
+    BOOLEANFIELD: 'The allowed values are 1 or 0 for the field ', //add field ID
+    CHARFIELD: /* Add field ID*/ ' only accepts values ', // add permitted value
+    INTEGERFIELD: 'The allowed value type is integer for the field ', //add field
+    NUMBERFIELD: 'The allowed value type is number for the field ', //add field
+    UNKNOWNFIELD: 'The field is linked to that data is unknown. Night be a seed error',
+    FIELDNOTFOUND: 'One of the requested field(s) cannot be found. Be sure the field exists in the database first.',
+    UPDATEIMPOSSIBLE: 'One of the requested update is not present in the database',
+    ADDIMPOSSIBLE: 'One of the the requested add is already present in the database',
+    SUCESS: 'Successfuly added asked entries.',
+    ERROR: 'An error occur while creating the data. Check furthermore if the update are present and that the add aren\'t already'
+};
+
+module.exports = { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage, dataMessage: DataControllerMessageRelated };
