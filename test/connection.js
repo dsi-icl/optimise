@@ -32,7 +32,7 @@ function connectUser(user) {
     });
 }
 
-function deconnectAgent(agent) {
+function disconnectAgent(agent) {
     return new Promise(function (resolve, reject) {
         agent.post('/users/logout')
             .then(res => {
@@ -44,4 +44,4 @@ function deconnectAgent(agent) {
     });
 }
 
-module.exports = { connectAdmin: connectAdmin, connectUser: connectUser, deconnectAgent: deconnectAgent };
+module.exports = { connectAdmin: connectAdmin, connectUser: connectUser, disconnectAgent: disconnectAgent };

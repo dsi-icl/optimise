@@ -6,7 +6,7 @@ const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
 const userSeeded = require('../db/exampleDataForTesting/exampleData')['PATIENTS'];
 const message = require('../src/utils/message-utils');
-const { connectAdmin, connectUser, deconnectAgent } = require('./connection');
+const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
 
 beforeAll(async() => { //eslint-disable-line no-undef
     await connectAdmin(admin);
@@ -14,8 +14,8 @@ beforeAll(async() => { //eslint-disable-line no-undef
 });
 
 afterAll(async() => { //eslint-disable-line no-undef
-    await deconnectAgent(admin);
-    await deconnectAgent(user);
+    await disconnectAgent(admin);
+    await disconnectAgent(user);
 });
 
 describe('Patient controller tests', () => {
