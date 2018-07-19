@@ -26,7 +26,7 @@ function login(state = initialState.login, action) {
 function searchPatient(state = initialState.searchPatient, action) {
     switch (action.type) {
         case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_REQUEST:
-            return { ...state, result: [], fetching: true, error: false };
+            return { ...state, result: [], fetching: true, error: false, currentSearch: action.payload };
         case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_FAILURE:
             return { ...state, result: [], error: true };
         case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_SUCCESS:

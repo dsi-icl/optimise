@@ -7,11 +7,18 @@ import style from './searchPatient.module.css';
 
 @connect(state => ({ data: state.searchPatient }))
 export default class SearchPatientsById extends Component {
-    constructor() {
-        super();
-        this.state = { searchString: '' };
+    constructor(props) {
+        super(props);
+        this.state = { searchString: props.data.currentSearch || '' };
         this._handleKeyStroke = this._handleKeyStroke.bind(this);
         this._handleEnterKey = this._handleEnterKey.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.data.currentSearch !== undefined && this.props.data.currentSearch !== null && this.props.data.currentSearch !== '') {
+            console.log('update', this.props.data)
+            store.dispatch(searchPatientAPICall(this.props.data.currentSearch));
+        }
     }
 
     componentWillUnmount() {
@@ -21,7 +28,6 @@ export default class SearchPatientsById extends Component {
     _handleKeyStroke(ev) {
         this.setState({ searchString: ev.target.value });
         if (ev.target.value !== '') {
-            store.dispatch(searchPatientRequest(ev.target.value));
             store.dispatch(searchPatientAPICall(ev.target.value));
         } else {
             store.dispatch(searchPatientRequest(ev.target.value));
