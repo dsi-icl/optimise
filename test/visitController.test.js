@@ -91,6 +91,43 @@ describe('Visit controller tests', () => {
             expect(res.body.length).toBe(2);
         }));
 
+    test('Updating visit from id', () => admin
+        .put('/visits')
+        .send({
+            'id': 1,
+            'visitDate': '5 Mar 1990'
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+        }));
+
+    test('Updating visit from id second pass', () => admin
+        .put('/visits')
+        .send({
+            'id': 1,
+            'visitDate': '15 Feb 1962'
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+        }));
+
+    test('Updating visit which does not exist', () => admin
+        .put('/visits')
+        .send({
+            'id': 1000,
+            'visitDate': '15 Feb 1962'
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(400);
+            expect(typeof res.body).toBe('object');
+        }));
+
     test('Deleting visit from visitId', () => admin
         .delete('/visits')
         .send({ 'visitId': 4 })
@@ -99,5 +136,15 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+        }));
+
+    test('Deleting visit which does not exist', () => admin
+        .delete('/visits')
+        .send({ 'visitId': 1000 })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(0);
         }));
 });

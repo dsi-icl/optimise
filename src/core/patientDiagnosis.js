@@ -1,6 +1,6 @@
 const { getEntry, createEntry, updateEntry, deleteEntry } = require('../utils/controller-utils');
 const ErrorHelper = require('../utils/error_helper');
-const messages = require('../utils/message-utils');
+const message = require('../utils/message-utils');
 
 function PatientDiagnosisCore() {
     this.getPatientDiagnosis = PatientDiagnosisCore.prototype.getPatientDiagnosis.bind(this);
@@ -15,7 +15,7 @@ PatientDiagnosisCore.prototype.getPatientDiagnosis = function (whereObj) {
         getEntry('PATIENT_DIAGNOSIS', whereObj, { id: 'id', patient: 'patient', diagnosis: 'diagnosis', diagnosisDate: 'diagnosisDate' }).then(function (result) {
             resolve(result);
         }, function (error) {
-            reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
+            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
@@ -25,7 +25,7 @@ PatientDiagnosisCore.prototype.createPatientDiagnosis = function (entryObj) {
         createEntry('PATIENT_DIAGNOSIS', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {
-            reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
+            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
@@ -35,7 +35,7 @@ PatientDiagnosisCore.prototype.updatePatientDiagnosis = function (user, idDiagno
         updateEntry('PATIENT_DIAGNOSIS', user, '*', { id: idDiagnosis }, updatedObj).then(function (result) {
             resolve(result);
         }, function (error) {
-            reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
+            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
@@ -45,7 +45,7 @@ PatientDiagnosisCore.prototype.deletePatientDiagnosis = function (user, whereObj
         deleteEntry('PATIENT_DIAGNOSIS', user, whereObj).then(function (result) {
             resolve(result);
         }, function (error) {
-            reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
+            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
