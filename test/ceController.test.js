@@ -76,7 +76,7 @@ describe('Create Clinical Event controller tests', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(4);
+            expect(res.body.state).toBe(5);
         }));
 });
 
@@ -99,7 +99,7 @@ describe('Delete Clinical Event controller tests', () => {
     test('Request deletion with a standard token (should fail)', () => user
         .delete('/clinicalEvents')
         .send({
-            ceId: 4
+            ceId: 5
         })
         .then(res => {
             expect(res.status).toBe(401);
@@ -120,7 +120,7 @@ describe('Delete Clinical Event controller tests', () => {
     test('Request deletion with bad body (should fail)', () => admin
         .delete('/clinicalEvents')
         .send({
-            'ce_-Id': 4
+            'ce_-Id': 5
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -141,7 +141,7 @@ describe('Delete Clinical Event controller tests', () => {
 
     test('Request deletion with good body (should success)', () => admin
         .delete('/clinicalEvents')
-        .send({ 'ceId': 1 })
+        .send({ 'ceId': 5 })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');

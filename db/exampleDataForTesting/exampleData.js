@@ -60,7 +60,8 @@ const exampleData = {
     'CLINICAL_EVENTS': [
         { id: 1, patient: 1, type: 1, dateStartDate: '1514764800000', meddra: 1, createdByUser: 1, deleted: '-' },
         { id: 2, patient: 3, type: 1, dateStartDate: '1517443200000', meddra: 1, createdByUser: 1, deleted: '-' },
-        { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' }
+        { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' },
+        { id: 4, patient: 1, type: 1, dateStartDate: '1517443200000', meddra: 1, createdByUser: 1, deleted: '-' }
     ],
     'CLINICAL_EVENTS_DATA': [
         { id: 1, clinicalEvent: 1, field: 3, value: 'YES', createdByUser: 1, deleted: '-' },
