@@ -97,34 +97,21 @@ PatientController.prototype.setPatientAsDeleted = function (req, res) {
 
 PatientController.prototype.getPatientProfileById = function (req, res) {
     if (req.params.hasOwnProperty('patientId')) {
-        this.patient.getPatient({ 'aliasId': req.params.patientId, deleted: '-' }, { patientId: 'id', study: 'study', consent: 'consent' }).then(function (Patientresult) {
-            let patientId;
-            if (Patientresult.length === 1) {
-                patientId = Patientresult[0].patientId;
-            } else {
-                res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND));
-                return;
-            }
-            if (req.query.getOnly && typeof (req.query.getOnly) === 'string') {
-                let getOnlyArr = req.query.getOnly.split(',');
-                getOnlyArr = new Set(getOnlyArr);      //prevent if someone put loads of the same parameters, slowing down the server
-                getOnlyArr = Array.from(getOnlyArr);    //prevent if someone put loads of the same parameters, slowing down the server
-                const promiseArr = [];
-                for (let i = 0; i < getOnlyArr.length; i++) {
-                    try {
-                        promiseArr.push(SelectorUtils[`get${getOnlyArr[i]}`](patientId));
-                    } catch (e) {
-                        res.status(400).send('something in your ?getOnly is not permitted! The options are "getDemographicData", "getImmunisations", "getMedicalHistory", "getVisits", "getTests", "getTreatments", "ClinicalEvents", "Pregnancy", "Diagnosis"');
-                        return;
-                    }
+        this.patient.getPatient({ 'aliasId': req.params.patientId, deleted: '-' }, { patientId: 'id', study: 'study', consent: 'consent' })
+            .then(function (Patientresult) {
+                let patientId;
+                if (Patientresult.length === 1) {
+                    patientId = Patientresult[0].patientId;
+                } else {
+                    res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND));
+                    return;
                 }
-                return Promise.all(promiseArr);
-            } else if (req.query.getOnly) {
-                res.status(400).json(ErrorHelper('please format your ?getOnly with fields separated by commas'));
-                return;
-            } else {
                 const promiseArr = [];
-                const availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis'];
+                let availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis'];
+
+                if (req.query.getOnly && typeof (req.query.getOnly) === 'string')
+                    availableFunctions = req.query.getOnly.split(',').filter((func) => availableFunctions.includes(func));
+
                 for (let i = 0; i < availableFunctions.length; i++) {
                     promiseArr.push(SelectorUtils[availableFunctions[i]](patientId));
                 }
@@ -143,11 +130,10 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                     res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
                     return;
                 });
-            }
-        }, function (error) {
-            res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
-            return;
-        });
+            }, function (error) {
+                res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
+                return;
+            });
     } else {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
