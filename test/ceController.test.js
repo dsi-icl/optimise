@@ -29,12 +29,14 @@ describe('Create Clinical Event controller tests', () => {
     test('Request creation with bad date format (should fail)', () => admin
         .post('/clinicalEvents')
         .send({
-            'visitId': 1,
-            'type': 1,
-            'startDate': {
-                'jour': 1, 'mois': 3, 'année': 2011
+            visitId: 1,
+            type: 1,
+            startDate: {
+                jour: 1,
+                mois: 3,
+                année: 2011
             },
-            'meddra': 1
+            meddra: 1
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -50,7 +52,9 @@ describe('Create Clinical Event controller tests', () => {
             'tYpE': 2,
             'mEdDrA': 4,
             'start_dAte': {
-                'jour': 1, 'mois': 3, 'année': 2011
+                jour: 1,
+                mois: 3,
+                année: 2011
             }
         })
         .then(res => {
@@ -63,10 +67,10 @@ describe('Create Clinical Event controller tests', () => {
     test('Request creation with good patient and visit (should succeed)', () => admin
         .post('/clinicalEvents')
         .send({
-            'visitId': 1,
-            'type': 1,
-            'startDate': '1 Jan 1980',
-            'meddra': 1
+            visitId: 1,
+            type: 1,
+            startDate: '1 Jan 1980',
+            meddra: 1
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -76,10 +80,27 @@ describe('Create Clinical Event controller tests', () => {
         }));
 });
 
+describe('Update Clinical Event', () => {
+
+    test('Update MedDRA code of an event', () => user
+        .put('/clinicalEvents')
+        .send({
+            id: 3,
+            meddra: 4
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBe(1);
+        }));
+});
+
 describe('Delete Clinical Event controller tests', () => {
     test('Request deletion with a standard token (should fail)', () => user
         .delete('/clinicalEvents')
-        .send({ ceId: 4 })
+        .send({
+            ceId: 4
+        })
         .then(res => {
             expect(res.status).toBe(401);
             expect(typeof res.body).toBe('object');
@@ -98,7 +119,9 @@ describe('Delete Clinical Event controller tests', () => {
 
     test('Request deletion with bad body (should fail)', () => admin
         .delete('/clinicalEvents')
-        .send({ 'ce_-Id': 4 })
+        .send({
+            'ce_-Id': 4
+        })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
