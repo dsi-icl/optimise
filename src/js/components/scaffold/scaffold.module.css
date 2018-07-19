@@ -117,7 +117,7 @@
     color: white;
 }
 
-.errorMessageDialogBox .cancelButton {
+.cancelButton {
     font-size: 2rem;
     position: absolute;
     font-weight: bold;
@@ -125,7 +125,19 @@
     top: 0.5rem;
 }
 
-.errorMessageDialogBox .cancelButton:hover {
+.cancelButton:hover {
     cursor: pointer;
     color: black;
+}
+
+.alertMessageDialogBox {
+    position: absolute;
+    background: linear-gradient(to top right, var(--color-shade-two), var(--color-shade-one));
+    padding: 1.5em;
+    height: 20%;
+    min-height: 200px;
+    width: 30%;
+    top: 30%;
+    left: 35%;
+    color: white;
 }

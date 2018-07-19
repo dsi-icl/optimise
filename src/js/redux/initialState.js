@@ -89,5 +89,6 @@ export default {
         success: false,
         error: false
     },
-    appLevelError: {}
+    appLevelError: {},
+    alert: {}
 };

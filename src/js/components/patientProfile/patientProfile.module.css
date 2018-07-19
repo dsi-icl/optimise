@@ -195,3 +195,13 @@ div.timelineCEBlack {
     padding-top: 0.9em;
     padding-bottom: 0.9em;
 }
+
+.cancelButton {
+    font-size: 1.3em;
+    color: hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+
+.cancelButton:hover {
+    color: var(--color-error);
+    cursor: pointer;
+}

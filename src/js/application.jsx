@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, StatusBar, ErrorMessage } from './components/scaffold';
+import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, StatusBar, ErrorMessage, AlertMessage } from './components/scaffold';
 import Body from './components/body';
 import Login from './components/login';
 import { whoami } from './redux/actions/login';
@@ -73,6 +73,7 @@ class LoadingFields extends Component {
                     <RightPanel />
                     <FarRightPanel />
                     <StatusBar />
+                    <AlertMessage/>
                     <ErrorMessage />
                 </>
             );

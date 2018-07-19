@@ -85,5 +85,9 @@ export default {
     appLevelError: {
         CLEAR_ERROR: 'CLEAR_ERROR',
         ADD_ERROR: 'ADD_ERROR'
+    },
+    alert: {
+        CLEAR_ALERT: 'CLEAR_ALERT',
+        ADD_ALERT: 'ADD_ALERT'
     }
 };
