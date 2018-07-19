@@ -1,6 +1,5 @@
 const SelectorUtils = require('../utils/selector-utils');
 const PatientCore = require('../core/patient');
-const knex = require('../utils/db-connection');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const { getEntry, eraseEntry } = require('../utils/controller-utils');
@@ -11,10 +10,10 @@ function PatientController() {
 
     this.searchPatients = PatientController.prototype.searchPatients.bind(this);
     this.createPatient = PatientController.prototype.createPatient.bind(this);
-    this.setPatientAsDeleted = PatientController.prototype.setPatientAsDeleted.bind(this);
+    this.deletePatient = PatientController.prototype.deletePatient.bind(this);
     this.getPatientProfileById = PatientController.prototype.getPatientProfileById.bind(this);
-    this.updateConsent = PatientController.prototype.updateConsent.bind(this);
-    this.erasePatientInfo = PatientController.prototype.erasePatientInfo.bind(this);
+    this.updatePatient = PatientController.prototype.updatePatient.bind(this);
+    this.erasePatient = PatientController.prototype.erasePatient.bind(this);
 }
 
 PatientController.prototype.searchPatients = function (req, res) {  //get all list of patient if no query string; get similar if querystring is provided
@@ -57,27 +56,20 @@ PatientController.prototype.createPatient = function (req, res) {
     }
 };
 
-PatientController.prototype.updateConsent = function (req, res) {
-    if (!(req.body.hasOwnProperty('patientId') && req.body.hasOwnProperty('consent'))) {
+PatientController.prototype.updatePatient = function (req, res) {
+    if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
-    } if (!(typeof req.body.patientId === 'number' && typeof req.body.consent === 'boolean')) {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    } if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
     }
-    knex('PATIENTS').update({ consent: req.body.consent }).where({ id: req.body.patientId }).then(function (result) {
+    this.patient.updatePatient(req.user, req.body).then(function (result) {
         res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        return;
     });
 };
 
-PatientController.prototype.setPatientAsDeleted = function (req, res) {
+PatientController.prototype.deletePatient = function (req, res) {
     if (req.user.priv === 1 && req.body.hasOwnProperty('aliasId')) {
         this.patient.deletePatient(req.user, { aliasId: req.body.aliasId, deleted: '-' }).then(function (result) {
             res.status(200).json(formatToJSON(result));
@@ -109,8 +101,8 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                 const promiseArr = [];
                 let availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis'];
 
-                if (req.query.getOnly && typeof (req.query.getOnly) === 'string')
-                    availableFunctions = req.query.getOnly.split(',').filter((func) => availableFunctions.includes(func));
+                if (req.body.getOnly && typeof (req.body.getOnly) === 'string')
+                    availableFunctions = req.body.getOnly.split(',').filter((func) => availableFunctions.includes(func));
 
                 for (let i = 0; i < availableFunctions.length; i++) {
                     promiseArr.push(SelectorUtils[availableFunctions[i]](patientId));
@@ -140,7 +132,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
     }
 };
 
-PatientController.prototype.erasePatientInfo = function (req, res) {
+PatientController.prototype.erasePatient = function (req, res) {
     let patientId = undefined;
     if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));

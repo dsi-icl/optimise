@@ -1,4 +1,4 @@
-const { getEntry, createEntry, deleteEntry } = require('../utils/controller-utils');
+const { getEntry, createEntry, updateEntry, deleteEntry } = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
@@ -56,13 +56,27 @@ Patient.prototype.searchPatients = function (queryid) {
 
 /**
  * @description Create a new patient
- * @param {*} user  Information about the user
  * @param {*} patient The new created patient
  */
 Patient.prototype.createPatient = function (patient) {
     return new Promise(function (resolve, reject) {
         let entryObj = Object.assign({}, patientModel, patient);
         createEntry('PATIENTS', entryObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        });
+    });
+};
+
+/**
+ * @description Update a new patient
+ * @param {*} user Information about the user
+ * @param {*} patient The new created patient
+ */
+Patient.prototype.updatePatient = function (user, patientObj) {
+    return new Promise(function (resolve, reject) {
+        updateEntry('PATIENTS', user, '*', { id: patientObj.id }, patientObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
