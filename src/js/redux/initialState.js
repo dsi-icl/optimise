@@ -2,7 +2,8 @@ export default {
     searchPatient: {
         fetching: false,
         error: false,
-        result: []
+        result: [],
+        currentSearch: ''
     },
     createPatient: { patientId: '' },
     patientProfile: {
