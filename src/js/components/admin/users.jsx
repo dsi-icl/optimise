@@ -1,10 +1,11 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import store from '../../redux/store';
 import { createUserAPICall, getAllUsersAPICall } from '../../redux/actions/admin';
 import Icon from '../icon';
 import style from './admin.module.css';
+
 
 export class Users extends Component {
     render() {
