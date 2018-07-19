@@ -25,7 +25,7 @@ const {
     createCompiler,
     prepareProxy,
     prepareUrls,
-} = require('../extra/WebpackDevServerUtils');
+} = require('react-dev-utils/WebpackDevServerUtils');
 const openBrowser = require('react-dev-utils/openBrowser');
 const paths = require('../config/paths');
 const config = require('../config/webpack.config.dev');
@@ -58,7 +58,7 @@ if (process.env.HOST) {
         )
     );
     console.log(
-        'If this was unintentional, check that you haven\'t mistakenly set it in your shell.'
+        `If this was unintentional, check that you haven't mistakenly set it in your shell.`
     );
     console.log(
         `Learn more here: ${chalk.yellow('http://bit.ly/CRA-advanced-config')}`
@@ -102,8 +102,8 @@ checkBrowsers(paths.appPath)
 
         serverConfig.then(serverConfig => {
             const devServer = new WebpackDevServer(compiler, serverConfig);
-            // Launch WebpackDevServer.
 
+            // Launch WebpackDevServer.
             devServer.listen(port, HOST, err => {
                 if (err) {
                     return console.log(err);

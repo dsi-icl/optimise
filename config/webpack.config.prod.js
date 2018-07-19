@@ -8,10 +8,10 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const InterpolateHtmlPlugin = require('../extra/InterpolateHtmlPlugin');
+const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
-const ModuleScopePlugin = require('../extra/ModuleScopePlugin');
+const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
@@ -181,15 +181,7 @@ module.exports = {
         // for React Native Web.
         extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
         alias: {
-            // @remove-on-eject-begin
-            // Resolve Babel runtime relative to react-scripts.
-            // It usually still works on npm 3 without this but it would be
-            // unfortunate to rely on, as react-scripts could be symlinked,
-            // and thus @babel/runtime might not be resolvable from the source.
-            '@babel/runtime': path.dirname(
-                require.resolve('@babel/runtime/package.json')
-            ),
-            // @remove-on-eject-end
+
             // Support React Native Web
             // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
             'react-native': 'react-native-web',
@@ -259,6 +251,7 @@ module.exports = {
                             {
                                 loader: require.resolve('babel-loader'),
                                 options: {
+
                                     presets: [require.resolve('babel-preset-react-app')],
                                     plugins: [
                                         [
@@ -294,12 +287,11 @@ module.exports = {
                         use: [
                             // This loader parallelizes code compilation, it is optional but
                             // improves compile time on larger projects
-                            // TODO - Reactivation thread-load when webpack monaco loader works
-                            // https://github.com/Microsoft/monaco-editor-webpack-plugin/issues/16
-                            // require.resolve('thread-loader'),
+                            require.resolve('thread-loader'),
                             {
                                 loader: require.resolve('babel-loader'),
                                 options: {
+                                    babelrc: false,
                                     compact: false,
                                     presets: [
                                         require.resolve('babel-preset-react-app/dependencies'),
