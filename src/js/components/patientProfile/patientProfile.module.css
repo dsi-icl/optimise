@@ -122,6 +122,13 @@ div.timelineCEBlack {
     box-shadow: none !important;    
 }
 
+.editableTable td:nth-child(1){
+    width: 1.3em;
+}
+.editableTable th:nth-child(1){
+    width: 1.3em;
+}
+
 .history h4 {
     margin-top: 1.5em;
     margin-bottom: 0.7em;
@@ -204,4 +211,15 @@ div.timelineCEBlack {
 .cancelButton:hover > svg {
     fill: var(--color-error);
     cursor: pointer;
+}
+
+
+
+.editButton > div {
+    height: 1em;
+    fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+
+.editButton > div:hover {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
 }
