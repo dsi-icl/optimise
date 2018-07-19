@@ -44,7 +44,7 @@ class UserInfo extends PureComponent {
                 <label>ID: </label> {data.id}  <br/>
                 <label>This user is {data.isAdmin ? 'an admin' : 'a standard user'}. </label> <br/>
             </div>
-        )
+        );
     }
 }
 
