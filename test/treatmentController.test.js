@@ -1,4 +1,4 @@
-/* global describe test expect */
+/* global beforeAll afterAll describe test expect */
 
 const request = require('supertest');
 const admin = request.agent(global.optimiseRouter);
@@ -6,12 +6,12 @@ const user = request.agent(global.optimiseRouter);
 const message = require('../src/utils/message-utils');
 const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
 
-beforeAll(async() => { //eslint-disable-line no-undef
+beforeAll(async () => {
     await connectAdmin(admin);
-    await connectUser(user).then();
+    await connectUser(user);
 });
 
-afterAll(async() => { //eslint-disable-line no-undef
+afterAll(async () => {
     await disconnectAgent(admin);
     await disconnectAgent(user);
 });
