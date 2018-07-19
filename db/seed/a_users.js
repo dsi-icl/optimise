@@ -3,7 +3,7 @@ const { generateAndHash } = require('../../src/utils/generate-crypto');
 exports.seed = function (knex) {
     // Deletes ALL existing entries
     let hashedAdmin = generateAndHash('admin');
-    let hashedUser = generateAndHash('admin');
+    let hashedUser = generateAndHash('user');
     return knex('USERS').del()
         .then(function () {
             // Inserts seed entries
