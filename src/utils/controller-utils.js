@@ -42,14 +42,9 @@ function updateEntry(tablename, user, originObj, whereObj, newObj) {
                 return;
             }
             let oldEntry = getResult[0];
-            let newEntry = Object.assign(getResult[0], newObj);
             delete oldEntry.id;
-            delete newEntry.deleted;
-            delete newEntry.id;
-            delete newEntry.createdTime;
-            delete newEntry.deleted;
-            newEntry.createdByUser = user.id;
-            oldEntry.deleted = `${user.id}@${JSON.stringify(new Date())}`;
+            oldEntry.deleted = `${user.id}@${new Date().getTime()}`;
+            newObj.createdTime = knex.fn.now();
             createEntry(tablename, oldEntry).then(function (__unused__createResult) {
                 knex(tablename).update(newObj).where(whereObj).then(function (updateRes) {
                     resolve(updateRes);

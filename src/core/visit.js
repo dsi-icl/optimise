@@ -1,4 +1,4 @@
-const { createEntry, deleteEntry } = require('../utils/controller-utils');
+const { createEntry, deleteEntry, updateEntry } = require('../utils/controller-utils');
 const message = require('../utils/message-utils');
 const ErrorHelper = require('../utils/error_helper');
 const knex = require('../utils/db-connection');
@@ -6,6 +6,7 @@ const knex = require('../utils/db-connection');
 function Visit() {
     this.getVisit = Visit.prototype.getVisit.bind(this);
     this.creteVisit = Visit.prototype.createVisit.bind(this);
+    this.updateVisit = Visit.prototype.updateVisit.bind(this);
     this.deleteVisit = Visit.prototype.deleteVisit.bind(this);
 }
 
@@ -41,6 +42,23 @@ Visit.prototype.createVisit = function (user, visit) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        });
+    });
+};
+
+Visit.prototype.updateVisit = function (user, updatedObj) {
+    return new Promise(function (resolve, reject) {
+        if (isNaN(Date.parse(updatedObj.visitDate))) {
+            reject(ErrorHelper(message.userError.INVALIDDATE, new Error(message.userError.WRONGARGUMENTS)));
+            return;
+        }
+        else {
+            updatedObj.visitDate = Date.parse(updatedObj.visitDate);
+        }
+        updateEntry('VISITS', user, '*', { id: updatedObj.id }, updatedObj).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };

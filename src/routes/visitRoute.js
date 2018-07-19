@@ -13,6 +13,7 @@ const VisitCtrl = new VisitController();
 visit.route('/')
     .get(VisitCtrl.getVisitsOfPatient)
     .post(VisitCtrl.createVisit)
+    .put(VisitCtrl.updateVisit)
     .delete(VisitCtrl.deleteVisit);
 
 module.exports = visit;
