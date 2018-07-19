@@ -18,23 +18,27 @@ function DemographicDataController() {
     this.pregnancy = new PregnancyCore();
 
     this.getDemogData = DemographicDataController.prototype.getDemogData.bind(this);
-    this.createDemographic = DemographicDataController.prototype.createDemographic.bind(this);
-    this.createImmunisation = DemographicDataController.prototype.createImmunisation.bind(this);
-    this.createMedicalCondition = DemographicDataController.prototype.createMedicalCondition.bind(this);
     this.editDemographic = DemographicDataController.prototype.editDemographic.bind(this);
-    this.editImmunisation = DemographicDataController.prototype.editImmunisation.bind(this);
-    this.editMedicalCondition = DemographicDataController.prototype.editMedicalCondition.bind(this);
+    this.createDemographic = DemographicDataController.prototype.createDemographic.bind(this);
     this.deleteDemographic = DemographicDataController.prototype.deleteDemographic.bind(this);
+
+    this.createImmunisation = DemographicDataController.prototype.createImmunisation.bind(this);
+    this.editImmunisation = DemographicDataController.prototype.editImmunisation.bind(this);
     this.deleteImmunisation = DemographicDataController.prototype.deleteImmunisation.bind(this);
+
+    this.createMedicalCondition = DemographicDataController.prototype.createMedicalCondition.bind(this);
+    this.editMedicalCondition = DemographicDataController.prototype.editMedicalCondition.bind(this);
     this.deleteMedicalCondition = DemographicDataController.prototype.deleteMedicalCondition.bind(this);
+
+    this.createPregnancy = DemographicDataController.prototype.createPregnancy.bind(this);
+    this.getPregnancy = DemographicDataController.prototype.getPregnancy.bind(this);
+    this.editPregnancy = DemographicDataController.prototype.editPregnancy.bind(this);
+    this.deletePregnancy = DemographicDataController.prototype.deletePregnancy.bind(this);
+
     this.getFields = DemographicDataController.prototype.getFields.bind(this);
     this.getDemographicFields = DemographicDataController.prototype.getDemographicFields.bind(this);
     this.getMedicalConditionFields = DemographicDataController.prototype.getMedicalConditionFields.bind(this);
     this.getPregnancyFields = DemographicDataController.prototype.getPregnancyFields.bind(this);
-    this.getPregnancy = DemographicDataController.prototype.getPregnancy.bind(this);
-    this.createPregnancy = DemographicDataController.prototype.createPregnancy.bind(this);
-    this.editPregnancy = DemographicDataController.prototype.editPregnancy.bind(this);
-    this.deletePregnancy = DemographicDataController.prototype.deletePregnancy.bind(this);
 }
 
 DemographicDataController.prototype.createDemographic = function (req, res) {
@@ -210,7 +214,7 @@ DemographicDataController.prototype.editDemographic = function (req, res) {
 
 DemographicDataController.prototype.editImmunisation = function (req, res) {
     if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number' &&
-    ((req.body.hasOwnProperty('immunisationDate') && typeof req.body.immunisationDate === 'string') || !req.body.hasOwnProperty('immunisationDate'))) {
+        ((req.body.hasOwnProperty('immunisationDate') && typeof req.body.immunisationDate === 'string') || !req.body.hasOwnProperty('immunisationDate'))) {
         this.immunisation.editImmunisation(req.user, req.body).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
