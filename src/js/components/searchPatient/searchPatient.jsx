@@ -41,8 +41,9 @@ export default class SearchPatientsById extends Component {
                     <h2>Patient Search</h2>
                 </div>
                 <div className={style.panel}>
+                    <span>Search you dataset by entering your criteria in the box below.</span><br /><br />
                     <form>
-                        <label htmlFor='searchTerm'>Enter Patient ID:</label><br />
+                        <label htmlFor='searchTerm'>By patient ID:</label><br />
                         <input type='text' name='searchTerm' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} autoComplete="off" />
                     </form><br />
                     <SearchResultForPatients listOfPatients={this.props.data.result} searchString={this.state.searchString} />
