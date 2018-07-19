@@ -39,7 +39,7 @@ export class PatientProfileTop extends PureComponent {
 export class DeleteButton extends Component {
     render() {
         return (
-            <span title='Delete' onClick={this.props.clickhandler} className={style.cancelButton}>&#10006;</span>
+            <span title='Delete' onClick={this.props.clickhandler} className={style.cancelButton}><Icon symbol='trash'/></span>
         );
     }
 }
