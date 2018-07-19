@@ -85,7 +85,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'diagnosis'));
                 }
             });
@@ -107,7 +107,7 @@ class ExportDataController {
         /* Patient test data */
 
         knex('TEST_DATA')
-            .select('TEST_DATA.value', 'TEST_DATA.field', 'ORDERED_TESTS.expectedOccurDate', 'ORDERED_TESTS.actualOccuredDate', 'AVAILABLE_FIELDS_TESTS.definition', 'VISITS.patient', 'ORDERED_TESTS.orderedDuringVisit', 'PATIENTS.aliasId')
+            .select('TEST_DATA.value', 'TEST_DATA.field', 'ORDERED_TESTS.expectedOccurDate', 'ORDERED_TESTS.actualOccurredDate', 'AVAILABLE_FIELDS_TESTS.definition', 'VISITS.patient', 'ORDERED_TESTS.orderedDuringVisit', 'PATIENTS.aliasId')
             .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
             .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
             .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')

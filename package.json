@@ -45,6 +45,10 @@
         "collectCoverageFrom": [
             "<rootDir>/src/**/*.{js,jsx}",
             "!<rootDir>/node_modules/"
+        ],
+        "testMatch": [
+            "**/__tests__/**/*.{js,jsx,mjs}",
+            "**/+(*.)(spec|test).{js,jsx,mjs}"
         ]
     }
 }

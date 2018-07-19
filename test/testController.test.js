@@ -45,7 +45,9 @@ describe('Create test controller tests', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            expect(res.body.stack).toBeDefined();
+            expect(res.body.stack.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with wrong type type (should fail)', () => admin
@@ -55,7 +57,9 @@ describe('Create test controller tests', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            expect(res.body.stack).toBeDefined();
+            expect(res.body.stack.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with wrong type expectedDate (should fail)', () => admin
@@ -65,38 +69,39 @@ describe('Create test controller tests', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            expect(res.body.stack).toBeDefined();
+            expect(res.body.stack.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Request creation with good body (should success)', () => admin
+    test('Request creation with actual occured data with good body (should success)', () => admin
         .post('/tests')
-        .send({ 'visitId': 1, 'type': 1, 'expectedDate': '1 Jan 2020' })
+        .send({ 'visitId': 1, 'type': 1, 'expectedDate': '1 Jan 2020', 'actualOccurredDate': '4 Jan 2020' })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(4);
         }));
-});
 
-describe('Create test add occurence date controller tests', () => {
-    test('Request creation add occurence date with bad body (should fail)', () => admin
-        .post('/tests/addOccurredDate')
-        .send({ 'vis': 1, 'teep': 1, 'Date': '1 Jan 2020' })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
-        }));
-
-    test('Request creation add occurence date with good body (should success)', () => admin
-        .post('/tests/addOccurredDate')
-        .send({ 'testId': 1, 'type': 1, 'expectedDate': '12 Jan 2020', 'actualOccurredDate': '4 Jan 2020' })
+    test('Request creation with good body (should success)', () => admin
+        .post('/tests')
+        .send({ 'visitId': 1, 'type': 2, 'expectedDate': '1 Jan 2020' })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(5);
+        }));
+});
+
+describe('Update test controller tests', () => {
+    test('Update a test', () => admin
+        .put('/tests')
+        .send({ 'id': 1, 'type': 3, 'expectedOccurDate': '1 Jan 2010', 'actualOccurredDate': '4 Jan 2010' })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
             expect(res.body.state).toBe(1);
         }));
 });

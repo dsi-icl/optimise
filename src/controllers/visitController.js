@@ -17,7 +17,6 @@ VisitController.prototype.getVisitsOfPatient = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-
     this.visit.getVisit(req.query.patientId).then(function (result) {
         res.status(200).json(formatToJSON(result));
         return;
