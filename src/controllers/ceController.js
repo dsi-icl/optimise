@@ -7,6 +7,7 @@ function CeController() {
     this.clinicalEvent = new clinicalEventCore();
 
     this.createCe = CeController.prototype.createCe.bind(this);
+    this.updateCe = CeController.prototype.updateCe.bind(this);
     this.deleteCe = CeController.prototype.deleteCe.bind(this);
 }
 
@@ -36,6 +37,19 @@ CeController.prototype.createCe = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
+};
+
+CeController.prototype.updateCe = function (req, res) {
+    if (!req.body.hasOwnProperty('id')) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    }
+    this.clinicalEvent.updateClinicalEvent(req.user, req.body).then(function (result) {
+        res.status(200).json(formatToJSON(result));
+        return;
+    }, function (error) {
+        res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+    });
 };
 
 CeController.prototype.deleteCe = function (req, res) {

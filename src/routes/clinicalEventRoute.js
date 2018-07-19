@@ -11,6 +11,7 @@ const CECtrl = new CeController();
 
 ce.route('/')
     .post(CECtrl.createCe)
+    .put(CECtrl.updateCe)
     .delete(CECtrl.deleteCe);
 
 module.exports = ce;
