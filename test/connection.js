@@ -1,27 +1,18 @@
-function connectAdmin(admin) {
-    return new Promise(function (resolve, reject) {
-        admin.post('/users/login')
-            .set('Content-type', 'application/json')
-            .send({
-                username: 'admin',
-                pw: 'admin'
-            })
-            .then(res => {
-                if (res.statusCode === 200)
-                    resolve();
-                else
-                    reject();
-            });
-    });
+function connectAdmin(agent) {
+    return connectAgent(agent, 'admin', 'admin');
 }
 
-function connectUser(user) {
+function connectUser(agent) {
+    return connectAgent(agent, 'user', 'user');
+}
+
+function connectAgent(agent, user, pw) {
     return new Promise(function (resolve, reject) {
-        user.post('/users/login')
+        agent.post('/users/login')
             .set('Content-type', 'application/json')
             .send({
-                username: 'user',
-                pw: 'admin'
+                username: user,
+                pw: pw
             })
             .then(res => {
                 if (res.statusCode === 200)
