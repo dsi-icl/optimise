@@ -22,7 +22,7 @@ describe('Creating TEST data', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE  }testId`);
+            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}testId`);
         }));
 
     test('Request creation without add or update', () => admin
@@ -32,7 +32,7 @@ describe('Creating TEST data', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE  }testId`);
+            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}testId`);
         }));
 
     test('Request creation without test id', () => admin
@@ -42,7 +42,7 @@ describe('Creating TEST data', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE  }testId`);
+            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}testId`);
         }));
 
     test('Request creation with invalid value for id', () => admin
@@ -75,9 +75,19 @@ describe('Creating TEST data', () => {
             expect(res.body.error).toBe(message.dataMessage.FIELDNOTFOUND);
         }));
 
+    test('Request creation with unmatching test and field', () => admin
+        .post('/data/test')
+        .send({ testId: 2, add: { 1: 'YES' } })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.dataMessage.INVALIDFIELD);
+        }));
+
     test('Request creation succesfull', () => user
         .post('/data/test')
-        .send({ testId: 1, add: { 1: 'YES' } })
+        .send({ testId: 3, add: { 1: 'YES' } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -89,7 +99,7 @@ describe('Creating TEST data', () => {
 
     test('Request update succesfull', () => admin
         .post('/data/test')
-        .send({ testId: 1, update: { 1: 'NO' } })
+        .send({ testId: 3, update: { 1: 'NO' } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
