@@ -5,7 +5,7 @@ const DiagnosisCore = require('../core/patientDiagnosis');
 class SelectorUtils {
     getVisitsWithoutData(patientId) {
         return knex('VISITS')
-            .select({ visitId: 'id', visitDate: 'visitDate' })
+            .select({ visitId: 'id', visitDate: 'visitDate', type: 'type' })
             .where({ 'patient': patientId, deleted: '-' })
             .then(result => {
                 const returnObj = { visitsWithoutData: result };
