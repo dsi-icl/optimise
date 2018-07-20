@@ -11,13 +11,13 @@ const modelsContainer = require('../utils/model-container');
 
 
 const mapKeyTable = {
-    fieldVisit = 'AVAILABLE_FIELDS_VISITS',
-    fieldTest = 'AVAILABLE_FIELDS_TESTS',
-    fieldCE = 'AVAILABLE_FIELDS_CE',
-    typeVisit = 'AVAILABLE_VISIT_TYPES',
+    fieldVisit: 'AVAILABLE_FIELDS_VISITS',
+    fieldTest: 'AVAILABLE_FIELDS_TESTS',
+    fieldCE: 'AVAILABLE_FIELDS_CE',
+    typeVisit: 'AVAILABLE_VISIT_TYPES',
     typeCE: 'AVAILABLE_CLINICAL_EVENT_TYPES',
     typeTest: 'AVAILABLE_TEST_TYPES'
-}
+};
 
 function SeedController() {
     this.getSeed = SeedController.prototype.getSeed.bind(this);
@@ -85,6 +85,10 @@ SeedController.prototype.editSeed = function (req, res) {
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         let newEntry = {};
         let whereObj = {};
+        if (req.user.priv !== 1) {
+            res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+            return;
+        }
         for (let i = 0; i < Object.keys(modelsContainer[req.params.target]).length; i++) {
             if (!req.body.hasOwnProperty(Object.keys(modelsContainer[req.params.target])[i])) {
                 res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
