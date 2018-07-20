@@ -3,7 +3,8 @@ export default {
         fetching: false,
         error: false,
         result: [],
-        currentSearch: ''
+        currentSearchType: '',
+        currentSearchString: ''
     },
     createPatient: { patientId: '' },
     patientProfile: {

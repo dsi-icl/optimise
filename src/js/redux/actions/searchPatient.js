@@ -9,7 +9,7 @@ export const searchPatientClear = () => ({ type: actionTypes.searchPatient.SEARC
 
 export const searchPatientAPICall = (searchString) => dispatch => {
     dispatch(searchPatientRequest(searchString));
-    return apiHelper(`/patients?value=${searchString}`)
+    return apiHelper(`/patients?field=${searchString.field}&value=${searchString.value}`)
         .then(json => {
             dispatch(searchPatientSuccess(json));
         })
