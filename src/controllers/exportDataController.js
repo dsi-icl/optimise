@@ -9,71 +9,59 @@ class ExportDataController {
 
     exportDatabase(__unused__req, res) {
 
-        const cdiscMapping = {
-            dm: {
-                'id': 'num',
-                'aliasId': 'USUBJID',
-                'study': 'STUDY',
-                'DOB': 'BRTHDTC',
-                'gender': 'SEX',
-                'dominantHand': 'DOMINANT',
-                'ethnicity': 'ETHNIC',
-                'countryOfOrigin': 'COUNTRY',
-                //'domain': 'DM'
-            },
-            // pii: {
-
-            // },
-            pregnancy: {
-
-            },
-            // medicalHistory: {
-
-            // },
-            // immunisation: {
-
-            // },
-            diagnosis: {
-                'id': 'num',
-                'aliasId': 'USUBJID',
-                'value': 'MHTERM',
-                'diagnosisDate': 'MHSTDTC',
-                'domain': 'MH'
-            }
-            // visit: {
-
-            // },
-            // test: {
-
-            // },
-            // ce: {
-
-            // },
-            // exposure: {
-
-            // }
-        };
-
         const fileName = 'OptimiseData.csv';
         let fileArray = [];
 
         /* Patient demographic data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENT_DEMOGRAPHIC.DOB', 'PATIENT_DEMOGRAPHIC.gender', 'PATIENT_DEMOGRAPHIC.dominantHand', 'PATIENT_DEMOGRAPHIC.ethnicity', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
+            .select('PATIENTS.id', 'PATIENTS.aliasId as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DEMOGRAPHIC.DOB as BRTHDTC', 'GENDERS.value as SEX', 'DOMINANT_HANDS.value as DOMINANT', 'ETHNICITIES.value as ETHNIC', 'COUNTRIES.value as COUNTRY')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
+            .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
+            .leftOuterJoin('DOMINANT_HANDS', 'DOMINANT_HANDS.id', 'PATIENT_DEMOGRAPHIC.dominantHand')
+            .leftOuterJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
+            .leftOuterJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
             .where('PATIENTS.deleted', '-')
+            .where('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
                 let convertedResult = [];
                 for (let i = 0; i < result.length; i++) {
                     let entry = Object.assign(result[i]);
-                    if (entry.hasOwnProperty('DOB') && entry.DOB !== null) {
-                        entry.DOB = new Date(entry.DOB).toString();
+                    if (entry.hasOwnProperty('BRTHDTC') && entry.BRTHDTC !== null) {
+                        entry.BRTHDTC = new Date(entry.BRTHDTC).toString();
                     }
                     convertedResult.push(entry);
                 }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(convertedResult, 'demographics', cdiscMapping.dm));
+                    fileArray.push(new createDataFile(convertedResult, 'demographics'));
+                }
+            });
+
+        /* Smoking history data */
+
+        knex('PATIENTS')
+            .select('PATIENTS.id', 'PATIENTS.aliasId as USUBJID', 'PATIENTS.study as STUDYID', 'SMOKING_HISTORY.value as SCORRES')
+            .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
+            .leftOuterJoin('SMOKING_HISTORY', 'SMOKING_HISTORY.id', 'PATIENT_DEMOGRAPHIC.smokingHistory')
+            .where('PATIENTS.deleted', '-')
+            .where('PATIENT_DEMOGRAPHIC.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    fileArray.push(new createDataFile(result, 'smoking'));
+                }
+            });
+
+        /* Alcohol consumption data */
+
+        knex('PATIENTS')
+            .select('PATIENTS.id', 'PATIENTS.aliasId as USUBJID', 'PATIENTS.study as STUDYID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
+            .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
+            .leftOuterJoin('ALCOHOL_USAGE', 'ALCOHOL_USAGE.id', 'PATIENT_DEMOGRAPHIC.alcoholUsage')
+            .where('PATIENTS.deleted', '-')
+            .where('PATIENT_DEMOGRAPHIC.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    fileArray.push(new createDataFile(result, 'alcoholConsumption'));
                 }
             });
 
@@ -86,15 +74,16 @@ class ExportDataController {
             .andWhere('PATIENT_PII.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'pii', null));
+                    fileArray.push(new createDataFile(result, 'pii'));
                 }
             });
 
         /* Patient pregnancy data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_PREGNANCY.startDate', 'PATIENT_PREGNANCY.outcome', 'PATIENT_PREGNANCY.outcomeDate', 'PATIENT_PREGNANCY.meddra')
-            .leftOuterJoin('PATIENT_PREGNANCY', 'PATIENT_PREGNANCY.id', 'PATIENT_PREGNANCY.patient')
+            .select('PATIENTS.id', 'PATIENTS.aliasId as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_PREGNANCY.startDate as MHSTDTC', 'PREGNANCY_OUTCOMES.value as MHENRTPT', 'PATIENT_PREGNANCY.outcomeDate as MHENDTC', 'ADVERSE_EVENT_MEDDRA.name as MedDRA')
+            .leftOuterJoin('PATIENT_PREGNANCY', 'PATIENT_PREGNANCY.patient', 'PATIENTS.id')
+            .leftJoin('PREGNANCY_OUTCOMES', 'PREGNANCY_OUTCOMES.id', 'PATIENT_PREGNANCY.outcome')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
@@ -102,11 +91,11 @@ class ExportDataController {
                 let convertedResult = [];
                 for (let i = 0; i < result.length; i++) {
                     let entry = Object.assign(result[i]);
-                    if (entry.hasOwnProperty('startDate') && entry.startDate !== null) {
-                        entry.startDate = new Date(entry.startDate).toString();
+                    if (entry.hasOwnProperty('MHSTDTC') && entry.MHSTDTC !== null) {
+                        entry.MHSTDTC = new Date(entry.MHSTDTC).toString();
                     }
-                    if (entry.hasOwnProperty('outcomeDate') && entry.outcomeDate !== null) {
-                        entry.outcomeDate = new Date(entry.outcomeDate).toString();
+                    if (entry.hasOwnProperty('MHENDTC') && entry.MHENDTC !== null) {
+                        entry.MHENDTC = new Date(entry.MHENDTC).toString();
                     }
                     convertedResult.push(entry);
                 }
@@ -118,28 +107,30 @@ class ExportDataController {
         /* Patient medical history data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.aliasId', 'MEDICAL_HISTORY.relation', 'MEDICAL_HISTORY.conditionName', 'MEDICAL_HISTORY.startDate', 'MEDICAL_HISTORY.outcome', 'MEDICAL_HISTORY.resolvedYear')
+            .select('PATIENTS.id', 'PATIENTS.aliasId as USUBJID', 'PATIENTS.study as STUDYID', 'RELATIONS.value as SREL', 'CONDITIONS.value as MHTERM', 'MEDICAL_HISTORY.startDate as MHSTDTC', 'MEDICAL_HISTORY.outcome as MHENRTPT', 'MEDICAL_HISTORY.resolvedYear as MHENDTC')
             .leftOuterJoin('MEDICAL_HISTORY', 'PATIENTS.id', 'MEDICAL_HISTORY.patient')
+            .leftOuterJoin('RELATIONS', 'RELATIONS.value', 'MEDICAL_HISTORY.relation')
+            .leftOuterJoin('CONDITIONS', 'CONDITIONS.value', 'MEDICAL_HISTORY.conditionName')
             .where('PATIENTS.deleted', '-')
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
                 let convertedResult = [];
                 for (let i = 0; i < result.length; i++) {
                     let entry = Object.assign(result[i]);
-                    if (entry.hasOwnProperty('startDate') && entry.startDate !== null) {
-                        entry.startDate = new Date(entry.startDate).toString();
+                    if (entry.hasOwnProperty('MHSTDTC') && entry.MHSTDTC !== null) {
+                        entry.MHSTDTC = new Date(entry.MHSTDTC).toString();
                     }
                     convertedResult.push(entry);
                 }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'medicalHistory', null));
+                    fileArray.push(new createDataFile(convertedResult, 'medicalHistory'));
                 }
             });
 
         /* Patient immunisation data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_IMMUNISATION.vaccineName', 'PATIENT_IMMUNISATION.immunisationDate')
+            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_IMMUNISATION.vaccineName as MHTERM', 'PATIENT_IMMUNISATION.immunisationDate as MHSTDTC')
             .leftOuterJoin('PATIENT_IMMUNISATION', 'PATIENTS.id', 'PATIENT_IMMUNISATION.patient')
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
@@ -147,20 +138,20 @@ class ExportDataController {
                 let convertedResult = [];
                 for (let i = 0; i < result.length; i++) {
                     let entry = Object.assign(result[i]);
-                    if (entry.hasOwnProperty('immunisationDate') && entry.immunisationDate !== null) {
-                        entry.immunisationDate = new Date(entry.immunisationDate).toString();
+                    if (entry.hasOwnProperty('MHSTDTC') && entry.MHSTDTC !== null) {
+                        entry.MHSTDTC = new Date(entry.MHSTDTC).toString();
                     }
                     convertedResult.push(entry);
                 }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'immunisation', null));
+                    fileArray.push(new createDataFile(convertedResult, 'immunisation'));
                 }
             });
 
         /* Patient diagnosis data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_DIAGNOSIS.diagnosis', 'PATIENT_DIAGNOSIS.diagnosisDate', 'AVAILABLE_DIAGNOSES.value', 'PATIENT_DIAGNOSIS.patient')
+            .select('PATIENTS.id', 'PATIENTS.aliasId as USUBJID', 'PATIENT_DIAGNOSIS.diagnosisDate as MHSTDTC', 'AVAILABLE_DIAGNOSES.value as MHTERM')
             .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENT_DIAGNOSIS.patient', 'PATIENTS.id')
             .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
             .where('PATIENTS.deleted', '-')
@@ -169,13 +160,13 @@ class ExportDataController {
                 let convertedResult = [];
                 for (let i = 0; i < result.length; i++) {
                     let entry = Object.assign(result[i]);
-                    if (entry.hasOwnProperty('diagnosisDate') && entry.diagnosisDate !== null) {
-                        entry.diagnosisDate = new Date(entry.diagnosisDate).toString();
+                    if (entry.hasOwnProperty('MHSTDTC') && entry.MHSTDTC !== null) {
+                        entry.MHSTDTC = new Date(entry.MHSTDTC).toString();
                     }
                     convertedResult.push(entry);
                 }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'diagnosis', null));
+                    fileArray.push(new createDataFile(convertedResult, 'diagnosis', null));
                 }
             });
 
@@ -196,7 +187,7 @@ class ExportDataController {
                     }
                     convertedResult.push(entry);
                 }                if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'visit', null));
+                    fileArray.push(new createDataFile(convertedResult, 'visit', null));
                 }
             });
 
@@ -222,40 +213,41 @@ class ExportDataController {
                     convertedResult.push(entry);
                 }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'test', null));
+                    fileArray.push(new createDataFile(convertedResult, 'test'));
                 }
             });
 
         /* Patient clinical event data - visit not required */
 
         knex('CLINICAL_EVENTS_DATA')
-            .select('CLINICAL_EVENTS_DATA.value', 'CLINICAL_EVENTS_DATA.field', 'CLINICAL_EVENTS.dateStartDate', 'CLINICAL_EVENTS.endDate', 'CLINICAL_EVENTS.meddra', 'AVAILABLE_FIELDS_CE.definition', 'CLINICAL_EVENTS.patient', 'PATIENTS.aliasId')
+            .select('PATIENTS.aliasId as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_CLINICAL_EVENT_TYPES.name as CETERM', 'CLINICAL_EVENTS_DATA.value as CELAT', 'CLINICAL_EVENTS.dateStartDate as CESTDTC', 'CLINICAL_EVENTS.endDate as CEENDTC', 'ADVERSE_EVENT_MEDDRA.name as MedDRA', 'AVAILABLE_FIELDS_CE.definition as CEBODSYS')
             .leftOuterJoin('CLINICAL_EVENTS', 'CLINICAL_EVENTS.id', 'CLINICAL_EVENTS_DATA.clinicalEvent')
             .leftOuterJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'CLINICAL_EVENTS.meddra')
+            .leftOuterJoin('AVAILABLE_CLINICAL_EVENT_TYPES', 'AVAILABLE_CLINICAL_EVENT_TYPES.id', 'AVAILABLE_FIELDS_CE.referenceType')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .where('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
                 let convertedResult = [];
                 for (let i = 0; i < result.length; i++) {
                     let entry = Object.assign(result[i]);
-                    if (entry.hasOwnProperty('dateStartDate') && entry.dateStartDate !== null) {
-                        entry.dateStartDate = new Date(entry.dateStartDate).toString();
+                    if (entry.hasOwnProperty('CESTDTC') && entry.CESTDTC !== null) {
+                        entry.CESTDTC = new Date(entry.CESTDTC).toString();
                     }
-                    if (entry.hasOwnProperty('endDate') && entry.endDate !== null) {
-                        entry.endDate = new Date(entry.endDate).toString();
+                    if (entry.hasOwnProperty('CEENDTC') && entry.CEENDTC !== null) {
+                        entry.CEENDTC = new Date(entry.CEENDTC).toString();
                     }
                     convertedResult.push(entry);
                 }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'clinicalEvent', null));
+                    fileArray.push(new createDataFile(convertedResult, 'clinicalEvent'));
                 }
             });
 
         /* Patient treatment data */
 
         knex('TREATMENTS')
-            .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'TREATMENTS.dose', 'TREATMENTS.unit', 'TREATMENTS.form', 'TREATMENTS.timesPerDay', 'TREATMENTS.durationWeeks', 'TREATMENTS.terminatedDate', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module', 'PATIENTS.aliasId', 'TREATMENTS_INTERRUPTIONS.startDate', 'TREATMENTS_INTERRUPTIONS.endDate', 'TREATMENTS_INTERRUPTIONS.reason', 'TREATMENTS_INTERRUPTIONS.meddra')
+            .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name as EXTRT', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit', 'TREATMENTS.form as EXFORM', 'TREATMENTS.timesPerDay', 'TREATMENTS.durationWeeks', 'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module as EXCAT', 'PATIENTS.study as STUDYID', 'PATIENTS.aliasId as USUBJID', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC', 'TREATMENTS_INTERRUPTIONS.endDate as EXENDTC', 'TREATMENTS_INTERRUPTIONS.reason as REASON', 'ADVERSE_EVENT_MEDDRA.name as MedDRA')
             .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
             .leftOuterJoin('TREATMENTS_INTERRUPTIONS', 'TREATMENTS_INTERRUPTIONS.treatment', 'TREATMENTS.id')
             .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
@@ -266,39 +258,39 @@ class ExportDataController {
                 let convertedResult = [];
                 for (let i = 0; i < result.length; i++) {
                     let entry = Object.assign(result[i]);
-                    if (entry.hasOwnProperty('terminatedDate') && entry.terminatedDate !== null) {
-                        entry.terminatedDate = new Date(entry.terminatedDate).toString();
+                    if (entry.hasOwnProperty('EXENDTC') && entry.EXENDTC !== null) {
+                        entry.EXENDTC = new Date(entry.EXENDTC).toString();
                     }
-                    if (entry.hasOwnProperty('startDate') && entry.startDate !== null) {
-                        entry.startDate = new Date(entry.startDate).toString();
+                    if (entry.hasOwnProperty('EXSTDTC') && entry.EXSTDTC !== null) {
+                        entry.EXSTDTC = new Date(entry.EXSTDTC).toString();
                     }
-                    if (entry.hasOwnProperty('endDate') && entry.endDate !== null) {
-                        entry.endDate = new Date(entry.endDate).toString();
+                    if (entry.hasOwnProperty('EXENDTC') && entry.EXENDTC !== null) {
+                        entry.EXENDTC = new Date(entry.EXENDTC).toString();
                     }
                     convertedResult.push(entry);
                 }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'treatment', null));
+                    fileArray.push(new createDataFile(convertedResult, 'treatment'));
                 }
                 zipFiles(fileArray);
             });
 
         /* function to create a csv file for the result passed as an argument- prefix: (string) filename */
 
-        function createDataFile(result, prefix, mapping) {
+        function createDataFile(result, prefix) {
 
             const tempfileName = `${prefix}${fileName}`;
             let keys = Object.keys(result[0]); // get the keys from result to create headers
             //keys.push('domain');
-            let newKeys;
-            if (mapping !== null) {
-                newKeys = keys.map(x => mapping[x]);
-            } else {
-                newKeys = keys;
-            }
-            let tempResult = `${newKeys.join(',')}\n`;
-            result.forEach(function (obj) {
-                keys.forEach(function (a, b) {
+            // let newKeys;
+            // if (mapping !== null) {
+            //     newKeys = keys.map(x => mapping[x]);
+            // } else {
+            //     newKeys = keys;
+            // }
+            let tempResult = `${keys.join(',')}\n`;
+            result.forEach(function(obj) {
+                keys.forEach(function(a, b){
                     if (b) tempResult += ',';
                     tempResult += obj[a];
                 });
