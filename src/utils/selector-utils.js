@@ -203,7 +203,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return knex('CLINICAL_EVENTS')
-                .select('recordedDuringVisit', 'type', 'dateStartDate', 'endDate')
+                .select('recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra')
                 .where(builder => builder.where('patient', patientId).orWhere('recordedDuringVisit', 'in', ids))
                 .andWhere({ 'deleted': '-' })
                 .then(result => {
