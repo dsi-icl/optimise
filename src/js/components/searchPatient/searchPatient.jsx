@@ -16,7 +16,6 @@ export default class SearchPatientsById extends Component {
 
     componentDidMount() {
         if (this.props.data.currentSearch !== undefined && this.props.data.currentSearch !== null && this.props.data.currentSearch !== '') {
-            console.log('update', this.props.data)
             store.dispatch(searchPatientAPICall(this.props.data.currentSearch));
         }
     }
