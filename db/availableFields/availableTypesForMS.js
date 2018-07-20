@@ -13,7 +13,8 @@ const availableTypes = {
         { id: 4, name: 'Lumbar Puncture' }
     ],
     visits: [
-        { id: 1, value: 'In-patient' }
+        { id: 1, value: 'Inpatient' },
+        { id: 2, value: 'Remote' }
     ]
 };
 
