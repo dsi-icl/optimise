@@ -29,6 +29,7 @@ export default {
         interruptionReasons: [],
         interruptionReasons_Hash: [],
         allMeddra: [],
+        allMeddra_ReverseHash: [],
         pregnancyOutcomes: [],
         pregnancyOutcomes_Hash: [],
         diagnoses: [],
