@@ -216,7 +216,8 @@ div.timelineCEBlack {
 
 
 .editButton > div {
-    height: 1em;
+    width: 1.2em;
+    height: 1.2em;
     fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
 }
 
