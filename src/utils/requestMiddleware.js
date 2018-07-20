@@ -43,12 +43,12 @@ class RequestMiddleware {
         knex('LOG_ACTIONS')
             .insert({ 'router': req.url, 'method': req.method, 'body': JSON.stringify(body), 'user': username ? username : '' })
             .then(__unused__res => {
-                if (process.env.NODE_ENV === 'developpment')
+                if (process.env.NODE_ENV === 'development')
                     console.log(`${req.method} - ${req.originalUrl} : ${username ? username : ''}`);
                 next();
             })
             .catch(err => {
-                if (process.env.NODE_ENV === 'developpment')
+                if (process.env.NODE_ENV === 'development')
                     console.log(`Error caught :${err}`);
                 next();
             });

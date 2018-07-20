@@ -35,7 +35,7 @@ describe('Patient controller tests', () => {
         }));
 
     test('Searching patients with similar alias_id\'s', () => admin
-        .get('/patients?id=o')
+        .get('/patients?value=o')
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
@@ -43,7 +43,7 @@ describe('Patient controller tests', () => {
         }));
 
     test('Searching patients with similar alias_id\'s but with double "id" query', () => admin
-        .get('/patients?id=ch&id=css')
+        .get('/patients?value=ch&value=css')
         .then(res => {
             expect(res.statusCode).not.toBe(200);
             expect(typeof res.body).toBe('object');
@@ -52,12 +52,20 @@ describe('Patient controller tests', () => {
         }));
 
     test('Searching patients with similar alias_id\'s but with two queries', () => admin
-        .get('/patients?id=ch&iddd=css')
+        .get('/patients?value=ch&iddd=css&ed=42')
         .then(res => {
             expect(res.statusCode).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.INVALIDQUERY);
+        }));
+
+    test('Searching patients that are female', () => admin
+        .get('/patients?field=SEX&value=2')
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+            expect(res.body.length).toBe(3);
         }));
 
     test('Creating a new patient', () => admin
