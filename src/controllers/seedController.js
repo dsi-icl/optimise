@@ -38,7 +38,7 @@ SeedController.prototype.getSeed = function (req, res) {
             res.status(200).json(formatToJSon(result));
             return;
         }, function (error) {
-            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return;
         });
     } else if (!req.params.hasOwnProperty('target')) {
@@ -52,6 +52,7 @@ SeedController.prototype.getSeed = function (req, res) {
 
 SeedController.prototype.createSeed = function (req, res) {
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
+        console.log(JSON.stringify(modelsContainer));
         for (let i = 0; i < Object.keys(modelsContainer[req.params.target]).length; i++) {
             if (Object.keys(modelsContainer[req.params.target])[i] === 'id') {
                 continue;
