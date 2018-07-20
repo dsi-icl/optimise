@@ -17,22 +17,25 @@ function PatientController() {
 }
 
 PatientController.prototype.searchPatients = function (req, res) {  //get all list of patient if no query string; get similar if querystring is provided
-    let queryfield;
-    let queryvalue;
-
-    if (Object.keys(req.query).length === 0) {
-        queryfield = '';
-        queryvalue = '';
-    } else if (Object.keys(req.query).length === 2 && typeof (req.query.field) === 'string' && typeof (req.query.value) === 'string') {
-        queryfield = req.query.field;
-        queryvalue = req.query.value;
-    } else {
+    if (Object.keys(req.query).length > 2) {
         res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
         return;
     }
-    queryfield = `%${queryfield}%`;
-    queryvalue = `%${queryvalue}%`;
-    this.patient.searchPatients(queryfield,queryvalue).then(function (result) {
+    let queryfield = '';
+    let queryvalue = '%';
+    if (typeof req.query.field === 'string')
+        queryfield = req.query.field;
+    else if (req.query.field !== undefined) {
+        res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
+        return;
+    }
+    if (typeof req.query.value === 'string')
+        queryvalue = `%${req.query.value}%`;
+    else if (req.query.value !== undefined) {
+        res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
+        return;
+    }
+    this.patient.searchPatients(queryfield, queryvalue).then(function (result) {
         res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
