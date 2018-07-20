@@ -125,9 +125,9 @@ class ExportDataController {
         /* Patient diagnosis data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_DIAGNOSIS.diagnosis', 'PATIENT_DIAGNOSIS.diagnosisDate', 'AVAILABLE_DIAGNOSES.value')
+            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_DIAGNOSIS.diagnosis', 'PATIENT_DIAGNOSIS.diagnosisDate', 'AVAILABLE_DIAGNOSES.value', 'PATIENT_DIAGNOSIS.patient')
             .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENT_DIAGNOSIS.patient', 'PATIENTS.id')
-            .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENT_DIAGNOSIS.diagnosis', 'AVAILABLE_DIAGNOSES.id')
+            .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
             .then(result => {
