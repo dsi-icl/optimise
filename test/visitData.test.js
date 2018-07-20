@@ -22,7 +22,7 @@ describe('Creating VISIT data', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE  }visitId`);
+            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}visitId`);
         }));
 
     test('Request creation without add or update', () => admin
@@ -32,7 +32,7 @@ describe('Creating VISIT data', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE  }visitId`);
+            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}visitId`);
         }));
 
     test('Request creation without visit id', () => admin
@@ -42,7 +42,7 @@ describe('Creating VISIT data', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE  }visitId`);
+            expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}visitId`);
         }));
 
     test('Request creation with invalid value for id', () => admin
