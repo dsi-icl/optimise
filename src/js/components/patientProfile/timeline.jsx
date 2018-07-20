@@ -12,7 +12,7 @@ from its date which css grid area it belongs to, by calculating the ratio and th
 @connect(state => ({ data: state.patientProfile.data }))
 export class TimelineBox extends Component {   //unfinsihed
     render() {
-        const allVisitDates = this.props.data.visits.map(el => el.visitDate);
+        const allVisitDates = this.props.data.visits.filter(el => el.type === 1).map(el => el.visitDate);
         const allTestDates = this.props.data.tests.map(el => el.expectedOccurDate);
         const allCEDates = [];
         this.props.data.clinicalEvents.forEach(function (el) {
@@ -83,7 +83,7 @@ export class TimelineBox extends Component {   //unfinsihed
                     <div style={{ gridColumn: '1/2', gridRow: '4/5', overflow: 'hidden' }}>
                         Events
                     </div>
-                    {this.props.data.visits.map(mappingVisitFunction)}
+                    {this.props.data.visits.filter(el => el.type === 1).map(mappingVisitFunction)}
                     {this.props.data.tests.map(mappingTestFunction)}
                     {this.props.data.treatments.map(mappingMedFunction)}
                     {this.props.data.clinicalEvents.map(mappingCEFunction)}
