@@ -9,6 +9,51 @@ class ExportDataController {
 
     exportDatabase(__unused__req, res) {
 
+        const cdiscMapping = {
+            dm: {
+                'id': 'num',
+                'aliasId': 'USUBJID',
+                'study': 'STUDY',
+                'DOB': 'BRTHDTC',
+                'gender': 'SEX',
+                'dominantHand': 'DOMINANT',
+                'ethnicity': 'ETHNIC',
+                'countryOfOrigin': 'COUNTRY',
+                //'domain': 'DM'
+            },
+            // pii: {
+
+            // },
+            pregnancy: {
+
+            },
+            // medicalHistory: {
+
+            // },
+            // immunisation: {
+
+            // },
+            diagnosis: {
+                'id': 'num',
+                'aliasId': 'USUBJID',
+                'value': 'MHTERM',
+                'diagnosisDate': 'MHSTDTC',
+                'domain': 'MH'
+            }
+            // visit: {
+
+            // },
+            // test: {
+
+            // },
+            // ce: {
+
+            // },
+            // exposure: {
+
+            // }
+        };
+
         const fileName = 'OptimiseData.csv';
         let fileArray = [];
 
@@ -20,7 +65,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'demographics'));
+                    fileArray.push(new createDataFile(result, 'demographics',cdiscMapping.dm));
                 }
             });
 
@@ -33,7 +78,7 @@ class ExportDataController {
             .andWhere('PATIENT_PII.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'pii'));
+                    fileArray.push(new createDataFile(result, 'pii', null));
                 }
             });
 
@@ -47,7 +92,7 @@ class ExportDataController {
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'pregnancy'));
+                    fileArray.push(new createDataFile(result, 'pregnancy', null));
                 }
             });
 
@@ -60,7 +105,7 @@ class ExportDataController {
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'medicalHistory'));
+                    fileArray.push(new createDataFile(result, 'medicalHistory', null));
                 }
             });
 
@@ -73,20 +118,21 @@ class ExportDataController {
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'immunisation'));
+                    fileArray.push(new createDataFile(result, 'immunisation', null));
                 }
             });
 
         /* Patient diagnosis data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_DIAGNOSIS.diagnosis', 'PATIENT_DIAGNOSIS.diagnosisDate')
-            .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENTS.id', 'PATIENT_DIAGNOSIS.patient')
+            .select('PATIENTS.id', 'PATIENTS.aliasId', 'PATIENT_DIAGNOSIS.diagnosis', 'PATIENT_DIAGNOSIS.diagnosisDate', 'AVAILABLE_DIAGNOSES.value')
+            .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENT_DIAGNOSIS.patient', 'PATIENTS.id')
+            .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENT_DIAGNOSIS.diagnosis', 'AVAILABLE_DIAGNOSES.id')
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'diagnosis'));
+                if (result.length >= 1){
+                    fileArray.push(new createDataFile(result, 'diagnosis', null));
                 }
             });
 
@@ -100,7 +146,7 @@ class ExportDataController {
             .where('VISIT_DATA.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'visit'));
+                    fileArray.push(new createDataFile(result, 'visit', null));
                 }
             });
 
@@ -115,7 +161,7 @@ class ExportDataController {
             .where('TEST_DATA.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'test'));
+                    fileArray.push(new createDataFile(result, 'test', null));
                 }
             });
 
@@ -130,7 +176,7 @@ class ExportDataController {
             .where('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'clinicalEvent'));
+                    fileArray.push(new createDataFile(result, 'clinicalEvent', null));
                 }
             });
 
@@ -146,20 +192,27 @@ class ExportDataController {
             .where('TREATMENTS.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'treatment'));
+                    fileArray.push(new createDataFile(result, 'treatment', null));
                 }
                 zipFiles(fileArray);
             });
 
         /* function to create a csv file for the result passed as an argument- prefix: (string) filename */
 
-        function createDataFile(result, prefix) {
+        function createDataFile(result, prefix, mapping) {
 
             const tempfileName = `${prefix}${fileName}`;
             let keys = Object.keys(result[0]); // get the keys from result to create headers
-            let tempResult = `${keys.join(',')}\n`;
-            result.forEach(function (obj) {
-                keys.forEach(function (a, b) {
+            //keys.push('domain');
+            let newKeys;
+            if (mapping !== null) {
+                newKeys = keys.map(x => mapping[x]);
+            } else {
+                newKeys = keys;
+            }
+            let tempResult = `${newKeys.join(',')}\n`;
+            result.forEach(function(obj) {
+                keys.forEach(function(a, b){
                     if (b) tempResult += ',';
                     tempResult += obj[a];
                 });
@@ -171,7 +224,6 @@ class ExportDataController {
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
-
             let tempSavedPath = `${dir}${tempfileName}`;
             tempSavedPath = path.normalize(tempSavedPath);
             fs.writeFile(tempSavedPath, fileContents, err => {
