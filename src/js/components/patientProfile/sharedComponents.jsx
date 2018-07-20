@@ -26,7 +26,8 @@ export class PatientProfileTop extends PureComponent {
                 <Link title='Order test' to={`/patientProfile/${patientId}/create/test`}><Icon symbol='addTest' /><span>Order test</span></Link>
                 <Link title='Add prescription' to={`/patientProfile/${patientId}/create/treatment`}><Icon symbol='addTreatment' /><span>Add prescription</span></Link>
                 <Link title='Record event' to={`/patientProfile/${patientId}/create/clinicalEvent`}><Icon symbol='addEvent' /><span>Record event</span></Link>
-                &nbsp;&nbsp;&nbsp;&nbsp;<BackButton to={'/searchPatient'} />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <BackButton to={'/searchPatient'} />
             </div>
         );
     }
