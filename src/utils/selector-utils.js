@@ -63,7 +63,7 @@ class SelectorUtils {
     getVisits(patientId) {
         const _this = this;
         return knex('VISITS')
-            .select({ id: 'id', visitDate: 'visitDate' })
+            .select({ id: 'id', visitDate: 'visitDate', type: 'type' })
             .where({ 'patient': patientId, 'deleted': '-' })
             .then(result => {
                 if (result.length >= 1) {
@@ -125,7 +125,7 @@ class SelectorUtils {
 
     getTreatments(patientId) {
         const _this = this;
-        return knex('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate' }).where({ 'patient': patientId, deleted: '-' }).then(resu => {
+        return knex('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type' }).where({ 'patient': patientId, deleted: '-' }).then(resu => {
             let ids = [];
             let dates = [];
             for (let i = 0; i < resu.length; i++) {
