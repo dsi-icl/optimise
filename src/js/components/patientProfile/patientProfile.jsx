@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
-import { PatientProfileSectionScaffold, DeleteButton } from './sharedComponents';
+import { PatientProfileSectionScaffold, DeleteButton, EditButton } from './sharedComponents';
 import { formatRow } from './patientChart';
 import store from '../../redux/store';
 import { createImmunisationAPICall, createPregnancyAPICall, deleteImmunisationAPICall } from '../../redux/actions/demographicData';
@@ -34,7 +34,7 @@ export class Section extends Component {
                             <h2>Overview</h2>
                         </div>
                         <div className={style.panel}>
-                            <DemographicSection />
+                            <DemographicSection patientId={this.props.match.params.patientId}/>
                             <PrimaryDiagnosis />
                             <ImmunisationSection />
                             <Pregnancy />
@@ -69,6 +69,7 @@ class DemographicSection extends Component {
                     <label>Country of origin:</label> {countryOfOrigin} <br />
                     <label>Alcohol usage:</label> {alcoholUsage} <br />
                     <label>Smoking history:</label> {smokingHistory}
+                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/demographic/data`}/>
                 </PatientProfileSectionScaffold>
             );
         } else {
