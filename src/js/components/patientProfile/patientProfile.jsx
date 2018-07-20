@@ -35,7 +35,7 @@ export class Section extends Component {
                         </div>
                         <div className={style.panel}>
                             <DemographicSection patientId={this.props.match.params.patientId}/>
-                            <PrimaryDiagnosis />
+                            <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
                             <ImmunisationSection />
                             <Pregnancy />
                             <DeletePatient match={this.props.match} />
@@ -182,6 +182,7 @@ class PrimaryDiagnosis extends Component {
             <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
                 <label>Primary Diagnosis: </label> {diagnosis[0].value} <br />
                 <label>Date of diagnosis: </label> {new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
+                <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`}/>
             </PatientProfileSectionScaffold>
         );
     }
