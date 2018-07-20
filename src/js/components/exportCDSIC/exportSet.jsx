@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createTestAPICall } from '../../redux/actions/tests';
 import style from './export.module.css';
 
 //not yet finished the dispatch
