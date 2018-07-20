@@ -64,8 +64,16 @@ class ExportDataController {
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .where('PATIENTS.deleted', '-')
             .then(result => {
+                let convertedResult = [];
+                for (let i = 0; i < result.length; i++) {
+                    let entry = Object.assign(result[i]);
+                    if (entry.hasOwnProperty('DOB') && entry.DOB !== null) {
+                        entry.DOB = new Date(entry.DOB).toString();
+                    }
+                    convertedResult.push(entry);
+                }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'demographics',cdiscMapping.dm));
+                    fileArray.push(new createDataFile(convertedResult, 'demographics', cdiscMapping.dm));
                 }
             });
 
@@ -91,8 +99,19 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => {
+                let convertedResult = [];
+                for (let i = 0; i < result.length; i++) {
+                    let entry = Object.assign(result[i]);
+                    if (entry.hasOwnProperty('startDate') && entry.startDate !== null) {
+                        entry.startDate = new Date(entry.startDate).toString();
+                    }
+                    if (entry.hasOwnProperty('outcomeDate') && entry.outcomeDate !== null) {
+                        entry.outcomeDate = new Date(entry.outcomeDate).toString();
+                    }
+                    convertedResult.push(entry);
+                }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'pregnancy', null));
+                    fileArray.push(new createDataFile(convertedResult, 'pregnancy', null));
                 }
             });
 
@@ -104,6 +123,14 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
+                let convertedResult = [];
+                for (let i = 0; i < result.length; i++) {
+                    let entry = Object.assign(result[i]);
+                    if (entry.hasOwnProperty('startDate') && entry.startDate !== null) {
+                        entry.startDate = new Date(entry.startDate).toString();
+                    }
+                    convertedResult.push(entry);
+                }
                 if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'medicalHistory', null));
                 }
@@ -117,6 +144,14 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
             .then(result => {
+                let convertedResult = [];
+                for (let i = 0; i < result.length; i++) {
+                    let entry = Object.assign(result[i]);
+                    if (entry.hasOwnProperty('immunisationDate') && entry.immunisationDate !== null) {
+                        entry.immunisationDate = new Date(entry.immunisationDate).toString();
+                    }
+                    convertedResult.push(entry);
+                }
                 if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'immunisation', null));
                 }
@@ -131,7 +166,15 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
             .then(result => {
-                if (result.length >= 1){
+                let convertedResult = [];
+                for (let i = 0; i < result.length; i++) {
+                    let entry = Object.assign(result[i]);
+                    if (entry.hasOwnProperty('diagnosisDate') && entry.diagnosisDate !== null) {
+                        entry.diagnosisDate = new Date(entry.diagnosisDate).toString();
+                    }
+                    convertedResult.push(entry);
+                }
+                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'diagnosis', null));
                 }
             });
@@ -145,7 +188,14 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('VISIT_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                let convertedResult = [];
+                for (let i = 0; i < result.length; i++) {
+                    let entry = Object.assign(result[i]);
+                    if (entry.hasOwnProperty('visitDate') && entry.visitDate !== null) {
+                        entry.visitDate = new Date(entry.visitDate).toString();
+                    }
+                    convertedResult.push(entry);
+                }                if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'visit', null));
                 }
             });
@@ -160,6 +210,17 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('TEST_DATA.deleted', '-')
             .then(result => {
+                let convertedResult = [];
+                for (let i = 0; i < result.length; i++) {
+                    let entry = Object.assign(result[i]);
+                    if (entry.hasOwnProperty('expectedOccurDate') && entry.expectedOccurDate !== null) {
+                        entry.expectedOccurDate = new Date(entry.expectedOccurDate).toString();
+                    }
+                    if (entry.hasOwnProperty('actualOccurredDate') && entry.actualOccurredDate !== null) {
+                        entry.actualOccurredDate = new Date(entry.actualOccurredDate).toString();
+                    }
+                    convertedResult.push(entry);
+                }
                 if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'test', null));
                 }
@@ -175,6 +236,17 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .where('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
+                let convertedResult = [];
+                for (let i = 0; i < result.length; i++) {
+                    let entry = Object.assign(result[i]);
+                    if (entry.hasOwnProperty('dateStartDate') && entry.dateStartDate !== null) {
+                        entry.dateStartDate = new Date(entry.dateStartDate).toString();
+                    }
+                    if (entry.hasOwnProperty('endDate') && entry.endDate !== null) {
+                        entry.endDate = new Date(entry.endDate).toString();
+                    }
+                    convertedResult.push(entry);
+                }
                 if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'clinicalEvent', null));
                 }
@@ -191,6 +263,20 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('TREATMENTS.deleted', '-')
             .then(result => {
+                let convertedResult = [];
+                for (let i = 0; i < result.length; i++) {
+                    let entry = Object.assign(result[i]);
+                    if (entry.hasOwnProperty('terminatedDate') && entry.terminatedDate !== null) {
+                        entry.terminatedDate = new Date(entry.terminatedDate).toString();
+                    }
+                    if (entry.hasOwnProperty('startDate') && entry.startDate !== null) {
+                        entry.startDate = new Date(entry.startDate).toString();
+                    }
+                    if (entry.hasOwnProperty('endDate') && entry.endDate !== null) {
+                        entry.endDate = new Date(entry.endDate).toString();
+                    }
+                    convertedResult.push(entry);
+                }
                 if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'treatment', null));
                 }
@@ -211,8 +297,8 @@ class ExportDataController {
                 newKeys = keys;
             }
             let tempResult = `${newKeys.join(',')}\n`;
-            result.forEach(function(obj) {
-                keys.forEach(function(a, b){
+            result.forEach(function (obj) {
+                keys.forEach(function (a, b) {
                     if (b) tempResult += ',';
                     tempResult += obj[a];
                 });
