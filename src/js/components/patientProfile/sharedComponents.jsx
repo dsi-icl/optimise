@@ -21,12 +21,12 @@ export class PatientProfileTop extends PureComponent {
     render() {
         const { patientId } = this.props.data;
         return (
-            <div className='profileActions'>
-                <Link title='Create visit' to={`/patientProfile/${patientId}/createVisit`} ><Icon symbol='addVisit' /></Link>
-                <Link title='Order test' to={`/patientProfile/${patientId}/create/test`}><Icon symbol='addTest' /></Link>
-                <Link title='Add prescription' to={`/patientProfile/${patientId}/create/treatment`}><Icon symbol='addTreatment' /></Link>
-                <Link title='Record event' to={`/patientProfile/${patientId}/create/clinicalEvent`}><Icon symbol='addEvent' /></Link>
-                <BackButton to={'/searchPatient'} />
+            <div className={style.profileActions}>
+                <Link title='Create visit' to={`/patientProfile/${patientId}/createVisit`} ><Icon symbol='addVisit' /><span>Create visit</span></Link>
+                <Link title='Order test' to={`/patientProfile/${patientId}/create/test`}><Icon symbol='addTest' /><span>Order test</span></Link>
+                <Link title='Add prescription' to={`/patientProfile/${patientId}/create/treatment`}><Icon symbol='addTreatment' /><span>Add prescription</span></Link>
+                <Link title='Record event' to={`/patientProfile/${patientId}/create/clinicalEvent`}><Icon symbol='addEvent' /><span>Record event</span></Link>
+                &nbsp;&nbsp;&nbsp;&nbsp;<BackButton to={'/searchPatient'} />
             </div>
         );
     }
@@ -39,7 +39,7 @@ export class PatientProfileTop extends PureComponent {
 export class DeleteButton extends Component {
     render() {
         return (
-            <span title='Delete' onClick={this.props.clickhandler} className={style.cancelButton}><Icon symbol='trash'/></span>
+            <span title='Delete' onClick={this.props.clickhandler} className={style.cancelButton}><Icon symbol='trash' /></span>
         );
     }
 }
@@ -49,7 +49,7 @@ export class EditButton extends Component {
     render() {
         return (
             <NavLink to={this.props.to} className={style.editButton} activeClassName={style.activeEdit}>
-                <div title='Edit'><Icon symbol='edit'/></div>
+                <div title='Edit'><Icon symbol='edit' /></div>
             </NavLink>
         );
     }
