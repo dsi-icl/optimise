@@ -23,6 +23,7 @@ const DataControllerMessageRelated = {
     CLINICALEVENT: 'Cannot seem to find your clinical event.',
     TEST: 'Cannot seem to find your test.',
     OVERLAPERROR: 'Fields in add and update cannot have overlaps.',
+    INVALIDFIELD: 'Impossible to add or update this field because the entry type is not of the same type as the field ',
     MISSINGVALUE: 'Missing arguments : Please provide at least an add or update field and an id (number) for ', //add datatype id here
     BOOLEANFIELD: 'The allowed values are 1 or 0 for the field ', //add field ID
     CHARFIELD: /* Add field ID*/ ' only accepts values ', // add permitted value

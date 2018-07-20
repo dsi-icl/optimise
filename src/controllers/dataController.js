@@ -63,17 +63,17 @@ class DataController {
         }
     }
 
-    _getField(table, id, type) {
-        return getEntry(table, { id: id, referenceType: type }, { id: 'id', type: 'type', permittedValues: 'permittedValues', referenceType: 'referenceType' });
+    _getField(table, id) {
+        return getEntry(table, { id: id }, { id: 'id', type: 'type', permittedValues: 'permittedValues', referenceType: 'referenceType' });
     }
 
-    _checkField(options, entries, type) {
+    _checkField(options, entries) {
         let promiseArr = [];
         for (let i = 0; entries.hasOwnProperty('updates') && i < entries.updates.length; i++) {
-            promiseArr.push(this._getField(options.fieldTable, entries.updates[i].field, type));
+            promiseArr.push(this._getField(options.fieldTable, entries.updates[i].field));
         }
         for (let i = 0; entries.hasOwnProperty('adds') && i < entries.adds.length; i++) {
-            promiseArr.push(this._getField(options.fieldTable, entries.adds[i].field, type));
+            promiseArr.push(this._getField(options.fieldTable, entries.adds[i].field));
         }
         return Promise.all(promiseArr);
     }
@@ -141,12 +141,13 @@ class DataController {
                 if (!req.body.hasOwnProperty('update')) { req.body.update = {}; }  //adding an empty obj so that the code later doesn't throw error for undefined
                 if (!req.body.hasOwnProperty('add')) { req.body.add = {}; }   //same
                 // Verify that the entryTable ID exists in database (i.e. visitId:1 in body must have the row with id 1 in VISIT Table)
-                getEntry(options.entryTable, { id: req.body[options.entryIdString], deleted: '-' }).then(function (result) {
-                    if (result.length !== 1) {
+                getEntry(options.entryTable, { id: req.body[options.entryIdString], deleted: '-' }, '*').then(function (entryResult) {
+                    if (entryResult.length !== 1) {
                         res.status(404).json(ErrorHelper(options.errMsgForUnfoundEntry));
                         return;
                     }
-                    that._checkField(options, entries, result[0].type).then(function (result) {
+                    let entryType = entryResult[0].type;
+                    that._checkField(options, entries).then(function (result) {
                         if (result.length <= 0) {
                             res.status(400).json(ErrorHelper(message.dataMessage.FIELDNOTFOUND));
                             return;
@@ -154,6 +155,10 @@ class DataController {
                         for (let i = 0; i < result.length; i++) {
                             if (result[i].length !== 1) {
                                 res.status(400).json(ErrorHelper(message.dataMessage.FIELDNOTFOUND));
+                                return;
+                            }
+                            if (result[i][0].type !== entryType) {
+                                res.status(400).json(ErrorHelper(message.dataMessage.INVALIDFIELD));
                                 return;
                             }
                             if (result[i].length === 1) {
@@ -169,7 +174,7 @@ class DataController {
                                         }
                                         break;
                                     case 'C':
-                                        if (!(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
+                                        if (result[i][0]['permittedValues'] !== null && !(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
                                             res.status(400).json(ErrorHelper(`${fieldId}${message.dataMessage.CHARFIELD}${result[i][0]['permittedValues']}`));
                                             return;
                                         }
