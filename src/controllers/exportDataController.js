@@ -100,7 +100,7 @@ class ExportDataController {
                     convertedResult.push(entry);
                 }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(convertedResult, 'pregnancy', null));
+                    fileArray.push(new createDataFile(convertedResult, 'pregnancy'));
                 }
             });
 
@@ -166,7 +166,7 @@ class ExportDataController {
                     convertedResult.push(entry);
                 }
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(convertedResult, 'diagnosis', null));
+                    fileArray.push(new createDataFile(convertedResult, 'diagnosis'));
                 }
             });
 
@@ -187,7 +187,7 @@ class ExportDataController {
                     }
                     convertedResult.push(entry);
                 }                if (result.length >= 1) {
-                    fileArray.push(new createDataFile(convertedResult, 'visit', null));
+                    fileArray.push(new createDataFile(convertedResult, 'visit'));
                 }
             });
 
