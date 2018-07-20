@@ -34,7 +34,7 @@ export class Section extends Component {
                             <h2>Overview</h2>
                         </div>
                         <div className={style.panel}>
-                            <DemographicSection patientId={this.props.match.params.patientId}/>
+                            <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
                             <ImmunisationSection />
                             <Pregnancy />
@@ -69,7 +69,7 @@ class DemographicSection extends Component {
                     <label>Country of origin:</label> {countryOfOrigin} <br />
                     <label>Alcohol usage:</label> {alcoholUsage} <br />
                     <label>Smoking history:</label> {smokingHistory}
-                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/demographic/data`}/>
+                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/demographic/data`} />
                 </PatientProfileSectionScaffold>
             );
         } else {
@@ -147,7 +147,7 @@ class ImmunisationSection extends Component {
                                 {formatRow([
                                     el.vaccineName,
                                     new Date(parseInt(el.immunisationDate, 10)).toDateString(),
-                                    <DeleteButton clickhandler={this._handleClickDelete}/>
+                                    <DeleteButton clickhandler={this._handleClickDelete} />
                                 ])}
                             </tr>
                         ))}
@@ -182,7 +182,7 @@ class PrimaryDiagnosis extends Component {
             <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
                 <label>Primary Diagnosis: </label> {diagnosis[0].value} <br />
                 <label>Date of diagnosis: </label> {new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
-                <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`}/>
+                <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
             </PatientProfileSectionScaffold>
         );
     }
@@ -251,7 +251,7 @@ class Pregnancy extends Component {
             patientId: data.patientId,
             data: {
                 patient: data.id,
-                outcome: parseInt(newOutcome,10),
+                outcome: parseInt(newOutcome, 10),
                 startDate: newStartDate ? newStartDate._d.toDateString() : null,
                 meddra: meddraField[0].id,
                 outcomeDate: newOutcomeDate ? newOutcomeDate._d.toDateString() : null
@@ -328,7 +328,7 @@ class DeletePatient extends Component {
             patientId: this.props.match.params.patientId,
             data: {
                 consent: !consent,
-                patientId: id
+                id: id
             }
         };
         store.dispatch(updateConsentAPICall(body));
