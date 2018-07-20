@@ -180,6 +180,7 @@ class OneVisit extends Component {
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
         const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map; }, {});
         const symptoms = this.props.visitData.filter(el => el.field > 6);
+
         return (
             <TimelineEvent
                 id={`visit/${this.props.visitId}`}
@@ -189,41 +190,45 @@ class OneVisit extends Component {
                 className={style.historyVisit}
                 bubbleStyle={{ borderColor: 'transparent' }}>
 
-                <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td >Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
-                            <td >Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
-                        </tr>
-                        <tr>
-                            <td >Heart rate: {`${VSHashTable['2']} bpm`}</td>
-                            <td >Height: {`${VSHashTable['4']} cm`}</td>
-                        </tr>
-                        <tr>
-                            <td >Weight: {`${VSHashTable['5']} kg`}</td>
-                            <td >Academic concern: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
-                {relevantFields.length !== 0 ? (
+                {this.props.visitType === 1 ? (
                     <>
+                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
                         <table>
-                            <thead>
-                                <tr><th>Recorded symptoms</th><th>Value</th></tr>
-                            </thead>
                             <tbody>
-                                {symptoms.map(el => <Symptom key={el.field} data={el} />)}
+                                <tr>
+                                    <td >Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
+                                    <td >Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
+                                </tr>
+                                <tr>
+                                    <td >Heart rate: {`${VSHashTable['2']} bpm`}</td>
+                                    <td >Height: {`${VSHashTable['4']} cm`}</td>
+                                </tr>
+                                <tr>
+                                    <td >Weight: {`${VSHashTable['5']} kg`}</td>
+                                    <td >Academic concern: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td>
+                                </tr>
                             </tbody>
                         </table>
+
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
+                        {relevantFields.length !== 0 ? (
+                            <>
+                                <table>
+                                    <thead>
+                                        <tr><th>Recorded symptoms</th><th>Value</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {symptoms.map(el => <Symptom key={el.field} data={el} />)}
+                                    </tbody>
+                                </table>
+                            </>
+                        ) : null}
+                        <br />
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit / Add</button>
+                        </NavLink>
                     </>
                 ) : null}
-                <br />
-                <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                    <button>Edit / Add</button>
-                </NavLink>
 
                 {visitHasTests ? (
                     <>
@@ -311,14 +316,16 @@ export class Charts extends Component {   //unfinsihed
                                             suffix = 'th';
                                     };
                                     const baselineVisit = order === 1 ? true : false;
+                                    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                     return <OneVisit visitData={el.data}
                                         availableFields={this.props.availableFields}
                                         key={el.id} data={this.props.data}
                                         visitId={el.id}
+                                        visitType={el.type}
                                         baselineVisit={baselineVisit}
                                         type='visit'
-                                        title={baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`}
-                                        visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()} />;
+                                        title={el.type === 1 ? (baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`) : 'Ponctual record'}
+                                        visitDate={el.type === 1 ? new Date(parseInt(el.visitDate, 10)).toLocaleDateString('en-GB', dateOptions) : `${new Date(parseInt(el.visitDate, 10)).toLocaleDateString('en-GB', dateOptions)} at ${new Date(parseInt(el.visitDate, 10)).toLocaleTimeString()}`} />;
                                 }
                             )}
                         </Timeline>
