@@ -6,15 +6,15 @@ import store from '../../redux/store';
 /**
  * @class SuggestionInput
  * @prop {Array} this.props.result - from store
- * @prop {REF} this.props.myRef
+ * @prop {REF} this.props.reference
  * @prop {func} this.props.extraHandler
  */
 
 @connect(state => ({ result: state.meddra.result }))
 export class SuggestionInput extends Component {
-    constructor() {
+    constructor(props) {
         super();
-        this.state = { value: '' };
+        this.state = { value: props.originalValue || '' };
         this._handleKeyPress = this._handleKeyPress.bind(this);
     }
 

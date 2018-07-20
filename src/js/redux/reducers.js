@@ -119,7 +119,8 @@ function availableFields(state = initialState.availableFields, action) {
             break;
         case actionTypes.availableFields.GET_MEDDRA_SUCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
-            newState = { ...state, allMeddra: [hash] };
+            const reverseHash = action.payload.reduce((map, el) => { map[el.name] = el.id; return map; }, {});
+            newState = { ...state, allMeddra: [hash], allMeddra_ReverseHash: [reverseHash] };
             break;
         default:
             return state;

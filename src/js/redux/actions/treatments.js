@@ -27,3 +27,11 @@ export const deleteTreatmentCall = (body) => dispatch => {
             dispatch(getPatientProfileById(body.patientId));
         });
 };
+
+export const updateTreatmentCall = (body) => dispatch => {
+    return apiHelper('/treatments', { method: 'PUT', body: JSON.stringify(body.data) })
+        .then(() => {
+            history.push(body.to);
+            dispatch(getPatientProfileById(body.patientId));
+        });
+};
