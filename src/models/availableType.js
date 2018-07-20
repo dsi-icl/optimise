@@ -17,4 +17,10 @@ const typesTest = {
     name: ''
 };
 
-module.exports = { typesCE, typesTest, typesVisit };
+const typeContainer = {
+    typesCE: typesCE,
+    typesTest: typesTest,
+    typesVisit: typesVisit
+}
+
+module.exports = typeContainer;

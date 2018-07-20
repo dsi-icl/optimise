@@ -35,4 +35,10 @@ const fieldTest = {
     referenceType: 0
 };
 
-module.exports = { fieldCE, fieldTest, fieldVisit };
+const fieldContainer = {
+    fieldCE: fieldCE,
+    fieldTest: fieldTest,
+    fieldVisit: fieldVisit
+};
+
+module.exports = fieldContainer;
