@@ -26,5 +26,5 @@ export const updateCECall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        });
+        }).catch(err => console.log(err));;
 };
