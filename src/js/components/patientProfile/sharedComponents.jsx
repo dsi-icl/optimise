@@ -22,9 +22,9 @@ export class PatientProfileTop extends PureComponent {
         const { patientId } = this.props.data;
         return (
             <div className={style.profileActions}>
-                <Link title='Create visit' to={`/patientProfile/${patientId}/createVisit`} ><Icon symbol='addVisit' /><span>Create visit</span></Link>
-                <Link title='Order test' to={`/patientProfile/${patientId}/create/test`}><Icon symbol='addTest' /><span>Order test</span></Link>
-                <Link title='Add prescription' to={`/patientProfile/${patientId}/create/treatment`}><Icon symbol='addTreatment' /><span>Add prescription</span></Link>
+                <Link title='New visit' to={`/patientProfile/${patientId}/createVisit`} ><Icon symbol='addVisit' /><span>New visit</span></Link>
+                <Link title='Record test' to={`/patientProfile/${patientId}/create/test`}><Icon symbol='addTest' /><span>Record test</span></Link>
+                <Link title='Record treatment' to={`/patientProfile/${patientId}/create/treatment`}><Icon symbol='addTreatment' /><span>Record treatment</span></Link>
                 <Link title='Record event' to={`/patientProfile/${patientId}/create/clinicalEvent`}><Icon symbol='addEvent' /><span>Record event</span></Link>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <BackButton to={'/searchPatient'} />
