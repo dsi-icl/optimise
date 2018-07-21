@@ -9,6 +9,10 @@ const seed = express();
 const SeedController = require('../controllers/seedController');
 const SeedCtrl = new SeedController();
 // Interacts with the patients in the DB
+
+seed.route('/')
+    .get(SeedCtrl.getSeedList);
+
 seed.route('/:target')
     .get(SeedCtrl.getSeed)
     .post(SeedCtrl.createSeed)

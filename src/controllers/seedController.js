@@ -20,11 +20,26 @@ const mapKeyTable = {
 };
 
 function SeedController() {
+    this.getSeedList = SeedController.prototype.getSeedList.bind(this);
     this.getSeed = SeedController.prototype.getSeed.bind(this);
     this.createSeed = SeedController.prototype.createSeed.bind(this);
     this.deleteSeed = SeedController.prototype.deleteSeed.bind(this);
     this.editSeed = SeedController.prototype.editSeed.bind(this);
 }
+
+/**
+ * @function getSeedList
+ * @description Lists the url requestable. (e.g. /seeds/fieldVisit, /seeds/fieldTest, ...)
+ * @param {*} ___unused__req request, not used
+ * @param {*} res response, contain the list.
+ * @returns {void} Answer the client with the list of seed implemented
+ */
+SeedController.prototype.getSeedList = function (__unused__req, res) {
+    let list = [];
+    Object.keys(mapKeyTable).forEach(key => list.push(key));
+    res.status(200).json(formatToJSon(list));
+    return;
+};
 
 /**
  * @function getSeed
@@ -50,9 +65,15 @@ SeedController.prototype.getSeed = function (req, res) {
     }
 };
 
+/**
+ * @function createSeed
+ * @description Add a seed entry to the DB if it match the allowed list
+ * @param {*} req Request form sender
+ * @param {*} res Answerable object.
+ * @returns {void} Either errors if the request isn't allowed or the ID(s) of the new created seed(s)
+ */
 SeedController.prototype.createSeed = function (req, res) {
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
-        console.log(JSON.stringify(modelsContainer));
         for (let i = 0; i < Object.keys(modelsContainer[req.params.target]).length; i++) {
             if (Object.keys(modelsContainer[req.params.target])[i] === 'id') {
                 continue;
@@ -61,8 +82,9 @@ SeedController.prototype.createSeed = function (req, res) {
                 res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
                 return;
             }
-            if (typeof req.body[Object.keys(modelsContainer[req.params.target])[i]] === typeof modelsContainer[req.params.target][i]) {
-                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            if (modelsContainer[req.params.target][Object.keys(modelsContainer[req.params.target])[i]] !== null &&
+                typeof req.body[Object.keys(modelsContainer[req.params.target])[i]] !== typeof modelsContainer[req.params.target][Object.keys(modelsContainer[req.params.target])[i]]) {
+                res.status(400).json(ErrorHelper(`${message.userError.WRONGARGUMENTS} : ${Object.keys(modelsContainer[req.params.target])[i]}`));
                 return;
             }
         }
@@ -82,6 +104,13 @@ SeedController.prototype.createSeed = function (req, res) {
     }
 };
 
+/**
+ * @function editSeed
+ * @description Update a seed with the sended info
+ * @param {*} req Request form sender
+ * @param {*} res Answerable object.
+ * @returns {void} Either errors if the request isn't allowed or the number of updated seed(s)
+ */
 SeedController.prototype.editSeed = function (req, res) {
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         let newEntry = {};
@@ -95,7 +124,8 @@ SeedController.prototype.editSeed = function (req, res) {
                 res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
                 return;
             }
-            if (typeof req.body[Object.keys(modelsContainer[req.params.target])[i]] === typeof modelsContainer[req.params.target][i]) {
+            if (modelsContainer[req.params.target][Object.keys(modelsContainer[req.params.target])[i]] !== null &&
+                typeof req.body[Object.keys(modelsContainer[req.params.target])[i]] !== typeof modelsContainer[req.params.target][Object.keys(modelsContainer[req.params.target])[i]]) {
                 res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
             }
@@ -121,6 +151,13 @@ SeedController.prototype.editSeed = function (req, res) {
     }
 };
 
+/**
+ * @function deleteEntry
+ * @description Set as delete a seed
+ * @param {*} req Request form sender
+ * @param {*} res Answerable object.
+ * @returns {void} Either errors if the request isn't allowed or the number of deleted seed(s)
+ */
 SeedController.prototype.deleteSeed = function (req, res) {
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         let whereObj = {};
@@ -128,19 +165,15 @@ SeedController.prototype.deleteSeed = function (req, res) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
-        for (let i = 0; i < Object.keys(modelsContainer[req.params.target]).length; i++) {
-            if (!req.body.hasOwnProperty(Object.keys(modelsContainer[req.params.target])[i])) {
-                res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-                return;
-            }
-            if (typeof req.body[Object.keys(modelsContainer[req.params.target])[i]] === typeof modelsContainer[req.params.target][i]) {
-                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-                return;
-            }
-            if (Object.keys(modelsContainer[req.params.target])[i] === 'id') {
-                whereObj.id = req.body.id;
-            }
+        if (!req.body.hasOwnProperty('id')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
         }
+        if (typeof req.body.id !== 'number') {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+        whereObj.id = req.body.id;
         deleteEntry(mapKeyTable[req.params.target], req.user, whereObj).then(function (result) {
             res.status(200).json(formatToJSon(result));
             return;

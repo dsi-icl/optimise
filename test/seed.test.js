@@ -20,7 +20,7 @@ describe('Getting seeds', () => {
     test('Getting not existing fields', () => admin
         .get('/seeds/availableNotValid')
         .then(res => {
-            expect(res.status).toBe(400);
+            expect(res.status).toBe(404);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGPATH);
@@ -35,4 +35,184 @@ describe('Getting seeds', () => {
             expect(res.body.error).toBe(message.errorMessages.GETFAIL);
         }));
 
-})
+    test('Getting a type with valid query', () => admin
+        .get('/seeds/typeVisit?name=Remote')
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body).toBeDefined();
+            expect(res.body.length).toBe(1);
+            expect(res.body[0].id).toBeDefined();
+            expect(res.body[0].id).toBe(2);
+        }));
+});
+
+describe('Creating field', () => {
+    test('Creating to wrong url', () => admin
+        .post('/seeds/fakePath')
+        .then(res => {
+            expect(res.status).toBe(404);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGPATH);
+        }));
+
+    test('Creating with missing arguments', () => admin
+        .post('/seeds/fieldVisit')
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        }));
+
+    test('Creating with wrong values', () => admin
+        .post('/seeds/fieldVisit')
+        .send({
+            definition: 1, //Should be a string
+            idname: 'visit_systolic_blood_pressure',
+            type: 2,
+            unit: 'mmHg',
+            module: 'Ms',
+            permittedValues: null,
+            referenceType: 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(`${message.userError.WRONGARGUMENTS} : definition`);
+        }));
+
+    test('Creating with wrong values', () => admin
+        .post('/seeds/fieldVisit')
+        .send({
+            definition: 'Testing creation',
+            idname: 'visit_systolic_blood_pressure',
+            type: 2,
+            unit: 'mmHg',
+            module: 'Ms',
+            permittedValues: null,
+            referenceType: 1
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(95);
+        }));
+});
+
+describe('Updating field', () => {
+    test('Updating to wrong url', () => admin
+        .put('/seeds/fakePath')
+        .then(res => {
+            expect(res.status).toBe(404);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGPATH);
+        }));
+
+    test('Updating with missing arguments', () => admin
+        .put('/seeds/fieldVisit')
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        }));
+
+    test('Updating with wrong values', () => admin
+        .put('/seeds/fieldVisit')
+        .send({
+            id: 95,
+            definition: 1, //Should be a string
+            idname: 'visit_systolic_blood_pressure',
+            type: 2,
+            unit: 'mmHg',
+            module: 'Ms',
+            permittedValues: null,
+            referenceType: 1
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Updating with good values', () => admin
+        .put('/seeds/fieldVisit')
+        .send({
+            id: 95,
+            definition: 'Testing Updating',
+            idname: 'visit_systolic_blood_pressure',
+            type: 2,
+            unit: 'mmHg',
+            module: 'Ms',
+            permittedValues: null,
+            referenceType: 1
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+        }));
+});
+
+describe('Deleting field', () => {
+    test('Deleting to wrong url', () => admin
+        .delete('/seeds/fakePath')
+        .then(res => {
+            expect(res.status).toBe(404);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGPATH);
+        }));
+
+    test('Deleting with missing arguments', () => admin
+        .delete('/seeds/fieldVisit')
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        }));
+
+    test('Deleting with wrong values', () => admin
+        .delete('/seeds/fieldVisit')
+        .send({
+            id: 'WRONG'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Deleting with good values', () => admin
+        .delete('/seeds/fieldVisit')
+        .send({
+            id: 95
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+        }));
+
+    test('Deleting with good values a second time', () => admin
+        .delete('/seeds/fieldVisit')
+        .send({
+            id: 95
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(0);
+        }));
+});

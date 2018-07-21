@@ -21,6 +21,6 @@ const typeContainer = {
     typesCE: typesCE,
     typesTest: typesTest,
     typesVisit: typesVisit
-}
+};
 
 module.exports = typeContainer;
