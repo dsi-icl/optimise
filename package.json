@@ -26,7 +26,8 @@
         "passport": "0.4.0",
         "path": "0.12.7",
         "sqlite3": "4.0.2",
-        "swagger-ui-express": "3.0.10"
+        "swagger-ui-express": "3.0.10",
+        "uuid": "3.3.2"
     },
     "devDependencies": {
         "chalk": "2.4.1",
