@@ -1,12 +1,12 @@
 const exampleData = {
     'PATIENTS': [
-        { id: 1, aliasId: 'chon', study: 'example', createdByUser: 1, deleted: '-', consent: true },
-        { id: 2, aliasId: 'florian', study: 'example', createdByUser: 1, deleted: '-', consent: true },
-        { id: 3, aliasId: 'eleni', study: 'example', createdByUser: 1, deleted: '-', consent: true },
-        { id: 4, aliasId: 'chonnie', study: 'example', createdByUser: 1, deleted: '-', consent: true },
-        { id: 5, aliasId: 'floriana', study: 'example', createdByUser: 1, deleted: '-', consent: true },
-        { id: 6, aliasId: 'eleno', study: 'example', createdByUser: 1, deleted: '-', consent: true },
-        { id: 7, aliasId: 'pm', study: 'example', createdByUser: 1, deleted: '-', consent: true }
+        { id: 1, uuid: '1ac8d4fd-1120-4373-980a-29525e2f16c2', aliasId: 'chon', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 2, uuid: '41a731d0-e3a3-44b9-8bee-5a9c0b806ba8', aliasId: 'florian', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 3, uuid: 'b91e2cba-45cf-4f02-8363-b260072bf18f', aliasId: 'eleni', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 4, uuid: 'bb4d6f9e-084f-43fb-9b88-32c207493196', aliasId: 'chonnie', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 5, uuid: 'eb96b323-96ef-4ae8-a815-85fced965aea', aliasId: 'floriana', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 6, uuid: '77d30cac-fbd6-4d41-ad88-4782243ea5c4', aliasId: 'eleno', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 7, uuid: '9f7aff64-91ac-4457-8f2e-256515f83668', aliasId: 'pm', study: 'example', createdByUser: 1, deleted: '-', consent: true }
     ],
     'PATIENT_PII': [
         { id: 1, patient: 1, firstName: 'Chon', surname: 'Jones', fullAddress: 'Flat 10 Mast House London', postcode: 'SW7 1', createdByUser: 1, deleted: '-' },
