@@ -25,7 +25,7 @@ class RequestMiddleware {
         } else if (req.url === '/users/login') {
             next();
         } else {
-            res.status(400).send({ status: 'error', message: 'Please login first' });
+            res.status(400).json({ status: 'error', message: 'Please login first' });
             // res.status(400).send('Please provide a token in the header');
         }
     }
@@ -43,12 +43,12 @@ class RequestMiddleware {
         knex('LOG_ACTIONS')
             .insert({ 'router': req.url, 'method': req.method, 'body': JSON.stringify(body), 'user': username ? username : '' })
             .then(__unused__res => {
-                if (process.env.NODE_ENV === 'developpment')
+                if (process.env.NODE_ENV === 'development')
                     console.log(`${req.method} - ${req.originalUrl} : ${username ? username : ''}`);
                 next();
             })
             .catch(err => {
-                if (process.env.NODE_ENV === 'developpment')
+                if (process.env.NODE_ENV === 'development')
                     console.log(`Error caught :${err}`);
                 next();
             });

@@ -9,6 +9,7 @@ exports.up = function (knex) {
         table.text('permittedValues').nullable();
         table.integer('referenceType').notNullable().references('id').inTable('AVAILABLE_CLINICAL_EVENT_TYPES');
         table.text('deleted').notNullable().defaultTo('-');
+        table.unique(['idname', 'type', 'unit', 'module', 'deleted']);
     });
 };
 

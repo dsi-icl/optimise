@@ -110,6 +110,7 @@ OptimiseServer.prototype.start = function () {
             _this.setupPPII();
             _this.setupPatientDiagnosis();
             _this.setupMeddra();
+            _this.setupSeed();
 
             _this.app.all('/*', function (__unused__req, res) {
                 res.status(400);
@@ -334,13 +335,15 @@ OptimiseServer.prototype.setupPatientDiagnosis = function () {
 };
 
 /**
- * @function setupSeed
- * @description Initialize the seed routes
+ * @func setupSeed
+ * @desc Initialize the Seed related routes
  */
-OptimiseServer.prototype.setupSeed = function() {
+OptimiseServer.prototype.setupSeed = function () {
+    // Import the controller
     this.routeSeed = require('./routes/seedRoute');
 
+    // Modules
     this.app.use('/seeds', this.routeSeed);
-}
+};
 
 module.exports = OptimiseServer;

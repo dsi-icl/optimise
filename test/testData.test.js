@@ -77,7 +77,7 @@ describe('Creating TEST data', () => {
 
     test('Request creation with unmatching test and field', () => admin
         .post('/data/test')
-        .send({ testId: 3, add: { 1: 'YES' } })
+        .send({ testId: 2, add: { 67: 'YES' } })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -87,7 +87,7 @@ describe('Creating TEST data', () => {
 
     test('Request creation succesfull', () => user
         .post('/data/test')
-        .send({ testId: 2, add: { 5: 'negative' } })
+        .send({ testId: 3, add: { 67: 'YES' } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -99,7 +99,7 @@ describe('Creating TEST data', () => {
 
     test('Request update succesfull', () => admin
         .post('/data/test')
-        .send({ testId: 2, update: { 34: 'negative' } })
+        .send({ testId: 3, update: { 67: 'NO' } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
