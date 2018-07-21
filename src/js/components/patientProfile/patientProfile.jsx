@@ -36,7 +36,7 @@ export class Section extends Component {
                         <div className={style.panel}>
                             <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
-                            <ImmunisationSection />
+                            <ImmunisationSection patientId={this.props.match.params.patientId} />
                             <Pregnancy />
                             <DeletePatient match={this.props.match} />
                         </div>
@@ -105,9 +105,9 @@ class ImmunisationSection extends Component {
 
     _deleteFunction() {
         const body = {
-            patientId: this.props.match.params.patientId,
+            patientId: this.props.patientId,
             data: {
-                patientId: this.props.data.id  //PLACEHOLDERBODY
+                id: this.props.data.id  //PLACEHOLDERBODY
             }
         };
         store.dispatch(deleteImmunisationAPICall(body));
