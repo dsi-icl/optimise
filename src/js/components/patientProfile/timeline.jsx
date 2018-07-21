@@ -49,7 +49,7 @@ export class TimelineBox extends Component {   //unfinsihed
         const mappingMedFunction = med => {
             const date = med.visitDate;
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
-            const durationInDays = med.durationWeeks * 7;
+            const durationInDays = 7; // TODO ; This has to be changes
             return (
                 <a title={new Date(parseInt(date, 10)).toDateString()} key={`${med.id}med`} href={`#treatment/${med.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '2/3', textDecoration: 'none' }}>
                     <div className={style.timelineMed}>-</div>

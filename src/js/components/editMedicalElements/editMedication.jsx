@@ -77,8 +77,7 @@ class UpdateMedEntry extends Component {
             dose: props.data.dose,
             unit: props.data.unit,
             form: props.data.form,
-            timesPerDay: props.data.timesPerDay,
-            durationWeeks: props.data.durationWeeks
+            timesPerDay: props.data.timesPerDay
         };
         this._handleChange = this._handleChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
@@ -93,7 +92,7 @@ class UpdateMedEntry extends Component {
     _handleSubmit(ev) {
         ev.preventDefault();
         const { patientId } = this.props;
-        const { id, drug, dose, unit, form, timesPerDay, durationWeeks } = this.state;
+        const { id, drug, dose, unit, form, timesPerDay } = this.state;
         const body = {
             patientId: patientId,
             to: `/patientProfile/${patientId}`,
@@ -103,15 +102,14 @@ class UpdateMedEntry extends Component {
                 dose: parseInt(dose),
                 unit,
                 form,
-                timesPerDay: parseInt(timesPerDay),
-                durationWeeks: parseInt(durationWeeks)
+                timesPerDay: parseInt(timesPerDay)
             }
         };
         store.dispatch(updateTreatmentCall(body));
     }
 
     render() {
-        const { drug, dose, unit, form, timesPerDay, durationWeeks } = this.state;
+        const { drug, dose, unit, form, timesPerDay } = this.state;
         const { drugs } = this.props;
         return (
             <>
@@ -133,8 +131,6 @@ class UpdateMedEntry extends Component {
                 </select><br /><br />
                 <label>Times per day: </label>
                 <input onChange={this._handleChange} name='timesPerDay' value={timesPerDay} /><br /><br />
-                <label>Duration in weeks: </label>
-                <input onChange={this._handleChange} name='durationWeeks' value={durationWeeks} /><br /><br />
                 <button onClick={this._handleSubmit}>Submit</button>
             </>
         );
