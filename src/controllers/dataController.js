@@ -157,7 +157,7 @@ class DataController {
                                 res.status(400).json(ErrorHelper(message.dataMessage.FIELDNOTFOUND));
                                 return;
                             }
-                            if (result[i][0].type !== entryType) {
+                            if (result[i][0].referenceType !== entryType) {
                                 res.status(400).json(ErrorHelper(message.dataMessage.INVALIDFIELD));
                                 return;
                             }
