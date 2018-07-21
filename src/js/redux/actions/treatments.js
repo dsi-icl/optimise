@@ -7,7 +7,7 @@ export const createTreatmentAPICall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        });
+        }).catch(err => console.log(err));;
 };
 
 export const createTreatmentInterruptionAPICall = (body) => dispatch => {
@@ -15,7 +15,7 @@ export const createTreatmentInterruptionAPICall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        });
+        }).catch(err => console.log(err));;
 };
 
 export const deleteTreatmentCall = (body) => dispatch => {
@@ -23,7 +23,7 @@ export const deleteTreatmentCall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        });
+        }).catch(err => console.log(err));;
 };
 
 export const updateTreatmentCall = (body) => dispatch => {
@@ -31,5 +31,5 @@ export const updateTreatmentCall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        });
+        }).catch(err => console.log(err));;
 };
