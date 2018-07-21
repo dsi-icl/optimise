@@ -7,7 +7,6 @@ import { PickDate } from '../createMedicalElements/datepicker';
 import { updateDiagnosisAPICall } from '../../redux/actions/demographicData';
 import moment from 'moment';
 
-
 @connect(state => ({ CEs: state.patientProfile.data.clinicalEvents }))
 export default class EditDiagnosis extends Component {
     render() {
@@ -19,7 +18,7 @@ export default class EditDiagnosis extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <UpdateDiagnosisEntry/>
+                    <UpdateDiagnosisEntry />
                 </form>
             </>
         );
@@ -27,7 +26,7 @@ export default class EditDiagnosis extends Component {
 }
 
 
-@connect(state => ({ patientId: state.patientProfile.data.patientId, diagnosis: state.patientProfile.data.diagnosis ?  state.patientProfile.data.diagnosis[0] : {} , fields: state.availableFields.diagnoses }))
+@connect(state => ({ patientId: state.patientProfile.data.patientId, diagnosis: state.patientProfile.data.diagnosis ? state.patientProfile.data.diagnosis[0] : {}, fields: state.availableFields.diagnoses }))
 class UpdateDiagnosisEntry extends Component {
     constructor(props) {
         super();
@@ -35,7 +34,7 @@ class UpdateDiagnosisEntry extends Component {
         this.state = {
             date: moment(),
             diagnosisRef: React.createRef()
-        }
+        };
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
     }
@@ -46,7 +45,7 @@ class UpdateDiagnosisEntry extends Component {
         });
     }
 
-    _handleSubmit(ev){
+    _handleSubmit(ev) {
         ev.preventDefault();
         const { patientId, diagnosis } = this.props;
         const { id } = diagnosis;
@@ -65,18 +64,18 @@ class UpdateDiagnosisEntry extends Component {
 
     render() {
         const { date, diagnosisRef } = this.state;
-        const { diagnosis, diagnosisDate } = this.props.diagnosis;
+        const { diagnosis } = this.props.diagnosis;
         const { fields } = this.props;
         return (
             <>
                 <label>Diagnosis date: </label>
                 <PickDate startDate={date} handleChange={this._handleDateChange} />
-                <br/><br/>
+                <br /><br />
                 <label>Diagnosis: </label>
                 <select defaultValue={diagnosis} ref={diagnosisRef}>
                     {fields.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br/><br/>
+                <br /><br />
                 <button onClick={this._handleSubmit}>Submit</button>
             </>
         );

@@ -85,6 +85,7 @@ export default class SearchPatientsById extends Component {
         );
     }
 }
+
 @connect(null, dispatch => ({
     fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName))
 }))

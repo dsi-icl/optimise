@@ -7,7 +7,6 @@ import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { addAlert } from '../../redux/actions/alert';
 import { deleteCEAPICall, updateCECall } from '../../redux/actions/clinicalEvents';
-import { Redirect } from 'react-router-dom';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 
 @connect(state => ({ CEs: state.patientProfile.data.clinicalEvents }))
@@ -56,14 +55,14 @@ export default class EditCE extends Component {
                 </div>
                 <form className={style.panel}>
                     <h3>Please select the following options: </h3>
-                    <br/>
-                    {wannaUpdate ? <UpdateCEEntry data={CE}/> : null }
-                    {wannaUpdate ? <><br/><br/> <button onClick={this._handleWannaUpdateClick}>Cancel</button></> :
+                    <br />
+                    {wannaUpdate ? <UpdateCEEntry data={CE} /> : null}
+                    {wannaUpdate ? <><br /><br /> <button onClick={this._handleWannaUpdateClick}>Cancel</button></> :
                         <button onClick={this._handleWannaUpdateClick}>Change start date / MedDRA</button>
                     }
-                    <br/><br/><br/><br/>
+                    <br /><br /><br /><br />
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
-                    <br/><br/>
+                    <br /><br />
                     Note: event type is not allowed to be changed. If you entered an event of the wrong type by error, you can delete the event and create a new one.
                 </form>
             </>
@@ -76,13 +75,12 @@ export default class EditCE extends Component {
 class UpdateCEEntry extends Component {
     constructor(props) {
         super();
-        console.log(props.data);
         this.state = {
             id: props.data.id,
             startDate: moment(parseInt(props.data.dateStartDate)),
             meddra: React.createRef(),
             meddraOriginal: props.data.meddra
-        }
+        };
         this._handleChange = this._handleChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
@@ -100,7 +98,7 @@ class UpdateCEEntry extends Component {
         });
     }
 
-    _handleSubmit(ev){
+    _handleSubmit(ev) {
         ev.preventDefault();
         const { patientId, meddraDict } = this.props;
         const { id, startDate, meddra } = this.state;
@@ -118,14 +116,14 @@ class UpdateCEEntry extends Component {
     }
 
     render() {
-        const { id, startDate, meddra, meddraOriginal } = this.state;
+        const { startDate, meddra, meddraOriginal } = this.state;
         const { meddraHash } = this.props;
         return (
             <>
                 <label>Start Date: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} />
                 <label>MedDRA: </label>
-                <SuggestionInput originalValue={meddraHash[meddraOriginal]} reference={meddra}/><br/><br/>
+                <SuggestionInput originalValue={meddraHash[meddraOriginal]} reference={meddra} /><br /><br />
                 <button onClick={this._handleSubmit}>Submit</button>
             </>
         );

@@ -120,7 +120,7 @@ class ClinicalEvent extends PureComponent {
 @connect(state => ({ typedict: state.availableFields.visitFields_Hash[0], patientId: state.patientProfile.data.patientId }))
 class Symptom extends PureComponent {
     render() {
-        const { data, typedict, patientId } = this.props;
+        const { data, typedict } = this.props;
         return (
             <tr>
                 <td>{typedict[data.field].definition}</td>
@@ -135,29 +135,6 @@ export function formatRow(arr) {
     return arr.map((el, ind) => <td key={ind}>{el}</td>);
 }
 
-
-/* receives props baselineVisit, boolean; and all treatments of a visit */
-class MedicationSection extends PureComponent {
-    render() {
-        const { baselineVisit, data } = this.props;
-        return (
-            <>
-                <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
-                <table>
-                    <thead>
-                        <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
-                    </thead>
-                    <tbody>
-                        {data.map(el => <Medication key={el.id} data={el} />)}
-                    </tbody>
-                </table>
-            </>
-        );
-    }
-}
-
-
-
 /**
  * @prop {Object} this.props.availableFieldsdata
  * @prop {String} visitId
@@ -169,6 +146,7 @@ class MedicationSection extends PureComponent {
  * @prop {Boolean} baselineVisit - Indicating whether it is a baseline visit
  */
 class OneVisit extends Component {
+
     render() {
         const { baselineVisit } = this.props;
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
@@ -178,7 +156,6 @@ class OneVisit extends Component {
         const VS = this.props.visitData.filter(el => [1, 2, 3, 4, 5, 6].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
-        const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map; }, {});
         const symptoms = this.props.visitData.filter(el => el.field > 6);
 
         return (

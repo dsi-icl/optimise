@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { clearError } from '../../redux/actions/error';
@@ -17,7 +17,7 @@ export default class ErrorMessage extends PureComponent {
                 <div className={style.errorMessage}>
                     <div className={style.errorMessageDialogBox}>
                         <span><b>OOPS!</b></span> <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span>
-                        Seems like you have encountered an error! <br/><br/>
+                        Seems like you have encountered an error! <br /><br />
                         Message: {error.error}
                     </div>
                 </div>

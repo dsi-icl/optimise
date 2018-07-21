@@ -7,7 +7,6 @@ import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { addAlert } from '../../redux/actions/alert';
 import { deleteTestAPICall, updateTestCall } from '../../redux/actions/tests';
-import { withRouter } from 'react-router-dom';
 
 @connect(state => ({ tests: state.patientProfile.data.tests }))
 export default class EditTest extends Component {
@@ -56,21 +55,20 @@ export default class EditTest extends Component {
                 </div>
                 <form className={style.panel}>
                     <h3>Please select the following options: </h3>
-                    <br/>
-                    { wannaUpdate ? <UpdateTestEntry location={location} data={test}/> : null }
-                    { wannaUpdate ? <><br/><br/> <button onClick={this._handleWannaUpdateClick}>Cancel</button></> :
+                    <br />
+                    {wannaUpdate ? <UpdateTestEntry location={location} data={test} /> : null}
+                    {wannaUpdate ? <><br /><br /> <button onClick={this._handleWannaUpdateClick}>Cancel</button></> :
                         <button onClick={this._handleWannaUpdateClick}>Change test date</button>
                     }
-                    <br/><br/><br/><br/>
+                    <br /><br /><br /><br />
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
-                    <br/><br/>
+                    <br /><br />
                     Note: test type is not allowed to be changed. If you entered a test of the wrong type by error, you can delete the test and create a new one.
                 </form>
             </>
         );
     }
 }
-
 
 @connect(state => ({ patientId: state.patientProfile.data.patientId }))
 class UpdateTestEntry extends Component {
@@ -98,7 +96,7 @@ class UpdateTestEntry extends Component {
         });
     }
 
-    _handleSubmit(ev){
+    _handleSubmit(ev) {
         ev.preventDefault();
         const { patientId } = this.props;
         const { id, startDate, actualOccurredDate } = this.state;
@@ -117,15 +115,14 @@ class UpdateTestEntry extends Component {
 
     render() {
         const { actualOccurredDate, startDate } = this.state;
-        const location = this.props.location;
         return (
             <>
                 <label>Expected Date: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} />
-                <br/><br/>
+                <br /><br />
                 <label>Sample taking Date: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />
-                <br/><br/>
+                <br /><br />
                 <button onClick={this._handleSubmit}>Submit</button>
             </>
         );

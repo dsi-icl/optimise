@@ -5,7 +5,6 @@ import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { updateDemographicAPICall } from '../../redux/actions/demographicData';
 
-
 @connect(state => ({ CEs: state.patientProfile.data.clinicalEvents }))
 export default class EditDemo extends Component {
     render() {
@@ -17,7 +16,7 @@ export default class EditDemo extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <UpdateDemoEntry/>
+                    <UpdateDemoEntry />
                 </form>
             </>
         );
@@ -36,7 +35,7 @@ class UpdateDemoEntry extends Component {
             ethnicityRef: React.createRef(),
             genderRef: React.createRef(),
             smokingHistoryRef: React.createRef()
-        }
+        };
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
     }
@@ -47,7 +46,7 @@ class UpdateDemoEntry extends Component {
         });
     }
 
-    _handleSubmit(ev){
+    _handleSubmit(ev) {
         ev.preventDefault();
         const { patientId, id } = this.props;
         const { alcoholUsageRef, countryOfOriginRef, dominantHandRef, ethnicityRef, genderRef, smokingHistoryRef } = this.state;
@@ -80,32 +79,32 @@ class UpdateDemoEntry extends Component {
                 <select defaultValue={gender} ref={genderRef}>
                     {fields.genders.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br/><br/>
+                <br /><br />
                 <label>Dominant hand: </label>
                 <select defaultValue={dominantHand} ref={dominantHandRef}>
                     {fields.dominant_hands.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br/><br/>
+                <br /><br />
                 <label>Ethnicity: </label>
                 <select defaultValue={ethnicity} ref={ethnicityRef}>
                     {fields.ethnicities.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br/><br/>
+                <br /><br />
                 <label>Country of origin: </label>
                 <select defaultValue={countryOfOrigin} ref={countryOfOriginRef}>
                     {fields.countries.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br/><br/>
+                <br /><br />
                 <label>Alcohol usage: </label>
                 <select defaultValue={alcoholUsage} ref={alcoholUsageRef}>
                     {fields.alcohol_usage.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br/><br/>
+                <br /><br />
                 <label>Smoking history: </label>
                 <select defaultValue={smokingHistory} ref={smokingHistoryRef}>
                     {fields.smoking_history.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br/><br/>
+                <br /><br />
                 <button onClick={this._handleSubmit}>Submit</button>
             </>
         );

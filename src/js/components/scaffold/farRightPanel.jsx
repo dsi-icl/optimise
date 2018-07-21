@@ -9,7 +9,6 @@ import { EditElementRouter } from '../editMedicalElements/router';
 import { VisitSelector } from '../createMedicalElements/visitSelector';
 import { ExportSets } from '../exportCDSIC/exportSet';
 import { UserDetail } from '../admin/userDetailPage';
-
 import style from './scaffold.module.css';
 
 export default class FarRightPanel extends Component {

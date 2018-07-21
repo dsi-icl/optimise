@@ -1,4 +1,5 @@
 export default {
+
     login: {
         LOGIN_REQUESTED: 'LOGIN_REQUESTED',
         LOGIN_SUCCESS: 'LOGIN_SUCCESS',
