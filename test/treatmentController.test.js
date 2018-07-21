@@ -131,41 +131,7 @@ describe('Create treatment controller tests', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Request creation with invalid duration zero (should fail)', () => admin
-        .post('/treatments')
-        .send({
-            'visitId': 1,
-            'drugId': 1,
-            'dose': 3,
-            'unit': 'cc',
-            'form': 'OR',
-            'timesPerDay': 3
-        })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
-        }));
-
-    test('Request creation with invalid duration neg (should fail)', () => admin
-        .post('/treatments')
-        .send({
-            'visitId': 1,
-            'drugId': 1,
-            'dose': 3,
-            'unit': 'cc',
-            'form': 'OR',
-            'timesPerDay': 3
-        })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
-        }));
-
-    test('Request creation with invalid duration huge (should fail)', () => admin
+    test('Request creation with invalid huge time per day (should fail)', () => admin
         .post('/treatments')
         .send({
             'visitId': 1,

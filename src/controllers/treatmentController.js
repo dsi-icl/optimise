@@ -32,7 +32,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
-    if (req.body.timesPerDay <= 0) {
+    if (req.body.timesPerDay <= 0 || req.body.timesPerDay > 30) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
