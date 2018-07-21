@@ -186,7 +186,7 @@ class ExportDataController {
                         entry.visitDate = new Date(entry.visitDate).toString();
                     }
                     convertedResult.push(entry);
-                }                if (result.length >= 1) {
+                } if (result.length >= 1) {
                     fileArray.push(new createDataFile(convertedResult, 'visit'));
                 }
             });
@@ -247,7 +247,7 @@ class ExportDataController {
         /* Patient treatment data */
 
         knex('TREATMENTS')
-            .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name as EXTRT', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit', 'TREATMENTS.form as EXFORM', 'TREATMENTS.timesPerDay', 'TREATMENTS.durationWeeks', 'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module as EXCAT', 'PATIENTS.study as STUDYID', 'PATIENTS.aliasId as USUBJID', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC', 'TREATMENTS_INTERRUPTIONS.endDate as EXENDTC', 'TREATMENTS_INTERRUPTIONS.reason as REASON', 'ADVERSE_EVENT_MEDDRA.name as MedDRA')
+            .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name as EXTRT', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit', 'TREATMENTS.form as EXFORM', 'TREATMENTS.timesPerDay', 'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module as EXCAT', 'PATIENTS.study as STUDYID', 'PATIENTS.aliasId as USUBJID', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC', 'TREATMENTS_INTERRUPTIONS.endDate as EXENDTC', 'TREATMENTS_INTERRUPTIONS.reason as REASON', 'ADVERSE_EVENT_MEDDRA.name as MedDRA')
             .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
             .leftOuterJoin('TREATMENTS_INTERRUPTIONS', 'TREATMENTS_INTERRUPTIONS.treatment', 'TREATMENTS.id')
             .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
@@ -289,8 +289,8 @@ class ExportDataController {
             //     newKeys = keys;
             // }
             let tempResult = `${keys.join(',')}\n`;
-            result.forEach(function(obj) {
-                keys.forEach(function(a, b){
+            result.forEach(function (obj) {
+                keys.forEach(function (a, b) {
                     if (b) tempResult += ',';
                     tempResult += obj[a];
                 });
