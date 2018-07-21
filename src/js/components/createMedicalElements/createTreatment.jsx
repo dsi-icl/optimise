@@ -94,8 +94,10 @@ export class CreateTreatment extends Component {
                         <label htmlFor='form'>Form:</label><br />
                         <select name='form' value={this.state.form} onChange={this._handleInputChange} autoComplete='off'>
                             <option value=''></option>
-                            <option value='oral'>oral</option>
-                            <option value='IV'>IV</option>
+                            <option value='oral'>Oral</option>
+                            <option value='IV'>Intravenous</option>
+                            <option value='IM'>Intramuscular</option>
+                            <option value='SC'>Subcutaneous</option>
                         </select><br /><br />
                         <label htmlFor='timesPerDay'>Times per day:</label><br /> <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text' autoComplete='off' /><br /><br />
                         <label htmlFor='durationInWeeks'>Duration in weeks:</label><br /> <input value={this.state.durationInWeeks} onChange={this._handleInputChange} name='durationInWeeks' type='text' autoComplete='off' /><br /><br />
