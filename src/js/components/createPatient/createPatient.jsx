@@ -19,6 +19,7 @@ export default class CreatePatient extends Component {    //get these props from
             address: '',
             postcode: '',
             DOB: moment(),
+            consent: 'N',
             error: false,
             gender: 0,
             dominant_hand: 0,
@@ -33,6 +34,7 @@ export default class CreatePatient extends Component {    //get these props from
         this._handleDiagnosisDateChange = this._handleDiagnosisDateChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleChange = this._handleChange.bind(this);
+        this._handleConsentChange = this._handleConsentChange.bind(this);
         this._handleFreeTextChange = this._handleFreeTextChange.bind(this);
     }
 
@@ -53,6 +55,12 @@ export default class CreatePatient extends Component {    //get these props from
     _handleChange(ev) {
         const newState = { error: false };
         newState[ev.target.name] = parseInt(ev.target.value, 10);
+        this.setState(newState);
+    }
+
+    _handleConsentChange(ev) {
+        const newState = { error: false };
+        newState[ev.target.name] = ev.target.value;
         this.setState(newState);
     }
 
@@ -90,7 +98,11 @@ export default class CreatePatient extends Component {    //get these props from
             diagnosis: this.state.diagnosis,
             diagnosisDate: this.state.diagnosisDate._d.toDateString()
         };
-        const patientData = { aliasId: patientId, study: 'optimise' };
+        const patientData = {
+            aliasId: patientId,
+            consent: this.state.consent === 'Y' ? true : false,
+            study: 'optimise'
+        };
         const body = {
             patientData: patientData,
             demoData: demoData,
@@ -125,6 +137,13 @@ export default class CreatePatient extends Component {    //get these props from
                             <label htmlFor='surname'>Surname:</label><br /> <input value={this.state.surname} name='surname' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
                             <label htmlFor='address'>Full Address:</label><br /><input value={this.state.address} name='address' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
                             <label htmlFor='postcode'>Postcode:</label><br /> <input value={this.state.postcode} name='postcode' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
+                            <br />
+                            <h4>Consent</h4><br />
+                            <label htmlFor='consent'>Does the patient give consent for sharing:</label><br />
+                            <select name='consent' value={this.state.consent} onChange={this._handleConsentChange} autoComplete='off'>
+                                <option value='Y'>Yes</option>
+                                <option value='N'>No</option>
+                            </select><br /><br />
                             <br />
                             <h4>Basic demographic data</h4><br />
                             <label>Date of birth:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDobDateChange} /> <br />
