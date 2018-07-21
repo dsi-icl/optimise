@@ -63,7 +63,11 @@
 }
 
 .noConsentAlert {
-    color: var(--color-shade-one);
+    padding: 0.4em;
+    width: 100%;
+    display: inline-block;
+    color: var(--color-font-active);
+    background-color: var(--color-shade-one);
 }
 
 .timelineBox {
@@ -136,8 +140,11 @@ div.timelineCEBlack {
 
 .historyVisit div:nth-child(3){
     width: calc(100% + 4.5em) !important;
+    margin-top: -0.5em !important;
+    margin-bottom: -0.5em !important;
     margin-left: -3.5em;
     padding-left: 3.5em !important;
+    padding-bottom: 0 !important;
     background-color: transparent !important;
     box-shadow: none !important;    
 }
