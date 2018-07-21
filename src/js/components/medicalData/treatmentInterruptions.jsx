@@ -119,14 +119,12 @@ export class TreatmentInterruption extends Component {
                                         <select ref={this.reasonRef}>
                                             {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                         </select><br /><br />
-                                        <b>MedDRA: </b><SuggestionInput reference={this.meddraRef} />
+                                        <b>MedDRA: </b><SuggestionInput reference={this.meddraRef} /><br />
                                     </div>
-                                    <>
-                                        <br /><br />
-                                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                                        <button onClick={this._handleClickingAdd}>Cancel</button>
-                                        {this.state.error ? <div> Your medDRA code is not a permitted value.</div> : null}
-                                    </>
+                                    <br />
+                                    <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                                    <button onClick={this._handleClickingAdd}>Cancel</button><br />
+                                    {this.state.error ? <><br /><div className={style.error}> Your medDRA code is not a permitted value.</div></> : null}
                                 </>}
                         </form>
                     </>
