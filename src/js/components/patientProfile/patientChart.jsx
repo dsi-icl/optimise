@@ -81,7 +81,6 @@ class Medication extends PureComponent {
                 <td>{`${data.dose} ${data.unit}`}</td>
                 <td>{data.form}</td>
                 <td>{data.timesPerDay}</td>
-                <td>{data.durationWeeks}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
                     <NavLink id={`treatment/${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
@@ -230,7 +229,7 @@ class OneVisit extends Component {
                         <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
                         <table className={style.editableTable}>
                             <thead>
-                                <tr><th></th><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
+                                <tr><th></th><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>#interruptions</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.treatments
