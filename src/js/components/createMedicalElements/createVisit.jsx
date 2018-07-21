@@ -6,7 +6,10 @@ import { createVisitAPICall } from '../../redux/actions/createVisit';
 import { PickDate } from './datepicker';
 import style from './medicalEvent.module.css';
 
-@connect(state => ({ patientId: state.patientProfile.data.id }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
+@connect(state => ({
+    patientId: state.patientProfile.data.id,
+    demographicData: state.patientProfile.data.demographicData
+}), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
 export class CreateVisit extends Component {
     constructor() {
         super();
@@ -16,7 +19,7 @@ export class CreateVisit extends Component {
             DBP: '',
             HR: '',
             weight: '',
-            academicConcern: '0',
+            academicConcerns: '0',
             height: '',
             error: false
         };
@@ -40,7 +43,7 @@ export class CreateVisit extends Component {
 
     _formatRequestBody() {
         const date = this.state.startDate._d;
-        const { SBP, DBP, HR, weight, academicConcern, height } = this.state;
+        const { SBP, DBP, HR, weight, academicConcerns, height } = this.state;
         for (let each of [SBP, DBP, HR, weight, height]) {
             if (!parseInt(each, 10)) {
                 return false;
@@ -58,7 +61,7 @@ export class CreateVisit extends Component {
                     3: parseInt(DBP),
                     4: parseInt(height),
                     5: parseInt(weight),
-                    6: parseInt(academicConcern)
+                    6: parseInt(academicConcerns)
                 }
             },
             patientId: this.props.match.params.patientId
@@ -77,7 +80,9 @@ export class CreateVisit extends Component {
     }
 
     render() {
-        const { startDate, SBP, DBP, HR, weight, academicConcern, height, error } = this.state;
+        if (this.props.demographicData === undefined)
+            return null;
+        const { startDate, SBP, DBP, HR, weight, academicConcerns, height, error } = this.state;
         return (
             <>
                 <div className={style.ariane}>
@@ -91,11 +96,15 @@ export class CreateVisit extends Component {
                     <label htmlFor='HR'>Heart rate (bpm):</label><br /> <input name='HR' value={HR} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
                     <label htmlFor='weight'>Weight (kg):</label><br /> <input name='weight' value={weight} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
                     <label htmlFor='height'>Height (cm):</label><br /> <input name='height' value={height} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
-                    <label htmlFor='academicConcern'>Academic concern:</label><br />
-                    <select name='academicConcern' onChange={this._handleKeyChange} value={academicConcern} autoComplete='off'>
-                        <option value='1'>true</option>
-                        <option value='0'>false</option>
-                    </select><br /><br />
+                    {moment().valueOf() < moment(this.props.demographicData.DOB, 'x').add(18, 'years').valueOf() ?
+                        <>
+                            <label htmlFor='academicConcerns'>Academic concerns:</label><br />
+                            <select name='academicConcerns' onChange={this._handleKeyChange} value={academicConcerns} autoComplete='off'>
+                                <option value='1'>true</option>
+                                <option value='0'>false</option>
+                            </select><br /><br />
+                        </>
+                        : null}
                     <button onClick={this._handleSubmitClick} >Submit</button>
                     {error ? <><br /><br /><div className={style.error}> Please only provide integers! </div></> : null}
                 </form>
