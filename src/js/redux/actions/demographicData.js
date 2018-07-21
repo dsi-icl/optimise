@@ -11,7 +11,7 @@ export const createImmunisationAPICall = (body) => dispatch => (
 );
 
 export const deleteImmunisationAPICall = (body) => dispatch => (
-    apiHelper('placeholderAPI', { method: 'POST', body: JSON.stringify(body.data) })
+    apiHelper('/demographics/Immunisation', { method: 'DELETE', body: JSON.stringify(body.data) })
         .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
