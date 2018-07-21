@@ -35,7 +35,7 @@ describe('Create treatment controller tests', () => {
             'bbbb': 1,
             'cccc': 3,
             'dddd': 'cc',
-            'eeee': 'oral',
+            'eeee': 'OR',
             'ffff': 3,
             'gggg': 3
         })
@@ -53,7 +53,7 @@ describe('Create treatment controller tests', () => {
             'drugId': 'WRONG',
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
+            'form': 'OR',
             'timesPerDay': 3,
             'durationInWeeks': 0
         })
@@ -71,7 +71,7 @@ describe('Create treatment controller tests', () => {
             'drugId': 4,
             'dose': 3,
             'unit': 'WRONG',
-            'form': 'oral',
+            'form': 'OR',
             'timesPerDay': 3,
             'durationInWeeks': 3
         })
@@ -107,7 +107,7 @@ describe('Create treatment controller tests', () => {
             'drugId': 1,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
+            'form': 'OR',
             'timesPerDay': 0,
             'durationInWeeks': 3
         })
@@ -125,7 +125,7 @@ describe('Create treatment controller tests', () => {
             'drugId': 1,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
+            'form': 'OR',
             'timesPerDay': -12,
             'durationInWeeks': 3
         })
@@ -143,7 +143,7 @@ describe('Create treatment controller tests', () => {
             'drugId': 1,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
+            'form': 'OR',
             'timesPerDay': 3,
             'durationInWeeks': 0
         })
@@ -161,7 +161,7 @@ describe('Create treatment controller tests', () => {
             'drugId': 1,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
+            'form': 'OR',
             'timesPerDay': 3,
             'durationInWeeks': -1
         })
@@ -179,7 +179,7 @@ describe('Create treatment controller tests', () => {
             'drugId': 1,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
+            'form': 'OR',
             'timesPerDay': 9999999,
             'durationInWeeks': -1
         })
@@ -197,7 +197,7 @@ describe('Create treatment controller tests', () => {
             'drugId': 3,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
+            'form': 'OR',
             'timesPerDay': 3,
             'durationInWeeks': 3
         })
@@ -215,7 +215,7 @@ describe('Create treatment controller tests', () => {
             'drugId': 3,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
+            'form': 'OR',
             'timesPerDay': 3,
             'durationInWeeks': 3
         })
