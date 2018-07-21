@@ -197,9 +197,9 @@ class OneVisit extends Component {
                                         {symptoms.map(el => <Symptom key={el.field} data={el} />)}
                                     </tbody>
                                 </table>
+                                <br />
                             </>
                         ) : null}
-                        <br />
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
                             <button>Edit / Add</button>
                         </NavLink>
