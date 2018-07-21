@@ -28,7 +28,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         return;
     }
     if ((req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
-        (req.body.form !== 'oral' && req.body.form !== 'IV')) {
+        (req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -41,7 +41,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'drug': req.body.drugId,
         'dose': req.body.dose,
         'unit': req.body.unit,   //hardcoded SQL: only mg or cc
-        'form': req.body.form,   //hardcoded SQL: only oral or IV
+        'form': req.body.form,   //hardcoded SQL: only OR (oral) or IV
         'timesPerDay': req.body.timesPerDay,
         'durationWeeks': req.body.durationInWeeks,
         'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
