@@ -225,7 +225,6 @@ div.timelineCEBlack {
 }
 
 .newPregnancy {
-    border-top: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
     padding-top: 0.9em;
     padding-bottom: 0.9em;
 }
@@ -271,4 +270,26 @@ div.timelineCEBlack {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+}
+
+.profileSectionActive {
+    width: calc(100% + 2.4em);
+    margin-left: -1.2em;
+    padding: 0 1.2em;
+}
+
+.profileSectionActive {
+    padding-top: 1.2em;
+    margin-bottom: 1.2em;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.profileSectionActive input,
+.profileSectionActive select {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
+}
+
+.profileSectionActive input:hover,
+.profileSectionActive select:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 100%);
 }

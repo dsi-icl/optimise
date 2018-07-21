@@ -8,10 +8,10 @@ import style from './patientProfile.module.css';
 export class PatientProfileSectionScaffold extends Component {
     render() {
         return (
-            <>
+            <div className={this.props.active ? style.profileSectionActive : ''}>
                 <h4>{this.props.sectionName}</h4><br />
-                {this.props.children}<br /><br /><br />
-            </>
+                {this.props.children}<br /><br />
+            </div>
         );
     }
 }
