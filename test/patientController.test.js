@@ -68,11 +68,25 @@ describe('Patient controller tests', () => {
             expect(res.body.length).toBe(3);
         }));
 
-    test('Creating a new patient', () => admin
+    test('Creating a new patient with no consent (should fail)', () => admin
         .post('/patients')
         .send({
             'aliasId': 'littlePatient',
             'study': 'optimise'
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Creating a new patient', () => admin
+        .post('/patients')
+        .send({
+            'aliasId': 'littlePatient',
+            'study': 'optimise',
+            'consent': false
         })
         .then(res => {
             expect(res.statusCode).toBe(200);
@@ -85,7 +99,8 @@ describe('Patient controller tests', () => {
         .post('/patients')
         .send({
             'aliasId': 'littlePatient',
-            'study': 'optimise'
+            'study': 'optimise',
+            'consent': true
         })
         .then(res => {
             expect(res.statusCode).toBe(400);
