@@ -10,7 +10,6 @@ export const createTreatmentAPICall = (body) => dispatch => {
         });
 };
 
-
 export const createTreatmentInterruptionAPICall = (body) => dispatch => {
     return apiHelper('/treatments/interrupt', { method: 'POST', body: JSON.stringify(body.data) })
         .then(() => {
@@ -18,7 +17,6 @@ export const createTreatmentInterruptionAPICall = (body) => dispatch => {
             dispatch(getPatientProfileById(body.patientId));
         });
 };
-
 
 export const deleteTreatmentCall = (body) => dispatch => {
     return apiHelper('/treatments', { method: 'DELETE', body: JSON.stringify(body.data) })

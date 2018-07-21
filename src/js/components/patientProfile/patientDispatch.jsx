@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import style from './patientProfile.module.css';
-
-
-//need to pass location to buttons  - do later
 
 @connect(state => ({
     currentPatient: state.patientProfile.currentPatient

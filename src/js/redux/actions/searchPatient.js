@@ -1,7 +1,6 @@
 import actionTypes from './listOfActions';
 import { apiHelper } from '../fetchHelper';
 
-
 export const searchPatientRequest = searchString => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_REQUEST, payload: searchString });
 export const searchPatientFailure = patientId => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_FAILURE, payload: patientId });
 export const searchPatientSuccess = data => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_SUCCESS, payload: data });
@@ -17,11 +16,9 @@ export const searchPatientAPICall = (searchString) => dispatch => {
 };
 
 
-
 export const getPatientProfileByIdRequest = searchString => ({ type: actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_REQUEST, payload: searchString });
 export const getPatientProfileByIdFailure = patientId => ({ type: actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_FAILURE, payload: patientId });
 export const getPatientProfileByIdSuccess = load => ({ type: actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_SUCCESS, payload: load });
-
 
 export const getPatientProfileById = (searchString) => dispatch => {
     dispatch(getPatientProfileByIdRequest(searchString));

@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-
 import style from './loadBar.module.css';
 
 class LoadBar extends PureComponent {

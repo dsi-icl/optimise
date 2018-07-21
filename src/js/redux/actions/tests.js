@@ -10,7 +10,6 @@ export const createTestAPICall = (body) => dispatch => {
         });
 };
 
-
 export const deleteTestAPICall = (body) => dispatch => {
     return apiHelper('/tests', { method: 'PATCH', body: JSON.stringify(body.data) })
         .then(() => {

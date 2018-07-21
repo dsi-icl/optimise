@@ -1,4 +1,5 @@
 export default {
+
     searchPatient: {
         fetching: false,
         error: false,

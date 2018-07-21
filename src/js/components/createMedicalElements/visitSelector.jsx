@@ -23,7 +23,7 @@ export class VisitSelector extends Component {
                 type: 2
             },
             patientId: this.props.patientId
-        }
+        };
         this.props.createShadowVisit(requestBody, {
             to: `/patientProfile/${this.props.match.params.patientId}/create`,
             type: this.props.match.params.type

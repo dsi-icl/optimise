@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { clearAlert } from '../../redux/actions/alert';
@@ -9,6 +9,7 @@ import style from './scaffold.module.css';
 /*  get a click eventhandler state.alert.handler passed down from whatever needs confirmation */
 @connect(state => ({ alert: state.alert }))
 export default class AlertMessage extends Component {
+
     _handleCancel = () => {
         store.dispatch(clearAlert());
     }
@@ -29,8 +30,8 @@ export default class AlertMessage extends Component {
                 <div className={style.errorMessage}>
                     <div className={style.alertMessageDialogBox}>
                         <span><h3>Are you sure...</h3></span> <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span>
-                        <br/><br/> {alert.alert}
-                        <br/><br/><br/>
+                        <br /><br /> {alert.alert}
+                        <br /><br /><br />
                         <button onClick={this._handleConfirm}> YES, I AM SURE! </button>
                     </div>
                 </div>

@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
-import { PickDate } from '../createMedicalElements/datepicker';
 import { BackButton } from '../medicalData/dataPage';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { addAlert } from '../../redux/actions/alert';
 import { deleteTreatmentCall, updateTreatmentCall } from '../../redux/actions/treatments';
-import { Redirect } from 'react-router-dom';
-
-
 
 @connect(state => ({ treatments: state.patientProfile.data.treatments }))
 export default class EditMed extends Component {
@@ -57,14 +52,14 @@ export default class EditMed extends Component {
                 </div>
                 <form className={style.panel}>
                     <h3>Please select the following options: </h3>
-                    <br/>
-                    {wannaUpdate ? <UpdateMedEntry data={treatment}/> : null }
-                    {wannaUpdate ? <><br/><br/> <button onClick={this._handleWannaUpdateClick}>Cancel</button></> :
+                    <br />
+                    {wannaUpdate ? <UpdateMedEntry data={treatment} /> : null}
+                    {wannaUpdate ? <><br /><br /> <button onClick={this._handleWannaUpdateClick}>Cancel</button></> :
                         <button onClick={this._handleWannaUpdateClick}>Change drug, dose, form or frequency</button>
                     }
-                    <br/><br/><br/><br/>
+                    <br /><br /><br /><br />
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this medication</button>
-                    <br/><br/>
+                    <br /><br />
                 </form>
             </>
         );
@@ -84,7 +79,7 @@ class UpdateMedEntry extends Component {
             form: props.data.form,
             timesPerDay: props.data.timesPerDay,
             durationWeeks: props.data.durationWeeks
-        }
+        };
         this._handleChange = this._handleChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
     }
@@ -95,7 +90,7 @@ class UpdateMedEntry extends Component {
         this.setState(newState);
     }
 
-    _handleSubmit(ev){
+    _handleSubmit(ev) {
         ev.preventDefault();
         const { patientId } = this.props;
         const { id, drug, dose, unit, form, timesPerDay, durationWeeks } = this.state;
@@ -123,23 +118,23 @@ class UpdateMedEntry extends Component {
                 <label>Drug: </label>
                 <select onChange={this._handleChange} name='drug' value={drug}>
                     {drugs.map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
-                </select><br/><br/>
+                </select><br /><br />
                 <label>Dose: </label>
-                <input onChange={this._handleChange} name='dose' value={dose}/><br/><br/>
+                <input onChange={this._handleChange} name='dose' value={dose} /><br /><br />
                 <label>Unit: </label>
                 <select onChange={this._handleChange} name='unit' value={unit}>
                     <option value='cc'>cc</option>
                     <option value='mg'>mg</option>
-                </select><br/><br/>
+                </select><br /><br />
                 <label>Form: </label>
                 <select onChange={this._handleChange} name='form' value={form}>
                     <option value='IV'>IV</option>
                     <option value='oral'>oral</option>
-                </select><br/><br/>
+                </select><br /><br />
                 <label>Times per day: </label>
-                <input onChange={this._handleChange} name='timesPerDay' value={timesPerDay}/><br/><br/>
+                <input onChange={this._handleChange} name='timesPerDay' value={timesPerDay} /><br /><br />
                 <label>Duration in weeks: </label>
-                <input onChange={this._handleChange} name='durationWeeks' value={durationWeeks}/><br/><br/>
+                <input onChange={this._handleChange} name='durationWeeks' value={durationWeeks} /><br /><br />
                 <button onClick={this._handleSubmit}>Submit</button>
             </>
         );

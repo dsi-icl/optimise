@@ -1,6 +1,5 @@
 import { addError } from './actions/error';
 import store from './store';
-import { promises } from 'fs';
 
 const defaultOptions = {
     mode: 'cors',

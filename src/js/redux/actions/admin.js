@@ -1,11 +1,9 @@
 import actionTypes from './listOfActions';
 import { apiHelper } from '../fetchHelper';
 
-
 export const getLogRequest = payload => ({ type: actionTypes.admin.GET_LOG_REQUEST, payload: payload });
 export const getLogSuccess = payload => ({ type: actionTypes.admin.GET_LOG_SUCCESS, payload: payload });
 export const getLogFailure = payload => ({ type: actionTypes.admin.GET_LOG_FAILURE, payload: payload });
-
 
 export const getLogAPICall = () => dispatch => {
     return apiHelper('/logs')
@@ -31,24 +29,22 @@ export const getAllUsersAPICall = () => dispatch => {
 
 export const createUserSuccess = payload => ({ type: actionTypes.admin.GET_ALL_USERS_SUCCESS, payload: payload });
 
-
 export const createUserAPICall = body => dispatch => {
-    return apiHelper('/users', { method: 'POST', body: JSON.stringify(body)})
+    return apiHelper('/users', { method: 'POST', body: JSON.stringify(body) })
         .then(() => {
             dispatch(getAllUsersAPICall());
         })
         .catch(msg => console.log(msg));
 };
 
-
-export const changePasswordAPICall = body => dispatch => {
-    return apiHelper('/users', { method: 'PUT', body: JSON.stringify(body)})
-        .catch(msg => console.log(msg));
-};
-
-
 export const deleteUserAPICall = body => dispatch => {
-    return apiHelper('/users', { method: 'DELETE', body: JSON.stringify(body)})
+    return apiHelper('/users', { method: 'DELETE', body: JSON.stringify(body) })
         .then(dispatch(getAllUsersAPICall()))
         .catch(msg => console.log(msg));
 };
+
+export const changePasswordAPICall = body => () => {
+    return apiHelper('/users', { method: 'PUT', body: JSON.stringify(body) })
+        .catch(msg => console.log(msg));
+};
+
