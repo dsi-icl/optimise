@@ -35,7 +35,7 @@ describe('Create treatment controller tests', () => {
             'bbbb': 1,
             'cccc': 3,
             'dddd': 'cc',
-            'eeee': 'oral',
+            'eeee': 'OR',
             'ffff': 3,
             'gggg': 3
         })
@@ -53,9 +53,8 @@ describe('Create treatment controller tests', () => {
             'drugId': 'WRONG',
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
-            'timesPerDay': 3,
-            'durationInWeeks': 0
+            'form': 'OR',
+            'timesPerDay': 3
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -71,9 +70,8 @@ describe('Create treatment controller tests', () => {
             'drugId': 4,
             'dose': 3,
             'unit': 'WRONG',
-            'form': 'oral',
-            'timesPerDay': 3,
-            'durationInWeeks': 3
+            'form': 'OR',
+            'timesPerDay': 3
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -90,8 +88,7 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'WRONG',
-            'timesPerDay': 3,
-            'durationInWeeks': 3
+            'timesPerDay': 3
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -107,9 +104,8 @@ describe('Create treatment controller tests', () => {
             'drugId': 1,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
-            'timesPerDay': 0,
-            'durationInWeeks': 3
+            'form': 'OR',
+            'timesPerDay': 0
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -125,9 +121,8 @@ describe('Create treatment controller tests', () => {
             'drugId': 1,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
-            'timesPerDay': -12,
-            'durationInWeeks': 3
+            'form': 'OR',
+            'timesPerDay': -12
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -136,52 +131,15 @@ describe('Create treatment controller tests', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Request creation with invalid duration zero (should fail)', () => admin
+    test('Request creation with invalid huge time per day (should fail)', () => admin
         .post('/treatments')
         .send({
             'visitId': 1,
             'drugId': 1,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
-            'timesPerDay': 3,
-            'durationInWeeks': 0
-        })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
-        }));
-
-    test('Request creation with invalid duration neg (should fail)', () => admin
-        .post('/treatments')
-        .send({
-            'visitId': 1,
-            'drugId': 1,
-            'dose': 3,
-            'unit': 'cc',
-            'form': 'oral',
-            'timesPerDay': 3,
-            'durationInWeeks': -1
-        })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
-        }));
-
-    test('Request creation with invalid duration huge (should fail)', () => admin
-        .post('/treatments')
-        .send({
-            'visitId': 1,
-            'drugId': 1,
-            'dose': 3,
-            'unit': 'cc',
-            'form': 'oral',
-            'timesPerDay': 9999999,
-            'durationInWeeks': -1
+            'form': 'OR',
+            'timesPerDay': 9999999
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -197,9 +155,8 @@ describe('Create treatment controller tests', () => {
             'drugId': 3,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
-            'timesPerDay': 3,
-            'durationInWeeks': 3
+            'form': 'OR',
+            'timesPerDay': 3
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -215,9 +172,8 @@ describe('Create treatment controller tests', () => {
             'drugId': 3,
             'dose': 3,
             'unit': 'cc',
-            'form': 'oral',
-            'timesPerDay': 3,
-            'durationInWeeks': 3
+            'form': 'OR',
+            'timesPerDay': 3
         })
         .then(res => {
             expect(res.status).toBe(400);

@@ -1428,9 +1428,6 @@
                                 },
                                 "timesPerDay": {
                                     "type": "integer"
-                                },
-                                "durationInWeeks": {
-                                    "type": "integer"
                                 }
                             }
                         }
@@ -1534,9 +1531,6 @@
                                     "type": "string"
                                 },
                                 "timesPerDay": {
-                                    "type": "integer"
-                                },
-                                "durationWeeks": {
                                     "type": "integer"
                                 }
                             }
@@ -3801,9 +3795,6 @@
                 },
                 "timesPerDay": {
                     "type": "string"
-                },
-                "durationWeeks": {
-                    "type": "integer"
                 },
                 "terminatedDate": {
                     "type": "string"
