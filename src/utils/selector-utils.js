@@ -5,7 +5,7 @@ const DiagnosisCore = require('../core/patientDiagnosis');
 class SelectorUtils {
     getVisitsWithoutData(patientId) {
         return knex('VISITS')
-            .select({ visitId: 'id', visitDate: 'visitDate' })
+            .select({ visitId: 'id', visitDate: 'visitDate', type: 'type' })
             .where({ 'patient': patientId, deleted: '-' })
             .then(result => {
                 const returnObj = { visitsWithoutData: result };
@@ -63,7 +63,7 @@ class SelectorUtils {
     getVisits(patientId) {
         const _this = this;
         return knex('VISITS')
-            .select({ id: 'id', visitDate: 'visitDate' })
+            .select({ id: 'id', visitDate: 'visitDate', type: 'type' })
             .where({ 'patient': patientId, 'deleted': '-' })
             .then(result => {
                 if (result.length >= 1) {
@@ -125,7 +125,7 @@ class SelectorUtils {
 
     getTreatments(patientId) {
         const _this = this;
-        return knex('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate' }).where({ 'patient': patientId, deleted: '-' }).then(resu => {
+        return knex('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type' }).where({ 'patient': patientId, deleted: '-' }).then(resu => {
             let ids = [];
             let dates = [];
             for (let i = 0; i < resu.length; i++) {
@@ -203,7 +203,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return knex('CLINICAL_EVENTS')
-                .select('recordedDuringVisit', 'type', 'dateStartDate', 'endDate')
+                .select('recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra')
                 .where(builder => builder.where('patient', patientId).orWhere('recordedDuringVisit', 'in', ids))
                 .andWhere({ 'deleted': '-' })
                 .then(result => {

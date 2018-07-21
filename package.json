@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "0.9.23",
+    "version": "0.9.26",
     "description": "Backend for OptimiseMS",
     "main": "./src/optimiseServer.js",
     "scripts": {
@@ -37,6 +37,10 @@
         "eslint": "5.1.0",
         "jest": "23.4.1",
         "supertest": "3.1.0"
+    },
+    "optionalDependencies": {
+        "ajv": "^6.0.0",
+        "fsevents": "1.2.4"
     },
     "jest": {
         "globalSetup": "<rootDir>/test/setup.js",

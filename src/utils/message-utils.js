@@ -15,7 +15,7 @@ const UserRelatedErrorMessage = {
     NORIGHTS: 'Unauthorized to do this action',
     INVALIDDATE: 'The date provided is not valid',
     WRONGPATH: 'The requested url doesn\'t exists',
-    INVALIDQUERY: 'The query string can only have one parameter "id"'
+    INVALIDQUERY: 'The query string should be comprised of "value" or "field"+"value"'
 };
 
 const DataControllerMessageRelated = {
