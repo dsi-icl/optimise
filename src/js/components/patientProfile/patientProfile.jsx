@@ -276,17 +276,17 @@ class Pregnancy extends Component {
                         <div className={style.newPregnancy}>
                             <label>Start date: </label><br /><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
                             <label>Outcome date: </label><br /><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
-                            <label>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} /><br />
-                            <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br />
+                            <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br /><br />
+                            <label>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} />
                         </div>
                     }
                     {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Record pregnancy</button> :
                         <>
-                            <br /><br />
+                            <br />
                             <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                            <button onClick={this._handleClickingAdd}>Cancel</button>
+                            <button onClick={this._handleClickingAdd}>Cancel</button><br />
                         </>}
-                    {this.state.error ? <div>Your MedDRA field is not permitted</div> : null}
+                    {this.state.error ? <><br /><div className={style.error}>Your MedDRA field is not permitted</div></> : null}
                 </PatientProfileSectionScaffold>
             );
         } else {
