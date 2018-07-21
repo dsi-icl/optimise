@@ -136,7 +136,7 @@ class ImmunisationSection extends Component {
     render() {
         const { data } = this.props;
         return (
-            <PatientProfileSectionScaffold sectionName='Immunisations'>
+            <PatientProfileSectionScaffold sectionName='Immunisations' active={this.state.addMore}>
                 <table>
                     {this.state.addMore || data.immunisations.length !== 0 ? <thead>
                         <tr><th>Vaccine name</th><th>Date</th></tr>
@@ -264,30 +264,32 @@ class Pregnancy extends Component {
         const { data, outcomeHash } = this.props;
         if (data.demographicData && data.demographicData.gender !== 1 && data.pregnancy) {
             return (
-                <PatientProfileSectionScaffold sectionName='Pregnancies'>
-                    {data.pregnancy.map((el, ind) =>
-                        <div key={`${el.meddra}${el.outcomeDate}`} className={ind === data.pregnancy.length - 1 ? style.pregnancyLast : style.pregnancy}>
-                            <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
-                            <label>Outcome date: </label> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
-                            <label>MedDRA: </label> {this.props.allMeddra[0][el.meddra]} <br />
-                            <label>Outcome: </label> {outcomeHash[el.outcome]} <br />
-                        </div>)}
-                    {!this.state.addMore ? null :
-                        <div className={style.newPregnancy}>
-                            <label>Start date: </label><br /><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
-                            <label>Outcome date: </label><br /><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
-                            <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br /><br />
-                            <label>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} />
-                        </div>
-                    }
-                    {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Record pregnancy</button> :
-                        <>
-                            <br />
-                            <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                            <button onClick={this._handleClickingAdd}>Cancel</button><br />
-                        </>}
-                    {this.state.error ? <><br /><div className={style.error}>Your MedDRA field is not permitted</div></> : null}
-                </PatientProfileSectionScaffold>
+                <div className={this.state.addMore ? style.pregnancyPanelActive : style.pregnancyPanel}>
+                    <PatientProfileSectionScaffold sectionName='Pregnancies' active={this.state.addMore}>
+                        {data.pregnancy.map((el, ind) =>
+                            <div key={`${el.meddra}${el.outcomeDate}`} className={ind === data.pregnancy.length - 1 ? style.pregnancyLast : style.pregnancy}>
+                                <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
+                                <label>Outcome date: </label> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
+                                <label>MedDRA: </label> {this.props.allMeddra[0][el.meddra]} <br />
+                                <label>Outcome: </label> {outcomeHash[el.outcome]} <br />
+                            </div>)}
+                        {!this.state.addMore ? null :
+                            <div className={style.newPregnancy}>
+                                <label>Start date: </label><br /><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
+                                <label>Outcome date: </label><br /><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
+                                <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br /><br />
+                                <label>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} />
+                            </div>
+                        }
+                        {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Record pregnancy</button> :
+                            <>
+                                <br />
+                                <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                                <button onClick={this._handleClickingAdd}>Cancel</button><br />
+                            </>}
+                        {this.state.error ? <><br /><div className={style.error}>Your MedDRA field is not permitted</div></> : null}
+                    </PatientProfileSectionScaffold>
+                </div>
             );
         } else {
             return null;
