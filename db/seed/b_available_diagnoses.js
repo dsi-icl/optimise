@@ -1,4 +1,6 @@
-const diagnosesList = require('../availableFields/availableDiagnoses');
+const { readJson } = require('../../src/utils/load-json');
+
+const diagnosesList = readJson('./db/availableFields/jsonFiles/diagnoses.json');
 
 exports.seed = function (knex) {
     // Deletes ALL existing entries
