@@ -1195,7 +1195,7 @@ const availableFields = {
                 + 'Frequent urinary incontinence,'
                 + 'In need of regular intermittent catheterisation (and constant use of measures to evacuate stools),'
                 + 'In dwelling catheter,'
-                + 'Loss of bowel and (check and/or with Paul) bladder function,',
+                + 'Loss of bowel and/or bladder function,',
             referenceType: 1
         },
         {
@@ -1227,12 +1227,12 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: '0-5',
-            labels: 'Normal'
-                + 'Mood alteration only- fatigue not intefering with daily activity (does not affect EDSS score)'
-                + 'Mild decrease in mentation- fatigue intefering with daily activity'
-                + 'Moderate decrease in mentation'
-                + 'Marked decrease in mentation (chronic brain syndrome - moderate)'
-                + 'Dementia or chronic brain syndrome - severe or incompetent',
+            labels: 'Normal,'
+                + 'Mood alteration only- fatigue not intefering with daily activity (does not affect EDSS score,)'
+                + 'Mild decrease in mentation- fatigue intefering with daily activity,'
+                + 'Moderate decrease in mentation,'
+                + 'Marked decrease in mentation (chronic brain syndrome - moderate),'
+                + 'Dementia or chronic brain syndrome - severe or incompetent,',
             referenceType: 1
         },
         {
