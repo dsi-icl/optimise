@@ -11,12 +11,30 @@ const modelsContainer = require('../utils/model-container');
 
 
 const mapKeyTable = {
-    fieldVisit: 'AVAILABLE_FIELDS_VISITS',
-    fieldTest: 'AVAILABLE_FIELDS_TESTS',
-    fieldCE: 'AVAILABLE_FIELDS_CE',
-    typeVisit: 'AVAILABLE_VISIT_TYPES',
-    typeCE: 'AVAILABLE_CLINICAL_EVENT_TYPES',
-    typeTest: 'AVAILABLE_TEST_TYPES'
+    fieldVisit: {
+        table: 'AVAILABLE_FIELDS_VISITS', referenced:
+            [{ table: 'VISIT_DATA', column: 'field' }]
+    },
+    fieldTest: {
+        table: 'AVAILABLE_FIELDS_TEST', referenced:
+            [{ table: 'TEST_DATA', column: 'field' }]
+    },
+    fieldCE: {
+        table: 'AVAILABLE_FIELDS_CE', referenced:
+            [{ table: 'CLINICAL_EVENTS_DATA', column: 'field' }]
+    },
+    typeVisit: {
+        table: 'AVAILABLE_VISIT_TYPES', referenced:
+            [{ table: 'AVAILABLE_FIELDS_VISITS', colunm: 'referenceType' }, { table: 'VISITS', column: 'type' }]
+    },
+    typeCE: {
+        table: 'AVAILABLE_CLINICAL_EVENT_TYPES', referenced:
+            [{ table: 'AVAILABLE_FIELDS_CE', column: 'referenceType' }, { table: 'CLINICAL_EVENTS', column: 'type' }]
+    },
+    typeTest: {
+        table: 'AVAILABLE_TEST_TYPES', referenced:
+            [{ table: 'AVAILABLE_FIELDS_TESTS', column: 'referenceType' }, { table: 'ORDERED_TESTS', column: 'type' }]
+    }
 };
 
 function SeedController() {
@@ -49,7 +67,7 @@ SeedController.prototype.getSeedList = function (__unused__req, res) {
 SeedController.prototype.getSeed = function (req, res) {
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         let whereObj = (req.hasOwnProperty('query') && req.query.length !== 0) ? req.query : {};
-        getEntry(mapKeyTable[req.params.target], whereObj, '*').then(function (result) {
+        getEntry(mapKeyTable[req.params.target].table, whereObj, '*').then(function (result) {
             res.status(200).json(formatToJSon(result));
             return;
         }, function (error) {
@@ -88,7 +106,7 @@ SeedController.prototype.createSeed = function (req, res) {
                 return;
             }
         }
-        createEntry(mapKeyTable[req.params.target], req.body).then(function (result) {
+        createEntry(mapKeyTable[req.params.target].table, req.body).then(function (result) {
             res.status(200).json(formatToJSon(result));
             return;
         }, function (error) {
@@ -135,7 +153,7 @@ SeedController.prototype.editSeed = function (req, res) {
                 newEntry[Object.keys(modelsContainer[req.params.target])[i]] = req.body[Object.keys(modelsContainer[req.params.target])[i]];
             }
         }
-        updateEntry(mapKeyTable[req.params.target], req.user, '*', whereObj, newEntry).then(function (result) {
+        updateEntry(mapKeyTable[req.params.target].table, req.user, '*', whereObj, newEntry).then(function (result) {
             res.status(200).json(formatToJSon(result));
             return;
         }, function (error) {
@@ -174,11 +192,20 @@ SeedController.prototype.deleteSeed = function (req, res) {
             return;
         }
         whereObj.id = req.body.id;
-        deleteEntry(mapKeyTable[req.params.target], req.user, whereObj).then(function (result) {
-            res.status(200).json(formatToJSon(result));
-            return;
+        deleteEntry(mapKeyTable[req.params.target].table, req.user, whereObj).then(function (result) {
+            let promiseArr = [];
+            for (let i = 0; i < mapKeyTable[req.params.target].referenced.length; i++) {
+                promiseArr.push(deleteEntry(mapKeyTable[req.params.target].referenced[i].table, req.user, { [mapKeyTable[req.params.target].referenced[i].column]: req.body.id }));
+            }
+            Promise.all(promiseArr).then(function (__unused__allResult) {
+                res.status(200).json(formatToJSon(result));
+                return;
+            }, function (allError) {
+                res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, allError));
+                return;
+            });
         }, function (error) {
-            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+            res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return;
         });
     } else if (!req.params.hasOwnProperty('target')) {
