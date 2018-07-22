@@ -1,4 +1,6 @@
-const visitFields = require('../availableFields/availableFieldsForMS').visitFields;
+const { readJson } = require('../../src/utils/load-json');
+
+const visitFields = readJson('./db/availableFields/jsonFiles/visitFields.json');
 
 exports.seed = function (knex) {
     // Deletes ALL existing entries
