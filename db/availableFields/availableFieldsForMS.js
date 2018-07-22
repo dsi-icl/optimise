@@ -1139,7 +1139,7 @@ const availableFields = {
                 + 'Mild ataxia,'
                 + 'Moderate truncal or limb ataxia (tremor or clumsy movements interfere with function in all spheres),'
                 + 'Severe ataxia in all limbs (most function is very difficult),'
-                + 'Unable to perform coordinated movements due to ataxia,',
+                + 'Unable to perform coordinated movements due to ataxia',
             referenceType: 1
         },
         {
@@ -1214,7 +1214,7 @@ const availableFields = {
                 + 'Worse eye with maximal visual acuity (corrected) of 6/18 to 6/24,'
                 + 'Worse eye with maximal visual acuity (corrected) of 6/36 to 6/60. Or grade three plus maximal acuity of better eye of 6/18 or less,'
                 + 'Worse eye with maximal visual acuity (corrected) of 6/60. Or grade four plus maximal visual acuity of better eye of 6/18 or less,'
-                + 'Grade 5 plus maximal visual acuity of better eye worse then 6/18,',
+                + 'Grade 5 plus maximal visual acuity of better eye worse then 6/18',
             referenceType: 1
         },
         {
@@ -1228,11 +1228,11 @@ const availableFields = {
             module: 'MS',
             permittedValues: '0-5',
             labels: 'Normal,'
-                + 'Mood alteration only- fatigue not intefering with daily activity (does not affect EDSS score,)'
+                + 'Mood alteration only- fatigue not intefering with daily activity (does not affect EDSS score,),'
                 + 'Mild decrease in mentation- fatigue intefering with daily activity,'
                 + 'Moderate decrease in mentation,'
                 + 'Marked decrease in mentation (chronic brain syndrome - moderate),'
-                + 'Dementia or chronic brain syndrome - severe or incompetent,',
+                + 'Dementia or chronic brain syndrome - severe or incompetent',
             referenceType: 1
         },
         {
