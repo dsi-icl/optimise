@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, StatusBar, ErrorMessage, AlertMessage } from './components/scaffold';
+import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, FullscreenPanel, StatusBar, ErrorMessage, AlertMessage } from './components/scaffold';
 import Body from './components/body';
 import Login from './components/login';
 import { whoami } from './redux/actions/login';
 import { getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
 import Icon from './components/icon';
+import FullTimeline from './components/patientProfile/fullTimeline';
 
 @withRouter
 @connect(state => ({ loggedIn: state.login.loggedIn, checking: state.login.initialCheckingStatus }), dispatch => ({ whoami: () => dispatch(whoami()) }))
@@ -19,7 +20,7 @@ class App extends Component {
     render() {
         return (
             <Body>
-                {this.props.checking ? <Icon symbol='loading' /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+                <FullTimeline match={{ params: { patientId: 42 } }} />
             </Body>
         );
     }
@@ -72,8 +73,9 @@ class LoadingFields extends Component {
                     <MiddlePanel />
                     <RightPanel />
                     <FarRightPanel />
+                    <FullscreenPanel />
                     <StatusBar />
-                    <AlertMessage/>
+                    <AlertMessage />
                     <ErrorMessage />
                 </>
             );
