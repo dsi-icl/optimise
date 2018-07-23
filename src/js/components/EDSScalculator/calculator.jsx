@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import store from '../../redux/store';
 import style_scaffold from '../scaffold/scaffold.module.css';
-import style from './calculator.module.css';
+import style from './edss.module.css';
+import { clearEDSSCalc } from '../../redux/actions/edss';
 
 @connect(state => ({ edssCalc: state.edssCalc }))
 export class EDSSCalculator extends Component {
@@ -16,7 +17,7 @@ export class EDSSCalculator extends Component {
     }
 
     _handleCancel(){
-        store.dispatch({});
+        store.dispatch(clearEDSSCalc());
     }
 
     _handleClick(ev) {
