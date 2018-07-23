@@ -47,7 +47,7 @@
     fill: hsl(var(--color-background-h), var(--color-background-s), 20%);
 }
 
-@media (max-width: 75em) {
+@media (max-width: 95em) {
     .profileActions a span {
         display: none;
     }
