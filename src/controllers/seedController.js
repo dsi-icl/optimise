@@ -1,3 +1,4 @@
+/*eslint no-console: "off"*/
 /**
  * @class SeedController
  * @description Handle various way to interact with the seeded "constant" data (i.e. fields / types)
@@ -8,31 +9,45 @@ const ErrorHelper = require('../utils/error_helper');
 const formatToJSon = require('../utils/format-response');
 const message = require('../utils/message-utils');
 const modelsContainer = require('../utils/model-container');
+const { writeJson } = require('../utils/load-json');
 
+const path = './db/availableFields/jsonFiles/';
 
 const mapKeyTable = {
     fieldVisit: {
-        table: 'AVAILABLE_FIELDS_VISITS', referenced:
+        table: 'AVAILABLE_FIELDS_VISITS',
+        file: 'visitFields.json',
+        referenced:
             [{ table: 'VISIT_DATA', column: 'field' }]
     },
     fieldTest: {
-        table: 'AVAILABLE_FIELDS_TEST', referenced:
+        table: 'AVAILABLE_FIELDS_TEST',
+        file: 'testFields.json',
+        referenced:
             [{ table: 'TEST_DATA', column: 'field' }]
     },
     fieldCE: {
-        table: 'AVAILABLE_FIELDS_CE', referenced:
+        table: 'AVAILABLE_FIELDS_CE',
+        file: 'ceFields.json',
+        referenced:
             [{ table: 'CLINICAL_EVENTS_DATA', column: 'field' }]
     },
     typeVisit: {
-        table: 'AVAILABLE_VISIT_TYPES', referenced:
+        table: 'AVAILABLE_VISIT_TYPES',
+        file: 'visitTypes.json',
+        referenced:
             [{ table: 'AVAILABLE_FIELDS_VISITS', colunm: 'referenceType' }, { table: 'VISITS', column: 'type' }]
     },
     typeCE: {
-        table: 'AVAILABLE_CLINICAL_EVENT_TYPES', referenced:
+        table: 'AVAILABLE_CLINICAL_EVENT_TYPES',
+        file: 'ceTypes.json',
+        referenced:
             [{ table: 'AVAILABLE_FIELDS_CE', column: 'referenceType' }, { table: 'CLINICAL_EVENTS', column: 'type' }]
     },
     typeTest: {
-        table: 'AVAILABLE_TEST_TYPES', referenced:
+        table: 'AVAILABLE_TEST_TYPES',
+        file: 'testTypes.json',
+        referenced:
             [{ table: 'AVAILABLE_FIELDS_TESTS', column: 'referenceType' }, { table: 'ORDERED_TESTS', column: 'type' }]
     }
 };
@@ -43,6 +58,7 @@ function SeedController() {
     this.createSeed = SeedController.prototype.createSeed.bind(this);
     this.deleteSeed = SeedController.prototype.deleteSeed.bind(this);
     this.editSeed = SeedController.prototype.editSeed.bind(this);
+    this.updateFiles = SeedController.prototype.updateFiles.bind(this);
 }
 
 /**
@@ -91,6 +107,7 @@ SeedController.prototype.getSeed = function (req, res) {
  * @returns {void} Either errors if the request isn't allowed or the ID(s) of the new created seed(s)
  */
 SeedController.prototype.createSeed = function (req, res) {
+    let that = this;
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         for (let i = 0; i < Object.keys(modelsContainer[req.params.target]).length; i++) {
             if (Object.keys(modelsContainer[req.params.target])[i] === 'id') {
@@ -107,6 +124,7 @@ SeedController.prototype.createSeed = function (req, res) {
             }
         }
         createEntry(mapKeyTable[req.params.target].table, req.body).then(function (result) {
+            that.updateFiles(req.params.target);
             res.status(200).json(formatToJSon(result));
             return;
         }, function (error) {
@@ -130,6 +148,7 @@ SeedController.prototype.createSeed = function (req, res) {
  * @returns {void} Either errors if the request isn't allowed or the number of updated seed(s)
  */
 SeedController.prototype.editSeed = function (req, res) {
+    let that = this;
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         let newEntry = {};
         let whereObj = {};
@@ -154,6 +173,7 @@ SeedController.prototype.editSeed = function (req, res) {
             }
         }
         updateEntry(mapKeyTable[req.params.target].table, req.user, '*', whereObj, newEntry).then(function (result) {
+            that.updateFiles(req.params.target);
             res.status(200).json(formatToJSon(result));
             return;
         }, function (error) {
@@ -177,6 +197,7 @@ SeedController.prototype.editSeed = function (req, res) {
  * @returns {void} Either errors if the request isn't allowed or the number of deleted seed(s)
  */
 SeedController.prototype.deleteSeed = function (req, res) {
+    let that = this;
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         let whereObj = {};
         if (req.user.priv !== 1) {
@@ -198,6 +219,7 @@ SeedController.prototype.deleteSeed = function (req, res) {
                 promiseArr.push(deleteEntry(mapKeyTable[req.params.target].referenced[i].table, req.user, { [mapKeyTable[req.params.target].referenced[i].column]: req.body.id }));
             }
             Promise.all(promiseArr).then(function (__unused__allResult) {
+                that.updateFiles(req.params.target);
                 res.status(200).json(formatToJSon(result));
                 return;
             }, function (allError) {
@@ -215,6 +237,27 @@ SeedController.prototype.deleteSeed = function (req, res) {
         res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
         return;
     }
+};
+
+/**
+ * @function updateFiles
+ * @desc Update the seeding files fron the newly modified table itself
+ * @param {string} index The type of request linking the index in mapKeyTable
+ */
+SeedController.prototype.updateFiles = function (index) {
+    getEntry(mapKeyTable[index].table, {}, '*').then(function (result) {
+        if (result !== null && result !== undefined && result.length !== 0) {
+            writeJson(result, `${path}${mapKeyTable[index].file}`);
+        } else {
+            if (process.env.NODE_ENV !== 'production') {
+                console.error(message.errorMessages.SEEDUPDATEERROR);
+            }
+        }
+    }, function (error) {
+        if (process.env.NODE_ENV !== 'production') {
+            console.error(error);
+        }
+    });
 };
 
 module.exports = SeedController;

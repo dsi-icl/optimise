@@ -5,6 +5,9 @@ const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
 const message = require('../src/utils/message-utils');
 const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+const { readJson } = require('../src/utils/load-json');
+
+const visitField = readJson('./db/availableFields/jsonFiles/visitFields.json');
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -99,7 +102,7 @@ describe('Creating field', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(95);
+            expect(res.body.state).toBe(visitField.length + 1);
         }));
 });
 
