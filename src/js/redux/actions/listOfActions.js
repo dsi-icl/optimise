@@ -90,5 +90,9 @@ export default {
     alert: {
         CLEAR_ALERT: 'CLEAR_ALERT',
         ADD_ALERT: 'ADD_ALERT'
+    },
+    edssCalc: {
+        CLEAR_CALCULATOR: 'CLEAR_CALCULATOR',
+        DISPLAY_CALCULATOR: 'DISPLAY_CALCULATOR'
     }
 };
