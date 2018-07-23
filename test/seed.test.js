@@ -87,10 +87,10 @@ describe('Creating field', () => {
             expect(res.body.error).toBe(`${message.userError.WRONGARGUMENTS} : definition`);
         }));
 
-    test('Creating with wrong values', () => admin
+    test('Creating with good values', () => admin
         .post('/seeds/fieldVisit')
         .send({
-            definition: 'Testing creation',
+            definition: `Testing: rand value for unique ${Math.random().toString(36).substr(2, 5)}`,
             idname: 'visit_systolic_blood_pressure',
             type: 2,
             unit: 'mmHg',
@@ -147,8 +147,8 @@ describe('Updating field', () => {
     test('Updating with good values', () => admin
         .put('/seeds/fieldVisit')
         .send({
-            id: 95,
-            definition: 'Testing Updating',
+            id: visitField.length + 1,
+            definition: `Testing: rand value for unique ${Math.random().toString(36).substr(2, 5)}`,
             idname: 'visit_systolic_blood_pressure',
             type: 2,
             unit: 'mmHg',
@@ -198,7 +198,7 @@ describe('Deleting field', () => {
     test('Deleting with good values', () => admin
         .delete('/seeds/fieldVisit')
         .send({
-            id: 95
+            id: visitField.length + 1
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -210,7 +210,7 @@ describe('Deleting field', () => {
     test('Deleting with good values a second time', () => admin
         .delete('/seeds/fieldVisit')
         .send({
-            id: 95
+            id: visitField.length + 1
         })
         .then(res => {
             expect(res.status).toBe(200);

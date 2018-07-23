@@ -330,7 +330,7 @@ describe('Edit Demographic controller test', () => {
         .put('/demographics/Demographic')
         .send({
             'id': 8,
-            'patient': 9,
+            'patient': 90,
             'DOB': '1 Jan 1980',
             'gender': 1,
             'dominantHand': 1,
@@ -578,7 +578,7 @@ describe('Delete Demographic controller test', () => {
     test('Deleting demographic with good preperty (Should Works)', () => admin
         .delete('/demographics/Demographic')
         .send({
-            'id': 6
+            'id': 2
         })
         .then(res => {
             expect(res.status).toBe(200);
