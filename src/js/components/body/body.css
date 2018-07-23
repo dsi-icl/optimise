@@ -34,7 +34,9 @@
     --color-font-active: rgba(255, 255, 255, 255);
     --color-border-grey: hsl(var(--color-background-h), var(--color-background-s), 80%);
     --color-button-red: hsl(0, 89%, 61%);
-    --color-button-red-lighter: hsl(0, 100%, 67%)
+    --color-button-red-lighter: hsl(0, 100%, 67%);
+    --color-button-green: hsl(157, 89%, 50%);
+    --color-button-green-lighter: hsl(157, 100%, 60%);
 }
 
 * {
