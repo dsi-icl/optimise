@@ -17,7 +17,7 @@ export default class EditCommunication extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <p>This is the communication for visit ///// </p>
+                    <p>This is the communication for visit ///// </p> <br/><br/>
                     <CommunicationEditor/>
                 </form>
             </>
