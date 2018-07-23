@@ -852,7 +852,7 @@ const availableFields = {
         },
         {
             id: 86,
-            definition: '25 feet walk test trial °1',
+            definition: '25 feet walk test trial n°1',
             idname: '25_feet_walk_test_first_try',
             type: 2,
             unit: 'sec',
@@ -862,7 +862,7 @@ const availableFields = {
         },
         {
             id: 87,
-            definition: '25 feet walk test trial °2',
+            definition: '25 feet walk test trial n°2',
             idname: '25_feet_walk_test_second_try',
             type: 2,
             unit: 'sec',
@@ -872,7 +872,7 @@ const availableFields = {
         },
         {
             id: 88,
-            definition: 'Nine hole peg test: left: trial °1',
+            definition: 'Nine hole peg test: left: trial n°1',
             idname: 'Nine_hole_peg_test:_left:_first_try',
             type: 2,
             unit: 'sec',
@@ -882,7 +882,7 @@ const availableFields = {
         },
         {
             id: 89,
-            definition: 'Nine hole peg test: left: trial °2',
+            definition: 'Nine hole peg test: left: trial n°2',
             idname: 'Nine_hole_peg_test:_left:_second_try',
             type: 2,
             unit: 'sec',
@@ -892,7 +892,7 @@ const availableFields = {
         },
         {
             id: 90,
-            definition: 'Nine hole peg test: right: trial °1',
+            definition: 'Nine hole peg test: right: trial n°1',
             idname: 'Nine_hole_peg_test:_right:_first_try',
             type: 2,
             unit: 'sec',
@@ -902,7 +902,7 @@ const availableFields = {
         },
         {
             id: 91,
-            definition: 'Nine hole peg test: right: trial °2',
+            definition: 'Nine hole peg test: right: trial n°2',
             idname: 'Nine_hole_peg_test:_right:_second_try',
             type: 2,
             unit: 'sec',
