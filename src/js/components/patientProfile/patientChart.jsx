@@ -259,6 +259,11 @@ class OneVisit extends Component {
                     </>
                 ) : null
                 }
+
+                <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
+                <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                    <button>Edit / Add</button>
+                </NavLink>
             </TimelineEvent>
         );
     }
