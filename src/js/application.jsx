@@ -7,6 +7,7 @@ import Login from './components/login';
 import { whoami } from './redux/actions/login';
 import { getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
 import Icon from './components/icon';
+import { EDSSCalculator } from './components/EDSScalculator/calculator';
 
 @withRouter
 @connect(state => ({ loggedIn: state.login.loggedIn, checking: state.login.initialCheckingStatus }), dispatch => ({ whoami: () => dispatch(whoami()) }))
@@ -72,9 +73,10 @@ class LoadingFields extends Component {
                     <MiddlePanel />
                     <RightPanel />
                     <FarRightPanel />
-                    <StatusBar />
+                    <EDSSCalculator/>
                     <AlertMessage/>
                     <ErrorMessage />
+                    <StatusBar />
                 </>
             );
         }
