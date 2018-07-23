@@ -36,3 +36,9 @@
 .deleteButton:hover {
     background-color: var(--color-button-red-lighter)
 }
+
+.editor {
+    background-color: white;
+    height: 50%;
+    min-height: 200%
+}
