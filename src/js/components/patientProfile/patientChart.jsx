@@ -206,6 +206,11 @@ class OneVisit extends Component {
                     </>
                 ) : null}
 
+                <h4><Icon symbol='measure' />&nbsp;MS PERFORMANCE MEASURES</h4>
+                <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                    <button>Edit / Add</button>
+                </NavLink>
+
                 {visitHasTests ? (
                     <>
                         <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'}</h4>

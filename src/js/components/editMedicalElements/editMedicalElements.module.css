@@ -71,6 +71,12 @@
 
 .commentButtonsGroup button:hover {
     color: white;
+    background-color: var(--color-button-green-lighter);
+}
+
+.commentButtonsGroup button:active {
+    color: white;
+    background-color: var(--color-button-green);
 }
 
 

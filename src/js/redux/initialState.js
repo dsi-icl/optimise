@@ -96,5 +96,5 @@ export default {
     },
     appLevelError: {},
     alert: {},
-    edssCalc: { display: true }
+    edssCalc: { display: false }
 };
