@@ -1062,7 +1062,7 @@ const availableFields = {
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'LIMITED AMBULATION, WHEELCHAIR BOUND, BEDRIDDEN,UNKNOWN',
+            permittedValues: 'LIMITED AMBULATION,WHEELCHAIR BOUND,BEDRIDDEN,UNKNOWN',
             labels: null,
             referenceType: 1
         },
@@ -1088,7 +1088,7 @@ const availableFields = {
             type: 2,
             unit: null,
             module: 'MS',
-            permittedValues: '0-10',
+            permittedValues: '0,1,2,3,4,5,6,7,8,9,10',
             labels: null,
             referenceType: 1
         },
@@ -1101,7 +1101,7 @@ const availableFields = {
             type: 2,
             unit: null,
             module: 'MS',
-            permittedValues: '0-10',
+            permittedValues: '0,1,2,3,4,5,6,7,8,9,10',
             labels: null,
             referenceType: 1
         },
@@ -1114,7 +1114,7 @@ const availableFields = {
             type: 1,
             unit: null,
             module: 'MS',
-            permittedValues: '0-6',
+            permittedValues: '0,1,2,3,4,5,6',
             labels: 'Normal,'
                 + 'Abnormal signs without disability,'
                 + 'Minimal disability,'
@@ -1133,7 +1133,7 @@ const availableFields = {
             type: 1,
             unit: null,
             module: 'MS',
-            permittedValues: '0-5',
+            permittedValues: '0,1,2,3,4,5',
             labels: 'Normal,'
                 + 'Abnormal signs without disability,'
                 + 'Mild ataxia,'
@@ -1151,7 +1151,7 @@ const availableFields = {
             type: 1,
             unit: null,
             module: 'MS',
-            permittedValues: '0-5',
+            permittedValues: '0,1,2,3,4,5',
             labels: 'Normal'
                 + 'Signs only,'
                 + 'Moderate nystagmus or other mild disability,'
@@ -1169,7 +1169,7 @@ const availableFields = {
             type: 1,
             unit: null,
             module: 'MS',
-            permittedValues: '0-6',
+            permittedValues: '0,1,2,3,4,5,6',
             labels: 'Normal,'
                 + 'Vibration or figure-writing decreased, only in one or two limbs,'
                 + 'Mild decrease in touch or pain or position sense, and/or moderate decrease in vibration in one or two limbs; or vibration decrease alone in three or four limbs,'
@@ -1188,7 +1188,7 @@ const availableFields = {
             type: 1,
             unit: null,
             module: 'MS',
-            permittedValues: '0-6',
+            permittedValues: '0,1,2,3,4,5,6',
             labels: 'Normal,'
                 + 'Mild urinary hesitancy, urgency or retention,'
                 + 'Moderate hesitancy, urgency, retention of bowel or bladder, or rare urinary incontinence (intermittent self-catheterisation, manual compression to evacuate bladder or finger evacuation or stool),'
@@ -1207,7 +1207,7 @@ const availableFields = {
             type: 1,
             unit: null,
             module: 'MS',
-            permittedValues: '0-6',
+            permittedValues: '0,1,2,3,4,5,6',
             labels: 'Normal,'
                 + 'Scotoma with visual acuity (corrected) better then 6/9,'
                 + 'Worse eye with maximal visual acuity (corrected) of 6/9 to 6/12,'
@@ -1226,7 +1226,7 @@ const availableFields = {
             type: 1,
             unit: null,
             module: 'MS',
-            permittedValues: '0-5',
+            permittedValues: '0,1,2,3,4,5',
             labels: 'Normal,'
                 + 'Mood alteration only- fatigue not intefering with daily activity (does not affect EDSS score,),'
                 + 'Mild decrease in mentation- fatigue intefering with daily activity,'
@@ -1244,7 +1244,7 @@ const availableFields = {
             type: 1,
             unit: null,
             module: 'MS',
-            permittedValues: '0-12',
+            permittedValues: '0,1,2,3,4,5,6,7,8,9,10,11,12',
             labels: 'Fully ambulatory,'
                 + '500 m without aid/rest,'
                 + '300 m without aid/rest,'
@@ -2149,7 +2149,7 @@ const availableFields = {
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'T1, T2',
+            permittedValues: 'T1,T2',
             referenceType: 3
         },
         {
@@ -2159,7 +2159,7 @@ const availableFields = {
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'BRAIN, SPINE',
+            permittedValues: 'BRAIN,SPINE',
             referenceType: 3
         },
         {
@@ -2169,7 +2169,7 @@ const availableFields = {
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'NEGATIVE,  POSITIVE, NOT REPORTED',
+            permittedValues: 'NEGATIVE,POSITIVE,NOT REPORTED',
             referenceType: 3
         },
         {
@@ -2199,7 +2199,7 @@ const availableFields = {
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'NONE, SINGLE, MULTIPLE, UNKNOWN',
+            permittedValues: 'NONE,SINGLE,MULTIPLE,UNKNOWN',
             referenceType: 3
         },
         {
@@ -2220,7 +2220,7 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues:
-                'NORMAL, TRAUMATIC, ABNORMAL MS-TYPICAL, ABNORMAL MS-ATYPICAL',
+                'NORMAL,TRAUMATIC,ABNORMAL MS-TYPICAL,ABNORMAL MS-ATYPICAL',
             referenceType: 4
         },
         {
