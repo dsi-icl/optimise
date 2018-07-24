@@ -18,21 +18,21 @@ function TreatmentController() {
 
 TreatmentController.prototype.createTreatment = function (req, res) {
     if (!(req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('drugId') && req.body.hasOwnProperty('dose') &&
-        req.body.hasOwnProperty('unit') && req.body.hasOwnProperty('form') && req.body.hasOwnProperty('timesPerDay') && req.body.hasOwnProperty('durationInWeeks'))) {
+        req.body.hasOwnProperty('unit') && req.body.hasOwnProperty('form') && req.body.hasOwnProperty('timesPerDay'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' && typeof req.body.timesPerDay === 'number' && typeof req.body.durationInWeeks === 'number' &&
+    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' && typeof req.body.timesPerDay === 'number' &&
         typeof req.body.dose === 'number' && typeof req.body.form === 'string' && typeof req.body.form === 'string')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
     if ((req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
-        (req.body.form !== 'oral' && req.body.form !== 'IV')) {
+        (req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
-    if (req.body.timesPerDay <= 0 || req.body.durationInWeeks <= 0) {
+    if (req.body.timesPerDay <= 0 || req.body.timesPerDay > 30) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -41,9 +41,8 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'drug': req.body.drugId,
         'dose': req.body.dose,
         'unit': req.body.unit,   //hardcoded SQL: only mg or cc
-        'form': req.body.form,   //hardcoded SQL: only oral or IV
+        'form': req.body.form,   //hardcoded SQL: only OR (oral) or IV
         'timesPerDay': req.body.timesPerDay,
-        'durationWeeks': req.body.durationInWeeks,
         'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         // field adverseEvent coming up soon.

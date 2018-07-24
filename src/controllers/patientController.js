@@ -45,11 +45,12 @@ PatientController.prototype.searchPatients = function (req, res) {  //get all li
 };
 
 PatientController.prototype.createPatient = function (req, res) {
-    if (req.body.hasOwnProperty('aliasId') && req.body.hasOwnProperty('study')) {
+    if (req.body.hasOwnProperty('aliasId') && req.body.hasOwnProperty('study') && req.body.hasOwnProperty('consent')) {
         let entryObj = {
             aliasId: req.body.aliasId,
             study: req.body.study,
-            createdByUser: req.user.id
+            createdByUser: req.user.id,
+            consent: req.body.consent
         };
         this.patient.createPatient(entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
