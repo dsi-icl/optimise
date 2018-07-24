@@ -1,7 +1,9 @@
-import { PureComponent } from 'react';
+// eslint-disable-next-line no-unused-vars
+import React, { PureComponent } from 'react';
 import { default as T } from 'prop-types';
 import browserBehaviour from '../../utilities/browserBehaviour';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import 'draft-js/dist/Draft.css';
 import './body.css';
 
 export default class Body extends PureComponent {

@@ -8,6 +8,6 @@ export class SystemInfo extends PureComponent {
             <>
                 This system relies on <pre className={style.packageName}>optimise-core</pre> v{packageInfo.dependencies['optimise-core']}
             </>
-        )
+        );
     }
 }

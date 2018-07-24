@@ -1,4 +1,5 @@
 .ariane {
+    position: absolute;
     grid-area: ariane;
     display: block;
     width: 100%;
@@ -7,30 +8,49 @@
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
-.ariane > div {
+.ariane .profileActions {
+    height: 100%;
     position: absolute;
-    padding: 1.2em;
+    padding: 1.4em;
     top: 0;
     right: 0;
-}
-
-.ariane a,
-.ariane span {
-    width: 1.3em;
-    margin-left: 1.2em;
     display: inline-block;
 }
 
-.ariane span:hover {
-    cursor: pointer;
+.profileActions a {
+    line-height: 0.8em;
+    display: inline-block;
 }
 
-.ariane svg {
+.profileActions a {
+    line-height: 0.8em;
+    display: inline-block;
+}
+
+.profileActions a span {
+    padding: 0 0.5em;
+}
+
+.profileActions a:hover span {
+    color: hsl(var(--color-background-h), var(--color-background-s), 20%);
+}
+
+.profileActions svg {
+    width: 1.2em;
+    margin-left: 1.2em;
+    margin-right: 0.3em;
+    display: inline-block;
     fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
 }
-.ariane a:hover svg,
-.ariane span:hover svg {
+
+.profileActions a:hover svg {
     fill: hsl(var(--color-background-h), var(--color-background-s), 20%);
+}
+
+@media (max-width: 95em) {
+    .profileActions a span {
+        display: none;
+    }
 }
 
 .panel {
@@ -43,7 +63,11 @@
 }
 
 .noConsentAlert {
-    color: var(--color-shade-one);
+    padding: 0.4em;
+    width: 100%;
+    display: inline-block;
+    color: var(--color-font-active);
+    background-color: var(--color-shade-one);
 }
 
 .timelineBox {
@@ -116,10 +140,20 @@ div.timelineCEBlack {
 
 .historyVisit div:nth-child(3){
     width: calc(100% + 4.5em) !important;
+    margin-top: -0.5em !important;
+    margin-bottom: -0.5em !important;
     margin-left: -3.5em;
     padding-left: 3.5em !important;
+    padding-bottom: 0 !important;
     background-color: transparent !important;
     box-shadow: none !important;    
+}
+
+.editableTable td:nth-child(1){
+    width: 1.3em;
+}
+.editableTable th:nth-child(1){
+    width: 1.3em;
 }
 
 .history h4 {
@@ -191,7 +225,71 @@ div.timelineCEBlack {
 }
 
 .newPregnancy {
-    border-top: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
     padding-top: 0.9em;
     padding-bottom: 0.9em;
+}
+
+.cancelButton > svg {
+    width: 1em;
+    fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+
+.cancelButton:hover > svg {
+    fill: var(--color-error);
+    cursor: pointer;
+}
+
+
+
+.editButton > div {
+    width: 1.2em;
+    height: 1.2em;
+    fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+
+.editButton > div:hover {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
+}
+
+.activeEdit > div {
+    fill: var(--color-button-red);
+}
+
+.activeEdit > div:hover {
+    fill: var(--color-button-red);
+}
+
+.error {
+    display: block;
+    width: 100%;
+    line-height: 2em;
+    background-color: var(--color-error);
+    color: var(--color-font-active);
+    padding: 0.5em;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.profileSectionActive {
+    width: calc(100% + 2.4em);
+    margin-left: -1.2em;
+    padding: 0 1.2em;
+}
+
+.profileSectionActive {
+    padding-top: 1.2em;
+    margin-bottom: 1.2em;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.profileSectionActive input,
+.profileSectionActive select {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
+}
+
+.profileSectionActive input:hover,
+.profileSectionActive select:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 100%);
 }

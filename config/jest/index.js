@@ -4,55 +4,56 @@ const path = require('path');
 const chalk = require('chalk');
 const paths = require('../../config/paths');
 
-module.exports = (resolve, rootDir, srcRoots) => {
+module.exports = (rootDir) => {
     // Use this instead of `paths.testsSetup` to avoid putting
     // an absolute filename into configuration after ejecting.
     const setupTestsFile = fs.existsSync(paths.testsSetup)
         ? '<rootDir>/src/setupTests.js'
         : undefined;
 
-    const toRelRootDir = f => '<rootDir>/' + path.relative(rootDir || '', f);
-
     // TODO: I don't know if it's safe or not to just use / as path separator
     // in Jest configs. We need help from somebody with Windows to determine this.
     const config = {
-        collectCoverageFrom: ['src/**/*.{js,jsx,mjs}'],
-        setupFiles: [resolve('config/polyfills.js'), resolve('config/mocking.js')],
+        collectCoverageFrom: [
+            "src/**/*.{js,jsx,mjs}"
+        ],
+        setupFiles: [
+            "<rootDir>/config/polyfills.js",
+            "<rootDir>/config/enzyme-adapter.js"
+        ],
         setupTestFrameworkScriptFile: setupTestsFile,
         testMatch: [
-            '**/__tests__/**/*.{js,jsx,mjs}',
-            '**/?(*.)(spec|test).{js,jsx,mjs}',
+            "**/__tests__/**/*.{js,jsx,mjs}",
+            "**/?(*.)(spec|test).{js,jsx,mjs}"
         ],
-        // where to search for files/tests
-        roots: srcRoots.map(toRelRootDir),
-        testEnvironment: 'node',
-        testURL: 'http://localhost',
+        roots: [
+            "<rootDir>/src"
+        ],
+        testEnvironment: "node",
+        testURL: "http://localhost",
         transform: {
-            '^.+\\.(js|jsx|mjs)$': resolve('config/jest/babelTransform.js'),
-            '^.+\\.css$': resolve('config/jest/cssTransform.js'),
-            '^.+\\.(graphql)$': resolve('config/jest/graphqlTransform.js'),
-            '^(?!.*\\.(js|jsx|mjs|css|json|graphql)$)': resolve('config/jest/fileTransform.js'),
+            "^.+\\.(js|jsx|mjs)$": "<rootDir>/config/jest/babelTransform.js",
+            "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+            "^.+\\.(graphql)$": "<rootDir>/config/jest/graphqlTransform.js",
+            "^(?!.*\\.(js|jsx|mjs|css|json|graphql)$)": "<rootDir>/config/jest/fileTransform.js"
         },
         transformIgnorePatterns: [
-            // Because of https://github.com/facebook/jest/pull/5941
-            // We only target linux path and let Jest normailise it
-            // TODO Look at https://github.com/facebook/jest/issues/6385 for resolution
-            '/node_modules/.+\\.(js|jsx|mjs)$',
-            '^.+\\.module\\.(css|sass|scss)$',
+            "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$",
+            "^.+\\.module\\.(css|sass|scss)$"
         ],
         moduleNameMapper: {
-            '^react-native$': 'react-native-web',
-            '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+            "^react-native$": "react-native-web",
+            "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
         },
         moduleFileExtensions: [
-            'web.js',
-            'js',
-            'json',
-            'web.jsx',
-            'jsx',
-            'node',
-            'mjs',
-        ],
+            "web.js",
+            "js",
+            "json",
+            "web.jsx",
+            "jsx",
+            "node",
+            "mjs"
+        ]
     };
     if (rootDir) {
         config.rootDir = rootDir;
@@ -105,12 +106,7 @@ module.exports = (resolve, rootDir, srcRoots) => {
                         unsupportedKeys
                             .map(key => chalk.bold('  \u2022 ' + key))
                             .join('\n') +
-                        '\n\nIf you wish to override other Jest options, you need to ' +
-                        'eject from the default setup. You can do so by running ' +
-                        chalk.bold('npm run eject') +
-                        ' but remember that this is a one-way operation. ' +
-                        'You may also file an issue with Optimise to discuss ' +
-                        'supporting more options out of the box.\n'
+                        '\n'
                     )
                 );
             }

@@ -1,17 +1,30 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPatientProfileById, searchPatientAPICall, searchPatientRequest, searchPatientClear } from '../../redux/actions/searchPatient';
+import { getPatientProfileById, searchPatientAPICall, searchPatientClear } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import style from './searchPatient.module.css';
 
 @connect(state => ({ data: state.searchPatient }))
 export default class SearchPatientsById extends Component {
-    constructor() {
-        super();
-        this.state = { searchString: '' };
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchType: props.data.currentSearchType || '',
+            searchString: props.data.currentSearchString || ''
+        };
+        this._handleSelectChange = this._handleSelectChange.bind(this);
         this._handleKeyStroke = this._handleKeyStroke.bind(this);
         this._handleEnterKey = this._handleEnterKey.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.data.currentSearchString !== undefined && this.props.data.currentSearchString !== null && this.props.data.currentSearchString !== '') {
+            store.dispatch(searchPatientAPICall({
+                field: this.props.data.currentSearchType,
+                value: this.props.data.currentSearchString
+            }));
+        }
     }
 
     componentWillUnmount() {
@@ -21,11 +34,21 @@ export default class SearchPatientsById extends Component {
     _handleKeyStroke(ev) {
         this.setState({ searchString: ev.target.value });
         if (ev.target.value !== '') {
-            store.dispatch(searchPatientRequest(ev.target.value));
-            store.dispatch(searchPatientAPICall(ev.target.value));
+            store.dispatch(searchPatientAPICall({
+                field: this.state.searchType,
+                value: ev.target.value
+            }));
         } else {
-            store.dispatch(searchPatientRequest(ev.target.value));
+            store.dispatch(searchPatientClear());
         }
+    }
+
+    _handleSelectChange(ev) {
+        this.setState({ searchType: ev.target.value });
+        store.dispatch(searchPatientAPICall({
+            field: ev.target.value,
+            value: this.state.searchString,
+        }));
     }
 
     _handleEnterKey(ev) {
@@ -41,25 +64,37 @@ export default class SearchPatientsById extends Component {
                     <h2>Patient Search</h2>
                 </div>
                 <div className={style.panel}>
+                    <span>Search you dataset by entering your criteria in the box below.</span><br /><br />
                     <form>
-                        <label htmlFor='searchTerm'>Enter Patient ID:</label><br />
-                        <input type='text' name='searchTerm' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} autoComplete="off" />
+                        <label htmlFor='searchType'>Search by:</label><br />
+                        <select name='searchType' value={this.state.searchType} onChange={this._handleSelectChange} autoComplete='off'>
+                            <option value='USUBJID'>ID</option>
+                            <option value='SEX'>Sex</option>
+                            <option value='EXTRT'>Treatment</option>
+                            <option value='ETHNIC'>Ethnic Background</option>
+                            <option value='COUNTRY'>Country of origin</option>
+                            <option value='DOMINANT'>Dominant Hand</option>
+                            <option value='MHTERM'>Diagnosis</option>
+                        </select><br /><br />
+                        <label htmlFor='searchType'>Containing:</label><br />
+                        <input type='text' name='searchTerm' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} autoComplete='off' />
                     </form><br />
-                    <SearchResultForPatients listOfPatients={this.props.data.result} searchString={this.state.searchString} />
+                    <SearchResultForPatients listOfPatients={this.props.data.result} searchType={this.state.searchType} searchString={this.state.searchString} />
                 </div>
             </>
         );
     }
 }
+
 @connect(null, dispatch => ({
     fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName))
 }))
 export class SearchResultForPatients extends Component {
     render() {
-        const { searchString, listOfPatients } = this.props;
+        const { searchString, searchType, listOfPatients } = this.props;
         return (
             <div className={style.searchResultWrapper}>
-                {listOfPatients.filter(el => el['aliasId'] === searchString).length === 0 && searchString !== '' ?
+                {listOfPatients !== undefined && listOfPatients.filter(el => el['aliasId'] === searchString).length === 0 && searchString !== '' && (searchType === 'USUBJID' || searchType === '') ?
                     <Link to={`/createPatient/${searchString}`} className={style.searchItem}>
                         <div>
                             <span className={style.createPatientSign}>&#43;</span><br />
@@ -67,7 +102,7 @@ export class SearchResultForPatients extends Component {
                         </div>
                     </Link>
                     : null}
-                {listOfPatients.map(el => <PatientButton key={el.patientId} data={el} searchString={searchString} />)}
+                {listOfPatients !== undefined && listOfPatients.map(el => <PatientButton key={el.patientId} data={el} searchString={searchString} />)}
             </div>
         );
     }

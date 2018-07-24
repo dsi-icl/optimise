@@ -1,0 +1,110 @@
+.ariane {
+    grid-area: ariane;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.ariane a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1.2em;
+    font-size: 1.3em;
+    line-height: 0.9em;
+}
+
+.ariane a:hover {
+    color: var(--color-background)
+}
+
+.panel {
+    grid-area: panel;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    overflow: auto;
+}
+
+.deleteButton {
+    background-color: var(--color-button-red)
+}
+
+.deleteButton:hover {
+    background-color: var(--color-button-red-lighter)
+}
+
+.editorWrapper {
+    margin-top: 1em;
+    background: white;
+    height: 400px;
+    padding: 0.5em;
+    display: block;
+    overflow: auto;
+    border: 1px solid rgb(200, 200, 200)
+}
+
+.commentButtonsGroup {
+    width: 100%;
+}
+
+.commentButtonsGroup > div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.commentButtonsGroup button {
+    height: 2.5em;
+    line-height: 2.5em;
+    background-color: rgba(230, 230, 230);
+    text-align: center;
+    padding: 0;
+    border-radius: 4px;
+    margin: 2px;
+    overflow: hidden;
+    color: darkgrey;
+}
+
+.commentButtonsGroup button:hover {
+    color: white;
+    background-color: var(--color-button-green-lighter);
+}
+
+.commentButtonsGroup button:active {
+    color: white;
+    background-color: var(--color-button-green);
+}
+
+
+.editorButtonsGroup {
+    width: 100%;
+}
+
+.editorButtonsGroup u{
+    text-decoration: underline;
+}
+
+.editorButtonsGroup > button {
+    width: 4em;
+    height: 2.5em;
+    line-height: 2.5em;
+    background-color: rgba(220, 220, 220);
+    text-align: center;
+    padding: 0
+}
+
+.editorButtonsGroup > button:active {
+    background-color: rgb(44, 171, 230)
+}
+
+.editorButtonsGroup > button:nth-child(1) {
+    border-radius: 4px 0px 0px 4px;
+}
+
+.editorButtonsGroup > button:nth-last-child(1) {
+    border-radius: 0px 4px 4px 0px;
+}

@@ -14,3 +14,12 @@ export const createVisitAPICall = (body) => dispatch => {
         })
         .catch(msg => console.log(msg));
 };
+
+export const createShadowVisitAPICall = (body, context) => dispatch => {
+    return apiHelper('/visits', { method: 'POST', body: JSON.stringify(body.visitData) })
+        .then(json => {
+            dispatch(getPatientProfileById(body.patientId));
+            history.push(`${context.to}/${json.state}/${context.type}`);
+        })
+        .catch(msg => console.log(msg));
+};

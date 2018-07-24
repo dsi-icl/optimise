@@ -2,7 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
-import { PatientProfileSectionScaffold, PatientProfileTop } from './sharedComponents';
+import { PatientProfileSectionScaffold, PatientProfileTop, EditButton } from './sharedComponents';
 import { TimelineBox } from './timeline';
 import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
@@ -50,9 +50,10 @@ export class PatientChart extends Component {
 class Test extends PureComponent {
     render() {
         const { data, typedict, patientId } = this.props;
-        const date = new Date(parseInt(data.expectedOccurDate, 10)).toDateString()
+        const date = new Date(parseInt(data.expectedOccurDate, 10)).toDateString();
         return (
             <tr>
+                <td><EditButton to={`/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>
@@ -61,7 +62,7 @@ class Test extends PureComponent {
                     </NavLink>
                 </td>
             </tr>
-            
+
         );
     }
 }
@@ -75,11 +76,11 @@ class Medication extends PureComponent {
         const numberOfInterruptions = data.interruptions ? data.interruptions.length : 0;
         return (
             <tr>
+                <td><EditButton to={`/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{`${data.dose} ${data.unit}`}</td>
                 <td>{data.form}</td>
                 <td>{data.timesPerDay}</td>
-                <td>{data.durationWeeks}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
                     <NavLink id={`treatment/${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
@@ -87,7 +88,7 @@ class Medication extends PureComponent {
                     </NavLink>
                 </td>
             </tr>
-            
+
         );
     }
 }
@@ -101,6 +102,7 @@ class ClinicalEvent extends PureComponent {
         const date = new Date(parseInt(data.dateStartDate, 10)).toDateString();
         return (
             <tr>
+                <td><EditButton to={`/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>
@@ -109,7 +111,7 @@ class ClinicalEvent extends PureComponent {
                     </NavLink>
                 </td>
             </tr>
-            
+
         );
     }
 }
@@ -117,7 +119,7 @@ class ClinicalEvent extends PureComponent {
 @connect(state => ({ typedict: state.availableFields.visitFields_Hash[0], patientId: state.patientProfile.data.patientId }))
 class Symptom extends PureComponent {
     render() {
-        const { data, typedict, patientId } = this.props;
+        const { data, typedict } = this.props;
         return (
             <tr>
                 <td>{typedict[data.field].definition}</td>
@@ -132,29 +134,6 @@ export function formatRow(arr) {
     return arr.map((el, ind) => <td key={ind}>{el}</td>);
 }
 
-
-/* receives props baselineVisit, boolean; and all treatments of a visit */
-class MedicationSection extends PureComponent {
-    render(){
-        const { baselineVisit, data } = this.props;
-        return (
-        <>
-            <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
-                <table>
-                    <thead>
-                        <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
-                    </thead>
-                    <tbody>
-                        {data.map(el => <Medication key={el.id} data={el}/>)}
-                    </tbody>
-                </table>
-        </>
-        );
-    }
-}
-
-
-
 /**
  * @prop {Object} this.props.availableFieldsdata
  * @prop {String} visitId
@@ -166,6 +145,7 @@ class MedicationSection extends PureComponent {
  * @prop {Boolean} baselineVisit - Indicating whether it is a baseline visit
  */
 class OneVisit extends Component {
+
     render() {
         const { baselineVisit } = this.props;
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
@@ -175,8 +155,8 @@ class OneVisit extends Component {
         const VS = this.props.visitData.filter(el => [1, 2, 3, 4, 5, 6].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
-        const fieldHashTable = relevantFields.reduce((map, field) => { map[field.id] = field; return map; }, {});
         const symptoms = this.props.visitData.filter(el => el.field > 6);
+
         return (
             <TimelineEvent
                 id={`visit/${this.props.visitId}`}
@@ -186,53 +166,62 @@ class OneVisit extends Component {
                 className={style.historyVisit}
                 bubbleStyle={{ borderColor: 'transparent' }}>
 
-                <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td >Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
-                            <td >Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
-                        </tr>
-                        <tr>
-                            <td >Heart rate: {`${VSHashTable['2']} bpm`}</td>
-                            <td >Height: {`${VSHashTable['4']} cm`}</td>
-                        </tr>
-                        <tr>
-                            <td >Weight: {`${VSHashTable['5']} kg`}</td>
-                            <td >Academic concern: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
-                {relevantFields.length !== 0 ? (
+                {this.props.visitType === 1 ? (
                     <>
+                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
                         <table>
-                            <thead>
-                                <tr><th>Recorded symptoms</th><th>Value</th></tr>
-                            </thead>
                             <tbody>
-                                {symptoms.map(el => <Symptom key={el.field} data={el}/>)}
+                                <tr>
+                                    <td >Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
+                                    <td >Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
+                                </tr>
+                                <tr>
+                                    <td >Heart rate: {`${VSHashTable['2']} bpm`}</td>
+                                    <td >Height: {`${VSHashTable['4']} cm`}</td>
+                                </tr>
+                                <tr>
+                                    <td >Weight: {`${VSHashTable['5']} kg`}</td>
+                                    <td >Academic concerns: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td>
+                                </tr>
                             </tbody>
                         </table>
+
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
+                        {relevantFields.length !== 0 ? (
+                            <>
+                                <table>
+                                    <thead>
+                                        <tr><th>Recorded symptoms</th><th>Value</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {symptoms.map(el => <Symptom key={el.field} data={el} />)}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit / Add</button>
+                        </NavLink>
                     </>
                 ) : null}
-                <br />
-                <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+
+                <h4><Icon symbol='measure' />&nbsp;MS PERFORMANCE MEASURES</h4>
+                <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
                     <button>Edit / Add</button>
                 </NavLink>
 
                 {visitHasTests ? (
                     <>
                         <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'}</h4>
-                        <table>
+                        <table className={style.editableTable}>
                             <thead>
-                                <tr><th>Type</th><th>Expected date</th><th></th></tr>
+                                <tr><th></th><th>Type</th><th>Expected date</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.tests
                                     .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                    .map(el => <Test key={el.id} data={el}/>)}
+                                    .map(el => <Test key={el.id} data={el} />)}
                             </tbody>
                         </table>
                     </>
@@ -243,14 +232,14 @@ class OneVisit extends Component {
                 {visitHasMedications ? (
                     <>
                         <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
-                        <table>
+                        <table className={style.editableTable}>
                             <thead>
-                                <tr><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>Duration (weeks)</th><th>#interruptions</th><th></th></tr>
+                                <tr><th></th><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>#interruptions</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.treatments
                                     .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                    .map(el => <Medication key={el.id} data={el}/>)}
+                                    .map(el => <Medication key={el.id} data={el} />)}
                             </tbody>
                         </table>
                     </>
@@ -261,20 +250,25 @@ class OneVisit extends Component {
                 {visitHasClinicalEvents ? (
                     <>
                         <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
-                        <table>
+                        <table className={style.editableTable}>
                             <thead>
-                                <tr><th>Type</th><th>Start date</th><th></th></tr>
+                                <tr><th></th><th>Type</th><th>Start date</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.clinicalEvents
                                     .filter(el => el['recordedDuringVisit'] === this.props.visitId)
                                     /* change this map later to calculated patientId*/
-                                    .map(el => <ClinicalEvent key={el.id} data={el}/>)}
+                                    .map(el => <ClinicalEvent key={el.id} data={el} />)}
                             </tbody>
                         </table>
                     </>
                 ) : null
                 }
+
+                <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
+                <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                    <button>Edit / Add</button>
+                </NavLink>
             </TimelineEvent>
         );
     }
@@ -308,14 +302,16 @@ export class Charts extends Component {   //unfinsihed
                                             suffix = 'th';
                                     };
                                     const baselineVisit = order === 1 ? true : false;
+                                    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                     return <OneVisit visitData={el.data}
                                         availableFields={this.props.availableFields}
                                         key={el.id} data={this.props.data}
                                         visitId={el.id}
+                                        visitType={el.type}
                                         baselineVisit={baselineVisit}
                                         type='visit'
-                                        title={baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`}
-                                        visitDate={new Date(parseInt(el.visitDate, 10)).toDateString()} />;
+                                        title={el.type === 1 ? (baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`) : 'Ponctual record'}
+                                        visitDate={el.type === 1 ? new Date(parseInt(el.visitDate, 10)).toLocaleDateString('en-GB', dateOptions) : `${new Date(parseInt(el.visitDate, 10)).toLocaleDateString('en-GB', dateOptions)} at ${new Date(parseInt(el.visitDate, 10)).toLocaleTimeString()}`} />;
                                 }
                             )}
                         </Timeline>

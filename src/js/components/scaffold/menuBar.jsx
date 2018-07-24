@@ -24,13 +24,13 @@ export default class MenuBar extends Component {
         return (
             <div className={style.menuBar}>
                 <br /><br /><br />
+                <NavLink to='/patientProfile' title='Patient view' activeClassName={style.active}>
+                    <Icon symbol='user' />
+                </NavLink>
+
                 <NavLink to='/searchPatient' title='Search and edit patients' activeClassName={style.active}>
                     <Icon symbol='search' />
                 </NavLink>
-
-                <a title='Export as CDISC' target="_blank" href='/api/export'>
-                    <Icon symbol='export' />
-                </a>
 
                 <NavLink to='/administration' title='Admin settings' activeClassName={style.active}>
                     <Icon symbol='setting' />

@@ -1,13 +1,17 @@
 export default {
+
     searchPatient: {
         fetching: false,
         error: false,
-        result: []
+        result: [],
+        currentSearchType: '',
+        currentSearchString: ''
     },
     createPatient: { patientId: '' },
     patientProfile: {
         fetching: true,
-        data: {}
+        data: {},
+        currentPatient: null
     },
     availableFields: {
         fetching: true,
@@ -27,6 +31,7 @@ export default {
         interruptionReasons: [],
         interruptionReasons_Hash: [],
         allMeddra: [],
+        allMeddra_ReverseHash: [],
         pregnancyOutcomes: [],
         pregnancyOutcomes_Hash: [],
         diagnoses: [],
@@ -89,5 +94,7 @@ export default {
         success: false,
         error: false
     },
-    appLevelError: {}
+    appLevelError: {},
+    alert: {},
+    edssCalc: { display: false }
 };

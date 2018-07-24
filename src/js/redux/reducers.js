@@ -25,8 +25,12 @@ function login(state = initialState.login, action) {
 
 function searchPatient(state = initialState.searchPatient, action) {
     switch (action.type) {
-        case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_REQUEST:
-            return { ...state, result: [], fetching: true, error: false };
+        case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_REQUEST: {
+            let tmp = { ...state, fetching: true, error: false, currentSearchType: action.payload.field, currentSearchString: action.payload.value };
+            if (action.payload.value === '')
+                tmp.result = [];
+            return tmp;
+        }
         case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_FAILURE:
             return { ...state, result: [], error: true };
         case actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_SUCCESS:
@@ -83,7 +87,7 @@ function availableFields(state = initialState.availableFields, action) {
             const VShash = action.payload.slice(0, 6).reduce((map, el) => { map[el.id] = el; return map; }, {});
             const visitHash = action.payload.slice(6).reduce((map, el) => { map[el.id] = el; return map; }, {});
             newState = {
-                ...state, 
+                ...state,
                 VSFields: action.payload.slice(0, 6),
                 visitFields: action.payload.slice(6),
                 VSFields_Hash: [VShash],
@@ -111,7 +115,7 @@ function availableFields(state = initialState.availableFields, action) {
             break;
         case actionTypes.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
-            newState = { ...state, pregnancyOutcomes: action.payload, pregnancyOutcomes_Hash: [hash]  };
+            newState = { ...state, pregnancyOutcomes: action.payload, pregnancyOutcomes_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_INTERRUPTION_REASONS_SUCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
@@ -119,7 +123,8 @@ function availableFields(state = initialState.availableFields, action) {
             break;
         case actionTypes.availableFields.GET_MEDDRA_SUCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
-            newState = { ...state, allMeddra: [hash] };
+            const reverseHash = action.payload.reduce((map, el) => { map[el.name] = el.id; return map; }, {});
+            newState = { ...state, allMeddra: [hash], allMeddra_ReverseHash: [reverseHash] };
             break;
         default:
             return state;
@@ -142,7 +147,7 @@ function patientProfile(state = initialState.patientProfile, action) {
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_REQUEST:
             return { fetching: true, data: {} };
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_SUCCESS:
-            return { fetching: false, data: action.payload };
+            return { fetching: false, data: action.payload, currentPatient: action.payload.patientId };
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_FAILURE:
             return { fetching: true, data: { patientId: 'cannot find you patient :(' } };
         default:
@@ -216,6 +221,28 @@ function appLevelError(state = initialState.appLevelError, action) {
     }
 }
 
+function alert(state = initialState.alert, action) {
+    switch (action.type) {
+        case actionTypes.alert.ADD_ALERT:
+            return action.payload;
+        case actionTypes.alert.CLEAR_ALERT:
+            return {};
+        default:
+            return state;
+    }
+}
+
+function edssCalc(state = initialState.edssCalc, action) {
+    switch (action.type) {
+        case actionTypes.edssCalc.CLEAR_CALCULATOR:
+            return { display: false };
+        case actionTypes.edssCalc.DISPLAY_CALCULATOR:
+            return { display: true };
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatient,
@@ -226,6 +253,8 @@ export const rootReducer = combineReducers({
     log,
     getAllUsers,
     erasePatient,
-    appLevelError
+    appLevelError,
+    alert,
+    edssCalc
 });
 
