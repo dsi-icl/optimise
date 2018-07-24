@@ -817,7 +817,7 @@ const availableFields = {
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'LIMITED AMBULATION, WHEELCHAIR BOUND, BEDRIDDEN,UNKNOWN',
+            permittedValues: 'LIMITED AMBULATION,WHEELCHAIR BOUND,BEDRIDDEN,UNKNOWN',
             referenceType: 1
         },
         {
@@ -837,7 +837,7 @@ const availableFields = {
             type: 2,
             unit: null,
             module: 'MS',
-            permittedValues: '0-10',
+            permittedValues: '0,1,2,3,4,5,6,7,8,9,10',
             referenceType: 1
         },
         {
@@ -1688,23 +1688,23 @@ const availableFields = {
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'T1, T2',
+            permittedValues: 'T1,T2',
             referenceType: 3
         },
         {
             id: 76,
-            definition: 'Morphology: region',
-            idname: 'Morphology:_region',
+            definition: 'Region',
+            idname: 'Region',
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'BRAIN, SPINE',
+            permittedValues: 'BRAIN,SPINE',
             referenceType: 3
         },
         {
             id: 77,
-            definition: 'Morphology: T1 hypointense lesions',
-            idname: 'Morphology:_T1_hypointense_lesions',
+            definition: 'T1 hypointense lesions',
+            idname: 'T1_hypointense_lesions',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1713,8 +1713,8 @@ const availableFields = {
         },
         {
             id: 78,
-            definition: 'Morphology: T2 hypointense lesions count',
-            idname: 'Morphology:_T2_hypointense_lesions_count',
+            definition: 'T2 hypointense lesions count',
+            idname: 'T2_hypointense_lesions_count',
             type: 2,
             unit: null,
             module: 'MS',
@@ -1723,8 +1723,8 @@ const availableFields = {
         },
         {
             id: 79,
-            definition: 'Morphology: T2 hypointense lesions volume',
-            idname: 'Morphology:_T2_hypointense_lesions_volume',
+            definition: 'T2 hypointense lesions volume',
+            idname: 'T2_hypointense_lesions_volume',
             type: 2,
             unit: null,
             module: 'MS',
@@ -1733,18 +1733,18 @@ const availableFields = {
         },
         {
             id: 80,
-            definition: 'Morphology: Gd enhancing lesions',
-            idname: 'Morphology:_Gd_enhancing_lesions',
+            definition: 'Gd enhancing lesions',
+            idname: 'Gd_enhancing_lesions',
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'NONE, SINGLE, MULTIPLE, UNKNOWN',
+            permittedValues: 'NONE,SINGLE,MULTIPLE,UNKNOWN',
             referenceType: 3
         },
         {
             id: 81,
-            definition: 'Morphology: Gd enhancing lesions volume',
-            idname: 'Morphology:_Gd_enhancing_lesions_volume',
+            definition: 'Gd enhancing lesions volume',
+            idname: 'Gd_enhancing_lesions_volume',
             type: 2,
             unit: null,
             module: 'MS',
@@ -1759,7 +1759,7 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues:
-                'NORMAL, TRAUMATIC, ABNORMAL MS-TYPICAL, ABNORMAL MS-ATYPICAL',
+                'NORMAL,TRAUMATIC,ABNORMAL MS-TYPICAL,ABNORMAL MS-ATYPICAL',
             referenceType: 4
         },
         {
