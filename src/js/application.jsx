@@ -21,6 +21,8 @@ class App extends Component {
         return (
             <Body>
                 {this.props.checking ? <Icon symbol='loading' /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+                <AlertMessage />
+                <ErrorMessage />
             </Body>
         );
     }
@@ -74,8 +76,6 @@ class LoadingFields extends Component {
                     <RightPanel />
                     <FarRightPanel />
                     <EDSSCalculator/>
-                    <AlertMessage/>
-                    <ErrorMessage />
                     <StatusBar />
                 </>
             );
