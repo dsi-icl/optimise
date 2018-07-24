@@ -15,14 +15,14 @@ class ExportDataController {
         /* Patient demographic data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DEMOGRAPHIC.DOB as BRTHDTC', 'GENDERS.value as SEX', 'DOMINANT_HANDS.value as DOMINANT', 'ETHNICITIES.value as ETHNIC', 'COUNTRIES.value as COUNTRY')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DEMOGRAPHIC.DOB as BRTHDTC', 'GENDERS.value as SEX', 'DOMINANT_HANDS.value as DOMINANT', 'ETHNICITIES.value as ETHNIC', 'COUNTRIES.value as COUNTRY')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
             .leftOuterJoin('DOMINANT_HANDS', 'DOMINANT_HANDS.id', 'PATIENT_DEMOGRAPHIC.dominantHand')
             .leftOuterJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
             .leftOuterJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
             .where('PATIENTS.deleted', '-')
-            .where('PATIENT_DEMOGRAPHIC.deleted', '-')
+            .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
                 let convertedResult = [];
                 for (let i = 0; i < result.length; i++) {
@@ -40,11 +40,11 @@ class ExportDataController {
         /* Smoking history data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'SMOKING_HISTORY.value as SCORRES')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'SMOKING_HISTORY.value as SCORRES')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
             .leftOuterJoin('SMOKING_HISTORY', 'SMOKING_HISTORY.id', 'PATIENT_DEMOGRAPHIC.smokingHistory')
             .where('PATIENTS.deleted', '-')
-            .where('PATIENT_DEMOGRAPHIC.deleted', '-')
+            .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'smoking'));
@@ -54,11 +54,11 @@ class ExportDataController {
         /* Alcohol consumption data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
             .leftOuterJoin('ALCOHOL_USAGE', 'ALCOHOL_USAGE.id', 'PATIENT_DEMOGRAPHIC.alcoholUsage')
             .where('PATIENTS.deleted', '-')
-            .where('PATIENT_DEMOGRAPHIC.deleted', '-')
+            .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
                     fileArray.push(new createDataFile(result, 'alcoholConsumption'));
@@ -81,7 +81,7 @@ class ExportDataController {
         /* Patient pregnancy data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_PREGNANCY.startDate as MHSTDTC', 'PREGNANCY_OUTCOMES.value as MHENRTPT', 'PATIENT_PREGNANCY.outcomeDate as MHENDTC', 'ADVERSE_EVENT_MEDDRA.name as MedDRA')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_PREGNANCY.startDate as MHSTDTC', 'PREGNANCY_OUTCOMES.value as MHENRTPT', 'PATIENT_PREGNANCY.outcomeDate as MHENDTC', 'ADVERSE_EVENT_MEDDRA.name as MedDRA')
             .leftOuterJoin('PATIENT_PREGNANCY', 'PATIENT_PREGNANCY.patient', 'PATIENTS.id')
             .leftJoin('PREGNANCY_OUTCOMES', 'PREGNANCY_OUTCOMES.id', 'PATIENT_PREGNANCY.outcome')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
@@ -104,10 +104,12 @@ class ExportDataController {
                 }
             });
 
+        /* Patient vital signs data (within Visit) */
+
         /* Patient medical history data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'RELATIONS.value as SREL', 'CONDITIONS.value as MHTERM', 'MEDICAL_HISTORY.startDate as MHSTDTC', 'MEDICAL_HISTORY.outcome as MHENRTPT', 'MEDICAL_HISTORY.resolvedYear as MHENDTC')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'RELATIONS.value as SREL', 'CONDITIONS.value as MHTERM', 'MEDICAL_HISTORY.startDate as MHSTDTC', 'MEDICAL_HISTORY.outcome as MHENRTPT', 'MEDICAL_HISTORY.resolvedYear as MHENDTC')
             .leftOuterJoin('MEDICAL_HISTORY', 'PATIENTS.id', 'MEDICAL_HISTORY.patient')
             .leftOuterJoin('RELATIONS', 'RELATIONS.value', 'MEDICAL_HISTORY.relation')
             .leftOuterJoin('CONDITIONS', 'CONDITIONS.value', 'MEDICAL_HISTORY.conditionName')
@@ -130,7 +132,7 @@ class ExportDataController {
         /* Patient immunisation data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.uuid', 'PATIENT_IMMUNISATION.vaccineName as MHTERM', 'PATIENT_IMMUNISATION.immunisationDate as MHSTDTC')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_IMMUNISATION.vaccineName as MHTERM', 'PATIENT_IMMUNISATION.immunisationDate as MHSTDTC')
             .leftOuterJoin('PATIENT_IMMUNISATION', 'PATIENTS.id', 'PATIENT_IMMUNISATION.patient')
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
@@ -151,7 +153,7 @@ class ExportDataController {
         /* Patient diagnosis data */
 
         knex('PATIENTS')
-            .select('PATIENTS.id', 'PATIENTS.uuid as USUBJID', 'PATIENT_DIAGNOSIS.diagnosisDate as MHSTDTC', 'AVAILABLE_DIAGNOSES.value as MHTERM')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DIAGNOSIS.diagnosisDate as MHSTDTC', 'AVAILABLE_DIAGNOSES.value as MHTERM')
             .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENT_DIAGNOSIS.patient', 'PATIENTS.id')
             .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
             .where('PATIENTS.deleted', '-')
@@ -186,8 +188,24 @@ class ExportDataController {
                         entry.visitDate = new Date(entry.visitDate).toString();
                     }
                     convertedResult.push(entry);
-                } if (result.length >= 1) {
+                }                if (result.length >= 1) {
                     fileArray.push(new createDataFile(convertedResult, 'visit'));
+                }
+            });
+
+        /* Patient Evoked Potential test data DOMAIN:NV */
+
+        knex('TEST_DATA')
+            .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_TESTS.cdiscName as NVTEST', 'TEST_DATA.value as NVORRES', 'AVAILABLE_FIELDS_TESTS.unit as NVORRESU', 'AVAILABLE_FIELDS_TESTS.laterality as NVLAT', 'ORDERED_TESTS.actualOccurredDate as NVDTC', 'ORDERED_TESTS.expectedOccurDate as VISITDY')
+            .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
+            .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .where('ORDERED_TESTS.type', 2)
+            .andWhere('TEST_DATA.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    fileArray.push(new createDataFile(result, 'nv'));
                 }
             });
 
@@ -247,12 +265,18 @@ class ExportDataController {
         /* Patient treatment data */
 
         knex('TREATMENTS')
-            .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name as EXTRT', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit', 'TREATMENTS.form as EXFORM', 'TREATMENTS.timesPerDay', 'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module as EXCAT', 'PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC', 'TREATMENTS_INTERRUPTIONS.endDate as EXENDTC', 'TREATMENTS_INTERRUPTIONS.reason as REASON', 'ADVERSE_EVENT_MEDDRA.name as MedDRA')
+            .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_DRUGS.name as EXTRT',
+                'AVAILABLE_DRUGS.module as EXCLAS', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit as EXDOSU',
+                'TREATMENTS.timesPerDay as EXDOSFRQ', 'TREATMENTS.form as EXROUTE', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC_2',
+                'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason',
+                'TREATMENTS_INTERRUPTIONS.endDate as EXENDTC_2', 'REASONS.value as REASON',
+                'ADVERSE_EVENT_MEDDRA.name as trtMedDRA')
             .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
             .leftOuterJoin('TREATMENTS_INTERRUPTIONS', 'TREATMENTS_INTERRUPTIONS.treatment', 'TREATMENTS.id')
             .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'TREATMENTS_INTERRUPTIONS.meddra')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .leftOuterJoin('REASONS', 'REASONS.id', 'TREATMENTS_INTERRUPTIONS.reason')
             .where('TREATMENTS.deleted', '-')
             .then(result => {
                 let convertedResult = [];
@@ -289,8 +313,8 @@ class ExportDataController {
             //     newKeys = keys;
             // }
             let tempResult = `${keys.join(',')}\n`;
-            result.forEach(function (obj) {
-                keys.forEach(function (a, b) {
+            result.forEach(function(obj) {
+                keys.forEach(function(a, b){
                     if (b) tempResult += ',';
                     tempResult += obj[a];
                 });
