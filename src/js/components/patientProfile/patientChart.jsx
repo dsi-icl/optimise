@@ -186,7 +186,7 @@ class OneVisit extends Component {
                             </tbody>
                         </table>
 
-                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS AND SIGNS INDICATING MS' : 'SYMPTOMS AND SIGNS'}</h4>
                         {relevantFields.length !== 0 ? (
                             <>
                                 <table>
