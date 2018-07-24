@@ -1,3 +1,4 @@
+const uuid = require('uuid/v4');
 const { getEntry, createEntry, updateEntry, deleteEntry } = require('../utils/controller-utils');
 const knex = require('../utils/db-connection');
 const ErrorHelper = require('../utils/error_helper');
@@ -153,7 +154,7 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
         default:
             return new Promise(function (resolve, reject) {
                 knex('PATIENTS')
-                    .select({ patientId: 'id' }, 'aliasId', 'study', 'consent')
+                    .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
                     .where('aliasId', 'like', queryvalue)
                     .andWhere('PATIENTS.deleted', '-')
                     .then(function (result) {
@@ -176,6 +177,7 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
 Patient.prototype.createPatient = function (patient) {
     return new Promise(function (resolve, reject) {
         let entryObj = Object.assign({}, patientModel, patient);
+        entryObj.uuid = uuid();
         createEntry('PATIENTS', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {
