@@ -8,6 +8,8 @@ exports.up = function (knex) {
         table.text('module').nullable();
         table.text('permittedValues').nullable();
         table.integer('referenceType').notNullable().references('id').inTable('AVAILABLE_TEST_TYPES');
+        table.text('laterality').nullable();
+        table.text('cdiscName').nullable();
         table.text('deleted').notNullable().defaultTo('-');
         table.unique(['idname', 'type', 'unit', 'module']);
     });
