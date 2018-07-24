@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, ContentState } from 'draft-js';
+import { formatTests, visitTitle, formatEvents, formatTreatments, blockgen } from './communicationTemplates';
 import { BackButton } from '../medicalData/dataPage';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
@@ -16,24 +17,21 @@ export default class EditCommunication extends Component {
         }
         console.log(this.props)
         const { params } = match;
+        const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash } = this.props.availableFields;
         let { visits, tests, treatments, clinicalEvents } = data;
         visits = visits.filter(el => el.id === parseInt(params.visitId));
         if (visits.length === 0) {
             return <div>Cannot find your visit!</div>;
         }
-        tests = tests.filter(el => el.id === parseInt(params.visitId));
-        treatments = treatments.filter(el => el.id === parseInt(params.visitId));
-        clinicalEvents = clinicalEvents.filter(el => el.id === parseInt(params.visitId));
-        const testsBlocks = {
-            key: 'Math.random().toString(35).slice(2,10)',
-            text: "",
-            type: 'unstyled',
-            depth: 0,
-            inlineStyleRanges: [],
-            entityRanges: [],
-            data: {}
-        }
-        return <Communication match={match}/>;
+        tests = tests.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
+        treatments = treatments.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
+        clinicalEvents = clinicalEvents.filter(el => el.recordedDuringVisit === parseInt(params.visitId));
+        console.log('LIST', tests, treatments, clinicalEvents, drugs_Hash[0]);
+        const testBlock = formatTests(tests, testTypes_Hash[0]);
+        const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0]);
+        const medBlock = formatTreatments(treatments, drugs_Hash[0]);
+        const precomposed = { testBlock, ceBlock, medBlock };
+        return <Communication match={match} precomposed={precomposed}/>;
     }
 }
 
@@ -41,7 +39,8 @@ export default class EditCommunication extends Component {
 
 class Communication extends Component {
     render() {
-        const { params } = this.props.match;
+        const { precomposed, match } = this.props;
+        const { params } = match;
         return (
             <>
                 <div className={style.ariane}>
@@ -50,7 +49,7 @@ class Communication extends Component {
                 </div>
                 <form className={style.panel}>
                     <p>This is the communication for visit ///// </p> <br/><br/>
-                    <CommunicationEditor/>
+                    <CommunicationEditor precomposed={precomposed}/>
                 </form>
             </>
         );
@@ -58,6 +57,7 @@ class Communication extends Component {
 }
 
 
+/* receive precomposed props which contains functions that generate blocks */
 class CommunicationEditor extends Component {
     constructor() {
         super();
@@ -82,6 +82,20 @@ class CommunicationEditor extends Component {
 
     _onClick(ev) {
         ev.preventDefault();
+        const { precomposed } = this.props;
+        const whichButton = ev.target.name;
+        const blockgen = precomposed[whichButton];
+        this.setState(prevState => {
+            if (blockgen) {
+                const raw = convertToRaw(prevState.editorState.getCurrentContent());
+                const newBlocks = blockgen();
+                newBlocks.forEach(el => { raw.blocks.push(el); });
+                const newEditorState = EditorState.createWithContent(convertFromRaw(raw));
+                return { editorState: newEditorState };
+            } else {
+                return prevState;
+            }
+        });
     }
 
     _onBoldClick(ev) {
@@ -101,23 +115,23 @@ class CommunicationEditor extends Component {
 
     _onSubmit(ev) {
         ev.preventDefault();
-        console.log(this.state.editorState.getCurrentContent().getBlockMap());
+        console.log(this.state.editorState.getCurrentContent());
     }
 
     render() {
         return (
             <>
-            <pre>{JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4)}</pre>
+            {/* <pre>{JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4)}</pre> */}
             You can append these pre-composed paragraphs:
             <div className={style.commentButtonsGroup}>
                 <div>
                     <button onClick={this._onClick}>Vital signs</button>
                     <button onClick={this._onClick}>Signs {'&'} Symptoms</button>
-                    <button onClick={this._onClick}>Tests</button>
+                    <button name='testBlock' onClick={this._onClick}>Tests</button>
                 </div>
                 <div>
-                    <button onClick={this._onClick}>Treatments</button>
-                    <button onClick={this._onClick}>Clinical Events</button>
+                    <button name='medBlock' onClick={this._onClick}>Treatments</button>
+                    <button name='ceBlock' onClick={this._onClick}>Clinical Events</button>
                     <button onClick={this._onClick}>Performance</button>
                 </div>
                 <div>

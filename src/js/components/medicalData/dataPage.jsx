@@ -75,7 +75,7 @@ export class DataTemplate extends Component {
                         title = 'Ordered Test';
                         break;
                     case 'visit':
-                        title = 'Signs and Symptoms';
+                        title = 'Symptoms and Signs';
                         break;
                     case 'clinicalEvent':
                         title = 'Clinical Event';
