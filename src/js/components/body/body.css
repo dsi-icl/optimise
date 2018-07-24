@@ -3,7 +3,7 @@
 :root {
 
     /* stylelint-disable-next-line */
-    --font-size: 12px;
+    --font-size: 14px;
     --font-family: 'Optimise', menu, sans-serif;
     --color-accent-h: 188;
     --color-accent-s: 64%;
@@ -33,6 +33,10 @@
     --color-font: rgba(var(--color-font-grey-scale), var(--color-font-grey-scale), var(--color-font-grey-scale), 255);
     --color-font-active: rgba(255, 255, 255, 255);
     --color-border-grey: hsl(var(--color-background-h), var(--color-background-s), 80%);
+    --color-button-red: hsl(0, 89%, 61%);
+    --color-button-red-lighter: hsl(0, 100%, 67%);
+    --color-button-green: hsl(157, 89%, 50%);
+    --color-button-green-lighter: hsl(157, 100%, 60%);
 }
 
 * {
@@ -45,6 +49,7 @@
     text-decoration: none;
     vertical-align: top;
     scroll-behavior: smooth;
+    outline: none;
 }
 
 html,

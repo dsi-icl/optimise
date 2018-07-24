@@ -6,6 +6,7 @@ import { createUserAPICall, getAllUsersAPICall } from '../../redux/actions/admin
 import Icon from '../icon';
 import style from './admin.module.css';
 
+
 export class Users extends Component {
     render() {
         return (

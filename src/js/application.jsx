@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, StatusBar, ErrorMessage } from './components/scaffold';
+import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, StatusBar, ErrorMessage, AlertMessage } from './components/scaffold';
 import Body from './components/body';
 import Login from './components/login';
 import { whoami } from './redux/actions/login';
 import { getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
 import Icon from './components/icon';
+import { EDSSCalculator } from './components/EDSScalculator/calculator';
 
 @withRouter
 @connect(state => ({ loggedIn: state.login.loggedIn, checking: state.login.initialCheckingStatus }), dispatch => ({ whoami: () => dispatch(whoami()) }))
@@ -20,6 +21,8 @@ class App extends Component {
         return (
             <Body>
                 {this.props.checking ? <Icon symbol='loading' /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+                <AlertMessage />
+                <ErrorMessage />
             </Body>
         );
     }
@@ -72,8 +75,8 @@ class LoadingFields extends Component {
                     <MiddlePanel />
                     <RightPanel />
                     <FarRightPanel />
+                    <EDSSCalculator/>
                     <StatusBar />
-                    <ErrorMessage />
                 </>
             );
         }

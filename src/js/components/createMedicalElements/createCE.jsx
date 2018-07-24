@@ -78,7 +78,7 @@ export class CreateCE extends Component {
                         <span><i>This is for the visit of the {visitDate}</i></span><br /><br />
                         <label htmlFor=''>Please enter date on which the event occurred:</label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                         <label htmlFor='event'>What type of event is it?</label><br />
-                        <select name='event' value={this.state.testType} onChange={this._handleTypeChange} autoComplete="off">
+                        <select name='event' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>
                             {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                         </select> <br /><br />
                         <label htmlFor='meddra'>MedDRA:</label><br />

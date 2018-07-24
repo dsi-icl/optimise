@@ -1,4 +1,5 @@
 export default {
+
     login: {
         LOGIN_REQUESTED: 'LOGIN_REQUESTED',
         LOGIN_SUCCESS: 'LOGIN_SUCCESS',
@@ -85,5 +86,13 @@ export default {
     appLevelError: {
         CLEAR_ERROR: 'CLEAR_ERROR',
         ADD_ERROR: 'ADD_ERROR'
+    },
+    alert: {
+        CLEAR_ALERT: 'CLEAR_ALERT',
+        ADD_ALERT: 'ADD_ALERT'
+    },
+    edssCalc: {
+        CLEAR_CALCULATOR: 'CLEAR_CALCULATOR',
+        DISPLAY_CALCULATOR: 'DISPLAY_CALCULATOR'
     }
 };

@@ -238,7 +238,7 @@ export class ControlledInputField extends Component {
     }
 
     _handleResetClick(ev) {
-        ev.preventDefault()
+        ev.preventDefault();
         this.setState({ value: this.props.originalValue ? this.props.originalValue : '' });
     }
 

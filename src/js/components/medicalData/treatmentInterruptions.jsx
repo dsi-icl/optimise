@@ -95,7 +95,7 @@ export class TreatmentInterruption extends Component {
                         </div>
                         <form className={style.panel}>
                             {treatment.interruptions.map((el, ind) => (
-                                <div key={`${el.endDate}${el.startDate}${el.reason}`} className={ind === treatment.interruptions.length - 1 ? style.interruptionLast : style.interruption }>
+                                <div key={`${el.endDate}${el.startDate}${el.reason}`} className={ind === treatment.interruptions.length - 1 ? style.interruptionLast : style.interruption}>
                                     <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
                                     {el.endDate ? <span><label>End date: </label> {new Date(parseInt(el.endDate, 10)).toDateString()}<br /></span> : null}
                                     <label>Reason: </label> {interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br />
@@ -119,14 +119,12 @@ export class TreatmentInterruption extends Component {
                                         <select ref={this.reasonRef}>
                                             {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                         </select><br /><br />
-                                        <b>MedDRA: </b><SuggestionInput reference={this.meddraRef} />
+                                        <b>MedDRA: </b><SuggestionInput reference={this.meddraRef} /><br />
                                     </div>
-                                    <>
-                                        <br /><br />
-                                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                                        <button onClick={this._handleClickingAdd}>Cancel</button>
-                                        {this.state.error ? <div> Your medDRA code is not a permitted value.</div> : null}
-                                    </>
+                                    <br />
+                                    <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                                    <button onClick={this._handleClickingAdd}>Cancel</button><br />
+                                    {this.state.error ? <><br /><div className={style.error}> Your medDRA code is not a permitted value.</div></> : null}
                                 </>}
                         </form>
                     </>
