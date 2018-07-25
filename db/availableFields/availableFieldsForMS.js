@@ -4,940 +4,1388 @@ const availableFields = {
             id: 1,
             definition: 'Systolic Blood Pressure',
             idname: 'visit_systolic_blood_pressure',
+            section: 1,
+            subsection: null,
             type: 2,
             unit: 'mmHg',
             module: 'MS',
             permittedValues: null,
+            labels: null,
             referenceType: 1
         },
         {
             id: 2,
             definition: 'Heart Rate',
             idname: 'visit_heart_rate',
+            section: 1,
+            subsection: null,
             type: 2,
             unit: 'bpm',
             module: 'MS',
             permittedValues: null,
+            labels: null,
             referenceType: 1
         },
         {
             id: 3,
             definition: 'Diastolic Blood Pressure',
             idname: 'visit_diastolic_blood_pressure',
+            section: 1,
+            subsection: null,
             type: 2,
             unit: 'mmHg',
             module: 'MS',
             permittedValues: null,
+            labels: null,
             referenceType: 1
         },
         {
             id: 4,
             definition: 'Height',
             idname: 'visit_height',
+            section: 1,
+            subsection: null,
             type: 2,
             unit: 'cm',
             module: 'MS',
             permittedValues: '> 0, int',
+            labels: null,
             referenceType: 1
         },
         {
             id: 5,
             definition: 'Weight',
             idname: 'visit_weight',
+            section: 1,
+            subsection: null,
             type: 2,
             unit: 'kg',
             module: 'MS',
             permittedValues: '> 0, int',
+            labels: null,
             referenceType: 1
         },
         {
             id: 6,
             definition: 'Percent School Attendance',
             idname: 'Percent_school_attendance',
+            section: 1,
+            subsection: null,
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '91-100,71-90,51-70,0-50,Unknown,NA',
+            labels: null,
             referenceType: 1
         },
         {
             id: 7,
             definition: 'Higher function problem: cognitive problems',
             idname: 'Higher_function_problem:_cognitive_problems',
-            type: 3,
+            section: 2,
+            subsection: 'Cognitive Functions',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 8,
             definition: 'Higher function problem: emotional lability',
             idname: 'Higher_function_problem:_emotional_lability',
-            type: 3,
+            section: 2,
+            subsection: 'Cognitive Functions',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 9,
             definition: 'Higher function problem: depression',
             idname: 'Higher_function_problem:_depression',
-            type: 3,
+            section: 2,
+            subsection: 'Cognitive Functions',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 10,
             definition: 'Higher function problem: fatigue',
             idname: 'Higher_function_problem:_fatigue',
-            type: 3,
+            section: 2,
+            subsection: 'Cognitive Functions',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 11,
             definition: 'Higher function problem: seizure',
             idname: 'Higher_function_problem:_seizure',
-            type: 3,
+            section: 2,
+            subsection: 'Cognitive Functions',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 12,
             definition: 'Cranial nerves: oscillopsia',
             idname: 'Cranial_nerves:_oscillopsia',
-            type: 3,
+            section: 2,
+            subsection: 'Cranial Nerves',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 13,
             definition: 'Cranial nerves: vertigo',
             idname: 'Cranial_nerves:_vertigo',
-            type: 3,
+            section: 2,
+            subsection: 'Cranial Nerves',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 14,
             definition: 'Cranial nerves: blurred vision',
             idname: 'Cranial_nerves:_blurred_vision',
-            type: 3,
+            section: 2,
+            subsection: 'Cranial Nerves',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 15,
             definition: 'Cranial nerves: double vision',
             idname: 'Cranial_nerves:_double_vision',
-            type: 3,
+            section: 2,
+            subsection: 'Cranial Nerves',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 16,
             definition: 'Cranial nerves: uncontrolled eye movements',
             idname: 'Cranial_nerves:_uncontrolled_eye_movements',
-            type: 3,
+            section: 2,
+            subsection: 'Cranial Nerves',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 17,
             definition: 'Cranial nerves: dysphagia',
             idname: 'Cranial_nerves:_dysphagia',
-            type: 3,
+            section: 2,
+            subsection: 'Cranial Nerves',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 18,
             definition: 'Cranial nerves: facial weakness',
             idname: 'Cranial_nerves:_facial_weakness',
-            type: 3,
+            section: 2,
+            subsection: 'Cranial Nerves',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 19,
             definition: 'Cranial nerves: greying of vision in one eye',
             idname: 'Cranial_nerves:_greying_of_vision_in_one_eye',
+            section: 2,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 20,
             definition: 'Cranial nerves: blindness in one eye',
             idname: 'Cranial_nerves:_blindness_in_one_eye',
+            section: 2,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 21,
             definition: 'Cranial nerves: facial pain',
             idname: 'Cranial_nerves:_facial_pain',
+            section: 2,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 22,
             definition: 'Cranial nerves: field defect / scotoma',
             idname: 'Cranial_nerves:_field_defect_/_scotoma',
+            section: 2,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 23,
             definition: 'Cranial nerves: facial hypoesthesia',
             idname: 'Cranial_nerves:_facial_hypoesthesia',
+            section: 2,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 24,
             definition: 'Motor: difficulty walking',
             idname: 'Motor:_difficulty_walking',
-            type: 3,
+            section: 2,
+            subsection: 'Motor',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 25,
             definition: 'Motor: weakness upper limbs',
             idname: 'Motor:_weakness_upper_limbs',
+            section: 2,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 26,
             definition: 'Motor: weakness lower limbs',
             idname: 'Motor:_weakness_lower_limbs',
+            section: 2,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 27,
             definition: 'Motor: weakness lower limbs',
             idname: 'Motor:_weakness_lower_limbs',
+            section: 2,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 28,
             definition: 'Somatosensory: Lhermitte\'s sign',
             idname: 'Somatosensory:_Lhermitte\'s_sign',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 29,
             definition: 'Somatosensory: Heat intolerance',
             idname: 'Somatosensory:_Heat_intolerance',
-            type: 3,
+            section: 2,
+            subsection: 'Somatosensory',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 30,
             definition: 'Somatosensory: pain',
             idname: 'Somatosensory:_pain',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 31,
             definition: 'Somatosensory: paresthesia',
             idname: 'Somatosensory:_paresthesia',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 32,
             definition: 'Somatosensory: dysesthesia',
             idname: 'Somatosensory:_dysesthesia',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 33,
             definition: 'Somatosensory: anesthesia',
             idname: 'Somatosensory:_anesthesia',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 34,
             definition: 'Somatosensory: pruritus',
             idname: 'Somatosensory:_pruritus',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 35,
             definition: 'Somatosensory: pain',
             idname: 'Somatosensory:_pain',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 36,
             definition: 'Somatosensory: paresthesia',
             idname: 'Somatosensory:_paresthesia',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 37,
             definition: 'Somatosensory: dysesthesia',
             idname: 'Somatosensory:_dysesthesia',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 38,
             definition: 'Somatosensory: anesthesia',
             idname: 'Somatosensory:_anesthesia',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 39,
             definition: 'Somatosensory: pruritus',
             idname: 'Somatosensory:_pruritus',
+            section: 2,
+            subsection: 'Somatosensory',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 40,
             definition: 'Autonomic: bladder urgency',
             idname: 'Autonomic:_bladder_urgency',
-            type: 3,
+            section: 2,
+            subsection: 'Autonomic',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 41,
             definition: 'Autonomic: bladder frequency',
             idname: 'Autonomic:_bladder_frequency',
-            type: 3,
+            section: 2,
+            subsection: 'Autonomic',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 42,
             definition: 'Autonomic: bladder incontinence',
             idname: 'Autonomic:_bladder_incontinence',
-            type: 3,
+            section: 2,
+            subsection: 'Autonomic',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 43,
             definition: 'Autonomic: bladder hesitancy',
             idname: 'Autonomic:_bladder_hesitancy',
-            type: 3,
+            section: 2,
+            subsection: 'Autonomic',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 44,
             definition: 'Autonomic: constipation',
             idname: 'Autonomic:_constipation',
-            type: 3,
+            section: 2,
+            subsection: 'Autonomic',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 45,
             definition: 'Autonomic: bowel incontinence',
             idname: 'Autonomic:_bowel_incontinence',
-            type: 3,
+            section: 2,
+            subsection: 'Autonomic',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 46,
             definition: 'Autonomic: problems with sexual function',
             idname: 'Autonomic:_problems_with_sexual_function',
-            type: 3,
+            section: 2,
+            subsection: 'Autonomic',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 47,
             definition: 'Higher function problem: information processing speed',
             idname: 'Higher_function_problem:_information_processing_speed',
-            type: 3,
+            section: 3,
+            subsection: 'Cognitive Functions',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 48,
             definition: 'Higher function problem: executive functions',
             idname: 'Higher_function_problem:_executive_functions',
-            type: 3,
+            section: 3,
+            subsection: 'Cognitive Functions',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 49,
             definition: 'Higher function problem: memory',
             idname: 'Higher_function_problem:_memory',
-            type: 3,
+            section: 3,
+            subsection: 'Cognitive Functions',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 50,
             definition: 'Higher function problem: verbal fluency',
             idname: 'Higher_function_problem:_verbal_fluency',
-            type: 3,
+            section: 3,
+            subsection: 'Cognitive Functions',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 51,
             definition: 'Higher function problem: seizure',
             idname: 'Higher_function_problem:_seizure',
-            type: 3,
+            section: 3,
+            subsection: 'Cognitive Functions',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 52,
             definition: 'Cranial nerves: nystagmus',
             idname: 'Cranial_nerves:_nystagmus',
-            type: 3,
+            section: 3,
+            subsection: 'Cranial Nerves',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 53,
             definition: 'Cranial nerves: red desaturation',
             idname: 'Cranial_nerves:_red_desaturation',
+            section: 3,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 54,
             definition: 'Cranial nerves: sixth nerve palsy',
             idname: 'Cranial_nerves:_sixth_nerve_palsy',
+            section: 3,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 55,
             definition: 'Cranial nerves: third nerve palsy',
             idname: 'Cranial_nerves:_third_nerve_palsy',
+            section: 3,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 56,
             definition: 'Cranial nerves: trigeminal neuralgia',
             idname: 'Cranial_nerves:_trigeminal_neuralgia',
+            section: 3,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 57,
             definition: 'Cranial nerves: trigeninal palsy',
             idname: 'Cranial_nerves:_trigeninal_palsy',
+            section: 3,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 58,
             definition: 'Cranial nerves: fourth nerve palsy',
             idname: 'Cranial_nerves:_fourth_nerve_palsy',
+            section: 3,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 59,
             definition: 'Cranial nerves: facial hypoesthesia',
             idname: 'Cranial_nerves:_facial_hypoesthesia',
+            section: 3,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 60,
             definition: 'Cranial nerves: hearing loss',
             idname: 'Cranial_nerves:_hearing_loss',
+            section: 3,
+            subsection: 'Cranial Nerves',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 61,
             definition: 'Motor: tremor postural upper limbs',
             idname: 'Motor:_tremor_postural_upper_limbs',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 62,
             definition: 'Motor: tremor intention upper limbs',
             idname: 'Motor:_tremor_intention_upper_limbs',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 63,
             definition: 'Motor: spasticity upper limbs',
             idname: 'Motor:_spasticity_upper_limbs',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 64,
             definition: 'Motor: spasticity lower limbs',
             idname: 'Motor:_spasticity_lower_limbs',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
+            labels: null,
             referenceType: 1
         },
         {
             id: 65,
             definition: 'Motor: tendon reflexes: hyperreflexia: biceps right',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_biceps_right',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '3,4',
+            labels: null,
             referenceType: 1
         },
         {
             id: 66,
             definition: 'Motor: tendon reflexes: hyperreflexia: biceps left',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_biceps_left',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '3,4',
+            labels: null,
             referenceType: 1
         },
         {
             id: 67,
             definition: 'Motor: tendon reflexes: hyperreflexia: patella right',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_patella_right',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '3,4',
+            labels: null,
             referenceType: 1
         },
         {
             id: 68,
             definition: 'Motor: tendon reflexes: hyperreflexia: patella left',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_patella_left',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '3,4',
+            labels: null,
             referenceType: 1
         },
         {
             id: 69,
             definition: 'Motor: tendon reflexes: hyperreflexia: ankle right',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_ankle_right',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '3,4',
+            labels: null,
             referenceType: 1
         },
         {
             id: 70,
             definition: 'Motor: tendon reflexes: hyperreflexia: ankle left',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_ankle_left',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '3,4',
+            labels: null,
             referenceType: 1
         },
         {
             id: 71,
             definition: 'Motor: tendon reflexes: hyporeflexia: biceps right',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_biceps_right',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '1,2',
+            labels: null,
             referenceType: 1
         },
         {
             id: 72,
             definition: 'Motor: tendon reflexes: hyporeflexia: biceps left',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_biceps_left',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '1,2',
+            labels: null,
             referenceType: 1
         },
         {
             id: 73,
             definition: 'Motor: tendon reflexes: hyporeflexia: patella right',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_patella_right',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '1,2',
+            labels: null,
             referenceType: 1
         },
         {
             id: 74,
             definition: 'Motor: tendon reflexes: hyporeflexia: patella left',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_patella_left',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '1,2',
+            labels: null,
             referenceType: 1
         },
         {
             id: 75,
             definition: 'Motor: tendon reflexes: hyporeflexia: ankle right',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_ankle_right',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '1,2',
+            labels: null,
             referenceType: 1
         },
         {
             id: 76,
             definition: 'Motor: tendon reflexes: hyporeflexia: ankle left',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_ankle_left',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '1,2',
+            labels: null,
             referenceType: 1
         },
         {
             id: 77,
             definition: 'Motor: tendon reflexes: plantar response right',
             idname: 'Motor:_tendon_reflexes:_plantar_response_right',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'NORMAL,ABNORMAL,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 78,
             definition: 'Motor: tendon reflexes: plantar response left',
             idname: 'Motor:_tendon_reflexes:_plantar_response_left',
+            section: 3,
+            subsection: 'Motor',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'NORMAL,ABNORMAL,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 79,
             definition: 'Cerebellar: Ataxia upper limb',
             idname: 'Cerebellar:_Ataxia_upper_limb',
+            section: 3,
+            subsection: 'Cerebellar',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 80,
             definition: 'Cerebellar: Ataxia lower limb',
             idname: 'Cerebellar:_Ataxia_lower_limb',
+            section: 3,
+            subsection: 'Cerebellar',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 81,
             definition: 'Cerebellar: Ataxia trunk',
             idname: 'Cerebellar:_Ataxia_trunk',
+            section: 3,
+            subsection: 'Cerebellar',
             type: 3,
             unit: null,
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 82,
             definition: 'Mobility: problem',
             idname: 'Mobility:_problem',
+            section: 3,
+            subsection: 'Mobility',
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'LIMITED AMBULATION, WHEELCHAIR BOUND, BEDRIDDEN,UNKNOWN',
+            permittedValues: 'LIMITED AMBULATION,WHEELCHAIR BOUND,BEDRIDDEN,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 83,
             definition: 'Mobility: using walking aid',
             idname: 'Mobility:_using_walking_aid',
-            type: 3,
+            section: 3,
+            subsection: 'Mobility',
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
+            labels: null,
             referenceType: 1
         },
         {
             id: 84,
-            definition: 'Expanded Disability Status Scale (EDSS)',
-            idname: 'Expanded_Disability_Status_Scale_EDSS',
-            type: 2,
+            definition: 'Expanded Disability Status Scale (EDSS) Total',
+            idname: 'Expanded_Disability_Status_Scale_EDSS_total',
+            section: 4,
+            subsection: 'EDSS',
+            type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: '0-10',
+            permittedValues: '0,1,2,3,4,5,6,7,8,9,10',
+            labels: null,
             referenceType: 1
         },
         {
             id: 85,
-            definition: 'EDMUS',
-            idname: 'EDMUS',
+            definition: 'Expanded Disability Status Scale (EDSS) Pyramidal',
+            idname: 'Expanded_Disability_Status_Scale_EDSS_Pyramidal',
+            section: 4,
+            subsection: 'EDSS',
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: '0,1,2,3,4,5,6A,6B,7,8,9,10,UNKNOWN',
+            permittedValues: '0,1,2,3,4,5,6',
+            labels: 'Normal,'
+                + 'Abnormal signs without disability,'
+                + 'Minimal disability,'
+                + 'Mild or moderate paraparesis or hemiparesis (detectable weakness but most sustained for short periods, fatigue problem); severe monoparesis (almost no function),'
+                + 'Marked paraparesis or hemiparesis (functions difficult); moderate quadriparesis (function decreased but can be sustained for short periods); or monoplegia,'
+                + 'Paraplegia, hemiplegia or marked quadriparesis,'
+                + 'Quadriplegia',
             referenceType: 1
         },
         {
             id: 86,
-            definition: '25 feet walk test trial n°1',
-            idname: '25_feet_walk_test_first_try',
-            type: 2,
-            unit: 'sec',
+            definition: 'Expanded Disability Status Scale (EDSS) Cerebellar',
+            idname: 'Expanded_Disability_Status_Scale_EDSS_Cerebellar',
+            section: 4,
+            subsection: 'EDSS',
+            type: 3,
+            unit: null,
             module: 'MS',
-            permittedValues: null,
+            permittedValues: '0,1,2,3,4,5',
+            labels: 'Normal,'
+                + 'Abnormal signs without disability,'
+                + 'Mild ataxia,'
+                + 'Moderate truncal or limb ataxia (tremor or clumsy movements interfere with function in all spheres),'
+                + 'Severe ataxia in all limbs (most function is very difficult),'
+                + 'Unable to perform coordinated movements due to ataxia',
             referenceType: 1
         },
         {
             id: 87,
-            definition: '25 feet walk test trial n°2',
-            idname: '25_feet_walk_test_second_try',
-            type: 2,
-            unit: 'sec',
+            definition: 'Expanded Disability Status Scale (EDSS) Brain Stem',
+            idname: 'Expanded_Disability_Status_Scale_EDSS_Brain_Stem',
+            section: 4,
+            subsection: 'EDSS',
+            type: 3,
+            unit: null,
             module: 'MS',
-            permittedValues: null,
+            permittedValues: '0,1,2,3,4,5',
+            labels: 'Normal'
+                + 'Signs only,'
+                + 'Moderate nystagmus or other mild disability,'
+                + 'Severe nystagmus, marked extraocular weakness or moderate disability of other cranial nerves,'
+                + 'Marked dysarthria or other marked disability,'
+                + 'Inability to swallow or speak',
             referenceType: 1
         },
         {
             id: 88,
-            definition: 'Nine hole peg test: left: trial n°1',
-            idname: 'Nine_hole_peg_test:_left:_first_try',
-            type: 2,
-            unit: 'sec',
+            definition: 'Expanded Disability Status Scale (EDSS) Sensory',
+            idname: 'Expanded_Disability_Status_Scale_EDSS_Sensory',
+            section: 4,
+            subsection: 'EDSS',
+            type: 3,
+            unit: null,
             module: 'MS',
-            permittedValues: null,
+            permittedValues: '0,1,2,3,4,5,6',
+            labels: 'Normal,'
+                + 'Vibration or figure-writing decreased, only in one or two limbs,'
+                + 'Mild decrease in touch or pain or position sense, and/or moderate decrease in vibration in one or two limbs; or vibration decrease alone in three or four limbs,'
+                + 'Moderate decrease in touch or pain or position sense, and/or essentially lost vibration in one or two limbs; or mild decrease in touch or pain and/or moderate decrease in all proprioceptive test in three or four limbs,'
+                + 'Marked decrease in touch or pain or lost proprioception, alone or combined, in one or two limbs; or moderate decrease in touch or pain and/or severe proprioceptive decrease in more then two limbs,'
+                + 'Lost of sensation in one or two limbs; or proprioception for most of the body below the head,'
+                + 'Sensation essentially lost below the head',
             referenceType: 1
         },
         {
             id: 89,
-            definition: 'Nine hole peg test: left: trial n°2',
-            idname: 'Nine_hole_peg_test:_left:_second_try',
-            type: 2,
-            unit: 'sec',
+            definition: 'Expanded Disability Status Scale (EDSS) Bowel Bladder',
+            idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Bladder',
+            section: 4,
+            subsection: 'EDSS',
+            type: 3,
+            unit: null,
             module: 'MS',
-            permittedValues: null,
+            permittedValues: '0,1,2,3,4,5,6',
+            labels: 'Normal,'
+                + 'Mild urinary hesitancy, urgency or retention,'
+                + 'Moderate hesitancy, urgency, retention of bowel or bladder, or rare urinary incontinence (intermittent self-catheterisation, manual compression to evacuate bladder or finger evacuation or stool),'
+                + 'Frequent urinary incontinence,'
+                + 'In need of regular intermittent catheterisation (and constant use of measures to evacuate stools),'
+                + 'In dwelling catheter,'
+                + 'Loss of bowel and/or bladder function,',
             referenceType: 1
         },
         {
             id: 90,
-            definition: 'Nine hole peg test: right: trial n°1',
-            idname: 'Nine_hole_peg_test:_right:_first_try',
-            type: 2,
-            unit: 'sec',
+            definition: 'Expanded Disability Status Scale (EDSS) Visual',
+            idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Visual',
+            section: 4,
+            subsection: 'EDSS',
+            type: 3,
+            unit: null,
             module: 'MS',
-            permittedValues: null,
+            permittedValues: '0,1,2,3,4,5,6',
+            labels: 'Normal,'
+                + 'Scotoma with visual acuity (corrected) better then 6/9,'
+                + 'Worse eye with maximal visual acuity (corrected) of 6/9 to 6/12,'
+                + 'Worse eye with maximal visual acuity (corrected) of 6/18 to 6/24,'
+                + 'Worse eye with maximal visual acuity (corrected) of 6/36 to 6/60. Or grade three plus maximal acuity of better eye of 6/18 or less,'
+                + 'Worse eye with maximal visual acuity (corrected) of 6/60. Or grade four plus maximal visual acuity of better eye of 6/18 or less,'
+                + 'Grade 5 plus maximal visual acuity of better eye worse then 6/18',
             referenceType: 1
         },
         {
             id: 91,
-            definition: 'Nine hole peg test: right: trial n°2',
-            idname: 'Nine_hole_peg_test:_right:_second_try',
-            type: 2,
-            unit: 'sec',
+            definition: 'Expanded Disability Status Scale (EDSS) Mental',
+            idname: 'Expanded_Disability_Status_Scale_EDSS_Mental',
+            section: 4,
+            subsection: 'EDSS',
+            type: 3,
+            unit: null,
             module: 'MS',
-            permittedValues: null,
+            permittedValues: '0,1,2,3,4,5',
+            labels: 'Normal,'
+                + 'Mood alteration only- fatigue not intefering with daily activity (does not affect EDSS score,),'
+                + 'Mild decrease in mentation- fatigue intefering with daily activity,'
+                + 'Moderate decrease in mentation,'
+                + 'Marked decrease in mentation (chronic brain syndrome - moderate),'
+                + 'Dementia or chronic brain syndrome - severe or incompetent',
             referenceType: 1
         },
         {
             id: 92,
-            definition: 'Low contrast letter acuity: left ',
-            idname: 'Low_contrast_letter_acuity:_left_',
-            type: 2,
-            unit: '/20',
+            definition: 'Expanded Disability Status Scale (EDSS) Ambulation',
+            idname: 'Expanded_Disability_Status_Scale_EDSS_Ambulation',
+            section: 4,
+            subsection: 'EDSS',
+            type: 3,
+            unit: null,
             module: 'MS',
-            permittedValues: null,
+            permittedValues: '0,1,2,3,4,5,6,7,8,9,10,11,12',
+            labels: 'Fully ambulatory,'
+                + '500 m without aid/rest,'
+                + '300 m without aid/rest,'
+                + '200 m without aid/rest,'
+                + '100 m without aid/rest,'
+                + '100 m with unilateral assistance,'
+                + '200 m with bilateral assistance,'
+                + 'Essentially restricted to wheelchair (wheels self),'
+                + 'Restricted to wheelchair (may need help in transfer),'
+                + 'Essentially restricted to bed/chair,'
+                + 'Restricted to bed much of day,'
+                + 'Bed patient. Can communicate and eat,'
+                + 'Helpless bed patient. Unable to communicate/eat/swallow',
             referenceType: 1
         },
         {
             id: 93,
-            definition: 'Low contrast letter acuity: right',
-            idname: 'Low_contrast_letter_acuity:_right',
-            type: 2,
-            unit: '/20',
+            definition: 'EDMUS',
+            idname: 'EDMUS',
+            section: 4,
+            subsection: 'EDMUS',
+            type: 3,
+            unit: null,
             module: 'MS',
-            permittedValues: null,
+            permittedValues: '0,1,2,3,4,5,6A,6B,7,8,9,10',
+            labels: 'Normal findings on neurological examination.,'
+                + 'No disability. Minimal signs on neurological examination.,'
+                + 'Minimal and not ambulation-related disability. Able to run.,'
+                + 'Unlimited walking distance (WD) without rest but unable to run; or a significant not ambulation-related disability.,'
+                + 'Walks without aid. Limited WD but > 500 meters without rest.,'
+                + 'Walks without aid. Limited WD- < 500 meters without rest.,'
+                + 'Walks with permanent unilateral support. WD < 100 meters without rest.,'
+                + 'Walks with permanent bilateral support. WD < 100 meters without rest.,'
+                + 'Home restricted. A few steps with wall or furniture assistance. WD < 20 meters without rest.,'
+                + 'Chair restricted. Unable to take a step. Some effective use of arms.,'
+                + 'Bedridden and totally helpless.,'
+                + 'Death due to MS.',
             referenceType: 1
         },
         {
             id: 94,
+            definition: '25 feet walk test trial n°1',
+            idname: '25_feet_walk_test_first_try',
+            section: 4,
+            subsection: '25feet',
+            type: 2,
+            unit: 'sec',
+            module: 'MS',
+            permittedValues: null,
+            labels: null,
+            referenceType: 1
+        },
+        {
+            id: 95,
+            definition: '25 feet walk test trial n°2',
+            idname: '25_feet_walk_test_second_try',
+            section: 4,
+            subsection: '25feet',
+            type: 2,
+            unit: 'sec',
+            module: 'MS',
+            permittedValues: null,
+            labels: null,
+            referenceType: 1
+        },
+        {
+            id: 96,
+            definition: 'Nine hole peg test: left: trial n°1',
+            idname: 'Nine_hole_peg_test:_left:_first_try',
+            section: 4,
+            subsection: '9hole',
+            type: 2,
+            unit: 'sec',
+            module: 'MS',
+            permittedValues: null,
+            labels: null,
+            referenceType: 1
+        },
+        {
+            id: 97,
+            definition: 'Nine hole peg test: left: trial n°2',
+            idname: 'Nine_hole_peg_test:_left:_second_try',
+            section: 4,
+            subsection: '9hole',
+            type: 2,
+            unit: 'sec',
+            module: 'MS',
+            permittedValues: null,
+            labels: null,
+            referenceType: 1
+        },
+        {
+            id: 98,
+            definition: 'Nine hole peg test: right: trial n°1',
+            idname: 'Nine_hole_peg_test:_right:_first_try',
+            section: 4,
+            subsection: '9hole',
+            type: 2,
+            unit: 'sec',
+            module: 'MS',
+            permittedValues: null,
+            labels: null,
+            referenceType: 1
+        },
+        {
+            id: 99,
+            definition: 'Nine hole peg test: right: trial n°2',
+            idname: 'Nine_hole_peg_test:_right:_second_try',
+            section: 4,
+            subsection: '9hole',
+            type: 2,
+            unit: 'sec',
+            module: 'MS',
+            permittedValues: null,
+            labels: null,
+            referenceType: 1
+        },
+        {
+            id: 100,
+            definition: 'Low contrast letter acuity: left ',
+            idname: 'Low_contrast_letter_acuity:_left_',
+            section: 4,
+            subsection: 'VisualAcuity',
+            type: 2,
+            unit: '/20',
+            module: 'MS',
+            permittedValues: null,
+            labels: null,
+            referenceType: 1
+        },
+        {
+            id: 101,
+            definition: 'Low contrast letter acuity: right',
+            idname: 'Low_contrast_letter_acuity:_right',
+            section: 4,
+            subsection: 'VisualAcuity',
+            type: 2,
+            unit: '/20',
+            module: 'MS',
+            permittedValues: null,
+            labels: null,
+            referenceType: 1
+        },
+        {
+            id: 102,
             definition: 'symbol digit modality test',
             idname: 'symbol_digit_modality_test',
+            section: 4,
+            subsection: 'VisualAcuity',
             type: 2,
             unit: null,
             module: 'MS',
             permittedValues: null,
+            labels: null,
             referenceType: 1
         }],
     testFields: [
@@ -949,7 +1397,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 2,
@@ -959,7 +1409,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 3,
@@ -969,7 +1421,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 4,
@@ -979,7 +1432,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 5,
@@ -989,7 +1443,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 6,
@@ -999,7 +1454,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 7,
@@ -1009,7 +1465,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 8,
@@ -1019,7 +1476,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 9,
@@ -1029,7 +1487,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 10,
@@ -1039,7 +1498,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 11,
@@ -1049,27 +1509,30 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 12,
-            definition: 'anti-transglutaminase',
-            idname: 'anti-transglutaminase',
+            definition: 'Anti-transglutaminase',
+            idname: 'Anti-transglutaminase',
             type: 2,
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 13,
-            definition: 'anti-varicella',
-            idname: 'anti-varicella',
+            definition: 'Anti-varicella',
+            idname: 'Anti-varicella',
             type: 2,
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 14,
@@ -1079,7 +1542,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 15,
@@ -1089,7 +1553,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 16,
@@ -1099,7 +1564,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 17,
@@ -1109,7 +1575,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 18,
@@ -1119,7 +1586,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 19,
@@ -1129,7 +1597,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 20,
@@ -1139,7 +1608,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 21,
@@ -1149,7 +1619,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 22,
@@ -1159,7 +1630,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 23,
@@ -1169,7 +1641,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 24,
@@ -1179,7 +1652,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 25,
@@ -1189,7 +1663,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 26,
@@ -1199,7 +1674,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 27,
@@ -1209,7 +1685,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 28,
@@ -1219,7 +1696,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 29,
@@ -1229,7 +1707,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 30,
@@ -1239,7 +1718,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 31,
@@ -1249,7 +1729,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 32,
@@ -1259,7 +1740,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 33,
@@ -1269,7 +1751,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 34,
@@ -1279,7 +1762,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 35,
@@ -1289,7 +1773,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 36,
@@ -1299,7 +1784,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 37,
@@ -1309,7 +1795,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 38,
@@ -1319,7 +1806,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 39,
@@ -1329,7 +1817,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 40,
@@ -1339,7 +1828,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 41,
@@ -1349,7 +1839,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 42,
@@ -1359,7 +1850,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 43,
@@ -1369,7 +1861,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 44,
@@ -1379,7 +1872,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 45,
@@ -1389,7 +1883,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 46,
@@ -1399,7 +1894,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 47,
@@ -1409,7 +1905,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 48,
@@ -1419,7 +1916,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 49,
@@ -1429,7 +1927,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 50,
@@ -1439,7 +1938,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 51,
@@ -1449,7 +1949,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 52,
@@ -1459,7 +1960,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 53,
@@ -1469,7 +1971,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 54,
@@ -1479,7 +1982,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 55,
@@ -1489,7 +1993,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 56,
@@ -1499,7 +2004,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 57,
@@ -1509,7 +2015,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 58,
@@ -1519,7 +2026,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 59,
@@ -1529,7 +2037,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 60,
@@ -1539,7 +2048,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 61,
@@ -1549,7 +2059,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 62,
@@ -1559,7 +2070,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 63,
@@ -1569,7 +2081,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 2
+            referenceType: 2,
+            laterality: 'left',
+            cdiscName: 'P100 Interpretation'
         },
         {
             id: 64,
@@ -1579,7 +2093,9 @@ const availableFields = {
             unit: 'uV',
             module: 'MS',
             permittedValues: null,
-            referenceType: 2
+            referenceType: 2,
+            laterality: 'left',
+            cdiscName: 'P100 Amplitude'
         },
         {
             id: 65,
@@ -1589,7 +2105,9 @@ const availableFields = {
             unit: 'msec',
             module: 'MS',
             permittedValues: null,
-            referenceType: 2
+            referenceType: 2,
+            laterality: 'left',
+            cdiscName: 'P100 Latency'
         },
         {
             id: 66,
@@ -1599,7 +2117,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 2
+            referenceType: 2,
+            laterality: 'RIGHT',
+            cdiscName: 'P100 Interpretation'
         },
         {
             id: 67,
@@ -1609,7 +2129,9 @@ const availableFields = {
             unit: 'uV',
             module: 'MS',
             permittedValues: null,
-            referenceType: 2
+            referenceType: 2,
+            laterality: 'RIGHT',
+            cdiscName: 'P100 Amplitude'
         },
         {
             id: 68,
@@ -1619,7 +2141,9 @@ const availableFields = {
             unit: 'msec',
             module: 'MS',
             permittedValues: null,
-            referenceType: 2
+            referenceType: 2,
+            laterality: 'RIGHT',
+            cdiscName: 'P100 Latency'
         },
         {
             id: 69,
@@ -1629,7 +2153,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 2
+            referenceType: 2,
+            laterality: 'left',
+            cdiscName: 'SEP Upper Extremity'
         },
         {
             id: 70,
@@ -1639,7 +2165,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 2
+            referenceType: 2,
+            laterality: 'LEFT',
+            cdiscName: 'SEP Lower Extremity'
         },
         {
             id: 71,
@@ -1649,7 +2177,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 2
+            referenceType: 2,
+            laterality: 'RIGHT',
+            cdiscName: 'SEP Upper Extremity'
         },
         {
             id: 72,
@@ -1659,7 +2189,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 2
+            referenceType: 2,
+            laterality: 'RIGHT',
+            cdiscName: 'SEP Lower Extremity'
         },
         {
             id: 73,
@@ -1669,7 +2201,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 3
+            referenceType: 3,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 74,
@@ -1679,7 +2213,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 3
+            referenceType: 3,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 75,
@@ -1689,7 +2225,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: 'T1, T2',
-            referenceType: 3
+            referenceType: 3,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 76,
@@ -1699,7 +2237,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: 'BRAIN, SPINE',
-            referenceType: 3
+            referenceType: 3,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 77,
@@ -1709,7 +2249,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: 'NEGATIVE,  POSITIVE, NOT REPORTED',
-            referenceType: 3
+            referenceType: 3,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 78,
@@ -1719,7 +2261,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 3
+            referenceType: 3,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 79,
@@ -1729,7 +2273,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 3
+            referenceType: 3,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 80,
@@ -1739,7 +2285,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: 'NONE, SINGLE, MULTIPLE, UNKNOWN',
-            referenceType: 3
+            referenceType: 3,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 81,
@@ -1749,7 +2297,9 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: null,
-            referenceType: 3
+            referenceType: 3,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 82,
@@ -1758,9 +2308,10 @@ const availableFields = {
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues:
-                'NORMAL, TRAUMATIC, ABNORMAL MS-TYPICAL, ABNORMAL MS-ATYPICAL',
-            referenceType: 4
+            permittedValues: 'NORMAL, TRAUMATIC, ABNORMAL MS-TYPICAL, ABNORMAL MS-ATYPICAL',
+            referenceType: 4,
+            laterality: null,
+            cdiscName: null
         },
         {
             id: 83,
@@ -1770,7 +2321,8 @@ const availableFields = {
             unit: 'mg/L',
             module: 'MS',
             permittedValues: null,
-            referenceType: 4
+            referenceType: 4,
+            laterality: null, cdiscName: null
         },
         {
             id: 84,
@@ -1780,7 +2332,8 @@ const availableFields = {
             unit: 'mg/L',
             module: 'MS',
             permittedValues: null,
-            referenceType: 4
+            referenceType: 4,
+            laterality: null, cdiscName: null
         },
         {
             id: 85,
@@ -1790,7 +2343,8 @@ const availableFields = {
             unit: 'mg/L',
             module: 'MS',
             permittedValues: null,
-            referenceType: 4
+            referenceType: 4,
+            laterality: null, cdiscName: null
         },
         {
             id: 86,
@@ -1800,7 +2354,8 @@ const availableFields = {
             unit: 'mg/L',
             module: 'MS',
             permittedValues: null,
-            referenceType: 4
+            referenceType: 4,
+            laterality: null, cdiscName: null
         },
         {
             id: 87,
@@ -1810,7 +2365,8 @@ const availableFields = {
             unit: 'mg/L',
             module: 'MS',
             permittedValues: null,
-            referenceType: 4
+            referenceType: 4,
+            laterality: null, cdiscName: null
         },
         {
             id: 88,
@@ -1820,7 +2376,8 @@ const availableFields = {
             unit: 'mg/L',
             module: 'MS',
             permittedValues: null,
-            referenceType: 4
+            referenceType: 4,
+            laterality: null, cdiscName: null
         },
         {
             id: 89,
@@ -1830,7 +2387,8 @@ const availableFields = {
             unit: 'mg/L',
             module: 'MS',
             permittedValues: null,
-            referenceType: 4
+            referenceType: 4,
+            laterality: null, cdiscName: null
         },
         {
             id: 90,
@@ -1840,7 +2398,8 @@ const availableFields = {
             unit: 'mg/L',
             module: 'MS',
             permittedValues: null,
-            referenceType: 4
+            referenceType: 4,
+            laterality: null, cdiscName: null
         },
         {
             id: 91,
@@ -1850,7 +2409,8 @@ const availableFields = {
             unit: null,
             module: 'MS',
             permittedValues: 'TEST NOT DONE,NOT DETECTED,DETECTED,UNKNOWN',
-            referenceType: 4
+            referenceType: 4,
+            laterality: null, cdiscName: null
         },
         {
             id: 92,
@@ -1860,7 +2420,8 @@ const availableFields = {
             unit: 'Units/Liter',
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 93,
@@ -1870,7 +2431,8 @@ const availableFields = {
             unit: 'Units/Liter',
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 94,
@@ -1880,7 +2442,8 @@ const availableFields = {
             unit: 'Units/Liter',
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 95,
@@ -1890,7 +2453,8 @@ const availableFields = {
             unit: 'mcL',
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         },
         {
             id: 96,
@@ -1900,7 +2464,8 @@ const availableFields = {
             unit: 'mg/dL',
             module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null, cdiscName: null
         }
     ],
     ceFields: [
@@ -1908,7 +2473,7 @@ const availableFields = {
             id: 1,
             definition: 'Functional system affected: Pyramidal Tract',
             idname: 'Functional_system_affected_pyramidal_tract',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -1918,7 +2483,7 @@ const availableFields = {
             id: 2,
             definition: 'Functional system affected: Cerebellum',
             idname: 'Functional_system_affected_cerebellum',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -1928,7 +2493,7 @@ const availableFields = {
             id: 3,
             definition: 'Functional system affected:Brain Stem',
             idname: 'Functional_system_affected_Brain_Stem',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -1938,7 +2503,7 @@ const availableFields = {
             id: 4,
             definition: 'Functional system affected: Sensory',
             idname: 'Functional_system_affected_Sensory',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -1948,7 +2513,7 @@ const availableFields = {
             id: 5,
             definition: 'Functional system affected: Bowel/Bladder',
             idname: 'Functional_system_affected_Bowel_Bladder',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -1958,7 +2523,7 @@ const availableFields = {
             id: 6,
             definition: 'Functional system affected: Visual',
             idname: 'Functional_system_affected_Visual',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -1968,7 +2533,7 @@ const availableFields = {
             id: 7,
             definition: 'Functional system affected: Cognition',
             idname: 'Functional_system_affected_Cognition',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
