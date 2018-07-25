@@ -320,22 +320,52 @@ class ExportDataController {
         /* Patient Laboratory Test data */
 
         knex('TEST_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
-                'AVAILABLE_FIELDS_TESTS.definition as LBTEST', 'TEST_DATA.value as LBORRES',
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_TESTS.definition as LBTEST', 'TEST_DATA.value as LBORRES',
                 'ORDERED_TESTS.actualOccurredDate as LBDTC')
             .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
-            .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
-            .leftOuterJoin('VISITS', 'VISITS.id', 'TEST_DATA.test')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
             .where('PATIENTS.deleted', '-')
             .andWhere('TEST_DATA.deleted', '-')
-            .andWhere('AVAILABLE_FIELDS_TESTS.id', 1)
+            .andWhere('ORDERED_TESTS.id', 1)
             .then(result => {
                 if (result.length >= 1) {
                     result.forEach(x => {
+                        x.LBTESTCD = x.LBTEST; // WILL UPDATE AFTER CONSULTATION
                         x.DOMAIN = 'LB';
                     });
                     fileArray.push(new createDataFile(result, 'LB'));
+                }
+            });
+
+        /* Lumbar Puncture */
+
+        knex('TEST_DATA')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_TESTS.definition as LBTEST', 'TEST_DATA.value as LBORRES',
+                'ORDERED_TESTS.actualOccurredDate as LBDTC')
+            .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('TEST_DATA.deleted', '-')
+            .andWhere('ORDERED_TESTS.id', 4)
+            .then(result => {
+                if (result.length >= 1) {
+                    let prResultArr = [];
+                    result.forEach(x => {
+                        x.LBTESTCD = x.LBTEST; // WILL UPDATE AFTER CONSULTATION
+                        x.DOMAIN = 'LB';
+                        let prResult = {};
+                        prResult.DOMAIN = 'PR';
+                        prResult.STUDYID = x.STUDYID;
+                        prResult.USUBJID = x.USUBJID;
+                        prResult.PRDTC = x.LBDTC;
+                        prResultArr.push(prResult);
+                    });
+                    fileArray.push(new createDataFile(result, 'LB'));
+                    fileArray.push(new createDataFile(prResultArr, 'PR'));
                 }
             });
 
@@ -455,7 +485,7 @@ class ExportDataController {
                         entry.DOMAIN = 'EX';
                         convertedResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(convertedResult, 'treatment'));
+                    fileArray.push(new createDataFile(convertedResult, 'EX'));
                 }
                 zipFiles(fileArray);
             });
