@@ -7,6 +7,7 @@ class AvailableFieldController {
     getFields(req, res) {     //bound to GETclinicalEvents and GETtestTypes too
         const tableMap = {
             'visitFields': 'AVAILABLE_FIELDS_VISITS',
+            'visitSections': 'AVAILABLE_VISIT_SECTIONS',
             'testFields': 'AVAILABLE_FIELDS_TESTS',
             'ceFields': 'AVAILABLE_FIELDS_CE',
             'clinicalEvents': 'AVAILABLE_CLINICAL_EVENT_TYPES',
