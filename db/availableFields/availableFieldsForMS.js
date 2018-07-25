@@ -84,7 +84,7 @@ const availableFields = {
             idname: 'Higher_function_problem:_cognitive_problems',
             section: 2,
             subsection: 'Cognitive Functions',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -97,7 +97,7 @@ const availableFields = {
             idname: 'Higher_function_problem:_emotional_lability',
             section: 2,
             subsection: 'Cognitive Functions',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -110,7 +110,7 @@ const availableFields = {
             idname: 'Higher_function_problem:_depression',
             section: 2,
             subsection: 'Cognitive Functions',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -123,7 +123,7 @@ const availableFields = {
             idname: 'Higher_function_problem:_fatigue',
             section: 2,
             subsection: 'Cognitive Functions',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -136,7 +136,7 @@ const availableFields = {
             idname: 'Higher_function_problem:_seizure',
             section: 2,
             subsection: 'Cognitive Functions',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -149,7 +149,7 @@ const availableFields = {
             idname: 'Cranial_nerves:_oscillopsia',
             section: 2,
             subsection: 'Cranial Nerves',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -162,7 +162,7 @@ const availableFields = {
             idname: 'Cranial_nerves:_vertigo',
             section: 2,
             subsection: 'Cranial Nerves',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -175,7 +175,7 @@ const availableFields = {
             idname: 'Cranial_nerves:_blurred_vision',
             section: 2,
             subsection: 'Cranial Nerves',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -188,7 +188,7 @@ const availableFields = {
             idname: 'Cranial_nerves:_double_vision',
             section: 2,
             subsection: 'Cranial Nerves',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -201,7 +201,7 @@ const availableFields = {
             idname: 'Cranial_nerves:_uncontrolled_eye_movements',
             section: 2,
             subsection: 'Cranial Nerves',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -214,7 +214,7 @@ const availableFields = {
             idname: 'Cranial_nerves:_dysphagia',
             section: 2,
             subsection: 'Cranial Nerves',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -227,7 +227,7 @@ const availableFields = {
             idname: 'Cranial_nerves:_facial_weakness',
             section: 2,
             subsection: 'Cranial Nerves',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -305,7 +305,7 @@ const availableFields = {
             idname: 'Motor:_difficulty_walking',
             section: 2,
             subsection: 'Motor',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -370,7 +370,7 @@ const availableFields = {
             idname: 'Somatosensory:_Heat_intolerance',
             section: 2,
             subsection: 'Somatosensory',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -513,7 +513,7 @@ const availableFields = {
             idname: 'Autonomic:_bladder_urgency',
             section: 2,
             subsection: 'Autonomic',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -526,7 +526,7 @@ const availableFields = {
             idname: 'Autonomic:_bladder_frequency',
             section: 2,
             subsection: 'Autonomic',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -539,7 +539,7 @@ const availableFields = {
             idname: 'Autonomic:_bladder_incontinence',
             section: 2,
             subsection: 'Autonomic',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -552,7 +552,7 @@ const availableFields = {
             idname: 'Autonomic:_bladder_hesitancy',
             section: 2,
             subsection: 'Autonomic',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -565,7 +565,7 @@ const availableFields = {
             idname: 'Autonomic:_constipation',
             section: 2,
             subsection: 'Autonomic',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -578,7 +578,7 @@ const availableFields = {
             idname: 'Autonomic:_bowel_incontinence',
             section: 2,
             subsection: 'Autonomic',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -591,7 +591,7 @@ const availableFields = {
             idname: 'Autonomic:_problems_with_sexual_function',
             section: 2,
             subsection: 'Autonomic',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -604,7 +604,7 @@ const availableFields = {
             idname: 'Higher_function_problem:_information_processing_speed',
             section: 3,
             subsection: 'Cognitive Functions',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -617,7 +617,7 @@ const availableFields = {
             idname: 'Higher_function_problem:_executive_functions',
             section: 3,
             subsection: 'Cognitive Functions',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -630,7 +630,7 @@ const availableFields = {
             idname: 'Higher_function_problem:_memory',
             section: 3,
             subsection: 'Cognitive Functions',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -643,7 +643,7 @@ const availableFields = {
             idname: 'Higher_function_problem:_verbal_fluency',
             section: 3,
             subsection: 'Cognitive Functions',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -656,7 +656,7 @@ const availableFields = {
             idname: 'Higher_function_problem:_seizure',
             section: 3,
             subsection: 'Cognitive Functions',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -669,7 +669,7 @@ const availableFields = {
             idname: 'Cranial_nerves:_nystagmus',
             section: 3,
             subsection: 'Cranial Nerves',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -1072,7 +1072,7 @@ const availableFields = {
             idname: 'Mobility:_using_walking_aid',
             section: 3,
             subsection: 'Mobility',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -1085,7 +1085,7 @@ const availableFields = {
             idname: 'Expanded_Disability_Status_Scale_EDSS_total',
             section: 4,
             subsection: 'EDSS',
-            type: 2,
+            type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5,6,7,8,9,10',
@@ -1094,24 +1094,11 @@ const availableFields = {
         },
         {
             id: 85,
-            definition: 'Expanded Disability Status Scale (EDSS) Total Calculated',
-            idname: 'Expanded_Disability_Status_Scale_EDSS_total_calculated',
-            section: 4,
-            subsection: 'EDSS',
-            type: 2,
-            unit: null,
-            module: 'MS',
-            permittedValues: '0,1,2,3,4,5,6,7,8,9,10',
-            labels: null,
-            referenceType: 1
-        },
-        {
-            id: 86,
             definition: 'Expanded Disability Status Scale (EDSS) Pyramidal',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Pyramidal',
             section: 4,
             subsection: 'EDSS',
-            type: 1,
+            type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5,6',
@@ -1125,12 +1112,12 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 87,
+            id: 86,
             definition: 'Expanded Disability Status Scale (EDSS) Cerebellar',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Cerebellar',
             section: 4,
             subsection: 'EDSS',
-            type: 1,
+            type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5',
@@ -1143,12 +1130,12 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 88,
+            id: 87,
             definition: 'Expanded Disability Status Scale (EDSS) Brain Stem',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Brain_Stem',
             section: 4,
             subsection: 'EDSS',
-            type: 1,
+            type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5',
@@ -1161,12 +1148,12 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 89,
+            id: 88,
             definition: 'Expanded Disability Status Scale (EDSS) Sensory',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Sensory',
             section: 4,
             subsection: 'EDSS',
-            type: 1,
+            type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5,6',
@@ -1180,12 +1167,12 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 90,
+            id: 89,
             definition: 'Expanded Disability Status Scale (EDSS) Bowel Bladder',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Bladder',
             section: 4,
             subsection: 'EDSS',
-            type: 1,
+            type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5,6',
@@ -1199,12 +1186,12 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 91,
+            id: 90,
             definition: 'Expanded Disability Status Scale (EDSS) Visual',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Visual',
             section: 4,
             subsection: 'EDSS',
-            type: 1,
+            type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5,6',
@@ -1218,12 +1205,12 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 92,
+            id: 91,
             definition: 'Expanded Disability Status Scale (EDSS) Mental',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Mental',
             section: 4,
             subsection: 'EDSS',
-            type: 1,
+            type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5',
@@ -1236,12 +1223,12 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 93,
+            id: 92,
             definition: 'Expanded Disability Status Scale (EDSS) Ambulation',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Ambulation',
             section: 4,
             subsection: 'EDSS',
-            type: 1,
+            type: 3,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5,6,7,8,9,10,11,12',
@@ -1261,7 +1248,7 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 94,
+            id: 93,
             definition: 'EDMUS',
             idname: 'EDMUS',
             section: 4,
@@ -1285,7 +1272,7 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 95,
+            id: 94,
             definition: '25 feet walk test trial n°1',
             idname: '25_feet_walk_test_first_try',
             section: 4,
@@ -1298,7 +1285,7 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 96,
+            id: 95,
             definition: '25 feet walk test trial n°2',
             idname: '25_feet_walk_test_second_try',
             section: 4,
@@ -1311,7 +1298,7 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 97,
+            id: 96,
             definition: 'Nine hole peg test: left: trial n°1',
             idname: 'Nine_hole_peg_test:_left:_first_try',
             section: 4,
@@ -1324,7 +1311,7 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 98,
+            id: 97,
             definition: 'Nine hole peg test: left: trial n°2',
             idname: 'Nine_hole_peg_test:_left:_second_try',
             section: 4,
@@ -1337,7 +1324,7 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 99,
+            id: 98,
             definition: 'Nine hole peg test: right: trial n°1',
             idname: 'Nine_hole_peg_test:_right:_first_try',
             section: 4,
@@ -1350,7 +1337,7 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 100,
+            id: 99,
             definition: 'Nine hole peg test: right: trial n°2',
             idname: 'Nine_hole_peg_test:_right:_second_try',
             section: 4,
@@ -1363,7 +1350,7 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 101,
+            id: 100,
             definition: 'Low contrast letter acuity: left ',
             idname: 'Low_contrast_letter_acuity:_left_',
             section: 4,
@@ -1376,7 +1363,7 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 102,
+            id: 101,
             definition: 'Low contrast letter acuity: right',
             idname: 'Low_contrast_letter_acuity:_right',
             section: 4,
@@ -1389,7 +1376,7 @@ const availableFields = {
             referenceType: 1
         },
         {
-            id: 103,
+            id: 102,
             definition: 'symbol digit modality test',
             idname: 'symbol_digit_modality_test',
             section: 4,
@@ -1402,7 +1389,8 @@ const availableFields = {
             referenceType: 1
         }],
     testFields: [
-        { id: 1,
+        {
+            id: 1,
             definition: 'ANA',
             idname: 'ANA',
             type: 2,
@@ -1411,8 +1399,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 1,
             laterality: null,
-            cdiscName: null },
-        { id: 2,
+            cdiscName: null
+        },
+        {
+            id: 2,
             definition: 'ANCA',
             idname: 'ANCA',
             type: 2,
@@ -1421,8 +1411,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 1,
             laterality: null,
-            cdiscName: null },
-        { id: 3,
+            cdiscName: null
+        },
+        {
+            id: 3,
             definition: 'Anti-cardiolipin',
             idname: 'Anti-cardiolipin',
             type: 2,
@@ -1430,8 +1422,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 4,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 4,
             definition: 'Anti-DNA',
             idname: 'Anti-DNA',
             type: 2,
@@ -1439,8 +1433,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 5,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 5,
             definition: 'Anti-HCV antibody',
             idname: 'Anti-HCV_antibody',
             type: 2,
@@ -1448,8 +1444,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 6,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 6,
             definition: 'Anti-HIV antibody',
             idname: 'Anti-HIV_antibody',
             type: 2,
@@ -1457,8 +1455,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 7,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 7,
             definition: 'Anti-LKM',
             idname: 'Anti-LKM',
             type: 2,
@@ -1466,8 +1466,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 8,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 8,
             definition: 'Anti-mitochondrial',
             idname: 'Anti-mitochondrial',
             type: 2,
@@ -1475,8 +1477,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 9,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 9,
             definition: 'Anti-parietal cell antibodies',
             idname: 'Anti-parietal_cell_antibodies',
             type: 2,
@@ -1484,8 +1488,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 10,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 10,
             definition: 'Anti-Ro',
             idname: 'Anti-Ro',
             type: 2,
@@ -1493,8 +1499,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 11,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 11,
             definition: 'Anti-smooth muscle',
             idname: 'Anti-smooth_muscle',
             type: 2,
@@ -1502,8 +1510,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 12,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 12,
             definition: 'Anti-transglutaminase',
             idname: 'Anti-transglutaminase',
             type: 2,
@@ -1511,8 +1521,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 13,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 13,
             definition: 'Anti-varicella',
             idname: 'Anti-varicella',
             type: 2,
@@ -1520,8 +1532,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 14,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 14,
             definition: 'AQP4',
             idname: 'AQP4',
             type: 2,
@@ -1529,8 +1543,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 15,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 15,
             definition: 'GlyR',
             idname: 'GlyR',
             type: 2,
@@ -1538,8 +1554,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 16,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 16,
             definition: 'HBV surface antigen',
             idname: 'HBV_surface_antigen',
             type: 2,
@@ -1547,8 +1565,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 17,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 17,
             definition: 'hepatitis A',
             idname: 'hepatitis_A',
             type: 2,
@@ -1556,8 +1576,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 18,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 18,
             definition: 'hepatitis B',
             idname: 'hepatitis_B',
             type: 2,
@@ -1565,8 +1587,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 19,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 19,
             definition: 'hepatitis C',
             idname: 'hepatitis_C',
             type: 2,
@@ -1574,8 +1598,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 20,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 20,
             definition: 'Jo1',
             idname: 'Jo1',
             type: 2,
@@ -1583,8 +1609,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 21,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 21,
             definition: 'LA',
             idname: 'LA',
             type: 2,
@@ -1592,8 +1620,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 22,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 22,
             definition: 'LUPUS anti-coagulant',
             idname: 'LUPUS_anti-coagulant',
             type: 2,
@@ -1601,8 +1631,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 23,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 23,
             definition: 'MOG',
             idname: 'MOG',
             type: 2,
@@ -1610,8 +1642,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 24,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 24,
             definition: 'Neutralising Anti-IFN antibody',
             idname: 'Neutralising_Anti-IFN_antibody',
             type: 2,
@@ -1619,8 +1653,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 25,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 25,
             definition: 'Neutralising Anti-natalizumab antibody',
             idname: 'Neutralising_Anti-natalizumab_antibody',
             type: 2,
@@ -1628,8 +1664,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 26,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 26,
             definition: 'NMDAR',
             idname: 'NMDAR',
             type: 2,
@@ -1637,8 +1675,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 27,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 27,
             definition: 'NMO IgG',
             idname: 'NMO_IgG',
             type: 2,
@@ -1646,8 +1686,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 28,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 28,
             definition: 'Plasma anti-JC virus',
             idname: 'Plasma_anti-JC_virus',
             type: 2,
@@ -1655,8 +1697,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 29,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 29,
             definition: 'RNP',
             idname: 'RNP',
             type: 2,
@@ -1664,8 +1708,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 30,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 30,
             definition: 'Scl70',
             idname: 'Scl70',
             type: 2,
@@ -1673,8 +1719,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 31,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 31,
             definition: 'SM',
             idname: 'SM',
             type: 2,
@@ -1682,8 +1730,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 32,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 32,
             definition: 'ANA: Flagged',
             idname: 'ANA:_Flagged',
             type: 5,
@@ -1691,8 +1741,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 33,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 33,
             definition: 'ANCA: Flagged',
             idname: 'ANCA:_Flagged',
             type: 5,
@@ -1700,8 +1752,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 34,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 34,
             definition: 'Anti-cardiolipin: Flagged',
             idname: 'Anti-cardiolipin:_Flagged',
             type: 5,
@@ -1709,8 +1763,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 35,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 35,
             definition: 'Anti-DNA: Flagged',
             idname: 'Anti-DNA:_Flagged',
             type: 5,
@@ -1718,8 +1774,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 36,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 36,
             definition: 'Anti-HCV antibody: Flagged',
             idname: 'Anti-HCV_antibody:_Flagged',
             type: 5,
@@ -1727,8 +1785,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 37,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 37,
             definition: 'Anti-HIV antibody: Flagged',
             idname: 'Anti-HIV_antibody:_Flagged',
             type: 5,
@@ -1736,8 +1796,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 38,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 38,
             definition: 'Anti-LKM: Flagged',
             idname: 'Anti-LKM:_Flagged',
             type: 5,
@@ -1745,8 +1807,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 39,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 39,
             definition: 'Anti-mitochondrial: Flagged',
             idname: 'Anti-mitochondrial:_Flagged',
             type: 5,
@@ -1754,8 +1818,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 40,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 40,
             definition: 'Anti-parietal cell antibodies: Flagged',
             idname: 'Anti-parietal_cell_antibodies:_Flagged',
             type: 5,
@@ -1763,8 +1829,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 41,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 41,
             definition: 'Anti-Ro: Flagged',
             idname: 'Anti-Ro:_Flagged',
             type: 5,
@@ -1772,8 +1840,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 42,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 42,
             definition: 'Anti-smooth muscle: Flagged',
             idname: 'Anti-smooth_muscle:_Flagged',
             type: 5,
@@ -1781,8 +1851,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 43,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 43,
             definition: 'Anti-transglutaminase: Flagged',
             idname: 'Anti-transglutaminase:_Flagged',
             type: 5,
@@ -1790,8 +1862,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 44,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 44,
             definition: 'Anti-varicella: Flagged',
             idname: 'Anti-varicella:_Flagged',
             type: 5,
@@ -1799,8 +1873,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 45,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 45,
             definition: 'AQP4: Flagged',
             idname: 'AQP4:_Flagged',
             type: 5,
@@ -1808,8 +1884,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 46,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 46,
             definition: 'GlyR: Flagged',
             idname: 'GlyR:_Flagged',
             type: 5,
@@ -1817,8 +1895,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 47,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 47,
             definition: 'HBV surface antigen: Flagged',
             idname: 'HBV_surface_antigen:_Flagged',
             type: 5,
@@ -1826,8 +1906,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 48,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 48,
             definition: 'Hepatitis A: Flagged',
             idname: 'Hepatitis_A:_Flagged',
             type: 5,
@@ -1835,8 +1917,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 49,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 49,
             definition: 'Hepatitis B: Flagged',
             idname: 'Hepatitis_B:_Flagged',
             type: 5,
@@ -1844,8 +1928,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 50,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 50,
             definition: 'Hepatitis C: Flagged',
             idname: 'Hepatitis_C:_Flagged',
             type: 5,
@@ -1853,8 +1939,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 51,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 51,
             definition: 'Jo1: Flagged',
             idname: 'Jo1:_Flagged',
             type: 5,
@@ -1862,8 +1950,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 52,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 52,
             definition: 'LA: Flagged',
             idname: 'LA:_Flagged',
             type: 5,
@@ -1871,8 +1961,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 53,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 53,
             definition: 'LUPUS anti-coagulant: Flagged',
             idname: 'LUPUS_anti-coagulant:_Flagged',
             type: 5,
@@ -1880,8 +1972,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 54,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 54,
             definition: 'MOG: Flagged',
             idname: 'MOG:_Flagged',
             type: 5,
@@ -1889,8 +1983,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 55,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 55,
             definition: 'Neutralising Anti-IFN antibody: Flagged',
             idname: 'Neutralising_Anti-IFN_antibody:_Flagged',
             type: 5,
@@ -1898,8 +1994,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 56,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 56,
             definition: 'Neutralising Anti-natalizumab antibody: Flagged',
             idname: 'Neutralising_Anti-natalizumab_antibody:_Flagged',
             type: 5,
@@ -1907,8 +2005,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 57,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 57,
             definition: 'NMDAR: Flagged',
             idname: 'NMDAR:_Flagged',
             type: 5,
@@ -1916,8 +2016,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 58,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 58,
             definition: 'NMO IgG: Flagged',
             idname: 'NMO_IgG:_Flagged',
             type: 5,
@@ -1925,8 +2027,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 59,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 59,
             definition: 'Plasma anti-JC virus: Flagged',
             idname: 'Plasma_anti-JC_virus:_Flagged',
             type: 5,
@@ -1934,8 +2038,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 60,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 60,
             definition: 'RNP: Flagged',
             idname: 'RNP:_Flagged',
             type: 5,
@@ -1943,8 +2049,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 61,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 61,
             definition: 'Scl70: Flagged',
             idname: 'Scl70:_Flagged',
             type: 5,
@@ -1952,8 +2060,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 62,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 62,
             definition: 'SM: Flagged',
             idname: 'SM:_Flagged',
             type: 5,
@@ -1961,8 +2071,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 63,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 63,
             definition: 'P100 Left: Abnormal',
             idname: 'P100_Left:_Abnormal',
             type: 5,
@@ -1971,8 +2083,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 2,
             laterality: 'left',
-            cdiscName: 'P100 Interpretation' },
-        { id: 64,
+            cdiscName: 'P100 Interpretation'
+        },
+        {
+            id: 64,
             definition: 'P100 Left: amplitude',
             idname: 'P100_Left:_amplitude',
             type: 1,
@@ -1981,8 +2095,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 2,
             laterality: 'left',
-            cdiscName: 'P100 Amplitude' },
-        { id: 65,
+            cdiscName: 'P100 Amplitude'
+        },
+        {
+            id: 65,
             definition: 'P100 Left: P100 latency',
             idname: 'P100_Left:_P100_latency',
             type: 1,
@@ -1991,8 +2107,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 2,
             laterality: 'left',
-            cdiscName: 'P100 Latency' },
-        { id: 66,
+            cdiscName: 'P100 Latency'
+        },
+        {
+            id: 66,
             definition: 'P100 right: Abnormal',
             idname: 'P100_right:_Abnormal',
             type: 5,
@@ -2001,8 +2119,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 2,
             laterality: 'RIGHT',
-            cdiscName: 'P100 Interpretation' },
-        { id: 67,
+            cdiscName: 'P100 Interpretation'
+        },
+        {
+            id: 67,
             definition: 'P100 right: amplitude',
             idname: 'P100_right:_amplitude',
             type: 1,
@@ -2011,8 +2131,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 2,
             laterality: 'RIGHT',
-            cdiscName: 'P100 Amplitude' },
-        { id: 68,
+            cdiscName: 'P100 Amplitude'
+        },
+        {
+            id: 68,
             definition: 'P100 right: P100 latency',
             idname: 'P100_right:_P100_latency',
             type: 1,
@@ -2021,8 +2143,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 2,
             laterality: 'RIGHT',
-            cdiscName: 'P100 Latency' },
-        { id: 69,
+            cdiscName: 'P100 Latency'
+        },
+        {
+            id: 69,
             definition: 'SEP left: upper extremity: abnormal',
             idname: 'SEP_left:_upper_extremity:_abnormal',
             type: 5,
@@ -2031,8 +2155,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 2,
             laterality: 'left',
-            cdiscName: 'SEP Upper Extremity' },
-        { id: 70,
+            cdiscName: 'SEP Upper Extremity'
+        },
+        {
+            id: 70,
             definition: 'SEP left: lower extremity: abnormal',
             idname: 'SEP_left:_lower_extremity:_abnormal',
             type: 5,
@@ -2041,8 +2167,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 2,
             laterality: 'LEFT',
-            cdiscName: 'SEP Lower Extremity' },
-        { id: 71,
+            cdiscName: 'SEP Lower Extremity'
+        },
+        {
+            id: 71,
             definition: 'SEP right: upper extremity: abnormal',
             idname: 'SEP_right:_upper_extremity:_abnormal',
             type: 5,
@@ -2051,8 +2179,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 2,
             laterality: 'RIGHT',
-            cdiscName: 'SEP Upper Extremity' },
-        { id: 72,
+            cdiscName: 'SEP Upper Extremity'
+        },
+        {
+            id: 72,
             definition: 'SEP right: lower extremity: abnormal',
             idname: 'SEP_right:_lower_extremity:_abnormal',
             type: 5,
@@ -2061,8 +2191,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 2,
             laterality: 'RIGHT',
-            cdiscName: 'SEP Lower Extremity' },
-        { id: 73,
+            cdiscName: 'SEP Lower Extremity'
+        },
+        {
+            id: 73,
             definition: 'Session Name',
             idname: 'Session_Name',
             type: 4,
@@ -2071,8 +2203,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 3,
             laterality: null,
-            cdiscName: null },
-        { id: 74,
+            cdiscName: null
+        },
+        {
+            id: 74,
             definition: 'Scans',
             idname: 'Scans',
             type: 6,
@@ -2081,8 +2215,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 3,
             laterality: null,
-            cdiscName: null },
-        { id: 75,
+            cdiscName: null
+        },
+        {
+            id: 75,
             definition: 'scan type',
             idname: 'scan_type',
             type: 3,
@@ -2091,8 +2227,10 @@ const availableFields = {
             permittedValues: 'T1, T2',
             referenceType: 3,
             laterality: null,
-            cdiscName: null },
-        { id: 76,
+            cdiscName: null
+        },
+        {
+            id: 76,
             definition: 'Morphology: region',
             idname: 'Morphology:_region',
             type: 3,
@@ -2101,8 +2239,10 @@ const availableFields = {
             permittedValues: 'BRAIN, SPINE',
             referenceType: 3,
             laterality: null,
-            cdiscName: null },
-        { id: 77,
+            cdiscName: null
+        },
+        {
+            id: 77,
             definition: 'Morphology: T1 hypointense lesions',
             idname: 'Morphology:_T1_hypointense_lesions',
             type: 3,
@@ -2111,8 +2251,10 @@ const availableFields = {
             permittedValues: 'NEGATIVE,  POSITIVE, NOT REPORTED',
             referenceType: 3,
             laterality: null,
-            cdiscName: null },
-        { id: 78,
+            cdiscName: null
+        },
+        {
+            id: 78,
             definition: 'Morphology: T2 hypointense lesions count',
             idname: 'Morphology:_T2_hypointense_lesions_count',
             type: 2,
@@ -2121,8 +2263,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 3,
             laterality: null,
-            cdiscName: null },
-        { id: 79,
+            cdiscName: null
+        },
+        {
+            id: 79,
             definition: 'Morphology: T2 hypointense lesions volume',
             idname: 'Morphology:_T2_hypointense_lesions_volume',
             type: 2,
@@ -2131,8 +2275,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 3,
             laterality: null,
-            cdiscName: null },
-        { id: 80,
+            cdiscName: null
+        },
+        {
+            id: 80,
             definition: 'Morphology: Gd enhancing lesions',
             idname: 'Morphology:_Gd_enhancing_lesions',
             type: 3,
@@ -2141,8 +2287,10 @@ const availableFields = {
             permittedValues: 'NONE, SINGLE, MULTIPLE, UNKNOWN',
             referenceType: 3,
             laterality: null,
-            cdiscName: null },
-        { id: 81,
+            cdiscName: null
+        },
+        {
+            id: 81,
             definition: 'Morphology: Gd enhancing lesions volume',
             idname: 'Morphology:_Gd_enhancing_lesions_volume',
             type: 2,
@@ -2151,8 +2299,10 @@ const availableFields = {
             permittedValues: null,
             referenceType: 3,
             laterality: null,
-            cdiscName: null },
-        { id: 82,
+            cdiscName: null
+        },
+        {
+            id: 82,
             definition: 'Summary',
             idname: 'Summary',
             type: 3,
@@ -2161,8 +2311,10 @@ const availableFields = {
             permittedValues: 'NORMAL, TRAUMATIC, ABNORMAL MS-TYPICAL, ABNORMAL MS-ATYPICAL',
             referenceType: 4,
             laterality: null,
-            cdiscName: null },
-        { id: 83,
+            cdiscName: null
+        },
+        {
+            id: 83,
             definition: 'Total-protein',
             idname: 'Total-protein',
             type: 2,
@@ -2170,8 +2322,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 4,
-            laterality: null, cdiscName: null },
-        { id: 84,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 84,
             definition: 'Glucose',
             idname: 'Glucose',
             type: 2,
@@ -2179,8 +2333,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 4,
-            laterality: null, cdiscName: null },
-        { id: 85,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 85,
             definition: 'Q Albumin',
             idname: 'Q_Albumin',
             type: 2,
@@ -2188,8 +2344,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 4,
-            laterality: null, cdiscName: null },
-        { id: 86,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 86,
             definition: 'IgG',
             idname: 'IgG',
             type: 2,
@@ -2197,8 +2355,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 4,
-            laterality: null, cdiscName: null },
-        { id: 87,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 87,
             definition: 'Albumin',
             idname: 'Albumin',
             type: 2,
@@ -2206,8 +2366,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 4,
-            laterality: null, cdiscName: null },
-        { id: 88,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 88,
             definition: 'IgG index',
             idname: 'IgG_index',
             type: 2,
@@ -2215,8 +2377,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 4,
-            laterality: null, cdiscName: null },
-        { id: 89,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 89,
             definition: 'WCC',
             idname: 'WCC',
             type: 2,
@@ -2224,8 +2388,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 4,
-            laterality: null, cdiscName: null },
-        { id: 90,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 90,
             definition: 'Lymphocytes',
             idname: 'Lymphocytes',
             type: 2,
@@ -2233,8 +2399,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 4,
-            laterality: null, cdiscName: null },
-        { id: 91,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 91,
             definition: 'Oligoclonal Bands in CSF',
             idname: 'Oligoclonal_Bands_in_CSF',
             type: 3,
@@ -2242,8 +2410,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'TEST NOT DONE,NOT DETECTED,DETECTED,UNKNOWN',
             referenceType: 4,
-            laterality: null, cdiscName: null },
-        { id: 92,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 92,
             definition: 'ALT (Alanine Aminotransferase) Test',
             idname: 'ALT_Alanine_Aminotransferase_Test',
             type: 2,
@@ -2251,8 +2421,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 93,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 93,
             definition: 'AST (Aspartate Aminotransferase) Test',
             idname: 'AST_Aspartate_Aminotransferase_Test',
             type: 2,
@@ -2260,8 +2432,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 94,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 94,
             definition: 'GGT (Gamma-Glutamyl Transpeptidase) Test',
             idname: 'GGT_Gamma_Glutamyl_Transpeptidase_Test',
             type: 2,
@@ -2269,8 +2443,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 95,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 95,
             definition: 'Total WBC',
             idname: 'Total_WBC',
             type: 2,
@@ -2278,8 +2454,10 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null },
-        { id: 96,
+            laterality: null, cdiscName: null
+        },
+        {
+            id: 96,
             definition: 'Bilirubin',
             idname: 'Bilirubin',
             type: 2,
@@ -2287,14 +2465,15 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             referenceType: 1,
-            laterality: null, cdiscName: null }
+            laterality: null, cdiscName: null
+        }
     ],
     ceFields: [
         {
             id: 1,
             definition: 'Functional system affected: Pyramidal Tract',
             idname: 'Functional_system_affected_pyramidal_tract',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -2304,7 +2483,7 @@ const availableFields = {
             id: 2,
             definition: 'Functional system affected: Cerebellum',
             idname: 'Functional_system_affected_cerebellum',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -2314,7 +2493,7 @@ const availableFields = {
             id: 3,
             definition: 'Functional system affected:Brain Stem',
             idname: 'Functional_system_affected_Brain_Stem',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -2324,7 +2503,7 @@ const availableFields = {
             id: 4,
             definition: 'Functional system affected: Sensory',
             idname: 'Functional_system_affected_Sensory',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -2334,7 +2513,7 @@ const availableFields = {
             id: 5,
             definition: 'Functional system affected: Bowel/Bladder',
             idname: 'Functional_system_affected_Bowel_Bladder',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -2344,7 +2523,7 @@ const availableFields = {
             id: 6,
             definition: 'Functional system affected: Visual',
             idname: 'Functional_system_affected_Visual',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
@@ -2354,7 +2533,7 @@ const availableFields = {
             id: 7,
             definition: 'Functional system affected: Cognition',
             idname: 'Functional_system_affected_Cognition',
-            type: 3,
+            type: 5,
             unit: null,
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
