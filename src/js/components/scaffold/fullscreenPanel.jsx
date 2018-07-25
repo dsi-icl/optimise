@@ -7,16 +7,20 @@ import './timeline.css';
 
 export default class FullscreenPanel extends Component {
     render() {
-        console.log('PLOP');
         return (
-            // <Switch>
-            //     <Route path='/patientProfile/:patientId/timeline' render={({ match }) =>
-            <div className={style.fullscreenPanel}>
-                <FullTimeline match={{ params: { patientId: 42 } }} />
-            </div>
-            //     } />
-            //     <Route path='/' component={() => null} />
-            // </Switch>
+            <>
+                <Switch>
+                    <Route path='/patientProfile/:patientId/timeline' render={({ match }) =>
+                        <div className={style.fullscreenPanel}>
+                            <FullTimeline match={match} />
+                        </div>
+                    } />
+                    <Route path='/patientProfile/:patientId/edit/msPerfMeas/:visitId/edss' render={({ match, location }) =>
+                        <EDSSCalculator match={match} location={location} />
+                    } />
+                    <Route path='/' component={() => null} />
+                </Switch>
+            </>
         );
     }
 }

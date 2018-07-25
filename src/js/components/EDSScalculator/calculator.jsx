@@ -56,10 +56,7 @@ export default class EDSSCalculator extends Component {
     }
 
     render() {
-        const { edssCalc } = this.props;
-        if (!edssCalc.display) {
-            return null;
-        }
+        const { params } = this.props.match;
         const rangeGen = ceiling => [...Array(ceiling).keys()];  //returns [0,1,2,3,...,*ceiling_inclusive*]
         const range_pyramidal = rangeGen(6);
         const range_cerebellar = rangeGen(5);
@@ -84,7 +81,7 @@ export default class EDSSCalculator extends Component {
                 <div className={style_scaffold.edssCalcBox}>
                     <div className={style.title}>
                         <h3>Expanded Disability Status Scale</h3>
-                        <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span>
+                        <Link to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}`}><span className={style.cancelButton}>&#10006;</span></Link>
                     </div>
                     <div className={style.calculator}>
                         <form onSubmit={this._handleSubmit}>
