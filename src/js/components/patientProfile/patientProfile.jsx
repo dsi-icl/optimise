@@ -99,18 +99,22 @@ class ImmunisationSection extends Component {
         this.setState({ newName: ev.target.value });
     }
 
-    _handleClickDelete() {
-        store.dispatch(addAlert({ alert: 'about deleting this immunisation record?', handler: this._deleteFunction }));
+    _handleClickDelete(el) {
+        store.dispatch(addAlert({ alert: 'about deleting this immunisation record?', handler: this._deleteFunction(el.id) }));
     }
 
-    _deleteFunction() {
-        const body = {
-            patientId: this.props.patientId,
-            data: {
-                id: this.props.data.id  //PLACEHOLDERBODY
-            }
-        };
-        store.dispatch(deleteImmunisationAPICall(body));
+    _deleteFunction(id) {
+        const that = this;
+        return function () {
+            const body = {
+                patientId: that.props.patientId,
+                data: {
+                    id: id  //PLACEHOLDERBODY
+                }
+            };
+
+            store.dispatch(deleteImmunisationAPICall(body));
+        }
     }
 
 
@@ -147,17 +151,21 @@ class ImmunisationSection extends Component {
                                 {formatRow([
                                     el.vaccineName,
                                     new Date(parseInt(el.immunisationDate, 10)).toDateString(),
-                                    <DeleteButton clickhandler={this._handleClickDelete} />
+                                    <DeleteButton clickhandler={() => this._handleClickDelete(el)} />
                                 ])}
                             </tr>
                         ))}
                         {!this.state.addMore ? null : <tr>
                             <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
-                            <td><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
+                            <td colSpan='2'><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
                         </tr>}
                     </tbody>
                 </table>
-                {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Add immunisation</button> :
+                {!this.state.addMore ?
+                    <>
+                        <br />
+                        <button onClick={this._handleClickingAdd}>Add immunisation</button>
+                    </> :
                     <>
                         <br /><br />
                         <button onClick={this._handleSubmit}>Submit</button><br /><br />
