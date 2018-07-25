@@ -2377,7 +2377,7 @@ const availableFields = {
             type: 3,
             unit: null,
             module: 'MS',
-            permittedValues: 'Mild,Moderate,Severe,Unknown',
+            permittedValues: 'MILD,MODERATE,SEVERE,Unknown',
             referenceType: 1
         },
         {
