@@ -126,6 +126,10 @@ function availableFields(state = initialState.availableFields, action) {
             const reverseHash = action.payload.reduce((map, el) => { map[el.name] = el.id; return map; }, {});
             newState = { ...state, allMeddra: [hash], allMeddra_ReverseHash: [reverseHash] };
             break;
+        case actionTypes.availableFields.GET_VISIT_SECTIONS_SUCCESS:
+            hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
+            newState = { ...state, visitSections: action.payload, visitSections_Hash: [hash] };
+            break;
         default:
             return state;
     }

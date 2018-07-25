@@ -13,6 +13,12 @@ export function APICall(endpoint, cbDispatch) {
     };
 };
 
+export const getVisitSectionsCall = APICall('/available/visitSections', getVisitSectionsSuccess);
+
+export function getVisitSectionsSuccess(payload) {
+    return { type: actions.availableFields.GET_VISIT_SECTIONS_SUCCESS, payload: payload };
+}
+
 export const getDrugsCall = APICall('/treatments/drugs', getDrugsSuccess);
 
 export function getDrugsSuccess(payload) {

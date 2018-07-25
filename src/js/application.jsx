@@ -5,7 +5,7 @@ import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, StatusBar, ErrorMessag
 import Body from './components/body';
 import Login from './components/login';
 import { whoami } from './redux/actions/login';
-import { getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
+import { getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
 import Icon from './components/icon';
 import { EDSSCalculator } from './components/EDSScalculator/calculator';
 
@@ -43,7 +43,8 @@ function mapDispatchToProps(dispatch) {
         getCEFieldsCall: () => dispatch(getCEFieldsCall()),
         getPregnancyOutcomesCall: () => dispatch(getPregnancyOutcomesCall()),
         getMeddraCall: () => dispatch(getMeddraCall()),
-        getInterruptionReasonsCall: () => dispatch(getInterruptionReasonsCall())
+        getInterruptionReasonsCall: () => dispatch(getInterruptionReasonsCall()),
+        getVisitSectionsCall: () => dispatch(getVisitSectionsCall())
     };
 }
 @withRouter
@@ -62,6 +63,7 @@ class LoadingFields extends Component {
         this.props.getPregnancyOutcomesCall();
         this.props.getMeddraCall();
         this.props.getInterruptionReasonsCall();
+        this.props.getVisitSectionsCall();
 
     }
 
