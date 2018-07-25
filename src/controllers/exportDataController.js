@@ -359,6 +359,72 @@ class ExportDataController {
                 }
             });
 
+        /* Performance Measures Visual Acuity */
+
+        knex('VISIT_DATA')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.definition as OETEST',
+                'VISIT_DATA.value as OEORRES', 'AVAILABLE_FIELDS_VISITS.laterality as OELAT', 'VISITS.visitDate as OEDTC')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
+            .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .where('AVAILABLE_FIELDS_VISITS.section', 4)
+            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'VisualAcuity')
+            .andWhere('PATIENTS.deleted', '-')
+            .andWhere('VISIT_DATA.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.OELOC = 'EYE';
+                        x.DOMAIN = 'OE';
+                    });
+                    fileArray.push(new createDataFile(result, 'OE'));
+                }
+            });
+
+        /* Performance Measures Questionnaires */
+
+        knex('VISIT_DATA')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.definition as QSTEST',
+                'VISIT_DATA.value as QSORRES', 'VISITS.visitDate as QSDTC')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
+            .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .where('AVAILABLE_FIELDS_VISITS.section', 4)
+            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'QS')
+            .andWhere('PATIENTS.deleted', '-')
+            .andWhere('VISIT_DATA.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.QSSTRESN = x.QSORRES;
+                        x.DOMAIN = 'QS';
+                    });
+                    fileArray.push(new createDataFile(result, 'QS'));
+                }
+            });
+
+        /* Performance Measures Functional Tests */
+
+        knex('VISIT_DATA')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.definition as FTTEST',
+                'VISIT_DATA.value as FTORRES', 'VISITS.visitDate as FTDTC')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
+            .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .where('AVAILABLE_FIELDS_VISITS.section', 4)
+            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'FT')
+            .andWhere('PATIENTS.deleted', '-')
+            .andWhere('VISIT_DATA.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.FTSTRESN = x.FTORRES;
+                        x.DOMAIN = 'FT';
+                    });
+                    fileArray.push(new createDataFile(result, 'FT'));
+                }
+            });
+
         /* Patient treatment data */
 
         knex('TREATMENTS')
