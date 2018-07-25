@@ -145,7 +145,7 @@ const availableFields = {
         },
         {
             id: 12,
-            definition: 'Cranial nerves: oscillopsia',
+            definition: 'oscillopsia',
             idname: 'Cranial_nerves:_oscillopsia',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -158,7 +158,7 @@ const availableFields = {
         },
         {
             id: 13,
-            definition: 'Cranial nerves: vertigo',
+            definition: 'vertigo',
             idname: 'Cranial_nerves:_vertigo',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -171,7 +171,7 @@ const availableFields = {
         },
         {
             id: 14,
-            definition: 'Cranial nerves: blurred vision',
+            definition: 'blurred vision',
             idname: 'Cranial_nerves:_blurred_vision',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -184,7 +184,7 @@ const availableFields = {
         },
         {
             id: 15,
-            definition: 'Cranial nerves: double vision',
+            definition: 'double vision',
             idname: 'Cranial_nerves:_double_vision',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -197,7 +197,7 @@ const availableFields = {
         },
         {
             id: 16,
-            definition: 'Cranial nerves: uncontrolled eye movements',
+            definition: 'uncontrolled eye movements',
             idname: 'Cranial_nerves:_uncontrolled_eye_movements',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -210,7 +210,7 @@ const availableFields = {
         },
         {
             id: 17,
-            definition: 'Cranial nerves: dysphagia',
+            definition: 'dysphagia',
             idname: 'Cranial_nerves:_dysphagia',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -223,7 +223,7 @@ const availableFields = {
         },
         {
             id: 18,
-            definition: 'Cranial nerves: facial weakness',
+            definition: 'facial weakness',
             idname: 'Cranial_nerves:_facial_weakness',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -236,7 +236,7 @@ const availableFields = {
         },
         {
             id: 19,
-            definition: 'Cranial nerves: greying of vision in one eye',
+            definition: 'greying of vision in one eye',
             idname: 'Cranial_nerves:_greying_of_vision_in_one_eye',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -249,7 +249,7 @@ const availableFields = {
         },
         {
             id: 20,
-            definition: 'Cranial nerves: blindness in one eye',
+            definition: 'blindness in one eye',
             idname: 'Cranial_nerves:_blindness_in_one_eye',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -262,7 +262,7 @@ const availableFields = {
         },
         {
             id: 21,
-            definition: 'Cranial nerves: facial pain',
+            definition: 'facial pain',
             idname: 'Cranial_nerves:_facial_pain',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -275,7 +275,7 @@ const availableFields = {
         },
         {
             id: 22,
-            definition: 'Cranial nerves: field defect / scotoma',
+            definition: 'field defect / scotoma',
             idname: 'Cranial_nerves:_field_defect_/_scotoma',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -288,7 +288,7 @@ const availableFields = {
         },
         {
             id: 23,
-            definition: 'Cranial nerves: facial hypoesthesia',
+            definition: 'facial hypoesthesia',
             idname: 'Cranial_nerves:_facial_hypoesthesia',
             section: 2,
             subsection: 'Cranial Nerves',
@@ -301,7 +301,7 @@ const availableFields = {
         },
         {
             id: 24,
-            definition: 'Motor: difficulty walking',
+            definition: 'difficulty walking',
             idname: 'Motor:_difficulty_walking',
             section: 2,
             subsection: 'Motor',
@@ -314,7 +314,7 @@ const availableFields = {
         },
         {
             id: 25,
-            definition: 'Motor: weakness upper limbs',
+            definition: 'weakness upper limbs',
             idname: 'Motor:_weakness_upper_limbs',
             section: 2,
             subsection: 'Motor',
@@ -327,7 +327,7 @@ const availableFields = {
         },
         {
             id: 26,
-            definition: 'Motor: weakness lower limbs',
+            definition: 'weakness lower limbs',
             idname: 'Motor:_weakness_lower_limbs',
             section: 2,
             subsection: 'Motor',
@@ -340,7 +340,7 @@ const availableFields = {
         },
         {
             id: 27,
-            definition: 'Motor: weakness lower limbs',
+            definition: 'weakness lower limbs',
             idname: 'Motor:_weakness_lower_limbs',
             section: 2,
             subsection: 'Motor',
@@ -353,7 +353,7 @@ const availableFields = {
         },
         {
             id: 28,
-            definition: 'Somatosensory: Lhermitte\'s sign',
+            definition: 'Lhermitte\'s sign',
             idname: 'Somatosensory:_Lhermitte\'s_sign',
             section: 2,
             subsection: 'Somatosensory',
@@ -366,7 +366,7 @@ const availableFields = {
         },
         {
             id: 29,
-            definition: 'Somatosensory: Heat intolerance',
+            definition: 'Heat intolerance',
             idname: 'Somatosensory:_Heat_intolerance',
             section: 2,
             subsection: 'Somatosensory',
@@ -379,7 +379,7 @@ const availableFields = {
         },
         {
             id: 30,
-            definition: 'Somatosensory: pain',
+            definition: 'pain',
             idname: 'Somatosensory:_pain',
             section: 2,
             subsection: 'Somatosensory',
@@ -392,7 +392,7 @@ const availableFields = {
         },
         {
             id: 31,
-            definition: 'Somatosensory: paresthesia',
+            definition: 'paresthesia',
             idname: 'Somatosensory:_paresthesia',
             section: 2,
             subsection: 'Somatosensory',
@@ -405,7 +405,7 @@ const availableFields = {
         },
         {
             id: 32,
-            definition: 'Somatosensory: dysesthesia',
+            definition: 'dysesthesia',
             idname: 'Somatosensory:_dysesthesia',
             section: 2,
             subsection: 'Somatosensory',
@@ -418,7 +418,7 @@ const availableFields = {
         },
         {
             id: 33,
-            definition: 'Somatosensory: anesthesia',
+            definition: 'anesthesia',
             idname: 'Somatosensory:_anesthesia',
             section: 2,
             subsection: 'Somatosensory',
@@ -431,72 +431,7 @@ const availableFields = {
         },
         {
             id: 34,
-            definition: 'Somatosensory: pruritus',
-            idname: 'Somatosensory:_pruritus',
-            section: 2,
-            subsection: 'Somatosensory',
-            type: 3,
-            unit: null,
-            module: 'MS',
-            permittedValues: 'LEFT,RIGHT,BOTH',
-            labels: null,
-            referenceType: 1
-        },
-        {
-            id: 35,
-            definition: 'Somatosensory: pain',
-            idname: 'Somatosensory:_pain',
-            section: 2,
-            subsection: 'Somatosensory',
-            type: 3,
-            unit: null,
-            module: 'MS',
-            permittedValues: 'LEFT,RIGHT,BOTH',
-            labels: null,
-            referenceType: 1
-        },
-        {
-            id: 36,
-            definition: 'Somatosensory: paresthesia',
-            idname: 'Somatosensory:_paresthesia',
-            section: 2,
-            subsection: 'Somatosensory',
-            type: 3,
-            unit: null,
-            module: 'MS',
-            permittedValues: 'LEFT,RIGHT,BOTH',
-            labels: null,
-            referenceType: 1
-        },
-        {
-            id: 37,
-            definition: 'Somatosensory: dysesthesia',
-            idname: 'Somatosensory:_dysesthesia',
-            section: 2,
-            subsection: 'Somatosensory',
-            type: 3,
-            unit: null,
-            module: 'MS',
-            permittedValues: 'LEFT,RIGHT,BOTH',
-            labels: null,
-            referenceType: 1
-        },
-        {
-            id: 38,
-            definition: 'Somatosensory: anesthesia',
-            idname: 'Somatosensory:_anesthesia',
-            section: 2,
-            subsection: 'Somatosensory',
-            type: 3,
-            unit: null,
-            module: 'MS',
-            permittedValues: 'LEFT,RIGHT,BOTH',
-            labels: null,
-            referenceType: 1
-        },
-        {
-            id: 39,
-            definition: 'Somatosensory: pruritus',
+            definition: 'pruritus',
             idname: 'Somatosensory:_pruritus',
             section: 2,
             subsection: 'Somatosensory',
@@ -509,7 +444,7 @@ const availableFields = {
         },
         {
             id: 40,
-            definition: 'Autonomic: bladder urgency',
+            definition: 'bladde urgency',
             idname: 'Autonomic:_bladder_urgency',
             section: 2,
             subsection: 'Autonomic',
@@ -522,7 +457,7 @@ const availableFields = {
         },
         {
             id: 41,
-            definition: 'Autonomic: bladder frequency',
+            definition: 'bladder frequency',
             idname: 'Autonomic:_bladder_frequency',
             section: 2,
             subsection: 'Autonomic',
@@ -535,7 +470,7 @@ const availableFields = {
         },
         {
             id: 42,
-            definition: 'Autonomic: bladder incontinence',
+            definition: 'bladder incontinence',
             idname: 'Autonomic:_bladder_incontinence',
             section: 2,
             subsection: 'Autonomic',
@@ -548,7 +483,7 @@ const availableFields = {
         },
         {
             id: 43,
-            definition: 'Autonomic: bladder hesitancy',
+            definition: 'bladder hesitancy',
             idname: 'Autonomic:_bladder_hesitancy',
             section: 2,
             subsection: 'Autonomic',
@@ -561,7 +496,7 @@ const availableFields = {
         },
         {
             id: 44,
-            definition: 'Autonomic: constipation',
+            definition: 'constipation',
             idname: 'Autonomic:_constipation',
             section: 2,
             subsection: 'Autonomic',
@@ -574,7 +509,7 @@ const availableFields = {
         },
         {
             id: 45,
-            definition: 'Autonomic: bowel incontinence',
+            definition: 'bowel incontinence',
             idname: 'Autonomic:_bowel_incontinence',
             section: 2,
             subsection: 'Autonomic',
@@ -587,7 +522,7 @@ const availableFields = {
         },
         {
             id: 46,
-            definition: 'Autonomic: problems with sexual function',
+            definition: 'problems with sexual function',
             idname: 'Autonomic:_problems_with_sexual_function',
             section: 2,
             subsection: 'Autonomic',
@@ -665,7 +600,7 @@ const availableFields = {
         },
         {
             id: 52,
-            definition: 'Cranial nerves: nystagmus',
+            definition: 'nystagmus',
             idname: 'Cranial_nerves:_nystagmus',
             section: 3,
             subsection: 'Cranial Nerves',
@@ -678,7 +613,7 @@ const availableFields = {
         },
         {
             id: 53,
-            definition: 'Cranial nerves: red desaturation',
+            definition: 'red desaturation',
             idname: 'Cranial_nerves:_red_desaturation',
             section: 3,
             subsection: 'Cranial Nerves',
@@ -691,7 +626,7 @@ const availableFields = {
         },
         {
             id: 54,
-            definition: 'Cranial nerves: sixth nerve palsy',
+            definition: 'sixth nerve palsy',
             idname: 'Cranial_nerves:_sixth_nerve_palsy',
             section: 3,
             subsection: 'Cranial Nerves',
@@ -704,7 +639,7 @@ const availableFields = {
         },
         {
             id: 55,
-            definition: 'Cranial nerves: third nerve palsy',
+            definition: 'third nerve palsy',
             idname: 'Cranial_nerves:_third_nerve_palsy',
             section: 3,
             subsection: 'Cranial Nerves',
@@ -717,7 +652,7 @@ const availableFields = {
         },
         {
             id: 56,
-            definition: 'Cranial nerves: trigeminal neuralgia',
+            definition: 'trigeminal neuralgia',
             idname: 'Cranial_nerves:_trigeminal_neuralgia',
             section: 3,
             subsection: 'Cranial Nerves',
@@ -730,7 +665,7 @@ const availableFields = {
         },
         {
             id: 57,
-            definition: 'Cranial nerves: trigeninal palsy',
+            definition: 'trigeninal palsy',
             idname: 'Cranial_nerves:_trigeninal_palsy',
             section: 3,
             subsection: 'Cranial Nerves',
@@ -743,7 +678,7 @@ const availableFields = {
         },
         {
             id: 58,
-            definition: 'Cranial nerves: fourth nerve palsy',
+            definition: 'fourth nerve palsy',
             idname: 'Cranial_nerves:_fourth_nerve_palsy',
             section: 3,
             subsection: 'Cranial Nerves',
@@ -756,7 +691,7 @@ const availableFields = {
         },
         {
             id: 59,
-            definition: 'Cranial nerves: facial hypoesthesia',
+            definition: 'facial hypoesthesia',
             idname: 'Cranial_nerves:_facial_hypoesthesia',
             section: 3,
             subsection: 'Cranial Nerves',
@@ -769,7 +704,7 @@ const availableFields = {
         },
         {
             id: 60,
-            definition: 'Cranial nerves: hearing loss',
+            definition: 'hearing loss',
             idname: 'Cranial_nerves:_hearing_loss',
             section: 3,
             subsection: 'Cranial Nerves',
@@ -782,7 +717,7 @@ const availableFields = {
         },
         {
             id: 61,
-            definition: 'Motor: tremor postural upper limbs',
+            definition: 'tremor postural upper limbs',
             idname: 'Motor:_tremor_postural_upper_limbs',
             section: 3,
             subsection: 'Motor',
@@ -795,7 +730,7 @@ const availableFields = {
         },
         {
             id: 62,
-            definition: 'Motor: tremor intention upper limbs',
+            definition: 'tremor intention upper limbs',
             idname: 'Motor:_tremor_intention_upper_limbs',
             section: 3,
             subsection: 'Motor',
@@ -808,7 +743,7 @@ const availableFields = {
         },
         {
             id: 63,
-            definition: 'Motor: spasticity upper limbs',
+            definition: 'spasticity upper limbs',
             idname: 'Motor:_spasticity_upper_limbs',
             section: 3,
             subsection: 'Motor',
@@ -821,7 +756,7 @@ const availableFields = {
         },
         {
             id: 64,
-            definition: 'Motor: spasticity lower limbs',
+            definition: 'spasticity lower limbs',
             idname: 'Motor:_spasticity_lower_limbs',
             section: 3,
             subsection: 'Motor',
@@ -834,7 +769,7 @@ const availableFields = {
         },
         {
             id: 65,
-            definition: 'Motor: tendon reflexes: hyperreflexia: biceps right',
+            definition: 'tendon reflexes:hyperreflexia:biceps:right',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_biceps_right',
             section: 3,
             subsection: 'Motor',
@@ -847,7 +782,7 @@ const availableFields = {
         },
         {
             id: 66,
-            definition: 'Motor: tendon reflexes: hyperreflexia: biceps left',
+            definition: 'tendon reflexes:hyperreflexia:biceps:left',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_biceps_left',
             section: 3,
             subsection: 'Motor',
@@ -860,7 +795,7 @@ const availableFields = {
         },
         {
             id: 67,
-            definition: 'Motor: tendon reflexes: hyperreflexia: patella right',
+            definition: 'tendon reflexes:hyperreflexia:patella:right',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_patella_right',
             section: 3,
             subsection: 'Motor',
@@ -873,7 +808,7 @@ const availableFields = {
         },
         {
             id: 68,
-            definition: 'Motor: tendon reflexes: hyperreflexia: patella left',
+            definition: 'tendon reflexes:hyperreflexia:patella:left',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_patella_left',
             section: 3,
             subsection: 'Motor',
@@ -886,7 +821,7 @@ const availableFields = {
         },
         {
             id: 69,
-            definition: 'Motor: tendon reflexes: hyperreflexia: ankle right',
+            definition: 'tendon reflexes:hyperreflexia:ankle right',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_ankle_right',
             section: 3,
             subsection: 'Motor',
@@ -899,7 +834,7 @@ const availableFields = {
         },
         {
             id: 70,
-            definition: 'Motor: tendon reflexes: hyperreflexia: ankle left',
+            definition: 'tendon reflexes:hyperreflexia:ankle:left',
             idname: 'Motor:_tendon_reflexes:_hyperreflexia:_ankle_left',
             section: 3,
             subsection: 'Motor',
@@ -912,7 +847,7 @@ const availableFields = {
         },
         {
             id: 71,
-            definition: 'Motor: tendon reflexes: hyporeflexia: biceps right',
+            definition: 'tendon reflexes:hyporeflexia:biceps:right',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_biceps_right',
             section: 3,
             subsection: 'Motor',
@@ -925,7 +860,7 @@ const availableFields = {
         },
         {
             id: 72,
-            definition: 'Motor: tendon reflexes: hyporeflexia: biceps left',
+            definition: 'tendon reflexes:hyporeflexia:biceps:left',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_biceps_left',
             section: 3,
             subsection: 'Motor',
@@ -938,7 +873,7 @@ const availableFields = {
         },
         {
             id: 73,
-            definition: 'Motor: tendon reflexes: hyporeflexia: patella right',
+            definition: 'tendon reflexes:hyporeflexia:patella:right',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_patella_right',
             section: 3,
             subsection: 'Motor',
@@ -951,7 +886,7 @@ const availableFields = {
         },
         {
             id: 74,
-            definition: 'Motor: tendon reflexes: hyporeflexia: patella left',
+            definition: 'tendon reflexes:hyporeflexia:patella:left',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_patella_left',
             section: 3,
             subsection: 'Motor',
@@ -964,7 +899,7 @@ const availableFields = {
         },
         {
             id: 75,
-            definition: 'Motor: tendon reflexes: hyporeflexia: ankle right',
+            definition: 'tendon reflexes:hyporeflexia:ankle:right',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_ankle_right',
             section: 3,
             subsection: 'Motor',
@@ -977,7 +912,7 @@ const availableFields = {
         },
         {
             id: 76,
-            definition: 'Motor: tendon reflexes: hyporeflexia: ankle left',
+            definition: 'tendon reflexes:hyporeflexia:ankle:left',
             idname: 'Motor:_tendon_reflexes:_hyporeflexia:_ankle_left',
             section: 3,
             subsection: 'Motor',
@@ -990,7 +925,7 @@ const availableFields = {
         },
         {
             id: 77,
-            definition: 'Motor: tendon reflexes: plantar response right',
+            definition: 'tendon reflexes:plantar response:right',
             idname: 'Motor:_tendon_reflexes:_plantar_response_right',
             section: 3,
             subsection: 'Motor',
@@ -1003,7 +938,7 @@ const availableFields = {
         },
         {
             id: 78,
-            definition: 'Motor: tendon reflexes: plantar response left',
+            definition: 'tendon reflexes:plantar response:left',
             idname: 'Motor:_tendon_reflexes:_plantar_response_left',
             section: 3,
             subsection: 'Motor',
@@ -1016,7 +951,7 @@ const availableFields = {
         },
         {
             id: 79,
-            definition: 'Cerebellar: Ataxia upper limb',
+            definition: 'Ataxia:upper limb',
             idname: 'Cerebellar:_Ataxia_upper_limb',
             section: 3,
             subsection: 'Cerebellar',
@@ -1029,7 +964,7 @@ const availableFields = {
         },
         {
             id: 80,
-            definition: 'Cerebellar: Ataxia lower limb',
+            definition: 'Ataxia:lower limb',
             idname: 'Cerebellar:_Ataxia_lower_limb',
             section: 3,
             subsection: 'Cerebellar',
@@ -1042,7 +977,7 @@ const availableFields = {
         },
         {
             id: 81,
-            definition: 'Cerebellar: Ataxia trunk',
+            definition: 'Ataxia:trunk',
             idname: 'Cerebellar:_Ataxia_trunk',
             section: 3,
             subsection: 'Cerebellar',
@@ -1055,7 +990,7 @@ const availableFields = {
         },
         {
             id: 82,
-            definition: 'Mobility: problem',
+            definition: 'problem',
             idname: 'Mobility:_problem',
             section: 3,
             subsection: 'Mobility',
@@ -1068,7 +1003,7 @@ const availableFields = {
         },
         {
             id: 83,
-            definition: 'Mobility: using walking aid',
+            definition: 'using walking aid',
             idname: 'Mobility:_using_walking_aid',
             section: 3,
             subsection: 'Mobility',
@@ -1273,10 +1208,10 @@ const availableFields = {
         },
         {
             id: 94,
-            definition: '25 feet walk test trial n°1',
+            definition: '25 feet walk test:trial n°1',
             idname: '25_feet_walk_test_first_try',
             section: 4,
-            subsection: '25feet',
+            subsection: '25 feet walk test',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1286,10 +1221,10 @@ const availableFields = {
         },
         {
             id: 95,
-            definition: '25 feet walk test trial n°2',
+            definition: '25 feet walk test:trial n°2',
             idname: '25_feet_walk_test_second_try',
             section: 4,
-            subsection: '25feet',
+            subsection: '25 feet walk test',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1299,10 +1234,10 @@ const availableFields = {
         },
         {
             id: 96,
-            definition: 'Nine hole peg test: left: trial n°1',
+            definition: 'Nine hole peg test:left:trial n°1',
             idname: 'Nine_hole_peg_test:_left:_first_try',
             section: 4,
-            subsection: '9hole',
+            subsection: 'Nine hole peg test',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1312,10 +1247,10 @@ const availableFields = {
         },
         {
             id: 97,
-            definition: 'Nine hole peg test: left: trial n°2',
+            definition: 'Nine hole peg test:left:trial n°2',
             idname: 'Nine_hole_peg_test:_left:_second_try',
             section: 4,
-            subsection: '9hole',
+            subsection: 'Nine hole peg test',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1325,10 +1260,10 @@ const availableFields = {
         },
         {
             id: 98,
-            definition: 'Nine hole peg test: right: trial n°1',
+            definition: 'Nine hole peg test:right:trial n°1',
             idname: 'Nine_hole_peg_test:_right:_first_try',
             section: 4,
-            subsection: '9hole',
+            subsection: 'Nine hole peg test',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1338,10 +1273,10 @@ const availableFields = {
         },
         {
             id: 99,
-            definition: 'Nine hole peg test: right: trial n°2',
+            definition: 'Nine hole peg test:right:trial n°2',
             idname: 'Nine_hole_peg_test:_right:_second_try',
             section: 4,
-            subsection: '9hole',
+            subsection: 'Nine hole peg test',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1351,7 +1286,7 @@ const availableFields = {
         },
         {
             id: 100,
-            definition: 'Low contrast letter acuity: left ',
+            definition: 'Low contrast letter acuity:left ',
             idname: 'Low_contrast_letter_acuity:_left_',
             section: 4,
             subsection: 'VisualAcuity',
@@ -1364,7 +1299,7 @@ const availableFields = {
         },
         {
             id: 101,
-            definition: 'Low contrast letter acuity: right',
+            definition: 'Low contrast letter acuity:right',
             idname: 'Low_contrast_letter_acuity:_right',
             section: 4,
             subsection: 'VisualAcuity',
@@ -1733,349 +1668,8 @@ const availableFields = {
             laterality: null, cdiscName: null
         },
         {
-            id: 32,
-            definition: 'ANA: Flagged',
-            idname: 'ANA:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 33,
-            definition: 'ANCA: Flagged',
-            idname: 'ANCA:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 34,
-            definition: 'Anti-cardiolipin: Flagged',
-            idname: 'Anti-cardiolipin:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 35,
-            definition: 'Anti-DNA: Flagged',
-            idname: 'Anti-DNA:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 36,
-            definition: 'Anti-HCV antibody: Flagged',
-            idname: 'Anti-HCV_antibody:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 37,
-            definition: 'Anti-HIV antibody: Flagged',
-            idname: 'Anti-HIV_antibody:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 38,
-            definition: 'Anti-LKM: Flagged',
-            idname: 'Anti-LKM:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 39,
-            definition: 'Anti-mitochondrial: Flagged',
-            idname: 'Anti-mitochondrial:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 40,
-            definition: 'Anti-parietal cell antibodies: Flagged',
-            idname: 'Anti-parietal_cell_antibodies:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 41,
-            definition: 'Anti-Ro: Flagged',
-            idname: 'Anti-Ro:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 42,
-            definition: 'Anti-smooth muscle: Flagged',
-            idname: 'Anti-smooth_muscle:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 43,
-            definition: 'Anti-transglutaminase: Flagged',
-            idname: 'Anti-transglutaminase:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 44,
-            definition: 'Anti-varicella: Flagged',
-            idname: 'Anti-varicella:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 45,
-            definition: 'AQP4: Flagged',
-            idname: 'AQP4:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 46,
-            definition: 'GlyR: Flagged',
-            idname: 'GlyR:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 47,
-            definition: 'HBV surface antigen: Flagged',
-            idname: 'HBV_surface_antigen:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 48,
-            definition: 'Hepatitis A: Flagged',
-            idname: 'Hepatitis_A:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 49,
-            definition: 'Hepatitis B: Flagged',
-            idname: 'Hepatitis_B:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 50,
-            definition: 'Hepatitis C: Flagged',
-            idname: 'Hepatitis_C:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 51,
-            definition: 'Jo1: Flagged',
-            idname: 'Jo1:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 52,
-            definition: 'LA: Flagged',
-            idname: 'LA:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 53,
-            definition: 'LUPUS anti-coagulant: Flagged',
-            idname: 'LUPUS_anti-coagulant:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 54,
-            definition: 'MOG: Flagged',
-            idname: 'MOG:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 55,
-            definition: 'Neutralising Anti-IFN antibody: Flagged',
-            idname: 'Neutralising_Anti-IFN_antibody:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 56,
-            definition: 'Neutralising Anti-natalizumab antibody: Flagged',
-            idname: 'Neutralising_Anti-natalizumab_antibody:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 57,
-            definition: 'NMDAR: Flagged',
-            idname: 'NMDAR:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 58,
-            definition: 'NMO IgG: Flagged',
-            idname: 'NMO_IgG:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 59,
-            definition: 'Plasma anti-JC virus: Flagged',
-            idname: 'Plasma_anti-JC_virus:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 60,
-            definition: 'RNP: Flagged',
-            idname: 'RNP:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 61,
-            definition: 'Scl70: Flagged',
-            idname: 'Scl70:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
-            id: 62,
-            definition: 'SM: Flagged',
-            idname: 'SM:_Flagged',
-            type: 5,
-            unit: null,
-            module: 'MS',
-            permittedValues: null,
-            referenceType: 1,
-            laterality: null, cdiscName: null
-        },
-        {
             id: 63,
-            definition: 'P100 Left: Abnormal',
+            definition: 'P100 Left:Abnormal',
             idname: 'P100_Left:_Abnormal',
             type: 5,
             unit: null,
@@ -2087,7 +1681,7 @@ const availableFields = {
         },
         {
             id: 64,
-            definition: 'P100 Left: amplitude',
+            definition: 'P100 Left:amplitude',
             idname: 'P100_Left:_amplitude',
             type: 1,
             unit: 'uV',
@@ -2099,7 +1693,7 @@ const availableFields = {
         },
         {
             id: 65,
-            definition: 'P100 Left: P100 latency',
+            definition: 'P100 Left:P100 latency',
             idname: 'P100_Left:_P100_latency',
             type: 1,
             unit: 'msec',
@@ -2111,7 +1705,7 @@ const availableFields = {
         },
         {
             id: 66,
-            definition: 'P100 right: Abnormal',
+            definition: 'P100 right:Abnormal',
             idname: 'P100_right:_Abnormal',
             type: 5,
             unit: null,
@@ -2123,7 +1717,7 @@ const availableFields = {
         },
         {
             id: 67,
-            definition: 'P100 right: amplitude',
+            definition: 'P100 right:amplitude',
             idname: 'P100_right:_amplitude',
             type: 1,
             unit: 'uV',
@@ -2135,7 +1729,7 @@ const availableFields = {
         },
         {
             id: 68,
-            definition: 'P100 right: P100 latency',
+            definition: 'P100 right:P100 latency',
             idname: 'P100_right:_P100_latency',
             type: 1,
             unit: 'msec',
@@ -2147,7 +1741,7 @@ const availableFields = {
         },
         {
             id: 69,
-            definition: 'SEP left: upper extremity: abnormal',
+            definition: 'SEP left:upper extremity:abnormal',
             idname: 'SEP_left:_upper_extremity:_abnormal',
             type: 5,
             unit: null,
@@ -2159,7 +1753,7 @@ const availableFields = {
         },
         {
             id: 70,
-            definition: 'SEP left: lower extremity: abnormal',
+            definition: 'SEP left:lower extremity:abnormal',
             idname: 'SEP_left:_lower_extremity:_abnormal',
             type: 5,
             unit: null,
@@ -2171,7 +1765,7 @@ const availableFields = {
         },
         {
             id: 71,
-            definition: 'SEP right: upper extremity: abnormal',
+            definition: 'SEP right:upper extremity:abnormal',
             idname: 'SEP_right:_upper_extremity:_abnormal',
             type: 5,
             unit: null,
@@ -2183,7 +1777,7 @@ const availableFields = {
         },
         {
             id: 72,
-            definition: 'SEP right: lower extremity: abnormal',
+            definition: 'SEP right:lower extremity:abnormal',
             idname: 'SEP_right:_lower_extremity:_abnormal',
             type: 5,
             unit: null,
