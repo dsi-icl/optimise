@@ -1162,7 +1162,7 @@ const availableFields = {
             type: 5,
             unit: null,
             module: 'MS',
-            permittedValues: 'YES,NO,UNKNOWN',
+            permittedValues: null,
             labels: null,
             referenceType: 1,
             laterality: null,
@@ -1173,7 +1173,7 @@ const availableFields = {
             definition: 'Expanded Disability Status Scale (EDSS) Total',
             idname: 'Expanded_Disability_Status_Scale_EDSS_total',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1185,10 +1185,25 @@ const availableFields = {
         },
         {
             id: 80,
+            definition: 'Expanded Disability Status Scale (EDSS) Total Calculated',
+            idname: 'Expanded_Disability_Status_Scale_EDSS_total_calculated',
+            section: 4,
+            subsection: 'QS',
+            type: 3,
+            unit: null,
+            module: 'MS',
+            permittedValues: '0,1,2,3,4,5,6,7,8,9,10',
+            labels: null,
+            referenceType: 1,
+            laterality: null,
+            cdiscName: null
+        },
+        {
+            id: 81,
             definition: 'Expanded Disability Status Scale (EDSS) Pyramidal',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Pyramidal',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1205,11 +1220,11 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 81,
+            id: 82,
             definition: 'Expanded Disability Status Scale (EDSS) Cerebellar',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Cerebellar',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1225,11 +1240,11 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 82,
+            id: 83,
             definition: 'Expanded Disability Status Scale (EDSS) Brain Stem',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Brain_Stem',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1245,11 +1260,11 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 83,
+            id: 84,
             definition: 'Expanded Disability Status Scale (EDSS) Sensory',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Sensory',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1266,11 +1281,11 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 84,
+            id: 85,
             definition: 'Expanded Disability Status Scale (EDSS) Bowel Bladder',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Bladder',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1287,11 +1302,11 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 85,
+            id: 86,
             definition: 'Expanded Disability Status Scale (EDSS) Visual',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Visual',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1308,11 +1323,11 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 86,
+            id: 87,
             definition: 'Expanded Disability Status Scale (EDSS) Mental',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Mental',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1328,11 +1343,11 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 87,
+            id: 88,
             definition: 'Expanded Disability Status Scale (EDSS) Ambulation',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Ambulation',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1355,11 +1370,11 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 88,
+            id: 89,
             definition: 'EDMUS',
             idname: 'EDMUS',
             section: 4,
-            subsection: 'EDMUS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1381,26 +1396,11 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 89,
+            id: 90,
             definition: '25 feet walk test:trial n°1',
             idname: '25_feet_walk_test_first_try',
             section: 4,
-            subsection: '25 feet walk test',
-            type: 2,
-            unit: 'sec',
-            module: 'MS',
-            permittedValues: null,
-            labels: null,
-            referenceType: 1,
-            laterality: null,
-            cdiscName: null
-        },
-        {
-            id: 90,
-            definition: '25 feet walk test:trial n°2',
-            idname: '25_feet_walk_test_second_try',
-            section: 4,
-            subsection: '25 feet walk test',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1412,10 +1412,10 @@ const availableFields = {
         },
         {
             id: 91,
-            definition: 'Nine hole peg test:left:trial n°1',
-            idname: 'Nine_hole_peg_test:_left:_first_try',
+            definition: '25 feet walk test:trial n°2',
+            idname: '25_feet_walk_test_second_try',
             section: 4,
-            subsection: 'Nine hole peg test',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1427,10 +1427,10 @@ const availableFields = {
         },
         {
             id: 92,
-            definition: 'Nine hole peg test:left:trial n°2',
-            idname: 'Nine_hole_peg_test:_left:_second_try',
+            definition: 'Nine hole peg test:left:trial n°1',
+            idname: 'Nine_hole_peg_test:_left:_first_try',
             section: 4,
-            subsection: 'Nine hole peg test',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1442,10 +1442,10 @@ const availableFields = {
         },
         {
             id: 93,
-            definition: 'Nine hole peg test:right:trial n°1',
-            idname: 'Nine_hole_peg_test:_right:_first_try',
+            definition: 'Nine hole peg test:left:trial n°2',
+            idname: 'Nine_hole_peg_test:_left:_second_try',
             section: 4,
-            subsection: 'Nine hole peg test',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1457,10 +1457,10 @@ const availableFields = {
         },
         {
             id: 94,
-            definition: 'Nine hole peg test:right:trial n°2',
-            idname: 'Nine_hole_peg_test:_right:_second_try',
+            definition: 'Nine hole peg test:right:trial n°1',
+            idname: 'Nine_hole_peg_test:_right:_first_try',
             section: 4,
-            subsection: 'Nine hole peg test',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
@@ -1472,6 +1472,21 @@ const availableFields = {
         },
         {
             id: 95,
+            definition: 'Nine hole peg test:right:trial n°2',
+            idname: 'Nine_hole_peg_test:_right:_second_try',
+            section: 4,
+            subsection: 'FT',
+            type: 2,
+            unit: 'sec',
+            module: 'MS',
+            permittedValues: null,
+            labels: null,
+            referenceType: 1,
+            laterality: null,
+            cdiscName: null
+        },
+        {
+            id: 96,
             definition: 'Low contrast letter acuity:left ',
             idname: 'Low_contrast_letter_acuity:_left_',
             section: 4,
@@ -1486,7 +1501,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 96,
+            id: 97,
             definition: 'Low contrast letter acuity:right',
             idname: 'Low_contrast_letter_acuity:_right',
             section: 4,
@@ -1501,11 +1516,11 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 97,
+            id: 98,
             definition: 'Symbol Digit Modality Test',
             idname: 'symbol_digit_modality_test',
             section: 4,
-            subsection: 'VisualAcuity',
+            subsection: 'FT',
             type: 2,
             unit: null,
             module: 'MS',
@@ -1514,7 +1529,8 @@ const availableFields = {
             referenceType: 1,
             laterality: null,
             cdiscName: null
-        }],
+        }
+    ],
     testFields: [
         {
             id: 1,
@@ -1989,7 +2005,7 @@ const availableFields = {
             permittedValues: null,
             labels: null,
             referenceType: 2,
-            laterality: 'left',
+            laterality: 'LEFT',
             cdiscName: 'P100 Interpretation'
         },
         {
@@ -2004,7 +2020,7 @@ const availableFields = {
             permittedValues: null,
             labels: null,
             referenceType: 2,
-            laterality: 'left',
+            laterality: 'LEFT',
             cdiscName: 'P100 Amplitude'
         },
         {
@@ -2019,7 +2035,7 @@ const availableFields = {
             permittedValues: null,
             labels: null,
             referenceType: 2,
-            laterality: 'left',
+            laterality: 'LEFT',
             cdiscName: 'P100 Latency'
         },
         {
@@ -2079,7 +2095,7 @@ const availableFields = {
             permittedValues: null,
             labels: null,
             referenceType: 2,
-            laterality: 'left',
+            laterality: 'LEFT',
             cdiscName: 'SEP Upper Extremity'
         },
         {
