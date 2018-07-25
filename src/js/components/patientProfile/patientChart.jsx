@@ -186,7 +186,7 @@ class OneVisit extends Component {
                             </tbody>
                         </table>
 
-                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS AND SYMPTOMS INDICATING MS' : 'SIGNS AND SYMPTOMS'}</h4>
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS AND SIGNS INDICATING MS' : 'SYMPTOMS AND SIGNS'}</h4>
                         {relevantFields.length !== 0 ? (
                             <>
                                 <table>
@@ -205,6 +205,11 @@ class OneVisit extends Component {
                         </NavLink>
                     </>
                 ) : null}
+
+                <h4><Icon symbol='measure' />&nbsp;MS PERFORMANCE MEASURES</h4>
+                <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                    <button>Edit / Add</button>
+                </NavLink>
 
                 {visitHasTests ? (
                     <>
@@ -259,6 +264,11 @@ class OneVisit extends Component {
                     </>
                 ) : null
                 }
+
+                <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
+                <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                    <button>Edit / Add</button>
+                </NavLink>
             </TimelineEvent>
         );
     }

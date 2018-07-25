@@ -7,7 +7,6 @@ import Login from './components/login';
 import { whoami } from './redux/actions/login';
 import { getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
 import Icon from './components/icon';
-import FullTimeline from './components/patientProfile/fullTimeline';
 
 @withRouter
 @connect(state => ({ loggedIn: state.login.loggedIn, checking: state.login.initialCheckingStatus }), dispatch => ({ whoami: () => dispatch(whoami()) }))
@@ -20,7 +19,9 @@ class App extends Component {
     render() {
         return (
             <Body>
-                <FullTimeline match={{ params: { patientId: 42 } }} />
+                {this.props.checking ? <Icon symbol='loading' /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+                <AlertMessage />
+                <ErrorMessage />
             </Body>
         );
     }
@@ -75,8 +76,6 @@ class LoadingFields extends Component {
                     <FarRightPanel />
                     <FullscreenPanel />
                     <StatusBar />
-                    <AlertMessage />
-                    <ErrorMessage />
                 </>
             );
         }

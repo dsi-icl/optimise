@@ -1,6 +1,6 @@
 {
     "name": "optimise-ui",
-    "version": "1.9.9",
+    "version": "1.9.10",
     "description": "Front-end for optimiseMS",
     "license": "MIT",
     "contributors": [
@@ -15,15 +15,15 @@
         "test": "node scripts/test.js --env=jsdom --colors --verbose --forceExit"
     },
     "dependencies": {
-        "@babel/core": "7.0.0-beta.54",
-        "@babel/plugin-proposal-decorators": "7.0.0-beta.54",
-        "@babel/runtime": "7.0.0-beta.54",
+        "@babel/core": "7.0.0-beta.46",
+        "@babel/plugin-proposal-decorators": "7.0.0-beta.46",
+        "@babel/runtime": "7.0.0-beta.46",
         "@svgr/webpack": "2.1.1",
         "autoprefixer": "9.0.1",
         "babel-core": "7.0.0-bridge.0",
         "babel-eslint": "8.2.6",
         "babel-jest": "23.4.0",
-        "babel-loader": "8.0.0-beta.0",
+        "babel-loader": "8.0.0-beta.4",
         "babel-plugin-named-asset-import": "1.0.0-next.3e165448",
         "babel-preset-react-app": "4.0.0-next.3e165448",
         "bfj": "6.1.1",
@@ -33,6 +33,7 @@
         "css-loader": "1.0.0",
         "dotenv": "6.0.0",
         "dotenv-expand": "4.2.0",
+        "draft-js": "^0.10.5",
         "eslint": "5.2.0",
         "eslint-config-react-app": "3.0.0-next.3e165448",
         "eslint-loader": "2.1.0",
@@ -54,7 +55,7 @@
         "mini-css-extract-plugin": "0.4.1",
         "moment": "2.22.2",
         "object-assign": "4.1.1",
-        "optimise-core": "0.9.28",
+        "optimise-core": "0.9.31",
         "optimize-css-assets-webpack-plugin": "5.0.0",
         "postcss-flexbugs-fixes": "4.0.0",
         "postcss-loader": "2.1.6",
@@ -77,15 +78,15 @@
         "thread-loader": "1.1.5",
         "uglifyjs-webpack-plugin": "1.2.7",
         "url-loader": "1.0.1",
-        "webpack": "4.16.1",
-        "webpack-dev-server": "3.1.4",
+        "webpack": "4.16.2",
+        "webpack-dev-server": "3.1.5",
         "webpack-manifest-plugin": "2.0.3",
         "whatwg-fetch": "2.0.4"
     },
     "devDependencies": {
         "codacy-coverage": "3.0.0",
-        "enzyme": "^3.3.0",
-        "enzyme-adapter-react-16": "^1.1.1",
+        "enzyme": "3.3.0",
+        "enzyme-adapter-react-16": "1.1.1",
         "redux-logger": "3.0.6"
     },
     "optionalDependencies": {

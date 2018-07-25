@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import FullTimeline from '../patientProfile/fullTimeline';
+import EDSSCalculator from '../EDSScalculator/calculator';
 import style from './scaffold.module.css';
 import './timeline.css';
 

@@ -151,3 +151,19 @@
     left: 35%;
     color: white;
 }
+
+
+.edssCalcBox {
+    position: absolute;
+    display: grid;
+    grid-template-columns: 2fr 1.5fr;
+    grid-template-rows: 50px 1fr;
+    background: linear-gradient(to bottom left, var(--color-shade-one), hsl(var(--color-shade-one-h), var(--color-shade-one-s), 50%));
+    height: 80%;
+    min-height: 400px;
+    width: 80%;
+    top: 10%;
+    left: 10%;
+    color: white;
+    overflow: auto;
+}
