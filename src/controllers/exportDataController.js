@@ -52,7 +52,7 @@ class ExportDataController {
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'smoking'));
+                    fileArray.push(new createDataFile(result, 'SC_smoking'));
                 }
             });
 
@@ -70,7 +70,7 @@ class ExportDataController {
                     result.forEach(x => {
                         x.DOMAIN = 'SU';
                     });
-                    fileArray.push(new createDataFile(result, 'alcoholConsumption'));
+                    fileArray.push(new createDataFile(result, 'SU_alcoholConsumption'));
                 }
             });
 
@@ -97,11 +97,11 @@ class ExportDataController {
                         if (entry.hasOwnProperty('MHENDTC') && entry.MHENDTC !== null) {
                             entry.MHENDTC = new Date(entry.MHENDTC).toString();
                         }
-                        entry.MHCAT = 'General';
+                        entry.MHCAT = 'GENERAL';
                         entry.DOMAIN = 'MH';
                         convertedResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(convertedResult, 'pregnancy'));
+                    fileArray.push(new createDataFile(convertedResult, 'MH_Pregnancy'));
                 }
             });
 
@@ -183,49 +183,6 @@ class ExportDataController {
                 }
             });
 
-        knex('VISIT_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
-                'AVAILABLE_FIELDS_VISITS.definition as VSTEST',
-                'VISIT_DATA.value as VSORRES', 'AVAILABLE_FIELDS_VISITS.unit as VSORRESU',
-                'VISITS.visitDate as VSDTC')
-            .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
-            .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
-            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('PATIENTS.deleted', '-')
-            .andWhere('VISIT_DATA.deleted', '-')
-            .andWhere('AVAILABLE_FIELDS_VISITS.section', 1)
-            .then(result => {
-                if (result.length >= 1) {
-                    result.forEach(x => {
-                        x.DOMAIN = 'VS';
-                    });
-                    fileArray.push(new createDataFile(result, 'VS'));
-                }
-            });
-
-        /* Patient Laboratory Test data domain:LB */
-
-        knex('TEST_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
-                'AVAILABLE_FIELDS_TESTS.definition as LBTEST', 'TEST_DATA.value as LBORRES',
-                'ORDERED_TESTS.actualOccurredDate as LBDTC')
-            .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
-            .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
-            .leftOuterJoin('VISITS', 'VISITS.id', 'TEST_DATA.test')
-            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('PATIENTS.deleted', '-')
-            .andWhere('TEST_DATA.deleted', '-')
-            .andWhere('AVAILABLE_FIELDS_TESTS.id', 1)
-            .then(result => {
-                if (result.length >= 1) {
-                    result.forEach(x => {
-                        x.DOMAIN = 'LB';
-                    });
-                    fileArray.push(new createDataFile(result, 'LB'));
-                }
-            });
-
-
         /* Patient medical history data */
 
         knex('MEDICAL_HISTORY')
@@ -248,7 +205,7 @@ class ExportDataController {
                         entry.DOMAIN = 'MH';
                         convertedResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(convertedResult, 'medicalHistory'));
+                    fileArray.push(new createDataFile(convertedResult, 'MH_Relations'));
                 }
             });
 
@@ -271,7 +228,7 @@ class ExportDataController {
                         entry.DOMAIN = 'MH';
                         convertedResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(convertedResult, 'immunisation'));
+                    fileArray.push(new createDataFile(convertedResult, 'MH_immunisation'));
                 }
             });
 
@@ -332,29 +289,6 @@ class ExportDataController {
                 }
             });
 
-        /* Patient visit data */
-
-        knex('VISIT_DATA')
-            .select('VISIT_DATA.value', 'VISIT_DATA.field', 'VISITS.visitDate', 'AVAILABLE_FIELDS_VISITS.definition',
-                'PATIENTS.uuid', 'VISITS.patient')
-            .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
-            .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
-            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('VISIT_DATA.deleted', '-')
-            .then(result => {
-                if (result.length >= 1) {
-                    let convertedResult = [];
-                    for (let i = 0; i < result.length; i++) {
-                        let entry = Object.assign(result[i]);
-                        if (entry.hasOwnProperty('visitDate') && entry.visitDate !== null) {
-                            entry.visitDate = new Date(entry.visitDate).toString();
-                        }
-                        convertedResult.push(entry);
-                    }
-                    fileArray.push(new createDataFile(convertedResult, 'visit'));
-                }
-            });
-
         /* Patient Evoked Potential test data */
 
         knex('TEST_DATA')
@@ -383,32 +317,45 @@ class ExportDataController {
                 }
             });
 
-        /* Patient test data */
+        /* Patient Laboratory Test data */
 
-        /* Patient clinical event data - visit not required */
-
-        knex('CLINICAL_EVENTS_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_CLINICAL_EVENT_TYPES.name as CETERM', 'CLINICAL_EVENTS_DATA.value as CELAT', 'CLINICAL_EVENTS.dateStartDate as CESTDTC', 'CLINICAL_EVENTS.endDate as CEENDTC', 'ADVERSE_EVENT_MEDDRA.name as MedDRA', 'AVAILABLE_FIELDS_CE.definition as CEBODSYS')
-            .leftOuterJoin('CLINICAL_EVENTS', 'CLINICAL_EVENTS.id', 'CLINICAL_EVENTS_DATA.clinicalEvent')
-            .leftOuterJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
-            .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'CLINICAL_EVENTS.meddra')
-            .leftOuterJoin('AVAILABLE_CLINICAL_EVENT_TYPES', 'AVAILABLE_CLINICAL_EVENT_TYPES.id', 'AVAILABLE_FIELDS_CE.referenceType')
-            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
-            .where('CLINICAL_EVENTS_DATA.deleted', '-')
+        knex('TEST_DATA')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
+                'AVAILABLE_FIELDS_TESTS.definition as LBTEST', 'TEST_DATA.value as LBORRES',
+                'ORDERED_TESTS.actualOccurredDate as LBDTC')
+            .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
+            .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'TEST_DATA.test')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('TEST_DATA.deleted', '-')
+            .andWhere('AVAILABLE_FIELDS_TESTS.id', 1)
             .then(result => {
                 if (result.length >= 1) {
-                    let convertedResult = [];
-                    for (let i = 0; i < result.length; i++) {
-                        let entry = Object.assign(result[i]);
-                        if (entry.hasOwnProperty('CESTDTC') && entry.CESTDTC !== null) {
-                            entry.CESTDTC = new Date(entry.CESTDTC).toString();
-                        }
-                        if (entry.hasOwnProperty('CEENDTC') && entry.CEENDTC !== null) {
-                            entry.CEENDTC = new Date(entry.CEENDTC).toString();
-                        }
-                        convertedResult.push(entry);
-                    }
-                    fileArray.push(new createDataFile(convertedResult, 'clinicalEvent'));
+                    result.forEach(x => {
+                        x.DOMAIN = 'LB';
+                    });
+                    fileArray.push(new createDataFile(result, 'LB'));
+                }
+            });
+
+        /* Patient Symptoms and Signs at Visits */
+
+        knex('VISIT_DATA')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.definition as CETERM',
+                'VISIT_DATA.value as CEOCCUR', 'VISITS.visitDate as CEDTC')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
+            .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .whereIn('AVAILABLE_FIELDS_VISITS.section', [2,3])
+            .andWhere('PATIENTS.deleted', '-')
+            .andWhere('VISIT_DATA.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.DOMAIN = 'CE';
+                    });
+                    fileArray.push(new createDataFile(result, 'CE_symptomsSigns'));
                 }
             });
 
