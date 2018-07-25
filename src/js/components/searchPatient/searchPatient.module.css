@@ -43,6 +43,13 @@
     line-height: 1.2em;
 }
 
+@media (max-width: 70em) {
+    .searchItem {
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
+
 .searchItem:hover {
     cursor: pointer;
 }

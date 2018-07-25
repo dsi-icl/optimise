@@ -232,6 +232,17 @@ function alert(state = initialState.alert, action) {
     }
 }
 
+function edssCalc(state = initialState.edssCalc, action) {
+    switch (action.type) {
+        case actionTypes.edssCalc.CLEAR_CALCULATOR:
+            return { display: false };
+        case actionTypes.edssCalc.DISPLAY_CALCULATOR:
+            return { display: true };
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatient,
@@ -243,6 +254,7 @@ export const rootReducer = combineReducers({
     getAllUsers,
     erasePatient,
     appLevelError,
-    alert
+    alert,
+    edssCalc
 });
 

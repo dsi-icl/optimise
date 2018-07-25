@@ -15,17 +15,17 @@
     top: 0;
     right: 0;
     display: inline-block;
-},
+}
 
 .profileActions a {
     line-height: 0.8em;
     display: inline-block;
-},
+}
 
 .profileActions a {
     line-height: 0.8em;
     display: inline-block;
-},
+}
 
 .profileActions a span {
     padding: 0 0.5em;
@@ -47,7 +47,7 @@
     fill: hsl(var(--color-background-h), var(--color-background-s), 20%);
 }
 
-@media (max-width: 75em) {
+@media (max-width: 95em) {
     .profileActions a span {
         display: none;
     }

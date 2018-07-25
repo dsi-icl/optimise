@@ -14,15 +14,11 @@ COPY ./package-lock.json .
 RUN npm install
 RUN apk del .build-deps && rm -rf /var/cache/apk/*
 
-COPY ./bin ./bin
 COPY ./config ./config
-COPY ./extra ./extra
 COPY ./public ./public
 COPY ./scripts ./scripts
 COPY ./src ./src
 COPY ./config/optimise.sample.config.js ./config/
-
-RUN ls .
 
 EXPOSE 3030
 CMD [ "npm", "start" ]
