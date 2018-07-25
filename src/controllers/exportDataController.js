@@ -67,6 +67,9 @@ class ExportDataController {
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.DOMAIN = 'SU';
+                    });
                     fileArray.push(new createDataFile(result, 'alcoholConsumption'));
                 }
             });
@@ -77,7 +80,7 @@ class ExportDataController {
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
                 'PATIENT_PREGNANCY.startDate as MHSTDTC',
                 'PREGNANCY_OUTCOMES.value as MHENRTPT', 'PATIENT_PREGNANCY.outcomeDate as MHENDTC',
-                'ADVERSE_EVENT_MEDDRA.name as MedDRA')
+                'ADVERSE_EVENT_MEDDRA.name as MHDECOD')
             .leftOuterJoin('PATIENT_PREGNANCY', 'PATIENT_PREGNANCY.patient', 'PATIENTS.id')
             .leftJoin('PREGNANCY_OUTCOMES', 'PREGNANCY_OUTCOMES.id', 'PATIENT_PREGNANCY.outcome')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
@@ -94,6 +97,7 @@ class ExportDataController {
                         if (entry.hasOwnProperty('MHENDTC') && entry.MHENDTC !== null) {
                             entry.MHENDTC = new Date(entry.MHENDTC).toString();
                         }
+                        entry.MHCAT = 'General';
                         entry.DOMAIN = 'MH';
                         convertedResult.push(entry);
                     }
@@ -101,7 +105,7 @@ class ExportDataController {
                 }
             });
 
-        /* Patient vital signs data (within Visit) domain:VS */
+        /* Patient vital signs data (within Visit) */
 
         knex('VISIT_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
@@ -116,12 +120,86 @@ class ExportDataController {
             .andWhere('AVAILABLE_FIELDS_VISITS.section', 1)
             .then(result => {
                 if (result.length >= 1) {
-                    let newResult = [];
-                    for (let i = 0; i < result.length; i++) {
-                        let entry = Object.assign(result[i]);
-                        entry.DOMAIN = 'VS';
-                    }
-                    fileArray.push(new createDataFile(newResult, 'VS'));
+                    result.forEach(x => {
+                        x.DOMAIN = 'VS';
+                    });
+                    fileArray.push(new createDataFile(result, 'VS'));
+                }
+            });
+
+        /* Patient Adverse Events data- Pregnancy */
+
+        knex('PATIENT_PREGNANCY')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_PREGNANCY.patient')
+            .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENT_PREGNANCY.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.AETERM = x.AELLT;
+                        x.DOMAIN = 'AE';
+                    });
+                    fileArray.push(new createDataFile(result, 'AE_Pregnancy'));
+                }
+            });
+
+        /* Patient Adverse Events data- Clinical Events */
+
+        knex('CLINICAL_EVENTS')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
+            .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'CLINICAL_EVENTS.meddra')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('CLINICAL_EVENTS.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.AETERM = x.AELLT;
+                        x.DOMAIN = 'AE';
+                    });
+                    fileArray.push(new createDataFile(result, 'AE_ClinicalEvents'));
+                }
+            });
+
+        /* Patient Adverse Events data- Treatment interruptions */
+
+        knex('TREATMENTS_INTERRUPTIONS')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
+            .leftOuterJoin('TREATMENTS', 'TREATMENTS.id', 'TREATMENTS_INTERRUPTIONS.treatment')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'TREATMENTS_INTERRUPTIONS.meddra')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('TREATMENTS_INTERRUPTIONS.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.AETERM = x.AELLT;
+                        x.DOMAIN = 'AE';
+                    });
+                    fileArray.push(new createDataFile(result, 'AE_Treatments'));
+                }
+            });
+
+        knex('VISIT_DATA')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
+                'AVAILABLE_FIELDS_VISITS.definition as VSTEST',
+                'VISIT_DATA.value as VSORRES', 'AVAILABLE_FIELDS_VISITS.unit as VSORRESU',
+                'VISITS.visitDate as VSDTC')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
+            .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('VISIT_DATA.deleted', '-')
+            .andWhere('AVAILABLE_FIELDS_VISITS.section', 1)
+            .then(result => {
+                if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.DOMAIN = 'VS';
+                    });
+                    fileArray.push(new createDataFile(result, 'VS'));
                 }
             });
 
@@ -140,6 +218,9 @@ class ExportDataController {
             .andWhere('AVAILABLE_FIELDS_TESTS.id', 1)
             .then(result => {
                 if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.DOMAIN = 'LB';
+                    });
                     fileArray.push(new createDataFile(result, 'LB'));
                 }
             });
@@ -147,13 +228,13 @@ class ExportDataController {
 
         /* Patient medical history data */
 
-        knex('PATIENTS')
+        knex('MEDICAL_HISTORY')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'RELATIONS.value as SREL',
                 'CONDITIONS.value as MHTERM', 'MEDICAL_HISTORY.startDate as MHSTDTC', 'MEDICAL_HISTORY.outcome as MHENRTPT',
                 'MEDICAL_HISTORY.resolvedYear as MHENDTC')
-            .leftOuterJoin('MEDICAL_HISTORY', 'PATIENTS.id', 'MEDICAL_HISTORY.patient')
-            .leftOuterJoin('RELATIONS', 'RELATIONS.value', 'MEDICAL_HISTORY.relation')
-            .leftOuterJoin('CONDITIONS', 'CONDITIONS.value', 'MEDICAL_HISTORY.conditionName')
+            .leftOuterJoin('RELATIONS', 'RELATIONS.id', 'MEDICAL_HISTORY.relation')
+            .leftOuterJoin('CONDITIONS', 'CONDITIONS.id', 'MEDICAL_HISTORY.conditionName')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'MEDICAL_HISTORY.patient')
             .where('PATIENTS.deleted', '-')
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
@@ -294,6 +375,7 @@ class ExportDataController {
                         if (entry.hasOwnProperty('visitDate') && entry.visitDate !== null) {
                             entry.visitDate = new Date(entry.visitDate).toString();
                         }
+                        entry.NVCAT = 'Visual Evoked Potential (VEP)';
                         entry.DOMAIN = 'NV';
                         newResult.push(entry);
                     }
@@ -371,13 +453,6 @@ class ExportDataController {
 
             const tempfileName = `${prefix}${fileName}`;
             let keys = Object.keys(result[0]); // get the keys from result to create headers
-            //keys.push('domain');
-            // let newKeys;
-            // if (mapping !== null) {
-            //     newKeys = keys.map(x => mapping[x]);
-            // } else {
-            //     newKeys = keys;
-            // }
             let tempResult = `${keys.join(',')}\n`;
             result.forEach(function(obj) {
                 keys.forEach(function(a, b){
