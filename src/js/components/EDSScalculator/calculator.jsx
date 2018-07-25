@@ -5,6 +5,7 @@ import store from '../../redux/store';
 import style_scaffold from '../scaffold/scaffold.module.css';
 import style from './edss.module.css';
 import { clearEDSSCalc } from '../../redux/actions/edss';
+import { max } from '../../../../node_modules/moment';
 
 @connect(state => ({ edssCalc: state.edssCalc }))
 export class EDSSCalculator extends Component {
@@ -40,14 +41,18 @@ export class EDSSCalculator extends Component {
             }
         }
         /* auto calculate the score */
-        const criteria = ['Pyramidal', 'Cerebellar', 'Brain stem', 'Sensory', 'Bowel bladder', 'Visual', 'Mental', 'Ambulation'];
-        let scoreSum = 0;
+        if (!document.querySelector('input[name="Ambulation"]:checked')) {
+            this.setState({ autoCalculatedScore: 'Ambulation score must be provided.' });
+            return;
+        }
+        const criteria = ['Pyramidal', 'Cerebellar', 'Brain stem', 'Sensory', 'Bowel bladder', 'Visual', 'Mental'];
+        let scoreArr = [];
         for (let each of criteria) {
             if (document.querySelector(`input[name="${each}"]:checked`)) {
-                scoreSum += parseInt(document.querySelector(`input[name="${each}"]:checked`).value);
+                scoreArr.push(parseInt(document.querySelector(`input[name="${each}"]:checked`).value));
             }
         }
-        this.setState({ autoCalculatedScore: scoreSum });
+        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseInt(document.querySelector('input[name="Ambulation"]:checked').value)) });
     }
 
     _handleSubmit(ev) {
@@ -106,7 +111,7 @@ export class EDSSCalculator extends Component {
                                 </div>
                             )}
                             <br/>
-                            <span><b>Calculated score: </b></span> <input type='text' value={this.state.autoCalculatedScore}/>
+                            <span><b>Suggested score for reference: </b></span> <input type='text' value={this.state.autoCalculatedScore}/>
                             <br/><br/>
                             <span><b>Free input score: </b></span> <input type='text'/>
                             <br/><br/>
@@ -121,5 +126,94 @@ export class EDSSCalculator extends Component {
                 </div>
             </div>
         );
+    }
+}
+
+
+/* FSArray would be [1,1,2,0,6] etc; ambulation is separated because it's separate in the calculation */  
+function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore){
+    FSArrayWithoutAmbulation.sort((a, b) => b - a);
+    console.log('FSArray', FSArrayWithoutAmbulation);
+    const maxScore = FSArrayWithoutAmbulation[0] || 0;
+    const secondMaxScore = FSArrayWithoutAmbulation[1] || 0;
+    const countHash = FSArrayWithoutAmbulation.reduce((hash, el) => {
+        if (hash[el]) hash[el]++;
+        else hash[el] = 1;
+        return hash;
+    }, {});
+
+    //just some crude error checking
+    if (maxScore > 5) {
+        return 'edss function system scores are incorrect.';
+    }
+
+    const ambulationMap = {
+        12: 8,
+        11: 7.5,
+        10: 7,
+        9: 6.5,
+        8: 6.5,
+        7: 6,
+        6: 6,
+        5: 6,
+        4: 5.5
+    };
+    if (ambulationMap[ambulationScore]) {
+        return ambulationMap[ambulationScore];
+    }
+    switch (ambulationScore) {
+        case 3:
+            if (maxScore === 5)
+                return 5;
+            if (maxScore === 6)
+                return 6;
+            if (maxScore === 4 && countHash[4] >= 2)
+                return 5;
+            if (maxScore === 3 && countHash[3] >= 6)
+                return 5;
+            return 4;
+        case 2:
+            if (maxScore > 4) {
+                return maxScore - 1;
+            }
+            if (maxScore === 4 && countHash[4] === 1 && secondMaxScore === 3 && countHash[3] <= 2)
+                return 4.5;
+            if (maxScore === 3 && countHash[3] > 5)
+                return 4.5;
+            return 4;
+        case 1:
+        case 0:
+            switch (maxScore) {
+                case 0:
+                    return 0;
+                case 1:
+                    if (countHash[1] > 1) {
+                        return 1.5;
+                    } else {
+                        return 1;
+                    }
+                case 2:
+                    if (countHash[2] > 1) {
+                        return 2.5;
+                    } else {
+                        return 2;
+                    }
+                case 3:
+                    if (countHash[3] === 1) {
+                        if ([0,1].includes(secondMaxScore)) {
+                            return 3;
+                        } else {
+                            return 3.5;
+                        }
+                    } else {
+                        return 3.5;
+                    }
+                case 4:
+                    return 4;
+                default:
+                    return 5;
+            }
+        default:
+            return 'Ambulation score must be provided.';
     }
 }
