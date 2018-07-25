@@ -52,13 +52,14 @@ export class DataTemplate extends Component {
     }
 
     render() {
-        if (!this.props.patientProfile.fetching) {
-            const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element.id === parseInt(this.props.match.params.elementId, 10));
+        const { elementType, patientProfile, match } = this.props;
+        if (!patientProfile.fetching) {
+            const elementsMatched = patientProfile.data[`${elementType}s`].filter(element => element.id === parseInt(match.params.elementId, 10));
             if (elementsMatched.length === 0) {
-                return <div>{`Cannot find your ${this.props.elementType}!`}</div>;
+                return <div>{`Cannot find your ${elementType}!`}</div>;
             } else {
                 let title = '';
-                switch (this.props.elementType) {
+                switch (elementType) {
                     case 'test':
                         title = 'Test';
                         break;
@@ -71,11 +72,14 @@ export class DataTemplate extends Component {
                     default:
                         title = 'Results';
                 }
+                const { fields } = this.props;
+                const relevantFields = fields[`${elementType}Fields`].filter(el => el.referenceType === elementsMatched.type);
+                ////make the tree///
                 return (
                     <>
                         <div className={scaffold_style.ariane}>
                             <h2>{title}</h2>
-                            <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
                         </div>
                         <div className={scaffold_style.panel}>
                             <form onSubmit={this._handleSubmit}>
@@ -94,11 +98,16 @@ export class DataTemplate extends Component {
     }
 }
 
-// class DataForm extends Component {
-//     render() {
-        
-//     }
-// }
+
+
+
+
+/* receives a data tree  */
+class DataForm extends Component {
+    render() {
+        return (null);
+    }
+}
 
 
 
@@ -134,7 +143,7 @@ class BooleanField extends Component {
         const { checked } = this.state;
         return (
             <Fragment key={key}>
-                <input ref={reference} type='checkbox' style={{ display: 'none' }} checked={checked}/>
+                <input ref={reference} type='checkbox' style={{ display: 'none' }} defaultChecked={checked}/>
                 <button
                     className={ checked ? [style.booleanButton, style.booleanButton_checked].join(' ') : style.booleanButton}
                     onClick={this._onClick}
