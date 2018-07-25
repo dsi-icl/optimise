@@ -11,7 +11,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 2,
@@ -24,7 +24,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 3,
@@ -37,7 +37,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 4,
@@ -50,7 +50,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '> 0, int',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 5,
@@ -63,7 +63,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '> 0, int',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 6,
@@ -76,7 +76,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '91-100,71-90,51-70,0-50,Unknown,NA',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 7,
@@ -89,7 +89,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 8,
@@ -102,7 +102,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 9,
@@ -115,7 +115,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 10,
@@ -128,7 +128,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 11,
@@ -141,7 +141,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 12,
@@ -154,7 +154,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 13,
@@ -167,7 +167,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 14,
@@ -180,7 +180,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 15,
@@ -193,7 +193,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 16,
@@ -206,7 +206,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 17,
@@ -219,7 +219,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 18,
@@ -232,7 +232,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 19,
@@ -245,7 +245,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 20,
@@ -258,7 +258,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 21,
@@ -271,7 +271,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 22,
@@ -284,7 +284,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 23,
@@ -297,7 +297,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 24,
@@ -310,7 +310,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 25,
@@ -323,7 +323,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 26,
@@ -336,7 +336,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 27,
@@ -349,7 +349,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 28,
@@ -362,7 +362,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 29,
@@ -375,7 +375,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 30,
@@ -388,7 +388,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 31,
@@ -401,7 +401,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 32,
@@ -414,7 +414,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 33,
@@ -427,7 +427,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 34,
@@ -440,7 +440,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 35,
@@ -453,7 +453,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 36,
@@ -466,7 +466,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 37,
@@ -479,7 +479,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 38,
@@ -492,7 +492,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 39,
@@ -505,7 +505,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 40,
@@ -518,7 +518,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 41,
@@ -531,7 +531,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 42,
@@ -544,7 +544,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 43,
@@ -557,7 +557,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 44,
@@ -570,7 +570,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 45,
@@ -583,7 +583,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 46,
@@ -596,7 +596,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 47,
@@ -609,7 +609,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 48,
@@ -622,7 +622,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 49,
@@ -635,7 +635,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 50,
@@ -648,7 +648,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 51,
@@ -661,7 +661,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 52,
@@ -674,7 +674,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 53,
@@ -687,7 +687,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 54,
@@ -700,7 +700,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 55,
@@ -713,7 +713,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 56,
@@ -726,7 +726,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 57,
@@ -739,7 +739,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 58,
@@ -752,7 +752,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 59,
@@ -765,7 +765,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 60,
@@ -778,7 +778,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 61,
@@ -791,7 +791,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 62,
@@ -804,7 +804,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 63,
@@ -817,7 +817,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 64,
@@ -830,7 +830,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 65,
@@ -843,7 +843,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '3,4',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 66,
@@ -856,7 +856,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '3,4',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 67,
@@ -869,7 +869,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '3,4',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 68,
@@ -882,7 +882,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '3,4',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 69,
@@ -895,7 +895,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '3,4',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 70,
@@ -908,7 +908,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '3,4',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 71,
@@ -921,7 +921,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '1,2',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 72,
@@ -934,7 +934,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '1,2',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 73,
@@ -947,7 +947,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '1,2',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 74,
@@ -960,7 +960,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '1,2',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 75,
@@ -973,7 +973,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '1,2',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 76,
@@ -986,7 +986,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: '1,2',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 77,
@@ -999,7 +999,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'NORMAL,ABNORMAL,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 78,
@@ -1012,7 +1012,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'NORMAL,ABNORMAL,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 79,
@@ -1025,7 +1025,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 80,
@@ -1038,7 +1038,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 81,
@@ -1051,7 +1051,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LEFT,RIGHT,BOTH,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 82,
@@ -1064,7 +1064,7 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'LIMITED AMBULATION,WHEELCHAIR BOUND,BEDRIDDEN,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 83,
@@ -1077,40 +1077,40 @@ const availableFields = {
             module: 'MS',
             permittedValues: 'YES,NO,UNKNOWN',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 84,
             definition: 'Expanded Disability Status Scale (EDSS) Total',
             idname: 'Expanded_Disability_Status_Scale_EDSS_total',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 2,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5,6,7,8,9,10',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 85,
             definition: 'Expanded Disability Status Scale (EDSS) Total Calculated',
             idname: 'Expanded_Disability_Status_Scale_EDSS_total_calculated',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 2,
             unit: null,
             module: 'MS',
             permittedValues: '0,1,2,3,4,5,6,7,8,9,10',
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 86,
             definition: 'Expanded Disability Status Scale (EDSS) Pyramidal',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Pyramidal',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 1,
             unit: null,
             module: 'MS',
@@ -1122,14 +1122,14 @@ const availableFields = {
                 + 'Marked paraparesis or hemiparesis (functions difficult); moderate quadriparesis (function decreased but can be sustained for short periods); or monoplegia,'
                 + 'Paraplegia, hemiplegia or marked quadriparesis,'
                 + 'Quadriplegia',
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 87,
             definition: 'Expanded Disability Status Scale (EDSS) Cerebellar',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Cerebellar',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 1,
             unit: null,
             module: 'MS',
@@ -1140,14 +1140,14 @@ const availableFields = {
                 + 'Moderate truncal or limb ataxia (tremor or clumsy movements interfere with function in all spheres),'
                 + 'Severe ataxia in all limbs (most function is very difficult),'
                 + 'Unable to perform coordinated movements due to ataxia',
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 88,
             definition: 'Expanded Disability Status Scale (EDSS) Brain Stem',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Brain_Stem',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 1,
             unit: null,
             module: 'MS',
@@ -1158,14 +1158,14 @@ const availableFields = {
                 + 'Severe nystagmus, marked extraocular weakness or moderate disability of other cranial nerves,'
                 + 'Marked dysarthria or other marked disability,'
                 + 'Inability to swallow or speak',
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 89,
             definition: 'Expanded Disability Status Scale (EDSS) Sensory',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Sensory',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 1,
             unit: null,
             module: 'MS',
@@ -1177,14 +1177,14 @@ const availableFields = {
                 + 'Marked decrease in touch or pain or lost proprioception, alone or combined, in one or two limbs; or moderate decrease in touch or pain and/or severe proprioceptive decrease in more then two limbs,'
                 + 'Lost of sensation in one or two limbs; or proprioception for most of the body below the head,'
                 + 'Sensation essentially lost below the head',
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 90,
             definition: 'Expanded Disability Status Scale (EDSS) Bowel Bladder',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Bladder',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 1,
             unit: null,
             module: 'MS',
@@ -1196,14 +1196,14 @@ const availableFields = {
                 + 'In need of regular intermittent catheterisation (and constant use of measures to evacuate stools),'
                 + 'In dwelling catheter,'
                 + 'Loss of bowel and/or bladder function,',
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 91,
             definition: 'Expanded Disability Status Scale (EDSS) Visual',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Visual',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 1,
             unit: null,
             module: 'MS',
@@ -1215,14 +1215,14 @@ const availableFields = {
                 + 'Worse eye with maximal visual acuity (corrected) of 6/36 to 6/60. Or grade three plus maximal acuity of better eye of 6/18 or less,'
                 + 'Worse eye with maximal visual acuity (corrected) of 6/60. Or grade four plus maximal visual acuity of better eye of 6/18 or less,'
                 + 'Grade 5 plus maximal visual acuity of better eye worse then 6/18',
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 92,
             definition: 'Expanded Disability Status Scale (EDSS) Mental',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Mental',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 1,
             unit: null,
             module: 'MS',
@@ -1233,14 +1233,14 @@ const availableFields = {
                 + 'Moderate decrease in mentation,'
                 + 'Marked decrease in mentation (chronic brain syndrome - moderate),'
                 + 'Dementia or chronic brain syndrome - severe or incompetent',
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 93,
             definition: 'Expanded Disability Status Scale (EDSS) Ambulation',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Ambulation',
             section: 4,
-            subsection: 'EDSS',
+            subsection: 'QS',
             type: 1,
             unit: null,
             module: 'MS',
@@ -1258,14 +1258,14 @@ const availableFields = {
                 + 'Restricted to bed much of day,'
                 + 'Bed patient. Can communicate and eat,'
                 + 'Helpless bed patient. Unable to communicate/eat/swallow',
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 94,
             definition: 'EDMUS',
             idname: 'EDMUS',
             section: 4,
-            subsection: 'EDMUS',
+            subsection: 'QS',
             type: 3,
             unit: null,
             module: 'MS',
@@ -1282,85 +1282,85 @@ const availableFields = {
                 + 'Chair restricted. Unable to take a step. Some effective use of arms.,'
                 + 'Bedridden and totally helpless.,'
                 + 'Death due to MS.',
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 95,
             definition: '25 feet walk test trial n°1',
             idname: '25_feet_walk_test_first_try',
             section: 4,
-            subsection: '25feet',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 96,
             definition: '25 feet walk test trial n°2',
             idname: '25_feet_walk_test_second_try',
             section: 4,
-            subsection: '25feet',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 97,
             definition: 'Nine hole peg test: left: trial n°1',
             idname: 'Nine_hole_peg_test:_left:_first_try',
             section: 4,
-            subsection: '9hole',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 98,
             definition: 'Nine hole peg test: left: trial n°2',
             idname: 'Nine_hole_peg_test:_left:_second_try',
             section: 4,
-            subsection: '9hole',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 99,
             definition: 'Nine hole peg test: right: trial n°1',
             idname: 'Nine_hole_peg_test:_right:_first_try',
             section: 4,
-            subsection: '9hole',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 100,
             definition: 'Nine hole peg test: right: trial n°2',
             idname: 'Nine_hole_peg_test:_right:_second_try',
             section: 4,
-            subsection: '9hole',
+            subsection: 'FT',
             type: 2,
             unit: 'sec',
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1, laterality: null
         },
         {
             id: 101,
@@ -1373,7 +1373,8 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: 'LEFT'
         },
         {
             id: 102,
@@ -1386,20 +1387,22 @@ const availableFields = {
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: 'RIGHT'
         },
         {
             id: 103,
-            definition: 'symbol digit modality test',
-            idname: 'symbol_digit_modality_test',
+            definition: 'Symbol digit modality test',
+            idname: 'Symbol_digit_modality_test',
             section: 4,
-            subsection: 'VisualAcuity',
+            subsection: 'FT',
             type: 2,
             unit: null,
             module: 'MS',
             permittedValues: null,
             labels: null,
-            referenceType: 1
+            referenceType: 1,
+            laterality: null
         }],
     testFields: [
         { id: 1,
