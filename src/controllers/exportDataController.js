@@ -390,6 +390,24 @@ class ExportDataController {
                 }
             });
 
+        /* Clinical Event data */
+
+        knex('CLINICAL_EVENTS_DATA')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_CE.definition as FATEST', 'CLINICAL_EVENTS_DATA.value as FAORRES')
+            .leftOuterJoin('CLINICAL_EVENTS', 'CLINICAL_EVENTS.id', 'CLINICAL_EVENTS_DATA.clinicalEvent')
+            .leftOuterJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('CLINICAL_EVENTS_DATA.deleted', '-')
+            .then(result => {
+                if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.DOMAIN = 'FA';
+                    });
+                    fileArray.push(new createDataFile(result, 'FA'));
+                }
+            });
+
         /* Patient Symptoms and Signs at Visits */
 
         knex('VISIT_DATA')
