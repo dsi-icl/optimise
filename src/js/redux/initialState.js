@@ -16,6 +16,8 @@ export default {
     availableFields: {
         fetching: true,
         demoFields: [],
+        visitSections: [],
+        visitSections_Hash: [],
         demoFields_Hash: [],
         visitFields: [],
         visitFields_Hash: [],
