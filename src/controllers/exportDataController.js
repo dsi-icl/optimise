@@ -369,6 +369,27 @@ class ExportDataController {
                 }
             });
 
+        /* Patient MRI data */
+
+        knex('TEST_DATA')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_TESTS.definition as MOTEST', 'TEST_DATA.value as MOORRES',
+                'ORDERED_TESTS.actualOccurredDate as MODTC')
+            .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('TEST_DATA.deleted', '-')
+            .andWhere('ORDERED_TESTS.id', 3)
+            .then(result => {
+                if (result.length >= 1) {
+                    result.forEach(x => {
+                        x.DOMAIN = 'MO';
+                    });
+                    fileArray.push(new createDataFile(result, 'MO'));
+                }
+            });
+
         /* Patient Symptoms and Signs at Visits */
 
         knex('VISIT_DATA')
