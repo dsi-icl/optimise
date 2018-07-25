@@ -1385,6 +1385,33 @@
 					"response": []
 				},
 				{
+					"name": "get all visitSections",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/available/visitSections",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"available",
+								"visitSections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "get all testFields",
 					"request": {
 						"method": "GET",
