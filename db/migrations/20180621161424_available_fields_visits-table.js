@@ -12,6 +12,7 @@ exports.up = function (knex) {
         table.text('labels').nullable();
         table.integer('referenceType').notNullable().references('id').inTable('AVAILABLE_VISIT_TYPES');
         table.text('laterality').nullable();
+        table.text('cdiscName').nullable();
         table.text('deleted').notNullable().defaultTo('-');
         table.unique(['idname', 'type', 'unit', 'module']);
     });
