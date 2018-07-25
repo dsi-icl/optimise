@@ -40,6 +40,9 @@ const exampleData = {
         { id: 3, patient: 3, visitDate: '1517875200000', type: 1, createdByUser: 2, deleted: '-' },
         { id: 4, patient: 7, visitDate: '1517875200000', type: 1, createdByUser: 2, deleted: '-' }
     ],
+    'VISIT_REPORT': [
+        { id: 1, visit: 1, report: 'Report test', createdByUser: 1, deleted: '-' }
+    ],
     'VISIT_DATA': [
         { id: 1, visit: 1, field: 1, value: 150, createdByUser: 1, deleted: '1@1531239113000' },
         { id: 2, visit: 2, field: 5, value: 60, createdByUser: 1, deleted: '-' },
