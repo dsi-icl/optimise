@@ -3,9 +3,9 @@ exports.up = function (knex) {
         table.increments('id').primary();
         table.integer('orderedDuringVisit').notNullable().references('id').inTable('VISITS').onDelete('CASCADE');
         table.integer('drug').notNullable().references('id').inTable('AVAILABLE_DRUGS');
-        table.integer('dose').notNullable();
-        table.text('unit').notNullable();
-        table.text('form').notNullable();
+        table.integer('dose').nullable();
+        table.text('unit').nullable();
+        table.text('form').nullable();
         table.integer('timesPerDay').notNullable();
         table.text('terminatedDate').nullable();
         table.integer('terminatedReason').nullable().references('id').inTable('REASONS');
