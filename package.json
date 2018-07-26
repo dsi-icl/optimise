@@ -1,6 +1,7 @@
 {
     "name": "optimise-ui",
-    "version": "1.9.10",
+    "productName": "Optimise MS",
+    "version": "1.9.11",
     "description": "Front-end for optimiseMS",
     "license": "MIT",
     "contributors": [
@@ -34,6 +35,7 @@
         "css-loader": "1.0.0",
         "dotenv": "6.0.0",
         "dotenv-expand": "4.2.0",
+        "deepmerge": "2.1.1",
         "draft-js": "^0.10.5",
         "eslint": "5.2.0",
         "eslint-config-react-app": "3.0.0-next.3e165448",
@@ -68,6 +70,7 @@
         "react-dev-utils": "6.0.0-next.3e165448",
         "react-dom": "16.4.1",
         "react-event-timeline": "1.5.4",
+        "react-helmet": "5.2.0",
         "react-redux": "5.0.7",
         "react-router-dom": "4.3.1",
         "redux": "4.0.0",

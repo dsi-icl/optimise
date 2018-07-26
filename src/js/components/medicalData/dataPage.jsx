@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
+import merge from 'deepmerge';
 import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './dataPage.module.css';
-
 
 export class BackButton extends Component {
     render() {
@@ -52,6 +52,7 @@ export class DataTemplate extends Component {
     }
 
     render() {
+        console.log('SEE THIS!!!!!', createLevelObj(example));
         const { elementType, patientProfile, match } = this.props;
         if (!patientProfile.fetching) {
             const elementsMatched = patientProfile.data[`${elementType}s`].filter(element => element.id === parseInt(match.params.elementId, 10));
@@ -162,3 +163,21 @@ class TextField extends Component {
         );
     }
 }
+
+
+
+
+
+
+
+
+
+
+function createLevelObj(fields) {
+    let obj = [];
+
+    fields.forEach(f => {
+        obj.push(f.idname.split(':').reverse().reduce((a, c) => !a ? { [c]: f } : ({ [c]: a }), null));
+    });
+    return merge.all(obj);
+} 
