@@ -48,7 +48,7 @@ Visit.prototype.createVisit = function (user, visit) {
 
 Visit.prototype.updateVisit = function (user, updatedObj) {
     return new Promise(function (resolve, reject) {
-        if (isNaN(Date.parse(updatedObj.visitDate))) {
+        if (updatedObj.visitDate && isNaN(Date.parse(updatedObj.visitDate))) {
             reject(ErrorHelper(message.userError.INVALIDDATE, new Error(message.userError.WRONGARGUMENTS)));
             return;
         }
