@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, ContentState } from 'draft-js';
-import { formatTests, visitTitle, formatEvents, formatTreatments, formatSymptomsAndSigns, formatVS } from './communicationTemplates';
+import { formatTests, visitTitle, formatEvents, formatTreatments, formatSymptomsAndSigns, formatVS, formatEdss } from './communicationTemplates';
 import { BackButton } from '../medicalData/dataPage';
 import { updateVisitAPICall } from '../../redux/actions/createVisit';
 import style from './editMedicalElements.module.css';
@@ -16,9 +16,8 @@ export default class EditCommunication extends Component {
         if (fetching) {
             return null;
         }
-        console.log(this.props)
         const { params } = match;
-        const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash, VSFields_Hash, visitFields_Hash } = this.props.availableFields;
+        const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash, VSFields_Hash, visitFields_Hash, visitFields } = this.props.availableFields;
         let { visits, tests, treatments, clinicalEvents } = data;
         visits = visits.filter(el => el.id === parseInt(params.visitId));
         if (visits.length === 0) {
@@ -27,13 +26,15 @@ export default class EditCommunication extends Component {
         tests = tests.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
         treatments = treatments.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
         clinicalEvents = clinicalEvents.filter(el => el.recordedDuringVisit === parseInt(params.visitId));
-        console.log('LIST', tests, treatments, clinicalEvents, drugs_Hash[0]);
+        const edssHash = visitFields.filter(el => el.subsection === 'QS').reduce((a, el) => { a[el.id] = { definition: el.definition }; return a; });
+        console.log(edssHash);
         const testBlock = formatTests(tests, testTypes_Hash[0]);
         const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0]);
         const medBlock = formatTreatments(treatments, drugs_Hash[0]);
         const VSBlock = formatVS(visits[0].data || [], VSFields_Hash[0]);
         const symptomBlock = formatSymptomsAndSigns(visits[0].data || [], visitFields_Hash[0]);
-        const precomposed = { testBlock, ceBlock, medBlock, symptomBlock, VSBlock };
+        const perfBlock = formatEdss(visits[0].data || [], edssHash);
+        const precomposed = { testBlock, ceBlock, medBlock, symptomBlock, VSBlock, perfBlock };
         const originalEditorState = visits[0].communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(visits[0].communication))) : EditorState.createEmpty();
         return <Communication match={match} precomposed={precomposed} originalEditorState={originalEditorState}/>;
     }
@@ -139,7 +140,7 @@ class CommunicationEditor extends Component {
                 <div>
                     <button name='medBlock' onClick={this._onClick}>Treatments</button>
                     <button name='ceBlock' onClick={this._onClick}>Clinical Events</button>
-                    <button onClick={this._onClick}>Performance</button>
+                    <button name='perfBlock' onClick={this._onClick}>Performance</button>
                 </div>
             </div>
             <br/>

@@ -125,6 +125,7 @@ const symptomTitle = () => (
 
 
 const oneSignOrSymptom = (data, VSFields_Hash) => {
+    console.log('MAP SYMPTOMS', data.field, VSFields_Hash);
     const fieldObj = VSFields_Hash[data.field];
     if (fieldObj) {
         return `- ${fieldObj.definition}: ${data.value}`;
@@ -142,7 +143,7 @@ export const formatSymptomsAndSigns = (symptomList, typeTable) => {
         
     }
     const strings = symptomList.map(el => oneSignOrSymptom(el, typeTable)).filter(el => el !== '');
-    return () => [blockgen(symptomTitle(), [{ offset: 0, length: 19, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
+    return () => [blockgen(symptomTitle(), [{ offset: 0, length: 19, style: 'BOLD' }]), ...strings.map(el => blockgen(el, [{ offset: el.lastIndexOf(':') + 2 , length: el.length - el.lastIndexOf(':') - 2, style: 'ITALIC' }]))];
 };
 
 const VSTitle = () => (
@@ -160,4 +161,24 @@ export const formatVS = (VSList, typeTable) => {
     }
     const strings = VSList.map(el => oneSignOrSymptom(el, typeTable)).filter(el => el !== '');
     return () => [blockgen(VSTitle(), [{ offset: 0, length: 12, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
+};
+
+
+
+
+/* for formating edss */
+const edssTitle = () => (
+    'EDSS:'
+);
+
+export const formatEdss = (edssList, typeTable) => {
+    if (edssList.length === 0) {
+        return () => [blockgen(edssTitle(), [{ offset: 0, length: 11, style: 'BOLD' }]), blockgen('No edss was recorded.', [])];
+    }
+    const strings = edssList.map(el => oneSignOrSymptom(el, typeTable)).filter(el => el !== '');
+    if (strings.length === 0) {
+        return () => [blockgen(edssTitle(), [{ offset: 0, length: 11, style: 'BOLD' }]), blockgen('No edss was recorded.', [])];
+    } else {
+        return () => [blockgen(edssTitle(), [{ offset: 0, length: 5, style: 'BOLD' }]), ...strings.map(el => blockgen(el, [{ offset: el.lastIndexOf(':') + 2 , length: el.length - el.lastIndexOf(':') - 2, style: 'ITALIC' }]))];
+    }
 };
