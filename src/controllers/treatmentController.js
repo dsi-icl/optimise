@@ -17,18 +17,16 @@ function TreatmentController() {
 }
 
 TreatmentController.prototype.createTreatment = function (req, res) {
-    if (!(req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('drugId') && req.body.hasOwnProperty('dose') &&
-        req.body.hasOwnProperty('unit') && req.body.hasOwnProperty('form') && req.body.hasOwnProperty('timesPerDay'))) {
+    if (!(req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('drugId') && req.body.hasOwnProperty('timesPerDay'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' && typeof req.body.timesPerDay === 'number' &&
-        typeof req.body.dose === 'number' && typeof req.body.form === 'string' && typeof req.body.form === 'string')) {
+    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' && typeof req.body.timesPerDay === 'number')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
-    if ((req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
-        (req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC')) {
+    if ((req.body.hasOwnProperty('unit') && req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
+        (req.body.hasOwnProperty('form') && req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -39,14 +37,12 @@ TreatmentController.prototype.createTreatment = function (req, res) {
     let entryObj = {
         'orderedDuringVisit': req.body.visitId,
         'drug': req.body.drugId,
-        'dose': req.body.dose,
-        'unit': req.body.unit,   //hardcoded SQL: only mg or cc
-        'form': req.body.form,   //hardcoded SQL: only OR (oral) or IV
+        'dose': (req.body.hasOwnProperty('dose') ? req.body.dose : null),
+        'unit': (req.body.hasOwnProperty('unit') ? req.body.unit : null),   //hardcoded SQL: only mg or cc
+        'form': (req.body.hasOwnProperty('form') ? req.body.form : null),   //hardcoded SQL: only OR (oral) or IV or IM or SC
         'timesPerDay': req.body.timesPerDay,
         'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
-        // field adverseEvent coming up soon.
-        //        'adverseEvent': (req.body.hasOwnProperty('adverseEvent') ? req.body.adverseEvent : null),
         'createdByUser': req.user.id
     };
     this.treatment.createTreatment(entryObj).then(function (result) {
