@@ -64,6 +64,42 @@ describe('Create treatment controller tests', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
+    test('Request creation with bad dose (should fail)', () => admin
+        .post('/treatments')
+        .send({
+            'visitId': 1,
+            'drugId': 1,
+            'dose': 'xxx',
+            'unit': 'cc',
+            'form': 'IV',
+            'times': 1,
+            'intervalUnit': 'day'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Request creation with negative dose (should fail)', () => admin
+        .post('/treatments')
+        .send({
+            'visitId': 1,
+            'drugId': 1,
+            'dose': -3,
+            'unit': 'cc',
+            'form': 'IV',
+            'times': 1,
+            'intervalUnit': 'day'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
     test('Request creation with bad unit (should fail)', () => admin
         .post('/treatments')
         .send({
