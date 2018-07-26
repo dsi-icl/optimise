@@ -108,7 +108,7 @@ describe('Update test controller tests', () => {
 
 describe('Delete test controller tests', () => {
     test('Request deletion without body (should fail)', () => admin
-        .patch('/tests')
+        .delete('/tests')
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -117,7 +117,7 @@ describe('Delete test controller tests', () => {
         }));
 
     test('Request deletion with bad body (should fail)', () => admin
-        .patch('/tests')
+        .delete('/tests')
         .send({ 'visit_-Id': createdTestId })
         .then(res => {
             expect(res.status).toBe(400);
@@ -127,8 +127,8 @@ describe('Delete test controller tests', () => {
         }));
 
     test('Request deletion with good body by standard User (should fail)', () => user
-        .patch('/tests')
-        .send({ 'testID': 4 })
+        .delete('/tests')
+        .send({ 'testId': 4 })
         .then(res => {
             expect(res.status).toBe(401);
             expect(typeof res.body).toBe('object');
@@ -137,8 +137,8 @@ describe('Delete test controller tests', () => {
         }));
 
     test('Request deletion with bad ID type (should fail)', () => admin
-        .patch('/tests')
-        .send({ 'testID': 'WRONG' })
+        .delete('/tests')
+        .send({ 'testId': 'WRONG' })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -147,8 +147,8 @@ describe('Delete test controller tests', () => {
         }));
 
     test('Request deletion with bad ID reference (should fail)', () => admin
-        .patch('/tests')
-        .send({ 'testID': 99999999 })
+        .delete('/tests')
+        .send({ 'testId': 99999999 })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -157,8 +157,8 @@ describe('Delete test controller tests', () => {
         }));
 
     test('Request deletion with good body (should success)', () => admin
-        .patch('/tests')
-        .send({ 'testID': 4 })
+        .delete('/tests')
+        .send({ 'testId': 4 })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
