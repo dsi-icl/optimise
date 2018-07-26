@@ -1,20 +1,50 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect} from 'react-router-dom';
 import store from '../../redux/store';
 import style_scaffold from '../scaffold/scaffold.module.css';
 import style from './edss.module.css';
 import { clearEDSSCalc } from '../../redux/actions/edss';
-import { max } from '../../../../node_modules/moment';
+import { addError } from '../../redux/actions/error'
 
-@connect(state => ({ edssCalc: state.edssCalc }))
+
+@connect(state => ({
+    edssCalc: state.edssCalc,
+    visitFields: state.availableFields.visitFields,
+    patientProfile: state.patientProfile.data,
+    sections : state.availableFields.visitSections
+}))
 export class EDSSCalculator extends Component {
     constructor() {
         super();
-        this.state = { autoCalculatedScore: 0 };
+        this.state = { autoCalculatedScore: 0, redirect: false };
         this._handleClick = this._handleClick.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleCancel = this._handleCancel.bind(this);
+    }
+
+    componentDidMount() {    //this basically adds the originalValues and EDSSFields
+        const { visitFields, sections, patientProfile, match } = this.props;
+        const { params } = match;
+        const sectionId = sections.filter(el => el.name === 'Performance Measures')[0].id;
+        const EDSSFields = visitFields.filter(el => el.section === sectionId);
+        if (EDSSFields.length !== 9){
+            store.dispatch(addError({ error: 'EDSS should have 9 entries in the database! please contact your admin' }));
+            this.setState({ redirect: true });
+        }
+        this.EDSSFields = EDSSFields;    //the 9 fields of edss
+        const edssFieldsId = EDSSFields.map(el => el.id);
+        const visitsFiltered = patientProfile.visits.filter(el => el.id === parseInt(params.visitId));
+        if (visitsFiltered.length !== 1) {
+            store.dispatch(addError({ error: 'Cannot find your visit' }));
+            this.setState({ redirect: true });
+        }
+        const data = visitsFiltered[0].data;
+        if (data) {
+            this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = el.value; return a; }, {});
+        } else {
+            this.originalValues = {};
+        }
     }
 
     _handleCancel(){
@@ -57,11 +87,15 @@ export class EDSSCalculator extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
-        console.log(ev.target);
+        const criteria = ['Pyramidal', 'Cerebellar', 'Brain stem', 'Sensory', 'Bowel bladder', 'Visual', 'Mental', 'Ambulation'];
+
     }
 
     render() {
-        const { edssCalc } = this.props;
+        if (this.state.redirect){
+            return <Redirect/>
+        }
+        const { edssCalc, visitFields, patientProfile } = this.props;
         if (!edssCalc.display) {
             return null;
         }
