@@ -9,8 +9,10 @@ class ExportDataController {
 
     exportDatabase(__unused__req, res) {
 
-        const fileName = 'OptimiseData.csv';
-        let fileArray = [];
+        const csvFileName = 'optimiseCSV.csv';
+        const jsonFileName = 'optimiseJSON.json';
+        let csvFileArray = [];
+        let jsonFileArray = [];
 
         /* Patient demographic data */
 
@@ -37,7 +39,8 @@ class ExportDataController {
                         entry.DOMAIN = 'DM';
                         convertedResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(convertedResult, 'DM'));
+                    csvFileArray.push(new createCsvDataFile(convertedResult, 'DM'));
+                    jsonFileArray.push(new createJsonDataFile(convertedResult, 'DM'));
                 }
             });
 
@@ -52,7 +55,8 @@ class ExportDataController {
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
                 if (result.length >= 1) {
-                    fileArray.push(new createDataFile(result, 'SC_smoking'));
+                    csvFileArray.push(new createCsvDataFile(result, 'SC_smoking'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'SC_smoking'));
                 }
             });
 
@@ -70,7 +74,8 @@ class ExportDataController {
                     result.forEach(x => {
                         x.DOMAIN = 'SU';
                     });
-                    fileArray.push(new createDataFile(result, 'SU_alcoholConsumption'));
+                    csvFileArray.push(new createCsvDataFile(result, 'SU_alcoholConsumption'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'SU_alcoholConsumption'));
                 }
             });
 
@@ -101,7 +106,8 @@ class ExportDataController {
                         entry.DOMAIN = 'MH';
                         convertedResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(convertedResult, 'MH_Pregnancy'));
+                    csvFileArray.push(new createCsvDataFile(convertedResult, 'MH_Pregnancy'));
+                    jsonFileArray.push(new createJsonDataFile(convertedResult, 'MH_Pregnancy'));
                 }
             });
 
@@ -123,7 +129,8 @@ class ExportDataController {
                     result.forEach(x => {
                         x.DOMAIN = 'VS';
                     });
-                    fileArray.push(new createDataFile(result, 'VS'));
+                    csvFileArray.push(new createCsvDataFile(result, 'VS'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'VS'));
                 }
             });
 
@@ -141,7 +148,8 @@ class ExportDataController {
                         x.AETERM = x.AELLT;
                         x.DOMAIN = 'AE';
                     });
-                    fileArray.push(new createDataFile(result, 'AE_Pregnancy'));
+                    csvFileArray.push(new createCsvDataFile(result, 'AE_Pregnancy'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'AE_Pregnancy'));
                 }
             });
 
@@ -159,7 +167,8 @@ class ExportDataController {
                         x.AETERM = x.AELLT;
                         x.DOMAIN = 'AE';
                     });
-                    fileArray.push(new createDataFile(result, 'AE_ClinicalEvents'));
+                    csvFileArray.push(new createCsvDataFile(result, 'AE_ClinicalEvents'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'AE_ClinicalEvents'));
                 }
             });
 
@@ -179,7 +188,8 @@ class ExportDataController {
                         x.AETERM = x.AELLT;
                         x.DOMAIN = 'AE';
                     });
-                    fileArray.push(new createDataFile(result, 'AE_Treatments'));
+                    csvFileArray.push(new createCsvDataFile(result, 'AE_Treatments'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'AE_Treatments'));
                 }
             });
 
@@ -205,7 +215,8 @@ class ExportDataController {
                         entry.DOMAIN = 'MH';
                         convertedResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(convertedResult, 'MH_Relations'));
+                    csvFileArray.push(new createCsvDataFile(convertedResult, 'MH_Relations'));
+                    jsonFileArray.push(new createJsonDataFile(convertedResult, 'MH_Relations'));
                 }
             });
 
@@ -228,7 +239,8 @@ class ExportDataController {
                         entry.DOMAIN = 'MH';
                         convertedResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(convertedResult, 'MH_immunisation'));
+                    csvFileArray.push(new createCsvDataFile(convertedResult, 'MH_immunisation'));
+                    jsonFileArray.push(new createJsonDataFile(convertedResult, 'MH_immunisation'));
                 }
             });
 
@@ -254,7 +266,8 @@ class ExportDataController {
                         entry.MHSCAT = 'ONSET COURSE';
                         convertedResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(convertedResult, 'MH_diagnosis'));
+                    csvFileArray.push(new createCsvDataFile(convertedResult, 'MH_diagnosis'));
+                    jsonFileArray.push(new createJsonDataFile(convertedResult, 'MH_diagnosis'));
                 }
             });
 
@@ -285,7 +298,8 @@ class ExportDataController {
                         delete entry.field;
                         newResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(newResult, 'CE'));
+                    csvFileArray.push(new createCsvDataFile(newResult, 'CE'));
+                    jsonFileArray.push(new createJsonDataFile(newResult, 'CE'));
                 }
             });
 
@@ -313,7 +327,8 @@ class ExportDataController {
                         entry.DOMAIN = 'NV';
                         newResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(newResult, 'NV'));
+                    csvFileArray.push(new createCsvDataFile(newResult, 'NV'));
+                    jsonFileArray.push(new createJsonDataFile(newResult, 'NV'));
                 }
             });
 
@@ -335,7 +350,8 @@ class ExportDataController {
                         x.LBTESTCD = x.LBTEST; // WILL UPDATE AFTER CONSULTATION
                         x.DOMAIN = 'LB';
                     });
-                    fileArray.push(new createDataFile(result, 'LB'));
+                    csvFileArray.push(new createCsvDataFile(result, 'LB'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'LB'));
                 }
             });
 
@@ -364,8 +380,8 @@ class ExportDataController {
                         prResult.PRDTC = x.LBDTC;
                         prResultArr.push(prResult);
                     });
-                    fileArray.push(new createDataFile(result, 'LB'));
-                    fileArray.push(new createDataFile(prResultArr, 'PR'));
+                    csvFileArray.push(new createCsvDataFile(result, 'LB'));
+                    jsonFileArray.push(new createJsonDataFile(prResultArr, 'PR'));
                 }
             });
 
@@ -386,7 +402,8 @@ class ExportDataController {
                     result.forEach(x => {
                         x.DOMAIN = 'MO';
                     });
-                    fileArray.push(new createDataFile(result, 'MO'));
+                    csvFileArray.push(new createCsvDataFile(result, 'MO'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'MO'));
                 }
             });
 
@@ -404,7 +421,8 @@ class ExportDataController {
                     result.forEach(x => {
                         x.DOMAIN = 'FA';
                     });
-                    fileArray.push(new createDataFile(result, 'FA'));
+                    csvFileArray.push(new createCsvDataFile(result, 'FA'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'FA'));
                 }
             });
 
@@ -424,7 +442,8 @@ class ExportDataController {
                     result.forEach(x => {
                         x.DOMAIN = 'CE';
                     });
-                    fileArray.push(new createDataFile(result, 'CE_symptomsSigns'));
+                    csvFileArray.push(new createCsvDataFile(result, 'CE_symptomsSigns'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'CE_symptomsSigns'));
                 }
             });
 
@@ -446,7 +465,8 @@ class ExportDataController {
                         x.OELOC = 'EYE';
                         x.DOMAIN = 'OE';
                     });
-                    fileArray.push(new createDataFile(result, 'OE'));
+                    csvFileArray.push(new createCsvDataFile(result, 'OE'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'OE'));
                 }
             });
 
@@ -468,7 +488,8 @@ class ExportDataController {
                         x.QSSTRESN = x.QSORRES;
                         x.DOMAIN = 'QS';
                     });
-                    fileArray.push(new createDataFile(result, 'QS'));
+                    csvFileArray.push(new createCsvDataFile(result, 'QS'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'QS'));
                 }
             });
 
@@ -490,7 +511,9 @@ class ExportDataController {
                         x.FTSTRESN = x.FTORRES;
                         x.DOMAIN = 'FT';
                     });
-                    fileArray.push(new createDataFile(result, 'FT'));
+                    csvFileArray.push(new createCsvDataFile(result, 'FT'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'EX'));
+
                 }
             });
 
@@ -524,16 +547,40 @@ class ExportDataController {
                         entry.DOMAIN = 'EX';
                         convertedResult.push(entry);
                     }
-                    fileArray.push(new createDataFile(convertedResult, 'EX'));
+                    csvFileArray.push(new createCsvDataFile(convertedResult, 'EX'));
+                    jsonFileArray.push(new createCsvDataFile(convertedResult, 'EX'));
                 }
+                let fileArray = csvFileArray.concat(jsonFileArray);
                 zipFiles(fileArray);
             });
 
+        /* function to create a json file */
+
+        function createJsonDataFile(result, prefix) {
+
+            const tempJsonFileName = `${prefix}${jsonFileName}`;
+            let fileContents = Buffer.from(JSON.stringify(result));
+            // check if dir temp exists
+            const dir = './temp/';
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+            let tempSavedPath = `${dir}${tempJsonFileName}`;
+            tempSavedPath = path.normalize(tempSavedPath);
+            fs.writeFile(tempSavedPath, fileContents, err => {
+                if (err) {
+                    return;
+                }
+            });
+            return { path: tempSavedPath, name: tempJsonFileName };
+
+        }
+
         /* function to create a csv file for the result passed as an argument- prefix: (string) filename */
 
-        function createDataFile(result, prefix) {
+        function createCsvDataFile(result, prefix) {
 
-            const tempfileName = `${prefix}${fileName}`;
+            const tempCsvFileName = `${prefix}${csvFileName}`;
             let keys = Object.keys(result[0]); // get the keys from result to create headers
             let tempResult = `${keys.join(',')}\n`;
             result.forEach(function(obj) {
@@ -549,14 +596,14 @@ class ExportDataController {
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
-            let tempSavedPath = `${dir}${tempfileName}`;
+            let tempSavedPath = `${dir}${tempCsvFileName}`;
             tempSavedPath = path.normalize(tempSavedPath);
             fs.writeFile(tempSavedPath, fileContents, err => {
                 if (err) {
                     return;
                 }
             });
-            return { path: tempSavedPath, name: tempfileName };
+            return { path: tempSavedPath, name: tempCsvFileName };
         }
 
         /* creates a zip attachment- arr: an array of file paths and file names */
