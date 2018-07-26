@@ -50,7 +50,7 @@ const exampleData = {
     'ORDERED_TESTS': [
         { id: 1, orderedDuringVisit: 1, type: 1, expectedOccurDate: '1520294400000', createdByUser: 1, deleted: '-' },
         { id: 2, orderedDuringVisit: 3, type: 1, expectedOccurDate: '1517875200000', createdByUser: 1, deleted: '-' },
-        { id: 3, orderedDuringVisit: 2, type: 1, expectedOccurDate: '1517443200000', createdByUser: 1, deleted: '-' },
+        { id: 3, orderedDuringVisit: 2, type: 2, expectedOccurDate: '1517443200000', createdByUser: 1, deleted: '-' },
     ],
     'TEST_DATA': [
         { id: 1, test: 1, field: 5, value: 'negative', createdByUser: 1, deleted: '-' },
@@ -60,7 +60,8 @@ const exampleData = {
     'CLINICAL_EVENTS': [
         { id: 1, patient: 1, type: 1, dateStartDate: '1514764800000', meddra: 1, createdByUser: 1, deleted: '-' },
         { id: 2, patient: 3, type: 1, dateStartDate: '1517443200000', meddra: 1, createdByUser: 1, deleted: '-' },
-        { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' }
+        { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' },
+        { id: 4, patient: 1, type: 1, dateStartDate: '1517443200000', meddra: 1, createdByUser: 1, deleted: '-' }
     ],
     'CLINICAL_EVENTS_DATA': [
         { id: 1, clinicalEvent: 1, field: 3, value: 'YES', createdByUser: 1, deleted: '-' },

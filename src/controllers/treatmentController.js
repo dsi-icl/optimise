@@ -17,25 +17,29 @@ function TreatmentController() {
 }
 
 TreatmentController.prototype.createTreatment = function (req, res) {
-    if (!(req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('drugId') && req.body.hasOwnProperty('dose') &&
-        req.body.hasOwnProperty('unit') && req.body.hasOwnProperty('form') && req.body.hasOwnProperty('startDate'))) {
+    if (!(req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('drugId') && req.body.hasOwnProperty('startDate'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' &&
-        typeof req.body.dose === 'number' && typeof req.body.form === 'string')) {
+    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
-    if ((req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
-        (req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC') ||
+    if ((req.body.hasOwnProperty('dose') && typeof req.body.dose !== 'number') ||
+        (req.body.hasOwnProperty('unit') && req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
+        (req.body.hasOwnProperty('form') && req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC') ||
         (req.body.hasOwnProperty('times') && typeof req.body.times !== 'number') ||
-        (req.body.hasOwnProperty('intervalUnit') && req.body.intervalUnit !== 'hour' && req.body.intervalUnit !== 'day' && req.body.intervalUnit !== 'week' && req.body.intervalUnit !== 'month' && req.body.intervalUnit !== 'year')) {
+        (req.body.hasOwnProperty('intervalUnit') && req.body.intervalUnit !== 'hour' && req.body.intervalUnit !== 'day' &&
+        req.body.intervalUnit !== 'week' && req.body.intervalUnit !== 'month' && req.body.intervalUnit !== 'year')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
     // No specific reason for 500 (max number of times) here
     if (req.body.hasOwnProperty('times') && (req.body.times < 0 || req.body.times > 500)) {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
+    }
+    if (req.body.hasOwnProperty('dose') && req.body.dose < 0) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -46,16 +50,14 @@ TreatmentController.prototype.createTreatment = function (req, res) {
     let entryObj = {
         'orderedDuringVisit': req.body.visitId,
         'drug': req.body.drugId,
-        'dose': req.body.dose,
-        'unit': req.body.unit,   //hardcoded SQL: only mg or cc
-        'form': req.body.form,   //hardcoded SQL: only OR (oral) or IV
+        'dose': (req.body.hasOwnProperty('dose') ? req.body.dose : null),
+        'unit': (req.body.hasOwnProperty('unit') ? req.body.unit : null),   // hardcoded SQL: only mg or cc
+        'form': (req.body.hasOwnProperty('form') ? req.body.form : null),   // hardcoded SQL: only OR, IV, IM or SC
         'times': (req.body.hasOwnProperty('times') ? req.body.times : null),
-        'intervalUnit': (req.body.hasOwnProperty('intervalUnit') ? req.body.intervalUnit : null),
+        'intervalUnit': (req.body.hasOwnProperty('intervalUnit') ? req.body.intervalUnit : null), // hardcoded: hour, day, week, month, year
         'startDate': (req.body.hasOwnProperty('startDate') ? Date.parse(req.body.startDate) : null),
         'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
-        // field adverseEvent coming up soon.
-        //        'adverseEvent': (req.body.hasOwnProperty('adverseEvent') ? req.body.adverseEvent : null),
         'createdByUser': req.user.id
     };
     this.treatment.createTreatment(entryObj).then(function (result) {
