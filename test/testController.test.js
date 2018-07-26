@@ -81,7 +81,7 @@ describe('Create test controller tests', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(4);
+            expect(res.body.state).toBe(5);
         }));
 
     test('Request creation with good body (should succeed)', () => admin
@@ -91,7 +91,7 @@ describe('Create test controller tests', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(5);
+            expect(res.body.state).toBe(6);
         }));
 });
 
