@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Icon from '../icon';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 import style from './patientProfile.module.css';
 
@@ -69,7 +71,11 @@ export class TimelineBox extends Component {   //unfinsihed
         };
 
         return (
-            <PatientProfileSectionScaffold sectionName='Timeline'>
+            <PatientProfileSectionScaffold sectionName='Timeline' actions={(
+                <Link to={`/patientProfile/${this.props.data.patientId}/timeline`}>
+                    <span className={style.expandTimeline}><Icon symbol='expand' /></span>
+                </Link>
+            )}>
                 <div className={style.timelineBox} style={TimelineDynamicStyle}>
                     <div style={{ gridColumn: '1/2', gridRow: '1/2', overflow: 'hidden' }}>
                         Visits

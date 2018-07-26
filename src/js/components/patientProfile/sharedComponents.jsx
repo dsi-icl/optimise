@@ -9,7 +9,7 @@ export class PatientProfileSectionScaffold extends Component {
     render() {
         return (
             <div className={this.props.active ? style.profileSectionActive : ''}>
-                <h4>{this.props.sectionName}</h4><br />
+                <h4>{this.props.sectionName}{this.props.actions ? this.props.actions : null}</h4><br />
                 {this.props.children}<br /><br />
             </div>
         );
