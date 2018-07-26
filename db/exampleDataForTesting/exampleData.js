@@ -76,8 +76,8 @@ const exampleData = {
         { id: 7, clinicalEvent: 4, field: 19, value: 'PML', createdByUser: 1, deleted: '-' }
     ],
     'TREATMENTS': [
-        { id: 1, orderedDuringVisit: 1, drug: 1, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, createdByUser: 2, deleted: '-' },
-        { id: 2, orderedDuringVisit: 3, drug: 4, dose: 2, unit: 'cc', form: 'IV', timesPerDay: 2, createdByUser: 2, deleted: '-' }
+        { id: 1, startDate: '1514768800000', orderedDuringVisit: 1, drug: 1, dose: 2, unit: 'cc', form: 'IV', times: 1, intervalUnit: 'year', createdByUser: 2, deleted: '-' },
+        { id: 2, startDate: '1514428800000', orderedDuringVisit: 3, drug: 4, dose: 2, unit: 'cc', form: 'IV', times: 2, intervalUnit: 'day', createdByUser: 2, deleted: '-' }
     ],
     'TREATMENTS_INTERRUPTIONS': [
         { id: 1, treatment: 1, startDate: '1484006400000', endDate: '1516406400000', reason: 2, meddra: 2, createdByUser: 1, deleted: '-' },

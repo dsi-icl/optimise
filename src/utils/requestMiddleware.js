@@ -25,7 +25,7 @@ class RequestMiddleware {
         } else if (req.url === '/users/login') {
             next();
         } else {
-            res.status(400).send({ status: 'error', message: 'Please login first' });
+            res.status(400).json({ status: 'error', message: 'Please login first' });
             // res.status(400).send('Please provide a token in the header');
         }
     }

@@ -368,8 +368,8 @@ class ExportDataController {
             .andWhere('TEST_DATA.deleted', '-')
             .andWhere('ORDERED_TESTS.id', 4)
             .then(result => {
+                let prResultArr = [];
                 if (result.length >= 1) {
-                    let prResultArr = [];
                     result.forEach(x => {
                         x.LBTESTCD = x.LBTEST; // WILL UPDATE AFTER CONSULTATION
                         x.DOMAIN = 'LB';
@@ -380,8 +380,9 @@ class ExportDataController {
                         prResult.PRDTC = x.LBDTC;
                         prResultArr.push(prResult);
                     });
-                    csvFileArray.push(new createCsvDataFile(result, 'LB'));
-                    jsonFileArray.push(new createJsonDataFile(prResultArr, 'PR'));
+                    let lbprReuslt = result.concat(prResultArr);
+                    csvFileArray.push(new createCsvDataFile(lbprReuslt, 'LBPR'));
+                    jsonFileArray.push(new createJsonDataFile(lbprReuslt, 'LBPR'));
                 }
             });
 
@@ -521,11 +522,11 @@ class ExportDataController {
 
         knex('TREATMENTS')
             .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_DRUGS.name as EXTRT',
-                'AVAILABLE_DRUGS.module as EXCLAS', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit as EXDOSU',
-                'TREATMENTS.timesPerDay as EXDOSFRQ', 'TREATMENTS.form as EXROUTE', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC_2',
+                'AVAILABLE_DRUGS.module as EXCLAS', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit as EXDOSU', 'TREATMENTS.startDate as EXSTDTC',
+                'TREATMENTS.times', 'TREATMENTS.intervalUnit' ,'TREATMENTS.form as EXROUTE', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC_2',
                 'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason',
                 'TREATMENTS_INTERRUPTIONS.endDate as EXENDTC_2', 'REASONS.value as REASON',
-                'ADVERSE_EVENT_MEDDRA.name as trtMedDRA')
+                'ADVERSE_EVENT_MEDDRA.name as MEDDRA')
             .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
             .leftOuterJoin('TREATMENTS_INTERRUPTIONS', 'TREATMENTS_INTERRUPTIONS.treatment', 'TREATMENTS.id')
             .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
@@ -545,10 +546,11 @@ class ExportDataController {
                             entry.EXENDTC = new Date(entry.EXENDTC).toString();
                         }
                         entry.DOMAIN = 'EX';
+                        entry.EXDOSFRQ = entry.times.concat(entry.intervalUnit);
                         convertedResult.push(entry);
                     }
                     csvFileArray.push(new createCsvDataFile(convertedResult, 'EX'));
-                    jsonFileArray.push(new createCsvDataFile(convertedResult, 'EX'));
+                    jsonFileArray.push(new createJsonDataFile(convertedResult, 'EX'));
                 }
                 let fileArray = csvFileArray.concat(jsonFileArray);
                 zipFiles(fileArray);
