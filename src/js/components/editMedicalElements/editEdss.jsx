@@ -19,7 +19,7 @@ export default class EditPerformanceMesaure extends Component {
                 </div>
                 <form className={style.panel}>
                     <p> </p> <br /><br />
-                    <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><button >EDSS calculator</button></NavLink>
+                    <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><button >Edit Expanded Disability Status Scale</button></NavLink>
                 </form>
             </>
         );
