@@ -14,7 +14,7 @@ exports.up = function (knex) {
         table.text('laterality').nullable();
         table.text('cdiscName').nullable();
         table.text('deleted').notNullable().defaultTo('-');
-        table.unique(['idname', 'type', 'unit', 'module']);
+        table.unique(['idname', 'type', 'unit', 'module', 'deleted']);
     });
 };
 

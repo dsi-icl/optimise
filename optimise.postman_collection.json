@@ -1003,7 +1003,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\t\"drugId\": 5,\n\t\"dose\": 4,\n\t\"unit\": \"mg\",\n\t\"form\": \"OR\",\n\t\"timesPerDay\": 3,\n\t\"adverseEvent\": 4}"
+							"raw": "{\"visitId\": 1,\n\t\"drugId\": 5,\n\t\"dose\": 4,\n\t\"unit\": \"mg\",\n\t\"form\": \"OR\",\n\t\"times\": 1,\n\t\"intervalUnit\": \"year\",\n\t\"adverseEvent\": 4}"
 						},
 						"url": {
 							"raw": "{{url}}/treatments",
@@ -1064,7 +1064,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\":1,\n\t\"orderedDuringVisit\": 1,\n\t\"drug\": 3,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"OR\",\n\t\"timesPerDay\": 3,\n\t\"adverseEvent\":4}"
+							"raw": "{\n\t\"id\":1,\n\t\"orderedDuringVisit\": 1,\n\t\"drug\": 3,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"OR\",\n\t\"times\": 2,\n\t\"intervalUnit\": \"year\",\n\t\"adverseEvent\":4}"
 						},
 						"url": {
 							"raw": "{{url}}/treatments",

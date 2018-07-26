@@ -1426,8 +1426,11 @@
                                 "form": {
                                     "type": "string"
                                 },
-                                "timesPerDay": {
+                                "times": {
                                     "type": "integer"
+                                },
+                                "intervalUnit": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -1530,8 +1533,11 @@
                                 "form": {
                                     "type": "string"
                                 },
-                                "timesPerDay": {
+                                "times": {
                                     "type": "integer"
+                                },
+                                "intervalUnit": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -3823,7 +3829,10 @@
                 "form": {
                     "type": "string"
                 },
-                "timesPerDay": {
+                "times": {
+                    "type": "integer"
+                },
+                "intervalUnit": {
                     "type": "string"
                 },
                 "terminatedDate": {
