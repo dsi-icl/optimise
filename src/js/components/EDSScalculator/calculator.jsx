@@ -7,7 +7,7 @@ import style from './edss.module.css';
 import { clearEDSSCalc } from '../../redux/actions/edss';
 
 @connect(state => ({ edssCalc: state.edssCalc }))
-export class EDSSCalculator extends Component {
+export default class EDSSCalculator extends Component {
     constructor() {
         super();
         this.state = { autoCalculatedScore: 0 };
@@ -16,13 +16,13 @@ export class EDSSCalculator extends Component {
         this._handleCancel = this._handleCancel.bind(this);
     }
 
-    _handleCancel(){
+    _handleCancel() {
         store.dispatch(clearEDSSCalc());
     }
 
     _handleClick(ev) {
         ev.target.nextSibling.checked = true;
-        const value  = ev.target.nextSibling.value;
+        const value = ev.target.nextSibling.value;
         const radioGroup = ev.target.parentElement.parentElement.children;
         console.log(radioGroup);
         for (let i = 0; i < radioGroup.length; i++) {
@@ -56,10 +56,7 @@ export class EDSSCalculator extends Component {
     }
 
     render() {
-        const { edssCalc } = this.props;
-        if (!edssCalc.display) {
-            return null;
-        }
+        const { params } = this.props.match;
         const rangeGen = ceiling => [...Array(ceiling).keys()];  //returns [0,1,2,3,...,*ceiling_inclusive*]
         const range_pyramidal = rangeGen(6);
         const range_cerebellar = rangeGen(5);
@@ -77,14 +74,14 @@ export class EDSSCalculator extends Component {
             { name: 'Bowel bladder', range: range_bowelbladder },
             { name: 'Visual', range: range_visual },
             { name: 'Mental', range: range_mental },
-            { name: 'Ambulation', range: range_ambulation}
+            { name: 'Ambulation', range: range_ambulation }
         ];
         return (
             <div className={style_scaffold.errorMessage}>
                 <div className={style_scaffold.edssCalcBox}>
                     <div className={style.title}>
                         <h3>Expanded Disability Status Scale</h3>
-                        <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span>
+                        <Link to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}`}><span className={style.cancelButton}>&#10006;</span></Link>
                     </div>
                     <div className={style.calculator}>
                         <form onSubmit={this._handleSubmit}>
@@ -99,23 +96,23 @@ export class EDSSCalculator extends Component {
                                                     onClick={this._handleClick}
                                                     value={number}
                                                 >{number}</button>
-                                                <input type='radio' name={el.name} value={number}/>
+                                                <input type='radio' name={el.name} value={number} />
                                             </span>
                                         )}
                                     </div>
                                 </div>
                             )}
-                            <br/>
-                            <span><b>Calculated score: </b></span> <input type='text' value={this.state.autoCalculatedScore}/>
-                            <br/><br/>
-                            <span><b>Free input score: </b></span> <input type='text'/>
-                            <br/><br/>
-                            <input type='submit' value='Save'/>
+                            <br />
+                            <span><b>Calculated score: </b></span> <input type='text' value={this.state.autoCalculatedScore} />
+                            <br /><br />
+                            <span><b>Free input score: </b></span> <input type='text' />
+                            <br /><br />
+                            <input type='submit' value='Save' />
                         </form>
-                        <br/><br/><br/>
+                        <br /><br /><br />
                     </div>
                     <div className={style.guideline}>
-                        <h4> EDSS Guideline </h4> <br/>
+                        <h4> EDSS Guideline </h4> <br />
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."\
                     </div>
                 </div>
