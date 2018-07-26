@@ -74,7 +74,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'cc',
             'form': 'IV',
             'times': 1,
-            'intervalUnit': 'day'
+            'intervalUnit': 'day',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -92,7 +93,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'cc',
             'form': 'IV',
             'times': 1,
-            'intervalUnit': 'day'
+            'intervalUnit': 'day',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
