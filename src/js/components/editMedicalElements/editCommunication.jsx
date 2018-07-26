@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, ContentState } from 'draft-js';
 import { formatTests, visitTitle, formatEvents, formatTreatments, formatSymptomsAndSigns, formatVS, formatEdss } from './communicationTemplates';
@@ -12,7 +13,8 @@ import store from '../../redux/store';
 @connect(state => ({ fetching: state.patientProfile.fetching, data: state.patientProfile.data, availableFields: state.availableFields }))
 export default class EditCommunication extends Component {
     render() {
-        const { fetching, data, match } = this.props;
+        const { fetching, data, match, location } = this.props;
+        console.log(match);
         if (fetching) {
             return null;
         }
@@ -20,14 +22,13 @@ export default class EditCommunication extends Component {
         const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash, VSFields_Hash, visitFields_Hash, visitFields } = this.props.availableFields;
         let { visits, tests, treatments, clinicalEvents } = data;
         visits = visits.filter(el => el.id === parseInt(params.visitId));
-        if (visits.length === 0) {
+        if (visits.length !== 1) {
             return <div>Cannot find your visit!</div>;
         }
         tests = tests.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
         treatments = treatments.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
         clinicalEvents = clinicalEvents.filter(el => el.recordedDuringVisit === parseInt(params.visitId));
         const edssHash = visitFields.filter(el => el.subsection === 'QS').reduce((a, el) => { a[el.id] = { definition: el.definition }; return a; });
-        console.log(edssHash);
         const testBlock = formatTests(tests, testTypes_Hash[0]);
         const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0]);
         const medBlock = formatTreatments(treatments, drugs_Hash[0]);
@@ -35,8 +36,9 @@ export default class EditCommunication extends Component {
         const symptomBlock = formatSymptomsAndSigns(visits[0].data || [], visitFields_Hash[0]);
         const perfBlock = formatEdss(visits[0].data || [], edssHash);
         const precomposed = { testBlock, ceBlock, medBlock, symptomBlock, VSBlock, perfBlock };
+        console.log('COMMUNICATION', JSON.parse(visits[0].communication));
         const originalEditorState = visits[0].communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(visits[0].communication))) : EditorState.createEmpty();
-        return <Communication match={match} precomposed={precomposed} originalEditorState={originalEditorState}/>;
+        return <Communication match={match} precomposed={precomposed} originalEditorState={originalEditorState} location={location}/>;
     }
 }
 
@@ -44,7 +46,7 @@ export default class EditCommunication extends Component {
 
 class Communication extends Component {
     render() {
-        const { precomposed, match, originalEditorState } = this.props;
+        const { precomposed, match, originalEditorState, location } = this.props;
         const { params } = match;
         return (
             <>
@@ -54,7 +56,7 @@ class Communication extends Component {
                 </div>
                 <form className={style.panel}>
                     <p>This is the communication for visit ///// </p> <br/><br/>
-                    <CommunicationEditor precomposed={precomposed} match={match} originalEditorState={originalEditorState}/>
+                    <CommunicationEditor precomposed={precomposed} match={match} originalEditorState={originalEditorState} location={location}/>
                 </form>
             </>
         );
@@ -64,9 +66,8 @@ class Communication extends Component {
 
 /* receive precomposed props which contains functions that generate blocks */
 class CommunicationEditor extends Component {
-    constructor(props) {
+    constructor() {
         super();
-        this.state = {editorState: props.originalEditorState };
         this.onChange = (editorState) => this.setState({editorState});
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
         this._onBoldClick = this._onBoldClick.bind(this);
@@ -74,6 +75,10 @@ class CommunicationEditor extends Component {
         this._onUnderlineClick = this._onUnderlineClick.bind(this);
         this._onSubmit = this._onSubmit.bind(this);
         this._onClick = this._onClick.bind(this);
+    }
+
+    static getDerivedStateFromProps(props) {
+        return {editorState: props.originalEditorState };
     }
 
     handleKeyCommand(command, editorState) {
