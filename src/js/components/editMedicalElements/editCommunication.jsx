@@ -66,8 +66,9 @@ class Communication extends Component {
 
 /* receive precomposed props which contains functions that generate blocks */
 class CommunicationEditor extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.state = { editorState: props.originalEditorState, visitId: props.match.params.visitId };
         this.onChange = (editorState) => this.setState({editorState});
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
         this._onBoldClick = this._onBoldClick.bind(this);
@@ -77,8 +78,14 @@ class CommunicationEditor extends Component {
         this._onClick = this._onClick.bind(this);
     }
 
-    static getDerivedStateFromProps(props) {
-        return {editorState: props.originalEditorState };
+    static getDerivedStateFromProps(props, currentState) {
+        const stateString = convertToRaw(currentState.editorState.getCurrentContent());
+        const initialString = convertToRaw(props.originalEditorState.getCurrentContent());
+        if (stateString !== initialString && currentState.visitId === props.match.params.visitId) {
+            return currentState;
+        } else {
+            return { editorState: props.originalEditorState, visitId: props.match.params.visitId };
+        }
     }
 
     handleKeyCommand(command, editorState) {
