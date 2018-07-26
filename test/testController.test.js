@@ -74,7 +74,7 @@ describe('Create test controller tests', () => {
             expect(res.body.stack.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Request creation with actual occured data with good body (should success)', () => admin
+    test('Request creation with actual occured data with good body (should succeed)', () => admin
         .post('/tests')
         .send({ 'visitId': 1, 'type': 1, 'expectedDate': '1 Jan 2020', 'actualOccurredDate': '4 Jan 2020' })
         .then(res => {
@@ -84,7 +84,7 @@ describe('Create test controller tests', () => {
             expect(res.body.state).toBe(4);
         }));
 
-    test('Request creation with good body (should success)', () => admin
+    test('Request creation with good body (should succeed)', () => admin
         .post('/tests')
         .send({ 'visitId': 1, 'type': 2, 'expectedDate': '1 Jan 2020' })
         .then(res => {
@@ -156,7 +156,7 @@ describe('Delete test controller tests', () => {
             expect(res.body.state).toBe(0);
         }));
 
-    test('Request deletion with good body (should success)', () => admin
+    test('Request deletion with good body (should succeed)', () => admin
         .patch('/tests')
         .send({ 'testID': 4 })
         .then(res => {

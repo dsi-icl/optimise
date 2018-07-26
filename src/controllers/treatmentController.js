@@ -18,7 +18,7 @@ function TreatmentController() {
 
 TreatmentController.prototype.createTreatment = function (req, res) {
     if (!(req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('drugId') && req.body.hasOwnProperty('dose') &&
-        req.body.hasOwnProperty('unit') && req.body.hasOwnProperty('form'))) {
+        req.body.hasOwnProperty('unit') && req.body.hasOwnProperty('form') && req.body.hasOwnProperty('startDate'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
@@ -51,6 +51,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'form': req.body.form,   //hardcoded SQL: only OR (oral) or IV
         'times': (req.body.hasOwnProperty('times') ? req.body.times : null),
         'intervalUnit': (req.body.hasOwnProperty('intervalUnit') ? req.body.intervalUnit : null),
+        'startDate': (req.body.hasOwnProperty('startDate') ? Date.parse(req.body.startDate) : null),
         'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         // field adverseEvent coming up soon.
