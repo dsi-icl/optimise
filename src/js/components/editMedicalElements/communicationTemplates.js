@@ -131,7 +131,7 @@ const oneSignOrSymptom = (data, VSFields_Hash) => {
     } else {
         return '';
     }
-}
+};
 
 export const formatSymptomsAndSigns = (symptomList, typeTable) => {
     if (symptomList.length === 0) {
@@ -143,4 +143,21 @@ export const formatSymptomsAndSigns = (symptomList, typeTable) => {
     }
     const strings = symptomList.map(el => oneSignOrSymptom(el, typeTable)).filter(el => el !== '');
     return () => [blockgen(symptomTitle(), [{ offset: 0, length: 19, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
+};
+
+const VSTitle = () => (
+    'Vital signs:'
+);
+
+
+export const formatVS = (VSList, typeTable) => {
+    if (VSList.length === 0) {
+        return () => [
+            blockgen(VSTitle(), [{ offset: 0, length: 12, style: 'BOLD' }]),
+            blockgen('No VS was recorded.', [])
+        ];
+        
+    }
+    const strings = VSList.map(el => oneSignOrSymptom(el, typeTable)).filter(el => el !== '');
+    return () => [blockgen(VSTitle(), [{ offset: 0, length: 12, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
 };
