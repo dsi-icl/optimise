@@ -6,7 +6,8 @@ exports.up = function (knex) {
         table.integer('dose').notNullable();
         table.text('unit').notNullable();
         table.text('form').notNullable();
-        table.text('dosingFreqPerInterval').nullable();
+        table.text('times').nullable();
+        table.text('intervalUnit').nullable();
         table.text('terminatedDate').nullable();
         table.integer('terminatedReason').nullable().references('id').inTable('REASONS');
         table.text('createdTime').notNullable().defaultTo(knex.fn.now());

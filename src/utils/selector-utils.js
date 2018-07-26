@@ -133,7 +133,7 @@ class SelectorUtils {
                 dates[resu[i].id] = resu[i].visitDate;
             }
             return knex('TREATMENTS')
-                .select('id', 'orderedDuringVisit', 'drug', 'dose', 'unit', 'form', 'dosingFreqPerInterval', 'terminatedDate', 'terminatedReason')
+                .select('id', 'orderedDuringVisit', 'drug', 'dose', 'unit', 'form', 'times', 'intervalUnit', 'terminatedDate', 'terminatedReason')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere({ 'deleted': '-' })
                 .then(result => {

@@ -54,7 +54,8 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'OR',
-            'dosingFreqPerInterval': 'QD'
+            'times': 1,
+            'intervalUnit': 'day'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -71,7 +72,8 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'WRONG',
             'form': 'OR',
-            'dosingFreqPerInterval': 'QD'
+            'times': 1,
+            'intervalUnit': 'day'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -88,7 +90,8 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'WRONG',
-            'dosingFreqPerInterval': 'QD'
+            'times': 1,
+            'intervalUnit': 'day'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -97,7 +100,7 @@ describe('Create treatment controller tests', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Request creation with invalid dosingFreqPerInterval (should fail)', () => admin
+    test('Request creation with large number for times (should fail)', () => admin
         .post('/treatments')
         .send({
             'visitId': 1,
@@ -105,7 +108,80 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'OR',
-            'dosingFreqPerInterval': 9
+            'times': 9999,
+            'intervalUnit': 'day'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Request creation with negative times (should fail)', () => admin
+        .post('/treatments')
+        .send({
+            'visitId': 1,
+            'drugId': 1,
+            'dose': 3,
+            'unit': 'cc',
+            'form': 'OR',
+            'times': -9,
+            'intervalUnit': 'day'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Request creation with invalid intervalUnit (should fail)', () => admin
+        .post('/treatments')
+        .send({
+            'visitId': 1,
+            'drugId': 1,
+            'dose': 3,
+            'unit': 'cc',
+            'form': 'OR',
+            'times': 2,
+            'intervalUnit': 'WRONG'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Request creation with valid times but no intervalUnit (should fail)', () => admin
+        .post('/treatments')
+        .send({
+            'visitId': 1,
+            'drugId': 1,
+            'dose': 3,
+            'unit': 'cc',
+            'form': 'OR',
+            'times': 1,
+            'intervalUnit': null
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Request creation with valid intervalUnit but no times (should fail)', () => admin
+        .post('/treatments')
+        .send({
+            'visitId': 1,
+            'drugId': 1,
+            'dose': 3,
+            'unit': 'cc',
+            'form': 'OR',
+            'times': null,
+            'intervalUnit': 'year'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -122,7 +198,8 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'OR',
-            'dosingFreqPerInterval': 'QD'
+            'times': 4,
+            'intervalUnit': 'year'
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -139,7 +216,8 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'OR',
-            'dosingFreqPerInterval': 'QD'
+            'times': 4,
+            'intervalUnit': 'year'
         })
         .then(res => {
             expect(res.status).toBe(400);
