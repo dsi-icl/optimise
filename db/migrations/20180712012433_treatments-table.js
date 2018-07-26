@@ -8,6 +8,7 @@ exports.up = function (knex) {
         table.text('form').notNullable();
         table.text('times').nullable();
         table.text('intervalUnit').nullable();
+        table.text('startDate').notNullable();
         table.text('terminatedDate').nullable();
         table.integer('terminatedReason').nullable().references('id').inTable('REASONS');
         table.text('createdTime').notNullable().defaultTo(knex.fn.now());
