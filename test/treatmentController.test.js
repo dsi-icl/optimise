@@ -55,7 +55,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'cc',
             'form': 'OR',
             'times': 1,
-            'intervalUnit': 'day'
+            'intervalUnit': 'day',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -109,7 +110,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'WRONG',
             'form': 'OR',
             'times': 1,
-            'intervalUnit': 'day'
+            'intervalUnit': 'day',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -127,7 +129,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'cc',
             'form': 'WRONG',
             'times': 1,
-            'intervalUnit': 'day'
+            'intervalUnit': 'day',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -145,7 +148,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'cc',
             'form': 'OR',
             'times': 9999,
-            'intervalUnit': 'day'
+            'intervalUnit': 'day',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -163,7 +167,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'cc',
             'form': 'OR',
             'times': -9,
-            'intervalUnit': 'day'
+            'intervalUnit': 'day',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -181,7 +186,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'cc',
             'form': 'OR',
             'times': 2,
-            'intervalUnit': 'WRONG'
+            'intervalUnit': 'WRONG',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -199,7 +205,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'cc',
             'form': 'OR',
             'times': 1,
-            'intervalUnit': null
+            'intervalUnit': null,
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -217,7 +224,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'cc',
             'form': 'OR',
             'times': null,
-            'intervalUnit': 'year'
+            'intervalUnit': 'year',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -226,7 +234,7 @@ describe('Create treatment controller tests', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Request creation with good body (should success)', () => admin
+    test('Request creation with no start date (should fail)', () => admin
         .post('/treatments')
         .send({
             'visitId': 1,
@@ -236,6 +244,25 @@ describe('Create treatment controller tests', () => {
             'form': 'OR',
             'times': 4,
             'intervalUnit': 'year'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        }));
+
+    test('Request creation with good body (should succeed)', () => admin
+        .post('/treatments')
+        .send({
+            'visitId': 1,
+            'drugId': 3,
+            'dose': 3,
+            'unit': 'cc',
+            'form': 'OR',
+            'times': 4,
+            'intervalUnit': 'year',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -253,7 +280,8 @@ describe('Create treatment controller tests', () => {
             'unit': 'cc',
             'form': 'OR',
             'times': 4,
-            'intervalUnit': 'year'
+            'intervalUnit': 'year',
+            'startDate': '3 Mar 2018'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -304,7 +332,7 @@ describe('Create treatment interruption controller tests', () => {
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
-    test('Request treatment interuption with good body (should success)', () => admin
+    test('Request treatment interuption with good body (should succeed)', () => admin
         .post('/treatments/interrupt')
         .send({
             'treatmentId': 1,
@@ -350,7 +378,7 @@ describe('Delete treatment interruption controller tests', () => {
             expect(res.body.state).toBe(0);
         }));
 
-    test('Request deletion treatment interrupt with good id (should success)', () => admin
+    test('Request deletion treatment interrupt with good id (should succeed)', () => admin
         .delete('/treatments/interrupt')
         .send({ 'treatmentInterId': 1 })
         .then(res => {
@@ -402,7 +430,7 @@ describe('Delete treatment controller tests', () => {
             expect(res.body.state).toBe(0);
         }));
 
-    test('Request deletion treatment with good ID (should success)', () => admin
+    test('Request deletion treatment with good ID (should succeed)', () => admin
         .delete('/treatments')
         .send({ 'treatmentId': 1 })
         .then(res => {
