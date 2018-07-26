@@ -1185,21 +1185,6 @@ const availableFields = {
         },
         {
             id: 80,
-            definition: 'Expanded Disability Status Scale (EDSS) Total Calculated',
-            idname: 'Expanded_Disability_Status_Scale_EDSS_total_calculated',
-            section: 4,
-            subsection: 'QS',
-            type: 3,
-            unit: null,
-            module: 'MS',
-            permittedValues: '0,1,2,3,4,5,6,7,8,9,10',
-            labels: null,
-            referenceType: 1,
-            laterality: null,
-            cdiscName: null
-        },
-        {
-            id: 81,
             definition: 'Expanded Disability Status Scale (EDSS) Pyramidal',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Pyramidal',
             section: 4,
@@ -1220,7 +1205,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 82,
+            id: 81,
             definition: 'Expanded Disability Status Scale (EDSS) Cerebellar',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Cerebellar',
             section: 4,
@@ -1240,7 +1225,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 83,
+            id: 82,
             definition: 'Expanded Disability Status Scale (EDSS) Brain Stem',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Brain_Stem',
             section: 4,
@@ -1260,7 +1245,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 84,
+            id: 83,
             definition: 'Expanded Disability Status Scale (EDSS) Sensory',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Sensory',
             section: 4,
@@ -1281,7 +1266,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 85,
+            id: 84,
             definition: 'Expanded Disability Status Scale (EDSS) Bowel Bladder',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Bladder',
             section: 4,
@@ -1302,7 +1287,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 86,
+            id: 85,
             definition: 'Expanded Disability Status Scale (EDSS) Visual',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Visual',
             section: 4,
@@ -1318,12 +1303,13 @@ const availableFields = {
                 + 'Worse eye with maximal visual acuity (corrected) of 6/36 to 6/60. Or grade three plus maximal acuity of better eye of 6/18 or less,'
                 + 'Worse eye with maximal visual acuity (corrected) of 6/60. Or grade four plus maximal visual acuity of better eye of 6/18 or less,'
                 + 'Grade 5 plus maximal visual acuity of better eye worse then 6/18',
+
             referenceType: 1,
             laterality: null,
             cdiscName: null
         },
         {
-            id: 87,
+            id: 86,
             definition: 'Expanded Disability Status Scale (EDSS) Mental',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Mental',
             section: 4,
@@ -1338,12 +1324,13 @@ const availableFields = {
                 + 'Moderate decrease in mentation,'
                 + 'Marked decrease in mentation (chronic brain syndrome - moderate),'
                 + 'Dementia or chronic brain syndrome - severe or incompetent',
+
             referenceType: 1,
             laterality: null,
             cdiscName: null
         },
         {
-            id: 88,
+            id: 87,
             definition: 'Expanded Disability Status Scale (EDSS) Ambulation',
             idname: 'Expanded_Disability_Status_Scale_EDSS_Ambulation',
             section: 4,
@@ -1370,7 +1357,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 89,
+            id: 88,
             definition: 'EDMUS',
             idname: 'EDMUS',
             section: 4,
@@ -1396,7 +1383,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 90,
+            id: 89,
             definition: '25 feet walk test:trial n°1',
             idname: '25_feet_walk_test_first_try',
             section: 4,
@@ -1411,7 +1398,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 91,
+            id: 90,
             definition: '25 feet walk test:trial n°2',
             idname: '25_feet_walk_test_second_try',
             section: 4,
@@ -1426,7 +1413,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 92,
+            id: 91,
             definition: 'Nine hole peg test:left:trial n°1',
             idname: 'Nine_hole_peg_test:_left:_first_try',
             section: 4,
@@ -1441,7 +1428,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 93,
+            id: 92,
             definition: 'Nine hole peg test:left:trial n°2',
             idname: 'Nine_hole_peg_test:_left:_second_try',
             section: 4,
@@ -1456,7 +1443,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 94,
+            id: 93,
             definition: 'Nine hole peg test:right:trial n°1',
             idname: 'Nine_hole_peg_test:_right:_first_try',
             section: 4,
@@ -1471,7 +1458,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 95,
+            id: 94,
             definition: 'Nine hole peg test:right:trial n°2',
             idname: 'Nine_hole_peg_test:_right:_second_try',
             section: 4,
@@ -1486,7 +1473,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 96,
+            id: 95,
             definition: 'Low contrast letter acuity:left ',
             idname: 'Low_contrast_letter_acuity:_left_',
             section: 4,
@@ -1501,7 +1488,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 97,
+            id: 96,
             definition: 'Low contrast letter acuity:right',
             idname: 'Low_contrast_letter_acuity:_right',
             section: 4,
@@ -1516,7 +1503,7 @@ const availableFields = {
             cdiscName: null
         },
         {
-            id: 98,
+            id: 97,
             definition: 'Symbol Digit Modality Test',
             idname: 'symbol_digit_modality_test',
             section: 4,
