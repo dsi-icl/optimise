@@ -173,7 +173,7 @@ class ExportDataController {
         /* Patient visit data */
 
         knex('VISIT_DATA')
-            .select('VISIT_DATA.value', 'VISIT_DATA.field', 'VISITS.visitDate', 'AVAILABLE_FIELDS_VISITS.definition', 'PATIENTS.uuid', 'VISITS.patient')
+            .select('VISIT_DATA.value', 'VISIT_DATA.field', 'VISITS.visitDate', 'VISITS.communication', 'AVAILABLE_FIELDS_VISITS.definition', 'PATIENTS.uuid', 'VISITS.patient')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')

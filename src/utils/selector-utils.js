@@ -5,7 +5,7 @@ const DiagnosisCore = require('../core/patientDiagnosis');
 class SelectorUtils {
     getVisitsWithoutData(patientId) {
         return knex('VISITS')
-            .select({ visitId: 'id', visitDate: 'visitDate', type: 'type' })
+            .select({ visitId: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication' })
             .where({ 'patient': patientId, deleted: '-' })
             .then(result => {
                 const returnObj = { visitsWithoutData: result };
@@ -63,7 +63,7 @@ class SelectorUtils {
     getVisits(patientId) {
         const _this = this;
         return knex('VISITS')
-            .select({ id: 'id', visitDate: 'visitDate', type: 'type' })
+            .select({ id: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication' })
             .where({ 'patient': patientId, 'deleted': '-' })
             .then(result => {
                 if (result.length >= 1) {
