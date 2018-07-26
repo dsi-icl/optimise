@@ -6,7 +6,7 @@ import style_scaffold from '../scaffold/scaffold.module.css';
 import style from './edss.module.css';
 import { clearEDSSCalc } from '../../redux/actions/edss';
 import { addError } from '../../redux/actions/error'
-
+import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 
 @connect(state => ({
     edssCalc: state.edssCalc,
@@ -14,52 +14,62 @@ import { addError } from '../../redux/actions/error'
     patientProfile: state.patientProfile.data,
     sections : state.availableFields.visitSections
 }))
-export class EDSSCalculator extends Component {
+export default class EDSSCalculator extends Component {
     constructor() {
         super();
         this.state = { autoCalculatedScore: 0, redirect: false };
         this._handleClick = this._handleClick.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
-        this._handleCancel = this._handleCancel.bind(this);
     }
 
     componentDidMount() {    //this basically adds the originalValues and EDSSFields
         const { visitFields, sections, patientProfile, match } = this.props;
         const { params } = match;
-        const sectionId = sections.filter(el => el.name === 'Performance Measures')[0].id;
-        const EDSSFields = visitFields.filter(el => el.section === sectionId);
+        const EDSSFields = visitFields.filter(el => el.subsection === 'EDSS');
         if (EDSSFields.length !== 9){
             store.dispatch(addError({ error: 'EDSS should have 9 entries in the database! please contact your admin' }));
             this.setState({ redirect: true });
         }
         this.EDSSFields = EDSSFields;    //the 9 fields of edss
+        this.EDSSFields_Hash = EDSSFields.reduce((a, el) => { a[el.id] = el.idname; return a; }, {});
+        this.EDSSFields_Hash_reverse = EDSSFields.reduce((a, el) => { a[el.idname] = el.id; return a; }, {});
+        // console.log(this.EDSSFields, this.EDSSFields_Hash, this.EDSSFields_Hash_reverse);
         const edssFieldsId = EDSSFields.map(el => el.id);
         const visitsFiltered = patientProfile.visits.filter(el => el.id === parseInt(params.visitId));
         if (visitsFiltered.length !== 1) {
             store.dispatch(addError({ error: 'Cannot find your visit' }));
             this.setState({ redirect: true });
         }
+        const ambulationID = this.EDSSFields_Hash_reverse.Expanded_Disability_Status_Scale_EDSS_Ambulation;
         const data = visitsFiltered[0].data;
+        let orignalValuesWithoutAmbulation = [];
+        let ambulation;
         if (data) {
-            this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = el.value; return a; }, {});
+            this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseInt(el.value); return a; }, {});
+            const tmpValues = {...this.originalValues};
+            if (tmpValues[ambulationID]) {
+                ambulation = parseInt(tmpValues[ambulationID]);
+                delete tmpValues[ambulationID];
+            }
+            orignalValuesWithoutAmbulation = Object.values(tmpValues);
         } else {
             this.originalValues = {};
         }
-    }
-
-    _handleCancel(){
-        store.dispatch(clearEDSSCalc());
+        console.log(this.originalValues);
+        console.log('AMBULATION', ambulation);
+        this.setState({ autoCalculatedScore: edssAlgorithm(orignalValuesWithoutAmbulation, ambulation) });
+        this.forceUpdate();
     }
 
     _handleClick(ev) {
         ev.target.nextSibling.checked = true;
         const value = ev.target.nextSibling.value;
         const radioGroup = ev.target.parentElement.parentElement.children;
-        console.log(radioGroup);
+        // console.log(radioGroup);
         for (let i = 0; i < radioGroup.length; i++) {
             let button = radioGroup[i].children[0];
             let buttonvalue = button.value;  //value of the button; children[0] is <button> and [1] is <input>
-            console.log(button, buttonvalue);
+            // console.log(button, buttonvalue);
             if (value === buttonvalue) {
                 button.classList.add(style.radioClicked);
             } else {
@@ -71,28 +81,62 @@ export class EDSSCalculator extends Component {
             }
         }
         /* auto calculate the score */
-        if (!document.querySelector('input[name="Ambulation"]:checked')) {
+        if (!document.querySelector('input[name="Expanded_Disability_Status_Scale_EDSS_Ambulation"]:checked')) {
             this.setState({ autoCalculatedScore: 'Ambulation score must be provided.' });
             return;
         }
-        const criteria = ['Pyramidal', 'Cerebellar', 'Brain stem', 'Sensory', 'Bowel bladder', 'Visual', 'Mental'];
+        const criteria = [
+            'Expanded_Disability_Status_Scale_EDSS_Pyramidal',
+            'Expanded_Disability_Status_Scale_EDSS_Cerebellar',
+            'Expanded_Disability_Status_Scale_EDSS_Brain_Stem',
+            'Expanded_Disability_Status_Scale_EDSS_Sensory',
+            'Expanded_Disability_Status_Scale_EDSS_Bowel_Bladder',
+            'Expanded_Disability_Status_Scale_EDSS_Bowel_Visual',
+            'Expanded_Disability_Status_Scale_EDSS_Mental'
+        ];
         let scoreArr = [];
         for (let each of criteria) {
             if (document.querySelector(`input[name="${each}"]:checked`)) {
                 scoreArr.push(parseInt(document.querySelector(`input[name="${each}"]:checked`).value));
             }
         }
-        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseInt(document.querySelector('input[name="Ambulation"]:checked').value)) });
+        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseInt(document.querySelector('input[name="Expanded_Disability_Status_Scale_EDSS_Ambulation"]:checked').value)) });
     }
 
     _handleSubmit(ev) {
         ev.preventDefault();
-        const criteria = ['Pyramidal', 'Cerebellar', 'Brain stem', 'Sensory', 'Bowel bladder', 'Visual', 'Mental', 'Ambulation'];
-
+        const criteria = [
+            'Expanded_Disability_Status_Scale_EDSS_Pyramidal',
+            'Expanded_Disability_Status_Scale_EDSS_Cerebellar',
+            'Expanded_Disability_Status_Scale_EDSS_Brain_Stem',
+            'Expanded_Disability_Status_Scale_EDSS_Sensory',
+            'Expanded_Disability_Status_Scale_EDSS_Bowel_Bladder',
+            'Expanded_Disability_Status_Scale_EDSS_Bowel_Visual',
+            'Expanded_Disability_Status_Scale_EDSS_Mental',
+            'Expanded_Disability_Status_Scale_EDSS_Ambulation'
+        ];
+        const add = {};
+        const update = {};
+        for (let each of criteria) {
+            if (document.querySelector(`input[name="${each}"]:checked`)) {    //if anything is checked
+                if (this.originalValues[this.EDSSFields_Hash_reverse[each]]) {  //if there's original value
+                    if (this.originalValues[this.EDSSFields_Hash_reverse[each]] !==  document.querySelector(`input[name="${each}"]:checked`).value) {
+                        update[this.EDSSFields_Hash_reverse[each]] = document.querySelector(`input[name="${each}"]:checked`).value;
+                    }
+                } else {
+                    add[this.EDSSFields_Hash_reverse[each]] = document.querySelector(`input[name="${each}"]:checked`).value;
+                }
+            }
+        }
+        const body = { data: {add, update, visitId: this.props.match.params.visitId }, patientId: this.props.match.params.patientId, type: 'visit'};
+        console.log(body);
+        store.dispatch(alterDataCall(body));
     }
 
     render() {
+        if (!this.originalValues || !this.EDSSFields_Hash_reverse) return null;
         const { params } = this.props.match;
+        const { EDSSFields_Hash_reverse, originalValues } = this;
         const rangeGen = ceiling => [...Array(ceiling).keys()];  //returns [0,1,2,3,...,*ceiling_inclusive*]
         const range_pyramidal = rangeGen(6);
         const range_cerebellar = rangeGen(5);
@@ -103,14 +147,14 @@ export class EDSSCalculator extends Component {
         const range_mental = rangeGen(5);
         const range_ambulation = rangeGen(12);
         const criteria = [
-            { name: 'Pyramidal', range: range_pyramidal },
-            { name: 'Cerebellar', range: range_cerebellar },
-            { name: 'Brain stem', range: range_brainstem },
-            { name: 'Sensory', range: range_sensory },
-            { name: 'Bowel bladder', range: range_bowelbladder },
-            { name: 'Visual', range: range_visual },
-            { name: 'Mental', range: range_mental },
-            { name: 'Ambulation', range: range_ambulation }
+            { name: 'Pyramidal', idname: 'Expanded_Disability_Status_Scale_EDSS_Pyramidal', range: range_pyramidal },
+            { name: 'Cerebellar', idname: 'Expanded_Disability_Status_Scale_EDSS_Cerebellar', range: range_cerebellar },
+            { name: 'Brain stem', idname: 'Expanded_Disability_Status_Scale_EDSS_Brain_Stem', range: range_brainstem },
+            { name: 'Sensory', idname: 'Expanded_Disability_Status_Scale_EDSS_Sensory', range: range_sensory },
+            { name: 'Bowel bladder', idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Bladder', range: range_bowelbladder },
+            { name: 'Visual', idname: 'Expanded_Disability_Status_Scale_EDSS_Bowel_Visual', range: range_visual },
+            { name: 'Mental', idname: 'Expanded_Disability_Status_Scale_EDSS_Mental', range: range_mental },
+            { name: 'Ambulation', idname: 'Expanded_Disability_Status_Scale_EDSS_Ambulation', range: range_ambulation }
         ];
         return (
             <div className={style_scaffold.errorMessage}>
@@ -127,21 +171,21 @@ export class EDSSCalculator extends Component {
                                     <div>
                                         {el.range.map(number =>
                                             <span key={number} className={style.radioButtonWrapper}>
-                                                <button
-                                                    className={style.radioButton}
+                                                <button type='button'
+                                                    className={originalValues[EDSSFields_Hash_reverse[el.idname]] && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton }
                                                     onClick={this._handleClick}
                                                     value={number}
                                                 >{number}</button>
-                                                <input type='radio' name={el.name} value={number} />
+                                                <input type='radio' name={el.idname} value={number} defaultChecked={originalValues[EDSSFields_Hash_reverse[el.idname]] && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false }/>
                                             </span>
                                         )}
                                     </div>
                                 </div>
                             )}
                             <br/>
-                            <span><b>Suggested score for reference: </b></span> <input type='text' value={this.state.autoCalculatedScore}/>
+                            <span><b>Suggested score for reference: </b></span> <input type='text' value={this.state.autoCalculatedScore} readOnly/>
                             <br/><br/>
-                            <span><b>Free input score: </b></span> <input type='text'/>
+                            <span><b>Free input score: </b></span> <input name='Expanded_Disability_Status_Scale_EDSS_total' type='text'/>
                             <br/><br/>
                             <input type='submit' value='Save'/>
                         </form>
