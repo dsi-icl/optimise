@@ -29,16 +29,14 @@
     font-size: 12px;
     color: white;
     cursor: pointer;
-    background: #2196f3;
-    border: 1px solid #1a6fb3;
     z-index: 80;
 }
 
-.react-calendar-timeline .rct-item.selected {
+/* .react-calendar-timeline .rct-item.selected {
     background: #ffc107;
     border: 1px solid #ff9800;
     z-index: 82;
-}
+} */
 
 .react-calendar-timeline .rct-item.selected.can-move {
     cursor: move;
@@ -89,14 +87,14 @@
 }
 
 .react-calendar-timeline .rct-item .rct-item-content {
-    position: sticky;
+    /* position: sticky;
     position: -webkit-sticky;
     left: 0px;
     overflow: hidden;
     display: inline-block;
     border-radius: 2px;
     left: 0;
-    padding: 0 6px;
+    padding: 0 6px; */
     height: 100%;
 }
 
@@ -129,8 +127,7 @@
     text-align: center;
     cursor: pointer;
     border-left: 2px solid #ddd;
-    color: #ffffff;
-    background: hsl(var(--color-shade-two-h), var(--color-shade-two-s), var(--color-shade-two-l));
+    background: hsl(var(--color-background-h), var(--color-background-s), 97%);
     border-bottom: 1px solid #ddd;
     cursor: pointer;
 }
@@ -225,7 +222,7 @@
 
 .react-calendar-timeline .rct-vertical-lines .rct-vl.rct-day-6,
 .react-calendar-timeline .rct-vertical-lines .rct-vl.rct-day-0 {
-    background: rgba(250, 246, 225, 0.5);
+    background: rgba(225, 241, 250, 0.5);
 }
 
 .react-calendar-timeline .rct-horizontal-lines .rct-hl-even,
@@ -253,7 +250,6 @@
 .react-calendar-timeline .rct-cursor-line {
     position: absolute;
     width: 2px;
-    background: #2196f3;
     z-index: 51;
 }
 
