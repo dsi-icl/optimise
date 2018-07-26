@@ -1,5 +1,6 @@
 const availableFields = {
-    visitFields: [ { id: 1,
+    visitFields: [{
+        id: 1,
         definition: 'Systolic Blood Pressure',
         idname: 'systolic blood pressure',
         section: 1,
@@ -11,8 +12,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: 'SYSBP' },
-      { id: 2,
+        cdiscName: 'SYSBP'
+    },
+    {
+        id: 2,
         definition: 'Heart Rate',
         idname: 'heart rate',
         section: 1,
@@ -24,8 +27,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: 'PULSE' },
-      { id: 3,
+        cdiscName: 'PULSE'
+    },
+    {
+        id: 3,
         definition: 'Diastolic Blood Pressure',
         idname: 'diastolic blood pressure',
         section: 1,
@@ -37,8 +42,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: 'DIABP' },
-      { id: 4,
+        cdiscName: 'DIABP'
+    },
+    {
+        id: 4,
         definition: 'Height',
         idname: 'height',
         section: 1,
@@ -50,8 +57,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: 'HEIGHT' },
-      { id: 5,
+        cdiscName: 'HEIGHT'
+    },
+    {
+        id: 5,
         definition: 'Weight',
         idname: 'weight',
         section: 1,
@@ -63,8 +72,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: 'WEIGHT' },
-      { id: 6,
+        cdiscName: 'WEIGHT'
+    },
+    {
+        id: 6,
         definition: 'Percent School Attendance',
         idname: 'percent school attendance',
         section: 1,
@@ -76,8 +87,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 7,
+        cdiscName: null
+    },
+    {
+        id: 7,
         definition: 'Cognitive problems',
         idname: 'cognitive functions:higher function problem: cognitive problems',
         section: 2,
@@ -89,8 +102,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 8,
+        cdiscName: null
+    },
+    {
+        id: 8,
         definition: 'Emotional Lability',
         idname: 'cognitive functions:higher function problem: emotional lability',
         section: 2,
@@ -102,8 +117,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 9,
+        cdiscName: null
+    },
+    {
+        id: 9,
         definition: 'Depression',
         idname: 'cognitive functions:higher function problem: depression',
         section: 2,
@@ -115,8 +132,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 10,
+        cdiscName: null
+    },
+    {
+        id: 10,
         definition: 'Fatigue',
         idname: 'cognitive functions:higher function problem: fatigue',
         section: 2,
@@ -128,8 +147,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 11,
+        cdiscName: null
+    },
+    {
+        id: 11,
         definition: 'Seizure',
         idname: 'cognitive functions:higher function problem: seizure',
         section: 2,
@@ -141,8 +162,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 12,
+        cdiscName: null
+    },
+    {
+        id: 12,
         definition: 'Oscillopsia',
         idname: 'cranial nerves:oscillopsia',
         section: 2,
@@ -154,8 +177,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 13,
+        cdiscName: null
+    },
+    {
+        id: 13,
         definition: 'Vertigo',
         idname: 'cranial nerves:vertigo',
         section: 2,
@@ -167,8 +192,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 14,
+        cdiscName: null
+    },
+    {
+        id: 14,
         definition: 'Blurred Vision',
         idname: 'cranial nerves:blurred vision',
         section: 2,
@@ -180,8 +207,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 15,
+        cdiscName: null
+    },
+    {
+        id: 15,
         definition: 'Double Vision',
         idname: 'cranial nerves:double vision',
         section: 2,
@@ -193,8 +222,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 16,
+        cdiscName: null
+    },
+    {
+        id: 16,
         definition: 'Uncontrolled Eye Movements',
         idname: 'cranial nerves:uncontrolled eye movements',
         section: 2,
@@ -206,8 +237,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 17,
+        cdiscName: null
+    },
+    {
+        id: 17,
         definition: 'Dysphagia',
         idname: 'cranial nerves:dysphagia',
         section: 2,
@@ -219,8 +252,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 18,
+        cdiscName: null
+    },
+    {
+        id: 18,
         definition: 'Facial Weakness',
         idname: 'cranial nerves:facial weakness',
         section: 2,
@@ -232,8 +267,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 19,
+        cdiscName: null
+    },
+    {
+        id: 19,
         definition: 'Greying of vision in one eye',
         idname: 'cranial nerves:greying of vision in one eye',
         section: 2,
@@ -245,8 +282,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 20,
+        cdiscName: null
+    },
+    {
+        id: 20,
         definition: 'Blindness in one eye',
         idname: 'cranial nerves:blindness in one eye',
         section: 2,
@@ -258,8 +297,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 21,
+        cdiscName: null
+    },
+    {
+        id: 21,
         definition: 'Facial Pain',
         idname: 'cranial nerves:facial pain',
         section: 2,
@@ -271,8 +312,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 22,
+        cdiscName: null
+    },
+    {
+        id: 22,
         definition: 'Field defect / Scotoma',
         idname: 'cranial nerves:field defect / scotoma',
         section: 2,
@@ -284,8 +327,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 23,
+        cdiscName: null
+    },
+    {
+        id: 23,
         definition: 'Facial Hypoesthesia',
         idname: 'cranial nerves:facial hypoesthesia',
         section: 2,
@@ -297,8 +342,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 24,
+        cdiscName: null
+    },
+    {
+        id: 24,
         definition: 'Difficulty walking',
         idname: 'motor:difficulty walking',
         section: 2,
@@ -310,8 +357,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 25,
+        cdiscName: null
+    },
+    {
+        id: 25,
         definition: 'Weakness upper limbs',
         idname: 'Motor:weakness:upper limbs',
         section: 2,
@@ -323,8 +372,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 26,
+        cdiscName: null
+    },
+    {
+        id: 26,
         definition: 'weakness lower limbs',
         idname: 'Motor:weakness:lower limbs',
         section: 2,
@@ -336,8 +387,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 28,
+        cdiscName: null
+    },
+    {
+        id: 28,
         definition: 'Lhermitte\'s sign',
         idname: 'somatosensory:lhermitte\'s sign',
         section: 2,
@@ -349,8 +402,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 29,
+        cdiscName: null
+    },
+    {
+        id: 29,
         definition: 'Heat intolerance',
         idname: 'somatosensory:heat intolerance',
         section: 2,
@@ -362,8 +417,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 30,
+        cdiscName: null
+    },
+    {
+        id: 30,
         definition: 'Pain',
         idname: 'somatosensory:pain',
         section: 2,
@@ -375,8 +432,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 31,
+        cdiscName: null
+    },
+    {
+        id: 31,
         definition: 'Paresthesia',
         idname: 'somatosensory:paresthesia',
         section: 2,
@@ -388,8 +447,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 32,
+        cdiscName: null
+    },
+    {
+        id: 32,
         definition: 'Dysesthesia',
         idname: 'somatosensory:dysesthesia',
         section: 2,
@@ -401,8 +462,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 33,
+        cdiscName: null
+    },
+    {
+        id: 33,
         definition: 'Anesthesia',
         idname: 'somatosensory:anesthesia',
         section: 2,
@@ -414,8 +477,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 34,
+        cdiscName: null
+    },
+    {
+        id: 34,
         definition: 'Pruritus',
         idname: 'somatosensory:pruritus',
         section: 2,
@@ -427,8 +492,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 35,
+        cdiscName: null
+    },
+    {
+        id: 35,
         definition: 'Bladder urgency',
         idname: 'autonomic:bladde urgency',
         section: 2,
@@ -440,8 +507,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 36,
+        cdiscName: null
+    },
+    {
+        id: 36,
         definition: 'Bladder frequency',
         idname: 'autonomic:bladder frequency',
         section: 2,
@@ -453,8 +522,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 37,
+        cdiscName: null
+    },
+    {
+        id: 37,
         definition: 'Bladder incontinence',
         idname: 'autonomic:bladder incontinence',
         section: 2,
@@ -466,8 +537,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 38,
+        cdiscName: null
+    },
+    {
+        id: 38,
         definition: 'Bladder hesitancy',
         idname: 'autonomic:bladder hesitancy',
         section: 2,
@@ -479,8 +552,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 39,
+        cdiscName: null
+    },
+    {
+        id: 39,
         definition: 'Constipation',
         idname: 'autonomic:constipation',
         section: 2,
@@ -492,8 +567,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 40,
+        cdiscName: null
+    },
+    {
+        id: 40,
         definition: 'Bowel incontinence',
         idname: 'autonomic:bowel incontinence',
         section: 2,
@@ -505,8 +582,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 41,
+        cdiscName: null
+    },
+    {
+        id: 41,
         definition: 'Problems with sexual function',
         idname: 'autonomic:problems with sexual function',
         section: 2,
@@ -518,8 +597,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 42,
+        cdiscName: null
+    },
+    {
+        id: 42,
         definition: 'Information processing speed',
         idname: 'cognitive functions:higher function problem: information processing speed',
         section: 3,
@@ -531,8 +612,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 43,
+        cdiscName: null
+    },
+    {
+        id: 43,
         definition: 'Executive functions',
         idname: 'cognitive functions:higher function problem: executive functions',
         section: 3,
@@ -544,8 +627,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 44,
+        cdiscName: null
+    },
+    {
+        id: 44,
         definition: 'Memory',
         idname: 'cognitive functions:higher function problem:memory',
         section: 3,
@@ -557,8 +642,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 45,
+        cdiscName: null
+    },
+    {
+        id: 45,
         definition: 'Verbal fluency',
         idname: 'cognitive functions:higher function problem:verbal fluency',
         section: 3,
@@ -570,8 +657,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 46,
+        cdiscName: null
+    },
+    {
+        id: 46,
         definition: 'Seizure',
         idname: 'cognitive functions:higher function problem:seizure',
         section: 3,
@@ -583,8 +672,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 47,
+        cdiscName: null
+    },
+    {
+        id: 47,
         definition: 'Nystagmus',
         idname: 'cranial nerves:nystagmus',
         section: 3,
@@ -596,8 +687,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 48,
+        cdiscName: null
+    },
+    {
+        id: 48,
         definition: 'Red desaturation',
         idname: 'cranial nerves:red desaturation',
         section: 3,
@@ -609,8 +702,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 49,
+        cdiscName: null
+    },
+    {
+        id: 49,
         definition: 'Sixth nerve palsy',
         idname: 'cranial nerves:sixth nerve palsy',
         section: 3,
@@ -622,8 +717,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-      { id: 50,
+        cdiscName: null
+    },
+    {
+        id: 50,
         definition: 'Third nerve palsy',
         idname: 'cranial nerves:third nerve palsy',
         section: 3,
@@ -635,8 +732,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-    { id: 51,
+        cdiscName: null
+    },
+    {
+        id: 51,
         definition: 'Trigeminal neuralgia',
         idname: 'cranial nerves:trigeminal neuralgia',
         section: 3,
@@ -648,8 +747,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 52,
+        cdiscName: null
+    },
+    {
+        id: 52,
         definition: 'Trigeninal palsy',
         idname: 'cranial nerves:trigeninal palsy',
         section: 3,
@@ -661,8 +762,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 53,
+        cdiscName: null
+    },
+    {
+        id: 53,
         definition: 'Fourth nerve palsy',
         idname: 'cranial nerves:fourth nerve palsy',
         section: 3,
@@ -674,8 +777,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 54,
+        cdiscName: null
+    },
+    {
+        id: 54,
         definition: 'Facial hypoesthesia',
         idname: 'cranial nerves:facial hypoesthesia',
         section: 3,
@@ -687,8 +792,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 55,
+        cdiscName: null
+    },
+    {
+        id: 55,
         definition: 'Hearing loss',
         idname: 'cranial nerves:hearing loss',
         section: 3,
@@ -700,8 +807,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 56,
+        cdiscName: null
+    },
+    {
+        id: 56,
         definition: '',
         idname: 'motor:tremor postural:upper limbs',
         section: 3,
@@ -713,8 +822,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 57,
+        cdiscName: null
+    },
+    {
+        id: 57,
         definition: 'upper limbs',
         idname: 'motor:tremor intention:upper limbs',
         section: 3,
@@ -726,8 +837,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 58,
+        cdiscName: null
+    },
+    {
+        id: 58,
         definition: 'upper limbs',
         idname: 'motor:spasticity:upper limbs',
         section: 3,
@@ -739,8 +852,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 59,
+        cdiscName: null
+    },
+    {
+        id: 59,
         definition: 'lower limbs',
         idname: 'motor:spasticity:lower limbs',
         section: 3,
@@ -752,8 +867,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 60,
+        cdiscName: null
+    },
+    {
+        id: 60,
         definition: 'right',
         idname: 'motor:tendon reflexes:hyperreflexia:biceps:right',
         section: 3,
@@ -765,8 +882,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 61,
+        cdiscName: null
+    },
+    {
+        id: 61,
         definition: 'left',
         idname: 'motor:tendon reflexes:hyperreflexia:biceps:left',
         section: 3,
@@ -778,8 +897,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 62,
+        cdiscName: null
+    },
+    {
+        id: 62,
         definition: 'right',
         idname: 'motor:tendon reflexes:hyperreflexia:patella:right',
         section: 3,
@@ -791,8 +912,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 63,
+        cdiscName: null
+    },
+    {
+        id: 63,
         definition: 'left',
         idname: 'motor:tendon reflexes:hyperreflexia:patella:left',
         section: 3,
@@ -804,8 +927,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 64,
+        cdiscName: null
+    },
+    {
+        id: 64,
         definition: 'right',
         idname: 'motor:tendon reflexes:hyperreflexia:ankle:right',
         section: 3,
@@ -817,8 +942,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 65,
+        cdiscName: null
+    },
+    {
+        id: 65,
         definition: 'left',
         idname: 'motor:tendon reflexes:hyperreflexia:ankle:left',
         section: 3,
@@ -830,8 +957,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 66,
+        cdiscName: null
+    },
+    {
+        id: 66,
         definition: 'right',
         idname: 'motor:tendon reflexes:hyporeflexia:biceps:right',
         section: 3,
@@ -843,8 +972,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 67,
+        cdiscName: null
+    },
+    {
+        id: 67,
         definition: 'left',
         idname: 'motor:tendon reflexes:hyporeflexia:biceps:left',
         section: 3,
@@ -856,8 +987,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 68,
+        cdiscName: null
+    },
+    {
+        id: 68,
         definition: 'right',
         idname: 'motor:tendon reflexes:hyporeflexia:patella:right',
         section: 3,
@@ -869,8 +1002,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 69,
+        cdiscName: null
+    },
+    {
+        id: 69,
         definition: 'left',
         idname: 'motor:tendon reflexes:hyporeflexia:patella:left',
         section: 3,
@@ -882,8 +1017,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 70,
+        cdiscName: null
+    },
+    {
+        id: 70,
         definition: 'right',
         idname: 'motor:tendon reflexes:hyporeflexia:ankle:right',
         section: 3,
@@ -895,8 +1032,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 71,
+        cdiscName: null
+    },
+    {
+        id: 71,
         definition: 'left',
         idname: 'motor:tendon reflexes:hyporeflexia:ankle:left',
         section: 3,
@@ -908,8 +1047,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 72,
+        cdiscName: null
+    },
+    {
+        id: 72,
         definition: 'right',
         idname: 'motor:tendon reflexes:plantar response:right',
         section: 3,
@@ -921,8 +1062,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 73,
+        cdiscName: null
+    },
+    {
+        id: 73,
         definition: 'left',
         idname: 'motor:tendon reflexes:plantar response:left',
         section: 3,
@@ -932,8 +1075,10 @@ const availableFields = {
         module: 'MS',
         permittedValues: 'NORMAL,ABNORMAL,UNKNOWN',
         labels: null,
-        referenceType: 1 },
-        { id: 74,
+        referenceType: 1
+    },
+    {
+        id: 74,
         definition: 'upper limb',
         idname: 'cerebellar:ataxia:upper limb',
         section: 3,
@@ -945,8 +1090,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 75,
+        cdiscName: null
+    },
+    {
+        id: 75,
         definition: 'lower limb',
         idname: 'cerebellar:ataxia:lower limb',
         section: 3,
@@ -958,8 +1105,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 76,
+        cdiscName: null
+    },
+    {
+        id: 76,
         definition: 'trunk',
         idname: 'cerebellar:ataxia:trunk',
         section: 3,
@@ -971,8 +1120,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 77,
+        cdiscName: null
+    },
+    {
+        id: 77,
         definition: 'Problem',
         idname: 'mobility:problem',
         section: 3,
@@ -984,8 +1135,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 78,
+        cdiscName: null
+    },
+    {
+        id: 78,
         definition: 'Using walking aid',
         idname: 'mobility:using walking aid',
         section: 3,
@@ -997,8 +1150,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 79,
+        cdiscName: null
+    },
+    {
+        id: 79,
         definition: 'EDSS Total Score',
         idname: 'edss:expanded disability status scale (edss) total',
         section: 4,
@@ -1010,8 +1165,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 80,
+        cdiscName: null
+    },
+    {
+        id: 80,
         definition: 'EDSS Pyramidal Score',
         idname: 'edss:expanded disability status scale (edss) pyramidal',
         section: 4,
@@ -1023,8 +1180,10 @@ const availableFields = {
         labels: 'Normal,Abnormal signs without disability,Minimal disability,Mild or moderate paraparesis or hemiparesis (detectable weakness but most sustained for short periods, fatigue problem); severe monoparesis (almost no function),Marked paraparesis or hemiparesis (functions difficult); moderate quadriparesis (function decreased but can be sustained for short periods); or monoplegia,Paraplegia, hemiplegia or marked quadriparesis,Quadriplegia',
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 81,
+        cdiscName: null
+    },
+    {
+        id: 81,
         definition: 'EDSS Cerebellar Score',
         idname: 'edss:expanded disability status scale (edss) cerebellar',
         section: 4,
@@ -1036,8 +1195,10 @@ const availableFields = {
         labels: 'Normal,Abnormal signs without disability,Mild ataxia,Moderate truncal or limb ataxia (tremor or clumsy movements interfere with function in all spheres),Severe ataxia in all limbs (most function is very difficult),Unable to perform coordinated movements due to ataxia',
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 82,
+        cdiscName: null
+    },
+    {
+        id: 82,
         definition: 'EDSS Brain Stem Score',
         idname: 'edss:expanded disability status scale (edss) brain stem',
         section: 4,
@@ -1049,8 +1210,10 @@ const availableFields = {
         labels: 'NormalSigns only,Moderate nystagmus or other mild disability,Severe nystagmus, marked extraocular weakness or moderate disability of other cranial nerves,Marked dysarthria or other marked disability,Inability to swallow or speak',
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 83,
+        cdiscName: null
+    },
+    {
+        id: 83,
         definition: 'EDSS Sensory Score',
         idname: 'edss:expanded disability status scale (edss) sensory',
         section: 4,
@@ -1062,8 +1225,10 @@ const availableFields = {
         labels: 'Normal,Vibration or figure-writing decreased, only in one or two limbs,Mild decrease in touch or pain or position sense, and/or moderate decrease in vibration in one or two limbs; or vibration decrease alone in three or four limbs,Moderate decrease in touch or pain or position sense, and/or essentially lost vibration in one or two limbs; or mild decrease in touch or pain and/or moderate decrease in all proprioceptive test in three or four limbs,Marked decrease in touch or pain or lost proprioception, alone or combined, in one or two limbs; or moderate decrease in touch or pain and/or severe proprioceptive decrease in more then two limbs,Lost of sensation in one or two limbs; or proprioception for most of the body below the head,Sensation essentially lost below the head',
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 84,
+        cdiscName: null
+    },
+    {
+        id: 84,
         definition: 'EDSS Bowel Bladder SCore',
         idname: 'edss:expanded disability status scale (edss) bowel bladder',
         section: 4,
@@ -1075,8 +1240,10 @@ const availableFields = {
         labels: 'Normal,Mild urinary hesitancy, urgency or retention,Moderate hesitancy, urgency, retention of bowel or bladder, or rare urinary incontinence (intermittent self-catheterisation, manual compression to evacuate bladder or finger evacuation or stool),Frequent urinary incontinence,In need of regular intermittent catheterisation (and constant use of measures to evacuate stools),In dwelling catheter,Loss of bowel and/or bladder function,',
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 85,
+        cdiscName: null
+    },
+    {
+        id: 85,
         definition: 'EDSS Visual Score',
         idname: 'edss:expanded disability status scale (edss) visual',
         section: 4,
@@ -1088,8 +1255,10 @@ const availableFields = {
         labels: 'Normal,Scotoma with visual acuity (corrected) better then 6/9,Worse eye with maximal visual acuity (corrected) of 6/9 to 6/12,Worse eye with maximal visual acuity (corrected) of 6/18 to 6/24,Worse eye with maximal visual acuity (corrected) of 6/36 to 6/60. Or grade three plus maximal acuity of better eye of 6/18 or less,Worse eye with maximal visual acuity (corrected) of 6/60. Or grade four plus maximal visual acuity of better eye of 6/18 or less,Grade 5 plus maximal visual acuity of better eye worse then 6/18',
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 86,
+        cdiscName: null
+    },
+    {
+        id: 86,
         definition: 'EDSS Mental Score',
         idname: 'edss:expanded disability status scale (edss) mental',
         section: 4,
@@ -1101,8 +1270,10 @@ const availableFields = {
         labels: 'Normal,Mood alteration only- fatigue not intefering with daily activity (does not affect EDSS score,),Mild decrease in mentation- fatigue intefering with daily activity,Moderate decrease in mentation,Marked decrease in mentation (chronic brain syndrome - moderate),Dementia or chronic brain syndrome - severe or incompetent',
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 87,
+        cdiscName: null
+    },
+    {
+        id: 87,
         definition: 'EDSS Ambulation Score',
         idname: 'edss:expanded disability status scale (edss) ambulation',
         section: 4,
@@ -1114,8 +1285,10 @@ const availableFields = {
         labels: 'Fully ambulatory,500 m without aid/rest,300 m without aid/rest,200 m without aid/rest,100 m without aid/rest,100 m with unilateral assistance,200 m with bilateral assistance,Essentially restricted to wheelchair (wheels self),Restricted to wheelchair (may need help in transfer),Essentially restricted to bed/chair,Restricted to bed much of day,Bed patient. Can communicate and eat,Helpless bed patient. Unable to communicate/eat/swallow',
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 88,
+        cdiscName: null
+    },
+    {
+        id: 88,
         definition: 'EDMUS',
         idname: 'edmus:edmus',
         section: 4,
@@ -1127,8 +1300,10 @@ const availableFields = {
         labels: 'Normal findings on neurological examination.,No disability. Minimal signs on neurological examination.,Minimal and not ambulation-related disability. Able to run.,Unlimited walking distance (WD) without rest but unable to run; or a significant not ambulation-related disability.,Walks without aid. Limited WD but > 500 meters without rest.,Walks without aid. Limited WD- < 500 meters without rest.,Walks with permanent unilateral support. WD < 100 meters without rest.,Walks with permanent bilateral support. WD < 100 meters without rest.,Home restricted. A few steps with wall or furniture assistance. WD < 20 meters without rest.,Chair restricted. Unable to take a step. Some effective use of arms.,Bedridden and totally helpless.,Death due to MS.',
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 89,
+        cdiscName: null
+    },
+    {
+        id: 89,
         definition: '25 feet walk test:trial n�1',
         idname: '25 feet walk test:25 feet walk test:trial n�1',
         section: 4,
@@ -1140,8 +1315,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 90,
+        cdiscName: null
+    },
+    {
+        id: 90,
         definition: '25 feet walk test:trial n�2',
         idname: '25 feet walk test:25 feet walk test:trial n�2',
         section: 4,
@@ -1153,8 +1330,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 91,
+        cdiscName: null
+    },
+    {
+        id: 91,
         definition: 'Nine hole peg test:left:trial n�1',
         idname: 'nine hole peg test:nine hole peg test:left:trial n�1',
         section: 4,
@@ -1166,8 +1345,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 92,
+        cdiscName: null
+    },
+    {
+        id: 92,
         definition: 'Nine hole peg test:left:trial n�2',
         idname: 'nine hole peg test:nine hole peg test:left:trial n�2',
         section: 4,
@@ -1179,8 +1360,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 93,
+        cdiscName: null
+    },
+    {
+        id: 93,
         definition: 'Nine hole peg test:right:trial n�1',
         idname: 'nine hole peg test:nine hole peg test:right:trial n�1',
         section: 4,
@@ -1192,8 +1375,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 94,
+        cdiscName: null
+    },
+    {
+        id: 94,
         definition: 'Nine hole peg test:right:trial n�2',
         idname: 'nine hole peg test:nine hole peg test:right:trial n�2',
         section: 4,
@@ -1205,8 +1390,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 95,
+        cdiscName: null
+    },
+    {
+        id: 95,
         definition: 'Low contrast letter acuity:left ',
         idname: 'visualacuity:low contrast letter acuity:left ',
         section: 4,
@@ -1218,8 +1405,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 96,
+        cdiscName: null
+    },
+    {
+        id: 96,
         definition: 'Low contrast letter acuity:right',
         idname: 'visualacuity:low contrast letter acuity:right',
         section: 4,
@@ -1231,8 +1420,10 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null },
-        { id: 97,
+        cdiscName: null
+    },
+    {
+        id: 97,
         definition: 'Symbol Digit Modality Test',
         idname: 'visualacuity:symbol digit modality test',
         section: 4,
@@ -1244,7 +1435,8 @@ const availableFields = {
         labels: null,
         referenceType: 1,
         laterality: null,
-        cdiscName: null } ],
+        cdiscName: null
+    }],
     testFields: [
         {
             id: 1,
