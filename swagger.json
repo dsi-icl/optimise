@@ -1426,8 +1426,11 @@
                                 "form": {
                                     "type": "string"
                                 },
-                                "timesPerDay": {
+                                "times": {
                                     "type": "integer"
+                                },
+                                "intervalUnit": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -1530,8 +1533,11 @@
                                 "form": {
                                     "type": "string"
                                 },
-                                "timesPerDay": {
+                                "times": {
                                     "type": "integer"
+                                },
+                                "intervalUnit": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -1933,6 +1939,36 @@
         "/available/visitFields": {
             "get": {
                 "summary": "Get all visit fields",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "module",
+                        "type": "string",
+                        "description": "An example value for module is MS"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Fields"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/available/visitSections": {
+            "get": {
+                "summary": "Get all visit section types",
                 "parameters": [
                     {
                         "in": "query",
@@ -3793,7 +3829,10 @@
                 "form": {
                     "type": "string"
                 },
-                "timesPerDay": {
+                "times": {
+                    "type": "integer"
+                },
+                "intervalUnit": {
                     "type": "string"
                 },
                 "terminatedDate": {
