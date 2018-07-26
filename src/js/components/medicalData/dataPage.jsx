@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
-import merge from 'deepmerge';
 import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './dataPage.module.css';
@@ -52,7 +51,6 @@ export class DataTemplate extends Component {
     }
 
     render() {
-        console.log('SEE THIS!!!!!', createLevelObj(example));
         const { elementType, patientProfile, match } = this.props;
         if (!patientProfile.fetching) {
             const elementsMatched = patientProfile.data[`${elementType}s`].filter(element => element.id === parseInt(match.params.elementId, 10));
@@ -84,9 +82,7 @@ export class DataTemplate extends Component {
                         </div>
                         <div className={scaffold_style.panel}>
                             <form onSubmit={this._handleSubmit}>
-                                <SelectField reference={this.state.selectorRef} choices={['male', 'female']}/>
-                                <BooleanField reference={this.state.boolRef} name='male' default={true}/>
-                                <TextField reference={this.state.inputRef}/>
+
                                 <input type='submit' value='Save'/>
                             </form>
                         </div>
@@ -112,72 +108,3 @@ class DataForm extends Component {
 
 
 
-
-/* receives ref and an array of choices  */
-class SelectField extends Component {
-    render() {
-        const { reference, choices } = this.props;
-        return (
-            <select ref={reference}>
-                <option value='unselected'>unselected</option>
-                {choices.map(el => <option key={el} value={el}>{el}</option>)}
-            </select>
-        );
-    }
-}
-
-/* receives ref, name, default */
-class BooleanField extends Component {
-    constructor(props){
-        super();
-        this.state = { checked: props.default };
-        this._onClick = this._onClick.bind(this);
-    }
-
-    _onClick(ev) {
-        ev.preventDefault();
-        this.setState(prevState => ({ checked: !prevState.checked }));
-    }
-
-    render() {
-        const { reference, key, name } = this.props;
-        const { checked } = this.state;
-        return (
-            <Fragment key={key}>
-                <input ref={reference} type='checkbox' style={{ display: 'none' }} defaultChecked={checked}/>
-                <button
-                    className={ checked ? [style.booleanButton, style.booleanButton_checked].join(' ') : style.booleanButton}
-                    onClick={this._onClick}
-                >{name}</button>
-            </Fragment>
-        );
-    }
-}
-
-/* receives ref */
-class TextField extends Component {
-    render() {
-        const { reference } = this.props;
-        return (
-            <input ref={reference} type='text'/>
-        );
-    }
-}
-
-
-
-
-
-
-
-
-
-
-function createLevelObj(fields) {
-    let obj = [];
-
-    fields.forEach(f => {
-        obj.push(f.idname.split(':').reverse().reduce((a, c) => !a ? { [c]: f } : ({ [c]: a }), null));
-    });
-    return merge.all(obj);
-} 

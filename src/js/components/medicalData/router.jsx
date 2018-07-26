@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { DataTemplate } from './dataPage';
 import { TreatmentInterruption } from './treatmentInterruptions';
+import { VisitData } from './visitDataPage';
 
 export class DataPageRouter extends Component {
     render() {
@@ -11,7 +12,7 @@ export class DataPageRouter extends Component {
         return (
             <Switch>
                 <Route path='/patientProfile/:patientId/data/test/:elementId' render={({ match }) => <DataTemplate elementType='test' match={match} />} />
-                <Route path='/patientProfile/:patientId/data/visit/:elementId' render={({ match }) => <DataTemplate elementType='visit' match={match} />} />
+                <Route path='/patientProfile/:patientId/data/visit/:visitId' render={({ match }) => <VisitData elementType='visit' match={match} />} />
                 <Route path='/patientProfile/:patientId/data/treatment/:elementId' render={({ match }) => <TreatmentInterruption match={match} />} />
                 <Route path='/patientProfile/:patientId/data/clinicalEvent/:elementId' render={({ match }) => <DataTemplate elementType='clinicalEvent' match={match} />} />
                 <Route path='/' component={() => <></>} />
