@@ -25,12 +25,30 @@ export default class FullTimeline extends Component {
         super(props);
 
         this.timeBoudary = this.timeBoudary.bind(this);
+        this.groupRenderer = this.groupRenderer.bind(this);
+        this.itemRenderer = this.itemRenderer.bind(this);
 
         let defaultTimeStart = moment().startOf('day').toDate();
         let defaultTimeEnd = moment();
+        let groups = [{
+            id: 1,
+            title: 'Visits',
+            tip: 'additional information',
+            root: true
+        }, {
+            id: 2,
+            title: 'Tests',
+            tip: 'additional information',
+            root: true
+        }, {
+            id: 3,
+            title: 'Clinical Event',
+            tip: 'additional information',
+            root: true
+        }];
 
         this.state = {
-            groups: [],
+            groups,
             items: [],
             defaultTimeStart,
             defaultTimeEnd,
@@ -112,15 +130,15 @@ export default class FullTimeline extends Component {
                     canResize: false,
                     className: style.timelineCEItem,
                     itemProps: {
-                        'data-tip': `Test ${c.id}`
+                        'data-tip': `Clinical Event ${c.id}`
                     }
                 });
             });
 
         return Object.assign(state, {
             maxTimeStart,
-            items,
-            groups
+            groups,
+            items
         });
     }
 
@@ -148,32 +166,35 @@ export default class FullTimeline extends Component {
         }
     }
 
+    groupRenderer({ group }) {
+        if (group.root)
+            return (
+                <div onClick={() => this.toggleGroup(parseInt(group.id))} style={{ cursor: 'pointer' }}>
+                    {/* {this.state.openGroups[parseInt(group.id)] ? '[-]' : '[+]'} */} {group.title}
+                </div>
+            );
+        else
+            return (
+                <div style={{ paddingLeft: 20 }}>{group.title}</div>
+            );
+    }
+
+    itemRenderer({ item, timelineContext }) {
+
+        console.log(timelineContext);
+
+        return (<div className='really-tiny' >PLOP {item.title}</div>);
+    }
+
     render() {
         const {
             groups,
             items,
             defaultTimeStart,
-            defaultTimeEnd,
-            openGroups
+            defaultTimeEnd
         } = this.state;
 
         // hide (filter) the groups that are closed, for the rest, patch their "title" and add some callbacks or padding
-        const newGroups = groups
-            .filter(g => g.root || openGroups[g.parent])
-            .map(group => {
-                return Object.assign({}, group, {
-                    title: group.root ? (
-                        <div
-                            onClick={() => this.toggleGroup(parseInt(group.id))}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            {/* {openGroups[parseInt(group.id)] ? '[-]' : '[+]'} */} {group.title}
-                        </div>
-                    ) : (
-                            <div style={{ paddingLeft: 20 }}>{group.title}</div>
-                        )
-                });
-            });
 
         if (this.props.match.params === undefined)
             return null;
@@ -186,8 +207,10 @@ export default class FullTimeline extends Component {
                 </div>
                 <div className={style.panel}>
                     <Timeline
-                        groups={newGroups}
+                        groups={groups}
+                        groupRenderer={this.groupRenderer}
                         items={items}
+                        itemRenderer={this.itemRenderer}
                         keys={keys}
                         sidebarWidth={150}
                         itemsSorted
