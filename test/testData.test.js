@@ -87,7 +87,7 @@ describe('Creating TEST data', () => {
 
     test('Request creation succesfull', () => user
         .post('/data/test')
-        .send({ testId: 1, add: { 65: 10 } })
+        .send({ testId: 2, add: { 65: 10 } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -99,7 +99,7 @@ describe('Creating TEST data', () => {
 
     test('Request update succesfull', () => admin
         .post('/data/test')
-        .send({ testId: 1, update: { 65: 65 } })
+        .send({ testId: 2, update: { 65: 65 } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
