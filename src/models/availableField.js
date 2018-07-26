@@ -6,33 +6,48 @@ const fieldVisit = {
     id: 0,
     definition: '',
     idname: '',
+    section: 0,
+    subsection: null,
     type: 0,
     unit: null,
     module: null,
     permittedValues: null,
-    referenceType: 0
+    labels: null,
+    referenceType: 0,
+    laterality: null,
+    cdiscName: null
 };
 
 const fieldCE = {
     id: 0,
     definition: '',
     idname: '',
+    section: '',
+    subsection: '',
     type: 0,
     unit: null,
     module: null,
     permittedValues: null,
-    referenceType: 0
+    labels: null,
+    referenceType: 0,
+    laterality: null,
+    cdiscName: null
 };
 
 const fieldTest = {
     id: 0,
     definition: '',
     idname: '',
+    section: null,
+    subsection: null,
     type: 0,
     unit: null,
     module: null,
     permittedValues: null,
-    referenceType: 0
+    labels: null,
+    referenceType: 0,
+    laterality: null,
+    cdiscName: null
 };
 
 const fieldContainer = {
