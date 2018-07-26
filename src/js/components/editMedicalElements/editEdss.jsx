@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { Editor, EditorState, RichUtils } from 'draft-js';
 import { BackButton } from '../medicalData/dataPage';
 import style from './editMedicalElements.module.css';
@@ -17,9 +18,8 @@ export default class EditPerformanceMesaure extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <p>This is the communication for visit ///// </p> <br/><br/>
-
-                    <span onClick={() => {store.dispatch(displayEDSSCalc());}}>EDSS calculator</span>
+                    <p>This is the communication for visit ///// </p> <br /><br />
+                    <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><span>EDSS calculator</span></NavLink>
                 </form>
             </>
         );

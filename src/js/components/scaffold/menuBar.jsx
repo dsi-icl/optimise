@@ -23,7 +23,7 @@ export default class MenuBar extends Component {
     render() {
         return (
             <div className={style.menuBar}>
-                <br /><br /><br />
+                <br />
                 <NavLink to='/patientProfile' title='Patient view' activeClassName={style.active}>
                     <Icon symbol='user' />
                 </NavLink>
