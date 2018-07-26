@@ -32,6 +32,7 @@ function OptimiseServer(config) {
     this.setupPPII = OptimiseServer.prototype.setupPPII.bind(this);
     this.setupPatientDiagnosis = OptimiseServer.prototype.setupPatientDiagnosis.bind(this);
     this.setupMeddra = OptimiseServer.prototype.setupMeddra.bind(this);
+    this.setupSeed = OptimiseServer.prototype.setupSeed.bind(this);
 
     // Define config in global scope (needed for server extensions)
     global.config = this.config;
@@ -109,6 +110,7 @@ OptimiseServer.prototype.start = function () {
             _this.setupPPII();
             _this.setupPatientDiagnosis();
             _this.setupMeddra();
+            _this.setupSeed();
 
             _this.app.all('/*', function (__unused__req, res) {
                 res.status(400);
@@ -332,5 +334,16 @@ OptimiseServer.prototype.setupPatientDiagnosis = function () {
     this.app.use('/patientDiagnosis', this.routePatientDiagnosis);
 };
 
+/**
+ * @func setupSeed
+ * @desc Initialize the Seed related routes
+ */
+OptimiseServer.prototype.setupSeed = function () {
+    // Import the controller
+    this.routeSeed = require('./routes/seedRoute');
+
+    // Modules
+    this.app.use('/seeds', this.routeSeed);
+};
 
 module.exports = OptimiseServer;

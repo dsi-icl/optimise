@@ -1,0 +1,193 @@
+/**
+ * @class SeedController
+ * @description Handle various way to interact with the seeded "constant" data (i.e. fields / types)
+ */
+
+const { getEntry, createEntry, updateEntry, deleteEntry } = require('../utils/controller-utils');
+const ErrorHelper = require('../utils/error_helper');
+const formatToJSon = require('../utils/format-response');
+const message = require('../utils/message-utils');
+const modelsContainer = require('../utils/model-container');
+
+
+const mapKeyTable = {
+    fieldVisit: 'AVAILABLE_FIELDS_VISITS',
+    fieldTest: 'AVAILABLE_FIELDS_TESTS',
+    fieldCE: 'AVAILABLE_FIELDS_CE',
+    typeVisit: 'AVAILABLE_VISIT_TYPES',
+    typeCE: 'AVAILABLE_CLINICAL_EVENT_TYPES',
+    typeTest: 'AVAILABLE_TEST_TYPES'
+};
+
+function SeedController() {
+    this.getSeedList = SeedController.prototype.getSeedList.bind(this);
+    this.getSeed = SeedController.prototype.getSeed.bind(this);
+    this.createSeed = SeedController.prototype.createSeed.bind(this);
+    this.deleteSeed = SeedController.prototype.deleteSeed.bind(this);
+    this.editSeed = SeedController.prototype.editSeed.bind(this);
+}
+
+/**
+ * @function getSeedList
+ * @description Lists the url requestable. (e.g. /seeds/fieldVisit, /seeds/fieldTest, ...)
+ * @param {*} ___unused__req request, not used
+ * @param {*} res response, contain the list.
+ * @returns {void} Answer the client with the list of seed implemented
+ */
+SeedController.prototype.getSeedList = function (__unused__req, res) {
+    let list = [];
+    Object.keys(mapKeyTable).forEach(key => list.push(key));
+    res.status(200).json(formatToJSon(list));
+    return;
+};
+
+/**
+ * @function getSeed
+ * @description answer a get request on the url /seeds/:target where target is contained in mapKeyTable
+ * @return Either all the table or the asked row
+ */
+SeedController.prototype.getSeed = function (req, res) {
+    if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
+        let whereObj = (req.hasOwnProperty('query') && req.query.length !== 0) ? req.query : {};
+        getEntry(mapKeyTable[req.params.target], whereObj, '*').then(function (result) {
+            res.status(200).json(formatToJSon(result));
+            return;
+        }, function (error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return;
+        });
+    } else if (!req.params.hasOwnProperty('target')) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
+        return;
+    }
+};
+
+/**
+ * @function createSeed
+ * @description Add a seed entry to the DB if it match the allowed list
+ * @param {*} req Request form sender
+ * @param {*} res Answerable object.
+ * @returns {void} Either errors if the request isn't allowed or the ID(s) of the new created seed(s)
+ */
+SeedController.prototype.createSeed = function (req, res) {
+    if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
+        for (let i = 0; i < Object.keys(modelsContainer[req.params.target]).length; i++) {
+            if (Object.keys(modelsContainer[req.params.target])[i] === 'id') {
+                continue;
+            }
+            if (!req.body.hasOwnProperty(Object.keys(modelsContainer[req.params.target])[i])) {
+                res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+                return;
+            }
+            if (modelsContainer[req.params.target][Object.keys(modelsContainer[req.params.target])[i]] !== null &&
+                typeof req.body[Object.keys(modelsContainer[req.params.target])[i]] !== typeof modelsContainer[req.params.target][Object.keys(modelsContainer[req.params.target])[i]]) {
+                res.status(400).json(ErrorHelper(`${message.userError.WRONGARGUMENTS} : ${Object.keys(modelsContainer[req.params.target])[i]}`));
+                return;
+            }
+        }
+        createEntry(mapKeyTable[req.params.target], req.body).then(function (result) {
+            res.status(200).json(formatToJSon(result));
+            return;
+        }, function (error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+            return;
+        });
+    } else if (!req.params.hasOwnProperty('target')) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
+        return;
+    }
+};
+
+/**
+ * @function editSeed
+ * @description Update a seed with the sended info
+ * @param {*} req Request form sender
+ * @param {*} res Answerable object.
+ * @returns {void} Either errors if the request isn't allowed or the number of updated seed(s)
+ */
+SeedController.prototype.editSeed = function (req, res) {
+    if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
+        let newEntry = {};
+        let whereObj = {};
+        if (req.user.priv !== 1) {
+            res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+            return;
+        }
+        for (let i = 0; i < Object.keys(modelsContainer[req.params.target]).length; i++) {
+            if (!req.body.hasOwnProperty(Object.keys(modelsContainer[req.params.target])[i])) {
+                res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+                return;
+            }
+            if (modelsContainer[req.params.target][Object.keys(modelsContainer[req.params.target])[i]] !== null &&
+                typeof req.body[Object.keys(modelsContainer[req.params.target])[i]] !== typeof modelsContainer[req.params.target][Object.keys(modelsContainer[req.params.target])[i]]) {
+                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+                return;
+            }
+            if (Object.keys(modelsContainer[req.params.target])[i] === 'id') {
+                whereObj.id = req.body.id;
+            } else {
+                newEntry[Object.keys(modelsContainer[req.params.target])[i]] = req.body[Object.keys(modelsContainer[req.params.target])[i]];
+            }
+        }
+        updateEntry(mapKeyTable[req.params.target], req.user, '*', whereObj, newEntry).then(function (result) {
+            res.status(200).json(formatToJSon(result));
+            return;
+        }, function (error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+            return;
+        });
+    } else if (!req.params.hasOwnProperty('target')) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
+        return;
+    }
+};
+
+/**
+ * @function deleteEntry
+ * @description Set as delete a seed
+ * @param {*} req Request form sender
+ * @param {*} res Answerable object.
+ * @returns {void} Either errors if the request isn't allowed or the number of deleted seed(s)
+ */
+SeedController.prototype.deleteSeed = function (req, res) {
+    if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
+        let whereObj = {};
+        if (req.user.priv !== 1) {
+            res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+            return;
+        }
+        if (!req.body.hasOwnProperty('id')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        if (typeof req.body.id !== 'number') {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+        whereObj.id = req.body.id;
+        deleteEntry(mapKeyTable[req.params.target], req.user, whereObj).then(function (result) {
+            res.status(200).json(formatToJSon(result));
+            return;
+        }, function (error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+            return;
+        });
+    } else if (!req.params.hasOwnProperty('target')) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
+        return;
+    }
+};
+
+module.exports = SeedController;
