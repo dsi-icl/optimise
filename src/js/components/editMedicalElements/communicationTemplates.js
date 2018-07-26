@@ -91,7 +91,7 @@ export const formatEvents = (eventList, typeTable) => {
 
 
 
-/* for formating events */
+/* for formating treatment */
 const treatmentTitle = () => (
     'Treatments:'
 );
@@ -113,4 +113,34 @@ export const formatTreatments = (treatmentList, typeTable) => {
     }
     const strings = treatmentList.map(el => oneTreatment(el, typeTable));
     return () => [blockgen(treatmentTitle(), [{ offset: 0, length: 11, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
+};
+
+
+
+/* for formating signs and symptoms */
+const symptomTitle = () => (
+    'Symptoms and signs:'
+);
+
+
+
+const oneSignOrSymptom = (data, VSFields_Hash) => {
+    const fieldObj = VSFields_Hash[data.field];
+    if (fieldObj) {
+        return `- ${fieldObj.definition}: ${data.value}`;
+    } else {
+        return '';
+    }
+}
+
+export const formatSymptomsAndSigns = (symptomList, typeTable) => {
+    if (symptomList.length === 0) {
+        return () => [
+            blockgen(symptomTitle(), [{ offset: 0, length: 19, style: 'BOLD' }]),
+            blockgen('No symptoms and signs was recorded.', [])
+        ];
+        
+    }
+    const strings = symptomList.map(el => oneSignOrSymptom(el, typeTable)).filter(el => el !== '');
+    return () => [blockgen(symptomTitle(), [{ offset: 0, length: 19, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
 };
