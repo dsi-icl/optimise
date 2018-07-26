@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, ContentState } from 'draft-js';
-import { formatTests, visitTitle, formatEvents, formatTreatments, blockgen } from './communicationTemplates';
+import { formatTests, visitTitle, formatEvents, formatTreatments, formatSymptomsAndSigns } from './communicationTemplates';
 import { BackButton } from '../medicalData/dataPage';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
@@ -17,7 +17,7 @@ export default class EditCommunication extends Component {
         }
         console.log(this.props)
         const { params } = match;
-        const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash } = this.props.availableFields;
+        const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash, VSFields_Hash, visitFields_Hash } = this.props.availableFields;
         let { visits, tests, treatments, clinicalEvents } = data;
         visits = visits.filter(el => el.id === parseInt(params.visitId));
         if (visits.length === 0) {
@@ -30,7 +30,9 @@ export default class EditCommunication extends Component {
         const testBlock = formatTests(tests, testTypes_Hash[0]);
         const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0]);
         const medBlock = formatTreatments(treatments, drugs_Hash[0]);
-        const precomposed = { testBlock, ceBlock, medBlock };
+        const VSBlock = formatSymptomsAndSigns(visits[0].data || [], VSFields_Hash[0]);
+        const symptomBlock = formatSymptomsAndSigns(visits[0].data || [], visitFields_Hash[0]);
+        const precomposed = { testBlock, ceBlock, medBlock, symptomBlock, VSBlock };
         return <Communication match={match} precomposed={precomposed}/>;
     }
 }
@@ -125,8 +127,8 @@ class CommunicationEditor extends Component {
             You can append these pre-composed paragraphs:
             <div className={style.commentButtonsGroup}>
                 <div>
-                    <button onClick={this._onClick}>Vital signs</button>
-                    <button onClick={this._onClick}>Signs {'&'} Symptoms</button>
+                    <button name='VSBlock' onClick={this._onClick}>Vital signs</button>
+                    <button name='symptomBlock' onClick={this._onClick}>Signs {'&'} Symptoms</button>
                     <button name='testBlock' onClick={this._onClick}>Tests</button>
                 </div>
                 <div>
