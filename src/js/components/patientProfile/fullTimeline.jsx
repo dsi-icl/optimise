@@ -1,227 +1,201 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
+
 import Timeline from 'react-calendar-timeline/lib';
+import { BackButton } from '../medicalData/dataPage';
+import Helmet from '../scaffold/helmet';
 import style from './patientProfile.module.css';
 
-const minDate = moment('1/1/2018').toDate();
-const maxDate = moment('1/8/2018').toDate();
-
-const oneDay = 1000 * 60 * 60 * 24;
-const oneWeek = oneDay * 7;
-
-const calculateSize = (timeStart, timeEnd) => {
-    const zoom = timeEnd - timeStart;
-
-    return zoom > oneDay ? zoom > oneWeek ? 'small' : 'medium' : 'large';
-};
-
-class TeamItemRenderer extends Component {
-    shouldComponentUpdate({ timelineContext }) {
-        const { visibleTimeStart: nextStart, visibleTimeEnd: nextEnd } = timelineContext;
-        const { visibleTimeStart: currentStart, visibleTimeEnd: currentEnd } = this.props.timelineContext;
-        return calculateSize(nextStart, nextEnd) !== calculateSize(currentStart, currentEnd);
-    }
-
-    render() {
-        const { item, timelineContext } = this.props;
-        const { visibleTimeStart, visibleTimeEnd } = timelineContext;
-        const size = calculateSize(visibleTimeStart, visibleTimeEnd);
-
-        if (size === 'small') {
-            return <Small item={item} />;
-        } else if (size === 'medium') {
-            return <Medium item={item} />;
-        } else {
-            return <Large item={item} />;
-        }
-    }
-}
-
-const Small = ({ item }) => {
-    const { homeTeam, awayTeam } = item;
-    return (
-        <div>
-            <img height={30} width={30} alt='' src={homeTeam.logoUrl} />
-            <img height={30} width={30} alt='' src={awayTeam.logoUrl} />
-        </div>
-    );
-};
-
-const Medium = ({ item }) => {
-    const { homeTeam, awayTeam } = item;
-    return (
-        <div>
-            <img height={50} width={50} alt='' src={homeTeam.logoUrl} />
-            <img height={50} width={50} alt='' src={awayTeam.logoUrl} />
-        </div>
-    );
-};
-
-const Large = ({ item }) => {
-    const { homeTeam, awayTeam } = item;
-    return (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div>
-                    <img height={40} width={40} alt='' src={homeTeam.logoUrl} />
-                </div>
-                <div style={{ textDecoration: 'underline' }}>
-                    {homeTeam.nickname}
-                </div>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <img style={{ display: 'block' }} height={50} width={50} alt='' src={awayTeam.logoUrl} />
-                <div style={{ textDecoration: 'underline' }}>
-                    {awayTeam.nickname}
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const keys = {
+let keys = {
     groupIdKey: 'id',
     groupTitleKey: 'title',
     groupRightTitleKey: 'rightTitle',
     itemIdKey: 'id',
-    itemTitleKey: 'title', // key for item div content
-    itemDivTitleKey: 'title', // key for item div title (<div title="text"/>)
+    itemTitleKey: 'title',
+    itemDivTitleKey: 'title',
     itemGroupKey: 'group',
     itemTimeStartKey: 'start',
     itemTimeEndKey: 'end'
 };
 
-const twolves = {
-    id: 1,
-    nickname: 'Timberwolves',
-    location: 'Minnesota',
-    logoUrl:
-        'http://www.freepngimg.com/download/minnesota_timberwolves/2-2-timberwolves-logo.png'
-};
-
-const lakers = {
-    id: 2,
-    nickname: 'Lakers',
-    location: 'Los Angeles',
-    logoUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1000px-Los_Angeles_Lakers_logo.svg.png'
-};
-const bulls = {
-    id: 3,
-    nickname: 'Bulls',
-    location: 'Chicago',
-    logoUrl:
-        'https://upload.wikimedia.org/wikipedia/en/thumb/6/67/Chicago_Bulls_logo.svg/762px-Chicago_Bulls_logo.svg.png'
-};
-
-const cavs = {
-    id: 4,
-    nickname: 'Cavaliers',
-    location: 'Cleveland',
-    logoUrl:
-        'https://i.cdn.turner.com/nba/nba/.element/media/2.0/teamsites/cavaliers/images/170531-partial-logo.png'
-};
-
-const westernConference = {
-    id: 1,
-    title: 'Western Conference'
-};
-const easternConference = {
-    id: 2,
-    title: 'Eastern Conference'
-};
-
-const groups = [westernConference, easternConference];
-
-const matchups = [
-    {
-        id: 1,
-        group: westernConference.id,
-        homeTeam: lakers,
-        awayTeam: twolves,
-        start: moment('2018-01-02').toDate(),
-        end: moment('2018-01-03').toDate()
-    },
-    {
-        id: 2,
-        group: westernConference.id,
-        homeTeam: lakers,
-        awayTeam: cavs,
-        start: moment('2018-01-03').toDate(),
-        end: moment('2018-01-04').toDate()
-    },
-    {
-        id: 3,
-        group: westernConference.id,
-        homeTeam: twolves,
-        awayTeam: lakers,
-        start: moment('2018-01-06').toDate(),
-        end: moment('2018-01-07').toDate()
-    }, {
-        id: 4,
-        group: easternConference.id,
-        homeTeam: cavs,
-        awayTeam: bulls,
-        start: moment('2018-01-06').toDate(),
-        end: moment('2018-01-07').toDate()
-    },
-    {
-        id: 5,
-        group: easternConference.id,
-        homeTeam: lakers,
-        awayTeam: twolves,
-        start: moment('2018-01-06').toDate(),
-        end: moment('2018-01-07').toDate()
-    },
-    {
-        id: 6,
-        group: easternConference.id,
-        homeTeam: bulls,
-        awayTeam: twolves,
-        start: moment('2018-01-02').toDate(),
-        end: moment('2018-01-03').toDate()
-    }
-];
-
+@connect(state => ({ data: state.patientProfile.data }))
 export default class FullTimeline extends Component {
     constructor(props) {
         super(props);
 
-        const defaultTimeStart = minDate;
-        const defaultTimeEnd = maxDate;
+        this.timeBoudary = this.timeBoudary.bind(this);
+
+        let defaultTimeStart = moment().startOf('day').toDate();
+        let defaultTimeEnd = moment();
 
         this.state = {
-            groups,
-            items: matchups,
+            groups: [],
+            items: [],
             defaultTimeStart,
-            defaultTimeEnd
+            defaultTimeEnd,
+            maxTimeStart: defaultTimeStart,
+            openGroups: {}
         };
     }
 
+    static getDerivedStateFromProps(props, state) {
+
+        let items = [];
+        let groups = [{
+            id: 1,
+            title: 'Visits',
+            tip: 'additional information',
+            root: true
+        }, {
+            id: 2,
+            title: 'Tests',
+            tip: 'additional information',
+            root: true
+        }, {
+            id: 3,
+            title: 'Clinical Event',
+            tip: 'additional information',
+            root: true
+        }];
+
+        let maxTimeStart = state.defaultTimeStart;
+        if (props.data.visits)
+            props.data.visits.forEach(v => {
+                if (maxTimeStart.valueOf() > moment(v.visitDate, 'x').valueOf())
+                    maxTimeStart = moment(v.visitDate, 'x').toDate();
+                items.push({
+                    id: `v_${v.id}`,
+                    group: 1,
+                    title: `Visit ${v.id}`,
+                    start: moment(v.visitDate, 'x').valueOf(),
+                    end: moment(v.visitDate, 'x').add(1, 'day').valueOf(),
+                    canMove: false,
+                    canResize: false,
+                    className: style.timelineVisitItem,
+                    itemProps: {
+                        'data-tip': `Visit ${v.id}`
+                    }
+                });
+            });
+        if (props.data.tests)
+            props.data.tests.forEach(t => {
+                if (maxTimeStart.valueOf() > moment(t.expectedOccurDate, 'x').valueOf())
+                    maxTimeStart = moment(t.expectedOccurDate, 'x').toDate();
+                items.push({
+                    id: `t_${t.id}`,
+                    group: 2,
+                    title: `Test ${t.id}`,
+                    start: moment(t.expectedOccurDate, 'x').valueOf(),
+                    end: moment(t.expectedOccurDate, 'x').add(1, 'day').valueOf(),
+                    canMove: false,
+                    canResize: false,
+                    className: style.timelineTestItem,
+                    itemProps: {
+                        'data-tip': `Test ${t.id}`
+                    }
+                });
+            });
+        if (props.data.clinicalEvents)
+            props.data.clinicalEvents.forEach(c => {
+                if (maxTimeStart.valueOf() > moment(c.dateStartDate, 'x').valueOf())
+                    maxTimeStart = moment(c.dateStartDate, 'x').toDate();
+                if (maxTimeStart.valueOf() > moment(c.endDate, 'x').valueOf())
+                    maxTimeStart = moment(c.endDate, 'x').toDate();
+                items.push({
+                    id: `c_${c.id}`,
+                    group: 3,
+                    title: `Test ${c.id}`,
+                    start: moment(c.dateStartDate, 'x').valueOf(),
+                    end: moment(c.endDate, 'x').add(1, 'day').valueOf(),
+                    canMove: false,
+                    canResize: false,
+                    className: style.timelineCEItem,
+                    itemProps: {
+                        'data-tip': `Test ${c.id}`
+                    }
+                });
+            });
+
+        return Object.assign(state, {
+            maxTimeStart,
+            items,
+            groups
+        });
+    }
+
+    toggleGroup = id => {
+        const { openGroups } = this.state;
+        this.setState({
+            openGroups: {
+                ...openGroups,
+                [id]: !openGroups[id]
+            }
+        });
+    }
+
+    timeBoudary = (visibleTimeStart, visibleTimeEnd, updateScrollCanvas) => {
+        const minTime = moment(this.state.maxTimeStart).subtract(12, 'hours').valueOf();
+        const maxTime = moment().add(12, 'hours').valueOf();
+        if (visibleTimeStart < minTime && visibleTimeEnd > maxTime) {
+            updateScrollCanvas(minTime, maxTime);
+        } else if (visibleTimeStart < minTime) {
+            updateScrollCanvas(minTime, minTime + (visibleTimeEnd - visibleTimeStart));
+        } else if (visibleTimeEnd > maxTime) {
+            updateScrollCanvas(maxTime - (visibleTimeEnd - visibleTimeStart), maxTime);
+        } else {
+            updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
+        }
+    }
+
     render() {
-        const { groups, items, defaultTimeStart, defaultTimeEnd } = this.state;
+        const {
+            groups,
+            items,
+            defaultTimeStart,
+            defaultTimeEnd,
+            openGroups
+        } = this.state;
+
+        // hide (filter) the groups that are closed, for the rest, patch their "title" and add some callbacks or padding
+        const newGroups = groups
+            .filter(g => g.root || openGroups[g.parent])
+            .map(group => {
+                return Object.assign({}, group, {
+                    title: group.root ? (
+                        <div
+                            onClick={() => this.toggleGroup(parseInt(group.id))}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            {/* {openGroups[parseInt(group.id)] ? '[-]' : '[+]'} */} {group.title}
+                        </div>
+                    ) : (
+                            <div style={{ paddingLeft: 20 }}>{group.title}</div>
+                        )
+                });
+            });
+
+        if (this.props.match.params === undefined)
+            return null;
         return (
             <>
-                {/* <div className={style.ariane}>
+                <div className={style.ariane}>
+                    <Helmet title='Patient Timeline' />
                     <h2>Patient Timeline ({this.props.match.params.patientId})</h2>
-                </div> */}
-                <div className={style.panelByPass}>
+                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+                </div>
+                <div className={style.panel}>
                     <Timeline
-                        lineHeight={60}
-                        groups={groups}
-                        keys={keys}
+                        groups={newGroups}
                         items={items}
-                        itemRenderer={TeamItemRenderer}
+                        keys={keys}
+                        sidebarWidth={150}
                         itemsSorted
                         itemTouchSendsClick={false}
-                        stackItems
                         itemHeightRatio={0.75}
-                        showCursorLine
-                        canMove={false}
-                        canResize={false}
                         defaultTimeStart={defaultTimeStart}
                         defaultTimeEnd={defaultTimeEnd}
+                        onTimeChange={this.timeBoudary}
                     />
                 </div>
             </>
