@@ -293,3 +293,13 @@ div.timelineCEBlack {
 .profileSectionActive select:hover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), 100%);
 }
+
+.panelByPass {
+    position: absolute;
+    grid-area: content / content / auto / annexe;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
