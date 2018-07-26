@@ -63,7 +63,7 @@ const oneTest = (test, typeTable) => {
 
 export const formatTests = (testList, typeTable) => {
     if (testList.length === 0) {
-        return 'No test was recorded';
+        return () => [blockgen(testTitle(), [{ offset: 0, length: 6, style: 'BOLD' }]), blockgen('No test was recorded.', [])];
     }
     const strings = testList.map(el => oneTest(el, typeTable));
     return () => [blockgen(testTitle(), [{ offset: 0, length: 6, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
@@ -83,7 +83,7 @@ const oneEvent = (event, typeTable) => {
 
 export const formatEvents = (eventList, typeTable) => {
     if (eventList.length === 0) {
-        return 'No clinical event was recorded';
+        return () => [blockgen(eventTitle(), [{ offset: 0, length: 16, style: 'BOLD' }]), blockgen('No clinical event was recorded.', [])];
     }
     const strings = eventList.map(el => oneEvent(el, typeTable));
     return () => [blockgen(eventTitle(), [{ offset: 0, length: 16, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
@@ -108,7 +108,8 @@ const oneTreatment = (treatment, typeTable) => {
 
 export const formatTreatments = (treatmentList, typeTable) => {
     if (treatmentList.length === 0) {
-        return 'No treatment was recorded';
+        return () => [blockgen(treatmentTitle(), [{ offset: 0, length: 11, style: 'BOLD' }]), blockgen('No treatment was recorded.', [])];
+        
     }
     const strings = treatmentList.map(el => oneTreatment(el, typeTable));
     return () => [blockgen(treatmentTitle(), [{ offset: 0, length: 11, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
