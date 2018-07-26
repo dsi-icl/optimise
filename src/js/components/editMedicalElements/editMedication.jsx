@@ -77,7 +77,8 @@ class UpdateMedEntry extends Component {
             dose: props.data.dose,
             unit: props.data.unit,
             form: props.data.form,
-            timesPerDay: props.data.timesPerDay
+            times: props.data.times ? props.data.times : null,
+            intervalUnit: props.data.intervalUnit || ''
         };
         this._handleChange = this._handleChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
@@ -92,7 +93,7 @@ class UpdateMedEntry extends Component {
     _handleSubmit(ev) {
         ev.preventDefault();
         const { patientId } = this.props;
-        const { id, drug, dose, unit, form, timesPerDay } = this.state;
+        const { id, drug, dose, unit, form, times, intervalUnit } = this.state;
         const body = {
             patientId: patientId,
             to: `/patientProfile/${patientId}`,
@@ -102,7 +103,8 @@ class UpdateMedEntry extends Component {
                 dose: parseInt(dose),
                 unit,
                 form,
-                timesPerDay: parseInt(timesPerDay)
+                times: parseInt(times),
+                intervalUnit: intervalUnit === '' || null
             }
         };
         store.dispatch(updateTreatmentCall(body));
@@ -129,8 +131,17 @@ class UpdateMedEntry extends Component {
                     <option value='IV'>IV</option>
                     <option value='oral'>oral</option>
                 </select><br /><br />
-                <label>Times per day: </label>
-                <input onChange={this._handleChange} name='timesPerDay' value={timesPerDay} /><br /><br />
+                <h4>Frequency (fill both or leave both blank): </h4>
+                <label>No of times: </label>
+                <input onChange={this._handleChange} name='times' value={timesPerDay} /><br /><br />
+                <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleChange} autoComplete='off'>
+                    <option value=''></option>
+                    <option value='hour'>hour</option>
+                    <option value='day'>day</option>
+                    <option value='week'>week</option>
+                    <option value='month'>month</option>
+                    <option value='year'>year</option>
+                </select>
                 <button onClick={this._handleSubmit}>Submit</button>
             </>
         );
