@@ -18,18 +18,18 @@ function TreatmentController() {
 
 TreatmentController.prototype.createTreatment = function (req, res) {
     if (!(req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('drugId') && req.body.hasOwnProperty('dose') &&
-        req.body.hasOwnProperty('unit') && req.body.hasOwnProperty('form') && req.body.hasOwnProperty('dosingFreqPerInterval'))) {
+        req.body.hasOwnProperty('unit') && req.body.hasOwnProperty('form'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' && typeof req.body.dosingFreqPerInterval === 'string' &&
+    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' &&
         typeof req.body.dose === 'number' && typeof req.body.form === 'string' && typeof req.body.form === 'string')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
     if ((req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
         (req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC') ||
-        (req.body.dosingFreqPerInterval !== 'Q2H' && req.body.dosingFreqPerInterval !== 'QD' && req.body.dosingFreqPerInterval !== 'PRN')) {
+        (req.body.hasOwnProperty('dosingFreqPerInterval') && req.body.dosingFreqPerInterval !== 'Q2H' && req.body.dosingFreqPerInterval !== 'QD' && req.body.dosingFreqPerInterval !== 'PRN')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -39,7 +39,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'dose': req.body.dose,
         'unit': req.body.unit,   //hardcoded SQL: only mg or cc
         'form': req.body.form,   //hardcoded SQL: only OR (oral) or IV
-        'dosingFreqPerInterval': req.body.dosingFreqPerInterval,
+        'dosingFreqPerInterval': (req.body.hasOwnProperty('dosingFreqPerInterval') ? req.body.dosingFreqPerInterval : null),
         'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         // field adverseEvent coming up soon.

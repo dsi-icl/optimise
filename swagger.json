@@ -1427,7 +1427,7 @@
                                     "type": "string"
                                 },
                                 "dosingFreqPerInterval": {
-                                    "type": "integer"
+                                    "type": "string"
                                 }
                             }
                         }
@@ -1531,7 +1531,7 @@
                                     "type": "string"
                                 },
                                 "dosingFreqPerInterval": {
-                                    "type": "integer"
+                                    "type": "string"
                                 }
                             }
                         }

@@ -54,7 +54,7 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'OR',
-            'timesPerDay': 3
+            'dosingFreqPerInterval': 'QD'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -71,7 +71,7 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'WRONG',
             'form': 'OR',
-            'timesPerDay': 3
+            'dosingFreqPerInterval': 'QD'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -88,7 +88,7 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'WRONG',
-            'timesPerDay': 3
+            'dosingFreqPerInterval': 'QD'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -97,7 +97,7 @@ describe('Create treatment controller tests', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Request creation with invalid time zero (should fail)', () => admin
+    test('Request creation with invalid dosingFreqPerInterval (should fail)', () => admin
         .post('/treatments')
         .send({
             'visitId': 1,
@@ -105,41 +105,7 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'OR',
-            'timesPerDay': 0
-        })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
-        }));
-
-    test('Request creation with invalid time neg (should fail)', () => admin
-        .post('/treatments')
-        .send({
-            'visitId': 1,
-            'drugId': 1,
-            'dose': 3,
-            'unit': 'cc',
-            'form': 'OR',
-            'timesPerDay': -12
-        })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
-        }));
-
-    test('Request creation with invalid huge time per day (should fail)', () => admin
-        .post('/treatments')
-        .send({
-            'visitId': 1,
-            'drugId': 1,
-            'dose': 3,
-            'unit': 'cc',
-            'form': 'OR',
-            'timesPerDay': 9999999
+            'dosingFreqPerInterval': 9
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -156,7 +122,7 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'OR',
-            'timesPerDay': 3
+            'dosingFreqPerInterval': 'QD'
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -173,7 +139,7 @@ describe('Create treatment controller tests', () => {
             'dose': 3,
             'unit': 'cc',
             'form': 'OR',
-            'timesPerDay': 3
+            'dosingFreqPerInterval': 'QD'
         })
         .then(res => {
             expect(res.status).toBe(400);
