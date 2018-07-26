@@ -173,7 +173,7 @@ class ExportDataController {
         /* Patient visit data */
 
         knex('VISIT_DATA')
-            .select('VISIT_DATA.value', 'VISIT_DATA.field', 'VISITS.visitDate', 'AVAILABLE_FIELDS_VISITS.definition', 'PATIENTS.uuid', 'VISITS.patient')
+            .select('VISIT_DATA.value', 'VISIT_DATA.field', 'VISITS.visitDate', 'VISITS.communication', 'AVAILABLE_FIELDS_VISITS.definition', 'PATIENTS.uuid', 'VISITS.patient')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
@@ -247,7 +247,7 @@ class ExportDataController {
         /* Patient treatment data */
 
         knex('TREATMENTS')
-            .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name as EXTRT', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit', 'TREATMENTS.form as EXFORM', 'TREATMENTS.timesPerDay', 'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module as EXCAT', 'PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC', 'TREATMENTS_INTERRUPTIONS.endDate as EXENDTC', 'TREATMENTS_INTERRUPTIONS.reason as REASON', 'ADVERSE_EVENT_MEDDRA.name as MedDRA')
+            .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name as EXTRT', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit', 'TREATMENTS.form as EXFORM', 'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason', 'AVAILABLE_DRUGS.module as EXCAT', 'PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC', 'TREATMENTS_INTERRUPTIONS.endDate as EXENDTC', 'TREATMENTS_INTERRUPTIONS.reason as REASON', 'ADVERSE_EVENT_MEDDRA.name as MedDRA')
             .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
             .leftOuterJoin('TREATMENTS_INTERRUPTIONS', 'TREATMENTS_INTERRUPTIONS.treatment', 'TREATMENTS.id')
             .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
