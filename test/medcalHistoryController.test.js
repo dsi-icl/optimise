@@ -348,7 +348,7 @@ describe('Edit Medical Historycontroller test', () => {
             expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
-    test('Editing Medical Historywith body but badly formatted startDate (Should Success - startDate is nullable)', () => admin
+    test('Editing Medical Historywith body but badly formatted startDate (should succeed - startDate is nullable)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
