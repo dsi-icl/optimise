@@ -23,13 +23,23 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         return;
     }
     if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' &&
-        typeof req.body.dose === 'number' && typeof req.body.form === 'string' && typeof req.body.form === 'string')) {
+        typeof req.body.dose === 'number' && typeof req.body.form === 'string')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
     if ((req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
         (req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC') ||
-        (req.body.hasOwnProperty('dosingFreqPerInterval') && req.body.dosingFreqPerInterval !== 'Q2H' && req.body.dosingFreqPerInterval !== 'QD' && req.body.dosingFreqPerInterval !== 'PRN')) {
+        (req.body.hasOwnProperty('times') && typeof req.body.times !== 'number') ||
+        (req.body.hasOwnProperty('intervalUnit') && req.body.intervalUnit !== 'hour' && req.body.intervalUnit !== 'day' && req.body.intervalUnit !== 'week' && req.body.intervalUnit !== 'month' && req.body.intervalUnit !== 'year')) {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
+    }
+    // No specific reason for 500 (max number of times) here
+    if (req.body.hasOwnProperty('times') && (req.body.times < 0 || req.body.times > 500)) {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
+    }
+    if (req.body.hasOwnProperty('times') && !req.body.hasOwnProperty('intervalUnit') || req.body.hasOwnProperty('intervalUnit') && !req.body.hasOwnProperty('times')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -39,7 +49,8 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'dose': req.body.dose,
         'unit': req.body.unit,   //hardcoded SQL: only mg or cc
         'form': req.body.form,   //hardcoded SQL: only OR (oral) or IV
-        'dosingFreqPerInterval': (req.body.hasOwnProperty('dosingFreqPerInterval') ? req.body.dosingFreqPerInterval : null),
+        'times': (req.body.hasOwnProperty('times') ? req.body.times : null),
+        'intervalUnit': (req.body.hasOwnProperty('intervalUnit') ? req.body.intervalUnit : null),
         'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         // field adverseEvent coming up soon.

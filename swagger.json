@@ -1426,7 +1426,10 @@
                                 "form": {
                                     "type": "string"
                                 },
-                                "dosingFreqPerInterval": {
+                                "times": {
+                                    "type": "integer"
+                                },
+                                "intervalUnit": {
                                     "type": "string"
                                 }
                             }
@@ -1530,7 +1533,10 @@
                                 "form": {
                                     "type": "string"
                                 },
-                                "dosingFreqPerInterval": {
+                                "times": {
+                                    "type": "integer"
+                                },
+                                "intervalUnit": {
                                     "type": "string"
                                 }
                             }
@@ -3823,7 +3829,10 @@
                 "form": {
                     "type": "string"
                 },
-                "dosingFreqPerInterval": {
+                "times": {
+                    "type": "integer"
+                },
+                "intervalUnit": {
                     "type": "string"
                 },
                 "terminatedDate": {
