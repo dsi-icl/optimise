@@ -158,7 +158,7 @@
     display: grid;
     grid-template-columns: 2fr 1.5fr;
     grid-template-rows: 50px 1fr;
-    background: linear-gradient(to bottom left, var(--color-shade-one), hsl(var(--color-shade-one-h), var(--color-shade-one-s), 50%));
+    background-color: #3d5782;
     height: 80%;
     min-height: 400px;
     width: 80%;

@@ -14,7 +14,17 @@ import { alterDataCall } from '../../redux/actions/addOrUpdateData';
     patientProfile: state.patientProfile.data,
     sections : state.availableFields.visitSections
 }))
-export default class EDSSCalculator extends Component {
+export default class EDSSPage extends Component {
+    render() {
+        if (this.props.patientProfile.visits) {
+            const { edssCalc, visitFields, patientProfile, sections, match} = this.props;
+            return <EDSSCalculator match={match} edssCalc={edssCalc} visitFields={visitFields} patientProfile={patientProfile} sections={sections}/>;
+        } else {
+            return null;
+        }
+    }
+}
+class EDSSCalculator extends Component {
     constructor() {
         super();
         this.state = { autoCalculatedScore: 0, redirect: false };
@@ -25,7 +35,7 @@ export default class EDSSCalculator extends Component {
     componentDidMount() {    //this basically adds the originalValues and EDSSFields
         const { visitFields, sections, patientProfile, match } = this.props;
         const { params } = match;
-        const EDSSFields = visitFields.filter(el => el.subsection === 'EDSS');
+        const EDSSFields = visitFields.filter(el => el.subsection === 'QS');
         if (EDSSFields.length !== 9){
             store.dispatch(addError({ error: 'EDSS should have 9 entries in the database! please contact your admin' }));
             this.setState({ redirect: true });
@@ -41,13 +51,15 @@ export default class EDSSCalculator extends Component {
             this.setState({ redirect: true });
         }
         const ambulationID = this.EDSSFields_Hash_reverse.Expanded_Disability_Status_Scale_EDSS_Ambulation;
+        console.log(ambulationID);
         const data = visitsFiltered[0].data;
         let orignalValuesWithoutAmbulation = [];
         let ambulation;
         if (data) {
             this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseInt(el.value); return a; }, {});
             const tmpValues = {...this.originalValues};
-            if (tmpValues[ambulationID]) {
+            console.log('TMP', tmpValues, tmpValues[ambulationID]);
+            if (typeof tmpValues[ambulationID] !== undefined) {
                 ambulation = parseInt(tmpValues[ambulationID]);
                 delete tmpValues[ambulationID];
             }
@@ -55,7 +67,7 @@ export default class EDSSCalculator extends Component {
         } else {
             this.originalValues = {};
         }
-        console.log(this.originalValues);
+        console.log('ORIGINAL', this.originalValues);
         console.log('AMBULATION', ambulation);
         this.setState({ autoCalculatedScore: edssAlgorithm(orignalValuesWithoutAmbulation, ambulation) });
         this.forceUpdate();
@@ -119,8 +131,9 @@ export default class EDSSCalculator extends Component {
         const update = {};
         for (let each of criteria) {
             if (document.querySelector(`input[name="${each}"]:checked`)) {    //if anything is checked
-                if (this.originalValues[this.EDSSFields_Hash_reverse[each]]) {  //if there's original value
-                    if (this.originalValues[this.EDSSFields_Hash_reverse[each]] !==  document.querySelector(`input[name="${each}"]:checked`).value) {
+                console.log('CHECL', this.originalValues[this.EDSSFields_Hash_reverse[each]], each, this.EDSSFields_Hash_reverse[each], typeof this.originalValues[this.EDSSFields_Hash_reverse[each]], typeof this.originalValues[this.EDSSFields_Hash_reverse[each]] !== undefined);
+                if (typeof this.originalValues[this.EDSSFields_Hash_reverse[each]] !== 'undefined') {  //if there's original value
+                    if (this.originalValues[this.EDSSFields_Hash_reverse[each]] !==  parseInt(document.querySelector(`input[name="${each}"]:checked`).value)) {
                         update[this.EDSSFields_Hash_reverse[each]] = document.querySelector(`input[name="${each}"]:checked`).value;
                     }
                 } else {
@@ -172,11 +185,11 @@ export default class EDSSCalculator extends Component {
                                         {el.range.map(number =>
                                             <span key={number} className={style.radioButtonWrapper}>
                                                 <button type='button'
-                                                    className={originalValues[EDSSFields_Hash_reverse[el.idname]] && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton }
+                                                    className={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton }
                                                     onClick={this._handleClick}
                                                     value={number}
                                                 >{number}</button>
-                                                <input type='radio' name={el.idname} value={number} defaultChecked={originalValues[EDSSFields_Hash_reverse[el.idname]] && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false }/>
+                                                <input type='radio' name={el.idname} value={number} defaultChecked={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false }/>
                                             </span>
                                         )}
                                     </div>

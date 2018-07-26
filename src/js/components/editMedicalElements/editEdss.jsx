@@ -18,8 +18,8 @@ export default class EditPerformanceMesaure extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <p>This is the communication for visit ///// </p> <br /><br />
-                    <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><span>EDSS calculator</span></NavLink>
+                    <p> </p> <br /><br />
+                    <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><button >EDSS calculator</button></NavLink>
                 </form>
             </>
         );

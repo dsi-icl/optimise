@@ -125,7 +125,6 @@ const symptomTitle = () => (
 
 
 const oneSignOrSymptom = (data, VSFields_Hash) => {
-    console.log('MAP SYMPTOMS', data.field, VSFields_Hash);
     const fieldObj = VSFields_Hash[data.field];
     if (fieldObj) {
         return `- ${fieldObj.definition}: ${data.value}`;
