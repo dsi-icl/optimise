@@ -30,7 +30,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         (req.body.hasOwnProperty('form') && req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC') ||
         (req.body.hasOwnProperty('times') && typeof req.body.times !== 'number') ||
         (req.body.hasOwnProperty('intervalUnit') && req.body.intervalUnit !== 'hour' && req.body.intervalUnit !== 'day' &&
-        req.body.intervalUnit !== 'week' && req.body.intervalUnit !== 'month' && req.body.intervalUnit !== 'year')) {
+            req.body.intervalUnit !== 'week' && req.body.intervalUnit !== 'month' && req.body.intervalUnit !== 'year')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -44,7 +44,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         return;
     }
     if (req.body.hasOwnProperty('times') && !req.body.hasOwnProperty('intervalUnit') || req.body.hasOwnProperty('intervalUnit') && !req.body.hasOwnProperty('times')) {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        res.status(400).json(ErrorHelper(message.userError.FREQANDINTERVALMUSTCOPRESENT));
         return;
     }
     let entryObj = {
