@@ -13,6 +13,10 @@ export default class EditPerformanceMesaure extends Component {
         const { match: { params }, data: { visits } } = this.props;
         if (visits === undefined)
             return null;
+        const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
+        if (visitFiltered.length !== 1){
+            return <div> Cannot find your visit </div>;
+        }
         return (
             <>
                 <div className={style.ariane}>
@@ -20,7 +24,7 @@ export default class EditPerformanceMesaure extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <span><i>This is for the visit of the {(new Date(parseInt(visits[params.visitId].visitDate))).toDateString()}</i></span><br /><br />
+                    <span><i>This is for the visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i></span><br /><br />
                     <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><span>EDSS calculator</span></NavLink>
                 </form>
             </>
