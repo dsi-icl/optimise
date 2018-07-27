@@ -382,6 +382,10 @@ div.timelineCEBlack {
     border-radius: 2px;
     left: 0;
     padding: 0 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
 }
 
 .timelineVisitItem {
@@ -406,4 +410,22 @@ div.timelineCEBlack {
 
 .timelineImmunisationItem {
     background-color: rgb(79, 20, 97);
+}
+
+.keyboardGroup {
+    line-height: 1.4em;
+    padding-left: 2em;
+}
+
+.keyboardGroup pre {
+    background: hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.keyboardKey {
+    margin-top: -0.2em;
+    margin-bottom: 0.5em;
+    font-size: 1.2em;
+    display: inline-block;
+    padding: 0.2em 0.5em;
+    word-wrap: none;
 }

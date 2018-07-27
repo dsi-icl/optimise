@@ -99,14 +99,14 @@ export default class FullTimeline extends Component {
                 items.push({
                     id: `tr_${t.id}`,
                     group: 1,
-                    title: props.availableFields.drugs[t.drug],
+                    title: `${props.availableFields.drugs[t.drug].name} (${props.availableFields.drugs[t.drug].module})`,
                     start: moment(t.startDate, 'x').valueOf(),
-                    end: t.terminatedDate ? moment(t.terminatedDate, 'x').valueOf() : moment().valueOf(),
+                    end: t.terminatedDate !== null ? moment(t.terminatedDate, 'x').valueOf() : moment().add(12, 'hours').valueOf(),
                     canMove: false,
                     canResize: false,
                     className: style.timelineTreatementItem,
                     itemProps: {
-                        'data-tip': props.availableFields.drugs[t.drug]
+                        'data-tip': `${props.availableFields.drugs[t.drug].name} (${props.availableFields.drugs[t.drug].module})`
                     }
                 });
             });
@@ -210,10 +210,7 @@ export default class FullTimeline extends Component {
             );
     }
 
-    itemRenderer({ item, timelineContext }) {
-
-        console.log(item, timelineContext);
-
+    itemRenderer({ item }) {
         return (
             <>
                 <div className={`${style.timelineBackground} ${item.className}`}></div>
@@ -241,6 +238,9 @@ export default class FullTimeline extends Component {
                     <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                 </div>
                 <div className={style.panel}>
+                    <div>
+                        <i>This timeline allow you to browse through the patient history from the date of the first recorded event to today</i><br /><br />
+                    </div>
                     <Timeline
                         groups={groups}
                         groupRenderer={this.groupRenderer}
@@ -257,6 +257,18 @@ export default class FullTimeline extends Component {
                         defaultTimeEnd={defaultTimeEnd}
                         onTimeChange={this.timeBoudary}
                     />
+                    <br /><br />
+                    <div>
+                        To interact and navigate within the timeline you can click-hold then drag<br />
+                        Also the following options are available:<br /><br />
+                        <div className={style.keyboardGroup}>
+                            <pre className={style.keyboardKey}>shift</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = move timeline left/right<br />
+                            <pre className={style.keyboardKey}>alt</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out<br />
+                            <pre className={style.keyboardKey}>ctrl</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out 10× faster<br />
+                            <pre className={style.keyboardKey}>meta/alt</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out 3x faster<br /><br />
+                        </div>
+                        Plus you can also use pinch-in and pinch-out zoom gestures (two touch points) on touch screens.<br />
+                    </div>
                 </div>
             </>
         );
