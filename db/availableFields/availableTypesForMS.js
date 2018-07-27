@@ -1,20 +1,20 @@
 const availableTypes = {
     clinicalEvents: [
-        { id: 1, name: 'Relapse' },
-        { id: 2, name: 'Infection' },
-        { id: 3, name: 'Opportunistic Infection' },
-        { id: 4, name: 'Death' },
-        { id: 5, name: 'Other SAE likely related to treatment or malignancies' }
+        { id: 1, module: 'MS', name: 'Relapse' },
+        { id: 2, module: 'MS', name: 'Infection' },
+        { id: 3, module: 'MS', name: 'Opportunistic Infection' },
+        { id: 4, module: 'MS', name: 'Death' },
+        { id: 5, module: 'MS', name: 'Other SAE likely related to treatment or malignancies' }
     ],
     tests: [
-        { id: 1, name: 'Laboratory test' },
-        { id: 2, name: 'Evoked potential' },
-        { id: 3, name: 'MRI' },
-        { id: 4, name: 'Lumbar Puncture' }
+        { id: 1, module: 'MS', name: 'Laboratory test' },
+        { id: 2, module: 'MS', name: 'Evoked potential' },
+        { id: 3, module: 'MS', name: 'MRI' },
+        { id: 4, module: 'MS', name: 'Lumbar Puncture' }
     ],
     visits: [
-        { id: 1, name: 'In-patient' },
-        { id: 2, name: 'Remote' }
+        { id: 1, module: 'MS', value: 'Inpatient' },
+        { id: 2, module: 'MS', value: 'Remote' }
     ]
 };
 

@@ -5,7 +5,7 @@ const DiagnosisCore = require('../core/patientDiagnosis');
 class SelectorUtils {
     getVisitsWithoutData(patientId) {
         return knex('VISITS')
-            .select({ visitId: 'id', visitDate: 'visitDate', type: 'type' })
+            .select({ visitId: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication' })
             .where({ 'patient': patientId, deleted: '-' })
             .then(result => {
                 const returnObj = { visitsWithoutData: result };
@@ -15,7 +15,7 @@ class SelectorUtils {
 
     getDemographicData(patientId) {
         return knex('PATIENT_DEMOGRAPHIC')
-            .select('DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin', 'alcoholUsage', 'smokingHistory')
+            .select('id', 'DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin', 'alcoholUsage', 'smokingHistory')
             .where({ 'patient': patientId, deleted: '-' })
             .then(result => {
                 const returnObj = { demographicData: result[0] };
@@ -42,7 +42,7 @@ class SelectorUtils {
 
     getImmunisations(patientId) {
         return knex('PATIENT_IMMUNISATION')
-            .select('vaccineName', 'immunisationDate')
+            .select('id', 'vaccineName', 'immunisationDate')
             .where({ 'patient': patientId, 'deleted': '-' })
             .then(result => {
                 const returnObj = { immunisations: result };
@@ -52,7 +52,7 @@ class SelectorUtils {
 
     getMedicalHistory(patientId) {
         return knex('MEDICAL_HISTORY')
-            .select('relation', 'conditionName', 'startDate', 'outcome', 'resolvedYear')
+            .select('id', 'relation', 'conditionName', 'startDate', 'outcome', 'resolvedYear')
             .where({ 'patient': patientId, 'deleted': '-' })
             .then(result => {
                 const returnObj = { medicalHistory: result };
@@ -63,7 +63,7 @@ class SelectorUtils {
     getVisits(patientId) {
         const _this = this;
         return knex('VISITS')
-            .select({ id: 'id', visitDate: 'visitDate', type: 'type' })
+            .select({ id: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication' })
             .where({ 'patient': patientId, 'deleted': '-' })
             .then(result => {
                 if (result.length >= 1) {
@@ -133,7 +133,7 @@ class SelectorUtils {
                 dates[resu[i].id] = resu[i].visitDate;
             }
             return knex('TREATMENTS')
-                .select('id', 'orderedDuringVisit', 'drug', 'dose', 'unit', 'form', 'timesPerDay', 'terminatedDate', 'terminatedReason')
+                .select('id', 'orderedDuringVisit', 'drug', 'dose', 'unit', 'form', 'times', 'intervalUnit', 'startDate', 'terminatedDate', 'terminatedReason')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere({ 'deleted': '-' })
                 .then(result => {
@@ -174,25 +174,25 @@ class SelectorUtils {
 
     _getVisitData(visitId) {
         return knex('VISIT_DATA')
-            .select('field', 'value')
+            .select('id', 'field', 'value')
             .where({ 'visit': visitId, 'deleted': '-' });
     }
 
     _getTestData(testId) {
         return knex('TEST_DATA')
-            .select('field', 'value')
+            .select('id', 'field', 'value')
             .where({ 'test': testId, 'deleted': '-' });
     }
 
     _getTreatmentInterruptions(treatmentId) {
         return knex('TREATMENTS_INTERRUPTIONS')
-            .select('reason', 'startDate', 'endDate', 'meddra')
+            .select('id', 'reason', 'startDate', 'endDate', 'meddra')
             .where({ 'treatment': treatmentId, 'deleted': '-' });
     }
 
     _getCeData(ceId) {
         return knex('CLINICAL_EVENTS_DATA')
-            .select('field', 'value')
+            .select('id', 'field', 'value')
             .where({ 'clinicalEvent': ceId, 'deleted': '-' });
     }
 
@@ -203,7 +203,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return knex('CLINICAL_EVENTS')
-                .select('recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra')
+                .select('id', 'recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra')
                 .where(builder => builder.where('patient', patientId).orWhere('recordedDuringVisit', 'in', ids))
                 .andWhere({ 'deleted': '-' })
                 .then(result => {

@@ -27,7 +27,7 @@ function Visit() {
 Visit.prototype.getVisit = function (patientInfo) {
     return new Promise(function (resolve, reject) {
         knex('PATIENTS')
-            .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.visitDate', 'VISITS.type')
+            .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.communication', 'VISITS.visitDate', 'VISITS.type')
             .leftOuterJoin('VISITS', 'PATIENTS.id', 'VISITS.patient')
             .where({ 'PATIENTS.aliasId': patientInfo, 'VISITS.deleted': '-' })
             .then(function (result) {
