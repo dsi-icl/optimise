@@ -149,7 +149,7 @@ export function formatRow(arr) {
 class OneVisit extends Component {
 
     render() {
-        const { baselineVisit } = this.props;
+        const { baselineVisit, isMinor } = this.props;
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
@@ -183,7 +183,7 @@ class OneVisit extends Component {
                                 </tr>
                                 <tr>
                                     <td >Weight: {`${VSHashTable['5']} kg`}</td>
-                                    <td >Academic concerns: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td>
+                                    {isMinor ? <td >Academic concerns: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td> : null}
                                 </tr>
                             </tbody>
                         </table>
@@ -281,7 +281,11 @@ class OneVisit extends Component {
 @connect(state => ({ data: state.patientProfile.data, availableFields: state.availableFields }))
 export class Charts extends Component {   //unfinsihed
     render() {
+        if (!this.props.data.demographicData) {
+            return null;
+        }
         const { visits } = this.props.data;
+        const { DOB } = this.props.data.demographicData;
         return (
             <PatientProfileSectionScaffold sectionName='Medical History Summary'>
                 {visits.length !== 0 ?
@@ -311,6 +315,7 @@ export class Charts extends Component {   //unfinsihed
                                         key={el.id} data={this.props.data}
                                         visitId={el.id}
                                         visitType={el.type}
+                                        isMinor={new Date().getTime() -  parseInt(DOB) < 568025136000}
                                         baselineVisit={baselineVisit}
                                         type='visit'
                                         title={el.type === 1 ? (baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`) : 'Ponctual record'}
