@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/dataPage';
 import Helmet from '../scaffold/helmet';
@@ -28,6 +28,7 @@ class EDSSCalculator extends Component {
         super();
         this.state = { autoCalculatedScore: 0, redirect: false };
         this.freeinputref = React.createRef();
+        this._hoverType = this._hoverType.bind(this);
         this._handleClick = this._handleClick.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
     }
@@ -150,19 +151,30 @@ class EDSSCalculator extends Component {
         store.dispatch(alterDataCall(body));
     }
 
+    _hoverType(id, number) {
+        if (id)
+            this.setState({
+                currentHoverMeasure: id
+            });
+        else
+            this.setState({
+                currentHoverPower: number
+            });
+    }
+
     render() {
-        if (!this.originalValues || !this.EDSSFields_Hash_reverse) return null;
+        if (!this.originalValues || !this.EDSSFields_Hash_reverse || !this.EDSSFields) return null;
         const { match: { params }, patientProfile: { visits } } = this.props;
-        const { EDSSFields_Hash_reverse, originalValues } = this;
+        const { EDSSFields_Hash_reverse, originalValues, EDSSFields } = this;
         const rangeGen = ceiling => [...Array(ceiling).keys()];  //returns [0,1,2,3,...,*ceiling_inclusive*]
-        const range_pyramidal = rangeGen(6);
-        const range_cerebellar = rangeGen(5);
-        const range_brainstem = rangeGen(5);
-        const range_sensory = rangeGen(6);
-        const range_bowelbladder = rangeGen(6);
-        const range_visual = rangeGen(6);
-        const range_mental = rangeGen(5);
-        const range_ambulation = rangeGen(12);
+        const range_pyramidal = rangeGen(7);
+        const range_cerebellar = rangeGen(6);
+        const range_brainstem = rangeGen(6);
+        const range_sensory = rangeGen(7);
+        const range_bowelbladder = rangeGen(7);
+        const range_visual = rangeGen(7);
+        const range_mental = rangeGen(6);
+        const range_ambulation = rangeGen(13);
         const criteria = [
             { name: 'Pyramidal', idname: 'edss:expanded disability status scale (edss) pyramidal', range: range_pyramidal },
             { name: 'Cerebellar', idname: 'edss:expanded disability status scale (edss) cerebellar', range: range_cerebellar },
@@ -182,6 +194,8 @@ class EDSSCalculator extends Component {
             return <div> Cannot find your visit </div>;
         }
 
+        const currentEDSSObject = EDSSFields.reduce((a, el) => { a[el.id] = el; return a; }, {})[this.state.currentHoverMeasure]
+
         return (
             <>
                 <div className={style.ariane}>
@@ -190,13 +204,12 @@ class EDSSCalculator extends Component {
                     <BackButton to={`/patientProfile/${this.props.match.params.patientId}/edit/msPerfMeas/${params.visitId}`} />
                 </div>
                 <div className={style.panel}>
-                    <div className={style.calculatorArea}>
-                        <span>
-                            <i>This is the EDSS performance score calculator for visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i><br /><br />
-                            Below the help calculator will automatically compoute a score for you, however, you are free to indicate immediately a custom score</span><br /><br /><br />
-                        <form onSubmit={this._handleSubmit}>
+                    <form onSubmit={this._handleSubmit}>
+                        <span><i>This is the EDSS performance score calculator for visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i><br /><br />
+                            Below the help calculator will automatically compoute a score for you, however, you are free to indicate immediately a custom score</span><br /><br />
+                        <div className={style.calculatorArea}>
                             {criteria.map(el =>
-                                <div className={style.criterion} key={el.name}>
+                                <div className={style.criterion} key={el.name} onMouseOver={() => this._hoverType(EDSSFields_Hash_reverse[el.idname])} onMouseLeave={() => this._hoverType(null)}>
                                     <span>{`${el.name} :  `}</span>
                                     <div>
                                         {el.range.map(number =>
@@ -204,6 +217,7 @@ class EDSSCalculator extends Component {
                                                 <button type='button'
                                                     className={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton}
                                                     onClick={this._handleClick}
+                                                    onMouseOver={() => this._hoverType(null, number)}
                                                     value={number}
                                                 >{number}</button>
                                                 <input type='radio' name={el.idname} value={number} defaultChecked={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false} />
@@ -212,16 +226,21 @@ class EDSSCalculator extends Component {
                                     </div>
                                 </div>
                             )}
-                            <br /><br />
-                            <label htmlFor='calcSocre'>Calculated score: </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
-                            <br /><br />
-                            <label htmlFor='edss:expanded disability status scale (edss) total'>Free input score: </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale (edss) total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] : ''} />
-                            <br /><br />
-                            <button type='submit'>Save</button>
-                        </form>
-                    </div>
-                    <div className={style.contextArea}>
-                    </div>
+                        </div>
+                        <div className={style.contextArea}>
+                            {this.state.currentHoverMeasure ? currentEDSSObject.labels.split('@').map((e, i) => (
+                                <Fragment key={i}>
+                                    <span className={this.state.currentHoverPower === i ? style.currentHoverPower : ''}>{i}. {e}</span><br />
+                                </Fragment>
+                            )) : null}
+                        </div>
+                        <br /><br />
+                        <label htmlFor='calcSocre'>Calculated score: </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
+                        <br /><br />
+                        <label htmlFor='edss:expanded disability status scale (edss) total'>Free input score: </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale (edss) total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] : ''} />
+                        <br /><br />
+                        <button type='submit'>Save</button>
+                    </form>
                 </div>
             </>
         );
@@ -241,8 +260,8 @@ function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore) {
     }, {});
 
     //just some crude error checking
-    if (maxScore > 5) {
-        return 'edss function system scores are incorrect.';
+    if (maxScore > 6) {
+        return 'EDSS function system scores are incorrect';
     }
 
     const ambulationMap = {
@@ -312,6 +331,6 @@ function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore) {
                     return 5;
             }
         default:
-            return 'Ambulation score must be provided.';
+            return 'Ambulation score must be provided';
     }
 }

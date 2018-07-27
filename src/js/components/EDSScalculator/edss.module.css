@@ -17,6 +17,7 @@
 }
 
 .panel {
+    position: relative;
     grid-area: panel;
     display: block;
     width: 100%;
@@ -123,4 +124,25 @@
 
 .radioButtonWrapper > input {
     display: none;
+}
+
+.calculatorArea {
+    display: inline-block;
+    width: 47em;
+}
+
+.contextArea {
+    display: inline-block;
+    top: 0;
+    right: 0;
+    line-height: 1.5em;
+    width: calc(100% - 47em);
+    max-height: 28.6em;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.currentHoverPower {
+    font-weight: bold;
+    color: var(--color-shade-one);
 }
