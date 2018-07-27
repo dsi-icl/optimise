@@ -172,7 +172,7 @@ class OneVisit extends Component {
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
         const VS = this.props.visitData.filter(el => [1, 2, 3, 4, 5, 6].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
-        const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) &&  [2,3].includes(field.section));
+        const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && [2, 3].includes(field.section));
         const relevantFieldsIdArray = relevantFields.map(el => el.id);
         const symptoms = this.props.visitData.filter(el => el.field > 6 && relevantFieldsIdArray.includes(el.field));
 
@@ -288,6 +288,7 @@ class OneVisit extends Component {
                     </>
                 ) : null
                 }
+                <br />
 
             </TimelineEvent>
         );
@@ -332,7 +333,7 @@ export class Charts extends Component {   //unfinsihed
                                         key={el.id} data={this.props.data}
                                         visitId={el.id}
                                         visitType={el.type}
-                                        isMinor={new Date().getTime() -  parseInt(DOB) < 568025136000}
+                                        isMinor={new Date().getTime() - parseInt(DOB) < 568025136000}
                                         baselineVisit={baselineVisit}
                                         type='visit'
                                         title={el.type === 1 ? (baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`) : 'Ponctual record'}
