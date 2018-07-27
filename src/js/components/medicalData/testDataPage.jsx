@@ -30,7 +30,7 @@ function mapStateToProps(state) {
  /* this component serves as a sieve for the data and pass the relevant one to the form as props*/
 @withRouter
 @connect(mapStateToProps)
-export class VisitData extends Component {
+export class TestData extends Component {
     constructor() {
         super();
         this.state = {
@@ -81,7 +81,7 @@ export class VisitData extends Component {
             }
         })
         const { params } = this.props.match;
-        const body = {data: {visitId: params.visitId, update, add}, type: 'visit', patientId: params.patientId };
+        const body = {data: {testId: params.testId, update, add}, type: 'test', patientId: params.patientId };
         store.dispatch(alterDataCall(body));
     }
 
@@ -89,24 +89,23 @@ export class VisitData extends Component {
         const { patientProfile, match } = this.props;
         const { params } = match;
         if (!patientProfile.fetching) {
-            console.log(patientProfile.data.visits);
-            const visitsMatched = patientProfile.data.visits.filter(visit => visit.id === parseInt(params.visitId, 10));
+            const visitsMatched = patientProfile.data.tests.filter(visit => visit.id === parseInt(params.testId, 10));
+            console.log(params.testId, patientProfile.data.tests);
             if (visitsMatched.length !== 1) {
                 return <div>{'Cannot find your visit!'}</div>;
             }
             const { fields } = this.props;
-            const relevantFields = fields.visitFields.filter(el => (el.referenceType === visitsMatched[0].type && [2,3].includes(el.section)));
-            const fieldTree = {symptoms: createLevelObj(relevantFields.filter(el => el.section === 2)), signs: createLevelObj(relevantFields.filter(el => el.section === 3))};
+            const relevantFields = fields.testFields.filter(el => (el.referenceType === visitsMatched[0].type));
+            const fieldTree = createLevelObj(relevantFields);
             console.log(fieldTree);
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
-
             this.originalValues = visitsMatched[0].data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
             this.references = relevantFields.reduce((a, el) => { a[el.id] = {ref: React.createRef(), type: inputTypeHash[el.type] } ; return a; }, {});
             console.log(this.originalValues, this.references);
             return (
                 <>
                     <div className={scaffold_style.ariane}>
-                        <h2>SYMPTOMS AND SIGNS</h2>
+                        <h2>TEST RESULTS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
                     <div className={scaffold_style.panel}>
