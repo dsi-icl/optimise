@@ -1,8 +1,18 @@
 import React, { Component, Fragment } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import { DataTemplate } from './dataPage';
+import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import merge from 'deepmerge';
 import style from './dataPage.module.css';
+
+
+export class BackButton extends Component {
+    render() {
+        return (
+            <Link to={this.props.to} title='Close' className={scaffold_style.backButton}>&#10006;</Link>
+        );
+    }
+}
 
 
 /* receives ref and an array of choices  */

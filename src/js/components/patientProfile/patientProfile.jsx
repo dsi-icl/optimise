@@ -142,7 +142,7 @@ class ImmunisationSection extends Component {
         const { data } = this.props;
         return (
             <PatientProfileSectionScaffold sectionName='Immunisations' active={this.state.addMore}>
-                <table cellspacing={'1em'}>
+                <table cellSpacing={'1em'}>
                     {this.state.addMore || data.immunisations.length !== 0 ? <thead>
                         <tr><th>Vaccine name</th><th>Date</th></tr>
                     </thead> : null}
