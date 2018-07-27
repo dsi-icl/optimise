@@ -14,7 +14,7 @@ export default class EditPerformanceMesaure extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>MS Performance Measure</h2>
+                    <h2>Performance Measure</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>

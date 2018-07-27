@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import merge from 'deepmerge';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
@@ -94,10 +95,6 @@ export class DataTemplate extends Component {
         }
     }
 }
-
-
-
-
 
 /* receives a data tree  */
 class DataForm extends Component {

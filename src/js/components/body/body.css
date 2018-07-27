@@ -3,7 +3,7 @@
 :root {
 
     /* stylelint-disable-next-line */
-    --font-size: 14px;
+    --font-size: 0.9rem;
     --font-family: 'Optimise', menu, sans-serif;
     --color-accent-h: 188;
     --color-accent-s: 64%;
