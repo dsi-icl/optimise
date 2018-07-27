@@ -55,7 +55,7 @@ class Communication extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <p>This is the communication for visit ///// </p> <br/><br/>
+                    <p>Notes for the visit </p> <br/><br/>
                     <CommunicationEditor precomposed={precomposed} match={match} originalEditorState={originalEditorState} location={location}/>
                 </form>
             </>
