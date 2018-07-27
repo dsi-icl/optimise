@@ -80,9 +80,10 @@ class Medication extends PureComponent {
             <tr>
                 <td><EditButton to={`/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
+                <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
                 <td>{`${data.dose} ${data.unit}`}</td>
                 <td>{data.form}</td>
-                <td>{data.timesPerDay}</td>
+                <td>{`${data.times} times/${data.intervalUnit}`}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
                     <NavLink id={`treatment/${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
@@ -97,19 +98,22 @@ class Medication extends PureComponent {
 
 /* receives a prop data of one clinical event*/
 @withRouter
-@connect(state => ({ typedict: state.availableFields.clinicalEventTypes_Hash[0], patientId: state.patientProfile.data.patientId }))
+@connect(state => ({ typedict: state.availableFields.clinicalEventTypes_Hash[0], patientId: state.patientProfile.data.patientId, meddraHash: state.availableFields.allMeddra[0] }))
 class ClinicalEvent extends PureComponent {
     render() {
-        const { data, typedict, patientId } = this.props;
+        const { data, typedict, patientId, meddraHash } = this.props;
         const date = new Date(parseInt(data.dateStartDate, 10)).toDateString();
+        const endDate = data.endDate !== null && data.endDate !== undefined ? new Date(parseInt(data.endDate, 10)).toDateString() : 'NULL';
         return (
             <tr>
                 <td><EditButton to={`/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
+                <td>{endDate}</td>
+                <td>{meddraHash[data.meddra]}</td>
                 <td>
                     <NavLink id={`clinicalEvent/${data.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
-                        <button>Results</button>
+                        <button>Data</button>
                     </NavLink>
                 </td>
             </tr>
@@ -258,7 +262,7 @@ class OneVisit extends Component {
                         <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE MEDICATIONS' : 'MEDICATIONS'}</h4>
                         <table className={style.editableTable}>
                             <thead>
-                                <tr><th></th><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>#interruptions</th><th></th></tr>
+                                <tr><th></th><th>Drug</th><th>Start date</th><th>Dose</th><th>Form</th><th>Frequency</th><th>#interruptions</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.treatments
@@ -276,7 +280,7 @@ class OneVisit extends Component {
                         <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'BASELINE CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
                         <table className={style.editableTable}>
                             <thead>
-                                <tr><th></th><th>Type</th><th>Start date</th><th></th></tr>
+                                <tr><th></th><th>Type</th><th>Start date</th><th>End date</th><th>MedDRA</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.clinicalEvents

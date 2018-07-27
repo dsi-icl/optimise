@@ -57,7 +57,7 @@ class Communication extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <span><i>This is for the visit of the {(new Date(parseInt(visits[params.visitId].visitDate))).toDateString()}</i></span><br /><br />
+                    
                     <CommunicationEditor precomposed={precomposed} match={match} originalEditorState={originalEditorState} location={location} />
                 </form>
             </>
