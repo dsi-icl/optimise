@@ -4,6 +4,7 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
 import { PatientProfileSectionScaffold, PatientProfileTop, EditButton } from './sharedComponents';
 import { TimelineBox } from './timeline';
+import Helmet from '../scaffold/helmet';
 import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import Icon from '../icon';
@@ -25,6 +26,7 @@ export class PatientChart extends Component {
         return (
             <>
                 <div className={style.ariane}>
+                    <Helmet title='Patient Profile' />
                     <h2>Patient Profile {this.props.fetching ? '' : `(${this.props.data.patientId})`}</h2>
                     <PatientProfileTop />
                 </div>
@@ -203,13 +205,18 @@ class OneVisit extends Component {
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
                             <button>Edit / Add</button>
                         </NavLink>
+
+                        <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit / Add</button>
+                        </NavLink>
+
+                        <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit / Add</button>
+                        </NavLink>
                     </>
                 ) : null}
-
-                <h4><Icon symbol='measure' />&nbsp;MS PERFORMANCE MEASURES</h4>
-                <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                    <button>Edit / Add</button>
-                </NavLink>
 
                 {visitHasTests ? (
                     <>
@@ -265,10 +272,6 @@ class OneVisit extends Component {
                 ) : null
                 }
 
-                <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
-                <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                    <button>Edit / Add</button>
-                </NavLink>
             </TimelineEvent>
         );
     }

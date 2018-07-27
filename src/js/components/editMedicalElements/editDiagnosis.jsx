@@ -14,7 +14,7 @@ export default class EditDiagnosis extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>Edit demographic data</h2>
+                    <h2>Primary diagnosis</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>

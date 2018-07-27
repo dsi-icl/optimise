@@ -6,6 +6,7 @@ import Timeline from 'react-calendar-timeline/lib';
 import { BackButton } from '../medicalData/dataPage';
 import Helmet from '../scaffold/helmet';
 import style from './patientProfile.module.css';
+import './timeline.css';
 
 let keys = {
     groupIdKey: 'id',
@@ -19,7 +20,10 @@ let keys = {
     itemTimeEndKey: 'end'
 };
 
-@connect(state => ({ data: state.patientProfile.data }))
+@connect(state => ({
+    data: state.patientProfile.data,
+    availableFields: state.availableFields
+}))
 export default class FullTimeline extends Component {
     constructor(props) {
         super(props);
@@ -31,19 +35,28 @@ export default class FullTimeline extends Component {
         let defaultTimeStart = moment().startOf('day').toDate();
         let defaultTimeEnd = moment();
         let groups = [{
+            id: 0,
+            title: 'Immunisations',
+            root: true
+        }, {
             id: 1,
-            title: 'Visits',
-            tip: 'additional information',
+            title: 'Treatments',
             root: true
         }, {
             id: 2,
-            title: 'Tests',
-            tip: 'additional information',
+            title: 'Visits',
             root: true
         }, {
             id: 3,
+            title: 'Tests',
+            root: true
+        }, {
+            id: 4,
             title: 'Clinical Event',
-            tip: 'additional information',
+            root: true
+        }, {
+            id: 5,
+            title: 'EDSS',
             root: true
         }];
 
@@ -60,31 +73,50 @@ export default class FullTimeline extends Component {
     static getDerivedStateFromProps(props, state) {
 
         let items = [];
-        let groups = [{
-            id: 1,
-            title: 'Visits',
-            tip: 'additional information',
-            root: true
-        }, {
-            id: 2,
-            title: 'Tests',
-            tip: 'additional information',
-            root: true
-        }, {
-            id: 3,
-            title: 'Clinical Event',
-            tip: 'additional information',
-            root: true
-        }];
-
         let maxTimeStart = state.defaultTimeStart;
+        if (props.data.immunisations)
+            props.data.immunisations.forEach(i => {
+                if (maxTimeStart.valueOf() > moment(i.immunisationDate, 'x').valueOf())
+                    maxTimeStart = moment(i.immunisationDate, 'x').toDate();
+                items.push({
+                    id: `im_${i.id}`,
+                    group: 0,
+                    title: `Vaccin ${i.vaccineName}`,
+                    start: moment(i.immunisationDate, 'x').valueOf(),
+                    end: moment(i.immunisationDate, 'x').add(1, 'day').valueOf(),
+                    canMove: false,
+                    canResize: false,
+                    className: style.timelineImmunisationItem,
+                    itemProps: {
+                        'data-tip': `Vaccin ${i.vaccineName}`
+                    }
+                });
+            });
+        if (props.data.treatments)
+            props.data.treatments.forEach(t => {
+                if (maxTimeStart.valueOf() > moment(t.startDate, 'x').valueOf())
+                    maxTimeStart = moment(t.startDate, 'x').toDate();
+                items.push({
+                    id: `tr_${t.id}`,
+                    group: 1,
+                    title: props.availableFields.drugs[t.drug],
+                    start: moment(t.startDate, 'x').valueOf(),
+                    end: t.terminatedDate ? moment(t.terminatedDate, 'x').valueOf() : moment().valueOf(),
+                    canMove: false,
+                    canResize: false,
+                    className: style.timelineTreatementItem,
+                    itemProps: {
+                        'data-tip': props.availableFields.drugs[t.drug]
+                    }
+                });
+            });
         if (props.data.visits)
             props.data.visits.forEach(v => {
                 if (maxTimeStart.valueOf() > moment(v.visitDate, 'x').valueOf())
                     maxTimeStart = moment(v.visitDate, 'x').toDate();
                 items.push({
-                    id: `v_${v.id}`,
-                    group: 1,
+                    id: `vi_${v.id}`,
+                    group: 2,
                     title: `Visit ${v.id}`,
                     start: moment(v.visitDate, 'x').valueOf(),
                     end: moment(v.visitDate, 'x').add(1, 'day').valueOf(),
@@ -101,8 +133,8 @@ export default class FullTimeline extends Component {
                 if (maxTimeStart.valueOf() > moment(t.expectedOccurDate, 'x').valueOf())
                     maxTimeStart = moment(t.expectedOccurDate, 'x').toDate();
                 items.push({
-                    id: `t_${t.id}`,
-                    group: 2,
+                    id: `te_${t.id}`,
+                    group: 3,
                     title: `Test ${t.id}`,
                     start: moment(t.expectedOccurDate, 'x').valueOf(),
                     end: moment(t.expectedOccurDate, 'x').add(1, 'day').valueOf(),
@@ -121,11 +153,11 @@ export default class FullTimeline extends Component {
                 if (maxTimeStart.valueOf() > moment(c.endDate, 'x').valueOf())
                     maxTimeStart = moment(c.endDate, 'x').toDate();
                 items.push({
-                    id: `c_${c.id}`,
-                    group: 3,
-                    title: `Test ${c.id}`,
+                    id: `cl_${c.id}`,
+                    group: 4,
+                    title: `Clinical Event ${c.id}`,
                     start: moment(c.dateStartDate, 'x').valueOf(),
-                    end: moment(c.endDate, 'x').add(1, 'day').valueOf(),
+                    end: c.endDate ? moment(c.endDate, 'x').add(1, 'day').valueOf() : moment(c.dateStartDate, 'x').add(1, 'hour').valueOf(),
                     canMove: false,
                     canResize: false,
                     className: style.timelineCEItem,
@@ -137,7 +169,6 @@ export default class FullTimeline extends Component {
 
         return Object.assign(state, {
             maxTimeStart,
-            groups,
             items
         });
     }
@@ -181,9 +212,13 @@ export default class FullTimeline extends Component {
 
     itemRenderer({ item, timelineContext }) {
 
-        console.log(timelineContext);
+        console.log(item, timelineContext);
 
-        return (<div className='really-tiny' >PLOP {item.title}</div>);
+        return (
+            <>
+                <div className={`${style.timelineBackground} ${item.className}`}></div>
+                <div className={style.timelineTextContent}>{item.title}</div>
+            </>);
     }
 
     render() {
@@ -212,7 +247,9 @@ export default class FullTimeline extends Component {
                         items={items}
                         itemRenderer={this.itemRenderer}
                         keys={keys}
+                        showCursorLine
                         sidebarWidth={150}
+                        stackItems
                         itemsSorted
                         itemTouchSendsClick={false}
                         itemHeightRatio={0.75}

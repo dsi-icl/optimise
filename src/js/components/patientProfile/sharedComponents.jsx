@@ -8,7 +8,7 @@ import style from './patientProfile.module.css';
 export class PatientProfileSectionScaffold extends Component {
     render() {
         return (
-            <div className={this.props.active ? style.profileSectionActive : ''}>
+            <div className={`${style.profileSection} ${this.props.active ? style.profileSectionActive : ''}`}>
                 <h4>{this.props.sectionName}{this.props.actions ? this.props.actions : null}</h4><br />
                 {this.props.children}<br /><br />
             </div>
@@ -50,7 +50,7 @@ export class EditButton extends Component {
     render() {
         return (
             <NavLink to={this.props.to} className={style.editButton} activeClassName={style.activeEdit}>
-                <div title='Edit'><Icon symbol='edit' /></div>
+                <span title='Edit' className={style.dataEdit}><Icon symbol='edit' /></span>
             </NavLink>
         );
     }
