@@ -139,7 +139,7 @@ describe('Delete Clinical Event controller tests', () => {
             expect(res.body.state).toBe(0);
         }));
 
-    test('Request deletion with good body (should success)', () => admin
+    test('Request deletion with good body (should succeed)', () => admin
         .delete('/clinicalEvents')
         .send({ 'ceId': 5 })
         .then(res => {

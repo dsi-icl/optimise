@@ -13,7 +13,7 @@ function Visit() {
 Visit.prototype.getVisit = function (patientInfo) {
     return new Promise(function (resolve, reject) {
         knex('PATIENTS')
-            .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.visitDate', 'VISITS.type')
+            .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.communication', 'VISITS.visitDate', 'VISITS.type')
             .leftOuterJoin('VISITS', 'PATIENTS.id', 'VISITS.patient')
             .where({ 'PATIENTS.aliasId': patientInfo, 'VISITS.deleted': '-' })
             .then(function (result) {
@@ -48,12 +48,12 @@ Visit.prototype.createVisit = function (user, visit) {
 
 Visit.prototype.updateVisit = function (user, updatedObj) {
     return new Promise(function (resolve, reject) {
-        if (isNaN(Date.parse(updatedObj.visitDate))) {
-            reject(ErrorHelper(message.userError.INVALIDDATE, new Error(message.userError.WRONGARGUMENTS)));
-            return;
-        }
-        else {
-            updatedObj.visitDate = Date.parse(updatedObj.visitDate);
+        if (updatedObj.visitDate) {
+            if (isNaN(Date.parse(updatedObj.visitDate))) {
+                reject(ErrorHelper(message.userError.INVALIDDATE, new Error(message.userError.WRONGARGUMENTS)));
+                return;
+            } else
+                updatedObj.visitDate = Date.parse(updatedObj.visitDate);
         }
         updateEntry('VISITS', user, '*', { id: updatedObj.id }, updatedObj).then(function (result) {
             resolve(result);

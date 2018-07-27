@@ -37,7 +37,7 @@ describe('Creating TEST data', () => {
 
     test('Request creation without test id', () => admin
         .post('/data/test')
-        .send({ add: { 5: 'BOTH' } })
+        .send({ add: { 5: 100 } })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -47,7 +47,7 @@ describe('Creating TEST data', () => {
 
     test('Request creation with invalid value for id', () => admin
         .post('/data/test')
-        .send({ testId: 99, add: { 1: 'YES' } })
+        .send({ testId: 99, add: { 1: 100 } })
         .then(res => {
             expect(res.status).toBe(404);
             expect(typeof res.body).toBe('object');
@@ -57,7 +57,7 @@ describe('Creating TEST data', () => {
 
     test('Request creation with invalid field', () => admin
         .post('/data/test')
-        .send({ testId: 1, add: { 534567: 'BOTH' } })
+        .send({ testId: 1, add: { 534567: 10 } })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -77,7 +77,7 @@ describe('Creating TEST data', () => {
 
     test('Request creation with unmatching test and field', () => admin
         .post('/data/test')
-        .send({ testId: 2, add: { 67: 'YES' } })
+        .send({ testId: 1, add: { 54: 120 } })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -87,7 +87,7 @@ describe('Creating TEST data', () => {
 
     test('Request creation succesfull', () => user
         .post('/data/test')
-        .send({ testId: 3, add: { 67: 'YES' } })
+        .send({ testId: 2, add: { 65: 10 } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -99,7 +99,7 @@ describe('Creating TEST data', () => {
 
     test('Request update succesfull', () => admin
         .post('/data/test')
-        .send({ testId: 3, update: { 67: 'NO' } })
+        .send({ testId: 2, update: { 65: 65 } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
