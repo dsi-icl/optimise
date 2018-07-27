@@ -237,10 +237,10 @@ class OneVisit extends Component {
 
                 {visitHasTests ? (
                     <>
-                        <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'ORDERED TESTS'}</h4>
+                        <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'TESTS'}</h4>
                         <table className={style.editableTable}>
                             <thead>
-                                <tr><th></th><th>Type</th><th>Expected date</th><th></th></tr>
+                                <tr><th></th><th>Type</th><th>Test date</th><th></th></tr>
                             </thead>
                             <tbody>
                                 {this.props.data.tests
@@ -255,7 +255,7 @@ class OneVisit extends Component {
 
                 {visitHasMedications ? (
                     <>
-                        <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'CONCOMITANT MEDICATIONS' : 'PRESCRIBED MEDICATIONS'}</h4>
+                        <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE MEDICATIONS' : 'MEDICATIONS'}</h4>
                         <table className={style.editableTable}>
                             <thead>
                                 <tr><th></th><th>Drug</th><th>Dose</th><th>Form</th><th>Times per day</th><th>#interruptions</th><th></th></tr>
@@ -273,7 +273,7 @@ class OneVisit extends Component {
 
                 {visitHasClinicalEvents ? (
                     <>
-                        <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'PREVIOUS CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
+                        <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'BASELINE CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
                         <table className={style.editableTable}>
                             <thead>
                                 <tr><th></th><th>Type</th><th>Start date</th><th></th></tr>
