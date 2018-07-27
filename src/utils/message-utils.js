@@ -16,7 +16,8 @@ const UserRelatedErrorMessage = {
     NORIGHTS: 'Unauthorized to do this action',
     INVALIDDATE: 'The date provided is not valid',
     WRONGPATH: 'The requested url doesn\'t exists',
-    INVALIDQUERY: 'The query string should be comprised of "value" or "field"+"value"'
+    INVALIDQUERY: 'The query string should be comprised of "value" or "field"+"value"',
+    FREQANDINTERVALMUSTCOPRESENT: 'Frequency and Interval Unit must be both present or missing'
 };
 
 const DataControllerMessageRelated = {
