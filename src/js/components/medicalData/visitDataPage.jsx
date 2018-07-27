@@ -105,10 +105,10 @@ export class VisitData extends Component {
                         <h2>SYMPTOMS AND SIGNS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
-                    <div className={scaffold_style.panel}>
+                    <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
                         <form onSubmit={this._handleSubmit} className={style.form}>
                             {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
-                            <input type='submit' value='Save' />
+                            <button type='submit'>Save</button>
                         </form>
                     </div>
                 </>

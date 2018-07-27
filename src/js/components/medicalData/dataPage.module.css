@@ -20,37 +20,145 @@
     color: white;
 }
 
-.form {
-    padding-left: 0em;
-    font-size: 20px;
-    color: rgb(99, 99, 99);
-    font-weight: bold;
+.topLevelPanel {
+    padding: 0 0 1em 0;
 }
 
-.form button {
-    font-size: 1rem;
+.topLevelPanel > form > button {
+    width: calc(100% - 2em);
+    margin: 0 1em;
+    margin: 0 1em;
 }
 
-.form > div {
-    padding-left: 0em;
-    font-size: 16px;
-    color: var(--color-font);
-    font-weight: normal;
-    border-bottom: 1px solid darkgrey;
+/* .level:hover {
+    background-color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 87%);
 }
 
-.form > div > div {
-    padding-left: 1em;
-    padding-right: 1em;
-    font-size: 14px;
-    color: grey;
-    font-weight: normal;
-    background-color: rgb(231, 231, 231);
+.level .level:hover {
+    background-color: hsl(var(--color-shade-two-h), var(--color-shade-two-s), 87%);
 }
 
-.form > div > div > div {
-    padding-left: 0em;
-    font-size: 12px;
-    color: grey;
-    font-weight: normal;
+.level .level .level:hover {
+    background-color: chartreuse
+} */
+
+.levelBody .levelBody .levelHeader {
+    line-height: 2.7em;
+    font-size: 1em;
+}
+
+.levelHeader {
+    display: inline-block;
+    width: 100%;
+    line-height: 4em;
+    color: var(--color-background);
+    font-size: 1em;
+    padding: 0 1em;
+    text-align: center;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.levelHeader:hover {
+    cursor: pointer;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 87%);
+}
+
+.levelBody {    
+    padding: 0 1em;
+    border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 87%);
+}
+
+.levelBody:hover {
+    cursor: pointer;
+}
+
+.levelBody:last-child {
+    margin-bottom: 1em;
+}
+
+.levelBody .levelHeader {
+    text-align: left;
+    line-height: 3.3em;
+    font-size: 1em;
+    margin-top: 1em;
+}
+
+.levelBody div:nth-child(1) .levelHeader {
+    background-color: hsla(231, 48%, 48%, 0.3);
+}
+
+.levelBody div:nth-child(1) .levelBody .levelHeader {
+    background-color: hsla(231, 48%, 48%, 0.2);
+}
+
+.levelBody div:nth-child(1) .levelBody .levelBody .levelHeader {
+    background-color: hsla(231, 48%, 48%, 0.1);
+}
+
+.levelBody div:nth-child(2) .levelHeader {
+    background-color: hsla(188, 64%, 44%, 0.3);
+}
+
+.levelBody div:nth-child(2) .levelBody .levelHeader {
+    background-color: hsla(188, 64%, 44%, 0.2);
+}
+
+.levelBody div:nth-child(2) .levelBody .levelBody .levelHeader {
+    background-color: hsla(188, 64%, 44%, 0.1);
+}
+
+.levelBody div:nth-child(3) .levelHeader {
+    background-color: hsla(122, 39%, 49%, 0.3);
+}
+
+.levelBody div:nth-child(3) .levelBody .levelHeader {
+    background-color: hsla(122, 39%, 49%, 0.2);
+}
+
+.levelBody div:nth-child(3) .levelBody .levelBody .levelHeader {
+    background-color: hsla(122, 39%, 49%, 0.1);
+}
+
+.levelBody div:nth-child(4) .levelHeader {
+    background-color: hsla(54, 100%, 62%, 0.3);
+}
+
+.levelBody div:nth-child(4) .levelBody .levelHeader {
+    background-color: hsla(54, 100%, 62%, 0.2);
+}
+
+.levelBody div:nth-child(4) .levelBody .levelBody .levelHeader {
+    background-color: hsla(54, 100%, 62%, 0.1);
+}
+
+.levelBody div:nth-child(5) .levelHeader {
+    background-color: hsla(36, 100%, 50%, 0.3);
+}
+
+.levelBody div:nth-child(5) .levelBody .levelHeader {
+    background-color: hsla(36, 100%, 50%, 0.2);
+}
+
+.levelBody div:nth-child(5) .levelBody .levelBody .levelHeader {
+    background-color: hsla(36, 100%, 50%, 0.1);
+}
+
+.levelBody div:nth-child(6) .levelHeader {
+    background-color: hsla(4, 90%, 58%, 0.3);
+}
+
+.levelBody div:nth-child(6) .levelBody .levelHeader {
+    background-color: hsla(4, 90%, 58%, 0.2);
+}
+
+.levelBody div:nth-child(6) .levelBody .levelBody .levelHeader {
+    background-color: hsla(4, 90%, 58%, 0.1);
+}
+
+.levelBody div .levelBody .levelBody .levelBody .levelHeader {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.dataItem:first-child {
+    margin-top: 1em;
 }
