@@ -39,7 +39,7 @@ describe('Getting seeds', () => {
         }));
 
     test('Getting a type with valid query', () => admin
-        .get('/seeds/typeVisit?name=Remote')
+        .get('/seeds/typeVisit?value=Remote')
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -87,22 +87,39 @@ describe('Creating field', () => {
             expect(res.body.error).toBe(`${message.userError.WRONGARGUMENTS} : definition`);
         }));
 
+<<<<<<< HEAD
     test('Creating with good values', () => admin
         .post('/seeds/fieldVisit')
         .send({
             definition: `Testing: rand value for unique ${Math.random().toString(36).substr(2, 5)}`,
             idname: 'visit_systolic_blood_pressure',
+=======
+    test('Creating with OK values', () => admin
+        .post('/seeds/fieldVisit')
+        .send({
+            definition: 'Testing creation',
+            idname: 'testing_test',
+            section: 1,
+            subsection: null,
+>>>>>>> develop
             type: 2,
             unit: 'mmHg',
-            module: 'Ms',
+            module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            labels: null,
+            referenceType: 1,
+            laterality: null,
+            cdiscName: null
         })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
+<<<<<<< HEAD
             expect(res.body.state).toBe(visitField.length + 1);
+=======
+            expect(res.body.state).toBe(98);
+>>>>>>> develop
         }));
 });
 
@@ -128,14 +145,19 @@ describe('Updating field', () => {
     test('Updating with wrong values', () => admin
         .put('/seeds/fieldVisit')
         .send({
-            id: 95,
-            definition: 1, //Should be a string
-            idname: 'visit_systolic_blood_pressure',
+            id: 98,
+            definition: 1, // should be a string
+            idname: 'testing_test',
+            section: 1,
+            subsection: null,
             type: 2,
             unit: 'mmHg',
-            module: 'Ms',
+            module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            labels: null,
+            referenceType: 1,
+            laterality: null,
+            cdiscName: null
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -147,14 +169,25 @@ describe('Updating field', () => {
     test('Updating with good values', () => admin
         .put('/seeds/fieldVisit')
         .send({
+<<<<<<< HEAD
             id: visitField.length + 1,
             definition: `Testing: rand value for unique ${Math.random().toString(36).substr(2, 5)}`,
             idname: 'visit_systolic_blood_pressure',
+=======
+            id: 98,
+            definition: 'Testing Updating',
+            idname: 'testing_test',
+            section: 1,
+            subsection: null,
+>>>>>>> develop
             type: 2,
             unit: 'mmHg',
-            module: 'Ms',
+            module: 'MS',
             permittedValues: null,
-            referenceType: 1
+            labels: null,
+            referenceType: 1,
+            laterality: null,
+            cdiscName: null
         })
         .then(res => {
             expect(res.status).toBe(200);

@@ -68,7 +68,7 @@ describe('Create Demographic controller test', () => {
     test('Creating demographic with body but wrong patient (Should Fail)', () => admin
         .post('/demographics/Demographic')
         .send({
-            'patient': 9,
+            'patient': 90,
             'DOB': '1 Jan 1980',
             'gender': 1,
             'dominant_hand': 1,
