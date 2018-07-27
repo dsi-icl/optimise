@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { addError } from '../../redux/actions/error';
-import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty} from './utils';
+import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from './utils';
 import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './dataPage.module.css';
@@ -28,7 +28,7 @@ function mapStateToProps(state) {
  * @prop {Function} this.props.submitData - from connect
  */
 
- /* this component serves as a sieve for the data and pass the relevant one to the form as props*/
+/* this component serves as a sieve for the data and pass the relevant one to the form as props*/
 @withRouter
 @connect(mapStateToProps)
 export class CeData extends Component {
@@ -48,7 +48,6 @@ export class CeData extends Component {
         const update = {};
         const add = {};
         Object.entries(references).forEach(el => {
-            console.log(el, el[0], el[1]);
             const fieldId = el[0];
             const reference = el[1].ref;
             const type = el[1].type;
@@ -68,14 +67,14 @@ export class CeData extends Component {
                     add[fieldId] = reference.current.value;
                 }
             }
-            if (type === 'B'){
+            if (type === 'B') {
                 const bool = reference.current.checked ? '1' : '0';
                 if (originalValues[fieldId]) {
                     if (originalValues[fieldId] !== bool) {
                         update[fieldId] = bool;
                     }
                 } else {
-                    if (bool !== '0'){
+                    if (bool !== '0') {
                         add[fieldId] = bool;
                     }
                 }
@@ -86,7 +85,7 @@ export class CeData extends Component {
             store.dispatch(addError({ error: 'Clicking save does nothing because none of the data seems to have changed!' }));
             return;
         }
-        const body = {data: {clinicalEventId: params.ceId, update, add}, type: 'clinicalEvent', patientId: params.patientId };
+        const body = { data: { clinicalEventId: params.ceId, update, add }, type: 'clinicalEvent', patientId: params.patientId };
         store.dispatch(alterDataCall(body));
     }
 
@@ -101,11 +100,9 @@ export class CeData extends Component {
             const { fields } = this.props;
             const relevantFields = fields.clinicalEventFields.filter(el => (el.referenceType === visitsMatched[0].type));
             const fieldTree = createLevelObj(relevantFields);
-            console.log(fieldTree);
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
             this.originalValues = visitsMatched[0].data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
-            this.references = relevantFields.reduce((a, el) => { a[el.id] = {ref: React.createRef(), type: inputTypeHash[el.type] } ; return a; }, {});
-            console.log(this.originalValues, this.references);
+            this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             return (
                 <>
                     <div className={scaffold_style.ariane}>
@@ -115,13 +112,13 @@ export class CeData extends Component {
                     <div className={scaffold_style.panel}>
                         <form onSubmit={this._handleSubmit} className={style.form}>
                             {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
-                            <input type='submit' value='Save'/>
+                            <input type='submit' value='Save' />
                         </form>
                     </div>
                 </>
             );
         } else {
-            return <div><Icon symbol='loading'/></div>;
+            return <div><Icon symbol='loading' /></div>;
         }
     }
 }

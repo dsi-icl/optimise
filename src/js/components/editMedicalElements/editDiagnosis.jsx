@@ -30,7 +30,6 @@ export default class EditDiagnosis extends Component {
 class UpdateDiagnosisEntry extends Component {
     constructor(props) {
         super();
-        console.log(props);
         this.state = {
             date: moment(),
             diagnosisRef: React.createRef()

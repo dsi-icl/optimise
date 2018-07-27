@@ -111,7 +111,6 @@ class UpdateCEEntry extends Component {
                 meddra: meddraDict[meddra.current.value]
             }
         };
-        // console.log(body);
         store.dispatch(updateCECall(body));
     }
 
