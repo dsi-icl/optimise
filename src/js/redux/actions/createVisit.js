@@ -23,3 +23,12 @@ export const createShadowVisitAPICall = (body, context) => dispatch => {
         })
         .catch(msg => console.log(msg));
 };
+
+
+export const updateVisitAPICall = (body, context) => dispatch => {
+    return apiHelper('/visits', { method: 'PUT', body: JSON.stringify(body.visitData) })
+        .then(json => {
+            dispatch(getPatientProfileById(body.patientId));
+        })
+        .catch(msg => console.log(msg));
+};
