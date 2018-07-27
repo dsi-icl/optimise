@@ -1,18 +1,22 @@
 [
     {
         "id": 1,
-        "name": "Laboratory test"
+        "name": "Laboratory test",
+        "module": "MS"
     },
     {
         "id": 2,
-        "name": "Evoked potential"
+        "name": "Evoked potential",
+        "module": "MS"
     },
     {
         "id": 3,
-        "name": "MRI"
+        "name": "MRI",
+        "module": "MS"
     },
     {
         "id": 4,
-        "name": "Lumbar Puncture"
+        "name": "Lumbar Puncture",
+        "module": "MS"
     }
 ]
