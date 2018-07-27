@@ -44,7 +44,6 @@ class EDSSCalculator extends Component {
         this.EDSSFields = EDSSFields;    //the 9 fields of edss
         this.EDSSFields_Hash = EDSSFields.reduce((a, el) => { a[el.id] = el.idname; return a; }, {});
         this.EDSSFields_Hash_reverse = EDSSFields.reduce((a, el) => { a[el.idname] = el.id; return a; }, {});
-        // console.log(this.EDSSFields, this.EDSSFields_Hash, this.EDSSFields_Hash_reverse);
         const edssFieldsId = EDSSFields.map(el => el.id);
         const visitsFiltered = patientProfile.visits.filter(el => el.id === parseInt(params.visitId));
         if (visitsFiltered.length !== 1) {
@@ -180,7 +179,7 @@ class EDSSCalculator extends Component {
             return null;
 
         const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
-        if (visitFiltered.length !== 1){
+        if (visitFiltered.length !== 1) {
             return <div> Cannot find your visit </div>;
         }
 

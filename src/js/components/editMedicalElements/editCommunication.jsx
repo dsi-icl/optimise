@@ -14,7 +14,6 @@ import store from '../../redux/store';
 export default class EditCommunication extends Component {
     render() {
         const { fetching, data, match, location } = this.props;
-        console.log(match);
         if (fetching) {
             return null;
         }
@@ -36,7 +35,6 @@ export default class EditCommunication extends Component {
         const symptomBlock = formatSymptomsAndSigns(visits[0].data || [], visitFields_Hash[0]);
         const perfBlock = formatEdss(visits[0].data || [], edssHash);
         const precomposed = { testBlock, ceBlock, medBlock, symptomBlock, VSBlock, perfBlock };
-        console.log('COMMUNICATION', JSON.parse(visits[0].communication));
         const originalEditorState = visits[0].communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(visits[0].communication))) : EditorState.createEmpty();
         return <Communication match={match} precomposed={precomposed} originalEditorState={originalEditorState} location={location} data={data} />;
     }
@@ -146,17 +144,17 @@ class CommunicationEditor extends Component {
                 {/* <pre>{JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4)}</pre> */}
                 You can append these pre-composed paragraphs:
             <div className={style.commentButtonsGroup}>
-                <div>
-                    <button name='VSBlock' onClick={this._onClick}>Vital signs</button>
-                    <button name='symptomBlock' onClick={this._onClick}>Signs {'&'} Symptoms</button>
-                    <button name='testBlock' onClick={this._onClick}>Tests</button>
+                    <div>
+                        <button name='VSBlock' onClick={this._onClick}>Vital signs</button>
+                        <button name='symptomBlock' onClick={this._onClick}>Signs {'&'} Symptoms</button>
+                        <button name='testBlock' onClick={this._onClick}>Tests</button>
+                    </div>
+                    <div>
+                        <button name='medBlock' onClick={this._onClick}>Treatments</button>
+                        <button name='ceBlock' onClick={this._onClick}>Clinical Events</button>
+                        <button name='perfBlock' onClick={this._onClick}>Performance</button>
+                    </div>
                 </div>
-                <div>
-                    <button name='medBlock' onClick={this._onClick}>Treatments</button>
-                    <button name='ceBlock' onClick={this._onClick}>Clinical Events</button>
-                    <button name='perfBlock' onClick={this._onClick}>Performance</button>
-                </div>
-            </div>
                 <br />
                 <div className={style.editorButtonsGroup}>
                     <button onClick={this._onBoldClick}><b>Bold</b></button>
