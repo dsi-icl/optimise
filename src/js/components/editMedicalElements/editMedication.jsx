@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/dataPage';
 import style from './editMedicalElements.module.css';
+import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
+import moment from 'moment';
 import { addAlert } from '../../redux/actions/alert';
 import { deleteTreatmentCall, updateTreatmentCall } from '../../redux/actions/treatments';
 
@@ -13,6 +15,7 @@ export default class EditMed extends Component {
         this.state = { wannaUpdate: false };
         this._handleClick = this._handleClick.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
+        this._handleDateChange = this._handleDateChange.bind(this);
         this._handleWannaUpdateClick = this._handleWannaUpdateClick.bind(this);
     }
 
@@ -25,6 +28,13 @@ export default class EditMed extends Component {
         ev.preventDefault();
         store.dispatch(addAlert({ alert: 'about deleting this test?', handler: this._deleteFunction }));
     }
+
+    _handleDateChange(date) {
+        this.setState({
+            startDate: date
+        });
+    }
+
 
     _deleteFunction() {
         const { params } = this.props.match;
@@ -76,12 +86,14 @@ class UpdateMedEntry extends Component {
             drug: props.data.drug,
             dose: props.data.dose,
             unit: props.data.unit,
+            startDate: moment(parseInt(props.data.startDate)),
             form: props.data.form,
             times: props.data.times ? props.data.times : null,
             intervalUnit: props.data.intervalUnit || ''
         };
         this._handleChange = this._handleChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
+        this._handleDateChange = this._handleDateChange.bind(this);
     }
 
     _handleChange(ev) {
@@ -89,6 +101,13 @@ class UpdateMedEntry extends Component {
         newState[ev.target.name] = ev.target.value;
         this.setState(newState);
     }
+
+    _handleDateChange(date) {
+        this.setState({
+            startDate: date
+        });
+    }
+
 
     _handleSubmit(ev) {
         ev.preventDefault();
@@ -103,15 +122,16 @@ class UpdateMedEntry extends Component {
                 dose: parseInt(dose),
                 unit,
                 form,
-                times: parseInt(times),
-                intervalUnit: intervalUnit === '' || null
+                times: this.state.times === '' || this.state.times === undefined ? null : Number.parseInt(this.state.times),
+                startDate: this.state.startDate.valueOf(),
+                intervalUnit: this.state.intervalUnit === '' || this.state.intervalUnit === undefined ? null : this.state.intervalUnit
             }
         };
         store.dispatch(updateTreatmentCall(body));
     }
 
     render() {
-        const { drug, dose, unit, form, timesPerDay } = this.state;
+        const { drug, dose, unit, form, times } = this.state;
         const { drugs } = this.props;
         return (
             <>
@@ -123,17 +143,23 @@ class UpdateMedEntry extends Component {
                 <input onChange={this._handleChange} name='dose' value={dose} /><br /><br />
                 <label>Unit: </label>
                 <select onChange={this._handleChange} name='unit' value={unit}>
+                    <option value=''></option>
                     <option value='cc'>cc</option>
                     <option value='mg'>mg</option>
                 </select><br /><br />
                 <label>Form: </label>
                 <select onChange={this._handleChange} name='form' value={form}>
-                    <option value='IV'>IV</option>
-                    <option value='oral'>oral</option>
+                    <option value=''></option>
+                    <option value='OR'>Oral</option>
+                    <option value='IV'>Intravenous</option>
+                    <option value='IM'>Intramuscular</option>
+                    <option value='SC'>Subcutaneous</option>
                 </select><br /><br />
+                <label htmlFor='startDate'>Start date: </label><br/><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br/><br/>
+                <br/><br/>
                 <h4>Frequency (fill both or leave both blank): </h4>
                 <label>No of times: </label>
-                <input onChange={this._handleChange} name='times' value={timesPerDay} /><br /><br />
+                <input onChange={this._handleChange} name='times' value={times} /><br /><br />
                 <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleChange} autoComplete='off'>
                     <option value=''></option>
                     <option value='hour'>hour</option>

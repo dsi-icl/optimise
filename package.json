@@ -58,7 +58,7 @@
         "mini-css-extract-plugin": "0.4.1",
         "moment": "2.22.2",
         "object-assign": "4.1.1",
-        "optimise-core": "0.9.38",
+        "optimise-core": "^0.9.39",
         "optimize-css-assets-webpack-plugin": "5.0.0",
         "postcss-flexbugs-fixes": "4.0.0",
         "postcss-loader": "2.1.6",

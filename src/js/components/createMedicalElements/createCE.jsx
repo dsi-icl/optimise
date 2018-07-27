@@ -95,7 +95,7 @@ export class CreateCE extends Component {
                         <label htmlFor=''>Please enter date on which the event occurred:</label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                         { this.state.addEndDate ?
                             <>
-                            <label htmlFor=''>Please enter date on which the event ended:</label><br /><PickDate startDate={this.state.endDate} handleChange={this._handleDateChange} />
+                            <label htmlFor=''>Please enter date on which the event ended:</label><br /><PickDate startDate={this.state.endDate} handleChange={this._handleEndDateChange} />
                             <span className={style.noEndDateButton} onClick={this._handleToggleEndDate}>Click here if there is no end date (you can add it later)</span></>
                             :
                             <button onClick={this._handleToggleEndDate}>Add end date</button>

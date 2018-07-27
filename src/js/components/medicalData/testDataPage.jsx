@@ -80,7 +80,7 @@ export class TestData extends Component {
                     }
                 }
             }
-        })
+        });
         const { params } = this.props.match;
         if (checkIfObjIsEmpty(update, add)) {
             store.dispatch(addError({ error: 'Clicking save does nothing because none of the data seems to have changed!' }));
