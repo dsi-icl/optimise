@@ -60,8 +60,8 @@ describe('Patient controller tests', () => {
             expect(res.body.error).toBe(message.userError.INVALIDQUERY);
         }));
 
-    test('Searching patients with diagnosis CIS', () => admin
-        .get('/patients?field=MHTERM&value=CIS')
+    test('Searching patients with diagnosis PPMS', () => admin
+        .get('/patients?field=MHTERM&value=PPMS')
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
