@@ -112,7 +112,7 @@ export class CeData extends Component {
                     <div className={scaffold_style.panel}>
                         <form onSubmit={this._handleSubmit} className={style.form}>
                             {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
-                            <input type='submit' value='Save' />
+                            <button type='submit'>Save</button>
                         </form>
                     </div>
                 </>
