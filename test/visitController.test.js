@@ -104,6 +104,19 @@ describe('Visit controller tests', () => {
             expect(res.body.state).toBe(1);
         }));
 
+    test('Updating visit\'s communication', () => admin
+        .put('/visits')
+        .send({
+            'id': 1,
+            'communication': JSON.stringify({ blockObject: { a: 'b' } })
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+        }));
+
     test('Updating visit from id second pass', () => admin
         .put('/visits')
         .send({

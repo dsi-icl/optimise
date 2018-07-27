@@ -68,24 +68,24 @@ describe('Create test controller tests', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Request creation with actual occured data with good body (should success)', () => admin
+    test('Request creation with actual occured data with good body (should succeed)', () => admin
         .post('/tests')
         .send({ 'visitId': 1, 'type': 1, 'expectedDate': '1 Jan 2020', 'actualOccurredDate': '4 Jan 2020' })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(4);
+            expect(res.body.state).toBe(5);
         }));
 
-    test('Request creation with good body (should success)', () => admin
+    test('Request creation with good body (should succeed)', () => admin
         .post('/tests')
         .send({ 'visitId': 1, 'type': 2, 'expectedDate': '1 Jan 2020' })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(5);
+            expect(res.body.state).toBe(6);
         }));
 });
 
