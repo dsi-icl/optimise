@@ -11,12 +11,22 @@ import { SuggestionInput } from '../meDRA/meDRApicker';
 
 @connect(state => ({ CEs: state.patientProfile.data.clinicalEvents }))
 export default class EditCE extends Component {
-    constructor() {
-        super();
-        this.state = { wannaUpdate: false };
+    constructor(props) {
+        super(props);
+        this.state = { wannaUpdate: false, elementId: props.match.params.elementId };
         this._handleClick = this._handleClick.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
         this._handleWannaUpdateClick = this._handleWannaUpdateClick.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.match.params.elementId === state.elementId)
+            return state;
+        return {
+            ...state,
+            wannaUpdate: false,
+            elementId: props.match.params.elementId
+        };
     }
 
     _handleWannaUpdateClick(ev) {
@@ -88,6 +98,16 @@ class UpdateCEEntry extends Component {
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleEndDateChange = this._handleEndDateChange.bind(this);
         this._handleToggleEndDate = this._handleToggleEndDate.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        return {
+            ...state,
+            id: props.data.id,
+            startDate: moment(parseInt(props.data.dateStartDate)),
+            meddra: React.createRef(),
+            meddraOriginal: props.data.meddra
+        };
     }
 
     _handleChange(ev) {
