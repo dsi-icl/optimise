@@ -127,15 +127,14 @@ describe('Patient controller tests', () => {
             expect(res.body.demographicData).toBeUndefined();
         }));
 
-    test('Getting this patient but only demographics and visits', () => admin
+    test('Getting this patient but only visits', () => admin
         .get('/patients/chon')
-        .send({ 'getOnly': 'getDemographicData,getVisits' })
+        .send({ 'getOnly': 'getVisits' })
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.body.patientId).toBe('chon');
             expect(res.body.id).toBe(1);
             expect(res.body.consent).toBe(true);
-            expect(res.body.demographicData).toBeDefined();
             expect(res.body.visits).toBeDefined();
             expect(res.body.tests).toBeUndefined();
         }));
