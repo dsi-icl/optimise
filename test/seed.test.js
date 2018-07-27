@@ -1,13 +1,14 @@
 /* global beforeAll afterAll describe test expect */
 
 const request = require('supertest');
+const path = require('path');
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
 const message = require('../src/utils/message-utils');
 const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
 const { readJson } = require('../src/utils/load-json');
 
-const visitField = readJson('./db/availableFields/jsonFiles/visitFields.json');
+const visitField = readJson(path.normalize(`${path.dirname(__filename)}/../db/availableFields/jsonFiles/visitFields.json`));
 
 beforeAll(async () => {
     await connectAdmin(admin);

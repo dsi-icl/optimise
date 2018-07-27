@@ -1,12 +1,11 @@
 const fs = require('fs');
-const path = require('path');
 
 const writeJson = function (data, pathToFile) {
-    fs.writeFileSync(path.resolve(pathToFile), JSON.stringify(data));
+    fs.writeFileSync(pathToFile, JSON.stringify(data));
 };
 
 const readJson = function (pathToFile) {
-    let content = fs.readFileSync(path.resolve(pathToFile));
+    let content = fs.readFileSync(pathToFile);
     return (JSON.parse(content));
 };
 
