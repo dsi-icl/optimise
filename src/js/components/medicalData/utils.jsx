@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Route, Switch, Link } from 'react-router-dom';
-import { DataTemplate } from './dataPage';
+import { Link } from 'react-router-dom';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import merge from 'deepmerge';
 import style from './dataPage.module.css';
