@@ -5,6 +5,9 @@ const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
 const message = require('../src/utils/message-utils');
 const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+const { readJson } = require('../src/utils/load-json');
+
+const visitField = readJson('./db/availableFields/jsonFiles/visitFields.json');
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -84,6 +87,13 @@ describe('Creating field', () => {
             expect(res.body.error).toBe(`${message.userError.WRONGARGUMENTS} : definition`);
         }));
 
+<<<<<<< HEAD
+    test('Creating with good values', () => admin
+        .post('/seeds/fieldVisit')
+        .send({
+            definition: `Testing: rand value for unique ${Math.random().toString(36).substr(2, 5)}`,
+            idname: 'visit_systolic_blood_pressure',
+=======
     test('Creating with OK values', () => admin
         .post('/seeds/fieldVisit')
         .send({
@@ -91,6 +101,7 @@ describe('Creating field', () => {
             idname: 'testing_test',
             section: 1,
             subsection: null,
+>>>>>>> develop
             type: 2,
             unit: 'mmHg',
             module: 'MS',
@@ -104,7 +115,11 @@ describe('Creating field', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
+<<<<<<< HEAD
+            expect(res.body.state).toBe(visitField.length + 1);
+=======
             expect(res.body.state).toBe(98);
+>>>>>>> develop
         }));
 });
 
@@ -154,11 +169,17 @@ describe('Updating field', () => {
     test('Updating with good values', () => admin
         .put('/seeds/fieldVisit')
         .send({
+<<<<<<< HEAD
+            id: visitField.length + 1,
+            definition: `Testing: rand value for unique ${Math.random().toString(36).substr(2, 5)}`,
+            idname: 'visit_systolic_blood_pressure',
+=======
             id: 98,
             definition: 'Testing Updating',
             idname: 'testing_test',
             section: 1,
             subsection: null,
+>>>>>>> develop
             type: 2,
             unit: 'mmHg',
             module: 'MS',
@@ -210,7 +231,7 @@ describe('Deleting field', () => {
     test('Deleting with good values', () => admin
         .delete('/seeds/fieldVisit')
         .send({
-            id: 95
+            id: visitField.length + 1
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -222,7 +243,7 @@ describe('Deleting field', () => {
     test('Deleting with good values a second time', () => admin
         .delete('/seeds/fieldVisit')
         .send({
-            id: 95
+            id: visitField.length + 1
         })
         .then(res => {
             expect(res.status).toBe(200);

@@ -1,0 +1,232 @@
+[
+    {
+        "id": 1,
+        "definition": "Functional system affected: Pyramidal Tract",
+        "idname": "Functional_system_affected_pyramidal_tract",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "YES,NO,UNKNOWN",
+        "referenceType": 1
+    },
+    {
+        "id": 2,
+        "definition": "Functional system affected: Cerebellum",
+        "idname": "Functional_system_affected_cerebellum",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "YES,NO,UNKNOWN",
+        "referenceType": 1
+    },
+    {
+        "id": 3,
+        "definition": "Functional system affected:Brain Stem",
+        "idname": "Functional_system_affected_Brain_Stem",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "YES,NO,UNKNOWN",
+        "referenceType": 1
+    },
+    {
+        "id": 4,
+        "definition": "Functional system affected: Sensory",
+        "idname": "Functional_system_affected_Sensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "YES,NO,UNKNOWN",
+        "referenceType": 1
+    },
+    {
+        "id": 5,
+        "definition": "Functional system affected: Bowel/Bladder",
+        "idname": "Functional_system_affected_Bowel_Bladder",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "YES,NO,UNKNOWN",
+        "referenceType": 1
+    },
+    {
+        "id": 6,
+        "definition": "Functional system affected: Visual",
+        "idname": "Functional_system_affected_Visual",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "YES,NO,UNKNOWN",
+        "referenceType": 1
+    },
+    {
+        "id": 7,
+        "definition": "Functional system affected: Cognition",
+        "idname": "Functional_system_affected_Cognition",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "YES,NO,UNKNOWN",
+        "referenceType": 1
+    },
+    {
+        "id": 8,
+        "definition": "Duration",
+        "idname": "Duration",
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "referenceType": 1
+    },
+    {
+        "id": 9,
+        "definition": "Severity",
+        "idname": "Severity",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "Mild,Moderate,Severe,Unknown",
+        "referenceType": 1
+    },
+    {
+        "id": 10,
+        "definition": "Recovery",
+        "idname": "Recovery",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "Complete,Partial,None,Unknown",
+        "referenceType": 1
+    },
+    {
+        "id": 11,
+        "definition": "Impact on ADL",
+        "idname": "Impact_On_ADL",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "Yes,No,Unknown",
+        "referenceType": 1
+    },
+    {
+        "id": 12,
+        "definition": "Steroids use",
+        "idname": "Steroids",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "Yes,No,Unknown",
+        "referenceType": 1
+    },
+    {
+        "id": 13,
+        "definition": "Infection Classification",
+        "idname": "Infection_Classification",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "UTI,Bronchitis,Sinusitis,Gastroenteritis,Tinea Infection,Sepsis,Bacterial,Viral,Abscess,Other,Unknown",
+        "referenceType": 2
+    },
+    {
+        "id": 14,
+        "definition": "Date of onset",
+        "idname": "Date_Of_Onset",
+        "type": 4,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "referenceType": 2
+    },
+    {
+        "id": 15,
+        "definition": "Date of resolution",
+        "idname": "Date_Of_Resolution",
+        "type": 4,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "referenceType": 2
+    },
+    {
+        "id": 16,
+        "definition": "Date of hospitalisation",
+        "idname": "Date_Of_Hospitalisation",
+        "type": 4,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "referenceType": 2
+    },
+    {
+        "id": 17,
+        "definition": "Date of discharge",
+        "idname": "Date_Of_Discharge",
+        "type": 4,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "referenceType": 2
+    },
+    {
+        "id": 18,
+        "definition": "Comments- Elaboration",
+        "idname": "Comments_Elaboration_Infection",
+        "type": 4,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "referenceType": 2
+    },
+    {
+        "id": 19,
+        "definition": "Opportunistic Infection Classification",
+        "idname": "Opportunistic_Infection_Classification",
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "PML,Herpes Zoster,Herpes Simplex,Varicella,Viral Hepatitis,Bacterial infection- listeria,Other infection,Mycosis,Abscess,Other,Unknown",
+        "referenceType": 3
+    },
+    {
+        "id": 20,
+        "definition": "Date of onset",
+        "idname": "Date_Of_Onset_opportunistic",
+        "type": 4,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "referenceType": 3
+    },
+    {
+        "id": 21,
+        "definition": "Date of resolution",
+        "idname": "Date_Of_Resolution_opportunistic",
+        "type": 4,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "referenceType": 3
+    },
+    {
+        "id": 22,
+        "definition": "Comments- Elaboration",
+        "idname": "Comments_Elaboration_Opportunistic_Infection",
+        "type": 4,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "referenceType": 3
+    },
+    {
+        "id": 23,
+        "definition": "Primary and underlying cause of death",
+        "idname": "Primary_and_underlying_cause_of_death",
+        "type": 4,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "referenceType": 4
+    }
+]
