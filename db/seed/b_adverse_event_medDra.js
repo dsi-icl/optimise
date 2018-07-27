@@ -1,4 +1,6 @@
-const aeMedDRAList = require('../availableFields/availableLltMedDRA');
+const { readJson } = require('../../src/utils/load-json');
+
+const aeMedDRAList = readJson('./db/availableFields/jsonFiles/medra.json');
 
 exports.seed = function (knex) {
     // Deletes ALL existing entries
