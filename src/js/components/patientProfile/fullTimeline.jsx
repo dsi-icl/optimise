@@ -99,14 +99,14 @@ export default class FullTimeline extends Component {
                 items.push({
                     id: `tr_${t.id}`,
                     group: 1,
-                    title: `${props.availableFields.drugs[t.drug].name} (${props.availableFields.drugs[t.drug].module})`,
+                    title: `${props.availableFields.drugs[t.drug - 1].name} (${props.availableFields.drugs[t.drug - 1].module})`,
                     start: moment(t.startDate, 'x').valueOf(),
                     end: t.terminatedDate !== null ? moment(t.terminatedDate, 'x').valueOf() : moment().add(12, 'hours').valueOf(),
                     canMove: false,
                     canResize: false,
                     className: style.timelineTreatementItem,
                     itemProps: {
-                        'data-tip': `${props.availableFields.drugs[t.drug].name} (${props.availableFields.drugs[t.drug].module})`
+                        'data-tip': `${props.availableFields.drugs[t.drug - 1].name} (${props.availableFields.drugs[t.drug - 1].module})`
                     }
                 });
             });
@@ -210,7 +210,7 @@ export default class FullTimeline extends Component {
             );
     }
 
-    itemRenderer({ item }) {
+    itemRenderer({ item, timelineContext }) {
         return (
             <>
                 <div className={`${style.timelineBackground} ${item.className}`}></div>
