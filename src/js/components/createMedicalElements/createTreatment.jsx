@@ -16,7 +16,8 @@ export class CreateTreatment extends Component {
             dose: '',
             unit: '',
             form: '',
-            timesPerDay: ''
+            times: '',
+            intervalUnit: ''
         };
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
         this._formatRequestBody = this._formatRequestBody.bind(this);
@@ -40,7 +41,8 @@ export class CreateTreatment extends Component {
                 dose: Number.parseInt(this.state.dose),
                 unit: this.state.unit,
                 form: this.state.form,
-                timesPerDay: Number.parseInt(this.state.timesPerDay)
+                times: this.state.times === '' || this.state.times === undefined ? null : Number.parseInt(this.state.times),
+                intervalUnit: this.state.intervalUnit === '' || this.state.intervalUnit === undefined ? null : this.state.intervalUnit
             }
         };
     }
@@ -97,7 +99,17 @@ export class CreateTreatment extends Component {
                             <option value='IM'>Intramuscular</option>
                             <option value='SC'>Subcutaneous</option>
                         </select><br /><br />
-                        <label htmlFor='timesPerDay'>Times per day:</label><br /> <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text' autoComplete='off' /><br /><br />
+                        <h4>Frequency (fill both or leave both blank): </h4>
+                        <label htmlFor='times'>Number of times:</label><br /> <input onChange={this._handleInputChange} value={this.state.times} name='times' type='text' autoComplete='off' /><br /><br />
+                        <label htmlFor='intervalUnit'>per </label>
+                        <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleInputChange} autoComplete='off'>
+                            <option value=''></option>
+                            <option value='hour'>hour</option>
+                            <option value='day'>day</option>
+                            <option value='week'>week</option>
+                            <option value='month'>month</option>
+                            <option value='year'>year</option>
+                        </select><br /><br />
                         <button onClick={this._handleSubmitClick} >Submit</button>
                     </form>
                 </>
