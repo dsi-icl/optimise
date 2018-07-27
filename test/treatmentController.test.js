@@ -267,7 +267,6 @@ describe('Create treatment controller tests', () => {
             'startDate': '3 Mar 2018'
         })
         .then(res => {
-            console.log(JSON.stringify(res.body))
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
