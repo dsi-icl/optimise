@@ -4,7 +4,6 @@ import { BackButton } from '../medicalData/dataPage';
 import Helmet from '../scaffold/helmet';
 import store from '../../redux/store';
 import style from './edss.module.css';
-import { clearEDSSCalc } from '../../redux/actions/edss';
 import { addError } from '../../redux/actions/error';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 
@@ -216,7 +215,7 @@ class EDSSCalculator extends Component {
                             <br /><br />
                             <label htmlFor='calcSocre'>Calculated score: </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
                             <br /><br />
-                            <label htmlFor='edss:expanded disability status scale (edss) total'>Free input score: </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale (edss) total' type='text' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] : ''} />
+                            <label htmlFor='edss:expanded disability status scale (edss) total'>Free input score: </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale (edss) total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] : ''} />
                             <br /><br />
                             <button type='submit'>Save</button>
                         </form>
