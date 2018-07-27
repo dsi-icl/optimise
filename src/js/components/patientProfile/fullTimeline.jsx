@@ -247,6 +247,7 @@ export default class FullTimeline extends Component {
                         items={items}
                         itemRenderer={this.itemRenderer}
                         keys={keys}
+                        showCursorLine
                         sidebarWidth={150}
                         stackItems
                         itemsSorted

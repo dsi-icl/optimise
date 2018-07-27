@@ -61,7 +61,9 @@ class DemographicSection extends Component {
             smokingHistory = fields['smoking_history'].filter(el => el.id === smokingHistory)[0].value;
 
             return (
-                <PatientProfileSectionScaffold sectionName='Profile'>
+                <PatientProfileSectionScaffold sectionName='Profile' actions={
+                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/demographic/data`} />
+                }>
                     <label>Date of birth:</label> {new Date(parseInt(DOB, 10)).toDateString()}<br />
                     <label>Gender:</label> {gender}<br />
                     <label>Dominant hand:</label> {dominantHand} <br />
@@ -69,7 +71,6 @@ class DemographicSection extends Component {
                     <label>Country of origin:</label> {countryOfOrigin} <br />
                     <label>Alcohol usage:</label> {alcoholUsage} <br />
                     <label>Smoking history:</label> {smokingHistory}
-                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/demographic/data`} />
                 </PatientProfileSectionScaffold>
             );
         } else {
@@ -141,13 +142,13 @@ class ImmunisationSection extends Component {
         const { data } = this.props;
         return (
             <PatientProfileSectionScaffold sectionName='Immunisations' active={this.state.addMore}>
-                <table>
+                <table cellspacing={'1em'}>
                     {this.state.addMore || data.immunisations.length !== 0 ? <thead>
                         <tr><th>Vaccine name</th><th>Date</th></tr>
                     </thead> : null}
                     <tbody>
                         {data.immunisations.map(el => (
-                            <tr key={el.vaccineName}>
+                            <tr key={el.vaccineName} className={style.immunisationItem}>
                                 {formatRow([
                                     el.vaccineName,
                                     new Date(parseInt(el.immunisationDate, 10)).toDateString(),
@@ -155,7 +156,7 @@ class ImmunisationSection extends Component {
                                 ])}
                             </tr>
                         ))}
-                        {!this.state.addMore ? null : <tr>
+                        {!this.state.addMore ? null : <tr className={style.immunisationNewItem}>
                             <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
                             <td colSpan='2'><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
                         </tr>}
@@ -187,10 +188,11 @@ class PrimaryDiagnosis extends Component {
             return null;
         }
         return (
-            <PatientProfileSectionScaffold sectionName='Primary Diagnosis'>
+            <PatientProfileSectionScaffold sectionName='Primary Diagnosis' actions={
+                <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
+            }>
                 <label>Primary Diagnosis: </label> {diagnosis[0].value} <br />
                 <label>Date of diagnosis: </label> {new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
-                <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
             </PatientProfileSectionScaffold>
         );
     }
@@ -293,7 +295,7 @@ class Pregnancy extends Component {
                             <>
                                 <br />
                                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                                <button onClick={this._handleClickingAdd}>Cancel</button><br />
+                                <button onClick={this._handleClickingAdd}>Cancel</button>
                             </>}
                         {this.state.error ? <><br /><div className={style.error}>Your MedDRA field is not permitted</div></> : null}
                     </PatientProfileSectionScaffold>

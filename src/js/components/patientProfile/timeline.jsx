@@ -72,7 +72,7 @@ export class TimelineBox extends Component {   //unfinsihed
 
         return (
             <PatientProfileSectionScaffold sectionName='Timeline' actions={(
-                <Link to={`/patientProfile/${this.props.data.patientId}/timeline`}>
+                <Link to={`/patientProfile/${this.props.data.patientId}/timeline`} title='Expand Timeline'>
                     <span className={style.expandTimeline}><Icon symbol='expand' /></span>
                 </Link>
             )}>
