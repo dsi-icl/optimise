@@ -5,7 +5,7 @@ import store from '../../redux/store';
 import style_scaffold from '../scaffold/scaffold.module.css';
 import style from './edss.module.css';
 import { clearEDSSCalc } from '../../redux/actions/edss';
-import { addError } from '../../redux/actions/error'
+import { addError } from '../../redux/actions/error';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 
 @connect(state => ({
@@ -136,7 +136,7 @@ class EDSSCalculator extends Component {
             }
         }
 
-        /* for the free input */ 
+        /* for the free input */
         const freeInputOrigVal = this.originalValues[this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']];
         if (freeInputOrigVal !== undefined) {
             if (this.freeinputref.current.value !== freeInputOrigVal) {
@@ -221,7 +221,7 @@ class EDSSCalculator extends Component {
 }
 
 
-/* FSArray would be [1,1,2,0,6] etc; ambulation is separated because it's separate in the calculation */  
+/* FSArray would be [1,1,2,0,6] etc; ambulation is separated because it's separate in the calculation */
 function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore){
     FSArrayWithoutAmbulation.sort((a, b) => b - a);
     console.log('FSArray', FSArrayWithoutAmbulation);
