@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
@@ -7,6 +7,7 @@ import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './dataPage.module.css';
 import store from '../../redux/store';
+
 
 function mapStateToProps(state) {
     return {
@@ -26,10 +27,10 @@ function mapStateToProps(state) {
  * @prop {Function} this.props.submitData - from connect
  */
 
-/* this component serves as a sieve for the data and pass the relevant one to the form as props*/
+ /* this component serves as a sieve for the data and pass the relevant one to the form as props*/
 @withRouter
 @connect(mapStateToProps)
-export class VisitData extends Component {
+export class CeData extends Component {
     constructor() {
         super();
         this.state = {
@@ -46,6 +47,7 @@ export class VisitData extends Component {
         const update = {};
         const add = {};
         Object.entries(references).forEach(el => {
+            console.log(el, el[0], el[1]);
             const fieldId = el[0];
             const reference = el[1].ref;
             const type = el[1].type;
@@ -65,21 +67,21 @@ export class VisitData extends Component {
                     add[fieldId] = reference.current.value;
                 }
             }
-            if (type === 'B') {
+            if (type === 'B'){
                 const bool = reference.current.checked ? '1' : '0';
                 if (originalValues[fieldId]) {
                     if (originalValues[fieldId] !== bool) {
                         update[fieldId] = bool;
                     }
                 } else {
-                    if (bool !== '0') {
+                    if (bool !== '0'){
                         add[fieldId] = bool;
                     }
                 }
             }
-        });
+        })
         const { params } = this.props.match;
-        const body = { data: { visitId: params.visitId, update, add }, type: 'visit', patientId: params.patientId };
+        const body = {data: {clinicalEventId: params.ceId, update, add}, type: 'clinicalEvent', patientId: params.patientId };
         store.dispatch(alterDataCall(body));
     }
 
@@ -87,33 +89,34 @@ export class VisitData extends Component {
         const { patientProfile, match } = this.props;
         const { params } = match;
         if (!patientProfile.fetching) {
-            const visitsMatched = patientProfile.data.visits.filter(visit => visit.id === parseInt(params.visitId, 10));
+            const visitsMatched = patientProfile.data.clinicalEvents.filter(visit => visit.id === parseInt(params.ceId, 10));
             if (visitsMatched.length !== 1) {
-                return <div>{'Cannot find your visit!'}</div>;
+                return <div>{'Cannot find your clinical event!'}</div>;
             }
             const { fields } = this.props;
-            const relevantFields = fields.visitFields.filter(el => (el.referenceType === visitsMatched[0].type && [2, 3].includes(el.section)));
-            const fieldTree = { symptoms: createLevelObj(relevantFields.filter(el => el.section === 2)), signs: createLevelObj(relevantFields.filter(el => el.section === 3)) };
+            const relevantFields = fields.clinicalEventFields.filter(el => (el.referenceType === visitsMatched[0].type));
+            const fieldTree = createLevelObj(relevantFields);
+            console.log(fieldTree);
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
-
             this.originalValues = visitsMatched[0].data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
-            this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
+            this.references = relevantFields.reduce((a, el) => { a[el.id] = {ref: React.createRef(), type: inputTypeHash[el.type] } ; return a; }, {});
+            console.log(this.originalValues, this.references);
             return (
                 <>
                     <div className={scaffold_style.ariane}>
-                        <h2>SYMPTOMS AND SIGNS</h2>
+                        <h2>CLINICAL EVENT RESULTS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
-                    <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
+                    <div className={scaffold_style.panel}>
                         <form onSubmit={this._handleSubmit} className={style.form}>
                             {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
-                            <button type='submit'>Save</button>
+                            <input type='submit' value='Save'/>
                         </form>
                     </div>
                 </>
             );
         } else {
-            return <div><Icon symbol='loading' /></div>;
+            return <div><Icon symbol='loading'/></div>;
         }
     }
 }

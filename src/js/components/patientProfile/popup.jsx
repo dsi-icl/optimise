@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import style from './patientProfile.module.css';
@@ -18,11 +18,11 @@ export class VisitPicker extends Component {
                         <>
                             <span><i>If you are recording this {this.props.elementType} in the context of an inpatient visit please select which one below:</i></span><br /><br />
                             {list.map(visit => (
-                                <React.Fragment key={visit.id}>
+                                <Fragment key={visit.id}>
                                     <Link to={`/patientProfile/${this.props.patientId}/create/${visit.id}/${this.props.elementType}`} className={style.visitSelectorButton}>
                                         {new Date(parseInt(visit.visitDate, 10)).toDateString()}
                                     </Link><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             ))}
                         </>
                     ) : null}

@@ -83,11 +83,13 @@ export class CreateVisit extends Component {
         if (this.props.demographicData === undefined)
             return null;
         const { startDate, SBP, DBP, HR, weight, academicConcerns, height, error } = this.state;
+        const { params } = this.props.match;
+        const { demographicData } = this.props;
         return (
             <>
                 <div className={style.ariane}>
                     <h2>Create a new Visit</h2>
-                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+                    <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
                     <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br />
@@ -96,10 +98,15 @@ export class CreateVisit extends Component {
                     <label htmlFor='HR'>Heart rate (bpm):</label><br /> <input name='HR' value={HR} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
                     <label htmlFor='weight'>Weight (kg):</label><br /> <input name='weight' value={weight} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
                     <label htmlFor='height'>Height (cm):</label><br /> <input name='height' value={height} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
-                    {moment().valueOf() < moment(this.props.demographicData.DOB, 'x').add(18, 'years').valueOf() ?
+                    {new Date().getTime() -  parseInt(demographicData.DOB) < 568025136000 ?
                         <>
                             <label htmlFor='academicConcerns'>Academic concerns:</label><br />
-                            <select name='academicConcerns' onChange={this._handleKeyChange} value={academicConcerns} autoComplete='off'>
+                            <select
+                                name='academicConcerns'
+                                onChange={this._handleKeyChange}
+                                value={academicConcerns}
+                                autoComplete='off'
+                            >
                                 <option value='1'>true</option>
                                 <option value='0'>false</option>
                             </select><br /><br />
