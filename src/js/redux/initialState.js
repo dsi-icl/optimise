@@ -69,6 +69,16 @@ export default {
                 'id': 6,
                 'value': 'BLOB'
             }
+        ],
+        inputTypes_Hash: [
+            {
+                1: 'I',
+                2: 'F',
+                3: 'C',
+                4: 'T',
+                5: 'B',
+                6: 'BLOB'
+            }
         ]
     },
     login: {
