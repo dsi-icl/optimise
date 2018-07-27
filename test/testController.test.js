@@ -158,7 +158,7 @@ describe('Delete test controller tests', () => {
 
     test('Request deletion with good body (should succeed)', () => admin
         .patch('/tests')
-        .send({ 'testID': 4 })
+        .send({ 'testID': 2 })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
