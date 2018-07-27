@@ -1,10 +1,12 @@
-const availableVisitFields = require('../availableFields/availableFieldsForMS').visitFields;
+const { readJson } = require('../../src/utils/load-json');
+
+const visitFields = readJson('./db/availableFields/jsonFiles/visitFields.json');
 
 exports.seed = function (knex) {
     // Deletes ALL existing entries
     return knex('AVAILABLE_FIELDS_VISITS').del()
         .then(function () {
             // Inserts seed entries
-            return knex.batchInsert('AVAILABLE_FIELDS_VISITS', availableVisitFields, 50);
+            return knex.batchInsert('AVAILABLE_FIELDS_VISITS', visitFields, 50);
         });
 };

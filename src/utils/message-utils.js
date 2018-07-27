@@ -4,7 +4,8 @@ const ErrorMessage = {
     UPDATEFAIL: 'Couldn\'t update entry',
     GETFAIL: 'Couldn\'t find the requested entry',
     NOTFOUND: 'Requested entry not found',
-    ERASEFAILED: 'Couldn\'t erase entry'
+    ERASEFAILED: 'Couldn\'t erase entry',
+    SEEDUPDATEERROR: 'Error while updating seed file: table is empty'
 };
 
 const UserRelatedErrorMessage = {
