@@ -15,6 +15,18 @@ export class BackButton extends Component {
 }
 
 
+export function checkIfObjIsEmpty(...objs){
+    for (let each of objs) {
+        if (Object.keys(each).length !== 0) {
+            return false;
+        } else {
+            continue;
+        }
+    }
+    return true;
+};
+
+
 /* receives ref and an array of choices  */
 export class SelectField extends Component {
     render() {
