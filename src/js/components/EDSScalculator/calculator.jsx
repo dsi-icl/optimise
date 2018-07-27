@@ -179,6 +179,11 @@ class EDSSCalculator extends Component {
         if (visits === undefined)
             return null;
 
+        const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
+        if (visitFiltered.length !== 1){
+            return <div> Cannot find your visit </div>;
+        }
+
         return (
             <>
                 <div className={style.ariane}>
@@ -189,7 +194,7 @@ class EDSSCalculator extends Component {
                 <div className={style.panel}>
                     <div className={style.calculatorArea}>
                         <span>
-                            <i>This is the EDSS performance score calculator for visit of the {(new Date(parseInt(visits[params.visitId].visitDate))).toDateString()}</i><br /><br />
+                            <i>This is the EDSS performance score calculator for visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i><br /><br />
                             Below the help calculator will automatically compoute a score for you, however, you are free to indicate immediately a custom score</span><br /><br /><br />
                         <form onSubmit={this._handleSubmit}>
                             {criteria.map(el =>
