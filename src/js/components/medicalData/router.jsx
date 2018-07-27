@@ -4,6 +4,7 @@ import { DataTemplate } from './dataPage';
 import { TreatmentInterruption } from './treatmentInterruptions';
 import { VisitData } from './visitDataPage';
 import { TestData } from './testDataPage';
+import { CeData } from './ceDataPage';
 
 export class DataPageRouter extends Component {
     render() {
@@ -15,7 +16,7 @@ export class DataPageRouter extends Component {
                 <Route path='/patientProfile/:patientId/data/test/:testId' render={({ match }) => <TestData elementType='test' match={match} />} />
                 <Route path='/patientProfile/:patientId/data/visit/:visitId' render={({ match }) => <VisitData elementType='visit' match={match} />} />
                 <Route path='/patientProfile/:patientId/data/treatment/:elementId' render={({ match }) => <TreatmentInterruption match={match} />} />
-                <Route path='/patientProfile/:patientId/data/clinicalEvent/:elementId' render={({ match }) => <DataTemplate elementType='clinicalEvent' match={match} />} />
+                <Route path='/patientProfile/:patientId/data/clinicalEvent/:ceId' render={({ match }) => <CeData elementType='clinicalEvent' match={match} />} />
                 <Route path='/' component={() => <></>} />
             </Switch>
         );
