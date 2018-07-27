@@ -1,12 +1,15 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { BackButton } from '../medicalData/dataPage';
+import Helmet from '../scaffold/helmet';
 import store from '../../redux/store';
-import style_scaffold from '../scaffold/scaffold.module.css';
 import style from './edss.module.css';
 import { clearEDSSCalc } from '../../redux/actions/edss';
 
-@connect(state => ({ edssCalc: state.edssCalc }))
+@connect(state => ({
+    data: state.patientProfile.data,
+    edssCalc: state.edssCalc
+}))
 export default class EDSSCalculator extends Component {
     constructor() {
         super();
@@ -24,11 +27,9 @@ export default class EDSSCalculator extends Component {
         ev.target.nextSibling.checked = true;
         const value = ev.target.nextSibling.value;
         const radioGroup = ev.target.parentElement.parentElement.children;
-        console.log(radioGroup);
         for (let i = 0; i < radioGroup.length; i++) {
             let button = radioGroup[i].children[0];
             let buttonvalue = button.value;  //value of the button; children[0] is <button> and [1] is <input>
-            console.log(button, buttonvalue);
             if (value === buttonvalue) {
                 button.classList.add(style.radioClicked);
             } else {
@@ -52,11 +53,10 @@ export default class EDSSCalculator extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
-        console.log(ev.target);
     }
 
     render() {
-        const { params } = this.props.match;
+        const { match: { params }, data: { visits } } = this.props;
         const rangeGen = ceiling => [...Array(ceiling).keys()];  //returns [0,1,2,3,...,*ceiling_inclusive*]
         const range_pyramidal = rangeGen(6);
         const range_cerebellar = rangeGen(5);
@@ -76,14 +76,22 @@ export default class EDSSCalculator extends Component {
             { name: 'Mental', range: range_mental },
             { name: 'Ambulation', range: range_ambulation }
         ];
+
+        if (visits === undefined)
+            return null;
+
         return (
-            <div className={style_scaffold.errorMessage}>
-                <div className={style_scaffold.edssCalcBox}>
-                    <div className={style.title}>
-                        <h3>Expanded Disability Status Scale</h3>
-                        <Link to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}`}><span className={style.cancelButton}>&#10006;</span></Link>
-                    </div>
-                    <div className={style.calculator}>
+            <>
+                <div className={style.ariane}>
+                    <Helmet title='Performance Measures' />
+                    <h2>Performance Measurese Calculator ({this.props.match.params.patientId})</h2>
+                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}/edit/msPerfMeas/${params.visitId}`} />
+                </div>
+                <div className={style.panel}>
+                    <div className={style.calculatorArea}>
+                        <span>
+                            <i>This is the EDSS performance score calculator for visit of the {(new Date(parseInt(visits[params.visitId].visitDate))).toDateString()}</i><br /><br />
+                            Below the help calculator will automatically compoute a score for you, however, you are free to indicate immediately a custom score</span><br /><br /><br />
                         <form onSubmit={this._handleSubmit}>
                             {criteria.map(el =>
                                 <div className={style.criterion} key={el.name}>
@@ -103,20 +111,17 @@ export default class EDSSCalculator extends Component {
                                 </div>
                             )}
                             <br />
-                            <span><b>Calculated score: </b></span> <input type='text' value={this.state.autoCalculatedScore} />
+                            <span><label htmlFor='calcSocre'>Calculated score: </label></span> <input type='text' name='calcSocre' value={this.state.autoCalculatedScore} />
                             <br /><br />
-                            <span><b>Free input score: </b></span> <input type='text' />
+                            <span><label htmlFor='freeSocre'>Free input score: </label></span> <input type='text' name='freeSocre' />
                             <br /><br />
-                            <input type='submit' value='Save' />
+                            <button type='submit'>Save</button>
                         </form>
-                        <br /><br /><br />
                     </div>
-                    <div className={style.guideline}>
-                        <h4> EDSS Guideline </h4> <br />
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."\
+                    <div className={style.contextArea}>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 }

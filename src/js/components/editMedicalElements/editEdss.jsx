@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Editor, EditorState, RichUtils } from 'draft-js';
 import { BackButton } from '../medicalData/dataPage';
 import style from './editMedicalElements.module.css';
-import store from '../../redux/store';
-import { displayEDSSCalc } from '../../redux/actions/edss';
 
 
+@connect(state => ({
+    data: state.patientProfile.data
+}))
 export default class EditPerformanceMesaure extends Component {
     render() {
-        const { params } = this.props.match;
+        const { match: { params }, data: { visits } } = this.props;
+        if (visits === undefined)
+            return null;
         return (
             <>
                 <div className={style.ariane}>
@@ -18,7 +20,7 @@ export default class EditPerformanceMesaure extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <p>This is the communication for visit ///// </p> <br /><br />
+                    <span><i>This is for the visit of the {(new Date(parseInt(visits[params.visitId].visitDate))).toDateString()}</i></span><br /><br />
                     <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><span>EDSS calculator</span></NavLink>
                 </form>
             </>
