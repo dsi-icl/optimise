@@ -5,7 +5,7 @@ import Helmet from '../scaffold/helmet';
 import store from '../../redux/store';
 import style from './edss.module.css';
 import { clearEDSSCalc } from '../../redux/actions/edss';
-import { addError } from '../../redux/actions/error'
+import { addError } from '../../redux/actions/error';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 
 @connect(state => ({

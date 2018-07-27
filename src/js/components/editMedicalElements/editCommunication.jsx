@@ -146,17 +146,17 @@ class CommunicationEditor extends Component {
                 {/* <pre>{JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4)}</pre> */}
                 You can append these pre-composed paragraphs:
             <div className={style.commentButtonsGroup}>
-                    <div>
-                        <button name='VSBlock' onClick={this._onClick}>Vital signs</button>
-                        <button name='symptomBlock' onClick={this._onClick}>Signs {'&'} Symptoms</button>
-                        <button name='testBlock' onClick={this._onClick}>Tests</button>
-                    </div>
-                    <div>
-                        <button name='medBlock' onClick={this._onClick}>Treatments</button>
-                        <button name='ceBlock' onClick={this._onClick}>Clinical Events</button>
-                        <button name='perfBlock' onClick={this._onClick}>Performance</button>
-                    </div>
+                <div>
+                    <button name='VSBlock' onClick={this._onClick}>Vital signs</button>
+                    <button name='symptomBlock' onClick={this._onClick}>Signs {'&'} Symptoms</button>
+                    <button name='testBlock' onClick={this._onClick}>Tests</button>
                 </div>
+                <div>
+                    <button name='medBlock' onClick={this._onClick}>Treatments</button>
+                    <button name='ceBlock' onClick={this._onClick}>Clinical Events</button>
+                    <button name='perfBlock' onClick={this._onClick}>Performance</button>
+                </div>
+            </div>
                 <br />
                 <div className={style.editorButtonsGroup}>
                     <button onClick={this._onBoldClick}><b>Bold</b></button>
