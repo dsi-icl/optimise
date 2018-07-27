@@ -2,7 +2,7 @@
 const keygen = () => Math.random().toString(35).slice(2,8);
 
 
-/* blockgen() has to called when the user has clicked to insert, 
+/* blockgen() has to called when the user has clicked to insert,
     instead of before the editor initialises or else if the user click insert twice,
     two blocks with the same string will be added.
 */
@@ -59,7 +59,7 @@ const oneTest = (test, typeTable) => {
     const name = typeTable[test.type];
     const date = new Date(parseInt(test.expectedOccurDate)).toDateString();
     return `- ${name}: ${date}`;
-}
+};
 
 export const formatTests = (testList, typeTable) => {
     if (testList.length === 0) {
@@ -79,7 +79,7 @@ const oneEvent = (event, typeTable) => {
     const name = typeTable[event.type];
     const date = new Date(parseInt(event.dateStartDate)).toDateString();
     return `- ${name}: ${date}`;
-}
+};
 
 export const formatEvents = (eventList, typeTable) => {
     if (eventList.length === 0) {
@@ -104,12 +104,12 @@ const oneTreatment = (treatment, typeTable) => {
     }
     const date = new Date(parseInt(treatment.visitDate)).toDateString();
     return `- ${name}: ${date}`;
-}
+};
 
 export const formatTreatments = (treatmentList, typeTable) => {
     if (treatmentList.length === 0) {
         return () => [blockgen(treatmentTitle(), [{ offset: 0, length: 11, style: 'BOLD' }]), blockgen('No treatment was recorded.', [])];
-        
+
     }
     const strings = treatmentList.map(el => oneTreatment(el, typeTable));
     return () => [blockgen(treatmentTitle(), [{ offset: 0, length: 11, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
@@ -139,7 +139,7 @@ export const formatSymptomsAndSigns = (symptomList, typeTable) => {
             blockgen(symptomTitle(), [{ offset: 0, length: 19, style: 'BOLD' }]),
             blockgen('No symptoms and signs was recorded.', [])
         ];
-        
+
     }
     const strings = symptomList.map(el => oneSignOrSymptom(el, typeTable)).filter(el => el !== '');
     return () => [blockgen(symptomTitle(), [{ offset: 0, length: 19, style: 'BOLD' }]), ...strings.map(el => blockgen(el, [{ offset: el.lastIndexOf(':') + 2 , length: el.length - el.lastIndexOf(':') - 2, style: 'ITALIC' }]))];
@@ -156,7 +156,7 @@ export const formatVS = (VSList, typeTable) => {
             blockgen(VSTitle(), [{ offset: 0, length: 12, style: 'BOLD' }]),
             blockgen('No VS was recorded.', [])
         ];
-        
+
     }
     const strings = VSList.map(el => oneSignOrSymptom(el, typeTable)).filter(el => el !== '');
     return () => [blockgen(VSTitle(), [{ offset: 0, length: 12, style: 'BOLD' }]), ...strings.map(el => blockgen(el, []))];
