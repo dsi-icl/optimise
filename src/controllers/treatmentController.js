@@ -27,8 +27,17 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
+<<<<<<< Updated upstream
     if ((req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
         (req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC')) {
+=======
+    if ((req.body.hasOwnProperty('dose') && typeof req.body.dose !== 'number') ||
+        (req.body.hasOwnProperty('unit') && req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
+        (req.body.hasOwnProperty('form') && req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC') ||
+        (req.body.hasOwnProperty('times') && typeof req.body.times !== 'number') ||
+        (req.body.hasOwnProperty('intervalUnit') && req.body.intervalUnit !== 'hour' && req.body.intervalUnit !== 'day' &&
+            req.body.intervalUnit !== 'week' && req.body.intervalUnit !== 'month' && req.body.intervalUnit !== 'year')) {
+>>>>>>> Stashed changes
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -36,14 +45,32 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
+    if (isNaN(Date.parse(req.body.startDate))) {
+        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+        return;
+    }
+    if (req.body.hasOwnProperty('terminatedDate') && isNaN(Date.parse(req.body.terminatedDate))) {
+        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+        return;
+    }
     let entryObj = {
         'orderedDuringVisit': req.body.visitId,
         'drug': req.body.drugId,
+<<<<<<< Updated upstream
         'dose': req.body.dose,
         'unit': req.body.unit,   //hardcoded SQL: only mg or cc
         'form': req.body.form,   //hardcoded SQL: only OR (oral) or IV
         'timesPerDay': req.body.timesPerDay,
         'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
+=======
+        'dose': (req.body.hasOwnProperty('dose') ? req.body.dose : null),
+        'unit': (req.body.hasOwnProperty('unit') ? req.body.unit : null),   // hardcoded SQL: only mg or cc
+        'form': (req.body.hasOwnProperty('form') ? req.body.form : null),   // hardcoded SQL: only OR, IV, IM or SC
+        'times': (req.body.hasOwnProperty('times') ? req.body.times : null),
+        'intervalUnit': (req.body.hasOwnProperty('intervalUnit') ? req.body.intervalUnit : null), // hardcoded: hour, day, week, month, year
+        'startDate': req.body.startDate,
+        'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? req.body.terminatedDate : null),
+>>>>>>> Stashed changes
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         // field adverseEvent coming up soon.
         //        'adverseEvent': (req.body.hasOwnProperty('adverseEvent') ? req.body.adverseEvent : null),
@@ -61,7 +88,11 @@ TreatmentController.prototype.createTreatment = function (req, res) {
 TreatmentController.prototype.addTerminationDate = function (req, res) {    //for adding termination date
     if ((req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('terminationDate')) && req.body.hasOwnProperty('terminatedReason') &&
         typeof req.body.treatmentId === 'number' && typeof req.body.terminatedDate === 'string' && typeof req.body.terminatedReason === 'number') {
-        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': Date.parse(req.body.terminationDate), 'terminatedReason': req.body.terminatedReason })
+        if (isNaN(Date.parse(req.body.terminatedDate))) {
+            res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+            return;
+        }
+        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': req.body.terminationDate, 'terminatedReason': req.body.terminatedReason })
             .then(function (result) {
                 res.status(200).json(formatToJSON(result));
                 return;
@@ -131,11 +162,20 @@ TreatmentController.prototype.deleteTreatment = function (req, res) {
 TreatmentController.prototype.addInterruption = function (req, res) {    //need to search if treatment exists
     if (req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('start_date') &&
         typeof req.body.treatmentId === 'number' && typeof req.body.start_date === 'string') {
+        if (isNaN(Date.parse(req.body.start_date))) {
+            res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+            return;
+        }
+        if (req.body.hasOwnProperty('end_date') && isNaN(Date.parse(req.body.end_date))) {
+            res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+            return;
+        }
+
         let entryObj = {
             'treatment': req.body.treatmentId,
-            'startDate': Date.parse(req.body.start_date),
+            'startDate': req.body.start_date,
             'meddra': req.body.hasOwnProperty('meddra') ? req.body.meddra : null,
-            'endDate': (req.body.hasOwnProperty('end_date') ? Date.parse(req.body.end_date) : null),
+            'endDate': (req.body.hasOwnProperty('end_date') ? req.body.end_date : null),
             'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
             'createdByUser': req.user.id
         };

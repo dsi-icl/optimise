@@ -45,9 +45,7 @@ describe('Create test controller tests', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
-            expect(res.body.stack).toBeDefined();
-            expect(res.body.stack.error).toBe(message.userError.WRONGARGUMENTS);
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with wrong type type (should fail)', () => admin
@@ -57,9 +55,7 @@ describe('Create test controller tests', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
-            expect(res.body.stack).toBeDefined();
-            expect(res.body.stack.error).toBe(message.userError.WRONGARGUMENTS);
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with wrong type expectedDate (should fail)', () => admin
@@ -69,9 +65,7 @@ describe('Create test controller tests', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
-            expect(res.body.stack).toBeDefined();
-            expect(res.body.stack.error).toBe(message.userError.WRONGARGUMENTS);
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with actual occured data with good body (should success)', () => admin

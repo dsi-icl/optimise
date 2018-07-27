@@ -16,7 +16,26 @@ TestController.prototype.createTest = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    this.test.createTest(req.user, req.body).then(function (result) {
+    if (typeof req.body.visitId !== 'number' || typeof req.body.expectedDate !== 'string' || typeof req.body.type !== 'number') {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
+    }
+    if (isNaN(Date.parse(req.body.expectedDate))) {
+        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+        return;
+    }
+    if (req.body.hasOwnProperty('actualOccurredDate') && isNaN(Date.parse(req.body.actualOccurredDate))) {
+        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+        return;
+    }
+    let entryObj = {
+        'orderedDuringVisit': req.body.visitId,
+        'type': req.body.type,
+        'expectedOccurDate': req.body.expectedDate,
+        'actualOccurredDate': req.body.actualOccurredDate ? Date.parse(req.body.actualOccurredDate) : null,
+        'createdByUser': req.user.id
+    };
+    this.test.createTest(entryObj).then(function (result) {
         res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {

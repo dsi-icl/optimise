@@ -43,7 +43,17 @@ VisitController.prototype.createVisit = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    this.visit.createVisit(req.user, req.body).then(function (result) {
+    if (isNaN(Date.parse(req.body.visitDate))) {
+        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+        return;
+    }
+    let entryObj = {};
+    entryObj.visitDate = req.body.visitDate;
+    entryObj.patient = req.body.patientId;
+    if (req.body.hasOwnProperty('type'))
+        entryObj.type = req.body.type;
+    entryObj.createdByUser = req.user.id;
+    this.visit.createVisit(entryObj).then(function (result) {
         res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {
@@ -53,11 +63,21 @@ VisitController.prototype.createVisit = function (req, res) {
 };
 
 VisitController.prototype.updateVisit = function (req, res) {
+    let updatedObj = {};
+    let whereObj = {};
     if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    this.visit.updateVisit(req.user, req.body).then(function (result) {
+    if (req.body.hasOwnProperty('visitDate') && isNaN(Date.parse(req.body.visitDate))) {
+        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE, new Error(message.userError.WRONGARGUMENTS)));
+        return;
+    }
+    updatedObj = Object.assign(req.body);
+    whereObj.id = req.body.id;
+    delete updatedObj.id;
+    updatedObj.createdByUser = req.user.id;
+    this.visit.updateVisit(req.user, whereObj, updatedObj).then(function (result) {
         res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {

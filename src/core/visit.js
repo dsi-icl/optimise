@@ -44,20 +44,8 @@ Visit.prototype.getVisit = function (patientInfo) {
  * @param {Object} user Object that contain the id of the user doing the request
  * @param {Object} visit The new entry
  */
-Visit.prototype.createVisit = function (user, visit) {
+Visit.prototype.createVisit = function (entryObj) {
     return new Promise(function (resolve, reject) {
-        let entryObj = {};
-        if (isNaN(Date.parse(visit.visitDate))) {
-            reject(ErrorHelper(message.userError.INVALIDDATE, new Error(message.userError.WRONGARGUMENTS)));
-            return;
-        }
-        else {
-            entryObj.visitDate = Date.parse(visit.visitDate);
-        }
-        entryObj.patient = visit.patientId;
-        if (visit.hasOwnProperty('type'))
-            entryObj.type = visit.type;
-        entryObj.createdByUser = user.id;
         createEntry('VISITS', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {
@@ -72,16 +60,10 @@ Visit.prototype.createVisit = function (user, visit) {
  * @param {Object} user Object that contain the id of the user doing the request
  * @param {Object} updatedObj the new entry that will replace the old one
  */
-Visit.prototype.updateVisit = function (user, updatedObj) {
+
+Visit.prototype.updateVisit = function (user, whereObj, updatedObj) {
     return new Promise(function (resolve, reject) {
-        if (isNaN(Date.parse(updatedObj.visitDate))) {
-            reject(ErrorHelper(message.userError.INVALIDDATE, new Error(message.userError.WRONGARGUMENTS)));
-            return;
-        }
-        else {
-            updatedObj.visitDate = Date.parse(updatedObj.visitDate);
-        }
-        updateEntry('VISITS', user, '*', { id: updatedObj.id }, updatedObj).then(function (result) {
+        updateEntry('VISITS', user, '*', whereObj, updatedObj).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.GETFAIL, error));
