@@ -157,7 +157,7 @@ export default class CreatePatient extends Component {    //get these props from
                             <h4>Primary diagnosis</h4><br />
                             <label>Diagnosis date:</label><br /> <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleDiagnosisDateChange} /> <br />
                             <label htmlFor='diagnosis'>Diagnosis:</label><br /> <SelectField name='diagnosis' value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} /> <br /><br />
-                            <input type="submit" value="Submit" />
+                            <button type="submit">Submit</button>
                         </form>
                         {this.state.error ? <><br /><br /><div className={style.error}>None of the fields can be unselected or empty! Please try again.</div></> : null}
 

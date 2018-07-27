@@ -210,7 +210,7 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
                     }
                 })
             }
-            <input type="submit" value="Save" />
+            <button type="submit">Save</button>
         </form>
     );
 }

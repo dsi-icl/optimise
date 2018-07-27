@@ -114,7 +114,7 @@ export class TestData extends Component {
                             <div className={style.levelBody}>
                                 {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
                             </div>
-                            <input type='submit' value='Save' />
+                            <button type='submit'>Save</button>
                         </form>
                     </div>
                 </>
