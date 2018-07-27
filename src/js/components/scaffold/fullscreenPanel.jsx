@@ -15,7 +15,9 @@ export default class FullscreenPanel extends Component {
                         </div>
                     } />
                     <Route path='/patientProfile/:patientId/edit/msPerfMeas/:visitId/edss' render={({ match, location }) =>
-                        <EDSSCalculator match={match} location={location} />
+                        <div className={style.fullscreenPanel}>
+                            <EDSSCalculator match={match} location={location} />
+                        </div>
                     } />
                     <Route path='/' component={() => null} />
                 </Switch>
