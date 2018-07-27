@@ -55,7 +55,7 @@
     fill: hsl(var(--color-background-h), var(--color-background-s), 20%);
 }
 
-@media (max-width: 95em) {
+@media (max-width: 85em) {
     .profileActions a span {
         display: none;
     }
@@ -68,6 +68,7 @@
     height: 100%;
     padding: 1.2em;
     overflow: auto;
+    scroll-behavior: smooth;
 }
 
 .noConsentAlert {
@@ -76,6 +77,35 @@
     display: inline-block;
     color: var(--color-font-active);
     background-color: var(--color-shade-one);
+}
+
+.immunisationItem:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 92%);
+}
+
+.profileSectionActive .immunisationItem:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 85%);
+}
+
+.immunisationItem td:first-child,
+.immunisationNewItem td:first-child {
+    width: 45%;
+    padding-left: 0;
+    transition: padding 100ms;
+}
+
+.immunisationItem:hover td:first-child {
+    padding-left: 0.7em;
+}
+
+.immunisationItem td:last-child {
+    text-align: right;
+    padding-right: 0;
+    transition: padding 100ms;
+}
+
+.immunisationItem:hover td:last-child {
+    padding-right: 0.7em;
 }
 
 .timelineBox {
@@ -280,15 +310,17 @@ div.timelineCEBlack {
     text-align: center;
 }
 
-.profileSectionActive {
+.profileSection {
     width: calc(100% + 2.4em);
     margin-left: -1.2em;
     padding: 0 1.2em;
+    padding-top: 1.2em;
+    transition: background-color 500ms;
+    background-color: transparent;
 }
 
 .profileSectionActive {
-    padding-top: 1.2em;
-    margin-bottom: 1.2em;
+    width: calc(100% + 2.4em);
     background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
@@ -312,18 +344,20 @@ div.timelineCEBlack {
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
-.expandTimeline {
+.expandTimeline, .dataEdit {
     display: inline-block;
     margin-left: 0.5em;
-    width: 0.9em;
+    width: 1em;
     height: 1em;
 }
 
-.expandTimeline path {
+.expandTimeline path,
+.dataEdit path {
     fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
 }
 
-.expandTimeline:hover path {
+.expandTimeline:hover path,
+.dataEdit:hover path {
     fill: hsl(var(--color-background-h), var(--color-background-s), 40%);
 }
 

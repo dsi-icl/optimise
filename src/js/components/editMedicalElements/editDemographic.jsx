@@ -12,7 +12,7 @@ export default class EditDemo extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>Edit demographic data</h2>
+                    <h2>Profile demographics</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>

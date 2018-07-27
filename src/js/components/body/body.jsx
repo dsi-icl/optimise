@@ -5,6 +5,7 @@ import browserBehaviour from '../../utilities/browserBehaviour';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import 'draft-js/dist/Draft.css';
 import './body.css';
+import './datepicker.css';
 
 export default class Body extends PureComponent {
 
