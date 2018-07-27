@@ -116,3 +116,17 @@
 .editorButtonsGroup > button:nth-last-child(1) {
     border-radius: 0px 4px 4px 0px;
 }
+
+.openCalculator {
+    color: var(--color-background);
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    line-height: 2.7em;
+    height: 2.7em;
+    background: hsl(var(--color-background-h), var(--color-background-s), 88%);
+}
+
+.openCalculator:hover {
+    background: hsl(var(--color-background-h), var(--color-background-s), 86%);
+}
