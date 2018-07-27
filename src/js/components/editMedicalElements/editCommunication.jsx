@@ -7,7 +7,7 @@ import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 
 
-/* container; fetches all the data and format it into CONTENTSTATE and pass them to the children */ 
+/* container; fetches all the data and format it into CONTENTSTATE and pass them to the children */
 @connect(state => ({ fetching: state.patientProfile.fetching, data: state.patientProfile.data, availableFields: state.availableFields }))
 export default class EditCommunication extends Component {
     render() {
@@ -15,7 +15,6 @@ export default class EditCommunication extends Component {
         if (fetching) {
             return null;
         }
-        console.log(this.props)
         const { params } = match;
         const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash } = this.props.availableFields;
         let { visits, tests, treatments, clinicalEvents } = data;
@@ -26,12 +25,11 @@ export default class EditCommunication extends Component {
         tests = tests.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
         treatments = treatments.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
         clinicalEvents = clinicalEvents.filter(el => el.recordedDuringVisit === parseInt(params.visitId));
-        console.log('LIST', tests, treatments, clinicalEvents, drugs_Hash[0]);
         const testBlock = formatTests(tests, testTypes_Hash[0]);
         const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0]);
         const medBlock = formatTreatments(treatments, drugs_Hash[0]);
         const precomposed = { testBlock, ceBlock, medBlock };
-        return <Communication match={match} precomposed={precomposed}/>;
+        return <Communication match={match} precomposed={precomposed} data={data} />;
     }
 }
 
@@ -39,8 +37,9 @@ export default class EditCommunication extends Component {
 
 class Communication extends Component {
     render() {
-        const { precomposed, match } = this.props;
-        const { params } = match;
+        const { precomposed, match: { params }, data: { visits } } = this.props;
+        if (visits === undefined)
+            return null;
         return (
             <>
                 <div className={style.ariane}>
@@ -48,8 +47,8 @@ class Communication extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <p>This is the communication for visit ///// </p> <br/><br/>
-                    <CommunicationEditor precomposed={precomposed}/>
+                    <span><i>This is for the visit of the {(new Date(parseInt(visits[params.visitId].visitDate))).toDateString()}</i></span><br /><br />
+                    <CommunicationEditor precomposed={precomposed} />
                 </form>
             </>
         );
@@ -61,8 +60,8 @@ class Communication extends Component {
 class CommunicationEditor extends Component {
     constructor() {
         super();
-        this.state = {editorState: EditorState.createEmpty()};
-        this.onChange = (editorState) => this.setState({editorState});
+        this.state = { editorState: EditorState.createEmpty() };
+        this.onChange = (editorState) => this.setState({ editorState });
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
         this._onBoldClick = this._onBoldClick.bind(this);
         this._onItalicClick = this._onItalicClick.bind(this);
@@ -121,39 +120,39 @@ class CommunicationEditor extends Component {
     render() {
         return (
             <>
-            {/* <pre>{JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4)}</pre> */}
-            You can append these pre-composed paragraphs:
+                {/* <pre>{JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4)}</pre> */}
+                You can append these pre-composed paragraphs:
             <div className={style.commentButtonsGroup}>
-                <div>
-                    <button onClick={this._onClick}>Vital signs</button>
-                    <button onClick={this._onClick}>Signs {'&'} Symptoms</button>
-                    <button name='testBlock' onClick={this._onClick}>Tests</button>
+                    <div>
+                        <button onClick={this._onClick}>Vital signs</button>
+                        <button onClick={this._onClick}>Signs {'&'} Symptoms</button>
+                        <button name='testBlock' onClick={this._onClick}>Tests</button>
+                    </div>
+                    <div>
+                        <button name='medBlock' onClick={this._onClick}>Treatments</button>
+                        <button name='ceBlock' onClick={this._onClick}>Clinical Events</button>
+                        <button onClick={this._onClick}>Performance</button>
+                    </div>
+                    <div>
+                        <button onClick={this._onClick}>All of above</button>
+                    </div>
                 </div>
-                <div>
-                    <button name='medBlock' onClick={this._onClick}>Treatments</button>
-                    <button name='ceBlock' onClick={this._onClick}>Clinical Events</button>
-                    <button onClick={this._onClick}>Performance</button>
+                <br />
+                <div className={style.editorButtonsGroup}>
+                    <button onClick={this._onBoldClick}><b>Bold</b></button>
+                    <button onClick={this._onItalicClick}><i>Italic</i></button>
+                    <button onClick={this._onUnderlineClick}><u>Under</u></button>
                 </div>
-                <div>
-                    <button onClick={this._onClick}>All of above</button>
+                <div className={style.editorWrapper}>
+                    <Editor
+                        editorState={this.state.editorState}
+                        onChange={this.onChange}
+                        handleKeyCommand={this.handleKeyCommand}
+                    />
                 </div>
-            </div>
-            <br/>
-            <div className={style.editorButtonsGroup}>
-                <button onClick={this._onBoldClick}><b>Bold</b></button>
-                <button onClick={this._onItalicClick}><i>Italic</i></button>
-                <button onClick={this._onUnderlineClick}><u>Under</u></button>
-            </div>
-            <div className={style.editorWrapper}>
-                <Editor
-                    editorState={this.state.editorState}
-                    onChange={this.onChange}
-                    handleKeyCommand={this.handleKeyCommand}
-                />
-            </div>
-            <br/>
-            <button onClick={this._onSubmit}>Save</button>
-            <br/><br/>
+                <br />
+                <button onClick={this._onSubmit}>Save</button>
+                <br /><br />
             </>
         );
     }
