@@ -60,12 +60,12 @@ describe('Patient controller tests', () => {
             expect(res.body.error).toBe(message.userError.INVALIDQUERY);
         }));
 
-    test('Searching patients that are female', () => admin
-        .get('/patients?field=SEX&value=2')
+    test('Searching patients with diagnosis PPMS', () => admin
+        .get('/patients?field=MHTERM&value=PPMS')
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(res.body.length).toBe(3);
+            expect(res.body.length).toBe(2);
         }));
 
     test('Creating a new patient with no consent (should fail)', () => admin
