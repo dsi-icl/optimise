@@ -82,3 +82,9 @@
     padding-top: 0.9em;
     padding-bottom: 0.9em;
 }
+
+.noEndDateButton{
+    text-decoration: underline;
+    cursor: pointer;
+    display: block;
+}
