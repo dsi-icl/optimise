@@ -115,7 +115,7 @@ class ImmunisationSection extends Component {
             };
 
             store.dispatch(deleteImmunisationAPICall(body));
-        }
+        };
     }
 
 
