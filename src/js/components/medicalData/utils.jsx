@@ -30,7 +30,7 @@ export class SelectField extends Component {
 
 /* receives ref, name, default */
 export class BooleanField extends Component {
-    constructor(props){
+    constructor(props) {
         super();
         this.state = { checked: props.default };
         this._onClick = this._onClick.bind(this);
@@ -46,9 +46,9 @@ export class BooleanField extends Component {
         const { checked } = this.state;
         return (
             <Fragment key={key}>
-                <input ref={reference} type='checkbox' style={{ display: 'none' }} checked={checked}/>
+                <input ref={reference} type='checkbox' style={{ display: 'none' }} checked={checked} />
                 <button
-                    className={ checked ? [style.booleanButton, style.booleanButton_checked].join(' ') : style.booleanButton}
+                    className={checked ? [style.booleanButton, style.booleanButton_checked].join(' ') : style.booleanButton}
                     onClick={this._onClick}
                 >{name}</button>
             </Fragment>
@@ -61,7 +61,7 @@ export class TextField extends Component {
     render() {
         const { reference, origVal } = this.props;
         return (
-            <input defaultValue={origVal} ref={reference} type='text'/>
+            <input defaultValue={origVal} ref={reference} type='text' />
         );
     }
 }
@@ -82,20 +82,39 @@ export function mappingFields(typeHash, references, originalValues) {
         const content = el[1];
         if (content.hasOwnProperty('id')) {
             const origVal = originalValues[content.id];
-            switch (typeHash[content.type]){
+            switch (typeHash[content.type]) {
                 case 'I':
                 case 'F':
                 case 'T':
-                    return <Fragment key={content.id}>{`${content.definition} :`}<TextField origVal={origVal ? origVal : null} reference={references[content.id].ref}/><br/><br/></Fragment>;
+                    return (
+                        <div key={content.id} className={style.dataItem}>
+                            <label>{content.definition}</label>
+                            <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
+                        </div>
+                    );
                 case 'B':
-                    return <Fragment key={content.id}><BooleanField reference={references[content.id].ref} name={content.definition} default={origVal && origVal === '1' ? true : false}/><br/><br/></Fragment>;
+                    return (
+                        <div key={content.id} className={style.dataItem}>
+                            <BooleanField reference={references[content.id].ref} name={content.definition} default={origVal && origVal === '1' ? true : false} /><br /><br />
+                        </div>
+                    );
                 case 'C':
-                    return <Fragment key={content.id}>{`${content.definition} :`}<SelectField origVal={origVal ? origVal : null} reference={references[content.id].ref} choices={content.permittedValues.split(',')}/><br/><br/></Fragment>;
+                    return (
+                        <div key={content.id} className={style.dataItem}>
+                            <label>{content.definition}</label>
+                            <SelectField origVal={origVal ? origVal : null} reference={references[content.id].ref} choices={content.permittedValues.split(',')} /><br /><br />
+                        </div>
+                    );
                 default:
                     return null;
             }
         } else {
-            return <Fragment key={title}>{title}: <div>{Object.entries(content).map(curry)}</div></Fragment>;
+            return (
+                <div key={title} className={style.level}>
+                    <div className={style.levelHeader} onClick={() => this.toggleView()}>{title}</div>
+                    <div className={style.levelBody}>{Object.entries(content).map(curry)}</div>
+                </div>
+            );
         }
     };
     return curry;
