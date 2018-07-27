@@ -3,6 +3,8 @@ exports.up = function (knex) {
         table.increments('id').primary();
         table.text('module').nullable();
         table.text('name').notNullable().unique();
+        table.text('deleted').notNullable().defaultTo('-');
+        table.unique(['name', 'deleted']);
     });
 };
 

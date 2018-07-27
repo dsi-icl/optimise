@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "name": "Relapse",
+        "module": "MS"
+    },
+    {
+        "id": 2,
+        "name": "Infection",
+        "module": "MS"
+    },
+    {
+        "id": 3,
+        "name": "Opportunistic Infection",
+        "module": "MS"
+    },
+    {
+        "id": 4,
+        "name": "Death",
+        "module": "MS"
+    },
+    {
+        "id": 5,
+        "name": "Other SAE likely related to treatment or malignancies",
+        "module": "MS"
+    }
+]
