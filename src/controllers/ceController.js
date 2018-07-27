@@ -21,6 +21,7 @@ CeController.prototype.createCe = function (req, res) {
             ce.patient = req.body.patient;
         ce.type = req.body.type;
         ce.meddra = req.body.meddra;
+        ce.endDate = req.body.endDate ? Date.parse(req.body.endDate) : null;
         ce.dateStartDate = Date.parse(req.body.startDate);
         ce.createdByUser = req.user.id;
         this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
