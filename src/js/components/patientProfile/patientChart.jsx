@@ -118,14 +118,30 @@ class ClinicalEvent extends PureComponent {
     }
 }
 
-@connect(state => ({ typedict: state.availableFields.visitFields_Hash[0], patientId: state.patientProfile.data.patientId }))
+@connect(state => ({ typedict: state.availableFields.visitFields_Hash[0], patientId: state.patientProfile.data.patientId, inputType: state.availableFields.inputTypes_Hash[0] }))
 class Symptom extends PureComponent {
     render() {
-        const { data, typedict } = this.props;
+        const { data, typedict, inputType } = this.props;
+        let value;
+        switch (inputType[typedict[data.field].type]) {
+            case 'I':
+            case 'F':
+            case 'T':
+                value = data.value;
+                break;
+            case 'B':
+                value = data.value === '1' ? 'true' : 'false (edited)';
+                break;
+            case 'C':
+                value = data.value === 'unselected' ? 'unselected (edited)' : data.value;
+                break;
+            default:
+                value = data.value;
+        }
         return (
             <tr>
                 <td>{typedict[data.field].definition}</td>
-                <td>{data.value}</td>
+                <td>{value}</td>
             </tr>
         );
     }
@@ -156,8 +172,9 @@ class OneVisit extends Component {
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
         const VS = this.props.visitData.filter(el => [1, 2, 3, 4, 5, 6].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
-        const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id));
-        const symptoms = this.props.visitData.filter(el => el.field > 6);
+        const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) &&  [2,3].includes(field.section));
+        const relevantFieldsIdArray = relevantFields.map(el => el.id);
+        const symptoms = this.props.visitData.filter(el => el.field > 6 && relevantFieldsIdArray.includes(el.field));
 
         return (
             <TimelineEvent
