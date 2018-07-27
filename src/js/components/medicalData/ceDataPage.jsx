@@ -30,7 +30,7 @@ function mapStateToProps(state) {
  /* this component serves as a sieve for the data and pass the relevant one to the form as props*/
 @withRouter
 @connect(mapStateToProps)
-export class TestData extends Component {
+export class CeData extends Component {
     constructor() {
         super();
         this.state = {
@@ -81,7 +81,7 @@ export class TestData extends Component {
             }
         })
         const { params } = this.props.match;
-        const body = {data: {testId: params.testId, update, add}, type: 'test', patientId: params.patientId };
+        const body = {data: {clinicalEventId: params.ceId, update, add}, type: 'clinicalEvent', patientId: params.patientId };
         store.dispatch(alterDataCall(body));
     }
 
@@ -89,13 +89,12 @@ export class TestData extends Component {
         const { patientProfile, match } = this.props;
         const { params } = match;
         if (!patientProfile.fetching) {
-            const visitsMatched = patientProfile.data.tests.filter(visit => visit.id === parseInt(params.testId, 10));
-            console.log(params.testId, patientProfile.data.tests);
+            const visitsMatched = patientProfile.data.clinicalEvents.filter(visit => visit.id === parseInt(params.ceId, 10));
             if (visitsMatched.length !== 1) {
-                return <div>{'Cannot find your test!'}</div>;
+                return <div>{'Cannot find your clinical event!'}</div>;
             }
             const { fields } = this.props;
-            const relevantFields = fields.testFields.filter(el => (el.referenceType === visitsMatched[0].type));
+            const relevantFields = fields.clinicalEventFields.filter(el => (el.referenceType === visitsMatched[0].type));
             const fieldTree = createLevelObj(relevantFields);
             console.log(fieldTree);
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
@@ -105,7 +104,7 @@ export class TestData extends Component {
             return (
                 <>
                     <div className={scaffold_style.ariane}>
-                        <h2>TEST RESULTS</h2>
+                        <h2>CLINICAL EVENT RESULTS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
                     <div className={scaffold_style.panel}>
