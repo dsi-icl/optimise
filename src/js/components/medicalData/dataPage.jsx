@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import merge from 'deepmerge';
@@ -168,44 +168,44 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
                     switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
                         case 'I':
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <label htmlFor=''>{definition}:</label><br />
                                     <ControlledInputField fieldId={id} originalValue={originalValue} dataType='I' /><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             );
                         case 'F':
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <label htmlFor='' key={key}>{definition}:</label><br />
                                     <ControlledInputField fieldId={id} originalValue={originalValue} dataType='F' /><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             );
                         case 'C':
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <label htmlFor='' key={key}>{definition}:</label><br />
                                     <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues={permittedValues} /><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             );
                         case 'T':
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <label htmlFor='' key={key}>{definition}:</label> <br />
                                     <ControlledInputField fieldId={id} originalValue={originalValue} dataType='T' /><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             );
                         case 'B':
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <label htmlFor='' key={key}>{definition}:</label><br />
                                     <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues='true,false' /><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             );
                         default:
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <span>This field cannot be displayed. Please contact admin. </span><br /><br />
-                                </React.Fragment >
+                                </Fragment >
                             );
                     }
                 })
