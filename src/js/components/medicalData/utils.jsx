@@ -46,7 +46,7 @@ export class BooleanField extends Component {
         const { checked } = this.state;
         return (
             <Fragment key={key}>
-                <input ref={reference} type='checkbox' style={{ display: 'none' }} checked={checked} />
+                <input ref={reference} type='checkbox' style={{ display: 'none' }} checked={checked} onChange={() => null} />
                 <button
                     className={checked ? [style.booleanButton, style.booleanButton_checked].join(' ') : style.booleanButton}
                     onClick={this._onClick}
@@ -111,7 +111,7 @@ export function mappingFields(typeHash, references, originalValues) {
         } else {
             return (
                 <div key={title} className={style.level}>
-                    <div className={style.levelHeader} onClick={() => this.toggleView()}>{title}</div>
+                    <div className={style.levelHeader}> {title}</div>
                     <div className={style.levelBody}>{Object.entries(content).map(curry)}</div>
                 </div>
             );
