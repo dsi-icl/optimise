@@ -35,7 +35,7 @@ class EDSSCalculator extends Component {
     componentDidMount() {    //this basically adds the originalValues and EDSSFields
         const { visitFields, sections, patientProfile, match } = this.props;
         const { params } = match;
-        const EDSSFields = visitFields.filter(el => el.subsection === 'QS');
+        const EDSSFields = visitFields.filter(el => /^edss:(.*)/.test(el.idname));
         if (EDSSFields.length !== 9){
             store.dispatch(addError({ error: 'EDSS should have 9 entries in the database! please contact your admin' }));
             this.setState({ redirect: true });
