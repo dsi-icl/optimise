@@ -8,7 +8,6 @@ import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './dataPage.module.css';
 import store from '../../redux/store';
 
-
 function mapStateToProps(state) {
     return {
         fields: state.availableFields,

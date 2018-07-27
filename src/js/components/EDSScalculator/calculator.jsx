@@ -1,8 +1,8 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect} from 'react-router-dom';
+import { BackButton } from '../medicalData/dataPage';
+import Helmet from '../scaffold/helmet';
 import store from '../../redux/store';
-import style_scaffold from '../scaffold/scaffold.module.css';
 import style from './edss.module.css';
 import { clearEDSSCalc } from '../../redux/actions/edss';
 import { addError } from '../../redux/actions/error';
@@ -12,13 +12,13 @@ import { alterDataCall } from '../../redux/actions/addOrUpdateData';
     edssCalc: state.edssCalc,
     visitFields: state.availableFields.visitFields,
     patientProfile: state.patientProfile.data,
-    sections : state.availableFields.visitSections
+    sections: state.availableFields.visitSections
 }))
 export default class EDSSPage extends Component {
     render() {
         if (this.props.patientProfile.visits) {
-            const { edssCalc, visitFields, patientProfile, sections, match} = this.props;
-            return <EDSSCalculator match={match} edssCalc={edssCalc} visitFields={visitFields} patientProfile={patientProfile} sections={sections}/>;
+            const { edssCalc, visitFields, patientProfile, sections, match } = this.props;
+            return <EDSSCalculator match={match} edssCalc={edssCalc} visitFields={visitFields} patientProfile={patientProfile} sections={sections} />;
         } else {
             return null;
         }
@@ -34,10 +34,10 @@ class EDSSCalculator extends Component {
     }
 
     componentDidMount() {    //this basically adds the originalValues and EDSSFields
-        const { visitFields, sections, patientProfile, match } = this.props;
+        const { visitFields, patientProfile, match } = this.props;
         const { params } = match;
         const EDSSFields = visitFields.filter(el => /^edss:(.*)/.test(el.idname));
-        if (EDSSFields.length !== 9){
+        if (EDSSFields.length !== 9) {
             store.dispatch(addError({ error: 'EDSS should have 9 entries in the database! please contact your admin' }));
             this.setState({ redirect: true });
         }
@@ -57,7 +57,7 @@ class EDSSCalculator extends Component {
         let ambulation;
         if (data) {
             this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseInt(el.value); return a; }, {});
-            const tmpValues = {...this.originalValues};
+            const tmpValues = { ...this.originalValues };
             if (typeof tmpValues[ambulationID] !== undefined) {
                 ambulation = parseInt(tmpValues[ambulationID]);
                 delete tmpValues[ambulationID];
@@ -127,7 +127,7 @@ class EDSSCalculator extends Component {
         for (let each of criteria) {
             if (document.querySelector(`input[name="${each}"]:checked`)) {    //if anything is checked
                 if (typeof this.originalValues[this.EDSSFields_Hash_reverse[each]] !== 'undefined') {  //if there's original value
-                    if (this.originalValues[this.EDSSFields_Hash_reverse[each]] !==  parseInt(document.querySelector(`input[name="${each}"]:checked`).value)) {
+                    if (this.originalValues[this.EDSSFields_Hash_reverse[each]] !== parseInt(document.querySelector(`input[name="${each}"]:checked`).value)) {
                         update[this.EDSSFields_Hash_reverse[each]] = document.querySelector(`input[name="${each}"]:checked`).value;
                     }
                 } else {
@@ -140,7 +140,7 @@ class EDSSCalculator extends Component {
         const freeInputOrigVal = this.originalValues[this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']];
         if (freeInputOrigVal !== undefined) {
             if (this.freeinputref.current.value !== freeInputOrigVal) {
-                update[this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] =  this.freeinputref.current.value;
+                update[this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] = this.freeinputref.current.value;
             }
         } else {
             if (this.freeinputref.current.value !== '') {
@@ -148,13 +148,13 @@ class EDSSCalculator extends Component {
             }
         }
 
-        const body = { data: {add, update, visitId: this.props.match.params.visitId }, patientId: this.props.match.params.patientId, type: 'visit'};
+        const body = { data: { add, update, visitId: this.props.match.params.visitId }, patientId: this.props.match.params.patientId, type: 'visit' };
         store.dispatch(alterDataCall(body));
     }
 
     render() {
         if (!this.originalValues || !this.EDSSFields_Hash_reverse) return null;
-        const { params } = this.props.match;
+        const { match: { params }, patientProfile: { visits } } = this.props;
         const { EDSSFields_Hash_reverse, originalValues } = this;
         const rangeGen = ceiling => [...Array(ceiling).keys()];  //returns [0,1,2,3,...,*ceiling_inclusive*]
         const range_pyramidal = rangeGen(6);
@@ -175,14 +175,27 @@ class EDSSCalculator extends Component {
             { name: 'Mental', idname: 'edss:expanded disability status scale (edss) mental', range: range_mental },
             { name: 'Ambulation', idname: 'edss:expanded disability status scale (edss) ambulation', range: range_ambulation }
         ];
+
+        if (visits === undefined)
+            return null;
+
+        const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
+        if (visitFiltered.length !== 1){
+            return <div> Cannot find your visit </div>;
+        }
+
         return (
-            <div className={style_scaffold.errorMessage}>
-                <div className={style_scaffold.edssCalcBox}>
-                    <div className={style.title}>
-                        <h3>Expanded Disability Status Scale</h3>
-                        <Link to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}`}><span className={style.cancelButton}>&#10006;</span></Link>
-                    </div>
-                    <div className={style.calculator}>
+            <>
+                <div className={style.ariane}>
+                    <Helmet title='Performance Measures' />
+                    <h2>Performance Measurese Calculator ({this.props.match.params.patientId})</h2>
+                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}/edit/msPerfMeas/${params.visitId}`} />
+                </div>
+                <div className={style.panel}>
+                    <div className={style.calculatorArea}>
+                        <span>
+                            <i>This is the EDSS performance score calculator for visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i><br /><br />
+                            Below the help calculator will automatically compoute a score for you, however, you are free to indicate immediately a custom score</span><br /><br /><br />
                         <form onSubmit={this._handleSubmit}>
                             {criteria.map(el =>
                                 <div className={style.criterion} key={el.name}>
@@ -191,40 +204,36 @@ class EDSSCalculator extends Component {
                                         {el.range.map(number =>
                                             <span key={number} className={style.radioButtonWrapper}>
                                                 <button type='button'
-                                                    className={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton }
+                                                    className={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton}
                                                     onClick={this._handleClick}
                                                     value={number}
                                                 >{number}</button>
-                                                <input type='radio' name={el.idname} value={number} defaultChecked={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false }/>
+                                                <input type='radio' name={el.idname} value={number} defaultChecked={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false} />
                                             </span>
                                         )}
                                     </div>
                                 </div>
                             )}
-                            <br/>
-                            <span><b>Suggested score for reference: </b></span> <input type='text' value={this.state.autoCalculatedScore} readOnly/>
-                            <br/><br/>
-                            <span><b>Free input score: </b></span> <input ref={this.freeinputref} name='edss:expanded disability status scale (edss) total' type='text' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] ?  originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] : ''}/>
-                            <br/><br/>
-                            <input type='submit' value='Save'/>
+                            <br /><br />
+                            <label htmlFor='calcSocre'>Calculated score: </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
+                            <br /><br />
+                            <label htmlFor='edss:expanded disability status scale (edss) total'>Free input score: </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale (edss) total' type='text' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] : ''} />
+                            <br /><br />
+                            <button type='submit'>Save</button>
                         </form>
-                        <br /><br /><br />
                     </div>
-                    <div className={style.guideline}>
-                        <h4> EDSS Guideline </h4> <br />
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."\
+                    <div className={style.contextArea}>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 }
 
 
 /* FSArray would be [1,1,2,0,6] etc; ambulation is separated because it's separate in the calculation */
-function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore){
+function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore) {
     FSArrayWithoutAmbulation.sort((a, b) => b - a);
-    console.log('FSArray', FSArrayWithoutAmbulation);
     const maxScore = FSArrayWithoutAmbulation[0] || 0;
     const secondMaxScore = FSArrayWithoutAmbulation[1] || 0;
     const countHash = FSArrayWithoutAmbulation.reduce((hash, el) => {
@@ -291,7 +300,7 @@ function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore){
                     }
                 case 3:
                     if (countHash[3] === 1) {
-                        if ([0,1].includes(secondMaxScore)) {
+                        if ([0, 1].includes(secondMaxScore)) {
                             return 3;
                         } else {
                             return 3.5;

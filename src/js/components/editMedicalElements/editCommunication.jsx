@@ -38,7 +38,7 @@ export default class EditCommunication extends Component {
         const precomposed = { testBlock, ceBlock, medBlock, symptomBlock, VSBlock, perfBlock };
         console.log('COMMUNICATION', JSON.parse(visits[0].communication));
         const originalEditorState = visits[0].communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(visits[0].communication))) : EditorState.createEmpty();
-        return <Communication match={match} precomposed={precomposed} originalEditorState={originalEditorState} location={location}/>;
+        return <Communication match={match} precomposed={precomposed} originalEditorState={originalEditorState} location={location} data={data} />;
     }
 }
 
@@ -46,8 +46,10 @@ export default class EditCommunication extends Component {
 
 class Communication extends Component {
     render() {
-        const { precomposed, match, originalEditorState, location } = this.props;
+        const { precomposed, match, originalEditorState, location, data: { visits } } = this.props;
         const { params } = match;
+        if (visits === undefined)
+            return null;
         return (
             <>
                 <div className={style.ariane}>
@@ -55,8 +57,8 @@ class Communication extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <p>Notes for the visit </p> <br/><br/>
-                    <CommunicationEditor precomposed={precomposed} match={match} originalEditorState={originalEditorState} location={location}/>
+                    <span><i>This is for the visit of the {(new Date(parseInt(visits[params.visitId].visitDate))).toDateString()}</i></span><br /><br />
+                    <CommunicationEditor precomposed={precomposed} match={match} originalEditorState={originalEditorState} location={location} />
                 </form>
             </>
         );
@@ -69,7 +71,7 @@ class CommunicationEditor extends Component {
     constructor(props) {
         super(props);
         this.state = { editorState: props.originalEditorState, visitId: props.match.params.visitId };
-        this.onChange = (editorState) => this.setState({editorState});
+        this.onChange = (editorState) => this.setState({ editorState });
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
         this._onBoldClick = this._onBoldClick.bind(this);
         this._onItalicClick = this._onItalicClick.bind(this);
@@ -141,8 +143,8 @@ class CommunicationEditor extends Component {
     render() {
         return (
             <>
-            {/* <pre>{JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4)}</pre> */}
-            You can append these pre-composed paragraphs:
+                {/* <pre>{JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4)}</pre> */}
+                You can append these pre-composed paragraphs:
             <div className={style.commentButtonsGroup}>
                 <div>
                     <button name='VSBlock' onClick={this._onClick}>Vital signs</button>
@@ -155,22 +157,22 @@ class CommunicationEditor extends Component {
                     <button name='perfBlock' onClick={this._onClick}>Performance</button>
                 </div>
             </div>
-            <br/>
-            <div className={style.editorButtonsGroup}>
-                <button onClick={this._onBoldClick}><b>Bold</b></button>
-                <button onClick={this._onItalicClick}><i>Italic</i></button>
-                <button onClick={this._onUnderlineClick}><u>Under</u></button>
-            </div>
-            <div className={style.editorWrapper}>
-                <Editor
-                    editorState={this.state.editorState}
-                    onChange={this.onChange}
-                    handleKeyCommand={this.handleKeyCommand}
-                />
-            </div>
-            <br/>
-            <button onClick={this._onSubmit}>Save</button>
-            <br/><br/>
+                <br />
+                <div className={style.editorButtonsGroup}>
+                    <button onClick={this._onBoldClick}><b>Bold</b></button>
+                    <button onClick={this._onItalicClick}><i>Italic</i></button>
+                    <button onClick={this._onUnderlineClick}><u>Under</u></button>
+                </div>
+                <div className={style.editorWrapper}>
+                    <Editor
+                        editorState={this.state.editorState}
+                        onChange={this.onChange}
+                        handleKeyCommand={this.handleKeyCommand}
+                    />
+                </div>
+                <br />
+                <button onClick={this._onSubmit}>Save</button>
+                <br /><br />
             </>
         );
     }
