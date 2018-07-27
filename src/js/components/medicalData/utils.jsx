@@ -64,7 +64,7 @@ export function createLevelObj(fields) {
         obj.push(f.idname.split(':').reverse().reduce((a, c) => !a ? { [c]: f } : ({ [c]: a }), null));
     });
     return merge.all(obj);
-} 
+}
 
 export function mappingFields(typeHash, references, originalValues) {
     const curry = el => {
