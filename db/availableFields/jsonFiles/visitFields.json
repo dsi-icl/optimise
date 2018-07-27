@@ -1177,7 +1177,7 @@
         "unit": null,
         "module": "MS",
         "permittedValues": "0,1,2,3,4,5,6",
-        "labels": "Normal,Abnormal signs without disability,Minimal disability,Mild or moderate paraparesis or hemiparesis (detectable weakness but most sustained for short periods, fatigue problem); severe monoparesis (almost no function),Marked paraparesis or hemiparesis (functions difficult); moderate quadriparesis (function decreased but can be sustained for short periods); or monoplegia,Paraplegia, hemiplegia or marked quadriparesis,Quadriplegia",
+        "labels": "Normal@Abnormal signs without disability@Minimal disability@Mild or moderate paraparesis or hemiparesis (detectable weakness but most sustained for short periods, fatigue problem); severe mono paresis (almost no function)@Marked paraparesis or hemiparesis (functions difficult); moderate quadriparesis (function decreased but can be sustained for short periods); or monoplegia@Paraplegia, hemiplegia or marked quadriparesis@Quadriplegia",
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
@@ -1192,7 +1192,7 @@
         "unit": null,
         "module": "MS",
         "permittedValues": "0,1,2,3,4,5",
-        "labels": "Normal,Abnormal signs without disability,Mild ataxia,Moderate truncal or limb ataxia (tremor or clumsy movements interfere with function in all spheres),Severe ataxia in all limbs (most function is very difficult),Unable to perform coordinated movements due to ataxia",
+        "labels": "Normal@Abnormal signs without disability@Mild ataxia@Moderate truncal or limb ataxia (tremor or clumsy movements interfere with function in all spheres)@Severe ataxia in all limbs (most function is very difficult)@Unable to perform coordinated movements due to ataxia",
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
@@ -1207,7 +1207,7 @@
         "unit": null,
         "module": "MS",
         "permittedValues": "0,1,2,3,4,5",
-        "labels": "NormalSigns only,Moderate nystagmus or other mild disability,Severe nystagmus, marked extraocular weakness or moderate disability of other cranial nerves,Marked dysarthria or other marked disability,Inability to swallow or speak",
+        "labels": "Normal@Signs only@Moderate nystagmus or other mild disability@Severe nystagmus, marked extraocular weakness or moderate disability of other cranial nerves@Marked dysarthria or other marked disability@Inability to swallow or speak",
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
@@ -1222,14 +1222,14 @@
         "unit": null,
         "module": "MS",
         "permittedValues": "0,1,2,3,4,5,6",
-        "labels": "Normal,Vibration or figure-writing decreased, only in one or two limbs,Mild decrease in touch or pain or position sense, and/or moderate decrease in vibration in one or two limbs; or vibration decrease alone in three or four limbs,Moderate decrease in touch or pain or position sense, and/or essentially lost vibration in one or two limbs; or mild decrease in touch or pain and/or moderate decrease in all proprioceptive test in three or four limbs,Marked decrease in touch or pain or lost proprioception, alone or combined, in one or two limbs; or moderate decrease in touch or pain and/or severe proprioceptive decrease in more then two limbs,Lost of sensation in one or two limbs; or proprioception for most of the body below the head,Sensation essentially lost below the head",
+        "labels": "Normal@Vibration or figure-writing decreased, only in one or two limbs@Mild decrease in touch or pain or position sense, and@or moderate decrease in vibration in one or two limbs; or vibration decrease alone in three or four limbs@Moderate decrease in touch or pain or position sense, and@or essentially lost vibration in one or two limbs; or mild decrease in touch or pain and@or moderate decrease in all proprioceptive test in three or four limbs@Marked decrease in touch or pain or lost proprioception, alone or combined, in one or two limbs; or moderate decrease in touch or pain and@or severe proprioceptive decrease in more then two limbs@Lost of sensation in one or two limbs; or proprioception for most of the body below the head@Sensation essentially lost below the head",
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
     },
     {
         "id": 84,
-        "definition": "EDSS Bowel Bladder SCore",
+        "definition": "EDSS Bowel Bladder Score",
         "idname": "edss:expanded disability status scale (edss) bowel bladder",
         "section": 4,
         "subsection": "QS",
@@ -1237,7 +1237,7 @@
         "unit": null,
         "module": "MS",
         "permittedValues": "0,1,2,3,4,5,6",
-        "labels": "Normal,Mild urinary hesitancy, urgency or retention,Moderate hesitancy, urgency, retention of bowel or bladder, or rare urinary incontinence (intermittent self-catheterisation, manual compression to evacuate bladder or finger evacuation or stool),Frequent urinary incontinence,In need of regular intermittent catheterisation (and constant use of measures to evacuate stools),In dwelling catheter,Loss of bowel and/or bladder function,",
+        "labels": "Normal@Mild urinary hesitancy, urgency or retention@Moderate hesitancy, urgency, retention of bowel or bladder, or rare urinary incontinence (intermittent self-catheterisation, manual compression to evacuate bladder or finger evacuation or stool)@Frequent urinary incontinence@In need of regular intermittent catheterisation (and constant use of measures to evacuate stools)@In dwelling catheter@Loss of bowel or bladder function",
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
@@ -1252,7 +1252,7 @@
         "unit": null,
         "module": "MS",
         "permittedValues": "0,1,2,3,4,5,6",
-        "labels": "Normal,Scotoma with visual acuity (corrected) better then 6/9,Worse eye with maximal visual acuity (corrected) of 6/9 to 6/12,Worse eye with maximal visual acuity (corrected) of 6/18 to 6/24,Worse eye with maximal visual acuity (corrected) of 6/36 to 6/60. Or grade three plus maximal acuity of better eye of 6/18 or less,Worse eye with maximal visual acuity (corrected) of 6/60. Or grade four plus maximal visual acuity of better eye of 6/18 or less,Grade 5 plus maximal visual acuity of better eye worse then 6/18",
+        "labels": "Normal@Scotoma with visual acuity (corrected) better then 6/9@Worse eye with maximal visual acuity (corrected) of 6/9 to 6/12@Worse eye with maximal visual acuity (corrected) of 6/18 to 6/24@Worse eye with maximal visual acuity (corrected) of 6/36 to 6/60. Or grade three plus maximal acuity of better eye of 6/18 or less@Worse eye with maximal visual acuity (corrected) of 6/60. Or grade four plus maximal visual acuity of better eye of 6/18 or less@Grade 5 plus maximal visual acuity of better eye worse then 6/18",
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
@@ -1267,7 +1267,7 @@
         "unit": null,
         "module": "MS",
         "permittedValues": "0,1,2,3,4,5",
-        "labels": "Normal,Mood alteration only- fatigue not intefering with daily activity (does not affect EDSS score,),Mild decrease in mentation- fatigue intefering with daily activity,Moderate decrease in mentation,Marked decrease in mentation (chronic brain syndrome - moderate),Dementia or chronic brain syndrome - severe or incompetent",
+        "labels": "Normal@Mood alteration only, fatigue not intefering with daily activity (does not affect EDSS score)@Mild decrease in mentation, fatigue intefering with daily activity@Moderate decrease in mentation@Marked decrease in mentation (chronic brain syndrome - moderate)@Dementia or chronic brain syndrome - severe or incompetent",
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
@@ -1282,7 +1282,7 @@
         "unit": null,
         "module": "MS",
         "permittedValues": "0,1,2,3,4,5,6,7,8,9,10,11,12",
-        "labels": "Fully ambulatory,500 m without aid/rest,300 m without aid/rest,200 m without aid/rest,100 m without aid/rest,100 m with unilateral assistance,200 m with bilateral assistance,Essentially restricted to wheelchair (wheels self),Restricted to wheelchair (may need help in transfer),Essentially restricted to bed/chair,Restricted to bed much of day,Bed patient. Can communicate and eat,Helpless bed patient. Unable to communicate/eat/swallow",
+        "labels": "Fully ambulatory@500 m without aid/rest@300 m without aid/rest@200 m without aid/rest@100 m without aid/rest@100 m with unilateral assistance@200 m with bilateral assistance@Essentially restricted to wheelchair (wheels self)@Restricted to wheelchair (may need help in transfer)@Essentially restricted to bed/chair@Restricted to bed much of day@Bed patient. Can communicate and eat@Helpless bed patient. Unable to communicate/eat/swallow",
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
