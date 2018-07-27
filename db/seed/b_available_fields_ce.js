@@ -1,6 +1,7 @@
+const path = require('path');
 const { readJson } = require('../../src/utils/load-json');
 
-const ceFields = readJson('./db/availableFields/jsonFiles/ceFields.json');
+const ceFields = readJson(path.normalize(`${path.dirname(__filename)}/../availableFields/jsonFiles/ceFields.json`));
 
 exports.seed = function (knex) {
     // Deletes ALL existing entries
