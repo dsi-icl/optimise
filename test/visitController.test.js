@@ -80,7 +80,7 @@ describe('Visit controller tests', () => {
             expect(res.statusCode).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            expect(res.body.error).toBe(message.userError.INVALIDDATE);
         }));
 
     test('Getting visits of this patient', () => admin

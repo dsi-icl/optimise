@@ -52,9 +52,13 @@ DemographicDataController.prototype.createDemographic = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
+    if (isNaN(Date.parse(req.body.DOB))) {
+        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+        return;
+    }
     let entryObj = {
         'patient': req.body.patient,
-        'DOB': Date.parse(req.body.DOB),
+        'DOB': req.body.DOB,
         'gender': req.body.gender,
         'dominantHand': req.body.dominant_hand,
         'ethnicity': req.body.ethnicity,
@@ -75,9 +79,13 @@ DemographicDataController.prototype.createDemographic = function (req, res) {
 DemographicDataController.prototype.createImmunisation = function (req, res) {
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('immunisationDate') && req.body.hasOwnProperty('vaccineName') &&
         typeof req.body.patient === 'number' && typeof req.body.immunisationDate === 'string' && typeof req.body.vaccineName === 'string') {
+        if (isNaN(Date.parse(req.body.immunisationDate))) {
+            res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+            return;
+        }
         const entryObj = {
             'patient': req.body.patient,
-            'immunisationDate': Date.parse(req.body.immunisationDate),
+            'immunisationDate': req.body.immunisationDate,
             'vaccineName': req.body.vaccineName,
             'createdByUser': req.user.id
         };
@@ -101,9 +109,13 @@ DemographicDataController.prototype.createMedicalCondition = function (req, res)
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('relation') && req.body.hasOwnProperty('conditionName') &&
         ((req.body.hasOwnProperty('resolvedYear') && typeof req.body.resolvedYear === 'number') || !req.body.hasOwnProperty('resolvedYear')) &&
         typeof req.body.patient === 'number' && typeof req.body.startDate === 'string' && typeof req.body.outcome === 'string' && typeof req.body.relation === 'number' && typeof req.body.conditionName === 'number') {
+        if (isNaN(Date.parse(req.body.startDate))) {
+            res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+            return;
+        }
         const entryObj = {
             'patient': req.body.patient,
-            'startDate': Date.parse(req.body.startDate),
+            'startDate': req.body.startDate,
             'relation': req.body.relation,
             'outcome': req.body.outcome,
             'conditionName': req.body.conditionName,
@@ -215,6 +227,10 @@ DemographicDataController.prototype.editDemographic = function (req, res) {
 DemographicDataController.prototype.editImmunisation = function (req, res) {
     if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number' &&
         ((req.body.hasOwnProperty('immunisationDate') && typeof req.body.immunisationDate === 'string') || !req.body.hasOwnProperty('immunisationDate'))) {
+        if (req.body.hasOwnProperty('immunisationDate') && isNaN(Date.parse(req.body.immunisationDate))) {
+            res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+            return;
+        }
         this.immunisation.editImmunisation(req.user, req.body).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -400,10 +416,20 @@ DemographicDataController.prototype.createPregnancy = function (req, res) {
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('meddra') &&
         typeof req.body.patient === 'number' && typeof req.body.outcome === 'number' && typeof req.body.meddra === 'number') {
         let entryObj = Object.assign({}, PregnancyModel, req.body);
-        if (req.body.hasOwnProperty('startDate'))
-            entryObj.startDate = Date.parse(req.body.startDate);
-        if (req.body.hasOwnProperty('outcomeDate'))
-            entryObj.outcomeDate = Date.parse(req.body.outcomeDate);
+        if (req.body.hasOwnProperty('startDate')) {
+            if (isNaN(Date.parse(req.body.startDate))) {
+                res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+                return;
+            }
+            entryObj.startDate = req.body.startDate;
+        }
+        if (req.body.hasOwnProperty('outcomeDate')) {
+            if (isNaN(Date.parse(req.body.outcomeDate))) {
+                res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+                return;
+            }
+            entryObj.outcomeDate = req.body.outcomeDate;
+        }
         entryObj.createdByUser = req.user.id;
         this.pregnancy.createPregnancy(entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));

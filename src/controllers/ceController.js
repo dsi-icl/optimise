@@ -14,6 +14,10 @@ function CeController() {
 CeController.prototype.createCe = function (req, res) {
     if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra') &&
         typeof req.body.visitId === 'number' && typeof req.body.startDate === 'string' && typeof req.body.type === 'number' && typeof req.body.meddra === 'number') {
+        if (isNaN(Date.parse(req.body.startDate))) {
+            res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+            return;
+        }
         let ce = {};
         if (req.body.hasOwnProperty('visitId'))
             ce.recordedDuringVisit = req.body.visitId;
@@ -21,7 +25,7 @@ CeController.prototype.createCe = function (req, res) {
             ce.patient = req.body.patient;
         ce.type = req.body.type;
         ce.meddra = req.body.meddra;
-        ce.dateStartDate = Date.parse(req.body.startDate);
+        ce.dateStartDate = req.body.startDate;
         ce.createdByUser = req.user.id;
         this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
             res.status(200).json(formatToJSON(result));

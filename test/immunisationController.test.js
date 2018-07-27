@@ -107,7 +107,7 @@ describe('Create Immunisation controller test', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            expect(res.body.error).toBe(message.userError.INVALIDDATE);
         }));
 
 

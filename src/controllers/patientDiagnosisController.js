@@ -37,9 +37,13 @@ PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res
     let entryObj = {};
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('diagnosis') && req.body.hasOwnProperty('diagnosisDate') &&
         typeof req.body.patient === 'number' && typeof req.body.diagnosis === 'number' && typeof req.body.diagnosisDate === 'string') {
+        if (isNaN(Date.parse(req.body.diagnosisDate))) {
+            res.status(400).json(ErrorHelper(messages.userError.INVALIDDATE));
+            return;
+        }
         entryObj.patient = req.body.patient;
         entryObj.diagnosis = req.body.diagnosis;
-        entryObj.diagnosisDate = Date.parse(req.body.diagnosisDate);
+        entryObj.diagnosisDate = req.body.diagnosisDate;
         entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.createPatientDiagnosis(entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
