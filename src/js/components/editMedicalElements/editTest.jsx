@@ -109,7 +109,6 @@ class UpdateTestEntry extends Component {
                 actualOccurredDate: actualOccurredDate ? actualOccurredDate.valueOf() : null
             }
         };
-        // console.log(body);
         store.dispatch(updateTestCall(body));
     }
 

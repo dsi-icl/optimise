@@ -43,7 +43,7 @@
     color: hsl(var(--color-background-h), var(--color-background-s), 20%);
 }
 
-.profileActions svg {
+.profileActions > a > svg {
     width: 1.2em;
     margin-left: 1.2em;
     margin-right: 0.3em;
@@ -199,14 +199,18 @@ div.timelineCEBlack {
     margin-bottom: 0.7em;
 }
 
-.history h4 svg {
+.history h4 > svg {
     width: 1em;
     height: 1em;
     padding: 0;
 }
 
-.history span svg {
+.history span > svg {
     padding: 0em 0.5em 0.7em 0.5em;
+}
+
+.history a > span > svg {
+    padding: 0
 }
 
 .history button {
@@ -346,7 +350,7 @@ div.timelineCEBlack {
 
 .expandTimeline, .dataEdit {
     display: inline-block;
-    margin-left: 0.5em;
+    margin-left: 0.3em;
     width: 1em;
     height: 1em;
 }
