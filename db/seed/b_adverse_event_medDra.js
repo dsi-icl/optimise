@@ -1,6 +1,7 @@
+const path = require('path');
 const { readJson } = require('../../src/utils/load-json');
 
-const aeMedDRAList = readJson('./db/availableFields/jsonFiles/medra.json');
+const aeMedDRAList = readJson(path.normalize(`${path.dirname(__filename)}/../availableFields/jsonFiles/medra.json`));
 
 exports.seed = function (knex) {
     // Deletes ALL existing entries

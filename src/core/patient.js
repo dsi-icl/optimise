@@ -43,9 +43,10 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
         case 'SEX':
             return new Promise(function (resolve, reject) {
                 knex('PATIENT_DEMOGRAPHIC')
-                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'PATIENT_DEMOGRAPHIC.gender')
+                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'GENDERS.value')
+                    .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-                    .where('PATIENT_DEMOGRAPHIC.gender', 'like', queryvalue)
+                    .where('GENDERS.value', queryvalue)
                     .andWhere('PATIENTS.deleted', '-')
                     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
                     .then(function (result) {
@@ -62,10 +63,10 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
             return new Promise(function (resolve, reject) {
                 knex('TREATMENTS')
                     .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'PATIENTS.aliasId')
-                    .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
                     .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-                    .where('AVAILABLE_DRUGS.name', queryvalue)
+                    .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
+                    .where('AVAILABLE_DRUGS.name', 'like', queryvalue)
                     .andWhere('TREATMENTS.deleted', '-')
                     .andWhere('VISITS.deleted', '-')
                     .then(function (result) {
@@ -81,9 +82,10 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
         case 'ETHNIC':
             return new Promise(function (resolve, reject) {
                 knex('PATIENT_DEMOGRAPHIC')
-                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'PATIENT_DEMOGRAPHIC.ethnicity')
+                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'ETHNICITIES.value')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-                    .where('PATIENT_DEMOGRAPHIC.ethnicity', 'like', queryvalue)
+                    .leftOuterJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
+                    .where('ETHNICITIES.value', 'like', queryvalue)
                     .andWhere('PATIENTS.deleted', '-')
                     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
                     .then(function (result) {
@@ -99,9 +101,10 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
         case 'COUNTRY':
             return new Promise(function (resolve, reject) {
                 knex('PATIENT_DEMOGRAPHIC')
-                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
+                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'COUNTRIES.value')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-                    .where('PATIENT_DEMOGRAPHIC.countryOfOrigin', 'like', queryvalue)
+                    .leftOuterJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
+                    .where('COUNTRIES.value', 'like', queryvalue)
                     .andWhere('PATIENTS.deleted', '-')
                     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
                     .then(function (result) {
@@ -117,9 +120,10 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
         case 'DOMINANT':
             return new Promise(function (resolve, reject) {
                 knex('PATIENT_DEMOGRAPHIC')
-                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'PATIENT_DEMOGRAPHIC.dominantHand')
+                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'DOMINANT_HANDS.value')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-                    .where('PATIENT_DEMOGRAPHIC.dominantHand', 'like', queryvalue)
+                    .leftOuterJoin('DOMINANT_HANDS', 'DOMINANT_HANDS.id', 'PATIENT_DEMOGRAPHIC.dominantHand')
+                    .where('DOMINANT_HANDS.value', 'like', queryvalue)
                     .andWhere('PATIENTS.deleted', '-')
                     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
                     .then(function (result) {
