@@ -56,7 +56,7 @@ describe('Create treatment controller tests', () => {
             'form': 'OR',
             'times': 1,
             'intervalUnit': 'day',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -75,7 +75,7 @@ describe('Create treatment controller tests', () => {
             'form': 'IV',
             'times': 1,
             'intervalUnit': 'day',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -94,7 +94,7 @@ describe('Create treatment controller tests', () => {
             'form': 'IV',
             'times': 1,
             'intervalUnit': 'day',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -113,7 +113,7 @@ describe('Create treatment controller tests', () => {
             'form': 'OR',
             'times': 1,
             'intervalUnit': 'day',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -132,7 +132,7 @@ describe('Create treatment controller tests', () => {
             'form': 'WRONG',
             'times': 1,
             'intervalUnit': 'day',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -151,7 +151,7 @@ describe('Create treatment controller tests', () => {
             'form': 'OR',
             'times': 9999,
             'intervalUnit': 'day',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -170,7 +170,7 @@ describe('Create treatment controller tests', () => {
             'form': 'OR',
             'times': -9,
             'intervalUnit': 'day',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -189,7 +189,7 @@ describe('Create treatment controller tests', () => {
             'form': 'OR',
             'times': 2,
             'intervalUnit': 'WRONG',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -208,7 +208,7 @@ describe('Create treatment controller tests', () => {
             'form': 'OR',
             'times': 1,
             'intervalUnit': null,
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -227,7 +227,7 @@ describe('Create treatment controller tests', () => {
             'form': 'OR',
             'times': null,
             'intervalUnit': 'year',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -264,7 +264,7 @@ describe('Create treatment controller tests', () => {
             'form': 'OR',
             'times': 4,
             'intervalUnit': 'year',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -283,7 +283,7 @@ describe('Create treatment controller tests', () => {
             'form': 'OR',
             'times': 4,
             'intervalUnit': 'year',
-            'startDate': '3 Mar 2018'
+            'startDate': '2018-03-03'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -308,8 +308,8 @@ describe('Create treatment interruption controller tests', () => {
         .post('/treatments/interrupt')
         .send({
             'treatmentId': 'WRONG',
-            'start_date': '3 March 2010',
-            'end_date': '3 March 2011',
+            'start_date': '2010-03-03',
+            'end_date': '2011-03-03',
             'reason': 7
         })
         .then(res => {
@@ -323,8 +323,8 @@ describe('Create treatment interruption controller tests', () => {
         .post('/treatments/interrupt')
         .send({
             'treatmentId': 999999999,
-            'start_date': '3 March 2010',
-            'end_date': '3 March 2011',
+            'start_date': '2010-03-03',
+            'end_date': '2011-03-03',
             'reason': 7
         })
         .then(res => {
@@ -338,9 +338,10 @@ describe('Create treatment interruption controller tests', () => {
         .post('/treatments/interrupt')
         .send({
             'treatmentId': 1,
-            'start_date': '3 March 2010',
-            'end_date': '3 March 2011',
-            'reason': 7
+            'start_date': '2010-03-03',
+            'end_date': '2011-03-03',
+            'reason': 7,
+            'meddra': 5
         })
         .then(res => {
             expect(res.status).toBe(200);

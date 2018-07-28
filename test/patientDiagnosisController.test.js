@@ -31,7 +31,7 @@ describe('Create diagnosis test suite', () => {
         admin.post('/patientDiagnosis/')
             .send({
                 'patient': 1,
-                'diagnosisDate': '1 Jan 2000'
+                'diagnosisDate': '2000-01-01'
             })
             .then(res => {
                 expect(res.status).toBe(400);
@@ -44,7 +44,7 @@ describe('Create diagnosis test suite', () => {
         admin.post('/patientDiagnosis/')
             .send({
                 'diagnosis': 3,
-                'diagnosisDate': '1 Jan 2000'
+                'diagnosisDate': '2000-01-01'
             })
             .then(res => {
                 expect(res.status).toBe(400);
@@ -71,7 +71,7 @@ describe('Create diagnosis test suite', () => {
             .send({
                 'patient': {},
                 'diagnosis': 3,
-                'diagnosisDate': '1 Jan 2000'
+                'diagnosisDate': '2000-01-01'
             })
             .then(res => {
                 expect(res.status).toBe(400);
@@ -85,7 +85,7 @@ describe('Create diagnosis test suite', () => {
             .send({
                 'patient': 90,
                 'diagnosis': 3,
-                'diagnosisDate': '1 Jan 2000'
+                'diagnosisDate': '2000-01-01'
             })
             .then(res => {
                 expect(res.status).toBe(400);
@@ -99,7 +99,7 @@ describe('Create diagnosis test suite', () => {
             .send({
                 'patient': 1,
                 'diagnosis': {},
-                'diagnosisDate': '1 Jan 2000'
+                'diagnosisDate': '2000-01-01'
             })
             .then(res => {
                 expect(res.status).toBe(400);
@@ -113,7 +113,7 @@ describe('Create diagnosis test suite', () => {
             .send({
                 'patient': 90,
                 'diagnosis': 6000,
-                'diagnosisDate': '1 Jan 2000'
+                'diagnosisDate': '2000-01-01'
             })
             .then(res => {
                 expect(res.status).toBe(400);
@@ -141,7 +141,7 @@ describe('Create diagnosis test suite', () => {
             .send({
                 'patient': 1,
                 'diagnosis': 3,
-                'diagnosisDate': '1 Jan 2000'
+                'diagnosisDate': '2000-01-01'
             })
             .then(res => {
                 expect(res.status).toBe(200);

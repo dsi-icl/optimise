@@ -2,6 +2,7 @@ const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const TreatmentCore = require('../core/treatment');
 const formatToJSON = require('../utils/format-response');
+const moment = require('moment');
 
 function TreatmentController() {
     this.treatment = new TreatmentCore();
@@ -21,7 +22,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number')) {
+    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' && typeof req.body.startDate === 'string')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -30,7 +31,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         (req.body.hasOwnProperty('form') && req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC') ||
         (req.body.hasOwnProperty('times') && typeof req.body.times !== 'number') ||
         (req.body.hasOwnProperty('intervalUnit') && req.body.intervalUnit !== 'hour' && req.body.intervalUnit !== 'day' &&
-        req.body.intervalUnit !== 'week' && req.body.intervalUnit !== 'month' && req.body.intervalUnit !== 'year')) {
+            req.body.intervalUnit !== 'week' && req.body.intervalUnit !== 'month' && req.body.intervalUnit !== 'year')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -47,12 +48,14 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
-    if (isNaN(Date.parse(req.body.startDate))) {
-        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+    let momentStart = moment(req.body.startDate, moment.ISO_8601);
+    let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
+    if (!momentStart.isValid()) {
+        res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
         return;
     }
-    if (req.body.hasOwnProperty('terminatedDate') && isNaN(Date.parse(req.body.terminatedDate))) {
-        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+    if (req.body.hasOwnProperty('terminatedDate') && !momentTerminated.isValid()) {
+        res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
         return;
     }
     let entryObj = {
@@ -63,8 +66,8 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'form': (req.body.hasOwnProperty('form') ? req.body.form : null),   // hardcoded SQL: only OR, IV, IM or SC
         'times': (req.body.hasOwnProperty('times') ? req.body.times : null),
         'intervalUnit': (req.body.hasOwnProperty('intervalUnit') ? req.body.intervalUnit : null), // hardcoded: hour, day, week, month, year
-        'startDate': req.body.startDate,
-        'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? req.body.terminatedDate : null),
+        'startDate': momentStart.toString(),
+        'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? momentTerminated.toString() : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         'createdByUser': req.user.id
     };
@@ -80,11 +83,12 @@ TreatmentController.prototype.createTreatment = function (req, res) {
 TreatmentController.prototype.addTerminationDate = function (req, res) {    //for adding termination date
     if ((req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('terminationDate')) && req.body.hasOwnProperty('terminatedReason') &&
         typeof req.body.treatmentId === 'number' && typeof req.body.terminatedDate === 'string' && typeof req.body.terminatedReason === 'number') {
-        if (isNaN(Date.parse(req.body.terminatedDate))) {
-            res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+        let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
+        if (!momentTerminated.isValid()) {
+            res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
             return;
         }
-        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': req.body.terminationDate, 'terminatedReason': req.body.terminatedReason })
+        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': momentTerminated.toString(), 'terminatedReason': req.body.terminatedReason })
             .then(function (result) {
                 res.status(200).json(formatToJSON(result));
                 return;
@@ -154,20 +158,23 @@ TreatmentController.prototype.deleteTreatment = function (req, res) {
 TreatmentController.prototype.addInterruption = function (req, res) {    //need to search if treatment exists
     if (req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('start_date') &&
         typeof req.body.treatmentId === 'number' && typeof req.body.start_date === 'string') {
-        if (isNaN(Date.parse(req.body.start_date))) {
-            res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+        let momentStart = moment(req.body.start_date, moment.ISO_8601);
+        let momentEnd = moment(req.body.end_date, moment.ISO_8601);
+        if (!momentStart.isValid()) {
+            let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
-        if (req.body.hasOwnProperty('end_date') && isNaN(Date.parse(req.body.end_date))) {
-            res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+        if (req.body.hasOwnProperty('end_date') && !momentEnd.isValid()) {
+            let msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
-
         let entryObj = {
             'treatment': req.body.treatmentId,
-            'startDate': req.body.start_date,
+            'startDate': momentStart.toString(),
             'meddra': req.body.hasOwnProperty('meddra') ? req.body.meddra : null,
-            'endDate': (req.body.hasOwnProperty('end_date') ? req.body.end_date : null),
+            'endDate': (req.body.hasOwnProperty('end_date') ? momentEnd.toString() : null),
             'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
             'createdByUser': req.user.id
         };

@@ -7,6 +7,27 @@ const ErrorMessage = {
     ERASEFAILED: 'Couldn\'t erase entry'
 };
 
+// Array because of mement.invalidAt()
+const DateError = [
+    'The given year is invalid',
+    'The given month is invalid',
+    'The given day is invalid',
+    'The given hours is invalid',
+    'The given minutes is invalid',
+    'The given seconds is invalid',
+    'The given miliseconds is invalid'
+];
+
+const DateErrorIndex = {
+    YEAR: 0,
+    MONTH: 1,
+    DAY: 2,
+    HOURS: 3,
+    MINUTES: 4,
+    SECONDS: 5,
+    MILISECONDS: 6
+};
+
 const UserRelatedErrorMessage = {
     MISSINGARGUMENT: 'The request is missing some arguments',
     WRONGARGUMENTS: 'Wrong value in the given arguments',
@@ -37,4 +58,4 @@ const DataControllerMessageRelated = {
     ERROR: 'An error occur while creating the data. Check furthermore if the update are present and that the add aren\'t already'
 };
 
-module.exports = { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage, dataMessage: DataControllerMessageRelated };
+module.exports = { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage, dataMessage: DataControllerMessageRelated, dateError: DateError, dateErrorIndex: DateErrorIndex };

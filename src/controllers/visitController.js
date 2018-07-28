@@ -2,6 +2,7 @@ const visitCore = require('../core/visit');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const formatToJSON = require('../utils/format-response');
+const moment = require('moment');
 
 /**
  * @class VisitController: Inspect entry body and user right before sending to core
@@ -43,12 +44,14 @@ VisitController.prototype.createVisit = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    if (isNaN(Date.parse(req.body.visitDate))) {
-        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+    let momentVisit = moment(req.body.visitDate, moment.ISO_8601);
+    if (!momentVisit.isValid()) {
+        let msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
+        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
     }
     let entryObj = {};
-    entryObj.visitDate = req.body.visitDate;
+    entryObj.visitDate = momentVisit.toString();
     entryObj.patient = req.body.patientId;
     if (req.body.hasOwnProperty('type'))
         entryObj.type = req.body.type;
@@ -69,12 +72,16 @@ VisitController.prototype.updateVisit = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    if (req.body.hasOwnProperty('visitDate') && isNaN(Date.parse(req.body.visitDate))) {
-        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE, new Error(message.userError.WRONGARGUMENTS)));
+    let momentVisit = moment(req.body.visitDate, moment.ISO_8601);
+    if (req.body.hasOwnProperty('visitDate') && !momentVisit.isValid()) {
+        let msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
+        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
     }
     updatedObj = Object.assign(req.body);
     whereObj.id = req.body.id;
+    if (req.body.hasOwnProperty('visitDate'))
+        updatedObj.visitDate = momentVisit.toString();
     delete updatedObj.id;
     updatedObj.createdByUser = req.user.id;
     this.visit.updateVisit(req.user, whereObj, updatedObj).then(function (result) {

@@ -2,6 +2,7 @@ const PatientDiagnosisCore = require('../core/patientDiagnosis');
 const ErrorHelper = require('../utils/error_helper');
 const messages = require('../utils/message-utils');
 const formatToJSON = require('../utils/format-response');
+const moment = require('moment');
 
 function PatientDiagnosisController() {
     this.patientDiagnosis = new PatientDiagnosisCore();
@@ -37,13 +38,15 @@ PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res
     let entryObj = {};
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('diagnosis') && req.body.hasOwnProperty('diagnosisDate') &&
         typeof req.body.patient === 'number' && typeof req.body.diagnosis === 'number' && typeof req.body.diagnosisDate === 'string') {
-        if (isNaN(Date.parse(req.body.diagnosisDate))) {
-            res.status(400).json(ErrorHelper(messages.userError.INVALIDDATE));
+        let momentDiagnos = moment(req.body.diagnosisDate, moment.ISO_8601);
+        if (!momentDiagnos.isValid()) {
+            let msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(messages.userError.INVALIDDATE)));
             return;
         }
         entryObj.patient = req.body.patient;
         entryObj.diagnosis = req.body.diagnosis;
-        entryObj.diagnosisDate = req.body.diagnosisDate;
+        entryObj.diagnosisDate = momentDiagnos.toString();
         entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.createPatientDiagnosis(entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));

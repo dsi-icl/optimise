@@ -69,7 +69,7 @@ describe('Create Clinical Event controller tests', () => {
         .send({
             visitId: 1,
             type: 1,
-            startDate: '1 Jan 1980',
+            startDate: '1980-01-01',
             meddra: 1
         })
         .then(res => {

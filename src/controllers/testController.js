@@ -2,6 +2,7 @@ const TestCore = require('../core/test');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const formatToJSON = require('../utils/format-response');
+const moment = require('moment');
 
 function TestController() {
     this.test = new TestCore();
@@ -20,19 +21,23 @@ TestController.prototype.createTest = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
-    if (isNaN(Date.parse(req.body.expectedDate))) {
-        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+    let momentExpect = moment(req.body.expectedDate, moment.ISO_8601);
+    if (!momentExpect.isValid()) {
+        let msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
+        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
     }
-    if (req.body.hasOwnProperty('actualOccurredDate') && isNaN(Date.parse(req.body.actualOccurredDate))) {
-        res.status(400).json(ErrorHelper(message.userError.INVALIDDATE));
+    let momentOccur = moment(req.body.actualOccurredDate, moment.ISO_8601);
+    if (req.body.hasOwnProperty('actualOccurredDate') && !momentOccur.isValid()) {
+        let msg = message.dateError[momentOccur.invalidAt()] !== undefined ? message.dateError[momentOccur.invalidAt()] : message.userError.INVALIDDATE;
+        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
     }
     let entryObj = {
         'orderedDuringVisit': req.body.visitId,
         'type': req.body.type,
-        'expectedOccurDate': req.body.expectedDate,
-        'actualOccurredDate': req.body.actualOccurredDate ? Date.parse(req.body.actualOccurredDate) : null,
+        'expectedOccurDate': momentExpect.toString(),
+        'actualOccurredDate': req.body.hasOwnProperty('actualOccurredDate') ? momentOccur.toString() : null,
         'createdByUser': req.user.id
     };
     this.test.createTest(entryObj).then(function (result) {
