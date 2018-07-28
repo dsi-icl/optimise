@@ -55,7 +55,7 @@ class Communication extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    
+
                     <CommunicationEditor precomposed={precomposed} match={match} originalEditorState={originalEditorState} location={location} />
                 </form>
             </>
@@ -142,11 +142,11 @@ class CommunicationEditor extends Component {
         return (
             <>
                 {/* <pre>{JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4)}</pre> */}
-                You can append these pre-composed paragraphs:
-            <div className={style.commentButtonsGroup}>
+                You can append these pre-composed paragraphs:<br /><br />
+                <div className={style.commentButtonsGroup}>
                     <div>
                         <button name='VSBlock' onClick={this._onClick}>Vital signs</button>
-                        <button name='symptomBlock' onClick={this._onClick}>Signs {'&'} Symptoms</button>
+                        <button name='symptomBlock' onClick={this._onClick}>Symptoms{'&'}Signs</button>
                         <button name='testBlock' onClick={this._onClick}>Tests</button>
                     </div>
                     <div>
