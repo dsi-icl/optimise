@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta content="OPTIMISE" name="description">
+    <meta content="Florian Guitton" name="author">
+    <title>optimise:ms v1.9.0 :: Welcome</title>
+    <link href="../styles/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../styles/optimise.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <header class="bs-docs-nav navbar navbar-static-top" id="top">
+        <div class="container">
+            <div class="navbar-header">
+                <button aria-controls="bs-navbar" aria-expanded="false" class="collapsed navbar-toggle" data-target="#bs-navbar" data-toggle="collapse" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand"><span>optimise<strong>:</strong>ms</span></a>
+            </div>
+            <nav class="collapse navbar-collapse" id="bs-navbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="../index.html">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#top">User Manual</a> </li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/portal">Demo Portal</a> </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="bs-docs-header" id="content" tabindex="-1">
+        <div class="container">
+            <h1>optimise<strong>:</strong>ms user guide</h1>
+        </div>
+    </div>
+    <div class="container bs-docs-container">
+        <div class="row">
+            <div class="col-md-9" role="main">
+                <div class="bs-docs-section">        
+                    <p>OPTIMISE MS is a system for recording data including demographics, clinical events, treatments and tests according to CDISC standards for Multiple Sclerosis. OPTIMISE MS allows researchers to better monitor MS patients’ progress, record outcomes and evaluate treatments.</p>
+                    <p>The user can enter demographic, medical history and family medical history, clinical event, visit, test and treatment data.</p>
+                    <p>OPTIMISE MS can be used in two modes; the offline mode when networking is enabled and the online mode when networking is disabled.</p>                    
+                    <h1 id="ug-login">Logging in</h1>
+                    <p>To start using the OPTIMISE portal first open your favourite modern browser.</p>
+                    <p>Then, enter the hosting address in the address bar.</p>
+                    <p>You should see the following screen.</p>                    
+                    <img src="../img/loginPage.png" alt="login"><br/><br/>
+                    <p>Enter the user name and password (in the boxes as shown below) that were given to you and click the Login button. The default username is <em>admin</em> and the password is <em>admin</em>.</p>
+                    <img src="../img/credentials.png" alt="credentials"><br/><br/>
+                    <p>If the log-in is successful, you should see the following screen.</p>
+                    <img src="../img/homePage.png" alt="initial"><br/><br/>
+                    <p>If the log-in is unsuccessful, you will get a message. Re-enter user credentials and click Login.</p>
+                    <img src="../img/loginFail.png" alt="loginFail"><br/><br/>
+                    <h1 id="ug-search">Searching patients</h1>
+                    <p>You can search the database using the user-friendly search tool available after successful log-in. Click on the box labelled 'Containing' and enter the patient ID to search for a patient.</p>
+                    <img src="../img/searchPatient.png" alt="searchBox"><br/><br/>
+                    <p>As you type, the patients with ID that contain the text you entered will be shown in the area below the search box. Basic patient information for each listed ID is also shown. If no patients are listed, you may create a new patient with the ID you entered- please see section Creating a new patient.</p>
+                    <img src="../img/searchPatientResults.png" alt="searchResults"><br/><br/>
+                    <p>Choose from the list of patient IDs below the search box by clicking on the patient box. To view and/or enter data for patient with ID OPT1, for example, click on the respective box (highlighted).</p>
+                    <img src="../img/searchPatientResultsBox.png" alt="searchPatientResultsBox"><br/><br/>
+                    <p>The timeline and a summary of the patient's Medical History information will be available in the left panel. An overview that includes the patient profile, the primary diagnosis and other sections is available in the right panel. You may add, edit, or delete data for these sections as described in 'Entering patient data' below.</p>
+                    <img src="../img/examplePatientProfile.png" alt="examplePatientProfile"><br/><br/>
+                    <p>To exit the patient's profile, click on X near the top centre of the page as shown below.</p>
+                    <img src="../img/examplePatientProfileClose.png" alt="examplePatientProfileClose"><br/><br/>
+                    <p>You will then be directed to the home page that includes the Patient Search tool where you can search or create patients.</p>                    
+                    <h1 id="ug-createPatient">Creating a new patient</h1>
+                    <p>In order to create a new patient, click on the search box button and enter the patient ID. If there are no patients with the entered ID, you may create a new patient by clicking the button as shown below.</p>
+                    <img src="../img/newPatient1.png" alt="createNewPatient"><br/><br/>
+                    <p>Once you click the Create button, you should fill the new patient profile form in the right panel that includes the patient consent status. You need to set the consent status for patient data sharing to Yes or No at this stage.</p>
+                    <img src="../img/newPatientProfile.png" alt="newPatientProfile"><br/><br/>
+                    <p>Then click Submit to create the patient.</p>
+                    <img src="../img/newPatientProfileSubmit.png" alt="newPatientProfileSubmit"><br/><br/>
+                    <p>A warning message will be shown if any of the fields are empty or unselected when you click Submit. All the fields in this form are required in order to add the patient to the system. If you see the following message, please ensure the new patient profile form is completed before clicking Submit.</p>
+                    <img src="../img/newPatientProfileError.png" alt="newPatientErrorMessage"><br/><br/>
+                    <p>If the patient creation is successful, you should see the following page. Please note that sections such as Pregnancy are conditional on the patient profile (for example, sex in this case) and may be unavailable for some patients.</p>
+                    <img src="../img/newPatientProfile1.png" alt="newPatientAfterSubmit"><br/><br/>
+                    <p>In order to return to the patient search page, click on X near the top centre of the screen highlighted below.</p>
+                    <img src="../img/newPatientProfileClose.png" alt="newPatientClose"><br/><br/>
+                    <h1 id="ug-patientConsent">Updating patient consent</h1>
+                    <p>You may update the patient consent status at any time. Go to the main patient profile page and use the highlighted control in the right panel to set the status of patient consent.</p>
+                    <img src="../img/patientConsent1.png" alt="setConsent"><br/><br/>
+                    <p>The current patient consent status is always visible on screen. Clicking the consent button in the right panel updates this label accordingly.</p>
+                    <img src="../img/patientConsent2.png" alt="consentLabel"><br/><br/>
+                    <h1 id="ug-deletePatient">Deleting a patient</h1>
+                    <p>To delete a patient click on Delete this patient.</p>
+                    <img src="../img/deletePatient.png" alt="deletePatient"><br/><br/>
+                    <p>Click on YES, I AM SURE! to confirm the deletion or click X at top right corner of the pop-up message box to cancel.</p>
+                    <img src="../img/deletePatientWarning.png" alt="deletePatientMessage"><br/><br/>              
+                    <h1 id="ug-enterPatientData">Entering patient data</h1>
+                    <p>The Profile section in the Overview panel contains the profile data entered during patient creation. In order to edit the Profile section click the button as shown below.</p>
+                    <img src="../img/patientProfileEditButton.png" alt="editProfileButton"><br/><br/>
+                    <p>Edit the form as necessary and click Submit.</p>
+                    <img src="../img/patientProfileEdit1.png" alt="editProfile1"><br/><br/>
+                    <p>To cancel, click on X at the top right corner.</p>
+                    <img src="../img/patientProfileEditCancel.png" alt="editProfileCancel"><br/><br/>
+                    <p>Similarly, the Primary Diagnosis section in the Overview panel contains the diagnosis data entered during patient creation. In order to edit this click the button as shown below.</p>
+                    <img src="../img/primaryDiagnosisEditButton.png" alt="editDiagnosisButton"><br/><br/>
+                    <p>Edit the form as necessary and click Submit.</p>
+                    <img src="../img/primaryDiagnosisEdit1.png" alt="editDiagnosisForm"><br/><br/>
+                    <p>To cancel, click on X at the top right corner.</p>
+                    <img src="../img/primaryDiagnosisEditCancel.png" alt="editDiagnosisCancel"><br/><br/>
+                    <p>In order to enter Immunisation data, click on Add immunisation.</p>
+                    <img src="../img/immunisations1.png" alt="immunisation"><br/><br/>
+                    <p>Enter data in the form shown below. Click Submit to add the new immunisation or Cancel.</p>
+                    <img src="../img/immunisationsForm.png" alt="immunisationForm"><br/><br/>
+                    <p>In order to enter Pregnancy data, click on Record Pregnancy.</p>
+                    <img src="../img/pregnancy1.png" alt="pregnancy"><br/><br/>
+                    <p>Fill in the form. Click Submit to save the pregnancy data or Cancel.</p>
+                    <img src="../img/pregnancyForm.png" alt="pregnancyForm"><br/><br/>
+                    <p>Immunisation and Pregnancy data will be added to the Overview panel as shown below.</p>
+                    <img src="../img/immunisationPregnancy.png" alt="immunisationPregnancyList"><br/><br/>
+                    <p>Click on new Visit (highlighted below) to create a new visit for the patient.</p>
+                    <img src="../img/newVisit.png" alt="newVisit"><br/><br/>
+                    <p>Fill the form in the right panel. Click Submit to create the visit or Cancel. All fields in this form are required in order to save the visit.</p>
+                    <img src="../img/visitForm.png" alt="visitForm"><br/><br/>
+                    <p>If the visit is successfully created, it will be added to the Medical History Summary in the main panel. Baseline visits are labelled as such.</p>
+                    <img src="../img/visitAdded.png" alt="visitAdded"><br/><br/>
+                    <p>All visits which are successfully created are added to the Medical History Summary and to the Timeline as shown below.</p>
+                    <img src="../img/newVisit2.png" alt="newvisit2"><br/><br/>
+                    <p>Click on Edit / Add to enter Symptoms and Signs for the visit.</p>
+                    <img src="../img/visitSS.png" alt="symptomsSigns"><br/><br/>
+                    <p>Enter any symptoms present by clicking on the buttons or selecting a value from the drop-down lists in the section Symptoms in the right panel. For example, Emotional lability and Depression are selected below.</p>
+                    <img src="../img/symptoms.png" alt="symptoms"><br/><br/>
+                    <p>Scroll down to the Signs section and select the options as described for Symptoms above. Here, Memory and LEFT for Red desaturation in Cranial Nerves are selected.</p>
+                    <img src="../img/signs.png" alt="signs"><br/><br/>
+                    <p>Scroll down to the end of the form and click Save to confirm the data entry. You may edit this form at a later time. Click X at the top right corner to exit.</p>
+                    <img src="../img/saveSS.png" alt="saveSymptomsSigns"><br/><br/>
+                    <p>Click on Edit / Add to enter Performance Measures data.</p>
+                    <img src="../img/perfMeasures.png" alt="perfMeasures"><br/><br/>
+                    <p>Enter EDSS score and click Save. Alternatively, you may use the EDSS calculator by clicking on Open EDSS Calculator.</p>
+                    <img src="../img/edssCalcButton.png" alt="edssCalcButton"><br/><br/>
+                    <p>Select a score for each EDSS subcategory. The calculated total score will be shown in the Calculated score box. Ambulation score is required. Click Save to store the scores and then X to exit the calculator. To exit Performance Measures, click on X at the top right corner of the screen.</p>
+                    <img src="../img/edssCalculator.png" alt="edssCalculator"><br/><br/>
+                    <p>Optimise:ms supports the generation of a visit report. Click on Edit / Add to enter Communication for the visit.</p>
+                    <img src="../img/communication.png" alt="communication"><br/><br/>
+                    <p>Click on the buttons to add the respective recorded data to the report. You may format the text using the available formatting tools. The text can be copied by clicking Click Save or X to cancel. The report can be updated at a later time to include data entered after its creation.</p>
+                    <img src="../img/communication2.png" alt="communicationReport"><br/><br/>
+                    <p>Click on Record test to create a new test for the patient.</p>
+                    <img src="../img/newTest.png" alt="newTest"><br/><br/>
+                    <p>Select a visit from the list if you want to associate the test with a visit. Otherwise, click on Record punctual occurrence.</p>
+                    <img src="../img/newTest2.png" alt="newTest"><br/><br/>
+                    <p>Select the expected or actual date for the test, the type of test (Lumbar Puncture is selected below) and click Submit to create the new test. Click X to cancel.</p>
+                    <img src="../img/testForm.png" alt="testForm"><br/><br/>
+                    <p>If the test is successfully created, it will be added to the Medical History Summary in the main panel as shown below. The test is also shown on the Timeline (green symbol) above the Medical History Summary.</p>
+                    <img src="../img/testAdded.png" alt="testFormAdded"><br/><br/>
+                    <p>Click on Results to enter further data for the test.</p>
+                    <img src="../img/testResultsButton.png" alt="testResultsButton"><br/><br/>
+                    <p>Fill the form and click Save or X.</p>
+                    <img src="../img/testResultsForm.png" alt="testResultsForm"><br/><br/>
+                    <p>A laboratory test entry includes tests such as Total WBC, Bilirubin and Anti-bodies. Fill in the form, scroll down to the end of the page and click Save. Click X to exit.</p>
+                    <img src="../img/labForm.png" alt="labForm"><br/><br/>
+                    <p>An MRI test allows T1 Hypointense Lesions, T2 Hyperintense Lesions and Gd Enhancing Lesions description.</p>
+                    <img src="../img/mriForm.png" alt="mriForm"><br/><br/>
+                    <p>An Evoked Potential test includes P100 and SEP.</p>
+                    <img src="../img/evokedPotentialForm.png" alt="evokedPotentialForm"><br/><br/>
+                    <p>Click on Record treatment to enter treatment data.</p>
+                    <img src="../img/newTreatment.png" alt="newTreatment"><br/><br/>
+                    <p>Select a visit or Record punctual occurrence as described above for the Tests.</p>
+                    <img src="../img/newTreatment2.png" alt="newTreatment2"><br/><br/>
+                    <p>Fill in the treatment form in the right panel and click Submit to add the data or X to cancel. A warning message will be shown if required fields are not filled.</p>
+                    <img src="../img/treatmentForm.png" alt="treatmentForm"><br/><br/>
+                    <p>The new treatment is added to the Medical History Summary and the Timeline (yellow symbol) as shown below.</p>
+                    <img src="../img/treatmentAdded.png" alt="treatmentAdded"><br/><br/>
+                    <p>To record any interruptions to the treatment or related Adverse Events, click on Interruptions and then Add interruptions in the right panel.</p>
+                    <img src="../img/interruptionButton.png" alt="interruptionButton"><br/><br/>
+                    <img src="../img/interruptionButton2.png" alt="interruptionButton"><br/><br/>
+                    <p>Fill the form and click on Submit to add the interruption details or Cancel. Click on X to exit the interruptions section.</p>
+                    <img src="../img/interruptionForm.png" alt="interruptionForm"><br/><br/>
+                    <p>Click on Record event to create a new clinical event.</p>
+                    <img src="../img/newEvent.png" alt="newEvent"><br/><br/>
+                    <p>Select from the list of visits or click Record punctual occurrence in case the event is not associated with an inpatient visit. Fill in the form and click Submit to add the event or X to exit without saving.</p>
+                    <img src="../img/eventForm.png" alt="eventForm"><br/><br/>
+                    <p>The event will be added to the Medical History Summary and to the Timeline (red symbol).</p>
+                    <img src="../img/eventAdded.png" alt="eventAdded"><br/><br/>
+                    <p>To further describe the clinical event click on Data.</p>
+                    <img src="../img/eventDataButton.png" alt="eventDataButton"><br/><br/>
+                    <p>Select the functional systems affected by clicking on the buttons, fill in the rest of the form as necessary, click Save and then X to exit. Click X before clicking Save to cancel the data entry.</p>
+                    <img src="../img/eventData.png" alt="eventData"><br/><br/>
+                    <p>Test, medication and clinical event data can be edited at any time by clicking the highlighted buttons in the Medical History Summary and following the steps described above.</p>
+                    <img src="../img/editData.png" alt="editDataButtons"><br/><br/>
+                    <p>In order to edit basic information about tests, medications and clinical events that was required for the creation of these entries such as dates and type or delete these entries, click on the icons shown below. Click on one of the buttons in the right panel to edit or delete the entry. The informative labels in the right panel will indicate which actions and modifications are allowed.</p>     
+                    <img src="../img/edit.png" alt="editIcons"><br/><br/>
+                    <h1 id="ug-timeline">Using the Timeline</h1>
+                    <p>You may click on the Timeline to access (view/edit) the corresponding entry in Medical History Summary.</p>
+                    <img src="../img/timeline.png" alt="timeline"><br/><br/>
+                    <p>Click on the small icon next to Timeline highlighted below to maximise the timeline.</p>
+                    <img src="../img/timelineExpand.png" alt="timelineExpand"><br/><br/>
+                    <p>Follow the instructions below the timeline to interact with it. Click X to return to patient profile.</p>
+                    <img src="../img/bigTimeline.png" alt="timelineExpand"><br/><br/>
+                    <h1 id="ug-export">Exporting patient data</h1>
+                    <p>Optimise:ms currently supports export of patient data in .json and .csv files. This is available in the right panel on the Patient Search page.</p>
+                    <img src="../img/exportAll.png" alt="exportAll"><br/><br/>
+                    <p>In order to export the database as json and csv files, click on the export button (highlighted) and choose where to save the ZIP folder which you can then extract. You may want to change the name of this folder- the default is attachment.zip.</p>
+                    <img src="../img/exportAllButton.png" alt="exportAllButton"><br/><br/>
+                    <h1 id="ug-admin">Admin menu</h1>
+                    <p></p>Click on the button located in the left panel as shown below to access the Admin Menu.</p>
+                    <img src="../img/adminMenuButton.png" alt="adminMenuButton"><br/><br/>
+                    <p>The administrator can manage Optimise:ms users (create and delete user accounts), view the action log, where all user actions are recorded, and read messages about the software by accessing the Admin Menu.</p>
+                    <img src="../img/adminMenu.png" alt="adminMenu"><br/><br/>
+                    <p>The administrator can manage the users (create and delete user accounts) by accessing the relevant option (Manage users) in Admin menu. In order to update or delete a user account, click on the respective entry in the list of registered user accounts in the middle panel.</p>
+                    <img src="../img/manageUsers1.png" alt="manageUsersEditDelete"><br/><br/>
+                    <p>To update the password for a particular user, select the user from the list, fill in the form as shown below and click Submit. Click Cancel to cancel the update.</p>
+                    <img src="../img/editUser.png" alt="editUser"><br/><br/>
+                    <p>To delete a user, select from the users list and click on Delete.</p>
+                    <img src="../img/deleteUser.png" alt="deleteUser"><br/><br/>
+                    <p>A warning message will appear. Click X to cancel the deletion or YES, I AM SURE! to confirm the deletion.</p>
+                    <img src="../img/deleteUserWarning.png" alt="deleteUserWarningMessage"><br/><br/>
+                    <p>You may create a new user account by clicking on the Create a new user button.</p>
+                    <img src="../img/manageUsersNew.png" alt="manageUsersNew"><br/><br/>
+                    <p>Fill in the highlighted form and click Submit.</p>
+                    <img src="../img/newUser.png" alt="newUserForm"><br/><br/>
+                    <p>The following error message is shown if the submitted form is incomplete. Please complete all fields and re-submit.</p>
+                    <img src="../img/newUserError.png" alt="newUserFormError"><br/><br/>
+                    <p>The action log shows a detailed description of all the actions performed by users.</p>
+                    <img src="../img/actionLog.png" alt="actionLog"><br/><br/>
+                    <p>System information is also available in the Admin Menu.</p>
+                    <img src="../img/systemInfo.png" alt="newUserFormError"><br/><br/>
+                    <h1 id="ug-logout">Logging out</h1>
+                    <p>To log out click on the icon located in the panel on the left of the page as shown below.</p>
+                    <img src="../img/logout.png" alt="logout"><br/><br/>
+                </div>
+            </div>
+            <div class="col-md-3" role="complementary">
+                <nav class="bs-docs-sidebar hidden-print hidden-sm hidden-xs affix-top">
+                    <ul class="nav bs-docs-sidenav">
+                        <li><a href="#ug-login">Logging in</a> </li>
+                        <li><a href="#ug-search">Searching patients</a> </li>
+                        <li><a href="#ug-createPatient">Creating a new patient</a> </li>
+                        <li><a href="#ug-patientConsent">Updating patient consent</a> </li>
+                        <li><a href="#ug-deletePatient">Deleting a patient</a> </li>
+                        <li><a href="#ug-enterPatientData">Entering patient data</a> </li>
+                        <li><a href="#ug-timeline">Using the timeline</a> </li>
+                        <li><a href="#ug-export">Exporting patient data</a> </li>
+                        <li><a href="#ug-admin">Admin menu</a> </li>
+                        <li><a href="#ug-logout">Logging out</a> </li>   
+                    </ul> <a href="#user-guide" class="back-to-top"> Back to top </a><br/><br/>
+                    <span>optimise<strong>:</strong>ms</span><br/><br/>
+                    <span><img src="../img/IMP_ML_K_PS.svg"></span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <footer class="bs-docs-footer">
+        <div class="container">
+            <ul class="bs-docs-footer-links">
+                <li><a href="https://github.com/dsi-icl/optimise">GitHub</a> </li>
+            </ul>
+            <p>This page was designed and built with ❤ by <a href="http://www.imperial.ac.uk/people/f.guitton" target="_blank">Florian Guitton</a>. Supported by the <a href="https://www.imperial.ac.uk/data-science/">Data Science Institute</a> with the help of <a href="https://github.com/dsi-icl/optimise/contributors">our contributors</a>.</p>
+            <p>Code licensed <a href="https://github.com/dsi-icl/optimise/blob/master/LICENSE" target="_blank" rel="license">MIT</a>, docs <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="license">CC BY 3.0</a>.</p>
+        </div>
+    </footer>
+    <script src="../scripts/jquery.min.js"></script>
+    <script src="../scripts/bootstrap.min.js"></script>
+    <script src="../scripts/optimise.js"></script>
+</body>
+
+</html>
