@@ -45,7 +45,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         return;
     }
     if (req.body.hasOwnProperty('times') && !req.body.hasOwnProperty('intervalUnit') || req.body.hasOwnProperty('intervalUnit') && !req.body.hasOwnProperty('times')) {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        res.status(400).json(ErrorHelper(message.userError.FREQANDINTERVALMUSTCOPRESENT));
         return;
     }
     let momentStart = moment(req.body.startDate, moment.ISO_8601);

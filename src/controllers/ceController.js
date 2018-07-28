@@ -17,7 +17,14 @@ CeController.prototype.createCe = function (req, res) {
         typeof req.body.visitId === 'number' && typeof req.body.startDate === 'string' && typeof req.body.type === 'number' && typeof req.body.meddra === 'number') {
         let momentStart = moment(req.body.startDate, moment.ISO_8601);
         if (!momentStart.isValid()) {
-            res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
+            let msg = (momentStart.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        let momentEnd = moment(req.body.endDate, moment.ISO_8601);
+        if (req.body.hasOwnProperty('endDate') && !momentEnd.isValid()) {
+            let msg = (momentEnd.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentEnd.invalidAt()];
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
         let ce = {};
@@ -25,9 +32,12 @@ CeController.prototype.createCe = function (req, res) {
             ce.recordedDuringVisit = req.body.visitId;
         if (req.body.hasOwnProperty('patient'))
             ce.patient = req.body.patient;
+        if (req.body.hasOwnProperty('endDate'))
+            ce.endDate = momentEnd.toString();
         ce.type = req.body.type;
         ce.meddra = req.body.meddra;
         ce.dateStartDate = momentStart.toString();
+        ce
         ce.createdByUser = req.user.id;
         this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
             res.status(200).json(formatToJSON(result));
