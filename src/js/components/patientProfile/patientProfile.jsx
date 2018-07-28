@@ -164,13 +164,12 @@ class ImmunisationSection extends Component {
                 </table>
                 {!this.state.addMore ?
                     <>
-                        <br />
                         <button onClick={this._handleClickingAdd}>Add immunisation</button>
                     </> :
                     <>
                         <br /><br />
                         <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                        <button onClick={this._handleClickingAdd}>Cancel</button>
+                        <button onClick={this._handleClickingAdd}>Cancel</button><br />
                     </>}
             </PatientProfileSectionScaffold>
         );

@@ -99,32 +99,46 @@ export default class FullTimeline extends Component {
                 items.push({
                     id: `tr_${t.id}`,
                     group: 1,
-                    title: `${props.availableFields.drugs[t.drug - 1].name} (${props.availableFields.drugs[t.drug - 1].module})`,
+                    title: `${props.availableFields.drugs_Hash[0][t.drug].name} (${props.availableFields.drugs_Hash[0][t.drug].module})`,
                     start: moment(t.startDate, 'x').valueOf(),
                     end: t.terminatedDate !== null ? moment(t.terminatedDate, 'x').valueOf() : moment().add(12, 'hours').valueOf(),
                     canMove: false,
                     canResize: false,
                     className: style.timelineTreatementItem,
                     itemProps: {
-                        'data-tip': `${props.availableFields.drugs[t.drug - 1].name} (${props.availableFields.drugs[t.drug - 1].module})`
+                        'data-tip': `${props.availableFields.drugs_Hash[0][t.drug].name} (${props.availableFields.drugs_Hash[0][t.drug].module})`
                     }
                 });
             });
         if (props.data.visits)
-            props.data.visits.forEach(v => {
+            sortVisits(props.data.visits).filter(v => v.type === 1).forEach((v, i) => {
+                let suffix;
+                switch (++i) {
+                    case 1:
+                        suffix = 'st';
+                        break;
+                    case 2:
+                        suffix = 'nd';
+                        break;
+                    case 3:
+                        suffix = 'rd';
+                        break;
+                    default:
+                        suffix = 'th';
+                };
                 if (maxTimeStart.valueOf() > moment(v.visitDate, 'x').valueOf())
                     maxTimeStart = moment(v.visitDate, 'x').toDate();
                 items.push({
                     id: `vi_${v.id}`,
                     group: 2,
-                    title: `Visit ${v.id}`,
+                    title: `${i}${suffix} visit ${i === 1 ? '(Baseline)' : ''}`,
                     start: moment(v.visitDate, 'x').valueOf(),
                     end: moment(v.visitDate, 'x').add(1, 'day').valueOf(),
                     canMove: false,
                     canResize: false,
                     className: style.timelineVisitItem,
                     itemProps: {
-                        'data-tip': `Visit ${v.id}`
+                        'data-tip': `${i}${suffix} visit ${i === 1 ? '(Baseline)' : ''}`
                     }
                 });
             });
@@ -135,14 +149,14 @@ export default class FullTimeline extends Component {
                 items.push({
                     id: `te_${t.id}`,
                     group: 3,
-                    title: `Test ${t.id}`,
+                    title: props.availableFields.testTypes_Hash[0][t.type],
                     start: moment(t.expectedOccurDate, 'x').valueOf(),
                     end: moment(t.expectedOccurDate, 'x').add(1, 'day').valueOf(),
                     canMove: false,
                     canResize: false,
                     className: style.timelineTestItem,
                     itemProps: {
-                        'data-tip': `Test ${t.id}`
+                        'data-tip': props.availableFields.testTypes_Hash[0][t.type]
                     }
                 });
             });
@@ -155,14 +169,14 @@ export default class FullTimeline extends Component {
                 items.push({
                     id: `cl_${c.id}`,
                     group: 4,
-                    title: `Clinical Event ${c.id}`,
+                    title: props.availableFields.clinicalEventTypes_Hash[0][c.type],
                     start: moment(c.dateStartDate, 'x').valueOf(),
                     end: c.endDate ? moment(c.endDate, 'x').add(1, 'day').valueOf() : moment(c.dateStartDate, 'x').add(1, 'hour').valueOf(),
                     canMove: false,
                     canResize: false,
                     className: style.timelineCEItem,
                     itemProps: {
-                        'data-tip': `Clinical Event ${c.id}`
+                        'data-tip': props.availableFields.clinicalEventTypes_Hash[0][c.type]
                     }
                 });
             });
@@ -239,7 +253,7 @@ export default class FullTimeline extends Component {
                 </div>
                 <div className={style.panel}>
                     <div>
-                        <i>This timeline allow you to browse through the patient history from the date of the first recorded event to today</i><br /><br />
+                        <i>This timeline allows you to browse through the patient history from the date of the first recorded event to today</i><br /><br />
                     </div>
                     <Timeline
                         groups={groups}
@@ -260,17 +274,22 @@ export default class FullTimeline extends Component {
                     <br /><br />
                     <div>
                         To interact and navigate within the timeline you can click-hold then drag<br />
-                        Also the following options are available:<br /><br />
+                        Also, the following options are available:<br /><br />
                         <div className={style.keyboardGroup}>
                             <pre className={style.keyboardKey}>shift</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = move timeline left/right<br />
                             <pre className={style.keyboardKey}>alt</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out<br />
                             <pre className={style.keyboardKey}>ctrl</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out 10× faster<br />
                             <pre className={style.keyboardKey}>meta/alt</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out 3x faster<br /><br />
                         </div>
-                        Plus you can also use pinch-in and pinch-out zoom gestures (two touch points) on touch screens.<br />
+                        And you can use pinch-in and pinch-out zoom gestures (two touch points) on touch screens.<br />
                     </div>
                 </div>
             </>
         );
     }
+}
+
+function sortVisits(visitList) {
+    const visits = [...visitList];
+    return visits.sort((a, b) => parseInt(a.visitDate, 10) < parseInt(b.visitDate, 10));
 }
