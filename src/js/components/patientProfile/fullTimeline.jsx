@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -102,7 +102,7 @@ export default class FullTimeline extends Component {
                     group: 1,
                     title: `${props.availableFields.drugs_Hash[0][t.drug].name} (${props.availableFields.drugs_Hash[0][t.drug].module})`,
                     start: moment(t.startDate, 'x').valueOf(),
-                    end: t.terminatedDate !== null ? moment(t.terminatedDate, 'x').valueOf() : moment().add(12, 'hours').valueOf(),
+                    end: t.terminatedDate !== null && t.terminatedDate !== undefined ? moment(t.terminatedDate, 'x').valueOf() : moment().add(12, 'hours').valueOf(),
                     canMove: false,
                     canResize: false,
                     className: style.timelineTreatementItem,
@@ -212,7 +212,8 @@ export default class FullTimeline extends Component {
         return {
             ...state,
             maxTimeStart,
-            items
+            items,
+            edssPoints
         };
     }
 
@@ -255,19 +256,27 @@ export default class FullTimeline extends Component {
 
     itemRenderer({ item, timelineContext }) {
 
-        // console.log(timelineContext);
         if (item.id === 'edss_plotter') {
+            let unit = (timelineContext.visibleTimeEnd - timelineContext.visibleTimeStart);
+            let previous = null;
             return (
-                <div className={`${style.timelineBackground} ${item.className}`}>
-                    <svg>
-                        {/* <line x1="0" y1="0" x2="40" y2="500" /> */}
+                <div className={`${style.timelineBackground} ${item.className}`} style={{ width: timelineContext.timelineWidth }}>
+                    <svg height={40} width={timelineContext.timelineWidth}>
+                        {Object.keys(this.state.edssPoints).sort((a, b) => a - b).map(k => {
+                            let x = (parseFloat(k) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
+                            let y = 40 * parseFloat(this.state.edssPoints[k]) / 10;
+                            let line = previous ? <line x1={previous[0]} y1={previous[1]} x2={x} y2={y} /> : null;
+                            let text = <text x={x} y={y + 15}>{this.state.edssPoints[k]}</text>
+                            previous = [x, y];
+                            return <Fragment key={k}>{text}{line}</Fragment>;
+                        })}
                     </svg>
                 </div>
-            )
+            );
         }
         return (
             <>
-                <div className={`${style.timelineBackground} ${item.className}`}></div>
+                <div className={style.timelineBackground}></div>
                 <div className={style.timelineTextContent}>{item.title}</div>
             </>);
     }

@@ -87,14 +87,9 @@
 }
 
 .react-calendar-timeline .rct-item .rct-item-content {
-    /* position: sticky;
-    position: -webkit-sticky;
-    left: 0px;
-    overflow: hidden;
+    position: sticky;
     display: inline-block;
-    border-radius: 2px;
     left: 0;
-    padding: 0 6px; */
     height: 100%;
 }
 
@@ -105,7 +100,6 @@
 
 .react-calendar-timeline .rct-header-container.header-sticky {
     position: sticky;
-    position: -webkit-sticky;
 }
 
 .react-calendar-timeline .rct-header {
@@ -166,6 +160,7 @@
 .react-calendar-timeline .rct-sidebar-header {
     margin: 0;
     color: #ffffff;
+    background-color: #ffffff;
     border-right: 1px solid #ddd;
     box-sizing: border-box;
     border-bottom: 1px solid #ddd;
