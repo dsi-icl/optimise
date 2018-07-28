@@ -409,6 +409,24 @@ div.timelineCEBlack {
     background-color: rgb(79, 20, 97);
 }
 
+.timelineEDSSPlotter {
+    height: calc(80px * 0.85);
+    background-color: transparent;
+}
+
+.timelineEDSSPlotter svg {
+    width: 100%;
+    height: 100%;
+}
+
+.timelineEDSSPlotter line {
+    stroke: blueviolet;
+}
+
+.timelineEDSSPlotterPad {
+    display: none;
+}
+
 .keyboardGroup {
     line-height: 1.4em;
     padding-left: 2em;
