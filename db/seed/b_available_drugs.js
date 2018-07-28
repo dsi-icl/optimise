@@ -1,4 +1,7 @@
-const drugList = require('../availableFields/availableDrugsForMS');
+const path = require('path');
+const { readJson } = require('../../src/utils/load-json');
+
+const drugList = readJson(path.normalize(`${path.dirname(__filename)}/../availableFields/jsonFiles/drugs.json`));
 
 exports.seed = function (knex) {
     // Deletes ALL existing entries

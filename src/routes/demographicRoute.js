@@ -1,37 +1,42 @@
 /**
  * Route patient
- * @description Redirect request from /api/patients and /api/patientProfile to the proper controller call
+ * @description Redirect request from /demographics to the proper controller call
  */
 
 const express = require('express');
 const demogdata = express();
 
-const DemogdataCrtrl = require('../controllers/demographicDataController');
-const DemographicController = new DemogdataCrtrl();
+const DemographicController = require('../controllers/demographicDataController');
+const DemogdataCrtrl = new DemographicController();
 // Interacts with the patients in the DB
-// Real path expected is /api/patients
+// Real path expected is /patients
 
 demogdata.route('/Demographic')
-    .post(DemographicController.createDemographic)
-    .put(DemographicController.editDemographic)
-    .delete(DemographicController.deleteDemographic);
+    .post(DemogdataCrtrl.createDemographic)
+    .put(DemogdataCrtrl.editDemographic)
+    .delete(DemogdataCrtrl.deleteDemographic);
 
 demogdata.route('/Immunisation')
-    .post(DemographicController.createImmunisation)
-    .put(DemographicController.editImmunisation)
-    .delete(DemographicController.deleteImmunisation);
+    .post(DemogdataCrtrl.createImmunisation)
+    .put(DemogdataCrtrl.editImmunisation)
+    .delete(DemogdataCrtrl.deleteImmunisation);
 
 demogdata.route('/MedicalCondition')
-    .post(DemographicController.createMedicalCondition)
-    .put(DemographicController.editMedicalCondition)
-    .delete(DemographicController.deleteMedicalCondition);
+    .post(DemogdataCrtrl.createMedicalCondition)
+    .put(DemogdataCrtrl.editMedicalCondition)
+    .delete(DemogdataCrtrl.deleteMedicalCondition);
+
+demogdata.route('/Pregnancy')
+    .post(DemogdataCrtrl.createPregnancy)
+    .put(DemogdataCrtrl.editPregnancy)
+    .delete(DemogdataCrtrl.deletePregnancy);
 
 // Get the profile of a certain user
-// Real path expected is /api/patientProfile
+// Real path expected is /patientProfile
 demogdata.route('/:dataType')
-    .get(DemographicController.getDemogData);
+    .get(DemogdataCrtrl.getDemogData);
 
 demogdata.route('/Fields/:dataType')
-    .get(DemographicController.getFields);
+    .get(DemogdataCrtrl.getFields);
 
 module.exports = demogdata;

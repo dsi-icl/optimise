@@ -1,25 +1,28 @@
 /**
  * Route treatment
- * @description Redirect request from /api/treatments to the proper controller call
+ * @description Redirect request from /treatments to the proper controller call
  */
 
 const express = require('express');
 const treatment = express();
 
-const Treatment = require('../controllers/treatmentController');
-const TreatmentController = new Treatment();
+const TreatmentController = require('../controllers/treatmentController');
+const TreatmentCtrl = new TreatmentController();
 
 treatment.route('/')
-    .post(TreatmentController.createTreatment)
-    .patch(TreatmentController.addTerminationDate)
-    .put(TreatmentController.editTreatment)
-    .delete(TreatmentController.deleteTreatment);
+    .post(TreatmentCtrl.createTreatment)
+    .patch(TreatmentCtrl.addTerminationDate)
+    .put(TreatmentCtrl.editTreatment)
+    .delete(TreatmentCtrl.deleteTreatment);
 
 treatment.route('/interrupt')
-    .post(TreatmentController.addInterruption)
-    .delete(TreatmentController.deleteInterruption);
+    .post(TreatmentCtrl.addInterruption)
+    .delete(TreatmentCtrl.deleteInterruption);
 
 treatment.route('/drugs')
-    .get(TreatmentController.getDrugs);
+    .get(TreatmentCtrl.getDrugs);
+
+treatment.route('/reasons')
+    .get(TreatmentCtrl.getReasons);
 
 module.exports = treatment;

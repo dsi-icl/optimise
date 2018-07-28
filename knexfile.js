@@ -1,20 +1,20 @@
-// Update with your config settings.
-
+const path = require('path');
 module.exports = {
-
-    development: {
-        client: 'sqlite3',
-        connection: {
-            filename: './db/optimise-db.sqlite'
-        },
-        migrations: {
-            directory: './db/migrations'
-        },
-        seeds: {
-            directory: './db/seed'
-        },
-        useNullAsDefault: true,
-        multipleStatements: true
+    client: 'sqlite3',
+    connection: {
+        filename: process.env.NODE_ENV === 'test' ? ':memory:' : path.normalize('./db/optimise-db.sqlite')
     },
-
+    migrations: {
+        directory: path.normalize(`${path.dirname(__filename)}/db/migrations`)
+    },
+    seeds: {
+        directory: path.normalize(`${path.dirname(__filename)}/db/seed`)
+    },
+    pool: {
+        afterCreate: function (conn, cb) {
+            conn.run('PRAGMA foreign_keys = ON', cb);      ///set timezone ="UTC" ????
+        }
+    },
+    useNullAsDefault: true,
+    multipleStatements: true
 };

@@ -11,6 +11,8 @@ function Treatment() {
     this.deleteTreatment = Treatment.prototype.deleteTreatment.bind(this);
     this.addInterruption = Treatment.prototype.addInterruption.bind(this);
     this.deleteInterruption = Treatment.prototype.deleteInterruption.bind(this);
+    this.getReasons = Treatment.prototype.getReasons.bind(this);
+    this.searchReasons = Treatment.prototype.searchReasons.bind(this);
     this.getDrugs = Treatment.prototype.getDrugs.bind(this);
     this.searchDrugs = Treatment.prototype.searchDrugs.bind(this);
 }
@@ -35,9 +37,9 @@ Treatment.prototype.createTreatment = function (treatment) {
     });
 };
 
-Treatment.prototype.updateTreatment = function (requester, idTreatment, updatedEntry) {
+Treatment.prototype.updateTreatment = function (user, idTreatment, updatedEntry) {
     return new Promise(function (resolve, reject) {
-        updateEntry('TREATMENTS', requester, '*', { id: idTreatment }, updatedEntry).then(function (result) {
+        updateEntry('TREATMENTS', user, '*', { id: idTreatment }, updatedEntry).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
@@ -55,9 +57,9 @@ Treatment.prototype.addTerminationDateTreatment = function (idTreatment, updateE
     });
 };
 
-Treatment.prototype.deleteTreatment = function (requester, idTreatment) {
+Treatment.prototype.deleteTreatment = function (user, idTreatment) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('TREATMENTS', requester, { id: idTreatment }).then(function (result) {
+        deleteEntry('TREATMENTS', user, { id: idTreatment }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
@@ -65,7 +67,7 @@ Treatment.prototype.deleteTreatment = function (requester, idTreatment) {
     });
 };
 
-Treatment.prototype.addInterruption = function (__unused__requester, interruption) {
+Treatment.prototype.addInterruption = function (__unused__user, interruption) {
     return new Promise(function (resolve, reject) {
         createEntry('TREATMENTS_INTERRUPTIONS', interruption).then(function (result) {
             resolve(result);
@@ -75,15 +77,36 @@ Treatment.prototype.addInterruption = function (__unused__requester, interruptio
     });
 };
 
-Treatment.prototype.deleteInterruption = function (requester, idInterruption) {
+Treatment.prototype.deleteInterruption = function (user, idInterruption) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('TREATMENTS_INTERRUPTIONS', requester, { id: idInterruption }).then(function (result) {
+        deleteEntry('TREATMENTS_INTERRUPTIONS', user, { id: idInterruption }).then(function (result) {
             resolve(result);
         }, function (error) {
             reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         });
     });
 };
+
+Treatment.prototype.getReasons = function () {
+    return new Promise(function (resolve, reject) {
+        getEntry('REASONS', {}, '*').then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        });
+    });
+};
+
+Treatment.prototype.searchReasons = function (reason) {
+    return new Promise(function (resolve, reject) {
+        knex('REASONS').select('*').where('value', 'like', reason).then(function (result) {
+            resolve(result);
+        }, function (error) {
+            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        });
+    });
+};
+
 
 Treatment.prototype.getDrugs = function () {
     return new Promise(function (resolve, reject) {

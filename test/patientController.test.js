@@ -1,97 +1,197 @@
-/* global describe test expect */
+/* global beforeAll afterAll describe test expect */
 
 //UNFINISHED: test erase patients
-const app = require('../src/app');
-const request = require('supertest')(app);
-const adminToken = require('./token').adminToken;
-const standardToken = require('./token').standardToken;
-// const {destroyAndMigrate} = require('../src/utils/db-handler');
+const request = require('supertest');
+const admin = request.agent(global.optimiseRouter);
+const user = request.agent(global.optimiseRouter);
+const userSeeded = require('../db/exampleDataForTesting/exampleData')['PATIENTS'];
+const message = require('../src/utils/message-utils');
+const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
 
-// beforeAll(() => {destroyAndMigrate('testing')});
+beforeAll(async () => {
+    await connectAdmin(admin);
+    await connectUser(user);
+});
+
+afterAll(async () => {
+    await disconnectAgent(admin);
+    await disconnectAgent(user);
+});
 
 describe('Patient controller tests', () => {
-    test('Getting all patients', () => request
-        .get('/api/patients')
-        .set('token', adminToken)
+    test('Getting all patients', () => admin
+        .get('/patients')
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(res.body.length).toBeGreaterThanOrEqual(1);
+            expect(res.body.length).toBe(userSeeded.length);
+            for (let i = 0; i, i < res.body.length; i++) {
+                userSeeded[i].patientId = userSeeded[i].id;
+                delete userSeeded[i].id;
+                delete userSeeded[i].createdByUser;
+                delete userSeeded[i].deleted;
+                expect(res.body[i]).toMatchObject(userSeeded[i]);
+            }
         }));
 
-    test('Searching patients with similar alias_id\'s', () => request
-        .get('/api/patients?id=o')
-        .set('token', adminToken)
+    test('Searching patients with similar alias_id\'s', () => admin
+        .get('/patients?value=o')
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBeGreaterThanOrEqual(2);
         }));
 
-    test('Searching patients with similar alias_id\'s but with double "id" query', () => request
-        .get('/api/patients?id=ch&id=css')
-        .set('token', adminToken)
+    test('Searching patients with similar alias_id\'s but with double "id" query', () => admin
+        .get('/patients?value=ch&value=css')
         .then(res => {
             expect(res.statusCode).not.toBe(200);
-            expect(res.headers['content-type']).toBe('text/html; charset=utf-8');
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.INVALIDQUERY);
         }));
 
-    test('Searching patients with similar alias_id\'s but with two queries', () => request
-        .get('/api/patients?id=ch&iddd=css')
-        .set('token', adminToken)
+    test('Searching patients with similar alias_id\'s but with two queries', () => admin
+        .get('/patients?value=ch&iddd=css&ed=42')
         .then(res => {
             expect(res.statusCode).toBe(400);
-            expect(res.headers['content-type']).toBe('text/html; charset=utf-8');
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.INVALIDQUERY);
         }));
 
-    test('Creating a new patient', () => request
-        .post('/api/patients')
-        .set('token', adminToken)
+    test('Searching patients with diagnosis PPMS', () => admin
+        .get('/patients?field=MHTERM&value=PPMS')
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+            expect(res.body.length).toBe(2);
+        }));
+
+    test('Creating a new patient with no consent (should fail)', () => admin
+        .post('/patients')
         .send({
             'aliasId': 'littlePatient',
-            'study': 'optimise' })
+            'study': 'optimise'
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        }));
+
+    test('Creating a new patient', () => admin
+        .post('/patients')
+        .send({
+            'aliasId': 'littlePatient',
+            'study': 'optimise',
+            'consent': false
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(8);
+        }));
+
+    test('Creating the same patient again (should fail)', () => admin
+        .post('/patients')
+        .send({
+            'aliasId': 'littlePatient',
+            'study': 'optimise',
+            'consent': true
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        }));
+
+    test('Getting this patient', () => admin
+        .get('/patients/littlePatient')
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(res.body.patientId).toBe('littlePatient');
+            expect(res.body.id).toBe(8);
+            expect(res.body.consent).toBe(false);
+            expect(res.body.immunisations).toBeDefined();
+            expect(res.body.medicalHistory).toBeDefined();
+            expect(res.body.visits).toBeDefined();
+            expect(res.body.tests).toBeDefined();
+            expect(res.body.treatments).toBeDefined();
+            expect(res.body.clinicalEvents).toBeDefined();
+            expect(res.body.pregnancy).toBeDefined();
+            expect(res.body.diagnosis).toBeDefined();
+            expect(res.body.demographicData).toBeUndefined();
+        }));
+
+    test('Getting this patient but only visits', () => admin
+        .get('/patients/chon')
+        .send({ 'getOnly': 'getVisits' })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(res.body.patientId).toBe('chon');
+            expect(res.body.id).toBe(1);
+            expect(res.body.consent).toBe(true);
+            expect(res.body.visits).toBeDefined();
+            expect(res.body.tests).toBeUndefined();
+        }));
+
+    test('Getting this patient but only invalid properties', () => admin
+        .get('/patients/littlePatient')
+        .send({ 'getOnly': 'must,not,work' })
         .then(res => {
             expect(res.statusCode).toBe(200);
         }));
 
-    test('Creating the same patient again (should fail)', () => request
-        .post('/api/patients')
-        .set('token', adminToken)
+    test('Updating this patient', () => admin
+        .put('/patients/')
         .send({
-            'aliasId': 'littlePatient',
-            'study': 'optimise' })
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-        }));
-
-    test('getting this patient', () => request
-        .get('/api/patientProfile/littlePatient')
-        .set('token', adminToken)
+            'id': 8,
+            'study': 'unknown',
+            'consent': true
+        })
         .then(res => {
             expect(res.statusCode).toBe(200);
         }));
 
-    test('Deleting a patient by standard User (should fail)', () => request
-        .patch('/api/patients')
-        .set('token', standardToken)
+    test('Verifying patient consent update', () => admin
+        .get('/patients/littlePatient')
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(res.body.patientId).toBe('littlePatient');
+            expect(res.body.id).toBe(8);
+            expect(res.body.consent).toBe(true);
+        }));
+
+    test('Deleting a patient by standard User (should fail)', () => user
+        .patch('/patients')
         .send({ 'aliasId': 'littlePatient' })
         .then(res => {
             expect(res.statusCode).toBe(401);
+            expect(res.body).toHaveProperty('error');
+            expect(res.body.error).toBe(message.userError.NORIGHTS);
         }));
 
-    test('Deleting a patient', () => request
-        .patch('/api/patients')
-        .set('token', adminToken)
+    test('Deleting a patient', () => admin
+        .patch('/patients')
         .send({ 'aliasId': 'littlePatient' })
         .then(res => {
-            expect(res.statusCode).toBe(200);
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 
-    test('Deleting this patient again (should return 200)', () => request
-        .patch('/api/patients')
-        .set('token', adminToken)
+    test('Deleting this patient again (should return 200 amd state:0)', () => admin
+        .patch('/patients')
         .send({ 'aliasId': 'littlePatient' })
         .then(res => {
-            expect(res.statusCode).toBe(200);
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(0);
         }));
 });

@@ -1,16 +1,17 @@
 /**
  * Route clinical events
- * @description Redirect request from /api/clinicalEvents to the proper controller call
+ * @description Redirect request from /clinicalEvents to the proper controller call
  */
 
 const express = require('express');
 const ce = express();
 
-const CECtrl = require('../controllers/ceController');
-const CeController = new CECtrl();
+const CeController = require('../controllers/ceController');
+const CECtrl = new CeController();
 
 ce.route('/')
-    .post(CeController.createCe)
-    .delete(CeController.deleteCe);
+    .post(CECtrl.createCe)
+    .put(CECtrl.updateCe)
+    .delete(CECtrl.deleteCe);
 
 module.exports = ce;

@@ -1,29 +1,15 @@
-const knex = require('../utils/db-connection');
 const DataCore = require('../core/data');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
+const formatToJSON = require('../utils/format-response');
+const { getEntry, createEntry, updateEntry } = require('../utils/controller-utils');
 
-const deleteOptionsContainer = {
-    'visit': {
-        dataTable: 'VISIT_DATA',
-        dataTableForeignKey: 'visit'
-    },
-    'clinicalEvent': {
-        dataTable: 'CLINICAL_EVENTS_DATA',
-        dataTableForeignKey: 'clinical_event'
-    },
-    'test': {
-        dataTable: 'TEST_DATA',
-        dataTableForeignKey: 'test'
-    }
-};
-
-const createOptionsContainer = {
+const optionsContainer = {
     'visit': {
         entryIdString: 'visitId',
         fieldTable: 'AVAILABLE_FIELDS_VISITS',
         entryTable: 'VISITS',
-        errMsgForUnfoundEntry: 'cannot seem to find your visit!',
+        errMsgForUnfoundEntry: message.dataMessage.VISIT,
         dataTable: 'VISIT_DATA',
         dataTableForeignKey: 'visit'
     },
@@ -31,7 +17,7 @@ const createOptionsContainer = {
         entryIdString: 'clinicalEventId',
         fieldTable: 'AVAILABLE_FIELDS_CE',
         entryTable: 'clinical_events',
-        errMsgForUnfoundEntry: 'cannot seem to find your clinical event!',
+        errMsgForUnfoundEntry: message.dataMessage.CLINICALEVENT,
         dataTable: 'CLINICAL_EVENTS_DATA',
         dataTableForeignKey: 'clinicalEvent'
     },
@@ -39,7 +25,7 @@ const createOptionsContainer = {
         entryIdString: 'testId',
         fieldTable: 'AVAILABLE_FIELDS_TESTS',
         entryTable: 'ORDERED_TESTS',
-        errMsgForUnfoundEntry: 'cannot seem to find your test!',
+        errMsgForUnfoundEntry: message.dataMessage.TEST,
         dataTable: 'TEST_DATA',
         dataTableForeignKey: 'test'
     }
@@ -52,19 +38,9 @@ class DataController {
         this._RouterDeleteData = this._RouterDeleteData.bind(this);
     }
 
-    _RouterAddOrUpdate(req, res) {
-        if (createOptionsContainer.hasOwnProperty(`${req.params.dataType}`)) {
-            let options = createOptionsContainer[req.params.dataType];
-            this._addOrUpdateDataBackbone(req, res, options, this._transactionForAddAndUpdate(req, options));
-            return;
-        } else {
-            res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
-        }
-    }
-
     _RouterDeleteData(req, res) {    //req.body = {visitId = 1, delete:[1, 43, 54 (fieldIds)] }
-        if (req.requester.priv === 1) {
-            let options = deleteOptionsContainer[`${req.params.dataType}`];
+        if (req.user.priv === 1) {
+            let options = optionsContainer[`${req.params.dataType}`];
             if (options === undefined) {
                 res.status(400).json(ErrorHelper(`data type ${req.params.dataType} not supported.`));
                 return;
@@ -73,180 +49,172 @@ class DataController {
                 res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
                 return;
             }
-            this.dataCore.deleteData(req.requester, options, req.body[`${req.params.dataType}Id`], req.body.delete)
+            this.dataCore.deleteData(req.user, options, req.body[`${req.params.dataType}Id`], req.body.delete)
                 .then(function (result) {
-                    res.status(200).json(result);
+                    res.status(200).json(formatToJSON(result));
                     return;
                 }, function (error) {
                     res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                     return;
                 });
         } else {
-            res.status(401).send('You do not have permission to delete data');
+            res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
     }
 
-    _transactionForAddAndUpdate(req, options) {
-        return function (inputData) {
-            return knex.transaction(trx => {
-                knex(options.dataTable)    //updating all the 'updates' entries to 'deleted'
-                    .where('field', 'in', Object.keys(req.body.update))
-                    .andWhere('deleted', '-')
-                    .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
-                    .update({ 'deleted': `${req.requester.userid}@${JSON.stringify(new Date())}` })
-                    .transacting(trx)
-                    .then(() =>
-                        knex.batchInsert(options.dataTable, inputData.updates, 1000).transacting(trx)    //adding all the 'updates' entries
-                    )
-                    .then(() =>
-                        knex.batchInsert(options.dataTable, inputData.adds, 1000).transacting(trx) //adding all the 'updates' entries
-                    )
-                    .then(trx.commit)
-                    .catch(trx.rollback);
-            });
-        };
+    _getField(table, id) {
+        return getEntry(table, { id: id }, { id: 'id', type: 'type', permittedValues: 'permittedValues', referenceType: 'referenceType' });
     }
 
-    _addOrUpdateDataBackbone(req, res, options, transactionFunction) {  //req.body = {visitId = 1, update : {1: 43, 54: LEFT}, add : {4324:432, 54:4} }
-        if (req.body[options.entryIdString] && (req.body.update || req.body.add)) {
-            if (req.body.update && req.requester.priv !== 1) {
-                res.status(401).send('Only admin can update data');
+    _checkField(options, entries) {
+        let promiseArr = [];
+        for (let i = 0; entries.hasOwnProperty('updates') && i < entries.updates.length; i++) {
+            promiseArr.push(this._getField(options.fieldTable, entries.updates[i].field));
+        }
+        for (let i = 0; entries.hasOwnProperty('adds') && i < entries.adds.length; i++) {
+            promiseArr.push(this._getField(options.fieldTable, entries.adds[i].field));
+        }
+        return Promise.all(promiseArr);
+    }
+
+    _formatEntries(options, req) {
+        let returned = {};
+        const numOfUpdates = (req.body.hasOwnProperty('update')) ? Object.keys(req.body.update).length : 0;
+        const numOfAdds = (req.body.hasOwnProperty('add')) ? Object.keys(req.body.add).length : 0;
+        const updates = [];
+        const adds = [];
+        for (let i = 0; i < numOfUpdates; i++) {
+            const entry = {
+                'field': Object.keys(req.body.update)[i],
+                'value': req.body.update[Object.keys(req.body.update)[i]],
+                'createdByUser': req.user.id,
+                'deleted': '-'
+            };
+            entry[options.dataTableForeignKey] = req.body[options.entryIdString];
+            updates.push(entry);
+        }
+        for (let i = 0; i < numOfAdds; i++) {
+            const entry = {
+                'field': Object.keys(req.body.add)[i],
+                'value': req.body.add[Object.keys(req.body.add)[i]],
+                'createdByUser': req.user.id,
+                'deleted': '-'
+            };
+            entry[options.dataTableForeignKey] = req.body[options.entryIdString];
+            adds.push(entry);
+        }
+        if (numOfAdds > 0)
+            returned.adds = adds;
+        if (numOfUpdates > 0)
+            returned.updates = updates;
+        return returned;
+    }
+
+    _createAndUpdate(req, options, inputData) {
+        let promiseArr = [];
+
+        for (let i = 0; inputData.hasOwnProperty('updates') && i < inputData.updates.length; i++) {
+            promiseArr.push(updateEntry(options.dataTable, req.user, '*', { field: inputData.updates[i].field }, inputData.updates[i]));
+        }
+        for (let i = 0; inputData.hasOwnProperty('adds') && i < inputData.adds.length; i++) {
+            promiseArr.push(createEntry(options.dataTable, inputData.adds[i]));
+        }
+        return Promise.all(promiseArr);
+    }
+
+    _RouterAddOrUpdate(req, res) {
+        let that = this;
+        if (optionsContainer.hasOwnProperty(`${req.params.dataType}`)) {
+            let options = optionsContainer[req.params.dataType];
+            if (!(req.body.hasOwnProperty(`${options.entryIdString}`) &&
+                (req.body.hasOwnProperty('add') || req.body.hasOwnProperty('update')))) {
+                res.status(400).json(ErrorHelper(message.dataMessage.MISSINGVALUE + options.entryIdString));
                 return;
-            }
-            if (!req.body.update) { req.body.update = {}; }  //adding an empty obj so that the code later doesn't throw error for undefined
-            if (!req.body.add) { req.body.add = {}; }   //same
-            const numOfUpdates = Object.keys(req.body.update).length;
-            const numOfAdds = Object.keys(req.body.add).length;
-            const findField = (fieldId, referenceType) => knex(options.fieldTable).select('id', 'type', 'permittedValues', 'referenceType').where({ 'id': fieldId, 'referenceType': referenceType });
-            knex(options.entryTable)
-                .select('id', 'type')
-                .where({ id: req.body[options.entryIdString], deleted: '-' })  //making sure the visit is found
-                .then(result => {
-                    if (result.length === 1) {
-                        return result;
-                    } else {
-                        res.status(404).send(options.errMsgForUnfoundEntry);
+            } else {
+                let entries = this._formatEntries(options, req);
+                if (req.user.priv !== 1 && entries.hasOwnProperty('updates')) {
+                    res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+                    return;
+                }
+                entries.entryId = req.body[options.entryIdString];
+                if (!req.body.hasOwnProperty('update')) { req.body.update = {}; }  //adding an empty obj so that the code later doesn't throw error for undefined
+                if (!req.body.hasOwnProperty('add')) { req.body.add = {}; }   //same
+                // Verify that the entryTable ID exists in database (i.e. visitId:1 in body must have the row with id 1 in VISIT Table)
+                getEntry(options.entryTable, { id: req.body[options.entryIdString], deleted: '-' }, '*').then(function (entryResult) {
+                    if (entryResult.length !== 1) {
+                        res.status(404).json(ErrorHelper(options.errMsgForUnfoundEntry));
+                        return;
                     }
-                })
-                .then(result => { //get all the fields types and check theres no overlap for update and add
-                    const referenceType = result[0].type;
-                    const promiseArr = [];
-                    const allFieldIds = [];
-                    for (let i = 0; i < numOfUpdates; i++) {
-                        promiseArr.push(findField(Object.keys(req.body.update)[i], referenceType));
-                        allFieldIds.push(Object.keys(req.body.update)[i]);
-                    }
-                    for (let i = 0; i < numOfAdds; i++) {
-                        promiseArr.push(findField(Object.keys(req.body.add)[i], referenceType));
-                        allFieldIds.push(Object.keys(req.body.add)[i]);
-                    }
-                    if (Array.from(new Set(allFieldIds)).length !== allFieldIds.length) {
-                        res.status(400).send('fields in add and update cannot have overlaps!');
-                        throw 'stopping the chain';
-                    }
-                    return Promise.all(promiseArr);
-                })
-                .then(result => {    //comparing if all the input values matching the type of the field
-                    const totalLength = numOfUpdates + numOfAdds;
-                    for (let i = 0; i < totalLength; i++) {
-                        if (result[i].length === 1) {
-                            let addOrUpdate = i < numOfUpdates ? 'update' : 'add';
-                            let fieldId = result[i][0].id;
-                            let fieldType = result[i][0].type;
-                            let inputValue = req.body[addOrUpdate][fieldId];
-                            switch (fieldType) {
-                                case 'B':
-                                    if (!(inputValue === 1 || inputValue === 0)) {
-                                        res.status(400).send(`Field ${fieldId} only accepts value 1 and 0.`);
-                                        throw 'stopping the chain';
-                                    }
-                                    break;
-                                case 'C':
-                                    if (!(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
-                                        res.status(400).send(`Field ${fieldId} only accepts values ${result[i][0]['permittedValues']}`);
-                                        throw 'stopping the chain';
-                                    }
-                                    break;
-                                case 'I':
-                                    if (!(parseInt(inputValue) === parseFloat(inputValue))) {
-                                        res.status(400).send(`Field ${fieldId} only accept integer`);
-                                        throw 'stopping the chain';
-                                    }
-                                    break;
-                                case 'N':
-                                    if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
-                                        res.status(400).send(`Field ${fieldId} only accept number`);
-                                        throw 'stopping the chain';
-                                    }
-                                    break;
-                            }
-                        } else {
-                            res.status(404).send('cannot seem to find one of your fields');
-                            throw 'stopping the chain';
+                    let entryType = entryResult[0].type;
+                    that._checkField(options, entries).then(function (result) {
+                        if (result.length <= 0) {
+                            res.status(400).json(ErrorHelper(message.dataMessage.FIELDNOTFOUND));
+                            return;
                         }
-                    }
-                    return result;
-                })
-                .then(() =>   //check all the updates are all there and all the adds are NOT there
-                    knex(options.dataTable)
-                        .select('id')
-                        .where('field', 'in', Object.keys(req.body.update))
-                        .andWhere('deleted', '-')
-                        .andWhere(options.dataTableForeignKey, req.body[options.entryIdString])
-                        .then(entries => {
-                            if (entries.length !== numOfUpdates) {
-                                res.status(400).send('you can only update when the data is already there!');
-                                throw 'stopping the chain';
+                        for (let i = 0; i < result.length; i++) {
+                            if (result[i].length !== 1) {
+                                res.status(400).json(ErrorHelper(message.dataMessage.FIELDNOTFOUND));
+                                return;
                             }
-                            return knex(options.dataTable)
-                                .select('id')
-                                .where('field', 'in', Object.keys(req.body.add))
-                                .andWhere('deleted', '-')
-                                .andWhere(options.dataTableForeignKey, req.body[options.entryIdString]);
-                        })
-                        .then(entries => {
-                            if (entries.length !== 0) {
-                                res.status(400).send('you can only add when the data is not already there!');
-                                throw 'stopping the chain';
+                            if (result[i][0].referenceType !== entryType) {
+                                res.status(400).json(ErrorHelper(message.dataMessage.INVALIDFIELD));
+                                return;
                             }
-                            return 0;
-                        })
-                )
-                .then(() => {   //transforming the req.body
-                    const updates = [];
-                    const adds = [];
-                    for (let i = 0; i < numOfUpdates; i++) {
-                        const entry = {
-                            'field': Object.keys(req.body.update)[i],
-                            'value': req.body.update[Object.keys(req.body.update)[i]],
-                            'createdByUser': req.requester.userid,
-                            'deleted': '-'
-                        };
-                        entry[options.dataTableForeignKey] = req.body[options.entryIdString];
-                        updates.push(entry);
-                    }
-                    for (let i = 0; i < numOfAdds; i++) {
-                        const entry = {
-                            'field': Object.keys(req.body.add)[i],
-                            'value': req.body.add[Object.keys(req.body.add)[i]],
-                            'createdByUser': req.requester.userid,
-                            'deleted': '-'
-                        };
-                        entry[options.dataTableForeignKey] = req.body[options.entryIdString];
-                        adds.push(entry);
-                    }
-                    return { 'updates': updates, 'adds': adds };
-                })
-                .then(transactionFunction)
-                .then(result => res.send(`success with ${result.length} new entries added`))
-                // .catch(err => { console.log(err); res.status(400).send('Error. Please try again'); })
-                .catch(() => { });
+                            if (result[i].length === 1) {
+                                let addOrUpdate = (entries.hasOwnProperty('updates') && i < entries.updates.length) ? 'update' : 'add';
+                                let fieldId = result[i][0].id;
+                                let fieldType = result[i][0].type;
+                                let inputValue = req.body[addOrUpdate][fieldId];
+                                switch (fieldType) {
+                                    case 'B':
+                                        if (!(inputValue === 1 || inputValue === 0)) {
+                                            res.status(400).json(ErrorHelper(`${message.dataMessage.BOOLEANFIELD}${fieldId}`));
+                                            return;
+                                        }
+                                        break;
+                                    case 'C':
+                                        if (result[i][0]['permittedValues'] !== null && !(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
+                                            res.status(400).json(ErrorHelper(`${fieldId}${message.dataMessage.CHARFIELD}${result[i][0]['permittedValues']}`));
+                                            return;
+                                        }
+                                        break;
+                                    case 'I':
+                                        if (!(parseInt(inputValue) === parseFloat(inputValue))) {
+                                            res.status(400).json(ErrorHelper(`${message.dataMessage.INTEGERFIELD}${fieldId}`));
+                                            return;
+                                        }
+                                        break;
+                                    case 'N':
+                                        if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
+                                            res.status(400).json(ErrorHelper(`${message.dataMessage.NUMBERFIELD}${fieldId}`));
+                                            return;
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                        that._createAndUpdate(req, options, entries).then(function (__unused__result) {
+                            res.status(200).json(formatToJSON(`${message.dataMessage.SUCESS}`));
+                            return;
+                        }, function (error) {
+                            res.status(400).json(ErrorHelper(message.dataMessage.ERROR, error));
+                            return;
+                        });
+                    }, function (error) {
+                        res.status(400).json(ErrorHelper(message.dataMessage.FIELDNOTFOUND, error));
+                        return;
+                    });
+                }, function (error) {
+                    res.status(404).json(ErrorHelper(options.errMsgForUnfoundEntry, error));
+                    return;
+                });
+            }
         } else {
-            res.status(400).send(`please provide ${options.entryIdString} and update and/or add.`);
+            res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
         }
     }
+
 }
 
-const _singleton = new DataController();
-module.exports = _singleton;
+module.exports = DataController;

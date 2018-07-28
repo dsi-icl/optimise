@@ -1,8 +1,9 @@
-/*eslint no-unused-vars: "off"*/
+const path = require('path');
+const { readJson } = require('../../src/utils/load-json');
 
-const ceFields = require('../availableFields/availableFieldsForMS').ceFields;
+const ceFields = readJson(path.normalize(`${path.dirname(__filename)}/../availableFields/jsonFiles/ceFields.json`));
 
-exports.seed = function(knex, Promise) {
+exports.seed = function (knex) {
     // Deletes ALL existing entries
     return knex('AVAILABLE_FIELDS_CE').del()
         .then(function () {
