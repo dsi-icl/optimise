@@ -1,55 +1,47 @@
-const TestCore = require('../core/testCore');
+const TestCore = require('../core/test');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
+const formatToJSON = require('../utils/format-response');
 
 function TestController() {
     this.test = new TestCore();
 
     this.createTest = TestController.prototype.createTest.bind(this);
-    this.addActualOccurredDate = TestController.prototype.addActualOccurredDate.bind(this);
+    this.updateTest = TestController.prototype.updateTest.bind(this);
     this.deleteTest = TestController.prototype.deleteTest.bind(this);
 }
 
 TestController.prototype.createTest = function (req, res) {
-    if (req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('expectedDate')) {
-        let entryObj = {
-            'orderedDuringVisit': req.body.visitId,
-            'type': req.body.type,
-            'expectedOccurDate': Date.parse(req.body.expectedDate),
-            'createdByUser': req.requester.userid
-        };
-        this.test.createTest(entryObj).then(function (result) {
-            res.status(200).json(result);
-            return;
-        }, function (error) {
-            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            return;
-        });
-    } else {
+    if (!req.body.hasOwnProperty('visitId') || !req.body.hasOwnProperty('expectedDate') || !req.body.hasOwnProperty('type')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
+    this.test.createTest(req.user, req.body).then(function (result) {
+        res.status(200).json(formatToJSON(result));
+        return;
+    }, function (error) {
+        res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        return;
+    });
 };
 
-TestController.prototype.addActualOccurredDate = function (req, res) {
-    if (req.body.hasOwnProperty('testId') && req.body.hasOwnProperty('actualOccurredDate')) {
-        this.test.addActualOccurDateTest(req.requester, { id: req.body.testId, actualOccurDate: req.bosy.actualOccurDate }).then(function (result) {
-            res.status(200).json(result);
-            return;
-        }, function (error) {
-            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-            return;
-        });
-    } else {
+TestController.prototype.updateTest = function (req, res) {
+    if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
+    this.test.updateTest(req.user, req.body).then(function (result) {
+        res.status(200).json(formatToJSON(result));
+        return;
+    }, function (error) {
+        res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+    });
 };
 
 TestController.prototype.deleteTest = function (req, res) {
-    if (req.requester.priv === 1 && req.body.hasOwnProperty('testID')) {
-        this.test.deleteTest(req.requester, { 'id': req.body.testID }).then(function (result) {
-            res.status(200).json(result);
+    if (req.user.priv === 1 && req.body.hasOwnProperty('testID') && typeof req.body.testID === 'number') {
+        this.test.deleteTest(req.user, { 'id': req.body.testID }).then(function (result) {
+            res.status(200).json(formatToJSON(result));
             return;
         }, function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
@@ -57,11 +49,14 @@ TestController.prototype.deleteTest = function (req, res) {
         });
     }
     else {
-        if (req.requester.priv !== 1) {
+        if (req.user.priv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
-        } else {
+        } else if (!req.body.hasOwnProperty('testID')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
     }

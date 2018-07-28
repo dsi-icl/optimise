@@ -1,6 +1,6 @@
 /**
  * Route test
- * @description Redirect request from /api/tests to the proper controller call
+ * @description Redirect request from /tests to the proper controller call
  */
 
 const express = require('express');
@@ -12,9 +12,7 @@ const testCtrl = new TestController();
 
 test.route('/')
     .post(testCtrl.createTest)
-    .patch(testCtrl.deleteTest);
-
-test.route('/addOccurredDate')
-    .post(testCtrl.addActualOccurredDate);
+    .patch(testCtrl.deleteTest)
+    .put(testCtrl.updateTest);
 
 module.exports = test;

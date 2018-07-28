@@ -1,0 +1,4107 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "REST-API documentation for OptimiseMS",
+        "version": "1.0.0",
+        "title": "OptimiseMS REST-API",
+        "license": {
+            "name": "MIT License"
+        }
+    },
+    "securityDefinitions": {
+        "Cookie": {
+            "type": "apiKey",
+            "name": "cookie",
+            "in": "header"
+        }
+    },
+    "basePath": "/",
+    "security": [
+        {
+            "Cookie": []
+        }
+    ],
+    "paths": {
+        "/users/login": {
+            "post": {
+                "summary": "User login",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "userlogin",
+                        "description": "User log-in credentials.",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "username",
+                                "pw"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "pw": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request. Failed to log in.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/logout": {
+            "post": {
+                "summary": "User logout",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "userlogout",
+                        "description": "Username to log-out.",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "username"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ResponseMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Not logged in",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Cannot destroy session",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/whoami": {
+            "get": {
+                "summary": "The logged in username",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "username": {
+                                    "type": "string"
+                                },
+                                "realname": {
+                                    "type": "string"
+                                },
+                                "admin": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "An unknown unicorn",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "summary": "Create a new user (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "user",
+                        "description": "User object that needs to be added to the users",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Change a user password (self only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "userpwd",
+                        "description": "New password for username",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "pw": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- Update fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a user (admin or self only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "delpatient",
+                        "description": "Username to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string",
+                                    "description": "The username to be deleted."
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer",
+                                    "description": "If user is deleted, returns 1. If no user is deleted, returns 0."
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Delete failed or Missing arguments",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get basic info about the user",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "username",
+                        "type": "string",
+                        "description": "Get the user with the given username"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/UserBasicInfo"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "GET failed or Missing arguments",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update user rights (admin or self only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "updaterights",
+                        "description": "User ID and admin priv",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "description": "user id"
+                                },
+                                "adminPriv": {
+                                    "type": "integer",
+                                    "description": "new admin priv"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Update fail or Missing arguments",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/export": {
+            "get": {
+                "summary": "Export the database as zip folder of csv files",
+                "produces": [
+                    "application/zip"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "description": "You are not logged in. Please provide a valid token."
+                    }
+                }
+            }
+        },
+        "/patients": {
+            "get": {
+                "summary": "Get patient basic info",
+                "description": "If query string is not provided, then it returns all the patients. if query string 'id={id}' is provided, then it returns the patients with patient id that contains {id}",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "id",
+                        "type": "string",
+                        "description": "Get information for the patient(s) with IDs that contain id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Basic information about the patient",
+                        "schema": {
+                            "type": "array",
+                            "description": "All patients if no query string, patients with IDs containing `id` if query string",
+                            "items": {
+                                "$ref": "#/definitions/PatientBasicInfo"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The query string can only have one parameter id"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new patient",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "newpatient",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "aliasId": {
+                                    "type": "string"
+                                },
+                                "study": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer",
+                                    "description": "new patient id"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Wrong arguments",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Delete a patient (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "delpatient",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "aliasId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer",
+                                    "description": "state is 1 if deletion is successful"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Wrong arguments",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a patient",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "patient",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "id"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "consent": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer",
+                                    "description": "Number of patientIds updated- should be 1"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Missing or wrong arguments",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Erase patient",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "erasepatientid",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "patientId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Erasure completed. Check for any data retreivable if needed.",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- GET failed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/patients/{patientId}": {
+            "get": {
+                "summary": "Get patient information by id",
+                "description": "Get patient information by id. Return specified data sets if query string is provided (getOnly)",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "patientId",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "getOnly",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PatientProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/patientPii": {
+            "post": {
+                "summary": "Create patient PII",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "newpii",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "surname": {
+                                    "type": "string"
+                                },
+                                "fullAddress": {
+                                    "type": "string"
+                                },
+                                "postcode": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer",
+                                    "description": "The last created pii id"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- Creation failed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get PII for all patients if no query string",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "patient",
+                        "type": "integer",
+                        "description": "Patient id (integer)"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "patient": {
+                                        "type": "integer"
+                                    },
+                                    "firstName": {
+                                        "type": "string"
+                                    },
+                                    "surname": {
+                                        "type": "string"
+                                    },
+                                    "fullAddress": {
+                                        "type": "string"
+                                    },
+                                    "postcode": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update PII (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "newpii",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "surname": {
+                                    "type": "string"
+                                },
+                                "fullAddress": {
+                                    "type": "string"
+                                },
+                                "postcode": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete PII (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "delpii",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/patientDiagnosis": {
+            "post": {
+                "summary": "Create patient diagnosis",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "newpatientdiagnosis",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "diagnosis": {
+                                    "type": "integer"
+                                },
+                                "diagnosisDate": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get patient diagnosis",
+                "description": "Returns diagnoses of all patients if no query string.",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "patient",
+                        "type": "integer",
+                        "description": "The integer id of the patient to get the diagnosis of"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "patient": {
+                                        "type": "integer"
+                                    },
+                                    "diagnosis": {
+                                        "type": "integer"
+                                    },
+                                    "diagnosisDate": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update diagnosis (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "newdiagnosis",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "diagnosis": {
+                                    "type": "integer"
+                                },
+                                "diagnosisDate": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete patient diagnosis",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deldiagnosis",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/patientDiagnosis/fields": {
+            "get": {
+                "summary": "Get available diagnosis options",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "value",
+                        "type": "string",
+                        "description": "The diagnosis option"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "GET failed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/tests": {
+            "post": {
+                "summary": "Create a new test",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "newtest",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "visitId",
+                                "type",
+                                "expectedDate"
+                            ],
+                            "properties": {
+                                "visitId": {
+                                    "type": "integer"
+                                },
+                                "type": {
+                                    "type": "integer"
+                                },
+                                "expectedDate": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- Creation failed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Delete a test (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deletetest",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "testID"
+                            ],
+                            "properties": {
+                                "testID": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- Delete failed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a test",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "test",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "id",
+                                "type",
+                                "expectedDate"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "type": {
+                                    "type": "integer"
+                                },
+                                "expectedDate": {
+                                    "type": "string"
+                                },
+                                "actualOccurredDate": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- Creation failed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/visits": {
+            "get": {
+                "summary": "Get visit data for the specified patient",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "patientId",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/PatientBasicVisitInfo"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new visit",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "newvisit",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "patientId": {
+                                    "type": "integer"
+                                },
+                                "visitDate": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a visit (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "delvisit",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "visitId": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- DELETE fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update visit",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "visitupdate",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Update fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/treatments": {
+            "post": {
+                "summary": "Create a new treatment",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "newtreatment",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "visitId": {
+                                    "type": "integer"
+                                },
+                                "drugId": {
+                                    "type": "integer"
+                                },
+                                "dose": {
+                                    "type": "integer"
+                                },
+                                "unit": {
+                                    "type": "string"
+                                },
+                                "form": {
+                                    "type": "string"
+                                },
+                                "times": {
+                                    "type": "integer"
+                                },
+                                "intervalUnit": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Add termination date for treatment",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "terminationtrt",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "treatmentId": {
+                                    "type": "integer"
+                                },
+                                "terminatedReason": {
+                                    "type": "integer"
+                                },
+                                "terminationDate": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- Update fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Edit a treatment (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "editstrt",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "orderedDuringVisit": {
+                                    "type": "integer"
+                                },
+                                "drug": {
+                                    "type": "integer"
+                                },
+                                "dose": {
+                                    "type": "integer"
+                                },
+                                "unit": {
+                                    "type": "string"
+                                },
+                                "form": {
+                                    "type": "string"
+                                },
+                                "times": {
+                                    "type": "integer"
+                                },
+                                "intervalUnit": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- Update fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a treatment (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deltrt",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "treatmentId": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/treatments/interrupt": {
+            "post": {
+                "summary": "Create a treatment interruption",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "newtrtinterruption",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "treatmentId": {
+                                    "type": "integer"
+                                },
+                                "start_date": {
+                                    "type": "string"
+                                },
+                                "meddra": {
+                                    "type": "integer"
+                                },
+                                "end_date": {
+                                    "type": "string"
+                                },
+                                "reason": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a treatment interruption (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deltrtinterruption",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "treatmentInterId": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/treatments/drugs": {
+            "get": {
+                "summary": "Get drugs",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "type": "string",
+                        "description": "The name of treatment to search for"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "module": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "GET fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/treatments/reasons": {
+            "get": {
+                "summary": "Get interruption reasons",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    },
+                                    "module": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "GET fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clinicalEvents": {
+            "post": {
+                "summary": "Create a new clinical event",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "newce",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "visitId": {
+                                    "type": "integer"
+                                },
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "startDate": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "integer"
+                                },
+                                "meddra": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a clinical event",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "ce",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "id",
+                                "patient"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "startDate": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "integer"
+                                },
+                                "meddra": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a clinical event (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "delce",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ceId": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/available/visitFields": {
+            "get": {
+                "summary": "Get all visit fields",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "module",
+                        "type": "string",
+                        "description": "An example value for module is MS"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Fields"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/available/visitSections": {
+            "get": {
+                "summary": "Get all visit section types",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "module",
+                        "type": "string",
+                        "description": "An example value for module is MS"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Fields"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/available/testFields": {
+            "get": {
+                "summary": "Get all test fields",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "module",
+                        "type": "string",
+                        "description": "An example value for module is MS"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Fields"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/available/ceFields": {
+            "get": {
+                "summary": "Get all clinical event fields",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "module",
+                        "type": "string",
+                        "description": "An example value for module is MS"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Fields"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/available/clinicalEvents": {
+            "get": {
+                "summary": "Get all clinical event types",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Types"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/available/testTypes": {
+            "get": {
+                "summary": "Get all test types",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Types"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/available/diagnoses": {
+            "get": {
+                "summary": "Get all diagnosis options",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/visit": {
+            "post": {
+                "summary": "Add or update visit data. Update can only be done by an admin.",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "addupdatevisitdata",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "visitId": {
+                                    "type": "integer"
+                                },
+                                "add": {
+                                    "type": "object"
+                                },
+                                "update": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights"
+                    },
+                    "404": {
+                        "description": "WRONG PATH",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete visit data. Update can only be done by an admin.",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deletevisitdata",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "visitId": {
+                                    "type": "integer"
+                                },
+                                "delete": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/visitFields": {
+            "get": {
+                "summary": "Get all visit fields",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "module",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Fields"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- GET fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/test": {
+            "post": {
+                "summary": "Add or update test data. Update by admin only.",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "addupdatetestdata",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "testId": {
+                                    "type": "integer"
+                                },
+                                "add": {
+                                    "type": "object"
+                                },
+                                "update": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights"
+                    },
+                    "404": {
+                        "description": "WRONG PATH",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete test data. Update can only be done by an admin.",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deletetestdata",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "testId": {
+                                    "type": "integer"
+                                },
+                                "delete": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/testFields": {
+            "get": {
+                "summary": "Get all test fields",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "module",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Fields"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- GET fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/clinicalEvent": {
+            "post": {
+                "summary": "Add or update clinical event data. Update by admin only.",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "addupdatecedata",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "clinicalEventId": {
+                                    "type": "integer"
+                                },
+                                "add": {
+                                    "type": "object"
+                                },
+                                "update": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights"
+                    },
+                    "404": {
+                        "description": "WRONG PATH",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete clinical event data. Update can only be done by an admin.",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deletecedata",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "clinicalEventId": {
+                                    "type": "integer"
+                                },
+                                "delete": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/ceFields": {
+            "get": {
+                "summary": "Get all clinical event fields",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "module",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Fields"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- GET fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/clinicalEvents": {
+            "get": {
+                "summary": "Get all clinical event types",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Types"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- GET fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/testTypes": {
+            "get": {
+                "summary": "Get all test types",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Types"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- GET fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/diagnoses": {
+            "get": {
+                "summary": "Get all diagnosis options",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request- GET fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/demographics/Demographic": {
+            "post": {
+                "summary": "Create demographic entry",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "demographicentry",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "DOB": {
+                                    "type": "string"
+                                },
+                                "gender": {
+                                    "type": "string"
+                                },
+                                "dominant_hand": {
+                                    "type": "integer"
+                                },
+                                "ethnicity": {
+                                    "type": "integer"
+                                },
+                                "country_of_origin": {
+                                    "type": "integer"
+                                },
+                                "alcohol_usage": {
+                                    "type": "integer"
+                                },
+                                "smoking_history": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete demographic entry (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deldemographicentry",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "DELETE fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Edit demographic data (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "editdemographicentry",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "id"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "gender": {
+                                    "type": "integer"
+                                },
+                                "dominanthand": {
+                                    "type": "integer"
+                                },
+                                "ethnicity": {
+                                    "type": "integer"
+                                },
+                                "countryOfOrigin": {
+                                    "type": "integer"
+                                },
+                                "alcoholusage": {
+                                    "type": "integer"
+                                },
+                                "smokingHistory": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get demographics",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "patient",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "patient": {
+                                        "type": "integer"
+                                    },
+                                    "DOB": {
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "type": "integer"
+                                    },
+                                    "dominantHand": {
+                                        "type": "integer"
+                                    },
+                                    "ethnicity": {
+                                        "type": "integer"
+                                    },
+                                    "countryOfOrigin": {
+                                        "type": "integer"
+                                    },
+                                    "alcoholUsage": {
+                                        "type": "integer"
+                                    },
+                                    "smokingHistory": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/demographics/Fields/Demographic": {
+            "get": {
+                "summary": "Get all demographic fields",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "fieldName",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/DemographicFields"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/demographics/Immunisation": {
+            "post": {
+                "summary": "Create immunisation",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "createimmunisationdata",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "immunisationDate": {
+                                    "$ref": "#/definitions/Date"
+                                },
+                                "vaccineName": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete immunisation (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deleteimmunisation",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "DELETE FAIL",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Edit immunisation data (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "editimmunisationdata",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "id"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "vaccineName": {
+                                    "type": "string"
+                                },
+                                "immunisationDate": {
+                                    "$ref": "#/definitions/Date"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get immunisations for all patients if no query string",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "patient",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "patient": {
+                                        "type": "integer"
+                                    },
+                                    "vaccineName": {
+                                        "type": "string"
+                                    },
+                                    "immunisationDate": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/demographics/MedicalCondition": {
+            "post": {
+                "summary": "Create medical condition",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "createmedicalcondition",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "patient",
+                                "startDate",
+                                "relation",
+                                "outcome",
+                                "conditionName"
+                            ],
+                            "properties": {
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "startDate": {
+                                    "$ref": "#/definitions/Date"
+                                },
+                                "relation": {
+                                    "type": "string"
+                                },
+                                "outcome": {
+                                    "type": "string"
+                                },
+                                "conditionName": {
+                                    "type": "string"
+                                },
+                                "resolvedYear": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete medical condition (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "delmedicalcondition",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "DELETE fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Edit medical condition (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "editmedicalcondition",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "id"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "relation": {
+                                    "type": "string"
+                                },
+                                "conditionName": {
+                                    "type": "string"
+                                },
+                                "startDate": {
+                                    "$ref": "#/definitions/Date"
+                                },
+                                "outcome": {
+                                    "type": "string"
+                                },
+                                "resolvedYear": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get medical conditions for all patients if no query string",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "patient",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "patient": {
+                                        "type": "integer"
+                                    },
+                                    "relation": {
+                                        "type": "integer"
+                                    },
+                                    "conditionName": {
+                                        "type": "integer"
+                                    },
+                                    "startDate": {
+                                        "type": "string"
+                                    },
+                                    "outcome": {
+                                        "type": "string"
+                                    },
+                                    "resolvedYear": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/demographics/Fields/MedicalCondition": {
+            "get": {
+                "summary": "Get medical condition fields",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "fieldName",
+                        "type": "string",
+                        "description": "Returns the specified field array"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/MedicalConditionFields"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/demographics/Pregnancy": {
+            "post": {
+                "summary": "Create pregnancy",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "createpregnancydata",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "patient",
+                                "outcome",
+                                "meddra"
+                            ],
+                            "properties": {
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "outcome": {
+                                    "type": "integer"
+                                },
+                                "startDate": {
+                                    "$ref": "#/definitions/Date"
+                                },
+                                "outcomeDate": {
+                                    "$ref": "#/definitions/Date"
+                                },
+                                "meddra": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete pregnancy (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "deletepregnancy",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Edit pregnancy data (admin only)",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "editpregnancydata",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "id"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "patient": {
+                                    "type": "integer"
+                                },
+                                "outcome": {
+                                    "type": "integer"
+                                },
+                                "startDate": {
+                                    "$ref": "#/definitions/Date"
+                                },
+                                "outcomeDate": {
+                                    "$ref": "#/definitions/Date"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get pregnancy data for all patients if no query string",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "patient",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "patient": {
+                                        "type": "integer"
+                                    },
+                                    "startDate": {
+                                        "type": "string"
+                                    },
+                                    "outcome": {
+                                        "type": "integer"
+                                    },
+                                    "outcomeDate": {
+                                        "type": "string"
+                                    },
+                                    "meddra": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/demographics/Fields/Pregnancy": {
+            "get": {
+                "summary": "Get pregnancy outcomes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/logs": {
+            "get": {
+                "summary": "Get Actions Log",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Log"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "GET fail",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "No rights",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/meddra": {
+            "get": {
+                "summary": "Get MedDRA",
+                "description": "Get all MedDRA low level terms or a subset based on the query string",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "type": "string",
+                        "description": "low level term to search for"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Types"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ResponseMessage": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "pw": {
+                    "type": "string"
+                },
+                "isAdmin": {
+                    "type": "integer"
+                },
+                "realName": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserBasicInfo": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "realname": {
+                    "type": "string"
+                }
+            }
+        },
+        "PatientBasicInfo": {
+            "type": "object",
+            "properties": {
+                "patientId": {
+                    "type": "integer"
+                },
+                "aliasId": {
+                    "type": "string"
+                },
+                "study": {
+                    "type": "string"
+                },
+                "consent": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "PatientBasicVisitInfo": {
+            "type": "object",
+            "properties": {
+                "patientId": {
+                    "type": "integer"
+                },
+                "aliasId": {
+                    "type": "string"
+                },
+                "visitId": {
+                    "type": "integer"
+                },
+                "visitDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "PatientProfile": {
+            "type": "object",
+            "properties": {
+                "patientId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "consent": {
+                    "type": "boolean"
+                },
+                "demographicData": {
+                    "$ref": "#/definitions/Demographic"
+                },
+                "immunisations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Immunisation"
+                    }
+                },
+                "medicalHistory": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MedicalHistory"
+                    }
+                },
+                "visits": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Visit"
+                    }
+                },
+                "tests": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Test"
+                    }
+                },
+                "treatments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Treatment"
+                    }
+                },
+                "clinicalEvents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ClinicalEvent"
+                    }
+                },
+                "pregnancy": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Pregnancy"
+                    }
+                },
+                "diagnosis": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Diagnosis"
+                    }
+                }
+            }
+        },
+        "Demographic": {
+            "type": "object",
+            "properties": {
+                "DOB": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "integer"
+                },
+                "dominantHand": {
+                    "type": "integer"
+                },
+                "ethnicity": {
+                    "type": "integer"
+                },
+                "countryOfOrigin": {
+                    "type": "integer"
+                },
+                "alcoholUsage": {
+                    "type": "integer"
+                },
+                "smokingHistory": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Immunisation": {
+            "type": "object",
+            "properties": {
+                "vaccineName": {
+                    "type": "string"
+                },
+                "immunisationDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "MedicalHistory": {
+            "type": "object",
+            "properties": {
+                "relation": {
+                    "type": "integer"
+                },
+                "conditionName": {
+                    "type": "integer"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "outcome": {
+                    "type": "string"
+                },
+                "resolvedYear": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Visit": {
+            "type": "object",
+            "properties": {
+                "visitId": {
+                    "type": "integer"
+                },
+                "visitDate": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Data"
+                    }
+                }
+            }
+        },
+        "Test": {
+            "type": "object",
+            "properties": {
+                "testId": {
+                    "type": "integer"
+                },
+                "orderedDuringVisit": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "integer"
+                },
+                "expectedOccurDate": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Data"
+                    }
+                }
+            }
+        },
+        "Treatment": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "orderedDuringVisit": {
+                    "type": "integer"
+                },
+                "drug": {
+                    "type": "integer"
+                },
+                "dose": {
+                    "type": "integer"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "form": {
+                    "type": "string"
+                },
+                "times": {
+                    "type": "integer"
+                },
+                "intervalUnit": {
+                    "type": "string"
+                },
+                "terminatedDate": {
+                    "type": "string"
+                },
+                "terminatedReason": {
+                    "type": "integer"
+                },
+                "interruptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Interruption"
+                    }
+                }
+            }
+        },
+        "Interruption": {
+            "type": "object",
+            "properties": {
+                "reason": {
+                    "type": "integer"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "endDate": {
+                    "type": "string"
+                },
+                "meddra": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ClinicalEvent": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "recordedDuringVisit": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "integer"
+                },
+                "dateStartDate": {
+                    "type": "string"
+                },
+                "endDate": {
+                    "type": "string"
+                },
+                "meddra": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Data"
+                    }
+                }
+            }
+        },
+        "Pregnancy": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "patient": {
+                    "type": "integer"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "outcome": {
+                    "type": "integer"
+                },
+                "outcomeDate": {
+                    "type": "string"
+                },
+                "meddra": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Diagnosis": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "patient": {
+                    "type": "integer"
+                },
+                "diagnosis": {
+                    "type": "integer"
+                },
+                "diagnosisDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "Data": {
+            "type": "object",
+            "properties": {
+                "field": {
+                    "type": "integer"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "Fields": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "definition": {
+                    "type": "string"
+                },
+                "idname": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "module": {
+                    "type": "string"
+                },
+                "permittedValues": {
+                    "type": "string"
+                },
+                "referenceType": {
+                    "type": "integer"
+                },
+                "deleted": {
+                    "type": "string"
+                }
+            }
+        },
+        "Types": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "IdValue": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "DemographicFields": {
+            "type": "object",
+            "properties": {
+                "genders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IdValue"
+                    }
+                },
+                "dominant_hands": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IdValue"
+                    }
+                },
+                "ethnicities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IdValue"
+                    }
+                },
+                "countries": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "country": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "alcohol_usage": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IdValue"
+                    }
+                },
+                "smoking_history": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IdValue"
+                    }
+                }
+            }
+        },
+        "MedicalConditionFields": {
+            "type": "object",
+            "properties": {
+                "relations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IdValue"
+                    }
+                },
+                "conditions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IdValue"
+                    }
+                }
+            }
+        },
+        "Date": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer"
+                },
+                "month": {
+                    "type": "integer"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Log": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "router": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "createdTime": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

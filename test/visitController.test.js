@@ -1,53 +1,50 @@
-/* global describe test expect */
+/* global beforeAll afterAll describe test expect */
 
-const app = require('../src/app');
-const request = require('supertest')(app);
-const adminToken = require('./token').adminToken;
-const standardToken = require('./token').standardToken;
-// const {destroyAndMigrate} = require('../src/utils/db-handler');
+const request = require('supertest');
+const admin = request.agent(global.optimiseRouter);
+const user = request.agent(global.optimiseRouter);
+const message = require('../src/utils/message-utils');
+const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
 
-// beforeAll(() => {destroyAndMigrate('testing')});
+beforeAll(async () => {
+    await connectAdmin(admin);
+    await connectUser(user);
+});
+
+afterAll(async () => {
+    await disconnectAgent(admin);
+    await disconnectAgent(user);
+});
 
 describe('Visit controller tests', () => {
-    test('getting visits of a patient', () => request
-        .get('/api/visits?patientId=chon')
-        .set('token', adminToken)
+    test('Getting visits of a patient', () => admin
+        .get('/visits?patientId=chon')
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBeGreaterThanOrEqual(1);
         }));
 
-    test('getting visits of a patient (standard user)', () => request
-        .get('/api/visits?patientId=chon')
-        .set('token', standardToken)
+    test('Getting visits of a patient (standard user)', () => user
+        .get('/visits?patientId=chon')
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(res.body.length).toBeGreaterThanOrEqual(1);
+            expect(res.body.length).toBe(2);
+            expect(typeof res.body).toBe('object');
         }));
 
-    test('getting visits of a patient that does not have visit', () => request
-        .get('/api/visits?patientId=florian')
-        .set('token', adminToken)
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(res.body.length).toBe(0);
-        }));
-
-    test('getting visits of a patient that does not have visit (standard user)', () => request
-        .get('/api/visits?patientId=florian')
-        .set('token', standardToken)
+    test('Getting visits of a patient that does not have visit', () => admin
+        .get('/visits?patientId=florian')
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBe(0);
+            expect(typeof res.body).toBe('object');
         }));
 
-    test('creating visit for a patient', () => request
-        .post('/api/visits')
-        .set('token', adminToken)
+    test('Creating visit for a patient', () => admin
+        .post('/visits')
         .send({
             'patientId': 6,
             'visitDate': '29 Jan 2000'
@@ -55,44 +52,112 @@ describe('Visit controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(5);
         }));
 
-    test('creating the same visit for a patient (should fail; for duplication)', () => request
-        .post('/api/visits')
-        .set('token', adminToken)
+    test('Creating the same visit for a patient (should works; even for duplication)', () => admin
+        .post('/visits')
         .send({
             'patientId': 6,
             'visitDate': '29 Jan 2000'
         })
         .then(res => {
-            expect(res.statusCode).not.toBe(200);
+            expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(6);
         }));
 
-    test('creating visit for a patient with malformed date', () => request
-        .post('/api/visits')
-        .set('token', adminToken)
+    test('Creating visit for a patient with malformed date', () => admin
+        .post('/visits')
         .send({
             'patientId': 6,
             'visitDate': '32 Mar 2000'
         })
         .then(res => {
             expect(res.statusCode).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
-    test('getting visits of this patient', () => request
-        .get('/api/visits?patientId=eleno')
-        .set('token', adminToken)
+    test('Getting visits of this patient', () => admin
+        .get('/visits?patientId=eleno')
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(res.body.length).toBe(1);
+            expect(res.body.length).toBe(2);
         }));
 
-    test('deleting visit from visitId', () => request
-        .delete('/api/visits')
-        .set('token', adminToken)
+    test('Updating visit from id', () => admin
+        .put('/visits')
+        .send({
+            'id': 1,
+            'visitDate': '5 Mar 1990'
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+        }));
+
+    test('Updating visit\'s communication', () => admin
+        .put('/visits')
+        .send({
+            'id': 1,
+            'communication': JSON.stringify({ blockObject: { a: 'b' } })
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+        }));
+
+    test('Updating visit from id second pass', () => admin
+        .put('/visits')
+        .send({
+            'id': 1,
+            'visitDate': '15 Feb 1962'
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+        }));
+
+    test('Updating visit which does not exist', () => admin
+        .put('/visits')
+        .send({
+            'id': 1000,
+            'visitDate': '15 Feb 1962'
+        })
+        .then(res => {
+            expect(res.statusCode).toBe(400);
+            expect(typeof res.body).toBe('object');
+        }));
+
+    test('Deleting visit from visitId', () => admin
+        .delete('/visits')
         .send({ 'visitId': 4 })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+        }));
+
+    test('Deleting visit which does not exist', () => admin
+        .delete('/visits')
+        .send({ 'visitId': 1000 })
+        .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(0);
         }));
 });
