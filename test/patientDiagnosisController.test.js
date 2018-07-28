@@ -140,13 +140,8 @@ describe('Create diagnosis test suite', () => {
         admin.post('/patientDiagnosis/')
             .send({
                 'patient': 1,
-<<<<<<< HEAD
                 'diagnosis': 3,
                 'diagnosisDate': '2000-01-01'
-=======
-                'diagnosis': 4,
-                'diagnosisDate': '1 Jan 2000'
->>>>>>> 145e23d892afad5a13a5caeab9cc6d635e8e6fd2
             })
             .then(res => {
                 expect(res.status).toBe(200);
