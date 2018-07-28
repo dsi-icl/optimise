@@ -357,9 +357,6 @@ export class Charts extends Component {   //unfinsihed
     }
 }
 
-
-
-
 function sortVisits(visitList) {
     const visits = [...visitList];
     return visits.sort((a, b) => parseInt(a.visitDate, 10) < parseInt(b.visitDate, 10));

@@ -61,13 +61,10 @@ export default class EditMed extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <h3>Please select the following options: </h3>
-                    <br />
                     {wannaUpdate ? <UpdateMedEntry data={treatment} /> : null}
-                    {wannaUpdate ? <><br /><br /> <button onClick={this._handleWannaUpdateClick}>Cancel</button></> :
-                        <button onClick={this._handleWannaUpdateClick}>Change drug, dose, form or frequency</button>
+                    {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
+                        <><button onClick={this._handleWannaUpdateClick}>Change drug, dose, form or frequency</button> <br /> <br /></>
                     }
-                    <br /><br /><br /><br />
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this medication</button>
                     <br /><br />
                 </form>
@@ -122,9 +119,9 @@ class UpdateMedEntry extends Component {
                 dose: parseInt(dose),
                 unit,
                 form,
-                times: this.state.times === '' || this.state.times === undefined ? null : Number.parseInt(this.state.times),
+                times: isNaN(parseInt(times)) || intervalUnit === '' ? undefined : parseInt(times),
                 startDate: this.state.startDate.valueOf(),
-                intervalUnit: this.state.intervalUnit === '' || this.state.intervalUnit === undefined ? null : this.state.intervalUnit
+                intervalUnit: intervalUnit === '' || isNaN(parseInt(times)) ? undefined : intervalUnit
             }
         };
         store.dispatch(updateTreatmentCall(body));
@@ -155,10 +152,8 @@ class UpdateMedEntry extends Component {
                     <option value='IM'>Intramuscular</option>
                     <option value='SC'>Subcutaneous</option>
                 </select><br /><br />
-                <label htmlFor='startDate'>Start date: </label><br/><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br/><br/>
-                <br/><br/>
-                <h4>Frequency (fill both or leave both blank): </h4>
-                <label>No of times: </label>
+                <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
+                <label>Frequency (fill both or leave both blank): </label>
                 <input onChange={this._handleChange} name='times' value={times} /><br /><br />
                 <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleChange} autoComplete='off'>
                     <option value=''></option>
@@ -167,8 +162,8 @@ class UpdateMedEntry extends Component {
                     <option value='week'>week</option>
                     <option value='month'>month</option>
                     <option value='year'>year</option>
-                </select>
-                <button onClick={this._handleSubmit}>Submit</button>
+                </select><br /><br /><br />
+                <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
         );
     }
