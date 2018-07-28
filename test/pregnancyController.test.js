@@ -60,7 +60,7 @@ describe('Create Pregnancy controller test', () => {
         .post('/demographics/Pregnancy')
         .send({
             'outcome': 2,
-            'startDate': '1 Jan 2000',
+            'startDate': '2000-01-01',
             'meddra': 3
         })
         .then(res => {
@@ -75,7 +75,7 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'patient': {},
             'outcome': 2,
-            'startDate': '1 Jan 2000',
+            'startDate': '2000-01-01',
             'meddra': 3
         })
         .then(res => {
@@ -90,7 +90,7 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'patient': 90,
             'outcome': 2,
-            'startDate': '1 Jan 2000',
+            'startDate': '2000-01-01',
             'meddra': 3
         })
         .then(res => {
@@ -104,7 +104,7 @@ describe('Create Pregnancy controller test', () => {
         .post('/demographics/Pregnancy')
         .send({
             'patient': 2,
-            'startDate': '1 Jan 2000',
+            'startDate': '2000-01-01',
             'meddra': 3
         })
         .then(res => {
@@ -119,7 +119,7 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'patient': 1,
             'outcome': {},
-            'startDate': '1 Jan 2000',
+            'startDate': '2000-01-01',
             'meddra': 3
         })
         .then(res => {
@@ -134,7 +134,7 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'patient': 1,
             'outcome': 1700,
-            'startDate': '1 Jan 2000',
+            'startDate': '2000-01-01',
             'meddra': 3
         })
         .then(res => {
@@ -148,7 +148,7 @@ describe('Create Pregnancy controller test', () => {
         .post('/demographics/Pregnancy')
         .send({
             'outcome': 2,
-            'startDate': '1 Jan 2000',
+            'startDate': '2000-01-01',
             'patient': 1
         })
         .then(res => {
@@ -163,7 +163,7 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'patient': 1,
             'outcome': 2,
-            'startDate': '1 Jan 2000',
+            'startDate': '2000-01-01',
             'meddra': {}
         })
         .then(res => {
@@ -178,7 +178,7 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'patient': 90,
             'outcome': 2,
-            'startDate': '1 Jan 2000',
+            'startDate': '2000-01-01',
             'meddra': 3000000
         })
         .then(res => {
@@ -193,14 +193,14 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'patient': 90,
             'outcome': 2,
-            'startDate': '31 Feb 2000',
+            'startDate': '2001-02-29',
             'meddra': 3
         })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            expect(res.body.error).toBe(message.dateError[message.dateErrorIndex.DAY]);
         }));
 
     test('Creating Pregnancy well formatted (Should Works)', () => admin
@@ -208,7 +208,7 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'patient': 1,
             'outcome': 2,
-            'startDate': '1 Jan 2000',
+            'startDate': '2000-01-01',
             'meddra': 3
         })
         .then(res => {

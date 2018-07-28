@@ -69,7 +69,7 @@ describe('Create Demographic controller test', () => {
         .post('/demographics/Demographic')
         .send({
             'patient': 90,
-            'DOB': '1 Jan 1980',
+            'DOB': '2001-02-25',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -107,7 +107,7 @@ describe('Create Demographic controller test', () => {
         .post('/demographics/Demographic')
         .send({
             'patient': 1,
-            'DOB': '29 Feb 2001',
+            'DOB': '2001-02-29',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -119,7 +119,7 @@ describe('Create Demographic controller test', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            expect(res.body.error).toBe(message.dateError[2]);
         }));
 
     test('Creating demographic with body but wrong gender (Should Fail)', () => admin
@@ -127,7 +127,7 @@ describe('Create Demographic controller test', () => {
 
         .send({
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 10,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -146,7 +146,7 @@ describe('Create Demographic controller test', () => {
         .post('/demographics/Demographic')
         .send({
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominant_hand': 10,
             'ethnicity': 1,
@@ -165,7 +165,7 @@ describe('Create Demographic controller test', () => {
         .post('/demographics/Demographic')
         .send({
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 10,
@@ -184,7 +184,7 @@ describe('Create Demographic controller test', () => {
         .post('/demographics/Demographic')
         .send({
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -203,7 +203,7 @@ describe('Create Demographic controller test', () => {
         .post('/demographics/Demographic')
         .send({
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -222,7 +222,7 @@ describe('Create Demographic controller test', () => {
         .post('/demographics/Demographic')
         .send({
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -241,7 +241,7 @@ describe('Create Demographic controller test', () => {
         .post('/demographics/Demographic')
         .send({
             'patient': 7,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
@@ -310,7 +310,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 80,
             'patient': 9,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -331,7 +331,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 9,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -392,7 +392,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 10,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -412,7 +412,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominantHand': 10,
             'ethnicity': 1,
@@ -432,7 +432,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 10,
@@ -452,7 +452,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -472,7 +472,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -492,7 +492,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -512,7 +512,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 7,
             'patient': 7,
-            'DOB': '1 Jan 1980',
+            'DOB': '1980-01-01',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,

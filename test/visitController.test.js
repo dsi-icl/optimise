@@ -47,7 +47,7 @@ describe('Visit controller tests', () => {
         .post('/visits')
         .send({
             'patientId': 6,
-            'visitDate': '29 Jan 2000'
+            'visitDate': '2000-01-29'
         })
         .then(res => {
             expect(res.statusCode).toBe(200);
@@ -61,7 +61,7 @@ describe('Visit controller tests', () => {
         .post('/visits')
         .send({
             'patientId': 6,
-            'visitDate': '29 Jan 2000'
+            'visitDate': '2000-01-29'
         })
         .then(res => {
             expect(res.statusCode).toBe(200);
@@ -95,7 +95,7 @@ describe('Visit controller tests', () => {
         .put('/visits')
         .send({
             'id': 1,
-            'visitDate': '5 Mar 1990'
+            'visitDate': '1990-03-05'
         })
         .then(res => {
             expect(res.statusCode).toBe(200);
@@ -121,7 +121,7 @@ describe('Visit controller tests', () => {
         .put('/visits')
         .send({
             'id': 1,
-            'visitDate': '15 Feb 1962'
+            'visitDate': '1962-02-15'
         })
         .then(res => {
             expect(res.statusCode).toBe(200);
@@ -134,7 +134,7 @@ describe('Visit controller tests', () => {
         .put('/visits')
         .send({
             'id': 1000,
-            'visitDate': '15 Feb 1962'
+            'visitDate': '1962-02-15'
         })
         .then(res => {
             expect(res.statusCode).toBe(400);
