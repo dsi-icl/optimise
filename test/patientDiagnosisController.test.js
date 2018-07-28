@@ -140,14 +140,19 @@ describe('Create diagnosis test suite', () => {
         admin.post('/patientDiagnosis/')
             .send({
                 'patient': 1,
+<<<<<<< HEAD
                 'diagnosis': 3,
                 'diagnosisDate': '2000-01-01'
+=======
+                'diagnosis': 4,
+                'diagnosisDate': '1 Jan 2000'
+>>>>>>> 145e23d892afad5a13a5caeab9cc6d635e8e6fd2
             })
             .then(res => {
                 expect(res.status).toBe(200);
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(4);
+                expect(res.body.state).toBe(7);
             }));
 });
 
@@ -217,7 +222,7 @@ describe('Editing Diagnosis test suite', () => {
         admin.put('/patientDiagnosis')
             .send({
                 'id': 2,
-                'diagnosis': 6
+                'diagnosis': 7
             })
             .then(res => {
                 expect(res.status).toBe(200);
@@ -266,7 +271,7 @@ describe('Delete diagnosis test suite', () => {
     test('Deleting with good parameters', () =>
         admin.delete('/patientDiagnosis')
             .send({
-                'id': 3
+                'id': 4
             })
             .then(res => {
                 expect(res.status).toBe(200);

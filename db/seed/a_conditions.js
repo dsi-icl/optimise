@@ -1,10 +1,13 @@
-const conditionList = require('../availableFields/availableConditions');
+const path = require('path');
+const { readJson } = require('../../src/utils/load-json');
+
+const availableConditions = readJson(path.normalize(`${path.dirname(__filename)}/../availableFields/jsonFiles/conditions.json`));
 
 exports.seed = function (knex) {
     // Deletes ALL existing entries
     return knex('CONDITIONS').del()
         .then(function () {
             // Inserts seed entries
-            return knex('CONDITIONS').insert(conditionList);
+            return knex('CONDITIONS').insert(availableConditions);
         });
 };

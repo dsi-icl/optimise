@@ -30,9 +30,12 @@ const exampleData = {
         { id: 6, patient: 5, DOB: '1531241666000', gender: 4, dominantHand: 3, ethnicity: 2, countryOfOrigin: 2, alcoholUsage: 2, smokingHistory: 3, createdByUser: 1, deleted: '-' }
     ],
     'PATIENT_DIAGNOSIS': [
-        { id: 1, patient: 4, diagnosis: 3, diagnosisDate: '1531241525000', createdByUser: 2, deleted: '1@1531239113000' },
+        { id: 1, patient: 4, diagnosis: 1, diagnosisDate: '1531241525000', createdByUser: 2, deleted: '1@1531239113000' },
         { id: 2, patient: 4, diagnosis: 3, diagnosisDate: '1531241525000', createdByUser: 2, deleted: '-' },
-        { id: 3, patient: 3, diagnosis: 3, diagnosisDate: '1531241525000', createdByUser: 2, deleted: '-' }
+        { id: 3, patient: 3, diagnosis: 3, diagnosisDate: '1531241525000', createdByUser: 2, deleted: '-' },
+        { id: 4, patient: 2, diagnosis: 2, diagnosisDate: '1531241535000', createdByUser: 2, deleted: '-' },
+        { id: 5, patient: 1, diagnosis: 6, diagnosisDate: '1533241525000', createdByUser: 2, deleted: '-' },
+        { id: 6, patient: 2, diagnosis: 6, diagnosisDate: '1534241525000', createdByUser: 2, deleted: '-' }
     ],
     'VISITS': [
         { id: 1, patient: 1, visitDate: '1514764800000', type: 1, createdByUser: 1, deleted: '-' },

@@ -578,7 +578,7 @@ describe('Delete Demographic controller test', () => {
     test('Deleting demographic with good preperty (Should Works)', () => admin
         .delete('/demographics/Demographic')
         .send({
-            'id': 6
+            'id': 2
         })
         .then(res => {
             expect(res.status).toBe(200);

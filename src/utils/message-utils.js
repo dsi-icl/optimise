@@ -4,7 +4,8 @@ const ErrorMessage = {
     UPDATEFAIL: 'Couldn\'t update entry',
     GETFAIL: 'Couldn\'t find the requested entry',
     NOTFOUND: 'Requested entry not found',
-    ERASEFAILED: 'Couldn\'t erase entry'
+    ERASEFAILED: 'Couldn\'t erase entry',
+    SEEDUPDATEERROR: 'Error while updating seed file: table is empty'
 };
 
 // Array because of mement.invalidAt()
@@ -36,7 +37,8 @@ const UserRelatedErrorMessage = {
     NORIGHTS: 'Unauthorized to do this action',
     INVALIDDATE: 'The date provided is not valid',
     WRONGPATH: 'The requested url doesn\'t exists',
-    INVALIDQUERY: 'The query string should be comprised of "value" or "field"+"value"'
+    INVALIDQUERY: 'The query string should be comprised of "value" or "field"+"value"',
+    FREQANDINTERVALMUSTCOPRESENT: 'Frequency and Interval Unit must be both present or missing'
 };
 
 const DataControllerMessageRelated = {
