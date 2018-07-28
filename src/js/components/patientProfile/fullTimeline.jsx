@@ -66,7 +66,8 @@ export default class FullTimeline extends Component {
             defaultTimeStart,
             defaultTimeEnd,
             maxTimeStart: defaultTimeStart,
-            openGroups: {}
+            openGroups: {},
+            now: moment().valueOf()
         };
     }
 
@@ -239,6 +240,11 @@ export default class FullTimeline extends Component {
         } else {
             updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
         }
+        let now = moment().valueOf();
+        if (now - this.state.now > 10)
+            this.setState({
+                now
+            });
     }
 
     groupRenderer({ group }) {
@@ -264,10 +270,10 @@ export default class FullTimeline extends Component {
                     <svg height={40} width={timelineContext.timelineWidth}>
                         {Object.keys(this.state.edssPoints).sort((a, b) => a - b).map(k => {
                             let x = (parseFloat(k) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
-                            let y = 40 * parseFloat(this.state.edssPoints[k]) / 10;
+                            let y = 65 - (65 * parseFloat(this.state.edssPoints[k]) / 10);
                             let line = previous ? <line x1={previous[0]} y1={previous[1]} x2={x} y2={y} /> : null;
                             let point = <circle cx={x} cy={y} r={2} />;
-                            let text = <text x={x} y={y + 15}>{this.state.edssPoints[k]}</text>;
+                            let text = <text x={x} y={y > 60 ? y - 8 : y + 15} textAnchor="middle">{this.state.edssPoints[k]}</text>;
                             previous = [x, y];
                             return <Fragment key={k}>{text}{point}{line}</Fragment>;
                         })}
