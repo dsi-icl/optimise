@@ -68,53 +68,46 @@
 .commentButtonsGroup button {
     height: 2.5em;
     line-height: 2.5em;
-    background-color: rgba(230, 230, 230);
     text-align: center;
-    padding: 0;
-    border-radius: 4px;
+    padding: 0 1em;
     margin: 2px;
     overflow: hidden;
-    color: darkgrey;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--color-background);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
 .commentButtonsGroup button:hover {
-    color: white;
-    background-color: var(--color-button-green-lighter);
+    color: var(--color-font-active);
+    background-color: var(--color-accent);
 }
 
 .commentButtonsGroup button:active {
-    color: white;
-    background-color: var(--color-button-green);
+    background-color: var(--color-accent);
 }
-
 
 .editorButtonsGroup {
     width: 100%;
 }
 
-.editorButtonsGroup u{
+.editorButtonsGroup u {
     text-decoration: underline;
 }
 
 .editorButtonsGroup > button {
-    width: 4em;
+    width: 5em;
     height: 2.5em;
     line-height: 2.5em;
-    background-color: rgba(220, 220, 220);
     text-align: center;
-    padding: 0
+    padding: 0 1em;
+    color: var(--color-background);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
 .editorButtonsGroup > button:active {
-    background-color: rgb(44, 171, 230)
-}
-
-.editorButtonsGroup > button:nth-child(1) {
-    border-radius: 4px 0px 0px 4px;
-}
-
-.editorButtonsGroup > button:nth-last-child(1) {
-    border-radius: 0px 4px 4px 0px;
+    color: var(--color-font-active);
+    background-color: var(--color-accent);
 }
 
 .openCalculator {
