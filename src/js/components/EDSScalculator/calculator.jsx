@@ -55,10 +55,10 @@ class EDSSCalculator extends Component {
         let orignalValuesWithoutAmbulation = [];
         let ambulation;
         if (data) {
-            this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseInt(el.value); return a; }, {});
+            this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseFloat(el.value); return a; }, {});
             const tmpValues = { ...this.originalValues };
             if (typeof tmpValues[ambulationID] !== undefined) {
-                ambulation = parseInt(tmpValues[ambulationID]);
+                ambulation = parseFloat(tmpValues[ambulationID]);
                 delete tmpValues[ambulationID];
             }
             orignalValuesWithoutAmbulation = Object.values(tmpValues);
@@ -103,10 +103,10 @@ class EDSSCalculator extends Component {
         let scoreArr = [];
         for (let each of criteria) {
             if (document.querySelector(`input[name="${each}"]:checked`)) {
-                scoreArr.push(parseInt(document.querySelector(`input[name="${each}"]:checked`).value));
+                scoreArr.push(parseFloat(document.querySelector(`input[name="${each}"]:checked`).value));
             }
         }
-        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseInt(document.querySelector('input[name="edss:expanded disability status scale (edss) ambulation"]:checked').value)) });
+        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseFloat(document.querySelector('input[name="edss:expanded disability status scale (edss) ambulation"]:checked').value)) });
     }
 
     _handleSubmit(ev) {
@@ -126,7 +126,7 @@ class EDSSCalculator extends Component {
         for (let each of criteria) {
             if (document.querySelector(`input[name="${each}"]:checked`)) {    //if anything is checked
                 if (typeof this.originalValues[this.EDSSFields_Hash_reverse[each]] !== 'undefined') {  //if there's original value
-                    if (this.originalValues[this.EDSSFields_Hash_reverse[each]] !== parseInt(document.querySelector(`input[name="${each}"]:checked`).value)) {
+                    if (this.originalValues[this.EDSSFields_Hash_reverse[each]] !== parseFloat(document.querySelector(`input[name="${each}"]:checked`).value)) {
                         update[this.EDSSFields_Hash_reverse[each]] = document.querySelector(`input[name="${each}"]:checked`).value;
                     }
                 } else {
@@ -215,12 +215,12 @@ class EDSSCalculator extends Component {
                                         {el.range.map(number =>
                                             <span key={number} className={style.radioButtonWrapper}>
                                                 <button type='button'
-                                                    className={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton}
+                                                    className={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseFloat(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton}
                                                     onClick={this._handleClick}
                                                     onMouseOver={() => this._hoverType(null, number)}
                                                     value={number}
                                                 >{number}</button>
-                                                <input type='radio' name={el.idname} value={number} defaultChecked={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseInt(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false} />
+                                                <input type='radio' name={el.idname} value={number} defaultChecked={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseFloat(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false} />
                                             </span>
                                         )}
                                     </div>

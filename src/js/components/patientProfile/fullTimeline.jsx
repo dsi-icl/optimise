@@ -266,9 +266,10 @@ export default class FullTimeline extends Component {
                             let x = (parseFloat(k) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
                             let y = 40 * parseFloat(this.state.edssPoints[k]) / 10;
                             let line = previous ? <line x1={previous[0]} y1={previous[1]} x2={x} y2={y} /> : null;
-                            let text = <text x={x} y={y + 15}>{this.state.edssPoints[k]}</text>
+                            let point = <circle cx={x} cy={y} r={2} />;
+                            let text = <text x={x} y={y + 15}>{this.state.edssPoints[k]}</text>;
                             previous = [x, y];
-                            return <Fragment key={k}>{text}{line}</Fragment>;
+                            return <Fragment key={k}>{text}{point}{line}</Fragment>;
                         })}
                     </svg>
                 </div>

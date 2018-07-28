@@ -36,7 +36,7 @@ export default class EditPerformanceMesaure extends Component {
         }
         const data = visitsFiltered[0].data;
         if (data) {
-            newState.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseInt(el.value); return a; }, {});
+            newState.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseFloat(el.value); return a; }, {});
         } else {
             newState.originalValues = {};
         }
