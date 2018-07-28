@@ -73,6 +73,7 @@ export default class FullTimeline extends Component {
     static getDerivedStateFromProps(props, state) {
 
         let items = [];
+        let edssPoints = {};
         let maxTimeStart = state.defaultTimeStart;
         if (props.data.immunisations)
             props.data.immunisations.forEach(i => {
@@ -141,6 +142,13 @@ export default class FullTimeline extends Component {
                         'data-tip': `${i}${suffix} visit ${i === 1 ? '(Baseline)' : ''}`
                     }
                 });
+                let edssTotalId = props.availableFields.visitFields.filter(el => el.idname === 'edss:expanded disability status scale (edss) total');
+                if (edssTotalId.length > 0) {
+                    edssTotalId = edssTotalId[0].id;
+                    v.data.filter(el => el.field === edssTotalId).forEach(e => {
+                        edssPoints[moment(v.visitDate, 'x').valueOf()] = e.value;
+                    });
+                }
             });
         if (props.data.tests)
             props.data.tests.forEach(t => {
@@ -181,10 +189,31 @@ export default class FullTimeline extends Component {
                 });
             });
 
-        return Object.assign(state, {
+        items.push({
+            id: 'edss_plotter',
+            group: 5,
+            start: moment(maxTimeStart).subtract(1, 'day').valueOf(),
+            end: moment().add(1, 'day').valueOf(),
+            canMove: false,
+            canResize: false,
+            className: style.timelineEDSSPlotter
+        });
+
+        items.push({
+            id: 'edss_plotter_padding',
+            group: 5,
+            start: moment(maxTimeStart).subtract(1, 'day').valueOf(),
+            end: moment().add(1, 'day').valueOf(),
+            canMove: false,
+            canResize: false,
+            className: style.timelineEDSSPlotterPad
+        });
+
+        return {
+            ...state,
             maxTimeStart,
             items
-        });
+        };
     }
 
     toggleGroup = id => {
@@ -225,6 +254,17 @@ export default class FullTimeline extends Component {
     }
 
     itemRenderer({ item, timelineContext }) {
+
+        // console.log(timelineContext);
+        if (item.id === 'edss_plotter') {
+            return (
+                <div className={`${style.timelineBackground} ${item.className}`}>
+                    <svg>
+                        {/* <line x1="0" y1="0" x2="40" y2="500" /> */}
+                    </svg>
+                </div>
+            )
+        }
         return (
             <>
                 <div className={`${style.timelineBackground} ${item.className}`}></div>
@@ -267,6 +307,7 @@ export default class FullTimeline extends Component {
                         itemsSorted
                         itemTouchSendsClick={false}
                         itemHeightRatio={0.75}
+                        lineHeight={40}
                         defaultTimeStart={defaultTimeStart}
                         defaultTimeEnd={defaultTimeEnd}
                         onTimeChange={this.timeBoudary}
