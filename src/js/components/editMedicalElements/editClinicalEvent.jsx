@@ -155,8 +155,8 @@ class UpdateCEEntry extends Component {
             <>
                 <label>Start Date: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
-                <label htmlFor='noEndDate'>No end date: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br /><br />
-                {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}
+                <label htmlFor='noEndDate'>The event is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
+                {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}<br />
                 <label>MedDRA: </label>
                 <SuggestionInput originalValue={meddraHash[meddraOriginal]} reference={meddra} /><br /><br />
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />

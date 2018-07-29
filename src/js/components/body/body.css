@@ -90,6 +90,13 @@ select {
     outline: none;
 }
 
+input[type='checkbox'] {
+    height: 1.5em;
+    line-height: 1em;
+    margin: 0 0.5em;
+    width: auto;
+}
+
 input,
 textarea,
 select {
