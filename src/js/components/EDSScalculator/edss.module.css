@@ -103,7 +103,7 @@
     width: 9em;
 }
 
-.criterion: > span {
+.criterion:hover > span {
     font-weight: bold;
 }
 

@@ -181,7 +181,7 @@ export class SelectField extends Component {
     render() {
         return (
             <select onChange={this.props.handler} name={this.props.name} value={this.props.value} autoComplete='off'>
-                <option value={0}>unselected</option>
+                <option value={0}></option>
                 {this.props.options.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
             </select>
         );
