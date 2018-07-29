@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from './datepicker';
 import { BackButton } from '../medicalData/dataPage';
+import { SuggestionInput } from '../meDRA/meDRApicker';
 import { createTreatmentAPICall } from '../../redux/actions/treatments';
 import style from './medicalEvent.module.css';
 
 //not yet finished the dispatch
 /* patch the drug mapping from state and to UI when the backend API is finished */
-@connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.drugs }), dispatch => ({ createTreatment: body => dispatch(createTreatmentAPICall(body)) }))
+@connect(state => ({ visits: state.patientProfile.data.visits, interruptionReasons: state.availableFields.interruptionReasons, types: state.availableFields.drugs, meddra: state.meddra.result }), dispatch => ({ createTreatment: body => dispatch(createTreatmentAPICall(body)) }))
 export class CreateTreatment extends Component {
     constructor() {
         super();
@@ -20,13 +21,19 @@ export class CreateTreatment extends Component {
             unit: '',
             form: '',
             times: '',
-            intervalUnit: ''
+            intervalUnit: '',
+            meddra: React.createRef(),
+            noEndDate: true,
         };
+        this.reasonRef = React.createRef();
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
+        this._handleTerminatedDateChange = this._handleTerminatedDateChange.bind(this);
         this._formatRequestBody = this._formatRequestBody.bind(this);
         this._handleTypeChange = this._handleTypeChange.bind(this);
         this._handleInputChange = this._handleInputChange.bind(this);
+        this._handleMeddra = this._handleMeddra.bind(this);
+        this._handleToggleNoEndDate = this._handleToggleNoEndDate.bind(this);
     }
 
     componentDidMount() {
@@ -36,12 +43,23 @@ export class CreateTreatment extends Component {
         });
     }
 
+    _handleToggleNoEndDate(ev) {
+        this.setState({
+            noEndDate: ev.target.checked
+        });
+    }
+
     _handleDateChange(date) {
         this.setState({
             startDate: date
         });
     }
 
+    _handleTerminatedDateChange(date) {
+        this.setState({
+            terminatedDate: date
+        });
+    }
 
     _formatRequestBody() {
         return {
@@ -50,11 +68,14 @@ export class CreateTreatment extends Component {
                 visitId: Number.parseInt(this.props.match.params.visitId),
                 drugId: Number.parseInt(this.state.drugType),
                 startDate: this.state.startDate._d.toDateString(),
+                terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate._d.toDateString() : undefined,
+                // terminatedReason: parseInt(this.reasonRef.current.value, 10),
                 dose: Number.parseInt(this.state.dose),
                 unit: this.state.unit,
                 form: this.state.form,
                 times: isNaN(parseInt(this.state.times)) || this.state.intervalUnit === '' ? undefined : parseInt(this.state.times),
-                intervalUnit: this.state.intervalUnit === '' || isNaN(parseInt(this.state.times)) ? undefined : this.state.intervalUnit
+                intervalUnit: this.state.intervalUnit === '' || isNaN(parseInt(this.state.times)) ? undefined : this.state.intervalUnit,
+                // meddra: Number.parseInt(this.props.meddra.filter(el => el.name === this.state.meddra.current.value)[0].id)
             }
         };
     }
@@ -77,6 +98,12 @@ export class CreateTreatment extends Component {
         const newState = {};
         newState[ev.target.name] = ev.target.value;
         this.setState(newState);
+    }
+
+    _handleMeddra() {
+        this.setState({
+            error: false
+        });
     }
 
     render() {
@@ -122,7 +149,14 @@ export class CreateTreatment extends Component {
                             <option value='week'>week</option>
                             <option value='month'>month</option>
                             <option value='year'>year</option>
-                        </select><br /><br /><br />
+                        </select><br /><br />
+                        <label htmlFor='noEndDate'>No end date: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br /><br />
+                        {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}
+                        {/* <label htmlFor='terminatedReason'>Reason: </label>
+                        <select name='terminatedReason' ref={this.reasonRef}>
+                            {this.props.interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                        </select><br /><br /> */}
+                        {/* <label htmlFor='meddra'>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.meddra} /><br /> */}
                         <button onClick={this._handleSubmitClick} >Submit</button>
                     </form>
                 </>

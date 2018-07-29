@@ -65,13 +65,10 @@ export default class EditTest extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <h3>Please select the following options: </h3>
-                    <br />
                     {wannaUpdate ? <UpdateTestEntry location={location} data={test} /> : null}
-                    {wannaUpdate ? <><br /><br /> <button onClick={this._handleWannaUpdateClick}>Cancel</button></> :
-                        <button onClick={this._handleWannaUpdateClick}>Change test date</button>
+                    {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
+                        <><button onClick={this._handleWannaUpdateClick}>Change test date</button><br /><br /></>
                     }
-                    <br /><br /><br /><br />
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
                     <br /><br />
                     Note: test type is not allowed to be changed. If you entered a test of the wrong type by error, you can delete the test and create a new one.
@@ -142,7 +139,7 @@ class UpdateTestEntry extends Component {
                 <label>Sample taking Date: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />
                 <br /><br />
-                <button onClick={this._handleSubmit}>Submit</button>
+                <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
         );
     }

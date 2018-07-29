@@ -64,13 +64,10 @@ export default class EditCE extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <h3>Please select the following options: </h3>
-                    <br />
                     {wannaUpdate ? <UpdateCEEntry data={CE} /> : null}
-                    {wannaUpdate ? <><br /><br /> <button onClick={this._handleWannaUpdateClick}>Cancel</button></> :
-                        <button onClick={this._handleWannaUpdateClick}>Change start date / MedDRA</button>
+                    {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
+                        <><button onClick={this._handleWannaUpdateClick}>Change start date / MedDRA</button><br /><br /></>
                     }
-                    <br /><br /><br /><br />
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
                     <br /><br />
                     Note: event type is not allowed to be changed. If you entered an event of the wrong type by error, you can delete the event and create a new one.
@@ -89,7 +86,7 @@ class UpdateCEEntry extends Component {
             id: props.data.id,
             startDate: moment(parseInt(props.data.dateStartDate)),
             endDate: props.data.endDate ? moment(parseInt(props.data.endDate)) : moment(),
-            addEndDate: true,
+            noEndDate: true,
             meddra: React.createRef(),
             meddraOriginal: props.data.meddra
         };
@@ -116,10 +113,10 @@ class UpdateCEEntry extends Component {
         this.setState(newState);
     }
 
-
     _handleToggleEndDate(ev) {
-        ev.preventDefault();
-        this.setState(prevState => ({ addEndDate: !prevState.addEndDate }));
+        this.setState({
+            noEndDate: ev.target.checked
+        });
     }
 
     _handleDateChange(date) {
@@ -137,7 +134,7 @@ class UpdateCEEntry extends Component {
     _handleSubmit(ev) {
         ev.preventDefault();
         const { patientId, meddraDict } = this.props;
-        const { id, startDate, meddra, addEndDate, endDate } = this.state;
+        const { id, startDate, meddra, noEndDate, endDate } = this.state;
         const body = {
             patientId: patientId,
             to: `/patientProfile/${patientId}`,
@@ -145,7 +142,7 @@ class UpdateCEEntry extends Component {
                 id,
                 dateStartDate: startDate.valueOf(),
                 meddra: meddraDict[meddra.current.value],
-                endDate: addEndDate ? endDate.valueOf() : null
+                endDate: !noEndDate ? endDate.valueOf() : null
             }
         };
         store.dispatch(updateCECall(body));
@@ -157,19 +154,12 @@ class UpdateCEEntry extends Component {
         return (
             <>
                 <label>Start Date: </label>
-                <PickDate startDate={startDate} handleChange={this._handleDateChange} />
-
-                {this.state.addEndDate ?
-                    <><br />
-                        <label htmlFor=''>Please enter date on which the event ended:</label><br /><PickDate startDate={this.state.endDate} handleChange={this._handleEndDateChange} />
-                        <span className={style.noEndDateButton} onClick={this._handleToggleEndDate}>Click here if there is no end date (you can add it later)</span></>
-                    :
-                    <button onClick={this._handleToggleEndDate}>Add end date</button>
-                }
-                <br /><br />
+                <PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
+                <label htmlFor='noEndDate'>No end date: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br /><br />
+                {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}
                 <label>MedDRA: </label>
                 <SuggestionInput originalValue={meddraHash[meddraOriginal]} reference={meddra} /><br /><br />
-                <button onClick={this._handleSubmit}>Submit</button>
+                <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
         );
     }
