@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
+import { PickDate } from './datepicker';
 import { BackButton } from '../medicalData/dataPage';
 import { createTreatmentAPICall } from '../../redux/actions/treatments';
 import style from './medicalEvent.module.css';
@@ -12,13 +14,16 @@ export class CreateTreatment extends Component {
         super();
         this.state = {
             drugType: '',
+            startDate: moment(),
             drugModule: '',
             dose: '',
             unit: '',
             form: '',
-            timesPerDay: ''
+            times: '',
+            intervalUnit: ''
         };
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
+        this._handleDateChange = this._handleDateChange.bind(this);
         this._formatRequestBody = this._formatRequestBody.bind(this);
         this._handleTypeChange = this._handleTypeChange.bind(this);
         this._handleInputChange = this._handleInputChange.bind(this);
@@ -31,16 +36,25 @@ export class CreateTreatment extends Component {
         });
     }
 
+    _handleDateChange(date) {
+        this.setState({
+            startDate: date
+        });
+    }
+
+
     _formatRequestBody() {
         return {
             patientId: this.props.match.params.patientId,
             data: {
                 visitId: Number.parseInt(this.props.match.params.visitId),
                 drugId: Number.parseInt(this.state.drugType),
+                startDate: this.state.startDate._d.toDateString(),
                 dose: Number.parseInt(this.state.dose),
                 unit: this.state.unit,
                 form: this.state.form,
-                timesPerDay: Number.parseInt(this.state.timesPerDay)
+                times: isNaN(parseInt(this.state.times)) || this.state.intervalUnit === '' ? undefined : parseInt(this.state.times),
+                intervalUnit: this.state.intervalUnit === '' || isNaN(parseInt(this.state.times)) ? undefined : this.state.intervalUnit
             }
         };
     }
@@ -77,11 +91,13 @@ export class CreateTreatment extends Component {
                     </div>
                     <form className={style.panel}>
                         <span><i>This is for the visit of the {visitDate}</i></span><br /><br />
-                        <label htmlFor='drug'>What drug is it?</label><br />
+                        <label htmlFor='drug'>Drug:</label><br />
                         <select name='drug' value={this.state.drugType} onChange={this._handleTypeChange} autoComplete='off'>
-                            {this.props.types.map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}
+                            {this.props.types.sort((a, b) => a.name.localeCompare(b.name)).map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}
                         </select><br /><br />
                         {this.state.drugType !== '' ? <span><i>{`You have selected a drug of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
+
+                        <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
                         <label htmlFor='dose'>Dose:</label><br /> <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text' autoComplete='off' /><br /><br />
                         <label htmlFor='unit'>Unit:</label><br />
                         <select name='unit' value={this.state.unit} onChange={this._handleInputChange} autoComplete='off'>
@@ -97,7 +113,16 @@ export class CreateTreatment extends Component {
                             <option value='IM'>Intramuscular</option>
                             <option value='SC'>Subcutaneous</option>
                         </select><br /><br />
-                        <label htmlFor='timesPerDay'>Times per day:</label><br /> <input onChange={this._handleInputChange} value={this.state.timesPerDay} name='timesPerDay' type='text' autoComplete='off' /><br /><br />
+                        <label>Frequency (fill both or leave both blank): </label>
+                        <input onChange={this._handleInputChange} value={this.state.times} name='times' type='text' autoComplete='off' /><br /><br />
+                        <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleInputChange} autoComplete='off'>
+                            <option value=''></option>
+                            <option value='hour'>hour</option>
+                            <option value='day'>day</option>
+                            <option value='week'>week</option>
+                            <option value='month'>month</option>
+                            <option value='year'>year</option>
+                        </select><br /><br /><br />
                         <button onClick={this._handleSubmitClick} >Submit</button>
                     </form>
                 </>
