@@ -76,7 +76,7 @@ export class TreatmentInterruption extends Component {
             }
         };
         store.dispatch(createTreatmentInterruptionAPICall(body));
-
+        this.setState({ addMore: false });
     }
 
     render() {
@@ -112,10 +112,10 @@ export class TreatmentInterruption extends Component {
                                 :
                                 <>
                                     <div className={style.newInterruption}>
-                                        <b>Start date: </b><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
-                                        <b>End date: </b><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br />
-                                        <b>No end date: </b><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} /><br />
-                                        <b>Reason: </b>
+                                        <label>Start date: </label><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
+                                        <label>No end date: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} /><br /><br />
+                                        {this.state.noEndDate ? null : (<><label>End date: </label><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br /></>)}
+                                        <label>Reason: </label>
                                         <select ref={this.reasonRef}>
                                             {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                         </select><br /><br />
