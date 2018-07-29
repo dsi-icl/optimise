@@ -10,12 +10,22 @@ import { deleteTestAPICall, updateTestCall } from '../../redux/actions/tests';
 
 @connect(state => ({ tests: state.patientProfile.data.tests }))
 export default class EditTest extends Component {
-    constructor() {
-        super();
-        this.state = { wannaUpdate: false };
+    constructor(props) {
+        super(props);
+        this.state = { wannaUpdate: false, elementId: props.match.params.elementId };
         this._handleClick = this._handleClick.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
         this._handleWannaUpdateClick = this._handleWannaUpdateClick.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.match.params.elementId === state.elementId)
+            return state;
+        return {
+            ...state,
+            wannaUpdate: false,
+            elementId: props.match.params.elementId
+        };
     }
 
     _handleWannaUpdateClick(ev) {
@@ -46,6 +56,7 @@ export default class EditTest extends Component {
         if (testsFiltered.length !== 1) {
             return <div> Cannot find your treatment! check your ID! </div>;
         }
+
         const test = testsFiltered[0];
         return (
             <>
@@ -84,6 +95,15 @@ class UpdateTestEntry extends Component {
         this._handleActualDateChange = this._handleActualDateChange.bind(this);
     }
 
+    static getDerivedStateFromProps(props, state) {
+        return {
+            ...state,
+            id: props.data.id,
+            startDate: moment(parseInt(props.data.expectedOccurDate)),
+            actualOccurredDate: !props.data.actualOccurredDate ? moment() : moment(parseInt(props.data.actualOccurredDate))
+        };
+    }
+
     _handleDateChange(date) {
         this.setState({
             startDate: date
@@ -109,7 +129,6 @@ class UpdateTestEntry extends Component {
                 actualOccurredDate: actualOccurredDate ? actualOccurredDate.valueOf() : null
             }
         };
-        // console.log(body);
         store.dispatch(updateTestCall(body));
     }
 

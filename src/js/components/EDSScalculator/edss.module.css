@@ -1,3 +1,32 @@
+.ariane {
+    position: absolute;
+    grid-area: ariane;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.ariane > a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1.2em;
+    font-size: 1.1em;
+}
+
+.panel {
+    position: relative;
+    grid-area: panel;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
 .cancelButton {
     font-size: 2.5rem;
     position: absolute;
@@ -40,26 +69,42 @@
 }
 
 .radioButton {
-    width: 2rem;
-    height: 2rem;
-    line-height: 2rem;
+    color: var(--color-background);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 95%);
+    width: 2.7em;
+    height: 2.7em;
+    line-height: 2.7em;
     text-align: center;
     padding: 0
 }
 
 .radioButton:hover {
-    color: var(--color-error);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
+
+.radioClicked {
+    background-color: hsl(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l));
+    color: var(--color-font-active);
+}
+
+.radioClicked:hover {
+    background-color: hsl(var(--color-accent-h), var(--color-accent-s), calc(var(--color-accent-l) * 1.2));
+}
+
+
 .criterion {
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 0 0 1em 0;
 }
 
 .criterion > span {
-    line-height: 2rem;
+    line-height: 2.7em;
+    display: inline-block;
+    width: 9em;
+}
+
+.criterion: > span {
+    font-weight: bold;
 }
 
 .criterion > div {
@@ -67,30 +112,37 @@
     display: inline-block;
 }
 
-.radioButton {
+/* .radioButton {
     line-height: 2rem;
     background-color: rgba(255,255,255,0.65);
     border: 1px solid white;
     margin-left: 0;
     margin-right: 0;
     transition: background-color 0.2s linear 0s
-}
+} */
 
-.radioButton:hover {
-    background-color: rgba(255,255,255, 0.9);
-    border: 1px solid white;
-}
 
 .radioButtonWrapper > input {
     display: none;
 }
 
-.radioClicked {
-    background-color: white;
-    color: red;
+.calculatorArea {
+    display: inline-block;
+    width: 47em;
 }
 
-.radioClicked:hover {
-    background-color: white;
-    color: var(--color-error);
+.contextArea {
+    display: inline-block;
+    top: 0;
+    right: 0;
+    line-height: 1.5em;
+    width: calc(100% - 47em);
+    max-height: 28.6em;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.currentHoverPower {
+    font-weight: bold;
+    color: var(--color-shade-one);
 }

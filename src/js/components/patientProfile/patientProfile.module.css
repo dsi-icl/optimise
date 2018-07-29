@@ -8,6 +8,14 @@
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
+.ariane > a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1.2em;
+    font-size: 1.1em;
+}
+
 .ariane .profileActions {
     height: 100%;
     position: absolute;
@@ -35,7 +43,7 @@
     color: hsl(var(--color-background-h), var(--color-background-s), 20%);
 }
 
-.profileActions svg {
+.profileActions > a > svg {
     width: 1.2em;
     margin-left: 1.2em;
     margin-right: 0.3em;
@@ -47,7 +55,7 @@
     fill: hsl(var(--color-background-h), var(--color-background-s), 20%);
 }
 
-@media (max-width: 95em) {
+@media (max-width: 85em) {
     .profileActions a span {
         display: none;
     }
@@ -60,6 +68,7 @@
     height: 100%;
     padding: 1.2em;
     overflow: auto;
+    scroll-behavior: smooth;
 }
 
 .noConsentAlert {
@@ -70,14 +79,44 @@
     background-color: var(--color-shade-one);
 }
 
+.immunisationItem:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 92%);
+}
+
+.profileSectionActive .immunisationItem:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 85%);
+}
+
+.immunisationItem td:first-child,
+.immunisationNewItem td:first-child {
+    width: 45%;
+    padding-left: 0;
+    transition: padding 100ms;
+}
+
+.immunisationItem:hover td:first-child {
+    padding-left: 0.7em;
+}
+
+.immunisationItem td:last-child {
+    text-align: right;
+    padding-right: 0;
+    transition: padding 100ms;
+}
+
+.immunisationItem:hover td:last-child {
+    padding-right: 0.7em;
+}
+
 .timelineBox {
     border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
     background-color: hsl(var(--color-background-h), var(--color-background-s), 98%);
-    grid-template-rows: 2em 2em 2em 2em 2em;
+    grid-template-rows: 2em 0.5em 2em 0.5em 2em 0.5em 2em;
     width: 100%;
     display: grid;
     overflow: hidden;
     padding: 1em;
+    line-height: 2em;
 }
 
 div.timelineVisit {
@@ -161,14 +200,18 @@ div.timelineCEBlack {
     margin-bottom: 0.7em;
 }
 
-.history h4 svg {
+.history h4 > svg {
     width: 1em;
     height: 1em;
     padding: 0;
 }
 
-.history span svg {
+.history span > svg {
     padding: 0em 0.5em 0.7em 0.5em;
+}
+
+.history a > span > svg {
+    padding: 0
 }
 
 .history button {
@@ -272,15 +315,17 @@ div.timelineCEBlack {
     text-align: center;
 }
 
-.profileSectionActive {
+.profileSection {
     width: calc(100% + 2.4em);
     margin-left: -1.2em;
     padding: 0 1.2em;
+    padding-top: 1.2em;
+    transition: background-color 500ms;
+    background-color: transparent;
 }
 
 .profileSectionActive {
-    padding-top: 1.2em;
-    margin-bottom: 1.2em;
+    width: calc(100% + 2.4em);
     background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
@@ -292,4 +337,129 @@ div.timelineCEBlack {
 .profileSectionActive input:hover,
 .profileSectionActive select:hover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), 100%);
+}
+
+.panelByPass {
+    position: absolute;
+    grid-area: content / content / auto / annexe;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.expandTimeline, .dataEdit {
+    display: inline-block;
+    margin-left: 0.3em;
+    width: 1em;
+    height: 1em;
+}
+
+.expandTimeline path,
+.dataEdit path {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
+}
+
+.expandTimeline:hover path,
+.dataEdit:hover path {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 40%);
+}
+
+.timelineBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.timelineTextContent {
+    color: #fff;position: sticky;
+    position: -webkit-sticky;
+    left: 0px;
+    overflow: hidden;
+    display: inline-block;
+    border-radius: 2px;
+    left: 0;
+    padding: 0 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+}
+
+.timelineVisitItem {
+    background-color: rgb(133, 150, 176);
+}
+
+.timelineVisitItem:hover {
+    background-color: rgb(149, 163, 184);
+}
+
+.timelineTreatementItem {
+    background-color: rgb(255, 202, 27);
+}
+
+.timelineTreatementItem:hover {
+    background-color: rgb(255, 223, 118);
+}
+
+.timelineTestItem {
+    background-color: rgb(153, 202, 120);
+}
+
+.timelineTestItem:hover {
+    background-color: rgb(186, 209, 170);
+}
+
+.timelineCEItem {
+    background-color: rgb(255, 102, 102);
+}
+
+.timelineCEItem:hover {
+    background-color: rgb(255, 139, 139);
+}
+
+.timelineImmunisationItem {
+    background-color: rgb(79, 20, 97);
+}
+
+.timelineImmunisationItem:hover {
+    background-color: rgb(90, 51, 102);
+}
+
+.timelineEDSSPlotter {
+    height: calc(80px * 0.85);
+    position: relative;
+    background-color: transparent;
+}
+
+.timelineEDSSPlotter svg {
+}
+
+.timelineEDSSPlotter line {
+    stroke: var(--color-background);
+}
+
+.timelineEDSSPlotterPad {
+    display: none;
+}
+
+.keyboardGroup {
+    line-height: 1.4em;
+    padding-left: 2em;
+}
+
+.keyboardGroup pre {
+    background: hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.keyboardKey {
+    margin-top: -0.2em;
+    margin-bottom: 0.5em;
+    font-size: 1.2em;
+    display: inline-block;
+    padding: 0.2em 0.5em;
+    word-wrap: none;
 }

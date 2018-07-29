@@ -13,6 +13,8 @@ export class CreateCE extends Component {
     constructor() {
         super();
         this.state = {
+            addEndDate: true,
+            endDate: moment(),
             startDate: moment(),
             ceType: '1',
             meddra: React.createRef()
@@ -21,11 +23,24 @@ export class CreateCE extends Component {
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
         this._formatRequestBody = this._formatRequestBody.bind(this);
         this._handleTypeChange = this._handleTypeChange.bind(this);
+        this._handleEndDateChange = this._handleEndDateChange.bind(this);
+        this._handleToggleEndDate = this._handleToggleEndDate.bind(this);
+    }
+
+    _handleToggleEndDate(ev) {
+        ev.preventDefault();
+        this.setState(prevState => ({ addEndDate: !prevState.addEndDate }));
     }
 
     _handleDateChange(date) {
         this.setState({
             startDate: date
+        });
+    }
+
+    _handleEndDateChange(date) {
+        this.setState({
+            endDate: date
         });
     }
 
@@ -48,6 +63,7 @@ export class CreateCE extends Component {
             data: {
                 visitId: Number.parseInt(this.props.match.params.visitId),
                 startDate: date.toDateString(),
+                endDate: this.state.addEndDate ? this.state.endDate._d.toDateString() : null,
                 type: Number.parseInt(this.state.ceType),
                 meddra: Number.parseInt(this.props.meddra.filter(el => el.name === this.state.meddra.current.value)[0].id)
             }
@@ -77,6 +93,17 @@ export class CreateCE extends Component {
                     <div className={style.panel}>
                         <span><i>This is for the visit of the {visitDate}</i></span><br /><br />
                         <label htmlFor=''>Please enter date on which the event occurred:</label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
+                        { this.state.addEndDate ?
+                            <>
+                            <label htmlFor=''>Please enter date on which the event ended:</label><br /><PickDate startDate={this.state.endDate} handleChange={this._handleEndDateChange} />
+                            <span className={style.noEndDateButton} onClick={this._handleToggleEndDate}>Click here if there is no end date (you can add it later)</span></>
+                            :
+                            <button onClick={this._handleToggleEndDate}>Add end date</button>
+                        }
+                        
+                        
+                        <br/><br /><br/>
+
                         <label htmlFor='event'>What type of event is it?</label><br />
                         <select name='event' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>
                             {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}

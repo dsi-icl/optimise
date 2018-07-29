@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Icon from '../icon';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 import style from './patientProfile.module.css';
 
@@ -32,7 +34,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const date = visit.visitDate;
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${visit.id}`} href={`#visit/${visit.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '1/2', textDecoration: 'none' }}>
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${visit.id}`} href={`#visit/${visit.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '3', textDecoration: 'none' }}>
                     <div className={style.timelineVisit}>-</div>
                 </a>
             );
@@ -41,7 +43,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const date = test.expectedOccurDate;
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${test.id}test`} href={`#test/${test.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '3/4', textDecoration: 'none' }}>
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${test.id}test`} href={`#test/${test.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '5', textDecoration: 'none' }}>
                     <div className={style.timelineTest}>-</div>
                 </a>
             );
@@ -51,7 +53,7 @@ export class TimelineBox extends Component {   //unfinsihed
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             const durationInDays = 7; // TODO ; This has to be changes
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${med.id}med`} href={`#treatment/${med.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '2/3', textDecoration: 'none' }}>
+                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${med.id}med`} href={`#treatment/${med.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '1', textDecoration: 'none' }}>
                     <div className={style.timelineMed}>-</div>
                 </a>
             );
@@ -62,25 +64,29 @@ export class TimelineBox extends Component {   //unfinsihed
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
             const durationInDays = CE.endDate ? parseInt((parseInt(CE.endDate) - date) / 86400000, 10) : 1;
             return (
-                <a title={new Date(date).toDateString()} key={`${CE.id}ce`} href={`#clinicalEvent/${CE.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '4/5', textDecoration: 'none' }}>
+                <a title={new Date(date).toDateString()} key={`${CE.id}ce`} href={`#clinicalEvent/${CE.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '7', textDecoration: 'none' }}>
                     <div className={CE.type === 4 ? style.timelineCEBlack : style.timelineCE}>-</div>
                 </a>
             );
         };
 
         return (
-            <PatientProfileSectionScaffold sectionName='Timeline'>
+            <PatientProfileSectionScaffold sectionName='Timeline' actions={(
+                <Link to={`/patientProfile/${this.props.data.patientId}/timeline`} title='Expand Timeline'>
+                    <span className={style.expandTimeline}><Icon symbol='expand' /></span>
+                </Link>
+            )}>
                 <div className={style.timelineBox} style={TimelineDynamicStyle}>
-                    <div style={{ gridColumn: '1/2', gridRow: '1/2', overflow: 'hidden' }}>
-                        Visits
-                    </div>
-                    <div style={{ gridColumn: '1/2', gridRow: '2/3', overflow: 'hidden' }}>
+                    <div style={{ gridColumn: '1/2', gridRow: '1', overflow: 'hidden' }}>
                         Meds
                     </div>
-                    <div style={{ gridColumn: '1/2', gridRow: '3/4', overflow: 'hidden' }}>
+                    <div style={{ gridColumn: '1/2', gridRow: '3', overflow: 'hidden' }}>
+                        Visits
+                    </div>
+                    <div style={{ gridColumn: '1/2', gridRow: '5', overflow: 'hidden' }}>
                         Tests
                     </div>
-                    <div style={{ gridColumn: '1/2', gridRow: '4/5', overflow: 'hidden' }}>
+                    <div style={{ gridColumn: '1/2', gridRow: '7', overflow: 'hidden' }}>
                         Events
                     </div>
                     {this.props.data.visits.filter(el => el.type === 1).map(mappingVisitFunction)}

@@ -11,12 +11,22 @@ import { SuggestionInput } from '../meDRA/meDRApicker';
 
 @connect(state => ({ CEs: state.patientProfile.data.clinicalEvents }))
 export default class EditCE extends Component {
-    constructor() {
-        super();
-        this.state = { wannaUpdate: false };
+    constructor(props) {
+        super(props);
+        this.state = { wannaUpdate: false, elementId: props.match.params.elementId };
         this._handleClick = this._handleClick.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
         this._handleWannaUpdateClick = this._handleWannaUpdateClick.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.match.params.elementId === state.elementId)
+            return state;
+        return {
+            ...state,
+            wannaUpdate: false,
+            elementId: props.match.params.elementId
+        };
     }
 
     _handleWannaUpdateClick(ev) {
@@ -78,12 +88,26 @@ class UpdateCEEntry extends Component {
         this.state = {
             id: props.data.id,
             startDate: moment(parseInt(props.data.dateStartDate)),
+            endDate: props.data.endDate ? moment(parseInt(props.data.endDate)) : moment(),
+            addEndDate: true,
             meddra: React.createRef(),
             meddraOriginal: props.data.meddra
         };
         this._handleChange = this._handleChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
+        this._handleEndDateChange = this._handleEndDateChange.bind(this);
+        this._handleToggleEndDate = this._handleToggleEndDate.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        return {
+            ...state,
+            id: props.data.id,
+            startDate: moment(parseInt(props.data.dateStartDate)),
+            meddra: React.createRef(),
+            meddraOriginal: props.data.meddra
+        };
     }
 
     _handleChange(ev) {
@@ -92,26 +116,38 @@ class UpdateCEEntry extends Component {
         this.setState(newState);
     }
 
+
+    _handleToggleEndDate(ev) {
+        ev.preventDefault();
+        this.setState(prevState => ({ addEndDate: !prevState.addEndDate }));
+    }
+
     _handleDateChange(date) {
         this.setState({
             startDate: date
         });
     }
 
+    _handleEndDateChange(date) {
+        this.setState({
+            endDate: date
+        });
+    }
+
     _handleSubmit(ev) {
         ev.preventDefault();
         const { patientId, meddraDict } = this.props;
-        const { id, startDate, meddra } = this.state;
+        const { id, startDate, meddra, addEndDate, endDate } = this.state;
         const body = {
             patientId: patientId,
             to: `/patientProfile/${patientId}`,
             data: {
                 id,
                 dateStartDate: startDate.valueOf(),
-                meddra: meddraDict[meddra.current.value]
+                meddra: meddraDict[meddra.current.value],
+                endDate: addEndDate ? endDate.valueOf() : null
             }
         };
-        // console.log(body);
         store.dispatch(updateCECall(body));
     }
 
@@ -122,6 +158,15 @@ class UpdateCEEntry extends Component {
             <>
                 <label>Start Date: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} />
+
+                {this.state.addEndDate ?
+                    <><br />
+                        <label htmlFor=''>Please enter date on which the event ended:</label><br /><PickDate startDate={this.state.endDate} handleChange={this._handleEndDateChange} />
+                        <span className={style.noEndDateButton} onClick={this._handleToggleEndDate}>Click here if there is no end date (you can add it later)</span></>
+                    :
+                    <button onClick={this._handleToggleEndDate}>Add end date</button>
+                }
+                <br /><br />
                 <label>MedDRA: </label>
                 <SuggestionInput originalValue={meddraHash[meddraOriginal]} reference={meddra} /><br /><br />
                 <button onClick={this._handleSubmit}>Submit</button>

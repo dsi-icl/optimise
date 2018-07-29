@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import merge from 'deepmerge';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import Icon from '../icon';
 import style from '../createMedicalElements/medicalEvent.module.css';
@@ -63,6 +64,23 @@ export class DataTemplate extends Component {
     }
 
     render() {
+
+        const { visitFields } = this.props.fields;
+        let obj = {};
+
+        visitFields.forEach(f => {
+            if (obj[f.section] === undefined)
+                obj[f.section] = {};
+            if (obj[f.section][f.subsection] === undefined)
+                obj[f.section][f.subsection] = [];
+            obj[f.section][f.subsection].push(f.idname.split(':').reverse().reduce((a, c) => !a ? { [c]: f } : ({ [c]: a }), null));
+        });
+        Object.keys(obj).forEach(l => {
+            Object.keys(obj[l]).forEach(k => {
+                obj[l][k] = merge.all(obj[l][k]);
+            });
+        });
+
         if (!this.props.patientProfile.fetching) {
             const elementsMatched = this.props.patientProfile.data[`${this.props.elementType}s`].filter(element => element.id === parseInt(this.props.match.params.elementId, 10));
             if (elementsMatched.length === 0) {
@@ -100,6 +118,7 @@ export class DataTemplate extends Component {
         }
     }
 }
+
 
 export class BackButton extends Component {
     render() {
@@ -149,49 +168,49 @@ function formatData(medicalElement, fieldList, inputTypes, submitFunction, idStr
                     switch (dataTypesHashTable[type]) {   //what to return depends on the data type of the field
                         case 'I':
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <label htmlFor=''>{definition}:</label><br />
                                     <ControlledInputField fieldId={id} originalValue={originalValue} dataType='I' /><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             );
                         case 'F':
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <label htmlFor='' key={key}>{definition}:</label><br />
                                     <ControlledInputField fieldId={id} originalValue={originalValue} dataType='F' /><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             );
                         case 'C':
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <label htmlFor='' key={key}>{definition}:</label><br />
                                     <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues={permittedValues} /><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             );
                         case 'T':
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <label htmlFor='' key={key}>{definition}:</label> <br />
                                     <ControlledInputField fieldId={id} originalValue={originalValue} dataType='T' /><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             );
                         case 'B':
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <label htmlFor='' key={key}>{definition}:</label><br />
                                     <ControlledSelectField fieldId={id} originalValue={originalValue} permittedValues='true,false' /><br /><br />
-                                </React.Fragment>
+                                </Fragment>
                             );
                         default:
                             return (
-                                <React.Fragment key={key}>
+                                <Fragment key={key}>
                                     <span>This field cannot be displayed. Please contact admin. </span><br /><br />
-                                </React.Fragment >
+                                </Fragment >
                             );
                     }
                 })
             }
-            <input type="submit" value="Save" />
+            <button type="submit">Save</button>
         </form>
     );
 }
