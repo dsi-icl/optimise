@@ -194,7 +194,7 @@ class EDSSCalculator extends Component {
             return <div> Cannot find your visit </div>;
         }
 
-        const currentEDSSObject = EDSSFields.reduce((a, el) => { a[el.id] = el; return a; }, {})[this.state.currentHoverMeasure]
+        const currentEDSSObject = EDSSFields.reduce((a, el) => { a[el.id] = el; return a; }, {})[this.state.currentHoverMeasure];
 
         return (
             <>

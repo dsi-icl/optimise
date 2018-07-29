@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, ContentState } from 'draft-js';
-import { formatTests, visitTitle, formatEvents, formatTreatments, formatSymptomsAndSigns, formatVS, formatEdss } from './communicationTemplates';
+import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import { formatTests, formatEvents, formatTreatments, formatSymptomsAndSigns, formatVS, formatEdss } from './communicationTemplates';
 import { BackButton } from '../medicalData/dataPage';
 import { updateVisitAPICall } from '../../redux/actions/createVisit';
 import style from './editMedicalElements.module.css';
