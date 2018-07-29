@@ -1,25 +1,3 @@
-.booleanButton {
-    display: inline-block;
-    min-width: 2em;
-    text-align: center;
-    color: var(--color-input);
-    background-color: hsl(var(--color-background-h), var(--color-background-s), 94%); 
-}
-
-.booleanButton:hover {
-    background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
-}
-
-.booleanButton_checked {
-    background-color: rgb(44, 171, 230);
-    color: white;
-}
-
-.booleanButton_checked:hover {
-    background-color: rgb(75, 181, 230);
-    color: white;
-}
-
 .topLevelPanel {
     padding: 0 0 1em 0;
 }
@@ -85,6 +63,14 @@
     border-color: hsla(231, 48%, 48%, 0.2);
 }
 
+.levelBody div:nth-child(1) .levelBody button,
+.levelBody div:nth-child(1) .levelBody .levelBody button,
+.levelBody div:nth-child(1) .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(1) .levelBody .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(1) .levelBody .levelBody .levelBody .levelBody .levelBody button {
+    background-color: hsla(231, 48%, 48%, 0.75);
+}
+
 .levelBody div:nth-child(1) .levelHeader:hover {
     background-color: hsla(231, 48%, 48%, 0.4);
 }
@@ -115,6 +101,14 @@
 .levelBody div:nth-child(2) .levelBody .levelBody .levelBody .levelBody,
 .levelBody div:nth-child(2) .levelBody .levelBody .levelBody .levelBody .levelBody {
     border-color: hsla(188, 64%, 44%, 0.2);
+}
+
+.levelBody div:nth-child(2) .levelBody button,
+.levelBody div:nth-child(2) .levelBody .levelBody button,
+.levelBody div:nth-child(2) .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(2) .levelBody .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(2) .levelBody .levelBody .levelBody .levelBody .levelBody button {
+    background-color: hsla(188, 64%, 44%, 0.75);
 }
 
 .levelBody div:nth-child(2) .levelHeader:hover {
@@ -149,6 +143,14 @@
     border-color: hsla(122, 39%, 49%, 0.2);
 }
 
+.levelBody div:nth-child(3) .levelBody button,
+.levelBody div:nth-child(3) .levelBody .levelBody button,
+.levelBody div:nth-child(3) .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(3) .levelBody .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(3) .levelBody .levelBody .levelBody .levelBody .levelBody button {
+    background-color: hsla(122, 39%, 49%, 0.75);
+}
+
 .levelBody div:nth-child(3) .levelHeader:hover {
     background-color: hsla(122, 39%, 49%, 0.4);
 }
@@ -178,7 +180,7 @@
 }
 
 .levelBody div:nth-child(4) .levelHeader {
-    background-color: hsla(54, 100%, 62%, 0.3);
+    background-color: hsla(51, 75%, 51%, 0.3);
 }
 
 .levelBody div:nth-child(4) .levelBody,
@@ -186,27 +188,35 @@
 .levelBody div:nth-child(4) .levelBody .levelBody .levelBody,
 .levelBody div:nth-child(4) .levelBody .levelBody .levelBody .levelBody,
 .levelBody div:nth-child(4) .levelBody .levelBody .levelBody .levelBody .levelBody {
-    border-color: hsla(54, 100%, 62%, 0.2);
+    border-color: hsla(51, 75%, 51%, 0.2);
+}
+
+.levelBody div:nth-child(4) .levelBody button,
+.levelBody div:nth-child(4) .levelBody .levelBody button,
+.levelBody div:nth-child(4) .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(4) .levelBody .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(4) .levelBody .levelBody .levelBody .levelBody .levelBody button {
+    background-color: hsla(51, 75%, 51%, 0.75);
 }
 
 .levelBody div:nth-child(4) .levelHeader:hover {
-    background-color: hsla(54, 100%, 62%, 0.4);
+    background-color: hsla(51, 75%, 51%, 0.4);
 }
 
 .levelBody div:nth-child(4) .levelBody .levelHeader {
-    background-color: hsla(54, 100%, 62%, 0.2);
+    background-color: hsla(51, 75%, 51%, 0.2);
 }
 
 .levelBody div:nth-child(4) .levelBody .levelHeader:hover {
-    background-color: hsla(54, 100%, 62%, 0.3);
+    background-color: hsla(51, 75%, 51%, 0.3);
 }
 
 .levelBody div:nth-child(4) .levelBody .levelBody .levelHeader {
-    background-color: hsla(54, 100%, 62%, 0.1);
+    background-color: hsla(51, 75%, 51%, 0.1);
 }
 
 .levelBody div:nth-child(4) .levelBody .levelBody .levelHeader:hover {
-    background-color: hsla(54, 100%, 62%, 0.2);
+    background-color: hsla(51, 75%, 51%, 0.2);
 }
 
 .levelBody div:nth-child(5) .levelHeader {
@@ -219,6 +229,14 @@
 .levelBody div:nth-child(5) .levelBody .levelBody .levelBody .levelBody,
 .levelBody div:nth-child(5) .levelBody .levelBody .levelBody .levelBody .levelBody {
     border-color: hsla(36, 100%, 50%, 0.2);
+}
+
+.levelBody div:nth-child(5) .levelBody button,
+.levelBody div:nth-child(5) .levelBody .levelBody button,
+.levelBody div:nth-child(5) .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(5) .levelBody .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(5) .levelBody .levelBody .levelBody .levelBody .levelBody button {
+    background-color: hsla(36, 100%, 50%, 0.75);
 }
 
 .levelBody div:nth-child(5) .levelHeader:hover {
@@ -253,6 +271,14 @@
     border-color: hsla(4, 90%, 58%, 0.2);
 }
 
+.levelBody div:nth-child(6) .levelBody button,
+.levelBody div:nth-child(6) .levelBody .levelBody button,
+.levelBody div:nth-child(6) .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(6) .levelBody .levelBody .levelBody .levelBody button,
+.levelBody div:nth-child(6) .levelBody .levelBody .levelBody .levelBody .levelBody button {
+    background-color: hsla(4, 90%, 58%, 0.75);
+}
+
 .levelBody div:nth-child(6) .levelHeader:hover {
     background-color: hsla(4, 90%, 58%, 0.4);
 }
@@ -285,4 +311,47 @@
 
 .dataItem:first-child {
     margin-top: 1em;
+}
+
+.leftRightSelect {
+    display: none;
+}
+
+.leftRightButton button,
+.otButton button {
+    width: 100%;
+}
+
+.otButton td {
+    width: 50%;
+}
+
+.otButton td:first-child {
+    padding: 0 0.2em 0 0;
+}
+
+.otButton td:last-child {
+    padding: 0 0 0 0.2em;
+}
+
+.leftRightButton td {
+    padding: 0 0.2em;
+    width: 33.33%;
+}
+
+.leftRightButton td:first-child {
+    padding: 0 0.4em 0 0;
+}
+
+.leftRightButton td:last-child {
+    padding: 0 0 0 0.4em;
+}
+
+button.noActive {
+    color: var(--color-input) !important;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 94%) !important;
+}
+
+button.noActive:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 90%) !important;
 }

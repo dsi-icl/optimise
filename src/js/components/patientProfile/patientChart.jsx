@@ -128,16 +128,13 @@ class Symptom extends PureComponent {
         const { data, typedict, inputType } = this.props;
         let value;
         switch (inputType[typedict[data.field].type]) {
-            case 'I':
-            case 'F':
-            case 'T':
-                value = data.value;
-                break;
             case 'B':
                 value = data.value === '1' ? 'true' : 'false (edited)';
                 break;
             case 'C':
-                value = data.value === 'unselected' ? 'unselected (edited)' : data.value;
+                if (data.value === 'unselected')
+                    return null;
+                value = data.value;
                 break;
             default:
                 value = data.value;
