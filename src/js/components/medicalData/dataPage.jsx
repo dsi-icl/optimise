@@ -336,7 +336,7 @@ export class ControlledSelectField extends Component {
         return (
             <div className={style.cutter}>
                 <select originalvalue={this.props.originalValue} name={this.props.fieldId} fieldid={this.props.fieldId} value={this.state.value} onChange={this._handleChange} >
-                    <option value='unselected'>unselected</option>
+                    <option value='unselected'></option>
                     {this.props.permittedValues.split(',').map(option => <option key={option} value={option}>{option}</option>)}
                 </select>
                 <button onClick={this._handleResetClick}>Reset</button>

@@ -14,7 +14,7 @@ export class BackButton extends Component {
 }
 
 
-export function checkIfObjIsEmpty(...objs){
+export function checkIfObjIsEmpty(...objs) {
     for (let each of objs) {
         if (Object.keys(each).length !== 0) {
             return false;
@@ -32,7 +32,7 @@ export class SelectField extends Component {
         const { reference, choices, origVal } = this.props;
         return (
             <select ref={reference} defaultValue={origVal}>
-                <option value='unselected'>unselected</option>
+                <option value='unselected'></option>
                 {choices.map(el => <option key={el} value={el}>{el}</option>)}
             </select>
         );
