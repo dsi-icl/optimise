@@ -1,7 +1,7 @@
 {
     "name": "optimise-ui",
     "productName": "Optimise MS",
-    "version": "1.9.12",
+    "version": "1.9.13",
     "description": "Front-end for optimiseMS",
     "license": "MIT",
     "contributors": [
@@ -31,7 +31,8 @@
         "build": "npm run react:build && npm run electron:build",
         "prod": "npm run react:build && cross-env NODE_ENV=production npm run electron:start",
         "start": "npm run react:start",
-        "ship": "npm run react:build && build --win -p always"
+        "ship": "npm run react:build && build --win -p always",
+        "test": "npm run react:test"
     },
     "dependencies": {
         "@babel/core": "7.0.0-beta.46",
@@ -112,8 +113,6 @@
         "codacy-coverage": "3.0.0",
         "electron": "2.0.5",
         "electron-builder": "20.25.0",
-        "enzyme": "3.3.0",
-        "enzyme-adapter-react-16": "1.1.1",
         "foreman": "3.0.1",
         "redux-logger": "3.0.6"
     },
