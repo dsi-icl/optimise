@@ -179,6 +179,9 @@ class OneVisit extends Component {
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && [2, 3].includes(field.section));
         const relevantFieldsIdArray = relevantFields.map(el => el.id);
         const symptoms = this.props.visitData.filter(el => el.field > 6 && relevantFieldsIdArray.includes(el.field));
+        const relevantEDSSFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && /^edss:(.*)/.test(field.idname));
+        const relevantEDSSFieldsIdArray = relevantEDSSFields.map(el => el.id);
+        const performances = this.props.visitData.filter(el => el.field > 6 && relevantEDSSFieldsIdArray.includes(el.field));
 
         if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
             return null;
@@ -191,11 +194,10 @@ class OneVisit extends Component {
                 className={style.historyVisit}
                 bubbleStyle={{ borderColor: 'transparent' }}>
 
-                <div className={style.visitWrapper}>
-
-                    {this.props.visitType === 1 ? (
-                        <>
-                            <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
+                {this.props.visitType === 1 ? (
+                    <>
+                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
+                        <div className={style.visitWrapper}>
                             <table>
                                 <tbody>
                                     <tr>
@@ -212,40 +214,55 @@ class OneVisit extends Component {
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
 
-                            <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS AND SIGNS INDICATING MS' : 'SYMPTOMS AND SIGNS'}</h4>
-                            {relevantFields.length !== 0 ? (
-                                <>
-                                    <table>
-                                        <thead>
-                                            <tr><th>Recorded symptoms</th><th>Value</th></tr>
-                                        </thead>
-                                        <tbody>
-                                            {symptoms.map(el => <Symptom key={el.field} data={el} />)}
-                                        </tbody>
-                                    </table>
-                                    <br />
-                                </>
-                            ) : null}
-                            <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                                <button>Edit / Add</button>
-                            </NavLink>
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS AND SIGNS INDICATING MS' : 'SYMPTOMS AND SIGNS'}</h4>
+                        {relevantFields.length !== 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <thead>
+                                        <tr><th>Recorded symptoms</th><th>Value</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {symptoms.map(el => <Symptom key={el.field} data={el} />)}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit / Add</button>
+                        </NavLink>
 
-                            <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
-                            <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                                <button>Edit / Add</button>
-                            </NavLink>
+                        <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
+                        {relevantEDSSFields.length !== 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <thead>
+                                        <tr><th>Recorded performance measures</th><th>Value</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {performances.map(el => <Symptom key={el.field} data={el} />)}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit / Add</button>
+                        </NavLink>
 
-                            <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
-                            <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                                <button>Edit / Add</button>
-                            </NavLink>
-                        </>
-                    ) : null}
+                        <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit / Add</button>
+                        </NavLink>
+                    </>
+                ) : null}
 
-                    {visitHasTests ? (
-                        <>
-                            <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'TESTS'}</h4>
+                {visitHasTests ? (
+                    <>
+                        <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'TESTS'}</h4>
+                        <div className={style.visitWrapper}>
                             <table className={style.editableTable}>
                                 <thead>
                                     <tr><th></th><th>Type</th><th>Test date</th><th></th></tr>
@@ -256,14 +273,16 @@ class OneVisit extends Component {
                                         .map(el => <Test key={el.id} data={el} />)}
                                 </tbody>
                             </table>
-                        </>
-                    ) : null
-                    }
+                        </div>
+                    </>
+                ) : null
+                }
 
 
-                    {visitHasMedications ? (
-                        <>
-                            <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE MEDICATIONS' : 'MEDICATIONS'}</h4>
+                {visitHasMedications ? (
+                    <>
+                        <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE MEDICATIONS' : 'MEDICATIONS'}</h4>
+                        <div className={style.visitWrapper}>
                             <table className={style.editableTable}>
                                 <thead>
                                     <tr><th></th><th>Drug</th><th>Start date</th><th>Dose</th><th>Form</th><th>Frequency</th><th>#interruptions</th><th></th></tr>
@@ -274,14 +293,16 @@ class OneVisit extends Component {
                                         .map(el => <Medication key={el.id} data={el} />)}
                                 </tbody>
                             </table>
-                        </>
-                    ) : null
-                    }
+                        </div>
+                    </>
+                ) : null
+                }
 
 
-                    {visitHasClinicalEvents ? (
-                        <>
-                            <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'BASELINE CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
+                {visitHasClinicalEvents ? (
+                    <>
+                        <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'BASELINE CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
+                        <div className={style.visitWrapper}>
                             <table className={style.editableTable}>
                                 <thead>
                                     <tr><th></th><th>Type</th><th>Start date</th><th>End date</th><th>MedDRA</th><th></th></tr>
@@ -293,11 +314,11 @@ class OneVisit extends Component {
                                         .map(el => <ClinicalEvent key={el.id} data={el} />)}
                                 </tbody>
                             </table>
-                        </>
-                    ) : null
-                    }
-                    <br />
-                </div>
+                        </div>
+                    </>
+                ) : null
+                }
+                <br />
                 <br />
             </TimelineEvent>
         );
