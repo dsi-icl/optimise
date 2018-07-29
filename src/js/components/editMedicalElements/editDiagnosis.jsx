@@ -28,7 +28,7 @@ export default class EditDiagnosis extends Component {
 
 @connect(state => ({ patientId: state.patientProfile.data.patientId, diagnosis: state.patientProfile.data.diagnosis ? state.patientProfile.data.diagnosis[0] : {}, fields: state.availableFields.diagnoses }))
 class UpdateDiagnosisEntry extends Component {
-    constructor(props) {
+    constructor() {
         super();
         this.state = {
             date: moment(),

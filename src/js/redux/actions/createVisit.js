@@ -25,9 +25,9 @@ export const createShadowVisitAPICall = (body, context) => dispatch => {
 };
 
 
-export const updateVisitAPICall = (body, context) => dispatch => {
+export const updateVisitAPICall = (body) => dispatch => {
     return apiHelper('/visits', { method: 'PUT', body: JSON.stringify(body.visitData) })
-        .then(json => {
+        .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
         .catch(msg => console.log(msg));

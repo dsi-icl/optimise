@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { DataTemplate } from './dataPage';
 import { TreatmentInterruption } from './treatmentInterruptions';
 import { VisitData } from './visitDataPage';
 import { TestData } from './testDataPage';

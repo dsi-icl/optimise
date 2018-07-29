@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { addError } from '../../redux/actions/error';
 import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from './utils';

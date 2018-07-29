@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/dataPage';
-import { SuggestionInput } from '../meDRA/meDRApicker';
+// import { SuggestionInput } from '../meDRA/meDRApicker';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
 import { addAlert } from '../../redux/actions/alert';
