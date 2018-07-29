@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Icon from '../icon';
@@ -16,6 +17,7 @@ export class TimelineBox extends Component {   //unfinsihed
     render() {
         const allVisitDates = this.props.data.visits.filter(el => el.type === 1).map(el => el.visitDate);
         const allTestDates = this.props.data.tests.map(el => el.expectedOccurDate);
+        const allTreatmentDates = this.props.data.treatments.map(el => el.startDate);
         const allCEDates = [];
         this.props.data.clinicalEvents.forEach(function (el) {
             allCEDates.push(el.dateStartDate);
@@ -23,12 +25,14 @@ export class TimelineBox extends Component {   //unfinsihed
                 allCEDates.push(el.endDate);
             }
         });
-        const allDates = [...allVisitDates, ...allTestDates, ...allCEDates];
+        const allDates = [...allVisitDates, ...allTestDates, ...allTreatmentDates, ...allCEDates];
         allDates.sort();
         const daySpan = parseInt(((parseInt(allDates[allDates.length - 1], 10) - parseInt(allDates[0], 10)) / 86400000), 10);
         const numOfCols = `10% ${'1fr '.repeat(daySpan + 3)}`;
         const TimelineDynamicStyle = {
-            gridTemplateColumns: numOfCols
+            gridTemplateColumns: numOfCols,
+            gridTemplateRows: '1em 0.5em 1em 0.5em 1em 0.5em 1em'
+
         };
         const mappingVisitFunction = visit => {
             const date = visit.visitDate;
@@ -49,9 +53,10 @@ export class TimelineBox extends Component {   //unfinsihed
             );
         };
         const mappingMedFunction = med => {
-            const date = med.visitDate;
+            const date = med.startDate;
             const ratio = parseInt((date - allDates[0]) / 86400000, 10);
-            const durationInDays = 7; // TODO ; This has to be changes
+            let endDate = med.terminatedDate && !isNaN(parseInt(med.terminatedDate)) ? parseInt(med.terminatedDate) : moment().valueOf();
+            const durationInDays = Math.floor((endDate - parseInt(med.startDate)) / 1000 / 60 / 60 / 24);
             return (
                 <a title={new Date(parseInt(date, 10)).toDateString()} key={`${med.id}med`} href={`#treatment/${med.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '1', textDecoration: 'none' }}>
                     <div className={style.timelineMed}>-</div>
