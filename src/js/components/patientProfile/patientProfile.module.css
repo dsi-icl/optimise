@@ -116,12 +116,11 @@
 .timelineBox {
     border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
     background-color: hsl(var(--color-background-h), var(--color-background-s), 98%);
-    grid-template-rows: 2em 0.5em 2em 0.5em 2em 0.5em 2em;
     width: 100%;
     display: grid;
     overflow: hidden;
     padding: 1em;
-    line-height: 2em;
+    line-height: 1em;
 }
 
 div.timelineVisit {
