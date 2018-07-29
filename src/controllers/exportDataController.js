@@ -29,7 +29,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -54,7 +54,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     csvFileArray.push(new createCsvDataFile(result, 'SC_smoking'));
                     jsonFileArray.push(new createJsonDataFile(result, 'SC_smoking'));
                 }
@@ -70,7 +70,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.DOMAIN = 'SU';
                     });
@@ -92,7 +92,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -125,7 +125,7 @@ class ExportDataController {
             .andWhere('VISIT_DATA.deleted', '-')
             .andWhere('AVAILABLE_FIELDS_VISITS.section', 1)
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.DOMAIN = 'VS';
                     });
@@ -143,7 +143,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.AETERM = x.AELLT;
                         x.DOMAIN = 'AE';
@@ -162,7 +162,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('CLINICAL_EVENTS.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.AETERM = x.AELLT;
                         x.DOMAIN = 'AE';
@@ -183,7 +183,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('TREATMENTS_INTERRUPTIONS.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.AETERM = x.AELLT;
                         x.DOMAIN = 'AE';
@@ -205,7 +205,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -229,7 +229,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -254,7 +254,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -285,7 +285,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let newResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -316,7 +316,7 @@ class ExportDataController {
             .where('ORDERED_TESTS.type', 2)
             .andWhere('TEST_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let newResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -345,7 +345,7 @@ class ExportDataController {
             .andWhere('TEST_DATA.deleted', '-')
             .andWhere('ORDERED_TESTS.id', 1)
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.LBTESTCD = x.LBTEST; // WILL UPDATE AFTER CONSULTATION
                         x.DOMAIN = 'LB';
@@ -369,7 +369,7 @@ class ExportDataController {
             .andWhere('ORDERED_TESTS.id', 4)
             .then(result => {
                 let prResultArr = [];
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.LBTESTCD = x.LBTEST; // WILL UPDATE AFTER CONSULTATION
                         x.DOMAIN = 'LB';
@@ -399,7 +399,7 @@ class ExportDataController {
             .andWhere('TEST_DATA.deleted', '-')
             .andWhere('ORDERED_TESTS.id', 3)
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.DOMAIN = 'MO';
                     });
@@ -418,7 +418,7 @@ class ExportDataController {
             .where('PATIENTS.deleted', '-')
             .andWhere('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.DOMAIN = 'FA';
                     });
@@ -435,11 +435,11 @@ class ExportDataController {
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .whereIn('AVAILABLE_FIELDS_VISITS.section', [2,3])
+            .whereIn('AVAILABLE_FIELDS_VISITS.section', [2, 3])
             .andWhere('PATIENTS.deleted', '-')
             .andWhere('VISIT_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.DOMAIN = 'CE';
                     });
@@ -461,7 +461,7 @@ class ExportDataController {
             .andWhere('PATIENTS.deleted', '-')
             .andWhere('VISIT_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.OELOC = 'EYE';
                         x.DOMAIN = 'OE';
@@ -484,7 +484,7 @@ class ExportDataController {
             .andWhere('PATIENTS.deleted', '-')
             .andWhere('VISIT_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.QSSTRESN = x.QSORRES;
                         x.DOMAIN = 'QS';
@@ -507,7 +507,7 @@ class ExportDataController {
             .andWhere('PATIENTS.deleted', '-')
             .andWhere('VISIT_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.FTSTRESN = x.FTORRES;
                         x.DOMAIN = 'FT';
@@ -523,7 +523,7 @@ class ExportDataController {
         knex('TREATMENTS')
             .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_DRUGS.name as EXTRT',
                 'AVAILABLE_DRUGS.module as EXCLAS', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit as EXDOSU', 'TREATMENTS.startDate as EXSTDTC',
-                'TREATMENTS.times', 'TREATMENTS.intervalUnit' ,'TREATMENTS.form as EXROUTE', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC_2',
+                'TREATMENTS.times', 'TREATMENTS.intervalUnit', 'TREATMENTS.form as EXROUTE', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC_2',
                 'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason',
                 'TREATMENTS_INTERRUPTIONS.endDate as EXENDTC_2', 'REASONS.value as REASON',
                 'ADVERSE_EVENT_MEDDRA.name as MEDDRA')
@@ -535,7 +535,7 @@ class ExportDataController {
             .leftOuterJoin('REASONS', 'REASONS.id', 'TREATMENTS_INTERRUPTIONS.reason')
             .where('TREATMENTS.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -546,7 +546,8 @@ class ExportDataController {
                             entry.EXENDTC = new Date(entry.EXENDTC).toString();
                         }
                         entry.DOMAIN = 'EX';
-                        entry.EXDOSFRQ = entry.times.concat(entry.intervalUnit);
+                        if (entry.times && entry.intervalUnit)
+                            entry.EXDOSFRQ = entry.times.concat(entry.intervalUnit);
                         convertedResult.push(entry);
                     }
                     csvFileArray.push(new createCsvDataFile(convertedResult, 'EX'));
@@ -585,8 +586,8 @@ class ExportDataController {
             const tempCsvFileName = `${prefix}${csvFileName}`;
             let keys = Object.keys(result[0]); // get the keys from result to create headers
             let tempResult = `${keys.join(',')}\n`;
-            result.forEach(function(obj) {
-                keys.forEach(function(a, b){
+            result.forEach(function (obj) {
+                keys.forEach(function (a, b) {
                     if (b) tempResult += ',';
                     tempResult += obj[a];
                 });
