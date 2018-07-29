@@ -79,6 +79,11 @@
     background-color: var(--color-shade-one);
 }
 
+.visitWrapper {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
 .immunisationItem:hover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), 92%);
 }

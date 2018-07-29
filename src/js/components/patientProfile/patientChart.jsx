@@ -180,6 +180,8 @@ class OneVisit extends Component {
         const relevantFieldsIdArray = relevantFields.map(el => el.id);
         const symptoms = this.props.visitData.filter(el => el.field > 6 && relevantFieldsIdArray.includes(el.field));
 
+        if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
+            return null;
         return (
             <TimelineEvent
                 id={`visit/${this.props.visitId}`}
@@ -189,111 +191,114 @@ class OneVisit extends Component {
                 className={style.historyVisit}
                 bubbleStyle={{ borderColor: 'transparent' }}>
 
-                {this.props.visitType === 1 ? (
-                    <>
-                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td >Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
-                                    <td >Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
-                                </tr>
-                                <tr>
-                                    <td >Heart rate: {`${VSHashTable['2']} bpm`}</td>
-                                    <td >Height: {`${VSHashTable['4']} cm`}</td>
-                                </tr>
-                                <tr>
-                                    <td >Weight: {`${VSHashTable['5']} kg`}</td>
-                                    {isMinor ? <td >Academic concerns: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td> : null}
-                                </tr>
-                            </tbody>
-                        </table>
+                <div className={style.visitWrapper}>
 
-                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS AND SIGNS INDICATING MS' : 'SYMPTOMS AND SIGNS'}</h4>
-                        {relevantFields.length !== 0 ? (
-                            <>
-                                <table>
-                                    <thead>
-                                        <tr><th>Recorded symptoms</th><th>Value</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {symptoms.map(el => <Symptom key={el.field} data={el} />)}
-                                    </tbody>
-                                </table>
-                                <br />
-                            </>
-                        ) : null}
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Edit / Add</button>
-                        </NavLink>
+                    {this.props.visitType === 1 ? (
+                        <>
+                            <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td >Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
+                                        <td >Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
+                                    </tr>
+                                    <tr>
+                                        <td >Heart rate: {`${VSHashTable['2']} bpm`}</td>
+                                        <td >Height: {`${VSHashTable['4']} cm`}</td>
+                                    </tr>
+                                    <tr>
+                                        <td >Weight: {`${VSHashTable['5']} kg`}</td>
+                                        {isMinor ? <td >Academic concerns: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td> : null}
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                        <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Edit / Add</button>
-                        </NavLink>
+                            <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS AND SIGNS INDICATING MS' : 'SYMPTOMS AND SIGNS'}</h4>
+                            {relevantFields.length !== 0 ? (
+                                <>
+                                    <table>
+                                        <thead>
+                                            <tr><th>Recorded symptoms</th><th>Value</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            {symptoms.map(el => <Symptom key={el.field} data={el} />)}
+                                        </tbody>
+                                    </table>
+                                    <br />
+                                </>
+                            ) : null}
+                            <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                                <button>Edit / Add</button>
+                            </NavLink>
 
-                        <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Edit / Add</button>
-                        </NavLink>
-                    </>
-                ) : null}
+                            <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
+                            <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                                <button>Edit / Add</button>
+                            </NavLink>
 
-                {visitHasTests ? (
-                    <>
-                        <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'TESTS'}</h4>
-                        <table className={style.editableTable}>
-                            <thead>
-                                <tr><th></th><th>Type</th><th>Test date</th><th></th></tr>
-                            </thead>
-                            <tbody>
-                                {this.props.data.tests
-                                    .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                    .map(el => <Test key={el.id} data={el} />)}
-                            </tbody>
-                        </table>
-                    </>
-                ) : null
-                }
+                            <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
+                            <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                                <button>Edit / Add</button>
+                            </NavLink>
+                        </>
+                    ) : null}
 
-
-                {visitHasMedications ? (
-                    <>
-                        <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE MEDICATIONS' : 'MEDICATIONS'}</h4>
-                        <table className={style.editableTable}>
-                            <thead>
-                                <tr><th></th><th>Drug</th><th>Start date</th><th>Dose</th><th>Form</th><th>Frequency</th><th>#interruptions</th><th></th></tr>
-                            </thead>
-                            <tbody>
-                                {this.props.data.treatments
-                                    .filter(el => el['orderedDuringVisit'] === this.props.visitId)
-                                    .map(el => <Medication key={el.id} data={el} />)}
-                            </tbody>
-                        </table>
-                    </>
-                ) : null
-                }
+                    {visitHasTests ? (
+                        <>
+                            <h4><Icon symbol='addTest' className={style.timelineTest} />&nbsp;{baselineVisit ? 'PREVIOUS TESTS' : 'TESTS'}</h4>
+                            <table className={style.editableTable}>
+                                <thead>
+                                    <tr><th></th><th>Type</th><th>Test date</th><th></th></tr>
+                                </thead>
+                                <tbody>
+                                    {this.props.data.tests
+                                        .filter(el => el['orderedDuringVisit'] === this.props.visitId)
+                                        .map(el => <Test key={el.id} data={el} />)}
+                                </tbody>
+                            </table>
+                        </>
+                    ) : null
+                    }
 
 
-                {visitHasClinicalEvents ? (
-                    <>
-                        <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'BASELINE CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
-                        <table className={style.editableTable}>
-                            <thead>
-                                <tr><th></th><th>Type</th><th>Start date</th><th>End date</th><th>MedDRA</th><th></th></tr>
-                            </thead>
-                            <tbody>
-                                {this.props.data.clinicalEvents
-                                    .filter(el => el['recordedDuringVisit'] === this.props.visitId)
-                                    /* change this map later to calculated patientId*/
-                                    .map(el => <ClinicalEvent key={el.id} data={el} />)}
-                            </tbody>
-                        </table>
-                    </>
-                ) : null
-                }
+                    {visitHasMedications ? (
+                        <>
+                            <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE MEDICATIONS' : 'MEDICATIONS'}</h4>
+                            <table className={style.editableTable}>
+                                <thead>
+                                    <tr><th></th><th>Drug</th><th>Start date</th><th>Dose</th><th>Form</th><th>Frequency</th><th>#interruptions</th><th></th></tr>
+                                </thead>
+                                <tbody>
+                                    {this.props.data.treatments
+                                        .filter(el => el['orderedDuringVisit'] === this.props.visitId)
+                                        .map(el => <Medication key={el.id} data={el} />)}
+                                </tbody>
+                            </table>
+                        </>
+                    ) : null
+                    }
+
+
+                    {visitHasClinicalEvents ? (
+                        <>
+                            <h4><Icon symbol='addEvent' className={style.timelineCE} />&nbsp;{baselineVisit ? 'BASELINE CLINICAL EVENTS' : 'CLINICAL EVENTS'}</h4>
+                            <table className={style.editableTable}>
+                                <thead>
+                                    <tr><th></th><th>Type</th><th>Start date</th><th>End date</th><th>MedDRA</th><th></th></tr>
+                                </thead>
+                                <tbody>
+                                    {this.props.data.clinicalEvents
+                                        .filter(el => el['recordedDuringVisit'] === this.props.visitId)
+                                        /* change this map later to calculated patientId*/
+                                        .map(el => <ClinicalEvent key={el.id} data={el} />)}
+                                </tbody>
+                            </table>
+                        </>
+                    ) : null
+                    }
+                    <br />
+                </div>
                 <br />
-
             </TimelineEvent>
         );
     }
