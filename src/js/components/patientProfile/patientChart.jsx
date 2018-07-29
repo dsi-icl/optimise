@@ -318,8 +318,6 @@ class OneVisit extends Component {
                     </>
                 ) : null
                 }
-                <br />
-                <br />
             </TimelineEvent>
         );
     }
