@@ -150,8 +150,8 @@ export class CreateTreatment extends Component {
                             <option value='month'>month</option>
                             <option value='year'>year</option>
                         </select><br /><br />
-                        <label htmlFor='noEndDate'>No end date: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br /><br />
-                        {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}
+                        <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
+                        {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}<br />
                         {/* <label htmlFor='terminatedReason'>Reason: </label>
                         <select name='terminatedReason' ref={this.reasonRef}>
                             {this.props.interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
