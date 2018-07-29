@@ -94,7 +94,7 @@ export class SearchResultForPatients extends Component {
         const { searchString, searchType, listOfPatients } = this.props;
         return (
             <div className={style.searchResultWrapper}>
-                {listOfPatients !== undefined && listOfPatients.filter(el => el['aliasId'] === searchString).length === 0 && searchString !== '' && (searchType === 'USUBJID' || searchType === '') ?
+                {listOfPatients !== undefined && listOfPatients.filter(el => el['aliasId'].toLowerCase() === searchString.toLowerCase()).length === 0 && searchString !== '' && (searchType === 'USUBJID' || searchType === '') ?
                     <Link to={`/createPatient/${searchString}`} className={style.searchItem}>
                         <div>
                             <span className={style.createPatientSign}>&#43;</span><br />
@@ -112,7 +112,7 @@ export class SearchResultForPatients extends Component {
 class PatientButton extends PureComponent {
     render() {
         const { data, searchString } = this.props;
-        const ind = data.aliasId.indexOf(searchString);
+        const ind = data.aliasId.toLowerCase().indexOf(searchString.toLowerCase());
         const styledName = (
             <span>
                 <b>
