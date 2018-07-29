@@ -182,15 +182,40 @@ div.timelineCEBlack {
     line-height: 1.3em;
 }
 
-.historyVisit div:nth-child(3){
-    width: calc(100% + 4.5em) !important;
-    margin-top: -0.5em !important;
-    margin-bottom: -0.5em !important;
-    margin-left: -3.5em;
-    padding-left: 3.5em !important;
-    padding-bottom: 0 !important;
+.history > div:first-child {
+    margin-top: 0.5em;
+    padding-bottom: -5em;
+    z-index: 1;
+}
+
+.history > div:not(:first-child) {
+    padding-top: 0.5em;
+}
+.history > div:not(:first-child) > div:first-child {
+    margin-top: 0.5em;
+    z-index: 2;
+}
+
+.historyVisit > div:nth-child(3) {
+    width: calc(100% + 5.9em) !important;
+    margin-top: -3.5em !important;
+    margin-bottom: 0 !important;
+    margin-left: -4.7em;
+    padding-left: 4.7em !important;
+    padding-bottom: 1em !important;
+    padding-top: 3em !important;
     background-color: transparent !important;
-    box-shadow: none !important;    
+    box-shadow: none !important;
+    transition: background-color 500ms;
+}
+
+.historyVisit > div:nth-child(3):hover {
+    background-color: hsl(var(--color-shade-two-h), var(--color-shade-two-s), 97%) !important;
+}
+
+.historyVisit > div:nth-child(3):hover th,
+.historyVisit > div:nth-child(3):hover td {
+    background-color: white;
 }
 
 .editableTable td:nth-child(1){
