@@ -2,6 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
+import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
 import { PatientProfileSectionScaffold, PatientProfileTop, EditButton } from './sharedComponents';
 import { TimelineBox } from './timeline';
 import Helmet from '../scaffold/helmet';
@@ -179,6 +180,8 @@ class OneVisit extends Component {
         const relevantEDSSFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && /^edss:(.*)/.test(field.idname));
         const relevantEDSSFieldsIdArray = relevantEDSSFields.map(el => el.id);
         const performances = this.props.visitData.filter(el => el.field > 6 && relevantEDSSFieldsIdArray.includes(el.field));
+        const communication = this.props.data.visits.filter(v => v.id === this.props.visitId)[0].communication
+        const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
 
         if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
             return null;
@@ -250,8 +253,15 @@ class OneVisit extends Component {
                         </NavLink>
 
                         <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
+                        {communication ? (
+                            <>
+                                <div className={`${style.visitWrapper} ${style.editorSneak}`}>
+                                    <Editor editorState={originalEditorState} onChange={() => null} />
+                                </div><br />
+                            </>
+                        ) : null}
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Edit / Add</button>
+                            <button>Edit / Export</button>
                         </NavLink>
                     </>
                 ) : null}

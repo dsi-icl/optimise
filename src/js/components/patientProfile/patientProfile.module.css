@@ -84,6 +84,15 @@
     overflow-x: auto;
 }
 
+.editorSneak {
+    border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 92%);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 7.5));
+    padding: 1em;
+    font-size: 0.8em;
+}
+
+
+
 .immunisationItem:hover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), 92%);
 }
@@ -217,7 +226,8 @@ div.timelineCEBlack {
 }
 
 .historyVisit > div:nth-child(3):hover th,
-.historyVisit > div:nth-child(3):hover td {
+.historyVisit > div:nth-child(3):hover td,
+.historyVisit > div:nth-child(3):hover .editorSneak {
     background-color: white;
 }
 
