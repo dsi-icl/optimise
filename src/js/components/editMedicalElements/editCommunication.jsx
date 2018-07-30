@@ -20,6 +20,8 @@ export default class EditCommunication extends Component {
         const { params } = match;
         const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash, VSFields_Hash, visitFields_Hash, visitFields } = this.props.availableFields;
         let { visits, tests, treatments, clinicalEvents } = data;
+        const symptomsFields = visitFields.filter(el => [2,3].includes(el.section));
+        const symptomsFieldsHash = symptomsFields.reduce((a, el) => { a[el.id] = el; return a;}, {});
         visits = visits.filter(el => el.id === parseInt(params.visitId));
         if (visits.length !== 1) {
             return <div>Cannot find your visit!</div>;
@@ -32,7 +34,7 @@ export default class EditCommunication extends Component {
         const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0]);
         const medBlock = formatTreatments(treatments, drugs_Hash[0]);
         const VSBlock = formatVS(visits[0].data || [], VSFields_Hash[0]);
-        const symptomBlock = formatSymptomsAndSigns(visits[0].data || [], visitFields_Hash[0]);
+        const symptomBlock = formatSymptomsAndSigns(visits[0].data || [], symptomsFieldsHash);
         const perfBlock = formatEdss(visits[0].data || [], edssHash);
         const precomposed = { testBlock, ceBlock, medBlock, symptomBlock, VSBlock, perfBlock };
         const originalEditorState = visits[0].communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(visits[0].communication))) : EditorState.createEmpty();
