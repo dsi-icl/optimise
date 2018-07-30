@@ -1,6 +1,6 @@
 FROM node:10.6.0-alpine
 
-LABEL author="Florian Guitton" email="f.guitton@imperial.ac.uk" version="1.9.15"
+LABEL author="Florian Guitton" email="f.guitton@imperial.ac.uk"
 
 RUN mkdir -p /optimise/db
 
