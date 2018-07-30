@@ -123,10 +123,12 @@ const symptomTitle = () => (
 );
 
 
-
 const oneSignOrSymptom = (data, VSFields_Hash) => {
     const fieldObj = VSFields_Hash[data.field];
     if (fieldObj) {
+        if (fieldObj.type === 5) {
+            return `- ${fieldObj.definition}: ${data.value === '1' ? 'YES' : (data.value === '0' ? 'NO' : 'unknown')}`;
+        }
         return `- ${fieldObj.definition}: ${data.value}`;
     } else {
         return '';
