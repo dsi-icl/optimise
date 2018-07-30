@@ -6,6 +6,7 @@ import { BackButton } from '../medicalData/dataPage';
 import { updateVisitAPICall } from '../../redux/actions/createVisit';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
+import { saveAs } from 'file-saver';
 
 
 /* container; fetches all the data and format it into CONTENTSTATE and pass them to the children */
@@ -75,6 +76,7 @@ class CommunicationEditor extends Component {
         this._onUnderlineClick = this._onUnderlineClick.bind(this);
         this._onSubmit = this._onSubmit.bind(this);
         this._onClick = this._onClick.bind(this);
+        this._exportPlainText = this._exportPlainText.bind(this);
     }
 
     static getDerivedStateFromProps(props, currentState) {
@@ -94,6 +96,14 @@ class CommunicationEditor extends Component {
             return 'handled';
         }
         return 'not-handled';
+    }
+
+    _exportPlainText(ev){
+        ev.preventDefault();
+        const { visitId } = this.state;
+        const text = this.state.editorState.getCurrentContent().getPlainText();
+        const file = new Blob([text], {type: 'text/plain'});
+        saveAs(file, `visit_${visitId}_communication_${new Date().toDateString().replace(/ /g, '_')}`); // eslint-disable-line
     }
 
     _onClick(ev) {
@@ -169,6 +179,8 @@ class CommunicationEditor extends Component {
                 </div>
                 <br />
                 <button onClick={this._onSubmit}>Save</button>
+                <br/><br/>
+                <button onClick={this._exportPlainText}>Export as plain text (without styling)</button>
                 <br /><br />
             </>
         );
