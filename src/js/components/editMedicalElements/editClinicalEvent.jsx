@@ -64,7 +64,7 @@ export default class EditCE extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    {wannaUpdate ? <UpdateCEEntry data={CE} /> : null}
+                    {wannaUpdate ? <UpdateCEEntry data={CE} elementId={params.elementId} /> : null}
                     {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
                         <><button onClick={this._handleWannaUpdateClick}>Change start date / MedDRA</button><br /><br /></>
                     }
@@ -84,6 +84,7 @@ class UpdateCEEntry extends Component {
         super();
         this.state = {
             id: props.data.id,
+            elementId: props.elementId,
             startDate: moment(parseInt(props.data.dateStartDate)),
             endDate: props.data.endDate ? moment(parseInt(props.data.endDate)) : moment(),
             noEndDate: true,
@@ -98,9 +99,12 @@ class UpdateCEEntry extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
+        if (props.elementId === state.elementId)
+            return state;
         return {
             ...state,
             id: props.data.id,
+            elementId: props.elementId,
             startDate: moment(parseInt(props.data.dateStartDate)),
             meddra: React.createRef(),
             meddraOriginal: props.data.meddra
