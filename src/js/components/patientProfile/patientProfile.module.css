@@ -464,11 +464,28 @@ div.timelineCEBlack {
     background-color: transparent;
 }
 
-.timelineEDSSPlotter svg {
-}
-
 .timelineEDSSPlotter line {
     stroke: var(--color-background);
+}
+
+.timelineRelapseItem svg {
+    overflow: visible;
+}
+
+.timelineRelapseItem circle {
+    fill: rgb(255, 102, 102);
+}
+
+.timelineRelapseItem line {
+    stroke: var(--color-background);
+}
+
+.timelineRelapseItem line.dashed {
+    stroke-dasharray: 0.2em;
+}
+
+.timelineRelapseItem line.cross {
+    stroke: rgb(255, 102, 102);
 }
 
 .timelineEDSSPlotterPad {

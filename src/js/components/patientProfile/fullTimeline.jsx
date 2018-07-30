@@ -34,11 +34,12 @@ export default class FullTimeline extends Component {
 
         let defaultTimeStart = moment().startOf('day').toDate();
         let defaultTimeEnd = moment();
+        // let groups = [{
+        //     id: 0,
+        //     title: 'Immunisations',
+        //     root: true
+        // }, {
         let groups = [{
-            id: 0,
-            title: 'Immunisations',
-            root: true
-        }, {
             id: 1,
             title: 'Treatments',
             root: true
@@ -51,8 +52,12 @@ export default class FullTimeline extends Component {
             title: 'Tests',
             root: true
         }, {
+            id: 6,
+            title: 'Replases',
+            root: true
+        }, {
             id: 4,
-            title: 'Clinical Event',
+            title: 'Adverse Event',
             root: true
         }, {
             id: 5,
@@ -175,15 +180,18 @@ export default class FullTimeline extends Component {
                     maxTimeStart = moment(c.dateStartDate, 'x').toDate();
                 if (maxTimeStart.valueOf() > moment(c.endDate, 'x').valueOf())
                     maxTimeStart = moment(c.endDate, 'x').toDate();
+                let severityFieldId = props.availableFields.clinicalEventFields.filter(f => f.idname === 'Severity')[0].id;
+                let severityRecord = c.data.filter(d => d.field === severityFieldId)[0];
                 items.push({
                     id: `cl_${c.id}`,
-                    group: 4,
+                    severity: severityRecord ? severityRecord.value : undefined,
+                    group: props.availableFields.clinicalEventTypes_Hash[0][c.type] === 'Relapse' ? 6 : 4,
                     title: props.availableFields.clinicalEventTypes_Hash[0][c.type],
                     start: moment(c.dateStartDate, 'x').valueOf(),
-                    end: c.endDate ? moment(c.endDate, 'x').add(1, 'day').valueOf() : moment(c.dateStartDate, 'x').add(1, 'hour').valueOf(),
+                    end: c.endDate ? moment(c.endDate, 'x').add(1, 'day').valueOf() : moment().add(12, 'hours').valueOf(),
                     canMove: false,
                     canResize: false,
-                    className: style.timelineCEItem,
+                    className: props.availableFields.clinicalEventTypes_Hash[0][c.type] === 'Relapse' ? style.timelineRelapseItem : style.timelineCEItem,
                     itemProps: {
                         'data-tip': props.availableFields.clinicalEventTypes_Hash[0][c.type]
                     }
@@ -229,22 +237,22 @@ export default class FullTimeline extends Component {
     }
 
     timeBoudary = (visibleTimeStart, visibleTimeEnd, updateScrollCanvas) => {
-        const minTime = moment(this.state.maxTimeStart).subtract(12, 'hours').valueOf();
-        const maxTime = moment().add(12, 'hours').valueOf();
-        if (visibleTimeStart < minTime && visibleTimeEnd > maxTime) {
-            updateScrollCanvas(minTime, maxTime);
-        } else if (visibleTimeStart < minTime) {
-            updateScrollCanvas(minTime, minTime + (visibleTimeEnd - visibleTimeStart));
-        } else if (visibleTimeEnd > maxTime) {
-            updateScrollCanvas(maxTime - (visibleTimeEnd - visibleTimeStart), maxTime);
-        } else {
-            updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
-        }
         let now = moment().valueOf();
-        if (now - this.state.now > 10)
-            this.setState({
-                now
-            });
+        this.setState({
+            now
+        }, () => {
+            const minTime = moment(this.state.maxTimeStart).subtract(12, 'hours').valueOf();
+            const maxTime = moment().add(12, 'hours').valueOf();
+            if (visibleTimeStart < minTime && visibleTimeEnd > maxTime) {
+                updateScrollCanvas(minTime, maxTime);
+            } else if (visibleTimeStart < minTime) {
+                updateScrollCanvas(minTime, minTime + (visibleTimeEnd - visibleTimeStart));
+            } else if (visibleTimeEnd > maxTime) {
+                updateScrollCanvas(maxTime - (visibleTimeEnd - visibleTimeStart), maxTime);
+            } else {
+                updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
+            }
+        });
     }
 
     groupRenderer({ group }) {
@@ -262,7 +270,34 @@ export default class FullTimeline extends Component {
 
     itemRenderer({ item, timelineContext }) {
 
-        if (item.id === 'edss_plotter') {
+        if (item.title === 'Relapse') {
+            let unit = (timelineContext.visibleTimeEnd - timelineContext.visibleTimeStart);
+            let x1 = (parseFloat(item.start) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
+            if (parseFloat(item.start) > timelineContext.visibleTimeStart)
+                x1 = 0;
+            let x2 = (parseFloat(item.end) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
+            if (parseFloat(item.start) > timelineContext.visibleTimeStart)
+                x2 = x2 + ((timelineContext.visibleTimeStart - parseFloat(item.start)) * timelineContext.timelineWidth / unit);
+            let severityRadius = item.severity === 'Mild' ? 5 : item.severity === 'Moderate' ? 10 : item.severity === 'Severe' ? 15 : 0;
+            return (
+                <div className={`${style.timelineBackground} ${item.className}`} style={{ width: timelineContext.timelineWidth }}>
+                    <svg height={40} width={timelineContext.timelineWidth}>
+                        <line x1={x1} y1={15} x2={x2} y2={15} className={style.dashed} />
+                        <line x1={x2} y1={10} x2={x2} y2={20} />
+                        {severityRadius === 0 ?
+                            (
+                                <>
+                                    <line x1={x1 - 4} y1={15 - 4} x2={x1 + 4} y2={15 + 4} className={style.cross} />
+                                    <line x1={x1 - 4} y1={15 + 4} x2={x1 + 4} y2={15 - 4} className={style.cross} />
+                                </>
+                            ) : (
+                                <circle cx={x1} cy={15} r={severityRadius} />
+                            )
+                        }
+                    </svg>
+                </div>
+            );
+        } else if (item.id === 'edss_plotter') {
             let unit = (timelineContext.visibleTimeEnd - timelineContext.visibleTimeStart);
             let previous = null;
             return (
@@ -317,6 +352,7 @@ export default class FullTimeline extends Component {
                         items={items}
                         itemRenderer={this.itemRenderer}
                         keys={keys}
+                        maxZoom={50 * 365.24 * 86400 * 1000}
                         showCursorLine
                         sidebarWidth={150}
                         stackItems
