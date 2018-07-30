@@ -65,7 +65,7 @@ export default class EditTest extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    {wannaUpdate ? <UpdateTestEntry location={location} data={test} /> : null}
+                    {wannaUpdate ? <UpdateTestEntry location={location} data={test} elementId={params.elementId} /> : null}
                     {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
                         <><button onClick={this._handleWannaUpdateClick}>Change test date</button><br /><br /></>
                     }
@@ -83,6 +83,7 @@ class UpdateTestEntry extends Component {
     constructor(props) {
         super();
         this.state = {
+            elementId: props.elementId,
             id: props.data.id,
             startDate: moment(parseInt(props.data.expectedOccurDate)),
             actualOccurredDate: !props.data.actualOccurredDate ? moment() : moment(parseInt(props.data.actualOccurredDate))
@@ -93,15 +94,19 @@ class UpdateTestEntry extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
+        if (props.elementId === state.elementId)
+            return state;
         return {
             ...state,
             id: props.data.id,
+            elementId: props.elementId,
             startDate: moment(parseInt(props.data.expectedOccurDate)),
             actualOccurredDate: !props.data.actualOccurredDate ? moment() : moment(parseInt(props.data.actualOccurredDate))
         };
     }
 
     _handleDateChange(date) {
+        console.log(date.valueOf());
         this.setState({
             startDate: date
         });
@@ -131,10 +136,11 @@ class UpdateTestEntry extends Component {
 
     render() {
         const { actualOccurredDate, startDate } = this.state;
+        console.log(startDate.valueOf());
         return (
             <>
                 <label>Expected Date: </label>
-                <PickDate startDate={startDate} handleChange={this._handleDateChange} />
+                <PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} />
                 <br /><br />
                 <label>Sample taking Date: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />
