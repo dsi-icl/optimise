@@ -123,6 +123,10 @@
     line-height: 1em;
 }
 
+.timelineBox table {
+    font-size: 0.7em;
+}
+
 div.timelineVisit {
     background-color: rgb(133, 150, 176);
     color: rgb(133, 150, 176);
