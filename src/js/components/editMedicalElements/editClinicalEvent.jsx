@@ -87,7 +87,7 @@ class UpdateCEEntry extends Component {
             elementId: props.elementId,
             startDate: moment(parseInt(props.data.dateStartDate)),
             endDate: props.data.endDate ? moment(parseInt(props.data.endDate)) : moment(),
-            noEndDate: true,
+            noEndDate: !props.data.endDate,
             meddra: React.createRef(),
             meddraOriginal: props.data.meddra
         };
