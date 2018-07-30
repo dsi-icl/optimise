@@ -107,8 +107,8 @@ export class CreateVisit extends Component {
                                 value={academicConcerns}
                                 autoComplete='off'
                             >
-                                <option value='1'>true</option>
-                                <option value='0'>false</option>
+                                <option value='1'>Yes</option>
+                                <option value='0'>No</option>
                             </select><br /><br />
                         </>
                         : null}

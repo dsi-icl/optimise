@@ -207,7 +207,7 @@ class OneVisit extends Component {
                                     </tr>
                                     <tr>
                                         <td >Weight: {`${VSHashTable['5']} kg`}</td>
-                                        {isMinor ? <td >Academic concerns: {VSHashTable['6'] === '0' ? 'false' : VSHashTable['6'] ? 'true' : 'null'}</td> : null}
+                                        {isMinor ? <td >Academic concerns: {VSHashTable['6'] === '0' ? 'No' : VSHashTable['6'] ? 'Yes' : 'null'}</td> : null}
                                     </tr>
                                 </tbody>
                             </table>
