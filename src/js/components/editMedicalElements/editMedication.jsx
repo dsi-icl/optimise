@@ -189,11 +189,11 @@ class UpdateMedEntry extends Component {
                 <input onChange={this._handleChange} name='times' value={times} /><br /><br />
                 <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleChange} autoComplete='off'>
                     <option value=''></option>
-                    <option value='hour'>hour</option>
-                    <option value='day'>day</option>
-                    <option value='week'>week</option>
-                    <option value='month'>month</option>
-                    <option value='year'>year</option>
+                    <option value='hour'>time per hour</option>
+                    <option value='day'>time per day</option>
+                    <option value='week'>times per week</option>
+                    <option value='month'>times per month</option>
+                    <option value='year'>times per year</option>
                 </select><br /><br />
                 <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
                 {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}<br />
