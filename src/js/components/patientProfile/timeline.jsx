@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -28,7 +28,6 @@ export class TimelineBox extends Component {   //unfinsihed
         });
         const allDates = [...allVisitDates, ...allTestDates, ...allTreatmentDates, ...allCEDates].map(el => parseInt(el));
         allDates.sort();
-        console.log('ALL DATES', allDates);
         const daySpan = parseInt(((allDates[allDates.length - 1] - allDates[0]) / 86400000), 10);
         const numOfCols = `10% ${'1fr '.repeat(daySpan + 3)}`;
         const TimelineDynamicStyle = {
@@ -36,26 +35,15 @@ export class TimelineBox extends Component {   //unfinsihed
             gridTemplateRows: '1em 0.5em 1em 0.5em 1em 0.5em 1em 0.5em 1em'
 
         };
-        const months = {
-            0: 'jan',
-            1: 'feb',
-            2: 'mar',
-            3: 'apr',
-            4: 'may',
-            5: 'jun',
-            6: 'jul',
-            7: 'aug',
-            8: 'sep',
-            9: 'oct',
-            10: 'nov',
-            11: 'dec'
-        };
-
 
         const mappingDateFunction = date => {
-            const ratio = parseInt((date - allDates[0]) / 86400000, 10);
+            let middle = date[0] + (date[1] - date[0]) / 2;
             return (
-                <div key={date} style={{ fontSize: 8, gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '9', overflow: 'visible' }}>{`${months[new Date(parseInt(date)).getMonth()]} ${new Date(parseInt(date)).getFullYear()}`}</div>
+                <>
+                    <td style={{ textAlign: 'left' }}>{moment(date[0], 'x').format('MMM YYYY')}</td>
+                    <td style={{ textAlign: 'center' }}>{moment(middle, 'x').format('MMM YYYY')}</td>
+                    <td style={{ textAlign: 'right' }}>{moment(date[date.length - 1], 'x').format('MMM YYYY')}</td>
+                </>
             );
         };
 
@@ -123,33 +111,15 @@ export class TimelineBox extends Component {   //unfinsihed
                         Events
                     </div>
                     <div style={{ gridColumn: '1/2', gridRow: '9', overflow: 'hidden' }}>
-                        
+
                     </div>
                     {this.props.data.visits.filter(el => el.type === 1).map(mappingVisitFunction)}
                     {this.props.data.tests.map(mappingTestFunction)}
                     {this.props.data.treatments.map(mappingMedFunction)}
                     {this.props.data.clinicalEvents.map(mappingCEFunction)}
-                    {formatDate(allDates).map(mappingDateFunction)}
+                    <table style={{ gridColumn: `3/${daySpan + 4}`, gridRow: '9' }}><tbody><tr>{mappingDateFunction(allDates)}</tr></tbody></table>
                 </div>
             </PatientProfileSectionScaffold>
         );
     }
-}
-
-
-function formatDate(allDates) {
-    const oneday = 86400000;
-    const ds = new Set(allDates);
-    const d = Array.from(ds.values());
-    if (d.length < 4) {
-        return d;
-    }
-    const allYears = d.map(el => new Date(el).getFullYear());
-    const ys = new Set(allYears);
-    const y = Array.from(ys.values());
-    const firstInstances = Array(d.length).fill(false);
-    for (let i = 0; i < y.length; i++) {
-        firstInstances[allYears.indexOf(y[i])] = true;
-    }
-    return d.filter((el, ind) => firstInstances[ind]);
 }
