@@ -186,10 +186,8 @@ class UpdateMedEntry extends Component {
                 </select><br /><br />
                 <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                 <label>Frequency (fill both or leave both blank): </label>
-                {/* <input onChange={this._handleChange} name='times' value={times} /><br /><br /> */}
                 <select name='times' value={times} onChange={this._handleChange} autoComplete='off'>
                     <option value=''></option>
-                    {/* <option value='hour'>times per hour</option> */}
                     <option value='1'>once</option>
                     <option value='2'>twice</option>
                     <option value='3'>three times</option>
@@ -197,19 +195,13 @@ class UpdateMedEntry extends Component {
                 </select><br /><br />
                 <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleChange} autoComplete='off'>
                     <option value=''></option>
-                    <option value='hour'>time per hour</option>
-                    <option value='day'>time per day</option>
-                    <option value='week'>times per week</option>
-                    <option value='month'>times per month</option>
-                    <option value='year'>times per year</option>
+                    <option value='day'>per day</option>
+                    <option value='week'>per week</option>
+                    <option value='month'>per month</option>
+                    <option value='year'>per year</option>
                 </select><br /><br />
                 <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
                 {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}<br />
-                {/* <label htmlFor='terminatedReason'>Reason: </label>
-                <select name='terminatedReason' ref={this.reasonRef}>
-                    {this.props.interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                </select><br /><br /> */}
-                {/* <label htmlFor='meddra'>MedDRA: </label><br /><SuggestionInput originalValue={this.props.meddraHash[this.state.terminatedReason]} reference={this.state.meddra} /><br /> */}
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
         );
