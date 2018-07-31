@@ -68,7 +68,7 @@ export default class EditMed extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>Edit Medication</h2>
+                    <h2>Edit Treatment</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
