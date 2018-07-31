@@ -639,8 +639,7 @@ class ExportDataController {
             if (arr.length >= 1) {
                 res.status(200).zip(arr);
             } else {
-                // TODO: change status code- error message is not displayed
-                res.status(204).json(ErrorHelper(message.userError.NOPATIENTDATA));
+                res.status(200).json(ErrorHelper(message.userError.NOPATIENTDATA));
             }
         }
     }
