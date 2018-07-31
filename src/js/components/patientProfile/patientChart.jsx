@@ -314,11 +314,11 @@ class OneVisit extends Component {
 
                 {visitHasMedications ? (
                     <>
-                        <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE MEDICATIONS' : 'MEDICATIONS'}</h4>
+                        <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE TREATMENTS' : 'TREATMENTS'}</h4>
                         <div className={style.visitWrapper}>
                             <table className={style.editableTable}>
                                 <thead>
-                                    <tr><th></th><th>Drug</th><th>Start date</th><th>Dose</th><th>Form</th><th>Frequency</th><th>#interruptions</th><th></th></tr>
+                                    <tr><th></th><th>Treatment</th><th>Start date</th><th>Dose</th><th>Form</th><th>Frequency</th><th>#interruptions</th><th></th></tr>
                                 </thead>
                                 <tbody>
                                     {this.props.data.treatments
