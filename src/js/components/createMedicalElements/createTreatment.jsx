@@ -141,14 +141,22 @@ export class CreateTreatment extends Component {
                             <option value='SC'>Subcutaneous</option>
                         </select><br /><br />
                         <label>Frequency (fill both or leave both blank): </label>
-                        <input onChange={this._handleInputChange} value={this.state.times} name='times' type='text' autoComplete='off' /><br /><br />
+                        {/* <input onChange={this._handleInputChange} value={this.state.times} name='times' type='text' autoComplete='off' /><br /><br /> */}
+                        <select name='times' value={this.state.times} onChange={this._handleInputChange} autoComplete='off'>
+                            <option value=''></option>
+                            {/* <option value='hour'>times per hour</option> */}
+                            <option value='1'>once</option>
+                            <option value='2'>twice</option>
+                            <option value='3'>three times</option>
+                            <option value='4'>four times</option>
+                        </select><br /><br />
                         <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleInputChange} autoComplete='off'>
                             <option value=''></option>
-                            <option value='hour'>times per hour</option>
-                            <option value='day'>times per day</option>
-                            <option value='week'>times per week</option>
-                            <option value='month'>times per month</option>
-                            <option value='year'>times per year</option>
+                            {/* <option value='hour'>per hour</option> */}
+                            <option value='day'>per day</option>
+                            <option value='week'>per week</option>
+                            <option value='month'>per month</option>
+                            <option value='year'>per year</option>
                         </select><br /><br />
                         <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
                         {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}<br />
