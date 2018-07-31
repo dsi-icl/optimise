@@ -68,15 +68,15 @@ export default class EditMed extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>Edit Medication</h2>
+                    <h2>Edit Treatment</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
                     {wannaUpdate ? <UpdateMedEntry data={treatment} /> : null}
                     {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
-                        <><button onClick={this._handleWannaUpdateClick}>Change drug, dose, form or frequency</button> <br /> <br /></>
+                        <><button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button> <br /> <br /></>
                     }
-                    <button onClick={this._handleClick} className={style.deleteButton}>Delete this medication</button>
+                    <button onClick={this._handleClick} className={style.deleteButton}>Delete this treatment</button>
                     <br /><br />
                 </form>
             </>
@@ -164,7 +164,7 @@ class UpdateMedEntry extends Component {
         const { drugs } = this.props;
         return (
             <>
-                <label>Drug: </label>
+                <label>Treatment: </label>
                 <select onChange={this._handleChange} name='drug' value={drug}>
                     {drugs.map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
                 </select><br /><br />

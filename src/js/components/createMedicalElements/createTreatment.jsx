@@ -118,11 +118,11 @@ export class CreateTreatment extends Component {
                     </div>
                     <form className={style.panel}>
                         <span><i>This is for the visit of the {visitDate}</i></span><br /><br />
-                        <label htmlFor='drug'>Drug:</label><br />
+                        <label htmlFor='drug'>Treatment:</label><br />
                         <select name='drug' value={this.state.drugType} onChange={this._handleTypeChange} autoComplete='off'>
                             {this.props.types.sort((a, b) => a.name.localeCompare(b.name)).map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}
                         </select><br /><br />
-                        {this.state.drugType !== '' ? <span><i>{`You have selected a drug of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
+                        {this.state.drugType !== '' ? <span><i>{`You have selected a treatment of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
 
                         <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
                         <label htmlFor='dose'>Dose:</label><br /> <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text' autoComplete='off' /><br /><br />
