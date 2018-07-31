@@ -74,9 +74,9 @@ export default class EditMed extends Component {
                 <form className={style.panel}>
                     {wannaUpdate ? <UpdateMedEntry data={treatment} /> : null}
                     {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
-                        <><button onClick={this._handleWannaUpdateClick}>Change drug, dose, form or frequency</button> <br /> <br /></>
+                        <><button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button> <br /> <br /></>
                     }
-                    <button onClick={this._handleClick} className={style.deleteButton}>Delete this medication</button>
+                    <button onClick={this._handleClick} className={style.deleteButton}>Delete this treatment</button>
                     <br /><br />
                 </form>
             </>
@@ -164,7 +164,7 @@ class UpdateMedEntry extends Component {
         const { drugs } = this.props;
         return (
             <>
-                <label>Drug: </label>
+                <label>Treatment: </label>
                 <select onChange={this._handleChange} name='drug' value={drug}>
                     {drugs.map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
                 </select><br /><br />
@@ -197,8 +197,8 @@ class UpdateMedEntry extends Component {
                 </select><br /><br />
                 <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleChange} autoComplete='off'>
                     <option value=''></option>
-                    <option value='hour'>time per hour</option>
-                    <option value='day'>time per day</option>
+                    {/*<option value='hour'>times per hour</option> */}
+                    <option value='day'>times per day</option>
                     <option value='week'>times per week</option>
                     <option value='month'>times per month</option>
                     <option value='year'>times per year</option>
