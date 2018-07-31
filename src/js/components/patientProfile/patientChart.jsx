@@ -125,17 +125,23 @@ class ClinicalEvent extends PureComponent {
 
 @connect(state => ({ typedict: state.availableFields.visitFields_Hash[0], patientId: state.patientProfile.data.patientId, inputType: state.availableFields.inputTypes_Hash[0] }))
 class Symptom extends PureComponent {
+    camelize(str) {
+        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
+            if (+match === 0) return '';
+            return index === 0 ? match.toUpperCase() : match.toLowerCase();
+        });
+    }
     render() {
         const { data, typedict, inputType } = this.props;
         let value;
         switch (inputType[typedict[data.field].type]) {
             case 'B':
-                value = data.value === '1' ? 'true' : 'false (edited)';
+                value = data.value === '1' ? 'Yes' : 'False';
                 break;
             case 'C':
                 if (data.value === 'unselected')
                     return null;
-                value = data.value;
+                value = this.camelize(data.value);
                 break;
             default:
                 value = data.value;
