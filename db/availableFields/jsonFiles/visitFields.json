@@ -75,21 +75,6 @@
         "cdiscName": "WEIGHT"
     },
     {
-        "id": 6,
-        "definition": "Percent School Attendance",
-        "idname": "percent school attendance",
-        "section": 1,
-        "subsection": null,
-        "type": 3,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": "91-100,71-90,51-70,0-50,Unknown,NA",
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
         "id": 7,
         "definition": "Cognitive problems",
         "idname": "cognitive functions:higher function problem: cognitive problems",
