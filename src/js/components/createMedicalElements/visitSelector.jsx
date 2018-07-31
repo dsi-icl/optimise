@@ -41,7 +41,7 @@ export class VisitSelector extends Component {
                     </div>
                     <div className={style.panel}>
                         <VisitPicker elementType={params.type} />
-                        <span><i>Otherwise simply record a isolated occurence:</i></span><br /><br />
+                        <span><i>Otherwise simply record an isolated occurence:</i></span><br /><br />
                         <button onClick={this._handleShadowVisit}>Record isolated occurence</button>
                     </div>
                 </>
