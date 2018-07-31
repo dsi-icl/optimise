@@ -1,6 +1,8 @@
 /* Export data for all patients */
 
 const knex = require('../utils/db-connection');
+const ErrorHelper = require('../utils/error_helper');
+const message = require('../utils/message-utils');
 const fs = require('fs');
 const path = require('path');
 require('express-zip');
@@ -27,6 +29,7 @@ class ExportDataController {
             .leftOuterJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
             .leftOuterJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -52,6 +55,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
             .leftOuterJoin('SMOKING_HISTORY', 'SMOKING_HISTORY.id', 'PATIENT_DEMOGRAPHIC.smokingHistory')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -68,6 +72,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
             .leftOuterJoin('ALCOHOL_USAGE', 'ALCOHOL_USAGE.id', 'PATIENT_DEMOGRAPHIC.alcoholUsage')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -90,6 +95,7 @@ class ExportDataController {
             .leftJoin('PREGNANCY_OUTCOMES', 'PREGNANCY_OUTCOMES.id', 'PATIENT_PREGNANCY.outcome')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -122,7 +128,9 @@ class ExportDataController {
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('VISIT_DATA.deleted', '-')
+            .andWhere('VISITS.deleted', '-')
             .andWhere('AVAILABLE_FIELDS_VISITS.section', 1)
             .then(result => {
                 if (result && result.length >= 1) {
@@ -141,6 +149,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_PREGNANCY.patient')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -160,6 +169,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'CLINICAL_EVENTS.meddra')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('CLINICAL_EVENTS.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -181,6 +191,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'TREATMENTS_INTERRUPTIONS.meddra')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('TREATMENTS_INTERRUPTIONS.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -203,6 +214,7 @@ class ExportDataController {
             .leftOuterJoin('CONDITIONS', 'CONDITIONS.id', 'MEDICAL_HISTORY.conditionName')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'MEDICAL_HISTORY.patient')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -227,6 +239,7 @@ class ExportDataController {
                 'PATIENT_IMMUNISATION.immunisationDate as MHSTDTC')
             .leftOuterJoin('PATIENT_IMMUNISATION', 'PATIENT_IMMUNISATION.id', 'PATIENTS.id')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -252,6 +265,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENT_DIAGNOSIS.patient', 'PATIENTS.id')
             .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -283,6 +297,7 @@ class ExportDataController {
             .leftOuterJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -313,8 +328,10 @@ class ExportDataController {
             .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
             .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('ORDERED_TESTS.type', 2)
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('TEST_DATA.deleted', '-')
+            .andWhere('ORDERED_TESTS.type', 2)
             .then(result => {
                 if (result && result.length >= 1) {
                     let newResult = [];
@@ -342,8 +359,9 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('TEST_DATA.deleted', '-')
-            .andWhere('ORDERED_TESTS.id', 1)
+            .andWhere('ORDERED_TESTS.type', 1)
             .then(result => {
                 if (result && result.length >= 1) {
                     result.forEach(x => {
@@ -365,8 +383,9 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('TEST_DATA.deleted', '-')
-            .andWhere('ORDERED_TESTS.id', 4)
+            .andWhere('ORDERED_TESTS.type', 4)
             .then(result => {
                 let prResultArr = [];
                 if (result && result.length >= 1) {
@@ -396,8 +415,9 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('TEST_DATA.deleted', '-')
-            .andWhere('ORDERED_TESTS.id', 3)
+            .andWhere('ORDERED_TESTS.type', 3)
             .then(result => {
                 if (result && result.length >= 1) {
                     result.forEach(x => {
@@ -416,6 +436,7 @@ class ExportDataController {
             .leftOuterJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -437,6 +458,7 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .whereIn('AVAILABLE_FIELDS_VISITS.section', [2, 3])
             .andWhere('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('VISIT_DATA.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
@@ -456,10 +478,11 @@ class ExportDataController {
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('AVAILABLE_FIELDS_VISITS.section', 4)
-            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'VisualAcuity')
-            .andWhere('PATIENTS.deleted', '-')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('VISIT_DATA.deleted', '-')
+            .andWhere('AVAILABLE_FIELDS_VISITS.section', 4)
+            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'VisualAcuity')
             .then(result => {
                 if (result && result.length >= 1) {
                     result.forEach(x => {
@@ -479,10 +502,11 @@ class ExportDataController {
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('AVAILABLE_FIELDS_VISITS.section', 4)
-            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'QS')
-            .andWhere('PATIENTS.deleted', '-')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('VISIT_DATA.deleted', '-')
+            .andWhere('AVAILABLE_FIELDS_VISITS.section', 4)
+            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'QS')
             .then(result => {
                 if (result && result.length >= 1) {
                     result.forEach(x => {
@@ -502,10 +526,11 @@ class ExportDataController {
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('AVAILABLE_FIELDS_VISITS.section', 4)
-            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'FT')
-            .andWhere('PATIENTS.deleted', '-')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('VISIT_DATA.deleted', '-')
+            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'FT')
+            .andWhere('AVAILABLE_FIELDS_VISITS.section', 4)
             .then(result => {
                 if (result && result.length >= 1) {
                     result.forEach(x => {
@@ -533,7 +558,9 @@ class ExportDataController {
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'TREATMENTS_INTERRUPTIONS.meddra')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .leftOuterJoin('REASONS', 'REASONS.id', 'TREATMENTS_INTERRUPTIONS.reason')
-            .where('TREATMENTS.deleted', '-')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
+            .andWhere('TREATMENTS.deleted', '-')
             .then(result => {
                 if (result && result.length >= 1) {
                     let convertedResult = [];
@@ -615,7 +642,8 @@ class ExportDataController {
             if (arr.length >= 1) {
                 res.status(200).zip(arr);
             } else {
-                res.status(204).send('There are no patient entries in the database.');
+                // TODO: change status code- error message is not displayed
+                res.status(204).json(ErrorHelper(message.userError.NOPATIENTDATA));
             }
         }
     }
