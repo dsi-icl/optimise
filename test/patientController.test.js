@@ -27,6 +27,7 @@ describe('Patient controller tests', () => {
             expect(res.body.length).toBe(userSeeded.length);
             for (let i = 0; i, i < res.body.length; i++) {
                 userSeeded[i].patientId = userSeeded[i].id;
+                delete userSeeded[i].uuid;
                 delete userSeeded[i].id;
                 delete userSeeded[i].createdByUser;
                 delete userSeeded[i].deleted;
