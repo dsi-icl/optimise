@@ -160,7 +160,7 @@ export default class CreatePatient extends Component {    //get these props from
                             <button type="submit">Submit</button>
                         </form>
                         {this.state.error ? <><br /><br /><div className={style.error}>None of the fields can be unselected or empty! Please try again.</div></> : null}
-
+                        <br />
                     </div>
                 </>
             );
