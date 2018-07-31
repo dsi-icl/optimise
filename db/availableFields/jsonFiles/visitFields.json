@@ -92,7 +92,7 @@
     {
         "id": 7,
         "definition": "Cognitive problems",
-        "idname": "cognitive functions:higher function problem: cognitive problems",
+        "idname": "cognitive functions:cognitive problems",
         "section": 2,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -107,7 +107,7 @@
     {
         "id": 8,
         "definition": "Emotional Lability",
-        "idname": "cognitive functions:higher function problem: emotional lability",
+        "idname": "cognitive functions:emotional lability",
         "section": 2,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -122,7 +122,7 @@
     {
         "id": 9,
         "definition": "Depression",
-        "idname": "cognitive functions:higher function problem: depression",
+        "idname": "cognitive functions:depression",
         "section": 2,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -137,7 +137,7 @@
     {
         "id": 10,
         "definition": "Fatigue",
-        "idname": "cognitive functions:higher function problem: fatigue",
+        "idname": "cognitive functions:fatigue",
         "section": 2,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -152,7 +152,7 @@
     {
         "id": 11,
         "definition": "Seizure",
-        "idname": "cognitive functions:higher function problem: seizure",
+        "idname": "cognitive functions:seizure",
         "section": 2,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -782,7 +782,7 @@
     {
         "id": 53,
         "definition": "Information processing speed",
-        "idname": "cognitive functions:higher function problem: information processing speed",
+        "idname": "cognitive functions:information processing speed",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -797,7 +797,7 @@
     {
         "id": 54,
         "definition": "Executive functions",
-        "idname": "cognitive functions:higher function problem: executive functions",
+        "idname": "cognitive functions:executive functions",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -812,7 +812,7 @@
     {
         "id": 55,
         "definition": "Memory",
-        "idname": "cognitive functions:higher function problem:memory",
+        "idname": "cognitive functions:memory",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -827,7 +827,7 @@
     {
         "id": 56,
         "definition": "Verbal fluency",
-        "idname": "cognitive functions:higher function problem:verbal fluency",
+        "idname": "cognitive functions:verbal fluency",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -842,7 +842,7 @@
     {
         "id": 57,
         "definition": "Depression",
-        "idname": "cognitive functions:higher function problem:depression",
+        "idname": "cognitive functions:depression",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -857,7 +857,7 @@
     {
         "id": 58,
         "definition": "Seizure",
-        "idname": "cognitive functions:higher function problem:seizure",
+        "idname": "cognitive functions:seizure",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
