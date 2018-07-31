@@ -16,7 +16,7 @@ export class VisitPicker extends Component {
                 <div>
                     {list.length > 0 ? (
                         <>
-                            <span><i>If you are recording this {this.props.elementType} in the context of an inpatient visit please select which one below:</i></span><br /><br />
+                            <span><i>If you are recording this {this.props.elementType} in the context of an clinical visit please select which one below:</i></span><br /><br />
                             {list.map(visit => (
                                 <Fragment key={visit.id}>
                                     <Link to={`/patientProfile/${this.props.patientId}/create/${visit.id}/${this.props.elementType}`} className={style.visitSelectorButton}>
