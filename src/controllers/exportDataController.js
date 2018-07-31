@@ -9,8 +9,8 @@ class ExportDataController {
 
     exportDatabase(__unused__req, res) {
 
-        const csvFileName = 'optimiseCSV.csv';
-        const jsonFileName = 'optimiseJSON.json';
+        const csvFileName = 'optimise.csv';
+        const jsonFileName = 'optimise.json';
         let csvFileArray = [];
         let jsonFileArray = [];
 
@@ -561,7 +561,7 @@ class ExportDataController {
 
         function createJsonDataFile(result, prefix) {
 
-            const tempJsonFileName = `${prefix}${jsonFileName}`;
+            const tempJsonFileName = `${prefix}${Date.now()}${jsonFileName}`;
             let fileContents = Buffer.from(JSON.stringify(result));
             // check if dir temp exists
             const dir = './temp/';
@@ -583,7 +583,7 @@ class ExportDataController {
 
         function createCsvDataFile(result, prefix) {
 
-            const tempCsvFileName = `${prefix}${csvFileName}`;
+            const tempCsvFileName = `${prefix}${Date.now()}${csvFileName}`;
             let keys = Object.keys(result[0]); // get the keys from result to create headers
             let tempResult = `${keys.join(',')}\n`;
             result.forEach(function (obj) {
