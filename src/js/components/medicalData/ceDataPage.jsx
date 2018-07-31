@@ -109,9 +109,11 @@ export class CeData extends Component {
                         <h2>CLINICAL EVENT RESULTS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
-                    <div className={scaffold_style.panel}>
+                    <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
                         <form onSubmit={this._handleSubmit} className={style.form}>
-                            {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
+                            <div className={style.levelBody}>
+                                {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
+                            </div>
                             <button type='submit'>Save</button>
                         </form>
                     </div>
