@@ -37,7 +37,11 @@ export class TimelineBox extends Component {   //unfinsihed
         };
 
         const mappingDateFunction = date => {
-            let middle = date[0] + (date[1] - date[0]) / 2;
+            if (date.length < 1)
+                return null;
+            if (date.length === 1)
+                date[1] = date[0];
+            let middle = date[0] + (date[date.length - 1] - date[0]) / 2;
             return (
                 <>
                     <td style={{ textAlign: 'left' }}>{moment(date[0], 'x').format('MMM YYYY')}</td>
