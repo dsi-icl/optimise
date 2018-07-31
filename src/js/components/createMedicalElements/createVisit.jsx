@@ -44,11 +44,17 @@ export class CreateVisit extends Component {
     _formatRequestBody() {
         const date = this.state.startDate._d;
         const { SBP, DBP, HR, weight, academicConcerns, height } = this.state;
-        for (let each of [SBP, DBP, HR, weight, height]) {
-            if (!parseInt(each, 10)) {
-                return false;
-            }
+
+        if (!parseInt(SBP, 10)) {
+            return 'systolic blood pressure';
         }
+        if (!parseInt(DBP, 10)) {
+            return 'diastolic blood pressure';
+        }
+        if (!parseInt(HR, 10)) {
+            return 'heart rate';
+        }
+
         return {
             visitData: {
                 patientId: this.props.patientId,
@@ -59,8 +65,8 @@ export class CreateVisit extends Component {
                     1: parseInt(SBP),
                     2: parseInt(HR),
                     3: parseInt(DBP),
-                    4: parseInt(height),
-                    5: parseInt(weight),
+                    4: isNaN(height) ? parseInt(height) : undefined,
+                    5: isNaN(weight) ? parseInt(weight) : undefined,
                     6: parseInt(academicConcerns)
                 }
             },
@@ -70,8 +76,9 @@ export class CreateVisit extends Component {
 
     _handleSubmitClick(ev) {
         ev.preventDefault();
-        if (!this._formatRequestBody()) {
-            this.setState({ error: true });
+        let error = this._formatRequestBody();
+        if (typeof error === 'string') {
+            this.setState({ error: `Please enter ${error} (integer)` });
             return;
         }
         const requestBody = this._formatRequestBody();
@@ -98,7 +105,7 @@ export class CreateVisit extends Component {
                     <label htmlFor='HR'>Heart rate (bpm):</label><br /> <input name='HR' value={HR} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
                     <label htmlFor='weight'>Weight (kg):</label><br /> <input name='weight' value={weight} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
                     <label htmlFor='height'>Height (cm):</label><br /> <input name='height' value={height} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
-                    {new Date().getTime() -  parseInt(demographicData.DOB) < 568025136000 ?
+                    {new Date().getTime() - parseInt(demographicData.DOB) < 568025136000 ?
                         <>
                             <label htmlFor='academicConcerns'>Academic concerns:</label><br />
                             <select
@@ -113,7 +120,7 @@ export class CreateVisit extends Component {
                         </>
                         : null}
                     <button onClick={this._handleSubmitClick} >Submit</button>
-                    {error ? <><br /><br /><div className={style.error}> Please only provide integers! </div></> : null}
+                    {error ? <><br /><br /><div className={style.error}>{error}</div></> : null}
                 </form>
             </>
         );
