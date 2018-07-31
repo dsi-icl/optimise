@@ -210,7 +210,7 @@ class OneVisit extends Component {
 
                 {this.props.visitType === 1 ? (
                     <>
-                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY AND VITAL SIGNS</h4>
+                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : 'AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
                         <div className={style.visitWrapper}>
                             <table>
                                 <tbody>

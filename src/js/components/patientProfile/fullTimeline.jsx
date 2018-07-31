@@ -57,7 +57,7 @@ export default class FullTimeline extends Component {
             root: true
         }, {
             id: 4,
-            title: 'Adverse Event',
+            title: 'Adverse Events',
             root: true
         }, {
             id: 5,

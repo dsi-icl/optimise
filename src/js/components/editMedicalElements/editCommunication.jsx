@@ -156,7 +156,7 @@ class CommunicationEditor extends Component {
                 You can append these pre-composed paragraphs:<br /><br />
                 <div className={style.commentButtonsGroup}>
                     <div>
-                        <button name='VSBlock' onClick={this._onClick} title='Vital signs'>Vital signs</button>
+                        <button name='VSBlock' onClick={this._onClick} title='Patient Data'>Patient Data</button>
                         <button name='symptomBlock' onClick={this._onClick} title={`Symptoms ${'&'} Signs`}>Symptoms{'&'}Signs</button>
                         <button name='testBlock' onClick={this._onClick} title='Tests'>Tests</button>
                     </div>
