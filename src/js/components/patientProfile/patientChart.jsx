@@ -141,7 +141,7 @@ class Symptom extends PureComponent {
                 value = data.value;
         }
         return (
-            <tr>
+            <tr className={this.props.className}>
                 <td>{typedict[data.field].definition}</td>
                 <td>{value}</td>
             </tr>
@@ -180,7 +180,7 @@ class OneVisit extends Component {
         const relevantEDSSFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && /^edss:(.*)/.test(field.idname));
         const relevantEDSSFieldsIdArray = relevantEDSSFields.map(el => el.id);
         const performances = this.props.visitData.filter(el => el.field > 6 && relevantEDSSFieldsIdArray.includes(el.field));
-        const communication = this.props.data.visits.filter(v => v.id === this.props.visitId)[0].communication
+        const communication = this.props.data.visits.filter(v => v.id === this.props.visitId)[0].communication;
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
 
         if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
@@ -242,7 +242,10 @@ class OneVisit extends Component {
                                         <tr><th>Recorded performance measures</th><th>Value</th></tr>
                                     </thead>
                                     <tbody>
-                                        {performances.map(el => <Symptom key={el.field} data={el} />)}
+                                        {performances.map(el => {
+                                            let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale (edss) total';
+                                            return <Symptom key={el.field} data={el} className={isTotal ? style.performanceHighlight : ''} />;
+                                        })}
                                     </tbody>
                                 </table>
                                 <br />

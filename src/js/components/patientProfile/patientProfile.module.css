@@ -91,7 +91,10 @@
     font-size: 0.8em;
 }
 
-
+.performanceHighlight {
+    color: var(--color-shade-one);
+    font-weight: bold;
+}
 
 .immunisationItem:hover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), 92%);
@@ -482,6 +485,7 @@ div.timelineCEBlack {
     stroke: var(--color-background);
 }
 
+.timelineEDSSPlotter svg,
 .timelineRelapseItem svg {
     overflow: visible;
 }
