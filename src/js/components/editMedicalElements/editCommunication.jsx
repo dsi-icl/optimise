@@ -20,8 +20,8 @@ export default class EditCommunication extends Component {
         const { params } = match;
         const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash, VSFields_Hash, visitFields_Hash, visitFields } = this.props.availableFields;
         let { visits, tests, treatments, clinicalEvents } = data;
-        const symptomsFields = visitFields.filter(el => [2,3].includes(el.section));
-        const symptomsFieldsHash = symptomsFields.reduce((a, el) => { a[el.id] = el; return a;}, {});
+        const symptomsFields = visitFields.filter(el => [2, 3].includes(el.section));
+        const symptomsFieldsHash = symptomsFields.reduce((a, el) => { a[el.id] = el; return a; }, {});
         visits = visits.filter(el => el.id === parseInt(params.visitId));
         if (visits.length !== 1) {
             return <div>Cannot find your visit!</div>;
@@ -29,7 +29,7 @@ export default class EditCommunication extends Component {
         tests = tests.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
         treatments = treatments.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
         clinicalEvents = clinicalEvents.filter(el => el.recordedDuringVisit === parseInt(params.visitId));
-        const edssHash = visitFields.filter(el => /^edss:(.*)/.test(el.idname)).reduce((a, el) => { a[el.id] = { definition: el.definition }; return a; });
+        const edssHash = visitFields.filter(el => /^edss:(.*)/.test(el.idname)).reduce((a, el) => { a[el.id] = { definition: el.definition }; return a; }, {});
         const testBlock = formatTests(tests, testTypes_Hash[0]);
         const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0]);
         const medBlock = formatTreatments(treatments, drugs_Hash[0]);
@@ -100,11 +100,11 @@ class CommunicationEditor extends Component {
         return 'not-handled';
     }
 
-    _exportPlainText(ev){
+    _exportPlainText(ev) {
         ev.preventDefault();
         const { visitId } = this.state;
         const text = this.state.editorState.getCurrentContent().getPlainText();
-        const file = new Blob([text], {type: 'text/plain'});
+        const file = new Blob([text], { type: 'text/plain' });
         saveAs(file, `visit_${visitId}_communication_${new Date().toDateString().replace(/ /g, '_')}`); // eslint-disable-line
     }
 
@@ -156,14 +156,14 @@ class CommunicationEditor extends Component {
                 You can append these pre-composed paragraphs:<br /><br />
                 <div className={style.commentButtonsGroup}>
                     <div>
-                        <button name='VSBlock' onClick={this._onClick}>Vital signs</button>
-                        <button name='symptomBlock' onClick={this._onClick}>Symptoms{'&'}Signs</button>
-                        <button name='testBlock' onClick={this._onClick}>Tests</button>
+                        <button name='VSBlock' onClick={this._onClick} title='Vital signs'>Vital signs</button>
+                        <button name='symptomBlock' onClick={this._onClick} title={`Symptoms ${'&'} Signs`}>Symptoms{'&'}Signs</button>
+                        <button name='testBlock' onClick={this._onClick} title='Tests'>Tests</button>
                     </div>
                     <div>
-                        <button name='medBlock' onClick={this._onClick}>Treatments</button>
-                        <button name='ceBlock' onClick={this._onClick}>Clinical Events</button>
-                        <button name='perfBlock' onClick={this._onClick}>Performance</button>
+                        <button name='medBlock' onClick={this._onClick} title='Treatments'>Treatments</button>
+                        <button name='ceBlock' onClick={this._onClick} title='Clinical Events'>Clinical Events</button>
+                        <button name='perfBlock' onClick={this._onClick} title='Performance'>Performance</button>
                     </div>
                 </div>
                 <br />
@@ -181,7 +181,7 @@ class CommunicationEditor extends Component {
                 </div>
                 <br />
                 <button onClick={this._onSubmit}>Save</button>
-                <br/><br/>
+                <br /><br />
                 <button onClick={this._exportPlainText}>Export as plain text (without styling)</button>
                 <br /><br />
             </>
