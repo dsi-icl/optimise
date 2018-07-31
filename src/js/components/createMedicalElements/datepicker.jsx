@@ -6,6 +6,7 @@ export class PickDate extends Component {
         return <DatePicker
             selected={this.props.startDate}
             onChange={this.props.handleChange}
+            dateFormat="DD/MM/YYYY"
             style={{ width: '100%' }} />;
     }
 }
