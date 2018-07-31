@@ -106,7 +106,6 @@ class UpdateTestEntry extends Component {
     }
 
     _handleDateChange(date) {
-        console.log(date.valueOf());
         this.setState({
             startDate: date
         });
@@ -135,8 +134,7 @@ class UpdateTestEntry extends Component {
     }
 
     render() {
-        const { actualOccurredDate, startDate } = this.state;
-        console.log(startDate.valueOf());
+        const { actualOccurredDate } = this.state;
         return (
             <>
                 <label>Expected Date: </label>
