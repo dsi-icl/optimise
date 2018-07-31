@@ -314,7 +314,7 @@ class OneVisit extends Component {
 
                 {visitHasMedications ? (
                     <>
-                        <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE MEDICATIONS' : 'MEDICATIONS'}</h4>
+                        <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE TREATMENTS' : 'TREATMENTS'}</h4>
                         <div className={style.visitWrapper}>
                             <table className={style.editableTable}>
                                 <thead>
