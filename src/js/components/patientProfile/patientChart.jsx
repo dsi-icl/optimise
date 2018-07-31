@@ -397,7 +397,7 @@ export class Charts extends Component {   //unfinsihed
                                         isMinor={new Date().getTime() - parseInt(DOB) < 568025136000}
                                         baselineVisit={baselineVisit}
                                         type='visit'
-                                        title={el.type === 1 ? (baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`) : 'Punctual record'}
+                                        title={el.type === 1 ? (baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`) : 'isolated instance'}
                                         visitDate={el.type === 1 ? new Date(parseInt(el.visitDate, 10)).toLocaleDateString('en-GB', dateOptions) : `${new Date(parseInt(el.visitDate, 10)).toLocaleDateString('en-GB', dateOptions)} at ${new Date(parseInt(el.visitDate, 10)).toLocaleTimeString()}`} />;
                                 }
                             )}
