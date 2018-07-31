@@ -64,7 +64,7 @@ export default class SearchPatientsById extends Component {
                     <h2>Patient Search</h2>
                 </div>
                 <div className={style.panel}>
-                    <span>Search you dataset by entering your criteria in the box below.</span><br /><br />
+                    <span>Search your dataset by entering your criteria in the box below.</span><br /><br />
                     <form>
                         <label htmlFor='searchType'>Search by:</label><br />
                         <select name='searchType' value={this.state.searchType} onChange={this._handleSelectChange} autoComplete='off'>
