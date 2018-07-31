@@ -186,7 +186,15 @@ class UpdateMedEntry extends Component {
                 </select><br /><br />
                 <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                 <label>Frequency (fill both or leave both blank): </label>
-                <input onChange={this._handleChange} name='times' value={times} /><br /><br />
+                {/* <input onChange={this._handleChange} name='times' value={times} /><br /><br /> */}
+                <select name='times' value={times} onChange={this._handleChange} autoComplete='off'>
+                    <option value=''></option>
+                    {/* <option value='hour'>times per hour</option> */}
+                    <option value='1'>once</option>
+                    <option value='2'>twice</option>
+                    <option value='3'>three times</option>
+                    <option value='4'>four times</option>
+                </select><br /><br />
                 <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleChange} autoComplete='off'>
                     <option value=''></option>
                     <option value='hour'>time per hour</option>

@@ -82,9 +82,9 @@ class Medication extends PureComponent {
                 <td><EditButton to={`/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
-                <td>{`${data.dose} ${data.unit}`}</td>
-                <td>{data.form}</td>
-                <td>{`${data.times} times/${data.intervalUnit}`}</td>
+                <td>{data.dose ? `${data.dose} ${data.unit}` : ''}</td>
+                <td>{data.form ? data.form : ''}</td>
+                <td>{data.times && data.intervalUnit ? `${data.times} times/${data.intervalUnit}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
                     <NavLink id={`treatment/${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
