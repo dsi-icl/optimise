@@ -1,6 +1,6 @@
 const exampleData = {
     'PATIENTS': [
-        { id: 1, uuid: '1ac8d4fd-1120-4373-980a-29525e2f16c2', aliasId: 'chon', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 1, uuid: '1ac8d4fd-1120-4373-980a-29525e2f16c2', aliasId: 'chon', study: 'example', createdByUser: 1, deleted: '-', consent: false },
         { id: 2, uuid: '41a731d0-e3a3-44b9-8bee-5a9c0b806ba8', aliasId: 'florian', study: 'example', createdByUser: 1, deleted: '-', consent: true },
         { id: 3, uuid: 'b91e2cba-45cf-4f02-8363-b260072bf18f', aliasId: 'eleni', study: 'example', createdByUser: 1, deleted: '-', consent: true },
         { id: 4, uuid: 'bb4d6f9e-084f-43fb-9b88-32c207493196', aliasId: 'chonnie', study: 'example', createdByUser: 1, deleted: '-', consent: true },
