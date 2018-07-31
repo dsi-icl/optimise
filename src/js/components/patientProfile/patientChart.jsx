@@ -174,6 +174,14 @@ class OneVisit extends Component {
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
         const VS = this.props.visitData.filter(el => [1, 2, 3, 4, 5, 6].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
+        const VSValueArray = [
+            { name: 'Systolic blood pressure', value: VSHashTable['1'], unit: 'mmHg' },
+            { name: 'Diastolic blood pressure', value: VSHashTable['3'], unit: 'mmHg' },
+            { name: 'Heart rate', value: VSHashTable['2'], unit: 'bpm' },
+            { name: 'Height', value: VSHashTable['4'], unit: 'cm' },
+            { name: 'Weight', value: VSHashTable['5'], unit: 'kg' },
+            { name: 'Academic concerns', value: isMinor ? VSHashTable['6'] === '0' ? 'No' : 'Yes' : undefined }
+        ].filter(e => !!e.value);
         const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && [2, 3].includes(field.section));
         const relevantFieldsIdArray = relevantFields.map(el => el.id);
         const symptoms = this.props.visitData.filter(el => el.field > 6 && relevantFieldsIdArray.includes(el.field));
@@ -200,18 +208,27 @@ class OneVisit extends Component {
                         <div className={style.visitWrapper}>
                             <table>
                                 <tbody>
-                                    <tr>
-                                        <td >Systolic blood pressure: {`${VSHashTable['1']} mmHg`}</td>
-                                        <td >Diastolic blood pressure: {`${VSHashTable['3']} mmHg`}</td>
-                                    </tr>
-                                    <tr>
-                                        <td >Heart rate: {`${VSHashTable['2']} bpm`}</td>
-                                        <td >Height: {`${VSHashTable['4']} cm`}</td>
-                                    </tr>
-                                    <tr>
-                                        <td >Weight: {`${VSHashTable['5']} kg`}</td>
-                                        {isMinor ? <td >Academic concerns: {VSHashTable['6'] === '0' ? 'No' : VSHashTable['6'] ? 'Yes' : 'null'}</td> : null}
-                                    </tr>
+                                    {VSValueArray.length > 0 ?
+                                        (
+                                            <tr>
+                                                <td >{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
+                                                <td >{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
+                                            </tr>
+                                        ) : null}
+                                    {VSValueArray.length > 2 ?
+                                        (
+                                            <tr>
+                                                <td >{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
+                                                <td >{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
+                                            </tr>
+                                        ) : null}
+                                    {VSValueArray.length > 4 ?
+                                        (
+                                            <tr>
+                                                <td >{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
+                                                <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
+                                            </tr>
+                                        ) : null}
                                 </tbody>
                             </table>
                         </div>
