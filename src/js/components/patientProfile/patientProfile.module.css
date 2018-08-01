@@ -30,11 +30,6 @@
     display: inline-block;
 }
 
-.profileActions a {
-    line-height: 0.8em;
-    display: inline-block;
-}
-
 .profileActions a span {
     padding: 0 0.5em;
 }
@@ -69,6 +64,10 @@
     padding: 1.2em;
     overflow: auto;
     scroll-behavior: smooth;
+}
+
+.panel.patientInfo {    
+    padding-top: 0;
 }
 
 .noConsentAlert {
@@ -375,9 +374,24 @@ div.timelineCEBlack {
     width: calc(100% + 2.4em);
     margin-left: -1.2em;
     padding: 0 1.2em;
-    padding-top: 1.2em;
     transition: background-color 500ms;
     background-color: transparent;
+}
+
+.profileSection > .flyover {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    padding: 1.2em;
+    margin: 0 -1.2em;
+}
+
+.patientInfo .flyover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
+}
+
+.patientHistory .flyover {
+    background-color: white;
 }
 
 .profileSectionActive {

@@ -2,7 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import { PatientProfileSectionScaffold, PatientProfileTop, EditButton } from './sharedComponents';
 import { TimelineBox } from './timeline';
 import Helmet from '../scaffold/helmet';
@@ -31,7 +31,7 @@ export class PatientChart extends Component {
                     <h2>Patient Profile {this.props.fetching ? '' : `(${this.props.data.patientId})`}</h2>
                     <PatientProfileTop />
                 </div>
-                <div className={style.panel}>
+                <div className={`${style.panel} ${style.patientHistory}`}>
                     <span className={this.props.data.consent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
                     {this.props.fetching ? <div><Icon symbol='loading' /></div> :
                         <>
@@ -334,7 +334,6 @@ class OneVisit extends Component {
                 ) : null
                 }
 
-
                 {visitHasMedications ? (
                     <>
                         <h4><Icon symbol='addTreatment' className={style.timelineMed} />&nbsp;{baselineVisit ? 'BASELINE TREATMENTS' : 'TREATMENTS'}</h4>
@@ -353,7 +352,6 @@ class OneVisit extends Component {
                     </>
                 ) : null
                 }
-
 
                 {visitHasClinicalEvents ? (
                     <>
