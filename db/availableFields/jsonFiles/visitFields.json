@@ -106,7 +106,7 @@
     },
     {
         "id": 8,
-        "definition": "Emotional Lability",
+        "definition": "Emotional lability",
         "idname": "cognitive functions:emotional lability",
         "section": 2,
         "subsection": "Cognitive Functions",
@@ -166,7 +166,7 @@
     },
     {
         "id": 12,
-        "definition": "Blurred Vision",
+        "definition": "Blurred vision",
         "idname": "cranial nerves:blurred vision",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -181,7 +181,7 @@
     },
     {
         "id": 13,
-        "definition": "Double Vision",
+        "definition": "Double vision",
         "idname": "cranial nerves:double vision",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -196,7 +196,7 @@
     },
     {
         "id": 14,
-        "definition": "Uncontrolled Eye Movements",
+        "definition": "Uncontrolled eye movements",
         "idname": "cranial nerves:uncontrolled eye movements",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -241,7 +241,7 @@
     },
     {
         "id": 17,
-        "definition": "Facial Weakness",
+        "definition": "Facial weakness",
         "idname": "cranial nerves:facial weakness",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -286,7 +286,7 @@
     },
     {
         "id": 20,
-        "definition": "Facial Pain",
+        "definition": "Facial pain",
         "idname": "cranial nerves:facial pain",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -316,7 +316,7 @@
     },
     {
         "id": 22,
-        "definition": "Facial Hypoesthesia",
+        "definition": "Facial hypoesthesia",
         "idname": "cranial nerves:facial hypoesthesia",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -421,8 +421,8 @@
     },
     {
         "id": 29,
-        "definition": "Lhermitte\"s sign",
-        "idname": "somatosensory:lhermitte\"s sign",
+        "definition": "Lhermitte's sign",
+        "idname": "somatosensory:lhermitte's sign",
         "section": 2,
         "subsection": "Somatosensory",
         "type": 5,
@@ -1186,7 +1186,7 @@
     },
     {
         "id": 80,
-        "definition": "Tendon reflexes hyperreflexia biceps right",
+        "definition": "right",
         "idname": "motor:tendon reflexes:hyperreflexia:biceps:right",
         "section": 3,
         "subsection": "Motor",
@@ -1201,7 +1201,7 @@
     },
     {
         "id": 81,
-        "definition": "Tendon reflexes hyperreflexia biceps left",
+        "definition": "left",
         "idname": "motor:tendon reflexes:hyperreflexia:biceps:left",
         "section": 3,
         "subsection": "Motor",
@@ -1216,7 +1216,7 @@
     },
     {
         "id": 82,
-        "definition": "Tendon reflexes hyperreflexia patella right",
+        "definition": "right",
         "idname": "motor:tendon reflexes:hyperreflexia:patella:right",
         "section": 3,
         "subsection": "Motor",
@@ -1231,7 +1231,7 @@
     },
     {
         "id": 83,
-        "definition": "Tendon reflexes hyperreflexia patella left",
+        "definition": "left",
         "idname": "motor:tendon reflexes:hyperreflexia:patella:left",
         "section": 3,
         "subsection": "Motor",
@@ -1246,7 +1246,7 @@
     },
     {
         "id": 84,
-        "definition": "Tendon reflexes hyperreflexia ankle right",
+        "definition": "right",
         "idname": "motor:tendon reflexes:hyperreflexia:ankle:right",
         "section": 3,
         "subsection": "Motor",
@@ -1261,7 +1261,7 @@
     },
     {
         "id": 85,
-        "definition": "Tendon reflexes hyperreflexia ankle left",
+        "definition": "left",
         "idname": "motor:tendon reflexes:hyperreflexia:ankle:left",
         "section": 3,
         "subsection": "Motor",
@@ -1276,7 +1276,7 @@
     },
     {
         "id": 86,
-        "definition": "Tendon reflexes hyporeflexia biceps right",
+        "definition": "right",
         "idname": "motor:tendon reflexes:hyporeflexia:biceps:right",
         "section": 3,
         "subsection": "Motor",
@@ -1291,7 +1291,7 @@
     },
     {
         "id": 87,
-        "definition": "Tendon reflexes hyporeflexia biceps left",
+        "definition": "left",
         "idname": "motor:tendon reflexes:hyporeflexia:biceps:left",
         "section": 3,
         "subsection": "Motor",
@@ -1306,7 +1306,7 @@
     },
     {
         "id": 88,
-        "definition": "Tendon reflexes hyporeflexia patella right",
+        "definition": "right",
         "idname": "motor:tendon reflexes:hyporeflexia:patella:right",
         "section": 3,
         "subsection": "Motor",
@@ -1321,7 +1321,7 @@
     },
     {
         "id": 89,
-        "definition": "Tendon reflexes hyporeflexia patella left",
+        "definition": "left",
         "idname": "motor:tendon reflexes:hyporeflexia:patella:left",
         "section": 3,
         "subsection": "Motor",
@@ -1336,7 +1336,7 @@
     },
     {
         "id": 90,
-        "definition": "Tendon reflexes hyporeflexia ankle right",
+        "definition": "right",
         "idname": "motor:tendon reflexes:hyporeflexia:ankle:right",
         "section": 3,
         "subsection": "Motor",
@@ -1351,7 +1351,7 @@
     },
     {
         "id": 91,
-        "definition": "Tendon reflexes hyporeflexia ankle left",
+        "definition": "left",
         "idname": "motor:tendon reflexes:hyporeflexia:ankle:left",
         "section": 3,
         "subsection": "Motor",
@@ -1366,7 +1366,7 @@
     },
     {
         "id": 92,
-        "definition": "Tendon reflexes plantar response right",
+        "definition": "right",
         "idname": "motor:tendon reflexes:plantar response:right",
         "section": 3,
         "subsection": "Motor",
@@ -1381,7 +1381,7 @@
     },
     {
         "id": 93,
-        "definition": "Tendon reflexes plantar response left",
+        "definition": "left",
         "idname": "motor:tendon reflexes:plantar response:left",
         "section": 3,
         "subsection": "Motor",
