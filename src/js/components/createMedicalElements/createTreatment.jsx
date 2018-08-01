@@ -9,7 +9,7 @@ import style from './medicalEvent.module.css';
 
 //not yet finished the dispatch
 /* patch the drug mapping from state and to UI when the backend API is finished */
-@connect(state => ({ visits: state.patientProfile.data.visits, interruptionReasons: state.availableFields.interruptionReasons, types: state.availableFields.drugs, meddra: state.meddra.result }), dispatch => ({ createTreatment: body => dispatch(createTreatmentAPICall(body)) }))
+@connect(state => ({ patientId: state.patientProfile.data.id, visits: state.patientProfile.data.visits, interruptionReasons: state.availableFields.interruptionReasons, types: state.availableFields.drugs, meddra: state.meddra.result }), dispatch => ({ createTreatment: body => dispatch(createTreatmentAPICall(body)) }))
 export class CreateTreatment extends Component {
     constructor() {
         super();
@@ -65,7 +65,7 @@ export class CreateTreatment extends Component {
         return {
             patientId: this.props.match.params.patientId,
             data: {
-                visitId: Number.parseInt(this.props.match.params.visitId),
+                patientId: this.props.patientId,
                 drugId: Number.parseInt(this.state.drugType),
                 startDate: this.state.startDate.toISOString(),
                 terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.toISOString() : undefined,
@@ -109,7 +109,6 @@ export class CreateTreatment extends Component {
     render() {
         if (this.props.visits) {
             const params = this.props.match.params;
-            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.id === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
             return (
                 <>
                     <div className={style.ariane}>
@@ -117,7 +116,6 @@ export class CreateTreatment extends Component {
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
                     <form className={style.panel}>
-                        <span><i>This is for the visit of the {visitDate}</i></span><br /><br />
                         <label htmlFor='drug'>Treatment:</label><br />
                         <select name='drug' value={this.state.drugType} onChange={this._handleTypeChange} autoComplete='off'>
                             {this.props.types.sort((a, b) => a.name.localeCompare(b.name)).map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}

@@ -1,13 +1,15 @@
+import { createShadowVisitAPICall } from './createVisit';
 import { getPatientProfileById } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
 import history from '../history';
 
 export const createTreatmentAPICall = (body) => dispatch => {
-    return apiHelper('/treatments', { method: 'POST', body: JSON.stringify(body.data) })
+    return createShadowVisitAPICall(body.data.patientId, ({ visitId }) => apiHelper('/treatments', { method: 'POST', body: JSON.stringify(Object.assign(body.data, { visitId })) })
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.log(err));;
+        }).catch(err => console.log(err))
+    );
 };
 
 export const createTreatmentInterruptionAPICall = (body) => dispatch => {
