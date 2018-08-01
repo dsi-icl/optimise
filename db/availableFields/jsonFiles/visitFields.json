@@ -77,7 +77,7 @@
     {
         "id": 7,
         "definition": "Cognitive problems",
-        "idname": "cognitive functions:higher function problem: cognitive problems",
+        "idname": "cognitive functions:cognitive problems",
         "section": 2,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -91,8 +91,8 @@
     },
     {
         "id": 8,
-        "definition": "Emotional Lability",
-        "idname": "cognitive functions:higher function problem: emotional lability",
+        "definition": "Emotional lability",
+        "idname": "cognitive functions:emotional lability",
         "section": 2,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -107,7 +107,7 @@
     {
         "id": 9,
         "definition": "Depression",
-        "idname": "cognitive functions:higher function problem: depression",
+        "idname": "cognitive functions:depression",
         "section": 2,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -122,7 +122,7 @@
     {
         "id": 10,
         "definition": "Fatigue",
-        "idname": "cognitive functions:higher function problem: fatigue",
+        "idname": "cognitive functions:fatigue",
         "section": 2,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -137,7 +137,7 @@
     {
         "id": 11,
         "definition": "Seizure",
-        "idname": "cognitive functions:higher function problem: seizure",
+        "idname": "cognitive functions:seizure",
         "section": 2,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -151,37 +151,7 @@
     },
     {
         "id": 12,
-        "definition": "Oscillopsia",
-        "idname": "cranial nerves:oscillopsia",
-        "section": 2,
-        "subsection": "Cranial Nerves",
-        "type": 5,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
-        "id": 13,
-        "definition": "Vertigo",
-        "idname": "cranial nerves:vertigo",
-        "section": 2,
-        "subsection": "Cranial Nerves",
-        "type": 5,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
-        "id": 14,
-        "definition": "Blurred Vision",
+        "definition": "Blurred vision",
         "idname": "cranial nerves:blurred vision",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -195,8 +165,8 @@
         "cdiscName": null
     },
     {
-        "id": 15,
-        "definition": "Double Vision",
+        "id": 13,
+        "definition": "Double vision",
         "idname": "cranial nerves:double vision",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -210,8 +180,8 @@
         "cdiscName": null
     },
     {
-        "id": 16,
-        "definition": "Uncontrolled Eye Movements",
+        "id": 14,
+        "definition": "Uncontrolled eye movements",
         "idname": "cranial nerves:uncontrolled eye movements",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -225,7 +195,22 @@
         "cdiscName": null
     },
     {
-        "id": 17,
+        "id": 15,
+        "definition": "Dysarthria",
+        "idname": "cranial nerves:dysarthria",
+        "section": 2,
+        "subsection": "Cranial Nerves",
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 16,
         "definition": "Dysphagia",
         "idname": "cranial nerves:dysphagia",
         "section": 2,
@@ -240,8 +225,8 @@
         "cdiscName": null
     },
     {
-        "id": 18,
-        "definition": "Facial Weakness",
+        "id": 17,
+        "definition": "Facial weakness",
         "idname": "cranial nerves:facial weakness",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -255,7 +240,7 @@
         "cdiscName": null
     },
     {
-        "id": 19,
+        "id": 18,
         "definition": "Greying of vision in one eye",
         "idname": "cranial nerves:greying of vision in one eye",
         "section": 2,
@@ -270,7 +255,7 @@
         "cdiscName": null
     },
     {
-        "id": 20,
+        "id": 19,
         "definition": "Blindness in one eye",
         "idname": "cranial nerves:blindness in one eye",
         "section": 2,
@@ -285,8 +270,8 @@
         "cdiscName": null
     },
     {
-        "id": 21,
-        "definition": "Facial Pain",
+        "id": 20,
+        "definition": "Facial pain",
         "idname": "cranial nerves:facial pain",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -300,7 +285,7 @@
         "cdiscName": null
     },
     {
-        "id": 22,
+        "id": 21,
         "definition": "Field defect / Scotoma",
         "idname": "cranial nerves:field defect / scotoma",
         "section": 2,
@@ -315,8 +300,8 @@
         "cdiscName": null
     },
     {
-        "id": 23,
-        "definition": "Facial Hypoesthesia",
+        "id": 22,
+        "definition": "Facial hypoesthesia",
         "idname": "cranial nerves:facial hypoesthesia",
         "section": 2,
         "subsection": "Cranial Nerves",
@@ -330,7 +315,7 @@
         "cdiscName": null
     },
     {
-        "id": 24,
+        "id": 23,
         "definition": "Difficulty walking",
         "idname": "motor:difficulty walking",
         "section": 2,
@@ -345,7 +330,7 @@
         "cdiscName": null
     },
     {
-        "id": 25,
+        "id": 24,
         "definition": "Weakness upper limbs",
         "idname": "motor:weakness:upper limbs",
         "section": 2,
@@ -360,8 +345,8 @@
         "cdiscName": null
     },
     {
-        "id": 26,
-        "definition": "weakness lower limbs",
+        "id": 25,
+        "definition": "Weakness lower limbs",
         "idname": "motor:weakness:lower limbs",
         "section": 2,
         "subsection": "Motor",
@@ -375,9 +360,54 @@
         "cdiscName": null
     },
     {
+        "id": 26,
+        "definition": "Spasticity upper limbs",
+        "idname": "motor:spasticity:upper limbs",
+        "section": 2,
+        "subsection": "Motor",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 27,
+        "definition": "Spasticity lower limbs",
+        "idname": "motor:spasticity:lower limbs",
+        "section": 2,
+        "subsection": "Motor",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
         "id": 28,
-        "definition": "Lhermitte\"s sign",
-        "idname": "somatosensory:lhermitte\"s sign",
+        "definition": "Tremor upper limbs",
+        "idname": "motor:tremor:upper limbs",
+        "section": 2,
+        "subsection": "Motor",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 29,
+        "definition": "Lhermitte's sign",
+        "idname": "somatosensory:lhermitte's sign",
         "section": 2,
         "subsection": "Somatosensory",
         "type": 5,
@@ -390,7 +420,7 @@
         "cdiscName": null
     },
     {
-        "id": 29,
+        "id": 30,
         "definition": "Heat intolerance",
         "idname": "somatosensory:heat intolerance",
         "section": 2,
@@ -405,24 +435,9 @@
         "cdiscName": null
     },
     {
-        "id": 30,
-        "definition": "Pain",
-        "idname": "somatosensory:pain",
-        "section": 2,
-        "subsection": "Somatosensory",
-        "type": 3,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": "LEFT,RIGHT,BOTH",
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
         "id": 31,
-        "definition": "Paresthesia",
-        "idname": "somatosensory:paresthesia",
+        "definition": "Pain upper limbs",
+        "idname": "somatosensory:pain:upper limbs",
         "section": 2,
         "subsection": "Somatosensory",
         "type": 3,
@@ -436,8 +451,8 @@
     },
     {
         "id": 32,
-        "definition": "Dysesthesia",
-        "idname": "somatosensory:dysesthesia",
+        "definition": "Pain lower limbs",
+        "idname": "somatosensory:pain:lower limbs",
         "section": 2,
         "subsection": "Somatosensory",
         "type": 3,
@@ -451,8 +466,8 @@
     },
     {
         "id": 33,
-        "definition": "Anesthesia",
-        "idname": "somatosensory:anesthesia",
+        "definition": "Pain trunk",
+        "idname": "somatosensory:pain:trunk",
         "section": 2,
         "subsection": "Somatosensory",
         "type": 3,
@@ -466,8 +481,8 @@
     },
     {
         "id": 34,
-        "definition": "Pruritus",
-        "idname": "somatosensory:pruritus",
+        "definition": "Paresthesia upper limbs",
+        "idname": "somatosensory:paresthesia:upper limbs",
         "section": 2,
         "subsection": "Somatosensory",
         "type": 3,
@@ -481,8 +496,173 @@
     },
     {
         "id": 35,
+        "definition": "Paresthesia lower limbs",
+        "idname": "somatosensory:paresthesia:lower limbs",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 36,
+        "definition": "Paresthesia trunk",
+        "idname": "somatosensory:paresthesia:trunk",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 37,
+        "definition": "Dysesthesia upper limbs",
+        "idname": "somatosensory:dysesthesia:upper limbs",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 38,
+        "definition": "Dysesthesia lower limbs",
+        "idname": "somatosensory:dysesthesia:lower limbs",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 39,
+        "definition": "Dysesthesia trunk",
+        "idname": "somatosensory:dysesthesia:trunk",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 40,
+        "definition": "Anesthesia upper limbs",
+        "idname": "somatosensory:anesthesia:upper limbs",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 41,
+        "definition": "Anesthesia lower limbs",
+        "idname": "somatosensory:anesthesia:lower limbs",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 42,
+        "definition": "Anesthesia trunk",
+        "idname": "somatosensory:anesthesia:trunk",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 43,
+        "definition": "Pruritus upper limbs",
+        "idname": "somatosensory:pruritus:upper limbs",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 44,
+        "definition": "Pruritus lower limbs",
+        "idname": "somatosensory:pruritus:lower limbs",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 45,
+        "definition": "Pruritus trunk",
+        "idname": "somatosensory:pruritus:trunk",
+        "section": 2,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 46,
         "definition": "Bladder urgency",
-        "idname": "autonomic:bladde urgency",
+        "idname": "autonomic:bladder urgency",
         "section": 2,
         "subsection": "Autonomic",
         "type": 5,
@@ -495,7 +675,7 @@
         "cdiscName": null
     },
     {
-        "id": 36,
+        "id": 47,
         "definition": "Bladder frequency",
         "idname": "autonomic:bladder frequency",
         "section": 2,
@@ -510,7 +690,7 @@
         "cdiscName": null
     },
     {
-        "id": 37,
+        "id": 48,
         "definition": "Bladder incontinence",
         "idname": "autonomic:bladder incontinence",
         "section": 2,
@@ -525,7 +705,7 @@
         "cdiscName": null
     },
     {
-        "id": 38,
+        "id": 49,
         "definition": "Bladder hesitancy",
         "idname": "autonomic:bladder hesitancy",
         "section": 2,
@@ -540,7 +720,7 @@
         "cdiscName": null
     },
     {
-        "id": 39,
+        "id": 50,
         "definition": "Constipation",
         "idname": "autonomic:constipation",
         "section": 2,
@@ -555,7 +735,7 @@
         "cdiscName": null
     },
     {
-        "id": 40,
+        "id": 51,
         "definition": "Bowel incontinence",
         "idname": "autonomic:bowel incontinence",
         "section": 2,
@@ -570,7 +750,7 @@
         "cdiscName": null
     },
     {
-        "id": 41,
+        "id": 52,
         "definition": "Problems with sexual function",
         "idname": "autonomic:problems with sexual function",
         "section": 2,
@@ -585,9 +765,9 @@
         "cdiscName": null
     },
     {
-        "id": 42,
+        "id": 53,
         "definition": "Information processing speed",
-        "idname": "cognitive functions:higher function problem: information processing speed",
+        "idname": "cognitive functions:information processing speed",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -600,9 +780,9 @@
         "cdiscName": null
     },
     {
-        "id": 43,
+        "id": 54,
         "definition": "Executive functions",
-        "idname": "cognitive functions:higher function problem: executive functions",
+        "idname": "cognitive functions:executive functions",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -615,9 +795,9 @@
         "cdiscName": null
     },
     {
-        "id": 44,
+        "id": 55,
         "definition": "Memory",
-        "idname": "cognitive functions:higher function problem:memory",
+        "idname": "cognitive functions:memory",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -630,9 +810,9 @@
         "cdiscName": null
     },
     {
-        "id": 45,
+        "id": 56,
         "definition": "Verbal fluency",
-        "idname": "cognitive functions:higher function problem:verbal fluency",
+        "idname": "cognitive functions:verbal fluency",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -645,9 +825,24 @@
         "cdiscName": null
     },
     {
-        "id": 46,
+        "id": 57,
+        "definition": "Depression",
+        "idname": "cognitive functions:depression",
+        "section": 3,
+        "subsection": "Cognitive Functions",
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 58,
         "definition": "Seizure",
-        "idname": "cognitive functions:higher function problem:seizure",
+        "idname": "cognitive functions:seizure",
         "section": 3,
         "subsection": "Cognitive Functions",
         "type": 5,
@@ -660,7 +855,82 @@
         "cdiscName": null
     },
     {
-        "id": 47,
+        "id": 59,
+        "definition": "Oscillopsia",
+        "idname": "cranial nerves:oscillopsia",
+        "section": 3,
+        "subsection": "Cranial Nerves",
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 60,
+        "definition": "Dysarthria",
+        "idname": "cranial nerves:dysarthria",
+        "section": 3,
+        "subsection": "Cranial Nerves",
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 61,
+        "definition": "Dysphagia",
+        "idname": "cranial nerves:dysphagia",
+        "section": 3,
+        "subsection": "Cranial Nerves",
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 62,
+        "definition": "Vertigo",
+        "idname": "cranial nerves:vertigo",
+        "section": 3,
+        "subsection": "Cranial Nerves",
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 63,
+        "definition": "Atypical facial pain",
+        "idname": "cranial nerves:atypical facial pain",
+        "section": 3,
+        "subsection": "Cranial Nerves",
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 64,
         "definition": "Nystagmus",
         "idname": "cranial nerves:nystagmus",
         "section": 3,
@@ -675,7 +945,7 @@
         "cdiscName": null
     },
     {
-        "id": 48,
+        "id": 65,
         "definition": "Red desaturation",
         "idname": "cranial nerves:red desaturation",
         "section": 3,
@@ -690,7 +960,22 @@
         "cdiscName": null
     },
     {
-        "id": 49,
+        "id": 66,
+        "definition": "Field defect / scotoma",
+        "idname": "cranial nerves:field defect / scotoma",
+        "section": 3,
+        "subsection": "Cranial Nerves",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 67,
         "definition": "Sixth nerve palsy",
         "idname": "cranial nerves:sixth nerve palsy",
         "section": 3,
@@ -705,7 +990,7 @@
         "cdiscName": null
     },
     {
-        "id": 50,
+        "id": 68,
         "definition": "Third nerve palsy",
         "idname": "cranial nerves:third nerve palsy",
         "section": 3,
@@ -720,7 +1005,7 @@
         "cdiscName": null
     },
     {
-        "id": 51,
+        "id": 69,
         "definition": "Trigeminal neuralgia",
         "idname": "cranial nerves:trigeminal neuralgia",
         "section": 3,
@@ -735,9 +1020,9 @@
         "cdiscName": null
     },
     {
-        "id": 52,
-        "definition": "Trigeninal palsy",
-        "idname": "cranial nerves:trigeninal palsy",
+        "id": 70,
+        "definition": "Trigeminal palsy",
+        "idname": "cranial nerves:trigeminal palsy",
         "section": 3,
         "subsection": "Cranial Nerves",
         "type": 3,
@@ -750,7 +1035,7 @@
         "cdiscName": null
     },
     {
-        "id": 53,
+        "id": 71,
         "definition": "Fourth nerve palsy",
         "idname": "cranial nerves:fourth nerve palsy",
         "section": 3,
@@ -765,7 +1050,7 @@
         "cdiscName": null
     },
     {
-        "id": 54,
+        "id": 72,
         "definition": "Facial hypoesthesia",
         "idname": "cranial nerves:facial hypoesthesia",
         "section": 3,
@@ -780,7 +1065,7 @@
         "cdiscName": null
     },
     {
-        "id": 55,
+        "id": 73,
         "definition": "Hearing loss",
         "idname": "cranial nerves:hearing loss",
         "section": 3,
@@ -795,8 +1080,8 @@
         "cdiscName": null
     },
     {
-        "id": 56,
-        "definition": "",
+        "id": 74,
+        "definition": "Tremor postural upper limbs",
         "idname": "motor:tremor postural:upper limbs",
         "section": 3,
         "subsection": "Motor",
@@ -810,8 +1095,8 @@
         "cdiscName": null
     },
     {
-        "id": 57,
-        "definition": "upper limbs",
+        "id": 75,
+        "definition": "Tremor intention upper limbs",
         "idname": "motor:tremor intention:upper limbs",
         "section": 3,
         "subsection": "Motor",
@@ -825,8 +1110,38 @@
         "cdiscName": null
     },
     {
-        "id": 58,
-        "definition": "upper limbs",
+        "id": 76,
+        "definition": "Weakness upper limbs",
+        "idname": "motor:weakness:upper limbs",
+        "section": 3,
+        "subsection": "Motor",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 77,
+        "definition": "Weakness lower limbs",
+        "idname": "motor:weakness:lower limbs",
+        "section": 3,
+        "subsection": "Motor",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 78,
+        "definition": "Spasticity upper limbs",
         "idname": "motor:spasticity:upper limbs",
         "section": 3,
         "subsection": "Motor",
@@ -840,8 +1155,8 @@
         "cdiscName": null
     },
     {
-        "id": 59,
-        "definition": "lower limbs",
+        "id": 79,
+        "definition": "Spasticity lower limbs",
         "idname": "motor:spasticity:lower limbs",
         "section": 3,
         "subsection": "Motor",
@@ -855,7 +1170,7 @@
         "cdiscName": null
     },
     {
-        "id": 60,
+        "id": 80,
         "definition": "right",
         "idname": "motor:tendon reflexes:hyperreflexia:biceps:right",
         "section": 3,
@@ -866,11 +1181,11 @@
         "permittedValues": "3,4",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "RIGHT",
         "cdiscName": null
     },
     {
-        "id": 61,
+        "id": 81,
         "definition": "left",
         "idname": "motor:tendon reflexes:hyperreflexia:biceps:left",
         "section": 3,
@@ -881,11 +1196,11 @@
         "permittedValues": "3,4",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "LEFT",
         "cdiscName": null
     },
     {
-        "id": 62,
+        "id": 82,
         "definition": "right",
         "idname": "motor:tendon reflexes:hyperreflexia:patella:right",
         "section": 3,
@@ -896,11 +1211,11 @@
         "permittedValues": "3,4",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "RIGHT",
         "cdiscName": null
     },
     {
-        "id": 63,
+        "id": 83,
         "definition": "left",
         "idname": "motor:tendon reflexes:hyperreflexia:patella:left",
         "section": 3,
@@ -911,11 +1226,11 @@
         "permittedValues": "3,4",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "LEFT",
         "cdiscName": null
     },
     {
-        "id": 64,
+        "id": 84,
         "definition": "right",
         "idname": "motor:tendon reflexes:hyperreflexia:ankle:right",
         "section": 3,
@@ -926,11 +1241,11 @@
         "permittedValues": "3,4",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "RIGHT",
         "cdiscName": null
     },
     {
-        "id": 65,
+        "id": 85,
         "definition": "left",
         "idname": "motor:tendon reflexes:hyperreflexia:ankle:left",
         "section": 3,
@@ -941,11 +1256,11 @@
         "permittedValues": "3,4",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "LEFT",
         "cdiscName": null
     },
     {
-        "id": 66,
+        "id": 86,
         "definition": "right",
         "idname": "motor:tendon reflexes:hyporeflexia:biceps:right",
         "section": 3,
@@ -956,11 +1271,11 @@
         "permittedValues": "1,2",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "RIGHT",
         "cdiscName": null
     },
     {
-        "id": 67,
+        "id": 87,
         "definition": "left",
         "idname": "motor:tendon reflexes:hyporeflexia:biceps:left",
         "section": 3,
@@ -971,11 +1286,11 @@
         "permittedValues": "1,2",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "LEFT",
         "cdiscName": null
     },
     {
-        "id": 68,
+        "id": 88,
         "definition": "right",
         "idname": "motor:tendon reflexes:hyporeflexia:patella:right",
         "section": 3,
@@ -986,11 +1301,11 @@
         "permittedValues": "1,2",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "RIGHT",
         "cdiscName": null
     },
     {
-        "id": 69,
+        "id": 89,
         "definition": "left",
         "idname": "motor:tendon reflexes:hyporeflexia:patella:left",
         "section": 3,
@@ -1001,11 +1316,11 @@
         "permittedValues": "1,2",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "LEFT",
         "cdiscName": null
     },
     {
-        "id": 70,
+        "id": 90,
         "definition": "right",
         "idname": "motor:tendon reflexes:hyporeflexia:ankle:right",
         "section": 3,
@@ -1016,11 +1331,11 @@
         "permittedValues": "1,2",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "RIGHT",
         "cdiscName": null
     },
     {
-        "id": 71,
+        "id": 91,
         "definition": "left",
         "idname": "motor:tendon reflexes:hyporeflexia:ankle:left",
         "section": 3,
@@ -1031,11 +1346,11 @@
         "permittedValues": "1,2",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "LEFT",
         "cdiscName": null
     },
     {
-        "id": 72,
+        "id": 92,
         "definition": "right",
         "idname": "motor:tendon reflexes:plantar response:right",
         "section": 3,
@@ -1046,11 +1361,11 @@
         "permittedValues": "NORMAL,ABNORMAL,UNKNOWN",
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "RIGHT",
         "cdiscName": null
     },
     {
-        "id": 73,
+        "id": 93,
         "definition": "left",
         "idname": "motor:tendon reflexes:plantar response:left",
         "section": 3,
@@ -1060,55 +1375,147 @@
         "module": "MS",
         "permittedValues": "NORMAL,ABNORMAL,UNKNOWN",
         "labels": null,
-        "referenceType": 1
+        "referenceType": 1,
+        "laterality": "LEFT",
+        "cdiscName": null
     },
     {
-        "id": 74,
-        "definition": "upper limb",
-        "idname": "cerebellar:ataxia:upper limb",
+        "id": 94,
+        "definition": "Ataxia upper limbs",
+        "idname": "cerebellar:ataxia:upper limbs",
         "section": 3,
         "subsection": "Cerebellar",
         "type": 3,
         "unit": null,
         "module": "MS",
-        "permittedValues": "LEFT,RIGHT,BOTH,UNKNOWN",
+        "permittedValues": "LEFT,RIGHT,BOTH",
         "labels": null,
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
     },
     {
-        "id": 75,
-        "definition": "lower limb",
-        "idname": "cerebellar:ataxia:lower limb",
+        "id": 95,
+        "definition": "Ataxia lower limbs",
+        "idname": "cerebellar:ataxia:lower limbs",
         "section": 3,
         "subsection": "Cerebellar",
         "type": 3,
         "unit": null,
         "module": "MS",
-        "permittedValues": "LEFT,RIGHT,BOTH,UNKNOWN",
+        "permittedValues": "LEFT,RIGHT,BOTH",
         "labels": null,
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
     },
     {
-        "id": 76,
-        "definition": "trunk",
+        "id": 96,
+        "definition": "Ataxia trunk",
         "idname": "cerebellar:ataxia:trunk",
         "section": 3,
         "subsection": "Cerebellar",
         "type": 3,
         "unit": null,
         "module": "MS",
-        "permittedValues": "LEFT,RIGHT,BOTH,UNKNOWN",
+        "permittedValues": "LEFT,RIGHT,BOTH",
         "labels": null,
         "referenceType": 1,
         "laterality": null,
         "cdiscName": null
     },
     {
-        "id": 77,
+        "id": 97,
+        "definition": "Dysesthesia upper limbs",
+        "idname": "somatosensory:dysesthesia:upper limbs",
+        "section": 3,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 98,
+        "definition": "Dysesthesia lower limbs",
+        "idname": "somatosensory:dysesthesia:lower limbs",
+        "section": 3,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 99,
+        "definition": "Dysesthesia trunk",
+        "idname": "somatosensory:dysesthesia:trunk",
+        "section": 3,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 100,
+        "definition": "Anesthesia upper limbs",
+        "idname": "somatosensory:anesthesia:upper limbs",
+        "section": 3,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 101,
+        "definition": "Anesthesia lower limbs",
+        "idname": "somatosensory:anesthesia:lower limbs",
+        "section": 3,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 102,
+        "definition": "Anesthesia trunk",
+        "idname": "somatosensory:anesthesia:trunk",
+        "section": 3,
+        "subsection": "Somatosensory",
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "LEFT,RIGHT,BOTH",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 103,
         "definition": "Problem",
         "idname": "mobility:problem",
         "section": 3,
@@ -1123,7 +1530,7 @@
         "cdiscName": null
     },
     {
-        "id": 78,
+        "id": 104,
         "definition": "Using walking aid",
         "idname": "mobility:using walking aid",
         "section": 3,
@@ -1138,7 +1545,7 @@
         "cdiscName": null
     },
     {
-        "id": 79,
+        "id": 105,
         "definition": "EDSS Total Score",
         "idname": "edss:expanded disability status scale (edss) total",
         "section": 4,
@@ -1153,7 +1560,7 @@
         "cdiscName": null
     },
     {
-        "id": 80,
+        "id": 106,
         "definition": "EDSS Pyramidal Score",
         "idname": "edss:expanded disability status scale (edss) pyramidal",
         "section": 4,
@@ -1168,7 +1575,7 @@
         "cdiscName": null
     },
     {
-        "id": 81,
+        "id": 107,
         "definition": "EDSS Cerebellar Score",
         "idname": "edss:expanded disability status scale (edss) cerebellar",
         "section": 4,
@@ -1183,7 +1590,7 @@
         "cdiscName": null
     },
     {
-        "id": 82,
+        "id": 108,
         "definition": "EDSS Brain Stem Score",
         "idname": "edss:expanded disability status scale (edss) brain stem",
         "section": 4,
@@ -1198,7 +1605,7 @@
         "cdiscName": null
     },
     {
-        "id": 83,
+        "id": 109,
         "definition": "EDSS Sensory Score",
         "idname": "edss:expanded disability status scale (edss) sensory",
         "section": 4,
@@ -1213,7 +1620,7 @@
         "cdiscName": null
     },
     {
-        "id": 84,
+        "id": 110,
         "definition": "EDSS Bowel Bladder Score",
         "idname": "edss:expanded disability status scale (edss) bowel bladder",
         "section": 4,
@@ -1228,7 +1635,7 @@
         "cdiscName": null
     },
     {
-        "id": 85,
+        "id": 111,
         "definition": "EDSS Visual Score",
         "idname": "edss:expanded disability status scale (edss) visual",
         "section": 4,
@@ -1243,7 +1650,7 @@
         "cdiscName": null
     },
     {
-        "id": 86,
+        "id": 112,
         "definition": "EDSS Mental Score",
         "idname": "edss:expanded disability status scale (edss) mental",
         "section": 4,
@@ -1258,7 +1665,7 @@
         "cdiscName": null
     },
     {
-        "id": 87,
+        "id": 113,
         "definition": "EDSS Ambulation Score",
         "idname": "edss:expanded disability status scale (edss) ambulation",
         "section": 4,
@@ -1273,7 +1680,7 @@
         "cdiscName": null
     },
     {
-        "id": 88,
+        "id": 114,
         "definition": "EDMUS",
         "idname": "edmus:edmus",
         "section": 4,
@@ -1288,9 +1695,9 @@
         "cdiscName": null
     },
     {
-        "id": 89,
+        "id": 115,
         "definition": "25 feet walk test:trial n�1",
-        "idname": "25 feet walk test: 25 feet walk test:trial n�1",
+        "idname": "25 feet walk test:trial n�1",
         "section": 4,
         "subsection": "FT",
         "type": 2,
@@ -1303,9 +1710,9 @@
         "cdiscName": null
     },
     {
-        "id": 90,
+        "id": 116,
         "definition": "25 feet walk test:trial n�2",
-        "idname": "25 feet walk test: 25 feet walk test:trial n�2",
+        "idname": "25 feet walk test:trial n�2",
         "section": 4,
         "subsection": "FT",
         "type": 2,
@@ -1318,9 +1725,9 @@
         "cdiscName": null
     },
     {
-        "id": 91,
+        "id": 117,
         "definition": "Nine hole peg test:left:trial n�1",
-        "idname": "nine hole peg test:nine hole peg test:left:trial n�1",
+        "idname": "nine hole peg test:left:trial n�1",
         "section": 4,
         "subsection": "FT",
         "type": 2,
@@ -1329,13 +1736,13 @@
         "permittedValues": null,
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "LEFT",
         "cdiscName": null
     },
     {
-        "id": 92,
+        "id": 118,
         "definition": "Nine hole peg test:left:trial n�2",
-        "idname": "nine hole peg test:nine hole peg test:left:trial n�2",
+        "idname": "nine hole peg test:left:trial n�2",
         "section": 4,
         "subsection": "FT",
         "type": 2,
@@ -1344,13 +1751,13 @@
         "permittedValues": null,
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "LEFT",
         "cdiscName": null
     },
     {
-        "id": 93,
+        "id": 119,
         "definition": "Nine hole peg test:right:trial n�1",
-        "idname": "nine hole peg test:nine hole peg test:right:trial n�1",
+        "idname": "nine hole peg test:right:trial n�1",
         "section": 4,
         "subsection": "FT",
         "type": 2,
@@ -1359,13 +1766,13 @@
         "permittedValues": null,
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "RIGHT",
         "cdiscName": null
     },
     {
-        "id": 94,
+        "id": 120,
         "definition": "Nine hole peg test:right:trial n�2",
-        "idname": "nine hole peg test:nine hole peg test:right:trial n�2",
+        "idname": "nine hole peg test:right:trial n�2",
         "section": 4,
         "subsection": "FT",
         "type": 2,
@@ -1374,11 +1781,11 @@
         "permittedValues": null,
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "RIGHT",
         "cdiscName": null
     },
     {
-        "id": 95,
+        "id": 121,
         "definition": "Low contrast letter acuity:left ",
         "idname": "visualacuity:low contrast letter acuity:left ",
         "section": 4,
@@ -1389,11 +1796,11 @@
         "permittedValues": null,
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "LEFT",
         "cdiscName": null
     },
     {
-        "id": 96,
+        "id": 122,
         "definition": "Low contrast letter acuity:right",
         "idname": "visualacuity:low contrast letter acuity:right",
         "section": 4,
@@ -1404,11 +1811,11 @@
         "permittedValues": null,
         "labels": null,
         "referenceType": 1,
-        "laterality": null,
+        "laterality": "RIGHT",
         "cdiscName": null
     },
     {
-        "id": 97,
+        "id": 123,
         "definition": "Symbol Digit Modality Test",
         "idname": "visualacuity:symbol digit modality test",
         "section": 4,
