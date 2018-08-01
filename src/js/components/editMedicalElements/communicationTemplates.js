@@ -150,9 +150,9 @@ const oneSignOrSymptom = (data, VSFields_Hash) => {
     const fieldObj = VSFields_Hash[data.field];
     if (fieldObj) {
         if (fieldObj.type === 5) {
-            return `- ${fieldObj.definition}: ${data.value === '1' ? 'Yes' : (data.value === '0' ? 'No' : 'Unknown')}`;
+            return `- ${fieldObj.idname.replace(/:/g, ' > ')}: ${data.value === '1' ? 'Yes' : (data.value === '0' ? 'No' : 'Unknown')}`;
         }
-        return `- ${fieldObj.definition}: ${camelize(data.value)}`;
+        return `- ${fieldObj.idname.replace(/:/g, ' > ')}: ${camelize(data.value)}`;
     } else {
         return '';
     }
