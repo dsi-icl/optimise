@@ -55,6 +55,10 @@ UserController.prototype.deserializeUser = function (serializedUser, done) {
 };
 
 UserController.prototype.getUser = function (req, res) {
+    if (req.user.priv !== 1) {
+        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    }
     let queryUsername;
     if (!req.query.hasOwnProperty('username')) {
         queryUsername = '';
@@ -187,8 +191,10 @@ UserController.prototype.loginUser = function (req, res) {
                 res.status(400).send(ErrorHelper('Failed to login', err));
                 return;
             }
-            res.status(200).json({ status: 'OK', message: 'Successfully logged in' });
-            // res.status(200).json({ token: result.sessionToken });
+            delete result.pw;
+            delete result.salt;
+            delete result.iteration;
+            res.status(200).json({ status: 'OK', message: 'Successfully logged in', account: result });
         });
         return;
     }, function (error) {
