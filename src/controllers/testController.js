@@ -36,8 +36,8 @@ TestController.prototype.createTest = function (req, res) {
     let entryObj = {
         'orderedDuringVisit': req.body.visitId,
         'type': req.body.type,
-        'expectedOccurDate': momentExpect.toString(),
-        'actualOccurredDate': req.body.hasOwnProperty('actualOccurredDate') ? momentOccur.toString() : null,
+        'expectedOccurDate': momentExpect.valueOf(),
+        'actualOccurredDate': req.body.hasOwnProperty('actualOccurredDate') ? momentOccur.valueOf() : null,
         'createdByUser': req.user.id
     };
     this.test.createTest(entryObj).then(function (result) {

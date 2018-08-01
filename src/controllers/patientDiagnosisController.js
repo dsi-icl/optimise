@@ -46,7 +46,7 @@ PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res
         }
         entryObj.patient = req.body.patient;
         entryObj.diagnosis = req.body.diagnosis;
-        entryObj.diagnosisDate = momentDiagnos.toString();
+        entryObj.diagnosisDate = momentDiagnos.valueOf();
         entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.createPatientDiagnosis(entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
