@@ -66,8 +66,8 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'form': (req.body.hasOwnProperty('form') ? req.body.form : null),   // hardcoded SQL: only OR, IV, IM or SC
         'times': (req.body.hasOwnProperty('times') ? req.body.times : null),
         'intervalUnit': (req.body.hasOwnProperty('intervalUnit') ? req.body.intervalUnit : null), // hardcoded: hour, day, week, month, year
-        'startDate': momentStart.toString(),
-        'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? momentTerminated.toString() : null),
+        'startDate': momentStart.valueOf(),
+        'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? momentTerminated.valueOf() : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         'createdByUser': req.user.id
     };
@@ -88,7 +88,7 @@ TreatmentController.prototype.addTerminationDate = function (req, res) {    //fo
             res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
             return;
         }
-        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': momentTerminated.toString(), 'terminatedReason': req.body.terminatedReason })
+        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': momentTerminated.valueOf(), 'terminatedReason': req.body.terminatedReason })
             .then(function (result) {
                 res.status(200).json(formatToJSON(result));
                 return;
@@ -164,9 +164,9 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
         }
         let entryObj = {
             'treatment': req.body.treatmentId,
-            'startDate': momentStart.toString(),
+            'startDate': momentStart.valueOf(),
             'meddra': req.body.hasOwnProperty('meddra') ? req.body.meddra : null,
-            'endDate': (req.body.hasOwnProperty('end_date') ? momentEnd.toString() : null),
+            'endDate': (req.body.hasOwnProperty('end_date') ? momentEnd.valueOf() : null),
             'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
             'createdByUser': req.user.id
         };

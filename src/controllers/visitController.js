@@ -51,7 +51,7 @@ VisitController.prototype.createVisit = function (req, res) {
         return;
     }
     let entryObj = {};
-    entryObj.visitDate = momentVisit.toString();
+    entryObj.visitDate = momentVisit.valueOf();
     entryObj.patient = req.body.patientId;
     if (req.body.hasOwnProperty('type'))
         entryObj.type = req.body.type;
@@ -81,7 +81,7 @@ VisitController.prototype.updateVisit = function (req, res) {
     updatedObj = Object.assign(req.body);
     whereObj.id = req.body.id;
     if (req.body.hasOwnProperty('visitDate'))
-        updatedObj.visitDate = momentVisit.toString();
+        updatedObj.visitDate = momentVisit.valueOf();
     delete updatedObj.id;
     updatedObj.createdByUser = req.user.id;
     this.visit.updateVisit(req.user, whereObj, updatedObj).then(function (result) {
