@@ -1,6 +1,8 @@
 /* Export data for all patients */
 
 const knex = require('../utils/db-connection');
+const ErrorHelper = require('../utils/error_helper');
+const message = require('../utils/message-utils');
 const fs = require('fs');
 const path = require('path');
 require('express-zip');
@@ -9,27 +11,26 @@ class ExportDataController {
 
     exportDatabase(__unused__req, res) {
 
-        const csvFileName = 'optimiseCSV.csv';
-        const jsonFileName = 'optimiseJSON.json';
+        const csvFileName = 'optimise.csv';
+        const jsonFileName = 'optimise.json';
         let csvFileArray = [];
         let jsonFileArray = [];
 
         /* Patient demographic data */
 
         knex('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
-                'PATIENT_DEMOGRAPHIC.DOB as BRTHDTC',
-                'GENDERS.value as SEX', 'DOMINANT_HANDS.value as DOMINANT',
-                'ETHNICITIES.value as ETHNIC', 'COUNTRIES.value as COUNTRY')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DEMOGRAPHIC.DOB as BRTHDTC', 'GENDERS.value as SEX',
+                'DOMINANT_HANDS.value as DOMINANT', 'ETHNICITIES.value as ETHNIC', 'COUNTRIES.value as COUNTRY')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
             .leftOuterJoin('DOMINANT_HANDS', 'DOMINANT_HANDS.id', 'PATIENT_DEMOGRAPHIC.dominantHand')
             .leftOuterJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
             .leftOuterJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -44,14 +45,14 @@ class ExportDataController {
         /* Smoking history data */
 
         knex('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
-                'SMOKING_HISTORY.value as SCORRES')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'SMOKING_HISTORY.value as SCORRES')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
             .leftOuterJoin('SMOKING_HISTORY', 'SMOKING_HISTORY.id', 'PATIENT_DEMOGRAPHIC.smokingHistory')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     csvFileArray.push(new createCsvDataFile(result, 'SC_smoking'));
                     jsonFileArray.push(new createJsonDataFile(result, 'SC_smoking'));
                 }
@@ -60,14 +61,14 @@ class ExportDataController {
         /* Alcohol consumption data */
 
         knex('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
-                'ALCOHOL_USAGE.value as SUDOSFRQ')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
             .leftOuterJoin('ALCOHOL_USAGE', 'ALCOHOL_USAGE.id', 'PATIENT_DEMOGRAPHIC.alcoholUsage')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.DOMAIN = 'SU';
                     });
@@ -79,17 +80,16 @@ class ExportDataController {
         /* Patient pregnancy data */
 
         knex('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
-                'PATIENT_PREGNANCY.startDate as MHSTDTC',
-                'PREGNANCY_OUTCOMES.value as MHENRTPT', 'PATIENT_PREGNANCY.outcomeDate as MHENDTC',
-                'ADVERSE_EVENT_MEDDRA.name as MHDECOD')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_PREGNANCY.startDate as MHSTDTC', 'PREGNANCY_OUTCOMES.value as MHENRTPT',
+                'PATIENT_PREGNANCY.outcomeDate as MHENDTC', 'ADVERSE_EVENT_MEDDRA.name as MHDECOD')
             .leftOuterJoin('PATIENT_PREGNANCY', 'PATIENT_PREGNANCY.patient', 'PATIENTS.id')
             .leftJoin('PREGNANCY_OUTCOMES', 'PREGNANCY_OUTCOMES.id', 'PATIENT_PREGNANCY.outcome')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -105,18 +105,18 @@ class ExportDataController {
         /* Patient vital signs data (within Visit) */
 
         knex('VISIT_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID',
-                'AVAILABLE_FIELDS_VISITS.definition as VSTEST',
-                'VISIT_DATA.value as VSORRES', 'AVAILABLE_FIELDS_VISITS.unit as VSORRESU',
-                'VISITS.visitDate as VSDTC')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.definition as VSTEST', 'VISIT_DATA.value as VSORRES',
+                'AVAILABLE_FIELDS_VISITS.unit as VSORRESU', 'VISITS.visitDate as VSDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('VISIT_DATA.deleted', '-')
+            .andWhere('VISITS.deleted', '-')
             .andWhere('AVAILABLE_FIELDS_VISITS.section', 1)
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.DOMAIN = 'VS';
                     });
@@ -132,9 +132,10 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_PREGNANCY.patient')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.AETERM = x.AELLT;
                         x.DOMAIN = 'AE';
@@ -151,9 +152,10 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'CLINICAL_EVENTS.meddra')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('CLINICAL_EVENTS.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.AETERM = x.AELLT;
                         x.DOMAIN = 'AE';
@@ -172,9 +174,10 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'TREATMENTS_INTERRUPTIONS.meddra')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('TREATMENTS_INTERRUPTIONS.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.AETERM = x.AELLT;
                         x.DOMAIN = 'AE';
@@ -187,16 +190,16 @@ class ExportDataController {
         /* Patient medical history data */
 
         knex('MEDICAL_HISTORY')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'RELATIONS.value as SREL',
-                'CONDITIONS.value as MHTERM', 'MEDICAL_HISTORY.startDate as MHSTDTC', 'MEDICAL_HISTORY.outcome as MHENRTPT',
-                'MEDICAL_HISTORY.resolvedYear as MHENDTC')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'RELATIONS.value as SREL', 'CONDITIONS.value as MHTERM',
+                'MEDICAL_HISTORY.startDate as MHSTDTC', 'MEDICAL_HISTORY.outcome as MHENRTPT', 'MEDICAL_HISTORY.resolvedYear as MHENDTC')
             .leftOuterJoin('RELATIONS', 'RELATIONS.id', 'MEDICAL_HISTORY.relation')
             .leftOuterJoin('CONDITIONS', 'CONDITIONS.id', 'MEDICAL_HISTORY.conditionName')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'MEDICAL_HISTORY.patient')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -211,13 +214,13 @@ class ExportDataController {
         /* Patient immunisation data */
 
         knex('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_IMMUNISATION.vaccineName as MHTERM',
-                'PATIENT_IMMUNISATION.immunisationDate as MHSTDTC')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_IMMUNISATION.vaccineName as MHTERM', 'PATIENT_IMMUNISATION.immunisationDate as MHSTDTC')
             .leftOuterJoin('PATIENT_IMMUNISATION', 'PATIENT_IMMUNISATION.id', 'PATIENTS.id')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -232,14 +235,14 @@ class ExportDataController {
         /* Patient diagnosis data */
 
         knex('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DIAGNOSIS.diagnosisDate as MHSTDTC',
-                'AVAILABLE_DIAGNOSES.value as MHTERM')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DIAGNOSIS.diagnosisDate as MHSTDTC', 'AVAILABLE_DIAGNOSES.value as MHTERM')
             .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENT_DIAGNOSIS.patient', 'PATIENTS.id')
             .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -265,9 +268,11 @@ class ExportDataController {
             .leftOuterJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('CLINICAL_EVENTS_DATA.deleted', '-')
+            .andWhere('CLINICAL_EVENTS.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let newResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -295,10 +300,14 @@ class ExportDataController {
             .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
             .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('ORDERED_TESTS.type', 2)
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('TEST_DATA.deleted', '-')
+            .andWhere('ORDERED_TESTS.deleted', '-')
+            // add check for deleted visit?
+            .andWhere('ORDERED_TESTS.type', 2)
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let newResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
@@ -321,10 +330,13 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('TEST_DATA.deleted', '-')
-            .andWhere('ORDERED_TESTS.id', 1)
+            .andWhere('ORDERED_TESTS.deleted', '-')
+            // add check for deleted visits?
+            .andWhere('ORDERED_TESTS.type', 1)
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.LBTESTCD = x.LBTEST; // WILL UPDATE AFTER CONSULTATION
                         x.DOMAIN = 'LB';
@@ -344,11 +356,14 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('TEST_DATA.deleted', '-')
-            .andWhere('ORDERED_TESTS.id', 4)
+            .andWhere('ORDERED_TESTS.deleted', '-')
+            // add check for deleted visits?
+            .andWhere('ORDERED_TESTS.type', 4)
             .then(result => {
                 let prResultArr = [];
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.LBTESTCD = x.LBTEST; // WILL UPDATE AFTER CONSULTATION
                         x.DOMAIN = 'LB';
@@ -375,10 +390,13 @@ class ExportDataController {
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .leftOuterJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('TEST_DATA.deleted', '-')
-            .andWhere('ORDERED_TESTS.id', 3)
+            .andWhere('ORDERED_TESTS.deleted', '-')
+            // add check for deleted visits?
+            .andWhere('ORDERED_TESTS.type', 3)
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.DOMAIN = 'MO';
                     });
@@ -395,9 +413,10 @@ class ExportDataController {
             .leftOuterJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.DOMAIN = 'FA';
                     });
@@ -409,16 +428,16 @@ class ExportDataController {
         /* Patient Symptoms and Signs at Visits */
 
         knex('VISIT_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.definition as CETERM',
-                'VISIT_DATA.value as CEOCCUR', 'VISITS.visitDate as CEDTC')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.definition as CETERM', 'VISIT_DATA.value as CEOCCUR', 'VISITS.visitDate as CEDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .whereIn('AVAILABLE_FIELDS_VISITS.section', [2,3])
+            .whereIn('AVAILABLE_FIELDS_VISITS.section', [2, 3])
             .andWhere('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('VISIT_DATA.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.DOMAIN = 'CE';
                     });
@@ -435,12 +454,13 @@ class ExportDataController {
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('AVAILABLE_FIELDS_VISITS.section', 4)
-            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'VisualAcuity')
-            .andWhere('PATIENTS.deleted', '-')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('VISIT_DATA.deleted', '-')
+            .andWhere('AVAILABLE_FIELDS_VISITS.section', 4)
+            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'VisualAcuity')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.OELOC = 'EYE';
                         x.DOMAIN = 'OE';
@@ -458,12 +478,13 @@ class ExportDataController {
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('AVAILABLE_FIELDS_VISITS.section', 4)
-            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'QS')
-            .andWhere('PATIENTS.deleted', '-')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('VISIT_DATA.deleted', '-')
+            .andWhere('AVAILABLE_FIELDS_VISITS.section', 4)
+            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'QS')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.QSSTRESN = x.QSORRES;
                         x.DOMAIN = 'QS';
@@ -481,28 +502,29 @@ class ExportDataController {
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-            .where('AVAILABLE_FIELDS_VISITS.section', 4)
-            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'FT')
-            .andWhere('PATIENTS.deleted', '-')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
             .andWhere('VISIT_DATA.deleted', '-')
+            .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'FT')
+            .andWhere('AVAILABLE_FIELDS_VISITS.section', 4)
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     result.forEach(x => {
                         x.FTSTRESN = x.FTORRES;
                         x.DOMAIN = 'FT';
                     });
                     csvFileArray.push(new createCsvDataFile(result, 'FT'));
-                    jsonFileArray.push(new createJsonDataFile(result, 'EX'));
+                    jsonFileArray.push(new createJsonDataFile(result, 'FT'));
 
                 }
             });
 
-        /* Patient treatment data */
+        /* Patient treatment data- Domain EC may be more appropriate */
 
         knex('TREATMENTS')
             .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_DRUGS.name as EXTRT',
                 'AVAILABLE_DRUGS.module as EXCLAS', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit as EXDOSU', 'TREATMENTS.startDate as EXSTDTC',
-                'TREATMENTS.times', 'TREATMENTS.intervalUnit' ,'TREATMENTS.form as EXROUTE', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC_2',
+                'TREATMENTS.times', 'TREATMENTS.intervalUnit', 'TREATMENTS.form as EXROUTE', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC_2',
                 'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason',
                 'TREATMENTS_INTERRUPTIONS.endDate as EXENDTC_2', 'REASONS.value as REASON',
                 'ADVERSE_EVENT_MEDDRA.name as MEDDRA')
@@ -512,14 +534,17 @@ class ExportDataController {
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'TREATMENTS_INTERRUPTIONS.meddra')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .leftOuterJoin('REASONS', 'REASONS.id', 'TREATMENTS_INTERRUPTIONS.reason')
-            .where('TREATMENTS.deleted', '-')
+            .where('PATIENTS.deleted', '-')
+            .andWhere('PATIENTS.consent', true)
+            .andWhere('TREATMENTS.deleted', '-')
             .then(result => {
-                if (result.length >= 1) {
+                if (result && result.length >= 1) {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
                         entry.DOMAIN = 'EX';
-                        entry.EXDOSFRQ = entry.times.concat(entry.intervalUnit);
+                        if (entry.times && entry.intervalUnit)
+                            entry.EXDOSFRQ = entry.times.concat(entry.intervalUnit);
                         convertedResult.push(entry);
                     }
                     csvFileArray.push(new createCsvDataFile(convertedResult, 'EX'));
@@ -533,7 +558,7 @@ class ExportDataController {
 
         function createJsonDataFile(result, prefix) {
 
-            const tempJsonFileName = `${prefix}${jsonFileName}`;
+            const tempJsonFileName = `${prefix}${Date.now()}${jsonFileName}`;
             let fileContents = Buffer.from(JSON.stringify(result));
             // check if dir temp exists
             const dir = './temp/';
@@ -555,11 +580,11 @@ class ExportDataController {
 
         function createCsvDataFile(result, prefix) {
 
-            const tempCsvFileName = `${prefix}${csvFileName}`;
+            const tempCsvFileName = `${prefix}${Date.now()}${csvFileName}`;
             let keys = Object.keys(result[0]); // get the keys from result to create headers
             let tempResult = `${keys.join(',')}\n`;
-            result.forEach(function(obj) {
-                keys.forEach(function(a, b){
+            result.forEach(function (obj) {
+                keys.forEach(function (a, b) {
                     if (b) tempResult += ',';
                     tempResult += obj[a];
                 });
@@ -587,7 +612,7 @@ class ExportDataController {
             if (arr.length >= 1) {
                 res.status(200).zip(arr);
             } else {
-                res.status(204).send('There are no patient entries in the database.');
+                res.status(200).json(ErrorHelper(message.userError.NOPATIENTDATA));
             }
         }
     }

@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "In-patient",
+        "name": "Clinical Visit",
         "module": "MS"
     },
     {

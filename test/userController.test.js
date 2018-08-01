@@ -16,7 +16,7 @@ describe('User controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(Object.keys(res.body).length).toBe(2);
+            expect(Object.keys(res.body).length).toBe(3);
             expect(res.body.status).toBeDefined();
             expect(res.body.status).toBe('OK');
             expect(res.body.message).toBeDefined();
@@ -105,7 +105,7 @@ describe('User controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(Object.keys(res.body).length).toBe(2);
+            expect(Object.keys(res.body).length).toBe(3);
             expect(res.body.status).toBeDefined();
             expect(res.body.status).toBe('OK');
             expect(res.body.message).toBeDefined();
@@ -168,7 +168,7 @@ describe('User controller tests', () => {
             .then(res => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-                expect(Object.keys(res.body).length).toBe(2);
+                expect(Object.keys(res.body).length).toBe(3);
                 expect(res.body.status).toBeDefined();
                 expect(res.body.status).toBe('OK');
                 expect(res.body.message).toBeDefined();
@@ -197,7 +197,7 @@ describe('User controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(Object.keys(res.body).length).toBe(2);
+            expect(Object.keys(res.body).length).toBe(3);
             expect(res.body.status).toBeDefined();
             expect(res.body.status).toBe('OK');
             expect(res.body.message).toBeDefined();

@@ -44,10 +44,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -107,10 +103,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -137,10 +129,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -167,10 +155,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -194,12 +178,6 @@
 					"name": "GetUser",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -236,10 +214,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/zip"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -277,10 +251,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -304,12 +274,6 @@
 							"name": "Get PPII",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
@@ -338,10 +302,6 @@
 							"request": {
 								"method": "PATCH",
 								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									},
 									{
 										"key": "Content-Type",
 										"value": "application/json"
@@ -372,10 +332,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -410,10 +366,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -437,12 +389,6 @@
 							"name": "Get Diagnosis",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
@@ -471,10 +417,6 @@
 							"request": {
 								"method": "PATCH",
 								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									},
 									{
 										"key": "Content-Type",
 										"value": "application/json"
@@ -505,10 +447,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -539,10 +477,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -576,10 +510,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -607,10 +537,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -639,10 +565,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -704,10 +626,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -735,10 +653,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -798,10 +712,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -828,10 +738,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -859,10 +765,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -896,10 +798,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -926,10 +824,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -952,12 +846,6 @@
 					"name": "Get a visit",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -995,10 +883,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -1025,10 +909,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -1056,10 +936,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -1086,10 +962,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -1117,10 +989,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -1148,10 +1016,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -1175,12 +1039,6 @@
 					"name": "Get drugs",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -1203,12 +1061,6 @@
 					"name": "Search drug",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -1266,10 +1118,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -1296,10 +1144,6 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
 							}
 						],
 						"body": {
@@ -1328,12 +1172,6 @@
 					"name": "get all visitFields",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -1355,12 +1193,6 @@
 					"name": "get all visitFields of a specific module",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -1388,12 +1220,6 @@
 					"name": "get all visitSections",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -1415,12 +1241,6 @@
 					"name": "get all testFields",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -1442,12 +1262,6 @@
 					"name": "get all clinicalEvents types",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -1469,12 +1283,6 @@
 					"name": "get all testTypes",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -1496,12 +1304,6 @@
 					"name": "Get CE Fields",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -1523,12 +1325,6 @@
 					"name": "Get diagnoses",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							}
-						],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -1558,10 +1354,6 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							},
-							{
 								"key": "Content-Type",
 								"value": "application/json"
 							}
@@ -1588,10 +1380,6 @@
 					"request": {
 						"method": "DELETE",
 						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							},
 							{
 								"key": "Content-Type",
 								"value": "application/json"
@@ -1620,10 +1408,6 @@
 						"method": "DELETE",
 						"header": [
 							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							},
-							{
 								"key": "Content-Type",
 								"value": "application/json"
 							}
@@ -1650,10 +1434,6 @@
 					"request": {
 						"method": "DELETE",
 						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							},
 							{
 								"key": "Content-Type",
 								"value": "application/json"
@@ -1682,10 +1462,6 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							},
-							{
 								"key": "Content-Type",
 								"value": "application/json"
 							}
@@ -1712,10 +1488,6 @@
 					"request": {
 						"method": "POST",
 						"header": [
-							{
-								"key": "token",
-								"value": "{{admin_token}}"
-							},
 							{
 								"key": "Content-Type",
 								"value": "application/json"
@@ -1756,10 +1528,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -1787,10 +1555,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -1818,10 +1582,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -1845,12 +1605,6 @@
 							"name": "Get Demographic Fields",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
@@ -1874,12 +1628,6 @@
 							"name": "Get specific demographic field",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
@@ -1920,10 +1668,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -1951,10 +1695,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -1982,10 +1722,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -2020,10 +1756,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -2051,10 +1783,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -2082,10 +1810,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -2109,12 +1833,6 @@
 							"name": "Get MedCond Fields",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
@@ -2138,12 +1856,6 @@
 							"name": "Get specific MedCond Fields",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
@@ -2180,12 +1892,6 @@
 							"name": "Get All Pregnancy",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
@@ -2207,12 +1913,6 @@
 							"name": "Get specific patient pregnancy",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
@@ -2244,10 +1944,6 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
 									}
 								],
 								"body": {
@@ -2274,10 +1970,6 @@
 								"method": "DELETE",
 								"header": [
 									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									},
-									{
 										"key": "Content-Type",
 										"value": "application/json"
 									}
@@ -2303,12 +1995,6 @@
 							"name": "Get Pregnancy Fields",
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									}
-								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
@@ -2332,10 +2018,6 @@
 							"request": {
 								"method": "PUT",
 								"header": [
-									{
-										"key": "token",
-										"value": "{{admin_token}}"
-									},
 									{
 										"key": "Content-Type",
 										"value": "application/json"
@@ -2367,12 +2049,6 @@
 			"name": "Get Actions Log",
 			"request": {
 				"method": "GET",
-				"header": [
-					{
-						"key": "token",
-						"value": "{{admin_token}}"
-					}
-				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
@@ -2394,12 +2070,6 @@
 			"name": "Get Meddra",
 			"request": {
 				"method": "GET",
-				"header": [
-					{
-						"key": "token",
-						"value": "{{admin_token}}"
-					}
-				],
 				"body": {},
 				"url": {
 					"raw": "{{url}}/meddra?search=oxyl",

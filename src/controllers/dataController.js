@@ -115,7 +115,10 @@ class DataController {
         let promiseArr = [];
 
         for (let i = 0; inputData.hasOwnProperty('updates') && i < inputData.updates.length; i++) {
-            promiseArr.push(updateEntry(options.dataTable, req.user, '*', { field: inputData.updates[i].field }, inputData.updates[i]));
+            let whereObj = {};
+            whereObj[options.dataTableForeignKey] = inputData.entryId;
+            whereObj.field = inputData.updates[i].field;
+            promiseArr.push(updateEntry(options.dataTable, req.user, '*', whereObj , inputData.updates[i]));
         }
         for (let i = 0; inputData.hasOwnProperty('adds') && i < inputData.adds.length; i++) {
             promiseArr.push(createEntry(options.dataTable, inputData.adds[i]));

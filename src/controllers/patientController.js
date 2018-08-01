@@ -36,6 +36,7 @@ PatientController.prototype.searchPatients = function (req, res) {  //get all li
         return;
     }
     this.patient.searchPatients(queryfield, queryvalue).then(function (result) {
+        result.forEach((__unused__r, i) => { result[i].uuid = undefined; });
         res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {

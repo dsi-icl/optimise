@@ -9,7 +9,7 @@ const PregnancyModel = {
     'startDate': null,
     'outcome': 0,
     'outcomeDate': null,
-    'meddra': 0
+    'meddra': null
 };
 
 function DemographicDataController() {
@@ -425,9 +425,14 @@ DemographicDataController.prototype.getPregnancy = function (req, res) {
 };
 
 DemographicDataController.prototype.createPregnancy = function (req, res) {
-    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('meddra') &&
-        typeof req.body.patient === 'number' && typeof req.body.outcome === 'number' && typeof req.body.meddra === 'number') {
-        let entryObj = Object.assign({}, PregnancyModel, req.body);
+    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') &&
+        typeof req.body.patient === 'number' && typeof req.body.outcome === 'number') {
+
+        if ((req.body.hasOwnProperty('meddra') && typeof req.body.meddra !== 'number')) {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+
         let momentStart = moment(req.body.startDate, moment.ISO_8601);
         let momentOutcome = moment(req.body.outcomeDate, moment.ISO_8601);
         if (req.body.hasOwnProperty('startDate') && !momentStart.isValid()) {
@@ -440,9 +445,12 @@ DemographicDataController.prototype.createPregnancy = function (req, res) {
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
+
+        let entryObj = Object.assign({}, PregnancyModel, req.body);
         entryObj.startDate = momentStart.toString();
         entryObj.outcomeDate = momentOutcome.toString();
         entryObj.createdByUser = req.user.id;
+
         this.pregnancy.createPregnancy(entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -450,7 +458,7 @@ DemographicDataController.prototype.createPregnancy = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return;
         });
-    } else if (!(req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('meddra'))) {
+    } else if (!(req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     } else {
