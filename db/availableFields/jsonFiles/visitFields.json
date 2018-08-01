@@ -75,6 +75,21 @@
         "cdiscName": "WEIGHT"
     },
     {
+        "id": 6,
+        "definition": "Academic concerns",
+        "idname": "academic concerns",
+        "section": 1,
+        "subsection": null,
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
         "id": 7,
         "definition": "Cognitive problems",
         "idname": "cognitive functions:cognitive problems",
