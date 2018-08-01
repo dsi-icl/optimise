@@ -6,6 +6,8 @@ import { BackButton } from '../medicalData/dataPage';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import style from './medicalEvent.module.css';
+import { addError } from '../../redux/actions/error';
+import store from '../../redux/store';
 
 //not yet finished the dispatch
 @connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes, meddra: state.meddra.result }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
@@ -74,6 +76,7 @@ export class CreateCE extends Component {
     _handleSubmitClick() {
         const meddra = this.props.meddra.filter(el => el.name === this.state.meddra.current.value);
         if (meddra.length === 0) {
+            store.dispatch(addError({ error: 'The MedDRA code entered doesn\'t seem to be valid!' }));
             return;
         }
         const requestBody = this._formatRequestBody();

@@ -13,6 +13,7 @@ import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/eras
 import { updateConsentAPICall } from '../../redux/actions/consent';
 import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
+import { addError } from '../../redux/actions/error';
 
 @connect(state => ({ fetching: state.patientProfile.fetching, erasePatient: state.erasePatient }))
 export class Section extends Component {
@@ -126,6 +127,10 @@ class ImmunisationSection extends Component {
     }
 
     _handleSubmit() {
+        if (this.state.newName === undefined || this.state.newName === null || this.state.newName === '') {
+            store.dispatch(addError({ error: 'Vaccine name cannot be empty!' }));
+            return;
+        }
         const data = this.props.data;
         const body = {
             patientId: data.patientId,
