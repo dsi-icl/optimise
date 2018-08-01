@@ -70,10 +70,6 @@ CeController.prototype.updateCe = function (req, res) {
 };
 
 CeController.prototype.deleteCe = function (req, res) {
-    if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    }
     if (req.body.hasOwnProperty('ceId')) {
         this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then(function (result) {
             res.status(200).json(formatToJSON(result));

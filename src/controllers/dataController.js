@@ -38,29 +38,24 @@ class DataController {
         this._RouterDeleteData = this._RouterDeleteData.bind(this);
     }
 
-    _RouterDeleteData(req, res) {    //req.body = {visitId = 1, delete:[1, 43, 54 (fieldIds)] }
-        if (req.user.priv === 1) {
-            let options = optionsContainer[`${req.params.dataType}`];
-            if (options === undefined) {
-                res.status(400).json(ErrorHelper(`data type ${req.params.dataType} not supported.`));
-                return;
-            }
-            if (!req.body.hasOwnProperty(`${req.params.dataType}Id`) || !req.body.hasOwnProperty('delete')) {
-                res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-                return;
-            }
-            this.dataCore.deleteData(req.user, options, req.body[`${req.params.dataType}Id`], req.body.delete)
-                .then(function (result) {
-                    res.status(200).json(formatToJSON(result));
-                    return;
-                }, function (error) {
-                    res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-                    return;
-                });
-        } else {
-            res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+    _RouterDeleteData(req, res) {
+        let options = optionsContainer[`${req.params.dataType}`];
+        if (options === undefined) {
+            res.status(400).json(ErrorHelper(`data type ${req.params.dataType} not supported.`));
             return;
         }
+        if (!req.body.hasOwnProperty(`${req.params.dataType}Id`) || !req.body.hasOwnProperty('delete')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        this.dataCore.deleteData(req.user, options, req.body[`${req.params.dataType}Id`], req.body.delete)
+            .then(function (result) {
+                res.status(200).json(formatToJSON(result));
+                return;
+            }, function (error) {
+                res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+                return;
+            });
     }
 
     _getField(table, id) {
@@ -118,7 +113,7 @@ class DataController {
             let whereObj = {};
             whereObj[options.dataTableForeignKey] = inputData.entryId;
             whereObj.field = inputData.updates[i].field;
-            promiseArr.push(updateEntry(options.dataTable, req.user, '*', whereObj , inputData.updates[i]));
+            promiseArr.push(updateEntry(options.dataTable, req.user, '*', whereObj, inputData.updates[i]));
         }
         for (let i = 0; inputData.hasOwnProperty('adds') && i < inputData.adds.length; i++) {
             promiseArr.push(createEntry(options.dataTable, inputData.adds[i]));
@@ -198,7 +193,7 @@ class DataController {
                             }
                         }
                         that._createAndUpdate(req, options, entries).then(function (__unused__result) {
-                            res.status(200).json(formatToJSON(`${message.dataMessage.SUCESS}`));
+                            res.status(200).json(formatToJSON(`${message.dataMessage.SUCCESS}`));
                             return;
                         }, function (error) {
                             res.status(400).json(ErrorHelper(message.dataMessage.ERROR, error));

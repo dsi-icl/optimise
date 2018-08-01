@@ -64,7 +64,7 @@ PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res
 };
 
 PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         let entryObj = req.body;
         entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.updatePatientDiagnosis(req.user, req.body.id, entryObj).then(function (result) {
@@ -74,9 +74,6 @@ PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res
             res.status(400).json(ErrorHelper(messages.errorMessages.UPDATEFAIL, error));
             return;
         });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
-        return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
@@ -87,7 +84,7 @@ PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res
 };
 
 PatientDiagnosisController.prototype.deletePatientDiagnosis = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.patientDiagnosis.deletePatientDiagnosis(req.user, { 'id': req.body.id }).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -95,9 +92,6 @@ PatientDiagnosisController.prototype.deletePatientDiagnosis = function (req, res
             res.status(400).json(ErrorHelper(messages.errorMessages.DELETEFAIL, error));
             return;
         });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
-        return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;

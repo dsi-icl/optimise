@@ -87,25 +87,25 @@ describe('Creating TEST data', () => {
 
     test('Request creation succesfull', () => user
         .post('/data/test')
-        .send({ testId: 4, add: { 33: 10 } })
+        .send({ testId: 2, add: { 33: 10 } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.success).toBeDefined();
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
-            expect(res.body.message).toBe(message.dataMessage.SUCESS);
+            expect(res.body.message).toBe(message.dataMessage.SUCCESS);
         }));
 
     test('Request update succesfull', () => admin
         .post('/data/test')
-        .send({ testId: 4, update: { 33: 65 } })
+        .send({ testId: 2, update: { 33: 65 } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.success).toBeDefined();
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
-            expect(res.body.message).toBe(message.dataMessage.SUCESS);
+            expect(res.body.message).toBe(message.dataMessage.SUCCESS);
         }));
 });

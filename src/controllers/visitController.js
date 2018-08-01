@@ -162,10 +162,6 @@ VisitController.prototype.createReport = function (req, res) {
  * @param {Object} res Response Object
  */
 VisitController.prototype.updateReport = function (req, res) {
-    if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    }
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.visit.updateReport(req.user, req.body).then(function (result) {
             res.status(200).json(formatToJSON(result));
@@ -174,9 +170,6 @@ VisitController.prototype.updateReport = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return;
         });
-    } else if (!req.body.hasOwnProperty('id')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
     } else {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;

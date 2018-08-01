@@ -120,14 +120,14 @@ describe('Delete test controller tests', () => {
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
-    test('Request deletion with good body by standard User (should fail)', () => user
+    test('Request deletion with good body by standard user (should succeed)', () => user
         .delete('/tests')
         .send({ 'testId': 4 })
         .then(res => {
-            expect(res.status).toBe(401);
+            expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.NORIGHTS);
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 
     test('Request deletion with bad ID type (should fail)', () => admin
@@ -150,7 +150,7 @@ describe('Delete test controller tests', () => {
             expect(res.body.state).toBe(0);
         }));
 
-    test('Request deletion with good body (should success)', () => admin
+    test('Request deletion with good body (should succeed)', () => admin
         .delete('/tests')
         .send({ 'testId': 6 })
         .then(res => {

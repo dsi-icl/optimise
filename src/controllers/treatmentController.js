@@ -106,7 +106,7 @@ TreatmentController.prototype.addTerminationDate = function (req, res) {    //fo
 };
 
 TreatmentController.prototype.editTreatment = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         let newObj = Object.assign({}, req.body);
         this.treatment.updateTreatment(req.user, req.body.id, newObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
@@ -115,10 +115,6 @@ TreatmentController.prototype.editTreatment = function (req, res) {
             res.status(400).json(ErrorHelper(message.userError.UPDATEFAIL, error));
             return;
         });
-        return;
-    }
-    else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -130,10 +126,6 @@ TreatmentController.prototype.editTreatment = function (req, res) {
 };
 
 TreatmentController.prototype.deleteTreatment = function (req, res) {
-    if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    }
     if (!req.body.hasOwnProperty('treatmentId')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
@@ -195,10 +187,6 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
 };
 
 TreatmentController.prototype.deleteInterruption = function (req, res) {
-    if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    }
     if (req.body.hasOwnProperty('treatmentInterId') && typeof req.body.treatmentInterId === 'number') {
         this.treatment.deleteInterruption(req.user, req.body.treatmentInterId).then(function (result) {
             if (result.body === 0) {
