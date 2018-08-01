@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import merge from 'deepmerge';
+import { BackButton } from './utils';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import Icon from '../icon';
 import style from '../createMedicalElements/medicalEvent.module.css';
@@ -118,16 +118,6 @@ export class DataTemplate extends Component {
         }
     }
 }
-
-
-export class BackButton extends Component {
-    render() {
-        return (
-            <Link to={this.props.to} title='Close' className={style.backButton}>&#10006;</Link>
-        );
-    }
-}
-
 
 /**
  * @function formatData

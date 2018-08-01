@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import Timeline from 'react-calendar-timeline/lib';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import Helmet from '../scaffold/helmet';
 import style from './patientProfile.module.css';
 import './timeline.css';

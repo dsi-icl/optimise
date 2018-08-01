@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
 import { formatTests, formatEvents, formatTreatments, formatSymptomsAndSigns, formatVS, formatEdss } from './communicationTemplates';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import { updateVisitAPICall } from '../../redux/actions/createVisit';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';

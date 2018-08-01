@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { updateDemographicAPICall } from '../../redux/actions/demographicData';

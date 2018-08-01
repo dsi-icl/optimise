@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { VisitPicker } from '../patientProfile/popup';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import { createShadowVisitAPICall } from '../../redux/actions/createVisit';
 import style from './medicalEvent.module.css';
 

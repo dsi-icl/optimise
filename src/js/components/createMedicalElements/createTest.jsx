@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from './datepicker';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import { createTestAPICall } from '../../redux/actions/tests';
 import style from './medicalEvent.module.css';
 
