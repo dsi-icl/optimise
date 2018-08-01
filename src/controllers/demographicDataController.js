@@ -169,7 +169,7 @@ DemographicDataController.prototype.deleteDemographic = function (req, res) {
 };
 
 DemographicDataController.prototype.deleteImmunisation = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.immunisation.deleteImmunisation(req.user, { id: req.body.id }).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -177,9 +177,6 @@ DemographicDataController.prototype.deleteImmunisation = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return;
         });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
