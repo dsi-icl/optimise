@@ -7,7 +7,10 @@ import store from '../../redux/store';
 import style from './scaffold.module.css';
 
 @withRouter
-@connect(state => ({ username: state.login.username }))
+@connect(state => ({
+    username: state.login.username,
+    priv: state.login.priv
+}))
 export default class MenuBar extends Component {
     constructor() {
         super();
@@ -31,10 +34,12 @@ export default class MenuBar extends Component {
                 <NavLink to='/searchPatient' title='Search and edit patients' activeClassName={style.active}>
                     <Icon symbol='search' />
                 </NavLink>
-
-                <NavLink to='/administration' title='Admin settings' activeClassName={style.active}>
-                    <Icon symbol='setting' />
-                </NavLink>
+                {this.props.priv === 1 ?
+                    (
+                        <NavLink to='/administration' title='Admin settings' activeClassName={style.active}>
+                            <Icon symbol='setting' />
+                        </NavLink>
+                    ) : null}
 
                 <NavLink title='Logout' to='/logout' onClick={this._handleLogout} id='logoutButton' activeClassName={style.active}>
                     <Icon symbol='logout' />

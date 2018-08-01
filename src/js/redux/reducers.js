@@ -13,7 +13,7 @@ function login(state = initialState.login, action) {
         case actionTypes.login.CHECKING_LOGIN:
             return { ...state, loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: true };
         case actionTypes.login.LOGGED_IN:
-            return { ...state, loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false, username: action.payload.username };
+            return { ...state, loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false, username: action.payload.username, priv: action.payload.priv || (action.payload.account ? action.payload.account.priv : 0) };
         case actionTypes.login.NOT_LOGGED_IN:
             return { ...state, loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: false };
         case actionTypes.login.LOGOUT_REQUEST:
