@@ -96,7 +96,7 @@ describe('Update Clinical Event', () => {
 });
 
 describe('Delete Clinical Event controller tests', () => {
-    test('Request deletion with a standard token (should fail)', () => user
+    test('Request deletion with a standard user (should fail)', () => user
         .delete('/clinicalEvents')
         .send({
             ceId: 5
