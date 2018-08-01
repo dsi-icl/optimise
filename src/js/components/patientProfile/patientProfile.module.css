@@ -313,6 +313,16 @@ div.timelineCEBlack {
     padding-bottom: 0.9em;
 }
 
+.pregnancy > span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.pregnancyLast > span{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .newPregnancy {
     padding-top: 0.9em;
     padding-bottom: 0.9em;
