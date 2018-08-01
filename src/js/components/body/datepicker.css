@@ -6,3 +6,21 @@
 .react-datepicker-popper {
     z-index: 4;
 }
+
+.react-datepicker-popper button:hover {
+    background-color: initial;
+}
+
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+    top: 20px;
+    height: 10px;
+}
+
+.react-datepicker__navigation--previous:hover {
+    border-right-color: #b3b3b3;
+}
+
+.react-datepicker__navigation--next:hover {
+    border-left-color: #b3b3b3;
+}
