@@ -144,21 +144,7 @@ describe('Create Pregnancy controller test', () => {
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
-    test('Creating Pregnancy without meddra (Should Fail)', () => admin
-        .post('/demographics/Pregnancy')
-        .send({
-            'outcome': 2,
-            'startDate': '1 Jan 2000',
-            'patient': 1
-        })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
-        }));
-
-    test('Creating Pregnancy with wrong patient (Should Fail)', () => admin
+    test('Creating Pregnancy with wrong MedDRA type (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
             'patient': 1,
@@ -173,10 +159,10 @@ describe('Create Pregnancy controller test', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Creating Pregnancy with bad meddra (Should Fail)', () => admin
+    test('Creating Pregnancy with non-existing MedDRA (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 90,
+            'patient': 1,
             'outcome': 2,
             'startDate': '1 Jan 2000',
             'meddra': 3000000
@@ -191,16 +177,16 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy with bad startDate (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 90,
+            'patient': 1,
             'outcome': 2,
-            'startDate': '31 Feb 2000',
+            'startDate': 'xx1337xx',
             'meddra': 3
         })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Creating Pregnancy well formatted (Should Works)', () => admin
@@ -216,6 +202,20 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(3);
+        }));
+
+    test('Creating Pregnancy well formatted with no MedDRA (Should Works)', () => admin
+        .post('/demographics/Pregnancy')
+        .send({
+            'patient': 3,
+            'outcome': 2,
+            'startDate': '4 Mar 1989'
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(4);
         }));
 
 });

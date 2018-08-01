@@ -8,7 +8,7 @@ const PregnancyModel = {
     'startDate': null,
     'outcome': 0,
     'outcomeDate': null,
-    'meddra': 0
+    'meddra': null
 };
 
 function DemographicDataController() {
@@ -399,12 +399,20 @@ DemographicDataController.prototype.getPregnancy = function (req, res) {
 DemographicDataController.prototype.createPregnancy = function (req, res) {
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') &&
         typeof req.body.patient === 'number' && typeof req.body.outcome === 'number') {
+
+        if ((req.body.hasOwnProperty('meddra') && typeof req.body.meddra !== 'number') ||
+            (req.body.hasOwnProperty('startDate') && isNaN(Date.parse(req.body.startDate)))) {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+
         let entryObj = Object.assign({}, PregnancyModel, req.body);
         if (req.body.hasOwnProperty('startDate'))
             entryObj.startDate = Date.parse(req.body.startDate);
         if (req.body.hasOwnProperty('outcomeDate'))
             entryObj.outcomeDate = Date.parse(req.body.outcomeDate);
         entryObj.createdByUser = req.user.id;
+
         this.pregnancy.createPregnancy(entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
