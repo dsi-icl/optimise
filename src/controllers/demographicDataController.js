@@ -61,7 +61,7 @@ DemographicDataController.prototype.createDemographic = function (req, res) {
     }
     let entryObj = {
         'patient': req.body.patient,
-        'DOB': momentDOB.toString(),
+        'DOB': momentDOB.valueOf(),
         'gender': req.body.gender,
         'dominantHand': req.body.dominant_hand,
         'ethnicity': req.body.ethnicity,
@@ -90,7 +90,7 @@ DemographicDataController.prototype.createImmunisation = function (req, res) {
         }
         const entryObj = {
             'patient': req.body.patient,
-            'immunisationDate': momentImmun.toString(),
+            'immunisationDate': momentImmun.valueOf(),
             'vaccineName': req.body.vaccineName,
             'createdByUser': req.user.id
         };
@@ -122,7 +122,7 @@ DemographicDataController.prototype.createMedicalCondition = function (req, res)
         }
         const entryObj = {
             'patient': req.body.patient,
-            'startDate': momentStart.toString(),
+            'startDate': momentStart.valueOf(),
             'relation': req.body.relation,
             'outcome': req.body.outcome,
             'conditionName': req.body.conditionName,
@@ -230,7 +230,7 @@ DemographicDataController.prototype.editImmunisation = function (req, res) {
         }
         let updateObj = Object.assign(req.body);
         if (updateObj.hasOwnProperty('immunisationDate'))
-            updateObj.immunisationDate = momentImmun.toString();
+            updateObj.immunisationDate = momentImmun.valueOf();
         this.immunisation.editImmunisation(req.user, updateObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -429,8 +429,8 @@ DemographicDataController.prototype.createPregnancy = function (req, res) {
         }
 
         let entryObj = Object.assign({}, PregnancyModel, req.body);
-        entryObj.startDate = momentStart.toString();
-        entryObj.outcomeDate = momentOutcome.toString();
+        entryObj.startDate = momentStart.valueOf();
+        entryObj.outcomeDate = momentOutcome.valueOf();
         entryObj.createdByUser = req.user.id;
 
         this.pregnancy.createPregnancy(entryObj).then(function (result) {
