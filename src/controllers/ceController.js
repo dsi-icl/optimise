@@ -33,12 +33,12 @@ CeController.prototype.createCe = function (req, res) {
         if (req.body.hasOwnProperty('patient'))
             ce.patient = req.body.patient;
         if (req.body.hasOwnProperty('endDate'))
-            ce.endDate = momentEnd.toString();
+            ce.endDate = momentEnd.valueOf();
         ce.type = req.body.type;
         ce.meddra = req.body.meddra;
-        ce.dateStartDate = momentStart.toString();
+        ce.dateStartDate = momentStart.valueOf();
         if (req.body.hasOwnProperty('endDate'))
-            ce.endDate = momentEnd.toString();
+            ce.endDate = momentEnd.valueOf();
         ce.createdByUser = req.user.id;
         this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
             res.status(200).json(formatToJSON(result));
