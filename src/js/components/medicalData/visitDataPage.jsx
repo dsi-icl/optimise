@@ -97,8 +97,9 @@ export class VisitData extends Component {
                 return <div>{'Cannot find your visit!'}</div>;
             }
             const { fields } = this.props;
-            const relevantFields = fields.visitFields.filter(el => (el.referenceType === visitsMatched[0].type && [2, 3].includes(el.section)));
-            const fieldTree = { symptoms: createLevelObj(relevantFields.filter(el => el.section === 2)), signs: createLevelObj(relevantFields.filter(el => el.section === 3)) };
+            const category = this.props.category === 'symptoms' ? 2 : 3;
+            const relevantFields = fields.visitFields.filter(el => (el.referenceType === visitsMatched[0].type && el.section === category));
+            const fieldTree = createLevelObj(relevantFields);
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
 
             this.originalValues = visitsMatched[0].data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
@@ -106,12 +107,14 @@ export class VisitData extends Component {
             return (
                 <>
                     <div className={scaffold_style.ariane}>
-                        <h2>SYMPTOMS AND SIGNS</h2>
+                        <h2>{this.props.category.toUpperCase()}</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
                         <form onSubmit={this._handleSubmit} className={style.form}>
-                            {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
+                            <div className={style.levelBody}>
+                                {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
+                            </div>
                             <button type='submit'>Save</button>
                         </form>
                     </div>
