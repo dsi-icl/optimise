@@ -146,7 +146,7 @@ class UpdateCEEntry extends Component {
                 id,
                 dateStartDate: startDate.toISOString(),
                 meddra: meddraDict[meddra.current.value],
-                endDate: !noEndDate ? endDate.toISOString() : null
+                endDate: !noEndDate ? endDate.toISOString() : undefined
             }
         };
         store.dispatch(updateCECall(body));
