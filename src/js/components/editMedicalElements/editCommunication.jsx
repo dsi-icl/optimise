@@ -18,7 +18,7 @@ export default class EditCommunication extends Component {
             return null;
         }
         const { params } = match;
-        const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash, VSFields_Hash, visitFields_Hash, visitFields } = this.props.availableFields;
+        const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash, VSFields_Hash, visitFields } = this.props.availableFields;
         let { visits, tests, treatments, clinicalEvents } = data;
         const symptomsFields = visitFields.filter(el => el.section === 2);
         const symptomsFieldsHash = symptomsFields.reduce((a, el) => { a[el.id] = el; return a; }, {});
@@ -31,7 +31,7 @@ export default class EditCommunication extends Component {
         tests = tests.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
         treatments = treatments.filter(el => el.orderedDuringVisit === parseInt(params.visitId));
         clinicalEvents = clinicalEvents.filter(el => el.recordedDuringVisit === parseInt(params.visitId));
-        const edssHash = visitFields.filter(el => /^edss:(.*)/.test(el.idname)).reduce((a, el) => { a[el.id] = { definition: el.definition }; return a; }, {});
+        const edssHash = visitFields.filter(el => /^edss:(.*)/.test(el.idname)).reduce((a, el) => { a[el.id] = el; return a; }, {});
         const testBlock = formatTests(tests, testTypes_Hash[0]);
         const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0]);
         const medBlock = formatTreatments(treatments, drugs_Hash[0]);
