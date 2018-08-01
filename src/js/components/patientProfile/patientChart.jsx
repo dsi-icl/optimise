@@ -148,7 +148,7 @@ class Symptom extends PureComponent {
         }
         return (
             <tr className={this.props.className}>
-                <td>{typedict[data.field].definition}</td>
+                <td>{typedict[data.field].idname.replace(/:/g, ' > ')}</td>
                 <td>{value}</td>
             </tr>
         );
