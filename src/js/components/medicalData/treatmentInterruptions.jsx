@@ -69,8 +69,8 @@ export class TreatmentInterruption extends Component {
             patientId: data.patientId,
             data: {
                 treatmentId: parseInt(this.props.match.params.elementId, 10),
-                start_date: this.state.newStartDate._d.toDateString(),
-                end_date: this.state.noEndDate ? null : this.state.newEndDate._d.toDateString(),
+                start_date: this.state.newStartDate.toISOString(),
+                end_date: this.state.noEndDate ? null : this.state.newEndDate.toISOString(),
                 reason: parseInt(this.reasonRef.current.value, 10),
                 meddra: meddraFields[0].id
             }

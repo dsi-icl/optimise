@@ -144,9 +144,9 @@ class UpdateCEEntry extends Component {
             to: `/patientProfile/${patientId}`,
             data: {
                 id,
-                dateStartDate: startDate.valueOf(),
+                dateStartDate: startDate.toISOString(),
                 meddra: meddraDict[meddra.current.value],
-                endDate: !noEndDate ? endDate.valueOf() : null
+                endDate: !noEndDate ? endDate.toISOString() : null
             }
         };
         store.dispatch(updateCECall(body));

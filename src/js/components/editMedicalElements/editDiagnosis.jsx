@@ -54,7 +54,7 @@ class UpdateDiagnosisEntry extends Component {
             to: `/patientProfile/${patientId}`,
             data: {
                 id,
-                diagnosisDate: date.valueOf(),
+                diagnosisDate: date.toISOString(),
                 diagnosis: parseInt(diagnosisRef.current.value),
             }
         };

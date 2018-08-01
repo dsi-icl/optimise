@@ -67,8 +67,8 @@ export class CreateTreatment extends Component {
             data: {
                 visitId: Number.parseInt(this.props.match.params.visitId),
                 drugId: Number.parseInt(this.state.drugType),
-                startDate: this.state.startDate._d.toDateString(),
-                terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate._d.toDateString() : undefined,
+                startDate: this.state.startDate.toISOString(),
+                terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.toISOString() : undefined,
                 // terminatedReason: parseInt(this.reasonRef.current.value, 10),
                 dose: Number.parseInt(this.state.dose),
                 unit: this.state.unit,

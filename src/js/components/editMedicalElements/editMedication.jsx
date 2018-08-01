@@ -149,8 +149,8 @@ class UpdateMedEntry extends Component {
                 unit,
                 form,
                 times: isNaN(parseInt(times)) || intervalUnit === '' ? undefined : parseInt(times),
-                startDate: this.state.startDate.valueOf(),
-                terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.valueOf() : null,
+                startDate: this.state.startDate.toISOString(),
+                terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.toISOString() : null,
                 // terminatedReason: parseInt(this.reasonRef.current.value, 10),
                 intervalUnit: intervalUnit === '' || isNaN(parseInt(times)) ? undefined : intervalUnit,
                 // meddra: this.props.meddraDict[this.state.meddra.current.value]

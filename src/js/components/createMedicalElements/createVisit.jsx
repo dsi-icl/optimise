@@ -42,7 +42,7 @@ export class CreateVisit extends Component {
     }
 
     _formatRequestBody() {
-        const date = this.state.startDate._d;
+        const date = this.state.startDate;
         const { SBP, DBP, HR, weight, academicConcerns, height } = this.state;
 
         if (!parseInt(SBP, 10)) {
@@ -58,7 +58,7 @@ export class CreateVisit extends Component {
         return {
             visitData: {
                 patientId: this.props.patientId,
-                visitDate: date.toDateString()
+                visitDate: date.toISOString()
             },
             VSData: {
                 add: {
