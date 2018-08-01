@@ -46,7 +46,7 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                     .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'GENDERS.value')
                     .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-                    .where('GENDERS.value', queryvalue)
+                    .where('GENDERS.value', 'like', queryvalue)
                     .andWhere('PATIENTS.deleted', '-')
                     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
                     .then(function (result) {
@@ -69,6 +69,8 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                     .where('AVAILABLE_DRUGS.name', 'like', queryvalue)
                     .andWhere('TREATMENTS.deleted', '-')
                     .andWhere('VISITS.deleted', '-')
+                    .andWhere('PATIENTS.deleted', '-')
+                    .groupBy('PATIENTS.aliasId')
                     .then(function (result) {
                         if (Array.isArray(result))
                             for (let i = 0; i < result.length; i++) {
