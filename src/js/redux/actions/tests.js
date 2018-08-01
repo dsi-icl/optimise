@@ -11,7 +11,7 @@ export const createTestAPICall = (body) => dispatch => {
 };
 
 export const deleteTestAPICall = (body) => dispatch => {
-    return apiHelper('/tests', { method: 'PATCH', body: JSON.stringify(body.data) })
+    return apiHelper('/tests', { method: 'DELETE', body: JSON.stringify(body.data) })
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
