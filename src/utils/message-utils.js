@@ -57,7 +57,7 @@ const DataControllerMessageRelated = {
     FIELDNOTFOUND: 'One or more of the requested field(s) cannot be found',
     UPDATEIMPOSSIBLE: 'One of the requested "update" cannot be performed',
     ADDIMPOSSIBLE: 'One of the the requested "add" cannot be performed',
-    SUCESS: 'Successfuly added entries.',
+    SUCCESS: 'Successfuly added entries.',
     ERROR: 'An error occured while creating the entry'
 };
 

@@ -84,7 +84,7 @@ describe('Creating VISIT data', () => {
             expect(res.body.success).toBeDefined();
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
-            expect(res.body.message).toBe(message.dataMessage.SUCESS);
+            expect(res.body.message).toBe(message.dataMessage.SUCCESS);
         }));
 
     test('Request update succesfull', () => admin
@@ -96,6 +96,6 @@ describe('Creating VISIT data', () => {
             expect(res.body.success).toBeDefined();
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
-            expect(res.body.message).toBe(message.dataMessage.SUCESS);
+            expect(res.body.message).toBe(message.dataMessage.SUCCESS);
         }));
 });

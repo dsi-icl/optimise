@@ -62,7 +62,7 @@ PatientPiiController.prototype.createPatientPii = function (req, res) {
 };
 
 PatientPiiController.prototype.updatePatientPii = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         let entryObj = req.body;
         entryObj.createdByUser = req.user.id;
         this.patientPii.updatePatientPii(req.user, req.body.id, entryObj).then(function (result) {
@@ -72,9 +72,6 @@ PatientPiiController.prototype.updatePatientPii = function (req, res) {
             res.status(400).json(ErrorHelper(messages.errorMessages.UPDATEFAIL, error));
             return;
         });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
-        return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
@@ -85,7 +82,7 @@ PatientPiiController.prototype.updatePatientPii = function (req, res) {
 };
 
 PatientPiiController.prototype.deletePatientPii = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.patientPii.deletePatientPii(req.user, { 'id': req.body.id }).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -93,9 +90,6 @@ PatientPiiController.prototype.deletePatientPii = function (req, res) {
             res.status(400).json(ErrorHelper(messages.errorMessages.DELETEFAIL, error));
             return;
         });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
-        return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;

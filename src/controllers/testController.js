@@ -63,7 +63,7 @@ TestController.prototype.updateTest = function (req, res) {
 };
 
 TestController.prototype.deleteTest = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('testId') && typeof req.body.testId === 'number') {
+    if (req.body.hasOwnProperty('testId') && typeof req.body.testId === 'number') {
         this.test.deleteTest(req.user, { 'id': req.body.testId }).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
@@ -73,10 +73,7 @@ TestController.prototype.deleteTest = function (req, res) {
         });
     }
     else {
-        if (req.user.priv !== 1) {
-            res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-            return;
-        } else if (!req.body.hasOwnProperty('testId')) {
+        if (!req.body.hasOwnProperty('testId')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         } else {
