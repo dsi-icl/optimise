@@ -98,16 +98,14 @@ UserController.prototype.createUser = function (req, res) {
 };
 
 UserController.prototype.updateUser = function (req, res) {
+    if (req.user.priv === 1 || req.user.username !== req.body.username) {
+        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+        return;
+    }
     if (!req.body.hasOwnProperty('pw') || !req.body.hasOwnProperty('username')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-
-    if (req.user.username !== req.body.username) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    }
-
     this.user.updateUser(req.body).then(function (result) {
         res.status(200).json(formatToJSON(result));
         return;

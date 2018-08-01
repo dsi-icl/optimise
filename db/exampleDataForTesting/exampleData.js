@@ -43,16 +43,19 @@ const exampleData = {
         { id: 3, patient: 3, visitDate: '1517875200000', type: 1, createdByUser: 2, deleted: '-' },
         { id: 4, patient: 7, visitDate: '1517875200000', type: 1, createdByUser: 2, deleted: '-' }
     ],
+    'VISIT_REPORT': [
+        { id: 1, visit: 1, report: 'Report test', createdByUser: 1, deleted: '-' }
+    ],
     'VISIT_DATA': [
         { id: 1, visit: 1, field: 1, value: 150, createdByUser: 1, deleted: '1@1531239113000' },
         { id: 2, visit: 2, field: 5, value: 60, createdByUser: 1, deleted: '-' },
-        { id: 3, visit: 1, field: 6, value: 'NO', createdByUser: 1, deleted: '-' },
+        { id: 3, visit: 1, field: 18, value: 'NO', createdByUser: 1, deleted: '-' },
         { id: 4, visit: 3, field: 20, value: 'BOTH', createdByUser: 1, deleted: '-' },
         { id: 5, visit: 4, field: 18, value: 'NO', createdByUser: 1, deleted: '-' }
     ],
     'ORDERED_TESTS': [
         { id: 1, orderedDuringVisit: 1, type: 1, expectedOccurDate: '1520294400000', createdByUser: 1, deleted: '-' },
-        { id: 2, orderedDuringVisit: 3, type: 1, expectedOccurDate: '1517875200000', createdByUser: 1, deleted: '-' },
+        { id: 2, orderedDuringVisit: 3, type: 2, expectedOccurDate: '1517875200000', createdByUser: 1, deleted: '-' },
         { id: 3, orderedDuringVisit: 2, type: 1, expectedOccurDate: '1517443200000', createdByUser: 1, deleted: '-' },
         { id: 4, orderedDuringVisit: 2, type: 2, expectedOccurDate: '1517443200000', createdByUser: 1, deleted: '-' },
     ],

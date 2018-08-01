@@ -2,6 +2,7 @@ const ErrorHelper = require('../utils/error_helper');
 const clinicalEventCore = require('../core/clinicalEvent');
 const message = require('../utils/message-utils');
 const formatToJSON = require('../utils/format-response');
+const moment = require('moment');
 
 function CeController() {
     this.clinicalEvent = new clinicalEventCore();
@@ -14,15 +15,30 @@ function CeController() {
 CeController.prototype.createCe = function (req, res) {
     if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra') &&
         typeof req.body.visitId === 'number' && typeof req.body.startDate === 'string' && typeof req.body.type === 'number' && typeof req.body.meddra === 'number') {
+        let momentStart = moment(req.body.startDate, moment.ISO_8601);
+        if (!momentStart.isValid()) {
+            let msg = (momentStart.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        let momentEnd = moment(req.body.endDate, moment.ISO_8601);
+        if (req.body.hasOwnProperty('endDate') && !momentEnd.isValid()) {
+            let msg = (momentEnd.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentEnd.invalidAt()];
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        }
         let ce = {};
         if (req.body.hasOwnProperty('visitId'))
             ce.recordedDuringVisit = req.body.visitId;
         if (req.body.hasOwnProperty('patient'))
             ce.patient = req.body.patient;
+        if (req.body.hasOwnProperty('endDate'))
+            ce.endDate = momentEnd.toString();
         ce.type = req.body.type;
         ce.meddra = req.body.meddra;
-        ce.endDate = req.body.endDate ? Date.parse(req.body.endDate) : null;
-        ce.dateStartDate = Date.parse(req.body.startDate);
+        ce.dateStartDate = momentStart.toString();
+        if (req.body.hasOwnProperty('endDate'))
+            ce.endDate = momentEnd.toString();
         ce.createdByUser = req.user.id;
         this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
             res.status(200).json(formatToJSON(result));
@@ -54,10 +70,6 @@ CeController.prototype.updateCe = function (req, res) {
 };
 
 CeController.prototype.deleteCe = function (req, res) {
-    if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    }
     if (req.body.hasOwnProperty('ceId')) {
         this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then(function (result) {
             res.status(200).json(formatToJSON(result));

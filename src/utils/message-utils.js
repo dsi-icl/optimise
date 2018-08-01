@@ -8,6 +8,27 @@ const ErrorMessage = {
     SEEDUPDATEERROR: 'Errored while updating seed file: table is empty'
 };
 
+// Array because of mement.invalidAt()
+const DateError = [
+    'The given year is invalid',
+    'The given month is invalid',
+    'The given day is invalid',
+    'The given hours is invalid',
+    'The given minutes is invalid',
+    'The given seconds is invalid',
+    'The given miliseconds is invalid'
+];
+
+const DateErrorIndex = {
+    YEAR: 0,
+    MONTH: 1,
+    DAY: 2,
+    HOURS: 3,
+    MINUTES: 4,
+    SECONDS: 5,
+    MILISECONDS: 6
+};
+
 const UserRelatedErrorMessage = {
     MISSINGARGUMENT: 'The request is missing some arguments',
     WRONGARGUMENTS: 'Wrong value in the given arguments',
@@ -36,8 +57,8 @@ const DataControllerMessageRelated = {
     FIELDNOTFOUND: 'One or more of the requested field(s) cannot be found',
     UPDATEIMPOSSIBLE: 'One of the requested "update" cannot be performed',
     ADDIMPOSSIBLE: 'One of the the requested "add" cannot be performed',
-    SUCESS: 'Successfuly added entries.',
+    SUCCESS: 'Successfuly added entries.',
     ERROR: 'An error occured while creating the entry'
 };
 
-module.exports = { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage, dataMessage: DataControllerMessageRelated };
+module.exports = { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage, dataMessage: DataControllerMessageRelated, dateError: DateError, dateErrorIndex: DateErrorIndex };
