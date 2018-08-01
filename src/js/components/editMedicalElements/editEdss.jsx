@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { addError } from '../../redux/actions/error';
 import store from '../../redux/store';

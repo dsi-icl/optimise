@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import Helmet from '../scaffold/helmet';
 import store from '../../redux/store';
 import style from './edss.module.css';

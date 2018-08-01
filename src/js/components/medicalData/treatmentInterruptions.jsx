@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { BackButton } from './dataPage';
+import { BackButton } from './utils';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
 import { SuggestionInput } from '../meDRA/meDRApicker';

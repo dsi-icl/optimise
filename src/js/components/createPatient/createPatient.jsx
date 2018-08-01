@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import store from '../../redux/store';
 import { createPatientCall } from '../../redux/actions/createPatient';
 import style from './createPatient.module.css';
