@@ -397,8 +397,8 @@ DemographicDataController.prototype.getPregnancy = function (req, res) {
 };
 
 DemographicDataController.prototype.createPregnancy = function (req, res) {
-    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('meddra') &&
-        typeof req.body.patient === 'number' && typeof req.body.outcome === 'number' && typeof req.body.meddra === 'number') {
+    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') &&
+        typeof req.body.patient === 'number' && typeof req.body.outcome === 'number') {
         let entryObj = Object.assign({}, PregnancyModel, req.body);
         if (req.body.hasOwnProperty('startDate'))
             entryObj.startDate = Date.parse(req.body.startDate);
@@ -412,7 +412,7 @@ DemographicDataController.prototype.createPregnancy = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return;
         });
-    } else if (!(req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') && req.body.hasOwnProperty('meddra'))) {
+    } else if (!(req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     } else {
