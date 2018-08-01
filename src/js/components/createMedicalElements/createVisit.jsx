@@ -58,7 +58,7 @@ export class CreateVisit extends Component {
         return {
             visitData: {
                 patientId: this.props.patientId,
-                visitDate: date.toISOString()
+                visitDate: moment().toISOString()
             },
             VSData: {
                 add: {
@@ -99,7 +99,7 @@ export class CreateVisit extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br />
+                    {/* <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br /> */}
                     <label htmlFor='SBP'>Systolic blood pressure (mmHg):</label><br /> <input name='SBP' value={SBP} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
                     <label htmlFor='DBP'>Diastolic blood pressure (mmHg):</label><br /> <input name='DBP' value={DBP} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
                     <label htmlFor='HR'>Heart rate (bpm):</label><br /> <input name='HR' value={HR} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
