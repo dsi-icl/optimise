@@ -49,7 +49,7 @@ const exampleData = {
     'VISIT_DATA': [
         { id: 1, visit: 1, field: 1, value: 150, createdByUser: 1, deleted: '1@1531239113000' },
         { id: 2, visit: 2, field: 5, value: 60, createdByUser: 1, deleted: '-' },
-        { id: 3, visit: 1, field: 6, value: 'NO', createdByUser: 1, deleted: '-' },
+        { id: 3, visit: 1, field: 18, value: 'NO', createdByUser: 1, deleted: '-' },
         { id: 4, visit: 3, field: 20, value: 'BOTH', createdByUser: 1, deleted: '-' },
         { id: 5, visit: 4, field: 18, value: 'NO', createdByUser: 1, deleted: '-' }
     ],
