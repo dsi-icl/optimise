@@ -188,9 +188,12 @@ class OneVisit extends Component {
             { name: 'Weight', value: VSHashTable['5'], unit: 'kg' },
             { name: 'Academic concerns', value: isMinor ? VSHashTable['6'] === '0' ? 'No' : 'Yes' : undefined }
         ].filter(e => !!e.value);
-        const relevantFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && [2, 3].includes(field.section));
-        const relevantFieldsIdArray = relevantFields.map(el => el.id);
-        const symptoms = this.props.visitData.filter(el => el.field > 6 && relevantFieldsIdArray.includes(el.field));
+        const relevantSymptomsFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && field.section === 2);
+        const relevantSymptomsFieldsIdArray = relevantSymptomsFields.map(el => el.id);
+        const symptoms = this.props.visitData.filter(el => el.field > 6 && relevantSymptomsFieldsIdArray.includes(el.field));
+        const relevantSignsFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && field.section === 3);
+        const relevantSignsFieldsIdArray = relevantSignsFields.map(el => el.id);
+        const signs = this.props.visitData.filter(el => el.field > 6 && relevantSignsFieldsIdArray.includes(el.field));
         const relevantEDSSFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && /^edss:(.*)/.test(field.idname));
         const relevantEDSSFieldsIdArray = relevantEDSSFields.map(el => el.id);
         const performances = this.props.visitData.filter(el => el.field > 6 && relevantEDSSFieldsIdArray.includes(el.field));
@@ -210,6 +213,7 @@ class OneVisit extends Component {
 
                 {this.props.visitType === 1 ? (
                     <>
+                        <br />
                         <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : 'AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
                         <div className={style.visitWrapper}>
                             <table>
@@ -238,9 +242,9 @@ class OneVisit extends Component {
                                 </tbody>
                             </table>
                         </div>
-
-                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS AND SIGNS INDICATING MS' : 'SYMPTOMS AND SIGNS'}</h4>
-                        {relevantFields.length !== 0 ? (
+                        <br />
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}</h4>
+                        {relevantSymptomsFields.length !== 0 ? (
                             <div className={style.visitWrapper}>
                                 <table>
                                     <thead>
@@ -253,10 +257,28 @@ class OneVisit extends Component {
                                 <br />
                             </div>
                         ) : null}
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Edit / Add</button>
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/symptoms`} activeClassName={style.activeNavLink}>
+                            <button>Edit symptoms data for this visit</button>
                         </NavLink>
-
+                        <br /><br />
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS INDICATING MS' : 'SIGNS'}</h4>
+                        {relevantSignsFields.length !== 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <thead>
+                                        <tr><th>Recorded signs</th><th>Value</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {signs.map(el => <Symptom key={el.field} data={el} />)}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/signs`} activeClassName={style.activeNavLink}>
+                            <button>Edit signs data for this visit</button>
+                        </NavLink>
+                        <br /><br />
                         <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
                         {relevantEDSSFields.length !== 0 ? (
                             <div className={style.visitWrapper}>
@@ -275,9 +297,9 @@ class OneVisit extends Component {
                             </div>
                         ) : null}
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Edit / Add</button>
+                            <button>Edit performance measures data for this visit</button>
                         </NavLink>
-
+                        <br /><br />
                         <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
                         {communication ? (
                             <>
@@ -287,8 +309,9 @@ class OneVisit extends Component {
                             </>
                         ) : null}
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Edit / Export</button>
+                            <button>Edit or export the visit report</button>
                         </NavLink>
+                        <br /><br />
                     </>
                 ) : null}
 
