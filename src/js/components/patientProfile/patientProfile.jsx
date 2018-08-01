@@ -256,18 +256,18 @@ class Pregnancy extends Component {
     _handleSubmit() {
         const data = this.props.data;
         const meddraField = this.props.meddra.filter(el => el.name === this.state.newMeddra.current.value);
-        if (meddraField.length === 0) {
+        if (meddraField.length === 0 && this.state.newMeddra.current.value !== '') {
             this.setState({ error: true });
             return;
         }
-        const { newOutcome, newStartDate, newOutcomeDate } = this.state;
+        const { newOutcome, newStartDate, newOutcomeDate, newMeddra } = this.state;
         const body = {
             patientId: data.patientId,
             data: {
                 patient: data.id,
                 outcome: parseInt(newOutcome, 10),
                 startDate: newStartDate ? newStartDate._d.toDateString() : null,
-                meddra: meddraField[0].id,
+                meddra: newMeddra.current.value !== '' ? meddraField[0].id : null,
                 outcomeDate: newOutcomeDate ? newOutcomeDate._d.toDateString() : null
             }
         };
