@@ -59,7 +59,7 @@ describe('Create Immunisation controller test', () => {
         .send({
             'patient': 90,
             'vaccineName': 'Vacthing',
-            'immunisationDate': '2/5/2009'
+            'immunisationDate': '2009-05-02'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -73,7 +73,7 @@ describe('Create Immunisation controller test', () => {
         .send({
             'patient': 1,
             'vaccineName': 0,
-            'immunisationDate': '2/5/2009'
+            'immunisationDate': '2009-05-02'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -101,13 +101,13 @@ describe('Create Immunisation controller test', () => {
         .send({
             'patient': 1,
             'vaccineName': 'Vacthing',
-            'immunisationDate': '31/2/2000'
+            'immunisationDate': '2001-02-29'
         })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            expect(res.body.error).toBe(message.dateError[2]);
         }));
 
 
@@ -116,7 +116,7 @@ describe('Create Immunisation controller test', () => {
         .send({
             'patient': 1,
             'vaccineName': 'Vacthing',
-            'immunisationDate': '1/2/2000'
+            'immunisationDate': '2009-05-02'
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -170,7 +170,7 @@ describe('Edit Immunisation controller test', () => {
             'id': 90,
             'patient': 1,
             'vaccineName': 'A good vaccine',
-            'immunisationDate': '3/5/2009'
+            'immunisationDate': '2009-05-02'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -186,7 +186,7 @@ describe('Edit Immunisation controller test', () => {
             'id': 1,
             'patient': 90,
             'vaccineName': 'A good vaccine',
-            'immunisationDate': '3/5/2009'
+            'immunisationDate': '2009-05-02'
         })
         .then(res => {
             expect(res.status).toBe(400);
@@ -216,7 +216,7 @@ describe('Edit Immunisation controller test', () => {
             'id': 4,
             'patient': 1,
             'vaccineName': 'Immune D',
-            'immunisationDate': '3/5/2009'
+            'immunisationDate': '2009-05-02'
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -224,7 +224,6 @@ describe('Edit Immunisation controller test', () => {
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
         }));
-
 });
 
 describe('Delete Immunisation controller test', () => {

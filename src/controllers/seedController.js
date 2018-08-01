@@ -107,7 +107,6 @@ SeedController.prototype.getSeed = function (req, res) {
  * @returns {void} Either errors if the request isn't allowed or the ID(s) of the new created seed(s)
  */
 SeedController.prototype.createSeed = function (req, res) {
-    let that = this;
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         for (let i = 0; i < Object.keys(modelsContainer[req.params.target]).length; i++) {
             if (Object.keys(modelsContainer[req.params.target])[i] === 'id') {
@@ -124,7 +123,6 @@ SeedController.prototype.createSeed = function (req, res) {
             }
         }
         createEntry(mapKeyTable[req.params.target].table, req.body).then(function (result) {
-            that.updateFiles(req.params.target);
             res.status(200).json(formatToJSon(result));
             return;
         }, function (error) {
@@ -148,7 +146,6 @@ SeedController.prototype.createSeed = function (req, res) {
  * @returns {void} Either errors if the request isn't allowed or the number of updated seed(s)
  */
 SeedController.prototype.editSeed = function (req, res) {
-    let that = this;
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         let newEntry = {};
         let whereObj = {};
@@ -173,7 +170,6 @@ SeedController.prototype.editSeed = function (req, res) {
             }
         }
         updateEntry(mapKeyTable[req.params.target].table, req.user, '*', whereObj, newEntry).then(function (result) {
-            that.updateFiles(req.params.target);
             res.status(200).json(formatToJSon(result));
             return;
         }, function (error) {
@@ -197,7 +193,6 @@ SeedController.prototype.editSeed = function (req, res) {
  * @returns {void} Either errors if the request isn't allowed or the number of deleted seed(s)
  */
 SeedController.prototype.deleteSeed = function (req, res) {
-    let that = this;
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         let whereObj = {};
         if (req.user.priv !== 1) {
@@ -219,7 +214,6 @@ SeedController.prototype.deleteSeed = function (req, res) {
                 promiseArr.push(deleteEntry(mapKeyTable[req.params.target].referenced[i].table, req.user, { [mapKeyTable[req.params.target].referenced[i].column]: req.body.id }));
             }
             Promise.all(promiseArr).then(function (__unused__allResult) {
-                that.updateFiles(req.params.target);
                 res.status(200).json(formatToJSon(result));
                 return;
             }, function (allError) {

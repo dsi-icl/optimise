@@ -30,7 +30,7 @@ describe('Create test controller tests', () => {
 
     test('Request creation with bad body (should fail)', () => admin
         .post('/tests')
-        .send({ 'vis': 1, 'teep': 1, 'Date': '1 Jan 2020' })
+        .send({ 'vis': 1, 'teep': 1, 'Date': '2020-01-01' })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -40,26 +40,22 @@ describe('Create test controller tests', () => {
 
     test('Request creation with wrong type visit (should fail)', () => admin
         .post('/tests')
-        .send({ 'visitId': 'WRONG', 'type': 1, 'expectedDate': '1 Jan 2020' })
+        .send({ 'visitId': 'WRONG', 'type': 1, 'expectedDate': '2020-01-01' })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
-            expect(res.body.stack).toBeDefined();
-            expect(res.body.stack.error).toBe(message.userError.WRONGARGUMENTS);
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with wrong type type (should fail)', () => admin
         .post('/tests')
-        .send({ 'visitId': 1, 'type': 'WRONG', 'expectedDate': '1 Jan 2020' })
+        .send({ 'visitId': 1, 'type': 'WRONG', 'expectedDate': '2020-01-01' })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
-            expect(res.body.stack).toBeDefined();
-            expect(res.body.stack.error).toBe(message.userError.WRONGARGUMENTS);
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with wrong type expectedDate (should fail)', () => admin
@@ -69,14 +65,12 @@ describe('Create test controller tests', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
-            expect(res.body.stack).toBeDefined();
-            expect(res.body.stack.error).toBe(message.userError.WRONGARGUMENTS);
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
     test('Request creation with actual occured data with good body (should succeed)', () => admin
         .post('/tests')
-        .send({ 'visitId': 1, 'type': 1, 'expectedDate': '1 Jan 2020', 'actualOccurredDate': '4 Jan 2020' })
+        .send({ 'visitId': 1, 'type': 1, 'expectedDate': '2020-01-01', 'actualOccurredDate': '2020-01-04' })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -86,7 +80,7 @@ describe('Create test controller tests', () => {
 
     test('Request creation with good body (should succeed)', () => admin
         .post('/tests')
-        .send({ 'visitId': 1, 'type': 2, 'expectedDate': '1 Jan 2020' })
+        .send({ 'visitId': 1, 'type': 2, 'expectedDate': '2020-01-01' })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -98,7 +92,7 @@ describe('Create test controller tests', () => {
 describe('Update test controller tests', () => {
     test('Update a test', () => admin
         .put('/tests')
-        .send({ 'id': 1, 'type': 3, 'expectedOccurDate': '1 Jan 2010', 'actualOccurredDate': '4 Jan 2010' })
+        .send({ 'id': 1, 'type': 3, 'expectedOccurDate': '2010-01-01', 'actualOccurredDate': '2010-01-04' })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -108,7 +102,7 @@ describe('Update test controller tests', () => {
 
 describe('Delete test controller tests', () => {
     test('Request deletion without body (should fail)', () => admin
-        .patch('/tests')
+        .delete('/tests')
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -117,7 +111,7 @@ describe('Delete test controller tests', () => {
         }));
 
     test('Request deletion with bad body (should fail)', () => admin
-        .patch('/tests')
+        .delete('/tests')
         .send({ 'visit_-Id': createdTestId })
         .then(res => {
             expect(res.status).toBe(400);
@@ -126,19 +120,19 @@ describe('Delete test controller tests', () => {
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
         }));
 
-    test('Request deletion with good body by standard User (should fail)', () => user
-        .patch('/tests')
-        .send({ 'testID': 4 })
+    test('Request deletion with good body by standard user (should succeed)', () => user
+        .delete('/tests')
+        .send({ 'testId': 4 })
         .then(res => {
-            expect(res.status).toBe(401);
+            expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.NORIGHTS);
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 
     test('Request deletion with bad ID type (should fail)', () => admin
-        .patch('/tests')
-        .send({ 'testID': 'WRONG' })
+        .delete('/tests')
+        .send({ 'testId': 'WRONG' })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -147,8 +141,8 @@ describe('Delete test controller tests', () => {
         }));
 
     test('Request deletion with bad ID reference (should fail)', () => admin
-        .patch('/tests')
-        .send({ 'testID': 99999999 })
+        .delete('/tests')
+        .send({ 'testId': 99999999 })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -157,8 +151,8 @@ describe('Delete test controller tests', () => {
         }));
 
     test('Request deletion with good body (should succeed)', () => admin
-        .patch('/tests')
-        .send({ 'testID': 2 })
+        .delete('/tests')
+        .send({ 'testId': 6 })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');

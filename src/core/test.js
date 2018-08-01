@@ -19,19 +19,8 @@ Test.prototype.getTest = function (whereObj) {
     });
 };
 
-Test.prototype.createTest = function (user, test) {
+Test.prototype.createTest = function (entryObj) {
     return new Promise(function (resolve, reject) {
-        if (typeof test.visitId !== 'number' || typeof test.expectedDate !== 'string' || typeof test.type !== 'number') {
-            reject(ErrorHelper(message.userError.WRONGARGUMENTS));
-            return;
-        }
-        let entryObj = {
-            'orderedDuringVisit': test.visitId,
-            'type': test.type,
-            'expectedOccurDate': Date.parse(test.expectedDate),
-            'actualOccurredDate': test.actualOccurredDate ? Date.parse(test.actualOccurredDate) : undefined,
-            'createdByUser': user.id
-        };
         createEntry('ORDERED_TESTS', entryObj).then(function (result) {
             resolve(result);
         }, function (error) {

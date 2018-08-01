@@ -34,9 +34,6 @@ class ExportDataController {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
-                        if (entry.hasOwnProperty('BRTHDTC') && entry.BRTHDTC !== null) {
-                            entry.BRTHDTC = new Date(entry.BRTHDTC).toString();
-                        }
                         entry.DOMAIN = 'DM';
                         convertedResult.push(entry);
                     }
@@ -96,12 +93,6 @@ class ExportDataController {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
-                        if (entry.hasOwnProperty('MHSTDTC') && entry.MHSTDTC !== null) {
-                            entry.MHSTDTC = new Date(entry.MHSTDTC).toString();
-                        }
-                        if (entry.hasOwnProperty('MHENDTC') && entry.MHENDTC !== null) {
-                            entry.MHENDTC = new Date(entry.MHENDTC).toString();
-                        }
                         entry.MHCAT = 'GENERAL';
                         entry.DOMAIN = 'MH';
                         convertedResult.push(entry);
@@ -212,9 +203,6 @@ class ExportDataController {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
-                        if (entry.hasOwnProperty('MHSTDTC') && entry.MHSTDTC !== null) {
-                            entry.MHSTDTC = new Date(entry.MHSTDTC).toString();
-                        }
                         entry.DOMAIN = 'MH';
                         convertedResult.push(entry);
                     }
@@ -236,9 +224,6 @@ class ExportDataController {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
-                        if (entry.hasOwnProperty('MHSTDTC') && entry.MHSTDTC !== null) {
-                            entry.MHSTDTC = new Date(entry.MHSTDTC).toString();
-                        }
                         entry.DOMAIN = 'MH';
                         convertedResult.push(entry);
                     }
@@ -261,9 +246,6 @@ class ExportDataController {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
-                        if (entry.hasOwnProperty('MHSTDTC') && entry.MHSTDTC !== null) {
-                            entry.MHSTDTC = new Date(entry.MHSTDTC).toString();
-                        }
                         entry.DOMAIN = 'MH';
                         entry.MHCAT = 'PRIMARY DIAGNOSIS';
                         entry.MHSCAT = 'ONSET COURSE';
@@ -329,9 +311,6 @@ class ExportDataController {
                     let newResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
-                        if (entry.hasOwnProperty('visitDate') && entry.visitDate !== null) {
-                            entry.visitDate = new Date(entry.visitDate).toString();
-                        }
                         entry.NVCAT = 'Visual Evoked Potential (VEP)';
                         entry.DOMAIN = 'NV';
                         newResult.push(entry);
@@ -563,12 +542,6 @@ class ExportDataController {
                     let convertedResult = [];
                     for (let i = 0; i < result.length; i++) {
                         let entry = Object.assign(result[i]);
-                        if (entry.hasOwnProperty('EXSTDTC') && entry.EXSTDTC !== null) {
-                            entry.EXSTDTC = new Date(entry.EXSTDTC).toString();
-                        }
-                        if (entry.hasOwnProperty('EXENDTC') && entry.EXENDTC !== null) {
-                            entry.EXENDTC = new Date(entry.EXENDTC).toString();
-                        }
                         entry.DOMAIN = 'EX';
                         if (entry.times && entry.intervalUnit)
                             entry.EXDOSFRQ = entry.times.concat(entry.intervalUnit);

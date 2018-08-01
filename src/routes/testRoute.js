@@ -12,7 +12,7 @@ const testCtrl = new TestController();
 
 test.route('/')
     .post(testCtrl.createTest)
-    .patch(testCtrl.deleteTest)
+    .delete(testCtrl.deleteTest)
     .put(testCtrl.updateTest);
 
 module.exports = test;

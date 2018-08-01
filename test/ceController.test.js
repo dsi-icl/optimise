@@ -69,7 +69,7 @@ describe('Create Clinical Event controller tests', () => {
         .send({
             visitId: 1,
             type: 1,
-            startDate: '1 Jan 1980',
+            startDate: '1980-01-01',
             meddra: 1
         })
         .then(res => {
@@ -96,16 +96,16 @@ describe('Update Clinical Event', () => {
 });
 
 describe('Delete Clinical Event controller tests', () => {
-    test('Request deletion with a standard user (should fail)', () => user
+    test('Request deletion with a standard user (should succeed)', () => user
         .delete('/clinicalEvents')
         .send({
             ceId: 5
         })
         .then(res => {
-            expect(res.status).toBe(401);
+            expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.NORIGHTS);
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
         }));
 
     test('Request deletion without body (should fail)', () => admin
@@ -141,7 +141,7 @@ describe('Delete Clinical Event controller tests', () => {
 
     test('Request deletion with good body (should succeed)', () => admin
         .delete('/clinicalEvents')
-        .send({ 'ceId': 5 })
+        .send({ 'ceId': 4 })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');

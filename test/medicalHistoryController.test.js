@@ -66,7 +66,7 @@ describe('Create Medical Historycontroller test', () => {
             'patient': 100,
             'relation': 1,
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -83,7 +83,7 @@ describe('Create Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 'Wrong',
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -100,7 +100,7 @@ describe('Create Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 100,
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -117,7 +117,7 @@ describe('Create Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 1,
             'conditionName': 'WRONG',
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -134,7 +134,7 @@ describe('Create Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 1,
             'conditionName': 400,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -168,7 +168,7 @@ describe('Create Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 1,
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 0,
             'resolvedYear': 2002
         })
@@ -185,7 +185,7 @@ describe('Create Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 1,
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': '2002'
         })
@@ -202,7 +202,7 @@ describe('Create Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 1,
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -265,7 +265,7 @@ describe('Edit Medical Historycontroller test', () => {
             'patient': 100,
             'relation': 1,
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -283,7 +283,7 @@ describe('Edit Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 'Wrong',
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -301,7 +301,7 @@ describe('Edit Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 100,
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -319,7 +319,7 @@ describe('Edit Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 1,
             'conditionName': 'WRONG',
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -337,7 +337,7 @@ describe('Edit Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 1,
             'conditionName': 400,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
@@ -373,7 +373,7 @@ describe('Edit Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 1,
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 0,
             'resolvedYear': 2002
         })
@@ -391,7 +391,7 @@ describe('Edit Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 1,
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': '2002'
         })
@@ -409,7 +409,7 @@ describe('Edit Medical Historycontroller test', () => {
             'patient': 1,
             'relation': 1,
             'conditionName': 1,
-            'startDate': '1/1/2001',
+            'startDate': '1980-01-01',
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
