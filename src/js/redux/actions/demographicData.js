@@ -26,6 +26,14 @@ export const createPregnancyAPICall = (body) => dispatch => (
         .catch(msg => console.log(msg))
 );
 
+export const deletePregnancyAPICall = (body) => dispatch => (
+    apiHelper('/demographics/Pregnancy', { method: 'DELETE', body: JSON.stringify(body.data) })
+        .then(() => {
+            dispatch(getPatientProfileById(body.patientId));
+        })
+        .catch(msg => console.log(msg))
+);
+
 export const updateDemographicAPICall = (body) => dispatch => (
     apiHelper('/demographics/Demographic', { method: 'PUT', body: JSON.stringify(body.data) })
         .then(() => {
