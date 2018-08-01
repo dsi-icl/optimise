@@ -108,7 +108,7 @@ describe('Creating field', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(visitField.length + 2);
+            expect(res.body.state).toBe(visitField.length + 1);
         }));
 });
 
@@ -134,7 +134,7 @@ describe('Updating field', () => {
     test('Updating with wrong values', () => admin
         .put('/seeds/fieldVisit')
         .send({
-            id: visitField.length + 2,
+            id: visitField.length + 1,
             definition: 1, // should be a string
             idname: 'testing_test',
             section: 1,
@@ -158,7 +158,7 @@ describe('Updating field', () => {
     test('Updating with good values', () => admin
         .put('/seeds/fieldVisit')
         .send({
-            id: visitField.length + 2,
+            id: visitField.length + 1,
             definition: `DEFINITION: rand value for unique ${Math.random().toString(36).substr(2, 5)}`,
             idname: `IDNAME: rand value for unique ${Math.random().toString(36).substr(2, 5)}`,
             section: 1,
@@ -214,7 +214,7 @@ describe('Deleting field', () => {
     test('Deleting with good values', () => admin
         .delete('/seeds/fieldVisit')
         .send({
-            id: visitField.length + 2
+            id: visitField.length + 1
         })
         .then(res => {
             expect(res.status).toBe(200);
