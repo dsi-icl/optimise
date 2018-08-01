@@ -34,7 +34,7 @@ export class Section extends Component {
                         <div className={style.ariane}>
                             <h2>Overview</h2>
                         </div>
-                        <div className={style.panel}>
+                        <div className={`${style.panel} ${style.patientInfo}`}>
                             <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
                             <ImmunisationSection patientId={this.props.match.params.patientId} />

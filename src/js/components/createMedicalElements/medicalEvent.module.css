@@ -12,7 +12,7 @@
     top: 0;
     right: 0;
     padding: 1.2em;
-    font-size: 1.3em;
+    font-size: 1.1em;
     line-height: 0.9em;
 }
 
@@ -55,15 +55,18 @@
     text-overflow: ellipsis;
     text-align: center;
 }
-
 .backButton {
-    font-size: 1.4em;
     line-height: 0.8em;
-    color: hsl(var(--color-background-h), var(--color-background-s), 50%);
 }
 
-.backButton:hover {
-    color: var(--color-background);
+.backButton svg {
+    height: 0.9em;
+    width: 0.9em;
+    fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+
+.backButton:hover svg {
+    fill: var(--color-background);
 }
 
 .interruption {
