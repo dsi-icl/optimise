@@ -126,8 +126,8 @@ class UpdateTestEntry extends Component {
             to: `/patientProfile/${patientId}`,
             data: {
                 id,
-                expectedOccurDate: startDate.valueOf(),
-                actualOccurredDate: actualOccurredDate ? actualOccurredDate.valueOf() : null
+                expectedOccurDate: startDate.toISOString(),
+                actualOccurredDate: actualOccurredDate ? actualOccurredDate.toISOString() : null
             }
         };
         store.dispatch(updateTestCall(body));

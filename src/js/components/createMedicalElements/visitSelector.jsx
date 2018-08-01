@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { VisitPicker } from '../patientProfile/popup';
 import { BackButton } from '../medicalData/utils';
 import { createShadowVisitAPICall } from '../../redux/actions/createVisit';
@@ -19,7 +20,7 @@ export class VisitSelector extends Component {
         let requestBody = {
             visitData: {
                 patientId: this.props.patientRealId,
-                visitDate: (new Date()).toString(),
+                visitDate: moment().toISOString(),
                 type: 2
             },
             patientId: this.props.patientId

@@ -80,7 +80,7 @@ export default class CreatePatient extends Component {    //get these props from
             }
         }
         const demoData = {
-            DOB: this.state.DOB._d.toDateString(),
+            DOB: this.state.DOB.toISOString(),
             gender: this.state.gender,
             dominant_hand: this.state.dominant_hand,
             ethnicity: this.state.ethnicity,
@@ -96,7 +96,7 @@ export default class CreatePatient extends Component {    //get these props from
         };
         const diagnosisData = {
             diagnosis: this.state.diagnosis,
-            diagnosisDate: this.state.diagnosisDate._d.toDateString()
+            diagnosisDate: this.state.diagnosisDate.toISOString()
         };
         const patientData = {
             aliasId: patientId,

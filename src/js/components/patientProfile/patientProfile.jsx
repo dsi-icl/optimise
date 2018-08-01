@@ -137,7 +137,7 @@ class ImmunisationSection extends Component {
             data: {
                 patient: data.id,
                 vaccineName: this.state.newName,
-                immunisationDate: this.state.newDate._d.toDateString()
+                immunisationDate: this.state.newDate.toISOString()
             }
         };
         store.dispatch(createImmunisationAPICall(body));
@@ -285,9 +285,9 @@ class Pregnancy extends Component {
             data: {
                 patient: data.id,
                 outcome: parseInt(newOutcome, 10),
-                startDate: newStartDate ? newStartDate._d.toDateString() : null,
+                startDate: newStartDate ? newStartDate.toISOString() : null,
                 meddra: newMeddra.current.value !== '' ? meddraField[0].id : null,
-                outcomeDate: newOutcomeDate ? newOutcomeDate._d.toDateString() : null
+                outcomeDate: newOutcomeDate ? newOutcomeDate.toISOString() : null
             }
         };
         store.dispatch(createPregnancyAPICall(body));

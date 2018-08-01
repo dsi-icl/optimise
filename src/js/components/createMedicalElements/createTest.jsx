@@ -40,12 +40,12 @@ export class CreateTest extends Component {
     }
 
     _formatRequestBody() {
-        const date = this.state.startDate._d;
+        const date = this.state.startDate;
         return {
             patientId: this.props.match.params.patientId,
             data: {
                 visitId: Number.parseInt(this.props.match.params.visitId),
-                expectedDate: date.toDateString(),
+                expectedDate: date.toISOString(),
                 type: Number.parseInt(this.state.testType)
             }
         };
