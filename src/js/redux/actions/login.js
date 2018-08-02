@@ -23,7 +23,7 @@ export const loginSuccess = (body) => ({ type: actionTypes.login.LOGIN_SUCCESS, 
 export const loginFailure = () => ({ type: actionTypes.login.LOGIN_FAILURE });
 export const loginAPICall = (body) => dispatch => {
     dispatch(loginRequest(body));
-    return apiHelper('/users/login', { method: 'POST', body: JSON.stringify(body) })
+    return apiHelper('/users/login', { method: 'POST', body: JSON.stringify(body) }, true)
         .then(json => {
             dispatch(loginSuccess(json));
         })
