@@ -45,7 +45,7 @@ export class CreateTest extends Component {
             patientId: this.props.match.params.patientId,
             data: {
                 patientId: this.props.patientId,
-                expectedDate: date.toISOString(),
+                expectedOccurDate: date.toISOString(),
                 type: Number.parseInt(this.state.testType)
             }
         };
