@@ -30,7 +30,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return knex('ORDERED_TESTS')
-                .select('orderedDuringVisit', 'type', 'expectedOccurDate')
+                .select('orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere({ deleted: '-' })
                 .then(result => {
@@ -96,7 +96,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return knex('ORDERED_TESTS')
-                .select({ 'id': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate')
+                .select({ 'id': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere({ 'deleted': '-' })
                 .then(result => {
