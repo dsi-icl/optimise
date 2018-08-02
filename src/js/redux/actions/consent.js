@@ -6,5 +6,5 @@ export const updateConsentAPICall = (body) => dispatch => {
         .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.log(msg));
+        .catch(msg => console.error(msg));
 };

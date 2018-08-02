@@ -10,4 +10,4 @@ export const alterDataCall = (body) => dispatch => apiHelper(`/data/${body.type}
     .then(() => {
         dispatch(getPatientProfileById(body.patientId));
     })
-    .catch(err => console.log(err));
+    .catch(err => console.error(err));

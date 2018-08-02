@@ -12,5 +12,5 @@ export const erasePatientAPICall = (body) => dispatch => {
         .then(() => {
             dispatch(erasePatientSuccess(body.patientId));
         })
-        .catch(err => { console.log(err); dispatch(erasePatientFailure()); });
+        .catch(err => { console.error(err); dispatch(erasePatientFailure()); });
 };

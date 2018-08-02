@@ -13,7 +13,7 @@ export const createVisitAPICall = (body) => dispatch => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.log(msg));
+        .catch(msg => console.error(msg));
 };
 
 export const createShadowVisitAPICall = (patientId, callback) => {
@@ -26,7 +26,7 @@ export const createShadowVisitAPICall = (patientId, callback) => {
         })
     })
         .then(json => callback({ visitId: json.state }))
-        .catch(msg => console.log(msg));
+        .catch(msg => console.error(msg));
 };
 
 
@@ -35,5 +35,5 @@ export const updateVisitAPICall = (body) => dispatch => {
         .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.log(msg));
+        .catch(msg => console.error(msg));
 };

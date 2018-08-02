@@ -8,7 +8,7 @@ export function APICall(endpoint, cbDispatch) {
                 .then(json => {
                     dispatch(cbDispatch(json));
                 })
-                .catch(msg => console.log(msg));
+                .catch(msg => console.error(msg));
         };
     };
 };

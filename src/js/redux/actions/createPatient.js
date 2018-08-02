@@ -23,6 +23,6 @@ export const createPatientCall = (body) => dispatch => (
             return apiHelper('/patientPii/', { method: 'POST', body: JSON.stringify(body.PIIData) });
         })
         .then(() => { dispatch(getPatientProfileById(body.patientId)); })
-        .catch(err => console.debug('ERROR! > ', err))
+        .catch(err => console.error(err))
 
 );
