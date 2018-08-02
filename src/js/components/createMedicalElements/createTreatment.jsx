@@ -70,9 +70,9 @@ export class CreateTreatment extends Component {
                 startDate: this.state.startDate.toISOString(),
                 terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.toISOString() : undefined,
                 // terminatedReason: parseInt(this.reasonRef.current.value, 10),
-                dose: Number.parseInt(this.state.dose),
-                unit: this.state.unit,
-                form: this.state.form,
+                dose: this.state.dose !== '' ? Number.parseInt(this.state.dose) : undefined,
+                unit: this.state.unit !== '' ? this.state.unit : undefined,
+                form: this.state.form !== '' ? this.state.form : undefined,
                 times: isNaN(parseInt(this.state.times)) || this.state.intervalUnit === '' ? undefined : parseInt(this.state.times),
                 intervalUnit: this.state.intervalUnit === '' || isNaN(parseInt(this.state.times)) ? undefined : this.state.intervalUnit,
                 // meddra: Number.parseInt(this.props.meddra.filter(el => el.name === this.state.meddra.current.value)[0].id)
