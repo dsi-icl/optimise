@@ -413,6 +413,7 @@ export class Charts extends Component {
     }
 
     _sortVisits = (visitList) => {
+        let historyInd = 1;
         const visits = [...visitList];
         return visits.sort((a, b) => {
 
@@ -440,8 +441,8 @@ export class Charts extends Component {
             if (bHasClinicalEvents.length !== 0)
                 dateB = bHasClinicalEvents[0].dateStartDate;
 
-            return parseInt(dateA, 10) < parseInt(dateB, 10);
-        });
+            return parseInt(dateA, 10) > parseInt(dateB, 10);
+        }).map(v => ({ ...v, historyInd: v.type === 1 ? historyInd++ : undefined })).reverse();
     }
 
     render() {
@@ -475,9 +476,10 @@ export class Charts extends Component {
                         <Timeline className={style.history}>
                             {this._sortVisits(visits).map(
                                 (el, ind) => {
-                                    const order = visits.length - ind;
-                                    let suffix;
-                                    switch (order) {
+                                    let suffix = '';
+                                    switch (el.historyInd) {
+                                        case undefined:
+                                            break;
                                         case 1:
                                             suffix = 'st';
                                             break;
@@ -490,7 +492,7 @@ export class Charts extends Component {
                                         default:
                                             suffix = 'th';
                                     };
-                                    const baselineVisit = order === 1 ? true : false;
+                                    const baselineVisit = el.historyInd === 1 ? true : false;
                                     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                     const visitDate = new Date(parseInt(el.visitDate, 10));
                                     return <OneVisit visitData={el.data}
@@ -501,8 +503,8 @@ export class Charts extends Component {
                                         isMinor={new Date().getTime() - parseInt(DOB) < 568025136000}
                                         baselineVisit={baselineVisit}
                                         filter={this.state.filter}
-                                        title={el.type === 1 ? (baselineVisit ? `Baseline clinical visit (${order}${suffix} visit)` : `Clinical visit (${order}${suffix} visit)`) : 'Additional record'}
-                                        subtitle={el.type === 1 ? visitDate.toLocaleDateString('en-GB', dateOptions) : `${visitDate.toLocaleDateString('en-GB', dateOptions)} ${visitDate.toLocaleTimeString()}`} />;
+                                        title={el.type === 1 ? (baselineVisit ? `Baseline clinical visit (${el.historyInd}${suffix} visit)` : `Clinical visit (${el.historyInd}${suffix} visit)`) : 'Additional record'}
+                                        subtitle={`${visitDate.toLocaleDateString('en-GB', dateOptions)}, ${visitDate.toLocaleTimeString()}`} />;
                                 }
                             )}
                         </Timeline>
