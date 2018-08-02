@@ -283,8 +283,13 @@ export default class FullTimeline extends Component {
             return (
                 <div className={`${style.timelineBackground} ${item.className}`} style={{ width: timelineContext.timelineWidth }}>
                     <svg height={40} width={timelineContext.timelineWidth}>
-                        <line x1={x1} y1={15} x2={x2} y2={15} className={style.dashed} />
-                        <line x1={x2} y1={10} x2={x2} y2={20} />
+                        {x2 - x1 > 5 ?
+                            (
+                                <>
+                                    <line x1={x1} y1={15} x2={x2} y2={15} className={style.dashed} />
+                                    <line x1={x2} y1={10} x2={x2} y2={20} />
+                                </>
+                            ) : null}
                         {severityRadius === 0 ?
                             (
                                 <>
