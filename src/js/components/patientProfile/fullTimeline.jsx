@@ -279,6 +279,7 @@ export default class FullTimeline extends Component {
             if (parseFloat(item.start) > timelineContext.visibleTimeStart)
                 x2 = x2 + ((timelineContext.visibleTimeStart - parseFloat(item.start)) * timelineContext.timelineWidth / unit);
             let severityRadius = item.severity === 'Mild' ? 5 : item.severity === 'Moderate' ? 10 : item.severity === 'Severe' ? 15 : 0;
+
             return (
                 <div className={`${style.timelineBackground} ${item.className}`} style={{ width: timelineContext.timelineWidth }}>
                     <svg height={40} width={timelineContext.timelineWidth}>
@@ -357,6 +358,7 @@ export default class FullTimeline extends Component {
                         sidebarWidth={150}
                         stackItems
                         itemsSorted
+                        minimumWidthForItemContentVisibility={0}
                         itemTouchSendsClick={false}
                         itemHeightRatio={0.75}
                         lineHeight={40}
