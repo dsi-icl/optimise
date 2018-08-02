@@ -107,7 +107,21 @@ TreatmentController.prototype.addTerminationDate = function (req, res) {    //fo
 
 TreatmentController.prototype.editTreatment = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+
+        let momentStart = moment(req.body.startDate, moment.ISO_8601);
+        let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
+        if (!momentStart.isValid()) {
+            res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        if (req.body.hasOwnProperty('terminatedDate') && !momentTerminated.isValid()) {
+            res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
+            return;
+        }
         let newObj = Object.assign({}, req.body);
+        newObj.startDate = momentStart.valueOf();
+        newObj.terminatedDate = (req.body.hasOwnProperty('terminatedDate') ? momentTerminated.valueOf() : null);
+
         this.treatment.updateTreatment(req.user, req.body.id, newObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;

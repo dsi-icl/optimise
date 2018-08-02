@@ -37,8 +37,6 @@ CeController.prototype.createCe = function (req, res) {
         ce.type = req.body.type;
         ce.meddra = req.body.meddra;
         ce.dateStartDate = momentStart.valueOf();
-        if (req.body.hasOwnProperty('endDate'))
-            ce.endDate = momentEnd.valueOf();
         ce.createdByUser = req.user.id;
         this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
             res.status(200).json(formatToJSON(result));
@@ -61,7 +59,24 @@ CeController.prototype.updateCe = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    this.clinicalEvent.updateClinicalEvent(req.user, req.body).then(function (result) {
+    let ce = Object.assign({}, req.body);
+    let momentStart = moment(req.body.startDate, moment.ISO_8601);
+    if (req.body.hasOwnProperty('startDate') && !momentStart.isValid()) {
+        let msg = (momentStart.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
+        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+        return;
+    } else if (req.body.hasOwnProperty('startDate')) {
+        ce.dateStartDate = momentStart.valueOf();
+    }
+    let momentEnd = moment(req.body.endDate, moment.ISO_8601);
+    if (req.body.hasOwnProperty('endDate') && !momentEnd.isValid()) {
+        let msg = (momentEnd.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentEnd.invalidAt()];
+        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+        return;
+    } else if (req.body.hasOwnProperty('endDate')) {
+        ce.endDate = momentEnd.valueOf();
+    }
+    this.clinicalEvent.updateClinicalEvent(req.user, ce).then(function (result) {
         res.status(200).json(formatToJSON(result));
         return;
     }, function (error) {

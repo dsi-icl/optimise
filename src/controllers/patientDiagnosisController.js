@@ -66,6 +66,14 @@ PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res
 PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         let entryObj = req.body;
+        let momentDiagnos = moment(req.body.diagnosisDate, moment.ISO_8601);
+        if (req.body.hasOwnProperty('diagnosisDate') && !momentDiagnos.isValid()) {
+            let msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(messages.userError.INVALIDDATE)));
+            return;
+        } else if (req.body.hasOwnProperty('diagnosisDate')) {
+            entryObj.diagnosisDate = momentDiagnos.valueOf();
+        }
         entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.updatePatientDiagnosis(req.user, req.body.id, entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));

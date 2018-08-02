@@ -451,6 +451,25 @@ DemographicDataController.prototype.createPregnancy = function (req, res) {
 
 DemographicDataController.prototype.editPregnancy = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+
+        let entryObj = Object.assign({}, req.body);
+        let momentStart = moment(req.body.startDate, moment.ISO_8601);
+        let momentOutcome = moment(req.body.outcomeDate, moment.ISO_8601);
+        if (req.body.hasOwnProperty('startDate') && !momentStart.isValid()) {
+            let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        } else if (req.body.hasOwnProperty('startDate')) {
+            entryObj.startDate = momentStart.valueOf();
+        }
+        if (req.body.hasOwnProperty('outcomeDate') && !momentOutcome.isValid()) {
+            let msg = message.dateError[momentOutcome.invalidAt()] !== undefined ? message.dateError[momentOutcome.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        } else if (req.body.hasOwnProperty('outcomeDate')) {
+            entryObj.outcomeDate = momentOutcome.valueOf();
+        }
+
         this.pregnancy.editPregnancy(req.user, req.body).then(function (result) {
             res.status(200).json(formatToJSON(result));
             return;
