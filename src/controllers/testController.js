@@ -13,15 +13,15 @@ function TestController() {
 }
 
 TestController.prototype.createTest = function (req, res) {
-    if (!req.body.hasOwnProperty('visitId') || !req.body.hasOwnProperty('expectedDate') || !req.body.hasOwnProperty('type')) {
+    if (!req.body.hasOwnProperty('visitId') || !req.body.hasOwnProperty('expectedOccurDate') || !req.body.hasOwnProperty('type')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    if (typeof req.body.visitId !== 'number' || typeof req.body.expectedDate !== 'string' || typeof req.body.type !== 'number') {
+    if (typeof req.body.visitId !== 'number' || typeof req.body.expectedOccurDate !== 'string' || typeof req.body.type !== 'number') {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
-    let momentExpect = moment(req.body.expectedDate, moment.ISO_8601);
+    let momentExpect = moment(req.body.expectedOccurDate, moment.ISO_8601);
     if (!momentExpect.isValid()) {
         let msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
         res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
@@ -55,12 +55,12 @@ TestController.prototype.updateTest = function (req, res) {
         return;
     }
     let entryObj = Object.assign({}, req.body);
-    let momentExpect = moment(req.body.expectedDate, moment.ISO_8601);
-    if (req.body.hasOwnProperty('expectedDate') && !momentExpect.isValid()) {
+    let momentExpect = moment(req.body.expectedOccurDate, moment.ISO_8601);
+    if (req.body.hasOwnProperty('expectedOccurDate') && !momentExpect.isValid()) {
         let msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
         res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
-    } else if (req.body.hasOwnProperty('expectedDate')) {
+    } else if (req.body.hasOwnProperty('expectedOccurDate')) {
         entryObj.expectedOccurDate = momentExpect.valueOf();
     }
     let momentOccur = moment(req.body.actualOccurredDate, moment.ISO_8601);
