@@ -13,9 +13,9 @@ function CeController() {
 }
 
 CeController.prototype.createCe = function (req, res) {
-    if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra') &&
-        typeof req.body.visitId === 'number' && typeof req.body.startDate === 'string' && typeof req.body.type === 'number' && typeof req.body.meddra === 'number') {
-        let momentStart = moment(req.body.startDate, moment.ISO_8601);
+    if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('dateStartDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra') &&
+        typeof req.body.visitId === 'number' && typeof req.body.dateStartDate === 'string' && typeof req.body.type === 'number' && typeof req.body.meddra === 'number') {
+        let momentStart = moment(req.body.dateStartDate, moment.ISO_8601);
         if (!momentStart.isValid()) {
             let msg = (momentStart.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
@@ -45,7 +45,7 @@ CeController.prototype.createCe = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return;
         });
-    } else if (!((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('startDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra'))) {
+    } else if (!((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('dateStartDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     } else {
@@ -60,12 +60,12 @@ CeController.prototype.updateCe = function (req, res) {
         return;
     }
     let ce = Object.assign({}, req.body);
-    let momentStart = moment(req.body.startDate, moment.ISO_8601);
-    if (req.body.hasOwnProperty('startDate') && !momentStart.isValid()) {
+    let momentStart = moment(req.body.dateStartDate, moment.ISO_8601);
+    if (req.body.hasOwnProperty('dateStartDate') && !momentStart.isValid()) {
         let msg = (momentStart.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
         res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
-    } else if (req.body.hasOwnProperty('startDate')) {
+    } else if (req.body.hasOwnProperty('dateStartDate')) {
         ce.dateStartDate = momentStart.valueOf();
     }
     let momentEnd = moment(req.body.endDate, moment.ISO_8601);
