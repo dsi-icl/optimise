@@ -40,7 +40,7 @@ describe('Create test controller tests', () => {
 
     test('Request creation with wrong type visit (should fail)', () => admin
         .post('/tests')
-        .send({ 'visitId': 'WRONG', 'type': 1, 'expectedDate': '2020-01-01' })
+        .send({ 'visitId': 'WRONG', 'type': 1, 'expectedOccurDate': '2020-01-01' })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -50,7 +50,7 @@ describe('Create test controller tests', () => {
 
     test('Request creation with wrong type type (should fail)', () => admin
         .post('/tests')
-        .send({ 'visitId': 1, 'type': 'WRONG', 'expectedDate': '2020-01-01' })
+        .send({ 'visitId': 1, 'type': 'WRONG', 'expectedOccurDate': '2020-01-01' })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -58,9 +58,9 @@ describe('Create test controller tests', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Request creation with wrong type expectedDate (should fail)', () => admin
+    test('Request creation with wrong type expectedOccurDate (should fail)', () => admin
         .post('/tests')
-        .send({ 'visitId': 1, 'type': 1, 'expectedDate': {} })
+        .send({ 'visitId': 1, 'type': 1, 'expectedOccurDate': {} })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
@@ -70,7 +70,7 @@ describe('Create test controller tests', () => {
 
     test('Request creation with actual occured data with good body (should succeed)', () => admin
         .post('/tests')
-        .send({ 'visitId': 1, 'type': 1, 'expectedDate': '2020-01-01', 'actualOccurredDate': '2020-01-04' })
+        .send({ 'visitId': 1, 'type': 1, 'expectedOccurDate': '2020-01-01', 'actualOccurredDate': '2020-01-04' })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
@@ -80,7 +80,7 @@ describe('Create test controller tests', () => {
 
     test('Request creation with good body (should succeed)', () => admin
         .post('/tests')
-        .send({ 'visitId': 1, 'type': 2, 'expectedDate': '2020-01-01' })
+        .send({ 'visitId': 1, 'type': 2, 'expectedOccurDate': '2020-01-01' })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
