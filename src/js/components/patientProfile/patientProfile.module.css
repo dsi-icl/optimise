@@ -62,7 +62,8 @@
     width: 100%;
     height: 100%;
     padding: 1.2em;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     scroll-behavior: smooth;
 }
 
@@ -216,9 +217,7 @@ div.timelineCEBlack {
     margin-left: -4.7em;
     padding: 0.8em 0;
     padding-left: 4.7em !important;
-    width: 100em;
-    /* border-top-right-radius: 2em;
-    border-bottom-right-radius: 2em; */
+    width: calc(100% + 5.9em);
     border-top: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
     background-color: hsl(var(--color-background-h), var(--color-background-s), 96%);
     z-index: 100;
@@ -354,8 +353,6 @@ div.timelineCEBlack {
     fill: var(--color-error);
     cursor: pointer;
 }
-
-
 
 .editButton > div {
     width: 1.2em;
@@ -572,6 +569,7 @@ div.timelineCEBlack {
 
 .filterBox {
     font-size: 0.8em;
+    margin-top: 0.4em;
 }
 
 .filterBox svg {

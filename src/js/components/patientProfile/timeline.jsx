@@ -28,7 +28,8 @@ export class TimelineBox extends Component {   //unfinsihed
         });
         const allDates = [...allVisitDates, ...allTestDates, ...allTreatmentDates, ...allCEDates].map(el => parseInt(el));
         allDates.sort();
-        const daySpan = parseInt(((allDates[allDates.length - 1] - allDates[0]) / 86400000), 10);
+        let daySpan = parseInt(((allDates[allDates.length - 1] - allDates[0]) / 86400000), 10);
+        daySpan = daySpan < 0 ? 0 : daySpan;
         const numOfCols = `10% ${'1fr '.repeat(daySpan + 3)}`;
         const TimelineDynamicStyle = {
             gridTemplateColumns: numOfCols,

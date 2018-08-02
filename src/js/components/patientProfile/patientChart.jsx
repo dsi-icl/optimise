@@ -387,7 +387,6 @@ class OneVisit extends Component {
     }
 }
 
-
 @connect(state => ({ data: state.patientProfile.data, availableFields: state.availableFields }))
 export class Charts extends Component {
     constructor() {
@@ -401,6 +400,7 @@ export class Charts extends Component {
             }
         };
         this._handleFilterSelection = this._handleFilterSelection.bind(this);
+        this._sortVisits = this._sortVisits.bind(this);
     }
 
     _handleFilterSelection = (filter) => {
@@ -409,6 +409,38 @@ export class Charts extends Component {
                 ...this.state.filter,
                 [filter]: !this.state.filter[filter]
             }
+        });
+    }
+
+    _sortVisits = (visitList) => {
+        const visits = [...visitList];
+        return visits.sort((a, b) => {
+
+            const aHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === a.id);
+            const aHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === a.id);
+            const aHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === a.id);
+
+            let dateA = a.visitDate;
+            if (aHasTests.length !== 0)
+                dateA = aHasTests[0].actualOccurredDate || aHasTests[0].expectedOccurDate;
+            if (aHasMedications.length !== 0)
+                dateA = aHasMedications[0].startDate;
+            if (aHasClinicalEvents.length !== 0)
+                dateA = aHasClinicalEvents[0].dateStartDate;
+
+            const bHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === b.id);
+            const bHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === b.id);
+            const bHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === b.id);
+
+            let dateB = b.visitDate;
+            if (bHasTests.length !== 0)
+                dateB = bHasTests[0].actualOccurredDate || bHasTests[0].expectedOccurDate;
+            if (bHasMedications.length !== 0)
+                dateB = bHasMedications[0].startDate;
+            if (bHasClinicalEvents.length !== 0)
+                dateB = bHasClinicalEvents[0].dateStartDate;
+
+            return parseInt(dateA, 10) < parseInt(dateB, 10);
         });
     }
 
@@ -435,12 +467,13 @@ export class Charts extends Component {
                         <Icon symbol='addTreatment' className={style.timelineMed} /> treatments
                     </span>
                     <br />
+                    <br />
                 </div>
             }>
                 {visits.length !== 0 ?
                     (
                         <Timeline className={style.history}>
-                            {sortVisits(visits).map(
+                            {this._sortVisits(visits).map(
                                 (el, ind) => {
                                     const order = visits.length - ind;
                                     let suffix;
@@ -468,9 +501,7 @@ export class Charts extends Component {
                                         isMinor={new Date().getTime() - parseInt(DOB) < 568025136000}
                                         baselineVisit={baselineVisit}
                                         filter={this.state.filter}
-                                        // title={el.type === 1 ? (baselineVisit ? `Baseline clinical visit (${order}${suffix} visit)` : `Clinical visit (${order}${suffix} visit)`) : ''}
-                                        // subtitle={el.type === 1 ? visitDate.toLocaleDateString('en-GB', dateOptions) : ''} />;
-                                        title={el.type === 1 ? (baselineVisit ? `Baseline clinical visit (${order}${suffix} visit)` : `Clinical visit (${order}${suffix} visit)`) : 'Isolated record'}
+                                        title={el.type === 1 ? (baselineVisit ? `Baseline clinical visit (${order}${suffix} visit)` : `Clinical visit (${order}${suffix} visit)`) : 'Additional record'}
                                         subtitle={el.type === 1 ? visitDate.toLocaleDateString('en-GB', dateOptions) : `${visitDate.toLocaleDateString('en-GB', dateOptions)} ${visitDate.toLocaleTimeString()}`} />;
                                 }
                             )}
@@ -485,9 +516,4 @@ export class Charts extends Component {
             </PatientProfileSectionScaffold>
         );
     }
-}
-
-function sortVisits(visitList) {
-    const visits = [...visitList];
-    return visits.sort((a, b) => parseInt(a.visitDate, 10) < parseInt(b.visitDate, 10));
 }
