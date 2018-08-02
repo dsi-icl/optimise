@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/utils';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
-import { PickDate } from './datepicker';
 import style from './medicalEvent.module.css';
 
 @connect(state => ({
@@ -42,7 +41,6 @@ export class CreateVisit extends Component {
     }
 
     _formatRequestBody() {
-        const date = this.state.startDate;
         const { SBP, DBP, HR, weight, academicConcerns, height } = this.state;
 
         if (!parseInt(SBP, 10)) {
@@ -89,7 +87,7 @@ export class CreateVisit extends Component {
     render() {
         if (this.props.demographicData === undefined)
             return null;
-        const { startDate, SBP, DBP, HR, weight, academicConcerns, height, error } = this.state;
+        const { SBP, DBP, HR, weight, academicConcerns, height, error } = this.state;
         const { params } = this.props.match;
         const { demographicData } = this.props;
         return (

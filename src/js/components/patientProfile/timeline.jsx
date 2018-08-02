@@ -1,12 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Icon from '../icon';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 import style from './patientProfile.module.css';
-import { Set } from '../../../../node_modules/immutable';
-import { parse } from 'querystring';
 
 /*
 Timeline:

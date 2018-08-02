@@ -475,7 +475,7 @@ export class Charts extends Component {
                     (
                         <Timeline className={style.history}>
                             {this._sortVisits(visits).map(
-                                (el, ind) => {
+                                (el) => {
                                     let suffix = '';
                                     switch (el.historyInd) {
                                         case undefined:
