@@ -105,21 +105,6 @@
         "cdiscName": null
     },
     {
-        "id": 8,
-        "definition": "Duration",
-        "idname": "Duration",
-        "section": null,
-        "subsection": null,
-        "type": 4,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
         "id": 9,
         "definition": "Severity",
         "idname": "Severity",
