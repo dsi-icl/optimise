@@ -35,15 +35,16 @@ export default class SearchPatientsById extends Component {
     }
 
     _handleKeyStroke(ev) {
-        this.setState({ searchString: ev.target.value });
-        if (ev.target.value !== '') {
-            store.dispatch(searchPatientAPICall({
-                field: this.state.searchType,
-                value: ev.target.value
-            }));
-        } else {
-            store.dispatch(searchPatientClear());
-        }
+        this.setState({ searchString: ev.target.value }, () => {
+            if (this.state.searchString.trim() !== '') {
+                store.dispatch(searchPatientAPICall({
+                    field: this.state.searchType,
+                    value: this.state.searchString.trim()
+                }));
+            } else {
+                store.dispatch(searchPatientClear());
+            }
+        });
     }
 
     _handleSelectChange(ev) {
@@ -83,7 +84,7 @@ export default class SearchPatientsById extends Component {
                         <label htmlFor='searchType'>Containing:</label><br />
                         <input type='text' name='searchTerm' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} autoComplete='off' />
                     </form><br />
-                    <SearchResultForPatients listOfPatients={this.props.data.result} searchType={this.state.searchType} searchString={this.state.searchString} />
+                    <SearchResultForPatients listOfPatients={this.props.data.result} searchType={this.state.searchType} searchString={this.state.searchString.trim()} />
                 </div>
             </>
         );
@@ -120,11 +121,20 @@ class PatientButton extends PureComponent {
         const styledName = (
             <span>
                 <b>
-                    {data.aliasId.substring(0, ind)}
-                    <span className={style.matchedString}>
-                        {data.aliasId.substring(ind, searchString.length + ind)}
-                    </span>
-                    {data.aliasId.substring(searchString.length + ind, data.aliasId.length)}
+                    {ind >= 0 ?
+                        (
+                            <>
+                                {data.aliasId.substring(0, ind)}
+                                <span className={style.matchedString}>
+                                    {data.aliasId.substring(ind, searchString.length + ind)}
+                                </span>
+                                {data.aliasId.substring(searchString.length + ind, data.aliasId.length)}
+                            </>
+                        ) :
+                        (
+                            <> {data.aliasId}</>
+                        )
+                    }
                 </b>
             </span>
         );
