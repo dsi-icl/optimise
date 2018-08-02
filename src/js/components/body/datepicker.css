@@ -13,7 +13,6 @@
 
 .react-datepicker__navigation--previous,
 .react-datepicker__navigation--next {
-    top: 20px;
     height: 10px;
 }
 
