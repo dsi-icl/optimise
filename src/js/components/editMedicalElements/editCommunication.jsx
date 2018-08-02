@@ -134,16 +134,15 @@ class CommunicationEditor extends Component {
         treatments = treatments.filter(el => moment(el.startDate, 'x').valueOf() > moment().subtract(duration, 'months') || moment(el.terminatedDate, 'x').valueOf() > moment().subtract(duration, 'months'));
         clinicalEvents = clinicalEvents.filter(el => moment(el.dateStartDate, 'x').valueOf() > moment().subtract(duration, 'months') || moment(el.endDate, 'x').valueOf() > moment().subtract(duration, 'months'));
 
-        const testBlock = formatTests(tests, testTypes_Hash[0]);
-        const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0]);
-        const medBlock = formatTreatments(treatments, drugs_Hash[0]);
+        const testBlock = formatTests(tests, testTypes_Hash[0], duration);
+        const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0], duration);
+        const medBlock = formatTreatments(treatments, drugs_Hash[0], duration);
 
         return { testBlock, ceBlock, medBlock };
     }
 
     _onClick(ev) {
         ev.preventDefault();
-        console.log(this.state.intervalValue);
         let { precomposed } = this.props;
         const whichButton = ev.target.name;
         if (this.state.nextType === whichButton)
@@ -226,7 +225,7 @@ class CommunicationEditor extends Component {
                         <option value='36'>The past three years</option>
                         <option value='60'>The past five years</option>
                         <option value='120'>The past ten years</option>
-                        <option value='2000'>The entier patient history</option>
+                        <option value='2000'>The entire patient history</option>
                     </select>
                     <br /><br />
                     <table>
