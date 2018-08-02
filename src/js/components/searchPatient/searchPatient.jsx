@@ -68,7 +68,8 @@ export default class SearchPatientsById extends Component {
                     <form>
                         <label htmlFor='searchType'>Search by:</label><br />
                         <select name='searchType' value={this.state.searchType} onChange={this._handleSelectChange} autoComplete='off'>
-                            <option value='USUBJID'>ID</option>
+                            <option value='USUBJID'>Patient ID</option>
+                            <option value='OPTIMISEID'>OPTIMISE ID</option>
                             <option value='SEX'>Sex</option>
                             <option value='EXTRT'>Treatment</option>
                             <option value='ETHNIC'>Ethnic Background</option>
