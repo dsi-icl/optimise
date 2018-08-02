@@ -10,7 +10,7 @@ const defaultOptions = {
     credentials: 'include'
 };
 
-export function apiHelper(endpoint, options) {
+export function apiHelper(endpoint, options, blockError) {
     if (!options) {
         options = {};
     }
@@ -21,13 +21,14 @@ export function apiHelper(endpoint, options) {
                 status: res.status,
                 data: json
             })),
-        err => console.log(err))
+            err => console.log(err))
         .then(json => {
             if (json.status === 200) {
                 return json.data;
             } else {
                 if (json.data.error) {
-                    store.dispatch(addError(json.data));
+                    if (!blockError)
+                        store.dispatch(addError(json.data));
                     return Promise.reject(json);
                 } else {
                     return json.data;
