@@ -26,7 +26,9 @@ export function apiHelper(endpoint, options, blockError) {
             if (json.status === 200) {
                 return json.data;
             } else {
-                if (json.data.error) {
+                if (json.data.message === 'Please login first')
+                    return window.location.reload();
+                if (json.data.error && json.data.error !== 'An unknown unicorn') {
                     if (!blockError)
                         store.dispatch(addError(json.data));
                     return Promise.reject(json);

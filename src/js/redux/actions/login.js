@@ -9,13 +9,13 @@ export const whoami = () => dispatch => {
     dispatch(checkingLogin());
     return apiHelper('/whoami')
         .then(json => {
-            if (json.status === 'error' && json.message === 'Please login first') {
+            if (json.error === 'An unknown unicorn') {
                 dispatch(notLoggedIn());
             } else {
                 dispatch(loggedIn(json));
             }
         })
-        .catch((err) => console.log('ERROR', err));
+        .catch((err) => console.log(err));
 };
 
 export const loginRequest = body => ({ type: actionTypes.login.LOGIN_REQUESTED, payload: body });
