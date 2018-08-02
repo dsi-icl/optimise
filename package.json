@@ -1,7 +1,7 @@
 {
     "name": "optimise-ui",
     "productName": "Optimise MS",
-    "version": "1.9.19",
+    "version": "1.9.20",
     "description": "Front-end for optimiseMS",
     "keywords": [
         "ms",
@@ -37,7 +37,7 @@
     "dependencies": {
         "antd": "^3.7.3",
         "compression": "1.7.3",
-        "optimise-core": "0.9.51"
+        "optimise-core": "0.9.52"
     },
     "devDependencies": {
         "@babel/core": "7.0.0-beta.46",
