@@ -32,7 +32,7 @@ export default class FullTimeline extends Component {
         this.groupRenderer = this.groupRenderer.bind(this);
         this.itemRenderer = this.itemRenderer.bind(this);
 
-        let defaultTimeStart = moment().startOf('day').toDate();
+        let defaultTimeStart = moment().subtract(1, 'month').toDate();
         let defaultTimeEnd = moment();
         // let groups = [{
         //     id: 0,
