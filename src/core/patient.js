@@ -40,6 +40,22 @@ Patient.prototype.getPatient = function (whereObj, selectedObj) {
 Patient.prototype.searchPatients = function (queryfield, queryvalue) {
 
     switch (queryfield) {
+        case 'OPTIMISEID':
+            return new Promise(function (resolve, reject) {
+                knex('PATIENTS')
+                    .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
+                    .where('uuid', 'like', queryvalue)
+                    .andWhere('PATIENTS.deleted', '-')
+                    .then(function (result) {
+                        if (Array.isArray(result))
+                            for (let i = 0; i < result.length; i++) {
+                                result[i].consent = Boolean(result[i].consent);
+                            }
+                        resolve(result);
+                    }, function (error) {
+                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+                    });
+            });
         case 'SEX':
             return new Promise(function (resolve, reject) {
                 knex('PATIENT_DEMOGRAPHIC')
