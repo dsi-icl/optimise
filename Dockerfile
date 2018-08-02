@@ -1,4 +1,4 @@
-FROM node:10.6.0-alpine
+FROM node:10.8.0-alpine
 
 LABEL author="Florian Guitton" email="f.guitton@imperial.ac.uk"
 
@@ -6,13 +6,10 @@ RUN mkdir -p /optimise/db
 
 WORKDIR /optimise
 
-RUN apk add --update --no-cache --virtual .build-deps make gcc g++ python
-
 COPY ./package.json .
 COPY ./package-lock.json .
 
 RUN npm install --production
-RUN apk del .build-deps && rm -rf /var/cache/apk/*
 
 COPY ./public ./public
 COPY ./build ./build
