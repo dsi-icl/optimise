@@ -65,7 +65,7 @@ export class CreateCE extends Component {
             patientId: this.props.match.params.patientId,
             data: {
                 patientId: this.props.patientId,
-                startDate: date.toISOString(),
+                dateStartDate: date.toISOString(),
                 endDate: !this.state.noEndDate ? this.state.endDate.toISOString() : undefined,
                 type: Number.parseInt(this.state.ceType),
                 meddra: Number.parseInt(this.props.meddra.filter(el => el.name === this.state.meddra.current.value)[0].id)
