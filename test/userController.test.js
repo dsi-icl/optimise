@@ -6,6 +6,16 @@ const user = request.agent(global.optimiseRouter);
 const message = require('../src/utils/message-utils');
 
 describe('User controller tests', () => {
+
+    test('Testing rainbow with unicorn', () =>
+        admin.get('/whoami')
+            .then(res => {
+                expect(res.statusCode).toBe(404);
+                expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
+                expect(Object.keys(res.body).length).toBe(1);
+                expect(res.body.error).toBe('An unknown unicorn');
+            }));
+
     test('First user (admin) login', () => admin
         .post('/users/login')
         .set('Content-type', 'application/json')
@@ -23,22 +33,17 @@ describe('User controller tests', () => {
             expect(res.body.message).toBe('Successfully logged in');
         }));
 
-    test('Testing connection with whoami', function () {
+    test('Testing connection with whoami', () =>
         admin.get('/whoami')
             .then(res => {
                 expect(res.statusCode).toBe(200);
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(Object.keys(res.body).length).toBe(4);
-                expect(res.body.id).toBeDefined();
-                expect(res.body.username).toBeDefined();
-                expect(res.body.realname).toBeDefined();
-                expect(res.body.priv).toBeDefined();
                 expect(res.body.id).toBe(1);
                 expect(res.body.username).toBe('admin');
                 expect(res.body.realname).toBe('Administrator');
                 expect(res.body.priv).toBe(1);
-            });
-    });
+            }));
 
     test('Admin creating user (no 1) without admin priv with real name', () => admin
         .post('/users')
@@ -62,7 +67,7 @@ describe('User controller tests', () => {
             expect(res.body.state).toBe(4);
         }));
 
-    test('Admin get the users matching with "test" in their name', function () {
+    test('Admin get the users matching with "test" in their name', () =>
         admin.get('/users?username=test')
             .then(res => {
                 expect(res.statusCode).toBe(200);
@@ -82,8 +87,7 @@ describe('User controller tests', () => {
                 expect(res.body[1].username).toBe('test_user2');
                 expect(res.body[1].realname).toBe('IAmTesting');
                 expect(res.body[1].priv).toBe(0);
-            });
-    });
+            }));
 
     test('Admin user login out ()', () => admin
         .post('/users/logout')
