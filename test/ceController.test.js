@@ -31,7 +31,7 @@ describe('Create Clinical Event controller tests', () => {
         .send({
             visitId: 1,
             type: 1,
-            startDate: {
+            dateStartDate: {
                 jour: 1,
                 mois: 3,
                 année: 2011
@@ -69,7 +69,7 @@ describe('Create Clinical Event controller tests', () => {
         .send({
             visitId: 1,
             type: 1,
-            startDate: '1980-01-01',
+            dateStartDate: '1980-01-01',
             meddra: 1
         })
         .then(res => {
