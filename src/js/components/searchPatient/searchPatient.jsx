@@ -5,7 +5,10 @@ import { getPatientProfileById, searchPatientAPICall, searchPatientClear } from 
 import store from '../../redux/store';
 import style from './searchPatient.module.css';
 
-@connect(state => ({ data: state.searchPatient }))
+@connect(state => ({
+    data: state.searchPatient,
+    priv: state.login.priv
+}))
 export default class SearchPatientsById extends Component {
     constructor(props) {
         super(props);
@@ -69,7 +72,7 @@ export default class SearchPatientsById extends Component {
                         <label htmlFor='searchType'>Search by:</label><br />
                         <select name='searchType' value={this.state.searchType} onChange={this._handleSelectChange} autoComplete='off'>
                             <option value='USUBJID'>Patient ID</option>
-                            <option value='OPTIMISEID'>OPTIMISE ID</option>
+                            {this.props.priv === 1 ? <option value='OPTIMISEID'>Anonymised ID</option> : null}
                             <option value='SEX'>Sex</option>
                             <option value='EXTRT'>Treatment</option>
                             <option value='ETHNIC'>Ethnic Background</option>
