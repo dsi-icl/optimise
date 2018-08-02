@@ -64,7 +64,7 @@ const oneTest = (test, typeTable) => {
 };
 
 export const formatTests = (testList, typeTable, duration) => {
-    console.log(duration, typeof duration)
+    console.log(duration, typeof duration);
     if (testList.length === 0) {
         return () => [
             blockgen(''),
