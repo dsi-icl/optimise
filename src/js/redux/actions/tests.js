@@ -8,7 +8,7 @@ export const createTestAPICall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.log(err))
+        }).catch(err => console.error(err))
     );
 };
 
@@ -17,7 +17,7 @@ export const deleteTestAPICall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.log(err));;
+        }).catch(err => console.error(err));
 };
 
 export const updateTestCall = (body) => dispatch => {
@@ -25,5 +25,5 @@ export const updateTestCall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.log(err));;
+        }).catch(err => console.error(err));
 };

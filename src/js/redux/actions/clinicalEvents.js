@@ -9,7 +9,7 @@ export const createCEAPICall = (body) => dispatch => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(err => console.log(err))
+        .catch(err => console.error(err))
     );
 };
 
@@ -19,7 +19,7 @@ export const deleteCEAPICall = (body) => dispatch => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(err => console.log(err));
+        .catch(err => console.error(err));
 };
 
 export const updateCECall = (body) => dispatch => {
@@ -27,5 +27,5 @@ export const updateCECall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.log(err));;
+        }).catch(err => console.error(err));
 };

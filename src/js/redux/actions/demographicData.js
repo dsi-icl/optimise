@@ -7,7 +7,7 @@ export const createImmunisationAPICall = (body) => dispatch => (
         .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.log(msg))
+        .catch(msg => console.error(msg))
 );
 
 export const deleteImmunisationAPICall = (body) => dispatch => (
@@ -15,7 +15,7 @@ export const deleteImmunisationAPICall = (body) => dispatch => (
         .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.log(msg))
+        .catch(msg => console.error(msg))
 );
 
 export const createPregnancyAPICall = (body) => dispatch => (
@@ -23,7 +23,7 @@ export const createPregnancyAPICall = (body) => dispatch => (
         .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.log(msg))
+        .catch(msg => console.error(msg))
 );
 
 export const deletePregnancyAPICall = (body) => dispatch => (
@@ -31,7 +31,7 @@ export const deletePregnancyAPICall = (body) => dispatch => (
         .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.log(msg))
+        .catch(msg => console.error(msg))
 );
 
 export const updateDemographicAPICall = (body) => dispatch => (
@@ -40,7 +40,7 @@ export const updateDemographicAPICall = (body) => dispatch => (
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.log(msg))
+        .catch(msg => console.error(msg))
 );
 
 
@@ -50,5 +50,5 @@ export const updateDiagnosisAPICall = (body) => dispatch => (
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.log(msg))
+        .catch(msg => console.error(msg))
 );

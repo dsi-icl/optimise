@@ -15,7 +15,7 @@ export const whoami = () => dispatch => {
                 dispatch(loggedIn(json));
             }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
 };
 
 export const loginRequest = body => ({ type: actionTypes.login.LOGIN_REQUESTED, payload: body });
@@ -35,5 +35,5 @@ export const logoutRequest = () => ({ type: actionTypes.login.LOGOUT_REQUEST });
 export const logoutAPICall = (body) => dispatch => {
     dispatch(logoutRequest(body));
     return apiHelper('/users/logout', { method: 'POST', body: JSON.stringify(body) })
-        .catch(err => console.log(err));
+        .catch(err => console.error(err));
 };
