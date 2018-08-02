@@ -205,25 +205,43 @@ div.timelineCEBlack {
 .history > div:not(:first-child) {
     padding-top: 0.5em;
 }
+
 .history > div:not(:first-child) > div:first-child {
     margin-top: 0.5em;
     z-index: 2;
 }
 
+.historyVisit > div:nth-child(2) {
+    margin-top: -0.8em;
+    margin-left: -4.7em;
+    padding: 0.8em 0;
+    padding-left: 4.7em !important;
+    width: 100em;
+    /* border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em; */
+    border-top: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 96%);
+    z-index: 100;
+}
+
+.historyVisit:hover > div:nth-child(2) {
+    background-color: hsl(var(--color-shade-two-h), var(--color-shade-two-s), 90%) !important;
+}
+
 .historyVisit > div:nth-child(3) {
     width: calc(100% + 5.9em) !important;
-    margin-top: -3.5em !important;
+    margin-top: 0em !important;
     margin-bottom: 0 !important;
     margin-left: -4.7em;
     padding-left: 4.7em !important;
-    padding-bottom: 1em !important;
-    padding-top: 3em !important;
+    padding-right: 3em !important;
+    padding-bottom: 2.5em !important;
     background-color: transparent !important;
     box-shadow: none !important;
     transition: background-color 500ms;
 }
 
-.historyVisit > div:nth-child(3):hover {
+.historyVisit:hover > div:nth-child(3) {
     background-color: hsl(var(--color-shade-two-h), var(--color-shade-two-s), 97%) !important;
 }
 
@@ -241,7 +259,7 @@ div.timelineCEBlack {
 }
 
 .history h4 {
-    margin-top: 1.5em;
+    margin-top: 0.9em;
     margin-bottom: 0.7em;
 }
 
@@ -550,4 +568,33 @@ div.timelineCEBlack {
     display: inline-block;
     padding: 0.2em 0.5em;
     word-wrap: none;
+}
+
+.filterBox {
+    font-size: 0.8em;
+}
+
+.filterBox svg {
+    height: 1em;
+    width: 0.8em;
+    margin-right: 0.5em;
+}
+
+.filterBox span {
+    padding: 0.4em 0.7em;
+    margin-left: 1em;
+    border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
+}
+
+.filterBox span:hover {
+    cursor: pointer;
+    border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+
+.filterBox span.selected {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 93%);
+}
+
+.filterBox span.selected:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 80%);
 }

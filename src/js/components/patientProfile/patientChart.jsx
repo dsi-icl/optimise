@@ -104,7 +104,7 @@ class ClinicalEvent extends PureComponent {
     render() {
         const { data, typedict, patientId, meddraHash } = this.props;
         const date = new Date(parseInt(data.dateStartDate, 10)).toDateString();
-        const endDate = data.endDate !== null && data.endDate !== undefined ? new Date(parseInt(data.endDate, 10)).toDateString() : 'NULL';
+        const endDate = data.endDate !== null && data.endDate !== undefined ? new Date(parseInt(data.endDate, 10)).toDateString() : '';
         return (
             <tr>
                 <td><EditButton to={`/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
@@ -165,9 +165,7 @@ export function formatRow(arr) {
  * @prop {String} visitId
  * @prop {Array} visitData
  * @prop {Object} data - state.patientProfile.data
- * @prop {String} type
  * @prop {String} title - `${this.props.data.visits.length-ind}-th visit`
- * @prop {String} visitDate - new Date(parseInt(el.visitDate, 10)).toDateString()
  * @prop {Boolean} baselineVisit - Indicating whether it is a baseline visit
  */
 class OneVisit extends Component {
@@ -202,18 +200,29 @@ class OneVisit extends Component {
 
         if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
             return null;
+
+        let shouldRender = true;
+        if (this.props.filter.visits || this.props.filter.tests || this.props.filter.treatments || this.props.filter.events) {
+            shouldRender = false;
+            if ((this.props.filter.visits && this.props.visitType === 1) ||
+                (this.props.filter.tests && visitHasTests) ||
+                (this.props.filter.treatments && visitHasMedications) ||
+                (this.props.filter.events && visitHasClinicalEvents))
+                shouldRender = true;
+        }
+        if (!shouldRender)
+            return null;
         return (
             <TimelineEvent
                 id={`visit/${this.props.visitId}`}
-                title={this.props.visitDate}
-                subtitle={this.props.title}
+                title={this.props.title}
+                subtitle={this.props.subtitle}
                 icon={<Icon symbol='addVisit' />}
                 className={style.historyVisit}
                 bubbleStyle={{ borderColor: 'transparent' }}>
 
                 {this.props.visitType === 1 ? (
                     <>
-                        <br />
                         <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : 'AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
                         <div className={style.visitWrapper}>
                             <table>
@@ -372,6 +381,7 @@ class OneVisit extends Component {
                     </>
                 ) : null
                 }
+
             </TimelineEvent>
         );
     }
@@ -379,7 +389,29 @@ class OneVisit extends Component {
 
 
 @connect(state => ({ data: state.patientProfile.data, availableFields: state.availableFields }))
-export class Charts extends Component {   //unfinsihed
+export class Charts extends Component {
+    constructor() {
+        super();
+        this.state = {
+            filter: {
+                tests: false,
+                treatments: false,
+                events: false,
+                visits: false
+            }
+        };
+        this._handleFilterSelection = this._handleFilterSelection.bind(this);
+    }
+
+    _handleFilterSelection = (filter) => {
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                [filter]: !this.state.filter[filter]
+            }
+        });
+    }
+
     render() {
         if (!this.props.data.demographicData) {
             return null;
@@ -387,7 +419,24 @@ export class Charts extends Component {   //unfinsihed
         const { visits } = this.props.data;
         const { DOB } = this.props.data.demographicData;
         return (
-            <PatientProfileSectionScaffold sectionName='Medical History Summary'>
+            <PatientProfileSectionScaffold sectionName='Medical History Summary' header={
+                <div className={style.filterBox}>
+                    Filter by
+                    <span onClick={() => this._handleFilterSelection('visits')} className={this.state.filter.visits ? style.selected : ''}>
+                        <Icon symbol='addVS' />visits
+                    </span>
+                    <span onClick={() => this._handleFilterSelection('events')} className={this.state.filter.events ? style.selected : ''}>
+                        <Icon symbol='addEvent' className={style.timelineCE} />events
+                    </span>
+                    <span onClick={() => this._handleFilterSelection('tests')} className={this.state.filter.tests ? style.selected : ''}>
+                        <Icon symbol='addTest' className={style.timelineTest} />tests
+                    </span>
+                    <span onClick={() => this._handleFilterSelection('treatments')} className={this.state.filter.treatments ? style.selected : ''}>
+                        <Icon symbol='addTreatment' className={style.timelineMed} /> treatments
+                    </span>
+                    <br />
+                </div>
+            }>
                 {visits.length !== 0 ?
                     (
                         <Timeline className={style.history}>
@@ -410,6 +459,7 @@ export class Charts extends Component {   //unfinsihed
                                     };
                                     const baselineVisit = order === 1 ? true : false;
                                     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                                    const visitDate = new Date(parseInt(el.visitDate, 10));
                                     return <OneVisit visitData={el.data}
                                         availableFields={this.props.availableFields}
                                         key={el.id} data={this.props.data}
@@ -417,9 +467,11 @@ export class Charts extends Component {   //unfinsihed
                                         visitType={el.type}
                                         isMinor={new Date().getTime() - parseInt(DOB) < 568025136000}
                                         baselineVisit={baselineVisit}
-                                        type='visit'
-                                        title={el.type === 1 ? (baselineVisit ? `${order}${suffix} visit (Baseline visit)` : `${order}${suffix} visit (Ongoing assessment)`) : 'isolated instance'}
-                                        visitDate={el.type === 1 ? new Date(parseInt(el.visitDate, 10)).toLocaleDateString('en-GB', dateOptions) : `${new Date(parseInt(el.visitDate, 10)).toLocaleDateString('en-GB', dateOptions)} at ${new Date(parseInt(el.visitDate, 10)).toLocaleTimeString()}`} />;
+                                        filter={this.state.filter}
+                                        // title={el.type === 1 ? (baselineVisit ? `Baseline clinical visit (${order}${suffix} visit)` : `Clinical visit (${order}${suffix} visit)`) : ''}
+                                        // subtitle={el.type === 1 ? visitDate.toLocaleDateString('en-GB', dateOptions) : ''} />;
+                                        title={el.type === 1 ? (baselineVisit ? `Baseline clinical visit (${order}${suffix} visit)` : `Clinical visit (${order}${suffix} visit)`) : 'Isolated record'}
+                                        subtitle={el.type === 1 ? visitDate.toLocaleDateString('en-GB', dateOptions) : `${visitDate.toLocaleDateString('en-GB', dateOptions)} ${visitDate.toLocaleTimeString()}`} />;
                                 }
                             )}
                         </Timeline>
