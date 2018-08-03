@@ -148,7 +148,7 @@ export default class FullTimeline extends Component {
                         'data-tip': `${i}${suffix} visit ${i === 1 ? '(Baseline)' : ''}`
                     }
                 });
-                let edssTotalId = props.availableFields.visitFields.filter(el => el.idname === 'edss:expanded disability status scale (edss) total');
+                let edssTotalId = props.availableFields.visitFields.filter(el => el.idname === 'edss:expanded disability status scale - estimated total');
                 if (edssTotalId.length > 0) {
                     edssTotalId = edssTotalId[0].id;
                     v.data.filter(el => el.field === edssTotalId).forEach(e => {

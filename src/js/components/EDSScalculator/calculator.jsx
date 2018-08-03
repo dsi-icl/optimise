@@ -136,14 +136,14 @@ class EDSSCalculator extends Component {
         }
 
         /* for the free input */
-        const freeInputOrigVal = this.originalValues[this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']];
+        const freeInputOrigVal = this.originalValues[this.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']];
         if (freeInputOrigVal !== undefined) {
             if (this.freeinputref.current.value !== freeInputOrigVal) {
-                update[this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] = this.freeinputref.current.value;
+                update[this.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] = this.freeinputref.current.value;
             }
         } else {
             if (this.freeinputref.current.value !== '') {
-                add[this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] = this.freeinputref.current.value;
+                add[this.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] = this.freeinputref.current.value;
             }
         }
 
@@ -237,7 +237,7 @@ class EDSSCalculator extends Component {
                         <br /><br />
                         <label htmlFor='calcSocre'>Calculated score (automatically generated): </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
                         <br /><br />
-                        <label htmlFor='edss:expanded disability status scale (edss) total'>Estimated score (entered by user): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale (edss) total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] : ''} />
+                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated score (entered by user): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                         <br /><br />
                         <button type='submit'>Save</button>
                     </form>
