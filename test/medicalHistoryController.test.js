@@ -196,7 +196,7 @@ describe('Create Medical Historycontroller test', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Creating Medical Historywell formatted (Should Works)', () => admin
+    test('Creating Medical Historywell formatted (Should Succeed)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -402,7 +402,7 @@ describe('Edit Medical Historycontroller test', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Editing Medical Historywell formatted (Should Works)', () => admin
+    test('Editing Medical Historywell formatted (Should Succeed)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 1,
@@ -468,7 +468,7 @@ describe('Delete Medical Historycontroller test', () => {
             expect(res.body.state).toBe(0);
         }));
 
-    test('Deleting Medical Historywith good preperty (Should Works)', () => admin
+    test('Deleting Medical Historywith good preperty (Should Succeed)', () => admin
         .delete('/demographics/MedicalCondition')
         .send({
             'id': 1

@@ -237,7 +237,7 @@ describe('Create Demographic controller test', () => {
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
-    test('Creating demographic well formatted (Should Works)', () => admin
+    test('Creating demographic well formatted (Should Succeed)', () => admin
         .post('/demographics/Demographic')
         .send({
             'patient': 7,
@@ -507,7 +507,7 @@ describe('Edit Demographic controller test', () => {
             expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
-    test('Editing demographic well formatted (Should Works)', () => admin
+    test('Editing demographic well formatted (Should Succeed)', () => admin
         .put('/demographics/Demographic')
         .send({
             'id': 7,
@@ -575,7 +575,7 @@ describe('Delete Demographic controller test', () => {
             expect(res.body.state).toBe(0);
         }));
 
-    test('Deleting demographic with good preperty (Should Works)', () => admin
+    test('Deleting demographic with good preperty (Should Succeed)', () => admin
         .delete('/demographics/Demographic')
         .send({
             'id': 2
