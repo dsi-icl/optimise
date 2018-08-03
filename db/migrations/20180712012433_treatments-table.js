@@ -2,7 +2,8 @@ exports.up = function (knex) {
     return knex.schema.createTable('TREATMENTS', function (table) {
         table.increments('id').primary();
         table.integer('orderedDuringVisit').notNullable().references('id').inTable('VISITS').onDelete('CASCADE');
-        table.integer('drug').notNullable().references('id').inTable('AVAILABLE_DRUGS');
+        table.integer('drug').nullable().references('id').inTable('AVAILABLE_DRUGS');
+        table.text('drug_notes').nullable();
         table.integer('dose').nullable();
         table.text('unit').nullable();
         table.text('form').nullable();
