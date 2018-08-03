@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/utils';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
+import { PickDate } from './datepicker';
 import style from './medicalEvent.module.css';
 
 @connect(state => ({
@@ -14,6 +15,7 @@ export class CreateVisit extends Component {
         super();
         this.state = {
             startDate: moment(),
+            reasonForVisit: 'unselected',
             SBP: '',
             DBP: '',
             HR: '',
@@ -41,28 +43,23 @@ export class CreateVisit extends Component {
     }
 
     _formatRequestBody() {
-        const { SBP, DBP, HR, weight, academicConcerns, height } = this.state;
+        const { startDate, reasonForVisit, SBP, DBP, HR, weight, academicConcerns, height } = this.state;
 
-        if (!parseInt(SBP, 10)) {
-            return 'systolic blood pressure';
-        }
-        if (!parseInt(DBP, 10)) {
-            return 'diastolic blood pressure';
-        }
-        if (!parseInt(HR, 10)) {
-            return 'heart rate';
+        if (reasonForVisit === 'unselected') {
+            return 'the reason for the visit';
         }
 
         return {
             visitData: {
                 patientId: this.props.patientId,
-                visitDate: moment().toISOString()
+                visitDate: startDate.toISOString()
             },
             VSData: {
                 add: {
-                    1: parseInt(SBP),
-                    2: parseInt(HR),
-                    3: parseInt(DBP),
+                    0: reasonForVisit.trim(),
+                    1: isNaN(SBP) ? parseInt(SBP) : undefined,
+                    2: isNaN(HR) ? parseInt(HR) : undefined,
+                    3: isNaN(DBP) ? parseInt(DBP) : undefined,
                     4: isNaN(height) ? parseInt(height) : undefined,
                     5: isNaN(weight) ? parseInt(weight) : undefined,
                     6: parseInt(academicConcerns)
@@ -76,7 +73,7 @@ export class CreateVisit extends Component {
         ev.preventDefault();
         let error = this._formatRequestBody();
         if (typeof error === 'string') {
-            this.setState({ error: `Please enter ${error} (integer)` });
+            this.setState({ error: `Please enter ${error}` });
             return;
         }
         const requestBody = this._formatRequestBody();
@@ -87,7 +84,7 @@ export class CreateVisit extends Component {
     render() {
         if (this.props.demographicData === undefined)
             return null;
-        const { SBP, DBP, HR, weight, academicConcerns, height, error } = this.state;
+        const { startDate, reasonForVisit, SBP, DBP, HR, weight, academicConcerns, height, error } = this.state;
         const { params } = this.props.match;
         const { demographicData } = this.props;
         return (
@@ -97,7 +94,19 @@ export class CreateVisit extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    {/* <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br /> */}
+                    <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
+                    <label htmlFor='academicConcerns'>Reason for the visit:</label><br />
+                    <select name='reasonForVisit'
+                        onChange={this._handleKeyChange}
+                        value={reasonForVisit}
+                        autoComplete='off'
+                    >
+                        <option value='unselected'></option>
+                        <option value='Routine'>Routine</option>
+                        <option value='Urgent'>Urgent</option>
+                        <option value='Urgent'>Relapse Assessment</option>
+                        <option value='Urgent'>Drug Monitoring</option>
+                    </select><br /><br />
                     <label htmlFor='SBP'>Systolic blood pressure (mmHg):</label><br /> <input name='SBP' value={SBP} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
                     <label htmlFor='DBP'>Diastolic blood pressure (mmHg):</label><br /> <input name='DBP' value={DBP} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
                     <label htmlFor='HR'>Heart rate (bpm):</label><br /> <input name='HR' value={HR} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
