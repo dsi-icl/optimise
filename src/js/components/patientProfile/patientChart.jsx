@@ -180,6 +180,7 @@ class OneVisit extends Component {
         const VS = this.props.visitData.filter(el => [1, 2, 3, 4, 5, 6].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
         const VSValueArray = [
+            { name: 'Reason for the visit', value: VSHashTable['0'] },
             { name: 'Systolic blood pressure', value: VSHashTable['1'], unit: 'mmHg' },
             { name: 'Diastolic blood pressure', value: VSHashTable['3'], unit: 'mmHg' },
             { name: 'Heart rate', value: VSHashTable['2'], unit: 'bpm' },
@@ -224,35 +225,39 @@ class OneVisit extends Component {
 
                 {this.props.visitType === 1 ? (
                     <>
-                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : 'AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
-                        <div className={style.visitWrapper}>
-                            <table>
-                                <tbody>
-                                    {VSValueArray.length > 0 ?
-                                        (
-                                            <tr>
-                                                <td >{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
-                                                <td >{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
-                                            </tr>
-                                        ) : null}
-                                    {VSValueArray.length > 2 ?
-                                        (
-                                            <tr>
-                                                <td >{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
-                                                <td >{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
-                                            </tr>
-                                        ) : null}
-                                    {VSValueArray.length > 4 ?
-                                        (
-                                            <tr>
-                                                <td >{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
-                                                <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
-                                            </tr>
-                                        ) : null}
-                                </tbody>
-                            </table>
-                        </div>
-                        <br />
+                        {VSValueArray.length > 0 ? (
+                            <>
+                                <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : 'AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
+                                <div className={style.visitWrapper}>
+                                    <table>
+                                        <tbody>
+                                            {VSValueArray.length > 0 ?
+                                                (
+                                                    <tr>
+                                                        <td >{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
+                                                        <td >{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
+                                                    </tr>
+                                                ) : null}
+                                            {VSValueArray.length > 2 ?
+                                                (
+                                                    <tr>
+                                                        <td >{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
+                                                        <td >{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
+                                                    </tr>
+                                                ) : null}
+                                            {VSValueArray.length > 4 ?
+                                                (
+                                                    <tr>
+                                                        <td >{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
+                                                        <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
+                                                    </tr>
+                                                ) : null}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br />
+                            </>
+                        ) : null}
                         <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}</h4>
                         {relevantSymptomsFields.length !== 0 ? (
                             <div className={style.visitWrapper}>
