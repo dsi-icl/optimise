@@ -7,9 +7,9 @@ const { DemographicCore, MedicalHistoryCore, ImmunisationCore, PregnancyCore } =
 const PregnancyModel = {
     'patient': 0,
     'startDate': null,
-    'outcome': 0,
-    'outcomeDate': null,
-    'meddra': null
+    'outcome': undefined,
+    'outcomeDate': undefined,
+    'meddra': undefined
 };
 
 function DemographicDataController() {
@@ -407,10 +407,13 @@ DemographicDataController.prototype.getPregnancy = function (req, res) {
 };
 
 DemographicDataController.prototype.createPregnancy = function (req, res) {
-    if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('outcome') &&
-        typeof req.body.patient === 'number' && typeof req.body.outcome === 'number') {
+    if (req.body.hasOwnProperty('patient') && typeof req.body.patient === 'number') {
 
         if ((req.body.hasOwnProperty('meddra') && typeof req.body.meddra !== 'number')) {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+        if ((req.body.hasOwnProperty('outcome') && typeof req.body.outcome !== 'number')) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -428,9 +431,15 @@ DemographicDataController.prototype.createPregnancy = function (req, res) {
             return;
         }
 
+        if (req.body.hasOwnProperty('outcomeDate') && !req.body.hasOwnProperty('outcome')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+
         let entryObj = Object.assign({}, PregnancyModel, req.body);
         entryObj.startDate = momentStart.valueOf();
-        entryObj.outcomeDate = momentOutcome.valueOf();
+        if (req.body.hasOwnProperty('outcomeDate'))
+            entryObj.outcomeDate = momentOutcome.valueOf();
         entryObj.createdByUser = req.user.id;
 
         this.pregnancy.createPregnancy(entryObj).then(function (result) {
