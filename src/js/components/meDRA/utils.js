@@ -1,40 +1,41 @@
-export const o = {
-    '#05329': {
-        'text': 'Blood and lymphatic system disorders',
-        '#02086': {
-            'text': 'Anaemias nonhaemolytic and marrow depression',
-            '#02042': {
-                'text': 'Anaemia deficiencies',
-                '#02043': {
-                    'text': 'Anaemia folate deficiency'
-                },
-                '#66468': {
-                    'text': 'Anaemia of pregnancy'
-                },
-                '#02080': {
-                    'text': 'Anaemia vitamin B12 deficiency'
-                },
-                '#02081': {
-                    'text': 'Anaemia vitamin B6 deficiency'
-                },
-                '#61101': {
-                    'text': 'Deficiency anaemia'
-                },
-                '#22972': {
-                    'text': 'Iron deficiency anaemia'
-                },
-                '#34695': {
-                    'text': 'Pernicious anaemia'
-                },
-                '#37006': {
-                    'text': 'Protein deficiency anaemia'
-                },
-                '#42272': {
-                    'text': 'Subacute combined cord degeneration'
-                }
-            }
-        }
-    },
+const o = {
+            '#05329': 
+                    {
+                        'text': 'Blood and lymphatic system disorders',
+                        '#02086': {
+                            'text': 'Anaemias nonhaemolytic and marrow depression',
+                            '#02042': {
+                                'text': 'Anaemia deficiencies',
+                                '#02043': {
+                                    'text': 'Anaemia folate deficiency'
+                                },
+                                '#66468': {
+                                    'text': 'Anaemia of pregnancy'
+                                },
+                                '#02080': {
+                                    'text': 'Anaemia vitamin B12 deficiency'
+                                },
+                                '#02081': {
+                                    'text': 'Anaemia vitamin B6 deficiency'
+                                },
+                                '#61101': {
+                                    'text': 'Deficiency anaemia'
+                                },
+                                '#22972': {
+                                    'text': 'Iron deficiency anaemia'
+                                },
+                                '#34695': {
+                                    'text': 'Pernicious anaemia'
+                                },
+                                '#37006': {
+                                    'text': 'Protein deficiency anaemia'
+                                },
+                                '#42272': {
+                                    'text': 'Subacute combined cord degeneration'
+                                }
+                            }
+                        }
+                    },
     '#053429': {
         'text': 'Blood and lymphatic system disorders',
         '#020486': {
@@ -74,6 +75,18 @@ export const o = {
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 export function formatOneNodeForAntd(entry) {    //entry = [ key, {text: 'whatever'}  ] 
     const key = entry[0];
     const value = entry[1];
@@ -89,6 +102,27 @@ export function formatOneNodeForAntd(entry) {    //entry = [ key, {text: 'whatev
 }
 
 
-export function formatToHashTable(tree) {   //tree = entries meddra tree
-    //later
+export function makeMeddraHash(tree) {
+    let id = 1;
+    const hash = [];
+    const formatToHashTable = parentId => entry => {
+        const key = entry[0];
+        const value = entry[1];
+        if (Object.keys(value).length === 1 && value.hasOwnProperty('text')){
+            hash.push({ id, meddraCode: key, value: value.text, parentId: parentId });
+            id++;
+        } else if (Object.keys(value).length !== 1 && value.hasOwnProperty('text')){
+            const text = value.text;
+            delete value.text;
+            hash.push({ id, meddraCode: key, value: text, parentId: parentId });
+            id++;
+            Object.entries(value).forEach(formatToHashTable(id - 1));
+        } else {
+            throw Error(`${key} is wrong!`);
+        }
+    };
+    Object.entries(tree).forEach(formatToHashTable(null));
+    return hash;
 }
+
+module.exports = makeMeddraHash;
