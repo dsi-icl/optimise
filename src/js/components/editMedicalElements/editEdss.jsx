@@ -48,14 +48,14 @@ export default class EditPerformanceMesaure extends Component {
 
         const add = {};
         const update = {};
-        const freeInputOrigVal = this.state.originalValues[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']];
+        const freeInputOrigVal = this.state.originalValues[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']];
         if (freeInputOrigVal !== undefined) {
             if (this.freeinputref.current.value !== freeInputOrigVal) {
-                update[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] = this.freeinputref.current.value;
+                update[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] = this.freeinputref.current.value;
             }
         } else {
             if (this.freeinputref.current.value !== '') {
-                add[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] = this.freeinputref.current.value;
+                add[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] = this.freeinputref.current.value;
             }
         }
 
@@ -84,7 +84,7 @@ export default class EditPerformanceMesaure extends Component {
                     <span><i>This is for the visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i></span><br /><br />
                     <div>
                         You can enter the appropriate EDSS score in the following field then save using the 'Save' button<br /><br />
-                        <label htmlFor='edss:expanded disability status scale (edss) total'>EDSS score: </label><input key={Math.random()} type='text' ref={this.freeinputref} name='edss:expanded disability status scale (edss) total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] : ''} />
+                        <label htmlFor='edss:expanded disability status scale - estimated total'>EDSS score: </label><input key={Math.random()} type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                         <br /><br />
                         <button type='submit'>Save</button><br /><br />
                         Or alternatively use the EDSS calculator as a guide by clicking on the following button<br /><br />

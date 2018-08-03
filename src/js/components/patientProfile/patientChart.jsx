@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component, PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
@@ -125,12 +125,13 @@ class ClinicalEvent extends PureComponent {
 
 @connect(state => ({ typedict: state.availableFields.visitFields_Hash[0], patientId: state.patientProfile.data.patientId, inputType: state.availableFields.inputTypes_Hash[0] }))
 class Symptom extends PureComponent {
-    camelize(str) {
-        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
-            if (+match === 0) return '';
-            return index === 0 ? match.toUpperCase() : match.toLowerCase();
+
+    toTitleCase(str) {
+        return str.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
     }
+
     render() {
         const { data, typedict, inputType } = this.props;
         let value;
@@ -141,7 +142,7 @@ class Symptom extends PureComponent {
             case 'C':
                 if (data.value === 'unselected')
                     return null;
-                value = this.camelize(data.value);
+                value = this.toTitleCase(`${data.value}`);
                 break;
             default:
                 value = data.value;
@@ -297,8 +298,18 @@ class OneVisit extends Component {
                                     </thead>
                                     <tbody>
                                         {performances.map(el => {
-                                            let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale (edss) total';
-                                            return <Symptom key={el.field} data={el} className={isTotal ? style.performanceHighlight : ''} />;
+                                            let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale - estimated total';
+                                            return (
+                                                <Fragment key={el.field}>
+                                                    <Symptom data={el} className={isTotal ? style.performanceHighlight : ''} />
+                                                    {isTotal ? (
+                                                        <tr className={style.performanceHighlight}>
+                                                            <td>edss > expanded disability status scale - computed total</td>
+                                                            <td>-</td>
+                                                        </tr>
+                                                    ) : null}
+                                                </Fragment>
+                                            );
                                         })}
                                     </tbody>
                                 </table>
