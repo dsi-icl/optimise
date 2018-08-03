@@ -1,6 +1,7 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Icon } from '../icon';
 import { getPatientProfileById, searchPatientAPICall, searchPatientClear } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import style from './searchPatient.module.css';
@@ -66,6 +67,9 @@ export default class SearchPatientsById extends Component {
             <>
                 <div className={style.ariane}>
                     <h2>Patient Search</h2>
+                    <div className={style.profileActions}>
+                        <Link title='New visit' to={`/createPatient`} ><Icon symbol='user' /><span>Add a new patient</span></Link>
+                    </div>
                 </div>
                 <div className={style.panel}>
                     <span>Search your dataset by entering your criteria in the box below.</span><br /><br />

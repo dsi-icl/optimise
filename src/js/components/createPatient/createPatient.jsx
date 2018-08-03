@@ -10,10 +10,12 @@ import style from './createPatient.module.css';
 
 @connect(state => ({ diagnosesfields: state.availableFields.diagnoses, demofields: state.availableFields.demoFields[0], patientId: state.createPatient.patientId, }))
 export default class CreatePatient extends Component {    //get these props from state: this.props.visitFields, this.props.patientId
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             dispatched: false,
+            aliasId: props.match ? props.match.params.patientIdCreated : '',
+            referer: props.match ? props.match.url : undefined,
             givenName: '',
             surname: '',
             address: '',
@@ -36,6 +38,14 @@ export default class CreatePatient extends Component {    //get these props from
         this._handleChange = this._handleChange.bind(this);
         this._handleConsentChange = this._handleConsentChange.bind(this);
         this._handleFreeTextChange = this._handleFreeTextChange.bind(this);
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        let newReferer = nextProps.match ? nextProps.match.url : '';
+        let newPatient = nextProps.match ? nextProps.match.params.patientIdCreated : '';
+        if (prevState.referer !== newReferer)
+            return { ...prevState, referer: newReferer, aliasId: newPatient };
+        return prevState;
     }
 
     _handleDobDateChange(date) {
@@ -72,7 +82,6 @@ export default class CreatePatient extends Component {    //get these props from
 
     _handleSubmit(ev) {
         ev.preventDefault();
-        const patientId = this.props.match.params.patientIdCreated;
         for (let each in this.state) {
             if (this.state[each] === 0 || this.state[each] === null || this.state[each] === '') {
                 this.setState({ error: true });
@@ -99,14 +108,14 @@ export default class CreatePatient extends Component {    //get these props from
             diagnosisDate: this.state.diagnosisDate.toISOString()
         };
         const patientData = {
-            aliasId: patientId,
+            aliasId: this.state.aliasId,
             consent: this.state.consent === 'Y' ? true : false,
             study: 'optimise'
         };
         const body = {
             patientData: patientData,
             demoData: demoData,
-            patientId: patientId,
+            patientId: this.statealiasId,
             diagnosisData: diagnosisData,
             PIIData: PIIData
         };
@@ -118,7 +127,6 @@ export default class CreatePatient extends Component {    //get these props from
     render() {
         if (!this.state.dispatched) {
             const { genders, dominant_hands, ethnicities, countries, alcohol_usage, smoking_history } = this.props.demofields;
-
             return (
                 <>
                     <div className={style.ariane}>
@@ -126,12 +134,8 @@ export default class CreatePatient extends Component {    //get these props from
                         <BackButton to={'/searchPatient'} />
                     </div>
                     <div className={style.panel}>
-                        <span>Please fill the following information about
-                            <b>
-                                &nbsp;{this.props.match.params.patientIdCreated}
-                            </b>
-                        </span><br /><br />
                         <form onSubmit={this._handleSubmit}>
+                            <label htmlFor='aliasId'>Patient ID:</label> <br /> <input value={this.state.aliasId} name='aliasId' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
                             <h4>Personal information</h4><br />
                             <label htmlFor='givenName'>Given name:</label><br /> <input value={this.state.givenName} name='givenName' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
                             <label htmlFor='surname'>Surname:</label><br /> <input value={this.state.surname} name='surname' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
@@ -157,15 +161,15 @@ export default class CreatePatient extends Component {    //get these props from
                             <h4>Primary diagnosis</h4><br />
                             <label>Diagnosis date:</label><br /> <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleDiagnosisDateChange} /> <br />
                             <label htmlFor='diagnosis'>Diagnosis:</label><br /> <SelectField name='diagnosis' value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} /> <br /><br />
+                            {this.state.error ? <><div className={style.error}>None of the fields can be empty!</div><br /></> : null}
                             <button type="submit">Submit</button>
                         </form>
-                        {this.state.error ? <><br /><br /><div className={style.error}>None of the fields can be unselected or empty! Please try again.</div></> : null}
                         <br />
                     </div>
                 </>
             );
         } else {
-            return <Redirect to={`/patientProfile/${this.props.match.params.patientIdCreated}`} />;
+            return <Redirect to={`/patientProfile/${this.state.aliasId}`} />;
         }
     }
 }
