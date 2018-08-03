@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "0.9.54",
+    "version": "0.9.55",
     "description": "Backend for OptimiseMS",
     "main": "./src/optimiseServer.js",
     "scripts": {
