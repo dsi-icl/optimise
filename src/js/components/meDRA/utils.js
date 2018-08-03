@@ -19,12 +19,12 @@ function makeMeddraSeeds(tree) {
         const key = entry[0];
         const value = entry[1];
         if (Object.keys(value).length === 1 && value.hasOwnProperty('text')){
-            hash.push({ id, meddraCode: key, value: value.text, parentId: parentId });
+            hash.push({ id, meddraCode: key, value: value.text, parentId: parentId, isLeaf: 1 });
             id++;
         } else if (Object.keys(value).length !== 1 && value.hasOwnProperty('text')){
             const text = value.text;
             delete value.text;
-            hash.push({ id, meddraCode: key, value: text, parentId: parentId });
+            hash.push({ id, meddraCode: key, value: text, parentId: parentId, isLeaf: 0 });
             id++;
             Object.entries(value).forEach(formatToHashTable(id - 1));
         } else {
