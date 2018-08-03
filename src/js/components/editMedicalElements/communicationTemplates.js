@@ -142,10 +142,9 @@ export const formatTreatments = (treatmentList, typeTable, duration) => {
     ];
 };
 
-const camelize = (str) => {
-    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
-        if (+match === 0) return '';
-        return index === 0 ? match.toUpperCase() : match.toLowerCase();
+const toTitleCase = (str) => {
+    return str.replace(/\w\S*/g, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
 };
 
@@ -155,7 +154,7 @@ const oneSignOrSymptom = (data, VSFields_Hash) => {
         if (fieldObj.type === 5) {
             return `- ${fieldObj.idname.replace(/:/g, ' > ')}: ${data.value === '1' ? 'Yes' : (data.value === '0' ? 'No' : 'Unknown')}`;
         }
-        return `- ${fieldObj.idname.replace(/:/g, ' > ')}: ${camelize(data.value)}`;
+        return `- ${fieldObj.idname.replace(/:/g, ' > ')}: ${toTitleCase(data.value)}`;
     } else {
         return '';
     }
