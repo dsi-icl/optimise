@@ -113,7 +113,7 @@ export class TimelineBox extends Component {   //unfinsihed
             )}>
                 <div className={style.timelineBox} style={TimelineDynamicStyle}>
                     <div style={{ gridColumn: '1/2', gridRow: '1', overflow: 'hidden' }}>
-                        Meds
+                        Treatments
                     </div>
                     <div style={{ gridColumn: '1/2', gridRow: '3', overflow: 'hidden' }}>
                         Visits
