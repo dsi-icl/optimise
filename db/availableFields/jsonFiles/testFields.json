@@ -645,7 +645,7 @@
     {
         "id": 46,
         "definition": "Result",
-        "idname": "T1 Hypointense Lesions:result",
+        "idname": "T1 hypointense lesions:result",
         "section": null,
         "subsection": null,
         "type": 3,
@@ -660,7 +660,7 @@
     {
         "id": 47,
         "definition": "Count",
-        "idname": "T2 Hyperintense Lesions:count",
+        "idname": "T2 hyperintense lesions:count",
         "section": null,
         "subsection": null,
         "type": 3,
@@ -675,7 +675,7 @@
     {
         "id": 48,
         "definition": "Lesion volume",
-        "idname": "T2 Hyperintense Lesions:lesion_volume",
+        "idname": "T2 hyperintense lesions:lesion_volume",
         "section": null,
         "subsection": null,
         "type": 2,
