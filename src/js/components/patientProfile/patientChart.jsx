@@ -1,6 +1,6 @@
 import React, { Component, PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink, withRouter, Link } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import { PatientProfileSectionScaffold, PatientProfileTop, EditButton } from './sharedComponents';
@@ -28,7 +28,7 @@ export class PatientChart extends Component {
             <>
                 <div className={style.ariane}>
                     <Helmet title='Patient Profile' />
-                    <h2>Patient Profile {this.props.fetching ? '' : `(${this.props.data.patientId})`}</h2>
+                    <h2><Link to={`/patientProfile/${this.props.match.params.patientId}`}>Patient Profile {this.props.fetching ? '' : `(${this.props.data.patientId})`}</Link></h2>
                     <PatientProfileTop />
                 </div>
                 <div className={`${style.panel} ${style.patientHistory}`}>
