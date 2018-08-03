@@ -100,20 +100,6 @@ describe('Create Pregnancy controller test', () => {
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
         }));
 
-    test('Creating Pregnancy without outcome (Should Fail)', () => admin
-        .post('/demographics/Pregnancy')
-        .send({
-            'patient': 2,
-            'startDate': '2000-01-01',
-            'meddra': 3
-        })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
-        }));
-
     test('Creating Pregnancy with wrong outcome (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
@@ -194,6 +180,7 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'patient': 1,
             'outcome': 2,
+            'outcomeDate': '2000-05-14',
             'startDate': '2000-01-01',
             'meddra': 3
         })
@@ -208,6 +195,7 @@ describe('Create Pregnancy controller test', () => {
         .post('/demographics/Pregnancy')
         .send({
             'patient': 3,
+            'outcomeDate': '2000-05-14',
             'outcome': 2,
             'startDate': '1989-03-04'
         })
@@ -218,6 +206,20 @@ describe('Create Pregnancy controller test', () => {
             expect(res.body.state).toBe(4);
         }));
 
+
+    test('Creating Pregnancy without outcome (Should Succeed)', () => admin
+        .post('/demographics/Pregnancy')
+        .send({
+            'patient': 2,
+            'startDate': '2000-01-01',
+            'meddra': 3
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(5);
+        }));
 });
 
 describe('Edit Pregnancy controller test', () => {
