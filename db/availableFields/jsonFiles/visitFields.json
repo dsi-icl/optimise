@@ -8,7 +8,7 @@
         "type": 3,
         "unit": null,
         "module": "MS",
-        "permittedValues": "Routine,Urgent,Relapse Assessment,Drug Monitoring",
+        "permittedValues": "Routine,Drug Monitoring,Relapse Assessment,Urgent",
         "labels": null,
         "referenceType": 1,
         "laterality": null,
