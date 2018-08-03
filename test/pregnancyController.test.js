@@ -189,7 +189,7 @@ describe('Create Pregnancy controller test', () => {
             expect(res.body.error).toBe(message.userError.INVALIDDATE);
         }));
 
-    test('Creating Pregnancy well formatted (Should Works)', () => admin
+    test('Creating Pregnancy well formatted (Should Succeed)', () => admin
         .post('/demographics/Pregnancy')
         .send({
             'patient': 1,
@@ -204,7 +204,7 @@ describe('Create Pregnancy controller test', () => {
             expect(res.body.state).toBe(3);
         }));
 
-    test('Creating Pregnancy well formatted with no MedDRA (Should Works)', () => admin
+    test('Creating Pregnancy well formatted with no MedDRA (Should Succeed)', () => admin
         .post('/demographics/Pregnancy')
         .send({
             'patient': 3,
@@ -266,7 +266,7 @@ describe('Edit Pregnancy controller test', () => {
             expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
         }));
 
-    test('Editing Pregnancy well formatted (Should Works)', () => admin
+    test('Editing Pregnancy well formatted (Should Succeed)', () => admin
         .put('/demographics/Pregnancy')
         .send({
             'id': 3,
@@ -327,7 +327,7 @@ describe('Delete Pregnancy controller test', () => {
             expect(res.body.state).toBe(0);
         }));
 
-    test('Deleting Pregnancy with good preperty (Should Works)', () => admin
+    test('Deleting Pregnancy with good preperty (Should Succeed)', () => admin
         .delete('/demographics/Pregnancy')
         .send({
             'id': 3

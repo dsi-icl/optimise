@@ -57,7 +57,7 @@ describe('Visit controller tests', () => {
             expect(res.body.state).toBe(5);
         }));
 
-    test('Creating the same visit for a patient (should works; even for duplication)', () => admin
+    test('Creating the same visit for a patient (Should Succeed; even for duplication)', () => admin
         .post('/visits')
         .send({
             'patientId': 6,

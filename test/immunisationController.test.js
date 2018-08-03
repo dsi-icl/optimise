@@ -111,7 +111,7 @@ describe('Create Immunisation controller test', () => {
         }));
 
 
-    test('Creating Immunisation well formatted (Should Works)', () => admin
+    test('Creating Immunisation well formatted (Should Succeed)', () => admin
         .post('/demographics/Immunisation')
         .send({
             'patient': 1,
@@ -210,7 +210,7 @@ describe('Edit Immunisation controller test', () => {
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
         }));
 
-    test('Editing Immunisation well formatted (Should Works)', () => admin
+    test('Editing Immunisation well formatted (Should Succeed)', () => admin
         .put('/demographics/Immunisation')
         .send({
             'id': 4,
@@ -272,7 +272,7 @@ describe('Delete Immunisation controller test', () => {
             expect(res.body.state).toBe(0);
         }));
 
-    test('Deleting Immunisation with good preperty (Should Works)', () => admin
+    test('Deleting Immunisation with good preperty (Should Succeed)', () => admin
         .delete('/demographics/Immunisation')
         .send({
             'id': 3
