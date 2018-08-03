@@ -23,5 +23,10 @@
         "id": 5,
         "name": "Other SAE likely related to treatment or malignancies",
         "module": "MS"
+    },
+    {
+        "id": 6,
+        "name": "Other SAE",
+        "module": "MS"
     }
 ]

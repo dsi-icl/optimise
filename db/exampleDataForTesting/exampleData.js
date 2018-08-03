@@ -72,12 +72,12 @@ const exampleData = {
         { id: 4, patient: 2, type: 3, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' }
     ],
     'CLINICAL_EVENTS_DATA': [
-        { id: 1, clinicalEvent: 1, field: 3, value: 'YES', createdByUser: 1, deleted: '-' },
-        { id: 2, clinicalEvent: 3, field: 2, value: 'UNKNOWN', createdByUser: 1, deleted: '-' },
-        { id: 3, clinicalEvent: 2, field: 2, value: 'YES', createdByUser: 1, deleted: '-' },
-        { id: 4, clinicalEvent: 2, field: 4, value: 'UNKNOWN', createdByUser: 1, deleted: '-' },
-        { id: 5, clinicalEvent: 2, field: 9, value: 'MODERATE', createdByUser: 1, deleted: '-' },
-        { id: 6, clinicalEvent: 1, field: 9, value: 'SEVERE', createdByUser: 1, deleted: '-' },
+        { id: 1, clinicalEvent: 1, field: 3, value: 'Yes', createdByUser: 1, deleted: '-' },
+        { id: 2, clinicalEvent: 3, field: 2, value: 'unselected', createdByUser: 1, deleted: '-' },
+        { id: 3, clinicalEvent: 2, field: 2, value: 'Yes', createdByUser: 1, deleted: '-' },
+        { id: 4, clinicalEvent: 2, field: 4, value: 'unselected', createdByUser: 1, deleted: '-' },
+        { id: 5, clinicalEvent: 2, field: 9, value: 'Moderate', createdByUser: 1, deleted: '-' },
+        { id: 6, clinicalEvent: 1, field: 9, value: 'Severe', createdByUser: 1, deleted: '-' },
         { id: 7, clinicalEvent: 4, field: 19, value: 'PML', createdByUser: 1, deleted: '-' }
     ],
     'TREATMENTS': [

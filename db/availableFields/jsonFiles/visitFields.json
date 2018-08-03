@@ -1,5 +1,20 @@
 [
     {
+        "id": 0,
+        "definition": "Reason for the visit",
+        "idname": "reason for the visit",
+        "section": 1,
+        "subsection": null,
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "Routine,Urgent,Relapse Assessment,Drug Monitoring",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
         "id": 1,
         "definition": "Systolic Blood Pressure",
         "idname": "systolic blood pressure",
@@ -1373,7 +1388,7 @@
         "type": 3,
         "unit": null,
         "module": "MS",
-        "permittedValues": "NORMAL,ABNORMAL,UNKNOWN",
+        "permittedValues": "NORMAL,ABNORMAL",
         "labels": null,
         "referenceType": 1,
         "laterality": "RIGHT",
@@ -1388,7 +1403,7 @@
         "type": 3,
         "unit": null,
         "module": "MS",
-        "permittedValues": "NORMAL,ABNORMAL,UNKNOWN",
+        "permittedValues": "NORMAL,ABNORMAL",
         "labels": null,
         "referenceType": 1,
         "laterality": "LEFT",
@@ -1538,7 +1553,7 @@
         "type": 3,
         "unit": null,
         "module": "MS",
-        "permittedValues": "LIMITED AMBULATION,WHEELCHAIR BOUND,BEDRIDDEN,UNKNOWN",
+        "permittedValues": "Limited Amublation,Wheelchair Bound,Bedridden",
         "labels": null,
         "referenceType": 1,
         "laterality": null,
@@ -1561,8 +1576,8 @@
     },
     {
         "id": 105,
-        "definition": "EDSS Total Score",
-        "idname": "edss:expanded disability status scale (edss) total",
+        "definition": "EDSS Estimated Total Score",
+        "idname": "edss:expanded disability status scale - estimated total",
         "section": 4,
         "subsection": "QS",
         "type": 3,
@@ -1577,7 +1592,7 @@
     {
         "id": 106,
         "definition": "EDSS Pyramidal Score",
-        "idname": "edss:expanded disability status scale (edss) pyramidal",
+        "idname": "edss:expanded disability status scale - pyramidal",
         "section": 4,
         "subsection": "QS",
         "type": 3,
@@ -1592,7 +1607,7 @@
     {
         "id": 107,
         "definition": "EDSS Cerebellar Score",
-        "idname": "edss:expanded disability status scale (edss) cerebellar",
+        "idname": "edss:expanded disability status scale - cerebellar",
         "section": 4,
         "subsection": "QS",
         "type": 3,
@@ -1607,7 +1622,7 @@
     {
         "id": 108,
         "definition": "EDSS Brain Stem Score",
-        "idname": "edss:expanded disability status scale (edss) brain stem",
+        "idname": "edss:expanded disability status scale - brain stem",
         "section": 4,
         "subsection": "QS",
         "type": 3,
@@ -1622,7 +1637,7 @@
     {
         "id": 109,
         "definition": "EDSS Sensory Score",
-        "idname": "edss:expanded disability status scale (edss) sensory",
+        "idname": "edss:expanded disability status scale - sensory",
         "section": 4,
         "subsection": "QS",
         "type": 3,
@@ -1637,7 +1652,7 @@
     {
         "id": 110,
         "definition": "EDSS Bowel Bladder Score",
-        "idname": "edss:expanded disability status scale (edss) bowel bladder",
+        "idname": "edss:expanded disability status scale - bowel bladder",
         "section": 4,
         "subsection": "QS",
         "type": 3,
@@ -1652,7 +1667,7 @@
     {
         "id": 111,
         "definition": "EDSS Visual Score",
-        "idname": "edss:expanded disability status scale (edss) visual",
+        "idname": "edss:expanded disability status scale - visual",
         "section": 4,
         "subsection": "QS",
         "type": 3,
@@ -1667,7 +1682,7 @@
     {
         "id": 112,
         "definition": "EDSS Mental Score",
-        "idname": "edss:expanded disability status scale (edss) mental",
+        "idname": "edss:expanded disability status scale - mental",
         "section": 4,
         "subsection": "QS",
         "type": 3,
@@ -1682,7 +1697,7 @@
     {
         "id": 113,
         "definition": "EDSS Ambulation Score",
-        "idname": "edss:expanded disability status scale (edss) ambulation",
+        "idname": "edss:expanded disability status scale - ambulation",
         "section": 4,
         "subsection": "QS",
         "type": 3,
