@@ -50,7 +50,7 @@ class EDSSCalculator extends Component {
             store.dispatch(addError({ error: 'Cannot find your visit' }));
             this.setState({ redirect: true });
         }
-        const ambulationID = this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) ambulation'];
+        const ambulationID = this.EDSSFields_Hash_reverse['edss:expanded disability status scale - ambulation'];
         const data = visitsFiltered[0].data;
         let orignalValuesWithoutAmbulation = [];
         let ambulation;
@@ -87,18 +87,18 @@ class EDSSCalculator extends Component {
             }
         }
         /* auto calculate the score */
-        if (!document.querySelector('input[name="edss:expanded disability status scale (edss) ambulation"]:checked')) {
+        if (!document.querySelector('input[name="edss:expanded disability status scale - ambulation"]:checked')) {
             this.setState({ autoCalculatedScore: 'Ambulation score must be provided.' });
             return;
         }
         const criteria = [
-            'edss:expanded disability status scale (edss) pyramidal',
-            'edss:expanded disability status scale (edss) cerebellar',
-            'edss:expanded disability status scale (edss) brain stem',
-            'edss:expanded disability status scale (edss) sensory',
-            'edss:expanded disability status scale (edss) bowel bladder',
-            'edss:expanded disability status scale (edss) visual',
-            'edss:expanded disability status scale (edss) mental'
+            'edss:expanded disability status scale - pyramidal',
+            'edss:expanded disability status scale - cerebellar',
+            'edss:expanded disability status scale - brain stem',
+            'edss:expanded disability status scale - sensory',
+            'edss:expanded disability status scale - bowel bladder',
+            'edss:expanded disability status scale - visual',
+            'edss:expanded disability status scale - mental'
         ];
         let scoreArr = [];
         for (let each of criteria) {
@@ -106,20 +106,20 @@ class EDSSCalculator extends Component {
                 scoreArr.push(parseFloat(document.querySelector(`input[name="${each}"]:checked`).value));
             }
         }
-        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseFloat(document.querySelector('input[name="edss:expanded disability status scale (edss) ambulation"]:checked').value)) });
+        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseFloat(document.querySelector('input[name="edss:expanded disability status scale - ambulation"]:checked').value)) });
     }
 
     _handleSubmit(ev) {
         ev.preventDefault();
         const criteria = [
-            'edss:expanded disability status scale (edss) pyramidal',
-            'edss:expanded disability status scale (edss) cerebellar',
-            'edss:expanded disability status scale (edss) brain stem',
-            'edss:expanded disability status scale (edss) sensory',
-            'edss:expanded disability status scale (edss) bowel bladder',
-            'edss:expanded disability status scale (edss) visual',
-            'edss:expanded disability status scale (edss) mental',
-            'edss:expanded disability status scale (edss) ambulation',
+            'edss:expanded disability status scale - pyramidal',
+            'edss:expanded disability status scale - cerebellar',
+            'edss:expanded disability status scale - brain stem',
+            'edss:expanded disability status scale - sensory',
+            'edss:expanded disability status scale - bowel bladder',
+            'edss:expanded disability status scale - visual',
+            'edss:expanded disability status scale - mental',
+            'edss:expanded disability status scale - ambulation',
         ];
         const add = {};
         const update = {};
@@ -176,14 +176,14 @@ class EDSSCalculator extends Component {
         const range_mental = rangeGen(6);
         const range_ambulation = rangeGen(13);
         const criteria = [
-            { name: 'Pyramidal', idname: 'edss:expanded disability status scale (edss) pyramidal', range: range_pyramidal },
-            { name: 'Cerebellar', idname: 'edss:expanded disability status scale (edss) cerebellar', range: range_cerebellar },
-            { name: 'Brain stem', idname: 'edss:expanded disability status scale (edss) brain stem', range: range_brainstem },
-            { name: 'Sensory', idname: 'edss:expanded disability status scale (edss) sensory', range: range_sensory },
-            { name: 'Bowel bladder', idname: 'edss:expanded disability status scale (edss) bowel bladder', range: range_bowelbladder },
-            { name: 'Visual', idname: 'edss:expanded disability status scale (edss) visual', range: range_visual },
-            { name: 'Mental', idname: 'edss:expanded disability status scale (edss) mental', range: range_mental },
-            { name: 'Ambulation', idname: 'edss:expanded disability status scale (edss) ambulation', range: range_ambulation }
+            { name: 'Pyramidal', idname: 'edss:expanded disability status scale - pyramidal', range: range_pyramidal },
+            { name: 'Cerebellar', idname: 'edss:expanded disability status scale - cerebellar', range: range_cerebellar },
+            { name: 'Brain stem', idname: 'edss:expanded disability status scale - brain stem', range: range_brainstem },
+            { name: 'Sensory', idname: 'edss:expanded disability status scale - sensory', range: range_sensory },
+            { name: 'Bowel bladder', idname: 'edss:expanded disability status scale - bowel bladder', range: range_bowelbladder },
+            { name: 'Visual', idname: 'edss:expanded disability status scale - visual', range: range_visual },
+            { name: 'Mental', idname: 'edss:expanded disability status scale - mental', range: range_mental },
+            { name: 'Ambulation', idname: 'edss:expanded disability status scale - ambulation', range: range_ambulation }
         ];
 
         if (visits === undefined)
