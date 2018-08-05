@@ -54,7 +54,7 @@ export class PatientChart extends Component {
 class Test extends PureComponent {
     render() {
         const { data, typedict, patientId } = this.props;
-        const date = new Date(parseInt(data.expectedOccurDate, 10)).toDateString();
+        const date = data.actualOccurredDate || data.expectedOccurDate ? new Date(parseInt(data.actualOccurredDate || data.expectedOccurDate, 10)).toDateString() : '';
         return (
             <tr>
                 <td><EditButton to={`/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
@@ -83,6 +83,7 @@ class Medication extends PureComponent {
                 <td><EditButton to={`/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
+                <td>{data.terminatedDate ? new Date(parseInt(data.terminatedDate, 10)).toDateString() : ''}</td>
                 <td>{data.dose ? `${data.dose} ${data.unit}` : ''}</td>
                 <td>{data.form ? data.form : ''}</td>
                 <td>{data.times && data.intervalUnit ? `${data.times} times/${data.intervalUnit}` : ''}</td>
@@ -366,7 +367,7 @@ class OneVisit extends Component {
                         <div className={style.visitWrapper}>
                             <table className={style.editableTable}>
                                 <thead>
-                                    <tr><th></th><th>Treatment</th><th>Start date</th><th>Dose</th><th>Form</th><th>Frequency</th><th>#interruptions</th><th></th></tr>
+                                    <tr><th></th><th>Treatment</th><th>Start date</th><th>End date</th><th>Dose</th><th>Form</th><th>Frequency</th><th>#interruptions</th><th></th></tr>
                                 </thead>
                                 <tbody>
                                     {this.props.data.treatments
