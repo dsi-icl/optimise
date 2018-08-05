@@ -10,15 +10,28 @@ export default class ErrorMessage extends PureComponent {
         store.dispatch(clearError());
     }
 
+    inceptError(error) {
+        if (!error)
+            return null;
+        let compile = '';
+        if (typeof error === 'string')
+            compile = error;
+        if (typeof error === 'object' && (error.error || error.data))
+            compile += ` ${this.inceptError(error.error || error.data)}`;
+        return compile;
+    }
+
     render() {
         const { error } = this.props;
-        if (error.error) {
+        let compile = this.inceptError(error);
+        if (compile) {
             return (
                 <div className={style.errorMessage}>
                     <div className={style.errorMessageDialogBox}>
-                        <span><b>OOPS!</b></span> <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span>
-                        Seems like you have encountered an error! <br /><br />
-                        Message: {error.error}
+                        <span><b>OOPS!</b></span> <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span><br /><br />
+                        It seems you have encountered an error! <br />
+                        Hopefully the following error message can help:<br /><br />
+                        <div>{compile}</div>
                     </div>
                 </div>
             );

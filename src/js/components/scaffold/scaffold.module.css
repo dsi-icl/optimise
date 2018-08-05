@@ -121,20 +121,30 @@
     position: absolute;
     background-color: rgb(255, 80, 80);
     padding: 1.5em;
-    height: 20%;
-    min-height: 200px;
-    width: 30%;
+    width: 40%;
     top: 30%;
     left: 35%;
     color: white;
 }
 
+.errorMessageDialogBox > span:first-of-type {
+    font-size: 2em;
+    line-height: 1em;
+}
+
+.errorMessageDialogBox > div {
+    background-color: rgb(255, 145, 145);
+    padding: 1em;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
 .cancelButton {
-    font-size: 2rem;
+    font-size: 1.3em;
     position: absolute;
     font-weight: bold;
-    right: 1rem;
-    top: 0.5rem;
+    right: 1em;
+    top: 1em;
 }
 
 .cancelButton:hover {
