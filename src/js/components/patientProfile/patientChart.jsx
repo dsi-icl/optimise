@@ -225,7 +225,7 @@ class OneVisit extends Component {
                 className={style.historyVisit}
                 bubbleStyle={{ borderColor: 'transparent' }}>
 
-                <a className={style.visitAnchors} id={`visit/${this.props.visitId}`} >visit/${this.props.visitId}</a>
+                <a href={`visit/${this.props.visitId}`} className={style.visitAnchors} id={`visit/${this.props.visitId}`} >visit/${this.props.visitId}</a>
                 {this.props.visitType === 1 ? (
                     <>
                         <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}/vitals`} className={style.visitEditButton}>

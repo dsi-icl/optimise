@@ -1,3 +1,5 @@
+import { addError } from './error';
+import store from '../store';
 import actionTypes from './listOfActions';
 import { getPatientProfileById, getPatientProfileByIdRequest } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
@@ -23,6 +25,6 @@ export const createPatientCall = (body) => dispatch => (
             return apiHelper('/patientPii/', { method: 'POST', body: JSON.stringify(body.PIIData) });
         })
         .then(() => { dispatch(getPatientProfileById(body.patientId)); })
-        .catch(err => console.error(err))
+        .catch(err => store.dispatch(addError({ error: err })))
 
 );

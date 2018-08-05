@@ -9,8 +9,7 @@ key must be present and unique (and generated from url id) so component remounts
 also need to pass an onChange handler from parent to change the parent's state */
 export class MeddraPicker extends Component {
 
-    onChange = (value) => {
-        console.log(value);
+    onChange = () => {
         this.props.onChange(/* */);
     }
 
