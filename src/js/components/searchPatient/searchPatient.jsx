@@ -68,7 +68,7 @@ export default class SearchPatientsById extends Component {
                 <div className={style.ariane}>
                     <h2>Patient Search</h2>
                     <div className={style.profileActions}>
-                        <Link title='New visit' to={`/createPatient`} ><Icon symbol='user' /><span>Add a new patient</span></Link>
+                        <Link title='New visit' to={'/createPatient'} ><Icon symbol='user' /><span>Add a new patient</span></Link>
                     </div>
                 </div>
                 <div className={style.panel}>

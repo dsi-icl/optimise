@@ -435,7 +435,7 @@ export class Charts extends Component {
                 events: !!nextProps.historyFilter.events,
                 visits: !!nextProps.historyFilter.visits
             }
-        }
+        };
     }
 
     _handleFilterSelection = (filter) => {
