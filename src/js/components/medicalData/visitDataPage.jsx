@@ -81,7 +81,7 @@ export class VisitData extends Component {
         });
         const { params } = this.props.match;
         if (checkIfObjIsEmpty(update, add)) {
-            store.dispatch(addError({ error: 'Clicking save does nothing because none of the data seems to have changed!' }));
+            // store.dispatch(addError({ error: 'Clicking save does nothing because none of the data seems to have changed!' }));
             return;
         }
         const body = { data: { visitId: params.visitId, update, add }, type: 'visit', patientId: params.patientId };

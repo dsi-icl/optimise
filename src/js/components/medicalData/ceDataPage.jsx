@@ -82,7 +82,7 @@ export class CeData extends Component {
         });
         const { params } = this.props.match;
         if (checkIfObjIsEmpty(update, add)) {
-            store.dispatch(addError({ error: 'Clicking save does nothing because none of the data seems to have changed!' }));
+            // store.dispatch(addError({ error: 'Clicking save does nothing because none of the data seems to have changed!' }));
             return;
         }
         const body = { data: { clinicalEventId: params.ceId, update, add }, type: 'clinicalEvent', patientId: params.patientId };
