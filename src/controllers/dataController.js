@@ -170,7 +170,7 @@ class DataController {
                                         }
                                         break;
                                     case 3: //'C':
-                                        if (inputValue !== '' && result[i][0]['permittedValues'] !== null && !(result[i][0]['permittedValues'].split(',').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
+                                        if (inputValue !== '' && inputValue !== 'unselected' && result[i][0]['permittedValues'] !== null && !(result[i][0]['permittedValues'].split(',').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
                                             res.status(400).json(ErrorHelper(`${fieldId}${message.dataMessage.CHARFIELD}${result[i][0]['permittedValues']}`));
                                             return;
                                         }
