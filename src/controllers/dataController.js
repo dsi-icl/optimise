@@ -183,7 +183,7 @@ class DataController {
                                             return;
                                         }
                                         break;
-                                    case 'N':
+                                    case 'F':
                                         if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
                                             res.status(400).json(ErrorHelper(`${message.dataMessage.NUMBERFIELD}${fieldId}`));
                                             return;
