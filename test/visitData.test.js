@@ -82,7 +82,7 @@ describe('Creating VISIT data', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(`${message.dataMessage.NUMBERFIELD}1`);
+            expect(res.body.error).toBe(`${message.dataMessage.NUMBERFIELD}Systolic Blood Pressure`);
         }));
 
 

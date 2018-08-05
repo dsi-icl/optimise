@@ -140,7 +140,7 @@ describe('Creating CE data', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(`${message.userError.INVALIDDATE} at field 17`);
+            expect(res.body.error).toBe(`${message.userError.INVALIDDATE} at field Date of discharge`);
         }));
 
     test('Request creation with wrong none ISO date format', () => user
@@ -150,7 +150,7 @@ describe('Creating CE data', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(`${message.userError.INVALIDDATE} at field 17`);
+            expect(res.body.error).toBe(`${message.userError.INVALIDDATE} at field Date of discharge`);
         }));
 
     test('Request creation with correct ISO date format', () => user
@@ -172,7 +172,7 @@ describe('Creating CE data', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(`${message.userError.INVALIDDATE} at field 17`);
+            expect(res.body.error).toBe(`${message.userError.INVALIDDATE} at field Date of discharge`);
         }));
 
     test('Request update with correct ISO date format', () => user

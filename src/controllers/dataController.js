@@ -60,7 +60,7 @@ class DataController {
     }
 
     _getField(table, id) {
-        return getEntry(table, { id: id }, { id: 'id', type: 'type', permittedValues: 'permittedValues', referenceType: 'referenceType' });
+        return getEntry(table, { id: id }, { id: 'id', definition: 'definition', type: 'type', permittedValues: 'permittedValues', referenceType: 'referenceType' });
     }
 
     _checkField(options, entries) {
@@ -159,31 +159,32 @@ class DataController {
                             if (result[i].length === 1) {
                                 let addOrUpdate = (entries.hasOwnProperty('updates') && i < entries.updates.length) ? 'update' : 'add';
                                 let fieldId = result[i][0].id;
+                                let fieldDefinition = result[i][0].definition;
                                 let fieldType = result[i][0].type;
                                 let inputValue = req.body[addOrUpdate][fieldId];
                                 let time;
                                 switch (fieldType) {
                                     case 5: //'B':
                                         if (inputValue !== '' && !(inputValue === true || inputValue === false || inputValue === 1 || inputValue === 0 || inputValue === '1' || inputValue === '0' || inputValue.toUpperCase() === 'YES' || inputValue.toUpperCase() === 'NO')) {
-                                            res.status(400).json(ErrorHelper(`${message.dataMessage.BOOLEANFIELD}${fieldId}`));
+                                            res.status(400).json(ErrorHelper(`${message.dataMessage.BOOLEANFIELD}${fieldDefinition}`));
                                             return;
                                         }
                                         break;
                                     case 3: //'C':
                                         if (inputValue !== '' && inputValue !== 'unselected' && result[i][0]['permittedValues'] !== null && !(result[i][0]['permittedValues'].split(',').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
-                                            res.status(400).json(ErrorHelper(`${fieldId}${message.dataMessage.CHARFIELD}${result[i][0]['permittedValues']}`));
+                                            res.status(400).json(ErrorHelper(`${fieldDefinition}${message.dataMessage.CHARFIELD}${result[i][0]['permittedValues']}`));
                                             return;
                                         }
                                         break;
                                     case 1: //'I':
                                         if (inputValue !== '' && !(parseInt(inputValue) === parseFloat(inputValue))) {
-                                            res.status(400).json(ErrorHelper(`${message.dataMessage.INTEGERFIELD}${fieldId}`));
+                                            res.status(400).json(ErrorHelper(`${message.dataMessage.INTEGERFIELD}${fieldDefinition}`));
                                             return;
                                         }
                                         break;
                                     case 2: //'F':
                                         if (inputValue !== '' && !(parseFloat(inputValue).toString() === inputValue.toString())) {
-                                            res.status(400).json(ErrorHelper(`${message.dataMessage.NUMBERFIELD}${fieldId}`));
+                                            res.status(400).json(ErrorHelper(`${message.dataMessage.NUMBERFIELD}${fieldDefinition}`));
                                             return;
                                         }
                                         break;
@@ -191,7 +192,7 @@ class DataController {
                                         time = moment(inputValue, moment.ISO_8601);
                                         if (inputValue !== '' && !time.isValid()) {
                                             let msg = (time.invalidAt() === undefined || time.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[time.invalidAt()];
-                                            res.status(400).json(ErrorHelper(`${msg} at field ${fieldId}`));
+                                            res.status(400).json(ErrorHelper(`${msg} at field ${fieldDefinition}`));
                                             return;
                                         }
                                         break;
