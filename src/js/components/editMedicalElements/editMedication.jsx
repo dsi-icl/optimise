@@ -62,7 +62,7 @@ export default class EditMed extends Component {
         }
         const treatmentsFiltered = treatments.filter(el => el.id === parseInt(params.elementId));
         if (treatmentsFiltered.length !== 1) {
-            return <div> Cannot find your treatment! check your ID! </div>;
+            return <div>We cannot find this treatment</div>;
         }
         const treatment = treatmentsFiltered[0];
         return (

@@ -54,7 +54,7 @@ export default class EditTest extends Component {
         }
         const testsFiltered = tests.filter(el => el.id === parseInt(params.elementId));
         if (testsFiltered.length !== 1) {
-            return <div> Cannot find your treatment! check your ID! </div>;
+            return <div> We cannot find this test!</div>;
         }
 
         const test = testsFiltered[0];

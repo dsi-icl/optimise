@@ -27,7 +27,7 @@ export default class EditCommunication extends Component {
         const signsFieldsHash = signsFields.reduce((a, el) => { a[el.id] = el; return a; }, {});
         visits = visits.filter(el => el.id === parseInt(params.visitId));
         if (visits.length !== 1) {
-            return <div>Cannot find your visit!</div>;
+            return <div>We cannot find this communication!</div>;
         }
         const edssHash = visitFields.filter(el => /^edss:(.*)/.test(el.idname)).reduce((a, el) => { a[el.id] = el; return a; }, {});
         const VSBlock = formatVS(visits[0].data || [], VSFields_Hash[0]);

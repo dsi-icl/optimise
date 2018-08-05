@@ -54,7 +54,7 @@ export default class EditCE extends Component {
         }
         const CEsFiltered = CEs.filter(el => el.id === parseInt(params.elementId));
         if (CEsFiltered.length !== 1) {
-            return <div> Cannot find your treatment! check your ID! </div>;
+            return <div>We cannot find this clinical event! </div>;
         }
         const CE = CEsFiltered[0];
         return (

@@ -2,7 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import style from './admin.module.css';
-import { changePasswordAPICall, deleteUserAPICall} from '../../redux/actions/admin';
+import { changePasswordAPICall, deleteUserAPICall } from '../../redux/actions/admin';
 import { addAlert } from '../../redux/actions/alert';
 import store from '../../redux/store';
 
@@ -15,7 +15,7 @@ export class UserDetail extends Component {
         if (!data.fetching) {
             const usersFiltered = data.result.filter(el => el.id === parseInt(userId, 10));
             if (usersFiltered.length === 0) {
-                return <>Cannot find your user</>;
+                return <>We cannot find this user!</>;
             } else {
                 return (
                     <>
@@ -24,9 +24,9 @@ export class UserDetail extends Component {
                         </div>
                         <div className={style.userDetailPanel}>
                             <div className={style.userDetail}>
-                                <UserInfo data={usersFiltered[0]}/>
-                                <ChangeUserPassword username={usersFiltered[0].username}/> <br/><br/>
-                                <DeleteUser username={usersFiltered[0].username}/>
+                                <UserInfo data={usersFiltered[0]} />
+                                <ChangeUserPassword username={usersFiltered[0].username} /> <br /><br />
+                                <DeleteUser username={usersFiltered[0].username} />
                             </div>
                         </div>
                     </>
@@ -43,9 +43,9 @@ class UserInfo extends PureComponent {
         const { data } = this.props;
         return (
             <div>
-                <label>Username: </label> {data.username} <br/>
-                <label>ID: </label> {data.id}  <br/>
-                <label>This user is {data.isAdmin ? 'an admin' : 'a standard user'}. </label> <br/>
+                <label>Username: </label> {data.username} <br />
+                <label>ID: </label> {data.id}  <br />
+                <label>This user is {data.isAdmin ? 'an admin' : 'a standard user'}. </label> <br />
             </div>
         );
     }
@@ -131,7 +131,7 @@ class DeleteUser extends Component {
 
     render() {
         if (this.state.clicked) {
-            return <Redirect to='/administration/users'/>;
+            return <Redirect to='/administration/users' />;
         } else {
             return (
                 <div>

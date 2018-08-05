@@ -32,7 +32,7 @@ export default class EditPerformanceMesaure extends Component {
             return state;
         const visitsFiltered = patientProfile.visits.filter(el => el.id === parseInt(params.visitId));
         if (visitsFiltered.length !== 1) {
-            store.dispatch(addError({ error: 'Cannot find your visit' }));
+            store.dispatch(addError({ error: 'We cannot find this visit!' }));
         }
         const data = visitsFiltered[0].data;
         if (data) {
@@ -80,7 +80,7 @@ export default class EditPerformanceMesaure extends Component {
             return null;
         const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
         if (visitFiltered.length !== 1) {
-            return <div> Cannot find your visit </div>;
+            return <div>We cannot find these EDSS scores!</div>;
         }
         if (!this.state.originalValues || !this.state.EDSSFields_Hash_reverse)
             return null;

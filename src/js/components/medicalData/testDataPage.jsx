@@ -104,7 +104,7 @@ export class TestData extends Component {
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.tests.filter(visit => visit.id === parseInt(params.testId, 10));
             if (visitsMatched.length !== 1) {
-                return <div>{'Cannot find your test!'}</div>;
+                return <div>{'We cannot find this test!'}</div>;
             }
             const { fields } = this.props;
             const relevantFields = fields.testFields.filter(el => (el.referenceType === visitsMatched[0].type));

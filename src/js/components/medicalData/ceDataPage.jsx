@@ -125,7 +125,7 @@ export class CeData extends Component {
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.clinicalEvents.filter(visit => visit.id === parseInt(params.ceId, 10));
             if (visitsMatched.length !== 1) {
-                return <div>{'Cannot find your clinical event!'}</div>;
+                return <div>{'We cannot find this clinical event!'}</div>;
             }
             const { fields } = this.props;
             const relevantFields = fields.clinicalEventFields.filter(el => (el.referenceType === visitsMatched[0].type));
