@@ -9,7 +9,8 @@ exports.seed = function (knex) {
                 { id: 3, value: 'C' },
                 { id: 4, value: 'T' },
                 { id: 5, value: 'B' },
-                { id: 6, value: 'BLOB' }
+                { id: 6, value: 'D' },
+                { id: 7, value: 'BLOB' }
             ]);
         });
 };
