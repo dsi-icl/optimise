@@ -99,7 +99,7 @@ describe('Delete Clinical Event controller tests', () => {
     test('Request deletion with a standard user (should succeed)', () => user
         .delete('/clinicalEvents')
         .send({
-            ceId: 5
+            ceId: 6
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -120,7 +120,7 @@ describe('Delete Clinical Event controller tests', () => {
     test('Request deletion with bad body (should fail)', () => admin
         .delete('/clinicalEvents')
         .send({
-            'ce_-Id': 5
+            'ce_-Id': 6
         })
         .then(res => {
             expect(res.status).toBe(400);
