@@ -292,13 +292,13 @@ export function mappingFields(typeHash, references, originalValues) {
             switch (typeHash[content.type]) {
                 case 'B':
                     return (
-                        <div key={content.id} className={style.dataItem}>
+                        <div key={Math.random()} className={style.dataItem}>
                             <BooleanField reference={references[content.id].ref} name={content.definition} default={origVal && origVal === '1' ? true : false} /><br /><br />
                         </div>
                     );
                 case 'C':
                     return (
-                        <div key={content.id} className={style.dataItem}>
+                        <div key={Math.random()} className={style.dataItem}>
                             <label>{content.definition}</label>
                             <SelectField origVal={origVal ? origVal : null} reference={references[content.id].ref} choices={content.permittedValues.split(',')} /><br /><br />
                         </div>
@@ -307,14 +307,14 @@ export function mappingFields(typeHash, references, originalValues) {
                     dateSlot = origVal ? moment(origVal, moment.ISO_8601) : undefined;
                     dateSlot = dateSlot && dateSlot.isValid() ? dateSlot : undefined;
                     return (
-                        <div key={content.id} className={style.dataItem}>
+                        <div key={Math.random()} className={style.dataItem}>
                             <label>{content.definition}</label>
                             <PickDate startDate={dateSlot ? dateSlot : undefined} reference={references[content.id].ref} /><br /><br />
                         </div>
                     );
                 default:
                     return (
-                        <div key={content.id} className={style.dataItem}>
+                        <div key={Math.random()} className={style.dataItem}>
                             <label>{content.definition}</label>
                             <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
                         </div>

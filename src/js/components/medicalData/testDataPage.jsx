@@ -44,6 +44,8 @@ export class TestData extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         const { references, originalValues } = this;
         const update = {};
         const add = {};
@@ -86,7 +88,14 @@ export class TestData extends Component {
             return;
         }
         const body = { data: { testId: params.testId, update, add }, type: 'test', patientId: params.patientId };
-        store.dispatch(alterDataCall(body));
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(alterDataCall(body, () => {
+                this.originalValues = Object.assign({}, this.originalValues, add);
+            }));
+        });
     }
 
     render() {

@@ -126,11 +126,20 @@ class ImmunisationSection extends Component {
         });
     }
 
-    _handleSubmit() {
+    _handleSubmit(ev) {
+
+        ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
+
         if (this.state.newName === undefined || this.state.newName === null || this.state.newName === '') {
             store.dispatch(addError({ error: 'Vaccine name cannot be empty!' }));
             return;
         }
+
+        if (this.currenttlySumbitting === this.state.newName)
+            return;
+
         const data = this.props.data;
         const body = {
             patientId: data.patientId,
@@ -140,7 +149,15 @@ class ImmunisationSection extends Component {
                 immunisationDate: this.state.newDate.toISOString()
             }
         };
-        store.dispatch(createImmunisationAPICall(body));
+        this.setState({
+            newName: this.state.newName,
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(createImmunisationAPICall(body));
+            this.setState({
+                newName: ''
+            });
+        });
     }
 
     render() {
@@ -280,7 +297,12 @@ class Pregnancy extends Component {
         });
     }
 
-    _handleSubmit() {
+    _handleSubmit(ev) {
+
+        ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
+
         const data = this.props.data;
         const { noEndDate, newOutcome, newStartDate, newOutcomeDate, newMeddra } = this.state;
 
@@ -309,7 +331,16 @@ class Pregnancy extends Component {
                 outcomeDate: !noEndDate && newOutcomeDate ? newOutcomeDate.toISOString() : undefined
             }
         };
-        store.dispatch(createPregnancyAPICall(body));
+
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(createPregnancyAPICall(body));
+            this.setState({
+                addMore: false
+            });
+        });
     }
 
     render() {
