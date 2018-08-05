@@ -528,6 +528,7 @@ export class Charts extends Component {
                                     const baselineVisit = el.historyInd === 1 ? true : false;
                                     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                     const visitDate = new Date(parseInt(el.visitDate, 10));
+                                    const reasonForVisit = el.data.filter(el => el.field === 0);
                                     return <OneVisit visitData={el.data}
                                         patientId={this.props.match.params.patientId}
                                         availableFields={this.props.availableFields}
@@ -537,7 +538,7 @@ export class Charts extends Component {
                                         isMinor={new Date().getTime() - parseInt(DOB) < 568025136000}
                                         baselineVisit={baselineVisit}
                                         filter={this.state.filter}
-                                        title={el.type === 1 ? (baselineVisit ? `Baseline clinical visit (${el.historyInd}${suffix} visit)` : `Clinical visit (${el.historyInd}${suffix} visit)`) : 'Additional record'}
+                                        title={el.type === 1 ? (baselineVisit ? `Baseline visit (${el.historyInd}${suffix} visit)` : `${reasonForVisit ? reasonForVisit[0].value : 'Clinical'} visit (${el.historyInd}${suffix} visit)`) : 'Additional record'}
                                         subtitle={`${visitDate.toLocaleDateString('en-GB', dateOptions)}, ${visitDate.toLocaleTimeString()}`} />;
                                 }
                             )}
