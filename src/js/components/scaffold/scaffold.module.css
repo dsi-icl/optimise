@@ -140,7 +140,7 @@
 }
 
 .cancelButton {
-    font-size: 1.3em;
+    font-size: 1.5em;
     position: absolute;
     font-weight: bold;
     right: 1em;
@@ -154,16 +154,26 @@
 
 .alertMessageDialogBox {
     position: absolute;
-    background: linear-gradient(to top right, var(--color-shade-two), var(--color-shade-one));
-    padding: 1.5em;
-    height: 20%;
-    min-height: 200px;
-    width: 30%;
+    background-color: rgb(255, 187, 0);
+    padding: 1.5rem;
+    width: 40%;
     top: 30%;
     left: 35%;
     color: white;
 }
 
+.alertMessageDialogBox > span:first-of-type {
+    font-size: 2em;
+    line-height: 1em;
+}
+
+.alertMessageDialogBox button {
+    background-color: rgb(219, 143, 0);
+}
+
+.alertMessageDialogBox button:hover {
+    background-color: rgb(226, 151, 12);
+}
 
 .edssCalcBox {
     position: absolute;

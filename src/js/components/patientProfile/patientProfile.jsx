@@ -102,7 +102,7 @@ class ImmunisationSection extends Component {
     }
 
     _handleClickDelete(el) {
-        store.dispatch(addAlert({ alert: 'about deleting this immunisation record?', handler: this._deleteFunction(el.id) }));
+        store.dispatch(addAlert({ alert: 'Are you sure you want to delete this immunisation record?', handler: this._deleteFunction(el.id) }));
     }
 
     _deleteFunction(id) {
@@ -407,7 +407,7 @@ class DeletePatient extends Component {
     }
 
     _handleClickDelete() {
-        store.dispatch(addAlert({ alert: `about deleting patient ${this.props.data.patientId}?`, handler: this._deleteFunction }));
+        store.dispatch(addAlert({ alert: `Are you sure you want to delete patient ${this.props.data.patientId}?`, handler: this._deleteFunction }));
     }
 
     _deleteFunction() {
