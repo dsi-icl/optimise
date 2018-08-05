@@ -17,13 +17,13 @@ CeController.prototype.createCe = function (req, res) {
         typeof req.body.visitId === 'number' && typeof req.body.dateStartDate === 'string' && typeof req.body.type === 'number' && typeof req.body.meddra === 'number') {
         let momentStart = moment(req.body.dateStartDate, moment.ISO_8601);
         if (!momentStart.isValid()) {
-            let msg = (momentStart.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
+            let msg = (momentStart.invalidAt() === undefined || momentStart.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
         let momentEnd = moment(req.body.endDate, moment.ISO_8601);
         if (req.body.hasOwnProperty('endDate') && !momentEnd.isValid()) {
-            let msg = (momentEnd.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentEnd.invalidAt()];
+            let msg = (momentEnd.invalidAt() === undefined || momentEnd.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentEnd.invalidAt()];
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
@@ -62,7 +62,7 @@ CeController.prototype.updateCe = function (req, res) {
     let ce = Object.assign({}, req.body);
     let momentStart = moment(req.body.dateStartDate, moment.ISO_8601);
     if (req.body.hasOwnProperty('dateStartDate') && !momentStart.isValid()) {
-        let msg = (momentStart.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
+        let msg = (momentStart.invalidAt() === undefined || momentStart.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
         res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
     } else if (req.body.hasOwnProperty('dateStartDate')) {
@@ -70,7 +70,7 @@ CeController.prototype.updateCe = function (req, res) {
     }
     let momentEnd = moment(req.body.endDate, moment.ISO_8601);
     if (req.body.hasOwnProperty('endDate') && !momentEnd.isValid()) {
-        let msg = (momentEnd.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[momentEnd.invalidAt()];
+        let msg = (momentEnd.invalidAt() === undefined || momentEnd.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentEnd.invalidAt()];
         res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
     } else if (req.body.hasOwnProperty('endDate')) {
