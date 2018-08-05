@@ -769,7 +769,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"testID\": 1}"
+							"raw": "{\"testId\": 1}"
 						},
 						"url": {
 							"raw": "{{url}}/tests/",
