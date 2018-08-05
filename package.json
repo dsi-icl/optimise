@@ -36,7 +36,7 @@
     },
     "dependencies": {
         "compression": "1.7.3",
-        "optimise-core": "0.9.56"
+        "optimise-core": "0.9.57"
     },
     "devDependencies": {
         "@babel/core": "7.0.0-beta.46",
@@ -94,7 +94,7 @@
         "prop-types": "15.6.2",
         "raf": "3.4.0",
         "react": "16.4.2",
-        "react-calendar-timeline": "0.19.0",
+        "react-calendar-timeline": "0.18.2",
         "react-datepicker": "1.6.0",
         "react-dev-utils": "6.0.0-next.3e165448",
         "react-dom": "16.4.2",
