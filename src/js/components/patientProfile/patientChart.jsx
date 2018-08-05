@@ -7,6 +7,7 @@ import { edssAlgorithmFromProps } from '../EDSScalculator/calculator';
 import { PatientProfileSectionScaffold, PatientProfileTop, EditButton } from './sharedComponents';
 import { TimelineBox } from './timeline';
 import Helmet from '../scaffold/helmet';
+import { filterHistory } from '../../redux/actions/patientProfile';
 import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import Icon from '../icon';
@@ -405,29 +406,39 @@ class OneVisit extends Component {
     }
 }
 
-@connect(state => ({ data: state.patientProfile.data, availableFields: state.availableFields }))
+@connect(state => ({ data: state.patientProfile.data, historyFilter: state.patientProfile.historyFilter, availableFields: state.availableFields }))
 export class Charts extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             filter: {
-                tests: false,
-                treatments: false,
-                events: false,
-                visits: false
+                tests: !!props.historyFilter.tests,
+                treatments: !!props.historyFilter.treatments,
+                events: !!props.historyFilter.events,
+                visits: !!props.historyFilter.visits
             }
         };
         this._handleFilterSelection = this._handleFilterSelection.bind(this);
         this._sortVisits = this._sortVisits.bind(this);
     }
 
-    _handleFilterSelection = (filter) => {
-        this.setState({
+    static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+            ...prevState,
             filter: {
-                ...this.state.filter,
-                [filter]: !this.state.filter[filter]
+                tests: !!nextProps.historyFilter.tests,
+                treatments: !!nextProps.historyFilter.treatments,
+                events: !!nextProps.historyFilter.events,
+                visits: !!nextProps.historyFilter.visits
             }
-        });
+        }
+    }
+
+    _handleFilterSelection = (filter) => {
+        store.dispatch(filterHistory({
+            ...this.state.filter,
+            [filter]: !this.state.filter[filter]
+        }));
     }
 
     _sortVisits = (visitList) => {

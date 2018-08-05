@@ -11,7 +11,8 @@ export default {
     patientProfile: {
         fetching: true,
         data: {},
-        currentPatient: null
+        currentPatient: null,
+        historyFilter: {}
     },
     availableFields: {
         fetching: true,
