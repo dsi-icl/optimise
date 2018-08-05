@@ -59,7 +59,7 @@ export const testTitle = (duration) => (
 
 const oneTest = (test, typeTable) => {
     const name = typeTable[test.type];
-    const date = new Date(parseInt(test.expectedOccurDate)).toDateString();
+    const date = test.actualOccurredDate || test.expectedOccurDate ? new Date(parseInt(test.actualOccurredDate || test.expectedOccurDate)).toDateString() : '';
     return `- ${name}: ${date}`;
 };
 

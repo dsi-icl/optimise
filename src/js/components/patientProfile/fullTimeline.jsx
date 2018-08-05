@@ -158,14 +158,16 @@ export default class FullTimeline extends Component {
             });
         if (props.data.tests)
             props.data.tests.forEach(t => {
+                if (maxTimeStart.valueOf() > moment(t.actualOccurredDate, 'x').valueOf())
+                    maxTimeStart = moment(t.actualOccurredDate, 'x').toDate();
                 if (maxTimeStart.valueOf() > moment(t.expectedOccurDate, 'x').valueOf())
                     maxTimeStart = moment(t.expectedOccurDate, 'x').toDate();
                 items.push({
                     id: `te_${t.id}`,
                     group: 3,
                     title: props.availableFields.testTypes_Hash[0][t.type],
-                    start: moment(t.expectedOccurDate, 'x').valueOf(),
-                    end: moment(t.expectedOccurDate, 'x').add(1, 'day').valueOf(),
+                    start: moment(t.actualOccurredDate || t.expectedOccurDate, 'x').valueOf(),
+                    end: moment(t.actualOccurredDate || t.expectedOccurDate, 'x').add(1, 'day').valueOf(),
                     canMove: false,
                     canResize: false,
                     className: style.timelineTestItem,
