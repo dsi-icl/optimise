@@ -149,9 +149,12 @@ function createPatient(state = initialState.createPatient, action) {
 function patientProfile(state = initialState.patientProfile, action) {
     switch (action.type) {
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_REQUEST:
-            return { ...state, fetching: true, data: {} };
+            if (state.currentPatient === action.payload)
+                return state;
+            else
+                return { ...state, fetching: true, data: {} };
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_SUCCESS:
-            return { ...state, fetching: false, data: action.payload, currentPatient: action.payload.patientId, historyFilter: state.currentPatient !== action.payload.patientId ? {} : state.historyFilter };
+            return { ...state, fetching: false, data: action.payload, currentPatient: action.payload.patientId, historyFilter: state.currentPatient !== action.payload.patientId ? {} : state.historyFilter, lastSuccess: (new Date()).getTime() };
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_FAILURE:
             return { ...state, fetching: true, data: { patientId: null } };
         case actionTypes.patientProfile.HISTORY_FILTER:
