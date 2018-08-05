@@ -75,10 +75,22 @@ describe('Creating VISIT data', () => {
             expect(res.body.error).toBe(message.dataMessage.FIELDNOTFOUND);
         }));
 
-    test('Request creation succesfull', () => user
+    test('Request creation with wrong type', () => user
         .post('/data/visit')
         .send({ visitId: 1, add: { 1: 'YES' } })
         .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(`${message.dataMessage.NUMBERFIELD}1`);
+        }));
+
+
+    test('Request creation succesfull', () => user
+        .post('/data/visit')
+        .send({ visitId: 1, add: { 1: 23 } })
+        .then(res => {
+            console.log(res.error);
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.success).toBeDefined();
@@ -89,7 +101,7 @@ describe('Creating VISIT data', () => {
 
     test('Request update succesfull', () => admin
         .post('/data/visit')
-        .send({ visitId: 1, update: { 1: 'NO' } })
+        .send({ visitId: 1, update: { 1: 41 } })
         .then(res => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
