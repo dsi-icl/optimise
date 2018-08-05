@@ -50,22 +50,13 @@ class EDSSCalculator extends Component {
             store.dispatch(addError({ error: 'Cannot find your visit' }));
             this.setState({ redirect: true });
         }
-        const ambulationID = this.EDSSFields_Hash_reverse['edss:expanded disability status scale - ambulation'];
         const data = visitsFiltered[0].data;
-        let orignalValuesWithoutAmbulation = [];
-        let ambulation;
         if (data) {
             this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseFloat(el.value); return a; }, {});
-            const tmpValues = { ...this.originalValues };
-            if (typeof tmpValues[ambulationID] !== undefined) {
-                ambulation = parseFloat(tmpValues[ambulationID]);
-                delete tmpValues[ambulationID];
-            }
-            orignalValuesWithoutAmbulation = Object.values(tmpValues);
+            this.setState({ autoCalculatedScore: edssAlgorithmFromProps(EDSSFields, data) });
         } else {
             this.originalValues = {};
         }
-        this.setState({ autoCalculatedScore: edssAlgorithm(orignalValuesWithoutAmbulation, ambulation) });
         this.forceUpdate();
     }
 
@@ -235,9 +226,9 @@ class EDSSCalculator extends Component {
                             )) : null}
                         </div>
                         <br /><br />
-                        <label htmlFor='calcSocre'>Calculated score (automatically generated): </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
+                        <label htmlFor='calcSocre'>Computed total score (automatically generated): </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
                         <br /><br />
-                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated score (entered by user): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
+                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinican): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                         <br /><br />
                         <button type='submit'>Save</button>
                     </form>
@@ -247,6 +238,20 @@ class EDSSCalculator extends Component {
     }
 }
 
+export function edssAlgorithmFromProps(EDSSFields, visitData) {
+
+    const EDSSFieldsIdArray = EDSSFields.map(el => el.id);
+    const EDSSFieldsByName = EDSSFields.reduce((a, el) => ({ ...a, [el.idname]: el.id }), {});
+    const estimatedTotalID = EDSSFieldsByName['edss:expanded disability status scale - estimated total'];
+    const ambulationID = EDSSFieldsByName['edss:expanded disability status scale - ambulation'];
+
+    let EDSSValues = visitData.filter(el => EDSSFieldsIdArray.includes(el.field)).reduce((a, el) => ({ ...a, [el.field]: parseFloat(el.value) }), {});
+    let ambulationScore = parseFloat(EDSSValues[ambulationID]) || 0;
+    delete EDSSValues[ambulationID];
+    delete EDSSValues[estimatedTotalID];
+
+    return edssAlgorithm(Object.values(EDSSValues), ambulationScore);
+}
 
 /* FSArray would be [1,1,2,0,6] etc; ambulation is separated because it's separate in the calculation */
 function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore) {
