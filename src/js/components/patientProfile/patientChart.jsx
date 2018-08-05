@@ -26,6 +26,9 @@ export class PatientChart extends Component {
     }
 
     render() {
+
+        if (!this.props.data.visits)
+            return null;
         return (
             <>
                 <div className={style.ariane}>
@@ -37,7 +40,7 @@ export class PatientChart extends Component {
                     {this.props.fetching ? <div><Icon symbol='loading' /></div> :
                         <>
                             <span className={this.props.data.consent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
-                            <TimelineBox />
+                            {this.props.data.visits.length > 0 ? <TimelineBox /> : null}
                             <Charts match={this.props.match} />
                         </>
                     }
@@ -548,10 +551,7 @@ export class Charts extends Component {
                             )}
                         </Timeline>
                     ) : (
-                        <>
-                            <br /><br />
-                            <span>This patient currently has no visits nor baseline data. Please add a visit by clicking the button above. This will automatically count as the baseline visit / data.</span>
-                        </>
+                        <span>This patient currently has no visits nor baseline data. Please add a visit by clicking the button above. This will automatically count as the baseline visit / data.</span>
                     )
                 }
             </PatientProfileSectionScaffold>
