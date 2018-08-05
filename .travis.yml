@@ -64,6 +64,11 @@ jobs:
     - stage: precache
       script: true
 
+addons:
+  browserstack:
+    username: "$BROWSER_STACK_USERNAME"
+    access_key: "$BROWSER_STACK_KEY"
+
 #notifications:
 #  email: false
 #  on_success: change
