@@ -141,7 +141,7 @@ class UpdateCEEntry extends Component {
         const { id, startDate, meddra, noEndDate, endDate } = this.state;
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}`,
+            to: `/patientProfile/${patientId}/edit/clinicalEvent/${id}`,
             data: {
                 id,
                 dateStartDate: startDate.toISOString(),

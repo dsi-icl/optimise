@@ -91,14 +91,14 @@ class UpdateMedEntry extends Component {
         super();
         this.state = {
             id: props.data.id,
-            drug: props.data.drug,
-            dose: props.data.dose,
-            unit: props.data.unit,
+            drug: props.data.drug ? props.data.drug : '',
+            dose: props.data.dose ? props.data.dose : '',
+            unit: props.data.unit ? props.data.unit : '',
             noEndDate: !props.data.terminatedDate,
             startDate: moment(parseInt(props.data.startDate)),
             terminatedDate: props.data.terminatedDate ? moment(parseInt(props.data.terminatedDate)) : undefined,
             terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : undefined,
-            form: props.data.form,
+            form: props.data.form ? props.data.form : 'unselected',
             times: props.data.times ? props.data.times : undefined,
             intervalUnit: props.data.intervalUnit || '',
             meddra: React.createRef()
@@ -141,7 +141,7 @@ class UpdateMedEntry extends Component {
         const { id, drug, dose, unit, form, times, intervalUnit } = this.state;
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}`,
+            to: `/patientProfile/${patientId}/edit/treatment/${id}`,
             data: {
                 id,
                 drug: parseInt(drug),

@@ -123,7 +123,7 @@ class UpdateTestEntry extends Component {
         const { id, startDate, actualOccurredDate } = this.state;
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}`,
+            to: `/patientProfile/${patientId}/edit/test/${id}`,
             data: {
                 id,
                 expectedOccurDate: startDate.toISOString(),
