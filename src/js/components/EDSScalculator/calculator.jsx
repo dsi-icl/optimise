@@ -47,7 +47,7 @@ class EDSSCalculator extends Component {
         const edssFieldsId = EDSSFields.map(el => el.id);
         const visitsFiltered = patientProfile.visits.filter(el => el.id === parseInt(params.visitId));
         if (visitsFiltered.length !== 1) {
-            store.dispatch(addError({ error: 'Cannot find your visit' }));
+            store.dispatch(addError({ error: 'We cannot find this visit!' }));
             this.setState({ redirect: true });
         }
         const data = visitsFiltered[0].data;
@@ -193,7 +193,7 @@ class EDSSCalculator extends Component {
 
         const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
         if (visitFiltered.length !== 1) {
-            return <div> Cannot find your visit </div>;
+            return <div>We cannot find this visit!</div>;
         }
 
         const currentEDSSObject = EDSSFields.reduce((a, el) => { a[el.id] = el; return a; }, {})[this.state.currentHoverMeasure];

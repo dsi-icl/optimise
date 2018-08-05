@@ -130,7 +130,7 @@ export class TreatmentInterruption extends Component {
                     </>
                 );
             } else {
-                return <div> Cannot find your treatment! Please check the id in your url. </div>;
+                return <div>We cannot find this treatment!</div>;
             }
         } else {
             return <div><Icon symbol='loading' /></div>;
