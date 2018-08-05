@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/utils';
-import { alterDataCall } from '../../redux/actions/addOrUpdateData';
-import { updateVisitAPICall } from '../../redux/actions/createVisit';
+import { deleteVisitAPICall, updateVisitAPICall } from '../../redux/actions/createVisit';
 import { PickDate } from '../createMedicalElements/datepicker';
-import style from '../createMedicalElements/medicalEvent.module.css';
+import style from './editMedicalElements.module.css';
+import store from '../../redux/store';
+import { addAlert } from '../../redux/actions/alert';
 
 @connect(state => ({
     patientId: state.patientProfile.data.id,
@@ -16,11 +17,14 @@ import style from '../createMedicalElements/medicalEvent.module.css';
 export default class EditVisit extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { wannaUpdate: false };
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
         this._handleKeyChange = this._handleKeyChange.bind(this);
         this._formatRequestBody = this._formatRequestBody.bind(this);
+        this._handleWannaUpdateClick = this._handleWannaUpdateClick.bind(this);
+        this._handleClick = this._handleClick.bind(this);
+        this._deleteFunction = this._deleteFunction.bind(this);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -30,11 +34,18 @@ export default class EditVisit extends Component {
         const reason = visitData.data.filter(el => el.field === 0);
         return {
             ...prevState,
+            wannaUpdate: false,
             visitId: nextProps.match.params.visitId,
             reasonForVisit: reason ? reason[0].value : 'unselected',
             startDate: moment(visitData.visitDate, 'x')
         };
     }
+
+    _handleWannaUpdateClick(ev) {
+        ev.preventDefault();
+        this.setState(oldState => ({ wannaUpdate: !oldState.wannaUpdate }));
+    }
+
 
     _handleDateChange(date) {
         this.setState({
@@ -96,8 +107,19 @@ export default class EditVisit extends Component {
         });
     }
 
+    _handleClick(ev) {
+        ev.preventDefault();
+        store.dispatch(addAlert({ alert: 'about deleting this visit?', handler: this._deleteFunction }));
+    }
+
+    _deleteFunction() {
+        const { params } = this.props.match;
+        const body = { patientId: params.patientId, data: { visitId: params.visitId }, to: `/patientProfile/${params.patientId}` };
+        store.dispatch(deleteVisitAPICall(body));
+    }
+
     render() {
-        const { startDate, reasonForVisit, error } = this.state;
+        const { startDate, reasonForVisit, error, wannaUpdate } = this.state;
         const { match: { params }, visits } = this.props;
 
         if (!visits)
@@ -109,21 +131,29 @@ export default class EditVisit extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
-                    <label htmlFor='academicConcerns'>Reason for the visit:</label><br />
-                    <select name='reasonForVisit'
-                        onChange={this._handleKeyChange}
-                        value={reasonForVisit}
-                        autoComplete='off'
-                    >
-                        <option value='unselected'></option>
-                        <option value='Routine'>Routine</option>
-                        <option value='Drug Monitoring'>Drug Monitoring</option>
-                        <option value='Relapse Assessment'>Relapse Assessment</option>
-                        <option value='Urgent'>Urgent</option>
-                    </select><br /><br />
-                    {error ? <><div className={style.error}>{error}</div><br /></> : null}
-                    <button onClick={this._handleSubmitClick} >Submit</button>
+                    {wannaUpdate ? (
+                        <>
+                            <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
+                            <label htmlFor='academicConcerns'>Reason for the visit:</label><br />
+                            <select name='reasonForVisit'
+                                onChange={this._handleKeyChange}
+                                value={reasonForVisit}
+                                autoComplete='off'
+                            >
+                                <option value='unselected'></option>
+                                <option value='Routine'>Routine</option>
+                                <option value='Drug Monitoring'>Drug Monitoring</option>
+                                <option value='Relapse Assessment'>Relapse Assessment</option>
+                                <option value='Urgent'>Urgent</option>
+                            </select><br /><br />
+                            {error ? <><div className={style.error}>{error}</div><br /></> : null}
+                            <button onClick={this._handleSubmitClick} >Submit</button><br /><br />
+                        </>
+                    ) : null}
+                    {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
+                        <><button onClick={this._handleWannaUpdateClick}>Change visit properties</button><br /><br /></>
+                    }
+                    <button onClick={this._handleClick} className={style.deleteButton}>Delete this visit</button>
                 </form>
             </>
         );
