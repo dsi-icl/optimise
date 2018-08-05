@@ -70,7 +70,7 @@ export default class EditCE extends Component {
                     }
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
                     <br /><br />
-                    Note: event type is not allowed to be changed. If you entered an event of the wrong type by error, you can delete the event and create a new one.
+                    Note: You cannot change the type of clinical event. If you created the wrong type of clinical event you can delete this event record and create a new one.
                 </form>
             </>
         );
