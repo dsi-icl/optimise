@@ -8,7 +8,7 @@ export class PickDate extends Component {
         super(props);
         this.state = {
             selected: props.startDate ? props.startDate : undefined
-        }
+        };
         this._handleDateChange = this._handleDateChange.bind(this);
     }
 

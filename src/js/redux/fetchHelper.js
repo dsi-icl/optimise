@@ -21,7 +21,7 @@ export function apiHelper(endpoint, options, blockError) {
                 status: res.status,
                 data: json
             })),
-            err => console.error(err))
+        err => console.error(err))
         .then(json => {
             if (json.status === 200) {
                 return json.data;
