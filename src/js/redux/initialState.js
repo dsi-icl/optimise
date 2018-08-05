@@ -68,6 +68,10 @@ export default {
             },
             {
                 'id': 6,
+                'value': 'D'
+            },
+            {
+                'id': 7,
                 'value': 'BLOB'
             }
         ],
@@ -78,7 +82,8 @@ export default {
                 3: 'C',
                 4: 'T',
                 5: 'B',
-                6: 'BLOB'
+                6: 'D',
+                7: 'BLOB'
             }
         ]
     },

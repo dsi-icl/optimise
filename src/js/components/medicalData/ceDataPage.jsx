@@ -79,6 +79,18 @@ export class CeData extends Component {
                     }
                 }
             }
+            if (type === 'D') {
+                const value = reference.current.value;
+                if (originalValues[fieldId] !== undefined) {
+                    if (originalValues[fieldId] !== value) {
+                        update[fieldId] = value;
+                    }
+                } else {
+                    if (value !== '') {
+                        add[fieldId] = value;
+                    }
+                }
+            }
         });
         const { params } = this.props.match;
         if (checkIfObjIsEmpty(update, add)) {
