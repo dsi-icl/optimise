@@ -186,4 +186,16 @@ describe('Creating CE data', () => {
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
         }));
+
+    test('Request reset of field', () => user
+        .post('/data/clinicalEvent')
+        .send({ clinicalEventId: 5, update: { 17: '' } })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.success).toBeDefined();
+            expect(res.body.message).toBeDefined();
+            expect(res.body.success).toBe(true);
+            expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+        }));
 });
