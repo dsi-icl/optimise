@@ -59,10 +59,10 @@ export class TreatmentInterruption extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        let meddra = undefined;
         const meddraFields = this.props.meddra.result.filter(el => el.name === this.meddraRef.current.value);
-        if (meddraFields.length === 0) {
-            this.setState({ error: true });
-            return;
+        if (meddraFields.length > 0) {
+            meddra = meddra[0].id;
         }
         const data = this.props.patientProfile.data;
         const body = {
@@ -72,7 +72,7 @@ export class TreatmentInterruption extends Component {
                 start_date: this.state.newStartDate.toISOString(),
                 end_date: this.state.noEndDate ? null : this.state.newEndDate.toISOString(),
                 reason: parseInt(this.reasonRef.current.value, 10),
-                meddra: meddraFields[0].id
+                meddra: meddra
             }
         };
         store.dispatch(createTreatmentInterruptionAPICall(body));
