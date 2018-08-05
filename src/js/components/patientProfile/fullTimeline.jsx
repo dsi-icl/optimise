@@ -105,6 +105,7 @@ export default class FullTimeline extends Component {
                     maxTimeStart = moment(t.startDate, 'x').toDate();
                 items.push({
                     id: `tr_${t.id}`,
+                    interruptions: t.interruptions,
                     group: 1,
                     title: `${props.availableFields.drugs_Hash[0][t.drug].name} (${props.availableFields.drugs_Hash[0][t.drug].module})`,
                     start: moment(t.startDate, 'x').valueOf(),
@@ -304,6 +305,48 @@ export default class FullTimeline extends Component {
                         }
                     </svg>
                 </div>
+            );
+        } else if (item.interruptions !== undefined) {
+
+            let overlays = [];
+            let unit = (timelineContext.visibleTimeEnd - timelineContext.visibleTimeStart);
+            let x1i = (parseFloat(item.start) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
+
+            item.interruptions.forEach(i => {
+                let x1 = (parseFloat(i.startDate) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
+                if (parseFloat(item.start) > timelineContext.visibleTimeStart)
+                    x1 = x1 - x1i;
+                let x2 = (parseFloat(i.endDate || moment().add(1, 'day').valueOf()) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
+                if (parseFloat(item.start) > timelineContext.visibleTimeStart)
+                    x2 = x2 - x1i;
+
+                let stripStart = x1 - 40;
+                let strips = [];
+                while (stripStart < x2) {
+                    strips.push(<line key={`${i.id}_${stripStart}`} x1={stripStart} y1={40} x2={stripStart + 40} y2={0} clipPath={`url(#${i.id}_mask)`} />);
+                    stripStart += 5;
+                }
+                overlays.push(
+                    <Fragment key={i.id}>
+                        <defs>
+                            <clipPath id={`${i.id}_mask`}>
+                                <rect x={x1} y={0} width={x2 - x1} height={40} />
+                            </clipPath>
+                        </defs>
+                        {strips}
+                    </Fragment>
+                );
+            });
+
+            return (
+                <>
+                    <div className={`${style.timelineBackground} ${item.className}`} style={{ width: timelineContext.timelineWidth }}>
+                        <svg height={40} width={timelineContext.timelineWidth}>
+                            {overlays}
+                        </svg>
+                    </div>
+                    <div className={style.timelineTextContent}>{item.title}</div>
+                </>
             );
         } else if (item.id === 'edss_plotter') {
             let unit = (timelineContext.visibleTimeEnd - timelineContext.visibleTimeStart);
