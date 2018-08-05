@@ -1,3 +1,4 @@
+import moment from 'moment';
 const DataCore = require('../core/data');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
@@ -164,6 +165,7 @@ class DataController {
                                 let fieldId = result[i][0].id;
                                 let fieldType = result[i][0].type;
                                 let inputValue = req.body[addOrUpdate][fieldId];
+                                let time;
                                 switch (fieldType) {
                                     case 'B':
                                         if (!(inputValue === 1 || inputValue === 0)) {
@@ -186,6 +188,14 @@ class DataController {
                                     case 'F':
                                         if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
                                             res.status(400).json(ErrorHelper(`${message.dataMessage.NUMBERFIELD}${fieldId}`));
+                                            return;
+                                        }
+                                        break;
+                                    case 'D':
+                                        time = moment(inputValue, moment.ISO_8601);
+                                        if (!time.isValid()) {
+                                            let msg = (time.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[time.invalidAt()];
+                                            res.status(400).json(ErrorHelper(`${msg}${fieldId}`));
                                             return;
                                         }
                                         break;
