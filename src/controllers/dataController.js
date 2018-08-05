@@ -164,7 +164,7 @@ class DataController {
                                 let time;
                                 switch (fieldType) {
                                     case 5: //'B':
-                                        if (inputValue !== '' && !(inputValue === true || inputValue === false || inputValue === 1 || inputValue === 0 || inputValue.toUpperCase() === 'YES' || inputValue.toUpperCase() === 'NO')) {
+                                        if (inputValue !== '' && !(inputValue === true || inputValue === false || inputValue === 1 || inputValue === 0 || inputValue === '1' || inputValue === '0' || inputValue.toUpperCase() === 'YES' || inputValue.toUpperCase() === 'NO')) {
                                             res.status(400).json(ErrorHelper(`${message.dataMessage.BOOLEANFIELD}${fieldId}`));
                                             return;
                                         }
