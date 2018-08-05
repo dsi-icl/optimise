@@ -109,7 +109,7 @@ export default class EditVisit extends Component {
 
     _handleClick(ev) {
         ev.preventDefault();
-        store.dispatch(addAlert({ alert: 'about deleting this visit?', handler: this._deleteFunction }));
+        store.dispatch(addAlert({ alert: 'Are you sure you want to delete this visit record?', handler: this._deleteFunction }));
     }
 
     _deleteFunction() {

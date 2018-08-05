@@ -36,7 +36,7 @@ export default class EditCE extends Component {
 
     _handleClick(ev) {
         ev.preventDefault();
-        store.dispatch(addAlert({ alert: 'about deleting this event?', handler: this._deleteFunction }));
+        store.dispatch(addAlert({ alert: 'Are you sure you want to delete this clinical event record?', handler: this._deleteFunction }));
     }
 
     _deleteFunction() {

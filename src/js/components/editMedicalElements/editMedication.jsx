@@ -37,7 +37,7 @@ export default class EditMed extends Component {
 
     _handleClick(ev) {
         ev.preventDefault();
-        store.dispatch(addAlert({ alert: 'about deleting this test?', handler: this._deleteFunction }));
+        store.dispatch(addAlert({ alert: 'Are you sure you want to delete this medication record?', handler: this._deleteFunction }));
     }
 
     _handleDateChange(date) {

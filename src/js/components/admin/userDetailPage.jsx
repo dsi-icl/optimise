@@ -121,7 +121,7 @@ class DeleteUser extends Component {
     }
 
     _handleClick() {
-        store.dispatch(addAlert({ alert: `about deleting user ${this.props.username}?`, handler: this._deleteFunction }));
+        store.dispatch(addAlert({ alert: `Are you sure you want to delete user ${this.props.username}?`, handler: this._deleteFunction }));
     }
 
     _deleteFunction() {
