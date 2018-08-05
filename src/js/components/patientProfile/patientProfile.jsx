@@ -285,7 +285,6 @@ class Pregnancy extends Component {
         const { noEndDate, newOutcome, newStartDate, newOutcomeDate, newMeddra } = this.state;
 
         let meddraField = null;
-        console.log(this.state);
         if (!noEndDate) {
 
             if (newOutcome === 0 || newOutcome === '0') {
@@ -321,7 +320,7 @@ class Pregnancy extends Component {
                     <PatientProfileSectionScaffold sectionName='Pregnancies' active={this.state.addMore}>
                         {!this.state.addMore ? (
                             <>
-                                {data.pregnancy.map((el, ind) =>
+                                {data.pregnancy.map((el) =>
                                     <div key={`${el.startDate}`} className={style.pregnancy}>
                                         <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
                                         {el.outcomeDate ? (
