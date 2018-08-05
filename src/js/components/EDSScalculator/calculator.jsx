@@ -255,6 +255,10 @@ export function edssAlgorithmFromProps(EDSSFields, visitData) {
 
 /* FSArray would be [1,1,2,0,6] etc; ambulation is separated because it's separate in the calculation */
 function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore) {
+
+    if (FSArrayWithoutAmbulation.length === 0)
+        return '';
+
     FSArrayWithoutAmbulation.sort((a, b) => b - a);
     const maxScore = FSArrayWithoutAmbulation[0] || 0;
     const secondMaxScore = FSArrayWithoutAmbulation[1] || 0;
