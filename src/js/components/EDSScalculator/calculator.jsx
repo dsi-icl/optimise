@@ -102,6 +102,8 @@ class EDSSCalculator extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         const criteria = [
             'edss:expanded disability status scale - pyramidal',
             'edss:expanded disability status scale - cerebellar',
@@ -139,7 +141,16 @@ class EDSSCalculator extends Component {
         }
 
         const body = { data: { add, update, visitId: this.props.match.params.visitId }, patientId: this.props.match.params.patientId, type: 'visit' };
-        store.dispatch(alterDataCall(body));
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(alterDataCall(body, () => {
+                this.setState({
+                    originalValues: Object.assign({}, this.state.originalValues, add)
+                });
+            }));
+        });
     }
 
     _hoverType(id, number) {

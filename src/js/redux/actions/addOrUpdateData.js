@@ -6,8 +6,9 @@ export const alterDataRequest = (body) => ({ type: actionTypes.data.ALTER_DATA_R
 export const alterDataSuccess = (body) => ({ type: actionTypes.data.ALTER_DATA_SUCCESS, payload: body });
 export const alterDataFailure = (body) => ({ type: actionTypes.data.ALTER_DATA_FAILURE, payload: body });
 
-export const alterDataCall = (body) => dispatch => apiHelper(`/data/${body.type}`, { method: 'POST', body: JSON.stringify(body.data) })
+export const alterDataCall = (body, callback) => dispatch => apiHelper(`/data/${body.type}`, { method: 'POST', body: JSON.stringify(body.data) })
     .then(() => {
+        callback();
         dispatch(getPatientProfileById(body.patientId));
     })
     .catch(err => console.error(err));

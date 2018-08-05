@@ -34,16 +34,27 @@ function mapStateToProps(state) {
 export class CeData extends Component {
     constructor() {
         super();
-        this.state = {
-            data: null
-        };
+        this.state = {};
         this.references = {};
         this.originalValues = {};
         this._handleSubmit = this._handleSubmit.bind(this);
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (props.match.params.ceId === state.ceId)
+            return state;
+        return {
+            ...state,
+            ceId: props.match.params.ceId
+        };
+    }
+
     _handleSubmit(ev) {
+
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
+
         const { references, originalValues } = this;
         const update = {};
         const add = {};
@@ -98,7 +109,14 @@ export class CeData extends Component {
             return;
         }
         const body = { data: { clinicalEventId: params.ceId, update, add }, type: 'clinicalEvent', patientId: params.patientId };
-        store.dispatch(alterDataCall(body));
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(alterDataCall(body, () => {
+                this.originalValues = Object.assign({}, this.originalValues, add);
+            }));
+        });
     }
 
     render() {

@@ -45,6 +45,8 @@ export default class EditPerformanceMesaure extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
 
         const add = {};
         const update = {};
@@ -60,7 +62,16 @@ export default class EditPerformanceMesaure extends Component {
         }
 
         const body = { data: { add, update, visitId: this.props.match.params.visitId }, patientId: this.props.match.params.patientId, type: 'visit' };
-        store.dispatch(alterDataCall(body));
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(alterDataCall(body, () => {
+                this.setState({
+                    originalValues: Object.assign({}, this.state.originalValues, add)
+                });
+            }));
+        });
     }
 
     render() {
