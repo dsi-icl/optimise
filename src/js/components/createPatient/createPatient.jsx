@@ -115,7 +115,7 @@ export default class CreatePatient extends Component {    //get these props from
         const body = {
             patientData: patientData,
             demoData: demoData,
-            patientId: this.statealiasId,
+            patientId: this.state.aliasId,
             diagnosisData: diagnosisData,
             PIIData: PIIData
         };
