@@ -284,7 +284,7 @@ export default class FullTimeline extends Component {
             let severityRadius = item.severity === 'Mild' ? 5 : item.severity === 'Moderate' ? 10 : item.severity === 'Severe' ? 15 : 0;
 
             return (
-                <div className={`${style.timelineBackground} ${item.className}`} style={{ width: timelineContext.timelineWidth }}>
+                <div className={style.timelineBackground} style={{ width: timelineContext.timelineWidth }}>
                     <svg height={40} width={timelineContext.timelineWidth}>
                         {x2 - x1 > 5 ?
                             (
@@ -323,24 +323,29 @@ export default class FullTimeline extends Component {
                 let stripStart = x1 - 40;
                 let strips = [];
                 while (stripStart < x2) {
-                    strips.push(<line key={`${i.id}_${stripStart}`} x1={stripStart} y1={40} x2={stripStart + 40} y2={0} clipPath={`url(#${i.id}_mask)`} />);
+                    if (stripStart > -40 && stripStart < timelineContext.timelineWidth)
+                        strips.push(<line key={`${i.id}_${stripStart}`} x1={stripStart} y1={40} x2={stripStart + 40} y2={0} clipPath={`url(#${i.id}_mask)`} />);
                     stripStart += 5;
                 }
                 overlays.push(
                     <Fragment key={i.id}>
                         <defs>
                             <clipPath id={`${i.id}_mask`}>
-                                <rect x={x1} y={0} width={x2 - x1} height={40} />
+                                <rect x={x1} y={0} width={x2 - x1} height='100%' />
                             </clipPath>
                         </defs>
                         {strips}
                     </Fragment>
                 );
             });
-
+            if (parseFloat(item.start) > timelineContext.visibleTimeStart)
+                x1i = 0;
+            let x2i = (parseFloat(item.end) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
+            if (parseFloat(item.start) > timelineContext.visibleTimeStart)
+                x2i = x2i + ((timelineContext.visibleTimeStart - parseFloat(item.start)) * timelineContext.timelineWidth / unit);
             return (
                 <>
-                    <div className={`${style.timelineBackground} ${item.className}`} style={{ width: timelineContext.timelineWidth }}>
+                    <div className={style.timelineBackground} style={{ width: (x2i - x1i), maxWidth: timelineContext.timelineWidth }}>
                         <svg height={40} width={timelineContext.timelineWidth}>
                             {overlays}
                         </svg>

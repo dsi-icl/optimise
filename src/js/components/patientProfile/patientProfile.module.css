@@ -503,7 +503,12 @@ div.timelineCEBlack {
 }
 
 .timelineTreatementItem {
+    overflow: visible;
     background-color: rgb(255, 202, 27);
+}
+
+.timelineTreatementItem svg {
+    overflow: visible;
 }
 
 .timelineTreatementItem line {
