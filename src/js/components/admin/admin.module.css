@@ -126,7 +126,7 @@
 
 .packageName {
     display: inline-block;
-    padding: 0.2em 0.5em;
+    padding: 0.4em 0.5em;
     margin-top: -0.2em;
     background-color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 97%);
 }
