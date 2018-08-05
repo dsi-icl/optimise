@@ -1144,10 +1144,10 @@
                         "schema": {
                             "type": "object",
                             "required": [
-                                "testID"
+                                "testId"
                             ],
                             "properties": {
-                                "testID": {
+                                "testId": {
                                     "type": "integer"
                                 }
                             }

@@ -89,14 +89,12 @@ TestController.prototype.deleteTest = function (req, res) {
             return;
         });
     }
-    else {
-        if (!req.body.hasOwnProperty('testId')) {
-            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-            return;
-        } else {
-            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-            return;
-        }
+    else if (!req.body.hasOwnProperty('testId')) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return;
+    } else {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
     }
 };
 
