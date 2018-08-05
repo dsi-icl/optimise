@@ -140,7 +140,9 @@ class Symptom extends PureComponent {
         let value;
         switch (inputType[typedict[data.field].type]) {
             case 'B':
-                value = data.value === '1' ? 'Yes' : 'False';
+                if (data.value === '0')
+                    return null;
+                value = data.value === '1' ? 'Yes' : 'No';
                 break;
             case 'C':
                 if (data.value === 'unselected')
@@ -232,33 +234,35 @@ class OneVisit extends Component {
                             <span title='Edit visit date and reason' className={style.dataEdit}><Icon symbol='edit' /></span>
                         </NavLink><br />
                         <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : 'AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
-                        {VSValueArray.length > 0 ? (<div className={style.visitWrapper}>
-                            <table>
-                                <tbody>
-                                    {VSValueArray.length > 0 ?
-                                        (
-                                            <tr>
-                                                <td >{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
-                                                <td >{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
-                                            </tr>
-                                        ) : null}
-                                    {VSValueArray.length > 2 ?
-                                        (
-                                            <tr>
-                                                <td >{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
-                                                <td >{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
-                                            </tr>
-                                        ) : null}
-                                    {VSValueArray.length > 4 ?
-                                        (
-                                            <tr>
-                                                <td >{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
-                                                <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
-                                            </tr>
-                                        ) : null}
-                                </tbody>
-                            </table>
-                        </div>
+                        {VSValueArray.length > 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <tbody>
+                                        {VSValueArray.length > 0 ?
+                                            (
+                                                <tr>
+                                                    <td >{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
+                                                    <td >{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
+                                                </tr>
+                                            ) : null}
+                                        {VSValueArray.length > 2 ?
+                                            (
+                                                <tr>
+                                                    <td >{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
+                                                    <td >{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
+                                                </tr>
+                                            ) : null}
+                                        {VSValueArray.length > 4 ?
+                                            (
+                                                <tr>
+                                                    <td >{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
+                                                    <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
+                                                </tr>
+                                            ) : null}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
                         ) : null}
                         <NavLink to={`/patientProfile/${this.props.patientId}/data/visit/${this.props.visitId}/vitals`} activeClassName={style.activeNavLink}>
                             <button>Edit anthropometry{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit</button>
