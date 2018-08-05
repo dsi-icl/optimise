@@ -2,25 +2,38 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/utils';
-import { createVisitAPICall } from '../../redux/actions/createVisit';
-import { PickDate } from './datepicker';
-import style from './medicalEvent.module.css';
+import { alterDataCall } from '../../redux/actions/addOrUpdateData';
+import { updateVisitAPICall } from '../../redux/actions/createVisit';
+import { PickDate } from '../createMedicalElements/datepicker';
+import style from '../createMedicalElements/medicalEvent.module.css';
 
 @connect(state => ({
-    patientId: state.patientProfile.data.id
-}), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
-export class CreateVisit extends Component {
-    constructor() {
-        super();
-        this.state = {
-            startDate: moment(),
-            reasonForVisit: 'unselected',
-            error: false
-        };
+    patientId: state.patientProfile.data.id,
+    visits: state.patientProfile.data.visits
+}), dispatch => ({
+    updateVisit: body => dispatch(updateVisitAPICall(body))
+}))
+export default class EditVisit extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
         this._handleKeyChange = this._handleKeyChange.bind(this);
         this._formatRequestBody = this._formatRequestBody.bind(this);
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (!nextProps.visits || nextProps.match.params.visitId === prevState.visitId)
+            return prevState;
+        const visitData = nextProps.visits.filter(el => el.id === parseInt(nextProps.match.params.visitId))[0];
+        const reason = visitData.data.filter(el => el.field === 0);
+        return {
+            ...prevState,
+            visitId: nextProps.match.params.visitId,
+            reasonForVisit: reason ? reason[0].value : 'unselected',
+            startDate: moment(visitData.visitDate, 'x')
+        };
     }
 
     _handleDateChange(date) {
@@ -36,45 +49,63 @@ export class CreateVisit extends Component {
     }
 
     _formatRequestBody() {
+        const { params } = this.props.match;
         const { startDate, reasonForVisit } = this.state;
 
         if (reasonForVisit === 'unselected') {
             return 'the reason for the visit';
         }
 
+        if (!startDate || !startDate.isValid() || startDate === '') {
+            return 'the date of the visit';
+        }
+
         return {
             visitData: {
-                patientId: this.props.patientId,
+                id: parseInt(params.visitId),
                 visitDate: startDate.toISOString()
             },
             VSData: {
-                add: {
-                    0: reasonForVisit.trim()
+                visitId: params.visitId,
+                update: {
+                    0: this.state.reasonForVisit
                 }
             },
+            type: 'visit',
             patientId: this.props.match.params.patientId
         };
     }
 
     _handleSubmitClick(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
+
         let error = this._formatRequestBody();
         if (typeof error === 'string') {
             this.setState({ error: `Please enter ${error}` });
             return;
         }
-        const requestBody = this._formatRequestBody();
-        requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
-        this.props.createVisit(requestBody);
+
+        const body = this._formatRequestBody();
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            this.props.updateVisit(body);
+        });
     }
 
     render() {
         const { startDate, reasonForVisit, error } = this.state;
-        const { params } = this.props.match;
+        const { match: { params }, visits } = this.props;
+
+        if (!visits)
+            return null;
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>Create a new Visit</h2>
+                    <h2>Edit visit</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
@@ -91,8 +122,8 @@ export class CreateVisit extends Component {
                         <option value='Relapse Assessment'>Relapse Assessment</option>
                         <option value='Urgent'>Urgent</option>
                     </select><br /><br />
+                    {error ? <><div className={style.error}>{error}</div><br /></> : null}
                     <button onClick={this._handleSubmitClick} >Submit</button>
-                    {error ? <><br /><br /><div className={style.error}>{error}</div></> : null}
                 </form>
             </>
         );

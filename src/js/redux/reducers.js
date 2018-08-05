@@ -85,11 +85,11 @@ function availableFields(state = initialState.availableFields, action) {
             break;
         case actionTypes.availableFields.GET_VISIT_FIELDS_SUCCESS:
             const VShash = action.payload.slice(0, 6).reduce((map, el) => { map[el.id] = el; return map; }, {});
-            const visitHash = action.payload.slice(6).reduce((map, el) => { map[el.id] = el; return map; }, {});
+            const visitHash = action.payload.slice(1).reduce((map, el) => { map[el.id] = el; return map; }, {});
             newState = {
                 ...state,
                 VSFields: action.payload.slice(0, 6),
-                visitFields: action.payload.slice(6),
+                visitFields: action.payload.slice(1),
                 VSFields_Hash: [VShash],
                 visitFields_Hash: [visitHash]
             };

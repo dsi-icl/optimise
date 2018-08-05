@@ -84,6 +84,20 @@
     overflow-x: auto;
 }
 
+.visitEditButton {
+    position: absolute;
+    right: 1.6em;
+    top: 1em;
+    font-size: 1.3em
+}
+
+.visitAnchors {
+    display: inline-block;
+    position: absolute;
+    top: -7em;
+    visibility: hidden;
+}
+
 .editorSneak {
     border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 92%);
     background-color: hsl(var(--color-background-h), var(--color-background-s), calc(var(--color-background-l) * 7.5));

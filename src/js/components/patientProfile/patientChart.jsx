@@ -38,7 +38,7 @@ export class PatientChart extends Component {
                         <>
                             <span className={this.props.data.consent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
                             <TimelineBox />
-                            <Charts location={this.props.location} />
+                            <Charts match={this.props.match} />
                         </>
                     }
                 </div>
@@ -86,7 +86,7 @@ class Medication extends PureComponent {
                 <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
                 <td>{data.terminatedDate ? new Date(parseInt(data.terminatedDate, 10)).toDateString() : ''}</td>
                 <td>{data.dose ? `${data.dose} ${data.unit}` : ''}</td>
-                <td>{data.form ? data.form : ''}</td>
+                <td>{data.form ? data.form !== 'unselected' ? data.form : '' : ''}</td>
                 <td>{data.times && data.intervalUnit ? `${data.times} times/${data.intervalUnit}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
@@ -219,48 +219,51 @@ class OneVisit extends Component {
             return null;
         return (
             <TimelineEvent
-                id={`visit/${this.props.visitId}`}
                 title={this.props.title}
                 subtitle={this.props.subtitle}
                 icon={<Icon symbol='addVisit' />}
                 className={style.historyVisit}
                 bubbleStyle={{ borderColor: 'transparent' }}>
 
+                <a className={style.visitAnchors} id={`visit/${this.props.visitId}`} >visit/${this.props.visitId}</a>
                 {this.props.visitType === 1 ? (
                     <>
-                        {VSValueArray.length > 0 ? (
-                            <>
-                                <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : 'AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
-                                <div className={style.visitWrapper}>
-                                    <table>
-                                        <tbody>
-                                            {VSValueArray.length > 0 ?
-                                                (
-                                                    <tr>
-                                                        <td >{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
-                                                        <td >{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
-                                                    </tr>
-                                                ) : null}
-                                            {VSValueArray.length > 2 ?
-                                                (
-                                                    <tr>
-                                                        <td >{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
-                                                        <td >{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
-                                                    </tr>
-                                                ) : null}
-                                            {VSValueArray.length > 4 ?
-                                                (
-                                                    <tr>
-                                                        <td >{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
-                                                        <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
-                                                    </tr>
-                                                ) : null}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br />
-                            </>
+                        <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}/vitals`} className={style.visitEditButton}>
+                            <span title='Edit visit date and reason' className={style.dataEdit}><Icon symbol='edit' /></span>
+                        </NavLink><br />
+                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : 'AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
+                        {VSValueArray.length > 0 ? (<div className={style.visitWrapper}>
+                            <table>
+                                <tbody>
+                                    {VSValueArray.length > 0 ?
+                                        (
+                                            <tr>
+                                                <td >{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
+                                                <td >{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
+                                            </tr>
+                                        ) : null}
+                                    {VSValueArray.length > 2 ?
+                                        (
+                                            <tr>
+                                                <td >{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
+                                                <td >{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
+                                            </tr>
+                                        ) : null}
+                                    {VSValueArray.length > 4 ?
+                                        (
+                                            <tr>
+                                                <td >{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
+                                                <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
+                                            </tr>
+                                        ) : null}
+                                </tbody>
+                            </table>
+                        </div>
                         ) : null}
+                        <NavLink to={`/patientProfile/${this.props.patientId}/data/visit/${this.props.visitId}/vitals`} activeClassName={style.activeNavLink}>
+                            <button>Edit anthropometry{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit</button>
+                        </NavLink>
+                        <br /><br />
                         <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}</h4>
                         {relevantSymptomsFields.length !== 0 ? (
                             <div className={style.visitWrapper}>
@@ -526,6 +529,7 @@ export class Charts extends Component {
                                     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                     const visitDate = new Date(parseInt(el.visitDate, 10));
                                     return <OneVisit visitData={el.data}
+                                        patientId={this.props.match.params.patientId}
                                         availableFields={this.props.availableFields}
                                         key={el.id} data={this.props.data}
                                         visitId={el.id}

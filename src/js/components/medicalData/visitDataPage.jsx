@@ -102,20 +102,26 @@ export class VisitData extends Component {
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.visits.filter(visit => visit.id === parseInt(params.visitId, 10));
             if (visitsMatched.length !== 1) {
-                return <div>{'Cannot find your visit!'}</div>;
+                return <div>{'We cannot find this visit!'}</div>;
             }
             const { fields } = this.props;
-            const category = this.props.category === 'symptoms' ? 2 : 3;
-            const relevantFields = fields.visitFields.filter(el => (el.referenceType === visitsMatched[0].type && el.section === category));
+            const category = this.props.category === 'symptoms' ? 2 : this.props.category === 'signs' ? 3 : 1;
+            let relevantFields = fields.visitFields.filter(el => (el.referenceType === visitsMatched[0].type && el.section === category));
+            relevantFields = relevantFields.filter(el => {
+                if (el.idname === 'academic concerns')
+                    if (new Date().getTime() - parseInt(patientProfile.data.demographicData.DOB) > 568025136000)
+                        return false;
+                return true;
+            });
+
             const fieldTree = createLevelObj(relevantFields);
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
-
             this.originalValues = visitsMatched[0].data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
             this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             return (
                 <>
                     <div className={scaffold_style.ariane}>
-                        <h2>{this.props.category.toUpperCase()}</h2>
+                        <h2>Edit {this.props.category.toUpperCase()}</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>

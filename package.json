@@ -133,9 +133,7 @@
         "production": [
             ">0.25%",
             "last 4 versions",
-            "Firefox ESR",
-            "not op_mini all",
-            "not ie < 11"
+            "Firefox ESR"
         ]
     }
 }

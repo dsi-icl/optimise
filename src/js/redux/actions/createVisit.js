@@ -10,7 +10,7 @@ export const createVisitAPICall = (body) => dispatch => {
             return apiHelper('/data/visit', { method: 'POST', body: JSON.stringify(body.VSData) });
         })
         .then(() => {
-            history.push(body.to);
+            history.push(`${body.to}/data/visit/${body.VSData.visitId}/vitals#visit/${body.VSData.visitId}`);
             dispatch(getPatientProfileById(body.patientId));
         })
         .catch(msg => console.error(msg));
@@ -32,6 +32,9 @@ export const createShadowVisitAPICall = (patientId, callback) => {
 
 export const updateVisitAPICall = (body) => dispatch => {
     return apiHelper('/visits', { method: 'PUT', body: JSON.stringify(body.visitData) })
+        .then(() => {
+            return apiHelper(`/data/${body.type}`, { method: 'POST', body: JSON.stringify(body.VSData) });
+        })
         .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
