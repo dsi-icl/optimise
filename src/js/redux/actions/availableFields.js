@@ -1,3 +1,5 @@
+import { addError } from './error';
+import store from '../store';
 import actions from './listOfActions';
 import { apiHelper } from '../fetchHelper';
 
@@ -8,7 +10,7 @@ export function APICall(endpoint, cbDispatch) {
                 .then(json => {
                     dispatch(cbDispatch(json));
                 })
-                .catch(msg => console.error(msg));
+                .catch(msg => store.dispatch(addError({ error: msg })));
         };
     };
 };

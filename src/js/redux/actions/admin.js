@@ -1,3 +1,5 @@
+import { addError } from './error';
+import store from '../store';
 import actionTypes from './listOfActions';
 import { apiHelper } from '../fetchHelper';
 
@@ -10,7 +12,7 @@ export const getLogAPICall = () => dispatch => {
         .then(json => {
             dispatch(getLogSuccess(json));
         })
-        .catch(msg => { console.error(msg); getLogFailure(); });
+        .catch(msg => { store.dispatch(addError({ error: msg })); getLogFailure(); });
 };
 
 
@@ -23,7 +25,7 @@ export const getAllUsersAPICall = () => dispatch => {
         .then(json => {
             dispatch(getAllUsersSuccess(json));
         })
-        .catch(msg => { console.error(msg); getAllUsersFailure(); });
+        .catch(msg => { store.dispatch(addError({ error: msg })); getAllUsersFailure(); });
 };
 
 
@@ -34,17 +36,17 @@ export const createUserAPICall = body => dispatch => {
         .then(() => {
             dispatch(getAllUsersAPICall());
         })
-        .catch(msg => console.error(msg));
+        .catch(msg => store.dispatch(addError({ error: msg })));
 };
 
 export const deleteUserAPICall = body => dispatch => {
     return apiHelper('/users', { method: 'DELETE', body: JSON.stringify(body) })
         .then(dispatch(getAllUsersAPICall()))
-        .catch(msg => console.error(msg));
+        .catch(msg => store.dispatch(addError({ error: msg })));
 };
 
 export const changePasswordAPICall = body => () => {
     return apiHelper('/users', { method: 'PUT', body: JSON.stringify(body) })
-        .catch(msg => console.error(msg));
+        .catch(msg => store.dispatch(addError({ error: msg })));
 };
 

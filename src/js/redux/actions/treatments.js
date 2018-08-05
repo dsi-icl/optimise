@@ -1,3 +1,5 @@
+import { addError } from './error';
+import store from '../store';
 import { createShadowVisitAPICall } from './createVisit';
 import { getPatientProfileById } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
@@ -8,7 +10,7 @@ export const createTreatmentAPICall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.error(err))
+        }).catch(err => store.dispatch(addError({ error: err })))
     );
 };
 
@@ -17,7 +19,7 @@ export const createTreatmentInterruptionAPICall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.error(err));
+        }).catch(err => store.dispatch(addError({ error: err })));
 };
 
 export const deleteTreatmentCall = (body) => dispatch => {
@@ -25,7 +27,7 @@ export const deleteTreatmentCall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.error(err));
+        }).catch(err => store.dispatch(addError({ error: err })));
 };
 
 export const updateTreatmentCall = (body) => dispatch => {
@@ -33,5 +35,5 @@ export const updateTreatmentCall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.error(err));
+        }).catch(err => store.dispatch(addError({ error: err })));
 };

@@ -1,3 +1,5 @@
+import { addError } from './error';
+import store from '../store';
 import actionTypes from './listOfActions';
 import { getPatientProfileById } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
@@ -11,4 +13,4 @@ export const alterDataCall = (body, callback) => dispatch => apiHelper(`/data/${
         callback();
         dispatch(getPatientProfileById(body.patientId));
     })
-    .catch(err => console.error(err));
+    .catch(err => store.dispatch(addError({ error: err })));

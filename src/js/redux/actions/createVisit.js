@@ -1,3 +1,5 @@
+import { addError } from './error';
+import store from '../store';
 import moment from 'moment';
 import { getPatientProfileById } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
@@ -13,7 +15,7 @@ export const createVisitAPICall = (body) => dispatch => {
             history.push(`${body.to}/data/visit/${body.VSData.visitId}/vitals#visit/${body.VSData.visitId}`);
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.error(msg));
+        .catch(msg => store.dispatch(addError({ error: msg })));
 };
 
 export const createShadowVisitAPICall = (patientId, callback) => {
@@ -26,7 +28,7 @@ export const createShadowVisitAPICall = (patientId, callback) => {
         })
     })
         .then(json => callback({ visitId: json.state }))
-        .catch(msg => console.error(msg));
+        .catch(msg => store.dispatch(addError({ error: msg })));
 };
 
 
@@ -38,7 +40,7 @@ export const updateVisitAPICall = (body) => dispatch => {
         .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => console.error(msg));
+        .catch(msg => store.dispatch(addError({ error: msg })));
 };
 
 export const deleteVisitAPICall = (body) => dispatch => {
@@ -46,5 +48,5 @@ export const deleteVisitAPICall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.error(err));
+        }).catch(err => store.dispatch(addError({ error: err })));
 };

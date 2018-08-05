@@ -1,3 +1,5 @@
+import { addError } from './error';
+import store from '../store';
 import { createShadowVisitAPICall } from './createVisit';
 import { getPatientProfileById } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
@@ -8,7 +10,7 @@ export const createTestAPICall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.error(err))
+        }).catch(err => store.dispatch(addError({ error: err })))
     );
 };
 
@@ -17,7 +19,7 @@ export const deleteTestAPICall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.error(err));
+        }).catch(err => store.dispatch(addError({ error: err })));
 };
 
 export const updateTestCall = (body) => dispatch => {
@@ -25,5 +27,5 @@ export const updateTestCall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.error(err));
+        }).catch(err => store.dispatch(addError({ error: err })));
 };

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
-import { addError } from '../../redux/actions/error';
 import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from './utils';
 import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
@@ -105,7 +104,6 @@ export class CeData extends Component {
         });
         const { params } = this.props.match;
         if (checkIfObjIsEmpty(update, add)) {
-            // store.dispatch(addError({ error: 'Clicking save does nothing because none of the data seems to have changed!' }));
             return;
         }
         const body = { data: { clinicalEventId: params.ceId, update, add }, type: 'clinicalEvent', patientId: params.patientId };
