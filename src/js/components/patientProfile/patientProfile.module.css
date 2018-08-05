@@ -515,6 +515,10 @@ div.timelineCEBlack {
     stroke: rgb(179, 111, 22);
 }
 
+.timelineTreatementItem:hover line {
+    stroke: rgb(238, 189, 125);
+}
+
 .timelineTreatementItem:hover {
     background-color: rgb(255, 223, 118);
 }
