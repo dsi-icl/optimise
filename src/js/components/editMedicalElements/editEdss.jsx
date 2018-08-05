@@ -83,11 +83,11 @@ export default class EditPerformanceMesaure extends Component {
                 <form className={style.panel} onSubmit={this._handleSubmit}>
                     <span><i>This is for the visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i></span><br /><br />
                     <div>
-                        You can enter the appropriate EDSS score in the following field then save using the 'Save' button<br /><br />
-                        <label htmlFor='edss:expanded disability status scale - estimated total'>EDSS score: </label><input key={Math.random()} type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
+                        You can enter your EDSS score estimation in the following field.<br /><br />
+                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinican): </label><input key={Math.random()} type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                         <br /><br />
                         <button type='submit'>Save</button><br /><br />
-                        Or alternatively use the EDSS calculator as a guide by clicking on the following button<br /><br />
+                        Or alternatively use the EDSS calculator as a guide by clicking on the following button.<br /><br />
                         <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><span className={style.openCalculator}>Open EDSS Calculator</span></NavLink>
                     </div>
                 </form>

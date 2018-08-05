@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink, withRouter, Link } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
+import { edssAlgorithmFromProps } from '../EDSScalculator/calculator';
 import { PatientProfileSectionScaffold, PatientProfileTop, EditButton } from './sharedComponents';
 import { TimelineBox } from './timeline';
 import Helmet from '../scaffold/helmet';
@@ -310,7 +311,7 @@ class OneVisit extends Component {
                                                     {isTotal ? (
                                                         <tr className={style.performanceHighlight}>
                                                             <td>edss > expanded disability status scale - computed total</td>
-                                                            <td>-</td>
+                                                            <td>{edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData)}</td>
                                                         </tr>
                                                     ) : null}
                                                 </Fragment>
