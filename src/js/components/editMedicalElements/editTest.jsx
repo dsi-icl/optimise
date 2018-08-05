@@ -40,7 +40,7 @@ export default class EditTest extends Component {
 
     _deleteFunction() {
         const { params } = this.props.match;
-        const body = { patientId: params.patientId, data: { testID: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
+        const body = { patientId: params.patientId, data: { testId: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
         store.dispatch(deleteTestAPICall(body));
     }
 
@@ -71,7 +71,7 @@ export default class EditTest extends Component {
                     }
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
                     <br /><br />
-                    Note: test type is not allowed to be changed. If you entered a test of the wrong type by error, you can delete the test and create a new one.
+                    Note: You cannot change the type of test. If you created the wrong type of test you can delete this event record and create a new one.
                 </form>
             </>
         );
@@ -134,11 +134,11 @@ class UpdateTestEntry extends Component {
     }
 
     render() {
-        const { actualOccurredDate } = this.state;
+        const { startDate, actualOccurredDate } = this.state;
         return (
             <>
                 <label>Expected Date: </label>
-                <PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} />
+                <PickDate startDate={startDate} handleChange={this._handleDateChange} />
                 <br /><br />
                 <label>Sample taking Date: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />
