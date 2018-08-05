@@ -40,3 +40,11 @@ export const updateVisitAPICall = (body) => dispatch => {
         })
         .catch(msg => console.error(msg));
 };
+
+export const deleteVisitAPICall = (body) => dispatch => {
+    return apiHelper('/visits', { method: 'DELETE', body: JSON.stringify(body.data) })
+        .then(() => {
+            history.push(body.to);
+            dispatch(getPatientProfileById(body.patientId));
+        }).catch(err => console.error(err));
+};
