@@ -1,4 +1,4 @@
-import moment from 'moment';
+const moment = require('moment');
 const DataCore = require('../core/data');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
@@ -132,10 +132,6 @@ class DataController {
                 return;
             } else {
                 let entries = this._formatEntries(options, req);
-                if (req.user.priv !== 1 && entries.hasOwnProperty('updates')) {
-                    res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-                    return;
-                }
                 entries.entryId = req.body[options.entryIdString];
                 if (!req.body.hasOwnProperty('update')) { req.body.update = {}; }  //adding an empty obj so that the code later doesn't throw error for undefined
                 if (!req.body.hasOwnProperty('add')) { req.body.add = {}; }   //same
@@ -167,35 +163,35 @@ class DataController {
                                 let inputValue = req.body[addOrUpdate][fieldId];
                                 let time;
                                 switch (fieldType) {
-                                    case 'B':
-                                        if (!(inputValue === 1 || inputValue === 0)) {
+                                    case 5: //'B':
+                                        if (!(inputValue === true || inputValue === false || inputValue === 1 || inputValue === 0 || inputValue.toUpperCase() === 'YES' || inputValue.toUpperCase() === 'NO')) {
                                             res.status(400).json(ErrorHelper(`${message.dataMessage.BOOLEANFIELD}${fieldId}`));
                                             return;
                                         }
                                         break;
-                                    case 'C':
+                                    case 3: //'C':
                                         if (result[i][0]['permittedValues'] !== null && !(result[i][0]['permittedValues'].split(', ').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
                                             res.status(400).json(ErrorHelper(`${fieldId}${message.dataMessage.CHARFIELD}${result[i][0]['permittedValues']}`));
                                             return;
                                         }
                                         break;
-                                    case 'I':
+                                    case 1: //'I':
                                         if (!(parseInt(inputValue) === parseFloat(inputValue))) {
                                             res.status(400).json(ErrorHelper(`${message.dataMessage.INTEGERFIELD}${fieldId}`));
                                             return;
                                         }
                                         break;
-                                    case 'F':
+                                    case 2: //'F':
                                         if (!(parseFloat(inputValue).toString() === inputValue.toString())) {
                                             res.status(400).json(ErrorHelper(`${message.dataMessage.NUMBERFIELD}${fieldId}`));
                                             return;
                                         }
                                         break;
-                                    case 'D':
+                                    case 6: //'D':
                                         time = moment(inputValue, moment.ISO_8601);
                                         if (!time.isValid()) {
-                                            let msg = (time.invalidAt() === undefined) ? message.userError.INVALIDDATE : message.dateError[time.invalidAt()];
-                                            res.status(400).json(ErrorHelper(`${msg}${fieldId}`));
+                                            let msg = (time.invalidAt() === undefined || time.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[time.invalidAt()];
+                                            res.status(400).json(ErrorHelper(`${msg} at field ${fieldId}`));
                                             return;
                                         }
                                         break;
