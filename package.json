@@ -36,15 +36,15 @@
     },
     "dependencies": {
         "compression": "1.7.3",
-        "optimise-core": "0.9.55"
+        "optimise-core": "0.9.56"
     },
     "devDependencies": {
         "@babel/core": "7.0.0-beta.46",
         "@babel/plugin-proposal-decorators": "7.0.0-beta.46",
         "@babel/runtime": "7.0.0-beta.46",
         "@svgr/webpack": "2.1.1",
-        "antd": "3.7.3",
-        "autoprefixer": "9.0.2",
+        "antd": "3.8.0",
+        "autoprefixer": "9.1.0",
         "babel-core": "7.0.0-bridge.0",
         "babel-eslint": "8.2.6",
         "babel-jest": "23.4.2",
@@ -66,7 +66,7 @@
         "electron-builder": "20.26.1",
         "electron-is-dev": "0.3.0",
         "electron-updater": "3.0.3",
-        "eslint": "5.2.0",
+        "eslint": "5.3.0",
         "eslint-config-react-app": "3.0.0-next.3e165448",
         "eslint-loader": "2.1.0",
         "eslint-plugin-flowtype": "2.50.0",
@@ -94,8 +94,8 @@
         "prop-types": "15.6.2",
         "raf": "3.4.0",
         "react": "16.4.2",
-        "react-calendar-timeline": "0.18.2",
-        "react-datepicker": "1.5.0",
+        "react-calendar-timeline": "0.19.0",
+        "react-datepicker": "1.6.0",
         "react-dev-utils": "6.0.0-next.3e165448",
         "react-dom": "16.4.2",
         "react-event-timeline": "1.5.4",
@@ -112,7 +112,7 @@
         "thread-loader": "1.2.0",
         "uglifyjs-webpack-plugin": "1.2.7",
         "url-loader": "1.0.1",
-        "webpack": "4.16.3",
+        "webpack": "4.16.4",
         "webpack-dev-server": "3.1.5",
         "webpack-manifest-plugin": "2.0.3",
         "whatwg-fetch": "2.0.4"
