@@ -307,13 +307,14 @@ class OneVisit extends Component {
                                     <tbody>
                                         {performances.map(el => {
                                             let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale - estimated total';
+                                            let EDSSComputed = edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData);
                                             return (
                                                 <Fragment key={el.field}>
                                                     <Symptom data={el} className={isTotal ? style.performanceHighlight : ''} />
-                                                    {isTotal ? (
+                                                    {isTotal && EDSSComputed !== '' ? (
                                                         <tr className={style.performanceHighlight}>
                                                             <td>edss > expanded disability status scale - computed total</td>
-                                                            <td>{edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData)}</td>
+                                                            <td>{EDSSComputed}</td>
                                                         </tr>
                                                     ) : null}
                                                 </Fragment>
