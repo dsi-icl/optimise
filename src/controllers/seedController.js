@@ -216,7 +216,7 @@ SeedController.prototype.deleteSeed = function (req, res) {
             return Promise.all(promiseArr).then(function (__unused__allResult) {
                 res.status(200).json(formatToJSon(result));
                 return true;
-            }, function (allError) {
+            }).catch((allError) => {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, allError));
                 return false;
             });

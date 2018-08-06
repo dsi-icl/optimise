@@ -35,28 +35,25 @@ function getEntry(tablename, whereObj, selectedObj) {
 function updateEntry(tablename, user, originObj, whereObj, newObj) {
     whereObj.deleted = '-';
     return new Promise(function (resolve, reject) {
-        return getEntry(tablename, whereObj, originObj).then(function (getResult) {
-            if (getResult.length !== 1) {
-                return reject(message.errorMessages.NOTFOUND);
-            }
-            let oldEntry = getResult[0];
-            delete oldEntry.id;
-            if (oldEntry.hasOwnProperty('deleted'))
-                oldEntry.deleted = `${user.id}@${new Date().getTime()}`;
-            if (oldEntry.hasOwnProperty('createdTime'))
-                newObj.createdTime = knex.fn.now();
-            return createEntry(tablename, oldEntry).then(function (__unused__createResult) {
-                return knex(tablename).update(newObj).where(whereObj).then(function (updateRes) {
-                    return resolve(updateRes);
-                }, function (updateErr) {
-                    return reject(updateErr);
-                });
-            }, function (createErr) {
-                return reject(createErr);
-            });
-        }, function (getErr) {
-            return reject(getErr);
-        });
+        return getEntry(tablename, whereObj, originObj)
+            .then(function (getResult) {
+                if (getResult.length !== 1) {
+                    return reject(message.errorMessages.NOTFOUND);
+                }
+                let oldEntry = getResult[0];
+                delete oldEntry.id;
+                if (oldEntry.hasOwnProperty('deleted'))
+                    oldEntry.deleted = `${user.id}@${new Date().getTime()}`;
+                if (oldEntry.hasOwnProperty('createdTime'))
+                    newObj.createdTime = knex.fn.now();
+                return oldEntry;
+            })
+            .then(oldEntry => createEntry(tablename, oldEntry))
+            .then(__unused__createResult => knex(tablename)
+                .update(newObj)
+                .where(whereObj))
+            .then(updateRes => resolve(updateRes))
+            .catch(error => reject(error));
     });
 }
 
