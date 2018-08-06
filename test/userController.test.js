@@ -14,6 +14,7 @@ describe('User controller tests', () => {
                 expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
                 expect(Object.keys(res.body).length).toBe(1);
                 expect(res.body.error).toBe('An unknown unicorn');
+                return true;
             }));
 
     test('First user (admin) login', () => admin
@@ -31,6 +32,7 @@ describe('User controller tests', () => {
             expect(res.body.status).toBe('OK');
             expect(res.body.message).toBeDefined();
             expect(res.body.message).toBe('Successfully logged in');
+            return true;
         }));
 
     test('Testing connection with whoami', () =>
@@ -43,6 +45,7 @@ describe('User controller tests', () => {
                 expect(res.body.username).toBe('admin');
                 expect(res.body.realname).toBe('Administrator');
                 expect(res.body.priv).toBe(1);
+                return true;
             }));
 
     test('Admin creating user (no 1) without admin priv with real name', () => admin
@@ -54,6 +57,7 @@ describe('User controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(3);
+            return true;
         }));
 
     test('Admin creating user (no 2) without admin priv without real name', () => admin
@@ -65,6 +69,7 @@ describe('User controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(4);
+            return true;
         }));
 
     test('Admin get the users matching with "test" in their name', () =>
@@ -87,6 +92,7 @@ describe('User controller tests', () => {
                 expect(res.body[1].username).toBe('test_user2');
                 expect(res.body[1].realname).toBe('IAmTesting');
                 expect(res.body[1].priv).toBe(0);
+                return true;
             }));
 
     test('Admin user login out ()', () => admin
@@ -96,6 +102,7 @@ describe('User controller tests', () => {
             expect(res.statusCode).toBe(200);
             expect(res.body.message).toBeDefined();
             expect(res.body.message).toBe('Successfully logged out');
+            return true;
         }));
 
 
@@ -114,6 +121,7 @@ describe('User controller tests', () => {
             expect(res.body.status).toBe('OK');
             expect(res.body.message).toBeDefined();
             expect(res.body.message).toBe('Successfully logged in');
+            return true;
         }));
 
     test('user no 1 tries to delete user no 2 (should fail)', () => user
@@ -124,6 +132,7 @@ describe('User controller tests', () => {
             expect(res.statusCode).toBe(401);
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.NORIGHTS);
+            return true;
         }));
 
     test('user no 1 changes user no 2 s password (should fail)', () =>   //
@@ -135,6 +144,7 @@ describe('User controller tests', () => {
                 expect(res.statusCode).toBe(401);
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.NORIGHTS);
+                return true;
             })
     );
 
@@ -148,6 +158,7 @@ describe('User controller tests', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
                 expect(res.body.state).toBe(1);
+                return true;
             })
     );
 
@@ -159,6 +170,7 @@ describe('User controller tests', () => {
                 expect(res.statusCode).toBe(200);
                 expect(res.body.message).toBeDefined();
                 expect(res.body.message).toBe('Successfully logged out');
+                return true;
             }));
 
     test('user no 1 (standard) login again with new password', () =>
@@ -177,6 +189,7 @@ describe('User controller tests', () => {
                 expect(res.body.status).toBe('OK');
                 expect(res.body.message).toBeDefined();
                 expect(res.body.message).toBe('Successfully logged in');
+                return true;
             }));
 
     test('user no 1 deletes himself', () =>
@@ -189,6 +202,7 @@ describe('User controller tests', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
                 expect(res.body.state).toBe(1);
+                return true;
             }));
 
     test('First user (admin) login', () => admin
@@ -206,6 +220,7 @@ describe('User controller tests', () => {
             expect(res.body.status).toBe('OK');
             expect(res.body.message).toBeDefined();
             expect(res.body.message).toBe('Successfully logged in');
+            return true;
         }));
 
     test('admin change rights of user no 2 (MISSING ARGS on priv)', () => admin
@@ -216,6 +231,7 @@ describe('User controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
 
@@ -227,6 +243,7 @@ describe('User controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('admin change rights of user no 2 (WRONG ARGS on priv)', () => admin
@@ -237,6 +254,7 @@ describe('User controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('admin change rights of user no 2 (MISSING ARGS on priv)', () => admin
@@ -247,6 +265,7 @@ describe('User controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('admin change rights of user no 2 (Success)', () => admin
@@ -257,6 +276,7 @@ describe('User controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('admin deletes user no 2', () => admin
@@ -268,6 +288,7 @@ describe('User controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Admin creating another user (no 1) without admin priv with real name again', () => admin
@@ -279,6 +300,7 @@ describe('User controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             // Not checking the value of res.body.state because it can change
+            return true;
         }));
 
     test('admin deletes user no 1 again', () => admin
@@ -290,6 +312,7 @@ describe('User controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Admin user login out ()', () => admin
@@ -299,5 +322,6 @@ describe('User controller tests', () => {
             expect(res.statusCode).toBe(200);
             expect(res.body.message).toBeDefined();
             expect(res.body.message).toBe('Successfully logged out');
+            return true;
         }));
 });

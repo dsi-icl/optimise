@@ -23,6 +23,7 @@ describe('Visit controller tests', () => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBeGreaterThanOrEqual(1);
+            return true;
         }));
 
     test('Getting visits of a patient (standard user)', () => user
@@ -32,6 +33,7 @@ describe('Visit controller tests', () => {
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBe(2);
             expect(typeof res.body).toBe('object');
+            return true;
         }));
 
     test('Getting visits of a patient that does not have visit', () => admin
@@ -41,6 +43,7 @@ describe('Visit controller tests', () => {
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBe(0);
             expect(typeof res.body).toBe('object');
+            return true;
         }));
 
     test('Creating visit for a patient', () => admin
@@ -55,6 +58,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(5);
+            return true;
         }));
 
     test('Creating the same visit for a patient (Should Succeed; even for duplication)', () => admin
@@ -68,6 +72,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(6);
+            return true;
         }));
 
     test('Creating visit for a patient with malformed date', () => admin
@@ -81,6 +86,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.INVALIDDATE);
+            return true;
         }));
 
     test('Getting visits of this patient', () => admin
@@ -89,6 +95,7 @@ describe('Visit controller tests', () => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBe(2);
+            return true;
         }));
 
     test('Updating visit from id', () => admin
@@ -102,6 +109,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Updating visit\'s communication', () => admin
@@ -115,6 +123,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Updating visit from id second pass', () => admin
@@ -128,6 +137,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Updating visit which does not exist', () => admin
@@ -139,6 +149,7 @@ describe('Visit controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(400);
             expect(typeof res.body).toBe('object');
+            return true;
         }));
 
     test('Deleting visit from visitId', () => admin
@@ -149,6 +160,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Deleting visit which does not exist', () => admin
@@ -159,5 +171,6 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(0);
+            return true;
         }));
 });

@@ -43,10 +43,10 @@ CeController.prototype.createCe = function (req, res) {
         ce.createdByUser = req.user.id;
         this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            return;
+            return false;
         });
     } else if (!((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('dateStartDate') && req.body.hasOwnProperty('type'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -81,9 +81,10 @@ CeController.prototype.updateCe = function (req, res) {
     }
     this.clinicalEvent.updateClinicalEvent(req.user, ce).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return false;
     });
 };
 
@@ -91,10 +92,10 @@ CeController.prototype.deleteCe = function (req, res) {
     if (req.body.hasOwnProperty('ceId')) {
         this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-            return;
+            return false;
         });
     } else if (!req.body.hasOwnProperty('ceId')) {
         res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));

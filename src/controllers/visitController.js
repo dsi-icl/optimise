@@ -32,10 +32,10 @@ function VisitController() {
     }
     this.visit.getVisit(req.query.patientId).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-        return;
+        return false;
     });
 };
 
@@ -58,10 +58,10 @@ VisitController.prototype.createVisit = function (req, res) {
     entryObj.createdByUser = req.user.id;
     this.visit.createVisit(entryObj).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        return;
+        return false;
     });
 };
 
@@ -86,9 +86,10 @@ VisitController.prototype.updateVisit = function (req, res) {
     updatedObj.createdByUser = req.user.id;
     this.visit.updateVisit(req.user, whereObj, updatedObj).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return false;
     });
 };
 
@@ -99,9 +100,10 @@ VisitController.prototype.deleteVisit = function (req, res) {
     }
     this.visit.deleteVisit(req.user, req.body.visitId).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+        return false;
     });
 };
 
@@ -118,10 +120,10 @@ VisitController.prototype.getReportOfVisit = function (req, res) {
     }
     this.visit.getReport(whereObj).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-        return;
+        return false;
     });
 };
 
@@ -140,10 +142,10 @@ VisitController.prototype.createReport = function (req, res) {
         newEntry.createdByUser = req.user.id;
         this.visit.createReport(newEntry).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            return;
+            return false;
         });
     }
     else if (!(req.body.hasOwnProperty('visit') && req.body.hasOwnProperty('report'))) {
@@ -165,10 +167,10 @@ VisitController.prototype.updateReport = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.visit.updateReport(req.user, req.body).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-            return;
+            return false;
         });
     } else {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
@@ -190,10 +192,10 @@ VisitController.prototype.deleteReport = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.visit.deleteReport(req.user, req.body.id).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-            return;
+            return false;
         });
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));

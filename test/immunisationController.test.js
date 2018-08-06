@@ -24,6 +24,7 @@ describe('Create Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Creating Immunisation with body but empty property (Should Fail)', () => admin
@@ -38,6 +39,7 @@ describe('Create Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Creating Immunisation with body but badly formated property (Should Fail)', () => admin
@@ -52,6 +54,7 @@ describe('Create Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Creating Immunisation with body but wrong patient (Should Fail)', () => admin
@@ -66,6 +69,7 @@ describe('Create Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            return true;
         }));
 
     test('Creating Immunisation with body but wrong vaccineName (Should Fail)', () => admin
@@ -80,6 +84,7 @@ describe('Create Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Creating Immunisation with body but badly formatted immunisation Date (Should Fail)', () => admin
@@ -94,6 +99,7 @@ describe('Create Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Creating Immunisation with body but wrong vaccine Date (Should Fail)', () => admin
@@ -108,6 +114,7 @@ describe('Create Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dateError[2]);
+            return true;
         }));
 
 
@@ -123,6 +130,7 @@ describe('Create Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(4);
+            return true;
         }));
 
 });
@@ -132,6 +140,7 @@ describe('Edit Immunisation controller test', () => {
         .put('/demographics/Immunisation')
         .then(res => {
             expect(res.status).toBe(400);
+            return true;
         }));
 
     test('Editing Immunisation with body but empty property (Should Fail)', () => admin
@@ -147,6 +156,7 @@ describe('Edit Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Editing Immunisation with body but badly formated property (Should Fail)', () => admin
@@ -162,6 +172,7 @@ describe('Edit Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Editing Immunisation with body but wrong id (Should Fail)', () => admin
@@ -177,6 +188,7 @@ describe('Edit Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            return true;
         }));
 
 
@@ -193,6 +205,7 @@ describe('Edit Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            return true;
         }));
 
     test('Editing Immunisation with body but badly formatted immunisationDate (Should Fail)', () => admin
@@ -208,6 +221,7 @@ describe('Edit Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Editing Immunisation well formatted (Should Succeed)', () => admin
@@ -223,6 +237,7 @@ describe('Edit Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 });
 
@@ -234,6 +249,7 @@ describe('Delete Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Deleting Immunisation with body but empty property (Should Fail)', () => admin
@@ -246,6 +262,7 @@ describe('Delete Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Deleting Immunisation with body but badly formated property (Should Fail)', () => admin
@@ -258,6 +275,7 @@ describe('Delete Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Deleting Immunisation with body but out of bound id (Should Fail)', () => admin
@@ -270,6 +288,7 @@ describe('Delete Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(0);
+            return true;
         }));
 
     test('Deleting Immunisation with good preperty (Should Succeed)', () => admin
@@ -282,5 +301,6 @@ describe('Delete Immunisation controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 });

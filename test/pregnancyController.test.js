@@ -24,6 +24,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Creating Pregnancy with body but empty property (Should Fail)', () => admin
@@ -39,6 +40,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Creating Pregnancy with body but badly formated property (Should Fail)', () => admin
@@ -54,6 +56,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Creating Pregnancy without patient (Should Fail)', () => admin
@@ -68,6 +71,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Creating Pregnancy with wrong patient (Should Fail)', () => admin
@@ -83,6 +87,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Creating Pregnancy with bad patient (Should Fail)', () => admin
@@ -98,6 +103,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            return true;
         }));
 
     test('Creating Pregnancy with wrong outcome (Should Fail)', () => admin
@@ -113,6 +119,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Creating Pregnancy with bad outcome (Should Fail)', () => admin
@@ -128,6 +135,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            return true;
         }));
 
     test('Creating Pregnancy with wrong MedDRA type (Should Fail)', () => admin
@@ -143,6 +151,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Creating Pregnancy with non-existing MedDRA (Should Fail)', () => admin
@@ -158,6 +167,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            return true;
         }));
 
     test('Creating Pregnancy with bad startDate (Should Fail)', () => admin
@@ -173,6 +183,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.INVALIDDATE);
+            return true;
         }));
 
     test('Creating Pregnancy well formatted (Should Succeed)', () => admin
@@ -189,6 +200,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(3);
+            return true;
         }));
 
     test('Creating Pregnancy well formatted with no MedDRA (Should Succeed)', () => admin
@@ -204,6 +216,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(4);
+            return true;
         }));
 
 
@@ -219,6 +232,7 @@ describe('Create Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(5);
+            return true;
         }));
 });
 
@@ -227,6 +241,7 @@ describe('Edit Pregnancy controller test', () => {
         .put('/demographics/Pregnancy')
         .then(res => {
             expect(res.status).toBe(400);
+            return true;
         }));
 
     test('Editing Pregnancy with body but empty property (Should Fail)', () => admin
@@ -240,6 +255,7 @@ describe('Edit Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Editing Pregnancy with body but badly formated property (Should Fail)', () => admin
@@ -253,6 +269,7 @@ describe('Edit Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Editing Pregnancy with body but wrong id (Should Fail)', () => admin
@@ -266,6 +283,7 @@ describe('Edit Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            return true;
         }));
 
     test('Editing Pregnancy well formatted (Should Succeed)', () => admin
@@ -279,6 +297,7 @@ describe('Edit Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
 });
@@ -291,6 +310,7 @@ describe('Delete Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Deleting Pregnancy with body but empty property (Should Fail)', () => admin
@@ -303,6 +323,7 @@ describe('Delete Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Deleting Pregnancy with body but badly formated property (Should Fail)', () => admin
@@ -315,6 +336,7 @@ describe('Delete Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Deleting Pregnancy with body but out of bound id (Should Fail)', () => admin
@@ -327,6 +349,7 @@ describe('Delete Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(0);
+            return true;
         }));
 
     test('Deleting Pregnancy with good preperty (Should Succeed)', () => admin
@@ -339,5 +362,6 @@ describe('Delete Pregnancy controller test', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 });

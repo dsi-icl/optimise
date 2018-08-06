@@ -24,6 +24,7 @@ describe('Fetching MeDRA codes', () => {
             expect(res.body).toBeDefined();
             expect(res.body).toHaveLength;
             expect(res.body.length).toBe(3);
+            return true;
         }));
 
     test('Search by code', () => admin
@@ -34,6 +35,7 @@ describe('Fetching MeDRA codes', () => {
             expect(res.body).toBeDefined();
             expect(res.body).toHaveLength;
             expect(res.body.length).toBe(8);
+            return true;
         }));
 
     test('Get children from parent', () => admin
@@ -44,6 +46,7 @@ describe('Fetching MeDRA codes', () => {
             expect(res.body).toBeDefined();
             expect(res.body).toHaveLength;
             expect(res.body.length).toBe(11);
+            return true;
         }));
 
     test('Get children from non existing parent', () => admin
@@ -54,5 +57,6 @@ describe('Fetching MeDRA codes', () => {
             expect(res.body).toBeDefined();
             expect(res.body).toHaveLength;
             expect(res.body.length).toBe(0);
+            return true;
         }));
 });

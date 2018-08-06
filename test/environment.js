@@ -17,27 +17,26 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
     static globalSetup() {
         process.env.NODE_ENV = 'test';
         console.log('\n');
-        return new Promise(function (resolve, reject) {
-            erase().then(() => migrate('testing').then(() => resolve(true)).catch(err => reject(err))).catch(err => reject(err));
-        }).then(() => {
-            optimiseServer = new OptimiseServer({});
-            return optimiseServer.start();
-        }).then((optimise_router) => {
-            optimiseRouter = optimise_router;
-            return true;
-        }).catch(err => {
-            console.error(err);
-        });
+        return erase()
+            .then(() => migrate('testing'))
+            .then(() => {
+                optimiseServer = new OptimiseServer({});
+                return optimiseServer.start();
+            }).then((optimise_router) => {
+                optimiseRouter = optimise_router;
+                return true;
+            }).catch(err => {
+                console.error(err);
+            });
     }
 
     static globalTeardown() {
-        optimiseServer.stop().then(() =>
-            new Promise(function (resolve, reject) {
-                erase().then(() => knex.destroy().then(() => resolve(true))).catch(err => reject(err));
-            })
-        ).catch(err => {
-            console.error(err);
-        });
+        optimiseServer.stop()
+            .then(() => erase())
+            .then(() => knex.destroy())
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     async setup() {

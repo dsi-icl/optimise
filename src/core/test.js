@@ -11,40 +11,40 @@ function Test() {
 
 Test.prototype.getTest = function (whereObj) {
     return new Promise(function (resolve, reject) {
-        getEntry('ORDERED_TESTS', whereObj, '*').then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        return getEntry('ORDERED_TESTS', whereObj, '*').then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
 
 Test.prototype.createTest = function (entryObj) {
     return new Promise(function (resolve, reject) {
-        createEntry('ORDERED_TESTS', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        return createEntry('ORDERED_TESTS', entryObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         });
     });
 };
 
 Test.prototype.updateTest = function (user, entryTest) {
     return new Promise(function (resolve, reject) {
-        updateEntry('ORDERED_TESTS', user, '*', { id: entryTest.id }, entryTest).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return updateEntry('ORDERED_TESTS', user, '*', { id: entryTest.id }, entryTest).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
         });
     });
 };
 
 Test.prototype.deleteTest = function (requester, idTest) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('ORDERED_TESTS', requester, idTest).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+        return deleteEntry('ORDERED_TESTS', requester, idTest).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
         });
     });
 };

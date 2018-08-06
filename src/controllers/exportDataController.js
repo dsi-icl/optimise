@@ -40,7 +40,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(convertedResult, 'DM'));
                     jsonFileArray.push(new createJsonDataFile(convertedResult, 'DM'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Smoking history data */
 
@@ -56,7 +57,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'SC_smoking'));
                     jsonFileArray.push(new createJsonDataFile(result, 'SC_smoking'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Alcohol consumption data */
 
@@ -75,7 +77,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'SU_alcoholConsumption'));
                     jsonFileArray.push(new createJsonDataFile(result, 'SU_alcoholConsumption'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient pregnancy data */
 
@@ -100,7 +103,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(convertedResult, 'MH_Pregnancy'));
                     jsonFileArray.push(new createJsonDataFile(convertedResult, 'MH_Pregnancy'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient vital signs data (within Visit) */
 
@@ -123,7 +127,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'VS'));
                     jsonFileArray.push(new createJsonDataFile(result, 'VS'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient Adverse Events data- Pregnancy */
 
@@ -143,7 +148,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'AE_Pregnancy'));
                     jsonFileArray.push(new createJsonDataFile(result, 'AE_Pregnancy'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient Adverse Events data- Clinical Events */
 
@@ -163,7 +169,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'AE_ClinicalEvents'));
                     jsonFileArray.push(new createJsonDataFile(result, 'AE_ClinicalEvents'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient Adverse Events data- Treatment interruptions */
 
@@ -185,7 +192,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'AE_Treatments'));
                     jsonFileArray.push(new createJsonDataFile(result, 'AE_Treatments'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient medical history data */
 
@@ -209,7 +217,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(convertedResult, 'MH_Relations'));
                     jsonFileArray.push(new createJsonDataFile(convertedResult, 'MH_Relations'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient immunisation data */
 
@@ -230,7 +239,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(convertedResult, 'MH_immunisation'));
                     jsonFileArray.push(new createJsonDataFile(convertedResult, 'MH_immunisation'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient diagnosis data */
 
@@ -254,7 +264,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(convertedResult, 'MH_diagnosis'));
                     jsonFileArray.push(new createJsonDataFile(convertedResult, 'MH_diagnosis'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient CE data */
 
@@ -288,7 +299,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(newResult, 'CE'));
                     jsonFileArray.push(new createJsonDataFile(newResult, 'CE'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient Evoked Potential test data */
 
@@ -318,7 +330,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(newResult, 'NV'));
                     jsonFileArray.push(new createJsonDataFile(newResult, 'NV'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient Laboratory Test data */
 
@@ -344,7 +357,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'LB'));
                     jsonFileArray.push(new createJsonDataFile(result, 'LB'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Lumbar Puncture */
 
@@ -378,7 +392,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(lbprReuslt, 'LBPR'));
                     jsonFileArray.push(new createJsonDataFile(lbprReuslt, 'LBPR'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient MRI data */
 
@@ -403,7 +418,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'MO'));
                     jsonFileArray.push(new createJsonDataFile(result, 'MO'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Clinical Event data */
 
@@ -423,7 +439,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'FA'));
                     jsonFileArray.push(new createJsonDataFile(result, 'FA'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient Symptoms and Signs at Visits */
 
@@ -444,7 +461,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'CE_symptomsSigns'));
                     jsonFileArray.push(new createJsonDataFile(result, 'CE_symptomsSigns'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Performance Measures Visual Acuity */
 
@@ -468,7 +486,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'OE'));
                     jsonFileArray.push(new createJsonDataFile(result, 'OE'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Performance Measures Questionnaires */
 
@@ -492,7 +511,8 @@ class ExportDataController {
                     csvFileArray.push(new createCsvDataFile(result, 'QS'));
                     jsonFileArray.push(new createJsonDataFile(result, 'QS'));
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Performance Measures Functional Tests */
 
@@ -517,7 +537,8 @@ class ExportDataController {
                     jsonFileArray.push(new createJsonDataFile(result, 'FT'));
 
                 }
-            });
+                return true;
+            }).catch(() => false);
 
         /* Patient treatment data- Domain EC may be more appropriate */
 
@@ -552,7 +573,8 @@ class ExportDataController {
                 }
                 let fileArray = csvFileArray.concat(jsonFileArray);
                 zipFiles(fileArray);
-            });
+                return true;
+            }).catch(() => false);
 
         /* function to create a json file */
 

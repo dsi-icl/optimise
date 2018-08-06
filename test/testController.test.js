@@ -26,6 +26,7 @@ describe('Create test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Request creation with bad body (should fail)', () => admin
@@ -36,6 +37,7 @@ describe('Create test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Request creation with wrong type visit (should fail)', () => admin
@@ -46,6 +48,7 @@ describe('Create test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Request creation with wrong type type (should fail)', () => admin
@@ -56,6 +59,7 @@ describe('Create test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Request creation with wrong type expectedOccurDate (should fail)', () => admin
@@ -66,6 +70,7 @@ describe('Create test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Request creation with actual occured data with good body (should succeed)', () => admin
@@ -76,6 +81,7 @@ describe('Create test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(5);
+            return true;
         }));
 
     test('Request creation with good body (should succeed)', () => admin
@@ -86,6 +92,7 @@ describe('Create test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(6);
+            return true;
         }));
 });
 
@@ -97,6 +104,7 @@ describe('Update test controller tests', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBe(1);
+            return true;
         }));
 });
 
@@ -108,6 +116,7 @@ describe('Delete test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Request deletion with bad body (should fail)', () => admin
@@ -118,6 +127,7 @@ describe('Delete test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Request deletion with good body by standard user (should succeed)', () => user
@@ -128,6 +138,7 @@ describe('Delete test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Request deletion with bad ID type (should fail)', () => admin
@@ -138,6 +149,7 @@ describe('Delete test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Request deletion with bad ID reference (should fail)', () => admin
@@ -148,6 +160,7 @@ describe('Delete test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(0);
+            return true;
         }));
 
     test('Request deletion with good body (should succeed)', () => admin
@@ -158,5 +171,6 @@ describe('Delete test controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 });

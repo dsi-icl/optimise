@@ -17,20 +17,20 @@ function User() {
 
 User.prototype.getUserByUsername = function (user) {
     return new Promise(function (resolve, reject) {
-        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('username', 'like', user).andWhere({ deleted: '-' }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        return knex('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('username', 'like', user).andWhere({ deleted: '-' }).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
 
 User.prototype.getUserByID = function (uid) {
     return new Promise(function (resolve, reject) {
-        knex('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('id', uid).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        return knex('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('id', uid).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
@@ -46,10 +46,10 @@ User.prototype.createUser = function (userReq, user) {
         entryObj.iterations = hashContainer.iteration;
         entryObj.adminPriv = user.isAdmin;
         entryObj.createdByUser = userReq.id;
-        createEntry('USERS', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        return createEntry('USERS', entryObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         });
     });
 };
@@ -58,75 +58,73 @@ User.prototype.updateUser = function (user) {
     return new Promise(function (resolve, reject) {
         try {
             let hashContainer = generateAndHash(user.pw);
-            knex('USERS').update({ 'pw': hashContainer.hashed, 'salt': hashContainer.salt, 'iterations': hashContainer.iteration }).where({ username: user.username, deleted: '-' }).then(function (result) {
-                resolve(result);
-            }, function (error) {
-                reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+            return knex('USERS').update({ 'pw': hashContainer.hashed, 'salt': hashContainer.salt, 'iterations': hashContainer.iteration }).where({ username: user.username, deleted: '-' }).then(function (result) {
+                return resolve(result);
+            }).catch(function (error) {
+                return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             });
         } catch (err) {
-            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, err));
-            return;
+            return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, err));
         }
     });
 };
 
 User.prototype.changeRights = function (user) {
     return new Promise(function (resolve, reject) {
-        knex('USERS').update({ 'adminPriv': user.adminPriv }).where({ id: user.id, deleted: '-' }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return knex('USERS').update({ 'adminPriv': user.adminPriv }).where({ id: user.id, deleted: '-' }).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
         });
     });
 };
 
 User.prototype.changeRights = function (user) {
     return new Promise(function (resolve, reject) {
-        knex('USERS').update({ 'adminPriv': user.adminPriv }).where({ id: user.id, deleted: '-' }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return knex('USERS').update({ 'adminPriv': user.adminPriv }).where({ id: user.id, deleted: '-' }).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
         });
     });
 };
 
 User.prototype.deleteUser = function (user, userReq) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('USERS', user, userReq).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+        return deleteEntry('USERS', user, userReq).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
         });
     });
 };
 
 User.prototype.eraseUser = function (id) {
     return new Promise(function (resolve, reject) {
-        eraseEntry('USERS', { 'id': id }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.ERASEFAILED, error));
+        return eraseEntry('USERS', { 'id': id }).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.ERASEFAILED, error));
         });
     });
 };
 
 User.prototype.loginUser = function (user) {
     return new Promise(function (resolve, reject) {
-        getEntry('USERS', { username: user.username }, { pw: 'pw', id: 'id', username: 'username', priv: 'adminPriv', salt: 'salt', iteration: 'iterations' }).then(function (result) {
+        return getEntry('USERS', { username: user.username }, { pw: 'pw', id: 'id', username: 'username', priv: 'adminPriv', salt: 'salt', iteration: 'iterations' }).then(function (result) {
             if (result.length <= 0)
-                reject(ErrorHelper(message.errorMessages.GETFAIL));
+                return reject(ErrorHelper(message.errorMessages.GETFAIL));
             try {
                 let crypted = hash(user.pw, result[0].salt, result[0].iteration);
                 if (crypted !== result[0].pw)
-                    reject(ErrorHelper(message.userError.BADPASSWORD, new Error(message.userError.WRONGARGUMENTS)));
+                    return reject(ErrorHelper(message.userError.BADPASSWORD, new Error(message.userError.WRONGARGUMENTS)));
                 else
-                    resolve(result[0]);
+                    return resolve(result[0]);
             } catch (err) {
-                reject(err);
-                return;
+                return reject(err);
             }
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };

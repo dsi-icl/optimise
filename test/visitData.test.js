@@ -23,6 +23,7 @@ describe('Creating VISIT data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}visitId`);
+            return true;
         }));
 
     test('Request creation without add or update', () => admin
@@ -33,6 +34,7 @@ describe('Creating VISIT data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}visitId`);
+            return true;
         }));
 
     test('Request creation without visit id', () => admin
@@ -43,6 +45,7 @@ describe('Creating VISIT data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}visitId`);
+            return true;
         }));
 
     test('Request creation with invalid value for id', () => admin
@@ -53,6 +56,7 @@ describe('Creating VISIT data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.VISIT);
+            return true;
         }));
 
     test('Request creation with invalid field', () => admin
@@ -63,6 +67,7 @@ describe('Creating VISIT data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.FIELDNOTFOUND);
+            return true;
         }));
 
     test('Request creation with invalid value for requested field', () => admin
@@ -73,6 +78,7 @@ describe('Creating VISIT data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.FIELDNOTFOUND);
+            return true;
         }));
 
     test('Request creation with wrong type', () => user
@@ -83,6 +89,7 @@ describe('Creating VISIT data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.dataMessage.NUMBERFIELD}Systolic Blood Pressure`);
+            return true;
         }));
 
 
@@ -96,6 +103,7 @@ describe('Creating VISIT data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 
     test('Request update succesfull', () => admin
@@ -108,5 +116,6 @@ describe('Creating VISIT data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 });

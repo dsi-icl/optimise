@@ -23,6 +23,7 @@ describe('Creating CE data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}clinicalEventId`);
+            return true;
         }));
 
     test('Request creation without add or update', () => admin
@@ -33,6 +34,7 @@ describe('Creating CE data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}clinicalEventId`);
+            return true;
         }));
 
     test('Request creation without clinicalEvent id', () => admin
@@ -43,6 +45,7 @@ describe('Creating CE data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}clinicalEventId`);
+            return true;
         }));
 
     test('Request creation with invalid value for id', () => admin
@@ -53,6 +56,7 @@ describe('Creating CE data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.CLINICALEVENT);
+            return true;
         }));
 
     test('Request creation with invalid field', () => admin
@@ -63,6 +67,7 @@ describe('Creating CE data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.FIELDNOTFOUND);
+            return true;
         }));
 
     test('Request creation with invalid value for requested field', () => admin
@@ -73,6 +78,7 @@ describe('Creating CE data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.FIELDNOTFOUND);
+            return true;
         }));
 
     test('Request creation succesfull', () => user
@@ -85,6 +91,7 @@ describe('Creating CE data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 
     test('Request update succesfull (as admin)', () => admin
@@ -97,6 +104,7 @@ describe('Creating CE data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 
     test('Request creation of incompatible reference type and parent clinical event', () => user
@@ -107,6 +115,7 @@ describe('Creating CE data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.INVALIDFIELD);
+            return true;
         }));
 
     test('Request creation successfull (as user)', () => user
@@ -119,6 +128,7 @@ describe('Creating CE data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 
     test('Request update succesfull (as user)', () => user
@@ -131,6 +141,7 @@ describe('Creating CE data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 
     test('Request creation with wrong type', () => user
@@ -141,6 +152,7 @@ describe('Creating CE data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.userError.INVALIDDATE} at field Date of discharge`);
+            return true;
         }));
 
     test('Request creation with wrong none ISO date format', () => user
@@ -151,6 +163,7 @@ describe('Creating CE data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.userError.INVALIDDATE} at field Date of discharge`);
+            return true;
         }));
 
     test('Request creation with correct ISO date format', () => user
@@ -163,6 +176,7 @@ describe('Creating CE data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 
     test('Request update with wrong none ISO date format', () => user
@@ -173,6 +187,7 @@ describe('Creating CE data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.userError.INVALIDDATE} at field Date of discharge`);
+            return true;
         }));
 
     test('Request update with correct ISO date format', () => user
@@ -185,6 +200,7 @@ describe('Creating CE data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 
     test('Request reset of field', () => user
@@ -197,5 +213,6 @@ describe('Creating CE data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 });

@@ -20,6 +20,7 @@ describe('Visit controller tests', () => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBeGreaterThanOrEqual(1);
+            return true;
         }));
 
     test('Getting report of a visit that does not have visit', () => admin
@@ -29,6 +30,7 @@ describe('Visit controller tests', () => {
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBe(0);
             expect(typeof res.body).toBe('object');
+            return true;
         }));
 
     test('Creating report for a visit', () => admin
@@ -43,6 +45,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(2);
+            return true;
         }));
 
     test('Creating the same report for a visit (should fail)', () => admin
@@ -56,6 +59,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            return true;
         }));
 
     test('Getting report of this visit', () => admin
@@ -64,6 +68,7 @@ describe('Visit controller tests', () => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBe(1);
+            return true;
         }));
 
     test('Updating report from id', () => admin
@@ -77,6 +82,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Updating report from id second pass', () => admin
@@ -90,6 +96,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Updating report which does not exist', () => admin
@@ -101,6 +108,7 @@ describe('Visit controller tests', () => {
         .then(res => {
             expect(res.statusCode).toBe(400);
             expect(typeof res.body).toBe('object');
+            return true;
         }));
 
     test('Deleting report from visitId', () => admin
@@ -111,6 +119,7 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Deleting report which does not exist', () => admin
@@ -121,5 +130,6 @@ describe('Visit controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(0);
+            return true;
         }));
 });

@@ -73,10 +73,10 @@ TreatmentController.prototype.createTreatment = function (req, res) {
     };
     this.treatment.createTreatment(entryObj).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        return;
+        return false;
     });
 };
 
@@ -91,10 +91,10 @@ TreatmentController.prototype.addTerminationDate = function (req, res) {    //fo
         this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': momentTerminated.valueOf(), 'terminatedReason': req.body.terminatedReason })
             .then(function (result) {
                 res.status(200).json(formatToJSON(result));
-                return;
-            }, function (error) {
+                return true;
+            }).catch(function (error) {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-                return;
+                return false;
             });
     } else if (!((req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('terminationDate')) && req.body.hasOwnProperty('terminatedReason'))) {
         res.status(400).json(message.userError.MISSINGARGUMENT);
@@ -124,10 +124,10 @@ TreatmentController.prototype.editTreatment = function (req, res) {
 
         this.treatment.updateTreatment(req.user, req.body.id, newObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.userError.UPDATEFAIL, error));
-            return;
+            return false;
         });
         return;
     } else if (!req.body.hasOwnProperty('id')) {
@@ -151,13 +151,14 @@ TreatmentController.prototype.deleteTreatment = function (req, res) {
     this.treatment.deleteTreatment(req.user, req.body.treatmentId).then(function (result) {
         if (result.body === 0) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
+            return false;
         } else {
             res.status(200).json(formatToJSON(result));
-            return;
+            return true;
         }
-    }, function (error) {
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        return;
+        return false;
     });
 };
 
@@ -186,10 +187,10 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
         };
         this.treatment.addInterruption(req.user, entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            return;
+            return false;
         });
     } else if (!(req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('start_date'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -205,12 +206,14 @@ TreatmentController.prototype.deleteInterruption = function (req, res) {
         this.treatment.deleteInterruption(req.user, req.body.treatmentInterId).then(function (result) {
             if (result.body === 0) {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
+                return false;
             } else {
                 res.status(200).json(formatToJSON(result));
-                return;
+                return true;
             }
-        }, function (error) {
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+            return false;
         });
     } else if (!(req.body.hasOwnProperty('treatmentInterId'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -225,19 +228,19 @@ TreatmentController.prototype.getReasons = function (req, res) {
     if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
         this.treatment.searchReasons(`%${req.query.name}%`).then(function (result) {
             res.status(200).json(result);
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
         return;
     } else {
         this.treatment.getReasons().then(function (result) {
             res.status(200).json(result);
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
         return;
     }
@@ -247,19 +250,19 @@ TreatmentController.prototype.getDrugs = function (req, res) {
     if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
         this.treatment.searchDrugs(`%${req.query.name}%`).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
         return;
     } else {
         this.treatment.getDrugs().then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
         return;
     }

@@ -24,6 +24,7 @@ describe('Create Clinical Event controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Request creation with bad date format (should fail)', () => admin
@@ -43,6 +44,7 @@ describe('Create Clinical Event controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Request creation with bad body (should fail)', () => admin
@@ -62,6 +64,7 @@ describe('Create Clinical Event controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Request creation with good patient and visit (should succeed)', () => admin
@@ -77,6 +80,7 @@ describe('Create Clinical Event controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(6);
+            return true;
         }));
 });
 
@@ -92,6 +96,7 @@ describe('Update Clinical Event', () => {
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBe(1);
+            return true;
         }));
 });
 
@@ -106,6 +111,7 @@ describe('Delete Clinical Event controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Request deletion without body (should fail)', () => admin
@@ -115,6 +121,7 @@ describe('Delete Clinical Event controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Request deletion with bad body (should fail)', () => admin
@@ -127,6 +134,7 @@ describe('Delete Clinical Event controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Request deletion with bad ID reference (should fail)', () => admin
@@ -137,6 +145,7 @@ describe('Delete Clinical Event controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(0);
+            return true;
         }));
 
     test('Request deletion with good body (should succeed)', () => admin
@@ -147,5 +156,6 @@ describe('Delete Clinical Event controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 });

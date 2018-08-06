@@ -11,40 +11,40 @@ function PatientPii() {
 
 PatientPii.prototype.getPatientPii = function (whereObj) {
     return new Promise(function (resolve, reject) {
-        getEntry('PATIENT_PII', whereObj, { id: 'id', patient: 'patient', firstName: 'firstName', surname: 'surname', fullAddress: 'fullAddress', postcode: 'postcode' }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
+        return getEntry('PATIENT_PII', whereObj, { id: 'id', patient: 'patient', firstName: 'firstName', surname: 'surname', fullAddress: 'fullAddress', postcode: 'postcode' }).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
         });
     });
 };
 
 PatientPii.prototype.createPatientPii = function (entryObj) {
     return new Promise(function (resolve, reject) {
-        createEntry('PATIENT_PII', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
+        return createEntry('PATIENT_PII', entryObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
         });
     });
 };
 
 PatientPii.prototype.updatePatientPii = function (user, idPatient, updatedObj) {
     return new Promise(function (resolve, reject) {
-        updateEntry('PATIENT_PII', user, '*', { 'patient': idPatient }, updatedObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
+        return updateEntry('PATIENT_PII', user, '*', { 'patient': idPatient }, updatedObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
         });
     });
 };
 
 PatientPii.prototype.deletePatientPii = function (user, whereObj) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('PATIENT_PII', user, whereObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
+        return deleteEntry('PATIENT_PII', user, whereObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(messages.errorMessages.GETFAIL, error));
         });
     });
 };

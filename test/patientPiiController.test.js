@@ -25,6 +25,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             })
     );
 
@@ -41,6 +42,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             })
     );
 
@@ -58,6 +60,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             })
     );
 
@@ -75,6 +78,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+                return true;
             })
     );
 
@@ -91,6 +95,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             })
     );
 
@@ -108,6 +113,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             })
     );
 
@@ -124,6 +130,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             })
     );
 
@@ -141,6 +148,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             })
     );
 
@@ -157,6 +165,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             })
     );
 
@@ -174,6 +183,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             })
     );
 
@@ -191,6 +201,7 @@ describe('Create PII controller test', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
                 expect(res.body.state).toBe(3);
+                return true;
             })
     );
 
@@ -205,6 +216,7 @@ describe('Editing PII test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             }));
 
     test('Editing without id parameter', () =>
@@ -221,6 +233,7 @@ describe('Editing PII test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             }));
 
     test('Editing with wrong id', () =>
@@ -238,6 +251,7 @@ describe('Editing PII test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             }));
 
     test('Editing with bad id', () =>
@@ -255,6 +269,7 @@ describe('Editing PII test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+                return true;
             }));
 
     test('Editing with bad patient', () =>
@@ -272,6 +287,7 @@ describe('Editing PII test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+                return true;
             }));
 
     test('Editing with good parameters', () =>
@@ -289,6 +305,7 @@ describe('Editing PII test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
                 expect(res.body.state).toBe(1);
+                return true;
             }));
 });
 
@@ -302,6 +319,7 @@ describe('Delete PII test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             }));
 
     test('Deleting with wrong id', () =>
@@ -314,6 +332,7 @@ describe('Delete PII test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             }));
 
     test('Deleting with bad id', () =>
@@ -326,6 +345,7 @@ describe('Delete PII test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
                 expect(res.body.state).toBe(0);
+                return true;
             }));
 
     test('Deleting with good parameters', () =>
@@ -338,6 +358,7 @@ describe('Delete PII test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
                 expect(res.body.state).toBe(1);
+                return true;
             }));
 
 });
