@@ -214,7 +214,7 @@ class CommunicationEditor extends Component {
                 </div>
                 <br />
                 <div className={`${style.comIntervalBox} ${this.state.nextType ? style.showInterval : ''}`}>
-                    <label htmlFor='interval'>Collect {this.state.nextType === 'ceBlock' ? 'clinical events' : this.state.nextType === 'testBlock' ? 'tests' : 'treatments'} accross:</label><br />
+                    <label htmlFor='interval'>Collect {this.state.nextType === 'ceBlock' ? 'clinical events' : this.state.nextType === 'testBlock' ? 'tests' : 'treatments'} across:</label><br />
                     <select value={this.state.intervalValue} name='interval' onChange={this._handleIntervalChange}>
                         <option value='1'>The past month</option>
                         <option value='2'>The past two months</option>

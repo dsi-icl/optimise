@@ -239,7 +239,7 @@ class EDSSCalculator extends Component {
                         <br /><br />
                         <label htmlFor='calcSocre'>Computed total score (automatically generated): </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
                         <br /><br />
-                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinican): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
+                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinician): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                         <br /><br />
                         <button type='submit'>Save</button>
                     </form>

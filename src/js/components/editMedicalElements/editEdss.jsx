@@ -95,7 +95,7 @@ export default class EditPerformanceMesaure extends Component {
                     <span><i>This is for the visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i></span><br /><br />
                     <div>
                         You can enter your EDSS score estimation in the following field.<br /><br />
-                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinican): </label><input key={Math.random()} type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
+                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinician): </label><input key={Math.random()} type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                         <br /><br />
                         <button type='submit'>Save</button><br /><br />
                         Or alternatively use the EDSS calculator as a guide by clicking on the following button.<br /><br />
