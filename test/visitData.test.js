@@ -90,7 +90,6 @@ describe('Creating VISIT data', () => {
         .post('/data/visit')
         .send({ visitId: 1, add: { 1: 23 } })
         .then(res => {
-            console.log(res.error);
             expect(res.status).toBe(200);
             expect(typeof res.body).toBe('object');
             expect(res.body.success).toBeDefined();
