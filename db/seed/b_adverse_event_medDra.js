@@ -8,6 +8,6 @@ exports.seed = function (knex) {
     return knex('ADVERSE_EVENT_MEDDRA').del()
         .then(function () {
             // Inserts seed entries
-            return knex.batchInsert('ADVERSE_EVENT_MEDDRA', aeMedDRAList, 500);
+            return knex.batchInsert('ADVERSE_EVENT_MEDDRA', aeMedDRAList, 100);
         });
 };

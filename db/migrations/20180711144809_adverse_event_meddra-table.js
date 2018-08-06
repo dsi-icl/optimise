@@ -1,7 +1,10 @@
 exports.up = function (knex) {
-    return knex.schema.createTable('ADVERSE_EVENT_MEDDRA', function(table){
+    return knex.schema.createTable('ADVERSE_EVENT_MEDDRA', function (table) {
         table.increments('id').primary().notNullable();
+        table.text('code').notNullable();
         table.text('name').notNullable();
+        table.integer('parent').nullable();
+        table.boolean('isLeaf').notNullable();
     });
 };
 
