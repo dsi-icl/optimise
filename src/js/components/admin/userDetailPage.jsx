@@ -101,11 +101,10 @@ class ChangeUserPassword extends Component {
                                     </td>
                                 </tr>
                             </tbody>
-                        </table><br />
-                        <br />
+                        </table><br /><br />
+                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /><br /></> : null}
                         <button onClick={this._handleSubmit}>Submit</button><br /><br />
                         <button onClick={this._handleClickingAdd}>Cancel</button>
-                        {this.state.error ? <div className={style.error}> Error: The two passwords are different; or empty. </div> : null}
                     </>
                 }
             </>

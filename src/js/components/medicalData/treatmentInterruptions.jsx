@@ -122,9 +122,9 @@ export class TreatmentInterruption extends Component {
                                         <b>MedDRA: </b><SuggestionInput reference={this.meddraRef} /><br />
                                     </div>
                                     <br />
+                                    {this.state.error ? <><div className={style.error}> Your medDRA code is not a permitted value.</div><br /></> : null}
                                     <button onClick={this._handleSubmit}>Submit</button><br /><br />
                                     <button onClick={this._handleClickingAdd}>Cancel</button><br />
-                                    {this.state.error ? <><br /><div className={style.error}> Your medDRA code is not a permitted value.</div></> : null}
                                 </>}
                         </form>
                     </>

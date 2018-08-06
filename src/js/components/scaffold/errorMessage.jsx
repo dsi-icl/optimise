@@ -30,7 +30,7 @@ export default class ErrorMessage extends PureComponent {
                     <div className={style.errorMessageDialogBox}>
                         <span><b>OOPS!</b></span> <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span><br /><br />
                         It seems you have encountered an error! <br />
-                        Hopefully the following error message can help:<br /><br />
+                        Hopefully, the following error message can help:<br /><br />
                         <div>{compile}</div>
                     </div>
                 </div>
