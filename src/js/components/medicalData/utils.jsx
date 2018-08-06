@@ -315,7 +315,7 @@ export function mappingFields(typeHash, references, originalValues) {
                 default:
                     return (
                         <div key={Math.random()} className={style.dataItem}>
-                            <label>{content.definition}</label>
+                            <label>{content.definition}{content.unit ? <em> in {content.unit}</em> : ''}</label>
                             <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
                         </div>
                     );
