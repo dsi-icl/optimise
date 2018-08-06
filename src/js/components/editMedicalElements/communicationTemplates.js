@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 //all test block in draft-js has a key. To make the templates below pure functions a keygen is defined here.
 const keygen = () => Math.random().toString(35).slice(2, 8);
 
@@ -51,36 +53,36 @@ export const visitTitle = (patientId, visitDate, visitType) => (
 
 
 /*  for formating tests  */
-export const testTitle = () => (
-    'Tests:'
+export const testTitle = (duration) => (
+    `Tests (going back ${duration === 2000 ? 'the whole history' : moment.duration(duration, 'months').humanize()}):`
 );
 
 const oneTest = (test, typeTable) => {
     const name = typeTable[test.type];
-    const date = new Date(parseInt(test.expectedOccurDate)).toDateString();
+    const date = test.actualOccurredDate || test.expectedOccurDate ? new Date(parseInt(test.actualOccurredDate || test.expectedOccurDate)).toDateString() : '';
     return `- ${name}: ${date}`;
 };
 
-export const formatTests = (testList, typeTable) => {
+export const formatTests = (testList, typeTable, duration) => {
     if (testList.length === 0) {
         return () => [
             blockgen(''),
-            blockgen(testTitle(), [{ offset: 0, length: 6, style: 'BOLD' }]),
+            blockgen(testTitle(duration), [{ offset: 0, length: 6, style: 'BOLD' }]),
             blockgen('No test was recorded.', [])
         ];
     }
     const strings = testList.map(el => oneTest(el, typeTable));
     return () => [
         blockgen(''),
-        blockgen(testTitle(), [{ offset: 0, length: 6, style: 'BOLD' }]),
+        blockgen(testTitle(duration), [{ offset: 0, length: 6, style: 'BOLD' }]),
         ...strings.map(el => blockgen(el, [{ offset: el.lastIndexOf(':') + 2, length: el.length - el.lastIndexOf(':') - 2, style: 'ITALIC' }]))
     ];
 };
 
 
 /* for formating events */
-export const eventTitle = () => (
-    'Clinical events:'
+export const eventTitle = (duration) => (
+    `Clinical events (going back ${duration === 2000 ? 'the whole history' : moment.duration(duration, 'months').humanize()}):`
 );
 
 const oneEvent = (event, typeTable) => {
@@ -89,18 +91,18 @@ const oneEvent = (event, typeTable) => {
     return `- ${name}: ${date}`;
 };
 
-export const formatEvents = (eventList, typeTable) => {
+export const formatEvents = (eventList, typeTable, duration) => {
     if (eventList.length === 0) {
         return () => [
             blockgen(''),
-            blockgen(eventTitle(), [{ offset: 0, length: 16, style: 'BOLD' }]),
+            blockgen(eventTitle(duration), [{ offset: 0, length: 16, style: 'BOLD' }]),
             blockgen('No clinical event was recorded.', [])
         ];
     }
     const strings = eventList.map(el => oneEvent(el, typeTable));
     return () => [
         blockgen(''),
-        blockgen(eventTitle(), [{ offset: 0, length: 16, style: 'BOLD' }]),
+        blockgen(eventTitle(duration), [{ offset: 0, length: 16, style: 'BOLD' }]),
         ...strings.map(el => blockgen(el, [{ offset: el.lastIndexOf(':') + 2, length: el.length - el.lastIndexOf(':') - 2, style: 'ITALIC' }]))
     ];
 };
@@ -108,8 +110,8 @@ export const formatEvents = (eventList, typeTable) => {
 
 
 /* for formating treatment */
-const treatmentTitle = () => (
-    'Treatments:'
+const treatmentTitle = (duration) => (
+    `Treatments (going back ${duration === 2000 ? 'the whole history' : moment.duration(duration, 'months').humanize()}):`
 );
 
 const oneTreatment = (treatment, typeTable) => {
@@ -122,11 +124,11 @@ const oneTreatment = (treatment, typeTable) => {
     return `- ${name}: ${date}`;
 };
 
-export const formatTreatments = (treatmentList, typeTable) => {
+export const formatTreatments = (treatmentList, typeTable, duration) => {
     if (treatmentList.length === 0) {
         return () => [
             blockgen(''),
-            blockgen(treatmentTitle(), [{ offset: 0, length: 11, style: 'BOLD' }]),
+            blockgen(treatmentTitle(duration), [{ offset: 0, length: 100, style: 'BOLD' }]),
             blockgen('No treatment was recorded.', [])
         ];
 
@@ -134,15 +136,14 @@ export const formatTreatments = (treatmentList, typeTable) => {
     const strings = treatmentList.map(el => oneTreatment(el, typeTable));
     return () => [
         blockgen(''),
-        blockgen(treatmentTitle(), [{ offset: 0, length: 11, style: 'BOLD' }]),
+        blockgen(treatmentTitle(duration), [{ offset: 0, length: 100, style: 'BOLD' }]),
         ...strings.map(el => blockgen(el, [{ offset: el.lastIndexOf(':') + 2, length: el.length - el.lastIndexOf(':') - 2, style: 'ITALIC' }]))
     ];
 };
 
-const camelize = (str) => {
-    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
-        if (+match === 0) return '';
-        return index === 0 ? match.toUpperCase() : match.toLowerCase();
+const toTitleCase = (str) => {
+    return str.replace(/\w\S*/g, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
 };
 
@@ -150,9 +151,9 @@ const oneSignOrSymptom = (data, VSFields_Hash) => {
     const fieldObj = VSFields_Hash[data.field];
     if (fieldObj) {
         if (fieldObj.type === 5) {
-            return `- ${fieldObj.definition}: ${data.value === '1' ? 'Yes' : (data.value === '0' ? 'No' : 'Unknown')}`;
+            return `- ${fieldObj.idname.replace(/:/g, ' > ')}: ${data.value === '1' ? 'Yes' : (data.value === '0' ? 'No' : 'Unknown')}`;
         }
-        return `- ${fieldObj.definition}: ${camelize(data.value)}`;
+        return `- ${fieldObj.idname.replace(/:/g, ' > ')}: ${toTitleCase(data.value)}`;
     } else {
         return '';
     }

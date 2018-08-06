@@ -1,11 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Icon from '../icon';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 import style from './patientProfile.module.css';
-import { Set } from '../../../../node_modules/immutable';
 
 /*
 Timeline:
@@ -17,7 +16,7 @@ from its date which css grid area it belongs to, by calculating the ratio and th
 export class TimelineBox extends Component {   //unfinsihed
     render() {
         const allVisitDates = this.props.data.visits.filter(el => el.type === 1).map(el => el.visitDate);
-        const allTestDates = this.props.data.tests.map(el => el.expectedOccurDate);
+        const allTestDates = this.props.data.tests.map(el => el.actualOccurredDate || el.expectedOccurDate);
         const allTreatmentDates = this.props.data.treatments.map(el => el.startDate);
         const allCEDates = [];
         this.props.data.clinicalEvents.forEach(function (el) {
@@ -28,10 +27,10 @@ export class TimelineBox extends Component {   //unfinsihed
         });
         const allDates = [...allVisitDates, ...allTestDates, ...allTreatmentDates, ...allCEDates].map(el => parseInt(el));
         allDates.sort();
-        const daySpan = parseInt(((allDates[allDates.length - 1] - allDates[0]) / 86400000), 10);
-        const numOfCols = `10% ${'1fr '.repeat(daySpan + 3)}`;
+        let maxDatePoint = allDates[allDates.length - 1] - allDates[0];
+
         const TimelineDynamicStyle = {
-            gridTemplateColumns: numOfCols,
+            gridTemplateColumns: `10% 2% ${'0.88%'.repeat(100)}`,
             gridTemplateRows: '1em 0.5em 1em 0.5em 1em 0.5em 1em 0.5em 1em'
 
         };
@@ -53,43 +52,54 @@ export class TimelineBox extends Component {   //unfinsihed
 
 
         const mappingVisitFunction = visit => {
-            const date = visit.visitDate;
-            const ratio = parseInt((date - allDates[0]) / 86400000, 10);
+
+            const startDate = parseInt(visit.visitDate, 10);
+            let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
+            let end = start + 1;
+            end = end > 100 ? 100 : end;
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${visit.id}`} href={`#visit/${visit.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '3', textDecoration: 'none' }}>
+                <a style={{ gridColumn: `${start + 3}/${end + 2}`, gridRow: '3' }} title={new Date(startDate).toDateString()} key={`${visit.id}`} href={`#visit/${visit.id}`}>
                     <div className={style.timelineVisit}>-</div>
                 </a>
             );
         };
 
         const mappingTestFunction = test => {
-            const date = test.expectedOccurDate;
-            const ratio = parseInt((date - allDates[0]) / 86400000, 10);
+
+            const startDate = parseInt(test.actualOccurredDate || test.expectedOccurDate, 10);
+            let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
+            let end = start + 1;
+            end = end > 100 ? 100 : end;
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${test.id}test`} href={`#test/${test.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + 4}`, gridRow: '5', textDecoration: 'none' }}>
+                <a style={{ gridColumn: `${start + 3}/${end + 2}`, gridRow: '5' }} title={new Date(startDate).toDateString()} key={`${test.id}`} href={`#test/${test.id}`}>
                     <div className={style.timelineTest}>-</div>
                 </a>
             );
         };
 
         const mappingMedFunction = med => {
-            const date = med.startDate;
-            const ratio = parseInt((date - allDates[0]) / 86400000, 10);
-            let endDate = med.terminatedDate && !isNaN(parseInt(med.terminatedDate)) ? parseInt(med.terminatedDate) : moment().valueOf();
-            const durationInDays = Math.floor((endDate - parseInt(med.startDate)) / 1000 / 60 / 60 / 24);
+
+            const startDate = parseInt(med.startDate, 10);
+            const endDate = parseInt(med.terminatedDate || moment().valueOf(), 10);
+            let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
+            let end = Math.floor((endDate - allDates[0]) * 100 / maxDatePoint);
+            end = end > 100 ? 100 : end;
             return (
-                <a title={new Date(parseInt(date, 10)).toDateString()} key={`${med.id}med`} href={`#treatment/${med.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '1', textDecoration: 'none' }}>
+                <a style={{ gridColumn: `${start + 3}/${end + 2}`, gridRow: '1' }} title={new Date(startDate).toDateString()} key={`${med.id}`} href={`#treatment/${med.id}`}>
                     <div className={style.timelineMed}>-</div>
                 </a>
             );
         };
 
         const mappingCEFunction = CE => {
-            const date = parseInt(CE.dateStartDate);
-            const ratio = parseInt((date - allDates[0]) / 86400000, 10);
-            const durationInDays = CE.endDate ? parseInt((parseInt(CE.endDate) - date) / 86400000, 10) : 1;
+
+            const startDate = parseInt(CE.dateStartDate, 10);
+            const endDate = parseInt(CE.endDate || moment().valueOf(), 10);
+            let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
+            let end = Math.floor((endDate - allDates[0]) * 100 / maxDatePoint);
+            end = end > 100 ? 100 : end;
             return (
-                <a title={new Date(date).toDateString()} key={`${CE.id}ce`} href={`#clinicalEvent/${CE.id}`} style={{ gridColumn: `${ratio + 3}/${ratio + durationInDays + 4}`, gridRow: '7', textDecoration: 'none' }}>
+                <a style={{ gridColumn: `${start + 3}/${end + 2}`, gridRow: '7' }} title={new Date(startDate).toDateString()} key={`${CE.id}`} href={`#clinicalEvent/${CE.id}`}>
                     <div className={CE.type === 4 ? style.timelineCEBlack : style.timelineCE}>-</div>
                 </a>
             );
@@ -103,7 +113,7 @@ export class TimelineBox extends Component {   //unfinsihed
             )}>
                 <div className={style.timelineBox} style={TimelineDynamicStyle}>
                     <div style={{ gridColumn: '1/2', gridRow: '1', overflow: 'hidden' }}>
-                        Meds
+                        Treatments
                     </div>
                     <div style={{ gridColumn: '1/2', gridRow: '3', overflow: 'hidden' }}>
                         Visits
@@ -121,7 +131,7 @@ export class TimelineBox extends Component {   //unfinsihed
                     {this.props.data.tests.map(mappingTestFunction)}
                     {this.props.data.treatments.map(mappingMedFunction)}
                     {this.props.data.clinicalEvents.map(mappingCEFunction)}
-                    <table style={{ gridColumn: `3/${daySpan + 4}`, gridRow: '9' }}><tbody><tr>{mappingDateFunction(allDates)}</tr></tbody></table>
+                    <table style={{ gridColumn: '3/102', gridRow: '9' }}><tbody><tr>{mappingDateFunction(allDates)}</tr></tbody></table>
                 </div>
             </PatientProfileSectionScaffold>
         );

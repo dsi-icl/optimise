@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { addAlert } from '../../redux/actions/alert';
@@ -35,12 +35,12 @@ export default class EditTest extends Component {
 
     _handleClick(ev) {
         ev.preventDefault();
-        store.dispatch(addAlert({ alert: 'about deleting this test?', handler: this._deleteFunction }));
+        store.dispatch(addAlert({ alert: 'Are you sure you want to delete this test record?', handler: this._deleteFunction }));
     }
 
     _deleteFunction() {
         const { params } = this.props.match;
-        const body = { patientId: params.patientId, data: { testID: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
+        const body = { patientId: params.patientId, data: { testId: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
         store.dispatch(deleteTestAPICall(body));
     }
 
@@ -54,7 +54,7 @@ export default class EditTest extends Component {
         }
         const testsFiltered = tests.filter(el => el.id === parseInt(params.elementId));
         if (testsFiltered.length !== 1) {
-            return <div> Cannot find your treatment! check your ID! </div>;
+            return <div> We cannot find this test!</div>;
         }
 
         const test = testsFiltered[0];
@@ -71,7 +71,7 @@ export default class EditTest extends Component {
                     }
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
                     <br /><br />
-                    Note: test type is not allowed to be changed. If you entered a test of the wrong type by error, you can delete the test and create a new one.
+                    Note: You cannot change the type of test. If you created the wrong type of test you can delete this event record and create a new one.
                 </form>
             </>
         );
@@ -123,22 +123,22 @@ class UpdateTestEntry extends Component {
         const { id, startDate, actualOccurredDate } = this.state;
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}`,
+            to: `/patientProfile/${patientId}/edit/test/${id}`,
             data: {
                 id,
-                expectedOccurDate: startDate.valueOf(),
-                actualOccurredDate: actualOccurredDate ? actualOccurredDate.valueOf() : null
+                expectedOccurDate: startDate.toISOString(),
+                actualOccurredDate: actualOccurredDate ? actualOccurredDate.toISOString() : null
             }
         };
         store.dispatch(updateTestCall(body));
     }
 
     render() {
-        const { actualOccurredDate } = this.state;
+        const { startDate, actualOccurredDate } = this.state;
         return (
             <>
                 <label>Expected Date: </label>
-                <PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} />
+                <PickDate startDate={startDate} handleChange={this._handleDateChange} />
                 <br /><br />
                 <label>Sample taking Date: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />

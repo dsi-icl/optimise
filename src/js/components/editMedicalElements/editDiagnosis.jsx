@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { PickDate } from '../createMedicalElements/datepicker';
@@ -54,7 +54,7 @@ class UpdateDiagnosisEntry extends Component {
             to: `/patientProfile/${patientId}`,
             data: {
                 id,
-                diagnosisDate: date.valueOf(),
+                diagnosisDate: date.toISOString(),
                 diagnosis: parseInt(diagnosisRef.current.value),
             }
         };

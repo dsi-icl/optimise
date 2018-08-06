@@ -1,14 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import merge from 'deepmerge';
+import moment from 'moment';
+import { PickDate } from '../createMedicalElements/datepicker';
+import Icon from '../icon';
+import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './dataPage.module.css';
 
 
 export class BackButton extends Component {
     render() {
         return (
-            <Link to={this.props.to} title='Close' className={scaffold_style.backButton}>&#10006;</Link>
+            <Link to={this.props.to} title='Close' className={scaffold_style.backButton}><Icon symbol='close' /></Link>
         );
     }
 }
@@ -285,31 +288,37 @@ export function mappingFields(typeHash, references, originalValues) {
         const content = el[1];
         if (content.hasOwnProperty('id')) {
             const origVal = originalValues[content.id];
+            let dateSlot;
             switch (typeHash[content.type]) {
-                case 'I':
-                case 'F':
-                case 'T':
-                    return (
-                        <div key={content.id} className={style.dataItem}>
-                            <label>{content.definition}</label>
-                            <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
-                        </div>
-                    );
                 case 'B':
                     return (
-                        <div key={content.id} className={style.dataItem}>
+                        <div key={Math.random()} className={style.dataItem}>
                             <BooleanField reference={references[content.id].ref} name={content.definition} default={origVal && origVal === '1' ? true : false} /><br /><br />
                         </div>
                     );
                 case 'C':
                     return (
-                        <div key={content.id} className={style.dataItem}>
+                        <div key={Math.random()} className={style.dataItem}>
                             <label>{content.definition}</label>
                             <SelectField origVal={origVal ? origVal : null} reference={references[content.id].ref} choices={content.permittedValues.split(',')} /><br /><br />
                         </div>
                     );
+                case 'D':
+                    dateSlot = origVal ? moment(origVal, moment.ISO_8601) : undefined;
+                    dateSlot = dateSlot && dateSlot.isValid() ? dateSlot : undefined;
+                    return (
+                        <div key={Math.random()} className={style.dataItem}>
+                            <label>{content.definition}</label>
+                            <PickDate startDate={dateSlot ? dateSlot : undefined} reference={references[content.id].ref} /><br /><br />
+                        </div>
+                    );
                 default:
-                    return null;
+                    return (
+                        <div key={Math.random()} className={style.dataItem}>
+                            <label>{content.definition}{content.unit ? <em> in {content.unit}</em> : ''}</label>
+                            <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
+                        </div>
+                    );
             }
         } else {
             return (

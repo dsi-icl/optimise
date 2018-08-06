@@ -29,9 +29,9 @@ export default class AlertMessage extends Component {
             return (
                 <div className={style.errorMessage}>
                     <div className={style.alertMessageDialogBox}>
-                        <span><h3>Are you sure...</h3></span> <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span>
-                        <br /><br /> {alert.alert}
-                        <br /><br /><br />
+                        <span><b>CAREFUL!</b></span> <span onClick={this._handleCancel} className={style.cancelButton}>&#10006;</span>
+                        <br /><br />{alert.alert}
+                        <br /><br />
                         <button onClick={this._handleConfirm}> YES, I AM SURE! </button>
                     </div>
                 </div>

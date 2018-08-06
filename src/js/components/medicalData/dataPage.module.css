@@ -313,6 +313,10 @@
     margin-top: 1em;
 }
 
+.dataItem em {
+    color: hsl(var(--color-background-h), var(--color-background-s), 75%);
+}
+
 .leftRightSelect {
     display: none;
 }

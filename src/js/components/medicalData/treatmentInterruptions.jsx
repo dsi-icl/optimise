@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { BackButton } from './dataPage';
+import { BackButton } from './utils';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
 import { SuggestionInput } from '../meDRA/meDRApicker';
@@ -59,20 +59,20 @@ export class TreatmentInterruption extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        let meddra = undefined;
         const meddraFields = this.props.meddra.result.filter(el => el.name === this.meddraRef.current.value);
-        if (meddraFields.length === 0) {
-            this.setState({ error: true });
-            return;
+        if (meddraFields.length > 0) {
+            meddra = meddra[0].id;
         }
         const data = this.props.patientProfile.data;
         const body = {
             patientId: data.patientId,
             data: {
                 treatmentId: parseInt(this.props.match.params.elementId, 10),
-                start_date: this.state.newStartDate._d.toDateString(),
-                end_date: this.state.noEndDate ? null : this.state.newEndDate._d.toDateString(),
+                start_date: this.state.newStartDate.toISOString(),
+                end_date: this.state.noEndDate ? null : this.state.newEndDate.toISOString(),
                 reason: parseInt(this.reasonRef.current.value, 10),
-                meddra: meddraFields[0].id
+                meddra: meddra
             }
         };
         store.dispatch(createTreatmentInterruptionAPICall(body));
@@ -130,7 +130,7 @@ export class TreatmentInterruption extends Component {
                     </>
                 );
             } else {
-                return <div> Cannot find your treatment! Please check the id in your url. </div>;
+                return <div>We cannot find this treatment!</div>;
             }
         } else {
             return <div><Icon symbol='loading' /></div>;

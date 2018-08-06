@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import Helmet from '../scaffold/helmet';
 import store from '../../redux/store';
 import style from './edss.module.css';
@@ -47,25 +47,16 @@ class EDSSCalculator extends Component {
         const edssFieldsId = EDSSFields.map(el => el.id);
         const visitsFiltered = patientProfile.visits.filter(el => el.id === parseInt(params.visitId));
         if (visitsFiltered.length !== 1) {
-            store.dispatch(addError({ error: 'Cannot find your visit' }));
+            store.dispatch(addError({ error: 'We cannot find this visit!' }));
             this.setState({ redirect: true });
         }
-        const ambulationID = this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) ambulation'];
         const data = visitsFiltered[0].data;
-        let orignalValuesWithoutAmbulation = [];
-        let ambulation;
         if (data) {
             this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseFloat(el.value); return a; }, {});
-            const tmpValues = { ...this.originalValues };
-            if (typeof tmpValues[ambulationID] !== undefined) {
-                ambulation = parseFloat(tmpValues[ambulationID]);
-                delete tmpValues[ambulationID];
-            }
-            orignalValuesWithoutAmbulation = Object.values(tmpValues);
+            this.setState({ autoCalculatedScore: edssAlgorithmFromProps(EDSSFields, data) });
         } else {
             this.originalValues = {};
         }
-        this.setState({ autoCalculatedScore: edssAlgorithm(orignalValuesWithoutAmbulation, ambulation) });
         this.forceUpdate();
     }
 
@@ -87,18 +78,18 @@ class EDSSCalculator extends Component {
             }
         }
         /* auto calculate the score */
-        if (!document.querySelector('input[name="edss:expanded disability status scale (edss) ambulation"]:checked')) {
+        if (!document.querySelector('input[name="edss:expanded disability status scale - ambulation"]:checked')) {
             this.setState({ autoCalculatedScore: 'Ambulation score must be provided.' });
             return;
         }
         const criteria = [
-            'edss:expanded disability status scale (edss) pyramidal',
-            'edss:expanded disability status scale (edss) cerebellar',
-            'edss:expanded disability status scale (edss) brain stem',
-            'edss:expanded disability status scale (edss) sensory',
-            'edss:expanded disability status scale (edss) bowel bladder',
-            'edss:expanded disability status scale (edss) visual',
-            'edss:expanded disability status scale (edss) mental'
+            'edss:expanded disability status scale - pyramidal',
+            'edss:expanded disability status scale - cerebellar',
+            'edss:expanded disability status scale - brain stem',
+            'edss:expanded disability status scale - sensory',
+            'edss:expanded disability status scale - bowel bladder',
+            'edss:expanded disability status scale - visual',
+            'edss:expanded disability status scale - mental'
         ];
         let scoreArr = [];
         for (let each of criteria) {
@@ -106,20 +97,22 @@ class EDSSCalculator extends Component {
                 scoreArr.push(parseFloat(document.querySelector(`input[name="${each}"]:checked`).value));
             }
         }
-        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseFloat(document.querySelector('input[name="edss:expanded disability status scale (edss) ambulation"]:checked').value)) });
+        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseFloat(document.querySelector('input[name="edss:expanded disability status scale - ambulation"]:checked').value)) });
     }
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         const criteria = [
-            'edss:expanded disability status scale (edss) pyramidal',
-            'edss:expanded disability status scale (edss) cerebellar',
-            'edss:expanded disability status scale (edss) brain stem',
-            'edss:expanded disability status scale (edss) sensory',
-            'edss:expanded disability status scale (edss) bowel bladder',
-            'edss:expanded disability status scale (edss) visual',
-            'edss:expanded disability status scale (edss) mental',
-            'edss:expanded disability status scale (edss) ambulation',
+            'edss:expanded disability status scale - pyramidal',
+            'edss:expanded disability status scale - cerebellar',
+            'edss:expanded disability status scale - brain stem',
+            'edss:expanded disability status scale - sensory',
+            'edss:expanded disability status scale - bowel bladder',
+            'edss:expanded disability status scale - visual',
+            'edss:expanded disability status scale - mental',
+            'edss:expanded disability status scale - ambulation',
         ];
         const add = {};
         const update = {};
@@ -136,19 +129,28 @@ class EDSSCalculator extends Component {
         }
 
         /* for the free input */
-        const freeInputOrigVal = this.originalValues[this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']];
+        const freeInputOrigVal = this.originalValues[this.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']];
         if (freeInputOrigVal !== undefined) {
             if (this.freeinputref.current.value !== freeInputOrigVal) {
-                update[this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] = this.freeinputref.current.value;
+                update[this.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] = this.freeinputref.current.value;
             }
         } else {
             if (this.freeinputref.current.value !== '') {
-                add[this.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] = this.freeinputref.current.value;
+                add[this.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] = this.freeinputref.current.value;
             }
         }
 
         const body = { data: { add, update, visitId: this.props.match.params.visitId }, patientId: this.props.match.params.patientId, type: 'visit' };
-        store.dispatch(alterDataCall(body));
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(alterDataCall(body, () => {
+                this.setState({
+                    originalValues: Object.assign({}, this.state.originalValues, add)
+                });
+            }));
+        });
     }
 
     _hoverType(id, number) {
@@ -176,14 +178,14 @@ class EDSSCalculator extends Component {
         const range_mental = rangeGen(6);
         const range_ambulation = rangeGen(13);
         const criteria = [
-            { name: 'Pyramidal', idname: 'edss:expanded disability status scale (edss) pyramidal', range: range_pyramidal },
-            { name: 'Cerebellar', idname: 'edss:expanded disability status scale (edss) cerebellar', range: range_cerebellar },
-            { name: 'Brain stem', idname: 'edss:expanded disability status scale (edss) brain stem', range: range_brainstem },
-            { name: 'Sensory', idname: 'edss:expanded disability status scale (edss) sensory', range: range_sensory },
-            { name: 'Bowel bladder', idname: 'edss:expanded disability status scale (edss) bowel bladder', range: range_bowelbladder },
-            { name: 'Visual', idname: 'edss:expanded disability status scale (edss) visual', range: range_visual },
-            { name: 'Mental', idname: 'edss:expanded disability status scale (edss) mental', range: range_mental },
-            { name: 'Ambulation', idname: 'edss:expanded disability status scale (edss) ambulation', range: range_ambulation }
+            { name: 'Pyramidal', idname: 'edss:expanded disability status scale - pyramidal', range: range_pyramidal },
+            { name: 'Cerebellar', idname: 'edss:expanded disability status scale - cerebellar', range: range_cerebellar },
+            { name: 'Brain stem', idname: 'edss:expanded disability status scale - brain stem', range: range_brainstem },
+            { name: 'Sensory', idname: 'edss:expanded disability status scale - sensory', range: range_sensory },
+            { name: 'Bowel bladder', idname: 'edss:expanded disability status scale - bowel bladder', range: range_bowelbladder },
+            { name: 'Visual', idname: 'edss:expanded disability status scale - visual', range: range_visual },
+            { name: 'Mental', idname: 'edss:expanded disability status scale - mental', range: range_mental },
+            { name: 'Ambulation', idname: 'edss:expanded disability status scale - ambulation', range: range_ambulation }
         ];
 
         if (visits === undefined)
@@ -191,7 +193,7 @@ class EDSSCalculator extends Component {
 
         const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
         if (visitFiltered.length !== 1) {
-            return <div> Cannot find your visit </div>;
+            return <div>We cannot find this visit!</div>;
         }
 
         const currentEDSSObject = EDSSFields.reduce((a, el) => { a[el.id] = el; return a; }, {})[this.state.currentHoverMeasure];
@@ -235,9 +237,9 @@ class EDSSCalculator extends Component {
                             )) : null}
                         </div>
                         <br /><br />
-                        <label htmlFor='calcSocre'>Calculated score (automatically generated): </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
+                        <label htmlFor='calcSocre'>Computed total score (automatically generated): </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
                         <br /><br />
-                        <label htmlFor='edss:expanded disability status scale (edss) total'>Estimated score (entered by user): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale (edss) total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] : ''} />
+                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinician): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                         <br /><br />
                         <button type='submit'>Save</button>
                     </form>
@@ -247,9 +249,27 @@ class EDSSCalculator extends Component {
     }
 }
 
+export function edssAlgorithmFromProps(EDSSFields, visitData) {
+
+    const EDSSFieldsIdArray = EDSSFields.map(el => el.id);
+    const EDSSFieldsByName = EDSSFields.reduce((a, el) => ({ ...a, [el.idname]: el.id }), {});
+    const estimatedTotalID = EDSSFieldsByName['edss:expanded disability status scale - estimated total'];
+    const ambulationID = EDSSFieldsByName['edss:expanded disability status scale - ambulation'];
+
+    let EDSSValues = visitData.filter(el => EDSSFieldsIdArray.includes(el.field)).reduce((a, el) => ({ ...a, [el.field]: parseFloat(el.value) }), {});
+    let ambulationScore = parseFloat(EDSSValues[ambulationID]) || 0;
+    delete EDSSValues[ambulationID];
+    delete EDSSValues[estimatedTotalID];
+
+    return edssAlgorithm(Object.values(EDSSValues), ambulationScore);
+}
 
 /* FSArray would be [1,1,2,0,6] etc; ambulation is separated because it's separate in the calculation */
 function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore) {
+
+    if (FSArrayWithoutAmbulation.length === 0)
+        return '';
+
     FSArrayWithoutAmbulation.sort((a, b) => b - a);
     const maxScore = FSArrayWithoutAmbulation[0] || 0;
     const secondMaxScore = FSArrayWithoutAmbulation[1] || 0;

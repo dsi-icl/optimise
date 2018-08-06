@@ -1,3 +1,5 @@
+import { addError } from './error';
+import store from '../store';
 import actionTypes from './listOfActions';
 import { apiHelper } from '../fetchHelper';
 
@@ -12,5 +14,5 @@ export const erasePatientAPICall = (body) => dispatch => {
         .then(() => {
             dispatch(erasePatientSuccess(body.patientId));
         })
-        .catch(err => { console.log(err); dispatch(erasePatientFailure()); });
+        .catch(err => { store.dispatch(addError({ error: err })); dispatch(erasePatientFailure()); });
 };
