@@ -1,19 +1,19 @@
-// function formatOneNodeForAntd(entry) {    //entry = [ key, {text: 'whatever'}  ] 
-//     const key = entry[0];
-//     const value = entry[1];
-//     if (Object.keys(value).length === 1 && value.hasOwnProperty('text')){
-//         return { value: key, key: key, title: value.text };
-//     } else if (Object.keys(value).length !== 1 && value.hasOwnProperty('text')){
-//         const text = value.text;
-//         delete value.text;
-//         return { value: key, key: key, title: text, children: Object.entries(value).map(formatOneNodeForAntd) };
-//     } else {
-//         throw Error(`${key} is wrong!`);
-//     }
-// }
+export function formatTreeDataForAntd(entry) {    //entry = [ key, {text: 'whatever'}  ]
+    const key = entry[0];
+    const value = entry[1];
+    if (Object.keys(value).length === 1 && value.hasOwnProperty('text')){
+        return { value: key, key: key, title: value.text };
+    } else if (Object.keys(value).length !== 1 && value.hasOwnProperty('text')){
+        const text = value.text;
+        delete value.text;
+        return { value: key, key: key, title: text, children: Object.entries(value).map(formatTreeDataForAntd) };
+    } else {
+        throw Error(`${key} is wrong!`);
+    }
+}
 
 
-function makeMeddraSeeds(tree) {
+export function makeMeddraSeeds(tree) {
     let id = 1;
     const hash = [];
     const formatToHashTable = parentId => entry => {
@@ -35,5 +35,3 @@ function makeMeddraSeeds(tree) {
     Object.entries(tree).forEach(formatToHashTable(null));
     return hash;
 }
-
-module.exports = makeMeddraSeeds;
