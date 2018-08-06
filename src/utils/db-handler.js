@@ -16,13 +16,14 @@ function migrate(type) {
             case 'ms':
                 if (process.env.NODE_ENV !== 'production') console.log('Migrating database ...');
                 return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
-                    .then(() => knex.select('id').from('COUNTRIES').then((result) => {
+                    .then(() => knex.select('id').from('COUNTRIES'))
+                    .then((result) => {
                         if (result.length === 0) {
                             if (process.env.NODE_ENV !== 'production') console.log('Applying MS seeds ...');
                             return knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)} /../../db/seed`) });
                         }
                         return true;
-                    }))
+                    })
                     .then(() => resolve())
                     .catch(err => reject(err));
             case 'bare':
