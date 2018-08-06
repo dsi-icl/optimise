@@ -13,8 +13,8 @@ function CeController() {
 }
 
 CeController.prototype.createCe = function (req, res) {
-    if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('dateStartDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra') &&
-        typeof req.body.visitId === 'number' && typeof req.body.dateStartDate === 'string' && typeof req.body.type === 'number' && typeof req.body.meddra === 'number') {
+    if ((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('dateStartDate') && req.body.hasOwnProperty('type') &&
+        typeof req.body.visitId === 'number' && typeof req.body.dateStartDate === 'string' && typeof req.body.type === 'number') {
         let momentStart = moment(req.body.dateStartDate, moment.ISO_8601);
         if (!momentStart.isValid()) {
             let msg = (momentStart.invalidAt() === undefined || momentStart.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
@@ -27,6 +27,9 @@ CeController.prototype.createCe = function (req, res) {
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
+        if (req.body.hasOwnProperty('meddra') && isNaN(parseInt(req.body.meddra))) {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        }
         let ce = {};
         if (req.body.hasOwnProperty('visitId'))
             ce.recordedDuringVisit = req.body.visitId;
@@ -35,7 +38,7 @@ CeController.prototype.createCe = function (req, res) {
         if (req.body.hasOwnProperty('endDate'))
             ce.endDate = momentEnd.valueOf();
         ce.type = req.body.type;
-        ce.meddra = req.body.meddra;
+        ce.meddra = req.body.meddra ? parseInt(req.body.meddra) : undefined;
         ce.dateStartDate = momentStart.valueOf();
         ce.createdByUser = req.user.id;
         this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
@@ -45,7 +48,7 @@ CeController.prototype.createCe = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return;
         });
-    } else if (!((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('dateStartDate') && req.body.hasOwnProperty('type') && req.body.hasOwnProperty('meddra'))) {
+    } else if (!((req.body.hasOwnProperty('visitId') || req.body.hasOwnProperty('patient')) && req.body.hasOwnProperty('dateStartDate') && req.body.hasOwnProperty('type'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     } else {
