@@ -7,8 +7,7 @@ exports.seed = function (knex) {
                 { value: 'left' },
                 { value: 'right' },
                 { value: 'ambidextrous' },
-                { value: 'amputated' },
-                { value: 'unknown' }
+                { value: 'amputated' }
             ]);
         });
 };

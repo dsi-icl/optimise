@@ -7,8 +7,7 @@ exports.seed = function (knex) {
                 { value: 'male' },
                 { value: 'female' },
                 { value: 'other' },
-                { value: 'prefer not to say' },
-                { value: 'unknown' }
+                { value: 'prefer not to say' }
             ]);
         });
 };
