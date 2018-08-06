@@ -7,8 +7,7 @@ exports.seed = function (knex) {
                 { value: 'smoker' },
                 { value: 'ex-smoker' },
                 { value: 'never smoked' },
-                { value: 'electronic cigarette' },
-                { value: 'unknown' }
+                { value: 'electronic cigarette' }
             ]);
         });
 };
