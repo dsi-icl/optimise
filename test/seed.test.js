@@ -28,6 +28,7 @@ describe('Getting seeds', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGPATH);
+            return true;
         }));
 
     test('Getting a field with invalid query', () => admin
@@ -37,6 +38,7 @@ describe('Getting seeds', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.GETFAIL);
+            return true;
         }));
 
     test('Getting a type with valid query', () => admin
@@ -48,6 +50,7 @@ describe('Getting seeds', () => {
             expect(res.body.length).toBe(1);
             expect(res.body[0].id).toBeDefined();
             expect(res.body[0].id).toBe(2);
+            return true;
         }));
 });
 
@@ -59,6 +62,7 @@ describe('Creating field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGPATH);
+            return true;
         }));
 
     test('Creating with missing arguments', () => admin
@@ -68,6 +72,7 @@ describe('Creating field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Creating with wrong values', () => admin
@@ -86,6 +91,7 @@ describe('Creating field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.userError.WRONGARGUMENTS} : definition`);
+            return true;
         }));
 
     test('Creating with good values', () => admin
@@ -109,6 +115,7 @@ describe('Creating field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(visitField.length);
+            return true;
         }));
 });
 
@@ -120,6 +127,7 @@ describe('Updating field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGPATH);
+            return true;
         }));
 
     test('Updating with missing arguments', () => admin
@@ -129,6 +137,7 @@ describe('Updating field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Updating with wrong values', () => admin
@@ -153,6 +162,7 @@ describe('Updating field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Updating with good values', () => admin
@@ -177,6 +187,7 @@ describe('Updating field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 });
 
@@ -188,6 +199,7 @@ describe('Deleting field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGPATH);
+            return true;
         }));
 
     test('Deleting with missing arguments', () => admin
@@ -197,6 +209,7 @@ describe('Deleting field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
         }));
 
     test('Deleting with wrong values', () => admin
@@ -209,6 +222,7 @@ describe('Deleting field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Deleting with good values', () => admin
@@ -221,6 +235,7 @@ describe('Deleting field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Deleting with good values a second time', () => admin
@@ -233,5 +248,6 @@ describe('Deleting field', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(0);
+            return true;
         }));
 });

@@ -26,14 +26,14 @@ function Visit() {
  */
 Visit.prototype.getVisit = function (patientInfo) {
     return new Promise(function (resolve, reject) {
-        knex('PATIENTS')
+        return knex('PATIENTS')
             .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.communication', 'VISITS.visitDate', 'VISITS.type')
             .leftOuterJoin('VISITS', 'PATIENTS.id', 'VISITS.patient')
             .where({ 'PATIENTS.aliasId': patientInfo, 'VISITS.deleted': '-' })
             .then(function (result) {
-                resolve(result);
-            }, function (error) {
-                reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+                return resolve(result);
+            }).catch(function (error) {
+                return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
             });
     });
 };
@@ -46,10 +46,10 @@ Visit.prototype.getVisit = function (patientInfo) {
  */
 Visit.prototype.createVisit = function (entryObj) {
     return new Promise(function (resolve, reject) {
-        createEntry('VISITS', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        return createEntry('VISITS', entryObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         });
     });
 };
@@ -63,10 +63,10 @@ Visit.prototype.createVisit = function (entryObj) {
 
 Visit.prototype.updateVisit = function (user, whereObj, updatedObj) {
     return new Promise(function (resolve, reject) {
-        updateEntry('VISITS', user, '*', whereObj, updatedObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        return updateEntry('VISITS', user, '*', whereObj, updatedObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
@@ -79,10 +79,10 @@ Visit.prototype.updateVisit = function (user, whereObj, updatedObj) {
  */
 Visit.prototype.deleteVisit = function (user, visitId) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('VISITS', user, { id: visitId }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+        return deleteEntry('VISITS', user, { id: visitId }).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
         });
     });
 };
@@ -94,10 +94,10 @@ Visit.prototype.deleteVisit = function (user, visitId) {
  */
 Visit.prototype.getReport = function (whereObj) {
     return new Promise(function (resolve, reject) {
-        getEntry('VISIT_REPORT', whereObj, { id: 'id', report: 'report', visit: 'visit' }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        return getEntry('VISIT_REPORT', whereObj, { id: 'id', report: 'report', visit: 'visit' }).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
@@ -109,10 +109,10 @@ Visit.prototype.getReport = function (whereObj) {
  */
 Visit.prototype.createReport = function (entryObj) {
     return new Promise(function (resolve, reject) {
-        createEntry('VISIT_REPORT', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        return createEntry('VISIT_REPORT', entryObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         });
     });
 };
@@ -128,10 +128,10 @@ Visit.prototype.updateReport = function (user, updatedObj) {
         let whereObj = {};
         whereObj.id = updatedObj.id;
         delete updatedObj.id;
-        updateEntry('VISIT_REPORT', user, '*', whereObj, updatedObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return updateEntry('VISIT_REPORT', user, '*', whereObj, updatedObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
         });
     });
 };
@@ -144,10 +144,10 @@ Visit.prototype.updateReport = function (user, updatedObj) {
  */
 Visit.prototype.deleteReport = function (user, deleteObj) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('VISIT_REPORT', user, { id: deleteObj }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+        return deleteEntry('VISIT_REPORT', user, { id: deleteObj }).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
         });
     });
 };

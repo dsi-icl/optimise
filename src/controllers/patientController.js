@@ -38,10 +38,10 @@ PatientController.prototype.searchPatients = function (req, res) {  //get all li
     this.patient.searchPatients(queryfield, queryvalue).then(function (result) {
         result.forEach((__unused__r, i) => { result[i].uuid = undefined; });
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
-        return;
+        return false;
     });
 };
 
@@ -55,10 +55,10 @@ PatientController.prototype.createPatient = function (req, res) {
         };
         this.patient.createPatient(entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(error));
-            return;
+            return false;
         });
     } else {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
@@ -73,9 +73,10 @@ PatientController.prototype.updatePatient = function (req, res) {
     }
     this.patient.updatePatient(req.user, req.body).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return false;
     });
 };
 
@@ -83,10 +84,10 @@ PatientController.prototype.deletePatient = function (req, res) {
     if (req.user.priv === 1 && req.body.hasOwnProperty('aliasId')) {
         this.patient.deletePatient(req.user, { aliasId: req.body.aliasId, deleted: '-' }).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
-            return;
+            return false;
         });
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
@@ -106,7 +107,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                     patientId = Patientresult[0].patientId;
                 } else {
                     res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND));
-                    return;
+                    return false;
                 }
                 const promiseArr = [];
                 let availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis'];
@@ -118,7 +119,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                     promiseArr.push(SelectorUtils[availableFunctions[i]](patientId));
                 }
                 let selectorPromises = Promise.all(promiseArr);
-                selectorPromises.then(function (result) {
+                return selectorPromises.then(function (result) {
                     const responseObj = {};
                     responseObj.patientId = req.params.patientId;
                     responseObj.id = patientId;
@@ -127,14 +128,14 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                         responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
                     }
                     res.status(200).json(responseObj);
-                    return;
-                }, function (error) {
+                    return true;
+                }).catch(function (error) {
                     res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
-                    return;
+                    return false;
                 });
-            }, function (error) {
+            }).catch(function (error) {
                 res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
-                return;
+                return false;
             });
     } else {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
@@ -157,21 +158,21 @@ PatientController.prototype.erasePatient = function (req, res) {
         return;
     }
     patientId = req.body.patientId;
-    getEntry('PATIENTS', { id: patientId }).then(function (result) {
+    return getEntry('PATIENTS', { id: patientId }).then(function (result) {
         if (result.length !== 1) {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL));
-            return;
+            return false;
         }
-        eraseEntry('PATIENTS', { id: patientId }).then(function (__unused__result) {
+        return eraseEntry('PATIENTS', { id: patientId }).then(function (__unused__result) {
             res.status(200).json({ success: true, messageg: 'Erasure completed. Check for any data retreivable if needed.' });
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
-    }, function (error) {
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-        return;
+        return false;
     });
 };
 

@@ -8,7 +8,7 @@ function connectUser(agent) {
 
 function connectAgent(agent, user, pw) {
     return new Promise(function (resolve, reject) {
-        agent.post('/users/login')
+        return agent.post('/users/login')
             .set('Content-type', 'application/json')
             .send({
                 username: user,
@@ -16,22 +16,20 @@ function connectAgent(agent, user, pw) {
             })
             .then(res => {
                 if (res.statusCode === 200)
-                    resolve();
-                else
-                    reject();
-            });
+                    return resolve();
+                return reject();
+            }).catch(() => null);
     });
 }
 
 function disconnectAgent(agent) {
     return new Promise(function (resolve, reject) {
-        agent.post('/users/logout')
+        return agent.post('/users/logout')
             .then(res => {
                 if (res.statusCode === 200)
-                    resolve();
-                else
-                    reject();
-            });
+                    return resolve();
+                return reject();
+            }).catch(() => null);
     });
 }
 

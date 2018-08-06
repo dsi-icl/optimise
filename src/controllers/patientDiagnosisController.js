@@ -18,18 +18,18 @@ PatientDiagnosisController.prototype.getPatientDiagnosis = function (req, res) {
     if (req.query.hasOwnProperty('patient')) {
         this.patientDiagnosis.getPatientDiagnosis({ 'patient': parseInt(req.query.patient) }).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
     } else {
         this.patientDiagnosis.getPatientDiagnosis({}).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
     }
 };
@@ -50,10 +50,10 @@ PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res
         entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.createPatientDiagnosis(entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.CREATIONFAIL, error));
-            return;
+            return false;
         });
     } else if (!(req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('diagnosis') && req.body.hasOwnProperty('diagnosisDate'))) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
@@ -77,10 +77,10 @@ PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res
         entryObj.createdByUser = req.user.id;
         this.patientDiagnosis.updatePatientDiagnosis(req.user, req.body.id, entryObj).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.UPDATEFAIL, error));
-            return;
+            return false;
         });
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
@@ -95,10 +95,10 @@ PatientDiagnosisController.prototype.deletePatientDiagnosis = function (req, res
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.patientDiagnosis.deletePatientDiagnosis(req.user, { 'id': req.body.id }).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(messages.errorMessages.DELETEFAIL, error));
-            return;
+            return false;
         });
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
@@ -112,10 +112,10 @@ PatientDiagnosisController.prototype.deletePatientDiagnosis = function (req, res
 PatientDiagnosisController.prototype.getDiagnosisOptions = function (__unused__req, res) {
     this.patientDiagnosis.getDiagnosisOptions().then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
-        return;
+        return false;
     });
 };
 

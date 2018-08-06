@@ -42,10 +42,10 @@ TestController.prototype.createTest = function (req, res) {
     };
     this.test.createTest(entryObj).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        return;
+        return false;
     });
 };
 
@@ -73,9 +73,10 @@ TestController.prototype.updateTest = function (req, res) {
     }
     this.test.updateTest(req.user, entryObj).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+        return false;
     });
 };
 
@@ -83,10 +84,10 @@ TestController.prototype.deleteTest = function (req, res) {
     if (req.body.hasOwnProperty('testId') && typeof req.body.testId === 'number') {
         this.test.deleteTest(req.user, { 'id': req.body.testId }).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-            return;
+            return false;
         });
     }
     else if (!req.body.hasOwnProperty('testId')) {

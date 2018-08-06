@@ -28,13 +28,14 @@ class RequestMiddleware {
             .then(__unused__res => {
                 if (process.env.NODE_ENV === 'development')
                     console.log(`${req.method} - ${req.originalUrl} : ${username ? username : ''}`);
-                next();
+                return true;
             })
             .catch(err => {
                 if (process.env.NODE_ENV === 'development')
                     console.log(`Error caught :${err}`);
-                next();
+                return false;
             });
+        next();
         // }
     }
 }

@@ -33,6 +33,7 @@ describe('Patient controller tests', () => {
                 delete userSeeded[i].deleted;
                 expect(res.body[i]).toMatchObject(userSeeded[i]);
             }
+            return true;
         }));
 
     test('Searching patients with similar alias_id\'s', () => admin
@@ -41,6 +42,7 @@ describe('Patient controller tests', () => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBeGreaterThanOrEqual(2);
+            return true;
         }));
 
     test('Searching patients with similar alias_id\'s but with double "id" query', () => admin
@@ -50,6 +52,7 @@ describe('Patient controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.INVALIDQUERY);
+            return true;
         }));
 
     test('Searching patients with similar alias_id\'s but with two queries', () => admin
@@ -59,6 +62,7 @@ describe('Patient controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.INVALIDQUERY);
+            return true;
         }));
 
     test('Searching patients with diagnosis PPMS', () => admin
@@ -67,6 +71,7 @@ describe('Patient controller tests', () => {
             expect(res.statusCode).toBe(200);
             expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
             expect(res.body.length).toBe(2);
+            return true;
         }));
 
     test('Creating a new patient with no consent (should fail)', () => admin
@@ -80,6 +85,7 @@ describe('Patient controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
         }));
 
     test('Creating a new patient', () => admin
@@ -94,6 +100,7 @@ describe('Patient controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(8);
+            return true;
         }));
 
     test('Creating the same patient again (should fail)', () => admin
@@ -108,6 +115,7 @@ describe('Patient controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            return true;
         }));
 
     test('Getting this patient', () => admin
@@ -126,6 +134,7 @@ describe('Patient controller tests', () => {
             expect(res.body.pregnancy).toBeDefined();
             expect(res.body.diagnosis).toBeDefined();
             expect(res.body.demographicData).toBeUndefined();
+            return true;
         }));
 
     test('Getting this patient but only visits', () => admin
@@ -138,6 +147,7 @@ describe('Patient controller tests', () => {
             expect(res.body.consent).toBe(true);
             expect(res.body.visits).toBeDefined();
             expect(res.body.tests).toBeUndefined();
+            return true;
         }));
 
     test('Getting this patient but only invalid properties', () => admin
@@ -145,6 +155,7 @@ describe('Patient controller tests', () => {
         .send({ 'getOnly': 'must,not,work' })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            return true;
         }));
 
     test('Updating this patient', () => admin
@@ -156,6 +167,7 @@ describe('Patient controller tests', () => {
         })
         .then(res => {
             expect(res.statusCode).toBe(200);
+            return true;
         }));
 
     test('Verifying patient consent update', () => admin
@@ -165,6 +177,7 @@ describe('Patient controller tests', () => {
             expect(res.body.patientId).toBe('littlePatient');
             expect(res.body.id).toBe(8);
             expect(res.body.consent).toBe(true);
+            return true;
         }));
 
     test('Deleting a patient by standard User (should fail)', () => user
@@ -174,6 +187,7 @@ describe('Patient controller tests', () => {
             expect(res.statusCode).toBe(401);
             expect(res.body).toHaveProperty('error');
             expect(res.body.error).toBe(message.userError.NORIGHTS);
+            return true;
         }));
 
     test('Deleting a patient', () => admin
@@ -184,6 +198,7 @@ describe('Patient controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(1);
+            return true;
         }));
 
     test('Deleting this patient again (should return 200 amd state:0)', () => admin
@@ -194,5 +209,6 @@ describe('Patient controller tests', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.state).toBeDefined();
             expect(res.body.state).toBe(0);
+            return true;
         }));
 });

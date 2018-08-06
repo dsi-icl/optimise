@@ -25,6 +25,7 @@ describe('Create diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             }));
 
     test('Creating diagnosis with missing diagnosis parameter', () =>
@@ -38,6 +39,7 @@ describe('Create diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             }));
 
     test('Creating diagnosis with missing patient parameter', () =>
@@ -51,6 +53,7 @@ describe('Create diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             }));
 
     test('Creating diagnosis with missing date parameter', () =>
@@ -64,6 +67,7 @@ describe('Create diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             }));
 
     test('Creating diagnosis with wrong patient parameter', () =>
@@ -78,6 +82,7 @@ describe('Create diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             }));
 
     test('Creating diagnosis with bad patient parameter', () =>
@@ -92,6 +97,7 @@ describe('Create diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+                return true;
             }));
 
     test('Creating diagnosis with wrong diagnosis parameter', () =>
@@ -106,6 +112,7 @@ describe('Create diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             }));
 
     test('Creating diagnosis with bad diagnosis parameter', () =>
@@ -120,6 +127,7 @@ describe('Create diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+                return true;
             }));
 
     test('Creating diagnosis with wrong date parameter', () =>
@@ -134,6 +142,7 @@ describe('Create diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             }));
 
     test('Creating diagnosis with good parameters', () =>
@@ -148,6 +157,7 @@ describe('Create diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
                 expect(res.body.state).toBe(7);
+                return true;
             }));
 });
 
@@ -160,6 +170,7 @@ describe('Editing Diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             }));
 
     test('Editing without id parameter', () =>
@@ -172,6 +183,7 @@ describe('Editing Diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             }));
 
     test('Editing with wrong id', () =>
@@ -185,6 +197,7 @@ describe('Editing Diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             }));
 
     test('Editing with bad id', () =>
@@ -198,6 +211,7 @@ describe('Editing Diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+                return true;
             }));
 
     test('Editing with bad diagnosis', () =>
@@ -211,6 +225,7 @@ describe('Editing Diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+                return true;
             }));
 
     test('Editing with good parameters', () =>
@@ -224,6 +239,7 @@ describe('Editing Diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
                 expect(res.body.state).toBe(1);
+                return true;
             }));
 });
 
@@ -237,6 +253,7 @@ describe('Delete diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+                return true;
             }));
 
     test('Deleting with wrong id', () =>
@@ -249,6 +266,7 @@ describe('Delete diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.error).toBeDefined();
                 expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+                return true;
             }));
 
     test('Deleting with bad id', () =>
@@ -261,6 +279,7 @@ describe('Delete diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
                 expect(res.body.state).toBe(0);
+                return true;
             }));
 
     test('Deleting with good parameters', () =>
@@ -273,6 +292,7 @@ describe('Delete diagnosis test suite', () => {
                 expect(typeof res.body).toBe('object');
                 expect(res.body.state).toBeDefined();
                 expect(res.body.state).toBe(1);
+                return true;
             }));
 
 });

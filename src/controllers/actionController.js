@@ -16,10 +16,10 @@ ActionController.prototype.getLogs = function (req, res) {
     }
     this.action.getLogs().then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-        return;
+        return false;
     });
 };
 

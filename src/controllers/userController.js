@@ -1,3 +1,4 @@
+const nodeify = require('nodeify');
 const ErrorHelper = require('../utils/error_helper');
 const userCore = require('../core/user');
 const message = require('../utils/message-utils');
@@ -44,13 +45,14 @@ UserController.prototype.serializeUser = function (deserializedUser, done) {
  * @param done Callback to pass the deserialized user result to
  */
 UserController.prototype.deserializeUser = function (serializedUser, done) {
-    this.user.getUserByID(serializedUser.id).then(function (user) {
+    nodeify(this.user.getUserByID(serializedUser.id).then(function (user) {
         if (user.length > 0)
-            done(null, user[0]);
-        else
-            done(`Failed to retreive the user for ID ${serializedUser.id}`, null);
-    }, function (error) {
-        done(`Session broke: ${error}`, null);
+            return [null, user[0]];
+        return [`Failed to retreive the user for ID ${serializedUser.id}`, null];
+    }).catch(function (error) {
+        return [`Session broke: ${error}`, null];
+    }), (__unused__error, [message, user]) => {
+        done(message, user);
     });
 };
 
@@ -68,10 +70,10 @@ UserController.prototype.getUser = function (req, res) {
     queryUsername = `%${queryUsername}%`;
     this.user.getUserByUsername(queryUsername).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-        return;
+        return false;
     });
 };
 
@@ -90,10 +92,10 @@ UserController.prototype.createUser = function (req, res) {
     }
     this.user.createUser(req.user, req.body).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        return;
+        return false;
     });
 };
 
@@ -108,10 +110,10 @@ UserController.prototype.updateUser = function (req, res) {
     }
     this.user.updateUser(req.body).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        return;
+        return false;
     });
 };
 
@@ -130,10 +132,10 @@ UserController.prototype.changeRights = function (req, res) {
     }
     this.user.changeRights(req.body).then(function (result) {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        return;
+        return false;
     });
 };
 
@@ -146,10 +148,10 @@ UserController.prototype.deleteUser = function (req, res) {
         req.user.username === req.body.username) {
         this.user.deleteUser(req.user, { username: req.body.username }).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-            return;
+            return false;
         });
     } else {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
@@ -161,10 +163,10 @@ UserController.prototype.eraseUser = function (req, res) {
     if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.user.eraseUser(req.body.id).then(function (result) {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.ERASEFAILED, error));
-            return;
+            return false;
         });
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
@@ -187,17 +189,17 @@ UserController.prototype.loginUser = function (req, res) {
         req.login(result, function (err) {
             if (err) {
                 res.status(400).send(ErrorHelper('Failed to login', err));
-                return;
+                return false;
             }
             delete result.pw;
             delete result.salt;
             delete result.iteration;
             res.status(200).json({ status: 'OK', message: 'Successfully logged in', account: result });
         });
-        return;
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         res.status(400).json(ErrorHelper(error));
-        return;
+        return false;
     });
 };
 

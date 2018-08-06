@@ -17,6 +17,8 @@ optimise_server.start().then(function (optimise_router) {
         }
         console.log(`Listening at http://${os.hostname()}:${config.port}/`); // eslint-disable-line no-console
     });
-}, function (error) {
+    return true;
+}).catch(function (error) {
     console.error(error); // eslint-disable-line no-console
+    return false;
 });

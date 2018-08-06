@@ -12,12 +12,12 @@ function MeddraController() {
 MeddraController.prototype.loadMeddraCollection = function () {
     let that = this;
     return new Promise(function (resolve, reject) {
-        knex('ADVERSE_EVENT_MEDDRA').select('*').then(function (result) {
+        return knex('ADVERSE_EVENT_MEDDRA').select('*').then(function (result) {
             that.setMeddraCollection(result);
-            resolve();
+            return resolve();
         }, function () {
             that.setMeddraCollection(null);
-            reject();
+            return reject();
         });
     });
 };

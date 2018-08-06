@@ -83,12 +83,12 @@ SeedController.prototype.getSeedList = function (__unused__req, res) {
 SeedController.prototype.getSeed = function (req, res) {
     if (req.params.hasOwnProperty('target') && mapKeyTable.hasOwnProperty(req.params.target)) {
         let whereObj = (req.hasOwnProperty('query') && req.query.length !== 0) ? req.query : {};
-        getEntry(mapKeyTable[req.params.target].table, whereObj, '*').then(function (result) {
+        return getEntry(mapKeyTable[req.params.target].table, whereObj, '*').then(function (result) {
             res.status(200).json(formatToJSon(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
     } else if (!req.params.hasOwnProperty('target')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -122,12 +122,12 @@ SeedController.prototype.createSeed = function (req, res) {
                 return;
             }
         }
-        createEntry(mapKeyTable[req.params.target].table, req.body).then(function (result) {
+        return createEntry(mapKeyTable[req.params.target].table, req.body).then(function (result) {
             res.status(200).json(formatToJSon(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            return;
+            return false;
         });
     } else if (!req.params.hasOwnProperty('target')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -169,12 +169,12 @@ SeedController.prototype.editSeed = function (req, res) {
                 newEntry[Object.keys(modelsContainer[req.params.target])[i]] = req.body[Object.keys(modelsContainer[req.params.target])[i]];
             }
         }
-        updateEntry(mapKeyTable[req.params.target].table, req.user, '*', whereObj, newEntry).then(function (result) {
+        return updateEntry(mapKeyTable[req.params.target].table, req.user, '*', whereObj, newEntry).then(function (result) {
             res.status(200).json(formatToJSon(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            return;
+            return false;
         });
     } else if (!req.params.hasOwnProperty('target')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -208,21 +208,21 @@ SeedController.prototype.deleteSeed = function (req, res) {
             return;
         }
         whereObj.id = req.body.id;
-        deleteEntry(mapKeyTable[req.params.target].table, req.user, whereObj).then(function (result) {
+        return deleteEntry(mapKeyTable[req.params.target].table, req.user, whereObj).then(function (result) {
             let promiseArr = [];
             for (let i = 0; i < mapKeyTable[req.params.target].referenced.length; i++) {
                 promiseArr.push(deleteEntry(mapKeyTable[req.params.target].referenced[i].table, req.user, { [mapKeyTable[req.params.target].referenced[i].column]: req.body.id }));
             }
-            Promise.all(promiseArr).then(function (__unused__allResult) {
+            return Promise.all(promiseArr).then(function (__unused__allResult) {
                 res.status(200).json(formatToJSon(result));
-                return;
+                return true;
             }, function (allError) {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, allError));
-                return;
+                return false;
             });
-        }, function (error) {
+        }).catch(function (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-            return;
+            return false;
         });
     } else if (!req.params.hasOwnProperty('target')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -239,7 +239,7 @@ SeedController.prototype.deleteSeed = function (req, res) {
  * @param {string} index The type of request linking the index in mapKeyTable
  */
 SeedController.prototype.updateFiles = function (index) {
-    getEntry(mapKeyTable[index].table, {}, '*').then(function (result) {
+    return getEntry(mapKeyTable[index].table, {}, '*').then(function (result) {
         if (result !== null && result !== undefined && result.length !== 0) {
             writeJson(result, `${path}${mapKeyTable[index].file}`);
         } else {
@@ -247,10 +247,12 @@ SeedController.prototype.updateFiles = function (index) {
                 console.error(message.errorMessages.SEEDUPDATEERROR);
             }
         }
-    }, function (error) {
+        return true;
+    }).catch(function (error) {
         if (process.env.NODE_ENV !== 'production') {
             console.error(error);
         }
+        return false;
     });
 };
 

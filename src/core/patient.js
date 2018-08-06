@@ -24,10 +24,10 @@ function Patient() {
 Patient.prototype.getPatient = function (whereObj, selectedObj) {
     return new Promise(function (resolve, reject) {
         whereObj.deleted = '-';
-        getEntry('PATIENTS', whereObj, selectedObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        return getEntry('PATIENTS', whereObj, selectedObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
@@ -42,7 +42,7 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
     switch (queryfield) {
         case 'OPTIMISEID':
             return new Promise(function (resolve, reject) {
-                knex('PATIENTS')
+                return knex('PATIENTS')
                     .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
                     .where('uuid', 'like', queryvalue)
                     .andWhere('PATIENTS.deleted', '-')
@@ -51,14 +51,14 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                             for (let i = 0; i < result.length; i++) {
                                 result[i].consent = Boolean(result[i].consent);
                             }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+                        return resolve(result);
+                    }).catch(function (error) {
+                        return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
                     });
             });
         case 'SEX':
             return new Promise(function (resolve, reject) {
-                knex('PATIENT_DEMOGRAPHIC')
+                return knex('PATIENT_DEMOGRAPHIC')
                     .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'GENDERS.value')
                     .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
@@ -70,14 +70,14 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                             for (let i = 0; i < result.length; i++) {
                                 result[i].consent = Boolean(result[i].consent);
                             }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+                        return resolve(result);
+                    }).catch(function (error) {
+                        return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
                     });
             });
         case 'EXTRT':
             return new Promise(function (resolve, reject) {
-                knex('TREATMENTS')
+                return knex('TREATMENTS')
                     .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'PATIENTS.aliasId')
                     .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
@@ -92,14 +92,14 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                             for (let i = 0; i < result.length; i++) {
                                 result[i].consent = Boolean(result[i].consent);
                             }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+                        return resolve(result);
+                    }).catch(function (error) {
+                        return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
                     });
             });
         case 'ETHNIC':
             return new Promise(function (resolve, reject) {
-                knex('PATIENT_DEMOGRAPHIC')
+                return knex('PATIENT_DEMOGRAPHIC')
                     .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'ETHNICITIES.value')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                     .leftOuterJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
@@ -111,14 +111,14 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                             for (let i = 0; i < result.length; i++) {
                                 result[i].consent = Boolean(result[i].consent);
                             }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+                        return resolve(result);
+                    }).catch(function (error) {
+                        return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
                     });
             });
         case 'COUNTRY':
             return new Promise(function (resolve, reject) {
-                knex('PATIENT_DEMOGRAPHIC')
+                return knex('PATIENT_DEMOGRAPHIC')
                     .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'COUNTRIES.value')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                     .leftOuterJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
@@ -130,14 +130,14 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                             for (let i = 0; i < result.length; i++) {
                                 result[i].consent = Boolean(result[i].consent);
                             }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+                        return resolve(result);
+                    }).catch(function (error) {
+                        return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
                     });
             });
         case 'DOMINANT':
             return new Promise(function (resolve, reject) {
-                knex('PATIENT_DEMOGRAPHIC')
+                return knex('PATIENT_DEMOGRAPHIC')
                     .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'DOMINANT_HANDS.value')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                     .leftOuterJoin('DOMINANT_HANDS', 'DOMINANT_HANDS.id', 'PATIENT_DEMOGRAPHIC.dominantHand')
@@ -149,14 +149,14 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                             for (let i = 0; i < result.length; i++) {
                                 result[i].consent = Boolean(result[i].consent);
                             }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+                        return resolve(result);
+                    }).catch(function (error) {
+                        return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
                     });
             });
         case 'MHTERM':
             return new Promise(function (resolve, reject) {
-                knex('PATIENT_DIAGNOSIS')
+                return knex('PATIENT_DIAGNOSIS')
                     .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'AVAILABLE_DIAGNOSES.value')
                     .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DIAGNOSIS.patient')
                     .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
@@ -168,14 +168,14 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                             for (let i = 0; i < result.length; i++) {
                                 result[i].consent = Boolean(result[i].consent);
                             }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+                        return resolve(result);
+                    }).catch(function (error) {
+                        return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
                     });
             });
         default:
             return new Promise(function (resolve, reject) {
-                knex('PATIENTS')
+                return knex('PATIENTS')
                     .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
                     .where('aliasId', 'like', queryvalue)
                     .andWhere('PATIENTS.deleted', '-')
@@ -184,9 +184,9 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                             for (let i = 0; i < result.length; i++) {
                                 result[i].consent = Boolean(result[i].consent);
                             }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+                        return resolve(result);
+                    }).catch(function (error) {
+                        return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
                     });
             });
     }
@@ -200,10 +200,10 @@ Patient.prototype.createPatient = function (patient) {
     return new Promise(function (resolve, reject) {
         let entryObj = Object.assign({}, patientModel, patient);
         entryObj.uuid = uuid();
-        createEntry('PATIENTS', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        return createEntry('PATIENTS', entryObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         });
     });
 };
@@ -215,10 +215,10 @@ Patient.prototype.createPatient = function (patient) {
  */
 Patient.prototype.updatePatient = function (user, patientObj) {
     return new Promise(function (resolve, reject) {
-        updateEntry('PATIENTS', user, '*', { id: patientObj.id }, patientObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        return updateEntry('PATIENTS', user, '*', { id: patientObj.id }, patientObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         });
     });
 };
@@ -231,10 +231,10 @@ Patient.prototype.updatePatient = function (user, patientObj) {
  */
 Patient.prototype.deletePatient = function (user, idObj) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('PATIENTS', user, idObj).then(function (success) {
-            resolve(success);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+        return deleteEntry('PATIENTS', user, idObj).then(function (success) {
+            return resolve(success);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
         });
     });
 };

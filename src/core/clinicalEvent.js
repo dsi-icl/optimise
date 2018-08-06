@@ -24,10 +24,10 @@ function ClinicalEvent() {
  */
 ClinicalEvent.prototype.getClinicalEvent = function (requestedObj) {
     return new Promise(function (resolve, reject) {
-        getEntry('CLINICAL_EVENTS', requestedObj, '*').then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
+        return getEntry('CLINICAL_EVENTS', requestedObj, '*').then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
         });
     });
 };
@@ -44,10 +44,10 @@ ClinicalEvent.prototype.getClinicalEvent = function (requestedObj) {
 ClinicalEvent.prototype.createClinicalEvent = function (ce) {
     return new Promise(function (resolve, reject) {
         let entryObj = Object.assign({}, ClinicalEventModel, ce);
-        createEntry('CLINICAL_EVENTS', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+        return createEntry('CLINICAL_EVENTS', entryObj).then(function (result) {
+            return resolve(result);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         });
     });
 };
@@ -60,10 +60,10 @@ ClinicalEvent.prototype.createClinicalEvent = function (ce) {
  */
 ClinicalEvent.prototype.updateClinicalEvent = function (user, clinicalEvent) {
     return new Promise(function (resolve, reject) {
-        updateEntry('CLINICAL_EVENTS', user, '*', { id: clinicalEvent.id }, clinicalEvent).then(function (success) {
-            resolve(success);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+        return updateEntry('CLINICAL_EVENTS', user, '*', { id: clinicalEvent.id }, clinicalEvent).then(function (success) {
+            return resolve(success);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
         });
     });
 };
@@ -76,10 +76,10 @@ ClinicalEvent.prototype.updateClinicalEvent = function (user, clinicalEvent) {
  */
 ClinicalEvent.prototype.deleteClinicalEvent = function (user, idObj) {
     return new Promise(function (resolve, reject) {
-        deleteEntry('CLINICAL_EVENTS', user, idObj).then(function (success) {
-            resolve(success);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+        return deleteEntry('CLINICAL_EVENTS', user, idObj).then(function (success) {
+            return resolve(success);
+        }).catch(function (error) {
+            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
         });
     });
 };

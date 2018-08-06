@@ -23,6 +23,7 @@ describe('Creating TEST data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}testId`);
+            return true;
         }));
 
     test('Request creation without add or update', () => admin
@@ -33,6 +34,7 @@ describe('Creating TEST data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}testId`);
+            return true;
         }));
 
     test('Request creation without test id', () => admin
@@ -43,6 +45,7 @@ describe('Creating TEST data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(`${message.dataMessage.MISSINGVALUE}testId`);
+            return true;
         }));
 
     test('Request creation with invalid value for id', () => admin
@@ -53,6 +56,7 @@ describe('Creating TEST data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.TEST);
+            return true;
         }));
 
     test('Request creation with invalid field', () => admin
@@ -63,6 +67,7 @@ describe('Creating TEST data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.FIELDNOTFOUND);
+            return true;
         }));
 
     test('Request creation with invalid value for requested field', () => admin
@@ -73,6 +78,7 @@ describe('Creating TEST data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.FIELDNOTFOUND);
+            return true;
         }));
 
     test('Request creation with unmatching test and field', () => admin
@@ -83,6 +89,7 @@ describe('Creating TEST data', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.dataMessage.INVALIDFIELD);
+            return true;
         }));
 
     test('Request creation succesfull', () => user
@@ -95,6 +102,7 @@ describe('Creating TEST data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 
     test('Request update succesfull', () => admin
@@ -107,5 +115,6 @@ describe('Creating TEST data', () => {
             expect(res.body.message).toBeDefined();
             expect(res.body.success).toBe(true);
             expect(res.body.message).toBe(message.dataMessage.SUCCESS);
+            return true;
         }));
 });

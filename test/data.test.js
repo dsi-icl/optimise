@@ -23,6 +23,7 @@ describe('Testing data controller in various way', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGPATH);
+            return true;
         }));
 
 });
