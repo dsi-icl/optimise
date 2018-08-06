@@ -119,6 +119,8 @@ class UpdateTestEntry extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         const { patientId } = this.props;
         const { id, startDate, actualOccurredDate } = this.state;
         const body = {
@@ -130,7 +132,11 @@ class UpdateTestEntry extends Component {
                 actualOccurredDate: actualOccurredDate ? actualOccurredDate.toISOString() : null
             }
         };
-        store.dispatch(updateTestCall(body));
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(updateTestCall(body));
+        });
     }
 
     render() {

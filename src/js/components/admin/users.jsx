@@ -121,9 +121,9 @@ class CreateUser extends Component {
                             </tbody>
                         </table><br />
                         <br />
+                        {this.state.error ? <><div className={style.error}>None of the fields can be empty!</div><br /><br /></> : null}
                         <button onClick={this._handleSubmit}>Submit</button><br /><br />
                         <button onClick={this._handleClickingAdd}>Cancel</button>
-                        {this.state.error ? <div className={style.error}> None of the fields can be empty! </div> : null}
                     </>
                 }
             </>

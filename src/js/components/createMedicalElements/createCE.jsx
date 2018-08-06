@@ -6,8 +6,6 @@ import { BackButton } from '../medicalData/utils';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents';
 import { SuggestionInput } from '../meDRA/meDRApicker';
 import style from './medicalEvent.module.css';
-import { addError } from '../../redux/actions/error';
-import store from '../../redux/store';
 
 //not yet finished the dispatch
 @connect(state => ({ patientId: state.patientProfile.data.id, visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes, meddra: state.meddra.result }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
@@ -69,8 +67,10 @@ export class CreateCE extends Component {
         };
     }
 
-    _handleSubmitClick() {
-        console.log(this.state)
+    _handleSubmitClick(ev) {
+        ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
 
         if (this.state.ceType === 'unselected') {
             this.setState({
@@ -80,7 +80,12 @@ export class CreateCE extends Component {
         }
         const requestBody = this._formatRequestBody();
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
-        this.props.createCE(requestBody);
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            this.props.createCE(requestBody);
+        });
     }
 
     render() {

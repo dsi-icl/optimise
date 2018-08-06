@@ -58,14 +58,22 @@ export class CreateVisit extends Component {
 
     _handleSubmitClick(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         let error = this._formatRequestBody();
         if (typeof error === 'string') {
             this.setState({ error: `Please enter ${error}` });
             return;
         }
+
         const requestBody = this._formatRequestBody();
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
-        this.props.createVisit(requestBody);
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            this.props.createVisit(requestBody);
+        });
     }
 
     render() {
