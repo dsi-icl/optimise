@@ -51,32 +51,28 @@ export class VisitData extends Component {
             const fieldId = el[0];
             const reference = el[1].ref;
             const type = el[1].type;
-            if (type === 'C' && (originalValues[fieldId] || reference.current.value !== 'unselected')) {
-                if (originalValues[fieldId] && originalValues[fieldId] !== reference.current.value) {
-                    update[fieldId] = reference.current.value;
-                }
-                if (!originalValues[fieldId]) {
+            if (type === 'C' && (originalValues[fieldId] !== undefined || reference.current.value !== 'unselected')) {
+                if (originalValues[fieldId] !== undefined) {
+                    if (originalValues[fieldId] !== reference.current.value)
+                        update[fieldId] = reference.current.value;
+                } else if (reference.current.value !== 'unselected') {
                     add[fieldId] = reference.current.value;
                 }
             }
-            if (['I', 'F', 'T'].includes(type) && (originalValues[fieldId] || reference.current.value !== '' || reference.current.value !== undefined)) {
-                if (originalValues[fieldId] && originalValues[fieldId] !== reference.current.value) {
-                    update[fieldId] = reference.current.value;
-                }
-                if (!originalValues[fieldId] && reference.current.value !== '') {
+            if (['I', 'F', 'T'].includes(type) && (originalValues[fieldId] !== undefined || reference.current.value !== '' || reference.current.value !== undefined)) {
+                if (originalValues[fieldId] !== undefined) {
+                    if (originalValues[fieldId] !== reference.current.value)
+                        update[fieldId] = reference.current.value;
+                } else if (reference.current.value !== '') {
                     add[fieldId] = reference.current.value;
                 }
             }
             if (type === 'B') {
                 const bool = reference.current.checked ? '1' : '0';
-                if (originalValues[fieldId]) {
-                    if (originalValues[fieldId] !== bool) {
-                        update[fieldId] = bool;
-                    }
-                } else {
-                    if (bool !== '0') {
-                        add[fieldId] = bool;
-                    }
+                if (originalValues[fieldId] !== undefined && originalValues[fieldId] !== bool) {
+                    update[fieldId] = bool;
+                } else if (bool !== '0') {
+                    add[fieldId] = bool;
                 }
             }
         });
