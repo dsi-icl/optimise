@@ -91,8 +91,8 @@ export class CreateVisit extends Component {
                         <option value='Relapse Assessment'>Relapse Assessment</option>
                         <option value='Urgent'>Urgent</option>
                     </select><br /><br />
+                    {error ? <><div className={style.error}>{error}</div><br /><br /></> : null}
                     <button onClick={this._handleSubmitClick} >Submit</button>
-                    {error ? <><br /><br /><div className={style.error}>{error}</div></> : null}
                 </form>
             </>
         );
