@@ -1,8 +1,8 @@
 [
     {
         "id": 1,
-        "definition": "ANA",
-        "idname": "ANA",
+        "definition": "Anti-Epstein Barr Virus (EBV) IgG antibodies",
+        "idname": "Anti-Epstein Barr Virus (EBV) IgG antibodies",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -16,8 +16,8 @@
     },
     {
         "id": 2,
-        "definition": "ANCA",
-        "idname": "ANCA",
+        "definition": "Anti-Epstein Barr Virus (EBV) IgM antibodies",
+        "idname": "Anti-Epstein Barr Virus (EBV) IgM antibodies",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -31,8 +31,8 @@
     },
     {
         "id": 3,
-        "definition": "Anti-cardiolipin",
-        "idname": "Anti-cardiolipin",
+        "definition": "Antinuclear antibodies (ANA)",
+        "idname": "Antinuclear antibodies (ANA)",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -46,8 +46,8 @@
     },
     {
         "id": 4,
-        "definition": "Anti-DNA",
-        "idname": "Anti-DNA",
+        "definition": "Antinuclear cytoplasmic antibodies (ANCA)",
+        "idname": "Antinuclear cytoplasmic antibodies (ANCA)",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -61,6 +61,36 @@
     },
     {
         "id": 5,
+        "definition": "Anti-cardiolipin antibodies",
+        "idname": "Anti-cardiolipin antibodies",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 6,
+        "definition": "Anti-double stranded DNA antibodies",
+        "idname": "Anti-double stranded DNA antibodies",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 7,
         "definition": "Anti-HCV antibody",
         "idname": "Anti-HCV antibody",
         "section": null,
@@ -75,7 +105,7 @@
         "cdiscName": null
     },
     {
-        "id": 6,
+        "id": 8,
         "definition": "Anti-HIV antibody",
         "idname": "Anti-HIV antibody",
         "section": null,
@@ -90,37 +120,37 @@
         "cdiscName": null
     },
     {
-        "id": 7,
-        "definition": "Anti-LKM",
-        "idname": "Anti-LKM",
-        "section": null,
-        "subsection": null,
-        "type": 2,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
-        "id": 8,
-        "definition": "Anti-mitochondrial",
-        "idname": "Anti-mitochondrial",
-        "section": null,
-        "subsection": null,
-        "type": 2,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
         "id": 9,
+        "definition": "Anti-liver kidney microsomal type 1 (LKM) antibody",
+        "idname": "Anti-liver kidney microsomal type 1 (LKM) antibody",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 10,
+        "definition": "Anti-mitochondrial antibodies",
+        "idname": "Anti-mitochondrial antibodies",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 11,
         "definition": "Anti-parietal cell antibodies",
         "idname": "Anti-parietal cell antibodies",
         "section": null,
@@ -135,39 +165,9 @@
         "cdiscName": null
     },
     {
-        "id": 10,
-        "definition": "Anti-Ro",
-        "idname": "Anti-Ro",
-        "section": null,
-        "subsection": null,
-        "type": 2,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
-        "id": 11,
-        "definition": "Anti-smooth muscle",
-        "idname": "Anti-smooth muscle",
-        "section": null,
-        "subsection": null,
-        "type": 2,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
         "id": 12,
-        "definition": "Anti-transglutaminase",
-        "idname": "Anti-transglutaminase",
+        "definition": "Anti-Ro antibodies",
+        "idname": "Anti-Ro antibodies",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -181,8 +181,8 @@
     },
     {
         "id": 13,
-        "definition": "Anti-varicella",
-        "idname": "Anti-varicella",
+        "definition": "Anti-smooth muscle antibodies",
+        "idname": "Anti-smooth muscle antibodies",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -196,8 +196,8 @@
     },
     {
         "id": 14,
-        "definition": "AQP4",
-        "idname": "AQP4",
+        "definition": "Anti-transglutaminase antibodies",
+        "idname": "Anti-transglutaminase antibodies",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -211,8 +211,8 @@
     },
     {
         "id": 15,
-        "definition": "GlyR",
-        "idname": "GlyR",
+        "definition": "Anti-varicella antibodies",
+        "idname": "Anti-varicella antibodies",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -226,6 +226,36 @@
     },
     {
         "id": 16,
+        "definition": "Anti-aquaporin 4 antibodies",
+        "idname": "Anti-aquaporin 4 antibodies",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 17,
+        "definition": "Anti-glycine receptor (GlyR) antibodies",
+        "idname": "Anti-glycine receptor (GlyR) antibodies",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 18,
         "definition": "HBV surface antigen",
         "idname": "HBV surface antigen",
         "section": null,
@@ -240,39 +270,9 @@
         "cdiscName": null
     },
     {
-        "id": 17,
-        "definition": "Hepatitis A",
-        "idname": "hepatitis A",
-        "section": null,
-        "subsection": null,
-        "type": 2,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
-        "id": 18,
-        "definition": "Hepatitis B",
-        "idname": "hepatitis B",
-        "section": null,
-        "subsection": null,
-        "type": 2,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
         "id": 19,
-        "definition": "Hepatitis C",
-        "idname": "hepatitis C",
+        "definition": "Hepatitis A antibodies",
+        "idname": "hepatitis A antibodies",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -286,6 +286,36 @@
     },
     {
         "id": 20,
+        "definition": "Hepatitis B antibodies",
+        "idname": "hepatitis B antibodies",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 21,
+        "definition": "Hepatitis C antibodies",
+        "idname": "hepatitis C antibodies",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 22,
         "definition": "Jo1",
         "idname": "Jo1",
         "section": null,
@@ -300,7 +330,7 @@
         "cdiscName": null
     },
     {
-        "id": 21,
+        "id": 23,
         "definition": "LA",
         "idname": "LA",
         "section": null,
@@ -315,39 +345,11 @@
         "cdiscName": null
     },
     {
-        "id": 22,
-        "definition": "LUPUS anti-coagulant",
-        "idname": "LUPUS anti-coagulant",
-        "section": null,
-        "subsection": null,
-        "type": 2,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
-        "id": 23,
-        "definition": "MOG",
-        "idname": "MOG",
-        "section": null,
-        "subsection": null,
-        "type": 2,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
         "id": 24,
-        "definition": "Neutralising Anti-IFN antibody",
-        "idname": "Neutralising Anti-IFN antibody",
+        "definition": "Lupus anticoagulant",
+        "idname": "Lupus anticoagulant",
+        "section": null,
+        "subsection": null,
         "type": 2,
         "unit": null,
         "module": "MS",
@@ -359,8 +361,8 @@
     },
     {
         "id": 25,
-        "definition": "Neutralising Anti-natalizumab antibody",
-        "idname": "Neutralising Anti-natalizumab antibody",
+        "definition": "Myelin Oligodendrocyte Glycoprotein (MOG) antibodies",
+        "idname": "Myelin Oligodendrocyte Glycoprotein (MOG) antibodies",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -374,6 +376,34 @@
     },
     {
         "id": 26,
+        "definition": "Neutralising anti-IFN antibody",
+        "idname": "Neutralising anti-IFN antibody",
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 27,
+        "definition": "Neutralising anti-natalizumab antibody",
+        "idname": "Neutralising anti-natalizumab antibody",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 28,
         "definition": "NMDAR",
         "idname": "NMDAR",
         "section": null,
@@ -388,22 +418,7 @@
         "cdiscName": null
     },
     {
-        "id": 27,
-        "definition": "NMO IgG",
-        "idname": "NMO IgG",
-        "section": null,
-        "subsection": null,
-        "type": 2,
-        "unit": null,
-        "module": "MS",
-        "permittedValues": null,
-        "labels": null,
-        "referenceType": 1,
-        "laterality": null,
-        "cdiscName": null
-    },
-    {
-        "id": 28,
+        "id": 29,
         "definition": "Plasma anti-JC virus",
         "idname": "Plasma anti-JC virus",
         "section": null,
@@ -418,9 +433,9 @@
         "cdiscName": null
     },
     {
-        "id": 29,
-        "definition": "RNP",
-        "idname": "RNP",
+        "id": 30,
+        "definition": "Cerebrospinal fluid (CSF) anti-JC virus antibodies",
+        "idname": "Cerebrospinal fluid (CSF) anti-JC virus antibodies",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -433,7 +448,22 @@
         "cdiscName": null
     },
     {
-        "id": 30,
+        "id": 31,
+        "definition": "Anti-ribonucleoprotein (RNP) antibodies",
+        "idname": "Anti-ribonucleoprotein (RNP) antibodies",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 32,
         "definition": "Scl70",
         "idname": "Scl70",
         "section": null,
@@ -448,9 +478,9 @@
         "cdiscName": null
     },
     {
-        "id": 31,
-        "definition": "SM",
-        "idname": "SM",
+        "id": 33,
+        "definition": "Anti-smooth muscle",
+        "idname": "Anti-smooth muscle",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -463,7 +493,7 @@
         "cdiscName": null
     },
     {
-        "id": 32,
+        "id": 34,
         "definition": "Abnormal",
         "idname": "P100 Visual Evoked Potential:Left:Abnormal",
         "section": null,
@@ -478,7 +508,7 @@
         "cdiscName": "P100 Interpretation"
     },
     {
-        "id": 33,
+        "id": 35,
         "definition": "Amplitude",
         "idname": "P100 Visual Evoked Potential:Left:amplitude",
         "section": null,
@@ -493,7 +523,7 @@
         "cdiscName": "P100 Amplitude"
     },
     {
-        "id": 34,
+        "id": 36,
         "definition": "P100 Visual Evoked Potential Latency",
         "idname": "P100:Left:P100 Visual Evoked Potential Latency",
         "section": null,
@@ -508,7 +538,7 @@
         "cdiscName": "P100 Latency"
     },
     {
-        "id": 35,
+        "id": 37,
         "definition": "Abnormal",
         "idname": "P100 Visual Evoked Potential:Right:Abnormal",
         "section": null,
@@ -523,7 +553,7 @@
         "cdiscName": "P100 Interpretation"
     },
     {
-        "id": 36,
+        "id": 38,
         "definition": "Amplitude",
         "idname": "P100 Visual Evoked Potential:Right:amplitude",
         "section": null,
@@ -538,7 +568,7 @@
         "cdiscName": "P100 Amplitude"
     },
     {
-        "id": 37,
+        "id": 39,
         "definition": "P100 Visual Evoked Potential Latency",
         "idname": "P100 Visual Evoked Potential:Right:P100 Visual Evoked Potential Latency",
         "section": null,
@@ -553,7 +583,7 @@
         "cdiscName": "P100 Latency"
     },
     {
-        "id": 38,
+        "id": 40,
         "definition": "Abnormal",
         "idname": "Sensory Evoked Potentials (SEPs) with stimulation in the limbs:Left:upper extremity:Abnormal",
         "section": null,
@@ -568,7 +598,7 @@
         "cdiscName": "SEP Upper Extremity"
     },
     {
-        "id": 39,
+        "id": 41,
         "definition": "Abnormal",
         "idname": "Sensory Evoked Potentials (SEPs) with stimulation in the limbs:Left:lower extremity:Abnormal",
         "section": null,
@@ -583,7 +613,7 @@
         "cdiscName": "SEP Lower Extremity"
     },
     {
-        "id": 40,
+        "id": 42,
         "definition": "Abnormal",
         "idname": "Sensory Evoked Potentials (SEPs) with stimulation in the limbs:Right:upper extremity:Abnormal",
         "section": null,
@@ -598,7 +628,7 @@
         "cdiscName": "SEP Upper Extremity"
     },
     {
-        "id": 41,
+        "id": 43,
         "definition": "Abnormal",
         "idname": "Sensory Evoked Potentials (SEPs) with stimulation in the limbs:Right:lower extremity:Abnormal",
         "section": null,
@@ -613,7 +643,7 @@
         "cdiscName": "SEP Lower Extremity"
     },
     {
-        "id": 42,
+        "id": 44,
         "definition": "Indication",
         "idname": "Session_Name",
         "section": null,
@@ -763,7 +793,7 @@
         "cdiscName": null
     },
     {
-        "id": 55,
+        "id": 54,
         "definition": "IgG",
         "idname": "IgG",
         "section": null,
@@ -778,7 +808,7 @@
         "cdiscName": null
     },
     {
-        "id": 56,
+        "id": 55,
         "definition": "Albumin",
         "idname": "Albumin",
         "section": null,
@@ -793,7 +823,7 @@
         "cdiscName": null
     },
     {
-        "id": 57,
+        "id": 56,
         "definition": "IgG index",
         "idname": "IgG_index",
         "section": null,
@@ -808,7 +838,7 @@
         "cdiscName": null
     },
     {
-        "id": 58,
+        "id": 57,
         "definition": "WCC",
         "idname": "WCC",
         "section": null,
@@ -823,7 +853,7 @@
         "cdiscName": null
     },
     {
-        "id": 59,
+        "id": 58,
         "definition": "Lymphocytes",
         "idname": "Lymphocytes",
         "section": null,
@@ -838,7 +868,7 @@
         "cdiscName": null
     },
     {
-        "id": 60,
+        "id": 59,
         "definition": "Oligoclonal Bands in CSF",
         "idname": "Oligoclonal_Bands_in_CSF",
         "section": null,
@@ -853,9 +883,24 @@
         "cdiscName": null
     },
     {
+        "id": 60,
+        "definition": "ALT (Alanine Aminotransferase)",
+        "idname": "ALT_Alanine_Aminotransferase",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": "Units/Liter",
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
         "id": 61,
-        "definition": "ALT (Alanine Aminotransferase) Test",
-        "idname": "ALT_Alanine_Aminotransferase_Test",
+        "definition": "AST (Aspartate Aminotransferase)",
+        "idname": "AST_Aspartate_Aminotransferase",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -869,8 +914,8 @@
     },
     {
         "id": 62,
-        "definition": "AST (Aspartate Aminotransferase) Test",
-        "idname": "AST_Aspartate_Aminotransferase_Test",
+        "definition": "GGT (Gamma-Glutamyl Transpeptidase)",
+        "idname": "GGT_Gamma_Glutamyl_Transpeptidase",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -884,12 +929,12 @@
     },
     {
         "id": 63,
-        "definition": "GGT (Gamma-Glutamyl Transpeptidase) Test",
-        "idname": "GGT_Gamma_Glutamyl_Transpeptidase_Test",
+        "definition": "Total white blood cell (WBC) count",
+        "idname": "Total white blood cell (WBC) count",
         "section": null,
         "subsection": null,
         "type": 2,
-        "unit": "Units/Liter",
+        "unit": "mcL",
         "module": "MS",
         "permittedValues": null,
         "labels": null,
@@ -899,8 +944,8 @@
     },
     {
         "id": 64,
-        "definition": "Total WBC",
-        "idname": "Total_WBC",
+        "definition": "Total lymphocyte count",
+        "idname": "Total lymphocyte count",
         "section": null,
         "subsection": null,
         "type": 2,
