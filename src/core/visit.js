@@ -24,18 +24,12 @@ function Visit() {
  * @description return a visit linked to a patient
  * @param {Object} patientInfo alias of the patient targeted for the visit
  */
-Visit.prototype.getVisit = function (patientInfo) {
-    return new Promise(function (resolve, reject) {
-        return knex('PATIENTS')
-            .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.communication', 'VISITS.visitDate', 'VISITS.type')
-            .leftOuterJoin('VISITS', 'PATIENTS.id', 'VISITS.patient')
-            .where({ 'PATIENTS.aliasId': patientInfo, 'VISITS.deleted': '-' })
-            .then(function (result) {
-                return resolve(result);
-            }).catch(function (error) {
-                return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-            });
-    });
+Visit.prototype.getVisit = function (patientInfo)  {
+    return new Promise((resolve, reject) => knex('PATIENTS')
+        .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.communication', 'VISITS.visitDate', 'VISITS.type')
+        .leftOuterJoin('VISITS', 'PATIENTS.id', 'VISITS.patient')
+        .where({ 'PATIENTS.aliasId': patientInfo, 'VISITS.deleted': '-' })
+        .then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 /**
@@ -44,14 +38,8 @@ Visit.prototype.getVisit = function (patientInfo) {
  * @param {Object} user Object that contain the id of the user doing the request
  * @param {Object} visit The new entry
  */
-Visit.prototype.createVisit = function (entryObj) {
-    return new Promise(function (resolve, reject) {
-        return createEntry('VISITS', entryObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
-    });
+Visit.prototype.createVisit = function (entryObj)  {
+    return new Promise((resolve, reject) => createEntry('VISITS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
 };
 
 /**
@@ -61,14 +49,8 @@ Visit.prototype.createVisit = function (entryObj) {
  * @param {Object} updatedObj the new entry that will replace the old one
  */
 
-Visit.prototype.updateVisit = function (user, whereObj, updatedObj) {
-    return new Promise(function (resolve, reject) {
-        return updateEntry('VISITS', user, '*', whereObj, updatedObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+Visit.prototype.updateVisit = function (user, whereObj, updatedObj)  {
+    return new Promise((resolve, reject) => updateEntry('VISITS', user, '*', whereObj, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 /**
@@ -77,14 +59,8 @@ Visit.prototype.updateVisit = function (user, whereObj, updatedObj) {
  * @param {Object} user Object that contain the id of the user doing the request
  * @param {integer} visitId
  */
-Visit.prototype.deleteVisit = function (user, visitId) {
-    return new Promise(function (resolve, reject) {
-        return deleteEntry('VISITS', user, { id: visitId }).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        });
-    });
+Visit.prototype.deleteVisit = function (user, visitId)  {
+    return new Promise((resolve, reject) => deleteEntry('VISITS', user, { id: visitId }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
 };
 
 /**
@@ -92,14 +68,8 @@ Visit.prototype.deleteVisit = function (user, visitId) {
  * @description Return either all report or just a report relative to a giving visit ID.
  * @param {Object} whereObj Either empty or containing a field visit that represent the id of the visit.
  */
-Visit.prototype.getReport = function (whereObj) {
-    return new Promise(function (resolve, reject) {
-        return getEntry('VISIT_REPORT', whereObj, { id: 'id', report: 'report', visit: 'visit' }).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+Visit.prototype.getReport = function (whereObj)  {
+    return new Promise((resolve, reject) => getEntry('VISIT_REPORT', whereObj, { id: 'id', report: 'report', visit: 'visit' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 /**
@@ -107,14 +77,8 @@ Visit.prototype.getReport = function (whereObj) {
  * @description Create a new report
  * @param {Object} entryObj the new report entry
  */
-Visit.prototype.createReport = function (entryObj) {
-    return new Promise(function (resolve, reject) {
-        return createEntry('VISIT_REPORT', entryObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
-    });
+Visit.prototype.createReport = function (entryObj)  {
+    return new Promise((resolve, reject) => createEntry('VISIT_REPORT', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
 };
 
 /**
@@ -123,16 +87,12 @@ Visit.prototype.createReport = function (entryObj) {
  * @param {Object} user Object that contain the id of the user doing the request
  * @param {Object} updatedObj the report edited
  */
-Visit.prototype.updateReport = function (user, updatedObj) {
-    return new Promise(function (resolve, reject) {
+Visit.prototype.updateReport = function (user, updatedObj)  {
+    return new Promise((resolve, reject) => {
         let whereObj = {};
         whereObj.id = updatedObj.id;
         delete updatedObj.id;
-        return updateEntry('VISIT_REPORT', user, '*', whereObj, updatedObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        });
+        return updateEntry('VISIT_REPORT', user, '*', whereObj, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error)));
     });
 };
 
@@ -142,14 +102,8 @@ Visit.prototype.updateReport = function (user, updatedObj) {
  * @param {Object} user Object that contain the id of the user doing the request
  * @param {integer} deleteObj the ID of the report to delete
  */
-Visit.prototype.deleteReport = function (user, deleteObj) {
-    return new Promise(function (resolve, reject) {
-        return deleteEntry('VISIT_REPORT', user, { id: deleteObj }).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        });
-    });
+Visit.prototype.deleteReport = function (user, deleteObj)  {
+    return new Promise((resolve, reject) => deleteEntry('VISIT_REPORT', user, { id: deleteObj }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
 };
 
 module.exports = Visit;

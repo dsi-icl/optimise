@@ -11,18 +11,16 @@ function MeddraController() {
 
 MeddraController.prototype.loadMeddraCollection = function () {
     let that = this;
-    return new Promise(function (resolve, reject) {
-        return knex('ADVERSE_EVENT_MEDDRA')
-            .select('*')
-            .then(function (result) {
-                that.setMeddraCollection(result);
-                return resolve();
-            })
-            .catch(() => {
-                that.setMeddraCollection(null);
-                return reject();
-            });
-    });
+    return new Promise((resolve, reject) => knex('ADVERSE_EVENT_MEDDRA')
+        .select('*')
+        .then((result) => {
+            that.setMeddraCollection(result);
+            return resolve();
+        })
+        .catch(() => {
+            that.setMeddraCollection(null);
+            return reject();
+        }));
 };
 
 MeddraController.prototype.setMeddraCollection = function (collection) {

@@ -7,9 +7,7 @@ function ErrorStack(error_obj, error_stack) {
     let error = {};
     let error_message = '';
 
-    error.toString = function () {
-        return JSON.stringify(this);
-    };
+    error.toString = () => JSON.stringify(this);
 
     // Extract current error message
     if (typeof error_obj === 'string')

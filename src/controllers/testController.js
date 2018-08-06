@@ -12,7 +12,7 @@ function TestController() {
     this.deleteTest = TestController.prototype.deleteTest.bind(this);
 }
 
-TestController.prototype.createTest = function (req, res) {
+TestController.prototype.createTest = function (req, res)  {
     if (!req.body.hasOwnProperty('visitId') || !req.body.hasOwnProperty('expectedOccurDate') || !req.body.hasOwnProperty('type')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
@@ -40,16 +40,16 @@ TestController.prototype.createTest = function (req, res) {
         'actualOccurredDate': req.body.hasOwnProperty('actualOccurredDate') ? momentOccur.valueOf() : null,
         'createdByUser': req.user.id
     };
-    this.test.createTest(entryObj).then(function (result) {
+    this.test.createTest(entryObj).then((result) => {
         res.status(200).json(formatToJSON(result));
         return true;
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         return false;
     });
 };
 
-TestController.prototype.updateTest = function (req, res) {
+TestController.prototype.updateTest = function (req, res)  {
     if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
@@ -71,21 +71,21 @@ TestController.prototype.updateTest = function (req, res) {
     } else if (req.body.hasOwnProperty('actualOccurredDate')) {
         entryObj.actualOccurredDate = momentOccur.valueOf();
     }
-    this.test.updateTest(req.user, entryObj).then(function (result) {
+    this.test.updateTest(req.user, entryObj).then((result) => {
         res.status(200).json(formatToJSON(result));
         return true;
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
         return false;
     });
 };
 
-TestController.prototype.deleteTest = function (req, res) {
+TestController.prototype.deleteTest = function (req, res)  {
     if (req.body.hasOwnProperty('testId') && typeof req.body.testId === 'number') {
-        this.test.deleteTest(req.user, { 'id': req.body.testId }).then(function (result) {
+        this.test.deleteTest(req.user, { 'id': req.body.testId }).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         });

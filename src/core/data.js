@@ -29,7 +29,7 @@ function Data() {
 }
 
 Data.prototype.deleteData = function (user, options, idData, deleteObj) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         knex.transaction(trx => {
             knex(options.dataTable)
                 .where('field', 'in', deleteObj)
@@ -37,11 +37,7 @@ Data.prototype.deleteData = function (user, options, idData, deleteObj) {
                 .andWhere(options.dataTableForeignKey, idData)
                 .update({ 'deleted': `${user.id}@${JSON.stringify(new Date())}` })
                 .transacting(trx)
-                .then(function (result) {
-                    return resolve(result);
-                }).catch(function (error) {
-                    return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-                })
+                .then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error)))
                 .then(trx.commit)
                 .catch(trx.rollback);
         });
@@ -49,123 +45,51 @@ Data.prototype.deleteData = function (user, options, idData, deleteObj) {
 };
 
 VisitData.prototype.getVisitData = function (whereObj) {
-    return new Promise(function (resolve, reject) {
-        return getEntry('VISIT_DATA', whereObj, '*').then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => getEntry('VISIT_DATA', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 VisitData.prototype.createVisitData = function (entryObj) {
-    return new Promise(function (resolve, reject) {
-        return createEntry('VISIT_DATA', entryObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => createEntry('VISIT_DATA', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
 };
 
 VisitData.prototype.updateVisitData = function (user, whereObj, newObj) {
-    return new Promise(function (resolve, reject) {
-        return updateEntry('VISIT_DATA', user, '*', whereObj, newObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => updateEntry('VISIT_DATA', user, '*', whereObj, newObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
 };
 
 VisitData.prototype.deleteVisitData = function (user, whereObj) {
-    return new Promise(function (resolve, reject) {
-        return deleteEntry('VISIT_DATA', user, whereObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.deleteEntry, error));
-        });
-    });
+    return new Promise((resolve, reject) => deleteEntry('VISIT_DATA', user, whereObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.deleteEntry, error))));
 };
 
 TestData.prototype.getTestData = function (whereObj) {
-    return new Promise(function (resolve, reject) {
-        return getEntry('TEST_DATA', whereObj, '*').then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => getEntry('TEST_DATA', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 TestData.prototype.createTestData = function (entryObj) {
-    return new Promise(function (resolve, reject) {
-        return createEntry('TEST_DATA', entryObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => createEntry('TEST_DATA', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
 };
 
 TestData.prototype.updateTestData = function (user, whereObj, newObj) {
-    return new Promise(function (resolve, reject) {
-        return updateEntry('TEST_DATA', user, '*', whereObj, newObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => updateEntry('TEST_DATA', user, '*', whereObj, newObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
 };
 
 TestData.prototype.deleteTestData = function (user, whereObj) {
-    return new Promise(function (resolve, reject) {
-        return deleteEntry('TEST_DATA', user, whereObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.deleteEntry, error));
-        });
-    });
+    return new Promise((resolve, reject) => deleteEntry('TEST_DATA', user, whereObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.deleteEntry, error))));
 };
 
 ClinicalEventsData.prototype.getClinicalEventsData = function (whereObj) {
-    return new Promise(function (resolve, reject) {
-        return getEntry('CLINICAL_EVENTS_DATA', whereObj, '*').then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => getEntry('CLINICAL_EVENTS_DATA', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 ClinicalEventsData.prototype.createClinicalEventsData = function (entryObj) {
-    return new Promise(function (resolve, reject) {
-        return createEntry('CLINICAL_EVENTS_DATA', entryObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => createEntry('CLINICAL_EVENTS_DATA', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
 };
 
 ClinicalEventsData.prototype.updateClinicalEventsData = function (user, whereObj, newObj) {
-    return new Promise(function (resolve, reject) {
-        return updateEntry('CLINICAL_EVENTS_DATA', user, '*', whereObj, newObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => updateEntry('CLINICAL_EVENTS_DATA', user, '*', whereObj, newObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
 };
 
 ClinicalEventsData.prototype.deleteClinicalEventsData = function (user, whereObj) {
-    return new Promise(function (resolve, reject) {
-        return deleteEntry('CLINICAL_EVENTS_DATA', user, whereObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.deleteEntry, error));
-        });
-    });
+    return new Promise((resolve, reject) => deleteEntry('CLINICAL_EVENTS_DATA', user, whereObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.deleteEntry, error))));
 };
 
 module.exports = Data;

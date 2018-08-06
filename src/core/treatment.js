@@ -17,115 +17,49 @@ function Treatment() {
     this.searchDrugs = Treatment.prototype.searchDrugs.bind(this);
 }
 
-Treatment.prototype.getTreatment = function (treatment) {
-    return new Promise(function (resolve, reject) {
-        return getEntry('TREATMENTS', treatment, '*').then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.NOTFOUND, error));
-        });
-    });
+Treatment.prototype.getTreatment = function (treatment)  {
+    return new Promise((resolve, reject) => getEntry('TREATMENTS', treatment, '*').then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.NOTFOUND, error))));
 };
 
-Treatment.prototype.createTreatment = function (treatment) {
-    return new Promise(function (resolve, reject) {
-        return createEntry('TREATMENTS', treatment).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
-    });
+Treatment.prototype.createTreatment = function (treatment)  {
+    return new Promise((resolve, reject) => createEntry('TREATMENTS', treatment).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
 };
 
-Treatment.prototype.updateTreatment = function (user, idTreatment, updatedEntry) {
-    return new Promise(function (resolve, reject) {
-        return updateEntry('TREATMENTS', user, '*', { id: idTreatment }, updatedEntry).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        });
-    });
+Treatment.prototype.updateTreatment = function (user, idTreatment, updatedEntry)  {
+    return new Promise((resolve, reject) => updateEntry('TREATMENTS', user, '*', { id: idTreatment }, updatedEntry).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
 };
 
-Treatment.prototype.addTerminationDateTreatment = function (idTreatment, updateEntry) {
-    return new Promise(function (resolve, reject) {
-        return knex('TREATMENTS').where({ id: idTreatment }).update(updateEntry).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        });
-    });
+Treatment.prototype.addTerminationDateTreatment = function (idTreatment, updateEntry)  {
+    return new Promise((resolve, reject) => knex('TREATMENTS').where({ id: idTreatment }).update(updateEntry).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
 };
 
-Treatment.prototype.deleteTreatment = function (user, idTreatment) {
-    return new Promise(function (resolve, reject) {
-        return deleteEntry('TREATMENTS', user, { id: idTreatment }).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        });
-    });
+Treatment.prototype.deleteTreatment = function (user, idTreatment)  {
+    return new Promise((resolve, reject) => deleteEntry('TREATMENTS', user, { id: idTreatment }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
 };
 
-Treatment.prototype.addInterruption = function (__unused__user, interruption) {
-    return new Promise(function (resolve, reject) {
-        return createEntry('TREATMENTS_INTERRUPTIONS', interruption).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
-    });
+Treatment.prototype.addInterruption = function (__unused__user, interruption)  {
+    return new Promise((resolve, reject) => createEntry('TREATMENTS_INTERRUPTIONS', interruption).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
 };
 
-Treatment.prototype.deleteInterruption = function (user, idInterruption) {
-    return new Promise(function (resolve, reject) {
-        return deleteEntry('TREATMENTS_INTERRUPTIONS', user, { id: idInterruption }).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
-    });
+Treatment.prototype.deleteInterruption = function (user, idInterruption)  {
+    return new Promise((resolve, reject) => deleteEntry('TREATMENTS_INTERRUPTIONS', user, { id: idInterruption }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
 };
 
-Treatment.prototype.getReasons = function () {
-    return new Promise(function (resolve, reject) {
-        return getEntry('REASONS', {}, '*').then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+Treatment.prototype.getReasons = function ()  {
+    return new Promise((resolve, reject) => getEntry('REASONS', {}, '*').then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
-Treatment.prototype.searchReasons = function (reason) {
-    return new Promise(function (resolve, reject) {
-        return knex('REASONS').select('*').where('value', 'like', reason).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+Treatment.prototype.searchReasons = function (reason)  {
+    return new Promise((resolve, reject) => knex('REASONS').select('*').where('value', 'like', reason).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 
-Treatment.prototype.getDrugs = function () {
-    return new Promise(function (resolve, reject) {
-        return getEntry('AVAILABLE_DRUGS', {}, '*').then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+Treatment.prototype.getDrugs = function ()  {
+    return new Promise((resolve, reject) => getEntry('AVAILABLE_DRUGS', {}, '*').then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
-Treatment.prototype.searchDrugs = function (drugSample) {
-    return new Promise(function (resolve, reject) {
-        return knex('AVAILABLE_DRUGS').select('*').where('name', 'like', drugSample).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+Treatment.prototype.searchDrugs = function (drugSample)  {
+    return new Promise((resolve, reject) => knex('AVAILABLE_DRUGS').select('*').where('name', 'like', drugSample).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 module.exports = Treatment;

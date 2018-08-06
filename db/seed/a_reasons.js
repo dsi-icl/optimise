@@ -1,9 +1,9 @@
-exports.seed = function (knex) {
+exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('REASONS').del()
-        .then(function () {
+    knex('REASONS').del()
+        .then(() =>
             // Inserts seed entries
-            return knex('REASONS').insert([
+            knex('REASONS').insert([
                 { id: 1, value: 'Patient preference', module: 'TREATMENTS' },
                 { id: 2, value: 'Disease progresssion', module: 'TREATMENTS' },
                 { id: 3, value: 'Death', module: 'TREATMENTS' },
@@ -13,6 +13,6 @@ exports.seed = function (knex) {
                 { id: 7, value: 'Convenience', module: 'TREATMENTS_INTERRUPTIONS' },
                 { id: 8, value: 'Adverse event', module: 'TREATMENTS_INTERRUPTIONS' },
                 { id: 9, value: 'Unknown', module: 'TREATMENTS_INTERRUPTIONS' }
-            ]);
-        });
-};
+            ])
+        )
+;

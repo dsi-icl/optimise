@@ -1,9 +1,9 @@
-exports.seed = function (knex) {
+exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('TYPES').del()
-        .then(function () {
+    knex('TYPES').del()
+        .then(() =>
             // Inserts seed entries
-            return knex('TYPES').insert([
+            knex('TYPES').insert([
                 { id: 1, value: 'I' },
                 { id: 2, value: 'F' },
                 { id: 3, value: 'C' },
@@ -11,6 +11,6 @@ exports.seed = function (knex) {
                 { id: 5, value: 'B' },
                 { id: 6, value: 'D' },
                 { id: 7, value: 'BLOB' }
-            ]);
-        });
-};
+            ])
+        )
+;

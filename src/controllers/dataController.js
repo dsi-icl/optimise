@@ -50,10 +50,10 @@ class DataController {
             return;
         }
         this.dataCore.deleteData(req.user, options, req.body[`${req.params.dataType}Id`], req.body.delete)
-            .then(function (result) {
+            .then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
-            }).catch(function (error) {
+            }).catch((error) => {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
@@ -137,13 +137,13 @@ class DataController {
                 if (!req.body.hasOwnProperty('add')) { req.body.add = {}; }   //same
                 // Verify that the entryTable ID exists in database (i.e. visitId:1 in body must have the row with id 1 in VISIT Table)
                 return getEntry(options.entryTable, { id: req.body[options.entryIdString], deleted: '-' }, '*')
-                    .then(function (entryResult) {
+                    .then((entryResult) => {
                         if (entryResult.length !== 1) {
                             res.status(404).json(ErrorHelper(options.errMsgForUnfoundEntry));
                             return;
                         }
                         let entryType = entryResult[0].type;
-                        return that._checkField(options, entries).then(function (result) {
+                        return that._checkField(options, entries).then((result) => {
                             if (result.length <= 0) {
                                 res.status(400).json(ErrorHelper(message.dataMessage.FIELDNOTFOUND));
                                 return false;
@@ -200,18 +200,18 @@ class DataController {
                                     }
                                 }
                             }
-                            return that._createAndUpdate(req, options, entries).then(function (__unused__result) {
+                            return that._createAndUpdate(req, options, entries).then((__unused__result) => {
                                 res.status(200).json(formatToJSON(`${message.dataMessage.SUCCESS}`));
                                 return true;
-                            }).catch(function (error) {
+                            }).catch((error) => {
                                 res.status(400).json(ErrorHelper(message.dataMessage.ERROR, error));
                                 return false;
                             });
-                        }).catch(function (error) {
+                        }).catch((error) => {
                             res.status(400).json(ErrorHelper(message.dataMessage.FIELDNOTFOUND, error));
                             return false;
                         });
-                    }).catch(function (error) {
+                    }).catch((error) => {
                         res.status(404).json(ErrorHelper(options.errMsgForUnfoundEntry, error));
                         return false;
                     });

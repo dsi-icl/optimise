@@ -1,9 +1,9 @@
-exports.seed = function (knex) {
+exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('RELATIONS').del()
-        .then(function () {
+    knex('RELATIONS').del()
+        .then(() =>
             // Inserts seed entries
-            return knex('RELATIONS').insert([
+            knex('RELATIONS').insert([
                 { value: 'self' },
                 { value: 'mother' },
                 { value: 'father' },
@@ -16,6 +16,6 @@ exports.seed = function (knex) {
                 { value: 'paternal grandparent' },
                 { value: 'paternal cousin' },
                 { value: 'paternal aunt/uncle' }
-            ]);
-        });
-};
+            ])
+        )
+;
