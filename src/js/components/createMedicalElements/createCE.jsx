@@ -53,7 +53,7 @@ export class CreateCE extends Component {
 
     _formatRequestBody() {
         const date = this.state.startDate;
-        const filteredMeddra = this.props.meddra.filter(el => el.name === this.state.meddra.current.value)
+        const filteredMeddra = this.props.meddra.filter(el => el.name === this.state.meddra.current.value);
         const meddra = filteredMeddra && filteredMeddra[0] && !isNaN(parseInt(filteredMeddra[0].id)) ? parseInt(filteredMeddra[0].id) : undefined;
         return {
             patientId: this.props.match.params.patientId,
