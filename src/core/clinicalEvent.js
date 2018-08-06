@@ -23,13 +23,7 @@ function ClinicalEvent() {
  * @returns a Promise that contains the result from the select query
  */
 ClinicalEvent.prototype.getClinicalEvent = function (requestedObj) {
-    return new Promise(function (resolve, reject) {
-        return getEntry('CLINICAL_EVENTS', requestedObj, '*').then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => getEntry('CLINICAL_EVENTS', requestedObj, '*').then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 
@@ -42,13 +36,9 @@ ClinicalEvent.prototype.getClinicalEvent = function (requestedObj) {
  * @returns a new Promise
  */
 ClinicalEvent.prototype.createClinicalEvent = function (ce) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         let entryObj = Object.assign({}, ClinicalEventModel, ce);
-        return createEntry('CLINICAL_EVENTS', entryObj).then(function (result) {
-            return resolve(result);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
+        return createEntry('CLINICAL_EVENTS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
     });
 };
 
@@ -59,13 +49,7 @@ ClinicalEvent.prototype.createClinicalEvent = function (ce) {
  * @param {*} idObj ID of the entry that is going to be deleted
  */
 ClinicalEvent.prototype.updateClinicalEvent = function (user, clinicalEvent) {
-    return new Promise(function (resolve, reject) {
-        return updateEntry('CLINICAL_EVENTS', user, '*', { id: clinicalEvent.id }, clinicalEvent).then(function (success) {
-            return resolve(success);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => updateEntry('CLINICAL_EVENTS', user, '*', { id: clinicalEvent.id }, clinicalEvent).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
 };
 
 /**
@@ -75,13 +59,7 @@ ClinicalEvent.prototype.updateClinicalEvent = function (user, clinicalEvent) {
  * @param {*} idObj ID of the entry that is going to be deleted
  */
 ClinicalEvent.prototype.deleteClinicalEvent = function (user, idObj) {
-    return new Promise(function (resolve, reject) {
-        return deleteEntry('CLINICAL_EVENTS', user, idObj).then(function (success) {
-            return resolve(success);
-        }).catch(function (error) {
-            return reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => deleteEntry('CLINICAL_EVENTS', user, idObj).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
 };
 
 module.exports = ClinicalEvent;

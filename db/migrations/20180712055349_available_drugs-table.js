@@ -1,11 +1,7 @@
-exports.up = function (knex) {
-    return knex.schema.createTable('AVAILABLE_DRUGS', function (table) {
-        table.increments('id').primary();
-        table.text('name').notNullable();
-        table.text('module').nullable();
-    });
-};
+exports.up = (knex) => knex.schema.createTable('AVAILABLE_DRUGS', (table) => {
+    table.increments('id').primary();
+    table.text('name').notNullable();
+    table.text('module').nullable();
+});
 
-exports.down = function (knex) {
-    return knex.schema.dropTable('AVAILABLE_DRUGS');
-};
+exports.down = (knex) => knex.schema.dropTable('AVAILABLE_DRUGS');

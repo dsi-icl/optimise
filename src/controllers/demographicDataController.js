@@ -70,10 +70,10 @@ DemographicDataController.prototype.createDemographic = function (req, res) {
         'smokingHistory': req.body.smoking_history,
         'createdByUser': req.user.id
     };
-    this.demographic.createDemographic(entryObj).then(function (result) {
+    this.demographic.createDemographic(entryObj).then((result) => {
         res.status(200).json(formatToJSON(result));
         return true;
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         return false;
     });
@@ -94,10 +94,10 @@ DemographicDataController.prototype.createImmunisation = function (req, res) {
             'vaccineName': req.body.vaccineName,
             'createdByUser': req.user.id
         };
-        this.immunisation.createImmunisation(entryObj).then(function (result) {
+        this.immunisation.createImmunisation(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return false;
         });
@@ -131,10 +131,10 @@ DemographicDataController.prototype.createMedicalCondition = function (req, res)
         if (req.body.resolvedYear) {
             entryObj.resolvedYear = req.body.resolvedYear;
         }
-        this.medicalhistory.createMedicalHistory(entryObj).then(function (result) {
+        this.medicalhistory.createMedicalHistory(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return false;
         });
@@ -149,10 +149,10 @@ DemographicDataController.prototype.createMedicalCondition = function (req, res)
 
 DemographicDataController.prototype.deleteDemographic = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-        this.demographic.deleteDemographic(req.user, { id: req.body.id }).then(function (result) {
+        this.demographic.deleteDemographic(req.user, { id: req.body.id }).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         });
@@ -167,10 +167,10 @@ DemographicDataController.prototype.deleteDemographic = function (req, res) {
 
 DemographicDataController.prototype.deleteImmunisation = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-        this.immunisation.deleteImmunisation(req.user, { id: req.body.id }).then(function (result) {
+        this.immunisation.deleteImmunisation(req.user, { id: req.body.id }).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         });
@@ -185,10 +185,10 @@ DemographicDataController.prototype.deleteImmunisation = function (req, res) {
 
 DemographicDataController.prototype.deleteMedicalCondition = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-        this.medicalhistory.deleteMedicalHistory(req.user, { id: req.body.id }).then(function (result) {
+        this.medicalhistory.deleteMedicalHistory(req.user, { id: req.body.id }).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         });
@@ -203,10 +203,10 @@ DemographicDataController.prototype.deleteMedicalCondition = function (req, res)
 
 DemographicDataController.prototype.editDemographic = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-        this.demographic.editDemographic(req.user, req.body).then(function (result) {
+        this.demographic.editDemographic(req.user, req.body).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;
         });
@@ -231,10 +231,10 @@ DemographicDataController.prototype.editImmunisation = function (req, res) {
         let updateObj = Object.assign(req.body);
         if (updateObj.hasOwnProperty('immunisationDate'))
             updateObj.immunisationDate = momentImmun.valueOf();
-        this.immunisation.editImmunisation(req.user, updateObj).then(function (result) {
+        this.immunisation.editImmunisation(req.user, updateObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;
         });
@@ -251,10 +251,10 @@ DemographicDataController.prototype.editMedicalCondition = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number' &&
         ((req.body.hasOwnProperty('outcome') && typeof req.body.outcome === 'string') || !req.body.hasOwnProperty('outcome')) &&
         ((req.body.hasOwnProperty('resolvedYear') && typeof req.body.resolvedYear === 'number') || !req.body.hasOwnProperty('resolvedYear'))) {
-        this.medicalhistory.editMedicalHistory(req.user, req.body).then(function (result) {
+        this.medicalhistory.editMedicalHistory(req.user, req.body).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;
         });
@@ -278,10 +278,10 @@ DemographicDataController.prototype.getDemogData = function (req, res) {
             'MedicalCondition': this.medicalhistory.getMedicalHistory,
             'Pregnancy': this.pregnancy.getPregnancy
         };
-        action[req.params.dataType](whereObj).then(function (result) {
+        action[req.params.dataType](whereObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
         });
@@ -323,10 +323,10 @@ DemographicDataController.prototype.getDemographicFields = function (req, res) {
 
     if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('fieldName')) {
         if (action.hasOwnProperty(req.query.fieldName)) {
-            action[req.query.fieldName]().then(function (result) {
+            action[req.query.fieldName]().then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
-            }).catch(function (error) {
+            }).catch((error) => {
                 res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
                 return false;
             });
@@ -340,14 +340,14 @@ DemographicDataController.prototype.getDemographicFields = function (req, res) {
             promiseArray.push(action[Object.keys(action)[key]]());
         }
         let promiseHandler = Promise.all(promiseArray);
-        promiseHandler.then(function (result) {
+        promiseHandler.then((result) => {
             const responseObj = {};
             for (let i = 0; i < result.length; i++) {
                 responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
             }
             res.status(200).json(responseObj);
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
             return false;
         });
@@ -362,10 +362,10 @@ DemographicDataController.prototype.getMedicalConditionFields = function (req, r
 
     if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('fieldName')) {
         if (action.hasOwnProperty(req.query.fieldName)) {
-            action[req.query.fieldName]().then(function (result) {
+            action[req.query.fieldName]().then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
-            }).catch(function (error) {
+            }).catch((error) => {
                 res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
                 return false;
             });
@@ -379,14 +379,14 @@ DemographicDataController.prototype.getMedicalConditionFields = function (req, r
             promiseArray.push(action[Object.keys(action)[key]]());
         }
         let promiseHandler = Promise.all(promiseArray);
-        promiseHandler.then(function (result) {
+        promiseHandler.then((result) => {
             const responseObj = {};
             for (let i = 0; i < result.length; i++) {
                 responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
             }
             res.status(200).json(responseObj);
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
             return false;
         });
@@ -397,10 +397,10 @@ DemographicDataController.prototype.getPregnancy = function (req, res) {
     let whereObj = {};
     if (req.query.hasOwnProperty('patient'))
         whereObj.patient = req.query.patient;
-    this.pregnancy.getPregnancy(whereObj).then(function (result) {
+    this.pregnancy.getPregnancy(whereObj).then((result) => {
         res.status(200).json(formatToJSON(result));
         return true;
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
         return false;
     });
@@ -442,10 +442,10 @@ DemographicDataController.prototype.createPregnancy = function (req, res) {
             entryObj.outcomeDate = momentOutcome.valueOf();
         entryObj.createdByUser = req.user.id;
 
-        this.pregnancy.createPregnancy(entryObj).then(function (result) {
+        this.pregnancy.createPregnancy(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return false;
         });
@@ -479,10 +479,10 @@ DemographicDataController.prototype.editPregnancy = function (req, res) {
             entryObj.outcomeDate = momentOutcome.valueOf();
         }
 
-        this.pregnancy.editPregnancy(req.user, req.body).then(function (result) {
+        this.pregnancy.editPregnancy(req.user, req.body).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;
         });
@@ -497,10 +497,10 @@ DemographicDataController.prototype.editPregnancy = function (req, res) {
 
 DemographicDataController.prototype.deletePregnancy = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-        this.pregnancy.deletePregnancy(req.user, { 'id': req.body.id }).then(function (result) {
+        this.pregnancy.deletePregnancy(req.user, { 'id': req.body.id }).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         });
@@ -514,10 +514,10 @@ DemographicDataController.prototype.deletePregnancy = function (req, res) {
 };
 
 DemographicDataController.prototype.getPregnancyFields = function (__unused__req, res) {
-    this.pregnancy.getPregnancyOutcomes().then(function (result) {
+    this.pregnancy.getPregnancyOutcomes().then((result) => {
         res.status(200).json(formatToJSON(result));
         return true;
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
         return false;
     });

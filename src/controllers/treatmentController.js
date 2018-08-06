@@ -71,10 +71,10 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         'createdByUser': req.user.id
     };
-    this.treatment.createTreatment(entryObj).then(function (result) {
+    this.treatment.createTreatment(entryObj).then((result) => {
         res.status(200).json(formatToJSON(result));
         return true;
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
         return false;
     });
@@ -89,10 +89,10 @@ TreatmentController.prototype.addTerminationDate = function (req, res) {    //fo
             return;
         }
         this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': momentTerminated.valueOf(), 'terminatedReason': req.body.terminatedReason })
-            .then(function (result) {
+            .then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
-            }).catch(function (error) {
+            }).catch((error) => {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
@@ -122,10 +122,10 @@ TreatmentController.prototype.editTreatment = function (req, res) {
         newObj.startDate = momentStart.valueOf();
         newObj.terminatedDate = (req.body.hasOwnProperty('terminatedDate') ? momentTerminated.valueOf() : null);
 
-        this.treatment.updateTreatment(req.user, req.body.id, newObj).then(function (result) {
+        this.treatment.updateTreatment(req.user, req.body.id, newObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.userError.UPDATEFAIL, error));
             return false;
         });
@@ -148,7 +148,7 @@ TreatmentController.prototype.deleteTreatment = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
-    this.treatment.deleteTreatment(req.user, req.body.treatmentId).then(function (result) {
+    this.treatment.deleteTreatment(req.user, req.body.treatmentId).then((result) => {
         if (result.body === 0) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
             return false;
@@ -156,7 +156,7 @@ TreatmentController.prototype.deleteTreatment = function (req, res) {
             res.status(200).json(formatToJSON(result));
             return true;
         }
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
         return false;
     });
@@ -185,10 +185,10 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
             'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
             'createdByUser': req.user.id
         };
-        this.treatment.addInterruption(req.user, entryObj).then(function (result) {
+        this.treatment.addInterruption(req.user, entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return false;
         });
@@ -203,7 +203,7 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
 
 TreatmentController.prototype.deleteInterruption = function (req, res) {
     if (req.body.hasOwnProperty('treatmentInterId') && typeof req.body.treatmentInterId === 'number') {
-        this.treatment.deleteInterruption(req.user, req.body.treatmentInterId).then(function (result) {
+        this.treatment.deleteInterruption(req.user, req.body.treatmentInterId).then((result) => {
             if (result.body === 0) {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
                 return false;
@@ -211,7 +211,7 @@ TreatmentController.prototype.deleteInterruption = function (req, res) {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         });
@@ -226,19 +226,19 @@ TreatmentController.prototype.deleteInterruption = function (req, res) {
 
 TreatmentController.prototype.getReasons = function (req, res) {
     if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
-        this.treatment.searchReasons(`%${req.query.name}%`).then(function (result) {
+        this.treatment.searchReasons(`%${req.query.name}%`).then((result) => {
             res.status(200).json(result);
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
         });
         return;
     } else {
-        this.treatment.getReasons().then(function (result) {
+        this.treatment.getReasons().then((result) => {
             res.status(200).json(result);
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
         });
@@ -248,19 +248,19 @@ TreatmentController.prototype.getReasons = function (req, res) {
 
 TreatmentController.prototype.getDrugs = function (req, res) {
     if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
-        this.treatment.searchDrugs(`%${req.query.name}%`).then(function (result) {
+        this.treatment.searchDrugs(`%${req.query.name}%`).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
         });
         return;
     } else {
-        this.treatment.getDrugs().then(function (result) {
+        this.treatment.getDrugs().then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
         });

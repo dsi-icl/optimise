@@ -605,8 +605,8 @@ class ExportDataController {
             const tempCsvFileName = `${prefix}${Date.now()}${csvFileName}`;
             let keys = Object.keys(result[0]); // get the keys from result to create headers
             let tempResult = `${keys.join(',')}\n`;
-            result.forEach(function (obj) {
-                keys.forEach(function (a, b) {
+            result.forEach((obj) => {
+                keys.forEach((a, b) => {
                     if (b) tempResult += ',';
                     tempResult += obj[a];
                 });

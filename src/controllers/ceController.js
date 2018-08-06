@@ -41,10 +41,10 @@ CeController.prototype.createCe = function (req, res) {
         ce.meddra = req.body.meddra ? parseInt(req.body.meddra) : undefined;
         ce.dateStartDate = momentStart.valueOf();
         ce.createdByUser = req.user.id;
-        this.clinicalEvent.createClinicalEvent(ce).then(function (result) {
+        this.clinicalEvent.createClinicalEvent(ce).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return false;
         });
@@ -79,10 +79,10 @@ CeController.prototype.updateCe = function (req, res) {
     } else if (req.body.hasOwnProperty('endDate')) {
         ce.endDate = momentEnd.valueOf();
     }
-    this.clinicalEvent.updateClinicalEvent(req.user, ce).then(function (result) {
+    this.clinicalEvent.updateClinicalEvent(req.user, ce).then((result) => {
         res.status(200).json(formatToJSON(result));
         return true;
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
         return false;
     });
@@ -90,10 +90,10 @@ CeController.prototype.updateCe = function (req, res) {
 
 CeController.prototype.deleteCe = function (req, res) {
     if (req.body.hasOwnProperty('ceId')) {
-        this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then(function (result) {
+        this.clinicalEvent.deleteClinicalEvent(req.user, { 'id': req.body.ceId }).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         });

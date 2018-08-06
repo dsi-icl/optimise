@@ -42,7 +42,7 @@ function OptimiseServer(config) {
     this.app.set('x-powered-by', false);
     // Allow CORS requests when enabled
     if (this.config.enableCors === true) {
-        this.app.use(function (__unused__req, res, next) {
+        this.app.use((__unused__req, res, next) => {
             res.header('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
             next();
@@ -59,9 +59,9 @@ function OptimiseServer(config) {
  * @return {Promise} Resolve to a native Express.js router ready to use on success.
  * In case of error, an ErrorStack is rejected.
  */
-OptimiseServer.prototype.start = function () {
+OptimiseServer.prototype.start = function ()  {
     let _this = this;
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
 
         // Operate database migration if necessary
         migrate('ms').then(() => {
@@ -82,7 +82,7 @@ OptimiseServer.prototype.start = function () {
             _this.app.use(passport.session());
 
             // Keeping a pointer to the original mounting point of the server
-            _this.app.use(function (req, __unused__res, next) {
+            _this.app.use((req, __unused__res, next) => {
                 req.optimiseRootUrl = req.baseUrl;
                 next();
             });
@@ -114,7 +114,7 @@ OptimiseServer.prototype.start = function () {
             _this.setupMeddra();
             _this.setupSeed();
 
-            _this.app.all('/*', function (__unused__req, res) {
+            _this.app.all('/*', (__unused__req, res) => {
                 res.status(400);
                 res.json(ErrorHelper('Bad request'));
             });
@@ -132,8 +132,8 @@ OptimiseServer.prototype.start = function () {
  * express router MUST be released and this service endpoints are expected to fail.
  * @return {Promise} Resolve to true on success, ErrorStack otherwise
  */
-OptimiseServer.prototype.stop = function () {
-    return new Promise(function (resolve, reject) {
+OptimiseServer.prototype.stop = function ()  {
+    return new Promise((resolve, reject) => {
         knex.destroy().then(() => resolve(true)).catch((err) => reject(err)); // Everything is stopped
     });
 };
@@ -142,7 +142,7 @@ OptimiseServer.prototype.stop = function () {
  * @fn setupUsers
  * @desc Initialize the users related routes
  */
-OptimiseServer.prototype.setupUsers = function () {
+OptimiseServer.prototype.setupUsers = function ()  {
 
     // Import the controller
     const UserController = require('./controllers/userController');
@@ -176,7 +176,7 @@ OptimiseServer.prototype.setupUsers = function () {
  * @fn setupPatients
  * @desc Initialize the patients related routes
  */
-OptimiseServer.prototype.setupPatients = function () {
+OptimiseServer.prototype.setupPatients = function ()  {
     // Import the controller
     this.routePatients = require('./routes/patientRoute');
 
@@ -188,7 +188,7 @@ OptimiseServer.prototype.setupPatients = function () {
  * @fn setupVisits
  * @desc Initialize the visits related routes
  */
-OptimiseServer.prototype.setupVisits = function () {
+OptimiseServer.prototype.setupVisits = function ()  {
     // Import the controller
     this.routeVisits = require('./routes/visitRoute');
 
@@ -200,7 +200,7 @@ OptimiseServer.prototype.setupVisits = function () {
  * @fn setupDemographics
  * @desc Initialize the demographics related routes
  */
-OptimiseServer.prototype.setupDemographics = function () {
+OptimiseServer.prototype.setupDemographics = function ()  {
     // Import the controller
     this.routeDemographics = require('./routes/demographicRoute');
 
@@ -212,7 +212,7 @@ OptimiseServer.prototype.setupDemographics = function () {
  * @fn setupClinicalEvents
  * @desc Initialize the clinicalEvents related routes
  */
-OptimiseServer.prototype.setupClinicalEvents = function () {
+OptimiseServer.prototype.setupClinicalEvents = function ()  {
     // Import the controller
     this.routeClinicalEvents = require('./routes/clinicalEventRoute');
 
@@ -224,7 +224,7 @@ OptimiseServer.prototype.setupClinicalEvents = function () {
  * @fn setupTreatments
  * @desc Initialize the treatments related routes
  */
-OptimiseServer.prototype.setupTreatments = function () {
+OptimiseServer.prototype.setupTreatments = function ()  {
     // Import the controller
     this.routeTreatments = require('./routes/treatmentRoute');
 
@@ -236,7 +236,7 @@ OptimiseServer.prototype.setupTreatments = function () {
  * @fn setupTests
  * @desc Initialize the tests related routes
  */
-OptimiseServer.prototype.setupTests = function () {
+OptimiseServer.prototype.setupTests = function ()  {
     // Import the controller
     this.routeTests = require('./routes/testRoute');
 
@@ -247,7 +247,7 @@ OptimiseServer.prototype.setupTests = function () {
 /**
  * @fn setupFields
  * @desc Initialize the available fields related routes
- */OptimiseServer.prototype.setupFields = function () {
+ */OptimiseServer.prototype.setupFields = function ()  {
     //Import the controller
     this.routeFields = require('./routes/fieldsRoute');
 
@@ -259,7 +259,7 @@ OptimiseServer.prototype.setupTests = function () {
  * @fn setupData
  * @desc Initialize the data related routes
  */
-OptimiseServer.prototype.setupData = function () {
+OptimiseServer.prototype.setupData = function ()  {
     // Import the controller
     const DataController = require('./controllers/dataController');
     const AvailableFieldController = require('./controllers/availableFieldController');
@@ -278,7 +278,7 @@ OptimiseServer.prototype.setupData = function () {
  * @fn setupExport
  * @desc Initialize the export related routes
  */
-OptimiseServer.prototype.setupExport = function () {
+OptimiseServer.prototype.setupExport = function ()  {
     // Import the controller
     this.routeExport = require('./routes/exportDataRoute');
 
@@ -290,7 +290,7 @@ OptimiseServer.prototype.setupExport = function () {
  * @fn setupLogs
  * @desc Initialize the logs related routes
  */
-OptimiseServer.prototype.setupLogs = function () {
+OptimiseServer.prototype.setupLogs = function ()  {
     // Import the controller
     this.routeLogs = require('./routes/actionRoute');
 
@@ -302,7 +302,7 @@ OptimiseServer.prototype.setupLogs = function () {
  * @fn setupPPII
  * @desc Initialize the PPII related routes
  */
-OptimiseServer.prototype.setupPPII = function () {
+OptimiseServer.prototype.setupPPII = function ()  {
     // Import the controller
     this.routePPII = require('./routes/patientPiiRoute');
 
@@ -313,7 +313,7 @@ OptimiseServer.prototype.setupPPII = function () {
 /**
  * @function setupMeddra initialize the route for meddra
  */
-OptimiseServer.prototype.setupMeddra = function () {
+OptimiseServer.prototype.setupMeddra = function ()  {
 
     // initializing the meddra controller
     const MeddraController = require('./controllers/meddraController');
@@ -328,7 +328,7 @@ OptimiseServer.prototype.setupMeddra = function () {
  * @fn setupPatientDiagnosis
  * @desc Initialize the Patient Diagnosis related routes
  */
-OptimiseServer.prototype.setupPatientDiagnosis = function () {
+OptimiseServer.prototype.setupPatientDiagnosis = function ()  {
     // Import the controller
     this.routePatientDiagnosis = require('./routes/patientDiagnosisRoute');
 
@@ -340,7 +340,7 @@ OptimiseServer.prototype.setupPatientDiagnosis = function () {
  * @func setupSeed
  * @desc Initialize the Seed related routes
  */
-OptimiseServer.prototype.setupSeed = function () {
+OptimiseServer.prototype.setupSeed = function ()  {
     // Import the controller
     this.routeSeed = require('./routes/seedRoute');
 

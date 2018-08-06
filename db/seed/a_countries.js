@@ -3,11 +3,11 @@ const { readJson } = require('../../src/utils/load-json');
 
 const availableCountries = readJson(path.normalize(`${path.dirname(__filename)}/../availableFields/jsonFiles/countries.json`));
 
-exports.seed = function (knex) {
+exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('COUNTRIES').del()
-        .then(function () {
+    knex('COUNTRIES').del()
+        .then(() =>
             // Inserts seed entries
-            return knex('COUNTRIES').insert(availableCountries);
-        });
-};
+            knex('COUNTRIES').insert(availableCountries)
+        )
+;

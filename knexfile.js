@@ -11,7 +11,7 @@ module.exports = {
         directory: path.normalize(`${path.dirname(__filename)}/db/seed`)
     },
     pool: {
-        afterCreate: function (conn, cb) {
+        afterCreate: (conn, cb) => {
             conn.run('PRAGMA foreign_keys = ON', cb);      ///set timezone ="UTC" ????
         }
     },

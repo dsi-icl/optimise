@@ -16,7 +16,7 @@ function PatientController() {
     this.erasePatient = PatientController.prototype.erasePatient.bind(this);
 }
 
-PatientController.prototype.searchPatients = function (req, res) {  //get all list of patient if no query string; get similar if querystring is provided
+PatientController.prototype.searchPatients = function (req, res)  {  //get all list of patient if no query string; get similar if querystring is provided
     if (Object.keys(req.query).length > 2) {
         res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
         return;
@@ -35,17 +35,17 @@ PatientController.prototype.searchPatients = function (req, res) {  //get all li
         res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
         return;
     }
-    this.patient.searchPatients(queryfield, queryvalue).then(function (result) {
+    this.patient.searchPatients(queryfield, queryvalue).then((result) => {
         result.forEach((__unused__r, i) => { result[i].uuid = undefined; });
         res.status(200).json(formatToJSON(result));
         return true;
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
         return false;
     });
 };
 
-PatientController.prototype.createPatient = function (req, res) {
+PatientController.prototype.createPatient = function (req, res)  {
     if (req.body.hasOwnProperty('aliasId') && req.body.hasOwnProperty('study') && req.body.hasOwnProperty('consent')) {
         let entryObj = {
             aliasId: req.body.aliasId,
@@ -53,10 +53,10 @@ PatientController.prototype.createPatient = function (req, res) {
             createdByUser: req.user.id,
             consent: req.body.consent
         };
-        this.patient.createPatient(entryObj).then(function (result) {
+        this.patient.createPatient(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(error));
             return false;
         });
@@ -66,26 +66,26 @@ PatientController.prototype.createPatient = function (req, res) {
     }
 };
 
-PatientController.prototype.updatePatient = function (req, res) {
+PatientController.prototype.updatePatient = function (req, res)  {
     if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    this.patient.updatePatient(req.user, req.body).then(function (result) {
+    this.patient.updatePatient(req.user, req.body).then((result) => {
         res.status(200).json(formatToJSON(result));
         return true;
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
         return false;
     });
 };
 
-PatientController.prototype.deletePatient = function (req, res) {
+PatientController.prototype.deletePatient = function (req, res)  {
     if (req.user.priv === 1 && req.body.hasOwnProperty('aliasId')) {
-        this.patient.deletePatient(req.user, { aliasId: req.body.aliasId, deleted: '-' }).then(function (result) {
+        this.patient.deletePatient(req.user, { aliasId: req.body.aliasId, deleted: '-' }).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
             return false;
         });
@@ -98,10 +98,10 @@ PatientController.prototype.deletePatient = function (req, res) {
     }
 };
 
-PatientController.prototype.getPatientProfileById = function (req, res) {
+PatientController.prototype.getPatientProfileById = function (req, res)  {
     if (req.params.hasOwnProperty('patientId')) {
         this.patient.getPatient({ 'aliasId': req.params.patientId, deleted: '-' }, { patientId: 'id', study: 'study', consent: 'consent' })
-            .then(function (Patientresult) {
+            .then((Patientresult) => {
                 let patientId;
                 if (Patientresult.length === 1) {
                     patientId = Patientresult[0].patientId;
@@ -119,7 +119,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                     promiseArr.push(SelectorUtils[availableFunctions[i]](patientId));
                 }
                 let selectorPromises = Promise.all(promiseArr);
-                return selectorPromises.then(function (result) {
+                return selectorPromises.then((result) => {
                     const responseObj = {};
                     responseObj.patientId = req.params.patientId;
                     responseObj.id = patientId;
@@ -129,11 +129,11 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
                     }
                     res.status(200).json(responseObj);
                     return true;
-                }).catch(function (error) {
+                }).catch((error) => {
                     res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
                     return false;
                 });
-            }).catch(function (error) {
+            }).catch((error) => {
                 res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
                 return false;
             });
@@ -143,7 +143,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
     }
 };
 
-PatientController.prototype.erasePatient = function (req, res) {
+PatientController.prototype.erasePatient = function (req, res)  {
     let patientId = undefined;
     if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
@@ -158,19 +158,19 @@ PatientController.prototype.erasePatient = function (req, res) {
         return;
     }
     patientId = req.body.patientId;
-    return getEntry('PATIENTS', { id: patientId }).then(function (result) {
+    return getEntry('PATIENTS', { id: patientId }).then((result) => {
         if (result.length !== 1) {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL));
             return false;
         }
-        return eraseEntry('PATIENTS', { id: patientId }).then(function (__unused__result) {
+        return eraseEntry('PATIENTS', { id: patientId }).then((__unused__result) => {
             res.status(200).json({ success: true, messageg: 'Erasure completed. Check for any data retreivable if needed.' });
             return true;
-        }).catch(function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
         });
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
         return false;
     });

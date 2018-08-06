@@ -14,10 +14,10 @@ ActionController.prototype.getLogs = function (req, res) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }
-    this.action.getLogs().then(function (result) {
+    this.action.getLogs().then((result) => {
         res.status(200).json(formatToJSON(result));
         return true;
-    }).catch(function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
         return false;
     });
