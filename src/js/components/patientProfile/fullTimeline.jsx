@@ -53,7 +53,7 @@ export default class FullTimeline extends Component {
             root: true
         }, {
             id: 6,
-            title: 'Replases',
+            title: 'Relapses',
             root: true
         }, {
             id: 4,
