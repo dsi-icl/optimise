@@ -48,6 +48,8 @@ class UpdateDemoEntry extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         const { patientId, id } = this.props;
         const { alcoholUsageRef, countryOfOriginRef, dominantHandRef, ethnicityRef, genderRef, smokingHistoryRef } = this.state;
         const body = {
@@ -63,7 +65,11 @@ class UpdateDemoEntry extends Component {
                 smokingHistory: parseInt(smokingHistoryRef.current.value)
             }
         };
-        store.dispatch(updateDemographicAPICall(body));
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(updateDemographicAPICall(body));
+        });
     }
 
     render() {

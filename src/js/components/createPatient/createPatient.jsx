@@ -82,6 +82,8 @@ export default class CreatePatient extends Component {    //get these props from
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         for (let each in this.state) {
             if (this.state[each] === 0 || this.state[each] === null || this.state[each] === '') {
                 this.setState({ error: true });
@@ -120,8 +122,13 @@ export default class CreatePatient extends Component {    //get these props from
             PIIData: PIIData
         };
 
-        store.dispatch(createPatientCall(body));
-        this.setState({ dispatched: true });
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(createPatientCall(body));
+            this.setState({ dispatched: true });
+        });
+
     }
 
     render() {

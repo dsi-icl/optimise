@@ -89,9 +89,15 @@ export class CreateTreatment extends Component {
 
     _handleSubmitClick(e) {
         e.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         const requestBody = this._formatRequestBody();
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
-        this.props.createTreatment(requestBody);
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            this.props.createTreatment(requestBody);
+        });
     }
 
     _handleInputChange(ev) {

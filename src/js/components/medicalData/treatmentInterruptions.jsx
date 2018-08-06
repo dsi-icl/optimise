@@ -59,6 +59,8 @@ export class TreatmentInterruption extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         let meddra = undefined;
         const meddraFields = this.props.meddra.result.filter(el => el.name === this.meddraRef.current.value);
         if (meddraFields.length > 0) {
@@ -75,8 +77,12 @@ export class TreatmentInterruption extends Component {
                 meddra: meddra
             }
         };
-        store.dispatch(createTreatmentInterruptionAPICall(body));
-        this.setState({ addMore: false });
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(createTreatmentInterruptionAPICall(body));
+            this.setState({ addMore: false });
+        });
     }
 
     render() {
