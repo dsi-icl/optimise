@@ -645,7 +645,7 @@
     {
         "id": 44,
         "definition": "Indication",
-        "idname": "Session_Name",
+        "idname": "Indication",
         "section": null,
         "subsection": null,
         "type": 3,
@@ -705,7 +705,7 @@
     {
         "id": 48,
         "definition": "Lesion volume",
-        "idname": "T2 hyperintense lesions:lesion_volume",
+        "idname": "T2 hyperintense lesions:lesion volume",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -735,7 +735,7 @@
     {
         "id": 50,
         "definition": "Lesion volume",
-        "idname": "Gd enhancing lesions:_lesion_volume",
+        "idname": "Gd enhancing lesions:lesion volume",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -825,7 +825,7 @@
     {
         "id": 56,
         "definition": "IgG index",
-        "idname": "IgG_index",
+        "idname": "IgG index",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -870,7 +870,7 @@
     {
         "id": 59,
         "definition": "Oligoclonal Bands in CSF",
-        "idname": "Oligoclonal_Bands_in_CSF",
+        "idname": "Oligoclonal Bands in CSF",
         "section": null,
         "subsection": null,
         "type": 3,
@@ -885,7 +885,7 @@
     {
         "id": 60,
         "definition": "ALT (Alanine Aminotransferase)",
-        "idname": "ALT_Alanine_Aminotransferase",
+        "idname": "ALT Alanine Aminotransferase",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -900,7 +900,7 @@
     {
         "id": 61,
         "definition": "AST (Aspartate Aminotransferase)",
-        "idname": "AST_Aspartate_Aminotransferase",
+        "idname": "AST Aspartate Aminotransferase",
         "section": null,
         "subsection": null,
         "type": 2,
@@ -915,7 +915,7 @@
     {
         "id": 62,
         "definition": "GGT (Gamma-Glutamyl Transpeptidase)",
-        "idname": "GGT_Gamma_Glutamyl_Transpeptidase",
+        "idname": "GGT Gamma Glutamyl Transpeptidase",
         "section": null,
         "subsection": null,
         "type": 2,
