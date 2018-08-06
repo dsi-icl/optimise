@@ -34,7 +34,7 @@ export class Section extends Component {
                         <div className={style.ariane}>
                             <h2>Overview</h2>
                         </div>
-                        <div className={style.panel}>
+                        <div className={`${style.panel} ${style.patientInfo}`}>
                             <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
                             <ImmunisationSection patientId={this.props.match.params.patientId} />
@@ -102,7 +102,7 @@ class ImmunisationSection extends Component {
     }
 
     _handleClickDelete(el) {
-        store.dispatch(addAlert({ alert: 'about deleting this immunisation record?', handler: this._deleteFunction(el.id) }));
+        store.dispatch(addAlert({ alert: 'Are you sure you want to delete this immunisation record?', handler: this._deleteFunction(el.id) }));
     }
 
     _deleteFunction(id) {
@@ -126,21 +126,38 @@ class ImmunisationSection extends Component {
         });
     }
 
-    _handleSubmit() {
+    _handleSubmit(ev) {
+
+        ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
+
         if (this.state.newName === undefined || this.state.newName === null || this.state.newName === '') {
             store.dispatch(addError({ error: 'Vaccine name cannot be empty!' }));
             return;
         }
+
+        if (this.currenttlySumbitting === this.state.newName)
+            return;
+
         const data = this.props.data;
         const body = {
             patientId: data.patientId,
             data: {
                 patient: data.id,
                 vaccineName: this.state.newName,
-                immunisationDate: this.state.newDate._d.toDateString()
+                immunisationDate: this.state.newDate.toISOString()
             }
         };
-        store.dispatch(createImmunisationAPICall(body));
+        this.setState({
+            newName: this.state.newName,
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(createImmunisationAPICall(body));
+            this.setState({
+                newName: ''
+            });
+        });
     }
 
     render() {
@@ -208,12 +225,13 @@ class Pregnancy extends Component {
     constructor() {
         super();
         this.state = {
+            noEndDate: true,
             error: false,
             addMore: false,
             newStartDate: moment(),
             newOutcomeDate: moment(),
             newMeddra: React.createRef(),
-            newOutcome: 1
+            newOutcome: 0
         };
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
         this._handleInput = this._handleInput.bind(this);
@@ -223,6 +241,13 @@ class Pregnancy extends Component {
         this._handleMeddra = this._handleMeddra.bind(this);
         this._handleClickDelete = this._handleClickDelete.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
+        this._handleToggleEndDate = this._handleToggleEndDate.bind(this);
+    }
+
+    _handleToggleEndDate(ev) {
+        this.setState({
+            noEndDate: ev.target.checked
+        });
     }
 
     _handleClickingAdd() {
@@ -250,7 +275,7 @@ class Pregnancy extends Component {
     }
 
     _handleClickDelete(el) {
-        store.dispatch(addAlert({ alert: 'about deleting this pregnancy record?', handler: this._deleteFunction(el.id) }));
+        store.dispatch(addAlert({ alert: 'Do you want to delete this pregnancy record?', handler: this._deleteFunction(el.id) }));
     }
 
     _deleteFunction(id) {
@@ -272,25 +297,50 @@ class Pregnancy extends Component {
         });
     }
 
-    _handleSubmit() {
-        const data = this.props.data;
-        const meddraField = this.props.meddra.filter(el => el.name === this.state.newMeddra.current.value);
-        if (meddraField.length === 0 && this.state.newMeddra.current.value !== '') {
-            this.setState({ error: true });
+    _handleSubmit(ev) {
+
+        ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
+
+        const data = this.props.data;
+        const { noEndDate, newOutcome, newStartDate, newOutcomeDate, newMeddra } = this.state;
+
+        let meddraField = null;
+        if (!noEndDate) {
+
+            if (newOutcome === 0 || newOutcome === '0') {
+                this.setState({ error: 'outcome' });
+                return;
+            }
+
+            meddraField = this.props.meddra.filter(el => el.name === this.state.newMeddra.current.value);
+            if (meddraField.length === 0 && this.state.newMeddra.current.value !== '') {
+                this.setState({ error: 'MedDRA code' });
+                return;
+            }
         }
-        const { newOutcome, newStartDate, newOutcomeDate, newMeddra } = this.state;
+
         const body = {
             patientId: data.patientId,
             data: {
                 patient: data.id,
-                outcome: parseInt(newOutcome, 10),
-                startDate: newStartDate ? newStartDate._d.toDateString() : null,
-                meddra: newMeddra.current.value !== '' ? meddraField[0].id : null,
-                outcomeDate: newOutcomeDate ? newOutcomeDate._d.toDateString() : null
+                startDate: newStartDate ? newStartDate.toISOString() : undefined,
+                outcome: !noEndDate && newOutcome ? parseInt(newOutcome, 10) : undefined,
+                meddra: !noEndDate && newMeddra.current.value !== '' ? meddraField[0].id : undefined,
+                outcomeDate: !noEndDate && newOutcomeDate ? newOutcomeDate.toISOString() : undefined
             }
         };
-        store.dispatch(createPregnancyAPICall(body));
+
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(createPregnancyAPICall(body));
+            this.setState({
+                addMore: false
+            });
+        });
     }
 
     render() {
@@ -299,29 +349,41 @@ class Pregnancy extends Component {
             return (
                 <div className={this.state.addMore ? style.pregnancyPanelActive : style.pregnancyPanel}>
                     <PatientProfileSectionScaffold sectionName='Pregnancies' active={this.state.addMore}>
-                        {data.pregnancy.map((el, ind) =>
-                            <div key={`${el.meddra}${el.outcomeDate}`} className={ind === data.pregnancy.length - 1 ? style.pregnancyLast : style.pregnancy}>
-                                <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
-                                <label>Outcome date: </label> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : 'NA'} <br />
-                                <label>MedDRA: </label> {this.props.allMeddra[0][el.meddra]} <br />
-                                <label>Outcome: </label> {outcomeHash[el.outcome]} <br />
-                                <span onClick={() => this._handleClickDelete(el)}>Delete this record</span>
-                            </div>)}
-                        {!this.state.addMore ? null :
+                        {!this.state.addMore ? (
+                            <>
+                                {data.pregnancy.map((el) =>
+                                    <div key={`${el.startDate}`} className={style.pregnancy}>
+                                        <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
+                                        {el.outcomeDate ? (
+                                            <>
+                                                <label>Outcome date: </label> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : ''} <br />
+                                                <label>Outcome: </label> {outcomeHash[el.outcome]} <br />
+                                                {el.meddra ? <><label>MedDRA: </label> {this.props.allMeddra[0][el.meddra]} <br /></> : null}
+                                            </>
+                                        ) : null}
+                                        <span onClick={() => this._handleClickDelete(el)}>Delete the record of the pregnancy</span>
+                                    </div>)}
+                            </>
+                        ) :
                             <div className={style.newPregnancy}>
                                 <label>Start date: </label><br /><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
-                                <label>Outcome date: </label><br /><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
-                                <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br /><br />
-                                <label>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} />
+                                <label htmlFor='noEndDate'>The pregnancy is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
+                                {this.state.noEndDate ? null : (
+                                    <>
+                                        <label>Outcome date: </label><br /><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
+                                        <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br /><br />
+                                        <label>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} />
+                                    </>
+                                )}
                             </div>
                         }
                         {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Record pregnancy</button> :
                             <>
                                 <br />
+                                {this.state.error ? <><div className={style.error}>Please enter the {this.state.error}</div><br /></> : null}
                                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
                                 <button onClick={this._handleClickingAdd}>Cancel</button>
                             </>}
-                        {this.state.error ? <><br /><div className={style.error}>Your MedDRA field is not permitted</div></> : null}
                     </PatientProfileSectionScaffold>
                 </div>
             );
@@ -345,7 +407,7 @@ class DeletePatient extends Component {
     }
 
     _handleClickDelete() {
-        store.dispatch(addAlert({ alert: `about deleting patient ${this.props.data.patientId}?`, handler: this._deleteFunction }));
+        store.dispatch(addAlert({ alert: `Are you sure you want to delete patient ${this.props.data.patientId}?`, handler: this._deleteFunction }));
     }
 
     _deleteFunction() {

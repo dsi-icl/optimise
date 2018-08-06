@@ -1,3 +1,4 @@
+import EditVisitHandler from './editVisit';
 import EditTestHandler from './editTest';
 import EditCEHandler from './editClinicalEvent';
 import EditMedHandler from './editMedication';
@@ -6,6 +7,7 @@ import EditDiagnosisHandler from './editDiagnosis';
 import EditCommunicationHandler from './editCommunication';
 import EditPerformanceMesaureHandler from './editEdss';
 
+export const EditVisit = EditVisitHandler;
 export const EditTest = EditTestHandler;
 export const EditCE = EditCEHandler;
 export const EditMed = EditMedHandler;

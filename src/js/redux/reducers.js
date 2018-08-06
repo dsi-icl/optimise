@@ -9,11 +9,11 @@ function login(state = initialState.login, action) {
         case actionTypes.login.LOGIN_FAILURE:
             return { ...state, loginFailed: true, loggingIn: false, loggedIn: false, initialCheckingStatus: false };
         case actionTypes.login.LOGIN_SUCCESS:
-            return { ...state, loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false };
+            return { ...state, loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false, username: action.payload.username || (action.payload.account ? action.payload.account.username : ''), priv: action.payload.priv || (action.payload.account ? action.payload.account.priv : 0) };
         case actionTypes.login.CHECKING_LOGIN:
             return { ...state, loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: true };
         case actionTypes.login.LOGGED_IN:
-            return { ...state, loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false, username: action.payload.username };
+            return { ...state, loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false, username: action.payload.username, priv: action.payload.priv || (action.payload.account ? action.payload.account.priv : 0) };
         case actionTypes.login.NOT_LOGGED_IN:
             return { ...state, loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: false };
         case actionTypes.login.LOGOUT_REQUEST:
@@ -85,11 +85,11 @@ function availableFields(state = initialState.availableFields, action) {
             break;
         case actionTypes.availableFields.GET_VISIT_FIELDS_SUCCESS:
             const VShash = action.payload.slice(0, 6).reduce((map, el) => { map[el.id] = el; return map; }, {});
-            const visitHash = action.payload.slice(6).reduce((map, el) => { map[el.id] = el; return map; }, {});
+            const visitHash = action.payload.slice(1).reduce((map, el) => { map[el.id] = el; return map; }, {});
             newState = {
                 ...state,
                 VSFields: action.payload.slice(0, 6),
-                visitFields: action.payload.slice(6),
+                visitFields: action.payload.slice(1),
                 VSFields_Hash: [VShash],
                 visitFields_Hash: [visitHash]
             };
@@ -149,11 +149,16 @@ function createPatient(state = initialState.createPatient, action) {
 function patientProfile(state = initialState.patientProfile, action) {
     switch (action.type) {
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_REQUEST:
-            return { fetching: true, data: {} };
+            if (state.currentPatient === action.payload)
+                return state;
+            else
+                return { ...state, fetching: true, data: {} };
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_SUCCESS:
-            return { fetching: false, data: action.payload, currentPatient: action.payload.patientId };
+            return { ...state, fetching: false, data: action.payload, currentPatient: action.payload.patientId, historyFilter: state.currentPatient !== action.payload.patientId ? {} : state.historyFilter, lastSuccess: (new Date()).getTime() };
         case actionTypes.getPatientProfileById.GET_PATIENT_PROFILE_BY_ID_FAILURE:
-            return { fetching: true, data: { patientId: 'cannot find you patient :(' } };
+            return { ...state, fetching: true, data: { patientId: null } };
+        case actionTypes.patientProfile.HISTORY_FILTER:
+            return { ...state, historyFilter: action.filter };
         default:
             return state;
     }

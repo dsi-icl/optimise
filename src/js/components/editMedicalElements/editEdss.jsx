@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { addError } from '../../redux/actions/error';
 import store from '../../redux/store';
@@ -32,7 +32,7 @@ export default class EditPerformanceMesaure extends Component {
             return state;
         const visitsFiltered = patientProfile.visits.filter(el => el.id === parseInt(params.visitId));
         if (visitsFiltered.length !== 1) {
-            store.dispatch(addError({ error: 'Cannot find your visit' }));
+            store.dispatch(addError({ error: 'We cannot find this visit!' }));
         }
         const data = visitsFiltered[0].data;
         if (data) {
@@ -45,22 +45,33 @@ export default class EditPerformanceMesaure extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
 
         const add = {};
         const update = {};
-        const freeInputOrigVal = this.state.originalValues[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']];
+        const freeInputOrigVal = this.state.originalValues[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']];
         if (freeInputOrigVal !== undefined) {
             if (this.freeinputref.current.value !== freeInputOrigVal) {
-                update[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] = this.freeinputref.current.value;
+                update[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] = this.freeinputref.current.value;
             }
         } else {
             if (this.freeinputref.current.value !== '') {
-                add[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] = this.freeinputref.current.value;
+                add[this.state.EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] = this.freeinputref.current.value;
             }
         }
 
         const body = { data: { add, update, visitId: this.props.match.params.visitId }, patientId: this.props.match.params.patientId, type: 'visit' };
-        store.dispatch(alterDataCall(body));
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(alterDataCall(body, () => {
+                this.setState({
+                    originalValues: Object.assign({}, this.state.originalValues, add)
+                });
+            }));
+        });
     }
 
     render() {
@@ -69,7 +80,7 @@ export default class EditPerformanceMesaure extends Component {
             return null;
         const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
         if (visitFiltered.length !== 1) {
-            return <div> Cannot find your visit </div>;
+            return <div>We cannot find these EDSS scores!</div>;
         }
         if (!this.state.originalValues || !this.state.EDSSFields_Hash_reverse)
             return null;
@@ -83,11 +94,11 @@ export default class EditPerformanceMesaure extends Component {
                 <form className={style.panel} onSubmit={this._handleSubmit}>
                     <span><i>This is for the visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i></span><br /><br />
                     <div>
-                        You can enter the appropriate EDSS score in the following field then save using the 'Save' button<br /><br />
-                        <label htmlFor='edss:expanded disability status scale (edss) total'>EDSS score: </label><input key={Math.random()} type='text' ref={this.freeinputref} name='edss:expanded disability status scale (edss) total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale (edss) total']] : ''} />
+                        You can enter your EDSS score estimation in the following field.<br /><br />
+                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinician): </label><input key={Math.random()} type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                         <br /><br />
                         <button type='submit'>Save</button><br /><br />
-                        Or alternatively use the EDSS calculator as a guide by clicking on the following button<br /><br />
+                        Or alternatively use the EDSS calculator as a guide by clicking on the following button.<br /><br />
                         <NavLink to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}/edss`}><span className={style.openCalculator}>Open EDSS Calculator</span></NavLink>
                     </div>
                 </form>

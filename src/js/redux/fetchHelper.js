@@ -10,7 +10,7 @@ const defaultOptions = {
     credentials: 'include'
 };
 
-export function apiHelper(endpoint, options) {
+export function apiHelper(endpoint, options, blockError) {
     if (!options) {
         options = {};
     }
@@ -21,13 +21,16 @@ export function apiHelper(endpoint, options) {
                 status: res.status,
                 data: json
             })),
-        err => console.log(err))
+        err => store.dispatch(addError({ error: err })))
         .then(json => {
             if (json.status === 200) {
                 return json.data;
             } else {
-                if (json.data.error) {
-                    store.dispatch(addError(json.data));
+                if (json.data.message === 'Please login first')
+                    return window.location.reload();
+                if (json.data.error && json.data.error !== 'An unknown unicorn') {
+                    if (!blockError)
+                        store.dispatch(addError(json.data));
                     return Promise.reject(json);
                 } else {
                     return json.data;

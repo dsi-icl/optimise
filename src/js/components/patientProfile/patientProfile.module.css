@@ -26,12 +26,7 @@
 }
 
 .profileActions a {
-    line-height: 0.8em;
-    display: inline-block;
-}
-
-.profileActions a {
-    line-height: 0.8em;
+    line-height: 1.1em;
     display: inline-block;
 }
 
@@ -67,8 +62,13 @@
     width: 100%;
     height: 100%;
     padding: 1.2em;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     scroll-behavior: smooth;
+}
+
+.panel.patientInfo {    
+    padding-top: 0;
 }
 
 .noConsentAlert {
@@ -82,6 +82,20 @@
 .visitWrapper {
     overflow-y: hidden;
     overflow-x: auto;
+}
+
+.visitEditButton {
+    position: absolute;
+    right: 1.6em;
+    top: 1em;
+    font-size: 1.3em
+}
+
+.visitAnchors {
+    display: inline-block;
+    position: absolute;
+    top: -7em;
+    visibility: hidden;
 }
 
 .editorSneak {
@@ -206,25 +220,41 @@ div.timelineCEBlack {
 .history > div:not(:first-child) {
     padding-top: 0.5em;
 }
+
 .history > div:not(:first-child) > div:first-child {
     margin-top: 0.5em;
     z-index: 2;
 }
 
+.historyVisit > div:nth-child(2) {
+    margin-top: -0.8em;
+    margin-left: -4.7em;
+    padding: 0.8em 0;
+    padding-left: 4.7em !important;
+    width: calc(100% + 5.9em);
+    border-top: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 96%);
+    z-index: 100;
+}
+
+.historyVisit:hover > div:nth-child(2) {
+    background-color: hsl(var(--color-shade-two-h), var(--color-shade-two-s), 90%) !important;
+}
+
 .historyVisit > div:nth-child(3) {
     width: calc(100% + 5.9em) !important;
-    margin-top: -3.5em !important;
+    margin-top: 0em !important;
     margin-bottom: 0 !important;
     margin-left: -4.7em;
     padding-left: 4.7em !important;
-    padding-bottom: 1em !important;
-    padding-top: 3em !important;
+    padding-right: 3em !important;
+    padding-bottom: 2.5em !important;
     background-color: transparent !important;
     box-shadow: none !important;
     transition: background-color 500ms;
 }
 
-.historyVisit > div:nth-child(3):hover {
+.historyVisit:hover > div:nth-child(3) {
     background-color: hsl(var(--color-shade-two-h), var(--color-shade-two-s), 97%) !important;
 }
 
@@ -242,7 +272,7 @@ div.timelineCEBlack {
 }
 
 .history h4 {
-    margin-top: 1.5em;
+    margin-top: 0.9em;
     margin-bottom: 0.7em;
 }
 
@@ -306,11 +336,17 @@ div.timelineCEBlack {
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
     padding-top: 0.9em;
     padding-bottom: 0.9em;
+    transition: padding 100ms;
 }
 
-.pregnancyLast {
-    padding-top: 0.9em;
-    padding-bottom: 0.9em;
+.pregnancy:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 93%);
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.profileSection .pregnancy:last-of-type {
+    border: none;
 }
 
 .pregnancy > span {
@@ -337,8 +373,6 @@ div.timelineCEBlack {
     fill: var(--color-error);
     cursor: pointer;
 }
-
-
 
 .editButton > div {
     width: 1.2em;
@@ -375,9 +409,24 @@ div.timelineCEBlack {
     width: calc(100% + 2.4em);
     margin-left: -1.2em;
     padding: 0 1.2em;
-    padding-top: 1.2em;
     transition: background-color 500ms;
     background-color: transparent;
+}
+
+.profileSection > .flyover {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    padding: 1.2em;
+    margin: 0 -1.2em;
+}
+
+.patientInfo .flyover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
+}
+
+.patientHistory .flyover {
+    background-color: white;
 }
 
 .profileSectionActive {
@@ -454,7 +503,20 @@ div.timelineCEBlack {
 }
 
 .timelineTreatementItem {
+    overflow: visible;
     background-color: rgb(255, 202, 27);
+}
+
+.timelineTreatementItem svg {
+    overflow: visible;
+}
+
+.timelineTreatementItem line {
+    stroke: rgb(179, 111, 22);
+}
+
+.timelineTreatementItem:hover line {
+    stroke: rgb(238, 189, 125);
 }
 
 .timelineTreatementItem:hover {
@@ -536,4 +598,34 @@ div.timelineCEBlack {
     display: inline-block;
     padding: 0.2em 0.5em;
     word-wrap: none;
+}
+
+.filterBox {
+    font-size: 0.8em;
+    margin-top: 0.4em;
+}
+
+.filterBox svg {
+    height: 1em;
+    width: 0.8em;
+    margin-right: 0.5em;
+}
+
+.filterBox span {
+    padding: 0.4em 0.7em;
+    margin-left: 1em;
+    border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
+}
+
+.filterBox span:hover {
+    cursor: pointer;
+    border: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+
+.filterBox span.selected {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 93%);
+}
+
+.filterBox span.selected:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 80%);
 }

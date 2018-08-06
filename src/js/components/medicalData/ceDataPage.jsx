@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
-import { addError } from '../../redux/actions/error';
 import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from './utils';
 import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
@@ -34,16 +33,27 @@ function mapStateToProps(state) {
 export class CeData extends Component {
     constructor() {
         super();
-        this.state = {
-            data: null
-        };
+        this.state = {};
         this.references = {};
         this.originalValues = {};
         this._handleSubmit = this._handleSubmit.bind(this);
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (props.match.params.ceId === state.ceId)
+            return state;
+        return {
+            ...state,
+            ceId: props.match.params.ceId
+        };
+    }
+
     _handleSubmit(ev) {
+
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
+
         const { references, originalValues } = this;
         const update = {};
         const add = {};
@@ -51,42 +61,53 @@ export class CeData extends Component {
             const fieldId = el[0];
             const reference = el[1].ref;
             const type = el[1].type;
-            if (type === 'C' && (originalValues[fieldId] || reference.current.value !== 'unselected')) {
-                if (originalValues[fieldId] && originalValues[fieldId] !== reference.current.value) {
-                    update[fieldId] = reference.current.value;
-                }
-                if (!originalValues[fieldId]) {
+            if (type === 'C' && (originalValues[fieldId] !== undefined || reference.current.value !== 'unselected')) {
+                if (originalValues[fieldId] !== undefined) {
+                    if (originalValues[fieldId] !== reference.current.value)
+                        update[fieldId] = reference.current.value;
+                } else if (reference.current.value !== 'unselected') {
                     add[fieldId] = reference.current.value;
                 }
             }
-            if (['I', 'F', 'T'].includes(type) && (originalValues[fieldId] || reference.current.value !== '' || reference.current.value !== undefined)) {
-                if (originalValues[fieldId] && originalValues[fieldId] !== reference.current.value) {
-                    update[fieldId] = reference.current.value;
-                }
-                if (!originalValues[fieldId] && reference.current.value !== '') {
+            if (['I', 'F', 'T'].includes(type) && (originalValues[fieldId] !== undefined || reference.current.value !== '' || reference.current.value !== undefined)) {
+                if (originalValues[fieldId] !== undefined) {
+                    if (originalValues[fieldId] !== reference.current.value)
+                        update[fieldId] = reference.current.value;
+                } else if (reference.current.value !== '') {
                     add[fieldId] = reference.current.value;
                 }
             }
             if (type === 'B') {
                 const bool = reference.current.checked ? '1' : '0';
-                if (originalValues[fieldId]) {
-                    if (originalValues[fieldId] !== bool) {
-                        update[fieldId] = bool;
-                    }
-                } else {
-                    if (bool !== '0') {
-                        add[fieldId] = bool;
-                    }
+                if (originalValues[fieldId] !== undefined && originalValues[fieldId] !== bool) {
+                    update[fieldId] = bool;
+                } else if (bool !== '0') {
+                    add[fieldId] = bool;
+                }
+            }
+            if (type === 'D') {
+                const value = reference.current.value;
+                if (originalValues[fieldId] !== undefined) {
+                    if (originalValues[fieldId] !== value)
+                        update[fieldId] = value;
+                } else if (value !== '') {
+                    add[fieldId] = value;
                 }
             }
         });
         const { params } = this.props.match;
         if (checkIfObjIsEmpty(update, add)) {
-            store.dispatch(addError({ error: 'Clicking save does nothing because none of the data seems to have changed!' }));
             return;
         }
         const body = { data: { clinicalEventId: params.ceId, update, add }, type: 'clinicalEvent', patientId: params.patientId };
-        store.dispatch(alterDataCall(body));
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(alterDataCall(body, () => {
+                this.originalValues = Object.assign({}, this.originalValues, add);
+            }));
+        });
     }
 
     render() {
@@ -95,7 +116,7 @@ export class CeData extends Component {
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.clinicalEvents.filter(visit => visit.id === parseInt(params.ceId, 10));
             if (visitsMatched.length !== 1) {
-                return <div>{'Cannot find your clinical event!'}</div>;
+                return <div>{'We cannot find this clinical event!'}</div>;
             }
             const { fields } = this.props;
             const relevantFields = fields.clinicalEventFields.filter(el => (el.referenceType === visitsMatched[0].type));

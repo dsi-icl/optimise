@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 // import { SuggestionInput } from '../meDRA/meDRApicker';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
@@ -37,7 +37,7 @@ export default class EditMed extends Component {
 
     _handleClick(ev) {
         ev.preventDefault();
-        store.dispatch(addAlert({ alert: 'about deleting this test?', handler: this._deleteFunction }));
+        store.dispatch(addAlert({ alert: 'Are you sure you want to delete this medication record?', handler: this._deleteFunction }));
     }
 
     _handleDateChange(date) {
@@ -62,7 +62,7 @@ export default class EditMed extends Component {
         }
         const treatmentsFiltered = treatments.filter(el => el.id === parseInt(params.elementId));
         if (treatmentsFiltered.length !== 1) {
-            return <div> Cannot find your treatment! check your ID! </div>;
+            return <div>We cannot find this treatment</div>;
         }
         const treatment = treatmentsFiltered[0];
         return (
@@ -91,14 +91,14 @@ class UpdateMedEntry extends Component {
         super();
         this.state = {
             id: props.data.id,
-            drug: props.data.drug,
-            dose: props.data.dose,
-            unit: props.data.unit,
+            drug: props.data.drug ? props.data.drug : '',
+            dose: props.data.dose ? props.data.dose : '',
+            unit: props.data.unit ? props.data.unit : '',
             noEndDate: !props.data.terminatedDate,
             startDate: moment(parseInt(props.data.startDate)),
             terminatedDate: props.data.terminatedDate ? moment(parseInt(props.data.terminatedDate)) : undefined,
             terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : undefined,
-            form: props.data.form,
+            form: props.data.form ? props.data.form : 'unselected',
             times: props.data.times ? props.data.times : undefined,
             intervalUnit: props.data.intervalUnit || '',
             meddra: React.createRef()
@@ -141,7 +141,7 @@ class UpdateMedEntry extends Component {
         const { id, drug, dose, unit, form, times, intervalUnit } = this.state;
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}`,
+            to: `/patientProfile/${patientId}/edit/treatment/${id}`,
             data: {
                 id,
                 drug: parseInt(drug),
@@ -149,8 +149,8 @@ class UpdateMedEntry extends Component {
                 unit,
                 form,
                 times: isNaN(parseInt(times)) || intervalUnit === '' ? undefined : parseInt(times),
-                startDate: this.state.startDate.valueOf(),
-                terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.valueOf() : null,
+                startDate: this.state.startDate.toISOString(),
+                terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.toISOString() : undefined,
                 // terminatedReason: parseInt(this.reasonRef.current.value, 10),
                 intervalUnit: intervalUnit === '' || isNaN(parseInt(times)) ? undefined : intervalUnit,
                 // meddra: this.props.meddraDict[this.state.meddra.current.value]

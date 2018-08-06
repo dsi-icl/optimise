@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { addAlert } from '../../redux/actions/alert';
@@ -36,7 +36,7 @@ export default class EditCE extends Component {
 
     _handleClick(ev) {
         ev.preventDefault();
-        store.dispatch(addAlert({ alert: 'about deleting this event?', handler: this._deleteFunction }));
+        store.dispatch(addAlert({ alert: 'Are you sure you want to delete this clinical event record?', handler: this._deleteFunction }));
     }
 
     _deleteFunction() {
@@ -54,7 +54,7 @@ export default class EditCE extends Component {
         }
         const CEsFiltered = CEs.filter(el => el.id === parseInt(params.elementId));
         if (CEsFiltered.length !== 1) {
-            return <div> Cannot find your treatment! check your ID! </div>;
+            return <div>We cannot find this clinical event! </div>;
         }
         const CE = CEsFiltered[0];
         return (
@@ -70,7 +70,7 @@ export default class EditCE extends Component {
                     }
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
                     <br /><br />
-                    Note: event type is not allowed to be changed. If you entered an event of the wrong type by error, you can delete the event and create a new one.
+                    Note: You cannot change the type of clinical event. If you created the wrong type of clinical event you can delete this event record and create a new one.
                 </form>
             </>
         );
@@ -141,12 +141,12 @@ class UpdateCEEntry extends Component {
         const { id, startDate, meddra, noEndDate, endDate } = this.state;
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}`,
+            to: `/patientProfile/${patientId}/edit/clinicalEvent/${id}`,
             data: {
                 id,
-                dateStartDate: startDate.valueOf(),
+                dateStartDate: startDate.toISOString(),
                 meddra: meddraDict[meddra.current.value],
-                endDate: !noEndDate ? endDate.valueOf() : null
+                endDate: !noEndDate ? endDate.toISOString() : undefined
             }
         };
         store.dispatch(updateCECall(body));

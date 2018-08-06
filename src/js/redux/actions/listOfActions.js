@@ -30,7 +30,7 @@ export default {
         CREATE_PATIENT_SUCCESS: 'CREATE_PATIENT_SUCCESS'
     },
     patientProfile: {
-
+        HISTORY_FILTER: 'HISTORY_FILTER'
     },
     visits: {
         CREATE_VISIT_REQUEST: 'CREATE_VISIT_REQUEST',

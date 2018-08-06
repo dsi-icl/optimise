@@ -13,6 +13,7 @@ export class DataPageRouter extends Component {
         return (
             <Switch>
                 <Route path='/patientProfile/:patientId/data/test/:testId' render={({ match }) => <TestData elementType='test' match={match} />} />
+                <Route path='/patientProfile/:patientId/data/visit/:visitId/vitals' render={({ match }) => <VisitData elementType='visit' match={match} category={'vitals'} />} />
                 <Route path='/patientProfile/:patientId/data/visit/:visitId/symptoms' render={({ match }) => <VisitData elementType='visit' match={match} category={'symptoms'} />} />
                 <Route path='/patientProfile/:patientId/data/visit/:visitId/signs' render={({ match }) => <VisitData elementType='visit' match={match} category={'signs'} />} />
                 <Route path='/patientProfile/:patientId/data/treatment/:elementId' render={({ match }) => <TreatmentInterruption match={match} />} />

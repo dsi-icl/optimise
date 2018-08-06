@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import { createVisitAPICall } from '../../redux/actions/createVisit';
 import { PickDate } from './datepicker';
 import style from './medicalEvent.module.css';
 
 @connect(state => ({
-    patientId: state.patientProfile.data.id,
-    demographicData: state.patientProfile.data.demographicData
+    patientId: state.patientProfile.data.id
 }), dispatch => ({ createVisit: body => dispatch(createVisitAPICall(body)) }))
 export class CreateVisit extends Component {
     constructor() {
         super();
         this.state = {
             startDate: moment(),
-            SBP: '',
-            DBP: '',
-            HR: '',
-            weight: '',
-            academicConcerns: '0',
-            height: '',
+            reasonForVisit: 'unselected',
             error: false
         };
         this._handleDateChange = this._handleDateChange.bind(this);
@@ -42,32 +36,20 @@ export class CreateVisit extends Component {
     }
 
     _formatRequestBody() {
-        const date = this.state.startDate._d;
-        const { SBP, DBP, HR, weight, academicConcerns, height } = this.state;
+        const { startDate, reasonForVisit } = this.state;
 
-        if (!parseInt(SBP, 10)) {
-            return 'systolic blood pressure';
-        }
-        if (!parseInt(DBP, 10)) {
-            return 'diastolic blood pressure';
-        }
-        if (!parseInt(HR, 10)) {
-            return 'heart rate';
+        if (reasonForVisit === 'unselected') {
+            return 'the reason for the visit';
         }
 
         return {
             visitData: {
                 patientId: this.props.patientId,
-                visitDate: date.toDateString()
+                visitDate: startDate.toISOString()
             },
             VSData: {
                 add: {
-                    1: parseInt(SBP),
-                    2: parseInt(HR),
-                    3: parseInt(DBP),
-                    4: isNaN(height) ? parseInt(height) : undefined,
-                    5: isNaN(weight) ? parseInt(weight) : undefined,
-                    6: parseInt(academicConcerns)
+                    0: reasonForVisit.trim()
                 }
             },
             patientId: this.props.match.params.patientId
@@ -78,7 +60,7 @@ export class CreateVisit extends Component {
         ev.preventDefault();
         let error = this._formatRequestBody();
         if (typeof error === 'string') {
-            this.setState({ error: `Please enter ${error} (integer)` });
+            this.setState({ error: `Please enter ${error}` });
             return;
         }
         const requestBody = this._formatRequestBody();
@@ -87,11 +69,8 @@ export class CreateVisit extends Component {
     }
 
     render() {
-        if (this.props.demographicData === undefined)
-            return null;
-        const { startDate, SBP, DBP, HR, weight, academicConcerns, height, error } = this.state;
+        const { startDate, reasonForVisit, error } = this.state;
         const { params } = this.props.match;
-        const { demographicData } = this.props;
         return (
             <>
                 <div className={style.ariane}>
@@ -99,26 +78,19 @@ export class CreateVisit extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br />
-                    <label htmlFor='SBP'>Systolic blood pressure (mmHg):</label><br /> <input name='SBP' value={SBP} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
-                    <label htmlFor='DBP'>Diastolic blood pressure (mmHg):</label><br /> <input name='DBP' value={DBP} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
-                    <label htmlFor='HR'>Heart rate (bpm):</label><br /> <input name='HR' value={HR} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
-                    <label htmlFor='weight'>Weight (kg):</label><br /> <input name='weight' value={weight} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
-                    <label htmlFor='height'>Height (cm):</label><br /> <input name='height' value={height} onChange={this._handleKeyChange} autoComplete='off' /><br /><br />
-                    {new Date().getTime() - parseInt(demographicData.DOB) < 568025136000 ?
-                        <>
-                            <label htmlFor='academicConcerns'>Academic concerns:</label><br />
-                            <select
-                                name='academicConcerns'
-                                onChange={this._handleKeyChange}
-                                value={academicConcerns}
-                                autoComplete='off'
-                            >
-                                <option value='1'>Yes</option>
-                                <option value='0'>No</option>
-                            </select><br /><br />
-                        </>
-                        : null}
+                    <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
+                    <label htmlFor='academicConcerns'>Reason for the visit:</label><br />
+                    <select name='reasonForVisit'
+                        onChange={this._handleKeyChange}
+                        value={reasonForVisit}
+                        autoComplete='off'
+                    >
+                        <option value='unselected'></option>
+                        <option value='Routine'>Routine</option>
+                        <option value='Drug Monitoring'>Drug Monitoring</option>
+                        <option value='Relapse Assessment'>Relapse Assessment</option>
+                        <option value='Urgent'>Urgent</option>
+                    </select><br /><br />
                     <button onClick={this._handleSubmitClick} >Submit</button>
                     {error ? <><br /><br /><div className={style.error}>{error}</div></> : null}
                 </form>

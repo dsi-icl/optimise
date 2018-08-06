@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from './datepicker';
-import { BackButton } from '../medicalData/dataPage';
+import { BackButton } from '../medicalData/utils';
 import { createTestAPICall } from '../../redux/actions/tests';
 import style from './medicalEvent.module.css';
 
 //not yet finished the dispatch
-@connect(state => ({ visits: state.patientProfile.data.visits, types: state.availableFields.testTypes }), dispatch => ({ createTest: body => dispatch(createTestAPICall(body)) }))
+@connect(state => ({ patientId: state.patientProfile.data.id, visits: state.patientProfile.data.visits, types: state.availableFields.testTypes }), dispatch => ({ createTest: body => dispatch(createTestAPICall(body)) }))
 export class CreateTest extends Component {
     constructor() {
         super();
@@ -40,12 +40,12 @@ export class CreateTest extends Component {
     }
 
     _formatRequestBody() {
-        const date = this.state.startDate._d;
+        const date = this.state.startDate;
         return {
             patientId: this.props.match.params.patientId,
             data: {
-                visitId: Number.parseInt(this.props.match.params.visitId),
-                expectedDate: date.toDateString(),
+                patientId: this.props.patientId,
+                expectedOccurDate: date.toISOString(),
                 type: Number.parseInt(this.state.testType)
             }
         };
@@ -61,7 +61,6 @@ export class CreateTest extends Component {
     render() {
         if (this.props.visits) {
             const params = this.props.match.params;
-            const visitDate = new Date(parseInt(this.props.visits.filter(visit => visit.id === parseInt(params.visitId, 10))[0].visitDate, 10)).toDateString();
             return (
                 <>
                     <div className={style.ariane}>
@@ -69,7 +68,6 @@ export class CreateTest extends Component {
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
                     <form className={style.panel}>
-                        <span><i>This is for the visit of the {visitDate}</i></span><br /><br />
                         <label htmlFor=''>Please enter date on which the test is expected to occur: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                         <label htmlFor='test'>What type of test is it?</label><br />
                         <select name='test' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>

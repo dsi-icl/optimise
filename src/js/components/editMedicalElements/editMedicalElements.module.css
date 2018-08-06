@@ -12,7 +12,7 @@
     top: 0;
     right: 0;
     padding: 1.2em;
-    font-size: 1.3em;
+    font-size: 1.1em;
     line-height: 0.9em;
 }
 
@@ -40,7 +40,7 @@
 .editorWrapper {
     margin-top: 1em;
     background: white;
-    height: 400px;
+    height: 25em;
     padding: 0.5em;
     display: block;
     overflow: auto;
@@ -87,6 +87,10 @@
     background-color: var(--color-accent);
 }
 
+.commentButtonsGroup .selectedHop {
+    background: hsl(var(--color-accent-h), var(--color-accent-s), 80%);
+}
+
 .editorButtonsGroup {
     width: 100%;
 }
@@ -122,4 +126,23 @@
 
 .openCalculator:hover {
     background: hsl(var(--color-background-h), var(--color-background-s), 86%);
+}
+
+.comIntervalBox {
+    max-height: 0;
+    transition: max-height 200ms ease-out;
+    overflow: hidden;
+}
+
+.comIntervalBox.showInterval {
+    max-height: 10em;
+}
+
+.comIntervalBox td:first-child {
+    width: 50%;
+    padding-right: 0.4em;
+}
+
+.comIntervalBox td:last-child {
+    padding-left: 0.4em;
 }

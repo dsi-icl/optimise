@@ -7,6 +7,40 @@
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
+
+.ariane .profileActions {
+    position: absolute;
+    padding: 1.4em;
+    top: 0;
+    right: 0;
+    display: inline-block;
+}
+
+.profileActions a {
+    line-height: 1.2em;
+    display: inline-block;
+}
+
+.profileActions a span {
+    padding: 0 0.5em;
+}
+
+.profileActions a:hover span {
+    color: hsl(var(--color-background-h), var(--color-background-s), 20%);
+}
+
+.profileActions > a > svg {
+    width: 1.2em;
+    margin-left: 1.2em;
+    margin-right: 0.3em;
+    display: inline-block;
+    fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+
+.profileActions a:hover svg {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 20%);
+}
+
 .panel {
     grid-area: panel;
     display: block;

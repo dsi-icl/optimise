@@ -1,13 +1,17 @@
+import { addError } from './error';
+import store from '../store';
+import { createShadowVisitAPICall } from './createVisit';
 import { getPatientProfileById } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
 import history from '../history';
 
 export const createTreatmentAPICall = (body) => dispatch => {
-    return apiHelper('/treatments', { method: 'POST', body: JSON.stringify(body.data) })
+    return createShadowVisitAPICall(body.data.patientId, ({ visitId }) => apiHelper('/treatments', { method: 'POST', body: JSON.stringify(Object.assign(body.data, { visitId })) })
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.log(err));;
+        }).catch(err => store.dispatch(addError({ error: err })))
+    );
 };
 
 export const createTreatmentInterruptionAPICall = (body) => dispatch => {
@@ -15,7 +19,7 @@ export const createTreatmentInterruptionAPICall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.log(err));;
+        }).catch(err => store.dispatch(addError({ error: err })));
 };
 
 export const deleteTreatmentCall = (body) => dispatch => {
@@ -23,7 +27,7 @@ export const deleteTreatmentCall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.log(err));;
+        }).catch(err => store.dispatch(addError({ error: err })));
 };
 
 export const updateTreatmentCall = (body) => dispatch => {
@@ -31,5 +35,5 @@ export const updateTreatmentCall = (body) => dispatch => {
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
-        }).catch(err => console.log(err));;
+        }).catch(err => store.dispatch(addError({ error: err })));
 };
