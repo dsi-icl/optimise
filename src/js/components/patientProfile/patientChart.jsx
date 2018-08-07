@@ -105,7 +105,7 @@ class Medication extends PureComponent {
 
 /* receives a prop data of one clinical event*/
 @withRouter
-@connect(state => ({ typedict: state.availableFields.clinicalEventTypes_Hash[0], patientId: state.patientProfile.data.patientId, meddraHash: state.availableFields.allMeddra[0] }))
+@connect(state => ({ typedict: state.availableFields.clinicalEventTypes_Hash[0], patientId: state.patientProfile.data.patientId, meddraHash: state.availableFields.meddra_Hash[0] }))
 class ClinicalEvent extends PureComponent {
     render() {
         const { data, typedict, patientId, meddraHash } = this.props;
@@ -117,7 +117,7 @@ class ClinicalEvent extends PureComponent {
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>{endDate}</td>
-                <td>{meddraHash[data.meddra]}</td>
+                <td>{meddraHash[data.meddra].name}</td>
                 <td>
                     <NavLink id={`clinicalEvent/${data.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Data</button>

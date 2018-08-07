@@ -4,13 +4,12 @@ import moment from 'moment';
 import { PickDate } from './datepicker';
 import { BackButton } from '../medicalData/utils';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents';
-import { SuggestionInput } from '../meDRA/meDRApicker';
+import { MeddraPicker } from '../meDRA/meddraPicker';
 import style from './medicalEvent.module.css';
 import { addError } from '../../redux/actions/error';
 import store from '../../redux/store';
 
-//not yet finished the dispatch
-@connect(state => ({ patientId: state.patientProfile.data.id, visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes, meddra: state.meddra.result }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
+@connect(state => ({ patientId: state.patientProfile.data.id, visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
 export class CreateCE extends Component {
     constructor() {
         super();
@@ -19,7 +18,7 @@ export class CreateCE extends Component {
             endDate: moment(),
             startDate: moment(),
             ceType: '1',
-            meddra: React.createRef()
+            meddra: undefined
         };
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
@@ -27,12 +26,19 @@ export class CreateCE extends Component {
         this._handleTypeChange = this._handleTypeChange.bind(this);
         this._handleEndDateChange = this._handleEndDateChange.bind(this);
         this._handleToggleEndDate = this._handleToggleEndDate.bind(this);
+        this._handleMedDRAChange = this._handleMedDRAChange.bind(this);
     }
 
     _handleToggleEndDate(ev) {
         this.setState({
             noEndDate: ev.target.checked
         });
+    }
+
+    _handleMedDRAChange(value) {
+        this.setState({
+            meddra: value
+        })
     }
 
     _handleDateChange(date) {
@@ -67,16 +73,15 @@ export class CreateCE extends Component {
                 patientId: this.props.patientId,
                 dateStartDate: date.toISOString(),
                 endDate: !this.state.noEndDate ? this.state.endDate.toISOString() : undefined,
-                type: Number.parseInt(this.state.ceType),
-                meddra: Number.parseInt(this.props.meddra.filter(el => el.name === this.state.meddra.current.value)[0].id)
+                type: parseInt(this.state.ceType),
+                meddra: parseInt(this.state.meddra)
             }
         };
     }
 
     _handleSubmitClick() {
-        const meddra = this.props.meddra.filter(el => el.name === this.state.meddra.current.value);
-        if (meddra.length === 0) {
-            store.dispatch(addError({ error: 'The MedDRA code entered doesn\'t seem to be valid!' }));
+        if (this.state.meddra === undefined) {
+            store.dispatch(addError({ error: 'You must enter a MedDRA code!' }));
             return;
         }
         const requestBody = this._formatRequestBody();
@@ -102,7 +107,7 @@ export class CreateCE extends Component {
                             {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                         </select> <br /><br />
                         <label htmlFor='meddra'>MedDRA:</label><br />
-                        <SuggestionInput reference={this.state.meddra} /><br /><br />
+                        <MeddraPicker key={params.patientId} value={this.state.meddra} onChange={this._handleMedDRAChange}/><br /><br />
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </div>
                 </>
