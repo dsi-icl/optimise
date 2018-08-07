@@ -155,7 +155,8 @@ class ImmunisationSection extends Component {
         }, () => {
             store.dispatch(createImmunisationAPICall(body));
             this.setState({
-                newName: ''
+                newName: '',
+                addMore: false
             });
         });
     }
