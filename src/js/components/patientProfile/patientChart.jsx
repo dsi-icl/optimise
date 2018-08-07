@@ -117,7 +117,7 @@ class ClinicalEvent extends PureComponent {
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>{endDate}</td>
-                <td>{meddraHash[data.meddra].name}</td>
+                <td>{data.meddra ? meddraHash[data.meddra].name : null}</td>
                 <td>
                     <NavLink id={`clinicalEvent/${data.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Data</button>
