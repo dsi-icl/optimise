@@ -7,7 +7,7 @@ import { PatientProfileSectionScaffold, DeleteButton, EditButton } from './share
 import { formatRow } from './patientChart';
 import store from '../../redux/store';
 import { createImmunisationAPICall, createPregnancyAPICall, deleteImmunisationAPICall, deletePregnancyAPICall } from '../../redux/actions/demographicData';
-import { SuggestionInput } from '../meDRA/meDRApicker';
+import { MeddraPicker } from '../meDRA/meddraPicker';
 import { SelectField } from '../createPatient';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
 import { updateConsentAPICall } from '../../redux/actions/consent';
@@ -221,7 +221,7 @@ class PrimaryDiagnosis extends Component {
 }
 
 
-@connect(state => ({ outcomeHash: state.availableFields.pregnancyOutcomes_Hash[0], data: state.patientProfile.data, allMeddra: state.availableFields.allMeddra, outcomes: state.availableFields.pregnancyOutcomes, meddra: state.meddra.result }))
+@connect(state => ({ outcomeHash: state.availableFields.pregnancyOutcomes_Hash[0], data: state.patientProfile.data, meddra_Hash: state.availableFields.meddra_Hash[0], outcomes: state.availableFields.pregnancyOutcomes }))
 class Pregnancy extends Component {
     constructor() {
         super();
@@ -231,7 +231,7 @@ class Pregnancy extends Component {
             addMore: false,
             newStartDate: moment(),
             newOutcomeDate: moment(),
-            newMeddra: React.createRef(),
+            newMeddra: undefined,
             newOutcome: 0
         };
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
@@ -239,7 +239,7 @@ class Pregnancy extends Component {
         this._handleOutcomeDateChange = this._handleOutcomeDateChange.bind(this);
         this._handleStartDateChange = this._handleStartDateChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
-        this._handleMeddra = this._handleMeddra.bind(this);
+        this._handleMeddraChange = this._handleMeddraChange.bind(this);
         this._handleClickDelete = this._handleClickDelete.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
         this._handleToggleEndDate = this._handleToggleEndDate.bind(this);
@@ -292,8 +292,9 @@ class Pregnancy extends Component {
         };
     }
 
-    _handleMeddra() {
+    _handleMeddraChange(value) {
         this.setState({
+            newMeddra: value,
             error: false
         });
     }
@@ -307,7 +308,6 @@ class Pregnancy extends Component {
         const data = this.props.data;
         const { noEndDate, newOutcome, newStartDate, newOutcomeDate, newMeddra } = this.state;
 
-        let meddraField = null;
         if (!noEndDate) {
 
             if (newOutcome === 0 || newOutcome === '0') {
@@ -315,11 +315,6 @@ class Pregnancy extends Component {
                 return;
             }
 
-            meddraField = this.props.meddra.filter(el => el.name === this.state.newMeddra.current.value);
-            if (meddraField.length === 0 && this.state.newMeddra.current.value !== '') {
-                this.setState({ error: 'MedDRA code' });
-                return;
-            }
         }
 
         const body = {
@@ -328,7 +323,7 @@ class Pregnancy extends Component {
                 patient: data.id,
                 startDate: newStartDate ? newStartDate.toISOString() : undefined,
                 outcome: !noEndDate && newOutcome ? parseInt(newOutcome, 10) : undefined,
-                meddra: !noEndDate && newMeddra.current.value !== '' ? meddraField[0].id : undefined,
+                meddra: !noEndDate && newMeddra !== undefined ? parseInt(newMeddra) : undefined,
                 outcomeDate: !noEndDate && newOutcomeDate ? newOutcomeDate.toISOString() : undefined
             }
         };
@@ -345,7 +340,7 @@ class Pregnancy extends Component {
     }
 
     render() {
-        const { data, outcomeHash } = this.props;
+        const { data, outcomeHash, meddra_Hash } = this.props;
         if (data.demographicData && data.demographicData.gender !== 1 && data.pregnancy) {
             return (
                 <div className={this.state.addMore ? style.pregnancyPanelActive : style.pregnancyPanel}>
@@ -359,7 +354,7 @@ class Pregnancy extends Component {
                                             <>
                                                 <label>Outcome date: </label> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : ''} <br />
                                                 <label>Outcome: </label> {outcomeHash[el.outcome]} <br />
-                                                {el.meddra ? <><label>MedDRA: </label> {this.props.allMeddra[0][el.meddra]} <br /></> : null}
+                                                {el.meddra ? <><label>MedDRA: </label> {meddra_Hash[el.meddra].name} <br /></> : null}
                                             </>
                                         ) : null}
                                         <span onClick={() => this._handleClickDelete(el)}>Delete the record of the pregnancy</span>
@@ -373,7 +368,7 @@ class Pregnancy extends Component {
                                     <>
                                         <label>Outcome date: </label><br /><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
                                         <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br /><br />
-                                        <label>MedDRA: </label><br /><SuggestionInput extraHandler={this._handleMeddra} reference={this.state.newMeddra} />
+                                        <label>MedDRA: </label><br /><MeddraPicker onChange={this._handleMeddraChange} value={this.state.newMeddra} key={`${data.id}${new Date().getMilliseconds}`} />
                                     </>
                                 )}
                             </div>

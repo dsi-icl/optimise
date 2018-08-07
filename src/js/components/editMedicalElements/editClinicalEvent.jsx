@@ -5,9 +5,10 @@ import { PickDate } from '../createMedicalElements/datepicker';
 import { BackButton } from '../medicalData/utils';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
+import { MeddraPicker } from '../meDRA/meddraPicker';
 import { addAlert } from '../../redux/actions/alert';
 import { deleteCEAPICall, updateCECall } from '../../redux/actions/clinicalEvents';
-import { SuggestionInput } from '../meDRA/meDRApicker';
+
 
 @connect(state => ({ CEs: state.patientProfile.data.clinicalEvents }))
 export default class EditCE extends Component {
@@ -78,7 +79,7 @@ export default class EditCE extends Component {
 }
 
 
-@connect(state => ({ patientId: state.patientProfile.data.patientId, meddraDict: state.availableFields.allMeddra_ReverseHash[0], meddraHash: state.availableFields.allMeddra[0] }))
+@connect(state => ({ patientId: state.patientProfile.data.patientId }))
 class UpdateCEEntry extends Component {
     constructor(props) {
         super();
@@ -88,14 +89,14 @@ class UpdateCEEntry extends Component {
             startDate: moment(parseInt(props.data.dateStartDate)),
             endDate: props.data.endDate ? moment(parseInt(props.data.endDate)) : moment(),
             noEndDate: !props.data.endDate,
-            meddra: React.createRef(),
-            meddraOriginal: props.data.meddra
+            meddra: props.data.meddra
         };
         this._handleChange = this._handleChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleEndDateChange = this._handleEndDateChange.bind(this);
         this._handleToggleEndDate = this._handleToggleEndDate.bind(this);
+        this._handleMeddraChange = this._handleMeddraChange.bind(this);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -106,9 +107,12 @@ class UpdateCEEntry extends Component {
             id: props.data.id,
             elementId: props.elementId,
             startDate: moment(parseInt(props.data.dateStartDate)),
-            meddra: React.createRef(),
-            meddraOriginal: props.data.meddra
+            meddra: props.data.meddra
         };
+    }
+
+    _handleMeddraChange(value) {
+        this.setState({ meddra: value });
     }
 
     _handleChange(ev) {
@@ -137,7 +141,7 @@ class UpdateCEEntry extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
-        const { patientId, meddraDict } = this.props;
+        const { patientId } = this.props;
         const { id, startDate, meddra, noEndDate, endDate } = this.state;
         const body = {
             patientId: patientId,
@@ -145,7 +149,7 @@ class UpdateCEEntry extends Component {
             data: {
                 id,
                 dateStartDate: startDate.toISOString(),
-                meddra: meddraDict[meddra.current.value],
+                meddra,
                 endDate: !noEndDate ? endDate.toISOString() : undefined
             }
         };
@@ -153,8 +157,7 @@ class UpdateCEEntry extends Component {
     }
 
     render() {
-        const { startDate, meddra, meddraOriginal } = this.state;
-        const { meddraHash } = this.props;
+        const { startDate, meddra, id } = this.state;
         return (
             <>
                 <label>Start Date: </label>
@@ -162,7 +165,7 @@ class UpdateCEEntry extends Component {
                 <label htmlFor='noEndDate'>The event is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
                 {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}<br />
                 <label>MedDRA: </label>
-                <SuggestionInput originalValue={meddraHash[meddraOriginal]} reference={meddra} /><br /><br />
+                <MeddraPicker key={id} value={String(meddra)} onChange={this._handleMeddraChange}/><br/><br/>
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
         );
