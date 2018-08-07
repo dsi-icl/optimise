@@ -122,7 +122,8 @@ function availableFields(state = initialState.availableFields, action) {
             newState = { ...state, interruptionReasons: action.payload, interruptionReasons_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_MEDDRA_SUCESS:
-            newState = { ...state, allMeddra: action.payload };
+            hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            newState = { ...state, allMeddra: action.payload, meddra_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_VISIT_SECTIONS_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
@@ -162,16 +163,6 @@ function patientProfile(state = initialState.patientProfile, action) {
     }
 }
 
-function meddra(state = initialState.meddra, action) {
-    switch (action.type) {
-        case actionTypes.searchMedDRA.SEARCH_MEDDRA_SUCCESS:
-            return { result: action.payload };
-        case actionTypes.searchMedDRA.SEARCH_MEDDRA_FAILURE:
-            return { result: [] };
-        default:
-            return state;
-    }
-}
 
 function log(state = initialState.log, action) {
     switch (action.type) {
@@ -256,7 +247,6 @@ export const rootReducer = combineReducers({
     patientProfile,
     availableFields,
     login,
-    meddra,
     log,
     getAllUsers,
     erasePatient,

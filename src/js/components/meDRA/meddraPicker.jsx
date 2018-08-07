@@ -16,7 +16,7 @@ export class MeddraPicker extends Component {
         originalValue: undefined
     }
 
-    componentDidMount() {
+    componentDidMount() {  //what if the originalValue is not a top node?
         const { meddra, originalValue } = this.props;
         const topLevelNodes = meddra.filter(el => el.parent === null);
         this.setState({ treeData: topLevelNodes, originalValue });
@@ -59,11 +59,11 @@ export class MeddraPicker extends Component {
             <div className={style.wrapper}>  {/* this div must be here for the positioning of the drop down menu with scrolling */}
                 <TreeSelect
                     loadData={this.onLoadData}
-                    dropdownStyle={{ maxHeight: 200, overflow: 'auto' }}
-                    style={{ width: 300 }}
+                    dropdownStyle={{ maxHeight: 250, overflow: 'auto' }}
+                    style={{ width: '100%' }}
                     getPopupContainer={ev => ev.parentElement}
                     placeholder="Select MedDRA coding"
-                    value={this.props.originalValue}
+                    value={this.props.value}
                     onChange={this.onChange}
                 >
                     {this.renderTreeNodes(this.state.treeData)}
