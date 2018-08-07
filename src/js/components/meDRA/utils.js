@@ -15,8 +15,6 @@
 // }
 
 
-
-
 /* not in used in react app but to generate seeds for data base */
 export const makeMeddraSeeds = (tree) => {
     let id = 1;

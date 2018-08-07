@@ -49,15 +49,15 @@ function launchBackend(success, error) {
         });
 
         apiProcess.stdout.on('data', (data) => {
-            console.log('API Server STD: ' + data.toString());
+            console.log(`API Server STD: ${data.toString()}`);
         });
 
         apiProcess.stderr.on('data', (data) => {
-            console.log('API Server ERR: ' + data.toString());
+            console.log(`API Server ERR: ${data.toString()}`);
         });
 
         apiProcess.on('exit', (code) => {
-            console.error('child process exited with code ' + code.toString());
+            console.error(`Child process exited with code ${code.toString()}`);
         });
 
         tryConnection(success);

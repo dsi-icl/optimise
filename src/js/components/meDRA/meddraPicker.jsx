@@ -53,18 +53,16 @@ export class MeddraPicker extends Component {
         });
     }
 
-    renderTreeNodes = data => {
-        return data.map((item) => {
-            if (item.children) {
-                return (
-                    <TreeNode title={item.name} key={String(item.id)} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true}>
-                        {this.renderTreeNodes(item.children)}
-                    </TreeNode>
-                );
-            }
-            return <TreeNode title={item.name} key={String(item.id)} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true} />;
-        });
-    }
+    renderTreeNodes = data => data.map((item) => {
+        if (item.children) {
+            return (
+                <TreeNode title={item.name} key={String(item.id)} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true}>
+                    {this.renderTreeNodes(item.children)}
+                </TreeNode>
+            );
+        }
+        return <TreeNode title={item.name} key={String(item.id)} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true} />;
+    })
 
     onChange = value => {
         this.props.onChange(value);

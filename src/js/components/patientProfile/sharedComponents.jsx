@@ -36,8 +36,6 @@ export class PatientProfileTop extends PureComponent {
 }
 
 
-
-
 /*  receive props handler function this.props.clickhandler*/
 export class DeleteButton extends Component {
     render() {
