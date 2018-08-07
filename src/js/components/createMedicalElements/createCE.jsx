@@ -85,6 +85,7 @@ export class CreateCE extends Component {
             this.setState({
                 error: 'Please indicate the MedDRA code'
             });
+            return;
         }
         if (this.state.ceType === 'unselected') {
             this.setState({
