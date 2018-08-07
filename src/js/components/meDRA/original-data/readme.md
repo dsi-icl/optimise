@@ -1,0 +1,1 @@
+This folder contains the original tree of meddra and script used to generate the database entries. For error tracking and validation purposes.

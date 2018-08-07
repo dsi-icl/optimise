@@ -34,7 +34,7 @@ export default {
         interruptionReasons: [],
         interruptionReasons_Hash: [],
         allMeddra: [],
-        allMeddra_ReverseHash: [],
+        meddra_Hash: [],
         pregnancyOutcomes: [],
         pregnancyOutcomes_Hash: [],
         diagnoses: [],
@@ -93,9 +93,6 @@ export default {
         loggingIn: false,
         loginFailed: false,
         username: ''
-    },
-    meddra: {
-        result: []
     },
     log: {
         fetching: true,

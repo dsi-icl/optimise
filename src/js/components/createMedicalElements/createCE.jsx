@@ -4,11 +4,10 @@ import moment from 'moment';
 import { PickDate } from './datepicker';
 import { BackButton } from '../medicalData/utils';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents';
-import { SuggestionInput } from '../meDRA/meDRApicker';
+import { MeddraPicker } from '../meDRA/meddraPicker';
 import style from './medicalEvent.module.css';
 
-//not yet finished the dispatch
-@connect(state => ({ patientId: state.patientProfile.data.id, visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes, meddra: state.meddra.result }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
+@connect(state => ({ patientId: state.patientProfile.data.id, visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
 export class CreateCE extends Component {
     constructor() {
         super();
@@ -16,8 +15,8 @@ export class CreateCE extends Component {
             noEndDate: true,
             endDate: moment(),
             startDate: moment(),
+            meddra: undefined,
             ceType: 'unselected',
-            meddra: React.createRef()
         };
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
@@ -25,56 +24,72 @@ export class CreateCE extends Component {
         this._handleTypeChange = this._handleTypeChange.bind(this);
         this._handleEndDateChange = this._handleEndDateChange.bind(this);
         this._handleToggleEndDate = this._handleToggleEndDate.bind(this);
+        this._handleMedDRAChange = this._handleMedDRAChange.bind(this);
     }
 
     _handleToggleEndDate(ev) {
         this.setState({
-            noEndDate: ev.target.checked
+            noEndDate: ev.target.checked,
+            error: undefined
         });
+    }
+
+    _handleMedDRAChange(value) {
+        this.setState({
+            meddra: value,
+            error: undefined
+        })
     }
 
     _handleDateChange(date) {
         this.setState({
-            startDate: date
+            startDate: date,
+            error: undefined
         });
     }
 
     _handleEndDateChange(date) {
         this.setState({
-            endDate: date
+            endDate: date,
+            error: undefined
         });
     }
 
     _handleTypeChange(ev) {
         this.setState({
-            ceType: ev.target.value
+            ceType: ev.target.value,
+            error: undefined
         });
     }
 
     _formatRequestBody() {
         const date = this.state.startDate;
-        const filteredMeddra = this.props.meddra.filter(el => el.name === this.state.meddra.current.value);
-        const meddra = filteredMeddra && filteredMeddra[0] && !isNaN(parseInt(filteredMeddra[0].id)) ? parseInt(filteredMeddra[0].id) : undefined;
         return {
             patientId: this.props.match.params.patientId,
             data: {
                 patientId: this.props.patientId,
                 dateStartDate: date.toISOString(),
                 endDate: !this.state.noEndDate ? this.state.endDate.toISOString() : undefined,
+                meddra: parseInt(this.state.meddra),
                 type: this.state.ceType !== 'unselected' && !isNaN(parseInt(this.state.ceType)) ? parseInt(this.state.ceType) : undefined,
-                meddra: meddra
             }
         };
     }
+
 
     _handleSubmitClick(ev) {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
-
+        if (this.state.meddra === undefined) {
+            this.setState({
+                error: 'Please indicate the MedDRA code'
+            });
+            return;
+        }
         if (this.state.ceType === 'unselected') {
             this.setState({
-                error: 'Please indicate the even type'
+                error: 'Please indicate the event type'
             });
             return;
         }
@@ -107,7 +122,7 @@ export class CreateCE extends Component {
                             {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                         </select> <br /><br />
                         <label htmlFor='meddra'>MedDRA:</label><br />
-                        <SuggestionInput reference={this.state.meddra} /><br /><br />
+                        <MeddraPicker key={params.patientId} value={this.state.meddra} onChange={this._handleMedDRAChange}/><br /><br />
                         {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </div>

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/utils';
-// import { SuggestionInput } from '../meDRA/meDRApicker';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
 import { addAlert } from '../../redux/actions/alert';
@@ -85,7 +84,7 @@ export default class EditMed extends Component {
 }
 
 
-@connect(state => ({ drugs: state.availableFields.drugs, interruptionReasons: state.availableFields.interruptionReasons, patientId: state.patientProfile.data.patientId, meddraDict: state.availableFields.allMeddra_ReverseHash[0], meddraHash: state.availableFields.allMeddra[0] }))
+@connect(state => ({ drugs: state.availableFields.drugs, interruptionReasons: state.availableFields.interruptionReasons, patientId: state.patientProfile.data.patientId }))
 class UpdateMedEntry extends Component {
     constructor(props) {
         super();
@@ -100,8 +99,7 @@ class UpdateMedEntry extends Component {
             terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : undefined,
             form: props.data.form ? props.data.form : 'unselected',
             times: props.data.times ? props.data.times : undefined,
-            intervalUnit: props.data.intervalUnit || '',
-            meddra: React.createRef()
+            intervalUnit: props.data.intervalUnit || ''
         };
         this.reasonRef = React.createRef();
         this._handleChange = this._handleChange.bind(this);
