@@ -165,7 +165,7 @@ class UpdateCEEntry extends Component {
                 <label htmlFor='noEndDate'>The event is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
                 {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}<br />
                 <label>MedDRA: </label>
-                <MeddraPicker key={id} value={meddra === null || meddra === undefined ? undefined : String(meddra)} onChange={this._handleMeddraChange}/><br/><br/>
+                <MeddraPicker key={id} value={meddra === null || meddra === undefined ? undefined : String(meddra)} onChange={this._handleMeddraChange} /><br /><br />
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
         );
