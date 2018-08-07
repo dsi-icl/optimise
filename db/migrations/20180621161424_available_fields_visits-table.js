@@ -13,7 +13,7 @@ exports.up = (knex) => knex.schema.createTable('AVAILABLE_FIELDS_VISITS', (table
     table.text('laterality').nullable();
     table.text('cdiscName').nullable();
     table.text('deleted').notNullable().defaultTo('-');
-    table.unique(['idname', 'type', 'unit', 'module', 'deleted']);
+    table.unique(['idname', 'type', 'unit', 'module', 'referenceType', 'deleted']);
 });
 
 exports.down = (knex) => knex.schema.dropTable('AVAILABLE_FIELDS_VISITS');
