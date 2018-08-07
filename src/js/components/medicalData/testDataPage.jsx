@@ -70,8 +70,9 @@ export class TestData extends Component {
             }
             if (type === 'B') {
                 const bool = reference.current.checked ? '1' : '0';
-                if (originalValues[fieldId] !== undefined && originalValues[fieldId] !== bool) {
-                    update[fieldId] = bool;
+                if (originalValues[fieldId] !== undefined) {
+                    if (originalValues[fieldId] !== bool)
+                        update[fieldId] = bool;
                 } else if (bool !== '0') {
                     add[fieldId] = bool;
                 }
