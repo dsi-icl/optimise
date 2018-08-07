@@ -1,0 +1,25 @@
+{
+  "name": "optimise",
+  "version": "1.0.0",
+  "description": "Optimise MS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dsi-icl/optimise.git"
+  },
+  "keywords": [
+    "ms"
+  ],
+  "author": "Florian Guitton <f.guitton@imperial.ac.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dsi-icl/optimise/issues"
+  },
+  "homepage": "https://github.com/dsi-icl/optimise#readme",
+  "devDependencies": {
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  }
+}
