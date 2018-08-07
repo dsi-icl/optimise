@@ -5,7 +5,8 @@ import { BackButton } from './utils';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
 import { SuggestionInput } from '../meDRA/meDRApicker';
-import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments';
+import { createTreatmentInterruptionAPICall, deleteTreatmentInterruptionAPICall } from '../../redux/actions/treatments';
+import { addAlert } from '../../redux/actions/alert';
 import Icon from '../icon';
 import style from '../createMedicalElements/medicalEvent.module.css';
 
@@ -17,7 +18,7 @@ export class TreatmentInterruption extends Component {
             addMore: false,
             newStartDate: moment(),
             newEndDate: moment(),
-            noEndDate: false,
+            noEndDate: true,
             error: false
         };
         this.reasonRef = React.createRef();
@@ -28,6 +29,26 @@ export class TreatmentInterruption extends Component {
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleStartDateChange = this._handleStartDateChange.bind(this);
         this._handleToggleNoEndDate = this._handleToggleNoEndDate.bind(this);
+        this._handleClickDelete = this._handleClickDelete.bind(this);
+        this._deleteFunction = this._deleteFunction.bind(this);
+    }
+
+    _handleClickDelete(el) {
+        store.dispatch(addAlert({ alert: 'Do you want to delete this interruption record?', handler: this._deleteFunction(el.id) }));
+    }
+
+    _deleteFunction(id) {
+        const that = this;
+        return function () {
+            const data = that.props.patientProfile.data;
+            const body = {
+                patientId: data.patientId,
+                data: {
+                    treatmentInterId: id
+                }
+            };
+            store.dispatch(deleteTreatmentInterruptionAPICall(body));
+        };
     }
 
     _handleClickingAdd() {
@@ -72,7 +93,7 @@ export class TreatmentInterruption extends Component {
             data: {
                 treatmentId: parseInt(this.props.match.params.elementId, 10),
                 start_date: this.state.newStartDate.toISOString(),
-                end_date: this.state.noEndDate ? null : this.state.newEndDate.toISOString(),
+                end_date: !this.state.noEndDate && this.state.newEndDate ? this.state.newEndDate.toISOString() : undefined,
                 reason: parseInt(this.reasonRef.current.value, 10),
                 meddra: meddra
             }
@@ -101,11 +122,12 @@ export class TreatmentInterruption extends Component {
                         </div>
                         <form className={style.panel}>
                             {treatment.interruptions.map((el, ind) => (
-                                <div key={`${el.endDate}${el.startDate}${el.reason}`} className={ind === treatment.interruptions.length - 1 ? style.interruptionLast : style.interruption}>
+                                <div key={`${el.endDate}${el.startDate}${el.reason}`} className={style.interruption}>
                                     <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
-                                    {el.endDate ? <span><label>End date: </label> {new Date(parseInt(el.endDate, 10)).toDateString()}<br /></span> : null}
+                                    {el.endDate ? <><label>End date: </label> {new Date(parseInt(el.endDate, 10)).toDateString()}<br /></> : null}
                                     <label>Reason: </label> {interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br />
-                                    <label>MedDRA: </label> {el.meddra ? allMeddra[0][el.meddra] : 'NA'}
+                                    {el.meddra ? <><label>MedDRA: </label> {allMeddra[0][el.meddra]} <br /></> : null}
+                                    <span onClick={() => this._handleClickDelete(el)}>Delete the record of this interruption</span>
                                 </div>
                             ))}
 

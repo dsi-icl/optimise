@@ -30,6 +30,14 @@ export const deleteTreatmentCall = (body) => dispatch => {
         }).catch(err => store.dispatch(addError({ error: err })));
 };
 
+export const deleteTreatmentInterruptionAPICall = (body) => dispatch => {
+    return apiHelper('/treatments/interrupt', { method: 'DELETE', body: JSON.stringify(body.data) })
+        .then(() => {
+            history.push(body.to);
+            dispatch(getPatientProfileById(body.patientId));
+        }).catch(err => store.dispatch(addError({ error: err })));
+};
+
 export const updateTreatmentCall = (body) => dispatch => {
     return apiHelper('/treatments', { method: 'PUT', body: JSON.stringify(body.data) })
         .then(() => {
