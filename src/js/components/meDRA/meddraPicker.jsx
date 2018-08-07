@@ -65,19 +65,20 @@ export class MeddraPicker extends Component {
     })
 
     onChange = value => {
-        this.props.onChange(value);
+        this.props.onChange(value === undefined ? null : value);
     }
 
     render() {
         return (
             <div className={style.wrapper}>  {/* this div must be here for the positioning of the drop down menu with scrolling */}
                 <TreeSelect
+                    allowClear
+                    defaultValue={undefined}
                     showLine={true}
                     loadData={this.onLoadData}
                     dropdownStyle={{ maxHeight: 250, overflow: 'auto' }}
                     style={{ width: '100%' }}
                     getPopupContainer={ev => ev.parentElement}
-                    placeholder="Select MedDRA coding"
                     value={this.props.value}
                     onChange={this.onChange}
                     treeDefaultExpandedKeys={this.state.expandedKeys}
