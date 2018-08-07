@@ -322,7 +322,7 @@ class Pregnancy extends Component {
                 patient: data.id,
                 startDate: newStartDate ? newStartDate.toISOString() : undefined,
                 outcome: !noEndDate && newOutcome ? parseInt(newOutcome, 10) : undefined,
-                meddra: !noEndDate && newMeddra !== undefined ? newMeddra : undefined,
+                meddra: !noEndDate && newMeddra !== undefined ? parseInt(newMeddra) : undefined,
                 outcomeDate: !noEndDate && newOutcomeDate ? newOutcomeDate.toISOString() : undefined
             }
         };
