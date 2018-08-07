@@ -9,7 +9,6 @@ import { createTreatmentInterruptionAPICall, deleteTreatmentInterruptionAPICall 
 import { addAlert } from '../../redux/actions/alert';
 import Icon from '../icon';
 import style from '../createMedicalElements/medicalEvent.module.css';
-import { addError } from '../../redux/actions/error';
 
 @connect(state => ({ patientProfile: state.patientProfile, fields: state.availableFields }))
 export class TreatmentInterruption extends Component {
