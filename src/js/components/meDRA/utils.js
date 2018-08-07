@@ -1,4 +1,4 @@
-// function formatOneNodeForAntd(entry) {    //entry = [ key, {text: 'whatever'}  ] 
+// function formatOneNodeForAntd(entry) {    //entry = [ key, {text: 'whatever'}  ]
 //     const key = entry[0];
 //     const value = entry[1];
 //     if (Object.keys(value).length === 1 && value.hasOwnProperty('text')){
