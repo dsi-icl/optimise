@@ -81,12 +81,6 @@ export class CreateCE extends Component {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
-        if (this.state.meddra === undefined) {
-            this.setState({
-                error: 'Please indicate the MedDRA code'
-            });
-            return;
-        }
         if (this.state.ceType === 'unselected') {
             this.setState({
                 error: 'Please indicate the event type'
