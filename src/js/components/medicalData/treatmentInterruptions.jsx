@@ -88,10 +88,6 @@ export class TreatmentInterruption extends Component {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
-        if (this.state.meddra === undefined) {
-            store.dispatch(addError({ error: 'You must enter a MedDRA code!' }));
-            return;
-        }
         const data = this.props.patientProfile.data;
         const body = {
             patientId: data.patientId,
