@@ -82,8 +82,12 @@ export default class CreatePatient extends Component {    //get these props from
 
     _handleSubmit(ev) {
         ev.preventDefault();
-        for (let each in this.state) {
-            if (this.state[each] === 0 || this.state[each] === null || this.state[each] === '') {
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
+
+        const fieldCheck = ['DOB', 'address', 'alcohol_usage', 'aliasId', 'consent', 'country_of_origin', 'diagnosis', 'diagnosisDate', 'dominant_hand', 'ethnicity', 'gender', 'givenName', 'postcode', 'smoking_history', 'surname'];
+        for (let i = 0; i < fieldCheck.length; i++) {
+            if (this.state[fieldCheck[i]] === 0 || this.state[fieldCheck[i]] === null || this.state[fieldCheck[i]] === '' || this.state[fieldCheck[i]] === 'unselected') {
                 this.setState({ error: true });
                 return;
             }
@@ -120,8 +124,13 @@ export default class CreatePatient extends Component {    //get these props from
             PIIData: PIIData
         };
 
-        store.dispatch(createPatientCall(body));
-        this.setState({ dispatched: true });
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(createPatientCall(body));
+            this.setState({ dispatched: true });
+        });
+
     }
 
     render() {

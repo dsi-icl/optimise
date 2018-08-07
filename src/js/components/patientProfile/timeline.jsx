@@ -30,7 +30,7 @@ export class TimelineBox extends Component {   //unfinsihed
         let maxDatePoint = allDates[allDates.length - 1] - allDates[0];
 
         const TimelineDynamicStyle = {
-            gridTemplateColumns: `10% 2% ${'0.88%'.repeat(100)}`,
+            gridTemplateColumns: `18% 2% ${'0.8%'.repeat(100)}`,
             gridTemplateRows: '1em 0.5em 1em 0.5em 1em 0.5em 1em 0.5em 1em'
 
         };
@@ -57,8 +57,9 @@ export class TimelineBox extends Component {   //unfinsihed
             let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
             let end = start + 1;
             end = end > 100 ? 100 : end;
+            start = start >= end ? end - 1 : start;
             return (
-                <a style={{ gridColumn: `${start + 3}/${end + 2}`, gridRow: '3' }} title={new Date(startDate).toDateString()} key={`${visit.id}`} href={`#visit/${visit.id}`}>
+                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '3' }} title={new Date(startDate).toDateString()} key={`${visit.id}`} href={`#visit/${visit.id}`}>
                     <div className={style.timelineVisit}>-</div>
                 </a>
             );
@@ -70,8 +71,9 @@ export class TimelineBox extends Component {   //unfinsihed
             let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
             let end = start + 1;
             end = end > 100 ? 100 : end;
+            start = start >= end ? end - 1 : start;
             return (
-                <a style={{ gridColumn: `${start + 3}/${end + 2}`, gridRow: '5' }} title={new Date(startDate).toDateString()} key={`${test.id}`} href={`#test/${test.id}`}>
+                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '5' }} title={new Date(startDate).toDateString()} key={`${test.id}`} href={`#test/${test.id}`}>
                     <div className={style.timelineTest}>-</div>
                 </a>
             );
@@ -82,10 +84,11 @@ export class TimelineBox extends Component {   //unfinsihed
             const startDate = parseInt(med.startDate, 10);
             const endDate = parseInt(med.terminatedDate || moment().valueOf(), 10);
             let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
-            let end = Math.floor((endDate - allDates[0]) * 100 / maxDatePoint);
+            let end = Math.ceil((endDate - allDates[0]) * 100 / maxDatePoint);
             end = end > 100 ? 100 : end;
+            start = start >= end ? end - 1 : start;
             return (
-                <a style={{ gridColumn: `${start + 3}/${end + 2}`, gridRow: '1' }} title={new Date(startDate).toDateString()} key={`${med.id}`} href={`#treatment/${med.id}`}>
+                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '1' }} title={new Date(startDate).toDateString()} key={`${med.id}`} href={`#treatment/${med.id}`}>
                     <div className={style.timelineMed}>-</div>
                 </a>
             );
@@ -96,10 +99,11 @@ export class TimelineBox extends Component {   //unfinsihed
             const startDate = parseInt(CE.dateStartDate, 10);
             const endDate = parseInt(CE.endDate || moment().valueOf(), 10);
             let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
-            let end = Math.floor((endDate - allDates[0]) * 100 / maxDatePoint);
+            let end = Math.ceil((endDate - allDates[0]) * 100 / maxDatePoint);
             end = end > 100 ? 100 : end;
+            start = start >= end ? end - 1 : start;
             return (
-                <a style={{ gridColumn: `${start + 3}/${end + 2}`, gridRow: '7' }} title={new Date(startDate).toDateString()} key={`${CE.id}`} href={`#clinicalEvent/${CE.id}`}>
+                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '7' }} title={new Date(startDate).toDateString()} key={`${CE.id}`} href={`#clinicalEvent/${CE.id}`}>
                     <div className={CE.type === 4 ? style.timelineCEBlack : style.timelineCE}>-</div>
                 </a>
             );

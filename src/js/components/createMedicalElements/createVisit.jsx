@@ -58,14 +58,22 @@ export class CreateVisit extends Component {
 
     _handleSubmitClick(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         let error = this._formatRequestBody();
         if (typeof error === 'string') {
             this.setState({ error: `Please enter ${error}` });
             return;
         }
+
         const requestBody = this._formatRequestBody();
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
-        this.props.createVisit(requestBody);
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            this.props.createVisit(requestBody);
+        });
     }
 
     render() {
@@ -79,7 +87,7 @@ export class CreateVisit extends Component {
                 </div>
                 <form className={style.panel}>
                     <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
-                    <label htmlFor='academicConcerns'>Reason for the visit:</label><br />
+                    <label htmlFor='reasonForVisit'>Reason for the visit:</label><br />
                     <select name='reasonForVisit'
                         onChange={this._handleKeyChange}
                         value={reasonForVisit}
@@ -91,8 +99,8 @@ export class CreateVisit extends Component {
                         <option value='Relapse Assessment'>Relapse Assessment</option>
                         <option value='Urgent'>Urgent</option>
                     </select><br /><br />
+                    {error ? <><div className={style.error}>{error}</div><br /><br /></> : null}
                     <button onClick={this._handleSubmitClick} >Submit</button>
-                    {error ? <><br /><br /><div className={style.error}>{error}</div></> : null}
                 </form>
             </>
         );
