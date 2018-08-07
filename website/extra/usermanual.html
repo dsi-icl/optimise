@@ -176,6 +176,8 @@
                     <img src="../img/perfMeasures.png" alt="perfMeasures"><br/><br/>
                     <p>The EDSS can be entered in two ways; the neurologist’s estimated EDSS or the calculated EDSS. The neurologist’s estimated EDSS score can be entered in the highlighted box in the right panel form.</p>
                     <img src="../img/estimatedEDSS.png" alt="estimatedEDSS"><br/><br/>
+                    <p>Only valid EDSS total scores (0 to 10 by 0.5 increment) may be accepted in this field. Entering a value other than those permitted will generate an error.</p>
+                    <img src="../img/edssError.png" alt="edssError"><br/><br/>
                     <p>Click Save for this estimated EDSS to be recorded. In addition, or alternatively, the functional systems can be scored separately and the total EDSS can be calculated by clicking on Open EDSS Calculator.</p>
                     <img src="../img/openCalc.png" alt="EDSScalculator"><br/><br/>
                     <p>For this, select a score for each EDSS subcategory. Hover over a score button to see the respective score description highlighted. The calculated total score will be shown in the Calculated score box. Note that an Ambulation score is required for the functional scores to be saved. Click Save to record the scores and then X to exit the calculator. To exit Performance Measures and return to the Patient Overview, click on X at the top right corner of the EDSS form.</p>
@@ -203,13 +205,20 @@
                     <img src="../img/testAdded.png" alt="testFormAdded"><br/><br/>
                     <p>Click on Results to enter further data for the test.</p>
                     <img src="../img/testResultsButton.png" alt="testResultsButton"><br/><br/>
-                    <p>Complete the form in the right panel. Click Save to record the test results or click X to cancel and return to the Patient Overview.</p>
+                    <p>Complete the form in the right panel and click Save to record the test results.</p>
                     <img src="../img/testResultsForm.png" alt="testResultsForm"><br/><br/>
+                    <p>Entering non-numeric input where this is invalid will generate the following error message. Correct and click Save.</p>
+                    <img src="../img/testResultsFormError.png" alt="testResultsFormError"><br/><br/>
+                    <p>At any point you can click X to cancel the test data entry and return to the Patient Overview.</p>
                     <p>Laboratory tests refer to blood or CSF tests only, e.g. total WBC, bilirubin and specific anti-body titres. After entering test results for a given reporting date, scroll down to the end of the page and click Save. Click X to return to the Patient Overview.</p>
-                    <img src="../img/labForm.png" alt="labForm"><br/><br/>                    
+                    <img src="../img/labForm.png" alt="labForm"><br/><br/>
+                    <p>Entering non-numeric characters in the laboratory tests will generate the following error message as numeric input is expected.</p>
+                    <img src="../img/labFormError.png" alt="labFormError"><br/><br/>
                     <p>Currently, only data concerning the presence or absence of T1 Hypointense Lesions and number of T2 Hyperintense Lesions and gadolinium (Gd) contrast enhancing lesions can be entered into the OPTIMISE MS database. The fields for an MRI test type are shown below.</p>
                     <img src="../img/mriForm.png" alt="mriForm"><br/><br/>
-                    <p>The Evoked Potential test section allows recording of the P100 Visual Evoked Potential amplitude and latency. Sensory Evoked Potentials (SEP) with stimulation in the limbs are recorded if Abnormal.</p>
+                    <p>The data input in the MRI form is also validated. Entering non-numeric characters in Lesion Volume, for example, will generate the following error message.</p>
+                    <img src="../img/mriFormError.png" alt="mriFormError"><br/><br/>
+                    <p>The Evoked Potential test section allows recording of the P100 Visual Evoked Potential amplitude and latency. Sensory Evoked Potentials (SEP) with stimulation in the limbs are recorded if Abnormal. Data validation is applied here as well- only numeric input is accepted in some fields.</p>
                     <img src="../img/evokedPotentialForm.png" alt="evokedPotentialForm"><br/><br/>                    
                     <p>Click on <img src="../img/trtButton.png" alt="newTreatment"> to enter treatment data.</p>
                     <img src="../img/newTreatment.png" alt="newTreatment"><br/><br/>

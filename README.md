@@ -1,2 +1,4 @@
+[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=ZXhiTnUwRkU3cVo2Q3lnSWxWb2FrTEVmcUI0eXZsTVpWOEdPSkMzRzE4QT0tLWpKOFZVUkkvOTI2dmhmcHJsZWFveXc9PQ==--0da746ef87dc15a4a5ec1b01773e9c8cc971932b)](https://www.browserstack.com/automate/public-build/ZXhiTnUwRkU3cVo2Q3lnSWxWb2FrTEVmcUI0eXZsTVpWOEdPSkMzRzE4QT0tLWpKOFZVUkkvOTI2dmhmcHJsZWFveXc9PQ==--0da746ef87dc15a4a5ec1b01773e9c8cc971932b)
+
 # Optimise
 Real-world clinical data is needed to understand the course of disease, assess clinical effectiveness of medicines and to remain alert to unexpected serious adverse events or frequencies of adverse events (Mult Scler 23 (2017)362). The OPTIMISE Project Team, which has involved neurologists from several UK centres, was created to address this need for multiple sclerosis (MS) care.
