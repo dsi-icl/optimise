@@ -51,7 +51,6 @@ export class PatientChart extends Component {
 }
 
 
-
 /* receives a prop data of one test*/
 @withRouter
 @connect(state => ({ typedict: state.availableFields.testTypes_Hash[0], patientId: state.patientProfile.data.patientId }))
@@ -133,9 +132,7 @@ class ClinicalEvent extends PureComponent {
 class Symptom extends PureComponent {
 
     toTitleCase(str) {
-        return str.replace(/\w\S*/g, (txt) => {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
+        return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
     }
 
     render() {
@@ -165,9 +162,7 @@ class Symptom extends PureComponent {
 }
 
 
-export const formatRow = (arr) => {
-    return arr.map((el, ind) => <td key={ind}>{el}</td>);
-};
+export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
 
 /**
  * @prop {Object} this.props.availableFieldsdata

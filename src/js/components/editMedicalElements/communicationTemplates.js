@@ -108,7 +108,6 @@ export const formatEvents = (eventList, typeTable, duration) => {
 };
 
 
-
 /* for formating treatment */
 const treatmentTitle = (duration) => (
     `Treatments (going back ${duration === 2000 ? 'the whole history' : moment.duration(duration, 'months').humanize()}):`
@@ -141,11 +140,7 @@ export const formatTreatments = (treatmentList, typeTable, duration) => {
     ];
 };
 
-const toTitleCase = (str) => {
-    return str.replace(/\w\S*/g, (txt) => {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-};
+const toTitleCase = (str) => str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 
 const oneSignOrSymptom = (data, VSFields_Hash) => {
     const fieldObj = VSFields_Hash[data.field];
@@ -201,8 +196,6 @@ export const formatVS = (VSList, typeTable) => {
         ...strings.map(el => blockgen(el, [{ offset: el.lastIndexOf(':') + 2, length: el.length - el.lastIndexOf(':') - 2, style: 'ITALIC' }]))
     ];
 };
-
-
 
 
 /* for formating edss */
