@@ -41,7 +41,7 @@ export class TreatmentInterruption extends Component {
 
     _deleteFunction(id) {
         const that = this;
-        return function () {
+        return () => {
             const data = that.props.patientProfile.data;
             const body = {
                 patientId: data.patientId,

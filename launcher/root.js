@@ -19,11 +19,11 @@ optimise.start().then((router) => {
     root.use(express.static(path.normalize(`${__dirname}/../build`)));
 
     // Referencing any other requests to the /public/index.html
-    root.use('/', function (__unused__req, res) {
+    root.use('/', (__unused__req, res) => {
         res.sendFile(path.resolve('build/index.html'));
     });
 
-    root.listen(config.port, function (error) {
+    root.listen(config.port, (error) => {
         if (error !== undefined || error !== null) {
             console.error(error); // eslint-disable-line no-console
             return;

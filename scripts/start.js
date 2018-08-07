@@ -116,7 +116,7 @@ checkBrowsers(paths.appPath)
             });
 
             ['SIGINT', 'SIGTERM'].forEach((sig) => {
-                process.on(sig, function () {
+                process.on(sig, () => {
                     devServer.close();
                     process.exit();
                 });
