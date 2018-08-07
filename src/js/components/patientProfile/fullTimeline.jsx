@@ -81,24 +81,24 @@ export default class FullTimeline extends Component {
         let items = [];
         let edssPoints = {};
         let maxTimeStart = state.defaultTimeStart;
-        if (props.data.immunisations)
-            props.data.immunisations.forEach(i => {
-                if (maxTimeStart.valueOf() > moment(i.immunisationDate, 'x').valueOf())
-                    maxTimeStart = moment(i.immunisationDate, 'x').toDate();
-                items.push({
-                    id: `im_${i.id}`,
-                    group: 0,
-                    title: `Vaccin ${i.vaccineName}`,
-                    start: moment(i.immunisationDate, 'x').valueOf(),
-                    end: moment(i.immunisationDate, 'x').add(1, 'day').valueOf(),
-                    canMove: false,
-                    canResize: false,
-                    className: style.timelineImmunisationItem,
-                    itemProps: {
-                        'data-tip': `Vaccin ${i.vaccineName}`
-                    }
-                });
-            });
+        // if (props.data.immunisations)
+        //     props.data.immunisations.forEach(i => {
+        //         if (maxTimeStart.valueOf() > moment(i.immunisationDate, 'x').valueOf())
+        //             maxTimeStart = moment(i.immunisationDate, 'x').toDate();
+        //         items.push({
+        //             id: `im_${i.id}`,
+        //             group: 0,
+        //             title: `Vaccin ${i.vaccineName}`,
+        //             start: moment(i.immunisationDate, 'x').valueOf(),
+        //             end: moment(i.immunisationDate, 'x').add(1, 'day').valueOf(),
+        //             canMove: false,
+        //             canResize: false,
+        //             className: style.timelineImmunisationItem,
+        //             itemProps: {
+        //                 'data-tip': `Vaccin ${i.vaccineName}`
+        //             }
+        //         });
+        //     });
         if (props.data.treatments)
             props.data.treatments.forEach(t => {
                 if (maxTimeStart.valueOf() > moment(t.startDate, 'x').valueOf())
