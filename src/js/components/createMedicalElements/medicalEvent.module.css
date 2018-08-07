@@ -73,11 +73,22 @@
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
     padding-top: 0.9em;
     padding-bottom: 0.9em;
+    transition: padding 100ms;
 }
 
-.interruptionLast {
-    padding-top: 0.9em;
-    padding-bottom: 0.9em;
+.interruption:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 93%);
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.panel .interruption:last-of-type {
+    border: none;
+}
+
+.interruption > span {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .newInterruption {
