@@ -1,4 +1,4 @@
-const makeMeddraSeeds = require('./utils');
+const makeMeddraSeeds = require('../utils');
 const tree = require('./meddra.json');
 const { existsSync, writeFile } = require('fs');
 
