@@ -9,17 +9,32 @@ const TreeNode = Tree.TreeNode;
 /* Usage: <MeddraPicker key={key} value={value} onChange={onchange}/>;
 key must be present and unique (and generated from url id) so component remounts when url changes;
 also need to pass an onChange handler from parent to change the parent's state */
-@connect(state => ({ meddra: state.availableFields.allMeddra }))
+@connect(state => ({ meddra: state.availableFields.allMeddra, meddraHash: state.availableFields.meddra_Hash[0] }))
 export class MeddraPicker extends Component {
-    state = {
-        treeData: [],
-        originalValue: undefined
-    }
-
-    componentDidMount() {  //what if the originalValue is not a top node?
-        const { meddra, originalValue } = this.props;
-        const topLevelNodes = meddra.filter(el => el.parent === null);
-        this.setState({ treeData: topLevelNodes, originalValue });
+    constructor(props) {
+        super(props);
+        const { meddra, value } = props;
+        if (value === undefined) {
+            const topLevelNodes = meddra.filter(el => el.parent === null);
+            this.state = ({ treeData: topLevelNodes, expandedKeys: [] });
+        } else {
+            const { meddraHash } = this.props;
+            const selectedNode = meddraHash[value];
+            let n = selectedNode;
+            let p = n;
+            let c; //children
+            let a; //accumulator
+            const expandedKeys = [];
+            while (n.parent !== null) {
+                p = meddraHash[n.parent];   //until n is top level node
+                expandedKeys.push(String(p.id));
+                c = meddra.filter(el => el.parent === parseInt(p.id)).filter(el => el.id !== parseInt(n.id));
+                p.children = [...c, n].sort((a, b) => a.id - b.id);
+                n = p;
+            }
+            const topLevelNodes = meddra.filter(el => el.parent === null && el.id !== p.id);
+            this.state = ({ expandedKeys, treeData: [...topLevelNodes, p].sort((a, b) => a.id - b.id) });
+        }
     }
 
 
@@ -41,12 +56,12 @@ export class MeddraPicker extends Component {
         return data.map((item) => {
             if (item.children) {
                 return (
-                    <TreeNode title={item.name} key={item.id} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true}>
+                    <TreeNode title={item.name} key={String(item.id)} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true}>
                         {this.renderTreeNodes(item.children)}
                     </TreeNode>
                 );
             }
-            return <TreeNode title={item.name} key={item.id} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true}/>;
+            return <TreeNode title={item.name} key={String(item.id)} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true}/>;
         });
     }
 
@@ -58,6 +73,7 @@ export class MeddraPicker extends Component {
         return (
             <div className={style.wrapper}>  {/* this div must be here for the positioning of the drop down menu with scrolling */}
                 <TreeSelect
+                    showLine={true}
                     loadData={this.onLoadData}
                     dropdownStyle={{ maxHeight: 250, overflow: 'auto' }}
                     style={{ width: '100%' }}
@@ -65,6 +81,7 @@ export class MeddraPicker extends Component {
                     placeholder="Select MedDRA coding"
                     value={this.props.value}
                     onChange={this.onChange}
+                    treeDefaultExpandedKeys={this.state.expandedKeys}
                 >
                     {this.renderTreeNodes(this.state.treeData)}
                 </TreeSelect>
