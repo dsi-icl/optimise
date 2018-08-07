@@ -133,7 +133,7 @@ class ClinicalEvent extends PureComponent {
 class Symptom extends PureComponent {
 
     toTitleCase(str) {
-        return str.replace(/\w\S*/g, function (txt) {
+        return str.replace(/\w\S*/g, (txt) => {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
     }
@@ -165,9 +165,9 @@ class Symptom extends PureComponent {
 }
 
 
-export function formatRow(arr) {
+export const formatRow = (arr) => {
     return arr.map((el, ind) => <td key={ind}>{el}</td>);
-}
+};
 
 /**
  * @prop {Object} this.props.availableFieldsdata

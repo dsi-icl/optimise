@@ -10,7 +10,7 @@ const defaultOptions = {
     credentials: 'include'
 };
 
-export function apiHelper(endpoint, options, blockError) {
+export const apiHelper = (endpoint, options, blockError) => {
     if (!options) {
         options = {};
     }
@@ -37,4 +37,4 @@ export function apiHelper(endpoint, options, blockError) {
                 }
             }
         });
-}
+};

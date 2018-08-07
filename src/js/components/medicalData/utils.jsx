@@ -273,16 +273,16 @@ export class TextField extends Component {
 }
 
 
-export function createLevelObj(fields) {
+export const createLevelObj = (fields) => {
     let obj = [];
 
     fields.forEach(f => {
         obj.push(f.idname.split(':').reverse().reduce((a, c) => !a ? { [c]: f } : ({ [c]: a }), null));
     });
     return merge.all(obj);
-}
+};
 
-export function mappingFields(typeHash, references, originalValues) {
+export const mappingFields = (typeHash, references, originalValues) => {
     const curry = el => {
         const title = el[0];
         const content = el[1];

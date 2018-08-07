@@ -107,7 +107,7 @@ class ImmunisationSection extends Component {
 
     _deleteFunction(id) {
         const that = this;
-        return function () {
+        return () => {
             const body = {
                 patientId: that.props.patientId,
                 data: {
@@ -281,7 +281,7 @@ class Pregnancy extends Component {
 
     _deleteFunction(id) {
         const that = this;
-        return function () {
+        return () => {
             const body = {
                 patientId: that.props.data.patientId,
                 data: {
