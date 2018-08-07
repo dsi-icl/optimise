@@ -87,7 +87,7 @@ export class CreateVisit extends Component {
                 </div>
                 <form className={style.panel}>
                     <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
-                    <label htmlFor='academicConcerns'>Reason for the visit:</label><br />
+                    <label htmlFor='reasonForVisit'>Reason for the visit:</label><br />
                     <select name='reasonForVisit'
                         onChange={this._handleKeyChange}
                         value={reasonForVisit}
