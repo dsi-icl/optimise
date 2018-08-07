@@ -26,7 +26,7 @@ export class MeddraPicker extends Component {
             let a; //accumulator
             const expandedKeys = [];
             while (n.parent !== null) {
-                p = meddraHash[n.parent];   //until n is top level node
+                p = { ...meddraHash[n.parent] };   //until n is top level node
                 expandedKeys.push(String(p.id));
                 c = meddra.filter(el => el.parent === parseInt(p.id)).filter(el => el.id !== parseInt(n.id));
                 p.children = [...c, n].sort((a, b) => a.id - b.id);
