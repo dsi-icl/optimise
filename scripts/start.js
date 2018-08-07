@@ -115,7 +115,7 @@ checkBrowsers(paths.appPath)
                 openBrowser(urls.localUrlForBrowser);
             });
 
-            ['SIGINT', 'SIGTERM'].forEach(function (sig) {
+            ['SIGINT', 'SIGTERM'].forEach((sig) => {
                 process.on(sig, function () {
                     devServer.close();
                     process.exit();

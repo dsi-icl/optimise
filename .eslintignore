@@ -1,6 +1,7 @@
-/dist
 /build
-/node_modules
-/coverage
-/scripts
 /config
+/coverage
+/dist
+/launcher
+/node_modules
+/scripts
