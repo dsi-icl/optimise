@@ -185,7 +185,7 @@ class OneVisit extends Component {
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
-        const VS = this.props.visitData.filter(el => [1, 2, 3, 4, 5, 6].includes(el.field));
+        const VS = this.props.visitData.filter(el => [0, 1, 2, 3, 4, 5, 6].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
         const VSValueArray = [
             { name: 'Reason for the visit', value: VSHashTable['0'] },
@@ -194,7 +194,7 @@ class OneVisit extends Component {
             { name: 'Heart rate', value: VSHashTable['2'], unit: 'bpm' },
             { name: 'Height', value: VSHashTable['4'], unit: 'cm' },
             { name: 'Weight', value: VSHashTable['5'], unit: 'kg' },
-            { name: 'Academic concerns', value: isMinor ? VSHashTable['6'] === '0' ? 'No' : 'Yes' : undefined }
+            { name: 'Academic concerns', value: isMinor && VSHashTable['6'] ? VSHashTable['6'] === '1' ? 'Yes' : undefined : undefined }
         ].filter(e => !!e.value);
         const relevantSymptomsFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && field.section === 2);
         const relevantSymptomsFieldsIdArray = relevantSymptomsFields.map(el => el.id);

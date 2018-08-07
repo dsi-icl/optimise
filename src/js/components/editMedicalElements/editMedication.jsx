@@ -135,6 +135,8 @@ class UpdateMedEntry extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         const { patientId } = this.props;
         const { id, drug, dose, unit, form, times, intervalUnit } = this.state;
         const body = {
@@ -154,7 +156,11 @@ class UpdateMedEntry extends Component {
                 // meddra: this.props.meddraDict[this.state.meddra.current.value]
             }
         };
-        store.dispatch(updateTreatmentCall(body));
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(updateTreatmentCall(body));
+        });
     }
 
     render() {

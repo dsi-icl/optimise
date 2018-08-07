@@ -184,10 +184,16 @@ class CommunicationEditor extends Component {
 
     _onSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         const { params } = this.props.match;
         const communication = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
         const body = { patientId: params.patientId, visitData: { id: parseInt(params.visitId), communication: communication } };
-        store.dispatch(updateVisitAPICall(body));
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(updateVisitAPICall(body));
+        });
     }
 
     _handleIntervalChange(ev) {

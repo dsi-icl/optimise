@@ -6,8 +6,6 @@ import { BackButton } from '../medicalData/utils';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents';
 import { MeddraPicker } from '../meDRA/meddraPicker';
 import style from './medicalEvent.module.css';
-import { addError } from '../../redux/actions/error';
-import store from '../../redux/store';
 
 @connect(state => ({ patientId: state.patientProfile.data.id, visits: state.patientProfile.data.visits, types: state.availableFields.clinicalEventTypes }), dispatch => ({ createCE: body => dispatch(createCEAPICall(body)) }))
 export class CreateCE extends Component {
@@ -17,8 +15,8 @@ export class CreateCE extends Component {
             noEndDate: true,
             endDate: moment(),
             startDate: moment(),
-            ceType: '1',
-            meddra: undefined
+            meddra: undefined,
+            ceType: 'unselected',
         };
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
@@ -31,37 +29,36 @@ export class CreateCE extends Component {
 
     _handleToggleEndDate(ev) {
         this.setState({
-            noEndDate: ev.target.checked
+            noEndDate: ev.target.checked,
+            error: undefined
         });
     }
 
     _handleMedDRAChange(value) {
         this.setState({
-            meddra: value
+            meddra: value,
+            error: undefined
         })
     }
 
     _handleDateChange(date) {
         this.setState({
-            startDate: date
+            startDate: date,
+            error: undefined
         });
     }
 
     _handleEndDateChange(date) {
         this.setState({
-            endDate: date
-        });
-    }
-
-    componentDidMount() {
-        this.setState({
-            ceType: this.props.types[0].id
+            endDate: date,
+            error: undefined
         });
     }
 
     _handleTypeChange(ev) {
         this.setState({
-            ceType: parseInt(ev.target.value, 10)
+            ceType: ev.target.value,
+            error: undefined
         });
     }
 
@@ -73,20 +70,36 @@ export class CreateCE extends Component {
                 patientId: this.props.patientId,
                 dateStartDate: date.toISOString(),
                 endDate: !this.state.noEndDate ? this.state.endDate.toISOString() : undefined,
-                type: parseInt(this.state.ceType),
-                meddra: parseInt(this.state.meddra)
+                meddra: parseInt(this.state.meddra),
+                type: this.state.ceType !== 'unselected' && !isNaN(parseInt(this.state.ceType)) ? parseInt(this.state.ceType) : undefined,
             }
         };
     }
 
-    _handleSubmitClick() {
+
+    _handleSubmitClick(ev) {
+        ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         if (this.state.meddra === undefined) {
-            store.dispatch(addError({ error: 'You must enter a MedDRA code!' }));
+            this.setState({
+                error: 'Please indicate the MedDRA code'
+            });
+        }
+        if (this.state.ceType === 'unselected') {
+            this.setState({
+                error: 'Please indicate the event type'
+            });
             return;
         }
         const requestBody = this._formatRequestBody();
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
-        this.props.createCE(requestBody);
+
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            this.props.createCE(requestBody);
+        });
     }
 
     render() {
@@ -103,11 +116,13 @@ export class CreateCE extends Component {
                         <label htmlFor='noEndDate'>The event is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
                         {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}<br />
                         <label htmlFor='event'>What type of event is it?</label><br />
-                        <select name='event' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>
+                        <select name='event' value={this.state.ceType} onChange={this._handleTypeChange} autoComplete='off'>
+                            <option value='unselected'></option>
                             {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                         </select> <br /><br />
                         <label htmlFor='meddra'>MedDRA:</label><br />
                         <MeddraPicker key={params.patientId} value={this.state.meddra} onChange={this._handleMedDRAChange}/><br /><br />
+                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </div>
                 </>

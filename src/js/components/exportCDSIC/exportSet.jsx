@@ -30,9 +30,9 @@ export class ExportSets extends Component {
                     <h2>Data Export</h2>
                 </div>
                 <form className={style.panel}>
-                    <span>You can export all or a subset of your data to a CDISC ODM format by using the buttons below. To export a subset, just enter your criteria on the left hand side.</span><br /><br />
-                    <span><i>CDISC ODM (Clinical Data Interchange Standards Consortium Operational Data Model) is an open, multidisciplinary, neutral standard designed to facilitate the regulatory-compliant acquisition, archive and interchange of metadata and data for clinical research studies.</i></span><br /><br />
-                    <button onClick={this._handleExportAll}>Export all data as CDISC</button><br /><br />
+                    <span>You can export all or a subset of your data to a CDISC SDTM (Clinical Data Interchange Standards Consortium Study Data Tabulation Model) format by using the buttons below. To export a subset, just enter your criteria on the left hand side.</span><br /><br />
+                    <span><i>CDISC SDTM is an open, multidisciplinary, neutral standard designed to facilitate the regulatory-compliant acquisition, archive and interchange of metadata and data for clinical research studies.</i></span><br /><br />
+                    <button onClick={this._handleExportAll}>Export all data as CDISC SDTM</button><br /><br />
                     {/* {result.length > 0 ? (
                         <button onClick={this._handleExport}>Export your search results as CDISC</button>
                     ) : null} */}

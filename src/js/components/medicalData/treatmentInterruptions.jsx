@@ -5,7 +5,8 @@ import { BackButton } from './utils';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
 import { MeddraPicker } from '../meDRA/meddraPicker';
-import { createTreatmentInterruptionAPICall } from '../../redux/actions/treatments';
+import { createTreatmentInterruptionAPICall, deleteTreatmentInterruptionAPICall } from '../../redux/actions/treatments';
+import { addAlert } from '../../redux/actions/alert';
 import Icon from '../icon';
 import style from '../createMedicalElements/medicalEvent.module.css';
 import { addError } from '../../redux/actions/error';
@@ -30,6 +31,26 @@ export class TreatmentInterruption extends Component {
         this._handleStartDateChange = this._handleStartDateChange.bind(this);
         this._handleToggleNoEndDate = this._handleToggleNoEndDate.bind(this);
         this._handleMeddraChange = this._handleMeddraChange.bind(this);
+        this._handleClickDelete = this._handleClickDelete.bind(this);
+        this._deleteFunction = this._deleteFunction.bind(this);
+    }
+
+    _handleClickDelete(el) {
+        store.dispatch(addAlert({ alert: 'Do you want to delete this interruption record?', handler: this._deleteFunction(el.id) }));
+    }
+
+    _deleteFunction(id) {
+        const that = this;
+        return function () {
+            const data = that.props.patientProfile.data;
+            const body = {
+                patientId: data.patientId,
+                data: {
+                    treatmentInterId: id
+                }
+            };
+            store.dispatch(deleteTreatmentInterruptionAPICall(body));
+        };
     }
 
     _handleClickingAdd() {
@@ -65,6 +86,8 @@ export class TreatmentInterruption extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+        return;
         if (this.state.meddra === undefined) {
             store.dispatch(addError({ error: 'You must enter a MedDRA code!' }));
             return;
@@ -75,13 +98,17 @@ export class TreatmentInterruption extends Component {
             data: {
                 treatmentId: parseInt(this.props.match.params.elementId, 10),
                 start_date: this.state.newStartDate.toISOString(),
-                end_date: this.state.noEndDate ? null : this.state.newEndDate.toISOString(),
+                end_date: !this.state.noEndDate && this.state.newEndDate ? this.state.newEndDate.toISOString() : undefined,
                 reason: parseInt(this.reasonRef.current.value, 10),
                 meddra: this.state.meddra
             }
         };
-        store.dispatch(createTreatmentInterruptionAPICall(body));
-        this.setState({ addMore: false });
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(createTreatmentInterruptionAPICall(body));
+            this.setState({ addMore: false });
+        });
     }
 
     render() {
@@ -99,12 +126,13 @@ export class TreatmentInterruption extends Component {
                             <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                         </div>
                         <form className={style.panel}>
-                            {treatment.interruptions.map((el, ind) => (
-                                <div key={`${el.endDate}${el.startDate}${el.reason}`} className={ind === treatment.interruptions.length - 1 ? style.interruptionLast : style.interruption}>
+                            {treatment.interruptions.map((el) => (
+                                <div key={`${el.endDate}${el.startDate}${el.reason}`} className={style.interruption}>
                                     <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
-                                    {el.endDate ? <span><label>End date: </label> {new Date(parseInt(el.endDate, 10)).toDateString()}<br /></span> : null}
+                                    {el.endDate ? <><label>End date: </label> {new Date(parseInt(el.endDate, 10)).toDateString()}<br /></> : null}
                                     <label>Reason: </label> {interruptionReasons.filter(ele => ele.id === el.reason)[0].value} <br />
-                                    <label>MedDRA: </label> {el.meddra ? meddra_Hash[0][el.meddra].name : 'NA'}
+                                    {el.meddra ? <><label>MedDRA: </label> {meddra_Hash[0][el.meddra].name} <br /></> : null}
+                                    <span onClick={() => this._handleClickDelete(el)}>Delete the record of this interruption</span>
                                 </div>
                             ))}
 
@@ -118,7 +146,7 @@ export class TreatmentInterruption extends Component {
                                 <>
                                     <div className={style.newInterruption}>
                                         <label>Start date: </label><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
-                                        <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} /><br />
+                                        <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
                                         {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br /></>)}<br />
                                         <label>Reason: </label>
                                         <select ref={this.reasonRef}>
@@ -127,9 +155,9 @@ export class TreatmentInterruption extends Component {
                                         <b>MedDRA: </b><MeddraPicker key={params.elementId} value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
                                     </div>
                                     <br />
+                                    {this.state.error ? <><div className={style.error}> Your medDRA code is not a permitted value.</div><br /></> : null}
                                     <button onClick={this._handleSubmit}>Submit</button><br /><br />
                                     <button onClick={this._handleClickingAdd}>Cancel</button><br />
-                                    {this.state.error ? <><br /><div className={style.error}> Your medDRA code is not a permitted value.</div></> : null}
                                 </>}
                         </form>
                     </>
