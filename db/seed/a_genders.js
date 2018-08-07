@@ -1,14 +1,13 @@
-exports.seed = function (knex) {
+exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('GENDERS').del()
-        .then(function () {
+    knex('GENDERS').del()
+        .then(() =>
             // Inserts seed entries
-            return knex('GENDERS').insert([
+            knex('GENDERS').insert([
                 { value: 'male' },
                 { value: 'female' },
                 { value: 'other' },
-                { value: 'prefer not to say' },
-                { value: 'unknown' }
-            ]);
-        });
-};
+                { value: 'prefer not to say' }
+            ])
+        )
+;

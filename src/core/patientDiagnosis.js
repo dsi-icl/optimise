@@ -10,44 +10,22 @@ function PatientDiagnosis() {
 }
 
 PatientDiagnosis.prototype.getPatientDiagnosis = function (whereObj) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         whereObj.deleted = '-';
-        getEntry('PATIENT_DIAGNOSIS', whereObj, { id: 'id', patient: 'patient', diagnosis: 'diagnosis', diagnosisDate: 'diagnosisDate' }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
+        return getEntry('PATIENT_DIAGNOSIS', whereObj, { id: 'id', patient: 'patient', diagnosis: 'diagnosis', diagnosisDate: 'diagnosisDate' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error)));
     });
 };
 
 PatientDiagnosis.prototype.createPatientDiagnosis = function (entryObj) {
-    return new Promise(function (resolve, reject) {
-        createEntry('PATIENT_DIAGNOSIS', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => createEntry('PATIENT_DIAGNOSIS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 PatientDiagnosis.prototype.updatePatientDiagnosis = function (user, idDiagnosis, updatedObj) {
-    return new Promise(function (resolve, reject) {
-        updateEntry('PATIENT_DIAGNOSIS', user, '*', { id: idDiagnosis }, updatedObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => updateEntry('PATIENT_DIAGNOSIS', user, '*', { id: idDiagnosis }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 PatientDiagnosis.prototype.deletePatientDiagnosis = function (user, whereObj) {
-    return new Promise(function (resolve, reject) {
-        deleteEntry('PATIENT_DIAGNOSIS', user, whereObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => deleteEntry('PATIENT_DIAGNOSIS', user, whereObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 module.exports = PatientDiagnosis;

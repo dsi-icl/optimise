@@ -22,20 +22,20 @@ function PatientPiiController() {
 
 PatientPiiController.prototype.getPatientPii = function (req, res) {
     if (req.query.hasOwnProperty('patient')) {
-        this.patientPii.getPatientPii({ 'patient': parseInt(req.query.patient), 'deleted': '-' }).then(function (result) {
+        this.patientPii.getPatientPii({ 'patient': parseInt(req.query.patient), 'deleted': '-' }).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
     } else {
-        this.patientPii.getPatientPii({}).then(function (result) {
+        this.patientPii.getPatientPii({}).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
     }
 };
@@ -45,12 +45,12 @@ PatientPiiController.prototype.createPatientPii = function (req, res) {
         typeof req.body.patient === 'number' && typeof req.body.firstName === 'string' && typeof req.body.surname === 'string' && typeof req.body.fullAddress === 'string' && typeof req.body.postcode === 'string') {
         let entryObj = Object.assign({}, PatientPiiModel, req.body);
         entryObj.createdByUser = req.user.id;
-        this.patientPii.createPatientPii(entryObj).then(function (result) {
+        this.patientPii.createPatientPii(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(messages.errorMessages.CREATIONFAIL, error));
-            return;
+            return false;
         });
     } else if (!(req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('firstName') && req.body.hasOwnProperty('surname') && req.body.hasOwnProperty('fullAddress') && req.body.hasOwnProperty('postcode'))) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
@@ -62,19 +62,16 @@ PatientPiiController.prototype.createPatientPii = function (req, res) {
 };
 
 PatientPiiController.prototype.updatePatientPii = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         let entryObj = req.body;
         entryObj.createdByUser = req.user.id;
-        this.patientPii.updatePatientPii(req.user, req.body.id, entryObj).then(function (result) {
+        this.patientPii.updatePatientPii(req.user, req.body.id, entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(messages.errorMessages.UPDATEFAIL, error));
-            return;
+            return false;
         });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
-        return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
@@ -85,17 +82,14 @@ PatientPiiController.prototype.updatePatientPii = function (req, res) {
 };
 
 PatientPiiController.prototype.deletePatientPii = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-        this.patientPii.deletePatientPii(req.user, { 'id': req.body.id }).then(function (result) {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+        this.patientPii.deletePatientPii(req.user, { 'id': req.body.id }).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(messages.errorMessages.DELETEFAIL, error));
-            return;
+            return false;
         });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
-        return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;

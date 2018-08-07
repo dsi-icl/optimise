@@ -3,11 +3,11 @@ const { readJson } = require('../../src/utils/load-json');
 
 const pregnancyOutcomeList = readJson(path.normalize(`${path.dirname(__filename)}/../availableFields/jsonFiles/pregnancyOutcomes.json`));
 
-exports.seed = function (knex) {
+exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('PREGNANCY_OUTCOMES').del()
-        .then(function () {
+    knex('PREGNANCY_OUTCOMES').del()
+        .then(() =>
             // Inserts seed entries
-            return knex('PREGNANCY_OUTCOMES').insert(pregnancyOutcomeList);
-        });
-};
+            knex('PREGNANCY_OUTCOMES').insert(pregnancyOutcomeList)
+        )
+;

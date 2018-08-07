@@ -30,7 +30,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return knex('ORDERED_TESTS')
-                .select('orderedDuringVisit', 'type', 'expectedOccurDate')
+                .select('orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere({ deleted: '-' })
                 .then(result => {
@@ -96,7 +96,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return knex('ORDERED_TESTS')
-                .select({ 'id': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate')
+                .select({ 'id': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere({ 'deleted': '-' })
                 .then(result => {
@@ -165,11 +165,7 @@ class SelectorUtils {
 
     getPregnancy(patientId) {
         let pregnancy = new PregnancyCore();
-        return pregnancy.getPregnancy({ 'patient': patientId, 'deleted': '-' }).then(function (result) {
-            return { 'pregnancy': result };
-        }, function (__unused__error) {
-            return { 'pregnancy': [] };
-        });
+        return pregnancy.getPregnancy({ 'patient': patientId, 'deleted': '-' }).then((result) => ({ 'pregnancy': result }), (__unused__error) => ({ 'pregnancy': [] }));
     }
 
     _getVisitData(visitId) {
@@ -250,11 +246,7 @@ class SelectorUtils {
 
     getDiagnosis(patientId) {
         let diagnosis = new DiagnosisCore();
-        return diagnosis.getPatientDiagnosis({ 'patient': patientId, 'deleted': '-' }).then(function (result) {
-            return { 'diagnosis': result };
-        }, function (__unused__error) {
-            return { 'diagnosis': [] };
-        });
+        return diagnosis.getPatientDiagnosis({ 'patient': patientId, 'deleted': '-' }).then((result) => ({ 'diagnosis': result }), (__unused__error) => ({ 'diagnosis': [] }));
     }
 }
 

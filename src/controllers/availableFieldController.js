@@ -23,17 +23,17 @@ class AvailableFieldController {
             knex(table)
                 .select('*')
                 .where(moduleObj)
-                .then(function (result) {
+                .then((result) => {
                     if (result.length > 0) {
                         for (let i = 0; i < result.length; i++) {
                             delete result[i].deleted;
                         }
                     }
                     res.status(200).json(formatToJSON(result));
-                    return;
-                }, function (error) {
+                    return true;
+                }).catch((error) => {
                     res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-                    return;
+                    return false;
                 });
             return;
         }

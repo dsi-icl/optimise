@@ -1,14 +1,13 @@
-exports.seed = function (knex) {
+exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('DOMINANT_HANDS').del()
-        .then(function () {
+    knex('DOMINANT_HANDS').del()
+        .then(() =>
             // Inserts seed entries
-            return knex('DOMINANT_HANDS').insert([
+            knex('DOMINANT_HANDS').insert([
                 { value: 'left' },
                 { value: 'right' },
                 { value: 'ambidextrous' },
-                { value: 'amputated' },
-                { value: 'unknown' }
-            ]);
-        });
-};
+                { value: 'amputated' }
+            ])
+        )
+;

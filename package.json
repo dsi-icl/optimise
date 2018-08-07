@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "0.9.42",
+    "version": "0.9.60",
     "description": "Backend for OptimiseMS",
     "main": "./src/optimiseServer.js",
     "scripts": {
@@ -23,6 +23,8 @@
         "express-session": "1.15.6",
         "express-zip": "2.0.1",
         "knex": "0.15.2",
+        "moment": "2.22.2",
+        "nodeify": "1.0.1",
         "passport": "0.4.0",
         "path": "0.12.7",
         "sqlite3": "4.0.2",
@@ -35,7 +37,8 @@
         "babel-core": "6.26.3",
         "babel-eslint": "8.2.6",
         "babel-preset-env": "1.7.0",
-        "eslint": "5.2.0",
+        "eslint": "5.3.0",
+        "eslint-plugin-promise": "3.8.0",
         "jest": "23.4.2",
         "supertest": "3.1.0"
     },

@@ -23,61 +23,7 @@ describe('Testing data controller in various way', () => {
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
             expect(res.body.error).toBe(message.userError.WRONGPATH);
-        }));
-
-    test('Requesting deletion on clinical event with wrong privilege', () => user
-        .delete('/data/clinicalEvent')
-        .then(res => {
-            expect(res.status).toBe(401);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.NORIGHTS);
-        }));
-
-    test('Requesting deletion on visit with wrong privilege', () => user
-        .delete('/data/visit')
-        .then(res => {
-            expect(res.status).toBe(401);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.NORIGHTS);
-        }));
-
-    test('Requesting deletion on test with wrong privilege', () => user
-        .delete('/data/test')
-        .then(res => {
-            expect(res.status).toBe(401);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.NORIGHTS);
-        }));
-
-    test('Requesting update on test with wrong privilege', () => user
-        .delete('/data/test')
-        .send({ testId: 1, update: {} })
-        .then(res => {
-            expect(res.status).toBe(401);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.NORIGHTS);
-        }));
-
-    test('Requesting update on clinical event with wrong privilege', () => user
-        .delete('/data/clinicalEvent')
-        .send({ testId: 1, update: {} }).then(res => {
-            expect(res.status).toBe(401);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.NORIGHTS);
-        }));
-
-    test('Requesting update on visit with wrong privilege', () => user
-        .delete('/data/visit')
-        .send({ testId: 1, update: {} }).then(res => {
-            expect(res.status).toBe(401);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.NORIGHTS);
+            return true;
         }));
 
 });
