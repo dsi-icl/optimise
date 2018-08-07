@@ -7,7 +7,7 @@ const config = require('../config/optimise.config');
 let root = express();
 let optimise = new OptimiseServer(config);
 
-optimise.start().then(function (router) {
+optimise.start().then((router) => {
 
     // For production activating reponse compression
     root.use(compression());
@@ -29,6 +29,6 @@ optimise.start().then(function (router) {
             return;
         }
     });
-}, function (error) {
+}).catch((error) => {
     console.error(error);
 });

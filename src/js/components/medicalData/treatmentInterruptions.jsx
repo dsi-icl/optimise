@@ -87,7 +87,7 @@ export class TreatmentInterruption extends Component {
     _handleSubmit(ev) {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
-        return;
+            return;
         if (this.state.meddra === undefined) {
             store.dispatch(addError({ error: 'You must enter a MedDRA code!' }));
             return;
