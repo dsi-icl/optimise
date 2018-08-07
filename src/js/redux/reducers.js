@@ -122,7 +122,7 @@ function availableFields(state = initialState.availableFields, action) {
             newState = { ...state, interruptionReasons: action.payload, interruptionReasons_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_MEDDRA_SUCESS:
-            newState = { ...state, allMeddra: action.payload.slice(0, 15) };
+            newState = { ...state, allMeddra: action.payload };
             break;
         case actionTypes.availableFields.GET_VISIT_SECTIONS_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
