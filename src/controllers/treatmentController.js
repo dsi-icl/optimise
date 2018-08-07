@@ -2,6 +2,7 @@ const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const TreatmentCore = require('../core/treatment');
 const formatToJSON = require('../utils/format-response');
+const moment = require('moment');
 
 function TreatmentController() {
     this.treatment = new TreatmentCore();
@@ -21,7 +22,7 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
-    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number')) {
+    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' && typeof req.body.startDate === 'string')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
@@ -47,6 +48,16 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.FREQANDINTERVALMUSTCOPRESENT));
         return;
     }
+    let momentStart = moment(req.body.startDate, moment.ISO_8601);
+    let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
+    if (!momentStart.isValid()) {
+        res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
+        return;
+    }
+    if (req.body.hasOwnProperty('terminatedDate') && !momentTerminated.isValid()) {
+        res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
+        return;
+    }
     let entryObj = {
         'orderedDuringVisit': req.body.visitId,
         'drug': req.body.drugId,
@@ -55,30 +66,35 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'form': (req.body.hasOwnProperty('form') ? req.body.form : null),   // hardcoded SQL: only OR, IV, IM or SC
         'times': (req.body.hasOwnProperty('times') ? req.body.times : null),
         'intervalUnit': (req.body.hasOwnProperty('intervalUnit') ? req.body.intervalUnit : null), // hardcoded: hour, day, week, month, year
-        'startDate': (req.body.hasOwnProperty('startDate') ? Date.parse(req.body.startDate) : null),
-        'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? Date.parse(req.body.terminatedDate) : null),
+        'startDate': momentStart.valueOf(),
+        'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? momentTerminated.valueOf() : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         'createdByUser': req.user.id
     };
-    this.treatment.createTreatment(entryObj).then(function (result) {
+    this.treatment.createTreatment(entryObj).then((result) => {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        return;
+        return false;
     });
 };
 
 TreatmentController.prototype.addTerminationDate = function (req, res) {    //for adding termination date
     if ((req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('terminationDate')) && req.body.hasOwnProperty('terminatedReason') &&
         typeof req.body.treatmentId === 'number' && typeof req.body.terminatedDate === 'string' && typeof req.body.terminatedReason === 'number') {
-        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': Date.parse(req.body.terminationDate), 'terminatedReason': req.body.terminatedReason })
-            .then(function (result) {
+        let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
+        if (!momentTerminated.isValid()) {
+            res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': momentTerminated.valueOf(), 'terminatedReason': req.body.terminatedReason })
+            .then((result) => {
                 res.status(200).json(formatToJSON(result));
-                return;
-            }, function (error) {
+                return true;
+            }).catch((error) => {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-                return;
+                return false;
             });
     } else if (!((req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('terminationDate')) && req.body.hasOwnProperty('terminatedReason'))) {
         res.status(400).json(message.userError.MISSINGARGUMENT);
@@ -90,19 +106,29 @@ TreatmentController.prototype.addTerminationDate = function (req, res) {    //fo
 };
 
 TreatmentController.prototype.editTreatment = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+
+        let momentStart = moment(req.body.startDate, moment.ISO_8601);
+        let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
+        if (!momentStart.isValid()) {
+            res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        if (req.body.hasOwnProperty('terminatedDate') && !momentTerminated.isValid()) {
+            res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
+            return;
+        }
         let newObj = Object.assign({}, req.body);
-        this.treatment.updateTreatment(req.user, req.body.id, newObj).then(function (result) {
+        newObj.startDate = momentStart.valueOf();
+        newObj.terminatedDate = (req.body.hasOwnProperty('terminatedDate') ? momentTerminated.valueOf() : null);
+
+        this.treatment.updateTreatment(req.user, req.body.id, newObj).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.userError.UPDATEFAIL, error));
-            return;
+            return false;
         });
-        return;
-    }
-    else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -114,10 +140,6 @@ TreatmentController.prototype.editTreatment = function (req, res) {
 };
 
 TreatmentController.prototype.deleteTreatment = function (req, res) {
-    if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    }
     if (!req.body.hasOwnProperty('treatmentId')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
@@ -126,36 +148,49 @@ TreatmentController.prototype.deleteTreatment = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return;
     }
-    this.treatment.deleteTreatment(req.user, req.body.treatmentId).then(function (result) {
+    this.treatment.deleteTreatment(req.user, req.body.treatmentId).then((result) => {
         if (result.body === 0) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
+            return false;
         } else {
             res.status(200).json(formatToJSON(result));
-            return;
+            return true;
         }
-    }, function (error) {
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        return;
+        return false;
     });
 };
 
 TreatmentController.prototype.addInterruption = function (req, res) {    //need to search if treatment exists
     if (req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('start_date') &&
         typeof req.body.treatmentId === 'number' && typeof req.body.start_date === 'string') {
+        let momentStart = moment(req.body.start_date, moment.ISO_8601);
+        let momentEnd = moment(req.body.end_date, moment.ISO_8601);
+        if (!momentStart.isValid()) {
+            let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        if (req.body.hasOwnProperty('end_date') && !momentEnd.isValid()) {
+            let msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        }
         let entryObj = {
             'treatment': req.body.treatmentId,
-            'startDate': Date.parse(req.body.start_date),
+            'startDate': momentStart.valueOf(),
             'meddra': req.body.hasOwnProperty('meddra') ? req.body.meddra : null,
-            'endDate': (req.body.hasOwnProperty('end_date') ? Date.parse(req.body.end_date) : null),
+            'endDate': (req.body.hasOwnProperty('end_date') ? momentEnd.valueOf() : null),
             'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
             'createdByUser': req.user.id
         };
-        this.treatment.addInterruption(req.user, entryObj).then(function (result) {
+        this.treatment.addInterruption(req.user, entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-            return;
+            return false;
         });
     } else if (!(req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('start_date'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -167,20 +202,18 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
 };
 
 TreatmentController.prototype.deleteInterruption = function (req, res) {
-    if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    }
     if (req.body.hasOwnProperty('treatmentInterId') && typeof req.body.treatmentInterId === 'number') {
-        this.treatment.deleteInterruption(req.user, req.body.treatmentInterId).then(function (result) {
+        this.treatment.deleteInterruption(req.user, req.body.treatmentInterId).then((result) => {
             if (result.body === 0) {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
+                return false;
             } else {
                 res.status(200).json(formatToJSON(result));
-                return;
+                return true;
             }
-        }, function (error) {
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+            return false;
         });
     } else if (!(req.body.hasOwnProperty('treatmentInterId'))) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -193,21 +226,21 @@ TreatmentController.prototype.deleteInterruption = function (req, res) {
 
 TreatmentController.prototype.getReasons = function (req, res) {
     if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
-        this.treatment.searchReasons(`%${req.query.name}%`).then(function (result) {
+        this.treatment.searchReasons(`%${req.query.name}%`).then((result) => {
             res.status(200).json(result);
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
         return;
     } else {
-        this.treatment.getReasons().then(function (result) {
+        this.treatment.getReasons().then((result) => {
             res.status(200).json(result);
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
         return;
     }
@@ -215,21 +248,21 @@ TreatmentController.prototype.getReasons = function (req, res) {
 
 TreatmentController.prototype.getDrugs = function (req, res) {
     if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
-        this.treatment.searchDrugs(`%${req.query.name}%`).then(function (result) {
+        this.treatment.searchDrugs(`%${req.query.name}%`).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
         return;
     } else {
-        this.treatment.getDrugs().then(function (result) {
+        this.treatment.getDrugs().then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
         return;
     }

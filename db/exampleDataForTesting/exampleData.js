@@ -4,7 +4,7 @@ const exampleData = {
         { id: 2, uuid: '41a731d0-e3a3-44b9-8bee-5a9c0b806ba8', aliasId: 'florian', study: 'example', createdByUser: 1, deleted: '-', consent: true },
         { id: 3, uuid: 'b91e2cba-45cf-4f02-8363-b260072bf18f', aliasId: 'eleni', study: 'example', createdByUser: 1, deleted: '-', consent: true },
         { id: 4, uuid: 'bb4d6f9e-084f-43fb-9b88-32c207493196', aliasId: 'chonnie', study: 'example', createdByUser: 1, deleted: '-', consent: true },
-        { id: 5, uuid: 'eb96b323-96ef-4ae8-a815-85fced965aea', aliasId: 'floriana', study: 'example', createdByUser: 1, deleted: '-', consent: true },
+        { id: 5, uuid: 'eb96b323-96ef-4ae8-a815-85fced965aea', aliasId: 'floriana', study: 'example', createdByUser: 1, deleted: '-', consent: false },
         { id: 6, uuid: '77d30cac-fbd6-4d41-ad88-4782243ea5c4', aliasId: 'eleno', study: 'example', createdByUser: 1, deleted: '-', consent: true },
         { id: 7, uuid: '9f7aff64-91ac-4457-8f2e-256515f83668', aliasId: 'pm', study: 'example', createdByUser: 1, deleted: '-', consent: true }
     ],
@@ -43,16 +43,19 @@ const exampleData = {
         { id: 3, patient: 3, visitDate: '1517875200000', type: 1, createdByUser: 2, deleted: '-' },
         { id: 4, patient: 7, visitDate: '1517875200000', type: 1, createdByUser: 2, deleted: '-' }
     ],
+    'VISIT_REPORT': [
+        { id: 1, visit: 1, report: 'Report test', createdByUser: 1, deleted: '-' }
+    ],
     'VISIT_DATA': [
         { id: 1, visit: 1, field: 1, value: 150, createdByUser: 1, deleted: '1@1531239113000' },
         { id: 2, visit: 2, field: 5, value: 60, createdByUser: 1, deleted: '-' },
-        { id: 3, visit: 1, field: 6, value: 'NO', createdByUser: 1, deleted: '-' },
+        { id: 3, visit: 1, field: 18, value: 'NO', createdByUser: 1, deleted: '-' },
         { id: 4, visit: 3, field: 20, value: 'BOTH', createdByUser: 1, deleted: '-' },
         { id: 5, visit: 4, field: 18, value: 'NO', createdByUser: 1, deleted: '-' }
     ],
     'ORDERED_TESTS': [
         { id: 1, orderedDuringVisit: 1, type: 1, expectedOccurDate: '1520294400000', createdByUser: 1, deleted: '-' },
-        { id: 2, orderedDuringVisit: 3, type: 1, expectedOccurDate: '1517875200000', createdByUser: 1, deleted: '-' },
+        { id: 2, orderedDuringVisit: 3, type: 2, expectedOccurDate: '1517875200000', createdByUser: 1, deleted: '-' },
         { id: 3, orderedDuringVisit: 2, type: 1, expectedOccurDate: '1517443200000', createdByUser: 1, deleted: '-' },
         { id: 4, orderedDuringVisit: 2, type: 2, expectedOccurDate: '1517443200000', createdByUser: 1, deleted: '-' },
     ],
@@ -66,15 +69,16 @@ const exampleData = {
         { id: 1, patient: 1, type: 1, dateStartDate: '1514764800000', meddra: 1, createdByUser: 1, deleted: '-' },
         { id: 2, patient: 3, type: 1, dateStartDate: '1517443200000', meddra: 1, createdByUser: 1, deleted: '-' },
         { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' },
-        { id: 4, patient: 2, type: 3, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' }
+        { id: 4, patient: 2, type: 3, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' },
+        { id: 5, patient: 2, type: 2, dateStartDate: '1517776200000', meddra: 2, createdByUser: 1, deleted: '-' }
     ],
     'CLINICAL_EVENTS_DATA': [
-        { id: 1, clinicalEvent: 1, field: 3, value: 'YES', createdByUser: 1, deleted: '-' },
-        { id: 2, clinicalEvent: 3, field: 2, value: 'UNKNOWN', createdByUser: 1, deleted: '-' },
-        { id: 3, clinicalEvent: 2, field: 2, value: 'YES', createdByUser: 1, deleted: '-' },
-        { id: 4, clinicalEvent: 2, field: 4, value: 'UNKNOWN', createdByUser: 1, deleted: '-' },
-        { id: 5, clinicalEvent: 2, field: 9, value: 'MODERATE', createdByUser: 1, deleted: '-' },
-        { id: 6, clinicalEvent: 1, field: 9, value: 'SEVERE', createdByUser: 1, deleted: '-' },
+        { id: 1, clinicalEvent: 1, field: 3, value: 'Yes', createdByUser: 1, deleted: '-' },
+        { id: 2, clinicalEvent: 3, field: 2, value: 'unselected', createdByUser: 1, deleted: '-' },
+        { id: 3, clinicalEvent: 2, field: 2, value: 'Yes', createdByUser: 1, deleted: '-' },
+        { id: 4, clinicalEvent: 2, field: 4, value: 'unselected', createdByUser: 1, deleted: '-' },
+        { id: 5, clinicalEvent: 2, field: 9, value: 'Moderate', createdByUser: 1, deleted: '-' },
+        { id: 6, clinicalEvent: 1, field: 9, value: 'Severe', createdByUser: 1, deleted: '-' },
         { id: 7, clinicalEvent: 4, field: 19, value: 'PML', createdByUser: 1, deleted: '-' }
     ],
     'TREATMENTS': [

@@ -2,43 +2,30 @@ const knex = require('../utils/db-connection');
 const message = require('../utils/message-utils');
 
 function createEntry(tablename, entryObj) {
-    return new Promise(function (resolve, reject) {
-        knex(tablename).insert(entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(error);
-        });
+    return new Promise((resolve, reject) => {
+        knex(tablename).insert(entryObj).then((result) => resolve(result)).catch((error) => reject(error));
     });
 }
 
 function deleteEntry(tablename, user, whereObj) {
     whereObj.deleted = '-';
-    return new Promise(function (resolve, reject) {
-        knex(tablename).where(whereObj).update({ deleted: `${user.id}@${JSON.stringify(new Date())}` }).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(error);
-        });
+    return new Promise((resolve, reject) => {
+        knex(tablename).where(whereObj).update({ deleted: `${user.id}@${JSON.stringify(new Date())}` }).then((result) => resolve(result)).catch((error) => reject(error));
     });
 }
 
 function getEntry(tablename, whereObj, selectedObj) {
-    return new Promise(function (resolve, reject) {
-        knex(tablename).select(selectedObj).where(whereObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(error);
-        });
+    return new Promise((resolve, reject) => {
+        knex(tablename).select(selectedObj).where(whereObj).then((result) => resolve(result)).catch((error) => reject(error));
     });
 }
 
 function updateEntry(tablename, user, originObj, whereObj, newObj) {
     whereObj.deleted = '-';
-    return new Promise(function (resolve, reject) {
-        getEntry(tablename, whereObj, originObj).then(function (getResult) {
+    return new Promise((resolve, reject) => getEntry(tablename, whereObj, originObj)
+        .then((getResult) => {
             if (getResult.length !== 1) {
-                reject(message.errorMessages.NOTFOUND);
-                return;
+                return reject(message.errorMessages.NOTFOUND);
             }
             let oldEntry = getResult[0];
             delete oldEntry.id;
@@ -46,19 +33,14 @@ function updateEntry(tablename, user, originObj, whereObj, newObj) {
                 oldEntry.deleted = `${user.id}@${new Date().getTime()}`;
             if (oldEntry.hasOwnProperty('createdTime'))
                 newObj.createdTime = knex.fn.now();
-            createEntry(tablename, oldEntry).then(function (__unused__createResult) {
-                knex(tablename).update(newObj).where(whereObj).then(function (updateRes) {
-                    resolve(updateRes);
-                }, function (updateErr) {
-                    reject(updateErr);
-                });
-            }, function (createErr) {
-                reject(createErr);
-            });
-        }, function (getErr) {
-            reject(getErr);
-        });
-    });
+            return oldEntry;
+        })
+        .then(oldEntry => createEntry(tablename, oldEntry))
+        .then(__unused__createResult => knex(tablename)
+            .update(newObj)
+            .where(whereObj))
+        .then(updateRes => resolve(updateRes))
+        .catch(error => reject(error)));
 }
 
 function eraseEntry(tablename, whereObj) {

@@ -2,6 +2,7 @@ const PatientDiagnosisCore = require('../core/patientDiagnosis');
 const ErrorHelper = require('../utils/error_helper');
 const messages = require('../utils/message-utils');
 const formatToJSON = require('../utils/format-response');
+const moment = require('moment');
 
 function PatientDiagnosisController() {
     this.patientDiagnosis = new PatientDiagnosisCore();
@@ -15,20 +16,20 @@ function PatientDiagnosisController() {
 
 PatientDiagnosisController.prototype.getPatientDiagnosis = function (req, res) {
     if (req.query.hasOwnProperty('patient')) {
-        this.patientDiagnosis.getPatientDiagnosis({ 'patient': parseInt(req.query.patient) }).then(function (result) {
+        this.patientDiagnosis.getPatientDiagnosis({ 'patient': parseInt(req.query.patient) }).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
     } else {
-        this.patientDiagnosis.getPatientDiagnosis({}).then(function (result) {
+        this.patientDiagnosis.getPatientDiagnosis({}).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
-            return;
+            return false;
         });
     }
 };
@@ -37,16 +38,22 @@ PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res
     let entryObj = {};
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('diagnosis') && req.body.hasOwnProperty('diagnosisDate') &&
         typeof req.body.patient === 'number' && typeof req.body.diagnosis === 'number' && typeof req.body.diagnosisDate === 'string') {
+        let momentDiagnos = moment(req.body.diagnosisDate, moment.ISO_8601);
+        if (!momentDiagnos.isValid()) {
+            let msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(messages.userError.INVALIDDATE)));
+            return;
+        }
         entryObj.patient = req.body.patient;
         entryObj.diagnosis = req.body.diagnosis;
-        entryObj.diagnosisDate = Date.parse(req.body.diagnosisDate);
+        entryObj.diagnosisDate = momentDiagnos.valueOf();
         entryObj.createdByUser = req.user.id;
-        this.patientDiagnosis.createPatientDiagnosis(entryObj).then(function (result) {
+        this.patientDiagnosis.createPatientDiagnosis(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(messages.errorMessages.CREATIONFAIL, error));
-            return;
+            return false;
         });
     } else if (!(req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('diagnosis') && req.body.hasOwnProperty('diagnosisDate'))) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
@@ -57,19 +64,24 @@ PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res
 };
 
 PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         let entryObj = req.body;
+        let momentDiagnos = moment(req.body.diagnosisDate, moment.ISO_8601);
+        if (req.body.hasOwnProperty('diagnosisDate') && !momentDiagnos.isValid()) {
+            let msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(messages.userError.INVALIDDATE)));
+            return;
+        } else if (req.body.hasOwnProperty('diagnosisDate')) {
+            entryObj.diagnosisDate = momentDiagnos.valueOf();
+        }
         entryObj.createdByUser = req.user.id;
-        this.patientDiagnosis.updatePatientDiagnosis(req.user, req.body.id, entryObj).then(function (result) {
+        this.patientDiagnosis.updatePatientDiagnosis(req.user, req.body.id, entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(messages.errorMessages.UPDATEFAIL, error));
-            return;
+            return false;
         });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
-        return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
@@ -80,17 +92,14 @@ PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res
 };
 
 PatientDiagnosisController.prototype.deletePatientDiagnosis = function (req, res) {
-    if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-        this.patientDiagnosis.deletePatientDiagnosis(req.user, { 'id': req.body.id }).then(function (result) {
+    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+        this.patientDiagnosis.deletePatientDiagnosis(req.user, { 'id': req.body.id }).then((result) => {
             res.status(200).json(formatToJSON(result));
-            return;
-        }, function (error) {
+            return true;
+        }).catch((error) => {
             res.status(400).json(ErrorHelper(messages.errorMessages.DELETEFAIL, error));
-            return;
+            return false;
         });
-    } else if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(messages.userError.NORIGHTS));
-        return;
     } else if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
         return;
@@ -101,12 +110,12 @@ PatientDiagnosisController.prototype.deletePatientDiagnosis = function (req, res
 };
 
 PatientDiagnosisController.prototype.getDiagnosisOptions = function (__unused__req, res) {
-    this.patientDiagnosis.getDiagnosisOptions().then(function (result) {
+    this.patientDiagnosis.getDiagnosisOptions().then((result) => {
         res.status(200).json(formatToJSON(result));
-        return;
-    }, function (error) {
+        return true;
+    }).catch((error) => {
         res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
-        return;
+        return false;
     });
 };
 

@@ -3,11 +3,11 @@ const { readJson } = require('../../src/utils/load-json');
 
 const visitSections = readJson(path.normalize(`${path.dirname(__filename)}/../availableFields/jsonFiles/visitSection.json`));
 
-exports.seed = function (knex) {
+exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('AVAILABLE_VISIT_SECTIONS').del()
-        .then(function () {
+    knex('AVAILABLE_VISIT_SECTIONS').del()
+        .then(() =>
             // Inserts seed entries
-            return knex('AVAILABLE_VISIT_SECTIONS').insert(visitSections);
-        });
-};
+            knex('AVAILABLE_VISIT_SECTIONS').insert(visitSections)
+        )
+;

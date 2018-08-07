@@ -3,11 +3,11 @@ const { readJson } = require('../../src/utils/load-json');
 
 const availableConditions = readJson(path.normalize(`${path.dirname(__filename)}/../availableFields/jsonFiles/conditions.json`));
 
-exports.seed = function (knex) {
+exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('CONDITIONS').del()
-        .then(function () {
+    knex('CONDITIONS').del()
+        .then(() =>
             // Inserts seed entries
-            return knex('CONDITIONS').insert(availableConditions);
-        });
-};
+            knex('CONDITIONS').insert(availableConditions)
+        )
+;

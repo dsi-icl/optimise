@@ -10,54 +10,19 @@ function Test() {
 }
 
 Test.prototype.getTest = function (whereObj) {
-    return new Promise(function (resolve, reject) {
-        getEntry('ORDERED_TESTS', whereObj, '*').then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => getEntry('ORDERED_TESTS', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
-Test.prototype.createTest = function (user, test) {
-    return new Promise(function (resolve, reject) {
-        if (typeof test.visitId !== 'number' || typeof test.expectedDate !== 'string' || typeof test.type !== 'number') {
-            reject(ErrorHelper(message.userError.WRONGARGUMENTS));
-            return;
-        }
-        let entryObj = {
-            'orderedDuringVisit': test.visitId,
-            'type': test.type,
-            'expectedOccurDate': Date.parse(test.expectedDate),
-            'actualOccurredDate': test.actualOccurredDate ? Date.parse(test.actualOccurredDate) : undefined,
-            'createdByUser': user.id
-        };
-        createEntry('ORDERED_TESTS', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
-    });
+Test.prototype.createTest = function (entryObj) {
+    return new Promise((resolve, reject) => createEntry('ORDERED_TESTS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
 };
 
 Test.prototype.updateTest = function (user, entryTest) {
-    return new Promise(function (resolve, reject) {
-        updateEntry('ORDERED_TESTS', user, '*', { id: entryTest.id }, entryTest).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => updateEntry('ORDERED_TESTS', user, '*', { id: entryTest.id }, entryTest).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
 };
 
 Test.prototype.deleteTest = function (requester, idTest) {
-    return new Promise(function (resolve, reject) {
-        deleteEntry('ORDERED_TESTS', requester, idTest).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => deleteEntry('ORDERED_TESTS', requester, idTest).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
 };
 
 module.exports = Test;

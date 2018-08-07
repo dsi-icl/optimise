@@ -1,0 +1,511 @@
+/* global beforeAll afterAll describe test expect */
+
+const request = require('supertest');
+const admin = request.agent(global.optimiseRouter);
+const user = request.agent(global.optimiseRouter);
+const message = require('../src/utils/message-utils');
+const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+
+beforeAll(async () => {
+    await connectAdmin(admin);
+    await connectUser(user);
+});
+
+afterAll(async () => {
+    await disconnectAgent(admin);
+    await disconnectAgent(user);
+});
+
+describe('Create Medical Historycontroller test', () => {
+    test('Creating Medical Historywithout body', () => admin
+        .post('/demographics/MedicalCondition')
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
+        }));
+
+    test('Creating Medical Historywith body but empty property (Should Fail)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': null,
+            'relation': null,
+            'conditionName': null,
+            'startDate': null,
+            'outcome': null,
+            'resolvedYear': null
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Creating Medical Historywith body but badly formated property (Should Fail)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': 'WRONG',
+            'relation': 'Wrong',
+            'conditionName': 'WRONG',
+            'startDate': 0,
+            'outcome': 0,
+            'resolvedYear': '2002'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Creating Medical Historywith body but wrong patient (Should Fail)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': 100,
+            'relation': 1,
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            return true;
+        }));
+
+    test('Creating Medical Historywith body but wrong relations (Should Fail)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': 1,
+            'relation': 'Wrong',
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Creating Medical Historywith body but bad relations (Should Fail)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': 1,
+            'relation': 100,
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            return true;
+        }));
+
+    test('Creating Medical Historywith body but wrong condition (Should Fail)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 'WRONG',
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Creating Medical Historywith body but bad condition (Should Fail)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 400,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            return true;
+        }));
+
+    test('Creating Medical Historywith body but badly formatted startDate (Should Fail)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 1,
+            'startDate': 0,
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Creating Medical Historywith body but wrong outcome (Should Fail)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 0,
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Creating Medical Historywith body but wrong resolved year (Should Fail)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': '2002'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Creating Medical Historywell formatted (Should Succeed)', () => admin
+        .post('/demographics/MedicalCondition')
+        .send({
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(4);
+            return true;
+        }));
+
+});
+
+describe('Edit Medical Historycontroller test', () => {
+    test('Editing Medical Historywithout body', () => admin
+        .put('/demographics/MedicalCondition')
+        .then(res => {
+            expect(res.status).toBe(400);
+            return true;
+        }));
+
+    test('Editing Medical Historywith body but empty property (Should Fail)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': null,
+            'patient': null,
+            'relation': null,
+            'conditionName': null,
+            'startDate': null,
+            'outcome': null,
+            'resolvedYear': null
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Editing Medical Historywith body but badly formated property (Should Fail)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': 'WRONG',
+            'patient': 'WRONG',
+            'relation': 'Wrong',
+            'conditionName': 'WRONG',
+            'startDate': 0,
+            'outcome': 0,
+            'resolvedYear': '2002'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Editing Medical Historywith body but wrong patient (Should Fail)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': 4,
+            'patient': 100,
+            'relation': 1,
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            return true;
+        }));
+
+    test('Editing Medical Historywith body but wrong relations (Should Fail)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': 4,
+            'patient': 1,
+            'relation': 'Wrong',
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            return true;
+        }));
+
+    test('Editing Medical Historywith body but bad relations (Should Fail)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': 4,
+            'patient': 1,
+            'relation': 100,
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            return true;
+        }));
+
+    test('Editing Medical Historywith body but wrong condition (Should Fail)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': 4,
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 'WRONG',
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            return true;
+        }));
+
+    test('Editing Medical Historywith body but bad condition (Should Fail)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': 4,
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 400,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            return true;
+        }));
+
+    test('Editing Medical Historywith body but badly formatted startDate (should succeed - startDate is nullable)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': 4,
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 1,
+            'startDate': 0,
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+            return true;
+        }));
+
+    test('Editing Medical Historywith body but wrong outcome (Should Fail)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': 4,
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 0,
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Editing Medical Historywith body but wrong resolved year (Should Fail)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': 4,
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': '2002'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Editing Medical Historywell formatted (Should Succeed)', () => admin
+        .put('/demographics/MedicalCondition')
+        .send({
+            'id': 1,
+            'patient': 1,
+            'relation': 1,
+            'conditionName': 1,
+            'startDate': '1980-01-01',
+            'outcome': 'resolved',
+            'resolvedYear': 2002
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+            return true;
+        }));
+
+});
+
+describe('Delete Medical Historycontroller test', () => {
+    test('Deleting Medical Historywithout body', () => admin
+        .delete('/demographics/MedicalCondition')
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
+        }));
+
+    test('Deleting Medical Historywith body but empty property (Should Fail)', () => admin
+        .delete('/demographics/MedicalCondition')
+        .send({
+            'id': null
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Deleting Medical Historywith body but badly formated property (Should Fail)', () => admin
+        .delete('/demographics/MedicalCondition')
+        .send({
+            'id': 'WRONG'
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Deleting Medical Historywith body but out of bound id (Should Fail)', () => admin
+        .delete('/demographics/MedicalCondition')
+        .send({
+            'id': 90
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(0);
+            return true;
+        }));
+
+    test('Deleting Medical Historywith good preperty (Should Succeed)', () => admin
+        .delete('/demographics/MedicalCondition')
+        .send({
+            'id': 1
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+            return true;
+        }));
+});

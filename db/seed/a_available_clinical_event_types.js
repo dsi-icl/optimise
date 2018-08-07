@@ -3,11 +3,11 @@ const { readJson } = require('../../src/utils/load-json');
 
 const availableCETypes = readJson(path.normalize(`${path.dirname(__filename)}/../availableFields/jsonFiles/ceTypes.json`));
 
-exports.seed = function (knex) {
+exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('AVAILABLE_CLINICAL_EVENT_TYPES').del()
-        .then(function () {
+    knex('AVAILABLE_CLINICAL_EVENT_TYPES').del()
+        .then(() =>
             // Inserts seed entries
-            return knex('AVAILABLE_CLINICAL_EVENT_TYPES').insert(availableCETypes);
-        });
-};
+            knex('AVAILABLE_CLINICAL_EVENT_TYPES').insert(availableCETypes)
+        )
+;

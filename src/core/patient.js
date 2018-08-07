@@ -22,13 +22,9 @@ function Patient() {
 }
 
 Patient.prototype.getPatient = function (whereObj, selectedObj) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         whereObj.deleted = '-';
-        getEntry('PATIENTS', whereObj, selectedObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-        });
+        return getEntry('PATIENTS', whereObj, selectedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error)));
     });
 };
 
@@ -40,137 +36,123 @@ Patient.prototype.getPatient = function (whereObj, selectedObj) {
 Patient.prototype.searchPatients = function (queryfield, queryvalue) {
 
     switch (queryfield) {
+        case 'OPTIMISEID':
+            return new Promise((resolve, reject) => knex('PATIENTS')
+                .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
+                .where('uuid', 'like', queryvalue)
+                .andWhere('PATIENTS.deleted', '-')
+                .then((result) => {
+                    if (Array.isArray(result))
+                        for (let i = 0; i < result.length; i++) {
+                            result[i].consent = Boolean(result[i].consent);
+                        }
+                    return resolve(result);
+                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'SEX':
-            return new Promise(function (resolve, reject) {
-                knex('PATIENT_DEMOGRAPHIC')
-                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'GENDERS.value')
-                    .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
-                    .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-                    .where('GENDERS.value', queryvalue)
-                    .andWhere('PATIENTS.deleted', '-')
-                    .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
-                    .then(function (result) {
-                        if (Array.isArray(result))
-                            for (let i = 0; i < result.length; i++) {
-                                result[i].consent = Boolean(result[i].consent);
-                            }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-                    });
-            });
+            return new Promise((resolve, reject) => knex('PATIENT_DEMOGRAPHIC')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'GENDERS.value')
+                .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
+                .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
+                .where('GENDERS.value', 'like', queryvalue)
+                .andWhere('PATIENTS.deleted', '-')
+                .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
+                .then((result) => {
+                    if (Array.isArray(result))
+                        for (let i = 0; i < result.length; i++) {
+                            result[i].consent = Boolean(result[i].consent);
+                        }
+                    return resolve(result);
+                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'EXTRT':
-            return new Promise(function (resolve, reject) {
-                knex('TREATMENTS')
-                    .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'PATIENTS.aliasId')
-                    .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
-                    .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
-                    .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
-                    .where('AVAILABLE_DRUGS.name', 'like', queryvalue)
-                    .andWhere('TREATMENTS.deleted', '-')
-                    .andWhere('VISITS.deleted', '-')
-                    .then(function (result) {
-                        if (Array.isArray(result))
-                            for (let i = 0; i < result.length; i++) {
-                                result[i].consent = Boolean(result[i].consent);
-                            }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-                    });
-            });
+            return new Promise((resolve, reject) => knex('TREATMENTS')
+                .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'PATIENTS.aliasId')
+                .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
+                .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+                .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
+                .where('AVAILABLE_DRUGS.name', 'like', queryvalue)
+                .andWhere('TREATMENTS.deleted', '-')
+                .andWhere('VISITS.deleted', '-')
+                .andWhere('PATIENTS.deleted', '-')
+                .groupBy('PATIENTS.aliasId')
+                .then((result) => {
+                    if (Array.isArray(result))
+                        for (let i = 0; i < result.length; i++) {
+                            result[i].consent = Boolean(result[i].consent);
+                        }
+                    return resolve(result);
+                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'ETHNIC':
-            return new Promise(function (resolve, reject) {
-                knex('PATIENT_DEMOGRAPHIC')
-                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'ETHNICITIES.value')
-                    .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-                    .leftOuterJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
-                    .where('ETHNICITIES.value', 'like', queryvalue)
-                    .andWhere('PATIENTS.deleted', '-')
-                    .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
-                    .then(function (result) {
-                        if (Array.isArray(result))
-                            for (let i = 0; i < result.length; i++) {
-                                result[i].consent = Boolean(result[i].consent);
-                            }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-                    });
-            });
+            return new Promise((resolve, reject) => knex('PATIENT_DEMOGRAPHIC')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'ETHNICITIES.value')
+                .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
+                .leftOuterJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
+                .where('ETHNICITIES.value', 'like', queryvalue)
+                .andWhere('PATIENTS.deleted', '-')
+                .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
+                .then((result) => {
+                    if (Array.isArray(result))
+                        for (let i = 0; i < result.length; i++) {
+                            result[i].consent = Boolean(result[i].consent);
+                        }
+                    return resolve(result);
+                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'COUNTRY':
-            return new Promise(function (resolve, reject) {
-                knex('PATIENT_DEMOGRAPHIC')
-                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'COUNTRIES.value')
-                    .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-                    .leftOuterJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
-                    .where('COUNTRIES.value', 'like', queryvalue)
-                    .andWhere('PATIENTS.deleted', '-')
-                    .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
-                    .then(function (result) {
-                        if (Array.isArray(result))
-                            for (let i = 0; i < result.length; i++) {
-                                result[i].consent = Boolean(result[i].consent);
-                            }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-                    });
-            });
+            return new Promise((resolve, reject) => knex('PATIENT_DEMOGRAPHIC')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'COUNTRIES.value')
+                .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
+                .leftOuterJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
+                .where('COUNTRIES.value', 'like', queryvalue)
+                .andWhere('PATIENTS.deleted', '-')
+                .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
+                .then((result) => {
+                    if (Array.isArray(result))
+                        for (let i = 0; i < result.length; i++) {
+                            result[i].consent = Boolean(result[i].consent);
+                        }
+                    return resolve(result);
+                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'DOMINANT':
-            return new Promise(function (resolve, reject) {
-                knex('PATIENT_DEMOGRAPHIC')
-                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'DOMINANT_HANDS.value')
-                    .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-                    .leftOuterJoin('DOMINANT_HANDS', 'DOMINANT_HANDS.id', 'PATIENT_DEMOGRAPHIC.dominantHand')
-                    .where('DOMINANT_HANDS.value', 'like', queryvalue)
-                    .andWhere('PATIENTS.deleted', '-')
-                    .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
-                    .then(function (result) {
-                        if (Array.isArray(result))
-                            for (let i = 0; i < result.length; i++) {
-                                result[i].consent = Boolean(result[i].consent);
-                            }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-                    });
-            });
+            return new Promise((resolve, reject) => knex('PATIENT_DEMOGRAPHIC')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'DOMINANT_HANDS.value')
+                .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
+                .leftOuterJoin('DOMINANT_HANDS', 'DOMINANT_HANDS.id', 'PATIENT_DEMOGRAPHIC.dominantHand')
+                .where('DOMINANT_HANDS.value', 'like', queryvalue)
+                .andWhere('PATIENTS.deleted', '-')
+                .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
+                .then((result) => {
+                    if (Array.isArray(result))
+                        for (let i = 0; i < result.length; i++) {
+                            result[i].consent = Boolean(result[i].consent);
+                        }
+                    return resolve(result);
+                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'MHTERM':
-            return new Promise(function (resolve, reject) {
-                knex('PATIENT_DIAGNOSIS')
-                    .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'AVAILABLE_DIAGNOSES.value')
-                    .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DIAGNOSIS.patient')
-                    .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
-                    .where('AVAILABLE_DIAGNOSES.value', 'like', queryvalue)
-                    .andWhere('PATIENTS.deleted', '-')
-                    .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
-                    .then(function (result) {
-                        if (Array.isArray(result))
-                            for (let i = 0; i < result.length; i++) {
-                                result[i].consent = Boolean(result[i].consent);
-                            }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-                    });
-            });
+            return new Promise((resolve, reject) => knex('PATIENT_DIAGNOSIS')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'AVAILABLE_DIAGNOSES.value')
+                .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DIAGNOSIS.patient')
+                .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
+                .where('AVAILABLE_DIAGNOSES.value', 'like', queryvalue)
+                .andWhere('PATIENTS.deleted', '-')
+                .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
+                .then((result) => {
+                    if (Array.isArray(result))
+                        for (let i = 0; i < result.length; i++) {
+                            result[i].consent = Boolean(result[i].consent);
+                        }
+                    return resolve(result);
+                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         default:
-            return new Promise(function (resolve, reject) {
-                knex('PATIENTS')
-                    .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
-                    .where('aliasId', 'like', queryvalue)
-                    .andWhere('PATIENTS.deleted', '-')
-                    .then(function (result) {
-                        if (Array.isArray(result))
-                            for (let i = 0; i < result.length; i++) {
-                                result[i].consent = Boolean(result[i].consent);
-                            }
-                        resolve(result);
-                    }, function (error) {
-                        reject(ErrorHelper(message.errorMessages.GETFAIL, error));
-                    });
-            });
+            return new Promise((resolve, reject) => knex('PATIENTS')
+                .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
+                .where('aliasId', 'like', queryvalue)
+                .andWhere('PATIENTS.deleted', '-')
+                .then((result) => {
+                    if (Array.isArray(result))
+                        for (let i = 0; i < result.length; i++) {
+                            result[i].consent = Boolean(result[i].consent);
+                        }
+                    return resolve(result);
+                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 };
 
@@ -179,14 +161,10 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
  * @param {*} patient The new created patient
  */
 Patient.prototype.createPatient = function (patient) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         let entryObj = Object.assign({}, patientModel, patient);
         entryObj.uuid = uuid();
-        createEntry('PATIENTS', entryObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
+        return createEntry('PATIENTS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
     });
 };
 
@@ -196,13 +174,7 @@ Patient.prototype.createPatient = function (patient) {
  * @param {*} patient The new created patient
  */
 Patient.prototype.updatePatient = function (user, patientObj) {
-    return new Promise(function (resolve, reject) {
-        updateEntry('PATIENTS', user, '*', { id: patientObj.id }, patientObj).then(function (result) {
-            resolve(result);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => updateEntry('PATIENTS', user, '*', { id: patientObj.id }, patientObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
 };
 
 /**
@@ -212,13 +184,7 @@ Patient.prototype.updatePatient = function (user, patientObj) {
  * @param {*} idObj ID of the entry that is going to be deleted
  */
 Patient.prototype.deletePatient = function (user, idObj) {
-    return new Promise(function (resolve, reject) {
-        deleteEntry('PATIENTS', user, idObj).then(function (success) {
-            resolve(success);
-        }, function (error) {
-            reject(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        });
-    });
+    return new Promise((resolve, reject) => deleteEntry('PATIENTS', user, idObj).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
 };
 
 module.exports = Patient;

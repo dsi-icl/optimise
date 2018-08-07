@@ -3,30 +3,13 @@ const knex = require('../utils/db-connection');
 
 class RequestMiddleware {
     static verifySessionAndPrivilege(req, res, next) {
-        // if (req.headers.token) {
-        //     knex('USER_SESSION')
-        //         .select({ token: 'USER_SESSION.sessionToken', username: 'USERS.username', priv: 'USERS.adminPriv', userid: 'USER_SESSION.user' })
-        //         .innerJoin('USERS', 'USERS.id', 'USER_SESSION.user')
-        //         .where({ 'USER_SESSION.sessionToken': req.headers.token, 'USER_SESSION.deleted': '-', 'USERS.deleted': '-' })
-        //         .then(result => {
-        //             if (result.length !== 0) {
-        //                 req.user = result[0];
-        //                 next();
-        //             } else {
-        //                 res.status(400).send('You are not logged in. Please provide a valid token.');
-        //             }
-        //         })
-        //         .catch(err => {
-        //             res.status(500).send(`Database error ${JSON.stringify(err)}`);
-        //         });
         let user = req.user ? req.user.id : null;
         if (user !== null) {
             next();
-        } else if (req.url === '/users/login') {
+        } else if (req.url === '/users/login' || req.url === '/whoami') {
             next();
         } else {
             res.status(400).json({ status: 'error', message: 'Please login first' });
-            // res.status(400).send('Please provide a token in the header');
         }
     }
 
@@ -45,13 +28,14 @@ class RequestMiddleware {
             .then(__unused__res => {
                 if (process.env.NODE_ENV === 'development')
                     console.log(`${req.method} - ${req.originalUrl} : ${username ? username : ''}`);
-                next();
+                return true;
             })
             .catch(err => {
                 if (process.env.NODE_ENV === 'development')
                     console.log(`Error caught :${err}`);
-                next();
+                return false;
             });
+        next();
         // }
     }
 }
