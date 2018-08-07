@@ -13,5 +13,5 @@ const data = JSON.stringify(makeMeddraSeeds(tree), null, 4);
 writeFile(path, data, err => {
     if (err) throw err;
     console.log('SEED FILE GENERATED');
-})
+});
 

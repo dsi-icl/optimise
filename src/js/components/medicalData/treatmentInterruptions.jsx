@@ -121,7 +121,7 @@ export class TreatmentInterruption extends Component {
                             <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                         </div>
                         <form className={style.panel}>
-                            {treatment.interruptions.map((el, ind) => (
+                            {treatment.interruptions.map((el) => (
                                 <div key={`${el.endDate}${el.startDate}${el.reason}`} className={style.interruption}>
                                     <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
                                     {el.endDate ? <><label>End date: </label> {new Date(parseInt(el.endDate, 10)).toDateString()}<br /></> : null}
