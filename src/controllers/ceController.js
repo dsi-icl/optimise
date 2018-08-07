@@ -29,6 +29,7 @@ CeController.prototype.createCe = function (req, res) {
         }
         if (req.body.hasOwnProperty('meddra') && isNaN(parseInt(req.body.meddra))) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
         }
         let ce = {};
         if (req.body.hasOwnProperty('visitId'))
