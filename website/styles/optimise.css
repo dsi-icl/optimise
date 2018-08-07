@@ -1,14 +1,29 @@
-@import 'https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900|Ruda:400,700,900&subset=latin-ext';
+@import './fonts.css';
 
 * {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Optimise', menu, sans-serif;
     border-radius: 0 !important;
 }
 
 body {
+    font-size: 13px;
     position: relative;
 }
 
+body .fixedDrop {
+    position: fixed;
+    content: "";
+    display: block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: -webkit-gradient(linear,left bottom,right top,from(#2b77d4),to(#e996bb));
+    background: -webkit-linear-gradient(bottom left,#2b77d4,#e996bb));
+    background: -o-linear-gradient(bottom ,#2b77d4,#e996bb));
+    background: linear-gradient(to top right,#2b77d4,#e996bb));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2b77d4', endColorstr='#e996bb', GradientType=0);
+}
 video {
     width: 100%;
 }
@@ -27,10 +42,15 @@ h2 code, h3 code, h4 code {
     background-color: inherit;
 }
 
+.container-wrapper {
+    width: 100%;
+    background-color: #fff;
+    position: relative;
+}
+
 .bs-docs-container {
     padding-top: 30px;
     padding-bottom: 30px;
-    background-color: #fff;
 }
 
 .btn-outline {
@@ -121,7 +141,7 @@ h2 code, h3 code, h4 code {
 
 .bs-docs-nav .navbar-brand, .bs-docs-nav .navbar-nav > li > a {
     font-weight: 500;
-    color: #00afbc;
+    color: #ffffff;
 }
 
     .bs-docs-nav .navbar-nav > .active > a, .bs-docs-nav .navbar-nav > .active > a:hover, .bs-docs-nav .navbar-nav > li > a:hover {
@@ -184,13 +204,6 @@ h2 code, h3 code, h4 code {
     color: #2C3E50;
     text-align: center;
     text-shadow: 0 1px 0 rgba(0,0,0,.1);
-    background-color: #337ab7;
-    background-image: -webkit-gradient(linear,left top,left bottom,from(#00afbc),to(#00bfcd));
-    background-image: -webkit-linear-gradient(top,#00afbc 0,#00bfcd 100%);
-    background-image: -o-linear-gradient(top,#00afbc 0,#00bfcd 100%);
-    background-image: linear-gradient(to bottom,#00afbc 0,#00bfcd 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00afbc', endColorstr='#6F5499', GradientType=0);
-    background-repeat: repeat-x;
 }
 
     .bs-docs-masthead .bs-docs-booticon {
@@ -256,6 +269,13 @@ h2 code, h3 code, h4 code {
         margin-top: 0;
         color: #fff;
     }
+    .bs-docs-header span {
+        font-family: 'Optimise', menu, sans-serif;
+    }
+
+    .bs-docs-header b {
+        color: #36dde9;
+    }
 
     .bs-docs-header p {
         margin-bottom: 0;
@@ -271,12 +291,22 @@ h2 code, h3 code, h4 code {
     .bs-docs-header {
         padding-top: 60px;
         padding-bottom: 60px;
-        font-size: 24px;
+        font-size: 20px;
         text-align: left;
     }
 
-        .bs-docs-header h1 {
+        .bs-docs-header span {
+            display: block;
             font-size: 60px;
+        }
+
+        .bs-docs-header p {
+            display: block;
+            font-size: 18px;
+        }
+
+        .bs-docs-header h1 {
+            font-size: 35px;
             line-height: 1;
         }
 }
@@ -490,6 +520,11 @@ h2 code, h3 code, h4 code {
             padding-right: 10px;
             padding-left: 10px;
         }
+}
+
+.bs-docs-sidebar hr,
+.bs-docs-sidebar img {
+    padding-left: 20px;
 }
 
 .bs-docs-sidebar.affix {
@@ -920,6 +955,10 @@ h1[id] {
 
 .bs-example .navbar:last-child {
     margin-bottom: 0;
+}
+
+#bs-navbar {
+    margin: 0 -12px;
 }
 
 .bs-navbar-bottom-example, .bs-navbar-top-example {
