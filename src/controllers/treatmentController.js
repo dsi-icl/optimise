@@ -226,9 +226,9 @@ TreatmentController.prototype.editInterruption = function (req, res) {
             return;
         }
         let newObj = {
-            'startDate': req.body.hasOwnProperty('start_date') ? momentStart.valueOf() : null,
+            'startDate': req.body.hasOwnProperty('start_date') && momentStart !== null ? momentStart.valueOf() : null,
             'meddra': req.body.hasOwnProperty('meddra') ? parseInt(req.body.meddra) : null,
-            'endDate': req.body.hasOwnProperty('end_date') ? momentEnd.valueOf() : null,
+            'endDate': req.body.hasOwnProperty('end_date') && momentEnd !== null ? momentEnd.valueOf() : null,
             'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
             'createdByUser': req.user.id
         };
