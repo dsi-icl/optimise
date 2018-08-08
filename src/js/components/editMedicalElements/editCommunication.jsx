@@ -67,6 +67,7 @@ class CommunicationEditor extends Component {
         this.state = {
             editorState: props.originalEditorState,
             visitId: props.match.params.visitId,
+            patientId: props.match.params.patientId,
             nextType: null,
             intervalValue: 1
         };
@@ -90,7 +91,7 @@ class CommunicationEditor extends Component {
         if (stateString !== initialString && currentState.visitId === props.match.params.visitId) {
             return currentState;
         } else {
-            return { editorState: props.originalEditorState, visitId: props.match.params.visitId };
+            return { editorState: props.originalEditorState, visitId: props.match.params.visitId, patientId: props.match.params.patientId };
         }
     }
 
@@ -105,9 +106,14 @@ class CommunicationEditor extends Component {
 
     _exportPlainText(ev) {
         ev.preventDefault();
-        const { visitId } = this.state;
-        const text = this.state.editorState.getCurrentContent().getPlainText();
-        const file = new Blob([text], { type: 'text/plain' });
+        const { visitId, patientId } = this.state;
+        let { visits } = this.props.data;
+        const text = this.state.editorState.getCurrentContent().getPlainText().replace(/\n/g, '\r\n');
+        const visit = visits.filter(el => el.id === parseInt(visitId));
+        const visitDate = visit.length > 0 ? new Date(parseInt(visit[0].visitDate)) : new Date();
+        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const final = `Communication for patient ${patientId}.\r\nClinical visit of the ${visitDate.toLocaleDateString('en-GB', dateOptions)}.\r\n\r\n\r\n${text}`;
+        const file = new Blob([final], { type: 'text/plain' });
         saveAs(file, `visit_${visitId}_communication_${new Date().toDateString().replace(/ /g, '_')}`); // eslint-disable-line
     }
 
