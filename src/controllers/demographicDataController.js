@@ -409,7 +409,7 @@ DemographicDataController.prototype.getPregnancy = function (req, res) {
 DemographicDataController.prototype.createPregnancy = function (req, res) {
     if (req.body.hasOwnProperty('patient') && typeof req.body.patient === 'number') {
 
-        if ((req.body.hasOwnProperty('meddra') && typeof req.body.meddra !== 'number')) {
+        if (req.body.hasOwnProperty('meddra') && req.body.meddra !== null && isNaN(parseInt(req.body.meddra))) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

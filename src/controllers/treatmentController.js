@@ -177,6 +177,10 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
+        if (req.body.hasOwnProperty('meddra') && req.body.meddra !== null && isNaN(parseInt(req.body.meddra))) {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
         let entryObj = {
             'treatment': req.body.treatmentId,
             'startDate': momentStart.valueOf(),
