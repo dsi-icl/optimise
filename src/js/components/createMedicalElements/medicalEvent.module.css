@@ -98,7 +98,6 @@
 }
 
 .editInterruption {
-    border-top: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
     padding-top: 0.9em;
     padding-bottom: 0.9em;
 }
