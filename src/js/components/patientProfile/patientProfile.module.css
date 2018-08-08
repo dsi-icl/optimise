@@ -410,7 +410,7 @@ div.timelineCEBlack {
 
 .profileSection > .flyover {
     position: sticky;
-    top: 0;
+    top: -0.1em;
     z-index: 3;
     padding: 1.2em;
     margin: 0 -1.2em;
@@ -418,6 +418,10 @@ div.timelineCEBlack {
 
 .patientInfo .flyover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), 97%);
+}
+
+.patientHistory {
+    padding-top: 0;
 }
 
 .patientHistory .flyover {
