@@ -35,7 +35,6 @@ export class CreateCE extends Component {
     }
 
     _handleMedDRAChange(value) {
-        console.log(value);
         this.setState({
             meddra: value,
             error: undefined
@@ -117,7 +116,7 @@ export class CreateCE extends Component {
                             {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                         </select> <br /><br />
                         <label htmlFor='meddra'>MedDRA:</label><br />
-                        <MeddraPicker key={params.patientId} value={this.state.meddra} onChange={this._handleMedDRAChange}/><br /><br />
+                        <MeddraPicker key={params.patientId} value={this.state.meddra} onChange={this._handleMedDRAChange} /><br /><br />
                         {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </div>

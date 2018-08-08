@@ -19,7 +19,7 @@ export class TreatmentInterruption extends Component {
             addMore: false,
             newStartDate: moment(),
             newEndDate: moment(),
-            noEndDate: false,
+            noEndDate: true,
             error: false,
             meddra: undefined
         };
@@ -105,7 +105,7 @@ export class TreatmentInterruption extends Component {
                         <form className={style.panel}>
                             {treatment.interruptions.map((el) =>
                                 <OneTreatmentInterruption
-                                    key={el.id}
+                                    key={Math.random()}
                                     data={el}
                                     interruptionReasons={interruptionReasons}
                                     meddra_Hash={meddra_Hash}
@@ -125,14 +125,13 @@ export class TreatmentInterruption extends Component {
                                     <div className={style.newInterruption}>
                                         <label>Start date: </label><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
                                         <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                                        {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br /></>)}<br />
+                                        {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br /></>)}
                                         <label>Reason: </label>
                                         <select ref={this.reasonRef}>
                                             {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                         </select><br /><br />
                                         <b>MedDRA: </b><MeddraPicker key={params.elementId} value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
                                     </div>
-                                    <br />
                                     {this.state.error ? <><div className={style.error}> Your medDRA code is not a permitted value.</div><br /></> : null}
                                     <button onClick={this._handleSubmit}>Submit</button><br /><br />
                                     <button onClick={this._handleClickingAdd}>Cancel</button><br />
@@ -194,7 +193,7 @@ class OneTreatmentInterruption extends Component {
         const body = {
             patientId: patientId,
             data: {
-                treatmentId: parseInt(data.id, 10),
+                treatmentInterId: parseInt(data.id, 10),
                 start_date: this.state.startDate.toISOString(),
                 end_date: !this.state.noEndDate && this.state.endDate ? this.state.endDate.toISOString() : null,
                 reason: parseInt(this.state.reason, 10),
@@ -244,31 +243,30 @@ class OneTreatmentInterruption extends Component {
                 {
                     editing ?
                         <>
-                        <div className={style.editInterruption}>
-                            <label>Start date: </label><PickDate startDate={startDate} handleChange={this._handleStartDateChange} /><br />
-                            <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={noEndDate} /><br />
-                            {noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!noEndDate ? endDate : null} handleChange={this._handleEndDateChange} /><br /></>)}<br />
-                            <label>Reason: </label>
-                            <select onChange={this._handleReasonChange} value={reason}>
-                                {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                            </select><br /><br />
-                            <b>MedDRA: </b><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
-                        </div>
-                        <br />
-                        <button onClick={this._handleSubmit}>Confirm change</button><br/><br/>
-                        <button onClick={this._handleEditClick}>Cancel</button>
+                            <div className={style.editInterruption}>
+                                <label>Start date: </label><PickDate startDate={startDate} handleChange={this._handleStartDateChange} /><br />
+                                <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={noEndDate} /><br />
+                                {noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!noEndDate ? endDate : null} handleChange={this._handleEndDateChange} /><br /></>)}
+                                <label>Reason: </label>
+                                <select onChange={this._handleReasonChange} value={reason}>
+                                    {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                </select><br /><br />
+                                <b>MedDRA: </b><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
+                            </div>
+                            <button onClick={this._handleSubmit}>Confirm change</button><br /><br />
+                            <button onClick={this._handleEditClick}>Cancel</button>
                         </>
                         :
                         <>
-                        <label>Start date: </label> {startDate_original._d.toDateString()} <br />
-                        {endDate_original ? <><label>End date: </label> {endDate_original._d.toDateString()}<br /></> : null}
-                        <label>Reason: </label> {interruptionReasons.filter(ele => ele.id === reason_original)[0].value} <br />
-                        {meddra_original ? <><label>MedDRA: </label> {meddra_Hash[0][meddra_original].name} <br /></> : null}
-                        <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
-                        <span title='Edit' onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol='edit' /></span>
+                            <label>Start date: </label> {startDate_original._d.toDateString()} <br />
+                            {endDate_original ? <><label>End date: </label> {endDate_original._d.toDateString()}<br /></> : null}
+                            <label>Reason: </label> {interruptionReasons.filter(ele => ele.id === reason_original)[0].value} <br />
+                            {meddra_original ? <><label>MedDRA: </label> {meddra_Hash[0][meddra_original].name} <br /></> : null}
+                            <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
+                            <span title='Edit' onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol='edit' /></span>
                         </>
                 }
             </div>
-        )
+        );
     }
 }
