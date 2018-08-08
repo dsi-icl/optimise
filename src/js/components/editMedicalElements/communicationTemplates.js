@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { edssAlgorithmFromProps } from '../EDSScalculator/calculator';
 
 //all test block in draft-js has a key. To make the templates below pure functions a keygen is defined here.
 const keygen = () => Math.random().toString(35).slice(2, 8);
@@ -211,7 +212,17 @@ export const formatEdss = (edssList, typeTable) => {
             blockgen('No edss was recorded.', [])
         ];
     }
-    const strings = edssList.map(el => oneSignOrSymptom(el, typeTable)).filter(el => el !== '');
+
+    const EDSSFields = Object.values(typeTable);
+    const EDSSFieldsByName = EDSSFields.reduce((a, el) => ({ ...a, [el.idname]: el.id }), {});
+    const estimatedTotalID = EDSSFieldsByName['edss:expanded disability status scale - estimated total'];
+    let EDSSComputed = edssAlgorithmFromProps(EDSSFields, edssList);
+    const strings = edssList.map(el => {
+        let res = oneSignOrSymptom(el, typeTable);
+        if (el.field === estimatedTotalID && EDSSComputed !== '')
+            res += `\n- edss > expanded disability status scale - computed total: ${EDSSComputed}`;
+        return res;
+    }).filter(el => el !== '');
     if (strings.length === 0) {
         return () => [
             blockgen(''),
