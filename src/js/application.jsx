@@ -28,7 +28,6 @@ class App extends Component {
 }
 
 
-
 function mapDispatchToProps(dispatch) {
     return {
         getVisitFieldsCall: () => dispatch(getVisitFieldsCall()),

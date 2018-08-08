@@ -249,7 +249,7 @@ class EDSSCalculator extends Component {
     }
 }
 
-export function edssAlgorithmFromProps(EDSSFields, visitData) {
+export const edssAlgorithmFromProps = (EDSSFields, visitData) => {
 
     const EDSSFieldsIdArray = EDSSFields.map(el => el.id);
     const EDSSFieldsByName = EDSSFields.reduce((a, el) => ({ ...a, [el.idname]: el.id }), {});
@@ -262,7 +262,7 @@ export function edssAlgorithmFromProps(EDSSFields, visitData) {
     delete EDSSValues[estimatedTotalID];
 
     return edssAlgorithm(Object.values(EDSSValues), ambulationScore);
-}
+};
 
 /* FSArray would be [1,1,2,0,6] etc; ambulation is separated because it's separate in the calculation */
 function edssAlgorithm(FSArrayWithoutAmbulation, ambulationScore) {

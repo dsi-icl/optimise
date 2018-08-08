@@ -51,7 +51,6 @@ export class PatientChart extends Component {
 }
 
 
-
 /* receives a prop data of one test*/
 @withRouter
 @connect(state => ({ typedict: state.availableFields.testTypes_Hash[0], patientId: state.patientProfile.data.patientId }))
@@ -133,9 +132,7 @@ class ClinicalEvent extends PureComponent {
 class Symptom extends PureComponent {
 
     toTitleCase(str) {
-        return str.replace(/\w\S*/g, function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
+        return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
     }
 
     render() {
@@ -165,9 +162,7 @@ class Symptom extends PureComponent {
 }
 
 
-export function formatRow(arr) {
-    return arr.map((el, ind) => <td key={ind}>{el}</td>);
-}
+export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
 
 /**
  * @prop {Object} this.props.availableFieldsdata
@@ -231,128 +226,6 @@ class OneVisit extends Component {
                 bubbleStyle={{ borderColor: 'transparent' }}>
 
                 <a href={`visit/${this.props.visitId}`} className={style.visitAnchors} id={`visit/${this.props.visitId}`} >visit/${this.props.visitId}</a>
-                {this.props.visitType === 1 ? (
-                    <>
-                        <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}/vitals`} className={style.visitEditButton}>
-                            <span title='Edit visit date and reason' className={style.dataEdit}><Icon symbol='edit' /></span>
-                        </NavLink><br />
-                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : 'AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
-                        {VSValueArray.length > 0 ? (
-                            <div className={style.visitWrapper}>
-                                <table>
-                                    <tbody>
-                                        {VSValueArray.length > 0 ?
-                                            (
-                                                <tr>
-                                                    <td >{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
-                                                    <td >{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
-                                                </tr>
-                                            ) : null}
-                                        {VSValueArray.length > 2 ?
-                                            (
-                                                <tr>
-                                                    <td >{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
-                                                    <td >{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
-                                                </tr>
-                                            ) : null}
-                                        {VSValueArray.length > 4 ?
-                                            (
-                                                <tr>
-                                                    <td >{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
-                                                    <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
-                                                </tr>
-                                            ) : null}
-                                    </tbody>
-                                </table>
-                                <br />
-                            </div>
-                        ) : null}
-                        <NavLink to={`/patientProfile/${this.props.patientId}/data/visit/${this.props.visitId}/vitals`} activeClassName={style.activeNavLink}>
-                            <button>Edit anthropometry{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit</button>
-                        </NavLink>
-                        <br /><br />
-                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}</h4>
-                        {relevantSymptomsFields.length !== 0 ? (
-                            <div className={style.visitWrapper}>
-                                <table>
-                                    <thead>
-                                        <tr><th>Recorded symptoms</th><th>Value</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {symptoms.map(el => <Symptom key={el.field} data={el} />)}
-                                    </tbody>
-                                </table>
-                                <br />
-                            </div>
-                        ) : null}
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/symptoms`} activeClassName={style.activeNavLink}>
-                            <button>Edit symptoms data for this visit</button>
-                        </NavLink>
-                        <br /><br />
-                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS INDICATING MS' : 'SIGNS'}</h4>
-                        {relevantSignsFields.length !== 0 ? (
-                            <div className={style.visitWrapper}>
-                                <table>
-                                    <thead>
-                                        <tr><th>Recorded signs</th><th>Value</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {signs.map(el => <Symptom key={el.field} data={el} />)}
-                                    </tbody>
-                                </table>
-                                <br />
-                            </div>
-                        ) : null}
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/signs`} activeClassName={style.activeNavLink}>
-                            <button>Edit signs data for this visit</button>
-                        </NavLink>
-                        <br /><br />
-                        <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
-                        {relevantEDSSFields.length !== 0 ? (
-                            <div className={style.visitWrapper}>
-                                <table>
-                                    <thead>
-                                        <tr><th>Recorded performance measures</th><th>Value</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {performances.map(el => {
-                                            let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale - estimated total';
-                                            let EDSSComputed = edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData);
-                                            return (
-                                                <Fragment key={el.field}>
-                                                    <Symptom data={el} className={isTotal ? style.performanceHighlight : ''} />
-                                                    {isTotal && EDSSComputed !== '' ? (
-                                                        <tr className={style.performanceHighlight}>
-                                                            <td>edss > expanded disability status scale - computed total</td>
-                                                            <td>{EDSSComputed}</td>
-                                                        </tr>
-                                                    ) : null}
-                                                </Fragment>
-                                            );
-                                        })}
-                                    </tbody>
-                                </table>
-                                <br />
-                            </div>
-                        ) : null}
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Edit performance measures data for this visit</button>
-                        </NavLink>
-                        <br /><br />
-                        <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
-                        {communication ? (
-                            <>
-                                <div className={`${style.visitWrapper} ${style.editorSneak}`}>
-                                    <Editor editorState={originalEditorState} onChange={() => null} />
-                                </div><br />
-                            </>
-                        ) : null}
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Edit or export the visit report</button>
-                        </NavLink>
-                        <br /><br />
-                    </>
-                ) : null}
 
                 {visitHasTests ? (
                     <>
@@ -408,10 +281,141 @@ class OneVisit extends Component {
                                 </tbody>
                             </table>
                         </div>
+                        <br />
                     </>
                 ) : null
                 }
 
+                {this.props.visitType === 1 ? (
+                    <>
+                        <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}/vitals`} className={style.visitEditButton}>
+                            <span title='Edit visit date and reason' className={style.dataEdit}><Icon symbol='edit' /></span>
+                        </NavLink><br />
+                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : 'AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
+                        {VSValueArray.length > 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <tbody>
+                                        {VSValueArray.length > 0 ?
+                                            (
+                                                <tr>
+                                                    <td >{VSValueArray[0] ? `${VSValueArray[0].name}: ${VSValueArray[0].value} ${VSValueArray[0].unit ? VSValueArray[0].unit : ''}` : ''}</td>
+                                                    <td >{VSValueArray[1] ? `${VSValueArray[1].name}: ${VSValueArray[1].value} ${VSValueArray[1].unit ? VSValueArray[1].unit : ''}` : ''}</td>
+                                                </tr>
+                                            ) : null}
+                                        {VSValueArray.length > 2 ?
+                                            (
+                                                <tr>
+                                                    <td >{VSValueArray[2] ? `${VSValueArray[2].name}: ${VSValueArray[2].value} ${VSValueArray[2].unit ? VSValueArray[2].unit : ''}` : ''}</td>
+                                                    <td >{VSValueArray[3] ? `${VSValueArray[3].name}: ${VSValueArray[3].value} ${VSValueArray[3].unit ? VSValueArray[3].unit : ''}` : ''}</td>
+                                                </tr>
+                                            ) : null}
+                                        {VSValueArray.length > 4 ?
+                                            (
+                                                <tr>
+                                                    <td >{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
+                                                    <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
+                                                </tr>
+                                            ) : null}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.patientId}/data/visit/${this.props.visitId}/vitals`} activeClassName={style.activeNavLink}>
+                            <button>Edit anthropometry{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit</button>
+                        </NavLink>
+                        <br /><br />
+                    </>
+                ) : null}
+                {this.props.visitType === 1 || visitHasClinicalEvents ? (
+                    <>
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}</h4>
+                        {relevantSymptomsFields.length !== 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <thead>
+                                        <tr><th>Recorded symptoms</th><th>Value</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {symptoms.map(el => <Symptom key={el.field} data={el} />)}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/symptoms`} activeClassName={style.activeNavLink}>
+                            <button>Edit symptoms data for this visit</button>
+                        </NavLink>
+                        <br /><br />
+                        <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS INDICATING MS' : 'SIGNS'}</h4>
+                        {relevantSignsFields.length !== 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <thead>
+                                        <tr><th>Recorded signs</th><th>Value</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {signs.map(el => <Symptom key={el.field} data={el} />)}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/signs`} activeClassName={style.activeNavLink}>
+                            <button>Edit signs data for this visit</button>
+                        </NavLink>
+                        <br /><br />
+                    </>
+                ) : null}
+                {this.props.visitType === 1 ? (
+                    <>
+                        <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
+                        {relevantEDSSFields.length !== 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <thead>
+                                        <tr><th>Recorded performance measures</th><th>Value</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {performances.map(el => {
+                                            let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale - estimated total';
+                                            let EDSSComputed = edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData);
+                                            return (
+                                                <Fragment key={el.field}>
+                                                    <Symptom data={el} className={isTotal ? style.performanceHighlight : ''} />
+                                                    {isTotal && EDSSComputed !== '' ? (
+                                                        <tr className={style.performanceHighlight}>
+                                                            <td>edss > expanded disability status scale - computed total</td>
+                                                            <td>{EDSSComputed}</td>
+                                                        </tr>
+                                                    ) : null}
+                                                </Fragment>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/msPerfMeas/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit performance measures data for this visit</button>
+                        </NavLink>
+                        <br /><br />
+                        <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
+                        {communication ? (
+                            <>
+                                <div className={`${style.visitWrapper} ${style.editorSneak}`}>
+                                    <Editor editorState={originalEditorState} onChange={() => null} />
+                                </div><br />
+                            </>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit or export the visit report</button>
+                        </NavLink>
+                        <br /><br />
+                    </>
+                ) : null}
             </TimelineEvent>
         );
     }
