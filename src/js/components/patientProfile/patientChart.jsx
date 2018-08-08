@@ -129,51 +129,43 @@ class ClinicalEvent extends PureComponent {
     }
 }
 
-@connect(state => ({ typedict: state.availableFields.visitFields_Hash[0], patientId: state.patientProfile.data.patientId, inputType: state.availableFields.inputTypes_Hash[0] }))
-class Symptom extends PureComponent {
+const filterEmptyRenders = (allFields, inputType, typedict) => allFields.map(data => {
 
-    toTitleCase(str) {
-        return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-    }
+    const toTitleCase = (str) => str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 
-    render() {
-        const { data, typedict, inputType } = this.props;
-        let value;
-        switch (inputType[typedict[data.field].type]) {
-            case 'B':
-                if (data.value === '0')
-                    return null;
-                value = data.value === '1' ? 'Yes' : 'No';
-                break;
-            case 'C':
-                if (data.value === 'unselected')
-                    return null;
-                if (!isNaN(parseFloat(data.value)))
-                    value = parseFloat(data.value);
-                else
-                    value = this.toTitleCase(`${data.value}`);
-                break;
-            case 'I':
-            case 'F':
-                if (isNaN(parseFloat(data.value)))
-                    return null;
+    let value;
+    switch (inputType[typedict[data.field].type]) {
+        case 'B':
+            if (data.value === '0')
+                return null;
+            value = data.value === '1' ? 'Yes' : 'No';
+            break;
+        case 'C':
+            if (data.value === 'unselected')
+                return null;
+            if (!isNaN(parseFloat(data.value)))
                 value = parseFloat(data.value);
-                break;
-            default:
-                if (!isNaN(parseFloat(data.value)))
-                    value = parseFloat(data.value);
-                else
-                    value = data.value;
-        }
-        return (
-            <tr className={this.props.className}>
-                <td>{typedict[data.field].idname.replace(/:/g, ' > ')}</td>
-                <td>{value}</td>
-            </tr>
-        );
+            else
+                value = toTitleCase(`${data.value}`);
+            break;
+        case 'I':
+        case 'F':
+            if (isNaN(parseFloat(data.value)))
+                return null;
+            value = parseFloat(data.value);
+            break;
+        default:
+            if (!isNaN(parseFloat(data.value)))
+                value = parseFloat(data.value);
+            else
+                value = data.value;
     }
-}
-
+    return {
+        field: data.field,
+        name: typedict[data.field].idname.replace(/:/g, ' > '),
+        value
+    };
+}).filter(el => el !== null);
 
 export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
 
@@ -185,6 +177,7 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
  * @prop {String} title - `${this.props.data.visits.length-ind}-th visit`
  * @prop {Boolean} baselineVisit - Indicating whether it is a baseline visit
  */
+@connect(state => ({ typedict: state.availableFields.visitFields_Hash[0], inputType: state.availableFields.inputTypes_Hash[0] }))
 class OneVisit extends Component {
 
     render() {
@@ -215,6 +208,10 @@ class OneVisit extends Component {
         const performances = this.props.visitData.filter(el => el.field > 6 && relevantEDSSFieldsIdArray.includes(el.field));
         const communication = this.props.data.visits.filter(v => v.id === this.props.visitId)[0].communication;
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
+
+        const filteredSymptoms = filterEmptyRenders(symptoms, this.props.inputType, this.props.typedict);
+        const filteredSigns = filterEmptyRenders(signs, this.props.inputType, this.props.typedict);
+        const filteredEDSS = filterEmptyRenders(performances, this.props.inputType, this.props.typedict);
 
         if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
             return null;
@@ -344,14 +341,19 @@ class OneVisit extends Component {
                 {this.props.visitType === 1 || visitHasClinicalEvents ? (
                     <>
                         <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}</h4>
-                        {relevantSymptomsFields.length !== 0 ? (
+                        {filteredSymptoms.length > 0 ? (
                             <div className={style.visitWrapper}>
                                 <table>
                                     <thead>
                                         <tr><th>Recorded symptoms</th><th>Value</th></tr>
                                     </thead>
                                     <tbody>
-                                        {symptoms.map(el => <Symptom key={el.field} data={el} />)}
+                                        {filteredSymptoms.map(el => (
+                                            <tr key={el.field}>
+                                                <td>{el.name}</td>
+                                                <td>{el.value}</td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                                 <br />
@@ -362,14 +364,19 @@ class OneVisit extends Component {
                         </NavLink>
                         <br /><br />
                         <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SIGNS INDICATING MS' : 'SIGNS'}</h4>
-                        {relevantSignsFields.length !== 0 ? (
+                        {filteredSigns.length !== 0 ? (
                             <div className={style.visitWrapper}>
                                 <table>
                                     <thead>
                                         <tr><th>Recorded signs</th><th>Value</th></tr>
                                     </thead>
                                     <tbody>
-                                        {signs.map(el => <Symptom key={el.field} data={el} />)}
+                                        {filteredSigns.map(el => (
+                                            <tr key={el.field}>
+                                                <td>{el.name}</td>
+                                                <td>{el.value}</td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                                 <br />
@@ -384,19 +391,22 @@ class OneVisit extends Component {
                 {this.props.visitType === 1 ? (
                     <>
                         <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
-                        {relevantEDSSFields.length !== 0 ? (
+                        {filteredEDSS.length > 0 ? (
                             <div className={style.visitWrapper}>
                                 <table>
                                     <thead>
                                         <tr><th>Recorded performance measures</th><th>Value</th></tr>
                                     </thead>
                                     <tbody>
-                                        {performances.map(el => {
+                                        {filteredEDSS.map(el => {
                                             let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale - estimated total';
                                             let EDSSComputed = edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData);
                                             return (
                                                 <Fragment key={el.field}>
-                                                    <Symptom data={el} className={isTotal ? style.performanceHighlight : ''} />
+                                                    <tr className={isTotal ? style.performanceHighlight : ''}>
+                                                        <td>{el.name}</td>
+                                                        <td>{el.value}</td>
+                                                    </tr>
                                                     {isTotal && EDSSComputed !== '' ? (
                                                         <tr className={style.performanceHighlight}>
                                                             <td>edss > expanded disability status scale - computed total</td>
