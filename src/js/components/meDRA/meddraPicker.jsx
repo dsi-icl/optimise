@@ -14,7 +14,7 @@ export class MeddraPicker extends Component {
     constructor(props) {
         super(props);
         const { meddra, value } = props;
-        if (value === undefined) {
+        if (value === undefined || value === null) {
             const topLevelNodes = meddra.filter(el => el.parent === null);
             this.state = ({ treeData: topLevelNodes, expandedKeys: [] });
         } else {

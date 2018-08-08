@@ -359,3 +359,5 @@ button.noActive {
 button.noActive:hover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), 90%) !important;
 }
+
+

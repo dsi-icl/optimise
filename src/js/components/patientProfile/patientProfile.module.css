@@ -361,7 +361,7 @@ div.timelineCEBlack {
 
 .cancelButton > svg {
     width: 1em;
-    fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
+    fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
 }
 
 .cancelButton:hover > svg {
