@@ -17,6 +17,7 @@ treatment.route('/')
 
 treatment.route('/interrupt')
     .post(TreatmentCtrl.addInterruption)
+    .put(TreatmentCtrl.editInterruption)
     .delete(TreatmentCtrl.deleteInterruption);
 
 treatment.route('/drugs')
