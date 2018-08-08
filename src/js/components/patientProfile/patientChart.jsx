@@ -147,10 +147,22 @@ class Symptom extends PureComponent {
             case 'C':
                 if (data.value === 'unselected')
                     return null;
-                value = this.toTitleCase(`${data.value}`);
+                if (!isNaN(parseFloat(data.value)))
+                    value = parseFloat(data.value);
+                else
+                    value = this.toTitleCase(`${data.value}`);
+                break;
+            case 'I':
+            case 'F':
+                if (isNaN(parseFloat(data.value)))
+                    return null;
+                value = parseFloat(data.value);
                 break;
             default:
-                value = data.value;
+                if (!isNaN(parseFloat(data.value)))
+                    value = parseFloat(data.value);
+                else
+                    value = data.value;
         }
         return (
             <tr className={this.props.className}>
@@ -550,7 +562,7 @@ export class Charts extends Component {
                                         baselineVisit={baselineVisit}
                                         filter={this.state.filter}
                                         title={el.type === 1 ? (baselineVisit ? `Baseline visit (${el.historyInd}${suffix} visit)` : `${reasonForVisit ? reasonForVisit[0].value : 'Clinical'} visit (${el.historyInd}${suffix} visit)`) : 'Additional record'}
-                                        subtitle={`${visitDate.toLocaleDateString('en-GB', dateOptions)}, ${visitDate.toLocaleTimeString()}`} />;
+                                        subtitle={`${el.type === 1 ? 'Happening on' : 'Recorded on'} ${visitDate.toLocaleDateString('en-GB', dateOptions)}`} />;
                                 }
                             )}
                         </Timeline>
