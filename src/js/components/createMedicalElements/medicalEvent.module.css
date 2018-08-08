@@ -97,8 +97,37 @@
     padding-bottom: 0.9em;
 }
 
+.editInterruption {
+    border-top: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+}
+
+.editInterruption input {
+    background-color: white;
+}
+
+.editInterruption select {
+    background-color: white;
+}
+
 .noEndDateButton{
     text-decoration: underline;
     cursor: pointer;
     display: block;
+}
+
+.dataEdit {
+    display: inline-block;
+    margin-left: 1em;
+    width: 1.2em;
+    height: 1.1em;
+}
+
+.dataEdit path {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
+}
+
+.dataEdit:hover path {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 40%);
 }
