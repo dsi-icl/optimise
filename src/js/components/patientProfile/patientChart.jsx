@@ -147,10 +147,22 @@ class Symptom extends PureComponent {
             case 'C':
                 if (data.value === 'unselected')
                     return null;
-                value = this.toTitleCase(`${data.value}`);
+                if (!isNaN(parseFloat(data.value)))
+                    value = parseFloat(data.value);
+                else
+                    value = this.toTitleCase(`${data.value}`);
+                break;
+            case 'I':
+            case 'F':
+                if (isNaN(parseFloat(data.value)))
+                    return null;
+                value = parseFloat(data.value);
                 break;
             default:
-                value = data.value;
+                if (!isNaN(parseFloat(data.value)))
+                    value = parseFloat(data.value);
+                else
+                    value = data.value;
         }
         return (
             <tr className={this.props.className}>
