@@ -6,7 +6,7 @@
 }
 
 body {
-    font-size: 13px;
+    font-size: 1.5rem;
     position: relative;
 }
 
@@ -30,11 +30,15 @@ video {
 
 img {
     max-width: 100%;
-    /* box-shadow: 0px 0px 20px 0px #888888;*/
+}
+
+.bs-docs-section > img {
+    box-shadow: 0px 0px 20px 0px #888888;
+    margin: 1em 0;
 }
 
 .table code {
-    font-size: 13px;
+    font-size: 1em;
     font-weight: 400;
 }
 
@@ -91,7 +95,7 @@ h2 code, h3 code, h4 code {
 .bs-docs-booticon-sm {
     width: 30px;
     height: 30px;
-    font-size: 20px;
+    font-size: 1.2em;
     line-height: 28px;
 }
 
@@ -121,7 +125,7 @@ h2 code, h3 code, h4 code {
 }
 
     #skippy .skiplink-text {
-        padding: .5em;
+        padding: .2em;
         outline: 1px dotted;
     }
 
@@ -218,7 +222,7 @@ h2 code, h3 code, h4 code {
 
     .bs-docs-masthead .lead {
         margin: 0 auto 30px;
-        font-size: 20px;
+        font-size: 1.2em;
         color: #fff;
     }
 
@@ -231,7 +235,7 @@ h2 code, h3 code, h4 code {
     .bs-docs-masthead .btn {
         width: 100%;
         padding: 15px 30px;
-        font-size: 20px;
+        font-size: 1.2em;
     }
 
 @media (min-width:480px) {
@@ -246,23 +250,23 @@ h2 code, h3 code, h4 code {
     }
 
         .bs-docs-masthead h1 {
-            font-size: 60px;
+            font-size: 2em;
         }
 
         .bs-docs-masthead .lead {
-            font-size: 24px;
+            font-size: 2em;
         }
 }
 
 @media (min-width:992px) {
     .bs-docs-masthead .lead {
         width: 80%;
-        font-size: 30px;
+        font-size: 2.2em;
     }
 }
 
 .bs-docs-header {
-    font-size: 20px;
+    font-size: 1.2em;
 }
 
     .bs-docs-header h1 {
@@ -281,6 +285,7 @@ h2 code, h3 code, h4 code {
         margin-bottom: 0;
         font-weight: 300;
         line-height: 1.4;
+        font-size: 1.1em;
     }
 
     .bs-docs-header .container {
@@ -291,22 +296,21 @@ h2 code, h3 code, h4 code {
     .bs-docs-header {
         padding-top: 60px;
         padding-bottom: 60px;
-        font-size: 20px;
+        font-size: 1.2em;
         text-align: left;
     }
 
         .bs-docs-header span {
             display: block;
-            font-size: 60px;
+            font-size: 2em;
         }
 
         .bs-docs-header p {
             display: block;
-            font-size: 18px;
         }
 
         .bs-docs-header h1 {
-            font-size: 35px;
+            font-size: 2.3em;
             line-height: 1;
         }
 }
@@ -317,13 +321,24 @@ h2 code, h3 code, h4 code {
     }
 }
 
+@media (min-width:1200px) {
+    
+    .bs-docs-header p {
+        font-size: 1.4em;
+    }
+    
+    .bs-docs-header h1 {
+        font-size: 2.7em;
+        line-height: 1;
+    }
+}
 .carbonad {
     width: auto !important;
     height: auto !important;
     padding: 20px !important;
     margin: 30px -15px -31px !important;
     overflow: hidden;
-    font-size: 13px !important;
+    font-size: 1em !important;
     line-height: 16px !important;
     text-align: left;
     background: 0 0 !important;
@@ -399,7 +414,7 @@ h2 code, h3 code, h4 code {
 .bs-docs-featurette {
     padding-top: 40px;
     padding-bottom: 40px;
-    font-size: 16px;
+    font-size: 1.8em;
     line-height: 1.5;
     color: #555;
     text-align: center;
@@ -414,7 +429,7 @@ h2 code, h3 code, h4 code {
 
 .bs-docs-featurette-title {
     margin-bottom: 5px;
-    font-size: 30px;
+    font-size: 2.2em;
     font-weight: 400;
     color: #333;
 }
@@ -459,7 +474,7 @@ h2 code, h3 code, h4 code {
     }
 
     .bs-docs-featurette-title {
-        font-size: 40px;
+        font-size: 3em;
     }
 
     .bs-docs-featurette .lead {
@@ -545,7 +560,7 @@ h2 code, h3 code, h4 code {
 .bs-docs-sidebar .nav > li > a {
     display: block;
     padding: 4px 20px;
-    font-size: 13px;
+    font-size: 1em;
     font-weight: 500;
     color: #767676;
 }
@@ -575,7 +590,7 @@ h2 code, h3 code, h4 code {
         padding-top: 1px;
         padding-bottom: 1px;
         padding-left: 30px;
-        font-size: 12px;
+        font-size: 1em;
         font-weight: 400;
     }
 
@@ -593,7 +608,7 @@ h2 code, h3 code, h4 code {
     padding: 4px 10px;
     margin-top: 10px;
     margin-left: 10px;
-    font-size: 12px;
+    font-size: 1em;
     font-weight: 500;
     color: #999;
 }
@@ -842,7 +857,7 @@ h1[id] {
         position: absolute;
         top: 15px;
         left: 15px;
-        font-size: 12px;
+        font-size: 1em;
         font-weight: 700;
         color: #959595;
         text-transform: uppercase;
@@ -1179,7 +1194,7 @@ h1[id] {
     .responsive-utilities-test span {
         display: block;
         padding: 15px 10px;
-        font-size: 14px;
+        font-size: 1.1em;
         font-weight: 700;
         line-height: 1.1;
         text-align: center;
@@ -1235,7 +1250,7 @@ h1[id] {
 
 .bs-customizer .help-block {
     margin-bottom: 5px;
-    font-size: 12px;
+    font-size: 1em;
 }
 
 #less-section label {
@@ -1262,7 +1277,7 @@ h1[id] {
 
     .bs-customizer-alert .close {
         margin-top: -4px;
-        font-size: 24px;
+        font-size: 2em;
     }
 
     .bs-customizer-alert p {
@@ -1297,7 +1312,7 @@ h1[id] {
     }
 
     .bs-dropzone .glyphicon-download-alt {
-        font-size: 40px;
+        font-size: 3em;
     }
 
     .bs-dropzone hr {
@@ -1381,7 +1396,7 @@ h1[id] {
         }
 
         .bs-brand-item h1 {
-            font-size: 60px;
+            font-size: 2em;
         }
 }
 
@@ -1397,7 +1412,7 @@ h1[id] {
     z-index: 10;
     display: block;
     padding: 5px 8px;
-    font-size: 12px;
+    font-size: 1em;
     color: #767676;
     cursor: pointer;
     background-color: #fff;
