@@ -35,6 +35,7 @@ export class CreateCE extends Component {
     }
 
     _handleMedDRAChange(value) {
+        console.log(value);
         this.setState({
             meddra: value,
             error: undefined
@@ -70,8 +71,8 @@ export class CreateCE extends Component {
                 patientId: this.props.patientId,
                 dateStartDate: date.toISOString(),
                 endDate: !this.state.noEndDate ? this.state.endDate.toISOString() : undefined,
-                meddra: parseInt(this.state.meddra),
                 type: this.state.ceType !== 'unselected' && !isNaN(parseInt(this.state.ceType)) ? parseInt(this.state.ceType) : undefined,
+                meddra: this.state.meddra
             }
         };
     }

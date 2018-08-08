@@ -35,3 +35,8 @@ export const updateTreatmentCall = (body) => dispatch => apiHelper('/treatments'
         history.push(body.to);
         dispatch(getPatientProfileById(body.patientId));
     }).catch(err => store.dispatch(addError({ error: err })));
+
+export const editTreatmentInterruptionAPICall = (body) => dispatch => apiHelper('/treatments/interrupt', { method: 'PATCH', body: JSON.stringify(body.data) })
+    .then(() => {
+        dispatch(getPatientProfileById(body.patientId));
+    }).catch(err => store.dispatch(addError({ error: err })));
