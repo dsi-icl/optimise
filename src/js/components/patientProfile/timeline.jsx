@@ -19,7 +19,7 @@ export class TimelineBox extends Component {   //unfinsihed
         const allTestDates = this.props.data.tests.map(el => el.actualOccurredDate || el.expectedOccurDate);
         const allTreatmentDates = this.props.data.treatments.map(el => el.startDate);
         const allCEDates = [];
-        this.props.data.clinicalEvents.forEach(function (el) {
+        this.props.data.clinicalEvents.forEach((el) => {
             allCEDates.push(el.dateStartDate);
             if (el.endDate) {
                 allCEDates.push(el.endDate);

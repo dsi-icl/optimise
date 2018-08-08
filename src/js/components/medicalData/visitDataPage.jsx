@@ -51,6 +51,7 @@ export class VisitData extends Component {
             const fieldId = el[0];
             const reference = el[1].ref;
             const type = el[1].type;
+
             if (type === 'C' && (originalValues[fieldId] !== undefined || reference.current.value !== 'unselected')) {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== reference.current.value)
@@ -69,8 +70,9 @@ export class VisitData extends Component {
             }
             if (type === 'B') {
                 const bool = reference.current.checked ? '1' : '0';
-                if (originalValues[fieldId] !== undefined && originalValues[fieldId] !== bool) {
-                    update[fieldId] = bool;
+                if (originalValues[fieldId] !== undefined) {
+                    if (originalValues[fieldId] !== bool)
+                        update[fieldId] = bool;
                 } else if (bool !== '0') {
                     add[fieldId] = bool;
                 }

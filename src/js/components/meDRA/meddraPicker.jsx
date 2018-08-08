@@ -23,12 +23,13 @@ export class MeddraPicker extends Component {
             let n = selectedNode;
             let p = n;
             let c; //children
-            let a; //accumulator
+            const findChildrenOf = id => el => el.parent === parseInt(id);
+            const findNodeNot = id => el => el.id !== parseInt(id);
             const expandedKeys = [];
             while (n.parent !== null) {
                 p = { ...meddraHash[n.parent] };   //until n is top level node
                 expandedKeys.push(String(p.id));
-                c = meddra.filter(el => el.parent === parseInt(p.id)).filter(el => el.id !== parseInt(n.id));
+                c = meddra.filter(findChildrenOf(p.id)).filter(findNodeNot(n.id));
                 p.children = [...c, n].sort((a, b) => a.id - b.id);
                 n = p;
             }
@@ -52,33 +53,32 @@ export class MeddraPicker extends Component {
         });
     }
 
-    renderTreeNodes = data => {
-        return data.map((item) => {
-            if (item.children) {
-                return (
-                    <TreeNode title={item.name} key={String(item.id)} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true}>
-                        {this.renderTreeNodes(item.children)}
-                    </TreeNode>
-                );
-            }
-            return <TreeNode title={item.name} key={String(item.id)} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true}/>;
-        });
-    }
+    renderTreeNodes = data => data.map((item) => {
+        if (item.children) {
+            return (
+                <TreeNode title={item.name} key={String(item.id)} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true}>
+                    {this.renderTreeNodes(item.children)}
+                </TreeNode>
+            );
+        }
+        return <TreeNode title={item.name} key={String(item.id)} value={String(item.id)} dataRef={item} isLeaf={item.isLeaf === 0 ? false : true} />;
+    })
 
     onChange = value => {
-        this.props.onChange(value);
+        this.props.onChange(value === undefined ? null : value);
     }
 
     render() {
         return (
             <div className={style.wrapper}>  {/* this div must be here for the positioning of the drop down menu with scrolling */}
                 <TreeSelect
+                    allowClear
+                    defaultValue={undefined}
                     showLine={true}
                     loadData={this.onLoadData}
                     dropdownStyle={{ maxHeight: 250, overflow: 'auto' }}
                     style={{ width: '100%' }}
                     getPopupContainer={ev => ev.parentElement}
-                    placeholder="Select MedDRA coding"
                     value={this.props.value}
                     onChange={this.onChange}
                     treeDefaultExpandedKeys={this.state.expandedKeys}

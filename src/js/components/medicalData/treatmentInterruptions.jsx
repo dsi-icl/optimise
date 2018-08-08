@@ -9,7 +9,6 @@ import { createTreatmentInterruptionAPICall, deleteTreatmentInterruptionAPICall 
 import { addAlert } from '../../redux/actions/alert';
 import Icon from '../icon';
 import style from '../createMedicalElements/medicalEvent.module.css';
-import { addError } from '../../redux/actions/error';
 
 @connect(state => ({ patientProfile: state.patientProfile, fields: state.availableFields }))
 export class TreatmentInterruption extends Component {
@@ -41,7 +40,7 @@ export class TreatmentInterruption extends Component {
 
     _deleteFunction(id) {
         const that = this;
-        return function () {
+        return () => {
             const data = that.props.patientProfile.data;
             const body = {
                 patientId: data.patientId,
@@ -87,11 +86,7 @@ export class TreatmentInterruption extends Component {
     _handleSubmit(ev) {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
-        return;
-        if (this.state.meddra === undefined) {
-            store.dispatch(addError({ error: 'You must enter a MedDRA code!' }));
             return;
-        }
         const data = this.props.patientProfile.data;
         const body = {
             patientId: data.patientId,

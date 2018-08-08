@@ -84,25 +84,29 @@ function availableFields(state = initialState.availableFields, action) {
             newState = { ...state, testTypes: action.payload, testTypes_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_VISIT_FIELDS_SUCCESS:
-            const VShash = action.payload.slice(0, 6).reduce((map, el) => { map[el.id] = el; return map; }, {});
-            const visitHash = action.payload.slice(1).reduce((map, el) => { map[el.id] = el; return map; }, {});
             newState = {
                 ...state,
                 VSFields: action.payload.slice(0, 6),
                 visitFields: action.payload.slice(1),
-                VSFields_Hash: [VShash],
-                visitFields_Hash: [visitHash]
+                VSFields_Hash: [
+                    action.payload.slice(0, 6).reduce((map, el) => { map[el.id] = el; return map; }, {})
+                ],
+                visitFields_Hash: [
+                    action.payload.slice(1).reduce((map, el) => { map[el.id] = el; return map; }, {})
+                ]
             };
             break;
         case actionTypes.availableFields.GET_RELATIONS_SUCCESS:
-            const relationHash = action.payload.relations.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
-            const medConHash = action.payload.conditions.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
             newState = {
                 ...state,
                 relations: action.payload.relations,
                 medicalConditions: action.payload.conditions,
-                relations_Hash: [relationHash],
-                medicalConditions_Hash: [medConHash]
+                relations_Hash: [
+                    action.payload.relations.reduce((map, el) => { map[el.id] = el.value; return map; }, {})
+                ],
+                medicalConditions_Hash: [
+                    action.payload.conditions.reduce((map, el) => { map[el.id] = el.value; return map; }, {})
+                ]
             };
             break;
         case actionTypes.availableFields.GET_DIAGNOSES_SUCCESS:

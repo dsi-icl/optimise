@@ -38,7 +38,7 @@ export class CreateCE extends Component {
         this.setState({
             meddra: value,
             error: undefined
-        })
+        });
     }
 
     _handleDateChange(date) {
