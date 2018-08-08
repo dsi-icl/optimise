@@ -35,6 +35,7 @@ export class CreateCE extends Component {
     }
 
     _handleMedDRAChange(value) {
+        console.log(value);
         this.setState({
             meddra: value,
             error: undefined
@@ -64,19 +65,16 @@ export class CreateCE extends Component {
 
     _formatRequestBody() {
         const date = this.state.startDate;
-        const obj = {
+        return {
             patientId: this.props.match.params.patientId,
             data: {
                 patientId: this.props.patientId,
                 dateStartDate: date.toISOString(),
                 endDate: !this.state.noEndDate ? this.state.endDate.toISOString() : undefined,
                 type: this.state.ceType !== 'unselected' && !isNaN(parseInt(this.state.ceType)) ? parseInt(this.state.ceType) : undefined,
+                meddra: this.state.meddra
             }
         };
-        if (this.state.meddra) {
-            obj.meddra = parseInt(this.state.meddra);
-        }
-        return obj;
     }
 
 
