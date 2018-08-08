@@ -135,7 +135,7 @@ export class CeData extends Component {
                         <form onSubmit={this._handleSubmit} className={style.form}>
                             <div className={style.levelBody}>
                                 {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
-                            </div>
+                            </div><br />
                             <button type='submit'>Save</button>
                         </form>
                     </div>
