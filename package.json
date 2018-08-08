@@ -1,7 +1,7 @@
 {
     "name": "optimise-ui",
     "productName": "Optimise MS",
-    "version": "1.9.24",
+    "version": "1.9.25",
     "description": "Front-end for optimiseMS",
     "keywords": [
         "ms",
@@ -36,7 +36,7 @@
     },
     "dependencies": {
         "compression": "1.7.3",
-        "optimise-core": "0.9.62"
+        "optimise-core": "0.9.63"
     },
     "devDependencies": {
         "@babel/core": "7.0.0-beta.46",
@@ -63,9 +63,9 @@
         "dotenv-expand": "4.2.0",
         "draft-js": "0.10.5",
         "electron": "2.0.6",
-        "electron-builder": "20.26.1",
+        "electron-builder": "20.27.1",
         "electron-is-dev": "0.3.0",
-        "electron-updater": "3.0.3",
+        "electron-updater": "3.1.1",
         "eslint": "5.3.0",
         "eslint-config-react-app": "3.0.0-next.3e165448",
         "eslint-loader": "2.1.0",
@@ -107,12 +107,12 @@
         "redux-thunk": "2.3.0",
         "resolve": "1.8.1",
         "sass-loader": "7.1.0",
-        "style-loader": "0.21.0",
+        "style-loader": "0.22.0",
         "sw-precache-webpack-plugin": "0.11.5",
         "thread-loader": "1.2.0",
         "uglifyjs-webpack-plugin": "1.2.7",
         "url-loader": "1.0.1",
-        "webpack": "4.16.4",
+        "webpack": "4.16.5",
         "webpack-dev-server": "3.1.5",
         "webpack-manifest-plugin": "2.0.3",
         "whatwg-fetch": "2.0.4"
