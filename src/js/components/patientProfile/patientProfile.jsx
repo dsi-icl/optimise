@@ -6,7 +6,7 @@ import { PickDate } from '../createMedicalElements/datepicker';
 import { PatientProfileSectionScaffold, DeleteButton, EditButton } from './sharedComponents';
 import { formatRow } from './patientChart';
 import store from '../../redux/store';
-import { createImmunisationAPICall, createPregnancyAPICall, deleteImmunisationAPICall, deletePregnancyAPICall } from '../../redux/actions/demographicData';
+import { createImmunisationAPICall, createPregnancyAPICall, deleteImmunisationAPICall, deletePregnancyAPICall, editPregnancyAPICall } from '../../redux/actions/demographicData';
 import { MeddraPicker } from '../meDRA/meddraPicker';
 import { SelectField } from '../createPatient';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
@@ -14,6 +14,7 @@ import { updateConsentAPICall } from '../../redux/actions/consent';
 import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
 import { addError } from '../../redux/actions/error';
+import Icon from '../icon/icon';
 
 @connect(state => ({ fetching: state.patientProfile.fetching, erasePatient: state.erasePatient }))
 export class Section extends Component {
@@ -240,8 +241,6 @@ class Pregnancy extends Component {
         this._handleStartDateChange = this._handleStartDateChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleMeddraChange = this._handleMeddraChange.bind(this);
-        this._handleClickDelete = this._handleClickDelete.bind(this);
-        this._deleteFunction = this._deleteFunction.bind(this);
         this._handleToggleEndDate = this._handleToggleEndDate.bind(this);
     }
 
@@ -275,22 +274,6 @@ class Pregnancy extends Component {
         });
     }
 
-    _handleClickDelete(el) {
-        store.dispatch(addAlert({ alert: 'Do you want to delete this pregnancy record?', handler: this._deleteFunction(el.id) }));
-    }
-
-    _deleteFunction(id) {
-        const that = this;
-        return () => {
-            const body = {
-                patientId: that.props.data.patientId,
-                data: {
-                    id: id
-                }
-            };
-            store.dispatch(deletePregnancyAPICall(body));
-        };
-    }
 
     _handleMeddraChange(value) {
         this.setState({
@@ -340,7 +323,7 @@ class Pregnancy extends Component {
     }
 
     render() {
-        const { data, outcomeHash, meddra_Hash } = this.props;
+        const { data, outcomeHash, meddra_Hash, outcomes } = this.props;
         if (data.demographicData && data.demographicData.gender !== 1 && data.pregnancy) {
             return (
                 <div className={this.state.addMore ? style.pregnancyPanelActive : style.pregnancyPanel}>
@@ -348,17 +331,15 @@ class Pregnancy extends Component {
                         {!this.state.addMore ? (
                             <>
                                 {data.pregnancy.map((el) =>
-                                    <div key={`${el.startDate}`} className={style.pregnancy}>
-                                        <label>Start date: </label> {new Date(parseInt(el.startDate, 10)).toDateString()} <br />
-                                        {el.outcomeDate ? (
-                                            <>
-                                                <label>Outcome date: </label> {el.outcomeDate ? new Date(parseInt(el.outcomeDate, 10)).toDateString() : ''} <br />
-                                                <label>Outcome: </label> {outcomeHash[el.outcome]} <br />
-                                                {el.meddra ? <><label>MedDRA: </label> {meddra_Hash[el.meddra].name} <br /></> : null}
-                                            </>
-                                        ) : null}
-                                        <span onClick={() => this._handleClickDelete(el)}>Delete the record of the pregnancy</span>
-                                    </div>)}
+                                    <OnePregnancy
+                                        key={Math.random()}
+                                        data={el}
+                                        patientId={data.patientId}
+                                        outcomeHash={outcomeHash}
+                                        meddra_Hash={meddra_Hash}
+                                        outcomes={outcomes}
+                                    />)
+                                }
                             </>
                         ) :
                             <div className={style.newPregnancy}>
@@ -367,7 +348,7 @@ class Pregnancy extends Component {
                                 {this.state.noEndDate ? null : (
                                     <>
                                         <label>Outcome date: </label><br /><PickDate startDate={this.state.newOutcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
-                                        <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={this.props.outcomes} handler={this._handleInput} name='newOutcome' /><br /><br />
+                                        <label>Outcome: </label><br /><SelectField value={this.state.newOutcome} options={outcomes} handler={this._handleInput} name='newOutcome' /><br /><br />
                                         <label>MedDRA: </label><br /><MeddraPicker onChange={this._handleMeddraChange} value={this.state.newMeddra} key={`${data.id}${new Date().getMilliseconds}`} />
                                     </>
                                 )}
@@ -386,6 +367,147 @@ class Pregnancy extends Component {
         } else {
             return null;
         }
+    }
+}
+
+
+class OnePregnancy extends Component {
+    constructor(props) {
+        super();
+        const { data } = props;
+        this.state = {
+            editing: false,
+
+            noEndDate: data.outcomeDate ? false : true,
+
+            startDate: moment(parseInt(data.startDate)),
+            outcomeDate: data.outcomeDate ? moment(parseInt(data.outcomeDate)) : moment(),
+            outcome: data.outcome,
+            meddra: data.meddra ? String(data.meddra) : null,
+
+            startDate_original: moment(parseInt(data.startDate)),
+            outcomeDate_original: data.outcomeDate ? moment(parseInt(data.outcomeDate)) : null,
+            outcome_original: data.outcome,
+            meddra_original: data.meddra ? String(data.meddra) : null,
+        };
+    }
+
+    _handleClickDelete = (el) => {
+        store.dispatch(addAlert({ alert: 'Do you want to delete this pregnancy record?', handler: this._deleteFunction(el.id) }));
+    }
+
+    _deleteFunction = (id) => {
+        const that = this;
+        return () => {
+            const body = {
+                patientId: that.props.patientId,
+                data: {
+                    id: id
+                }
+            };
+            store.dispatch(deletePregnancyAPICall(body));
+        };
+    }
+
+    _handleSubmit = ev => {
+        ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
+        const { data, patientId } = this.props;
+        const { startDate, noEndDate, outcomeDate, outcome, meddra } = this.state;
+        const body = {
+            patientId: patientId,
+            data: {
+                id: parseInt(data.id, 10),
+                startDate: startDate.toISOString(),
+                outcomeDate: !noEndDate && outcomeDate ? outcomeDate.toISOString() : null,
+                outcome: !noEndDate && outcome ? parseInt(outcome, 10) : null,
+                meddra: !noEndDate && meddra ? parseInt(meddra, 10) : null
+            }
+        };
+        this.setState({
+            lastSubmit: (new Date()).getTime()
+        }, () => {
+            store.dispatch(editPregnancyAPICall(body));
+            this.setState({ editing: false });
+        });
+    }
+
+    _handleEditClick = ev => {
+        ev.preventDefault();
+        this.setState(prevState => ({
+            editing: !prevState.editing
+        }));
+    }
+
+    _handleToggleEndDate = ev => {
+        this.setState({
+            noEndDate: ev.target.checked
+        });
+    }
+
+    _handleStartDateChange = date => {
+        this.setState({ startDate: date });
+    }
+
+    _handleOutcomeDateChange = date => {
+        this.setState({ outcomeDate: date });
+    }
+
+    _handleOutcomeChange = ev => {
+        this.setState({ outcome: ev.target.value });
+    }
+
+    _handleToggleNoEndDate = ev => {
+        this.setState({ noEndDate: ev.target.checked });
+    }
+
+    _handleMeddraChange = value => {
+        this.setState({ meddra: value });
+    }
+
+    render() {
+        const { editing, noEndDate, startDate, outcomeDate, outcome, meddra, startDate_original, outcomeDate_original, outcome_original, meddra_original } = this.state;
+        const { data, patientId, outcomeHash, meddra_Hash, outcomes } = this.props;
+        console.log(startDate_original._d.toDateString(), startDate_original.valueOf());
+        return (
+            <div className={style.interruption}>
+                {
+                    editing ?
+                        <>
+                            <div className={style.newPregnancy}>
+                                <label>Start date: </label><br /><PickDate startDate={startDate} handleChange={this._handleStartDateChange} /><br />
+                                <label htmlFor='noEndDate'>The pregnancy is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
+                                {noEndDate ? null : (
+                                    <>
+                                        <label>Outcome date: </label><br /><PickDate startDate={outcomeDate} handleChange={this._handleOutcomeDateChange} /><br />
+                                        <label>Outcome: </label><br /><SelectField value={outcome} options={outcomes} handler={this._handleOutcomeChange} name='outcome' /><br /><br />
+                                        <label>MedDRA: </label><br /><MeddraPicker onChange={this._handleMeddraChange} value={meddra} key={`${data.id}${new Date().getMilliseconds}`} />
+                                    </>
+                                )}
+                            </div>
+                            <button onClick={this._handleSubmit}>Confirm change</button><br /><br />
+                            <button onClick={this._handleEditClick}>Cancel</button>
+                            <br/><br/>
+                        </>
+                        :
+                        <>
+                            <div key={`${startDate_original}`} className={style.pregnancy}>
+                                <label>Start date: </label> {startDate_original._d.toDateString()} <br />
+                                {outcomeDate_original ? (
+                                    <>
+                                        <label>Outcome date: </label> {outcomeDate_original._d.toDateString()} <br />
+                                        <label>Outcome: </label> {outcome_original ? outcomeHash[outcome_original] : 'not entered'} <br />
+                                        {meddra_original ? <><label>MedDRA: </label> {meddra_Hash[meddra_original] ? meddra_Hash[meddra_original].name : 'not entered'} <br /></> : null}
+                                    </>
+                                ) : null}
+                                <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
+                                <span title='Edit' onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol='edit' /></span>
+                            </div>
+                        </>
+                }
+            </div>
+        );
     }
 }
 
