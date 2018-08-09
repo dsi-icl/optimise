@@ -51,11 +51,11 @@ TreatmentController.prototype.createTreatment = function (req, res) {
     }
     let momentStart = moment(req.body.startDate, moment.ISO_8601);
     let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
-    if (!momentStart.isValid()) {
+    if (!momentStart.isValid() && req.body.startDate !== null) {
         res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
         return;
     }
-    if (req.body.hasOwnProperty('terminatedDate') && !momentTerminated.isValid()) {
+    if (req.body.hasOwnProperty('terminatedDate') && req.body.terminatedDate !== null && !momentTerminated.isValid()) {
         res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
         return;
     }
@@ -67,8 +67,8 @@ TreatmentController.prototype.createTreatment = function (req, res) {
         'form': (req.body.hasOwnProperty('form') ? req.body.form : null),   // hardcoded SQL: only OR, IV, IM or SC
         'times': (req.body.hasOwnProperty('times') ? req.body.times : null),
         'intervalUnit': (req.body.hasOwnProperty('intervalUnit') ? req.body.intervalUnit : null), // hardcoded: hour, day, week, month, year
-        'startDate': momentStart.valueOf(),
-        'terminatedDate': (req.body.hasOwnProperty('terminatedDate') ? momentTerminated.valueOf() : null),
+        'startDate': req.body.startDate !== null ? momentStart.valueOf() : null,
+        'terminatedDate': (req.body.hasOwnProperty('terminatedDate') && req.body.terminatedDate !== null ? momentTerminated.valueOf() : null),
         'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
         'createdByUser': req.user.id
     };
@@ -85,11 +85,11 @@ TreatmentController.prototype.addTerminationDate = function (req, res) {    //fo
     if ((req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('terminationDate')) && req.body.hasOwnProperty('terminatedReason') &&
         typeof req.body.treatmentId === 'number' && typeof req.body.terminatedDate === 'string' && typeof req.body.terminatedReason === 'number') {
         let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
-        if (!momentTerminated.isValid()) {
+        if (!momentTerminated.isValid() && req.body.terminatedDate !== null) {
             res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
             return;
         }
-        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': momentTerminated.valueOf(), 'terminatedReason': req.body.terminatedReason })
+        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': req.body.terminatedDate !== null ? momentTerminated.valueOf() : null, 'terminatedReason': req.body.terminatedReason })
             .then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
@@ -115,13 +115,13 @@ TreatmentController.prototype.editTreatment = function (req, res) {
             res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
             return;
         }
-        if (req.body.hasOwnProperty('terminatedDate') && !momentTerminated.isValid()) {
+        if (req.body.hasOwnProperty('terminatedDate') && req.body.terminatedDate !== null && !momentTerminated.isValid()) {
             res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
             return;
         }
         let newObj = Object.assign({}, req.body);
         newObj.startDate = momentStart.valueOf();
-        newObj.terminatedDate = (req.body.hasOwnProperty('terminatedDate') ? momentTerminated.valueOf() : null);
+        newObj.terminatedDate = (req.body.hasOwnProperty('terminatedDate') && req.body.terminatedDate !== null ? momentTerminated.valueOf() : null);
 
         this.treatment.updateTreatment(req.user, req.body.id, newObj).then((result) => {
             res.status(200).json(formatToJSON(result));
@@ -168,12 +168,12 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
         typeof req.body.treatmentId === 'number' && typeof req.body.start_date === 'string') {
         let momentStart = moment(req.body.start_date, moment.ISO_8601);
         let momentEnd = moment(req.body.end_date, moment.ISO_8601);
-        if (!momentStart.isValid()) {
+        if (!momentStart.isValid() && req.body.start_date !== null) {
             let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
-        if (req.body.hasOwnProperty('end_date') && !momentEnd.isValid()) {
+        if (req.body.hasOwnProperty('end_date') && req.body.end_date !== null && !momentEnd.isValid()) {
             let msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
@@ -184,9 +184,9 @@ TreatmentController.prototype.addInterruption = function (req, res) {    //need 
         }
         let entryObj = {
             'treatment': req.body.treatmentId,
-            'startDate': momentStart.valueOf(),
+            'startDate': req.body.start_date !== null ? momentStart.valueOf() : null,
             'meddra': req.body.hasOwnProperty('meddra') ? req.body.meddra : null,
-            'endDate': (req.body.hasOwnProperty('end_date') ? momentEnd.valueOf() : null),
+            'endDate': (req.body.hasOwnProperty('end_date') && req.body.end_date !== null ? momentEnd.valueOf() : null),
             'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
             'createdByUser': req.user.id
         };
