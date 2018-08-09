@@ -22,7 +22,7 @@ CeController.prototype.createCe = function (req, res) {
             return;
         }
         let momentEnd = moment(req.body.endDate, moment.ISO_8601);
-        if (req.body.hasOwnProperty('endDate') && !momentEnd.isValid()) {
+        if (req.body.hasOwnProperty('endDate') && req.body.endDate !== null && !momentEnd.isValid()) {
             let msg = (momentEnd.invalidAt() === undefined || momentEnd.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentEnd.invalidAt()];
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
@@ -36,7 +36,7 @@ CeController.prototype.createCe = function (req, res) {
             ce.recordedDuringVisit = req.body.visitId;
         if (req.body.hasOwnProperty('patient'))
             ce.patient = req.body.patient;
-        if (req.body.hasOwnProperty('endDate'))
+        if (req.body.hasOwnProperty('endDate') && req.body.endDate !== null)
             ce.endDate = momentEnd.valueOf();
         ce.type = req.body.type;
         ce.meddra = req.body.meddra ? parseInt(req.body.meddra) : undefined;
@@ -65,19 +65,19 @@ CeController.prototype.updateCe = function (req, res) {
     }
     let ce = Object.assign({}, req.body);
     let momentStart = moment(req.body.dateStartDate, moment.ISO_8601);
-    if (req.body.hasOwnProperty('dateStartDate') && !momentStart.isValid()) {
+    if (req.body.hasOwnProperty('dateStartDate') && req.body.dateStartDate !== null && !momentStart.isValid()) {
         let msg = (momentStart.invalidAt() === undefined || momentStart.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
         res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
-    } else if (req.body.hasOwnProperty('dateStartDate')) {
+    } else if (req.body.hasOwnProperty('dateStartDate') && req.body.dateStartDate !== null) {
         ce.dateStartDate = momentStart.valueOf();
     }
     let momentEnd = moment(req.body.endDate, moment.ISO_8601);
-    if (req.body.hasOwnProperty('endDate') && !momentEnd.isValid()) {
+    if (req.body.hasOwnProperty('endDate') && req.body.endDate !== null && !momentEnd.isValid()) {
         let msg = (momentEnd.invalidAt() === undefined || momentEnd.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentEnd.invalidAt()];
         res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
-    } else if (req.body.hasOwnProperty('endDate')) {
+    } else if (req.body.hasOwnProperty('endDate') && req.body.endDate !== null) {
         ce.endDate = momentEnd.valueOf();
     }
     this.clinicalEvent.updateClinicalEvent(req.user, ce).then((result) => {
