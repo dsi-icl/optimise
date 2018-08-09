@@ -25,7 +25,7 @@ function VisitController() {
  * @description Create a new report
  * @param {Object} req Request Object
  * @param {Object} res Response Object
- */VisitController.prototype.getVisitsOfPatient = function (req, res)  {
+ */VisitController.prototype.getVisitsOfPatient = function (req, res) {
     if (!req.query.hasOwnProperty('patientId')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
@@ -39,19 +39,20 @@ function VisitController() {
     });
 };
 
-VisitController.prototype.createVisit = function (req, res)  {
+VisitController.prototype.createVisit = function (req, res) {
     if (!req.body.hasOwnProperty('patientId') || !req.body.hasOwnProperty('visitDate')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
     let momentVisit = moment(req.body.visitDate, moment.ISO_8601);
-    if (!momentVisit.isValid()) {
+    if (!momentVisit.isValid() && req.body.visitDate !== null) {
         let msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
         res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
     }
     let entryObj = {};
-    entryObj.visitDate = momentVisit.valueOf();
+    if (req.body.hasOwnProperty('visitDate') && req.body.visitDate !== null)
+        entryObj.visitDate = momentVisit.valueOf();
     entryObj.patient = req.body.patientId;
     if (req.body.hasOwnProperty('type'))
         entryObj.type = req.body.type;
@@ -65,7 +66,7 @@ VisitController.prototype.createVisit = function (req, res)  {
     });
 };
 
-VisitController.prototype.updateVisit = function (req, res)  {
+VisitController.prototype.updateVisit = function (req, res) {
     let updatedObj = {};
     let whereObj = {};
     if (!req.body.hasOwnProperty('id')) {
@@ -73,14 +74,14 @@ VisitController.prototype.updateVisit = function (req, res)  {
         return;
     }
     let momentVisit = moment(req.body.visitDate, moment.ISO_8601);
-    if (req.body.hasOwnProperty('visitDate') && !momentVisit.isValid()) {
+    if (req.body.hasOwnProperty('visitDate') && req.body.visitDate !== null && !momentVisit.isValid()) {
         let msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
         res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
         return;
     }
     updatedObj = Object.assign(req.body);
     whereObj.id = req.body.id;
-    if (req.body.hasOwnProperty('visitDate'))
+    if (req.body.hasOwnProperty('visitDate') && req.body.visitDate !== null)
         updatedObj.visitDate = momentVisit.valueOf();
     delete updatedObj.id;
     updatedObj.createdByUser = req.user.id;
@@ -93,7 +94,7 @@ VisitController.prototype.updateVisit = function (req, res)  {
     });
 };
 
-VisitController.prototype.deleteVisit = function (req, res)  {
+VisitController.prototype.deleteVisit = function (req, res) {
     if (!req.body.hasOwnProperty('visitId')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
@@ -113,7 +114,7 @@ VisitController.prototype.deleteVisit = function (req, res)  {
  * @param {Object} req Request Object
  * @param {Object} res Response Object
  */
-VisitController.prototype.getReportOfVisit = function (req, res)  {
+VisitController.prototype.getReportOfVisit = function (req, res) {
     let whereObj = {};
     if (req.query.hasOwnProperty('id')) {
         whereObj.visit = req.query.id;
@@ -133,7 +134,7 @@ VisitController.prototype.getReportOfVisit = function (req, res)  {
  * @param {Object} req Request Object
  * @param {Object} res Response Object
  */
-VisitController.prototype.createReport = function (req, res)  {
+VisitController.prototype.createReport = function (req, res) {
     if (req.body.hasOwnProperty('visit') && req.body.hasOwnProperty('report') &&
         typeof req.body.visit === 'number' && typeof req.body.report === 'string') {
         let newEntry = {};
@@ -163,7 +164,7 @@ VisitController.prototype.createReport = function (req, res)  {
  * @param {Object} req Request Object
  * @param {Object} res Response Object
  */
-VisitController.prototype.updateReport = function (req, res)  {
+VisitController.prototype.updateReport = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.visit.updateReport(req.user, req.body).then((result) => {
             res.status(200).json(formatToJSON(result));
@@ -184,7 +185,7 @@ VisitController.prototype.updateReport = function (req, res)  {
  * @param {Object} req Request Object
  * @param {Object} res Response Object
  */
-VisitController.prototype.deleteReport = function (req, res)  {
+VisitController.prototype.deleteReport = function (req, res) {
     if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
