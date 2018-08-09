@@ -479,7 +479,7 @@ DemographicDataController.prototype.editPregnancy = function (req, res) {
             entryObj.outcomeDate = momentOutcome.valueOf();
         }
 
-        this.pregnancy.editPregnancy(req.user, req.body).then((result) => {
+        this.pregnancy.editPregnancy(req.user, entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {

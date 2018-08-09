@@ -26,7 +26,7 @@ function UserController() {
  * @param deserializedUser User as a plain JS object with all its properties
  * @param done
  */
-UserController.prototype.serializeUser = function (deserializedUser, done)  {
+UserController.prototype.serializeUser = function (deserializedUser, done) {
     if (deserializedUser.hasOwnProperty('id') === false)
         done('User has no ID', null);
     else {
@@ -44,7 +44,7 @@ UserController.prototype.serializeUser = function (deserializedUser, done)  {
  * @param serializedUser As returned by deserializeUser
  * @param done Callback to pass the deserialized user result to
  */
-UserController.prototype.deserializeUser = function (serializedUser, done)  {
+UserController.prototype.deserializeUser = function (serializedUser, done) {
     nodeify(this.user.getUserByID(serializedUser.id).then((user) => {
         if (user.length > 0)
             return [null, user[0]];
@@ -54,7 +54,7 @@ UserController.prototype.deserializeUser = function (serializedUser, done)  {
     });
 };
 
-UserController.prototype.getUser = function (req, res)  {
+UserController.prototype.getUser = function (req, res) {
     if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
@@ -75,7 +75,7 @@ UserController.prototype.getUser = function (req, res)  {
     });
 };
 
-UserController.prototype.createUser = function (req, res)  {
+UserController.prototype.createUser = function (req, res) {
     if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
@@ -97,8 +97,8 @@ UserController.prototype.createUser = function (req, res)  {
     });
 };
 
-UserController.prototype.updateUser = function (req, res)  {
-    if (req.user.priv === 1 || req.user.username !== req.body.username) {
+UserController.prototype.updateUser = function (req, res) {
+    if (req.user.priv !== 1 && req.user.username !== req.body.username) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
     }
@@ -115,7 +115,7 @@ UserController.prototype.updateUser = function (req, res)  {
     });
 };
 
-UserController.prototype.changeRights = function (req, res)  {
+UserController.prototype.changeRights = function (req, res) {
     if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
         return;
@@ -137,7 +137,7 @@ UserController.prototype.changeRights = function (req, res)  {
     });
 };
 
-UserController.prototype.deleteUser = function (req, res)  {
+UserController.prototype.deleteUser = function (req, res) {
     if (!req.body.hasOwnProperty('username')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
@@ -157,7 +157,7 @@ UserController.prototype.deleteUser = function (req, res)  {
     }
 };
 
-UserController.prototype.eraseUser = function (req, res)  {
+UserController.prototype.eraseUser = function (req, res) {
     if (req.user.priv === 1 && req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         this.user.eraseUser(req.body.id).then((result) => {
             res.status(200).json(formatToJSON(result));
@@ -178,7 +178,7 @@ UserController.prototype.eraseUser = function (req, res)  {
     }
 };
 
-UserController.prototype.loginUser = function (req, res)  {
+UserController.prototype.loginUser = function (req, res) {
     if (!req.body.hasOwnProperty('pw') || !req.body.hasOwnProperty('username')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
@@ -201,7 +201,7 @@ UserController.prototype.loginUser = function (req, res)  {
     });
 };
 
-UserController.prototype.logoutUser = function (req, res)  {
+UserController.prototype.logoutUser = function (req, res) {
     // this.user.logoutUser(req.user).then(() => {
     req.session.destroy((err) => {
         if (req.user === undefined || req.user === null) {
@@ -228,7 +228,7 @@ UserController.prototype.logoutUser = function (req, res)  {
  * @param req Express.js request object
  * @param res Express.js response object
  */
-UserController.prototype.whoAmI = function (req, res)  {
+UserController.prototype.whoAmI = function (req, res) {
     let Iam = req.user;
     if (Iam === undefined || Iam === null) {
         res.status(404);
