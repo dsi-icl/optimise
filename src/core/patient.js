@@ -53,7 +53,7 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'GENDERS.value')
                 .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
-                .where('GENDERS.value', 'like', queryvalue)
+                .where('GENDERS.value', queryvalue)
                 .andWhere('PATIENTS.deleted', '-')
                 .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
                 .then((result) => {
@@ -65,7 +65,7 @@ Patient.prototype.searchPatients = function (queryfield, queryvalue) {
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'EXTRT':
             return new Promise((resolve, reject) => knex('TREATMENTS')
-                .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'PATIENTS.aliasId')
+                .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'PATIENTS.aliasId', 'PATIENTS.consent', 'PATIENTS.study')
                 .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
                 .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
