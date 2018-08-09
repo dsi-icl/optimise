@@ -39,15 +39,16 @@ PatientDiagnosisController.prototype.createPatientDiagnosis = function (req, res
     if (req.body.hasOwnProperty('patient') && req.body.hasOwnProperty('diagnosis') && req.body.hasOwnProperty('diagnosisDate') &&
         typeof req.body.patient === 'number' && typeof req.body.diagnosis === 'number' && typeof req.body.diagnosisDate === 'string') {
         let momentDiagnos = moment(req.body.diagnosisDate, moment.ISO_8601);
-        if (!momentDiagnos.isValid()) {
+        if (!momentDiagnos.isValid() && req.body.diagnosisDate !== null) {
             let msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(messages.userError.INVALIDDATE)));
             return;
         }
         entryObj.patient = req.body.patient;
         entryObj.diagnosis = req.body.diagnosis;
-        entryObj.diagnosisDate = momentDiagnos.valueOf();
         entryObj.createdByUser = req.user.id;
+        if (req.body.hasOwnProperty('diagnosisDate') && req.body.diagnosisDate !== null)
+            entryObj.diagnosisDate = momentDiagnos.valueOf();
         this.patientDiagnosis.createPatientDiagnosis(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
@@ -67,11 +68,11 @@ PatientDiagnosisController.prototype.updatePatientDiagnosis = function (req, res
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
         let entryObj = req.body;
         let momentDiagnos = moment(req.body.diagnosisDate, moment.ISO_8601);
-        if (req.body.hasOwnProperty('diagnosisDate') && !momentDiagnos.isValid()) {
+        if (req.body.hasOwnProperty('diagnosisDate') && req.body.diagnosisDate !== null && !momentDiagnos.isValid()) {
             let msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(messages.userError.INVALIDDATE)));
             return;
-        } else if (req.body.hasOwnProperty('diagnosisDate')) {
+        } else if (req.body.hasOwnProperty('diagnosisDate') && req.body.diagnosisDate !== null) {
             entryObj.diagnosisDate = momentDiagnos.valueOf();
         }
         entryObj.createdByUser = req.user.id;
