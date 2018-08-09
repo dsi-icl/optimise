@@ -40,3 +40,7 @@ export const deleteUserAPICall = body => dispatch => apiHelper('/users', { metho
 export const changePasswordAPICall = body => () => apiHelper('/users', { method: 'PUT', body: JSON.stringify(body) })
     .catch(msg => store.dispatch(addError({ error: msg })));
 
+export const changePrivAPICall = body => dispatch => apiHelper('/users', { method: 'PATCH', body: JSON.stringify(body) })
+    .then(dispatch(getAllUsersAPICall()))
+    .catch(msg => store.dispatch(addError({ error: msg })));
+

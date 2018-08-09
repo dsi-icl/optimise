@@ -2,7 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import style from './admin.module.css';
-import { changePasswordAPICall, deleteUserAPICall } from '../../redux/actions/admin';
+import { changePasswordAPICall, deleteUserAPICall, changePrivAPICall } from '../../redux/actions/admin';
 import { addAlert } from '../../redux/actions/alert';
 import store from '../../redux/store';
 
@@ -14,7 +14,7 @@ export class UserDetail extends Component {
         const { userId } = this.props.match.params;
         if (!data.fetching) {
             const usersFiltered = data.result.filter(el => el.id === parseInt(userId, 10));
-            if (usersFiltered.length === 0) {
+            if (usersFiltered.length !== 1) {
                 return <>We cannot find this user!</>;
             } else {
                 return (
@@ -26,6 +26,7 @@ export class UserDetail extends Component {
                             <div className={style.userDetail}>
                                 <UserInfo data={usersFiltered[0]} />
                                 <ChangeUserPassword username={usersFiltered[0].username} /> <br /><br />
+                                <ChangeUserPrivilege userId={usersFiltered[0].id} priv={usersFiltered[0].priv}/> <br /><br />
                                 <DeleteUser username={usersFiltered[0].username} />
                             </div>
                         </div>
@@ -45,7 +46,8 @@ class UserInfo extends PureComponent {
             <div>
                 <label>Username: </label> {data.username} <br />
                 <label>ID: </label> {data.id}  <br />
-                <label>This user is {data.isAdmin ? 'an admin' : 'a standard user'}. </label> <br />
+                <label>Real name: </label> {data.realname} <br />
+                <label>This user is {data.priv ? 'an admin' : 'a standard user'}. </label> <br />
             </div>
         );
     }
@@ -111,6 +113,30 @@ class ChangeUserPassword extends Component {
         );
     }
 }
+
+
+class ChangeUserPrivilege extends Component {
+    _handleClick = () =>  {
+        const body = {
+            id: this.props.userId,
+            adminPriv: this.props.priv === 1 ? 0 : 1
+        };
+        store.dispatch(changePrivAPICall(body));
+    }
+    render() {
+        return (
+            <>
+                {this.props.priv === 1 ?
+                    <button onClick={this._handleClick}>Withdraw admin privileges from this user</button>
+                    :
+                    <button onClick={this._handleClick}>Give this user admin privileges</button>
+                }
+            </>
+        );
+    }
+}
+
+
 class DeleteUser extends Component {
     constructor() {
         super();
