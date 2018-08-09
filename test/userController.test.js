@@ -72,6 +72,18 @@ describe('User controller tests', () => {
             return true;
         }));
 
+    test('Admin creating user (no 2) again', () => admin
+        .post('/users')
+        .set('Content-type', 'application/json')
+        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'realname': 'IAmTesting' })
+        .then(res => {
+            expect(res.statusCode).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            return true;
+        }));
+
     test('Admin get the users matching with "test" in their name', () =>
         admin.get('/users?username=test')
             .then(res => {
@@ -161,6 +173,35 @@ describe('User controller tests', () => {
                 return true;
             })
     );
+
+    test('User no 1 gets users matching with "test" in their name', () =>
+        user.get('/users?username=test')
+            .then(res => {
+                expect(res.statusCode).toBe(401);
+                expect(res.body.error).toBeDefined();
+                expect(res.body.error).toBe(message.userError.NORIGHTS);
+                return true;
+            }));
+
+    test('User no 1 change rights of user no 2 (Should Fail)', () => user
+        .patch('/users')
+        .send({ id: 4, adminPriv: 1 })
+        .then(res => {
+            expect(res.statusCode).toBe(401);
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.NORIGHTS);
+            return true;
+        }));
+
+    test('User no 1 change their own rights (Should Fail)', () => user
+        .patch('/users')
+        .send({ id: 4, adminPriv: 1 })
+        .then(res => {
+            expect(res.statusCode).toBe(401);
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.NORIGHTS);
+            return true;
+        }));
 
     test('User no 1 user login out ()', () =>
         user
