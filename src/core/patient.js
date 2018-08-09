@@ -34,7 +34,6 @@ Patient.prototype.getPatient = function (whereObj, selectedObj) {
  * @param {string} query The aliasId of the patient seeking for
  */
 Patient.prototype.searchPatients = function (queryfield, queryvalue) {
-    console.log(queryvalue, typeof queryvalue);
 
     switch (queryfield) {
         case 'OPTIMISEID':

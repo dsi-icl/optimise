@@ -17,15 +17,25 @@ function PatientController() {
 }
 
 PatientController.prototype.searchPatients = function (req, res) {  //get all list of patient if no query string; get similar if querystring is provided
+    let queryfield = '';
+    let queryvalue = '';
     if (Object.keys(req.query).length > 2) {
         res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
         return;
     }
-    if (!req.query.hasOwnProperty('field') || !req.query.hasOwnProperty('value')) {
+    if (typeof req.query.field === 'string')
+        queryfield = req.query.field;
+    else if (req.query.field !== undefined) {
         res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
         return;
     }
-    this.patient.searchPatients(req.query.field, req.query.value).then((result) => {
+    if (typeof req.query.value === 'string')
+        queryvalue = req.query.value;
+    else if (req.query.value !== undefined) {
+        res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
+        return;
+    }
+    this.patient.searchPatients(queryfield, queryvalue).then((result) => {
         result.forEach((__unused__r, i) => { result[i].uuid = undefined; });
         res.status(200).json(formatToJSON(result));
         return true;
