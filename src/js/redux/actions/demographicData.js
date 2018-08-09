@@ -28,6 +28,14 @@ export const createPregnancyAPICall = (body) => dispatch => (
         .catch(msg => store.dispatch(addError({ error: msg })))
 );
 
+export const editPregnancyAPICall = (body) => dispatch => (
+    apiHelper('/demographics/Pregnancy', { method: 'PUT', body: JSON.stringify(body.data) })
+        .then(() => {
+            dispatch(getPatientProfileById(body.patientId));
+        })
+        .catch(msg => store.dispatch(addError({ error: msg })))
+);
+
 export const deletePregnancyAPICall = (body) => dispatch => (
     apiHelper('/demographics/Pregnancy', { method: 'DELETE', body: JSON.stringify(body.data) })
         .then(() => {
