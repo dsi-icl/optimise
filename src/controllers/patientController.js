@@ -104,7 +104,7 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
         return this.patient.getPatientProfile({ 'aliasId': req.params.patientId }, true, req.body.getOnly)
             .then(function (result) {
                 res.status(200).json(result);
-                return false;
+                return true;
             }, function (error) {
                 res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
                 return false;
