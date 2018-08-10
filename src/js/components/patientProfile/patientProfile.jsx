@@ -199,7 +199,6 @@ class ImmunisationSection extends Component {
         );
     }
 }
-
 @connect(state => ({ data: state.patientProfile.data, fields: state.availableFields.diagnoses }))
 class PrimaryDiagnosis extends Component {
     render() {
@@ -468,8 +467,7 @@ class OnePregnancy extends Component {
 
     render() {
         const { editing, noEndDate, startDate, outcomeDate, outcome, meddra, startDate_original, outcomeDate_original, outcome_original, meddra_original } = this.state;
-        const { data, patientId, outcomeHash, meddra_Hash, outcomes } = this.props;
-        console.log(startDate_original._d.toDateString(), startDate_original.valueOf());
+        const { data, outcomeHash, meddra_Hash, outcomes } = this.props;
         return (
             <div className={style.interruption}>
                 {
@@ -488,7 +486,7 @@ class OnePregnancy extends Component {
                             </div>
                             <button onClick={this._handleSubmit}>Confirm change</button><br /><br />
                             <button onClick={this._handleEditClick}>Cancel</button>
-                            <br/><br/>
+                            <br /><br />
                         </>
                         :
                         <>
@@ -559,7 +557,7 @@ class DeletePatient extends Component {
                     <button onClick={this._handleClickWithdrawConsent} >{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</button>
                 </PatientProfileSectionScaffold>
                 <PatientProfileSectionScaffold sectionName='Delete'>
-                    <button onClick={this._handleClickDelete} >Delete this patient</button><br /><br />
+                    <button onClick={this._handleClickDelete} className={style.deleteButton}>Delete this patient</button>
                 </PatientProfileSectionScaffold>
             </>
         );

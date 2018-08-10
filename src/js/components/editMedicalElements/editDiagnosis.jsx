@@ -69,7 +69,7 @@ class UpdateDiagnosisEntry extends Component {
             <>
                 <label>Diagnosis date: </label>
                 <PickDate startDate={date} handleChange={this._handleDateChange} />
-                <br /><br />
+                <br />
                 <label>Diagnosis: </label>
                 <select defaultValue={diagnosis} ref={diagnosisRef}>
                     {fields.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}

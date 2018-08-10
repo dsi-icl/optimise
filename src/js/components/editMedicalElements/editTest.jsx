@@ -145,10 +145,10 @@ class UpdateTestEntry extends Component {
             <>
                 <label>Expected Date: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} />
-                <br /><br />
+                <br />
                 <label>Sample taking Date: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />
-                <br /><br />
+                <br />
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
         );

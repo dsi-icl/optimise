@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TreeSelect, Tree } from 'antd';
-import 'antd/lib/tree-select/style/css';
 import './override.css';
 import style from './meddra.module.css';
 const TreeNode = Tree.TreeNode;

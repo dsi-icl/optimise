@@ -59,7 +59,7 @@ export class TimelineBox extends Component {   //unfinsihed
             end = end > 100 ? 100 : end;
             start = start >= end ? end - 1 : start;
             return (
-                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '3' }} title={new Date(startDate).toDateString()} key={`${visit.id}`} href={`#visit/${visit.id}`}>
+                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '3' }} title={new Date(startDate).toDateString()} key={`${visit.id}`} href={`#visit-${visit.id}`}>
                     <div className={style.timelineVisit}>-</div>
                 </a>
             );
@@ -73,7 +73,7 @@ export class TimelineBox extends Component {   //unfinsihed
             end = end > 100 ? 100 : end;
             start = start >= end ? end - 1 : start;
             return (
-                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '5' }} title={new Date(startDate).toDateString()} key={`${test.id}`} href={`#test/${test.id}`}>
+                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '5' }} title={new Date(startDate).toDateString()} key={`${test.id}`} href={`#test-${test.id}`}>
                     <div className={style.timelineTest}>-</div>
                 </a>
             );
@@ -88,7 +88,7 @@ export class TimelineBox extends Component {   //unfinsihed
             end = end > 100 ? 100 : end;
             start = start >= end ? end - 1 : start;
             return (
-                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '1' }} title={new Date(startDate).toDateString()} key={`${med.id}`} href={`#treatment/${med.id}`}>
+                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '1' }} title={new Date(startDate).toDateString()} key={`${med.id}`} href={`#treatment-${med.id}`}>
                     <div className={style.timelineMed}>-</div>
                 </a>
             );
@@ -103,7 +103,7 @@ export class TimelineBox extends Component {   //unfinsihed
             end = end > 100 ? 100 : end;
             start = start >= end ? end - 1 : start;
             return (
-                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '7' }} title={new Date(startDate).toDateString()} key={`${CE.id}`} href={`#clinicalEvent/${CE.id}`}>
+                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '7' }} title={new Date(startDate).toDateString()} key={`${CE.id}`} href={`#clinicalEvent-${CE.id}`}>
                     <div className={CE.type === 4 ? style.timelineCEBlack : style.timelineCE}>-</div>
                 </a>
             );

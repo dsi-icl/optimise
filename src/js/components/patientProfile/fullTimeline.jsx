@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import Timeline from 'react-calendar-timeline/lib';
@@ -104,7 +105,7 @@ export default class FullTimeline extends Component {
                 if (maxTimeStart.valueOf() > moment(t.startDate, 'x').valueOf())
                     maxTimeStart = moment(t.startDate, 'x').toDate();
                 items.push({
-                    id: `tr_${t.id}`,
+                    id: `#treatment-${t.id}`,
                     interruptions: t.interruptions,
                     group: 1,
                     title: `${props.availableFields.drugs_Hash[0][t.drug].name} (${props.availableFields.drugs_Hash[0][t.drug].module})`,
@@ -137,7 +138,7 @@ export default class FullTimeline extends Component {
                 if (maxTimeStart.valueOf() > moment(v.visitDate, 'x').valueOf())
                     maxTimeStart = moment(v.visitDate, 'x').toDate();
                 items.push({
-                    id: `vi_${v.id}`,
+                    id: `#visit-${v.id}`,
                     group: 2,
                     title: `${i}${suffix} visit ${i === 1 ? '(Baseline)' : ''}`,
                     start: moment(v.visitDate, 'x').valueOf(),
@@ -164,7 +165,7 @@ export default class FullTimeline extends Component {
                 if (maxTimeStart.valueOf() > moment(t.expectedOccurDate, 'x').valueOf())
                     maxTimeStart = moment(t.expectedOccurDate, 'x').toDate();
                 items.push({
-                    id: `te_${t.id}`,
+                    id: `#test-${t.id}`,
                     group: 3,
                     title: props.availableFields.testTypes_Hash[0][t.type],
                     start: moment(t.actualOccurredDate || t.expectedOccurDate, 'x').valueOf(),
@@ -186,7 +187,7 @@ export default class FullTimeline extends Component {
                 let severityFieldId = props.availableFields.clinicalEventFields.filter(f => f.idname === 'Severity')[0].id;
                 let severityRecord = c.data.filter(d => d.field === severityFieldId)[0];
                 items.push({
-                    id: `cl_${c.id}`,
+                    id: `#clinicalEvent-${c.id}`,
                     severity: severityRecord ? severityRecord.value : undefined,
                     group: props.availableFields.clinicalEventTypes_Hash[0][c.type] === 'Relapse' ? 6 : 4,
                     title: props.availableFields.clinicalEventTypes_Hash[0][c.type],
@@ -284,27 +285,29 @@ export default class FullTimeline extends Component {
             let severityRadius = item.severity === 'Mild' ? 5 : item.severity === 'Moderate' ? 10 : item.severity === 'Severe' ? 15 : 0;
 
             return (
-                <div className={style.timelineBackground} style={{ width: timelineContext.timelineWidth }}>
-                    <svg height={40} width={timelineContext.timelineWidth}>
-                        {x2 - x1 > 5 ?
-                            (
-                                <>
-                                    <line x1={x1} y1={15} x2={x2} y2={15} className={style.dashed} />
-                                    <line x1={x2} y1={10} x2={x2} y2={20} />
-                                </>
-                            ) : null}
-                        {severityRadius === 0 ?
-                            (
-                                <>
-                                    <line x1={x1 - 4} y1={15 - 4} x2={x1 + 4} y2={15 + 4} className={style.cross} />
-                                    <line x1={x1 - 4} y1={15 + 4} x2={x1 + 4} y2={15 - 4} className={style.cross} />
-                                </>
-                            ) : (
-                                <circle cx={x1} cy={15} r={severityRadius} />
-                            )
-                        }
-                    </svg>
-                </div>
+                <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>
+                    <div className={style.timelineBackground} style={{ width: timelineContext.timelineWidth }}>
+                        <svg height={40} width={timelineContext.timelineWidth}>
+                            {x2 - x1 > 5 ?
+                                (
+                                    <>
+                                        <line x1={x1} y1={15} x2={x2} y2={15} className={style.dashed} />
+                                        <line x1={x2} y1={10} x2={x2} y2={20} />
+                                    </>
+                                ) : null}
+                            {severityRadius === 0 ?
+                                (
+                                    <>
+                                        <line x1={x1 - 4} y1={15 - 4} x2={x1 + 4} y2={15 + 4} className={style.cross} />
+                                        <line x1={x1 - 4} y1={15 + 4} x2={x1 + 4} y2={15 - 4} className={style.cross} />
+                                    </>
+                                ) : (
+                                    <circle cx={x1} cy={15} r={severityRadius} />
+                                )
+                            }
+                        </svg>
+                    </div>
+                </Link>
             );
         } else if (item.interruptions !== undefined) {
 
@@ -344,14 +347,14 @@ export default class FullTimeline extends Component {
             if (parseFloat(item.start) > timelineContext.visibleTimeStart)
                 x2i = x2i + ((timelineContext.visibleTimeStart - parseFloat(item.start)) * timelineContext.timelineWidth / unit);
             return (
-                <>
+                <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>
                     <div className={style.timelineBackground} style={{ width: (x2i - x1i), maxWidth: timelineContext.timelineWidth }}>
                         <svg height={40} width={timelineContext.timelineWidth}>
                             {overlays}
                         </svg>
                     </div>
                     <div className={style.timelineTextContent}>{item.title}</div>
-                </>
+                </Link>
             );
         } else if (item.id === 'edss_plotter') {
             let unit = (timelineContext.visibleTimeEnd - timelineContext.visibleTimeStart);
@@ -373,10 +376,10 @@ export default class FullTimeline extends Component {
             );
         }
         return (
-            <>
+            <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>
                 <div className={style.timelineBackground}></div>
                 <div className={style.timelineTextContent}>{item.title}</div>
-            </>);
+            </Link>);
     }
 
     render() {
