@@ -506,10 +506,6 @@ div.timelineCEBlack {
     background-color: rgb(255, 202, 27);
 }
 
-.timelineTreatementItem svg {
-    overflow: visible;
-}
-
 .timelineTreatementItem line {
     stroke: rgb(179, 111, 22);
 }
@@ -556,9 +552,10 @@ div.timelineCEBlack {
     stroke: var(--color-background);
 }
 
+.timelineTreatementItem svg,
 .timelineEDSSPlotter svg,
 .timelineRelapseItem svg {
-    overflow: visible;
+    overflow: visible !important;
 }
 
 .timelineRelapseItem circle {
@@ -627,4 +624,12 @@ div.timelineCEBlack {
 
 .filterBox span.selected:hover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), 80%);
+}
+
+.deleteButton {
+    background-color: var(--color-button-red)
+}
+
+.deleteButton:hover {
+    background-color: var(--color-button-red-lighter)
 }

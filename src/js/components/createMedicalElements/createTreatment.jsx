@@ -148,7 +148,7 @@ export class CreateTreatment extends Component {
                             <option value='year'>per year</option>
                         </select><br /><br />
                         <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                        {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}<br />
+                        {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}
                         <button onClick={this._handleSubmitClick} >Submit</button>
                     </form>
                 </>

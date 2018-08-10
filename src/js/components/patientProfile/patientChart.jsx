@@ -21,8 +21,33 @@ import style from './patientProfile.module.css';
     data: state.patientProfile.data
 }))
 export class PatientChart extends Component {
+
+    constructor() {
+        super();
+        this.state = { hash: null };
+    }
     componentDidMount() {
         store.dispatch(getPatientProfileById(this.props.match.params.patientId));
+    }
+
+    componentDidUpdate() {
+        let hash = window.decodeURIComponent(window.location.hash);
+        if (hash !== this.state.hash) {
+            if (hash.trim() === '')
+                return;
+            let domElement = document.querySelector(hash);
+            if (domElement) {
+                window.location.hash = hash;
+                this.setState({
+                    hash
+                }, () => {
+                    domElement.scrollIntoView({
+                        block: 'center',
+                        inline: 'center'
+                    });
+                });
+            }
+        }
     }
 
     render() {
@@ -65,7 +90,7 @@ class Test extends PureComponent {
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>
-                    <NavLink id={`test/${data.id}`} to={`/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`test-${data.id}`} to={`/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
                 </td>
@@ -93,7 +118,7 @@ class Medication extends PureComponent {
                 <td>{data.times && data.intervalUnit ? `${data.times} times/${data.intervalUnit}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
-                    <NavLink id={`treatment/${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`treatment-${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Interruptions</button>
                     </NavLink>
                 </td>
@@ -119,7 +144,7 @@ class ClinicalEvent extends PureComponent {
                 <td>{endDate}</td>
                 <td>{data.meddra ? meddraHash[data.meddra].name : null}</td>
                 <td>
-                    <NavLink id={`clinicalEvent/${data.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`clinicalEvent-${data.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Data</button>
                     </NavLink>
                 </td>
@@ -235,7 +260,7 @@ class OneVisit extends Component {
                 className={style.historyVisit}
                 bubbleStyle={{ borderColor: 'transparent' }}>
 
-                <a href={`visit/${this.props.visitId}`} className={style.visitAnchors} id={`visit/${this.props.visitId}`} >visit/${this.props.visitId}</a>
+                <a href={`visit-${this.props.visitId}`} className={style.visitAnchors} id={`visit-${this.props.visitId}`} >visit/${this.props.visitId}</a>
 
                 {visitHasTests ? (
                     <>
