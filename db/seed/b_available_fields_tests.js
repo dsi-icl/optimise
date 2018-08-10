@@ -8,6 +8,5 @@ exports.seed = (knex) =>
     knex('AVAILABLE_FIELDS_TESTS').del()
         .then(() =>
             // Inserts seed entries
-            knex('AVAILABLE_FIELDS_TESTS').insert(testFields)
-        )
-;
+            knex.batchInsert('AVAILABLE_FIELDS_TESTS', testFields, 50)
+        );
