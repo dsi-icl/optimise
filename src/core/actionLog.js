@@ -17,8 +17,7 @@ ActionLog.prototype.getLogs = function () {
     return new Promise((resolve, reject) =>
         getEntry('LOG_ACTIONS', {}, '*')
             .then((result) => {
-                resolve(result);
-                return;
+                return resolve(result);
             })
             .catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
@@ -34,11 +33,9 @@ ActionLog.prototype.erasePatients = function (patientId, patientAlias) {
             .orWhere('body', 'like', `%"patientId":${patientId}}%`)
             .orWhere('router', 'like', `%/${patientAlias}`)
             .then(function (result) {
-                resolve(result);
-                return;
+                return resolve(result);
             }, function (error) {
-                reject(error);
-                return;
+                return reject(error);
             });
     });
 };
@@ -54,11 +51,9 @@ ActionLog.prototype.eraseVisits = function (visitId) {
             .orWhere('body', 'like', `%"orderedDuringVisit":${visitId},%`)
             .orWhere('body', 'like', `%"orderedDuringVisit":${visitId}}%`)
             .then(function (result) {
-                resolve(result);
-                return;
+                return resolve(result);
             }, function (error) {
-                reject(error);
-                return;
+                return reject(error);
             });
     });
 };
@@ -70,11 +65,9 @@ ActionLog.prototype.eraseCE = function (clinicalEventId) {
             .where('body', 'like', `%"clinicalEventId":${clinicalEventId},%`)
             .orWhere('body', 'like', `%"clinicalEventId":${clinicalEventId}}%`)
             .then(function (result) {
-                resolve(result);
-                return;
+                return resolve(result);
             }, function (error) {
-                reject(error);
-                return;
+                return reject(error);
             });
     });
 };
@@ -86,11 +79,9 @@ ActionLog.prototype.eraseTreatments = function (treatmentsId) {
             .where('body', 'like', `%"treatmentId":${treatmentsId},%`)
             .orWhere('body', 'like', `%"treatmentId":${treatmentsId}"%`)
             .then(function (result) {
-                resolve(result);
-                return;
+                return resolve(result);
             }, function (error) {
-                reject(error);
-                return;
+                return reject(error);
             });
     });
 };
@@ -102,11 +93,9 @@ ActionLog.prototype.eraseTreatmentsInters = function (treatmentsInterId) {
             .where('body', 'like', `%"treatmentInterId":${treatmentsInterId},%`)
             .orWhere('body', 'like', `%"treatmentInterId":${treatmentsInterId}}%`)
             .then(function (result) {
-                resolve(result);
-                return;
+                return resolve(result);
             }, function (error) {
-                reject(error);
-                return;
+                return reject(error);
             });
     });
 };
