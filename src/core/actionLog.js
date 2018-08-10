@@ -118,11 +118,9 @@ ActionLog.prototype.eraseTests = function (testId) {
             .where('body', 'like', `%"testId":${testId},%`)
             .orWhere('body', 'like', `%"testId":${testId}}%`)
             .then(function (result) {
-                resolve(result);
-                return;
+                return resolve(result);
             }, function (error) {
-                reject(error);
-                return;
+                return reject(error);
             });
     });
 };
@@ -134,11 +132,9 @@ ActionLog.prototype.eraseIdOnRoute = function (route, id) {
             .where({ 'router': route })
             .andWhere('body', 'like', `%"id":${id},%`)
             .then(function (result) {
-                resolve(result);
-                return;
+                return resolve(result);
             }, function (error) {
-                reject(error);
-                return;
+                return reject(error);
             });
     });
 };
