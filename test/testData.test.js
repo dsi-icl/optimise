@@ -83,7 +83,7 @@ describe('Creating TEST data', () => {
 
     test('Request creation with unmatching test and field', () => admin
         .post('/data/test')
-        .send({ testId: 1, add: { 54: 120 } })
+        .send({ testId: 1, add: { 41: 120 } })
         .then(res => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
