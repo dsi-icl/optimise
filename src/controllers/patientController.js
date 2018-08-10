@@ -22,19 +22,19 @@ PatientController.prototype.searchPatients = function (req, res) {  //get all li
     let queryvalue = '';
     if (Object.keys(req.query).length > 2) {
         res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
-        return;
+        return false;
     }
     if (typeof req.query.field === 'string')
         queryfield = req.query.field;
     else if (req.query.field !== undefined) {
         res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
-        return;
+        return false;
     }
     if (typeof req.query.value === 'string')
         queryvalue = req.query.value;
     else if (req.query.value !== undefined) {
         res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
-        return;
+        return false;
     }
     this.patient.searchPatients(queryfield, queryvalue).then((result) => {
         result.forEach((__unused__r, i) => { result[i].uuid = undefined; });
@@ -63,14 +63,14 @@ PatientController.prototype.createPatient = function (req, res) {
         });
     } else {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
+        return false;
     }
 };
 
 PatientController.prototype.updatePatient = function (req, res) {
     if (!req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
+        return false;
     }
     this.patient.updatePatient(req.user, req.body).then((result) => {
         res.status(200).json(formatToJSON(result));
@@ -92,10 +92,10 @@ PatientController.prototype.deletePatient = function (req, res) {
         });
     } else if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
+        return false;
     } else {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
+        return false;
     }
 };
 
@@ -104,14 +104,14 @@ PatientController.prototype.getPatientProfileById = function (req, res) {
         return this.patient.getPatientProfile({ 'aliasId': req.params.patientId }, true, req.body.getOnly)
             .then(function (result) {
                 res.status(200).json(result);
-                return;
+                return false;
             }, function (error) {
                 res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
-                return;
+                return false;
             });
     } else {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
+        return false;
     }
 };
 
@@ -120,15 +120,15 @@ PatientController.prototype.erasePatient = function (req, res) {
     let that = this;
     if (req.user.priv !== 1) {
         res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
+        return false;
     }
     if (!req.body.hasOwnProperty('patientId')) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
+        return false;
     }
     if (typeof req.body.patientId !== 'number') {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
+        return false;
     }
     patientId = req.body.patientId;
     return getEntry('PATIENTS', { id: patientId }).then((result) => {
