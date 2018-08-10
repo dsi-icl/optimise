@@ -44,8 +44,7 @@ Patient.prototype.getPatientProfile = function (whereObj, deleted, getOnly) {
             if (Patientresult.length === 1) {
                 patientId = Patientresult[0].patientId;
             } else {
-                reject(ErrorHelper(message.errorMessages.NOTFOUND));
-                return;
+                return reject(ErrorHelper(message.errorMessages.NOTFOUND));
             }
             let promiseArr = [];
             let availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis'];
@@ -65,17 +64,10 @@ Patient.prototype.getPatientProfile = function (whereObj, deleted, getOnly) {
                 for (let i = 0; i < result.length; i++) {
                     responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
                 }
-                resolve(responseObj);
-                return;
-            }).catch((error) => {
-                reject(ErrorHelper(message.errorMessages.NOTFOUND, error));
-                return;
-            });
-            return;
-        }).catch((error) => {
-            reject(ErrorHelper(message.errorMessages.NOTFOUND, error));
-            return;
-        }));
+                return resolve(responseObj);
+            }).catch((error) => reject(ErrorHelper(message.errorMessages.NOTFOUND, error)));
+            return true;
+        }).catch((error) => reject(ErrorHelper(message.errorMessages.NOTFOUND, error))));
 };
 
 /**
