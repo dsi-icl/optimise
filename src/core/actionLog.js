@@ -14,12 +14,13 @@ function ActionLog() {
 }
 
 ActionLog.prototype.getLogs = function () {
-    return new Promise((resolve, reject) =>
-        getEntry('LOG_ACTIONS', {}, '*')
-            .then((result) => {
-                return resolve(result);
-            })
-            .catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+    return new Promise(function (resolve, reject) {
+        return getEntry('LOG_ACTIONS', {}, '*')
+            .then(
+                function (result) { return resolve(result); },
+                function (error) { return reject(ErrorHelper(message.errorMessages.GETFAIL, error)); });
+    }
+    );
 };
 
 ActionLog.prototype.erasePatients = function (patientId, patientAlias) {
