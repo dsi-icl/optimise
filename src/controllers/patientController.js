@@ -165,12 +165,8 @@ PatientController.prototype.erasePatient = function (req, res) {
                 if (result.medicalHistory.length >= 1)
                     for (let i = 0; i < result.medicalHistory.length; i++)
                         promiseContainer.push(that.action.eraseIdOnRoute('/demographics/MedicalCondition', result.medicalHistory[i].id));
-                if (result.hasOwnProperty('demographicData') && result.demographicData !== undefined) {
-                    console.log(result);
-                    console.log(result.hasOwnProperty('demographicData'));
-                    console.log(JSON.stringify(result['demographicData']));
+                if (result.hasOwnProperty('demographicData') && result.demographicData !== undefined)
                     promiseContainer.push(that.action.eraseIdOnRoute('/demographics/Demographic', result.demographicData.id));
-                }
                 if (result.hasOwnProperty('diagnosis') && result.diagnosis.lenght >= 1)
                     for (let i = 0; i < result.diagnosis.length; i++)
                         promiseContainer.push(that.action.eraseIdOnRoute('/patientDiagnosis', result.diagnosis[i].id));
@@ -180,7 +176,7 @@ PatientController.prototype.erasePatient = function (req, res) {
                 let promises = Promise.all(promiseContainer);
                 return promises.then(function (subResult) {
                     if (subResult === 0 && process.env.NODE_ENV !== 'production')
-                        console.error('No logs were found corresponding to the patient. Please check the LOG_ACTIONS table.');
+                        console.error('No logs were found corresponding to the patient. Please check the LOG_ACTIONS table.'); // eslint-disable-line no-console
                     return eraseEntry('PATIENTS', { id: patientId }).then((__unused__result) => {
                         res.status(200).json({ success: true, message: 'Erasure completed. Check for any data retreivable if needed.' });
                         return true;
@@ -190,7 +186,7 @@ PatientController.prototype.erasePatient = function (req, res) {
                     });
                 }, function (subError) {
                     if (process.env.NODE_ENV !== 'production') {
-                        console.error(JSON.stringify(ErrorHelper('An error occured while erasing logs.', subError)));
+                        console.error(JSON.stringify(ErrorHelper('An error occured while erasing logs.', subError))); // eslint-disable-line no-console
                     }
                     return eraseEntry('PATIENTS', { id: patientId }).then((__unused__result) => {
                         res.status(200).json({ success: true, message: 'Erasure completed. Check for any data retreivable if needed.' });
@@ -201,7 +197,6 @@ PatientController.prototype.erasePatient = function (req, res) {
                     });
                 });
             }, function (error) {
-                console.log(error);
                 return eraseEntry('PATIENTS', { id: patientId }).then((__unused__result) => {
                     res.status(200).json({ success: true, message: 'Erasure completed. Check for any data retreivable if needed.' });
                     return true;
