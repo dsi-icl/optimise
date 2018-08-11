@@ -196,7 +196,7 @@ PatientController.prototype.erasePatient = function (req, res) {
                         return false;
                     });
                 });
-            }, function (error) {
+            }, function (__unused__error) {
                 return eraseEntry('PATIENTS', { id: patientId }).then((__unused__result) => {
                     res.status(200).json({ success: true, message: 'Erasure completed. Check for any data retreivable if needed.' });
                     return true;
