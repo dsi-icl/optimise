@@ -107,6 +107,8 @@ class Medication extends PureComponent {
     render() {
         const { data, typedict, patientId } = this.props;
         const numberOfInterruptions = data.interruptions ? data.interruptions.length : 0;
+        if (!typedict[data.drug])
+            return null;
         return (
             <tr>
                 <td><EditButton to={`/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>

@@ -37,19 +37,24 @@ export default class EditVisit extends Component {
             wannaUpdate: false,
             visitId: nextProps.match.params.visitId,
             reasonForVisit: reason ? reason[0].value : 'unselected',
-            startDate: moment(visitData.visitDate, 'x')
+            startDate: moment(visitData.visitDate, 'x'),
+            error: undefined
         };
     }
 
     _handleWannaUpdateClick(ev) {
         ev.preventDefault();
-        this.setState(oldState => ({ wannaUpdate: !oldState.wannaUpdate }));
+        this.setState(oldState => ({
+            wannaUpdate: !oldState.wannaUpdate,
+            error: undefined
+        }));
     }
 
 
     _handleDateChange(date) {
         this.setState({
-            startDate: date
+            startDate: date,
+            error: undefined
         });
     }
 
@@ -101,7 +106,8 @@ export default class EditVisit extends Component {
         const body = this._formatRequestBody();
 
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: undefined
         }, () => {
             this.props.updateVisit(body);
         });

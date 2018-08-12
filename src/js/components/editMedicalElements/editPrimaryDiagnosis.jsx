@@ -176,7 +176,7 @@ class OneEditPrimaryDiagnoses extends Component {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
-        if (!this.state.diagnosisDate) {
+        if (!this.state.diagnosisDate || !this.state.diagnosisDate.isValid()) {
             this.setState({
                 error: 'Please select a diagnosis date'
             });

@@ -77,9 +77,15 @@ export class TreatmentInterruption extends Component {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
-        if (!this.state.newStartDate) {
+        if (!this.state.newStartDate || !this.state.newStartDate.isValid()) {
             this.setState({
                 error: 'Please select a start date'
+            });
+            return;
+        }
+        if (!this.state.noEndDate && (!this.state.newEndDate || !this.state.newEndDate.isValid())) {
+            this.setState({
+                error: 'Please select an end date'
             });
             return;
         }
@@ -101,7 +107,8 @@ export class TreatmentInterruption extends Component {
             }
         };
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: false
         }, () => {
             store.dispatch(createTreatmentInterruptionAPICall(body));
             this.setState({ addMore: false });
@@ -220,9 +227,15 @@ class OneTreatmentInterruption extends Component {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
-        if (!this.state.startDate) {
+        if (!this.state.startDate || !this.state.startDate.isValid()) {
             this.setState({
                 error: 'Please select a start date'
+            });
+            return;
+        }
+        if (!this.state.noEndDate && (!this.state.endDate || !this.state.endDate.isValid())) {
+            this.setState({
+                error: 'Please select an end date'
             });
             return;
         }
@@ -244,7 +257,8 @@ class OneTreatmentInterruption extends Component {
             }
         };
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: false
         }, () => {
             store.dispatch(editTreatmentInterruptionAPICall(body));
             this.setState({ editing: false });

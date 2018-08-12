@@ -11,14 +11,15 @@ export class CreateTreatment extends Component {
     constructor() {
         super();
         this.state = {
-            drugType: '',
+            drugType: 'unselected',
             startDate: moment(),
+            terminatedDate: moment(),
             drugModule: '',
             dose: '',
-            unit: '',
-            form: '',
-            times: '',
-            intervalUnit: '',
+            unit: 'unselected',
+            form: 'unselected',
+            times: 'unselected',
+            intervalUnit: 'unselected',
             noEndDate: true,
         };
         this.reasonRef = React.createRef();
@@ -31,28 +32,24 @@ export class CreateTreatment extends Component {
         this._handleToggleNoEndDate = this._handleToggleNoEndDate.bind(this);
     }
 
-    componentDidMount() {
-        this.setState({
-            drugType: this.props.types[0].id,
-            drugModule: this.props.types[0].module
-        });
-    }
-
     _handleToggleNoEndDate(ev) {
         this.setState({
-            noEndDate: ev.target.checked
+            noEndDate: ev.target.checked,
+            error: false
         });
     }
 
     _handleDateChange(date) {
         this.setState({
-            startDate: date
+            startDate: date,
+            error: false
         });
     }
 
     _handleTerminatedDateChange(date) {
         this.setState({
-            terminatedDate: date
+            terminatedDate: date,
+            error: false
         });
     }
 
@@ -76,7 +73,8 @@ export class CreateTreatment extends Component {
     _handleTypeChange(ev) {
         this.setState({
             drugType: parseInt(ev.target.value, 10),
-            drugModule: ev.target.selectedOptions[0].attributes['data-drugmodule'].nodeValue
+            drugModule: ev.target.selectedOptions[0].attributes['data-drugmodule'].nodeValue,
+            error: false
         });
     }
 
@@ -84,10 +82,28 @@ export class CreateTreatment extends Component {
         e.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
+
+        if (!this.state.startDate || !this.state.startDate.isValid()) {
+            return this.setState({
+                error: 'Please indicate the start date of the treatment'
+            });
+        }
+        if (!this.state.noEndDate && (!this.state.terminatedDate || !this.state.terminatedDate.isValid())) {
+            return this.setState({
+                error: 'Please indicate the termination date of the treatment'
+            });
+        }
+        if (this.state.drugType === 'unselected') {
+            return this.setState({
+                error: 'Please indicate the treatment'
+            });
+        }
+
         const requestBody = this._formatRequestBody();
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: false
         }, () => {
             this.props.createTreatment(requestBody);
         });
@@ -112,21 +128,22 @@ export class CreateTreatment extends Component {
                     <form className={style.panel}>
                         <label htmlFor='drug'>Treatment:</label><br />
                         <select name='drug' value={this.state.drugType} onChange={this._handleTypeChange} autoComplete='off'>
+                            <option value='unselected'></option>
                             {this.props.types.sort((a, b) => a.name.localeCompare(b.name)).map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}
                         </select><br /><br />
-                        {this.state.drugType !== '' ? <span><i>{`You have selected a treatment of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
+                        {this.state.drugType !== 'unselected' ? <span><i>{`You have selected a treatment of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
 
                         <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
                         <label htmlFor='dose'>Dose:</label><br /> <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text' autoComplete='off' /><br /><br />
                         <label htmlFor='unit'>Unit:</label><br />
                         <select name='unit' value={this.state.unit} onChange={this._handleInputChange} autoComplete='off'>
-                            <option value=''></option>
+                            <option value='unselected'></option>
                             <option value='mg'>mg</option>
                             <option value='cc'>cc</option>
                         </select><br /><br />
                         <label htmlFor='form'>Form:</label><br />
                         <select name='form' value={this.state.form} onChange={this._handleInputChange} autoComplete='off'>
-                            <option value=''></option>
+                            <option value='unselected'></option>
                             <option value='OR'>Oral</option>
                             <option value='IV'>Intravenous</option>
                             <option value='IM'>Intramuscular</option>
@@ -134,14 +151,14 @@ export class CreateTreatment extends Component {
                         </select><br /><br />
                         <label>Frequency (fill both or leave both blank): </label>
                         <select name='times' value={this.state.times} onChange={this._handleInputChange} autoComplete='off'>
-                            <option value=''></option>
+                            <option value='unselected'></option>
                             <option value='1'>once</option>
                             <option value='2'>twice</option>
                             <option value='3'>three times</option>
                             <option value='4'>four times</option>
                         </select><br /><br />
                         <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleInputChange} autoComplete='off'>
-                            <option value=''></option>
+                            <option value='unselected'></option>
                             <option value='day'>per day</option>
                             <option value='week'>per week</option>
                             <option value='month'>per month</option>
@@ -149,6 +166,7 @@ export class CreateTreatment extends Component {
                         </select><br /><br />
                         <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
                         {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}
+                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                         <button onClick={this._handleSubmitClick} >Submit</button>
                     </form>
                 </>
