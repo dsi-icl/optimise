@@ -205,16 +205,24 @@ class PrimaryDiagnosis extends Component {
         if (this.props.data.diagnosis.length === 0) {
             return null;
         }
-        const diagnosis = this.props.fields.filter(el => el.id === this.props.data.diagnosis[0].diagnosis);
-        if (diagnosis.length === 0) {
+        const diagnosis =  this.props.data.diagnosis.sort((a, b) => parseInt(a.diagnosisDate) > parseInt(b.diagnosisDate))[0];
+        if (!diagnosis) {
             return null;
         }
+
+        const diagnosisName = this.props.fields.filter(el => el.id === diagnosis.diagnosis)[0];
+        if (!diagnosisName) {
+            return null;
+        }
+
         return (
-            <PatientProfileSectionScaffold sectionName='Primary Diagnosis' actions={
+            <PatientProfileSectionScaffold sectionName='Last Primary Diagnosis' actions={
                 <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
             }>
-                <label>Primary Diagnosis: </label> {diagnosis[0].value} <br />
-                <label>Date of diagnosis: </label> {new Date(parseInt(this.props.data.diagnosis[0].diagnosisDate, 10)).toDateString()}
+                <>
+                    <label>Date of diagnosis: </label> {new Date(parseInt(diagnosis.diagnosisDate, 10)).toDateString()} < br />
+                    <label>Diagnosis: </label> {diagnosisName.value}
+                </>
             </PatientProfileSectionScaffold>
         );
     }

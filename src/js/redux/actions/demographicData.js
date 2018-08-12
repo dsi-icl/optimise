@@ -54,8 +54,25 @@ export const updateDemographicAPICall = (body) => dispatch => (
 );
 
 
+export const createDiagnosisAPICall = (body) => dispatch => (
+    apiHelper('/patientDiagnosis', { method: 'POST', body: JSON.stringify(body.data) })
+        .then(() => {
+            history.push(body.to);
+            dispatch(getPatientProfileById(body.patientId));
+        })
+        .catch(msg => store.dispatch(addError({ error: msg })))
+);
+
 export const updateDiagnosisAPICall = (body) => dispatch => (
     apiHelper('/patientDiagnosis', { method: 'PUT', body: JSON.stringify(body.data) })
+        .then(() => {
+            dispatch(getPatientProfileById(body.patientId));
+        })
+        .catch(msg => store.dispatch(addError({ error: msg })))
+);
+
+export const deleteDiagnosisAPICall = (body) => dispatch => (
+    apiHelper('/patientDiagnosis', { method: 'DELETE', body: JSON.stringify(body.data) })
         .then(() => {
             history.push(body.to);
             dispatch(getPatientProfileById(body.patientId));
