@@ -1231,8 +1231,8 @@
     },
     {
         "id": 82,
-        "definition": "Lower cranial nerve (IX,X,XI and XII) abnormalities",
-        "idname": "cranial nerves:lower cranial nerve (IX,X,XI and XII) abnormalities",
+        "definition": "Lower cranial nerve (IX , X, XI and XII) abnormalities",
+        "idname": "cranial nerves:lower cranial nerve (IX, X, XI and XII) abnormalities",
         "section": 3,
         "subsection": "Cranial Nerves",
         "type": 3,
