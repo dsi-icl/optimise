@@ -1146,7 +1146,7 @@
         "type": 3,
         "unit": null,
         "module": "MS",
-        "permittedValues": "Test not done,Not detected,Detected",
+        "permittedValues": "Negative,Equivocal (faint or bands in serum),Positive",
         "labels": null,
         "referenceType": 4,
         "laterality": null,
