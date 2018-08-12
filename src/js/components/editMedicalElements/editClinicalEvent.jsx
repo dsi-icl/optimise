@@ -54,10 +54,7 @@ export default class EditCE extends Component {
             return <div></div>;
         }
         const CEsFiltered = CEs.filter(el => el.id === parseInt(params.elementId));
-        if (CEsFiltered.length !== 1) {
-            return <div>We cannot find this clinical event! </div>;
-        }
-        const CE = CEsFiltered[0];
+        const CE = CEsFiltered ? CEsFiltered[0] : null;
         return (
             <>
                 <div className={style.ariane}>
@@ -65,13 +62,23 @@ export default class EditCE extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    {wannaUpdate ? <UpdateCEEntry data={CE} elementId={params.elementId} /> : null}
-                    {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
-                        <><button onClick={this._handleWannaUpdateClick}>Change start date / MedDRA</button><br /><br /></>
+                    {CE ?
+                        <>
+                            {wannaUpdate ? <UpdateCEEntry data={CE} elementId={params.elementId} /> : null}
+                            {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
+                                <><button onClick={this._handleWannaUpdateClick}>Change start date / MedDRA</button><br /><br /></>
+                            }
+                            <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
+                            <br /><br />
+                            <div>
+                                Note: You cannot change the type of clinical event. If you created the wrong type of clinical event you can delete this event record and create a new one.
+                            </div>
+                        </>
+                        :
+                        <div>
+                            <i>We could not find the clinical event you are looking for.</i>
+                        </div>
                     }
-                    <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
-                    <br /><br />
-                    Note: You cannot change the type of clinical event. If you created the wrong type of clinical event you can delete this event record and create a new one.
                 </form>
             </>
         );

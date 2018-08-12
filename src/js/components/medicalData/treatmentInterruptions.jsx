@@ -121,55 +121,59 @@ export class TreatmentInterruption extends Component {
         if (!patientProfile.fetching) {
             const { params } = this.props.match;
             const treatmentsFiltered = patientProfile.data.treatments.filter(el => el.id === parseInt(params.elementId, 10));
-            if (treatmentsFiltered.length !== 0) {
-                const treatment = treatmentsFiltered[0];
-                return (
-                    <>
-                        <div className={style.ariane}>
-                            <h2>Treatment Interuptions</h2>
-                            <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
-                        </div>
-                        <form className={style.panel}>
-                            {treatment.interruptions.map((el) =>
-                                <OneTreatmentInterruption
-                                    key={Math.random()}
-                                    data={el}
-                                    interruptionReasons={interruptionReasons}
-                                    meddra_Hash={meddra_Hash}
-                                    _handleClickDelete={this._handleClickDelete}
-                                    patientId={patientProfile.data.patientId}
-                                />
-                            )}
+            const treatment = treatmentsFiltered ? treatmentsFiltered[0] : null;
+            return (
+                <>
+                    <div className={style.ariane}>
+                        <h2>Treatment Interuptions</h2>
+                        <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+                    </div>
+                    <form className={style.panel}>
+                        {treatment ?
+                            <>
+                                {treatment.interruptions.map((el) =>
+                                    <OneTreatmentInterruption
+                                        key={Math.random()}
+                                        data={el}
+                                        interruptionReasons={interruptionReasons}
+                                        meddra_Hash={meddra_Hash}
+                                        _handleClickDelete={this._handleClickDelete}
+                                        patientId={patientProfile.data.patientId}
+                                    />
+                                )}
 
 
-                            {!this.state.addMore ?
-                                <>
-                                    <br />
-                                    <button onClick={this._handleClickingAdd}>Add interruptions</button>
-                                </>
-                                :
-                                <>
-                                    <div className={style.newInterruption}>
-                                        <label>Start date: </label><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
-                                        <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                                        {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br /></>)}
-                                        <label>Reason: </label>
-                                        <select value={this.state.reason} onChange={this._handleReasonChange}>
-                                            <option value='unselected'></option>
-                                            {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-                                        </select><br /><br />
-                                        <b>MedDRA: </b><MeddraPicker key={params.elementId} value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
-                                    </div>
-                                    {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
-                                    <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                                    <button onClick={this._handleClickingAdd}>Cancel</button><br />
-                                </>}
-                        </form>
-                    </>
-                );
-            } else {
-                return <div>We cannot find this treatment!</div>;
-            }
+                                {!this.state.addMore ?
+                                    <>
+                                        <br />
+                                        <button onClick={this._handleClickingAdd}>Add interruptions</button>
+                                    </>
+                                    :
+                                    <>
+                                        <div className={style.newInterruption}>
+                                            <label>Start date: </label><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
+                                            <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
+                                            {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br /></>)}
+                                            <label>Reason: </label>
+                                            <select value={this.state.reason} onChange={this._handleReasonChange}>
+                                                <option value='unselected'></option>
+                                                {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                            </select><br /><br />
+                                            <b>MedDRA: </b><MeddraPicker key={params.elementId} value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
+                                        </div>
+                                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
+                                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                                        <button onClick={this._handleClickingAdd}>Cancel</button><br />
+                                    </>}
+                            </>
+                            :
+                            <div>
+                                <i>We could not find the treatment that you are looking for.</i>
+                            </div>
+                        }
+                    </form>
+                </>
+            );
         } else {
             return <div><Icon symbol='loading' /></div>;
         }

@@ -14,25 +14,29 @@ export class UserDetail extends Component {
         const { userId } = this.props.match.params;
         if (!data.fetching) {
             const usersFiltered = data.result.filter(el => el.id === parseInt(userId, 10));
-            if (usersFiltered.length !== 1) {
-                return <>We cannot find this user!</>;
-            } else {
-                return (
-                    <>
-                        <div className={style.ariane}>
-                            <h2>USER INFORMATION</h2>
+            return (
+                <>
+                    <div className={style.ariane}>
+                        <h2>USER INFORMATION</h2>
+                    </div>
+                    <div className={style.userDetailPanel}>
+                        <div className={style.userDetail}>
+                            {usersFiltered.length === 1 ?
+                                <>
+                                    <UserInfo data={usersFiltered[0]} />
+                                    <ChangeUserPassword username={usersFiltered[0].username} /> <br /><br />
+                                    <ChangeUserPrivilege userId={usersFiltered[0].id} priv={usersFiltered[0].priv} /> <br /><br />
+                                    <DeleteUser username={usersFiltered[0].username} />
+                                </>
+                                :
+                                <div>
+                                    <i>We could not find the user you are looking for!</i>
+                                </div>
+                            }
                         </div>
-                        <div className={style.userDetailPanel}>
-                            <div className={style.userDetail}>
-                                <UserInfo data={usersFiltered[0]} />
-                                <ChangeUserPassword username={usersFiltered[0].username} /> <br /><br />
-                                <ChangeUserPrivilege userId={usersFiltered[0].id} priv={usersFiltered[0].priv}/> <br /><br />
-                                <DeleteUser username={usersFiltered[0].username} />
-                            </div>
-                        </div>
-                    </>
-                );
-            }
+                    </div>
+                </>
+            );
         } else {
             return null;
         }
@@ -116,7 +120,7 @@ class ChangeUserPassword extends Component {
 
 
 class ChangeUserPrivilege extends Component {
-    _handleClick = () =>  {
+    _handleClick = () => {
         const body = {
             id: this.props.userId,
             adminPriv: this.props.priv === 1 ? 0 : 1

@@ -47,15 +47,15 @@ class EDSSCalculator extends Component {
         const edssFieldsId = EDSSFields.map(el => el.id);
         const visitsFiltered = patientProfile.visits.filter(el => el.id === parseInt(params.visitId));
         if (visitsFiltered.length !== 1) {
-            store.dispatch(addError({ error: 'We cannot find this visit!' }));
-            this.setState({ redirect: true });
-        }
-        const data = visitsFiltered[0].data;
-        if (data) {
-            this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseFloat(el.value); return a; }, {});
-            this.setState({ autoCalculatedScore: edssAlgorithmFromProps(EDSSFields, data) });
-        } else {
             this.originalValues = {};
+        } else {
+            const data = visitsFiltered[0].data;
+            if (data) {
+                this.originalValues = data.filter(el => edssFieldsId.includes(el.field)).reduce((a, el) => { a[el.field] = parseFloat(el.value); return a; }, {});
+                this.setState({ autoCalculatedScore: edssAlgorithmFromProps(EDSSFields, data) });
+            } else {
+                this.originalValues = {};
+            }
         }
         this.forceUpdate();
     }
@@ -192,10 +192,6 @@ class EDSSCalculator extends Component {
             return null;
 
         const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
-        if (visitFiltered.length !== 1) {
-            return <div>We cannot find this visit!</div>;
-        }
-
         const currentEDSSObject = EDSSFields.reduce((a, el) => { a[el.id] = el; return a; }, {})[this.state.currentHoverMeasure];
 
         return (
@@ -206,43 +202,49 @@ class EDSSCalculator extends Component {
                     <BackButton to={`/patientProfile/${this.props.match.params.patientId}/edit/msPerfMeas/${params.visitId}`} />
                 </div>
                 <div className={style.panel}>
-                    <form onSubmit={this._handleSubmit}>
-                        <span><i>This is the EDSS performance score calculator for visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i><br /><br />
-                            Below the help calculator will automatically compoute a score for you, however, you are free to indicate immediately a custom score</span><br /><br />
-                        <div className={style.calculatorArea}>
-                            {criteria.map(el =>
-                                <div className={style.criterion} key={el.name} onMouseOver={() => this._hoverType(EDSSFields_Hash_reverse[el.idname])} onMouseLeave={() => this._hoverType(null)}>
-                                    <span>{`${el.name} :  `}</span>
-                                    <div>
-                                        {el.range.map(number =>
-                                            <span key={number} className={style.radioButtonWrapper}>
-                                                <button type='button'
-                                                    className={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseFloat(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton}
-                                                    onClick={this._handleClick}
-                                                    onMouseOver={() => this._hoverType(null, number)}
-                                                    value={number}
-                                                >{number}</button>
-                                                <input type='radio' name={el.idname} value={number} defaultChecked={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseFloat(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false} />
-                                            </span>
-                                        )}
+                    {visitFiltered.length === 1 ?
+                        <form onSubmit={this._handleSubmit}>
+                            <span><i>This is the EDSS performance score calculator for visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i><br /><br />
+                                Below the help calculator will automatically compoute a score for you, however, you are free to indicate immediately a custom score</span><br /><br />
+                            <div className={style.calculatorArea}>
+                                {criteria.map(el =>
+                                    <div className={style.criterion} key={el.name} onMouseOver={() => this._hoverType(EDSSFields_Hash_reverse[el.idname])} onMouseLeave={() => this._hoverType(null)}>
+                                        <span>{`${el.name} :  `}</span>
+                                        <div>
+                                            {el.range.map(number =>
+                                                <span key={number} className={style.radioButtonWrapper}>
+                                                    <button type='button'
+                                                        className={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseFloat(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? [style.radioButton, style.radioClicked].join(' ') : style.radioButton}
+                                                        onClick={this._handleClick}
+                                                        onMouseOver={() => this._hoverType(null, number)}
+                                                        value={number}
+                                                    >{number}</button>
+                                                    <input type='radio' name={el.idname} value={number} defaultChecked={typeof originalValues[EDSSFields_Hash_reverse[el.idname]] !== 'undefined' && number === parseFloat(this.originalValues[this.EDSSFields_Hash_reverse[el.idname]]) ? true : false} />
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
+                            <div className={style.contextArea}>
+                                {this.state.currentHoverMeasure ? currentEDSSObject.labels.split('@').map((e, i) => (
+                                    <Fragment key={i}>
+                                        <span className={this.state.currentHoverPower === i ? style.currentHoverPower : ''}>{i}. {e}</span><br />
+                                    </Fragment>
+                                )) : null}
+                            </div>
+                            <br /><br />
+                            <label htmlFor='calcSocre'>Computed total score (automatically generated): </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
+                            <br /><br />
+                            <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinician): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
+                            <br /><br />
+                            <button type='submit'>Save</button>
+                        </form>
+                        :
+                        <div>
+                            <i>W could not find the visit you are looking for.</i>
                         </div>
-                        <div className={style.contextArea}>
-                            {this.state.currentHoverMeasure ? currentEDSSObject.labels.split('@').map((e, i) => (
-                                <Fragment key={i}>
-                                    <span className={this.state.currentHoverPower === i ? style.currentHoverPower : ''}>{i}. {e}</span><br />
-                                </Fragment>
-                            )) : null}
-                        </div>
-                        <br /><br />
-                        <label htmlFor='calcSocre'>Computed total score (automatically generated): </label><input type='text' name='calcSocre' value={this.state.autoCalculatedScore} readOnly />
-                        <br /><br />
-                        <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinician): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
-                        <br /><br />
-                        <button type='submit'>Save</button>
-                    </form>
+                    }
                 </div>
             </>
         );
