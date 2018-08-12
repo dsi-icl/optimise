@@ -60,10 +60,7 @@ export default class EditMed extends Component {
             return <div></div>;
         }
         const treatmentsFiltered = treatments.filter(el => el.id === parseInt(params.elementId));
-        if (treatmentsFiltered.length !== 1) {
-            return <div>We cannot find this treatment</div>;
-        }
-        const treatment = treatmentsFiltered[0];
+        const treatment = treatmentsFiltered ? treatmentsFiltered[0] : null;
         return (
             <>
                 <div className={style.ariane}>
@@ -71,12 +68,19 @@ export default class EditMed extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    {wannaUpdate ? <UpdateMedEntry data={treatment} /> : null}
-                    {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
-                        <><button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button> <br /> <br /></>
+                    {treatment ?
+                        <>
+                            {wannaUpdate ? <UpdateMedEntry data={treatment} /> : null}
+                            {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
+                                <><button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button> <br /> <br /></>
+                            }
+                            <button onClick={this._handleClick} className={style.deleteButton}>Delete this treatment</button>
+                        </>
+                        :
+                        <div>
+                            <i>We could not find the treatment you are looking for.</i>
+                        </div>
                     }
-                    <button onClick={this._handleClick} className={style.deleteButton}>Delete this treatment</button>
-                    <br /><br />
                 </form>
             </>
         );

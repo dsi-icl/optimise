@@ -117,7 +117,15 @@ export class CeData extends Component {
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.clinicalEvents.filter(visit => visit.id === parseInt(params.ceId, 10));
             if (visitsMatched.length !== 1) {
-                return <div>{'We cannot find this clinical event!'}</div>;
+                return <>
+                    <div className={scaffold_style.ariane}>
+                        <h2>CLINICAL EVENT RESULTS</h2>
+                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                    </div>
+                    <div className={scaffold_style.panel}>
+                        <i>We could not find the event that you are looking for.</i>
+                    </div>
+                </>;
             }
             const { fields } = this.props;
             const relevantFields = fields.clinicalEventFields.filter(el => (el.referenceType === visitsMatched[0].type));
@@ -131,14 +139,20 @@ export class CeData extends Component {
                         <h2>CLINICAL EVENT RESULTS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
-                    <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
-                        <form onSubmit={this._handleSubmit} className={style.form}>
-                            <div className={style.levelBody}>
-                                {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
-                            </div><br />
-                            <button type='submit'>Save</button>
-                        </form>
-                    </div>
+                    {Object.entries(fieldTree).length > 0 ?
+                        <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
+                            <form onSubmit={this._handleSubmit} className={style.form}>
+                                <div className={style.levelBody}>
+                                    {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
+                                </div><br />
+                                <button type='submit'>Save</button>
+                            </form>
+                        </div>
+                        :
+                        <div className={scaffold_style.panel}>
+                            <i>There are no contextual data to record for this type of event. Please use the central panel to edit related symptoms and signs.</i>
+                        </div>
+                    }
                 </>
             );
         } else {

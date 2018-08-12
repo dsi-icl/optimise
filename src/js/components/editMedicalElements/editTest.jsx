@@ -53,11 +53,8 @@ export default class EditTest extends Component {
             return <div></div>;
         }
         const testsFiltered = tests.filter(el => el.id === parseInt(params.elementId));
-        if (testsFiltered.length !== 1) {
-            return <div> We cannot find this test!</div>;
-        }
 
-        const test = testsFiltered[0];
+        const test = testsFiltered ? testsFiltered[0] : null;
         return (
             <>
                 <div className={style.ariane}>
@@ -65,13 +62,21 @@ export default class EditTest extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    {wannaUpdate ? <UpdateTestEntry location={location} data={test} elementId={params.elementId} /> : null}
-                    {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
-                        <><button onClick={this._handleWannaUpdateClick}>Change test date</button><br /><br /></>
+                    {testsFiltered ?
+                        <>
+                            {wannaUpdate ? <UpdateTestEntry location={location} data={test} elementId={params.elementId} /> : null}
+                            {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
+                                <><button onClick={this._handleWannaUpdateClick}>Change test date</button><br /><br /></>
+                            }
+                            <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
+                            <br /><br />
+                            <div>Note: You cannot change the type of test. If you created the wrong type of test you can delete this event record and create a new one.</div>
+                        </>
+                        :
+                        <div>
+                            <i>We could not find the test you are looking for.</i>
+                        </div>
                     }
-                    <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
-                    <br /><br />
-                    Note: You cannot change the type of test. If you created the wrong type of test you can delete this event record and create a new one.
                 </form>
             </>
         );

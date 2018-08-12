@@ -99,7 +99,15 @@ export class TestData extends Component {
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.tests.filter(visit => visit.id === parseInt(params.testId, 10));
             if (visitsMatched.length !== 1) {
-                return <div>{'We cannot find this test!'}</div>;
+                return <>
+                    <div className={scaffold_style.ariane}>
+                        <h2>TEST RESULTS</h2>
+                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                    </div>
+                    <div className={scaffold_style.panel}>
+                        <i>We could not find the test that you are looking for.</i>
+                    </div>
+                </>;
             }
             const { fields } = this.props;
             const relevantFields = fields.testFields.filter(el => (el.referenceType === visitsMatched[0].type));

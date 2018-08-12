@@ -27,7 +27,17 @@ export default class EditCommunication extends Component {
         const signsFieldsHash = signsFields.reduce((a, el) => { a[el.id] = el; return a; }, {});
         visits = visits.filter(el => el.id === parseInt(params.visitId));
         if (visits.length !== 1) {
-            return <div>We cannot find this communication!</div>;
+            return <>
+                <div className={style.ariane}>
+                    <h2>Communication</h2>
+                    <BackButton to={`/patientProfile/${params.patientId}`} />
+                </div>
+                <form className={style.panel}>
+                    <div>
+                        <i>We could not find the communication you are looking for.</i>
+                    </div>
+                </form>
+            </>;
         }
         const edssHash = visitFields.filter(el => /^edss:(.*)/.test(el.idname)).reduce((a, el) => { a[el.id] = el; return a; }, {});
         const VSBlock = formatVS(visits[0].data || [], VSFields_Hash[0]);
