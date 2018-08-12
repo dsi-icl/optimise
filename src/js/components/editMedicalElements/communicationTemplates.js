@@ -59,9 +59,13 @@ export const testTitle = (duration) => (
 );
 
 const oneTest = (test, typeTable) => {
-    const name = typeTable[test.type];
+    const name = typeTable[0][test.type];
     const date = test.actualOccurredDate || test.expectedOccurDate ? new Date(parseInt(test.actualOccurredDate || test.expectedOccurDate)).toDateString() : '';
-    return `- ${name}: ${date}`;
+    let result = `> ${name}: ${date}\n`;
+    test.data.forEach((el) => {
+        result += `- ${typeTable[1][el.field].definition}: ${el.value}\n`;
+    })
+    return result;
 };
 
 export const formatTests = (testList, typeTable, duration) => {
@@ -76,7 +80,7 @@ export const formatTests = (testList, typeTable, duration) => {
     return () => [
         blockgen(''),
         blockgen(testTitle(duration), [{ offset: 0, length: 6, style: 'BOLD' }]),
-        ...strings.map(el => blockgen(el, [{ offset: el.lastIndexOf(':') + 2, length: el.length - el.lastIndexOf(':') - 2, style: 'ITALIC' }]))
+        ...strings.map(el => blockgen(el, [{ offset: el.indexOf(':') + 2, length: el.indexOf('\n') - el.indexOf(':'), style: 'ITALIC' }]))
     ];
 };
 
