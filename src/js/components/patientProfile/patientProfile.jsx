@@ -95,11 +95,19 @@ class ImmunisationSection extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: '' });
+        this.setState({
+            addMore: !this.state.addMore,
+            newDate: moment(),
+            newName: '',
+            error: false
+        });
     }
 
     _handleInput(ev) {
-        this.setState({ newName: ev.target.value });
+        this.setState({
+            newName: ev.target.value,
+            error: false
+        });
     }
 
     _handleClickDelete(el) {
@@ -123,7 +131,8 @@ class ImmunisationSection extends Component {
 
     _handleDateChange(date) {
         this.setState({
-            newDate: date
+            newDate: date,
+            error: false
         });
     }
 
@@ -134,8 +143,15 @@ class ImmunisationSection extends Component {
             return;
 
         if (this.state.newName === undefined || this.state.newName === null || this.state.newName === '') {
-            store.dispatch(addError({ error: 'Vaccine name cannot be empty!' }));
-            return;
+            return this.setState({
+                error: 'Please indicate the vaccine name'
+            });
+        }
+
+        if (!this.state.newDate || !this.state.newDate.isValid()) {
+            return this.setState({
+                error: 'Please indicated the immunisation date'
+            });
         }
 
         if (this.currenttlySumbitting === this.state.newName)
@@ -152,7 +168,8 @@ class ImmunisationSection extends Component {
         };
         this.setState({
             newName: this.state.newName,
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: false
         }, () => {
             store.dispatch(createImmunisationAPICall(body));
             this.setState({
@@ -192,6 +209,7 @@ class ImmunisationSection extends Component {
                     </> :
                     <>
                         <br /><br />
+                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                         <button onClick={this._handleSubmit}>Submit</button><br /><br />
                         <button onClick={this._handleClickingAdd}>Cancel</button><br />
                     </>}
@@ -205,7 +223,7 @@ class PrimaryDiagnosis extends Component {
         if (this.props.data.diagnosis.length === 0) {
             return null;
         }
-        const diagnosis =  this.props.data.diagnosis.sort((a, b) => parseInt(a.diagnosisDate) > parseInt(b.diagnosisDate))[0];
+        const diagnosis = this.props.data.diagnosis.sort((a, b) => parseInt(a.diagnosisDate) > parseInt(b.diagnosisDate))[0];
         if (!diagnosis) {
             return null;
         }
@@ -298,11 +316,23 @@ class Pregnancy extends Component {
         const data = this.props.data;
         const { noEndDate, newOutcome, newStartDate, newOutcomeDate, newMeddra } = this.state;
 
+        if (!newStartDate || !newStartDate.isValid()) {
+            return this.setState({
+                error: 'Please indicate the start date of the pregnancy'
+            });
+        }
+
         if (!noEndDate) {
 
+            if (!newOutcomeDate || !newOutcomeDate.isValid()) {
+                return this.setState({
+                    error: 'Please indicate the outcome date of the pregnancy'
+                });
+            }
             if (newOutcome === 0 || newOutcome === '0') {
-                this.setState({ error: 'outcome' });
-                return;
+                return this.setState({
+                    error: 'Please enter the outcome of the pregnancy'
+                });
             }
 
         }
@@ -320,7 +350,8 @@ class Pregnancy extends Component {
 
 
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: false
         }, () => {
             store.dispatch(createPregnancyAPICall(body));
             this.setState({
@@ -361,10 +392,15 @@ class Pregnancy extends Component {
                                 )}
                             </div>
                         }
-                        {!this.state.addMore ? <button onClick={this._handleClickingAdd}>Record pregnancy</button> :
+                        {!this.state.addMore ?
                             <>
                                 <br />
-                                {this.state.error ? <><div className={style.error}>Please enter the {this.state.error}</div><br /></> : null}
+                                <button onClick={this._handleClickingAdd}>Record pregnancy</button>
+                            </>
+                            :
+                            <>
+                                <br />
+                                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
                                 <button onClick={this._handleClickingAdd}>Cancel</button>
                             </>}
@@ -422,6 +458,29 @@ class OnePregnancy extends Component {
             return;
         const { data, patientId } = this.props;
         const { startDate, noEndDate, outcomeDate, outcome, meddra } = this.state;
+
+
+        if (!startDate || !startDate.isValid()) {
+            return this.setState({
+                error: 'Please indicate the start date of the pregnancy'
+            });
+        }
+
+        if (!noEndDate) {
+
+            if (!outcomeDate || !outcomeDate.isValid()) {
+                return this.setState({
+                    error: 'Please indicate the outcome date of the pregnancy'
+                });
+            }
+            if (outcome === 0 || outcome === '0') {
+                return this.setState({
+                    error: 'Please enter the outcome of the pregnancy'
+                });
+            }
+
+        }
+
         const body = {
             patientId: patientId,
             data: {
@@ -433,7 +492,8 @@ class OnePregnancy extends Component {
             }
         };
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: false
         }, () => {
             store.dispatch(editPregnancyAPICall(body));
             this.setState({ editing: false });
@@ -449,28 +509,44 @@ class OnePregnancy extends Component {
 
     _handleToggleEndDate = ev => {
         this.setState({
-            noEndDate: ev.target.checked
+            noEndDate: ev.target.checked,
+            error: false
         });
     }
 
     _handleStartDateChange = date => {
-        this.setState({ startDate: date });
+        this.setState({
+            startDate: date,
+            error: false
+        });
     }
 
     _handleOutcomeDateChange = date => {
-        this.setState({ outcomeDate: date });
+        this.setState({
+            outcomeDate: date,
+            error: false
+        });
     }
 
     _handleOutcomeChange = ev => {
-        this.setState({ outcome: ev.target.value });
+        this.setState({
+            outcome: ev.target.value,
+            error: false
+        });
     }
 
     _handleToggleNoEndDate = ev => {
-        this.setState({ noEndDate: ev.target.checked });
+        this.setState({
+            noEndDate: ev.target.checked,
+            error: false
+        });
     }
 
     _handleMeddraChange = value => {
-        this.setState({ meddra: value });
+        this.setState({
+            meddra: value,
+            error: false
+        });
     }
 
     render() {
@@ -492,6 +568,7 @@ class OnePregnancy extends Component {
                                     </>
                                 )}
                             </div>
+                            {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                             <button onClick={this._handleSubmit}>Confirm change</button><br /><br />
                             <button onClick={this._handleEditClick}>Cancel</button>
                             <br /><br />
@@ -507,7 +584,7 @@ class OnePregnancy extends Component {
                                         {meddra_original ? <><label>MedDRA: </label> {meddra_Hash[meddra_original] ? meddra_Hash[meddra_original].name : 'not entered'} <br /></> : null}
                                     </>
                                 ) : null}
-                                <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
+                                <DeleteButton clickhandler={() => this._handleClickDelete(data)} />&nbsp;&nbsp;
                                 <span title='Edit' onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol='edit' /></span>
                             </div>
                         </>

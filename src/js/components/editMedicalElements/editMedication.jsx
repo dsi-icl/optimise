@@ -111,25 +111,29 @@ class UpdateMedEntry extends Component {
 
     _handleToggleNoEndDate(ev) {
         this.setState({
-            noEndDate: ev.target.checked
+            noEndDate: ev.target.checked,
+            error: false
         });
     }
 
     _handleChange(ev) {
         const newState = {};
         newState[ev.target.name] = ev.target.value;
+        newState.error = false;
         this.setState(newState);
     }
 
     _handleDateChange(date) {
         this.setState({
-            startDate: date
+            startDate: date,
+            error: false
         });
     }
 
     _handleTerminatedDateChange(date) {
         this.setState({
-            terminatedDate: date
+            terminatedDate: date,
+            error: false
         });
     }
 
@@ -137,6 +141,23 @@ class UpdateMedEntry extends Component {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
+
+        if (!this.state.startDate || !this.state.startDate.isValid()) {
+            return this.setState({
+                error: 'Please indicate the start date of the treatment'
+            });
+        }
+        if (!this.state.noEndDate && (!this.state.terminatedDate || !this.state.terminatedDate.isValid())) {
+            return this.setState({
+                error: 'Please indicate the termination date of the treatment'
+            });
+        }
+        if (this.state.drug === 'unselected') {
+            return this.setState({
+                error: 'Please indicate the treatment'
+            });
+        }
+
         const { patientId } = this.props;
         const { id, drug, dose, unit, form, times, intervalUnit } = this.state;
         const body = {
@@ -157,7 +178,8 @@ class UpdateMedEntry extends Component {
             }
         };
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: false
         }, () => {
             store.dispatch(updateTreatmentCall(body));
         });
@@ -170,19 +192,20 @@ class UpdateMedEntry extends Component {
             <>
                 <label>Treatment: </label>
                 <select onChange={this._handleChange} name='drug' value={drug}>
+                    <option value='unselected'></option>
                     {drugs.map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
                 </select><br /><br />
                 <label>Dose: </label>
                 <input onChange={this._handleChange} name='dose' value={dose} /><br /><br />
                 <label>Unit: </label>
                 <select onChange={this._handleChange} name='unit' value={unit}>
-                    <option value=''></option>
+                    <option value='unselected'></option>
                     <option value='cc'>cc</option>
                     <option value='mg'>mg</option>
                 </select><br /><br />
                 <label>Form: </label>
                 <select onChange={this._handleChange} name='form' value={form}>
-                    <option value=''></option>
+                    <option value='unselected'></option>
                     <option value='OR'>Oral</option>
                     <option value='IV'>Intravenous</option>
                     <option value='IM'>Intramuscular</option>
@@ -191,14 +214,14 @@ class UpdateMedEntry extends Component {
                 <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
                 <label>Frequency (fill both or leave both blank): </label>
                 <select name='times' value={times} onChange={this._handleChange} autoComplete='off'>
-                    <option value=''></option>
+                    <option value='unselected'></option>
                     <option value='1'>once</option>
                     <option value='2'>twice</option>
                     <option value='3'>three times</option>
                     <option value='4'>four times</option>
                 </select><br /><br />
                 <select name='intervalUnit' value={this.state.intervalUnit} onChange={this._handleChange} autoComplete='off'>
-                    <option value=''></option>
+                    <option value='unselected'></option>
                     <option value='day'>per day</option>
                     <option value='week'>per week</option>
                     <option value='month'>per month</option>
@@ -206,6 +229,7 @@ class UpdateMedEntry extends Component {
                 </select><br /><br />
                 <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
                 {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}
+                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
         );

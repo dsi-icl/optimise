@@ -101,19 +101,22 @@ class UpdateTestEntry extends Component {
             id: props.data.id,
             elementId: props.elementId,
             startDate: moment(parseInt(props.data.expectedOccurDate)),
-            actualOccurredDate: !props.data.actualOccurredDate ? moment() : moment(parseInt(props.data.actualOccurredDate))
+            actualOccurredDate: !props.data.actualOccurredDate ? moment() : moment(parseInt(props.data.actualOccurredDate)),
+            error: undefined
         };
     }
 
     _handleDateChange(date) {
         this.setState({
-            startDate: date
+            startDate: date,
+            error: undefined
         });
     }
 
     _handleActualDateChange(date) {
         this.setState({
-            actualOccurredDate: date
+            actualOccurredDate: date,
+            error: undefined
         });
     }
 
@@ -121,6 +124,24 @@ class UpdateTestEntry extends Component {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
+
+        if (!this.state.startDate || !this.state.startDate.isValid()) {
+            return this.setState({
+                error: 'Please indicate the expected date of the test'
+            });
+        }
+        if (!this.state.actualOccurredDate || !this.state.actualOccurredDate.isValid()) {
+            return this.setState({
+                error: 'Please indicate the actual date of the test'
+            });
+        }
+        if (this.state.testType === 'unselected') {
+            this.setState({
+                error: 'Please indicate the test type'
+            });
+            return;
+        }
+
         const { patientId } = this.props;
         const { id, startDate, actualOccurredDate } = this.state;
         const body = {
@@ -133,7 +154,8 @@ class UpdateTestEntry extends Component {
             }
         };
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: undefined
         }, () => {
             store.dispatch(updateTestCall(body));
         });
@@ -149,6 +171,7 @@ class UpdateTestEntry extends Component {
                 <label>Sample taking Date: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />
                 <br />
+                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
         );

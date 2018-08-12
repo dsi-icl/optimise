@@ -67,9 +67,9 @@ class Login extends Component {
                         <span>optimise<strong>:</strong>ms</span>
                     </div>
                     <form className={style.form} onSubmit={this.login.bind(this)}>
-                        <input type="text" placeholder="Username" ref="username" /><br />
-                        <input type="password" placeholder="Password" ref="password" /><br />
-                        {isProcessing ? (<LoadBar />) : (<button type="submit">Login</button>)}<br />
+                        <input type='text' placeholder='Username' ref='username' autoComplete='username' /><br />
+                        <input type='password' placeholder='Password' ref='password' autoComplete='current-password' /><br />
+                        {isProcessing ? (<LoadBar />) : (<button type='submit'>Login</button>)}<br />
                         {hasAttempted && error !== undefined ? <div className={style.error}>{error}</div> : null}
                     </form>
                 </div>

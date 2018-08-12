@@ -81,9 +81,20 @@ export class CreateCE extends Component {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
+
+        if (!this.state.startDate || !this.state.startDate.isValid()) {
+            return this.setState({
+                error: 'Please indicate the start date of the event'
+            });
+        }
+        if (!this.state.noEndDate && (!this.state.endDate || !this.state.endDate.isValid())) {
+            return this.setState({
+                error: 'Please indicate the resolution date of the event'
+            });
+        }
         if (this.state.ceType === 'unselected') {
             this.setState({
-                error: 'Please indicate the event type'
+                error: 'Please indicate the type of the event'
             });
             return;
         }
@@ -91,7 +102,8 @@ export class CreateCE extends Component {
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
 
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: false
         }, () => {
             this.props.createCE(requestBody);
         });

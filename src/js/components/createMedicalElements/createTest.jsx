@@ -13,7 +13,7 @@ export class CreateTest extends Component {
         super();
         this.state = {
             startDate: moment(),
-            testType: ''
+            testType: 'unselected'
         };
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
@@ -21,21 +21,17 @@ export class CreateTest extends Component {
         this._handleTypeChange = this._handleTypeChange.bind(this);
     }
 
-    componentDidMount() {
-        this.setState({
-            testType: this.props.types[0].id
-        });
-    }
-
     _handleDateChange(date) {
         this.setState({
-            startDate: date
+            startDate: date,
+            error: undefined
         });
     }
 
     _handleTypeChange(ev) {
         this.setState({
-            testType: parseInt(ev.target.value, 10)
+            testType: ev.target.value,
+            error: undefined
         });
     }
 
@@ -56,11 +52,23 @@ export class CreateTest extends Component {
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
 
+        if (!this.state.startDate || !this.state.startDate.isValid()) {
+            return this.setState({
+                error: 'Please indicate the expected date of the test'
+            });
+        }
+        if (this.state.testType === 'unselected') {
+            this.setState({
+                error: 'Please indicate the test type'
+            });
+            return;
+        }
         const requestBody = this._formatRequestBody();
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
 
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: undefined
         }, () => {
             this.props.createTest(requestBody);
         });
@@ -79,8 +87,10 @@ export class CreateTest extends Component {
                         <label htmlFor=''>Please enter date on which the test is expected to occur: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
                         <label htmlFor='test'>What type of test is it?</label><br />
                         <select name='test' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>
+                            <option value='unselected'></option>
                             {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                         </select><br /><br />
+                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </form>
                 </>

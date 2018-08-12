@@ -141,8 +141,21 @@ class UpdateCEEntry extends Component {
 
     _handleSubmit(ev) {
         ev.preventDefault();
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
         const { patientId } = this.props;
         const { id, startDate, meddra, noEndDate, endDate } = this.state;
+
+        if (!startDate || !startDate.isValid()) {
+            return this.setState({
+                error: 'Please indicate the start date of the event'
+            });
+        }
+        if (!noEndDate && (!endDate || !endDate.isValid())) {
+            return this.setState({
+                error: 'Please indicate the resolution date of the event'
+            });
+        }
         const body = {
             patientId: patientId,
             to: `/patientProfile/${patientId}/edit/clinicalEvent/${id}`,
@@ -153,7 +166,13 @@ class UpdateCEEntry extends Component {
                 endDate: !noEndDate && endDate ? endDate.toISOString() : null
             }
         };
-        store.dispatch(updateCECall(body));
+
+        this.setState({
+            lastSubmit: (new Date()).getTime(),
+            error: false
+        }, () => {
+            store.dispatch(updateCECall(body));
+        });
     }
 
     render() {
@@ -166,6 +185,7 @@ class UpdateCEEntry extends Component {
                 {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}
                 <label>MedDRA: </label>
                 <MeddraPicker key={id} value={meddra === null || meddra === undefined ? undefined : String(meddra)} onChange={this._handleMeddraChange} /><br /><br />
+                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
         );

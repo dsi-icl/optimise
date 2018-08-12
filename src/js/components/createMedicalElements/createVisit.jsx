@@ -25,19 +25,24 @@ export class CreateVisit extends Component {
 
     _handleDateChange(date) {
         this.setState({
-            startDate: date
+            startDate: date,
+            error: false
         });
     }
 
     _handleKeyChange(ev) {
         const newState = {};
         newState[ev.target.name] = ev.target.value;
+        newState.error = false;
         this.setState(newState);
     }
 
     _formatRequestBody() {
         const { startDate, reasonForVisit } = this.state;
 
+        if (!startDate || !startDate.isValid()) {
+            return 'the date of the visit';
+        }
         if (reasonForVisit === 'unselected') {
             return 'the reason for the visit';
         }
@@ -70,7 +75,8 @@ export class CreateVisit extends Component {
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
 
         this.setState({
-            lastSubmit: (new Date()).getTime()
+            lastSubmit: (new Date()).getTime(),
+            error: false
         }, () => {
             this.props.createVisit(requestBody);
         });
@@ -99,7 +105,7 @@ export class CreateVisit extends Component {
                         <option value='Relapse Assessment'>Relapse Assessment</option>
                         <option value='Urgent'>Urgent</option>
                     </select><br /><br />
-                    {error ? <><div className={style.error}>{error}</div><br /><br /></> : null}
+                    {error ? <><div className={style.error}>{error}</div><br /></> : null}
                     <button onClick={this._handleSubmitClick} >Submit</button>
                 </form>
             </>
