@@ -88,10 +88,19 @@ export default class CreatePatient extends Component {    //get these props from
         const fieldCheck = ['DOB', 'address', 'alcohol_usage', 'aliasId', 'consent', 'country_of_origin', 'diagnosis', 'diagnosisDate', 'dominant_hand', 'ethnicity', 'gender', 'givenName', 'postcode', 'smoking_history', 'surname'];
         for (let i = 0; i < fieldCheck.length; i++) {
             if (this.state[fieldCheck[i]] === 0 || this.state[fieldCheck[i]] === null || this.state[fieldCheck[i]] === '' || this.state[fieldCheck[i]] === 'unselected') {
-                this.setState({ error: true });
+                this.setState({ error: 'None of the fields can be empty!' });
                 return;
             }
         }
+
+        const DOBValidator = this.state.DOB ? this.state.DOB.isValid() : false;
+        const diagnosisDateValidator = this.state.diagnosisDate ? this.state.diagnosisDate.isValid() : false;
+
+        if (!DOBValidator || !diagnosisDateValidator) {
+            this.setState({ error: 'Invalid dates provided' });
+            return;
+        }
+
         const demoData = {
             DOB: this.state.DOB.toISOString(),
             gender: this.state.gender,
@@ -170,7 +179,7 @@ export default class CreatePatient extends Component {    //get these props from
                             <h4>Primary diagnosis</h4><br />
                             <label>Diagnosis date:</label><br /> <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleDiagnosisDateChange} /> <br />
                             <label htmlFor='diagnosis'>Diagnosis:</label><br /> <SelectField name='diagnosis' value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} /> <br /><br />
-                            {this.state.error ? <><div className={style.error}>None of the fields can be empty!</div><br /></> : null}
+                            {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                             <button type="submit">Submit</button>
                         </form>
                         <br />
