@@ -134,13 +134,13 @@ class CommunicationEditor extends Component {
     _filterOverDuration(duration) {
 
         let { tests, treatments, clinicalEvents } = this.props.data;
-        const { testTypes_Hash, clinicalEventTypes_Hash, drugs_Hash } = this.props.availableFields;
+        const { testTypes_Hash, testFields_Hash, clinicalEventTypes_Hash, drugs_Hash } = this.props.availableFields;
 
         tests = tests.filter(el => moment(el.expectedOccurDate, 'x').valueOf() > moment().subtract(duration, 'months') || moment(el.actualOccurredDate, 'x').valueOf() > moment().subtract(duration, 'months'));
         treatments = treatments.filter(el => moment(el.startDate, 'x').valueOf() > moment().subtract(duration, 'months') || moment(el.terminatedDate, 'x').valueOf() > moment().subtract(duration, 'months'));
         clinicalEvents = clinicalEvents.filter(el => moment(el.dateStartDate, 'x').valueOf() > moment().subtract(duration, 'months') || moment(el.endDate, 'x').valueOf() > moment().subtract(duration, 'months'));
 
-        const testBlock = formatTests(tests, testTypes_Hash[0], duration);
+        const testBlock = formatTests(tests, [testTypes_Hash[0], testFields_Hash[0]], duration);
         const ceBlock = formatEvents(clinicalEvents, clinicalEventTypes_Hash[0], duration);
         const medBlock = formatTreatments(treatments, drugs_Hash[0], duration);
 
