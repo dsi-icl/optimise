@@ -64,7 +64,7 @@ const oneTest = (test, typeTable) => {
     let result = `> ${name}: ${date}\n`;
     test.data.forEach((el) => {
         result += `- ${typeTable[1][el.field].definition}: ${el.value}\n`;
-    })
+    });
     return result;
 };
 
