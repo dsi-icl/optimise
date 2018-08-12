@@ -13,7 +13,6 @@ import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/eras
 import { updateConsentAPICall } from '../../redux/actions/consent';
 import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
-import { addError } from '../../redux/actions/error';
 import Icon from '../icon/icon';
 
 @connect(state => ({ fetching: state.patientProfile.fetching, erasePatient: state.erasePatient }))
