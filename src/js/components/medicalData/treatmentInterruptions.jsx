@@ -21,9 +21,9 @@ export class TreatmentInterruption extends Component {
             newEndDate: moment(),
             noEndDate: true,
             error: false,
+            reason: 'unselected',
             meddra: undefined
         };
-        this.reasonRef = React.createRef();
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
         this._handleInput = this._handleInput.bind(this);
         this._handleEndDateChange = this._handleEndDateChange.bind(this);
@@ -31,6 +31,7 @@ export class TreatmentInterruption extends Component {
         this._handleStartDateChange = this._handleStartDateChange.bind(this);
         this._handleToggleNoEndDate = this._handleToggleNoEndDate.bind(this);
         this._handleMeddraChange = this._handleMeddraChange.bind(this);
+        this._handleReasonChange = this._handleReasonChange.bind(this);
     }
 
 
@@ -65,18 +66,37 @@ export class TreatmentInterruption extends Component {
         this.setState({ noEndDate: ev.target.checked, error: false });
     }
 
+    _handleReasonChange(ev) {
+        this.setState({
+            reason: ev.target.value,
+            error: false
+        });
+    }
+
     _handleSubmit(ev) {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
+        if (!this.state.newStartDate) {
+            this.setState({
+                error: 'Please select a start date'
+            });
+            return;
+        }
+        if (!this.state.reason || this.state.reason === 'unselected') {
+            this.setState({
+                error: 'Please select a reason'
+            });
+            return;
+        }
         const data = this.props.patientProfile.data;
         const body = {
             patientId: data.patientId,
             data: {
                 treatmentId: parseInt(this.props.match.params.elementId, 10),
-                start_date: this.state.newStartDate.toISOString(),
-                end_date: !this.state.noEndDate && this.state.newEndDate ? this.state.newEndDate.toISOString() : undefined,
-                reason: parseInt(this.reasonRef.current.value, 10),
+                start_date: this.state.newStartDate ? this.state.newStartDate.toISOString() : null,
+                end_date: !this.state.noEndDate && this.state.newEndDate ? this.state.newEndDate.toISOString() : null,
+                reason: parseInt(this.state.reason, 10),
                 meddra: this.state.meddra
             }
         };
@@ -99,7 +119,7 @@ export class TreatmentInterruption extends Component {
                 return (
                     <>
                         <div className={style.ariane}>
-                            <h2>Treatment Interuption</h2>
+                            <h2>Treatment Interuptions</h2>
                             <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                         </div>
                         <form className={style.panel}>
@@ -127,12 +147,13 @@ export class TreatmentInterruption extends Component {
                                         <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
                                         {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br /></>)}
                                         <label>Reason: </label>
-                                        <select ref={this.reasonRef}>
+                                        <select value={this.state.reason} onChange={this._handleReasonChange}>
+                                            <option value='unselected'></option>
                                             {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                         </select><br /><br />
                                         <b>MedDRA: </b><MeddraPicker key={params.elementId} value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
                                     </div>
-                                    {this.state.error ? <><div className={style.error}> Your medDRA code is not a permitted value.</div><br /></> : null}
+                                    {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                                     <button onClick={this._handleSubmit}>Submit</button><br /><br />
                                     <button onClick={this._handleClickingAdd}>Cancel</button><br />
                                 </>}
@@ -155,6 +176,7 @@ class OneTreatmentInterruption extends Component {
         const { data } = props;
         this.state = {
             editing: false,
+            error: false,
             startDate: moment(parseInt(data.startDate)),
             noEndDate: data.endDate ? false : true,
             endDate: data.endDate ? moment(parseInt(data.endDate)) : moment(),
@@ -165,6 +187,15 @@ class OneTreatmentInterruption extends Component {
             reason_original: data.reason,
             meddra_original: data.meddra,
         };
+        this._handleClickDelete = this._handleClickDelete.bind(this);
+        this._deleteFunction = this._deleteFunction.bind(this);
+        this._handleSubmit = this._handleSubmit.bind(this);
+        this._handleEditClick = this._handleEditClick.bind(this);
+        this._handleStartDateChange = this._handleStartDateChange.bind(this);
+        this._handleEndDateChange = this._handleEndDateChange.bind(this);
+        this._handleToggleNoEndDate = this._handleToggleNoEndDate.bind(this);
+        this._handleReasonChange = this._handleReasonChange.bind(this);
+        this._handleMeddraChange = this._handleMeddraChange.bind(this);
     }
 
     _handleClickDelete = () => {
@@ -189,12 +220,24 @@ class OneTreatmentInterruption extends Component {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
+        if (!this.state.startDate) {
+            this.setState({
+                error: 'Please select a start date'
+            });
+            return;
+        }
+        if (!this.state.reason || this.state.reason === 'unselected') {
+            this.setState({
+                error: 'Please select a reason'
+            });
+            return;
+        }
         const { data, patientId } = this.props;
         const body = {
             patientId: patientId,
             data: {
                 treatmentInterId: parseInt(data.id, 10),
-                start_date: this.state.startDate.toISOString(),
+                start_date: this.state.startDate ? this.state.startDate.toISOString() : null,
                 end_date: !this.state.noEndDate && this.state.endDate ? this.state.endDate.toISOString() : null,
                 reason: parseInt(this.state.reason, 10),
                 meddra: this.state.meddra
@@ -211,28 +254,44 @@ class OneTreatmentInterruption extends Component {
     _handleEditClick = ev => {
         ev.preventDefault();
         this.setState(prevState => ({
-            editing: !prevState.editing
+            editing: !prevState.editing,
+            error: false
         }));
     }
 
     _handleStartDateChange = date => {
-        this.setState({ startDate: date });
+        this.setState({
+            startDate: date,
+            error: false
+        });
     }
 
     _handleEndDateChange = date => {
-        this.setState({ endDate: date });
+        this.setState({
+            endDate: date,
+            error: false
+        });
     }
 
     _handleToggleNoEndDate = ev => {
-        this.setState({ noEndDate: ev.target.checked });
+        this.setState({
+            noEndDate: ev.target.checked,
+            error: false
+        });
     }
 
     _handleReasonChange = ev => {
-        this.setState({ reason: ev.target.value });
+        this.setState({
+            reason: ev.target.value,
+            error: false
+        });
     }
 
     _handleMeddraChange = value => {
-        this.setState({ meddra: value });
+        this.setState({
+            meddra: value,
+            error: false
+        });
     }
 
     render() {
@@ -249,10 +308,12 @@ class OneTreatmentInterruption extends Component {
                                 {noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!noEndDate ? endDate : null} handleChange={this._handleEndDateChange} /><br /></>)}
                                 <label>Reason: </label>
                                 <select onChange={this._handleReasonChange} value={reason}>
+                                    <option value='unselected'></option>
                                     {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                 </select><br /><br />
                                 <b>MedDRA: </b><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
                             </div>
+                            {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                             <button onClick={this._handleSubmit}>Confirm change</button><br /><br />
                             <button onClick={this._handleEditClick}>Cancel</button>
                         </>
@@ -260,7 +321,7 @@ class OneTreatmentInterruption extends Component {
                         <>
                             <label>Start date: </label> {startDate_original._d.toDateString()} <br />
                             {endDate_original ? <><label>End date: </label> {endDate_original._d.toDateString()}<br /></> : null}
-                            <label>Reason: </label> {interruptionReasons.filter(ele => ele.id === reason_original)[0].value} <br />
+                            {reason_original ? <><label>Reason: </label> {interruptionReasons.filter(ele => ele.id === reason_original)[0].value} <br /></> : null}
                             {meddra_original ? <><label>MedDRA: </label> {meddra_Hash[0][meddra_original].name} <br /></> : null}
                             <DeleteButton clickhandler={() => this._handleClickDelete(data)} />
                             <span title='Edit' onClick={this._handleEditClick} className={style.dataEdit}><Icon symbol='edit' /></span>
