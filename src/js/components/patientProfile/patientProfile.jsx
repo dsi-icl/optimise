@@ -217,8 +217,15 @@ class ImmunisationSection extends Component {
 class PrimaryDiagnosis extends Component {
     render() {
         if (this.props.data.diagnosis.length === 0) {
-            return null;
+            return (
+                <PatientProfileSectionScaffold sectionName='Last Primary Diagnosis' actions={
+                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
+                }>
+                    <i>No recorded diagnosis</i>
+                </PatientProfileSectionScaffold>
+            );
         }
+
         const diagnosis = this.props.data.diagnosis.sort((a, b) => parseInt(a.diagnosisDate) < parseInt(b.diagnosisDate))[0];
         if (!diagnosis) {
             return null;
@@ -247,7 +254,13 @@ class PrimaryDiagnosis extends Component {
 class Pregnancy extends Component {
     render() {
         if (this.props.data.pregnancy.length === 0) {
-            return null;
+            return (
+                <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
+                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/pregnancy/data`} />
+                }>
+                    <i>No recorded pregnancy</i>
+                </PatientProfileSectionScaffold>
+            );
         }
         const pregnancy = this.props.data.pregnancy.sort((a, b) => parseInt(a.startDate) < parseInt(b.startDate))[0];
         if (!pregnancy) {
