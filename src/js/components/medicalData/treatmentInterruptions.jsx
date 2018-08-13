@@ -125,7 +125,7 @@ export class TreatmentInterruption extends Component {
             return (
                 <>
                     <div className={style.ariane}>
-                        <h2>Treatment Interuptions</h2>
+                        <h2>Treatment Interruptions</h2>
                         <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                     </div>
                     <form className={style.panel}>
