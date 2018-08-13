@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { EditVisit, EditTest, EditCE, EditMed, EditDemo, EditDiagnoses, EditCommunication, EditPerformanceMesaure } from './index';
+import { EditVisit, EditTest, EditCE, EditMed, EditDemo, EditDiagnoses, EditPregnancies, EditCommunication, EditPerformanceMesaure } from './index';
 
 export class EditElementRouter extends Component {
     render() {
@@ -12,6 +12,7 @@ export class EditElementRouter extends Component {
                 <Route path='/patientProfile/:patientId/edit/treatment/:elementId' render={({ match, location }) => <EditMed match={match} location={location} />} />
                 <Route path='/patientProfile/:patientId/edit/demographic/data' render={({ match, location }) => <EditDemo match={match} location={location} />} />
                 <Route path='/patientProfile/:patientId/edit/diagnosis/data' render={({ match, location }) => <EditDiagnoses match={match} location={location} />} />
+                <Route path='/patientProfile/:patientId/edit/pregnancy/data' render={({ match, location }) => <EditPregnancies match={match} location={location} />} />
                 <Route path='/patientProfile/:patientId/edit/communication/:visitId' render={({ match, location }) => <EditCommunication match={match} location={location} />} />
                 <Route path='/patientProfile/:patientId/edit/msPerfMeas/:visitId' render={({ match, location }) => <EditPerformanceMesaure match={match} location={location} />} />
                 <Route path='/' component={() => <></>} />
