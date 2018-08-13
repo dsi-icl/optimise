@@ -219,7 +219,7 @@ class PrimaryDiagnosis extends Component {
         if (this.props.data.diagnosis.length === 0) {
             return null;
         }
-        const diagnosis = this.props.data.diagnosis.sort((a, b) => parseInt(a.diagnosisDate) > parseInt(b.diagnosisDate))[0];
+        const diagnosis = this.props.data.diagnosis.sort((a, b) => parseInt(a.diagnosisDate) < parseInt(b.diagnosisDate))[0];
         if (!diagnosis) {
             return null;
         }
