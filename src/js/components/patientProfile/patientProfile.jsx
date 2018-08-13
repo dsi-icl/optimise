@@ -259,7 +259,7 @@ class Pregnancy extends Component {
 
         if (this.props.data.pregnancy.length === 0) {
             return (
-                <PatientProfileSectionScaffold sectionName='ncLast Pregnay' actions={
+                <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
                     <EditButton to={`/patientProfile/${this.props.patientId}/edit/pregnancy/data`} />
                 }>
                     <i>No recorded pregnancy</i>
