@@ -253,9 +253,13 @@ class PrimaryDiagnosis extends Component {
 @connect(state => ({ outcomeHash: state.availableFields.pregnancyOutcomes_Hash[0], data: state.patientProfile.data, meddra_Hash: state.availableFields.meddra_Hash[0] }))
 class Pregnancy extends Component {
     render() {
+
+        if (this.props.data.demographicData.gender === 1)
+            return null;
+
         if (this.props.data.pregnancy.length === 0) {
             return (
-                <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
+                <PatientProfileSectionScaffold sectionName='ncLast Pregnay' actions={
                     <EditButton to={`/patientProfile/${this.props.patientId}/edit/pregnancy/data`} />
                 }>
                     <i>No recorded pregnancy</i>
