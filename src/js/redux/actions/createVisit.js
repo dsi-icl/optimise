@@ -11,7 +11,7 @@ export const createVisitAPICall = (body) => dispatch => apiHelper('/visits', { m
         return apiHelper('/data/visit', { method: 'POST', body: JSON.stringify(body.VSData) });
     })
     .then(() => {
-        history.push(`${body.to}/data/visit/${body.VSData.visitId}/vitals#visit/${body.VSData.visitId}`);
+        history.push(`${body.to}/data/visit/${body.VSData.visitId}/vitals#visit-${body.VSData.visitId}`);
         dispatch(getPatientProfileById(body.patientId));
     })
     .catch(msg => store.dispatch(addError({ error: msg })));
