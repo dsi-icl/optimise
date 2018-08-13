@@ -254,17 +254,21 @@ class PrimaryDiagnosis extends Component {
 class Pregnancy extends Component {
     render() {
 
-        if (this.props.data.demographicData.gender === 1)
-            return null;
+        if (this.props.data.demographicData) {
+            if (this.props.data.demographicData.gender === 1)
+                return null;
+        }
 
-        if (this.props.data.pregnancy.length === 0) {
-            return (
-                <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
-                    <EditButton to={`/patientProfile/${this.props.patientId}/edit/pregnancy/data`} />
-                }>
-                    <i>No recorded pregnancy</i>
-                </PatientProfileSectionScaffold>
-            );
+        if (this.props.data.demographicData) {
+            if (this.props.data.pregnancy.length === 0) {
+                return (
+                    <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
+                        <EditButton to={`/patientProfile/${this.props.patientId}/edit/pregnancy/data`} />
+                    }>
+                        <i>No recorded pregnancy</i>
+                    </PatientProfileSectionScaffold>
+                );
+            }
         }
         const pregnancy = this.props.data.pregnancy.sort((a, b) => parseInt(a.startDate) < parseInt(b.startDate))[0];
         if (!pregnancy) {
