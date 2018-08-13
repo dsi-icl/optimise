@@ -198,7 +198,7 @@ class EDSSCalculator extends Component {
             <>
                 <div className={style.ariane}>
                     <Helmet title='Performance Measures' />
-                    <h2>Performance Measurese Calculator ({this.props.match.params.patientId})</h2>
+                    <h2>Performance Measures Calculator ({this.props.match.params.patientId})</h2>
                     <BackButton to={`/patientProfile/${this.props.match.params.patientId}/edit/msPerfMeas/${params.visitId}`} />
                 </div>
                 <div className={style.panel}>
