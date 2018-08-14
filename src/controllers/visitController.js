@@ -173,8 +173,11 @@ VisitController.prototype.updateReport = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;
         });
-    } else {
+    } else if (req.body.hasOwnProperty('id')) {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
+    } else {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
 };
