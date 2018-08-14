@@ -14,16 +14,16 @@ export class ExportSets extends Component {
 
     _handleExportAll(e) {
         e.preventDefault();
-        window.open('/api/export');
+        const { data: { currentSearchType, currentSearchString } } = this.props;
+        window.open(`/api/export?field=${currentSearchType}&value=${currentSearchString}`);
     }
 
-    _handleExport(e) {
+    /* _handleExport(e) {
         e.preventDefault();
         window.open('/api/export');
-    }
+    } */
 
     render() {
-        // const { data: { result } } = this.props;
         return (
             <>
                 <div className={style.ariane}>
