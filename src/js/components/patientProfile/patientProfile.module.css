@@ -650,7 +650,7 @@ div.timelineCEBlack {
 }
 
 .closePii {
-    display: inline-block;
+    display: block;
     transition: max-height 300ms ease-out;
     max-height: 1.5em;
     overflow: hidden;
