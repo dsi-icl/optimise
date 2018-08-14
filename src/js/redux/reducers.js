@@ -162,6 +162,8 @@ function patientProfile(state = initialState.patientProfile, action) {
             return { ...state, fetching: true, data: { patientId: null } };
         case actionTypes.patientProfile.HISTORY_FILTER:
             return { ...state, historyFilter: action.filter };
+        case actionTypes.patientProfile.PII_RECEIVED:
+            return { ...state, pii: action.payload ? action.payload[0] : undefined };
         default:
             return state;
     }
