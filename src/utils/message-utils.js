@@ -39,8 +39,7 @@ const UserRelatedErrorMessage = {
     INVALIDDATE: 'The date provided is not valid',
     WRONGPATH: 'The requested url doesn\'t exists',
     INVALIDQUERY: 'The query string should be comprised of "value" or "field"+"value"',
-    FREQANDINTERVALMUSTCOPRESENT: '"Frequency" and "Interval Unit" must be both present or missing',
-    NOPATIENTDATA: 'There is no patient data in the database to export'
+    FREQANDINTERVALMUSTCOPRESENT: '"Frequency" and "Interval Unit" must be both present or missing'
 };
 
 const DataControllerMessageRelated = {
