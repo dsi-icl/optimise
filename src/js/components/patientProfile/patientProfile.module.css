@@ -659,3 +659,15 @@ div.timelineCEBlack {
 .openPii {
     max-height: 15em;
 }
+
+.miniTimelineDateLine {
+    border-top: 0.09em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
+}
+.miniTimelineEDSS {
+    color: #000;
+    font-size: 0.9em;
+    text-align: right;
+    text-orientation: sideways-right;
+    margin-left: -1em;
+    font-weight: bold;
+}
