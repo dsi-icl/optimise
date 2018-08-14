@@ -84,7 +84,7 @@ export class CreateTest extends Component {
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
                     <form className={style.panel}>
-                        <label htmlFor=''>Please enter date on which the test is expected to occur: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
+                        <label htmlFor=''>Date on which the test is expected to occur: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
                         <label htmlFor='test'>What type of test is it?</label><br />
                         <select name='test' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>
                             <option value='unselected'></option>
