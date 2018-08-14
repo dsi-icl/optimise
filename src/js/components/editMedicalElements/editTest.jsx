@@ -170,10 +170,10 @@ class UpdateTestEntry extends Component {
         const { startDate, actualOccurredDate } = this.state;
         return (
             <>
-                <label>Expected Date: </label>
+                <label>Date on which the test is expected to occur: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} />
                 <br />
-                <label>Sample taking Date: </label>
+                <label>Date on which the samples were taken: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />
                 <br />
                 {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
