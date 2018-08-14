@@ -30,13 +30,8 @@ PatientPiiController.prototype.getPatientPii = function (req, res) {
             return false;
         });
     } else {
-        this.patientPii.getPatientPii({}).then((result) => {
-            res.status(200).json(formatToJSON(result));
-            return true;
-        }).catch((error) => {
-            res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
-            return false;
-        });
+        res.status(400).json(ErrorHelper(messages.userError.WRONGARGUMENTS));
+        return;
     }
 };
 
