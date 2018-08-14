@@ -211,7 +211,6 @@ describe('Fetching PII', () => {
     test('Fetching', () =>
         admin.get('/patientPii/?patient=2')
             .then(res => {
-                console.log(res.body);
                 expect(res.status).toBe(200);
                 expect(typeof res.body).toBe('object');
                 expect(res.body.length).toBe(1);
