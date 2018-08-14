@@ -96,7 +96,7 @@ class DemographicSection extends Component {
                     <label>Country of origin:</label> <span>{countryOfOrigin}</span> <br />
                     <label>Alcohol usage:</label> <span>{alcoholUsage}</span> <br />
                     <label>Smoking history:</label> <span>{smokingHistory}</span>
-                    <div onMouseLeave={this._hidePii} className={`${style.closePii} ${this.state.showPii ? style.openPii : ''}`}>
+                    <div onMouseLeave={this._hidePii} className={`${style.closePii} ${pii && this.state.showPii ? style.openPii : ''}`}>
                         <span onClick={this._queryPatientData} className={style.piiUncover}>Show Personally Indentifiable Information</span>
                         {pii ?
                             <>
