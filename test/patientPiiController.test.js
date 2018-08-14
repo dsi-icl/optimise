@@ -207,6 +207,21 @@ describe('Create PII controller test', () => {
 
 });
 
+describe('Fetching PII', () => {
+    test('Fetching', () =>
+        admin.get('/patientPii/?patient=2')
+            .then(res => {
+                console.log(res.body);
+                expect(res.status).toBe(200);
+                expect(typeof res.body).toBe('object');
+                expect(res.body.length).toBe(1);
+                expect(res.body[0].firstName).toBe('Chon');
+                expect(res.body[0].surname).toBe('Sou');
+                expect(res.body[0].postcode).toBe('W6 ICL');
+                return true;
+            }));
+});
+
 describe('Editing PII test suite', () => {
     test('Editing with empty body', () =>
         admin.put('/patientPii/')
