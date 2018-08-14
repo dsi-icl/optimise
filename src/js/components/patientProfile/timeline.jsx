@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,7 @@ Currently it takes the latest date and the earliest date in all the visits, test
 and defined the css grid column number as the difference in days between the two. And then for each medical elements it calculates
 from its date which css grid area it belongs to, by calculating the ratio and then rounding off.
 */
-@connect(state => ({ data: state.patientProfile.data }))
+@connect(state => ({ data: state.patientProfile.data, visitFields: state.availableFields.visitFields }))
 export class TimelineBox extends Component {   //unfinsihed
     render() {
         const allVisitDates = this.props.data.visits.filter(el => el.type === 1).map(el => el.visitDate);
@@ -31,7 +31,7 @@ export class TimelineBox extends Component {   //unfinsihed
 
         const TimelineDynamicStyle = {
             gridTemplateColumns: `18% 2% ${'0.8%'.repeat(100)}`,
-            gridTemplateRows: '1em 0.5em 1em 0.5em 1em 0.5em 1em 0.5em 1em'
+            gridTemplateRows: '1em 0.5em 1em 0.5em 1em 0.5em 1em 0.5em 1em 0.5em 1.5em'
 
         };
 
@@ -53,15 +53,23 @@ export class TimelineBox extends Component {   //unfinsihed
 
         const mappingVisitFunction = visit => {
 
+            const EDSSFieldID = this.props.visitFields.filter(field => field.idname === 'edss:expanded disability status scale - estimated total')[0].id;
+            const EDSSRecord = visit.data.filter(record => record.field === EDSSFieldID);
+
             const startDate = parseInt(visit.visitDate, 10);
             let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
             let end = start + 1;
             end = end > 100 ? 100 : end;
             start = start >= end ? end - 1 : start;
             return (
-                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '3' }} title={new Date(startDate).toDateString()} key={`${visit.id}`} href={`#visit-${visit.id}`}>
-                    <div className={style.timelineVisit}>-</div>
-                </a>
+                <Fragment key={`${visit.id}`}>
+                    <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '3' }} title={new Date(startDate).toDateString()} href={`#visit-${visit.id}`}>
+                        <div className={style.timelineVisit}>-</div>
+                    </a>
+                    <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '9' }} title={new Date(startDate).toDateString()} href={`#visit-${visit.id}`} className={style.miniTimelineEDSS}>
+                        {EDSSRecord && EDSSRecord.length ? EDSSRecord[0].value : ''}
+                    </a>
+                </Fragment>
             );
         };
 
@@ -129,13 +137,16 @@ export class TimelineBox extends Component {   //unfinsihed
                         Events
                     </div>
                     <div style={{ gridColumn: '1/2', gridRow: '9', overflow: 'hidden' }}>
+                        EDSS
+                    </div>
+                    <div style={{ gridColumn: '1/2', gridRow: '11', overflow: 'hidden' }}>
 
                     </div>
                     {this.props.data.visits.filter(el => el.type === 1).map(mappingVisitFunction)}
                     {this.props.data.tests.map(mappingTestFunction)}
                     {this.props.data.treatments.map(mappingMedFunction)}
                     {this.props.data.clinicalEvents.map(mappingCEFunction)}
-                    <table style={{ gridColumn: '3/102', gridRow: '9' }}><tbody><tr>{mappingDateFunction(allDates)}</tr></tbody></table>
+                    <table style={{ gridColumn: '3/103', gridRow: '11' }} className={style.miniTimelineDateLine}><tbody><tr>{mappingDateFunction(allDates)}</tr></tbody></table>
                 </div>
             </PatientProfileSectionScaffold>
         );
