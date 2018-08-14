@@ -35,14 +35,14 @@ class ExportDataController {
 
             result.forEach(x => { patientArr.push(x.patientId); });
             result.forEach((__unused__r, i) => { result[i].uuid = undefined; });
-            mainFunction(res);
+            getPatientData(res);
             return true;
         }).catch((error) => {
             res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
             return false;
         });
 
-        function mainFunction(res) {
+        function getPatientData(res) {
             const csvFileName = 'optimise.csv';
             const jsonFileName = 'optimise.json';
             let csvFileArray = [];
@@ -63,15 +63,20 @@ class ExportDataController {
                 .andWhere('PATIENTS.consent', true)
                 .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
                 .then(result => {
-                    if (result && result.length >= 1) {
-                        let convertedResult = [];
-                        for (let i = 0; i < result.length; i++) {
-                            let entry = Object.assign(result[i]);
-                            entry.DOMAIN = 'DM';
-                            convertedResult.push(entry);
+                    if (result) {
+                        if (result.length >= 1) {
+                            let convertedResult = [];
+                            for (let i = 0; i < result.length; i++) {
+                                let entry = Object.assign(result[i]);
+                                entry.DOMAIN = 'DM';
+                                convertedResult.push(entry);
+                            }
+                            csvFileArray.push(new createCsvDataFile(convertedResult, 'DM'));
+                            jsonFileArray.push(new createJsonDataFile(convertedResult, 'DM'));
+                        } else {
+                            result = 'No patient data';
+                            jsonFileArray.push(new createJsonDataFile(result, 'Empty'));
                         }
-                        csvFileArray.push(new createCsvDataFile(convertedResult, 'DM'));
-                        jsonFileArray.push(new createJsonDataFile(convertedResult, 'DM'));
                     }
                     return true;
                 }).catch(() => false);
@@ -687,11 +692,7 @@ class ExportDataController {
             /* creates a zip attachment- arr: an array of file paths and file names */
 
             function zipFiles(arr) {
-                if (arr.length >= 1) {
-                    res.status(200).zip(arr);
-                } else {
-                    res.status(200).json(ErrorHelper(message.userError.NOPATIENTDATA));
-                }
+                res.status(200).zip(arr);
             }
         }
 
