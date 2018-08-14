@@ -637,3 +637,25 @@ div.timelineCEBlack {
 .deleteButton:hover {
     background-color: var(--color-button-red-lighter)
 }
+
+.piiUncover {
+    text-decoration: underline;
+    display: block;
+    height: 1.5em;
+}
+
+.piiUncover:hover {
+    color: hsl(var(--color-background-h), var(--color-background-s), 70%);
+    cursor: pointer;
+}
+
+.closePii {
+    display: inline-block;
+    transition: max-height 300ms ease-out;
+    max-height: 1.5em;
+    overflow: hidden;
+}
+
+.openPii {
+    max-height: 15em;
+}

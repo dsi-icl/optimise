@@ -8,6 +8,7 @@ import { formatRow } from './patientChart';
 import store from '../../redux/store';
 import { createImmunisationAPICall, deleteImmunisationAPICall } from '../../redux/actions/demographicData';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
+import { getPatientPii } from '../../redux/actions/patientProfile';
 import { updateConsentAPICall } from '../../redux/actions/consent';
 import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
@@ -45,10 +46,36 @@ export class Section extends Component {
     }
 }
 
-@connect(state => ({ demographicData: state.patientProfile.data.demographicData ? state.patientProfile.data.demographicData : false, fields: state.availableFields.demoFields[0] }))
+@connect(state => ({ data: state.patientProfile.data ? state.patientProfile.data : {}, pii: state.patientProfile.pii, fields: state.availableFields.demoFields[0] }))
 class DemographicSection extends Component {
+
+    constructor() {
+        super();
+        this.state = {};
+        this._hidePii = this._hidePii.bind(this);
+        this._queryPatientData = this._queryPatientData.bind(this);
+    }
+
+    _queryPatientData(ev) {
+        ev.preventDefault();
+        const body = {
+            patient: this.props.data.id
+        };
+        this.setState({
+            showPii: true,
+        });
+        if (!this.props.pii)
+            store.dispatch(getPatientPii(body));
+    }
+
+    _hidePii() {
+        this.setState({
+            showPii: false,
+        });
+    }
+
     render() {
-        const { demographicData, fields } = this.props;
+        const { data: { demographicData }, pii, fields } = this.props;
         if (demographicData) {
             let { DOB, alcoholUsage, countryOfOrigin, dominantHand, ethnicity, gender, smokingHistory } = demographicData;
             alcoholUsage = fields['alcohol_usage'].filter(el => el.id === alcoholUsage)[0].value;
@@ -63,12 +90,24 @@ class DemographicSection extends Component {
                     <EditButton to={`/patientProfile/${this.props.patientId}/edit/demographic/data`} />
                 }>
                     <label>Date of birth:</label> {new Date(parseInt(DOB, 10)).toDateString()}<br />
-                    <label>Gender:</label> {gender}<br />
-                    <label>Dominant hand:</label> {dominantHand} <br />
-                    <label>Ethnicity:</label> {ethnicity} <br />
-                    <label>Country of origin:</label> {countryOfOrigin} <br />
-                    <label>Alcohol usage:</label> {alcoholUsage} <br />
-                    <label>Smoking history:</label> {smokingHistory}
+                    <label>Gender:</label> <span>{gender}</span> <br />
+                    <label>Dominant hand:</label> <span>{dominantHand}</span> <br />
+                    <label>Ethnicity:</label> <span>{ethnicity}</span> <br />
+                    <label>Country of origin:</label> <span>{countryOfOrigin}</span> <br />
+                    <label>Alcohol usage:</label> <span>{alcoholUsage}</span> <br />
+                    <label>Smoking history:</label> <span>{smokingHistory}</span>
+                    <div onMouseLeave={this._hidePii} className={`${style.closePii} ${this.state.showPii ? style.openPii : ''}`}>
+                        <span onClick={this._queryPatientData} className={style.piiUncover}>Show Personally Indentifiable Information</span>
+                        {pii ?
+                            <>
+                                <br />
+                                <label>First name:</label> <span>{pii.firstName}</span> <br />
+                                <label>Surname:</label> <span>{pii.surname}</span> <br />
+                                <label>Address:</label> <span>{pii.fullAddress}</span> <br />
+                                <label>Postcode:</label> <span>{pii.postcode}</span>
+                            </>
+                            : null}
+                    </div>
                 </PatientProfileSectionScaffold>
             );
         } else {
