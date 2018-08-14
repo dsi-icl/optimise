@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "0.9.67",
+    "version": "0.9.68",
     "description": "Backend for OptimiseMS",
     "main": "./src/optimiseServer.js",
     "scripts": {
@@ -12,9 +12,10 @@
         "start": "node ./src/index.js"
     },
     "contributors": [
+        "Florian Guitton <f.guitton@imperial.ac.uk>",
         "Pierre-Marie <p.danieau@imperial.ac.uk>",
         "Chon Sou <c.sou16@imperial.ac.uk>",
-        "Florian Guitton <f.guitton@imperial.ac.uk>"
+        "Eleni Pissaridou <e.pissaridou@imperial.ac.uk>"
     ],
     "license": "MIT",
     "dependencies": {
