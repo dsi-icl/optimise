@@ -600,7 +600,7 @@ export class Charts extends Component {
                                         baselineVisit={baselineVisit}
                                         filter={this.state.filter}
                                         title={el.type === 1 ? (baselineVisit ? `Baseline visit (${el.historyInd}${suffix} visit)` : `${reasonForVisit ? reasonForVisit[0].value : 'Clinical'} visit (${el.historyInd}${suffix} visit)`) : 'Additional record'}
-                                        subtitle={`${el.type === 1 ? 'Happening on' : 'Recorded on'} ${visitDate.toLocaleDateString('en-GB', dateOptions)}`} />;
+                                        subtitle={`${el.type === 1 ? '' : 'Recorded on'} ${visitDate.toLocaleDateString('en-GB', dateOptions)}`} />;
                                 }
                             )}
                         </Timeline>
