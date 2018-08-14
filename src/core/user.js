@@ -69,7 +69,7 @@ User.prototype.loginUser = function (user) {
         try {
             let crypted = hash(user.pw, result[0].salt, result[0].iteration);
             if (crypted !== result[0].pw)
-                return reject(ErrorHelper(message.userError.BADPASSWORD, new Error(message.userError.WRONGARGUMENTS)));
+                return reject(ErrorHelper(message.userError.BADPASSWORD));
             else
                 return resolve(result[0]);
         } catch (err) {

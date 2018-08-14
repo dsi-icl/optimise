@@ -106,6 +106,10 @@ UserController.prototype.updateUser = function (req, res) {
         res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
         return;
     }
+    if (typeof req.body.pw !== 'string' || typeof req.body.username !== 'string') {
+        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        return;
+    }
     this.user.updateUser(req.body).then((result) => {
         res.status(200).json(formatToJSON(result));
         return true;
