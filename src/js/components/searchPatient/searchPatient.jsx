@@ -107,7 +107,7 @@ export class SearchResultForPatients extends Component {
                     <Link to={`/createPatient/${searchString}`} className={style.searchItem}>
                         <div>
                             <span className={style.createPatientSign}>&#43;</span><br />
-                            <span className={style.createPatientText}>{`Create patient ${searchString}`}</span>
+                            <span className={style.createPatientText}>Create patient<br />{`${searchString}`}</span>
                         </div>
                     </Link>
                     : null}
@@ -146,10 +146,12 @@ class PatientButton extends PureComponent {
             <Link key={data.aliasId} to={`/patientProfile/${data.aliasId}`} className={style.searchItem} >
                 <div>
                     {styledName} <br /><br />
-                    study: {data.study} <br />
-                    consent: {data.consent === true ? 'yes' : 'no'}
+                    <span>
+                        study: {data.study} <br />
+                        consent: {data.consent === true ? 'yes' : 'no'}
+                    </span>
                 </div>
-            </Link>
+            </Link >
         );
     }
 }
