@@ -41,7 +41,7 @@ class ExportDataController {
             getPatientData(res);
             return true;
         }).catch((error) => {
-            noDataArr.push(new createJsonNoData(message.errorMessages.NOTFOUND, error));
+            noDataArr.push(new createJsonNoData(message.errorMessages.NOTFOUND.concat(` ${error}`)));
             res.status(404).zip(noDataArr);
             return false;
         });
