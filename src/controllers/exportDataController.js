@@ -131,7 +131,10 @@ class ExportDataController {
             .andWhere('PATIENTS.deleted', '-')
             .andWhere('PATIENTS.consent', true)
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
-            .then(result => ['SC_Smoking', result]));
+            .then(result => ['SC_Smoking', result.map(x => ({
+                ...x,
+                DOMAIN: 'SC'
+            }))]));
 
         /* Alcohol consumption data */
         dataPromises.push(knex('PATIENTS')
