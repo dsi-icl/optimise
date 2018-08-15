@@ -24,7 +24,7 @@ class ExportDataController {
             fs.mkdirSync(global.config.exportGenerationFolder);
         }
 
-        let filepath = path.normalize(`${global.config.exportGenerationFolder}${filename}`);
+        let filepath = path.normalize(`${global.config.exportGenerationFolder}${filename}.${Date.now()}`);
         fs.writeFileSync(filepath, content);
 
         return {
@@ -35,21 +35,19 @@ class ExportDataController {
 
     createErrorFile(errorMessage) {
 
-        const fileName = `error_${Date.now()}_optimise.txt`;
-        return this.createFile(fileName, errorMessage);
+        return this.createFile('error.txt', errorMessage);
 
     }
 
     createNoDataFile() {
 
-        const fileName = `noData_${Date.now()}_optimise.txt`;
-        return this.createFile(fileName, message.userError.NODATAAVAILABLE);
+        return this.createFile('noData.txt', message.userError.NODATAAVAILABLE);
 
     }
 
     createCsvDataFile(result) {
 
-        const fileName = `${result[0]}_${Date.now()}_optimise.csv`;
+        const fileName = `${result[0]}.csv`;
         let keys = Object.keys(result[1][0]);
         let tempResult = `${keys.join(',')}\n`;
         result[1].forEach((obj) => {
@@ -65,7 +63,7 @@ class ExportDataController {
 
     createJsonDataFile(result) {
 
-        const fileName = `${result[0]}_${Date.now()}_optimise.json`;
+        const fileName = `${result[0]}.json`;
         const fileContents = Buffer.from(JSON.stringify(result[1]));
         return this.createFile(fileName, fileContents);
 
@@ -89,11 +87,8 @@ class ExportDataController {
             return res.status(400).zip([this.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
 
         searchEntry(queryfield, queryvalue)
-            .then(result => {
-                if (result && result.length > 0)
-                    return _this.getPatientData(result.map(x => x.patientId));
-                return _this.createNoDataFile();
-            })
+            .then(result => result && result.length !== undefined ? result.filter(p => p.consent === true) : [])
+            .then(result => result.length > 0 ? _this.getPatientData(result.map(x => x.patientId)) : _this.createNoDataFile())
             .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, _this.createJsonDataFile(dr), _this.createCsvDataFile(dr)] : a, []) : [domainResults])
             .then(filesArray => res.status(200).zip(filesArray), attachementName)
             .catch(error => res.status(404).zip([_this.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], attachementName));
