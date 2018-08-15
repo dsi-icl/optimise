@@ -134,6 +134,9 @@ button {
     background-color: var(--color-accent);
     color: var(--color-font-active);
     cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 button:hover {
