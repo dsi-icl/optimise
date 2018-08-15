@@ -13,9 +13,11 @@ export class CreateTest extends Component {
         super();
         this.state = {
             startDate: moment(),
+            actualOccurredDate: moment(),
             testType: 'unselected'
         };
         this._handleDateChange = this._handleDateChange.bind(this);
+        this._handleActualDateChange = this._handleActualDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
         this._formatRequestBody = this._formatRequestBody.bind(this);
         this._handleTypeChange = this._handleTypeChange.bind(this);
@@ -24,6 +26,13 @@ export class CreateTest extends Component {
     _handleDateChange(date) {
         this.setState({
             startDate: date,
+            error: undefined
+        });
+    }
+
+    _handleActualDateChange(date) {
+        this.setState({
+            actualOccurredDate: date,
             error: undefined
         });
     }
@@ -37,11 +46,13 @@ export class CreateTest extends Component {
 
     _formatRequestBody() {
         const date = this.state.startDate;
+        const actualOccurredDate = this.state.actualOccurredDate;
         return {
             patientId: this.props.match.params.patientId,
             data: {
                 patientId: this.props.patientId,
                 expectedOccurDate: date.toISOString(),
+                actualOccurredDate: actualOccurredDate ? actualOccurredDate.toISOString() : null,
                 type: Number.parseInt(this.state.testType)
             }
         };
@@ -55,6 +66,11 @@ export class CreateTest extends Component {
         if (!this.state.startDate || !this.state.startDate.isValid()) {
             return this.setState({
                 error: 'Please indicate the date on which the test was done'
+            });
+        }
+        if (!this.state.actualOccurredDate || !this.state.actualOccurredDate.isValid()) {
+            return this.setState({
+                error: 'Please indicate the date on which the test results were processed'
             });
         }
         if (this.state.testType === 'unselected') {
@@ -84,8 +100,9 @@ export class CreateTest extends Component {
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
                     <form className={style.panel}>
-                        <label htmlFor=''>Date on which the test was done: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
-                        <label htmlFor='test'>What type of test is it?</label><br />
+                        <label>Date on which the test was done: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
+                        <label>Date on which test results were processed: </label><br /><PickDate startDate={this.state.actualOccurredDate} handleChange={this._handleActualDateChange} /><br />
+                        <label htmlFor='test'>What type of test was it?</label><br />
                         <select name='test' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>
                             <option value='unselected'></option>
                             {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
