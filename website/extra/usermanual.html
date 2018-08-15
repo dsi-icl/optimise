@@ -84,10 +84,10 @@
                         <p>A patient identifier is required when creating a new patient in OPTIMISE MS. The term Patient ID,
                             used in this guide, refers to this identifier which may correspond to the patient's NHS ID. OPTIMISE
                             MS stores an independently generated, pseudonymised ID along with the patient ID entered by the
-                            user at patient creation time- this identifier is referred to as OPTIMISE ID.</p>
+                            user at patient creation time- this generated identifier is referred to as OPTIMISE ID.</p>
                         <p>The generated OPTIMISE ID is included in the exported data (more about the export in the section
-                            <a href="#ug-export">Exporting patient data</a>). The patient ID, which as mentioned above can be the NHS ID, is not
-                            included in the exported data sets. You can retrieve the patient ID using the
+                            <a href="#ug-export">Exporting patient data</a>). The patient ID, which, as mentioned above, can be the NHS ID, is
+                            not included in the exported data sets. You can retrieve the patient ID using the
                             <a href="ug-search">Search tool</a> as search by this generated ID is also possible.
                         </p>
                         <h1 id="ug-login">Logging in</h1>
@@ -210,8 +210,8 @@
                         <br/>
                         <br/>
                         <p>To create a new patient using the search tool, select Patient ID as the search field list and enter
-                            the patient ID in the search value box. If there are no patients with the entered ID, you may
-                            create a new patient by clicking the button</p>
+                            the patient ID in the search value box. If there are no patients with the entered ID (here, 'opt'),
+                            you may create a new patient by clicking the button</p>
                         <img src="/img/createPatientButton.png" alt="createPatientSearch">
                         <br/>
                         <br/>
@@ -266,7 +266,8 @@
                         <h2 id="ug-patientOverview">Patient overview</h2>
                         <p>The Profile section in the Overview panel contains the profile data entered during patient creation.
                             To edit the Profile section, click the button
-                            <img src="/img/editButton.png" alt="editProfileButton"> next to Profile.</p>
+                            <img src="/img/editButton.png" alt="editProfileButton"> next to Profile. Click on
+                            <img src="/img/pii.png" alt="pii"> to view the Patient Identifiable Information.</p>
                         <img src="/img/patientProfileEditButton.png" alt="editProfileButton">
                         <br/>
                         <br/>
@@ -275,8 +276,8 @@
                         <img src="/img/patientProfileEdit1.png" alt="editProfile1">
                         <br/>
                         <br/>
-                        <p>Similarly, the Primary Diagnosis section in the Overview panel contains the diagnosis data entered
-                            during the creation of the patient. To edit this or add diagnoses, click
+                        <p>The Primary Diagnosis section in the Overview panel contains the most recent diagnosis data. To edit
+                            this or add more diagnoses, click
                             <img src="/img/editButton.png" alt="editProfileButton"> next to Primary Diagnosis.</p>
                         <img src="/img/primaryDiagnosisEditButton.png" alt="editDiagnosisButton">
                         <br/>
@@ -308,8 +309,8 @@
                         <img src="/img/addDiagnosisForm.png" alt="diagnosisForm">
                         <br/>
                         <br/>
-                        <p>To enter or edit Pregnancy data, click on
-                            <img src="/img/editButton.png" alt="pregnancyEdit">. The most recent Pregnancy record is listed in the Overview Panel.</p>
+                        <p>To add or edit Pregnancy data, click on
+                            <img src="/img/editButton.png" alt="pregnancyEdit">. The most recent Pregnancy record (pregnancy date) is listed in the Overview Panel.</p>
                         <img src="/img/pregnancy1.png" alt="pregnancy">
                         <br/>
                         <br/>
@@ -678,8 +679,10 @@
                         <br/>
                         <br/>
                         <h1 id="ug-timeline">Using the Timeline</h1>
-                        <p>You may click on the coloured shapes on the Timeline to access (view/edit) the corresponding entry
-                            in Medical History Summary.</p>
+                        <p>You may click on the coloured shapes or EDSS on the Timeline to access (view/edit) the corresponding
+                            entry in Medical History Summary. The estimated total EDSS is plotted at the bottom part of the
+                            timeline.
+                        </p>
                         <img src="/img/timeline.png" alt="timeline">
                         <br/>
                         <br/>
@@ -761,6 +764,20 @@
                             <a href="#ug-search">Searching patients</a>.
                         </p>
                         <img src="/img/export.png" alt="export">
+                        <br/>
+                        <br>
+                        <p>The option to export part of the database becomes available if you start using the search tool.</p>
+                        <p>Click on</p>
+                        <img src="/img/exportSearchButton.png" alt="exportSearchButton">
+                        <br/>
+                        <br>
+                        <p>in the right panel to export the data stored for the patients listed in the search results area below
+                            the search tool.</p>
+                        <p>You may export data based on a search by fields such as ID and treatment. Here, for example, only
+                            the data for patients diagnosed with RRMS can be exported by clicking the appropriate Export
+                            button in the right panel.
+                        </p>
+                        <img src="/img/exportSearch.png" alt="exportSearch">
                         <br/>
                         <br>
                         <h1 id="ug-admin">Admin menu</h1>
