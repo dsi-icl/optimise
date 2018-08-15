@@ -43,7 +43,7 @@ class ExportDataController {
     createNoDataFile() {
 
         const fileName = `noData_${Date.now()}_optimise.txt`;
-        return this.createFile(fileName, message.userError.NOPATIENTDATA);
+        return this.createFile(fileName, message.userError.NODATAAVAILABLE);
 
     }
 
