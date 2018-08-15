@@ -39,6 +39,7 @@ const UserRelatedErrorMessage = {
     INVALIDDATE: 'The date provided is not valid',
     WRONGPATH: 'The requested url doesn\'t exists',
     INVALIDQUERY: 'The query string should be comprised of "value" or "field"+"value"',
+    NODATAAVAILABLE: 'No patient data available',
     FREQANDINTERVALMUSTCOPRESENT: '"Frequency" and "Interval Unit" must be both present or missing'
 };
 
