@@ -76,16 +76,17 @@ class ExportDataController {
         let _this = this;
         let queryfield = '';
         let queryvalue = '';
+        const attachementName = `optimise_export_${Date.now()}.zip`;
 
         if (typeof req.query.field === 'string')
             queryfield = req.query.field;
         else if (req.query.field !== undefined)
-            return res.status(400).zip([this.createErrorFile(message.userError.INVALIDQUERY)]);
+            return res.status(400).zip([this.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
 
         if (typeof req.query.value === 'string')
             queryvalue = req.query.value;
         else if (req.query.value !== undefined)
-            return res.status(400).zip([this.createErrorFile(message.userError.INVALIDQUERY)]);
+            return res.status(400).zip([this.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
 
         searchEntry(queryfield, queryvalue)
             .then(result => {
@@ -94,8 +95,8 @@ class ExportDataController {
                 return _this.createNoDataFile();
             })
             .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, _this.createJsonDataFile(dr), _this.createCsvDataFile(dr)] : a, []) : [domainResults])
-            .then(filesArray => res.status(200).zip(filesArray))
-            .catch(error => res.status(404).zip([_this.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))]));
+            .then(filesArray => res.status(200).zip(filesArray), attachementName)
+            .catch(error => res.status(404).zip([_this.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], attachementName));
 
     }
 
