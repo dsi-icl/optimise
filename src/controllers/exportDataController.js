@@ -325,7 +325,7 @@ class ExportDataController {
         /* Patient Laboratory Test data */
         dataPromises.push(knex('TEST_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_TESTS.idname as LBTEST', 'TEST_DATA.value as LBORRES',
-                'ORDERED_TESTS.actualOccurredDate as LBDTC')
+                'ORDERED_TESTS.expectedOccurDate as LBDTC')
             .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
             .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
