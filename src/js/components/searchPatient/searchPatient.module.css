@@ -68,7 +68,8 @@
     text-align: center;
 }
 
-a:focus .createPatientText {
+a:focus .createPatientText,
+a:focus span:first-of-type:not(.createPatientSign) { 
     text-decoration: underline;
 }
 
@@ -83,21 +84,21 @@ a:focus .createPatientText {
     text-decoration: none !important;
 }
 
-@media (max-width: 70em) {
+@media (max-width: 75em) {
     .searchItem {
         min-width: calc(100% / 3);
         max-width: calc(100% / 3);
     }
 }
 
-@media (max-width: 50em) {
+@media (max-width: 60em) {
     .searchItem {
         min-width: 50%;
         max-width: 50%;
     }
 }
 
-@media (max-width: 30em) {
+@media (max-width: 45em) {
     .searchItem {
         min-width: 100%;
         max-width: 100%;
