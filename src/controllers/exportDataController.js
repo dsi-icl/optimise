@@ -1,7 +1,6 @@
 /* Export data for all patients */
 
 const knex = require('../utils/db-connection');
-const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const { searchEntry } = require('../utils/controller-utils');
 const fs = require('fs');
@@ -15,20 +14,24 @@ class ExportDataController {
         let queryfield = '';
         let queryvalue = '';
         let patientArr = [];
+        let noDataArr = [];
         if (Object.keys(req.query).length > 2) {
-            res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
+            noDataArr.push(new createJsonNoData(message.userError.INVALIDQUERY));
+            res.status(400).zip(noDataArr);
             return false;
         }
         if (typeof req.query.field === 'string')
             queryfield = req.query.field;
         else if (req.query.field !== undefined) {
-            res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
+            noDataArr.push(new createJsonNoData(message.userError.INVALIDQUERY));
+            res.status(400).zip(noDataArr);
             return false;
         }
         if (typeof req.query.value === 'string')
             queryvalue = req.query.value;
         else if (req.query.value !== undefined) {
-            res.status(400).json(ErrorHelper(message.userError.INVALIDQUERY));
+            noDataArr.push(new createJsonNoData(message.userError.INVALIDQUERY));
+            res.status(400).zip(noDataArr);
             return false;
         }
         searchEntry(queryfield, queryvalue).then((result) => {
@@ -38,9 +41,29 @@ class ExportDataController {
             getPatientData(res);
             return true;
         }).catch((error) => {
-            res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
+            noDataArr.push(new createJsonNoData(message.errorMessages.NOTFOUND, error));
+            res.status(404).zip(noDataArr);
             return false;
         });
+
+        function createJsonNoData(errorMessage) {
+
+            const noDataFile = `noData${Date.now()}optimise.json`;
+            // check if dir temp exists
+            const dir = './temp/';
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+            let tempSavedPath = `${dir}${noDataFile}`;
+            tempSavedPath = path.normalize(tempSavedPath);
+            fs.writeFile(tempSavedPath, errorMessage, err => {
+                if (err) {
+                    return;
+                }
+            });
+            return { path: tempSavedPath, name: noDataFile };
+
+        }
 
         function getPatientData(res) {
             const csvFileName = 'optimise.csv';
