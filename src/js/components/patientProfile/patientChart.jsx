@@ -83,12 +83,14 @@ export class PatientChart extends Component {
 class Test extends PureComponent {
     render() {
         const { data, typedict, patientId } = this.props;
-        const date = data.actualOccurredDate || data.expectedOccurDate ? new Date(parseInt(data.actualOccurredDate || data.expectedOccurDate, 10)).toDateString() : '';
+        const dateDone = data.expectedOccurDate ? new Date(parseInt(data.expectedOccurDate, 10)).toDateString() : '';
+        const dateResults = data.actualOccurredDate ? new Date(parseInt(data.actualOccurredDate, 10)).toDateString() : dateDone;
         return (
             <tr>
                 <td><EditButton to={`/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
-                <td>{date}</td>
+                <td>{dateDone}</td>
+                <td>{dateResults}</td>
                 <td>
                     <NavLink id={`test-${data.id}`} to={`/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
@@ -270,7 +272,7 @@ class OneVisit extends Component {
                         <div className={style.visitWrapper}>
                             <table className={style.editableTable}>
                                 <thead>
-                                    <tr><th></th><th>Type</th><th>Test date</th><th></th></tr>
+                                    <tr><th></th><th>Type</th><th>Test done date</th><th>Results process date</th><th></th></tr>
                                 </thead>
                                 <tbody>
                                     {this.props.data.tests

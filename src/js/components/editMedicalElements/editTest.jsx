@@ -91,7 +91,7 @@ class UpdateTestEntry extends Component {
             elementId: props.elementId,
             id: props.data.id,
             startDate: moment(parseInt(props.data.expectedOccurDate)),
-            actualOccurredDate: !props.data.actualOccurredDate ? moment() : moment(parseInt(props.data.actualOccurredDate))
+            actualOccurredDate: !props.data.actualOccurredDate ? moment(parseInt(props.data.expectedOccurDate)) : moment(parseInt(props.data.actualOccurredDate))
         };
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
