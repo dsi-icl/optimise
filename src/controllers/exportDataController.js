@@ -97,7 +97,7 @@ class ExportDataController {
                             csvFileArray.push(new createCsvDataFile(convertedResult, 'DM'));
                             jsonFileArray.push(new createJsonDataFile(convertedResult, 'DM'));
                         } else {
-                            result = 'No patient data';
+                            result = { message: 'No patient data' };
                             jsonFileArray.push(new createJsonDataFile(result, 'Empty'));
                         }
                     }
