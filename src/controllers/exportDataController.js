@@ -16,21 +16,21 @@ class ExportDataController {
         let patientArr = [];
         let noDataArr = [];
         if (Object.keys(req.query).length > 2) {
-            noDataArr.push(new createJsonNoData(message.userError.INVALIDQUERY));
+            noDataArr.push(new createNoDataFile(message.userError.INVALIDQUERY));
             res.status(400).zip(noDataArr);
             return false;
         }
         if (typeof req.query.field === 'string')
             queryfield = req.query.field;
         else if (req.query.field !== undefined) {
-            noDataArr.push(new createJsonNoData(message.userError.INVALIDQUERY));
+            noDataArr.push(new createNoDataFile(message.userError.INVALIDQUERY));
             res.status(400).zip(noDataArr);
             return false;
         }
         if (typeof req.query.value === 'string')
             queryvalue = req.query.value;
         else if (req.query.value !== undefined) {
-            noDataArr.push(new createJsonNoData(message.userError.INVALIDQUERY));
+            noDataArr.push(new createNoDataFile(message.userError.INVALIDQUERY));
             res.status(400).zip(noDataArr);
             return false;
         }
@@ -41,14 +41,14 @@ class ExportDataController {
             getPatientData(res);
             return true;
         }).catch((error) => {
-            noDataArr.push(new createJsonNoData(message.errorMessages.NOTFOUND.concat(` ${error}`)));
+            noDataArr.push(new createNoDataFile(message.errorMessages.NOTFOUND.concat(` ${error}`)));
             res.status(404).zip(noDataArr);
             return false;
         });
 
-        function createJsonNoData(errorMessage) {
+        function createNoDataFile(errorMessage) {
 
-            const noDataFile = `noData${Date.now()}optimise.json`;
+            const noDataFile = `${errorMessage}${Date.now()}optimise.txt`;
             // check if dir temp exists
             const dir = './temp/';
             if (!fs.existsSync(dir)) {
