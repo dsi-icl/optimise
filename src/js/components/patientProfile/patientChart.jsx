@@ -272,7 +272,7 @@ class OneVisit extends Component {
                         <div className={style.visitWrapper}>
                             <table className={style.editableTable}>
                                 <thead>
-                                    <tr><th></th><th>Type</th><th>Test done date</th><th>Results process date</th><th></th></tr>
+                                    <tr><th></th><th>Type</th><th>Date on which test was done</th><th>Results process date</th><th></th></tr>
                                 </thead>
                                 <tbody>
                                     {this.props.data.tests
