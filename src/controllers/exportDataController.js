@@ -7,8 +7,6 @@ const fs = require('fs');
 const path = require('path');
 require('express-zip');
 
-const TEMPORARY_FILE_DIRECTORY = './temp/';
-
 class ExportDataController {
 
     constructor() {
@@ -22,11 +20,11 @@ class ExportDataController {
 
     createFile(filename, content) {
 
-        if (!fs.existsSync(TEMPORARY_FILE_DIRECTORY)) {
-            fs.mkdirSync(TEMPORARY_FILE_DIRECTORY);
+        if (!fs.existsSync(global.config.exportGenerationFolder)) {
+            fs.mkdirSync(global.config.exportGenerationFolder);
         }
 
-        let filepath = path.normalize(`${TEMPORARY_FILE_DIRECTORY}${filename}`);
+        let filepath = path.normalize(`${global.config.exportGenerationFolder}${filename}`);
         fs.writeFileSync(filepath, content);
 
         return {
@@ -95,7 +93,7 @@ class ExportDataController {
                     return _this.getPatientData(result.map(x => x.patientId));
                 return _this.createNoDataFile();
             })
-            .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => [...a, _this.createJsonDataFile(dr), _this.createCsvDataFile(dr)], []) : [domainResults])
+            .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, _this.createJsonDataFile(dr), _this.createCsvDataFile(dr)] : a, []) : [domainResults])
             .then(filesArray => res.status(200).zip(filesArray))
             .catch(error => res.status(404).zip([_this.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))]));
 
