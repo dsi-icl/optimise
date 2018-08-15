@@ -41,7 +41,7 @@ class ExportDataController {
             getPatientData(res);
             return true;
         }).catch((error) => {
-            noDataArr.push(new createNoDataFile(message.errorMessages.NOTFOUND.concat(` ${error}`), 'invalidQuery'));
+            noDataArr.push(new createNoDataFile(message.errorMessages.NOTFOUND.concat(` ${error}`), 'notFound'));
             res.status(404).zip(noDataArr);
             return false;
         });
