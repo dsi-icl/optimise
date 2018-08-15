@@ -132,12 +132,12 @@ class UpdateTestEntry extends Component {
 
         if (!this.state.startDate || !this.state.startDate.isValid()) {
             return this.setState({
-                error: 'Please indicate the expected date of the test'
+                error: 'Please indicate the date on which the test was done'
             });
         }
         if (!this.state.actualOccurredDate || !this.state.actualOccurredDate.isValid()) {
             return this.setState({
-                error: 'Please indicate the actual date of the test'
+                error: 'Please indicate the date on which the test results were processed'
             });
         }
         if (this.state.testType === 'unselected') {
@@ -170,10 +170,10 @@ class UpdateTestEntry extends Component {
         const { startDate, actualOccurredDate } = this.state;
         return (
             <>
-                <label>Date on which the test is expected to occur: </label>
+                <label>Date on which the test was done: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} />
                 <br />
-                <label>Date on which the samples were taken: </label>
+                <label>Date on which test results were processed: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />
                 <br />
                 {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
