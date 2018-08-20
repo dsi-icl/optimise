@@ -47,24 +47,27 @@ PatientController.prototype.searchPatients = function (req, res) {  //get all li
 };
 
 PatientController.prototype.createPatient = function (req, res) {
-    if (req.body.hasOwnProperty('aliasId') && req.body.hasOwnProperty('study') && req.body.hasOwnProperty('consent')) {
-        let entryObj = {
-            aliasId: req.body.aliasId,
-            study: req.body.study,
-            createdByUser: req.user.id,
-            consent: req.body.consent
-        };
-        this.patient.createPatient(entryObj).then((result) => {
-            res.status(200).json(formatToJSON(result));
-            return true;
-        }).catch((error) => {
-            res.status(400).json(ErrorHelper(error));
-            return false;
-        });
-    } else {
+    if (!(req.body.hasOwnProperty('aliasId') && req.body.hasOwnProperty('study') && req.body.hasOwnProperty('consent'))) {
+        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+        return false;
+    }
+    if (typeof req.body.aliasId !== 'string' || typeof req.body.study !== 'string' || typeof req.body.consent !== 'boolean') {
         res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
         return false;
     }
+    let entryObj = {
+        aliasId: req.body.aliasId,
+        study: req.body.study,
+        createdByUser: req.user.id,
+        consent: req.body.consent
+    };
+    this.patient.createPatient(entryObj).then((result) => {
+        res.status(200).json(formatToJSON(result));
+        return true;
+    }).catch((error) => {
+        res.status(400).json(ErrorHelper(error));
+        return false;
+    });
 };
 
 PatientController.prototype.updatePatient = function (req, res) {
