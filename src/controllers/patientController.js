@@ -104,7 +104,7 @@ PatientController.prototype.deletePatient = function (req, res) {
 
 PatientController.prototype.getPatientProfileById = function (req, res) {
     if (req.params.hasOwnProperty('patientId')) {
-        return this.patient.getPatientProfile({ 'aliasId': req.params.patientId }, true, req.body.getOnly)
+        return this.patient.getPatientProfile({ 'aliasId': req.params.patientId }, true, req.query.getOnly)
             .then(function (result) {
                 res.status(200).json(result);
                 return true;
