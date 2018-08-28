@@ -433,23 +433,28 @@
                         <img src="/img/estimatedEDSS.png" alt="estimatedEDSS">
                         <br/>
                         <br/>
-                        <p>Only valid EDSS total scores (0 to 10 by 0.5 increment) may be accepted in this field. Entering an
-                            invalid total EDSS, for example 100, will generate an error. Please use the dot notation for
-                            the decimal point, i.e. 4.5 is accepted while 4,5 is not.</p>
+                        <p>Only valid EDSS total scores (0 to 10 by 0.5 increment excluding 0.5) may be accepted in this field.
+                            Entering an invalid total EDSS, for example 100, will generate an error. Please use the dot notation
+                            for the decimal point, i.e. 4.5 is accepted while 4,5 is not.</p>
                         <img src="/img/edssError.png" alt="edssError">
                         <br/>
                         <br/>
                         <p>Click Save for this estimated EDSS to be recorded. In addition, or alternatively, the functional
                             systems can be scored separately and the total EDSS can be calculated by clicking on Open EDSS
-                            Calculator.
+                            Calculator. The estimated total EDSS entered as described above is carried over to this calculator
+                            only if the score is saved (by clicking the Save button).
                         </p>
                         <img src="/img/openCalc.png" alt="EDSScalculator">
                         <br/>
                         <br/>
-                        <p>For this, select a score for each EDSS subcategory. Hover over a score button to see the respective
-                            score description highlighted on the right. The calculated total score will be shown in the Calculated
-                            score box. Note that an Ambulation score is required for the functional scores to be saved. Click
-                            Save to record the scores and then
+                        <p>Select a score for each EDSS subcategory. Hover over a score button to see the respective score description
+                            highlighted on the right. The calculated total score will be shown in the score box labelled
+                            Computed total score (automatically generated). Note that an Ambulation score is required for
+                            the functional scores to be saved. The saved estimated total is carried over to the score box
+                            labelled Estimated total score (by the clinician). You may update the estimated total here as
+                            well.
+                        </p>
+                        <p>Click Save to record the scores and then
                             <img src="/img/xButton.png" alt="close"> to exit the calculator. To exit Performance Measures and return to the Patient Overview, click
                             on
                             <img src="/img/xButton.png" alt="close"> at the top right corner of the EDSS form.</p>
@@ -457,7 +462,7 @@
                         <br/>
                         <br/>
                         <p>The EDSS Total and EDSS Subscores will be listed under Performance Measures in the Medical History
-                            Summary.
+                            Summary. The text of the total scores (estimated and computed) is bold and pink.
                         </p>
                         <img src="/img/edssAdded.png" alt="edssAdded">
                         <br/>
