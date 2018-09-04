@@ -336,7 +336,10 @@ class Pregnancy extends Component {
 /**
  * @prop {Object} this.props.match
  */
-@connect(state => ({ data: state.patientProfile.data }))
+@connect(state => ({
+    data: state.patientProfile.data,
+    priv: state.login.priv
+}))
 class DeletePatient extends Component {
     constructor() {
         super();
@@ -374,14 +377,20 @@ class DeletePatient extends Component {
 
     render() {
         const { consent } = this.props.data;
+
         return (
             <>
                 <PatientProfileSectionScaffold sectionName='Consent'>
                     <button onClick={this._handleClickWithdrawConsent} >{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</button>
                 </PatientProfileSectionScaffold>
-                <PatientProfileSectionScaffold sectionName='Delete'>
-                    <button onClick={this._handleClickDelete} className={style.deleteButton}>Delete this patient</button>
-                </PatientProfileSectionScaffold>
+                {this.props.priv === 1 ?
+                    (
+                        <PatientProfileSectionScaffold sectionName='Delete'>
+                            <button onClick={this._handleClickDelete} className={style.deleteButton}>Delete this patient</button>
+                        </PatientProfileSectionScaffold>
+                    )
+                    : null
+                }
             </>
         );
     }
