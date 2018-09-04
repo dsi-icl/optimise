@@ -3,6 +3,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Icon from '../icon';
+import { edssAlgorithmFromProps } from '../EDSScalculator/calculator';
 import { PatientProfileSectionScaffold } from './sharedComponents.jsx';
 import style from './patientProfile.module.css';
 
@@ -53,8 +54,26 @@ export class TimelineBox extends Component {   //unfinsihed
 
         const mappingVisitFunction = visit => {
 
-            const EDSSFieldID = this.props.visitFields.filter(field => field.idname === 'edss:expanded disability status scale - estimated total')[0].id;
-            const EDSSRecord = visit.data.filter(record => record.field === EDSSFieldID);
+            // const EDSSFieldID = this.props.visitFields.filter(field => field.idname === 'edss:expanded disability status scale - estimated total')[0].id;
+            // const EDSSRecord = visit.data.filter(record => record.field === EDSSFieldID);
+
+            const allSymptoms = visit.data.map(symptom => symptom.field);
+            const relevantEDSSFields = this.props.visitFields.filter(field => allSymptoms.includes(field.id) && /^edss:(.*)/.test(field.idname));
+            const computedEDSS = edssAlgorithmFromProps(relevantEDSSFields, visit.data);
+
+            let edssPoints = null;
+
+            if (computedEDSS && typeof computedEDSS === 'number' && !isNaN(computedEDSS))
+                edssPoints = computedEDSS;
+            else {
+                let edssTotalId = this.props.visitFields.filter(el => el.idname === 'edss:expanded disability status scale - estimated total');
+                if (edssTotalId.length > 0) {
+                    edssTotalId = edssTotalId[0].id;
+                    visit.data.filter(el => el.field === edssTotalId).forEach(e => {
+                        edssPoints = e.value;
+                    });
+                }
+            }
 
             const startDate = parseInt(visit.visitDate, 10);
             let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
@@ -67,7 +86,8 @@ export class TimelineBox extends Component {   //unfinsihed
                         <div className={style.timelineVisit}>-</div>
                     </a>
                     <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '9' }} title={new Date(startDate).toDateString()} href={`#visit-${visit.id}`} className={style.miniTimelineEDSS}>
-                        {EDSSRecord && EDSSRecord.length ? EDSSRecord[0].value : ''}
+                        {edssPoints ? edssPoints : ''}
+                        {/* {EDSSRecord && EDSSRecord.length ? EDSSRecord[0].value : ''} */}
                     </a>
                 </Fragment>
             );

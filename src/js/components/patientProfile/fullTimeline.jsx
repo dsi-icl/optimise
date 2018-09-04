@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import Timeline from 'react-calendar-timeline/lib';
+import { edssAlgorithmFromProps } from '../EDSScalculator/calculator';
 import { BackButton } from '../medicalData/utils';
 import Helmet from '../scaffold/helmet';
 import style from './patientProfile.module.css';
@@ -150,12 +151,21 @@ export default class FullTimeline extends Component {
                         'data-tip': `${i}${suffix} visit ${i === 1 ? '(Baseline)' : ''}`
                     }
                 });
-                let edssTotalId = props.availableFields.visitFields.filter(el => el.idname === 'edss:expanded disability status scale - estimated total');
-                if (edssTotalId.length > 0) {
-                    edssTotalId = edssTotalId[0].id;
-                    v.data.filter(el => el.field === edssTotalId).forEach(e => {
-                        edssPoints[moment(v.visitDate, 'x').valueOf()] = e.value;
-                    });
+
+                const allSymptoms = v.data.map(symptom => symptom.field);
+                const relevantEDSSFields = props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && /^edss:(.*)/.test(field.idname));
+                const computedEDSS = edssAlgorithmFromProps(relevantEDSSFields, v.data);
+
+                if (computedEDSS && typeof computedEDSS === 'number' && !isNaN(computedEDSS))
+                    edssPoints[moment(v.visitDate, 'x').valueOf()] = computedEDSS;
+                else {
+                    let edssTotalId = props.availableFields.visitFields.filter(el => el.idname === 'edss:expanded disability status scale - estimated total');
+                    if (edssTotalId.length > 0) {
+                        edssTotalId = edssTotalId[0].id;
+                        v.data.filter(el => el.field === edssTotalId).forEach(e => {
+                            edssPoints[moment(v.visitDate, 'x').valueOf()] = e.value;
+                        });
+                    }
                 }
             });
         if (props.data.tests)
