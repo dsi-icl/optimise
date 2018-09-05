@@ -8,7 +8,7 @@
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <meta content="OPTIMISE" name="description">
     <meta content="Florian Guitton" name="author">
-    <title>Optimise MS v1.9.28 :: Welcome</title>
+    <title>Optimise MS v1.9.29 :: Welcome</title>
     <link href="/styles/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/styles/optimise.css" rel="stylesheet" type="text/css">
 </head>
@@ -442,31 +442,36 @@
                         <img src="/img/estimatedEDSS.png" alt="estimatedEDSS">
                         <br/>
                         <br/>
-                        <p>Only valid EDSS total scores (0 to 10 by 0.5 increment) may be accepted in this field. Entering
-                            an invalid total EDSS, for example 100, will generate an error. Please use the dot notation for
-                            the decimal point, i.e. 4.5 is accepted while 4,5 is not.</p>
+                        <p>Only valid EDSS total scores (0 to 10 by 0.5 increment excluding 0.5) may be accepted in this field.
+                            Entering an invalid total EDSS, for example 100, will generate an error. Please use the dot notation
+                            for the decimal point, i.e. 4.5 is accepted while 4,5 is not.</p>
                         <img src="/img/edssError.png" alt="edssError">
                         <br/>
                         <br/>
                         <p>Click Save for this estimated EDSS to be recorded. In addition, or alternatively, the functional
                             systems can be scored separately and the total EDSS can be calculated by clicking on Open EDSS
-                            Calculator.
+                            Calculator. The estimated total EDSS entered as described above is carried over to this calculator
+                            only if the score is saved (by clicking the Save button).
                         </p>
                         <img src="/img/openCalc.png" alt="EDSScalculator">
                         <br/>
                         <br/>
-                        <p>For this, select a score for each EDSS subcategory. Hover over a score button to see the respective
-                            score description highlighted on the right. The calculated total score will be shown in the Calculated
-                            score box. Note that an Ambulation score is required for the functional scores to be saved. Click
-                            Save to record the scores and then
-                            <img src="/img/xButton.png" alt="close"> to exit the calculator. To exit Performance Measures
-                            and return to the Patient Overview, click on
+                        <p>Select a score for each EDSS subcategory. Hover over a score button to see the respective score description
+                            highlighted on the right. The calculated total score will be shown in the score box labelled
+                            Computed total score (automatically generated). Note that an Ambulation score is required for
+                            the functional scores to be saved. The saved estimated total is carried over to the score box
+                            labelled Estimated total score (by the clinician). You may update the estimated total here as
+                            well.
+                        </p>
+                        <p>Click Save to record the scores and then
+                            <img src="/img/xButton.png" alt="close"> to exit the calculator. To exit Performance Measures and return to the Patient Overview, click
+                            on
                             <img src="/img/xButton.png" alt="close"> at the top right corner of the EDSS form.</p>
                         <img src="/img/edssCalculator.png" alt="edssCalculator">
                         <br/>
                         <br/>
                         <p>The EDSS Total and EDSS Subscores will be listed under Performance Measures in the Medical History
-                            Summary.
+                            Summary. The text of the total scores (estimated and computed) is bold and pink.
                         </p>
                         <img src="/img/edssAdded.png" alt="edssAdded">
                         <br/>
@@ -522,8 +527,8 @@
                         <img src="/img/newTest.png" alt="newTest">
                         <br/>
                         <br/>
-                        <p>Select the expected or actual date for the test, the type of test (Lumbar Puncture is selected
-                            below) and click Submit to create the new test. Click
+                        <p>Select the date of the test, the type of test (Lumbar Puncture is selected below) and click Submit
+                            to create the new test. Click
                             <img src="/img/xButton.png" alt="close"> to cancel and return to the Patient Overview.
                         </p>
                         <img src="/img/testForm.png" alt="testForm">
@@ -695,8 +700,9 @@
                         <br/>
                         <h1 id="ug-timeline">Using the Timeline</h1>
                         <p>You may click on the coloured shapes or EDSS on the Timeline to access (view/edit) the corresponding
-                            entry in Medical History Summary. The estimated total EDSS is plotted at the bottom part of the
-                            timeline.
+                            entry in Medical History Summary. The computed total EDSS is plotted at the bottom part of the
+                            timeline. If the computed total EDSS is not available (i.e. the calculator was not used or the
+                            user chose not to save the calculated score), then the estimated EDSS is plotted.
                         </p>
                         <img src="/img/timeline.png" alt="timeline">
                         <br/>
@@ -747,8 +753,8 @@
                         <img src="/img/timelineAE.png" alt="timelineAE">
                         <br/>
                         <br/>
-                        <p>A line chart is used for the the recorded EDSS with the estimated scores being represented as
-                            black labelled points (dots) on the graph.</p>
+                        <p>A line chart is used for the the recorded EDSS with the scores being represented as black labelled
+                            points (dots) on the graph.</p>
                         <img src="/img/timelineEDSS.png" alt="timelineEDSS">
                         <br/>
                         <br/>
