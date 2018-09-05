@@ -146,9 +146,7 @@ class EDSSCalculator extends Component {
             lastSubmit: (new Date()).getTime()
         }, () => {
             store.dispatch(alterDataCall(body, () => {
-                this.setState({
-                    originalValues: Object.assign({}, this.state.originalValues, add)
-                });
+                this.originalValues = Object.assign({}, this.originalValues, add);
             }));
         });
     }
