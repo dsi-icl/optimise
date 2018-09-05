@@ -203,7 +203,7 @@ class EDSSCalculator extends Component {
                     {visitFiltered.length === 1 ?
                         <form onSubmit={this._handleSubmit}>
                             <span><i>This is the EDSS performance score calculator for visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i><br /><br />
-                                Below the help calculator will automatically compoute a score for you, however, you are free to indicate immediately a custom score</span><br /><br />
+                                The helper calculator below will automatically compute a score for you. However, you are free to indicate a score without the use of this helper calculator.</span><br /><br />
                             <div className={style.calculatorArea}>
                                 {criteria.map(el =>
                                     <div className={style.criterion} key={el.name} onMouseOver={() => this._hoverType(EDSSFields_Hash_reverse[el.idname])} onMouseLeave={() => this._hoverType(null)}>
@@ -240,7 +240,7 @@ class EDSSCalculator extends Component {
                         </form>
                         :
                         <div>
-                            <i>W could not find the visit you are looking for.</i>
+                            <i>We could not find the visit you are looking for.</i>
                         </div>
                     }
                 </div>
