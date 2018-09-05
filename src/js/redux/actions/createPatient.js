@@ -28,3 +28,13 @@ export const createPatientCall = (body) => dispatch => (
         .catch(err => store.dispatch(addError({ error: err })))
 
 );
+
+export const updatePatientCall = (body) => dispatch => (
+    apiHelper('/demographics/Demographic', { method: 'PUT', body: JSON.stringify(body.demoData) })
+        .then(() => {
+            dispatch(getPatientProfileByIdRequest());
+            return apiHelper('/patientPii', { method: 'PUT', body: JSON.stringify(body.PIIData) });
+        })
+        .then(() => { dispatch(getPatientProfileById(body.patientId)); })
+        .catch(err => store.dispatch(addError({ error: err })))
+);
