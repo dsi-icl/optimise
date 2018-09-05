@@ -132,7 +132,7 @@ class UpdateTestEntry extends Component {
 
         if (!this.state.startDate || !this.state.startDate.isValid()) {
             return this.setState({
-                error: 'Please indicate the date on which the test was done'
+                error: 'Please indicate the date of test'
             });
         }
         // if (!this.state.actualOccurredDate || !this.state.actualOccurredDate.isValid()) {
@@ -170,7 +170,7 @@ class UpdateTestEntry extends Component {
         const { startDate /*, actualOccurredDate */ } = this.state;
         return (
             <>
-                <label>Date on which the test was done: </label>
+                <label>Date of test: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} />
                 <br />
                 {/*
