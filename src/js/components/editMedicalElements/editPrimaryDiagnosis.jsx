@@ -96,7 +96,7 @@ export default class EditPrimaryDiagnoses extends Component {
                     </div>
                     <form className={style.panel}>
                         {patientProfile.data.diagnosis
-                            .sort((a, b) => parseInt(a.diagnosisDate) > parseInt(b.diagnosisDate))
+                            .sort((a, b) => parseInt(a.diagnosisDate) - parseInt(b.diagnosisDate))
                             .map((el) =>
                                 <OneEditPrimaryDiagnoses
                                     key={Math.random()}
