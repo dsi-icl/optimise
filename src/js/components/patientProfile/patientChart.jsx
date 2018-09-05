@@ -537,7 +537,7 @@ export class Charts extends Component {
             if (bHasClinicalEvents.length !== 0)
                 dateB = bHasClinicalEvents[0].dateStartDate;
 
-            return parseInt(dateA, 10) > parseInt(dateB, 10);
+            return parseInt(dateA, 10) - parseInt(dateB, 10);
         }).map(v => ({ ...v, historyInd: v.type === 1 ? historyInd++ : undefined })).reverse();
     }
 

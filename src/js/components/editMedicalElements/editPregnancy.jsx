@@ -127,7 +127,7 @@ export default class EditPregnancy extends Component {
                     </div>
                     <form className={style.panel}>
                         {patientProfile.data.pregnancy
-                            .sort((a, b) => parseInt(a.startDate) > parseInt(b.startDate))
+                            .sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate))
                             .map((el) =>
                                 <OnePregnancy
                                     key={Math.random()}

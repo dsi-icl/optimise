@@ -265,7 +265,7 @@ class PrimaryDiagnosis extends Component {
             );
         }
 
-        const diagnosis = this.props.data.diagnosis.sort((a, b) => parseInt(a.diagnosisDate) < parseInt(b.diagnosisDate))[0];
+        const diagnosis = this.props.data.diagnosis.sort((a, b) => parseInt(b.diagnosisDate) - parseInt(a.diagnosisDate))[0];
         if (!diagnosis) {
             return null;
         }
@@ -309,7 +309,7 @@ class Pregnancy extends Component {
                 );
             }
         }
-        const pregnancy = this.props.data.pregnancy.sort((a, b) => parseInt(a.startDate) < parseInt(b.startDate))[0];
+        const pregnancy = this.props.data.pregnancy.sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate))[0];
         if (!pregnancy) {
             return null;
         }
