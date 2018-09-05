@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/utils';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
+import { PickDate } from '../createMedicalElements/datepicker';
 import { updateDemographicAPICall } from '../../redux/actions/demographicData';
 
 @connect(state => ({ CEs: state.patientProfile.data.clinicalEvents }))
@@ -12,7 +14,7 @@ export default class EditDemo extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>Profile demographics</h2>
+                    <h2>Patient information</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
@@ -37,12 +39,13 @@ class UpdateDemoEntry extends Component {
             smokingHistoryRef: React.createRef()
         };
         this._handleSubmit = this._handleSubmit.bind(this);
-        this._handleDateChange = this._handleDateChange.bind(this);
+        this._handleDobDateChange = this._handleDobDateChange.bind(this);
     }
 
-    _handleDateChange(date) {
+    _handleDobDateChange(date) {
         this.setState({
-            startDate: date
+            DOB: date,
+            error: false
         });
     }
 
@@ -50,6 +53,7 @@ class UpdateDemoEntry extends Component {
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
+
         const { patientId, id } = this.props;
         const { alcoholUsageRef, countryOfOriginRef, dominantHandRef, ethnicityRef, genderRef, smokingHistoryRef } = this.state;
         const body = {
@@ -57,6 +61,7 @@ class UpdateDemoEntry extends Component {
             to: `/patientProfile/${patientId}`,
             data: {
                 id,
+                DOB: this.state.DOB ? this.state.DOB.toISOString() : null,
                 alcoholUsage: parseInt(alcoholUsageRef.current.value),
                 countryOfOrigin: parseInt(countryOfOriginRef.current.value),
                 dominantHand: parseInt(dominantHandRef.current.value),
@@ -78,9 +83,11 @@ class UpdateDemoEntry extends Component {
         if (fetching) {
             return null;
         }
-        const { alcoholUsage, countryOfOrigin, dominantHand, ethnicity, gender, smokingHistory } = this.props.data;
+        const { alcoholUsage, countryOfOrigin, dominantHand, ethnicity, gender, smokingHistory, DOB } = this.props.data;
         return (
             <>
+                <h4>Basic demographic data</h4><br />
+                <label>Date of birth:</label><br /> <PickDate startDate={moment(DOB, 'x')} handleChange={this._handleDobDateChange} /> <br />
                 <label>Gender: </label>
                 <select defaultValue={gender} ref={genderRef}>
                     {fields.genders.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
