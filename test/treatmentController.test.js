@@ -370,6 +370,98 @@ describe('Create treatment interruption controller tests', () => {
         }));
 });
 
+
+describe('Update treatment interruption controller tests', () => {
+    test('Update treatment interuption without body (should fail)', () => admin
+        .post('/treatments/interrupt')
+        .send({})
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
+        }));
+
+    test('Update treatment interuption with bad ID (should fail)', () => admin
+        .put('/treatments/interrupt')
+        .send({
+            'treatmentInterId': 'WRONG',
+            'start_date': '2010-03-03',
+            'end_date': '2011-03-03',
+            'reason': 7
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Update treatment interuption with invalid ID (should fail)', () => admin
+        .put('/treatments/interrupt')
+        .send({
+            'treatmentInterId': 999999999,
+            'start_date': '2010-03-03',
+            'end_date': '2011-03-03',
+            'reason': 7
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            return true;
+        }));
+
+    test('Update treatment interuption with good body (should succeed)', () => admin
+        .put('/treatments/interrupt')
+        .send({
+            'treatmentInterId': 1,
+            'start_date': '2014-03-03',
+            'end_date': '2015-03-03',
+            'reason': 2,
+            'meddra': 25
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+            return true;
+        }));
+
+    test('Update treatment interuption with good body second pass (should succeed)', () => admin
+        .put('/treatments/interrupt')
+        .send({
+            'treatmentInterId': 1,
+            'start_date': '2014-03-03',
+            'meddra': 35
+        })
+        .then(res => {
+            expect(res.status).toBe(200);
+            expect(typeof res.body).toBe('object');
+            expect(res.body.state).toBeDefined();
+            expect(res.body.state).toBe(1);
+            return true;
+        }));
+
+    test('Update treatment interuption with missing values (should fail)', () => admin
+        .put('/treatments/interrupt')
+        .send({
+            'treatmentInterId': 1,
+            'meddra': 35
+        })
+        .then(res => {
+            expect(res.status).toBe(400);
+            expect(typeof res.error).toBe('object');
+            expect(res.body.error).toBeDefined();
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
+        }));
+});
+
 describe('Delete treatment interruption controller tests', () => {
     test('Request deletion treatment interrupt without body (should fail)', () => admin
         .delete('/treatments/interrupt')

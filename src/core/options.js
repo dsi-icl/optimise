@@ -13,6 +13,7 @@ let Options = function (configuration) {
     this.port = configuration.port ? configuration.port : 3030;
     this.development = configuration.development ? configuration.development : false;
     this.enableCors = configuration.enableCors ? configuration.enableCors : true;
+    this.exportGenerationFolder = configuration.exportGenerationFolder ? configuration.exportGenerationFolder : './temp/';
 };
 
 module.exports = Options;
