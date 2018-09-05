@@ -68,11 +68,11 @@ export class CreateTest extends Component {
                 error: 'Please indicate the date on which the test was done'
             });
         }
-        if (!this.state.actualOccurredDate || !this.state.actualOccurredDate.isValid()) {
-            return this.setState({
-                error: 'Please indicate the date on which the test results were processed'
-            });
-        }
+        // if (!this.state.actualOccurredDate || !this.state.actualOccurredDate.isValid()) {
+        //     return this.setState({
+        //         error: 'Please indicate the date on which the test results were processed'
+        //     });
+        // }
         if (this.state.testType === 'unselected') {
             this.setState({
                 error: 'Please indicate the test type'
@@ -101,7 +101,7 @@ export class CreateTest extends Component {
                     </div>
                     <form className={style.panel}>
                         <label>Date on which the test was done: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
-                        <label>Date on which test results were processed: </label><br /><PickDate startDate={this.state.actualOccurredDate} handleChange={this._handleActualDateChange} /><br />
+                        {/* <label>Date on which test results were processed: </label><br /><PickDate startDate={this.state.actualOccurredDate} handleChange={this._handleActualDateChange} /><br /> */}
                         <label htmlFor='test'>What type of test was it?</label><br />
                         <select name='test' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>
                             <option value='unselected'></option>
