@@ -61,8 +61,9 @@ export const testTitle = (duration) => (
 const oneTest = (test, typeTable) => {
     const name = typeTable[0][test.type];
     const dateDone = test.expectedOccurDate ? new Date(parseInt(test.expectedOccurDate)).toDateString() : '';
-    const dateResults = test.actualOccurredDate ? new Date(parseInt(test.actualOccurredDate)).toDateString() : dateDone;
-    let result = `> ${name}: Test done on ${dateDone}, Results processed on ${dateResults}\n`;
+    let result = `> ${name}: Test done on ${dateDone}\n`;
+    // const dateResults = test.actualOccurredDate ? new Date(parseInt(test.actualOccurredDate)).toDateString() : dateDone;
+    // let result = `> ${name}: Test done on ${dateDone}, Results processed on ${dateResults}\n`;
     test.data.forEach((el) => {
         result += `- ${typeTable[1][el.field].definition}: ${el.value}\n`;
     });
