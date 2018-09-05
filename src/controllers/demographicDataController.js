@@ -206,6 +206,15 @@ DemographicDataController.prototype.deleteMedicalCondition = function (req, res)
 
 DemographicDataController.prototype.editDemographic = function (req, res) {
     if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
+        if (req.body.DOB) {
+            let momentDOB = moment(req.body.DOB, moment.ISO_8601);
+            if (!momentDOB.isValid()) {
+                let msg = message.dateError[momentDOB.invalidAt()] !== undefined ? message.dateError[momentDOB.invalidAt()] : message.userError.INVALIDDATE;
+                res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+                return;
+            }
+            req.body.DOB = momentDOB.valueOf();
+        }
         this.demographic.editDemographic(req.user, req.body).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
