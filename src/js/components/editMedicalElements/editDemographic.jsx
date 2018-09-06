@@ -79,13 +79,13 @@ class UpdateDemoEntry extends Component {
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
 
-        const { patientId, id } = this.props;
+        const { patientId } = this.props;
         const { alcoholUsageRef, countryOfOriginRef, dominantHandRef, ethnicityRef, genderRef, smokingHistoryRef } = this.state;
         const body = {
             patientId: patientId,
             to: `/patientProfile/${patientId}`,
             demoData: {
-                id,
+                id: this.props.data ? this.props.data.id : null,
                 DOB: this.state.DOB ? this.state.DOB.toISOString() : this.props.data.DOB ? moment(this.props.data.DOB, 'x').toISOString() : null,
                 alcoholUsage: parseInt(alcoholUsageRef.current.value),
                 countryOfOrigin: parseInt(countryOfOriginRef.current.value),
