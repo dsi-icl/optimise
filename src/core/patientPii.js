@@ -17,8 +17,8 @@ PatientPii.prototype.createPatientPii = function (entryObj) {
     return new Promise((resolve, reject) => createEntry('PATIENT_PII', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
 };
 
-PatientPii.prototype.updatePatientPii = function (user, idPatient, updatedObj) {
-    return new Promise((resolve, reject) => updateEntry('PATIENT_PII', user, '*', { 'patient': idPatient }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
+PatientPii.prototype.updatePatientPii = function (user, id, updatedObj) {
+    return new Promise((resolve, reject) => updateEntry('PATIENT_PII', user, '*', { 'id': id }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
 };
 
 PatientPii.prototype.deletePatientPii = function (user, whereObj) {
