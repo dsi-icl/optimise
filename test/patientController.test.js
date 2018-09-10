@@ -84,7 +84,7 @@ describe('Patient controller tests', () => {
             expect(res.statusCode).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
@@ -146,7 +146,6 @@ describe('Patient controller tests', () => {
             expect(res.body.id).toBe(1);
             expect(res.body.consent).toBe(true);
             expect(res.body.visits).toBeDefined();
-            expect(res.body.tests).toBeUndefined();
             return true;
         }));
 
