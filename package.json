@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "0.9.70",
+    "version": "0.9.71",
     "description": "Backend for OptimiseMS",
     "main": "./src/optimiseServer.js",
     "scripts": {
@@ -39,9 +39,9 @@
         "babel-eslint": "9.0.0",
         "babel-preset-env": "1.7.0",
         "eslint": "5.5.0",
-        "eslint-plugin-promise": "4.0.0",
-        "jest": "23.5.0",
-        "supertest": "3.1.0"
+        "eslint-plugin-promise": "4.0.1",
+        "jest": "23.6.0",
+        "supertest": "3.3.0"
     },
     "optionalDependencies": {
         "ajv": "^6.5.3",
