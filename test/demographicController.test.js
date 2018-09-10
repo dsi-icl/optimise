@@ -370,7 +370,7 @@ describe('Edit Demographic controller test', () => {
         .send({
             'id': 8,
             'patient': 1,
-            'DOB': 1,
+            'DOB': 'have',
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
@@ -382,7 +382,7 @@ describe('Edit Demographic controller test', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            expect(res.body.error).toBe(message.userError.INVALIDDATE);
             return true;
         }));
 
@@ -403,7 +403,7 @@ describe('Edit Demographic controller test', () => {
             expect(res.status).toBe(400);
             expect(typeof res.body).toBe('object');
             expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            expect(res.body.error).toBe(message.userError.INVALIDDATE);
             return true;
         }));
 
