@@ -36,6 +36,6 @@
     "test": "lerna run test --parallel"
   },
   "devDependencies": {
-    "lerna": "^3.10.7"
+    "lerna": "3.10.7"
   }
 }
