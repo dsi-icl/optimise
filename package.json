@@ -1,25 +1,41 @@
 {
   "name": "optimise",
-  "version": "1.0.0",
-  "description": "Optimise MS",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dsi-icl/optimise.git"
-  },
+  "version": "0.10.0",
+  "description": "Optimise:MS",
   "keywords": [
     "ms"
   ],
-  "author": "Florian Guitton <f.guitton@imperial.ac.uk>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/dsi-icl/optimise/issues"
+  "author": {
+    "email": "f.guitton@imperial.ac.uk",
+    "name": "Florian Guitton"
   },
-  "homepage": "https://github.com/dsi-icl/optimise#readme",
+  "homepage": "https://optimise-ms.org",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/electron-builder",
+      "**/electron-builder/**",
+      "**/electron-webpack",
+      "**/electron-webpack/**"
+    ]
+  },
+  "engines": {
+    "yarn": "^1.4.2"
+  },
+  "scripts": {
+    "build": "lerna run build --stream",
+    "preelectron": "yarn build",
+    "electron": "lerna run electron --scope optimise-electron",
+    "lint": "echo Put your favorite linter here.",
+    "prepackage": "yarn build",
+    "package": "lerna run package --scope optimise-electron --stream",
+    "start": "lerna exec --parallel --stream yarn start",
+    "test": "lerna run test --parallel"
+  },
   "devDependencies": {
-    "selenium-webdriver": "4.0.0-alpha.1"
+    "lerna": "^3.10.7"
   }
 }
