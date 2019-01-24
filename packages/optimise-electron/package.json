@@ -22,15 +22,15 @@
   },
   "dependencies": {
     "optimise-ui": "^0.10.0",
-    "source-map-support": "^0.5.10"
+    "source-map-support": "0.5.10"
   },
   "devDependencies": {
-    "copyfiles": "^2.1.0",
-    "cross-env": "^5.2.0",
-    "electron": "^4.0.2",
-    "electron-builder": "^20.38.5",
-    "electron-webpack": "^2.6.1",
-    "webpack": "^4.29.0"
+    "copyfiles": "2.1.0",
+    "cross-env": "5.2.0",
+    "electron": "4.0.2",
+    "electron-builder": "20.38.5",
+    "electron-webpack": "2.6.1",
+    "webpack": "4.29.0"
   },
   "resolutions": {
     "webpack-sources": "^1.1.0"
