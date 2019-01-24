@@ -1,0 +1,63 @@
+{
+    "name": "optimise-core",
+    "version": "0.10.0",
+    "description": "Optimise:MS Backend",
+    "main": "./src/optimiseServer.js",
+    "scripts": {
+        "lint": "eslint --ext .jsx --ext .js ./",
+        "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
+        "migrate": "knex migrate:latest",
+        "seed": "knex seed:run",
+        "test": "jest --colors --verbose --detectOpenHandles --runInBand",
+        "start": "node ./src/index.js"
+    },
+    "contributors": [
+        "Florian Guitton <f.guitton@imperial.ac.uk>",
+        "Pierre-Marie <p.danieau@imperial.ac.uk>",
+        "Chon Sou <c.sou16@imperial.ac.uk>",
+        "Eleni Pissaridou <e.pissaridou@imperial.ac.uk>"
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "1.18.3",
+        "express": "4.16.4",
+        "express-session": "1.15.6",
+        "express-zip": "2.0.1",
+        "knex": "0.16.3",
+        "moment": "2.24.0",
+        "nodeify": "1.0.1",
+        "passport": "0.4.0",
+        "path": "0.12.7",
+        "sqlite3": "^4.0.6",
+        "swagger-ui-express": "4.0.2",
+        "uuid": "3.3.2"
+    },
+    "devDependencies": {
+        "chalk": "2.4.2",
+        "codacy-coverage": "3.4.0",
+        "babel-core": "6.26.3",
+        "babel-eslint": "10.0.1",
+        "babel-preset-env": "1.7.0",
+        "eslint": "5.12.1",
+        "eslint-plugin-promise": "4.0.1",
+        "jest": "23.6.0",
+        "supertest": "3.4.2"
+    },
+    "optionalDependencies": {
+        "ajv": "6.7.0",
+        "fsevents": "1.2.7"
+    },
+    "jest": {
+        "globalSetup": "<rootDir>/test/setup.js",
+        "globalTeardown": "<rootDir>/test/teardown.js",
+        "testEnvironment": "<rootDir>/test/environment.js",
+        "collectCoverageFrom": [
+            "<rootDir>/src/**/*.{js,jsx}",
+            "!<rootDir>/node_modules/"
+        ],
+        "testMatch": [
+            "**/__tests__/**/*.{js,jsx,mjs}",
+            "**/+(*.)(spec|test).{js,jsx,mjs}"
+        ]
+    }
+}

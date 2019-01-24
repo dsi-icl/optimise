@@ -1,4 +1,4 @@
-# cra-lerna-electron
+# optimise
 
 [`create-react-app`](https://github.com/facebook/create-react-app) + [`Lerna`](https://github.com/lerna/lerna) + [`Electron`](https://github.com/electron/electron) starter kit.
 
@@ -6,7 +6,7 @@
 
 ```bash
 # Fetch this repo
-git clone https://github.com/amaurymartiny/cra-lerna-electron my-app
+git clone https://github.com/dsi-icl/optimise my-app
 cd my-app
 
 # Bootstrap the Lerna project, will install all modules
