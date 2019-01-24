@@ -9,7 +9,7 @@
     "email": "f.guitton@imperial.ac.uk",
     "name": "Florian Guitton"
   },
-  "homepage": "https://github.com/amaurymartiny/cra-lerna-electron",
+  "homepage": "https://github.com/dsi-icl/optimise",
   "private": true,
   "scripts": {
     "prebuild": "copyfiles -u 2 \"../optimise-ui/build/**/*\" static/ && ./scripts/fixElectronBug.sh",
