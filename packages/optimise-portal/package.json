@@ -93,7 +93,7 @@
         "prop-types": "15.6.2",
         "raf": "3.4.1",
         "react": "16.7.0",
-        "react-calendar-timeline": "0.18.2",
+        "react-calendar-timeline": "0.23.0",
         "react-datepicker": "2.0.0",
         "react-dev-utils": "7.0.1",
         "react-dom": "16.7.0",
