@@ -58,7 +58,7 @@
         "confusing-browser-globals": "2.0.0-next.3e165448",
         "cross-env": "5.2.0",
         "css-loader": "1.0.0",
-        "deepmerge": "2.1.1",
+        "deepmerge": "2.2.1",
         "dotenv": "6.0.0",
         "dotenv-expand": "4.2.0",
         "draft-js": "0.10.5",
