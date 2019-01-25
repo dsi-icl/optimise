@@ -2,6 +2,11 @@ module.exports = {
     root: true,
     parser: 'babel-eslint',
     extends: ['react-app'],
+    settings: {
+        react: {
+            version: "detect"
+        }
+    },
     env: {
         browser: true,
         node: true,
@@ -10,7 +15,8 @@ module.exports = {
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
-            modules: true
+            modules: true,
+            legacyDecorators: true
         }
     },
     rules: {
