@@ -57,7 +57,7 @@
         "codacy-coverage": "3.0.0",
         "confusing-browser-globals": "2.0.0-next.3e165448",
         "cross-env": "5.2.0",
-        "css-loader": "1.0.0",
+        "css-loader": "1.0.1",
         "deepmerge": "2.1.1",
         "dotenv": "6.0.0",
         "dotenv-expand": "4.2.0",
