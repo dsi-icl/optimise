@@ -54,7 +54,7 @@
         "case-sensitive-paths-webpack-plugin": "2.2.0",
         "chalk": "2.4.2",
         "codacy-coverage": "3.4.0",
-        "confusing-browser-globals": "2.0.0-next.3e165448",
+        "confusing-browser-globals": "2.0.0-next.fb6e6f70",
         "cross-env": "5.2.0",
         "css-loader": "2.1.0",
         "deepmerge": "3.1.0",

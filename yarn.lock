@@ -4104,9 +4104,9 @@ configstore@^3.0.0:
     write-file-atomic "^2.0.0"
     xdg-basedir "^3.0.0"
 
-confusing-browser-globals@2.0.0-next.3e165448:
-  version "2.0.0-next.3e165448"
-  resolved "https://registry.yarnpkg.com/confusing-browser-globals/-/confusing-browser-globals-2.0.0-next.3e165448.tgz#4291b5f964b58600b1e1fb940cc3072b91f3605a"
+confusing-browser-globals@2.0.0-next.fb6e6f70:
+  version "2.0.0-next.fb6e6f70"
+  resolved "https://registry.yarnpkg.com/confusing-browser-globals/-/confusing-browser-globals-2.0.0-next.fb6e6f70.tgz#61b5e14045b6079d610a46492c11d3ede83aa1aa"
 
 confusing-browser-globals@^1.0.5:
   version "1.0.5"
