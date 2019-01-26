@@ -1,0 +1,136 @@
+.ariane {
+    grid-area: ariane;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.ariane a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1.2em;
+    font-size: 1.1em;
+    line-height: 0.9em;
+}
+
+.ariane a:hover {
+    color: var(--color-background)
+}
+
+.panel {
+    grid-area: panel;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1.2em;
+    overflow: auto;
+}
+
+.cutter input,
+.cutter select {
+    width: calc(100% - 5em);
+}
+
+.cutter button {
+    width: 5em;
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 80%)
+}
+
+.cutter button:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 70%)
+}
+
+.error {
+    display: block;
+    width: 100%;
+    line-height: 2em;
+    background-color: var(--color-error);
+    color: var(--color-font-active);
+    padding: 0.5em;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+.backButton {
+    line-height: 0.8em;
+}
+
+.backButton svg {
+    height: 0.9em;
+    width: 0.9em;
+    fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
+}
+
+.backButton:hover svg {
+    fill: var(--color-background);
+}
+
+.interruption {
+    border-bottom: 0.08em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+    transition: padding 100ms;
+    word-wrap: break-word;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.interruption:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 93%);
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.panel .interruption:last-of-type {
+    border: none;
+}
+
+.interruption > span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.newInterruption {
+    border-top: 0.08em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+}
+
+.editInterruption {
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+}
+
+.editInterruption input {
+    background-color: white;
+}
+
+.editInterruption select {
+    background-color: white;
+}
+
+.noEndDateButton{
+    text-decoration: underline;
+    cursor: pointer;
+    display: block;
+}
+
+.dataEdit {
+    display: inline-block;
+    margin-left: 1em;
+    width: 1.2em;
+    height: 1.1em;
+}
+
+.dataEdit path {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
+}
+
+.dataEdit:hover path {
+    fill: hsl(var(--color-background-h), var(--color-background-s), 40%);
+}
