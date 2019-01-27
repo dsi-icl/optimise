@@ -32,7 +32,7 @@
     "lint": "echo Put your favorite linter here.",
     "prepackage": "yarn build",
     "package": "lerna run package --scope optimise-electron --stream",
-    "start": "lerna exec --parallel --stream yarn start",
+    "start": "lerna exec --parallel --stream --ignore optimise-portal yarn start",
     "test": "lerna run test --parallel"
   },
   "devDependencies": {
