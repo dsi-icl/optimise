@@ -1,4 +1,3 @@
-
 /* eslint no-console: "off" */
 const autoprefixer = require('autoprefixer');
 const path = require('path');
@@ -134,7 +133,7 @@ module.exports = {
                         comparisons: false,
                     },
                     mangle: {
-                        safari10: true,
+                        // safari10: true,
                     },
                     output: {
                         ecma: 5,
