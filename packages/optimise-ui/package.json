@@ -10,6 +10,7 @@
     "name": "Florian Guitton"
   },
   "homepage": "./",
+  "proxy": "http://localhost:3030",
   "private": true,
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
@@ -20,9 +21,10 @@
   "dependencies": {
     "react": "16.7.0",
     "react-dom": "16.7.0",
-    "react-scripts": "2.1.3"
+    "react-scripts-rewired": "2.1.3"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "7.3.0",
     "cross-env": "5.2.0"
   },
   "eslintConfig": {
