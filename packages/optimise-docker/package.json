@@ -1,0 +1,23 @@
+{
+    "name": "optimise-docker",
+    "productName": "Optimise MS Docker",
+    "version": "1.9.31",
+    "description": "Dockerized OptimiseMS",
+    "keywords": [
+        "ms",
+        "optimise"
+    ],
+    "bugs": {
+        "url": "https://github.com/dsi-icl/optimise/issues"
+    },
+    "repository": "https://github.com/dsi-icl/optimise",
+    "license": "MIT",
+    "contributors": [
+        "Florian Guitton <f.guitton@imperial.ac.uk>"
+    ],
+    "scripts": {
+        "build": "echo \"No builds\"",
+        "start": "node server.js",
+        "test": "echo \"No tests\""
+    }
+}
