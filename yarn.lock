@@ -408,7 +408,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
-"@babel/plugin-syntax-dynamic-import@^7.0.0":
+"@babel/plugin-syntax-dynamic-import@7.2.0", "@babel/plugin-syntax-dynamic-import@^7.0.0":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.2.0.tgz#69c159ffaf4998122161ad8ebc5e6d1f55df8612"
   dependencies:
@@ -12603,9 +12603,10 @@ react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-scripts@2.1.3:
+react-scripts-rewired@2.1.3:
   version "2.1.3"
-  resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-2.1.3.tgz#6e49be279f4039fb9f330d2b3529b933b8e90945"
+  resolved "https://registry.yarnpkg.com/react-scripts-rewired/-/react-scripts-rewired-2.1.3.tgz#4241a86db4dede09b2e970bc81322ea19dc727e6"
+  integrity sha512-48HKJrxpFgHtFG3Wv1auQniG6WIXdja/4GkIOw8aRRx+CCY96l80i+vRqm6USKXne/to/uK5dGl1Ux7fnJgSrQ==
   dependencies:
     "@babel/core" "7.1.6"
     "@svgr/webpack" "2.4.1"
