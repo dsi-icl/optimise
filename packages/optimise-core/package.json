@@ -9,7 +9,8 @@
         "migrate": "knex migrate:latest",
         "seed": "knex seed:run",
         "test": "jest --colors --verbose --detectOpenHandles --runInBand",
-        "start": "node ./src/index.js"
+        "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
+        "start": "rimraf -rf ./build && webpack --config webpack.config.server.js"
     },
     "contributors": [
         "Florian Guitton <f.guitton@imperial.ac.uk>",
@@ -33,15 +34,21 @@
         "uuid": "3.3.2"
     },
     "devDependencies": {
-        "chalk": "2.4.2",
-        "codacy-coverage": "3.4.0",
         "babel-core": "6.26.3",
         "babel-eslint": "10.0.1",
+        "babel-loader": "8.0.5",
         "babel-preset-env": "1.7.0",
+        "chalk": "2.4.2",
+        "codacy-coverage": "3.4.0",
         "eslint": "5.12.1",
         "eslint-plugin-promise": "4.0.1",
         "jest": "24.0.0",
-        "supertest": "3.4.2"
+        "rimraf": "2.6.3",
+        "start-server-webpack-plugin": "2.2.5",
+        "supertest": "3.4.2",
+        "webpack": "4.29.0",
+        "webpack-cli": "3.2.1",
+        "webpack-node-externals": "1.7.2"
     },
     "optionalDependencies": {
         "ajv": "6.7.0",
