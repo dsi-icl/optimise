@@ -10,7 +10,7 @@
         "seed": "knex seed:run",
         "test": "jest --colors --verbose --detectOpenHandles --runInBand",
         "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
-        "start": "rimraf -rf ./build && webpack --config webpack.config.server.js"
+        "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"
     },
     "contributors": [
         "Florian Guitton <f.guitton@imperial.ac.uk>",

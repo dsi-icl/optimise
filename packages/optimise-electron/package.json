@@ -12,7 +12,7 @@
   "homepage": "https://github.com/dsi-icl/optimise",
   "private": true,
   "scripts": {
-    "prebuild": "copyfiles -u 2 \"../optimise-ui/build/**/*\" static/ && ./scripts/fixElectronBug.sh",
+    "prebuild": "copyfiles -u 2 \"../optimise-core/build/**/*\" server/ && copyfiles -u 2 \"../optimise-ui/build/**/*\" static/ && ./scripts/fixElectronBug.sh",
     "build": "electron-webpack",
     "electron": "electron dist/main/main.js",
     "prepackage": "./scripts/revertElectronBug.sh",
