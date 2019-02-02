@@ -12495,9 +12495,10 @@ react-calendar-timeline@0.18.2:
     element-resize-detector "^1.1.12"
     lodash.isequal "^4.5.0"
 
-react-datepicker@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-2.0.0.tgz#5818edfdd08af1b18cbc02b8a1c842cec906606f"
+react-datepicker@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-2.1.0.tgz#d9b9dfe78eaf4214e93a77d150cdafbc49ef522c"
+  integrity sha512-zsPqierShVc0NN+JCyJO18jMFDTbGNSgmekQm+Zr5JYH/aZShsjOBGQmjNiQmIw7nJNQDRzh1oQUND3TY/9Swg==
   dependencies:
     classnames "^2.2.5"
     date-fns "^2.0.0-alpha.23"
