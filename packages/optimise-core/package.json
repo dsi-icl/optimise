@@ -44,7 +44,7 @@
         "supertest": "3.4.2"
     },
     "optionalDependencies": {
-        "ajv": "6.7.0",
+        "ajv": "6.8.1",
         "fsevents": "1.2.7"
     },
     "jest": {
