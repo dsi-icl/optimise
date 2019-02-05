@@ -9,7 +9,7 @@ let optimise_server = new OptimiseServer(config);
 optimise_server.start().then((optimise_router) => {
     // Remove unwanted express headers
     web_app.set('x-powered-by', false);
-    web_app.use(optimise_router);
+    web_app.use('/api', optimise_router);
     web_app.listen(config.port, (error) => {
         if (error) {
             console.error(error); // eslint-disable-line no-console
