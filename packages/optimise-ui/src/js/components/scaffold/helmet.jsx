@@ -8,7 +8,7 @@ export default class LocalHelmet extends Component {
         const { title = '', description = '' } = this.props;
         return (
             <Helmet>
-                <title>{appInfo.productName} : {title}</title>
+                <title>{appInfo.productName || 'Optimise MS'} : {title}</title>
                 <meta name="description" content={description} />
             </Helmet>
         );
