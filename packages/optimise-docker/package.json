@@ -1,8 +1,7 @@
 {
     "name": "optimise-docker",
-    "productName": "Optimise MS Docker",
     "version": "1.9.31",
-    "description": "Dockerized OptimiseMS",
+    "description": "Optimise:MS Docker",
     "keywords": [
         "ms",
         "optimise"
