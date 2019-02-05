@@ -1,26 +1,25 @@
 /*eslint no-console: "off"*/
 const knex = require('./db-connection');
 const fs = require('fs');
-const path = require('path');
 
 function migrate(type) {
     return new Promise((resolve, reject) => {
         switch (type) {
             case 'testing':
                 if (process.env.NODE_ENV !== 'production') console.log('Migrating database with MS modules and testing data ...');
-                return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
-                    .then(() => knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)}/../../db/seed`) }))
-                    .then(() => knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)} /../../db/exampleDataForTesting/seed`) }))
+                return knex.migrate.latest({ directory: 'db/migrations' })
+                    .then(() => knex.seed.run({ directory: 'db/seed' }))
+                    .then(() => knex.seed.run({ directory: 'db/exampleDataForTesting/seed' }))
                     .then(() => resolve())
                     .catch(err => reject(err));
             case 'ms':
                 if (process.env.NODE_ENV !== 'production') console.log('Migrating database ...');
-                return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
+                return knex.migrate.latest({ directory: 'db/migrations' })
                     .then(() => knex.select('id').from('COUNTRIES'))
                     .then((result) => {
                         if (result.length === 0) {
                             if (process.env.NODE_ENV !== 'production') console.log('Applying MS seeds ...');
-                            return knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)} /../../db/seed`) });
+                            return knex.seed.run({ directory: 'db/seed' });
                         }
                         return true;
                     })
@@ -28,7 +27,7 @@ function migrate(type) {
                     .catch(err => reject(err));
             case 'bare':
                 if (process.env.NODE_ENV !== 'production') console.log('Migrating database ...');
-                return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
+                return knex.migrate.latest({ directory: 'db/migrations' })
                     .then(() => resolve())
                     .catch(err => reject(err));
             default:
