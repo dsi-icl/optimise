@@ -21,8 +21,7 @@ export const apiHelper = (endpoint, options, blockError) => {
             res.json().then((json) => ({
                 status: res.status,
                 data: json
-            })),
-            err => store.dispatch(addError({ error: err })))
+            })), err => store.dispatch(addError({ error: err })))
         .then(json => {
             if (json.status === 200) {
                 return json.data;
