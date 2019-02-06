@@ -24,6 +24,7 @@ function OptimiseServer(config) {
     this.setupDemographics = OptimiseServer.prototype.setupDemographics.bind(this);
     this.setupClinicalEvents = OptimiseServer.prototype.setupClinicalEvents.bind(this);
     this.setupTreatments = OptimiseServer.prototype.setupTreatments.bind(this);
+    this.setupMeddraUpload = OptimiseServer.prototype.setupMeddraUpload.bind(this);
     this.setupTests = OptimiseServer.prototype.setupTests.bind(this);
     this.setupFields = OptimiseServer.prototype.setupFields.bind(this);
     this.setupData = OptimiseServer.prototype.setupData.bind(this);
@@ -108,6 +109,7 @@ OptimiseServer.prototype.start = function ()  {
             _this.setupFields();
             _this.setupData();
             _this.setupExport();
+            _this.setupMeddraUpload();
             _this.setupLogs();
             _this.setupPPII();
             _this.setupPatientDiagnosis();
@@ -309,6 +311,19 @@ OptimiseServer.prototype.setupPPII = function ()  {
     // Modules
     this.app.use('/patientPii', this.routePPII);
 };
+
+/**
+ * @fn setupPPII
+ * @desc Initialize the PPII related routes
+ */
+OptimiseServer.prototype.setupMeddraUpload = function ()  {
+    // Import the controller
+    this.routeMeddraUpload = require('./routes/meddraRoute');
+
+    // Modules
+    this.app.use('/uploadMeddra', this.routeMeddraUpload);
+};
+
 
 /**
  * @function setupMeddra initialize the route for meddra
