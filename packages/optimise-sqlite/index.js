@@ -1,6 +1,6 @@
 var path = require('path')
 var EventEmitter = require('events').EventEmitter
-var sqlite3 = module.exports = exports = require('./binaries')
+var sqlite3 = module.exports = exports = require('./bin')
 
 function normalizeMethod(fn) {
 	return function (sql) {

@@ -2,14 +2,25 @@ const path = require('path');
 const fs = require('fs-extra');
 const https = require('https');
 const decompress = require('decompress');
-const versionTarget = require('../scripts/version-target');
 const package = require('../package.json');
 
 const PLATFORM = process.platform;
 const ARCH = process.arch;
 const MODULES = process.versions.modules;
+const ELECTRON = process.versions.electron;
 
-const target = versionTarget();
+function version() {
+    let NAME;
+    if (ELECTRON) {
+        const MINOR_RELEASE = ELECTRON.match(/\d\.\d/)[0];
+        if (!MINOR_RELEASE)
+            throw new Error('Electron', ELECTRON, 'release not supported');
+        NAME = `electron-v${MINOR_RELEASE}-${PLATFORM}-${ARCH}`;
+    } else {
+        NAME = `node-v${MODULES}-${PLATFORM}-${ARCH}`;
+    }
+    return NAME;
+}
 
 function download(url) {
     return new Promise((resolve, reject) => {
@@ -24,8 +35,8 @@ function download(url) {
 
 async function main() {
 
-    const name = `node-v${MODULES}-${PLATFORM}-${ARCH}`;
-    const filename = name + '.tar.gz';
+    const target = version();
+    const filename = target + '.tar.gz';
     const url = `https://mapbox-node-binary.s3.amazonaws.com/sqlite3/v${package.version}/${filename}`;
     const binary = await download(url).catch(error => console.error(error, url));
 
@@ -34,7 +45,7 @@ async function main() {
         fs.writeFileSync(path.join(__dirname, `${target}.tar.gz`), binary)
         await decompress(path.join(__dirname, `${target}.tar.gz`), path.join(__dirname, 'sqlite3-binary'));
         try {
-            fs.renameSync(path.join(__dirname, 'sqlite3-binary', name, 'node_sqlite3.node'), path.join(__dirname, '../binaries', target));
+            fs.renameSync(path.join(__dirname, 'sqlite3-binary', target, 'node_sqlite3.node'), path.join(__dirname, '../bin/node_sqlite3.node'));
             fs.removeSync(path.join(__dirname, `${target}.tar.gz`));
             fs.removeSync(path.join(__dirname, 'sqlite3-binary'));
         } catch (e) {
