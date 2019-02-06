@@ -1,6 +1,5 @@
 var path = require('path')
 var EventEmitter = require('events').EventEmitter
-var trace = require('./trace')
 var sqlite3 = module.exports = exports = require('./binaries')
 
 function normalizeMethod(fn) {
@@ -155,10 +154,12 @@ Database.prototype.removeAllListeners = function (type) {
 sqlite3.verbose = function () {
 	if (!isVerbose) {
 		for (const name of ['prepare', 'get', 'run', 'all', 'each', 'map', 'close', 'exec']) {
-			trace.extendTrace(Database.prototype, name)
+			console.debug(Database.prototype, name)
+			// trace.extendTrace(Database.prototype, name)
 		}
 		for (const name of ['bind', 'get', 'run', 'all', 'each', 'map', 'reset', 'finalize']) {
-			trace.extendTrace(Statement.prototype, name)
+			console.debug(Database.prototype, name)
+			// trace.extendTrace(Statement.prototype, name)
 		}
 		isVerbose = true
 	}

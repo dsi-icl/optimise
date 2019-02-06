@@ -16,13 +16,12 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /sqlite3(\\|\/)lib(\\|\/)sqlite3\.js$/,
+                test: /knex(\\|\/)lib(\\|\/)dialects(\\|\/)sqlite3(\\|\/)index\.js$/,
                 use: {
                     loader: 'string-replace-loader',
                     options: {
                         multiple: [
-                            { search: 'var binding_path = binary.find(path.resolve(path.join(__dirname,\'../package.json\')));', replace: '' },
-                            { search: 'require(binding_path);', replace: 'require(\'node_sqlite3.node\')' },
+                            { search: 'return require(\'sqlite3\')', replace: 'return require(\'optimise-sqlite\')' }
                         ],
                     },
                 },
@@ -34,7 +33,7 @@ module.exports = {
             },
             {
                 test: /\.node$/,
-                use: 'node-loader'
+                loader: 'native-ext-loader'
             }
         ]
     },
@@ -43,12 +42,10 @@ module.exports = {
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ] : []).concat([
-        new webpack.NormalModuleReplacementPlugin(/node_sqlite3\.node/, `${__dirname}/../../node_modules/optimise-sqlite/binaries/sqlite3-win32/node-v67-win32-x64/node_sqlite3.node`),
         new webpack.NormalModuleReplacementPlugin(/pg-connection-string/, `${__dirname}/src/utils/noop.js`),
         new webpack.NormalModuleReplacementPlugin(/node-pre-gyp/, `${__dirname}/src/utils/noop.js`),
-        // new webpack.NormalModuleReplacementPlugin(/sqlite3[\\\\/]lib[\\\\/]binding/, `${__dirname}/node_modules/optimise-sqlite/binaries/toto.js`),
-        // new webpack.NormalModuleReplacementPlugin(/\.\.\/migrate/, `${__dirname}/src/utils/noop.js`),
-        // new webpack.NormalModuleReplacementPlugin(/\.\.\/seed/, `${__dirname}/src/utils/noop.js`),
+        new webpack.NormalModuleReplacementPlugin(/fs-migrations\.js/, `${__dirname}/db/mocks/fs-migrations.js`),
+        new webpack.NormalModuleReplacementPlugin(/seed(\\|\/)index\.js/, `${__dirname}/db/mocks/seeder.js`),
         new webpack.IgnorePlugin(new RegExp('^(mssql.*|mariasql|.*oracle.*|mysql.*|pg.*|node-pre-gyp|tedious)$')),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
@@ -62,6 +59,7 @@ module.exports = {
         filename: 'server.js'
     },
     node: {
+        // We are doing this because of a bug in SwaggerUI
         __filename: false,
         __dirname: true
     }

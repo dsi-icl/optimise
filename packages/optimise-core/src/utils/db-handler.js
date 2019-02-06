@@ -8,7 +8,7 @@ function migrate(type) {
             case 'testing':
                 if (process.env.NODE_ENV !== 'production') console.log('Migrating database with MS modules and testing data ...');
                 return knex.migrate.latest({ directory: 'db/migrations' })
-                    .then(() => knex.seed.run({ directory: 'db/seed' }))
+                    .then(() => knex.seed.run({ directory: 'db/seeds' }))
                     .then(() => knex.seed.run({ directory: 'db/exampleDataForTesting/seed' }))
                     .then(() => resolve())
                     .catch(err => reject(err));
@@ -19,7 +19,7 @@ function migrate(type) {
                     .then((result) => {
                         if (result.length === 0) {
                             if (process.env.NODE_ENV !== 'production') console.log('Applying MS seeds ...');
-                            return knex.seed.run({ directory: 'db/seed' });
+                            return knex.seed.run({ directory: 'db/seeds' });
                         }
                         return true;
                     })
