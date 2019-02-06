@@ -1,13 +1,26 @@
 const knex = require('../utils/db-connection');
 const formatToJSON = require('../utils/format-response');
+const MeddraHierarchyProcessor = require('../core/MeddraHierarchyProcessor');
 
 function MeddraController() {
     this.MeddraCollection = null;
     this.getMeddraField = MeddraController.prototype.getMeddraField.bind(this);
     this.setMeddraCollection = MeddraController.prototype.setMeddraCollection.bind(this);
     this.loadMeddraCollection = MeddraController.prototype.loadMeddraCollection.bind(this);
+    this.handleMeddraUploadByAdmin = MeddraController.prototype.handleMeddraUploadByAdmin.bind(this);
     this.loadMeddraCollection();
 }
+
+MeddraController.prototype.handleMeddraUploadByAdmin = function (req, res) {
+    // let that = this;
+    if (!req.file) {
+        res.status(400).json({ error: 'Cannot read file.' });
+    }
+    const processor = new MeddraHierarchyProcessor(req.file);
+    processor.parsebuffer();
+    processor.transformData();
+
+};
 
 MeddraController.prototype.loadMeddraCollection = function () {
     let that = this;
