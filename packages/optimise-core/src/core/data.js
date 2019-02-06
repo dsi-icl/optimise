@@ -1,7 +1,7 @@
 const { getEntry, createEntry, updateEntry, deleteEntry } = require('../utils/controller-utils');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
-const knex = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection');
 
 function VisitData() {
     this.getVisitData = VisitData.prototype.getVisitData.bind(this);
@@ -30,8 +30,8 @@ function Data() {
 
 Data.prototype.deleteData = function (user, options, idData, deleteObj) {
     return new Promise((resolve, reject) => {
-        knex.transaction(trx => {
-            knex(options.dataTable)
+        dbcon.transaction(trx => {
+            dbcon(options.dataTable)
                 .where('field', 'in', deleteObj)
                 .andWhere('deleted', '-')
                 .andWhere(options.dataTableForeignKey, idData)

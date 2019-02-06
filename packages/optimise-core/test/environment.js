@@ -2,7 +2,7 @@
 
 const OptimiseServer = require('../src/optimiseServer');
 const { erase, migrate } = require('../src/utils/db-handler');
-const knex = require('../src/utils/db-connection');
+const dbcon = require('../src/utils/db-connection');
 const NodeEnvironment = require('jest-environment-node');
 
 let optimiseServer = null;
@@ -33,7 +33,7 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
     static globalTeardown() {
         optimiseServer.stop()
             .then(() => erase())
-            .then(() => knex.destroy())
+            .then(() => dbcon.destroy())
             .catch(err => {
                 console.error(err);
             });
