@@ -1,4 +1,4 @@
-const knex = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection');
 const formatToJSON = require('../utils/format-response');
 
 function MeddraController() {
@@ -11,7 +11,7 @@ function MeddraController() {
 
 MeddraController.prototype.loadMeddraCollection = function () {
     let that = this;
-    return new Promise((resolve, reject) => knex('ADVERSE_EVENT_MEDDRA')
+    return new Promise((resolve, reject) => dbcon('ADVERSE_EVENT_MEDDRA')
         .select('*')
         .then((result) => {
             that.setMeddraCollection(result);
