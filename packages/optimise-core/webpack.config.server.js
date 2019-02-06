@@ -5,9 +5,13 @@ const StartServerPlugin = require('start-server-webpack-plugin');
 
 module.exports = {
     mode: process.env.NODE_ENV || 'production',
-    entry: (process.env.NODE_ENV === 'development' ? ['webpack/hot/poll?1000'] : [])[
-        './src/index'
-    ],
+    entry: (process.env.NODE_ENV === 'development' ?
+        {
+            server: ['webpack/hot/poll?1000', './src/index']
+        } : {
+            core: ['./src/optimiseServer']
+        }
+    ),
     watch: process.env.NODE_ENV === 'development' ? true : false,
     target: 'node',
     externals: [nodeExternals({
@@ -33,7 +37,10 @@ module.exports = {
             },
             {
                 test: /\.node$/,
-                loader: 'native-ext-loader'
+                loader: 'native-ext-loader',
+                options: {
+                    rewritePath: process.env.NODE_ENV === 'development' ? undefined : '.'
+                }
             }
         ]
     },
@@ -56,7 +63,8 @@ module.exports = {
     ]),
     output: {
         path: path.join(__dirname, 'build'),
-        filename: 'server.js'
+        filename: 'server.js',
+        libraryTarget: process.env.NODE_ENV === 'development' ? undefined : 'umd'
     },
     node: {
         // We are doing this because of a bug in SwaggerUI
