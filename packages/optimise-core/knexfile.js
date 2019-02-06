@@ -7,7 +7,7 @@ module.exports = {
         directory: 'db/migrations'
     },
     seeds: {
-        directory: 'db/seed'
+        directory: 'db/seeds'
     },
     pool: {
         afterCreate: (conn, cb) => {

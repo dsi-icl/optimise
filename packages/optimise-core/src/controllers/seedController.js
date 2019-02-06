@@ -9,9 +9,6 @@ const ErrorHelper = require('../utils/error_helper');
 const formatToJSon = require('../utils/format-response');
 const message = require('../utils/message-utils');
 const modelsContainer = require('../utils/model-container');
-const { writeJson } = require('../utils/load-json');
-
-const path = './db/availableFields/jsonFiles/';
 
 const mapKeyTable = {
     fieldVisit: {
@@ -58,7 +55,6 @@ function SeedController() {
     this.createSeed = SeedController.prototype.createSeed.bind(this);
     this.deleteSeed = SeedController.prototype.deleteSeed.bind(this);
     this.editSeed = SeedController.prototype.editSeed.bind(this);
-    this.updateFiles = SeedController.prototype.updateFiles.bind(this);
 }
 
 /**
@@ -231,29 +227,6 @@ SeedController.prototype.deleteSeed = function (req, res)  {
         res.status(404).json(ErrorHelper(message.userError.WRONGPATH));
         return;
     }
-};
-
-/**
- * @function updateFiles
- * @desc Update the seeding files fron the newly modified table itself
- * @param {string} index The type of request linking the index in mapKeyTable
- */
-SeedController.prototype.updateFiles = function (index)  {
-    return getEntry(mapKeyTable[index].table, {}, '*').then((result) => {
-        if (result !== null && result !== undefined && result.length !== 0) {
-            writeJson(result, `${path}${mapKeyTable[index].file}`);
-        } else {
-            if (process.env.NODE_ENV !== 'production') {
-                console.error(message.errorMessages.SEEDUPDATEERROR);
-            }
-        }
-        return true;
-    }).catch((error) => {
-        if (process.env.NODE_ENV !== 'production') {
-            console.error(error);
-        }
-        return false;
-    });
 };
 
 module.exports = SeedController;
