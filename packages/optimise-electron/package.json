@@ -1,39 +1,37 @@
 {
-  "name": "optimise-electron",
-  "version": "0.10.0",
-  "description": "Optimise:MS App",
-  "keywords": [
-    "ms"
-  ],
-  "author": {
-    "email": "f.guitton@imperial.ac.uk",
-    "name": "Florian Guitton"
-  },
-  "homepage": "https://github.com/dsi-icl/optimise",
-  "private": true,
-  "scripts": {
-    "prebuild": "copyfiles -u 2 \"../optimise-core/build/**/*\" server/ && copyfiles -u 2 \"../optimise-ui/build/**/*\" static/ && ./scripts/fixElectronBug.sh",
-    "build": "electron-webpack",
-    "electron": "electron dist/main/main.js",
-    "prepackage": "./scripts/revertElectronBug.sh",
-    "package": "electron-builder",
-    "start": "cross-env ELECTRON_START_URL=http://localhost:3000 electron-webpack dev",
-    "test": "echo Skipped."
-  },
-  "dependencies": {
-    "optimise-core": "^0.10.0",
-    "optimise-ui": "^0.10.0",
-    "source-map-support": "0.5.10"
-  },
-  "devDependencies": {
-    "copyfiles": "2.1.0",
-    "cross-env": "5.2.0",
-    "electron": "4.0.4",
-    "electron-builder": "20.38.5",
-    "electron-webpack": "2.6.1",
-    "webpack": "4.29.2"
-  },
-  "resolutions": {
-    "webpack-sources": "^1.1.0"
-  }
+    "name": "optimise-electron",
+    "version": "0.10.0",
+    "description": "Optimise:MS App",
+    "keywords": [
+        "ms"
+    ],
+    "author": {
+        "email": "f.guitton@imperial.ac.uk",
+        "name": "Florian Guitton"
+    },
+    "homepage": "https://github.com/dsi-icl/optimise",
+    "private": true,
+    "scripts": {
+        "prebuild": "rimraf -rf ./dist && copyfiles -u 2 \"../optimise-core/build/**/*\" dist/server/ && copyfiles -u 2 \"../optimise-ui/build/**/*\" dist/static/",
+        "build": "electron-webpack",
+        "electron": "electron dist/main/main.js",
+        "package": "electron-builder",
+        "start": "cross-env ELECTRON_START_URL=http://localhost:3000 electron-webpack dev",
+        "test": "echo Skipped."
+    },
+    "dependencies": {
+        "optimise-core": "^0.10.0",
+        "optimise-ui": "^0.10.0",
+        "source-map-support": "0.5.10"
+    },
+    "devDependencies": {
+        "copyfiles": "2.1.0",
+        "electron": "4.0.4",
+        "electron-builder": "20.38.5",
+        "electron-webpack": "2.6.1",
+        "webpack": "4.29.2"
+    },
+    "resolutions": {
+        "webpack-sources": "^1.1.0"
+    }
 }
