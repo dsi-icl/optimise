@@ -29,6 +29,10 @@ export class AdminActions extends Component {
                         <NavLink to='/administration/system' activeClassName={style.activeNavLink}>
                             <button>System information</button>
                         </NavLink>
+                        <br/> <br/>
+                        <NavLink to='/administration/meddra' activeClassName={style.activeNavLink}>
+                            <button>Manage MedDRA</button>
+                        </NavLink>
                     </div>
                     <div className={style.actionsDisplay}>
                         <AdminRouter />

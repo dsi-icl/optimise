@@ -247,6 +247,19 @@ function edssCalc(state = initialState.edssCalc, action) {
     }
 }
 
+function uploadMeddra(state = initialState.uploadMeddra, action) {
+    switch(action.type) {
+        case actionTypes.admin.UPLOAD_MEDDRA_REQUEST:
+            return { requesting: true, error: undefined, success: false };
+        case actionTypes.admin.UPLOAD_MEDDRA_SUCCESS:
+            return { requesting: false, error: undefined, success: true };
+        case actionTypes.admin.UPLOAD_MEDDRA_FAILURE:
+            return { requesting: false, error: action.payload, success: false };
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatient,
@@ -258,6 +271,7 @@ export const rootReducer = combineReducers({
     erasePatient,
     appLevelError,
     alert,
-    edssCalc
+    edssCalc,
+    uploadMeddra
 });
 
