@@ -111,5 +111,10 @@ export default {
     },
     appLevelError: {},
     alert: {},
-    edssCalc: { display: false }
+    edssCalc: { display: false },
+    uploadMeddra: {
+        requesting: false,
+        error: undefined,
+        success: false
+    }
 };

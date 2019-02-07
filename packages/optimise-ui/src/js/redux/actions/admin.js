@@ -44,3 +44,15 @@ export const changePrivAPICall = body => dispatch => apiHelper('/users', { metho
     .then(dispatch(getAllUsersAPICall()))
     .catch(msg => store.dispatch(addError({ error: msg })));
 
+
+export const uploadMeddraRequest = payload => ({ type: actionTypes.admin.UPLOAD_MEDDRA_REQUEST, payload: payload });
+export const uploadMeddraSuccess = payload => ({ type: actionTypes.admin.UPLOAD_MEDDRA_SUCCESS, payload: payload });
+export const uploadMeddraFailure = payload => ({ type: actionTypes.admin.UPLOAD_MEDDRA_FAILURE, payload: payload });
+export const uploadMeddraAPICall = form => dispatch => {
+    dispatch(uploadMeddraRequest());
+    return apiHelper('/uploadMeddra', { method: 'POST', body: form, headers: { accept: 'application/json' } })
+        .then(() => {
+            dispatch(uploadMeddraSuccess());
+        })
+        .catch(msg => { store.dispatch(uploadMeddraFailure(msg)); });
+};
