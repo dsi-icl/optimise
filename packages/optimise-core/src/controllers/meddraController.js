@@ -12,14 +12,29 @@ function MeddraController() {
 }
 
 MeddraController.prototype.handleMeddraUploadByAdmin = function (req, res) {
-    // let that = this;
-    if (!req.file) {
+    if (req.user.priv !== 1) {
+        res.status(401).json({ error: 'please log in first' });
+    }
+    if (!req.files.mdhierfile || req.files.mdhierfile.length !== 1) {
         res.status(400).json({ error: 'Cannot read file.' });
     }
-    const processor = new MeddraHierarchyProcessor(req.file);
-    processor.parsebuffer();
-    processor.transformData();
 
+    const mdhierfile = req.files.mdhierfile[0];
+    const lltfile = req.files.lltfile && req.files.lltfile[0];
+
+    let result;
+    try {
+        const processor = new MeddraHierarchyProcessor(mdhierfile, lltfile);
+        processor.parsebuffer();
+        result = processor.transformData();
+    } catch (e) {
+        res.status(400).json({ error: e });
+        return null;
+    }
+
+    knex.batchInsert('TEST_MEDDRA', result, 100)
+        .then(() => { res.status(200).json({ message: 'Meddra uploaded.' }); return null; })
+        .catch(err => { res.status(500).json({ error: err }); });
 };
 
 MeddraController.prototype.loadMeddraCollection = function () {
