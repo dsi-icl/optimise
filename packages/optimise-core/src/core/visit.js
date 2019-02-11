@@ -1,7 +1,7 @@
 const { getEntry, createEntry, deleteEntry, updateEntry } = require('../utils/controller-utils');
 const message = require('../utils/message-utils');
 const ErrorHelper = require('../utils/error_helper');
-const dbcon = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 
 /**
  * @description class that contain method for creating, getting, updating and deleting visits and their report

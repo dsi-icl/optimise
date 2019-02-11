@@ -1,5 +1,5 @@
 /*eslint no-console: "off"*/
-const dbcon = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 
 class RequestMiddleware {
     static verifySessionAndPrivilege(req, res, next) {

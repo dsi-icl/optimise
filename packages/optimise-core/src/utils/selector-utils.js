@@ -1,4 +1,4 @@
-const dbcon = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 const { PregnancyCore } = require('../core/demographic');
 const DiagnosisCore = require('../core/patientDiagnosis');
 

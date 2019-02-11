@@ -1,4 +1,4 @@
-const dbcon = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const formatToJSON = require('../utils/format-response');

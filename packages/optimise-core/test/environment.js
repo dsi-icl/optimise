@@ -1,7 +1,7 @@
 /*eslint no-console: "off"*/
 
 const OptimiseServer = require('../src/optimiseServer');
-const { erase, migrate } = require('../src/utils/db-handler');
+const { erase, seed } = require('../src/utils/db-handler');
 const dbcon = require('../src/utils/db-connection');
 const NodeEnvironment = require('jest-environment-node');
 
@@ -18,7 +18,7 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
         process.env.NODE_ENV = 'test';
         console.log('\n');
         return erase()
-            .then(() => migrate('testing'))
+            .then(() => seed())
             .then(() => {
                 optimiseServer = new OptimiseServer({});
                 return optimiseServer.start();

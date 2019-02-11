@@ -1,6 +1,6 @@
 /* Export data for all patients */
 
-const dbcon = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 const message = require('../utils/message-utils');
 const { searchEntry } = require('../utils/controller-utils');
 const fs = require('fs');

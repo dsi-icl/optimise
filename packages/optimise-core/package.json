@@ -6,8 +6,6 @@
     "scripts": {
         "lint": "eslint --ext .jsx --ext .js ./",
         "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
-        "migrate": "knex migrate:latest",
-        "seed": "knex seed:run",
         "test": "jest --colors --verbose --detectOpenHandles --runInBand",
         "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --module-bind 'node=native-ext-loader' --config webpack.config.server.js",
         "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --module-bind 'node=native-ext-loader' --config webpack.config.server.js"
@@ -48,7 +46,7 @@
         "start-server-webpack-plugin": "2.2.5",
         "string-replace-loader": "2.1.1",
         "supertest": "3.4.2",
-        "webpack": "4.29.0",
+        "webpack": "4.29.3",
         "webpack-cli": "3.2.1",
         "webpack-node-externals": "1.7.2"
     },
