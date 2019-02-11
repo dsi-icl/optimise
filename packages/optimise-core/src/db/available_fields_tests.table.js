@@ -1,5 +1,5 @@
-const TABLE_NAME = 'AVAILABLE_FIELDS_TESTS';
-
+export const TABLE_NAME = 'AVAILABLE_FIELDS_TESTS';
+export const PRIORITY = 1;
 export default (dbcon, version) => {
     switch (version) {
         case 1:

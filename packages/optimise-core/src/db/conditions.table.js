@@ -1,5 +1,5 @@
-const TABLE_NAME = 'CONDITIONS';
-
+export const TABLE_NAME = 'CONDITIONS';
+export const PRIORITY = 0;
 export default (dbcon, version) => {
     switch (version) {
         case 1:

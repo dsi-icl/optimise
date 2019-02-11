@@ -1,5 +1,5 @@
-const TABLE_NAME = 'TREATMENTS_INTERRUPTIONS';
-
+export const TABLE_NAME = 'TREATMENTS_INTERRUPTIONS';
+export const PRIORITY = 4;
 export default (dbcon, version) => {
     switch (version) {
         case 1:
