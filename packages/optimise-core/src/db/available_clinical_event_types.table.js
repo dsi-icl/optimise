@@ -1,5 +1,5 @@
-const TABLE_NAME = 'AVAILABLE_CLINICAL_EVENT_TYPES';
-
+export const TABLE_NAME = 'AVAILABLE_CLINICAL_EVENT_TYPES';
+export const PRIORITY = 0;
 export default (dbcon, version) => {
     switch (version) {
         case 1:

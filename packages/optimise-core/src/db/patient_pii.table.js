@@ -1,5 +1,5 @@
-const TABLE_NAME = 'PATIENT_PII';
-
+export const TABLE_NAME = 'PATIENT_PII';
+export const PRIORITY = 2;
 export default (dbcon, version) => {
     switch (version) {
         case 1:
