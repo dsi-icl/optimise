@@ -2,7 +2,7 @@ const { getEntry, createEntry, deleteEntry, eraseEntry } = require('../utils/con
 const ErrorHelper = require('../utils/error_helper');
 const { hash, generateAndHash } = require('../utils/generate-crypto');
 const message = require('../utils/message-utils');
-const dbcon = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 
 function User() {
     this.createUser = User.prototype.createUser.bind(this);

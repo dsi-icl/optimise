@@ -1,7 +1,7 @@
 const { getEntry, createEntry, deleteEntry, updateEntry } = require('../utils/controller-utils');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
-const dbcon = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 
 function Treatment() {
     this.getTreatment = Treatment.prototype.getTreatment.bind(this);

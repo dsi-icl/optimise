@@ -51,8 +51,8 @@ module.exports = {
     ] : []).concat([
         new webpack.NormalModuleReplacementPlugin(/pg-connection-string/, `${__dirname}/src/utils/noop.js`),
         new webpack.NormalModuleReplacementPlugin(/node-pre-gyp/, `${__dirname}/src/utils/noop.js`),
-        new webpack.NormalModuleReplacementPlugin(/fs-migrations\.js/, `${__dirname}/db/mocks/fs-migrations.js`),
-        new webpack.NormalModuleReplacementPlugin(/seed(\\|\/)index\.js/, `${__dirname}/db/mocks/seeder.js`),
+        new webpack.NormalModuleReplacementPlugin(/\.\.\/migrate/, `${__dirname}/src/utils/noop.js`),
+        new webpack.NormalModuleReplacementPlugin(/\.\.\/seed/, `${__dirname}/src/utils/noop.js`),
         new webpack.IgnorePlugin(new RegExp('^(mssql.*|mariasql|.*oracle.*|mysql.*|pg.*|node-pre-gyp|tedious)$')),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({

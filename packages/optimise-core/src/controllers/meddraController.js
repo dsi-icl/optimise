@@ -1,4 +1,4 @@
-const dbcon = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 const formatToJSON = require('../utils/format-response');
 
 function MeddraController() {

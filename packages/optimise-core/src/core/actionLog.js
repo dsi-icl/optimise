@@ -1,7 +1,7 @@
 const { getEntry } = require('../utils/controller-utils');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
-const dbcon = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 
 function ActionLog() {
     this.getLogs = ActionLog.prototype.getLogs.bind(this);
