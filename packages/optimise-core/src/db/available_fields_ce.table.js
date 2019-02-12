@@ -1,9 +1,11 @@
+import ceFields from './defaults/ceFields.json';
+
 export const TABLE_NAME = 'AVAILABLE_FIELDS_CE';
 export const PRIORITY = 1;
-export default (dbcon, version) => {
+export default async (dbcon, version) => {
     switch (version) {
         case 1:
-            return dbcon.schema.createTable(TABLE_NAME, (table) => {
+            await dbcon.schema.createTable(TABLE_NAME, (table) => {
                 table.increments('id').primary();
                 table.text('definition').notNullable();
                 table.text('idname').notNullable();
@@ -20,6 +22,7 @@ export default (dbcon, version) => {
                 table.text('deleted').notNullable().defaultTo('-');
                 table.unique(['idname', 'type', 'unit', 'module', 'deleted']);
             });
+            return dbcon(TABLE_NAME).insert(ceFields);
         default:
             break;
     }

@@ -1,9 +1,12 @@
+import { generateAndHash } from '../utils/generate-crypto';
+let hashedAdmin;
+
 export const TABLE_NAME = 'USERS';
 export const PRIORITY = 0;
-export default (dbcon, version) => {
+export default async (dbcon, version) => {
     switch (version) {
         case 1:
-            return dbcon.schema.createTable(TABLE_NAME, (table) => {
+            await dbcon.schema.createTable(TABLE_NAME, (table) => {
                 table.increments('id').primary();
                 table.text('username').notNullable();
                 table.text('realname').notNullable();
@@ -16,6 +19,10 @@ export default (dbcon, version) => {
                 table.text('deleted').notNullable().defaultTo('-');
                 table.unique(['username', 'deleted']);
             });
+            hashedAdmin = generateAndHash('admin');
+            return dbcon(TABLE_NAME).insert([
+                { id: 1, username: 'admin', realName: 'Administrator', pw: hashedAdmin.hashed, salt: hashedAdmin.salt, iterations: hashedAdmin.iteration, adminPriv: 1, createdByUser: 1 }, //pw: 'admin'
+            ]);
         default:
             break;
     }
