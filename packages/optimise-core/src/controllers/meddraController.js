@@ -13,7 +13,7 @@ function MeddraController() {
 
 MeddraController.prototype.handleMeddraUploadByAdmin = function (req, res) {
     if (req.user.priv !== 1) {
-        res.status(401).json({ error: 'please log in first' });
+        res.status(401).json({ error: 'Not authorized.' });
     }
     if (!req.files.mdhierfile || req.files.mdhierfile.length !== 1) {
         res.status(400).json({ error: 'Cannot read file.' });
@@ -32,7 +32,7 @@ MeddraController.prototype.handleMeddraUploadByAdmin = function (req, res) {
         return null;
     }
 
-    knex.batchInsert('TEST_MEDDRA', result, 100)
+    knex.batchInsert('ADVERSE_EVENT_MEDDRA', result, 10)
         .then(() => { res.status(200).json({ message: 'Meddra uploaded.' }); return null; })
         .catch(err => { res.status(500).json({ error: err }); });
 };

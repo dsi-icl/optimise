@@ -101,7 +101,7 @@ MeddraHierarchyProcessor.prototype.transformData = function() {
     });
     transformedData.map(el => {
         el.parent = idHash[el.parentCode] || el.parentCode;
-        // delete el.parentCode;
+        delete el.parentCode;
         return el;
     });
 
