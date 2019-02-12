@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import Helmet from '../scaffold/helmet';
 import style from './admin.module.css';
 import { AdminRouter } from './router';
 
@@ -8,7 +9,8 @@ export class AdminActions extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2> ADMIN MENU </h2>
+                    <Helmet title='Administration Panel' />
+                    <h2>Administration Panel</h2>
                 </div>
                 <div className={style.panel}>
                     <div className={style.actionsMenu}>
