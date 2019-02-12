@@ -14,12 +14,4 @@ const connection = knex({
     multipleStatements: true
 });
 
-export default new Proxy(connection, {
-    get: (target, name) => {
-        if (name === 'then') {
-            return new Promise((resolve, reject) => target.then(resolve, reject));
-        } else {
-            return target[name];
-        }
-    }
-});
+export default connection;
