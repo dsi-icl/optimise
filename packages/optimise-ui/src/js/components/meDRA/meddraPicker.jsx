@@ -71,10 +71,11 @@ export class MeddraPicker extends Component {
     }
 
     render() {
+        if (this.props.meddra.length === 0) return <p>No MedDra coding available. Admin can upload codings in settings if there is a subscription.</p>;
         let { value } = this.props;
         value = value ? `${value}` : undefined;
         return (
-            <div className={style.wrapper}>  {/* this div must be here for the positioning of the drop down menu with scrolling */}
+            <div className={style.wrapper}>  {/* this div must be hwere for the positioning of the drop down menu with scrolling */}
                 <TreeSelect
                     allowClear
                     defaultValue={undefined}
