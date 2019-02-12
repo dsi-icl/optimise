@@ -27,12 +27,12 @@ class RequestMiddleware {
             .insert({ 'router': req.url, 'method': req.method, 'body': JSON.stringify(body), 'user': username ? username : '' })
             .then(__unused__res => {
                 if (process.env.NODE_ENV === 'development')
-                    console.log(`${req.method} - ${req.originalUrl} : ${username ? username : ''}`);
+                    console.debug(`${req.method} - ${req.originalUrl} ${username ? `: ${username}` : ''}`);
                 return true;
             })
             .catch(err => {
                 if (process.env.NODE_ENV === 'development')
-                    console.log(`Error caught :${err}`);
+                    console.debug(`Error caught :${err}`);
                 return false;
             });
         next();
