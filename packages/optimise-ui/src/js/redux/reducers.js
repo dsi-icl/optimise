@@ -43,10 +43,9 @@ function searchPatient(state = initialState.searchPatient, action) {
 }
 
 function fetchingFinished(state) {
-    const stateCopy = Object.assign({}, state);
-    delete stateCopy.fetching;
+    const stateCopy = { ...state };
     for (let each in stateCopy) {
-        if (stateCopy[each].length === 0) {
+        if (stateCopy[each] === null) {
             return false;
         }
     }
