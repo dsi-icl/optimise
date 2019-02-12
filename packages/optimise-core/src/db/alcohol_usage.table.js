@@ -1,12 +1,19 @@
 export const TABLE_NAME = 'ALCOHOL_USAGE';
 export const PRIORITY = 0;
-export default (dbcon, version) => {
+export default async (dbcon, version) => {
     switch (version) {
         case 1:
-            return dbcon.schema.createTable(TABLE_NAME, (table) => {
+            await dbcon.schema.createTable(TABLE_NAME, (table) => {
                 table.increments('id').primary().notNullable();
                 table.text('value').notNullable();
             });
+            return dbcon(TABLE_NAME).insert([
+                { value: 'More than 3 units a day' },
+                { value: 'Less than 3 units a day' },
+                { value: 'Less than 3 units a week' },
+                { value: 'No alcohol consumption' },
+                { value: 'Unknown' }
+            ]);
         default:
             break;
     }

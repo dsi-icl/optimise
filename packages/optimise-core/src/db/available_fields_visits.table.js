@@ -1,9 +1,11 @@
+import visitFields from './defaults/visitFields.json';
+
 export const TABLE_NAME = 'AVAILABLE_FIELDS_VISITS';
 export const PRIORITY = 1;
-export default (dbcon, version) => {
+export default async (dbcon, version) => {
     switch (version) {
         case 1:
-            return dbcon.schema.createTable(TABLE_NAME, (table) => {
+            await dbcon.schema.createTable(TABLE_NAME, (table) => {
                 table.increments('id').primary();
                 table.text('definition').notNullable();
                 table.text('idname').notNullable();
@@ -20,6 +22,7 @@ export default (dbcon, version) => {
                 table.text('deleted').notNullable().defaultTo('-');
                 table.unique(['idname', 'type', 'unit', 'module', 'referenceType', 'deleted']);
             });
+            return dbcon(TABLE_NAME).insert(visitFields);
         default:
             break;
     }
