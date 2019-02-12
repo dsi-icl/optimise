@@ -5,7 +5,7 @@ import fs from 'fs';
 
 // Current level of the DB
 // This field is to be updated with subsequent versions of the DB
-const CURRENT_VERSIOM = 1;
+const CURRENT_VERSION = 1;
 
 export async function migrate() {
 
@@ -26,26 +26,32 @@ export async function migrate() {
             created_at: dbcon.fn.now(),
             updated_at: dbcon.fn.now()
         });
-    }
-    else
+    } else {
         // Otherwise fetch the CURRENT_VERSION
-        stepVersion = parseInt(await dbcon('OPT_KV').where({
+        let stepVersionResult = await dbcon('OPT_KV').where({
             key: 'CURRENT_VERSION'
-        }).select('value'));
+        }).select('value');
 
-    // For every table file launch the update for sequential version up
-    while (stepVersion < CURRENT_VERSIOM) {
-        stepVersion++;
-        schemas.forEach(async tableUpdater => await tableUpdater(dbcon, stepVersion));
+        if (stepVersionResult.length === 1 && stepVersionResult[0].value !== undefined)
+            stepVersion = parseInt(stepVersionResult[0].value) || 0;
     }
 
-    // Finally set the CURRENT_VERSION to the current level
-    await dbcon('OPT_KV').where({
-        key: 'CURRENT_VERSION'
-    }).update({
-        value: `${stepVersion}`,
-        updated_at: dbcon.fn.now()
-    });
+
+    if (stepVersion !== CURRENT_VERSION) {
+        // For every table file launch the update for sequential version up
+        while (stepVersion < CURRENT_VERSION) {
+            stepVersion++;
+            for (let i = 0; i < schemas.length; i++)
+                await schemas[i](dbcon, stepVersion);
+        }
+        // Finally set the CURRENT_VERSION to the current level
+        await dbcon('OPT_KV').where({
+            key: 'CURRENT_VERSION'
+        }).update({
+            value: `${stepVersion}`,
+            updated_at: dbcon.fn.now()
+        });
+    }
 }
 
 // This function is called for the purpose of testing
