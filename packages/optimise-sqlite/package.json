@@ -1,0 +1,32 @@
+{
+    "name": "optimise-sqlite",
+    "private": true,
+    "version": "4.0.6",
+    "description": "Prebuilt sqlite3 dependencies for Optimise:MS Core",
+    "files": [
+        "index.js",
+        "binaries"
+    ],
+    "scripts": {
+        "start": "echo 'Nothing to start :)'",
+        "test": "node test.js",
+        "postinstall": "node ./scripts/post-install.js",
+        "update": "node ./scripts/update-binaries.js"
+    },
+    "author": "Florian Guitton <f.guitton@imperial.ac.uk>",
+    "license": "MIT",
+    "keywords": [
+        "sqlite3",
+        "offline",
+        "mac",
+        "linux",
+        "windows",
+        "electron"
+    ],
+    "dependencies": {},
+    "devDependencies": {
+        "decompress": "4.2.0",
+        "fs-extra": "7.0.1",
+        "tape": "4.9.2"
+    }
+}

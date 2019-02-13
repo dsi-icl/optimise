@@ -1,4 +1,4 @@
-const knex = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 const formatToJSON = require('../utils/format-response');
 const MeddraHierarchyProcessor = require('../core/MeddraHierarchyProcessor');
 
@@ -43,7 +43,7 @@ MeddraController.prototype.handleMeddraUploadByAdmin = function (req, res) {
 
 MeddraController.prototype.loadMeddraCollection = function () {
     let that = this;
-    return new Promise((resolve, reject) => knex('ADVERSE_EVENT_MEDDRA')
+    return new Promise((resolve, reject) => dbcon('ADVERSE_EVENT_MEDDRA')
         .select('*')
         .then((result) => {
             that.setMeddraCollection(result);
