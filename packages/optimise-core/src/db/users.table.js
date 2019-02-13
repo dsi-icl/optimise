@@ -21,9 +21,9 @@ export default async (dbcon, version) => {
                 table.text('deleted').notNullable().defaultTo('-');
                 table.unique(['username', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
             });
-            hashedAdmin = generateAndHash('admin');
+            hashedAdmin = generateAndHash('admin'); //pw: 'admin'
             return dbcon(TABLE_NAME).insert([
-                { id: 1, username: 'admin', realName: 'Administrator', pw: hashedAdmin.hashed, salt: hashedAdmin.salt, iterations: hashedAdmin.iteration, adminPriv: 1, createdByUser: 1 }, //pw: 'admin'
+                { id: 1, username: 'admin', realName: 'Administrator', pw: hashedAdmin.hashed, salt: hashedAdmin.salt, iterations: hashedAdmin.iteration, adminPriv: 1, createdByUser: 1 },
             ]);
         default:
             break;

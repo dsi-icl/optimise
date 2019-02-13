@@ -5,6 +5,7 @@ const StartServerPlugin = require('start-server-webpack-plugin');
 
 module.exports = {
     mode: process.env.NODE_ENV || 'production',
+    devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : 'source-map',
     entry: (process.env.NODE_ENV === 'development' ?
         {
             server: ['webpack/hot/poll?1000', './src/index']
@@ -32,7 +33,12 @@ module.exports = {
             },
             {
                 test: /\.js?$/,
-                use: 'babel-loader',
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        babelrc: false
+                    }
+                },
                 exclude: /node_modules/
             },
             {

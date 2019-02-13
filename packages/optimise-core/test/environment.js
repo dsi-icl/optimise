@@ -1,8 +1,7 @@
 /*eslint no-console: "off"*/
-
-const OptimiseServer = require('../src/optimiseServer');
-const { erase, seed } = require('../src/utils/db-handler');
-const dbcon = require('../src/utils/db-connection');
+const OptimiseServer = require('../src/optimiseServer').default;
+import { erase, migrate } from '../src/utils/db-handler';
+import seed from './seed';
 const NodeEnvironment = require('jest-environment-node');
 
 let optimiseServer = null;
@@ -10,42 +9,29 @@ let optimiseRouter = null;
 
 class OptimiseNodeEnvironment extends NodeEnvironment {
 
-    constructor(config) {
-        super(config);
+    constructor(config, context) {
+        super(config, context);
     }
 
-    static globalSetup() {
+    static async globalSetup() {
         process.env.NODE_ENV = 'test';
-        console.log('\n');
-        return erase()
-            .then(() => seed())
-            .then(() => {
-                optimiseServer = new OptimiseServer({});
-                return optimiseServer.start();
-            }).then((optimise_router) => {
-                optimiseRouter = optimise_router;
-                return true;
-            }).catch(err => {
-                console.error(err);
-            });
+        optimiseServer = new OptimiseServer({});
+        await erase();
+        await seed(await migrate());
+        optimiseRouter = await optimiseServer.start();
     }
 
-    static globalTeardown() {
-        optimiseServer.stop()
-            .then(() => erase())
-            .then(() => dbcon.destroy())
-            .catch(err => {
-                console.error(err);
-            });
+    static async globalTeardown() {
+        await optimiseServer.stop();
     }
 
-    async setup() {
-        super.setup();
+    async setup(jestConfig) {
+        super.setup(jestConfig);
         this.global.optimiseRouter = optimiseRouter;
     }
 
-    async teardown() {
-        super.teardown();
+    async teardown(jestConfig) {
+        super.teardown(jestConfig);
     }
 
     runScript(script) {
