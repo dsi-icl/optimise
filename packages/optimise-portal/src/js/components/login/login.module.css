@@ -1,0 +1,62 @@
+.page {
+    grid-area: navigation / navigation / status / annexe;
+    background: linear-gradient(to top right, var(--color-shade-two), var(--color-shade-one));
+    height: 100%;
+    width: 100%;
+}
+
+.box {
+    position: absolute;
+    top: calc(50% - 12em);
+    left: calc(50% - 10em);
+    height: 25em;
+    width: 20em;
+}
+
+
+.form {
+    text-align: center;
+    line-height: 4em;
+}
+
+.form input {
+    color: var(--color-font-active);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.form input::placeholder {
+    color: white;
+}
+
+.form input:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.title {
+    padding-top: calc(50% - 20em);
+    text-align: center;
+    padding-bottom: 1em;
+    cursor: default;
+}
+
+.title span {
+    color: var(--color-font-active);
+    font-size: 3.55em;
+}
+
+.title strong {
+    color: var(--color-accent);
+}
+
+.error {
+    display: block;
+    width: 100%;
+    line-height: 2em;
+    background-color: var(--color-error);
+    color: var(--color-font-active);
+    padding: 0.5em;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}

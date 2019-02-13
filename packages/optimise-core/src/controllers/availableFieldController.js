@@ -1,4 +1,4 @@
-const dbcon = require('../utils/db-connection').default;
+const knex = require('../utils/db-connection');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
 const formatToJSON = require('../utils/format-response');
@@ -20,7 +20,7 @@ class AvailableFieldController {
                 moduleObj = { module: req.query.module };
             }
             let table = tableMap[req.params.dataType];
-            dbcon(table)
+            knex(table)
                 .select('*')
                 .where(moduleObj)
                 .then((result) => {
