@@ -15,7 +15,7 @@ afterAll(async () => {
     await disconnectAgent(user);
 });
 
-describe('Fetching MedDRA codes', () => {
+describe('Fetching MeDRA codes', () => {
     test('Search by name', () => admin
         .get('/meddra?search=nonhaemolytic')
         .then(res => {

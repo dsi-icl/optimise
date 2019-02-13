@@ -4,7 +4,7 @@
 const request = require('supertest');
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const userSeeded = require('./seed/data').default['PATIENTS'];
+const userSeeded = require('../db/exampleDataForTesting/exampleData')['PATIENTS'];
 const message = require('../src/utils/message-utils');
 const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
 

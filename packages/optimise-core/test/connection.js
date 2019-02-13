@@ -16,7 +16,7 @@ function connectAgent(agent, user, pw) {
         .then(res => {
             if (res.statusCode === 200)
                 return resolve();
-            return reject(new Error(`The user '${user}' could not be logged in !`));
+            return reject();
         }).catch(() => null));
 }
 
@@ -25,7 +25,7 @@ function disconnectAgent(agent) {
         .then(res => {
             if (res.statusCode === 200)
                 return resolve();
-            return reject(new Error('The previous user could not be logged out !'));
+            return reject();
         }).catch(() => null));
 }
 

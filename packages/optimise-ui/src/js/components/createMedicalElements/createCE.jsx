@@ -4,7 +4,7 @@ import moment from 'moment';
 import { PickDate } from './datepicker';
 import { BackButton } from '../medicalData/utils';
 import { createCEAPICall } from '../../redux/actions/clinicalEvents';
-import { MeddraPicker } from '../medDRA/meddraPicker';
+import { MeddraPicker } from '../meDRA/meddraPicker';
 import style from './medicalEvent.module.css';
 
 @connect(state => ({
