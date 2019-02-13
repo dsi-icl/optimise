@@ -17,20 +17,11 @@ module.exports = {
     target: 'node',
     externals: [nodeExternals({
         whitelist: process.env.NODE_ENV === 'development' ? ['webpack/hot/poll?1000'] : undefined
-    })],
+    }), {
+        sqlite3: 'commonjs sqlite3'
+    }],
     module: {
         rules: [
-            {
-                test: /knex(\\|\/)lib(\\|\/)dialects(\\|\/)sqlite3(\\|\/)index\.js$/,
-                use: {
-                    loader: 'string-replace-loader',
-                    options: {
-                        multiple: [
-                            { search: 'return require(\'sqlite3\')', replace: 'return require(\'optimise-sqlite\')' }
-                        ],
-                    },
-                },
-            },
             {
                 test: /\.js?$/,
                 use: {
@@ -40,13 +31,6 @@ module.exports = {
                     }
                 },
                 exclude: /node_modules/
-            },
-            {
-                test: /\.node$/,
-                loader: 'native-ext-loader',
-                options: {
-                    rewritePath: process.env.NODE_ENV === 'development' ? undefined : '.'
-                }
             }
         ]
     },
