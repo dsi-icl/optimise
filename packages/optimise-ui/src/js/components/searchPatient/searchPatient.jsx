@@ -2,6 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Icon } from '../icon';
+import Helmet from '../scaffold/helmet';
 import { getPatientProfileById, searchPatientAPICall, searchPatientClear } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import style from './searchPatient.module.css';
@@ -66,6 +67,7 @@ export default class SearchPatientsById extends Component {
         return (
             <>
                 <div className={style.ariane}>
+                    <Helmet title='Patient Search' />
                     <h2>Patient Search</h2>
                     <div className={style.profileActions}>
                         <Link title='New visit' to={'/createPatient'} ><Icon symbol='user' /><span>Add a new patient</span></Link>
