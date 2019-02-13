@@ -5,7 +5,7 @@ import { BackButton } from '../medicalData/utils';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
 import { DeleteButton } from '../patientProfile/sharedComponents';
-import { MeddraPicker } from '../meDRA/meddraPicker';
+import { MeddraPicker } from '../medDRA/meddraPicker';
 import { createPregnancyAPICall, deletePregnancyAPICall, editPregnancyAPICall } from '../../redux/actions/demographicData';
 import { addAlert } from '../../redux/actions/alert';
 import Icon from '../icon';
