@@ -5,7 +5,7 @@ import { BackButton } from './utils';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
 import { DeleteButton } from '../patientProfile/sharedComponents';
-import { MeddraPicker } from '../medDRA/meddraPicker';
+import { MeddraPicker } from '../meDRA/meddraPicker';
 import { createTreatmentInterruptionAPICall, deleteTreatmentInterruptionAPICall, editTreatmentInterruptionAPICall } from '../../redux/actions/treatments';
 import { addAlert } from '../../redux/actions/alert';
 import Icon from '../icon';

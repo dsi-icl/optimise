@@ -5,7 +5,7 @@ import { PickDate } from '../createMedicalElements/datepicker';
 import { BackButton } from '../medicalData/utils';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
-import { MeddraPicker } from '../medDRA/meddraPicker';
+import { MeddraPicker } from '../meDRA/meddraPicker';
 import { addAlert } from '../../redux/actions/alert';
 import { deleteCEAPICall, updateCECall } from '../../redux/actions/clinicalEvents';
 
