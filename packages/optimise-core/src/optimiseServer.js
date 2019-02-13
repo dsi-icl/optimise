@@ -7,7 +7,7 @@ const body_parser = require('body-parser');
 const passport = require('passport');
 
 const optimiseOptions = require('./core/options');
-const dbcon = require('./utils/db-connection');
+import dbcon from './utils/db-connection';
 import { migrate } from '../src/utils/db-handler';
 const ErrorHelper = require('./utils/error_helper');
 
@@ -114,9 +114,7 @@ class OptimiseServer {
      * @return {Promise} Resolve to true on success, ErrorStack otherwise
      */
     stop() {
-        return new Promise((resolve, reject) => {
-            dbcon.destroy().then(() => resolve(true)).catch((err) => reject(err)); // Everything is stopped
-        });
+        return dbcon.destroy();
     }
 
     /**

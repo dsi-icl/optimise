@@ -36,7 +36,6 @@ export async function migrate() {
             stepVersion = parseInt(stepVersionResult[0].value) || 0;
     }
 
-
     if (stepVersion !== CURRENT_VERSION) {
         // For every table file launch the update for sequential version up
         while (stepVersion < CURRENT_VERSION) {
@@ -52,13 +51,8 @@ export async function migrate() {
             updated_at: dbcon.fn.now()
         });
     }
-}
 
-// This function is called for the purpose of testing
-export function seed() {
-    return migrate().then(() => new Promise((resolve, reject) => {
-        return reject() || resolve();
-    }));
+    return dbcon;
 }
 
 export function erase() {
@@ -77,6 +71,5 @@ export function erase() {
 
 export default {
     migrate,
-    erase,
-    seed
+    erase
 };

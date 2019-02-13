@@ -6,7 +6,7 @@
     "scripts": {
         "lint": "eslint --ext .jsx --ext .js ./",
         "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
-        "test": "jest --colors --verbose --detectOpenHandles --runInBand",
+        "test": "cross-env NODE_ENV=test jest --colors --verbose --detectOpenHandles --forceExit --runInBand",
         "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --module-bind 'node=native-ext-loader' --config webpack.config.server.js",
         "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --module-bind 'node=native-ext-loader' --config webpack.config.server.js"
     },
@@ -32,12 +32,15 @@
         "uuid": "3.3.2"
     },
     "devDependencies": {
+        "@babel/preset-env": "7.3.1",
+        "@babel/core": "7.2.2",
+        "babel-eslint": "10.0.1",
+        "babel-jest": "24.1.0",
+        "babel-loader": "8.0.5",
+        "babel-plugin-require-context-hook": "1.0.0",
+        "@babel/polyfill": "7.2.5",
         "chalk": "2.4.2",
         "codacy-coverage": "3.4.0",
-        "babel-core": "6.26.3",
-        "babel-eslint": "10.0.1",
-        "babel-loader": "8.0.5",
-        "babel-preset-env": "1.7.0",
         "eslint": "5.13.0",
         "eslint-plugin-promise": "4.0.1",
         "jest": "24.1.0",
@@ -45,6 +48,7 @@
         "rimraf": "2.6.3",
         "start-server-webpack-plugin": "2.2.5",
         "string-replace-loader": "2.1.1",
+        "sqlite3": "4.0.6",
         "supertest": "3.4.2",
         "webpack": "4.29.3",
         "webpack-cli": "3.2.1",
@@ -62,6 +66,9 @@
             "<rootDir>/src/**/*.{js,jsx}",
             "!<rootDir>/node_modules/"
         ],
+        "transform": {
+            "^.+\\.(js|html|scss)$": "<rootDir>/test/preprocessor.js"
+        },
         "testMatch": [
             "**/__tests__/**/*.{js,jsx,mjs}",
             "**/+(*.)(spec|test).{js,jsx,mjs}"

@@ -1,4 +1,8 @@
-const exampleData = {
+export default {
+    'USERS': [
+        { id: 1, username: 'admin', realName: 'Administrator', pw: 'F+3ALY62PE1KbtDIWOH6ltD+x7u5eB7WVFxdCVLr5zCxhfJOBkYNS2vjDkhFz5u3Gs2aMx4DPKjJlRgfEl+S8A==', salt: '/Xf2ge3dL49Yjtf5QO8fMaNtkfA4wiKwjwLJAHG2Ozs=', iterations: 652, adminPriv: 1, createdByUser: 1 },
+        { id: 2, username: 'user', realName: 'User', pw: 'IpzYpIbldcTLNv+i2gnEZOw2ADVQeip/AfKVa8rQ0SyxHCpKRtWZW30Z7JDWWDj7SnDV2OwN8k7PLyB23vq1rQ==', salt: '3aG1PLR7PHN6G34dQ6sh9jfjsyGVx5v62JnDViSssnI=', iterations: 31387, adminPriv: 0, createdByUser: 1 }
+    ],
     'PATIENTS': [
         { id: 1, uuid: '1ac8d4fd-1120-4373-980a-29525e2f16c2', aliasId: 'chon', study: 'example', createdByUser: 1, deleted: '-', consent: true },
         { id: 2, uuid: '41a731d0-e3a3-44b9-8bee-5a9c0b806ba8', aliasId: 'florian', study: 'example', createdByUser: 1, deleted: '-', consent: true },
@@ -13,8 +17,10 @@ const exampleData = {
         { id: 2, patient: 3, firstName: 'Eleni', surname: 'Jones', fullAddress: 'Flat 20 Mast House London', postcode: 'SW7 2', createdByUser: 1, deleted: '-' },
     ],
     'PATIENT_PREGNANCY': [
-        { id: 1, patient: 3, startDate: '1531239767000', meddra: 13688, outcome: 2, createdByUser: 1, deleted: '-' },
-        { id: 2, patient: 3, startDate: '1531239113000', meddra: 13688, outcome: 1, createdByUser: 1, deleted: '-' }
+        { id: 1, patient: 3, startDate: '1531239767000', outcome: 2, createdByUser: 1, deleted: '-' },
+        { id: 2, patient: 3, startDate: '1531239113000', outcome: 1, createdByUser: 1, deleted: '-' }
+        // { id: 1, patient: 3, startDate: '1531239767000', meddra: 13688, outcome: 2, createdByUser: 1, deleted: '-' },
+        // { id: 2, patient: 3, startDate: '1531239113000', meddra: 13688, outcome: 1, createdByUser: 1, deleted: '-' }
     ],
     'PATIENT_IMMUNISATION': [
         { id: 1, patient: 2, vaccineName: 'vaccine A', immunisationDate: '1517443200000', createdByUser: 1, deleted: '-' },
@@ -66,11 +72,16 @@ const exampleData = {
         { id: 4, test: 4, field: 60, value: 0, createdByUser: 1, deleted: '-' }
     ],
     'CLINICAL_EVENTS': [
-        { id: 1, patient: 1, type: 1, dateStartDate: '1514764800000', meddra: 1, createdByUser: 1, deleted: '-' },
-        { id: 2, patient: 3, type: 1, dateStartDate: '1517443200000', meddra: 1, createdByUser: 1, deleted: '-' },
-        { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' },
-        { id: 4, patient: 2, type: 3, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' },
-        { id: 5, patient: 2, type: 2, dateStartDate: '1517776200000', meddra: 2, createdByUser: 1, deleted: '-' }
+        { id: 1, patient: 1, type: 1, dateStartDate: '1514764800000', createdByUser: 1, deleted: '-' },
+        { id: 2, patient: 3, type: 1, dateStartDate: '1517443200000', createdByUser: 1, deleted: '-' },
+        { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', createdByUser: 1, deleted: '-' },
+        { id: 4, patient: 2, type: 3, dateStartDate: '1517875200000', createdByUser: 1, deleted: '-' },
+        { id: 5, patient: 2, type: 2, dateStartDate: '1517776200000', createdByUser: 1, deleted: '-' }
+        // { id: 1, patient: 1, type: 1, dateStartDate: '1514764800000', meddra: 1, createdByUser: 1, deleted: '-' },
+        // { id: 2, patient: 3, type: 1, dateStartDate: '1517443200000', meddra: 1, createdByUser: 1, deleted: '-' },
+        // { id: 3, patient: 7, type: 1, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' },
+        // { id: 4, patient: 2, type: 3, dateStartDate: '1517875200000', meddra: 2, createdByUser: 1, deleted: '-' },
+        // { id: 5, patient: 2, type: 2, dateStartDate: '1517776200000', meddra: 2, createdByUser: 1, deleted: '-' }
     ],
     'CLINICAL_EVENTS_DATA': [
         { id: 1, clinicalEvent: 1, field: 3, value: 'Yes', createdByUser: 1, deleted: '-' },
@@ -95,5 +106,3 @@ const exampleData = {
         { id: 3, patient: 6, relation: 3, conditionName: 3, outcome: 'unknown', createdByUser: 2, deleted: '-' }
     ]
 };
-
-module.exports = exampleData;
