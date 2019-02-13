@@ -9,12 +9,13 @@
         "email": "f.guitton@imperial.ac.uk",
         "name": "Florian Guitton"
     },
-    "homepage": "https://github.com/dsi-icl/optimise",
+    "repository": "github:dsi-icl/optimise",
     "private": true,
     "scripts": {
-        "prebuild": "rimraf -rf ./dist && copyfiles -u 3 \"../optimise-core/build/**/*\" dist/server/ && copyfiles -u 3 \"../optimise-ui/build/**/*\" dist/static/",
+        "prebuild": "rimraf -rf ./dist && copyfiles -u 3 \"../optimise-core/build/**/*\" dist/server/ && copyfiles -u 3 \"../optimise-ui/build/**/*\" dist/client/",
         "build": "electron-webpack",
         "electron": "electron dist/main/main.js",
+        "postinstall": "electron-builder install-app-deps",
         "package": "electron-builder",
         "start": "cross-env ELECTRON_START_URL=http://localhost:3000 electron-webpack dev",
         "test": "echo Skipped."
@@ -28,6 +29,8 @@
         "copyfiles": "2.1.0",
         "electron": "4.0.4",
         "electron-builder": "20.38.5",
+        "electron-log": "3.0.1",
+        "electron-updater": "4.0.6",
         "electron-webpack": "2.6.1",
         "webpack": "4.29.3"
     },

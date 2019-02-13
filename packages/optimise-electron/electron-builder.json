@@ -1,4 +1,18 @@
 {
-  "appId": "io.github.optimise",
-  "productName": "Optimise-MS"
+    "publish": [
+        {
+            "provider": "github",
+            "owner": "dsi-icl"
+        }
+    ],
+    "protocols": [
+        {
+            "name": "Optimise MS",
+            "schemes": [
+                "optimise"
+            ]
+        }
+    ],
+    "appId": "io.github.optimise",
+    "productName": "Optimise-MS"
 }

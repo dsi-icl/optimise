@@ -9,7 +9,8 @@
         "email": "f.guitton@imperial.ac.uk",
         "name": "Florian Guitton"
     },
-    "homepage": "https://optimise-ms.org",
+    "repository": "github:dsi-icl/optimise",
+    "homepage": "https://github.com/dsi-icl/optimise",
     "private": true,
     "workspaces": {
         "packages": [
