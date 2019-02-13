@@ -5,6 +5,7 @@ const ErrorMessage = {
     GETFAIL: 'Couldn\'t fetch the entry',
     NOTFOUND: 'Couldn\'t find the entry',
     ERASEFAILED: 'Couldn\'t erase entry',
+    SEEDUPDATEERROR: 'Errored while updating seed file: table is empty',
     SEARCHFAIL: 'Couldn\'t search the database'
 };
 

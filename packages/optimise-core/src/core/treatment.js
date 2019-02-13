@@ -1,7 +1,7 @@
 const { getEntry, createEntry, deleteEntry, updateEntry } = require('../utils/controller-utils');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
-const dbcon = require('../utils/db-connection').default;
+const knex = require('../utils/db-connection');
 
 function Treatment() {
     this.getTreatment = Treatment.prototype.getTreatment.bind(this);
@@ -31,7 +31,7 @@ Treatment.prototype.updateTreatment = function (user, idTreatment, updatedEntry)
 };
 
 Treatment.prototype.addTerminationDateTreatment = function (idTreatment, updateEntry) {
-    return new Promise((resolve, reject) => dbcon('TREATMENTS').where({ id: idTreatment }).update(updateEntry).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
+    return new Promise((resolve, reject) => knex('TREATMENTS').where({ id: idTreatment }).update(updateEntry).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
 };
 
 Treatment.prototype.deleteTreatment = function (user, idTreatment) {
@@ -55,7 +55,7 @@ Treatment.prototype.getReasons = function () {
 };
 
 Treatment.prototype.searchReasons = function (reason) {
-    return new Promise((resolve, reject) => dbcon('REASONS').select('*').where('value', 'like', reason).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+    return new Promise((resolve, reject) => knex('REASONS').select('*').where('value', 'like', reason).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 Treatment.prototype.getDrugs = function () {
@@ -63,7 +63,7 @@ Treatment.prototype.getDrugs = function () {
 };
 
 Treatment.prototype.searchDrugs = function (drugSample) {
-    return new Promise((resolve, reject) => dbcon('AVAILABLE_DRUGS').select('*').where('name', 'like', drugSample).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+    return new Promise((resolve, reject) => knex('AVAILABLE_DRUGS').select('*').where('name', 'like', drugSample).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 module.exports = Treatment;

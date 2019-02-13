@@ -1,7 +1,7 @@
 const { getEntry } = require('../utils/controller-utils');
 const ErrorHelper = require('../utils/error_helper');
 const message = require('../utils/message-utils');
-const dbcon = require('../utils/db-connection').default;
+const knex = require('../utils/db-connection');
 
 function ActionLog() {
     this.getLogs = ActionLog.prototype.getLogs.bind(this);
@@ -25,7 +25,7 @@ ActionLog.prototype.getLogs = function () {
 
 ActionLog.prototype.erasePatients = function (patientId, patientAlias) {
     return new Promise(function (resolve, reject) {
-        return dbcon('LOG_ACTIONS')
+        return knex('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"aliasId":"${patientAlias}"%`)
             .orWhere('body', 'like', `%"patient":${patientId},%`)
@@ -43,7 +43,7 @@ ActionLog.prototype.erasePatients = function (patientId, patientAlias) {
 
 ActionLog.prototype.eraseVisits = function (visitId) {
     return new Promise(function (resolve, reject) {
-        return dbcon('LOG_ACTIONS')
+        return knex('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"visit":${visitId},%`)
             .orWhere('body', 'like', `%"visit":${visitId}}%`)
@@ -61,7 +61,7 @@ ActionLog.prototype.eraseVisits = function (visitId) {
 
 ActionLog.prototype.eraseCE = function (clinicalEventId) {
     return new Promise(function (resolve, reject) {
-        return dbcon('LOG_ACTIONS')
+        return knex('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"clinicalEventId":${clinicalEventId},%`)
             .orWhere('body', 'like', `%"clinicalEventId":${clinicalEventId}}%`)
@@ -75,7 +75,7 @@ ActionLog.prototype.eraseCE = function (clinicalEventId) {
 
 ActionLog.prototype.eraseTreatments = function (treatmentsId) {
     return new Promise(function (resolve, reject) {
-        return dbcon('LOG_ACTIONS')
+        return knex('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"treatmentId":${treatmentsId},%`)
             .orWhere('body', 'like', `%"treatmentId":${treatmentsId}"%`)
@@ -89,7 +89,7 @@ ActionLog.prototype.eraseTreatments = function (treatmentsId) {
 
 ActionLog.prototype.eraseTreatmentsInters = function (treatmentsInterId) {
     return new Promise(function (resolve, reject) {
-        return dbcon('LOG_ACTIONS')
+        return knex('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"treatmentInterId":${treatmentsInterId},%`)
             .orWhere('body', 'like', `%"treatmentInterId":${treatmentsInterId}}%`)
@@ -103,7 +103,7 @@ ActionLog.prototype.eraseTreatmentsInters = function (treatmentsInterId) {
 
 ActionLog.prototype.eraseTests = function (testId) {
     return new Promise(function (resolve, reject) {
-        return dbcon('LOG_ACTIONS')
+        return knex('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"testId":${testId},%`)
             .orWhere('body', 'like', `%"testId":${testId}}%`)
@@ -117,7 +117,7 @@ ActionLog.prototype.eraseTests = function (testId) {
 
 ActionLog.prototype.eraseIdOnRoute = function (route, id) {
     return new Promise(function (resolve, reject) {
-        return dbcon('LOG_ACTIONS')
+        return knex('LOG_ACTIONS')
             .del()
             .where({ 'router': route })
             .andWhere('body', 'like', `%"id":${id},%`)
