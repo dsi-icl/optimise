@@ -23,7 +23,6 @@ describe('Meddra upload tests', () => {
         })
     );
 
-
     test('Uploading mdhier.asc', () => {
         const form = new FormData();
         form.append('mdhierfile', this.hierRef.current.files[0]);
@@ -32,7 +31,6 @@ describe('Meddra upload tests', () => {
             .send(form)
             .then(res => {
                 expect(res.statusCode).toBe(200);
-                console.log(res);
                 return true;
             });
     });
