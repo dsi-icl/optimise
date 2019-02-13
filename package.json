@@ -1,41 +1,42 @@
 {
-  "name": "optimise",
-  "version": "0.10.0",
-  "description": "Optimise:MS",
-  "keywords": [
-    "ms"
-  ],
-  "author": {
-    "email": "f.guitton@imperial.ac.uk",
-    "name": "Florian Guitton"
-  },
-  "homepage": "https://optimise-ms.org",
-  "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/*"
+    "name": "optimise",
+    "version": "0.10.0",
+    "description": "Optimise:MS",
+    "keywords": [
+        "ms"
     ],
-    "nohoist": [
-      "**/electron-builder",
-      "**/electron-builder/**",
-      "**/electron-webpack",
-      "**/electron-webpack/**"
-    ]
-  },
-  "engines": {
-    "yarn": "^1.4.2"
-  },
-  "scripts": {
-    "build": "lerna run build --stream",
-    "preelectron": "yarn build",
-    "electron": "lerna run electron --scope optimise-electron",
-    "lint": "echo Put your favorite linter here.",
-    "prepackage": "yarn build",
-    "package": "lerna run package --scope optimise-electron --stream",
-    "start": "lerna exec --parallel --stream --ignore optimise-docker yarn start",
-    "test": "lerna run test --parallel"
-  },
-  "devDependencies": {
-    "lerna": "3.11.1"
-  }
+    "author": {
+        "email": "f.guitton@imperial.ac.uk",
+        "name": "Florian Guitton"
+    },
+    "homepage": "https://optimise-ms.org",
+    "private": true,
+    "workspaces": {
+        "packages": [
+            "packages/*"
+        ],
+        "nohoist": [
+            "**/electron-builder",
+            "**/electron-builder/**",
+            "**/electron-webpack",
+            "**/electron-webpack/**"
+        ]
+    },
+    "engines": {
+        "yarn": "^1.4.2"
+    },
+    "scripts": {
+        "build": "lerna run build --stream",
+        "preelectron": "yarn build",
+        "electron": "lerna run electron --scope optimise-electron",
+        "lint": "echo Put your favorite linter here.",
+        "prepackage": "yarn build",
+        "package": "lerna run package --scope optimise-electron --stream",
+        "start": "lerna exec --parallel --stream --ignore optimise-docker yarn start",
+        "test": "lerna run test --parallel"
+    },
+    "devDependencies": {
+        "cross-env": "5.2.0",
+        "lerna": "3.11.1"
+    }
 }
