@@ -2,350 +2,318 @@
 const express = require('express');
 const expressSession = require('express-session');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../swagger.json');
+const swaggerDocument = require('../docs/swagger.json');
 const body_parser = require('body-parser');
 const passport = require('passport');
 
 const optimiseOptions = require('./core/options');
-const knex = require('./utils/db-connection');
-const { migrate } = require('../src/utils/db-handler');
+import dbcon from './utils/db-connection';
+import { migrate } from '../src/utils/db-handler';
 const ErrorHelper = require('./utils/error_helper');
 
-function OptimiseServer(config) {
-    this.config = new optimiseOptions(config);
-    this.app = express();
+class OptimiseServer {
+    constructor(config) {
+        this.config = new optimiseOptions(config);
+        this.app = express();
 
-    // Bind member functions
-    this.start = OptimiseServer.prototype.start.bind(this);
-    this.stop = OptimiseServer.prototype.stop.bind(this);
-    this.setupUsers = OptimiseServer.prototype.setupUsers.bind(this);
-    this.setupPatients = OptimiseServer.prototype.setupPatients.bind(this);
-    this.setupVisits = OptimiseServer.prototype.setupVisits.bind(this);
-    this.setupDemographics = OptimiseServer.prototype.setupDemographics.bind(this);
-    this.setupClinicalEvents = OptimiseServer.prototype.setupClinicalEvents.bind(this);
-    this.setupTreatments = OptimiseServer.prototype.setupTreatments.bind(this);
-    this.setupTests = OptimiseServer.prototype.setupTests.bind(this);
-    this.setupFields = OptimiseServer.prototype.setupFields.bind(this);
-    this.setupData = OptimiseServer.prototype.setupData.bind(this);
-    this.setupExport = OptimiseServer.prototype.setupExport.bind(this);
-    this.setupLogs = OptimiseServer.prototype.setupLogs.bind(this);
-    this.setupPPII = OptimiseServer.prototype.setupPPII.bind(this);
-    this.setupPatientDiagnosis = OptimiseServer.prototype.setupPatientDiagnosis.bind(this);
-    this.setupMeddra = OptimiseServer.prototype.setupMeddra.bind(this);
-    this.setupSeed = OptimiseServer.prototype.setupSeed.bind(this);
+        // Define config in global scope (needed for server extensions)
+        global.config = this.config;
 
-    // Define config in global scope (needed for server extensions)
-    global.config = this.config;
-
-    // Configure EXPRESS.JS router
-    // Remove unwanted express headers
-    this.app.set('x-powered-by', false);
-    // Allow CORS requests when enabled
-    if (this.config.enableCors === true) {
-        this.app.use((__unused__req, res, next) => {
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-            next();
-        });
-    }
-    // Middleware imports
-    this.requestMiddleware = require('./utils/requestMiddleware');
-}
-
-/**
- * @fn start
- * @desc Start the OptimiseServer service, routes are setup and
- * automatic status update is triggered.
- * @return {Promise} Resolve to a native Express.js router ready to use on success.
- * In case of error, an ErrorStack is rejected.
- */
-OptimiseServer.prototype.start = function ()  {
-    let _this = this;
-    return new Promise((resolve, reject) => {
-
-        // Operate database migration if necessary
-        migrate('ms').then(() => {
-
-            _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-            // Setup sessions with third party middleware
-            _this.app.use(expressSession({
-                secret: 'optimise',
-                saveUninitialized: false,
-                resave: false,
-                cookie: { secure: false },
-                store: _this.mongoStore
-            })
-            );
-
-            _this.app.use(passport.initialize());
-            _this.app.use(passport.session());
-
-            // Keeping a pointer to the original mounting point of the server
-            _this.app.use((req, __unused__res, next) => {
-                req.optimiseRootUrl = req.baseUrl;
+        // Configure EXPRESS.JS router
+        // Remove unwanted express headers
+        this.app.set('x-powered-by', false);
+        // Allow CORS requests when enabled
+        if (this.config.enableCors === true) {
+            this.app.use((__unused__req, res, next) => {
+                res.header('Access-Control-Allow-Origin', '*');
+                res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
                 next();
             });
+        }
+        // Middleware imports
+        this.requestMiddleware = require('./utils/requestMiddleware');
+    }
 
-            // Init third party middleware for parsing HTTP requests body
-            _this.app.use(body_parser.urlencoded({
-                extended: true
-            }));
-            _this.app.use(body_parser.json());
+    /**
+     * @fn start
+     * @desc Start the OptimiseServer service, routes are setup and
+     * automatic status update is triggered.
+     * @return {Promise} Resolve to a native Express.js router ready to use on success.
+     * In case of error, an ErrorStack is rejected.
+     */
+    start() {
+        let _this = this;
+        return new Promise((resolve, reject) => {
 
-            // Adding session checks and monitoring
-            _this.app.use('/', _this.requestMiddleware.addActionToCollection);
-            _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
+            // Operate database migration if necessary
+            migrate().then(() => {
 
-            // Setup remaining route using controllers
-            _this.setupUsers();
-            _this.setupPatients();
-            _this.setupVisits();
-            _this.setupDemographics();
-            _this.setupClinicalEvents();
-            _this.setupTreatments();
-            _this.setupTests();
-            _this.setupFields();
-            _this.setupData();
-            _this.setupExport();
-            _this.setupLogs();
-            _this.setupPPII();
-            _this.setupPatientDiagnosis();
-            _this.setupMeddra();
-            _this.setupSeed();
+                _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-            _this.app.all('/*', (__unused__req, res) => {
-                res.status(400);
-                res.json(ErrorHelper('Bad request'));
-            });
+                // Setup sessions with third party middleware
+                _this.app.use(expressSession({
+                    secret: 'optimise',
+                    saveUninitialized: false,
+                    resave: false,
+                    cookie: { secure: false },
+                    store: _this.mongoStore
+                })
+                );
 
-            // Return the Express application
-            return resolve(_this.app);
+                _this.app.use(passport.initialize());
+                _this.app.use(passport.session());
 
-        }).catch(err => reject(err));
-    });
-};
+                // Keeping a pointer to the original mounting point of the server
+                _this.app.use((req, __unused__res, next) => {
+                    req.optimiseRootUrl = req.baseUrl;
+                    next();
+                });
 
-/**
- * @fn stop
- * @desc Stops the optimise server service. After a call to stop, all references on the
- * express router MUST be released and this service endpoints are expected to fail.
- * @return {Promise} Resolve to true on success, ErrorStack otherwise
- */
-OptimiseServer.prototype.stop = function ()  {
-    return new Promise((resolve, reject) => {
-        knex.destroy().then(() => resolve(true)).catch((err) => reject(err)); // Everything is stopped
-    });
-};
+                // Init third party middleware for parsing HTTP requests body
+                _this.app.use(body_parser.urlencoded({
+                    extended: true
+                }));
+                _this.app.use(body_parser.json());
 
-/**
- * @fn setupUsers
- * @desc Initialize the users related routes
- */
-OptimiseServer.prototype.setupUsers = function ()  {
+                // Adding session checks and monitoring
+                _this.app.use('/', _this.requestMiddleware.addActionToCollection);
+                _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
 
-    // Import the controller
-    const UserController = require('./controllers/userController');
-    this.userCtrl = new UserController();
+                // Setup remaining route using controllers
+                _this.setupUsers();
+                _this.setupPatients();
+                _this.setupVisits();
+                _this.setupDemographics();
+                _this.setupClinicalEvents();
+                _this.setupTreatments();
+                _this.setupTests();
+                _this.setupFields();
+                _this.setupData();
+                _this.setupExport();
+                _this.setupLogs();
+                _this.setupPPII();
+                _this.setupPatientDiagnosis();
+                _this.setupMeddra();
 
-    //Passport session serialize and deserialize
-    passport.serializeUser(this.userCtrl.serializeUser);
-    passport.deserializeUser(this.userCtrl.deserializeUser);
+                _this.app.all('/*', (__unused__req, res) => {
+                    res.status(400);
+                    res.json(ErrorHelper('Bad request'));
+                });
 
-    this.app.route('/whoami')
-        .get(this.userCtrl.whoAmI); //GET current session user
+                // Return the Express application
+                return resolve(_this.app);
 
-    // Log the user in
-    this.app.route('/users/login').post(this.userCtrl.loginUser);
+            }).catch(err => reject(err));
+        });
+    }
 
-    // Log the user out
-    this.app.route('/users/logout').post(this.userCtrl.logoutUser);
+    /**
+     * @fn stop
+     * @desc Stops the optimise server service. After a call to stop, all references on the
+     * express router MUST be released and this service endpoints are expected to fail.
+     * @return {Promise} Resolve to true on success, ErrorStack otherwise
+     */
+    stop() {
+        return dbcon.destroy();
+    }
 
-    // Interacts with the user in the DB
-    // (POST : create / DELETE : delete / PUT : modify)
-    // Real path is /users
-    this.app.route('/users')
-        .get(this.userCtrl.getUser)
-        .post(this.userCtrl.createUser)
-        .put(this.userCtrl.updateUser)
-        .patch(this.userCtrl.changeRights)
-        .delete(this.userCtrl.deleteUser);
-};
+    /**
+     * @fn setupUsers
+     * @desc Initialize the users related routes
+     */
+    setupUsers() {
 
-/**
- * @fn setupPatients
- * @desc Initialize the patients related routes
- */
-OptimiseServer.prototype.setupPatients = function ()  {
-    // Import the controller
-    this.routePatients = require('./routes/patientRoute');
+        // Import the controller
+        const UserController = require('./controllers/userController');
+        this.userCtrl = new UserController();
 
-    // Modules
-    this.app.use('/patients', this.routePatients);
-};
+        //Passport session serialize and deserialize
+        passport.serializeUser(this.userCtrl.serializeUser);
+        passport.deserializeUser(this.userCtrl.deserializeUser);
 
-/**
- * @fn setupVisits
- * @desc Initialize the visits related routes
- */
-OptimiseServer.prototype.setupVisits = function ()  {
-    // Import the controller
-    this.routeVisits = require('./routes/visitRoute');
+        this.app.route('/whoami')
+            .get(this.userCtrl.whoAmI); //GET current session user
 
-    // Modules
-    this.app.use('/visits', this.routeVisits);
-};
+        // Log the user in
+        this.app.route('/users/login').post(this.userCtrl.loginUser);
 
-/**
- * @fn setupDemographics
- * @desc Initialize the demographics related routes
- */
-OptimiseServer.prototype.setupDemographics = function ()  {
-    // Import the controller
-    this.routeDemographics = require('./routes/demographicRoute');
+        // Log the user out
+        this.app.route('/users/logout').post(this.userCtrl.logoutUser);
 
-    // Modules
-    this.app.use('/demographics', this.routeDemographics);
-};
+        // Interacts with the user in the DB
+        // (POST : create / DELETE : delete / PUT : modify)
+        // Real path is /users
+        this.app.route('/users')
+            .get(this.userCtrl.getUser)
+            .post(this.userCtrl.createUser)
+            .put(this.userCtrl.updateUser)
+            .patch(this.userCtrl.changeRights)
+            .delete(this.userCtrl.deleteUser);
+    }
 
-/**
- * @fn setupClinicalEvents
- * @desc Initialize the clinicalEvents related routes
- */
-OptimiseServer.prototype.setupClinicalEvents = function ()  {
-    // Import the controller
-    this.routeClinicalEvents = require('./routes/clinicalEventRoute');
+    /**
+     * @fn setupPatients
+     * @desc Initialize the patients related routes
+     */
+    setupPatients() {
+        // Import the controller
+        this.routePatients = require('./routes/patientRoute');
 
-    // Modules
-    this.app.use('/clinicalEvents', this.routeClinicalEvents);
-};
+        // Modules
+        this.app.use('/patients', this.routePatients);
+    }
 
-/**
- * @fn setupTreatments
- * @desc Initialize the treatments related routes
- */
-OptimiseServer.prototype.setupTreatments = function ()  {
-    // Import the controller
-    this.routeTreatments = require('./routes/treatmentRoute');
+    /**
+     * @fn setupVisits
+     * @desc Initialize the visits related routes
+     */
+    setupVisits() {
+        // Import the controller
+        this.routeVisits = require('./routes/visitRoute');
 
-    // Modules
-    this.app.use('/treatments', this.routeTreatments);
-};
+        // Modules
+        this.app.use('/visits', this.routeVisits);
+    }
 
-/**
- * @fn setupTests
- * @desc Initialize the tests related routes
- */
-OptimiseServer.prototype.setupTests = function ()  {
-    // Import the controller
-    this.routeTests = require('./routes/testRoute');
+    /**
+     * @fn setupDemographics
+     * @desc Initialize the demographics related routes
+     */
+    setupDemographics() {
+        // Import the controller
+        this.routeDemographics = require('./routes/demographicRoute');
 
-    // Modules
-    this.app.use('/tests', this.routeTests);
-};
+        // Modules
+        this.app.use('/demographics', this.routeDemographics);
+    }
 
-/**
- * @fn setupFields
- * @desc Initialize the available fields related routes
- */OptimiseServer.prototype.setupFields = function ()  {
-    //Import the controller
-    this.routeFields = require('./routes/fieldsRoute');
+    /**
+     * @fn setupClinicalEvents
+     * @desc Initialize the clinicalEvents related routes
+     */
+    setupClinicalEvents() {
+        // Import the controller
+        this.routeClinicalEvents = require('./routes/clinicalEventRoute');
 
-    // Modules
-    this.app.use('/available', this.routeFields);
-};
+        // Modules
+        this.app.use('/clinicalEvents', this.routeClinicalEvents);
+    }
 
-/**
- * @fn setupData
- * @desc Initialize the data related routes
- */
-OptimiseServer.prototype.setupData = function ()  {
-    // Import the controller
-    const DataController = require('./controllers/dataController');
-    const AvailableFieldController = require('./controllers/availableFieldController');
+    /**
+     * @fn setupTreatments
+     * @desc Initialize the treatments related routes
+     */
+    setupTreatments() {
+        // Import the controller
+        this.routeTreatments = require('./routes/treatmentRoute');
 
-    this.dataCtrl = new DataController();
-    this.availableFieldCtrl = new AvailableFieldController();
+        // Modules
+        this.app.use('/treatments', this.routeTreatments);
+    }
 
-    // Modules
-    this.app.route('/data/:dataType')
-        .post(this.dataCtrl._RouterAddOrUpdate)
-        .delete(this.dataCtrl._RouterDeleteData)
-        .get(this.availableFieldCtrl.getFields);
-};
+    /**
+     * @fn setupTests
+     * @desc Initialize the tests related routes
+     */
+    setupTests() {
+        // Import the controller
+        this.routeTests = require('./routes/testRoute');
 
-/**
- * @fn setupExport
- * @desc Initialize the export related routes
- */
-OptimiseServer.prototype.setupExport = function ()  {
-    // Import the controller
-    this.routeExport = require('./routes/exportDataRoute');
+        // Modules
+        this.app.use('/tests', this.routeTests);
+    }
 
-    // Modules
-    this.app.use('/export', this.routeExport);
-};
+    /**
+     * @fn setupFields
+     * @desc Initialize the available fields related routes
+     */setupFields() {
+        //Import the controller
+        this.routeFields = require('./routes/fieldsRoute');
 
-/**
- * @fn setupLogs
- * @desc Initialize the logs related routes
- */
-OptimiseServer.prototype.setupLogs = function ()  {
-    // Import the controller
-    this.routeLogs = require('./routes/actionRoute');
+        // Modules
+        this.app.use('/available', this.routeFields);
+    }
 
-    // Modules
-    this.app.use('/logs', this.routeLogs);
-};
+    /**
+     * @fn setupData
+     * @desc Initialize the data related routes
+     */
+    setupData() {
+        // Import the controller
+        const DataController = require('./controllers/dataController');
+        const AvailableFieldController = require('./controllers/availableFieldController');
 
-/**
- * @fn setupPPII
- * @desc Initialize the PPII related routes
- */
-OptimiseServer.prototype.setupPPII = function ()  {
-    // Import the controller
-    this.routePPII = require('./routes/patientPiiRoute');
+        this.dataCtrl = new DataController();
+        this.availableFieldCtrl = new AvailableFieldController();
 
-    // Modules
-    this.app.use('/patientPii', this.routePPII);
-};
+        // Modules
+        this.app.route('/data/:dataType')
+            .post(this.dataCtrl._RouterAddOrUpdate)
+            .delete(this.dataCtrl._RouterDeleteData)
+            .get(this.availableFieldCtrl.getFields);
+    }
 
-/**
- * @function setupMeddra initialize the route for meddra
- */
-OptimiseServer.prototype.setupMeddra = function ()  {
+    /**
+     * @fn setupExport
+     * @desc Initialize the export related routes
+     */
+    setupExport() {
+        // Import the controller
+        this.routeExport = require('./routes/exportDataRoute');
 
-    // initializing the meddra controller
-    const MeddraController = require('./controllers/meddraController');
+        // Modules
+        this.app.use('/export', this.routeExport);
+    }
 
-    this.meddraCtrl = new MeddraController();
+    /**
+     * @fn setupLogs
+     * @desc Initialize the logs related routes
+     */
+    setupLogs() {
+        // Import the controller
+        this.routeLogs = require('./routes/actionRoute');
 
-    this.app.route('/meddra')
-        .get(this.meddraCtrl.getMeddraField);
-};
+        // Modules
+        this.app.use('/logs', this.routeLogs);
+    }
 
-/**
- * @fn setupPatientDiagnosis
- * @desc Initialize the Patient Diagnosis related routes
- */
-OptimiseServer.prototype.setupPatientDiagnosis = function ()  {
-    // Import the controller
-    this.routePatientDiagnosis = require('./routes/patientDiagnosisRoute');
+    /**
+     * @fn setupPPII
+     * @desc Initialize the PPII related routes
+     */
+    setupPPII() {
+        // Import the controller
+        this.routePPII = require('./routes/patientPiiRoute');
 
-    // Modules
-    this.app.use('/patientDiagnosis', this.routePatientDiagnosis);
-};
+        // Modules
+        this.app.use('/patientPii', this.routePPII);
+    }
 
-/**
- * @func setupSeed
- * @desc Initialize the Seed related routes
- */
-OptimiseServer.prototype.setupSeed = function ()  {
-    // Import the controller
-    this.routeSeed = require('./routes/seedRoute');
+    /**
+     * @function setupMeddra initialize the route for meddra
+     */
+    setupMeddra() {
 
-    // Modules
-    this.app.use('/seeds', this.routeSeed);
-};
+        // initializing the meddra controller
+        const MeddraController = require('./controllers/meddraController');
 
-module.exports = OptimiseServer;
+        this.meddraCtrl = new MeddraController();
+
+        this.app.route('/meddra')
+            .get(this.meddraCtrl.getMeddraField);
+    }
+
+    /**
+     * @fn setupPatientDiagnosis
+     * @desc Initialize the Patient Diagnosis related routes
+     */
+    setupPatientDiagnosis() {
+        // Import the controller
+        this.routePatientDiagnosis = require('./routes/patientDiagnosisRoute');
+
+        // Modules
+        this.app.use('/patientDiagnosis', this.routePatientDiagnosis);
+    }
+}
+
+export default OptimiseServer;
