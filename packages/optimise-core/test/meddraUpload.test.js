@@ -24,7 +24,6 @@ describe('Meddra upload tests', () => {
         })
     );
 
-
     test('Uploading mdhier.asc', () => {
         const form = new FormData();
         form.append('mdhierfile', fs.createReadStream('./file/mdhier.asc'));
@@ -33,7 +32,6 @@ describe('Meddra upload tests', () => {
             .send(form)
             .then(res => {
                 expect(res.statusCode).toBe(200);
-                console.log(res);
                 return true;
             });
     });

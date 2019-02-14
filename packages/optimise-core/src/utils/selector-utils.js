@@ -1,4 +1,4 @@
-const knex = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 const { PregnancyCore } = require('../core/demographic');
 const DiagnosisCore = require('../core/patientDiagnosis');
 
@@ -7,7 +7,7 @@ class SelectorUtils {
         let whereObj = { 'patient': patientId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return knex('VISITS')
+        return dbcon('VISITS')
             .select({ visitId: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication' })
             .where(whereObj)
             .then(result => {
@@ -20,7 +20,7 @@ class SelectorUtils {
         let whereObj = { 'patient': patientId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return knex('PATIENT_DEMOGRAPHIC')
+        return dbcon('PATIENT_DEMOGRAPHIC')
             .select('id', 'DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin', 'alcoholUsage', 'smokingHistory')
             .where(whereObj)
             .then(result => {
@@ -33,7 +33,7 @@ class SelectorUtils {
         let whereObj = { 'patient': patientId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return knex('VISITS').select({ 'id': 'id' }).where(whereObj).then(resu => {
+        return dbcon('VISITS').select({ 'id': 'id' }).where(whereObj).then(resu => {
             let ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
@@ -41,7 +41,7 @@ class SelectorUtils {
             let innerWhereObj = {};
             if (deleted === true)
                 innerWhereObj.deleted = '-';
-            return knex('ORDERED_TESTS')
+            return dbcon('ORDERED_TESTS')
                 .select('orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
@@ -56,7 +56,7 @@ class SelectorUtils {
         let whereObj = { 'patient': patientId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return knex('PATIENT_IMMUNISATION')
+        return dbcon('PATIENT_IMMUNISATION')
             .select('id', 'vaccineName', 'immunisationDate')
             .where({ 'patient': patientId, 'deleted': '-' })
             .then(result => {
@@ -69,7 +69,7 @@ class SelectorUtils {
         let whereObj = { 'patient': patientId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return knex('MEDICAL_HISTORY')
+        return dbcon('MEDICAL_HISTORY')
             .select('id', 'relation', 'conditionName', 'startDate', 'outcome', 'resolvedYear')
             .where(whereObj)
             .then(result => {
@@ -83,7 +83,7 @@ class SelectorUtils {
         let whereObj = { 'patient': patientId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return knex('VISITS')
+        return dbcon('VISITS')
             .select({ id: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication' })
             .where(whereObj)
             .then(result => {
@@ -117,12 +117,12 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
-        return knex('VISITS').select('id').where(whereObj).then(resu => {
+        return dbcon('VISITS').select('id').where(whereObj).then(resu => {
             let ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
             }
-            return knex('ORDERED_TESTS')
+            return dbcon('ORDERED_TESTS')
                 .select({ 'id': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
@@ -158,14 +158,14 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
-        return knex('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type' }).where(whereObj).then(resu => {
+        return dbcon('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type' }).where(whereObj).then(resu => {
             let ids = [];
             let dates = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
                 dates[resu[i].id] = resu[i].visitDate;
             }
-            return knex('TREATMENTS')
+            return dbcon('TREATMENTS')
                 .select('id', 'orderedDuringVisit', 'drug', 'dose', 'unit', 'form', 'times', 'intervalUnit', 'startDate', 'terminatedDate', 'terminatedReason')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
@@ -208,7 +208,7 @@ class SelectorUtils {
         let whereObj = { 'visit': visitId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return knex('VISIT_DATA')
+        return dbcon('VISIT_DATA')
             .select('id', 'field', 'value')
             .where(whereObj);
     }
@@ -217,7 +217,7 @@ class SelectorUtils {
         let whereObj = { 'test': testId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return knex('TEST_DATA')
+        return dbcon('TEST_DATA')
             .select('id', 'field', 'value')
             .where(whereObj);
     }
@@ -226,7 +226,7 @@ class SelectorUtils {
         let whereObj = { 'treatment': treatmentId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return knex('TREATMENTS_INTERRUPTIONS')
+        return dbcon('TREATMENTS_INTERRUPTIONS')
             .select('id', 'reason', 'startDate', 'endDate', 'meddra')
             .where(whereObj);
     }
@@ -235,7 +235,7 @@ class SelectorUtils {
         let whereObj = { 'clinicalEvent': ceId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return knex('CLINICAL_EVENTS_DATA')
+        return dbcon('CLINICAL_EVENTS_DATA')
             .select('id', 'field', 'value')
             .where(whereObj);
     }
@@ -247,12 +247,12 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
-        return knex('VISITS').select('id').where(whereObj).then(resu => {
+        return dbcon('VISITS').select('id').where(whereObj).then(resu => {
             let ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
             }
-            return knex('CLINICAL_EVENTS')
+            return dbcon('CLINICAL_EVENTS')
                 .select('id', 'recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra')
                 .where(builder => builder.where('patient', patientId).orWhere('recordedDuringVisit', 'in', ids))
                 .andWhere(innerWhereObj)
@@ -271,12 +271,12 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
-        return knex('VISITS').select('id').where(whereObj).then(resu => {
+        return dbcon('VISITS').select('id').where(whereObj).then(resu => {
             let ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
             }
-            return knex('CLINICAL_EVENTS')
+            return dbcon('CLINICAL_EVENTS')
                 .select('id', 'recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra')
                 .where(builder => builder.where('patient', patientId).orWhere('recordedDuringVisit', 'in', ids))
                 .andWhere(innerWhereObj)
