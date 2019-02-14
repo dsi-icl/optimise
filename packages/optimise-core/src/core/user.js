@@ -2,7 +2,7 @@ const { getEntry, createEntry, deleteEntry, eraseEntry } = require('../utils/con
 const ErrorHelper = require('../utils/error_helper');
 const { hash, generateAndHash } = require('../utils/generate-crypto');
 const message = require('../utils/message-utils');
-const knex = require('../utils/db-connection');
+const dbcon = require('../utils/db-connection').default;
 
 function User() {
     this.createUser = User.prototype.createUser.bind(this);
@@ -17,11 +17,11 @@ function User() {
 }
 
 User.prototype.getUserByUsername = function (user) {
-    return new Promise((resolve, reject) => knex('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('username', 'like', user).andWhere({ deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+    return new Promise((resolve, reject) => dbcon('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('username', 'like', user).andWhere({ deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 User.prototype.getUserByID = function (uid) {
-    return new Promise((resolve, reject) => knex('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('id', uid).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+    return new Promise((resolve, reject) => dbcon('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('id', uid).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
 };
 
 User.prototype.createUser = function (userReq, user) {
@@ -43,7 +43,7 @@ User.prototype.updateUser = function (user) {
     return new Promise((resolve, reject) => {
         try {
             let hashContainer = generateAndHash(user.pw);
-            return knex('USERS').update({ 'pw': hashContainer.hashed, 'salt': hashContainer.salt, 'iterations': hashContainer.iteration }).where({ username: user.username, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error)));
+            return dbcon('USERS').update({ 'pw': hashContainer.hashed, 'salt': hashContainer.salt, 'iterations': hashContainer.iteration }).where({ username: user.username, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error)));
         } catch (err) {
             return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, err));
         }
@@ -51,7 +51,7 @@ User.prototype.updateUser = function (user) {
 };
 
 User.prototype.changeRights = function (user) {
-    return new Promise((resolve, reject) => knex('USERS').update({ 'adminPriv': user.adminPriv }).where({ id: user.id, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
+    return new Promise((resolve, reject) => dbcon('USERS').update({ 'adminPriv': user.adminPriv }).where({ id: user.id, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
 };
 
 User.prototype.deleteUser = function (user, userReq) {

@@ -1,46 +1,64 @@
 /*eslint no-console: "off"*/
-const knex = require('./db-connection');
-const fs = require('fs');
-const path = require('path');
+import dbcon from './db-connection';
+import schemas from '../db';
+import fs from 'fs';
 
-function migrate(type) {
-    return new Promise((resolve, reject) => {
-        switch (type) {
-            case 'testing':
-                if (process.env.NODE_ENV !== 'production') console.log('Migrating database with MS modules and testing data ...');
-                return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
-                    .then(() => knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)}/../../db/seed`) }))
-                    .then(() => knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)} /../../db/exampleDataForTesting/seed`) }))
-                    .then(() => resolve())
-                    .catch(err => reject(err));
-            case 'ms':
-                if (process.env.NODE_ENV !== 'production') console.log('Migrating database ...');
-                return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
-                    .then(() => knex.select('id').from('COUNTRIES'))
-                    .then((result) => {
-                        if (result.length === 0) {
-                            if (process.env.NODE_ENV !== 'production') console.log('Applying MS seeds ...');
-                            return knex.seed.run({ directory: path.normalize(`${path.dirname(__filename)} /../../db/seed`) });
-                        }
-                        return true;
-                    })
-                    .then(() => resolve())
-                    .catch(err => reject(err));
-            case 'bare':
-                if (process.env.NODE_ENV !== 'production') console.log('Migrating database ...');
-                return knex.migrate.latest({ directory: path.normalize(`${path.dirname(__filename)}/../../db/migrations`) })
-                    .then(() => resolve())
-                    .catch(err => reject(err));
-            default:
-                return reject('Wrong parameter used');
+// Current level of the DB
+// This field is to be updated with subsequent versions of the DB
+const CURRENT_VERSION = 1;
+
+export async function migrate() {
+
+    // Verify the OPT_KV configuration table exists
+    const isIntitialized = await dbcon.schema.hasTable('OPT_KV');
+    let stepVersion = 0;
+
+    if (!isIntitialized) {
+        // If not create it and initialize CURRENT_VERSION
+        await dbcon.schema.createTable('OPT_KV', function (table) {
+            table.string('key').primary();
+            table.string('value');
+            table.timestamps();
+        });
+        await dbcon('OPT_KV').insert({
+            key: 'CURRENT_VERSION',
+            value: '0',
+            created_at: dbcon.fn.now(),
+            updated_at: dbcon.fn.now()
+        });
+    } else {
+        // Otherwise fetch the CURRENT_VERSION
+        let stepVersionResult = await dbcon('OPT_KV').where({
+            key: 'CURRENT_VERSION'
+        }).select('value');
+
+        if (stepVersionResult.length === 1 && stepVersionResult[0].value !== undefined)
+            stepVersion = parseInt(stepVersionResult[0].value) || 0;
+    }
+
+    if (stepVersion !== CURRENT_VERSION) {
+        // For every table file launch the update for sequential version up
+        while (stepVersion < CURRENT_VERSION) {
+            stepVersion++;
+            for (let i = 0; i < schemas.length; i++)
+                await schemas[i](dbcon, stepVersion);
         }
-    });
+        // Finally set the CURRENT_VERSION to the current level
+        await dbcon('OPT_KV').where({
+            key: 'CURRENT_VERSION'
+        }).update({
+            value: `${stepVersion}`,
+            updated_at: dbcon.fn.now()
+        });
+    }
+
+    return dbcon;
 }
 
-function erase() {
+export function erase() {
     return new Promise((resolve, reject) => {
         if (process.env.NODE_ENV !== 'production') console.log('Removing database file ...');
-        let filename = knex.client.config.connection.filename;
+        let filename = dbcon.client.config.connection.filename;
         try {
             if (fs.existsSync(filename))
                 fs.unlinkSync(filename);
@@ -51,5 +69,7 @@ function erase() {
     });
 }
 
-exports.migrate = migrate;
-exports.erase = erase;
+export default {
+    migrate,
+    erase
+};
