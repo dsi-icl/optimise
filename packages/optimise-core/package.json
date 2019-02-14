@@ -6,7 +6,7 @@
     "scripts": {
         "lint": "eslint --ext .jsx --ext .js ./",
         "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
-        "test": "cross-env NODE_ENV=test jest --colors --verbose --detectOpenHandles --forceExit --runInBand",
+        "test": "../../node_modules/.bin/cross-env NODE_ENV=test jest meddraUpload.test.js --colors --verbose --detectOpenHandles --forceExit --runInBand",
         "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --module-bind 'node=native-ext-loader' --config webpack.config.server.js",
         "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --module-bind 'node=native-ext-loader' --config webpack.config.server.js"
     },
