@@ -27,6 +27,6 @@
     "devDependencies": {
         "decompress": "4.2.0",
         "fs-extra": "7.0.1",
-        "tape": "4.10.0"
+        "tape": "4.10.1"
     }
 }
