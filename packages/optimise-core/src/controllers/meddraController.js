@@ -32,7 +32,7 @@ MeddraController.prototype.handleMeddraUploadByAdmin = function (req, res) {
         return null;
     }
 
-    knex.batchInsert('ADVERSE_EVENT_MEDDRA', result, 10)
+    dbcon.batchInsert('ADVERSE_EVENT_MEDDRA', result, 10)
         .then(() => {
             res.status(200).json({ message: 'Meddra uploaded.' });
             this.loadMeddraCollection();
