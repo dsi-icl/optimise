@@ -1,10 +1,11 @@
 /* global beforeAll afterAll describe test expect */
 
-const request = require('supertest');
+import request from 'supertest';
+
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const message = require('../src/utils/message-utils');
-const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -19,11 +20,11 @@ afterAll(async () => {
 describe('Create Medical History controller test', () => {
     test('Creating Medical History without body', () => admin
         .post('/demographics/MedicalCondition')
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
@@ -37,11 +38,11 @@ describe('Create Medical History controller test', () => {
             'outcome': null,
             'resolvedYear': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -55,11 +56,11 @@ describe('Create Medical History controller test', () => {
             'outcome': 0,
             'resolvedYear': '2002'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -73,11 +74,11 @@ describe('Create Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -91,11 +92,11 @@ describe('Create Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -109,11 +110,11 @@ describe('Create Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -127,11 +128,11 @@ describe('Create Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -145,11 +146,11 @@ describe('Create Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -163,11 +164,11 @@ describe('Create Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -181,11 +182,11 @@ describe('Create Medical History controller test', () => {
             'outcome': 0,
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -199,11 +200,11 @@ describe('Create Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': '2002'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -217,11 +218,11 @@ describe('Create Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(4);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(4);
             return true;
         }));
 
@@ -230,8 +231,8 @@ describe('Create Medical History controller test', () => {
 describe('Edit Medical History controller test', () => {
     test('Editing Medical Historywithout body', () => admin
         .put('/demographics/MedicalCondition')
-        .then(res => {
-            expect(res.status).toBe(400);
+        .then(({ status }) => {
+            expect(status).toBe(400);
             return true;
         }));
 
@@ -246,11 +247,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': null,
             'resolvedYear': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -265,11 +266,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': 0,
             'resolvedYear': '2002'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -284,11 +285,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -303,11 +304,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -322,11 +323,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -341,11 +342,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -360,11 +361,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -379,11 +380,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 
@@ -398,11 +399,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': 0,
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -417,11 +418,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': '2002'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -436,11 +437,11 @@ describe('Edit Medical History controller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 
@@ -449,11 +450,11 @@ describe('Edit Medical History controller test', () => {
 describe('Delete Medical History controller test', () => {
     test('Deleting Medical History without body', () => admin
         .delete('/demographics/MedicalCondition')
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
@@ -462,11 +463,11 @@ describe('Delete Medical History controller test', () => {
         .send({
             'id': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -475,11 +476,11 @@ describe('Delete Medical History controller test', () => {
         .send({
             'id': 'WRONG'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -488,11 +489,11 @@ describe('Delete Medical History controller test', () => {
         .send({
             'id': 90
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(0);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(0);
             return true;
         }));
 
@@ -501,11 +502,11 @@ describe('Delete Medical History controller test', () => {
         .send({
             'id': 1
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 });

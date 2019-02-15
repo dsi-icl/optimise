@@ -1,9 +1,10 @@
 /* global beforeAll afterAll describe test expect */
 
-const request = require('supertest');
+import request from 'supertest';
+
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -84,9 +85,9 @@ const meddraHierResult = [
 describe('MedDRA upload tests', () => {
     test('Initially the MedDRA code database is empty', () => admin
         .get('/meddra')
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(res.body.length).toBe(0);
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(200);
+            expect(body.length).toBe(0);
             return true;
         })
     );
@@ -94,8 +95,8 @@ describe('MedDRA upload tests', () => {
     test('user Uploading mdhier.asc', () => user
         .post('/uploadMeddra')
         .attach('mdhierfile', './test/seed/mdhier.asc')
-        .then(res => {
-            expect(res.statusCode).toBe(401);
+        .then(({ statusCode }) => {
+            expect(statusCode).toBe(401);
             return true;
         })
     );
@@ -103,18 +104,18 @@ describe('MedDRA upload tests', () => {
     test('admin Uploading mdhier.asc', () => admin
         .post('/uploadMeddra')
         .attach('mdhierfile', './test/seed/mdhier.asc')
-        .then(res => {
-            expect(res.statusCode).toBe(200);
+        .then(({ statusCode }) => {
+            expect(statusCode).toBe(200);
             return true;
         })
     );
 
     test('MedDRA code database is filled', () => admin
         .get('/meddra')
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(res.body.length).toBe(8);
-            expect(res.body).toEqual(meddraHierResult);
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(200);
+            expect(body.length).toBe(8);
+            expect(body).toEqual(meddraHierResult);
             return true;
         })
     );
@@ -124,45 +125,45 @@ describe('MedDRA upload tests', () => {
 describe('Fetching MedDRA codes', () => {
     test('Search by name', () => admin
         .get('/meddra?search=nonhaemolytic')
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body).toBeDefined();
-            expect(res.body).toHaveLength;
-            expect(res.body.length).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body).toBeDefined();
+            expect(body).toHaveLength;
+            expect(body.length).toBe(1);
             return true;
         }));
 
     test('Search by code', () => admin
         .get('/meddra?search=2086')
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body).toBeDefined();
-            expect(res.body).toHaveLength;
-            expect(res.body.length).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body).toBeDefined();
+            expect(body).toHaveLength;
+            expect(body.length).toBe(1);
             return true;
         }));
 
     test('Get children from parent', () => admin
         .get('/meddra?parent=5')
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body).toBeDefined();
-            expect(res.body).toHaveLength;
-            expect(res.body.length).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body).toBeDefined();
+            expect(body).toHaveLength;
+            expect(body.length).toBe(1);
             return true;
         }));
 
     test('Get children from non existing parent', () => admin
         .get('/meddra?parent=xoxox')
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body).toBeDefined();
-            expect(res.body).toHaveLength;
-            expect(res.body.length).toBe(0);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body).toBeDefined();
+            expect(body).toHaveLength;
+            expect(body.length).toBe(0);
             return true;
         }));
 });

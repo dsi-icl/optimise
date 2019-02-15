@@ -1,104 +1,99 @@
-const TestCore = require('../core/test');
-const ErrorHelper = require('../utils/error_helper');
-const message = require('../utils/message-utils');
-const formatToJSON = require('../utils/format-response');
-const moment = require('moment');
+import TestCore from '../core/test';
+import ErrorHelper from '../utils/error_helper';
+import message from '../utils/message-utils';
+import formatToJSON from '../utils/format-response';
+import moment from 'moment';
 
-function TestController() {
-    this.test = new TestCore();
+class TestController {
 
-    this.createTest = TestController.prototype.createTest.bind(this);
-    this.updateTest = TestController.prototype.updateTest.bind(this);
-    this.deleteTest = TestController.prototype.deleteTest.bind(this);
-}
-
-TestController.prototype.createTest = function (req, res) {
-    if (!req.body.hasOwnProperty('visitId') || !req.body.hasOwnProperty('expectedOccurDate') || !req.body.hasOwnProperty('type')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-    if (typeof req.body.visitId !== 'number' || typeof req.body.expectedOccurDate !== 'string' || typeof req.body.type !== 'number') {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    }
-    let momentExpect = moment(req.body.expectedOccurDate, moment.ISO_8601);
-    if (!momentExpect.isValid() && req.body.expectedOccurDate !== null) {
-        let msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
-        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-        return;
-    }
-    let momentOccur = moment(req.body.actualOccurredDate, moment.ISO_8601);
-    if (req.body.hasOwnProperty('actualOccurredDate') && req.body.actualOccurredDate !== null && !momentOccur.isValid()) {
-        let msg = message.dateError[momentOccur.invalidAt()] !== undefined ? message.dateError[momentOccur.invalidAt()] : message.userError.INVALIDDATE;
-        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-        return;
-    }
-    let entryObj = {
-        'orderedDuringVisit': req.body.visitId,
-        'type': req.body.type,
-        'createdByUser': req.user.id
-    };
-    if (req.body.hasOwnProperty('expectedOccurDate') && req.body.expectedOccurDate !== null)
-        entryObj.expectedOccurDate = momentExpect.valueOf();
-    if (req.body.hasOwnProperty('actualOccurredDate') && req.body.actualOccurredDate !== null)
-        entryObj.actualOccurredDate = momentOccur.valueOf();
-    this.test.createTest(entryObj).then((result) => {
-        res.status(200).json(formatToJSON(result));
-        return true;
-    }).catch((error) => {
-        res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        return false;
-    });
-};
-
-TestController.prototype.updateTest = function (req, res) {
-    if (!req.body.hasOwnProperty('id')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-    let entryObj = Object.assign({}, req.body);
-    let momentExpect = moment(req.body.expectedOccurDate, moment.ISO_8601);
-    if (req.body.hasOwnProperty('expectedOccurDate') && req.body.expectedOccurDate !== null && !momentExpect.isValid()) {
-        let msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
-        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-        return;
-    } else if (req.body.hasOwnProperty('expectedOccurDate') && req.body.expectedOccurDate !== null) {
-        entryObj.expectedOccurDate = momentExpect.valueOf();
-    }
-    let momentOccur = moment(req.body.actualOccurredDate, moment.ISO_8601);
-    if (req.body.hasOwnProperty('actualOccurredDate') && req.body.actualOccurredDate !== null && !momentOccur.isValid()) {
-        let msg = message.dateError[momentOccur.invalidAt()] !== undefined ? message.dateError[momentOccur.invalidAt()] : message.userError.INVALIDDATE;
-        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-        return;
-    } else if (req.body.hasOwnProperty('actualOccurredDate') && req.body.actualOccurredDate !== null) {
-        entryObj.actualOccurredDate = momentOccur.valueOf();
-    }
-    this.test.updateTest(req.user, entryObj).then((result) => {
-        res.status(200).json(formatToJSON(result));
-        return true;
-    }).catch((error) => {
-        res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        return false;
-    });
-};
-
-TestController.prototype.deleteTest = function (req, res) {
-    if (req.body.hasOwnProperty('testId') && typeof req.body.testId === 'number') {
-        this.test.deleteTest(req.user, { 'id': req.body.testId }).then((result) => {
+    static createTest({ body, user }, res) {
+        if (!body.hasOwnProperty('visitId') || !body.hasOwnProperty('expectedOccurDate') || !body.hasOwnProperty('type')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        if (typeof body.visitId !== 'number' || typeof body.expectedOccurDate !== 'string' || typeof body.type !== 'number') {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+        let momentExpect = moment(body.expectedOccurDate, moment.ISO_8601);
+        if (!momentExpect.isValid() && body.expectedOccurDate !== null) {
+            let msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        let momentOccur = moment(body.actualOccurredDate, moment.ISO_8601);
+        if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null && !momentOccur.isValid()) {
+            let msg = message.dateError[momentOccur.invalidAt()] !== undefined ? message.dateError[momentOccur.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        let entryObj = {
+            'orderedDuringVisit': body.visitId,
+            'type': body.type,
+            'createdByUser': user.id
+        };
+        if (body.hasOwnProperty('expectedOccurDate') && body.expectedOccurDate !== null)
+            entryObj.expectedOccurDate = momentExpect.valueOf();
+        if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null)
+            entryObj.actualOccurredDate = momentOccur.valueOf();
+        TestCore.createTest(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
-            res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return false;
         });
     }
-    else if (!req.body.hasOwnProperty('testId')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    }
-};
 
-module.exports = TestController;
+    static updateTest({ body, user }, res) {
+        if (!body.hasOwnProperty('id')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        let entryObj = Object.assign({}, body);
+        let momentExpect = moment(body.expectedOccurDate, moment.ISO_8601);
+        if (body.hasOwnProperty('expectedOccurDate') && body.expectedOccurDate !== null && !momentExpect.isValid()) {
+            let msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        } else if (body.hasOwnProperty('expectedOccurDate') && body.expectedOccurDate !== null) {
+            entryObj.expectedOccurDate = momentExpect.valueOf();
+        }
+        let momentOccur = moment(body.actualOccurredDate, moment.ISO_8601);
+        if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null && !momentOccur.isValid()) {
+            let msg = message.dateError[momentOccur.invalidAt()] !== undefined ? message.dateError[momentOccur.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        } else if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null) {
+            entryObj.actualOccurredDate = momentOccur.valueOf();
+        }
+        TestCore.updateTest(user, entryObj).then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+            return false;
+        });
+    }
+
+    static deleteTest({ body, user }, res) {
+        if (body.hasOwnProperty('testId') && typeof body.testId === 'number') {
+            TestCore.deleteTest(user, { 'id': body.testId }).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+                return false;
+            });
+        }
+        else if (!body.hasOwnProperty('testId')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+    }
+}
+
+export default TestController;

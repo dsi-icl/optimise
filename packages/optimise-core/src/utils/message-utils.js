@@ -61,4 +61,4 @@ const DataControllerMessageRelated = {
     ERROR: 'An error occured while creating the entry'
 };
 
-module.exports = { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage, dataMessage: DataControllerMessageRelated, dateError: DateError, dateErrorIndex: DateErrorIndex };
+export default { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage, dataMessage: DataControllerMessageRelated, dateError: DateError, dateErrorIndex: DateErrorIndex };

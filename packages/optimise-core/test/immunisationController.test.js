@@ -1,10 +1,11 @@
 /* global beforeAll afterAll describe test expect */
 
-const request = require('supertest');
+import request from 'supertest';
+
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const message = require('../src/utils/message-utils');
-const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -19,11 +20,11 @@ afterAll(async () => {
 describe('Create Immunisation controller test', () => {
     test('Creating Immunisation without body', () => admin
         .post('/demographics/Immunisation')
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
@@ -34,11 +35,11 @@ describe('Create Immunisation controller test', () => {
             'vaccineName': null,
             'immunisationDate': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -49,11 +50,11 @@ describe('Create Immunisation controller test', () => {
             'vaccineName': 0,
             'immunisationDate': 0
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -64,11 +65,11 @@ describe('Create Immunisation controller test', () => {
             'vaccineName': 'Vacthing',
             'immunisationDate': '2009-05-02'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -79,11 +80,11 @@ describe('Create Immunisation controller test', () => {
             'vaccineName': 0,
             'immunisationDate': '2009-05-02'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -94,11 +95,11 @@ describe('Create Immunisation controller test', () => {
             'vaccineName': 'Vacthing',
             'immunisationDate': 0
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -109,11 +110,11 @@ describe('Create Immunisation controller test', () => {
             'vaccineName': 'Vacthing',
             'immunisationDate': '2001-02-29'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.dateError[2]);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.dateError[2]);
             return true;
         }));
 
@@ -125,11 +126,11 @@ describe('Create Immunisation controller test', () => {
             'vaccineName': 'Vacthing',
             'immunisationDate': '2009-05-02'
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(4);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(4);
             return true;
         }));
 
@@ -138,8 +139,8 @@ describe('Create Immunisation controller test', () => {
 describe('Edit Immunisation controller test', () => {
     test('Editing Immunisation without body', () => admin
         .put('/demographics/Immunisation')
-        .then(res => {
-            expect(res.status).toBe(400);
+        .then(({ status }) => {
+            expect(status).toBe(400);
             return true;
         }));
 
@@ -151,11 +152,11 @@ describe('Edit Immunisation controller test', () => {
             'vaccineName': null,
             'immunisationDate': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -167,11 +168,11 @@ describe('Edit Immunisation controller test', () => {
             'vaccineName': 0,
             'immunisationDate': 0
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -183,11 +184,11 @@ describe('Edit Immunisation controller test', () => {
             'vaccineName': 'A good vaccine',
             'immunisationDate': '2009-05-02'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -200,11 +201,11 @@ describe('Edit Immunisation controller test', () => {
             'vaccineName': 'A good vaccine',
             'immunisationDate': '2009-05-02'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -216,11 +217,11 @@ describe('Edit Immunisation controller test', () => {
             'vaccineName': 'A good vaccine',
             'immunisationDate': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -232,11 +233,11 @@ describe('Edit Immunisation controller test', () => {
             'vaccineName': 'Immune D',
             'immunisationDate': '2009-05-02'
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 });
@@ -244,11 +245,11 @@ describe('Edit Immunisation controller test', () => {
 describe('Delete Immunisation controller test', () => {
     test('Deleting Immunisation without body', () => admin
         .delete('/demographics/Immunisation')
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
@@ -257,11 +258,11 @@ describe('Delete Immunisation controller test', () => {
         .send({
             'id': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -270,11 +271,11 @@ describe('Delete Immunisation controller test', () => {
         .send({
             'id': 'WRONG'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -283,11 +284,11 @@ describe('Delete Immunisation controller test', () => {
         .send({
             'id': 90
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(0);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(0);
             return true;
         }));
 
@@ -296,11 +297,11 @@ describe('Delete Immunisation controller test', () => {
         .send({
             'id': 3
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 });
