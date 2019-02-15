@@ -1,26 +1,23 @@
-const ErrorHelper = require('../utils/error_helper');
-const message = require('../utils/message-utils');
-const ActionCore = require('../core/actionLog');
-const formatToJSON = require('../utils/format-response');
+import ErrorHelper from '../utils/error_helper';
+import message from '../utils/message-utils';
+import ActionCore from '../core/actionLog';
+import formatToJSON from '../utils/format-response';
 
-function ActionController() {
-    this.action = new ActionCore();
+class ActionController {
 
-    this.getLogs = ActionController.prototype.getLogs.bind(this);
+    static getLogs({ user }, res) {
+        if (user.priv !== 1) {
+            res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+            return;
+        }
+        ActionCore.getLogs().then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return false;
+        });
+    }
 }
 
-ActionController.prototype.getLogs = function (req, res) {
-    if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    }
-    this.action.getLogs().then((result) => {
-        res.status(200).json(formatToJSON(result));
-        return true;
-    }).catch((error) => {
-        res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-        return false;
-    });
-};
-
-module.exports = ActionController;
+export default ActionController;

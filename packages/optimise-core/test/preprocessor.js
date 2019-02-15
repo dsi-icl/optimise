@@ -13,7 +13,8 @@ module.exports = babelJest.createTransformer({
         ]
     ],
     plugins: [
-        'require-context-hook'
+        'require-context-hook',
+        '@babel/plugin-syntax-dynamic-import'
     ],
     babelrc: false,
     configFile: false

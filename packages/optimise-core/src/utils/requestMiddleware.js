@@ -1,5 +1,5 @@
 /*eslint no-console: "off"*/
-const dbcon = require('../utils/db-connection').default;
+import dbcon from '../utils/db-connection';
 
 class RequestMiddleware {
     static verifySessionAndPrivilege(req, res, next) {
@@ -41,4 +41,4 @@ class RequestMiddleware {
 }
 
 
-module.exports = RequestMiddleware;
+export default RequestMiddleware;

@@ -4,22 +4,22 @@
  */
 
 
-const express = require('express');
+import express from 'express';
+
 const visit = express();
 
-const VisitController = require('../controllers/visitController');
-const VisitCtrl = new VisitController();
+import VisitController from '../controllers/visitController';
 
 visit.route('/report')
-    .get(VisitCtrl.getReportOfVisit)
-    .post(VisitCtrl.createReport)
-    .put(VisitCtrl.updateReport)
-    .delete(VisitCtrl.deleteReport);
+    .get(VisitController.getReportOfVisit)
+    .post(VisitController.createReport)
+    .put(VisitController.updateReport)
+    .delete(VisitController.deleteReport);
 
 visit.route('/')
-    .get(VisitCtrl.getVisitsOfPatient)
-    .post(VisitCtrl.createVisit)
-    .put(VisitCtrl.updateVisit)
-    .delete(VisitCtrl.deleteVisit);
+    .get(VisitController.getVisitsOfPatient)
+    .post(VisitController.createVisit)
+    .put(VisitController.updateVisit)
+    .delete(VisitController.deleteVisit);
 
-module.exports = visit;
+export default visit;
