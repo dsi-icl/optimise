@@ -14,9 +14,11 @@ function MeddraController() {
 MeddraController.prototype.handleMeddraUploadByAdmin = function (req, res) {
     if (req.user.priv !== 1) {
         res.status(401).json({ error: 'Not authorized.' });
+        return;
     }
     if (!req.files.mdhierfile || req.files.mdhierfile.length !== 1) {
         res.status(400).json({ error: 'Cannot read file.' });
+        return;
     }
 
     const mdhierfile = req.files.mdhierfile[0];
@@ -62,9 +64,7 @@ MeddraController.prototype.setMeddraCollection = function (collection) {
 MeddraController.prototype.getMeddraField = async function (req, res) {
     let result = [];
     let maxOccurency = 20;
-    if (this.MeddraCollection === null) {
-        await this.loadMeddraCollection();
-    }
+    await this.loadMeddraCollection();
     if (req.query.hasOwnProperty('search')) {
         let j = 0;
         for (let i = 0; i < this.MeddraCollection.length && j < maxOccurency; i++) {
