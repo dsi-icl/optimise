@@ -16,8 +16,8 @@ afterAll(async () => {
     await disconnectAgent(user);
 });
 
-describe('Create Medical Historycontroller test', () => {
-    test('Creating Medical Historywithout body', () => admin
+describe('Create Medical History controller test', () => {
+    test('Creating Medical History without body', () => admin
         .post('/demographics/MedicalCondition')
         .then(res => {
             expect(res.status).toBe(400);
@@ -27,7 +27,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywith body but empty property (Should Fail)', () => admin
+    test('Creating Medical History with body but empty property (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': null,
@@ -45,7 +45,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywith body but badly formated property (Should Fail)', () => admin
+    test('Creating Medical History with body but badly formated property (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 'WRONG',
@@ -63,7 +63,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywith body but wrong patient (Should Fail)', () => admin
+    test('Creating Medical History with body but wrong patient (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 100,
@@ -81,7 +81,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywith body but wrong relations (Should Fail)', () => admin
+    test('Creating Medical History with body but wrong relations (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -99,7 +99,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywith body but bad relations (Should Fail)', () => admin
+    test('Creating Medical History with body but bad relations (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -117,7 +117,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywith body but wrong condition (Should Fail)', () => admin
+    test('Creating Medical History with body but wrong condition (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -135,7 +135,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywith body but bad condition (Should Fail)', () => admin
+    test('Creating Medical History with body but bad condition (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -153,7 +153,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywith body but badly formatted startDate (Should Fail)', () => admin
+    test('Creating Medical History with body but badly formatted startDate (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -171,7 +171,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywith body but wrong outcome (Should Fail)', () => admin
+    test('Creating Medical History with body but wrong outcome (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -189,7 +189,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywith body but wrong resolved year (Should Fail)', () => admin
+    test('Creating Medical History with body but wrong resolved year (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -207,7 +207,7 @@ describe('Create Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Creating Medical Historywell formatted (Should Succeed)', () => admin
+    test('Creating Medical History well formatted (Should Succeed)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -227,7 +227,7 @@ describe('Create Medical Historycontroller test', () => {
 
 });
 
-describe('Edit Medical Historycontroller test', () => {
+describe('Edit Medical History controller test', () => {
     test('Editing Medical Historywithout body', () => admin
         .put('/demographics/MedicalCondition')
         .then(res => {
@@ -235,7 +235,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywith body but empty property (Should Fail)', () => admin
+    test('Editing Medical History with body but empty property (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': null,
@@ -254,7 +254,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywith body but badly formated property (Should Fail)', () => admin
+    test('Editing Medical History with body but badly formated property (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 'WRONG',
@@ -273,7 +273,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywith body but wrong patient (Should Fail)', () => admin
+    test('Editing Medical History with body but wrong patient (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -292,7 +292,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywith body but wrong relations (Should Fail)', () => admin
+    test('Editing Medical History with body but wrong relations (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -311,7 +311,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywith body but bad relations (Should Fail)', () => admin
+    test('Editing Medical History with body but bad relations (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -330,7 +330,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywith body but wrong condition (Should Fail)', () => admin
+    test('Editing Medical History with body but wrong condition (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -349,7 +349,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywith body but bad condition (Should Fail)', () => admin
+    test('Editing Medical History with body but bad condition (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -368,7 +368,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywith body but badly formatted startDate (should succeed - startDate is nullable)', () => admin
+    test('Editing Medical History with body but badly formatted startDate (should succeed - startDate is nullable)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -387,7 +387,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywith body but wrong outcome (Should Fail)', () => admin
+    test('Editing Medical History with body but wrong outcome (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -406,7 +406,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywith body but wrong resolved year (Should Fail)', () => admin
+    test('Editing Medical History with body but wrong resolved year (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -425,7 +425,7 @@ describe('Edit Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Editing Medical Historywell formatted (Should Succeed)', () => admin
+    test('Editing Medical History well formatted (Should Succeed)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 1,
@@ -446,8 +446,8 @@ describe('Edit Medical Historycontroller test', () => {
 
 });
 
-describe('Delete Medical Historycontroller test', () => {
-    test('Deleting Medical Historywithout body', () => admin
+describe('Delete Medical History controller test', () => {
+    test('Deleting Medical History without body', () => admin
         .delete('/demographics/MedicalCondition')
         .then(res => {
             expect(res.status).toBe(400);
@@ -457,7 +457,7 @@ describe('Delete Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Deleting Medical Historywith body but empty property (Should Fail)', () => admin
+    test('Deleting Medical History with body but empty property (Should Fail)', () => admin
         .delete('/demographics/MedicalCondition')
         .send({
             'id': null
@@ -470,7 +470,7 @@ describe('Delete Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Deleting Medical Historywith body but badly formated property (Should Fail)', () => admin
+    test('Deleting Medical History with body but badly formated property (Should Fail)', () => admin
         .delete('/demographics/MedicalCondition')
         .send({
             'id': 'WRONG'
@@ -483,7 +483,7 @@ describe('Delete Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Deleting Medical Historywith body but out of bound id (Should Fail)', () => admin
+    test('Deleting Medical History with body but out of bound id (Should Fail)', () => admin
         .delete('/demographics/MedicalCondition')
         .send({
             'id': 90
@@ -496,7 +496,7 @@ describe('Delete Medical Historycontroller test', () => {
             return true;
         }));
 
-    test('Deleting Medical Historywith good preperty (Should Succeed)', () => admin
+    test('Deleting Medical History with good preperty (Should Succeed)', () => admin
         .delete('/demographics/MedicalCondition')
         .send({
             'id': 1
