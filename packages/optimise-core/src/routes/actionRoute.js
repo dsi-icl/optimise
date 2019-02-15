@@ -3,13 +3,13 @@
  * @description Redirect request from /internalapi/logs to the proper controller call
  */
 
-const express = require('express');
+import express from 'express';
+
 const action = express();
 
-const ActionController = require('../controllers/actionController');
-const ActionCtrl = new ActionController();
+import ActionController from '../controllers/actionController';
 
 action.route('/')
-    .get(ActionCtrl.getLogs);
+    .get(ActionController.getLogs);
 
-module.exports = action;
+export default action;

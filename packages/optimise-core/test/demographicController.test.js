@@ -1,11 +1,12 @@
 /* global beforeAll afterAll describe test expect */
 
 
-const request = require('supertest');
+import request from 'supertest';
+
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const message = require('../src/utils/message-utils');
-const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -20,11 +21,11 @@ afterAll(async () => {
 describe('Create Demographic controller test', () => {
     test('Creating demographic without body', () => admin
         .post('/demographics/Demographic')
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
@@ -40,11 +41,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': null,
             'smoking_history': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -60,11 +61,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 'null',
             'smoking_history': 'null'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -80,11 +81,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 1,
             'smoking_history': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -100,11 +101,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 1,
             'smoking_history': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -120,11 +121,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 1,
             'smoking_history': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.dateError[2]);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.dateError[2]);
             return true;
         }));
 
@@ -141,11 +142,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 1,
             'smoking_history': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -161,11 +162,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 1,
             'smoking_history': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -181,11 +182,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 1,
             'smoking_history': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -201,11 +202,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 1,
             'smoking_history': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -221,11 +222,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 10,
             'smoking_history': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -241,11 +242,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 1,
             'smoking_history': 10
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -261,11 +262,11 @@ describe('Create Demographic controller test', () => {
             'alcohol_usage': 1,
             'smoking_history': 1
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(7);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(7);
             return true;
         }));
 
@@ -274,8 +275,8 @@ describe('Create Demographic controller test', () => {
 describe('Edit Demographic controller test', () => {
     test('Editing demographic without body', () => admin
         .put('/demographics/Demographic')
-        .then(res => {
-            expect(res.status).toBe(400);
+        .then(({ status }) => {
+            expect(status).toBe(400);
             return true;
         }));
 
@@ -292,11 +293,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': null,
             'smokingHistory': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -313,11 +314,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 'null',
             'smokingHistory': 'null'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -334,11 +335,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 1,
             'smokingHistory': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -356,11 +357,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 1,
             'smokingHistory': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -378,11 +379,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 1,
             'smokingHistory': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.INVALIDDATE);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.INVALIDDATE);
             return true;
         }));
 
@@ -399,11 +400,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 1,
             'smokingHistory': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.INVALIDDATE);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.INVALIDDATE);
             return true;
         }));
 
@@ -420,11 +421,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 1,
             'smokingHistory': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -441,11 +442,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 1,
             'smokingHistory': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -462,11 +463,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 1,
             'smokingHistory': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -483,11 +484,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 1,
             'smokingHistory': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -504,11 +505,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 10,
             'smokingHistory': 1
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -525,11 +526,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 1,
             'smokingHistory': 10
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -546,11 +547,11 @@ describe('Edit Demographic controller test', () => {
             'alcoholUsage': 1,
             'smokingHistory': 1
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 
@@ -559,11 +560,11 @@ describe('Edit Demographic controller test', () => {
 describe('Delete Demographic controller test', () => {
     test('Deleting demographic without body', () => admin
         .delete('/demographics/Demographic')
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
@@ -572,11 +573,11 @@ describe('Delete Demographic controller test', () => {
         .send({
             'id': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -585,11 +586,11 @@ describe('Delete Demographic controller test', () => {
         .send({
             'id': 'WRONG'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -598,11 +599,11 @@ describe('Delete Demographic controller test', () => {
         .send({
             'id': 90
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(0);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(0);
             return true;
         }));
 
@@ -611,11 +612,11 @@ describe('Delete Demographic controller test', () => {
         .send({
             'id': 2
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 });

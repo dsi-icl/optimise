@@ -1,13 +1,11 @@
-const express = require('express');
+import express from 'express';
 const meddra = express();
-const multer = require('multer');
+import multer from 'multer';
 const upload = multer({ storage: multer.MemoryStorage });
 
-const MeddraController = require('../controllers/meddraController');
-
-const medCtrl = new MeddraController();
+import MeddraController from '../controllers/meddraController';
 
 meddra.route('/')
-    .post(upload.fields([{ name: 'lltfile', maxCount: 1 }, { name: 'mdhierfile', maxCount: 1 }]), medCtrl.handleMeddraUploadByAdmin);
+    .post(upload.fields([{ name: 'lltfile', maxCount: 1 }, { name: 'mdhierfile', maxCount: 1 }]), MeddraController.handleMeddraUploadByAdmin);
 
-module.exports = meddra;
+export default meddra;

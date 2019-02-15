@@ -1,10 +1,11 @@
 /* global beforeAll afterAll describe test expect */
 
-const request = require('supertest');
+import request from 'supertest';
+
 const admin = request.agent(global.optimiseRouter);
-const message = require('../src/utils/message-utils');
+import message from '../src/utils/message-utils';
 const user = request.agent(global.optimiseRouter);
-const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -20,11 +21,11 @@ describe('Create PII controller test', () => {
     test('Create PII without body', () =>
         admin.post('/patientPii/')
             .send({})
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             })
     );
@@ -37,11 +38,11 @@ describe('Create PII controller test', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             })
     );
@@ -55,11 +56,11 @@ describe('Create PII controller test', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             })
     );
@@ -73,11 +74,11 @@ describe('Create PII controller test', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
                 return true;
             })
     );
@@ -90,11 +91,11 @@ describe('Create PII controller test', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             })
     );
@@ -108,11 +109,11 @@ describe('Create PII controller test', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             })
     );
@@ -125,11 +126,11 @@ describe('Create PII controller test', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             })
     );
@@ -143,11 +144,11 @@ describe('Create PII controller test', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             })
     );
@@ -160,11 +161,11 @@ describe('Create PII controller test', () => {
                 'surname': 'Sou',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             })
     );
@@ -178,11 +179,11 @@ describe('Create PII controller test', () => {
                 'fullAddress': {},
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             })
     );
@@ -196,11 +197,11 @@ describe('Create PII controller test', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(3);
+            .then(({ status, body }) => {
+                expect(status).toBe(200);
+                expect(typeof body).toBe('object');
+                expect(body.state).toBeDefined();
+                expect(body.state).toBe(3);
                 return true;
             })
     );
@@ -210,13 +211,13 @@ describe('Create PII controller test', () => {
 describe('Fetching PII', () => {
     test('Fetching', () =>
         admin.get('/patientPii/?patient=2')
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.length).toBe(1);
-                expect(res.body[0].firstName).toBe('Chon');
-                expect(res.body[0].surname).toBe('Sou');
-                expect(res.body[0].postcode).toBe('W6 ICL');
+            .then(({ status, body }) => {
+                expect(status).toBe(200);
+                expect(typeof body).toBe('object');
+                expect(body.length).toBe(1);
+                expect(body[0].firstName).toBe('Chon');
+                expect(body[0].surname).toBe('Sou');
+                expect(body[0].postcode).toBe('W6 ICL');
                 return true;
             }));
 });
@@ -225,11 +226,11 @@ describe('Editing PII test suite', () => {
     test('Editing with empty body', () =>
         admin.put('/patientPii/')
             .send({})
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             }));
 
@@ -242,11 +243,11 @@ describe('Editing PII test suite', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             }));
 
@@ -260,11 +261,11 @@ describe('Editing PII test suite', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             }));
 
@@ -278,11 +279,11 @@ describe('Editing PII test suite', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
                 return true;
             }));
 
@@ -296,11 +297,11 @@ describe('Editing PII test suite', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
                 return true;
             }));
 
@@ -314,11 +315,11 @@ describe('Editing PII test suite', () => {
                 'fullAddress': 'ICL, South Kensington, London',
                 'postcode': 'W6 ICL'
             })
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(1);
+            .then(({ status, body }) => {
+                expect(status).toBe(200);
+                expect(typeof body).toBe('object');
+                expect(body.state).toBeDefined();
+                expect(body.state).toBe(1);
                 return true;
             }));
 });
@@ -328,11 +329,11 @@ describe('Delete PII test suite', () => {
         admin.delete('/patientPii/')
             .send({
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             }));
 
@@ -341,11 +342,11 @@ describe('Delete PII test suite', () => {
             .send({
                 'id': {}
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             }));
 
@@ -354,11 +355,11 @@ describe('Delete PII test suite', () => {
             .send({
                 'id': 90
             })
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(0);
+            .then(({ status, body }) => {
+                expect(status).toBe(200);
+                expect(typeof body).toBe('object');
+                expect(body.state).toBeDefined();
+                expect(body.state).toBe(0);
                 return true;
             }));
 
@@ -367,11 +368,11 @@ describe('Delete PII test suite', () => {
             .send({
                 'id': 3
             })
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(1);
+            .then(({ status, body }) => {
+                expect(status).toBe(200);
+                expect(typeof body).toBe('object');
+                expect(body.state).toBeDefined();
+                expect(body.state).toBe(1);
                 return true;
             }));
 

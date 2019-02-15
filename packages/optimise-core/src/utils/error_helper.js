@@ -35,4 +35,4 @@ function ErrorStack(error_obj, error_stack) {
     return error;
 }
 
-module.exports = ErrorStack;
+export default ErrorStack;

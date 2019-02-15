@@ -2,8 +2,9 @@
  * @description Contains all the models needed for seed
  */
 
-const fieldModels = require('../models/availableField');
-const typeModels = require('../models/availableType');
+import fieldModels from '../models/availableField';
+
+import typeModels from '../models/availableType';
 
 const container = {};
 
@@ -15,4 +16,4 @@ for (let i = 0; i < Object.keys(typeModels).length; i++) {
     container[`${Object.keys(typeModels)[i]}`] = typeModels[Object.keys(typeModels)[i]];
 }
 
-module.exports = container;
+export default container;

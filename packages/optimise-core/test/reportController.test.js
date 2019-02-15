@@ -1,9 +1,10 @@
 /* global beforeAll afterAll describe test expect */
 
-const request = require('supertest');
+import request from 'supertest';
+
 const admin = request.agent(global.optimiseRouter);
-const message = require('../src/utils/message-utils');
-const { connectAdmin, disconnectAgent } = require('./connection');
+import message from '../src/utils/message-utils';
+import { connectAdmin, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -16,20 +17,20 @@ afterAll(async () => {
 describe('Visit controller tests', () => {
     test('Getting report of a visit', () => admin
         .get('/visits/report?id=1')
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(res.body.length).toBeGreaterThanOrEqual(1);
+        .then(({ statusCode, headers, body }) => {
+            expect(statusCode).toBe(200);
+            expect(headers['content-type']).toBe('application/json; charset=utf-8');
+            expect(body.length).toBeGreaterThanOrEqual(1);
             return true;
         }));
 
     test('Getting report of a visit that does not have visit', () => admin
         .get('/visits/report?id=2')
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(res.body.length).toBe(0);
-            expect(typeof res.body).toBe('object');
+        .then(({ statusCode, headers, body }) => {
+            expect(statusCode).toBe(200);
+            expect(headers['content-type']).toBe('application/json; charset=utf-8');
+            expect(body.length).toBe(0);
+            expect(typeof body).toBe('object');
             return true;
         }));
 
@@ -39,12 +40,12 @@ describe('Visit controller tests', () => {
             'visit': 2,
             'report': 'Report test 2'
         })
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(2);
+        .then(({ statusCode, headers, body }) => {
+            expect(statusCode).toBe(200);
+            expect(headers['content-type']).toBe('application/json; charset=utf-8');
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(2);
             return true;
         }));
 
@@ -54,20 +55,20 @@ describe('Visit controller tests', () => {
             'visit': 2,
             'report': 'Report test 2'
         })
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
     test('Getting report of this visit', () => admin
         .get('/visits/report?id=2')
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
-            expect(res.body.length).toBe(1);
+        .then(({ statusCode, headers, body }) => {
+            expect(statusCode).toBe(200);
+            expect(headers['content-type']).toBe('application/json; charset=utf-8');
+            expect(body.length).toBe(1);
             return true;
         }));
 
@@ -77,11 +78,11 @@ describe('Visit controller tests', () => {
             'id': 2,
             'report': 'MODIFICATION'
         })
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 
@@ -91,11 +92,11 @@ describe('Visit controller tests', () => {
             'id': 2,
             'report': 'Report test 2'
         })
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 
@@ -105,31 +106,31 @@ describe('Visit controller tests', () => {
             'id': 1000,
             'report': '15 Feb 1962'
         })
-        .then(res => {
-            expect(res.statusCode).toBe(400);
-            expect(typeof res.body).toBe('object');
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(400);
+            expect(typeof body).toBe('object');
             return true;
         }));
 
     test('Deleting report from visitId', () => admin
         .delete('/visits/report')
         .send({ 'id': 2 })
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 
     test('Deleting report which does not exist', () => admin
         .delete('/visits/report')
         .send({ 'id': 1000 })
-        .then(res => {
-            expect(res.statusCode).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(0);
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(0);
             return true;
         }));
 });

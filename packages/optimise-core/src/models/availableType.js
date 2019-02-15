@@ -23,4 +23,4 @@ const typeContainer = {
     typesVisit: typesVisit
 };
 
-module.exports = typeContainer;
+export default typeContainer;

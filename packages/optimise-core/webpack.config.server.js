@@ -36,7 +36,8 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        babelrc: false
+                        babelrc: false,
+                        plugins: ['@babel/plugin-syntax-dynamic-import']
                     }
                 },
                 exclude: /node_modules/
