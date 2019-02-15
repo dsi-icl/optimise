@@ -16,4 +16,4 @@ let Options = function (configuration) {
     this.exportGenerationFolder = configuration.exportGenerationFolder ? configuration.exportGenerationFolder : './temp/';
 };
 
-module.exports = Options;
+export default Options;

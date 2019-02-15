@@ -3,16 +3,15 @@
  * @description Redirect request from /tests to the proper controller call
  */
 
-const express = require('express');
+import express from 'express';
+
 const test = express();
 
-const TestController = require('../controllers/testController');
-
-const testCtrl = new TestController();
+import TestController from '../controllers/testController';
 
 test.route('/')
-    .post(testCtrl.createTest)
-    .delete(testCtrl.deleteTest)
-    .put(testCtrl.updateTest);
+    .post(TestController.createTest)
+    .delete(TestController.deleteTest)
+    .put(TestController.updateTest);
 
-module.exports = test;
+export default test;

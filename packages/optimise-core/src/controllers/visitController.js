@@ -1,147 +1,53 @@
-const visitCore = require('../core/visit');
-const ErrorHelper = require('../utils/error_helper');
-const message = require('../utils/message-utils');
-const formatToJSON = require('../utils/format-response');
-const moment = require('moment');
+import visitCore from '../core/visit';
+import ErrorHelper from '../utils/error_helper';
+import message from '../utils/message-utils';
+import formatToJSON from '../utils/format-response';
+import moment from 'moment';
 
 /**
  * @class VisitController: Inspect entry body and user right before sending to core
  */
-function VisitController() {
-    this.visit = new visitCore();
+class VisitController {
 
-    this.getVisitsOfPatient = VisitController.prototype.getVisitsOfPatient.bind(this);
-    this.createVisit = VisitController.prototype.createVisit.bind(this);
-    this.deleteVisit = VisitController.prototype.deleteVisit.bind(this);
-    this.updateVisit = VisitController.prototype.updateVisit.bind(this);
-    this.getReportOfVisit = VisitController.prototype.getReportOfVisit.bind(this);
-    this.createReport = VisitController.prototype.createReport.bind(this);
-    this.deleteReport = VisitController.prototype.deleteReport.bind(this);
-    this.updateReport = VisitController.prototype.updateReport.bind(this);
-}
+    /**
+     * @function createReport
+     * @description Create a new report
+     * @param {Object} req Request Object
+     * @param {Object} res Response Object
+     */
+    static getVisitsOfPatient({ query }, res) {
+        if (!query.hasOwnProperty('patientId')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        visitCore.getVisit(query.patientId).then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return false;
+        });
+    }
 
-/**
- * @function createReport
- * @description Create a new report
- * @param {Object} req Request Object
- * @param {Object} res Response Object
- */VisitController.prototype.getVisitsOfPatient = function (req, res) {
-    if (!req.query.hasOwnProperty('patientId')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-    this.visit.getVisit(req.query.patientId).then((result) => {
-        res.status(200).json(formatToJSON(result));
-        return true;
-    }).catch((error) => {
-        res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-        return false;
-    });
-};
-
-VisitController.prototype.createVisit = function (req, res) {
-    if (!req.body.hasOwnProperty('patientId') || !req.body.hasOwnProperty('visitDate')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-    let momentVisit = moment(req.body.visitDate, moment.ISO_8601);
-    if (!momentVisit.isValid() && req.body.visitDate !== null) {
-        let msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
-        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-        return;
-    }
-    let entryObj = {};
-    if (req.body.hasOwnProperty('visitDate') && req.body.visitDate !== null)
-        entryObj.visitDate = momentVisit.valueOf();
-    entryObj.patient = req.body.patientId;
-    if (req.body.hasOwnProperty('type'))
-        entryObj.type = req.body.type;
-    entryObj.createdByUser = req.user.id;
-    this.visit.createVisit(entryObj).then((result) => {
-        res.status(200).json(formatToJSON(result));
-        return true;
-    }).catch((error) => {
-        res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        return false;
-    });
-};
-
-VisitController.prototype.updateVisit = function (req, res) {
-    let updatedObj = {};
-    let whereObj = {};
-    if (!req.body.hasOwnProperty('id')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-    let momentVisit = moment(req.body.visitDate, moment.ISO_8601);
-    if (req.body.hasOwnProperty('visitDate') && req.body.visitDate !== null && !momentVisit.isValid()) {
-        let msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
-        res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-        return;
-    }
-    updatedObj = Object.assign(req.body);
-    whereObj.id = req.body.id;
-    if (req.body.hasOwnProperty('visitDate') && req.body.visitDate !== null)
-        updatedObj.visitDate = momentVisit.valueOf();
-    delete updatedObj.id;
-    updatedObj.createdByUser = req.user.id;
-    this.visit.updateVisit(req.user, whereObj, updatedObj).then((result) => {
-        res.status(200).json(formatToJSON(result));
-        return true;
-    }).catch((error) => {
-        res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-        return false;
-    });
-};
-
-VisitController.prototype.deleteVisit = function (req, res) {
-    if (!req.body.hasOwnProperty('visitId')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-    this.visit.deleteVisit(req.user, req.body.visitId).then((result) => {
-        res.status(200).json(formatToJSON(result));
-        return true;
-    }).catch((error) => {
-        res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        return false;
-    });
-};
-
-/**
- * @function getReportOfVisit
- * @description get report depending on the query
- * @param {Object} req Request Object
- * @param {Object} res Response Object
- */
-VisitController.prototype.getReportOfVisit = function (req, res) {
-    let whereObj = {};
-    if (req.query.hasOwnProperty('id')) {
-        whereObj.visit = req.query.id;
-    }
-    this.visit.getReport(whereObj).then((result) => {
-        res.status(200).json(formatToJSON(result));
-        return true;
-    }).catch((error) => {
-        res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-        return false;
-    });
-};
-
-/**
- * @function createReport
- * @description Create a new report
- * @param {Object} req Request Object
- * @param {Object} res Response Object
- */
-VisitController.prototype.createReport = function (req, res) {
-    if (req.body.hasOwnProperty('visit') && req.body.hasOwnProperty('report') &&
-        typeof req.body.visit === 'number' && typeof req.body.report === 'string') {
-        let newEntry = {};
-        newEntry.visit = req.body.visit;
-        newEntry.report = req.body.report;
-        newEntry.createdByUser = req.user.id;
-        this.visit.createReport(newEntry).then((result) => {
+    static createVisit({ body, user }, res) {
+        if (!body.hasOwnProperty('patientId') || !body.hasOwnProperty('visitDate')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        let momentVisit = moment(body.visitDate, moment.ISO_8601);
+        if (!momentVisit.isValid() && body.visitDate !== null) {
+            let msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        let entryObj = {};
+        if (body.hasOwnProperty('visitDate') && body.visitDate !== null)
+            entryObj.visitDate = momentVisit.valueOf();
+        entryObj.patient = body.patientId;
+        if (body.hasOwnProperty('type'))
+            entryObj.type = body.type;
+        entryObj.createdByUser = user.id;
+        visitCore.createVisit(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
@@ -149,65 +55,150 @@ VisitController.prototype.createReport = function (req, res) {
             return false;
         });
     }
-    else if (!(req.body.hasOwnProperty('visit') && req.body.hasOwnProperty('report'))) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    }
-};
 
-/**
- * @function updateReport
- * @description Update a new report
- * @param {Object} req Request Object
- * @param {Object} res Response Object
- */
-VisitController.prototype.updateReport = function (req, res) {
-    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-        this.visit.updateReport(req.user, req.body).then((result) => {
+    static updateVisit({ body, user }, res) {
+        let updatedObj = {};
+        let whereObj = {};
+        if (!body.hasOwnProperty('id')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        let momentVisit = moment(body.visitDate, moment.ISO_8601);
+        if (body.hasOwnProperty('visitDate') && body.visitDate !== null && !momentVisit.isValid()) {
+            let msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        updatedObj = Object.assign(body);
+        whereObj.id = body.id;
+        if (body.hasOwnProperty('visitDate') && body.visitDate !== null)
+            updatedObj.visitDate = momentVisit.valueOf();
+        delete updatedObj.id;
+        updatedObj.createdByUser = user.id;
+        visitCore.updateVisit(user, whereObj, updatedObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;
         });
-    } else if (req.body.hasOwnProperty('id')) {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
     }
-};
 
-/**
- * @function deleteReport
- * @description Delete a new report
- * @param {Object} req Request Object
- * @param {Object} res Response Object
- */
-VisitController.prototype.deleteReport = function (req, res) {
-    if (req.user.priv !== 1) {
-        res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
-        return;
-    }
-    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-        this.visit.deleteReport(req.user, req.body.id).then((result) => {
+    static deleteVisit({ body, user }, res) {
+        if (!body.hasOwnProperty('visitId')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        visitCore.deleteVisit(user, body.visitId).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
-            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+            res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         });
-    } else if (!req.body.hasOwnProperty('id')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
     }
-};
 
-module.exports = VisitController;
+    /**
+     * @function getReportOfVisit
+     * @description get report depending on the query
+     * @param {Object} req Request Object
+     * @param {Object} res Response Object
+     */
+    static getReportOfVisit({ query }, res) {
+        let whereObj = {};
+        if (query.hasOwnProperty('id')) {
+            whereObj.visit = query.id;
+        }
+        visitCore.getReport(whereObj).then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return false;
+        });
+    }
+
+    /**
+     * @function createReport
+     * @description Create a new report
+     * @param {Object} req Request Object
+     * @param {Object} res Response Object
+     */
+    static createReport({ body, user }, res) {
+        if (body.hasOwnProperty('visit') && body.hasOwnProperty('report') &&
+            typeof body.visit === 'number' && typeof body.report === 'string') {
+            let newEntry = {};
+            newEntry.visit = body.visit;
+            newEntry.report = body.report;
+            newEntry.createdByUser = user.id;
+            visitCore.createReport(newEntry).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+                return false;
+            });
+        }
+        else if (!(body.hasOwnProperty('visit') && body.hasOwnProperty('report'))) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+    }
+
+    /**
+     * @function updateReport
+     * @description Update a new report
+     * @param {Object} req Request Object
+     * @param {Object} res Response Object
+     */
+    static updateReport({ body, user }, res) {
+        if (body.hasOwnProperty('id') && typeof body.id === 'number') {
+            visitCore.updateReport(user, body).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+                return false;
+            });
+        } else if (body.hasOwnProperty('id')) {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+    }
+
+    /**
+     * @function deleteReport
+     * @description Delete a new report
+     * @param {Object} req Request Object
+     * @param {Object} res Response Object
+     */
+    static deleteReport({ user, body }, res) {
+        if (user.priv !== 1) {
+            res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+            return;
+        }
+        if (body.hasOwnProperty('id') && typeof body.id === 'number') {
+            visitCore.deleteReport(user, body.id).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+                return false;
+            });
+        } else if (!body.hasOwnProperty('id')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+    }
+}
+
+export default VisitController;

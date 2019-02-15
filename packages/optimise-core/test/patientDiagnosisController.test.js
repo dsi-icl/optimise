@@ -1,10 +1,11 @@
 /* global beforeAll afterAll describe test expect */
 
-const request = require('supertest');
+import request from 'supertest';
+
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const message = require('../src/utils/message-utils');
-const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -20,11 +21,11 @@ describe('Create diagnosis test suite', () => {
     test('Creating diagnosis with empty body', () =>
         admin.post('/patientDiagnosis')
             .send({})
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             }));
 
@@ -34,11 +35,11 @@ describe('Create diagnosis test suite', () => {
                 'patient': 1,
                 'diagnosisDate': '2000-01-01'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             }));
 
@@ -48,11 +49,11 @@ describe('Create diagnosis test suite', () => {
                 'diagnosis': 3,
                 'diagnosisDate': '2000-01-01'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             }));
 
@@ -62,11 +63,11 @@ describe('Create diagnosis test suite', () => {
                 'patient': 1,
                 'diagnosis': 3
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             }));
 
@@ -77,11 +78,11 @@ describe('Create diagnosis test suite', () => {
                 'diagnosis': 3,
                 'diagnosisDate': '2000-01-01'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             }));
 
@@ -92,11 +93,11 @@ describe('Create diagnosis test suite', () => {
                 'diagnosis': 3,
                 'diagnosisDate': '2000-01-01'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
                 return true;
             }));
 
@@ -107,11 +108,11 @@ describe('Create diagnosis test suite', () => {
                 'diagnosis': {},
                 'diagnosisDate': '2000-01-01'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             }));
 
@@ -122,11 +123,11 @@ describe('Create diagnosis test suite', () => {
                 'diagnosis': 6000,
                 'diagnosisDate': '2000-01-01'
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
                 return true;
             }));
 
@@ -137,11 +138,11 @@ describe('Create diagnosis test suite', () => {
                 'diagnosis': 3,
                 'diagnosisDate': {}
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             }));
 
@@ -152,11 +153,11 @@ describe('Create diagnosis test suite', () => {
                 'diagnosis': 3,
                 'diagnosisDate': '2000-01-01'
             })
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(7);
+            .then(({ status, body }) => {
+                expect(status).toBe(200);
+                expect(typeof body).toBe('object');
+                expect(body.state).toBeDefined();
+                expect(body.state).toBe(7);
                 return true;
             }));
 });
@@ -165,11 +166,11 @@ describe('Editing Diagnosis test suite', () => {
     test('Editing with empty body', () =>
         admin.put('/patientDiagnosis')
             .send({})
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             }));
 
@@ -178,11 +179,11 @@ describe('Editing Diagnosis test suite', () => {
             .send({
                 'diagnosis': 3
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             }));
 
@@ -192,11 +193,11 @@ describe('Editing Diagnosis test suite', () => {
                 'id': {},
                 'diagnosis': 3
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             }));
 
@@ -206,11 +207,11 @@ describe('Editing Diagnosis test suite', () => {
                 'id': 90,
                 'diagnosis': 3
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
                 return true;
             }));
 
@@ -220,11 +221,11 @@ describe('Editing Diagnosis test suite', () => {
                 'id': 4,
                 'diagnosis': 300
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
                 return true;
             }));
 
@@ -234,11 +235,11 @@ describe('Editing Diagnosis test suite', () => {
                 'id': 2,
                 'diagnosis': 7
             })
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(1);
+            .then(({ status, body }) => {
+                expect(status).toBe(200);
+                expect(typeof body).toBe('object');
+                expect(body.state).toBeDefined();
+                expect(body.state).toBe(1);
                 return true;
             }));
 });
@@ -248,11 +249,11 @@ describe('Delete diagnosis test suite', () => {
         admin.delete('/patientDiagnosis')
             .send({
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.MISSINGARGUMENT);
                 return true;
             }));
 
@@ -261,11 +262,11 @@ describe('Delete diagnosis test suite', () => {
             .send({
                 'id': {}
             })
-            .then(res => {
-                expect(res.status).toBe(400);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.error).toBeDefined();
-                expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+            .then(({ status, body }) => {
+                expect(status).toBe(400);
+                expect(typeof body).toBe('object');
+                expect(body.error).toBeDefined();
+                expect(body.error).toBe(message.userError.WRONGARGUMENTS);
                 return true;
             }));
 
@@ -274,11 +275,11 @@ describe('Delete diagnosis test suite', () => {
             .send({
                 'id': 90
             })
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(0);
+            .then(({ status, body }) => {
+                expect(status).toBe(200);
+                expect(typeof body).toBe('object');
+                expect(body.state).toBeDefined();
+                expect(body.state).toBe(0);
                 return true;
             }));
 
@@ -287,11 +288,11 @@ describe('Delete diagnosis test suite', () => {
             .send({
                 'id': 4
             })
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(typeof res.body).toBe('object');
-                expect(res.body.state).toBeDefined();
-                expect(res.body.state).toBe(1);
+            .then(({ status, body }) => {
+                expect(status).toBe(200);
+                expect(typeof body).toBe('object');
+                expect(body.state).toBeDefined();
+                expect(body.state).toBe(1);
                 return true;
             }));
 
