@@ -90,6 +90,7 @@ class OptimiseServer {
                 _this.setupFields();
                 _this.setupData();
                 _this.setupExport();
+                _this.setupMeddraUpload();
                 _this.setupLogs();
                 _this.setupPPII();
                 _this.setupPatientDiagnosis();
@@ -226,7 +227,8 @@ class OptimiseServer {
     /**
      * @fn setupFields
      * @desc Initialize the available fields related routes
-     */setupFields() {
+     */
+    setupFields() {
         //Import the controller
         this.routeFields = require('./routes/fieldsRoute');
 
@@ -288,6 +290,18 @@ class OptimiseServer {
         // Modules
         this.app.use('/patientPii', this.routePPII);
     }
+
+    /*
+    * @fn setupMeddraUpload
+    * @desc Initialize the meddra upload related routes
+    */
+    setupMeddraUpload()  {
+        // Import the controller
+        this.routeMeddraUpload = require('./routes/meddraRoute');
+
+        // Modules
+        this.app.use('/uploadMeddra', this.routeMeddraUpload);
+    };
 
     /**
      * @function setupMeddra initialize the route for meddra
