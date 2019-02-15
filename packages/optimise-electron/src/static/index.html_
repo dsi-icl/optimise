@@ -1,0 +1,15 @@
+<html>
+
+<head>
+    <title>Electron AutoUpdater</title>
+</head>
+
+<body>
+    Current version: <span id="version">vX.Y.Z</span>
+    <!-- the button onClick sends a quitAndInstall message to the electron main process -->
+    <div id="messages"></div>
+    <button id="ready" onClick="ipcRenderer.send('quitAndInstall')">no updates ready</button>
+
+</body>
+
+</html>

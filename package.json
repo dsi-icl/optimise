@@ -11,6 +11,7 @@
     },
     "repository": "github:dsi-icl/optimise",
     "homepage": "https://github.com/dsi-icl/optimise",
+    "license": "MIT",
     "private": true,
     "workspaces": {
         "packages": [

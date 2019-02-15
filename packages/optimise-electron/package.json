@@ -10,31 +10,25 @@
         "name": "Florian Guitton"
     },
     "repository": "github:dsi-icl/optimise",
-    "private": true,
-    "scripts": {
-        "prebuild": "rimraf -rf ./dist && copyfiles -u 3 \"../optimise-core/build/**/*\" dist/server/ && copyfiles -u 3 \"../optimise-ui/build/**/*\" dist/client/",
-        "build": "electron-webpack",
-        "electron": "electron dist/main/main.js",
-        "postinstall": "electron-builder install-app-deps",
-        "package": "electron-builder",
-        "start": "cross-env ELECTRON_START_URL=http://localhost:3000 electron-webpack dev",
-        "test": "echo Skipped."
-    },
+    "main": "./src/electron.js",
+    "license": "MIT",
     "dependencies": {
-        "optimise-core": "^0.10.0",
-        "optimise-ui": "^0.10.0",
-        "source-map-support": "0.5.10"
-    },
-    "devDependencies": {
-        "copyfiles": "2.1.0",
-        "electron": "4.0.4",
-        "electron-builder": "20.38.5",
         "electron-log": "3.0.1",
         "electron-updater": "4.0.6",
-        "electron-webpack": "2.6.1",
-        "webpack": "4.29.3"
+        "optimise-core": "*",
+        "optimise-ui": "*",
+        "sqlite3": "^4.0.6"
     },
-    "resolutions": {
-        "webpack-sources": "^1.1.0"
+    "scripts": {
+        "postinstall": "electron-builder install-app-deps",
+        "build": "build --win",
+        "start": "electron ./src/"
+    },
+    "devDependencies": {
+        "copy-webpack-plugin": "4.6.0",
+        "electron": "4.0.3",
+        "electron-builder": "20.38.5",
+        "electron-is-dev": "1.0.1",
+        "webpack": "4.29.3"
     }
 }
