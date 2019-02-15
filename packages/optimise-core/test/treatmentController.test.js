@@ -359,7 +359,7 @@ describe('Create treatment interruption controller tests', () => {
             'start_date': '2010-03-03',
             'end_date': '2011-03-03',
             'reason': 7,
-            'meddra': 5
+            // 'meddra': 5
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -422,7 +422,7 @@ describe('Update treatment interruption controller tests', () => {
             'start_date': '2014-03-03',
             'end_date': '2015-03-03',
             'reason': 2,
-            'meddra': 25
+            // 'meddra': 25
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -437,7 +437,7 @@ describe('Update treatment interruption controller tests', () => {
         .send({
             'treatmentInterId': 1,
             'start_date': '2014-03-03',
-            'meddra': 35
+            // 'meddra': 35
         })
         .then(res => {
             expect(res.status).toBe(200);
@@ -451,7 +451,7 @@ describe('Update treatment interruption controller tests', () => {
         .put('/treatments/interrupt')
         .send({
             'treatmentInterId': 1,
-            'meddra': 35
+            // 'meddra': 35
         })
         .then(res => {
             expect(res.status).toBe(400);
