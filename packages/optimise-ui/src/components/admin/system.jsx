@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import packageInfo from '../../../../package.json';
+import packageInfo from '../../../package.json';
 import style from './admin.module.css';
 
 export class SystemInfo extends PureComponent {
