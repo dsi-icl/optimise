@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import style from './scaffold.module.css';
-import packageInfo from '../../../../package.json';
+import packageInfo from '../../../package.json';
 
 @connect(state => ({
     username: state.login.username
