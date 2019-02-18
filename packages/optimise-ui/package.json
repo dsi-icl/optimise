@@ -15,8 +15,7 @@
 	"scripts": {
 		"start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true react-scripts start",
 		"build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"test": "react-scripts test"
 	},
 	"dependencies": {
 		"antd": "3.13.3",
