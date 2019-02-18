@@ -61,7 +61,7 @@
         "start-server-webpack-plugin": "2.2.5",
         "string-replace-loader": "2.1.1",
         "supertest": "3.4.2",
-        "webpack": "4.29.4",
+        "webpack": "4.29.5",
         "webpack-cli": "3.2.3",
         "webpack-node-externals": "1.7.2"
     },
