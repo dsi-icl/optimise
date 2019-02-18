@@ -71,6 +71,7 @@ export class MeddraPicker extends Component {
     }
 
     render() {
+        if (this.props.meddra.length === 0) return <p>No MedDra coding available. Admin can upload codings in settings if there is a subscription.</p>;
         let { value } = this.props;
         value = value ? `${value}` : undefined;
         return (

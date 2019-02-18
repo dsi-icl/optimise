@@ -1,256 +1,143 @@
-const ErrorHelper = require('../utils/error_helper');
-const message = require('../utils/message-utils');
-const TreatmentCore = require('../core/treatment');
-const formatToJSON = require('../utils/format-response');
-const moment = require('moment');
+import ErrorHelper from '../utils/error_helper';
+import message from '../utils/message-utils';
+import TreatmentCore from '../core/treatment';
+import formatToJSON from '../utils/format-response';
+import moment from 'moment';
 
-function TreatmentController() {
-    this.treatment = new TreatmentCore();
+class TreatmentController {
 
-    this.createTreatment = TreatmentController.prototype.createTreatment.bind(this);
-    this.addTerminationDate = TreatmentController.prototype.addTerminationDate.bind(this);
-    this.editTreatment = TreatmentController.prototype.editTreatment.bind(this);
-    this.deleteTreatment = TreatmentController.prototype.deleteTreatment.bind(this);
-    this.addInterruption = TreatmentController.prototype.addInterruption.bind(this);
-    this.editInterruption = TreatmentController.prototype.editInterruption.bind(this);
-    this.deleteInterruption = TreatmentController.prototype.deleteInterruption.bind(this);
-    this.getReasons = TreatmentController.prototype.getReasons.bind(this);
-    this.getDrugs = TreatmentController.prototype.getDrugs.bind(this);
-}
-
-TreatmentController.prototype.createTreatment = function (req, res) {
-    if (!(req.body.hasOwnProperty('visitId') && req.body.hasOwnProperty('drugId') && req.body.hasOwnProperty('startDate'))) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-    if (!(typeof req.body.visitId === 'number' && typeof req.body.drugId === 'number' && typeof req.body.startDate === 'string')) {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    }
-    if ((req.body.hasOwnProperty('dose') && typeof req.body.dose !== 'number') ||
-        (req.body.hasOwnProperty('unit') && req.body.unit !== 'mg' && req.body.unit !== 'cc') ||
-        (req.body.hasOwnProperty('form') && req.body.form !== 'OR' && req.body.form !== 'IV' && req.body.form !== 'IM' && req.body.form !== 'SC') ||
-        (req.body.hasOwnProperty('times') && typeof req.body.times !== 'number') ||
-        (req.body.hasOwnProperty('intervalUnit') && req.body.intervalUnit !== 'hour' && req.body.intervalUnit !== 'day' &&
-            req.body.intervalUnit !== 'week' && req.body.intervalUnit !== 'month' && req.body.intervalUnit !== 'year')) {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    }
-    // No specific reason for 500 (max number of times) here
-    if (req.body.hasOwnProperty('times') && (req.body.times < 0 || req.body.times > 500)) {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    }
-    if (req.body.hasOwnProperty('dose') && req.body.dose < 0) {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    }
-    if (req.body.hasOwnProperty('times') && !req.body.hasOwnProperty('intervalUnit') || req.body.hasOwnProperty('intervalUnit') && !req.body.hasOwnProperty('times')) {
-        res.status(400).json(ErrorHelper(message.userError.FREQANDINTERVALMUSTCOPRESENT));
-        return;
-    }
-    let momentStart = moment(req.body.startDate, moment.ISO_8601);
-    let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
-    if (!momentStart.isValid() && req.body.startDate !== null) {
-        res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
-        return;
-    }
-    if (req.body.hasOwnProperty('terminatedDate') && req.body.terminatedDate !== null && !momentTerminated.isValid()) {
-        res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
-        return;
-    }
-    let entryObj = {
-        'orderedDuringVisit': req.body.visitId,
-        'drug': req.body.drugId,
-        'dose': (req.body.hasOwnProperty('dose') ? req.body.dose : null),
-        'unit': (req.body.hasOwnProperty('unit') ? req.body.unit : null),   // hardcoded SQL: only mg or cc
-        'form': (req.body.hasOwnProperty('form') ? req.body.form : null),   // hardcoded SQL: only OR, IV, IM or SC
-        'times': (req.body.hasOwnProperty('times') ? req.body.times : null),
-        'intervalUnit': (req.body.hasOwnProperty('intervalUnit') ? req.body.intervalUnit : null), // hardcoded: hour, day, week, month, year
-        'startDate': req.body.startDate !== null ? momentStart.valueOf() : null,
-        'terminatedDate': (req.body.hasOwnProperty('terminatedDate') && req.body.terminatedDate !== null ? momentTerminated.valueOf() : null),
-        'terminatedReason': (req.body.hasOwnProperty('terminatedReason') ? req.body.terminatedReason : null),
-        'createdByUser': req.user.id
-    };
-    this.treatment.createTreatment(entryObj).then((result) => {
-        res.status(200).json(formatToJSON(result));
-        return true;
-    }).catch((error) => {
-        res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-        return false;
-    });
-};
-
-TreatmentController.prototype.addTerminationDate = function (req, res) {    //for adding termination date
-    if ((req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('terminationDate')) && req.body.hasOwnProperty('terminatedReason') &&
-        typeof req.body.treatmentId === 'number' && typeof req.body.terminatedDate === 'string' && typeof req.body.terminatedReason === 'number') {
-        let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
-        if (!momentTerminated.isValid() && req.body.terminatedDate !== null) {
-            res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
+    static createTreatment({ body, user }, res) {
+        if (!(body.hasOwnProperty('visitId') && body.hasOwnProperty('drugId') && body.hasOwnProperty('startDate'))) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        this.treatment.addTerminationDateTreatment(req.body.treatmentId, { 'terminatedDate': req.body.terminatedDate !== null ? momentTerminated.valueOf() : null, 'terminatedReason': req.body.terminatedReason })
-            .then((result) => {
-                res.status(200).json(formatToJSON(result));
-                return true;
-            }).catch((error) => {
-                res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-                return false;
-            });
-    } else if (!((req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('terminationDate')) && req.body.hasOwnProperty('terminatedReason'))) {
-        res.status(400).json(message.userError.MISSINGARGUMENT);
-        return;
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    }
-};
-
-TreatmentController.prototype.editTreatment = function (req, res) {
-    if (req.body.hasOwnProperty('id') && typeof req.body.id === 'number') {
-
-        let momentStart = moment(req.body.startDate, moment.ISO_8601);
-        let momentTerminated = moment(req.body.terminatedDate, moment.ISO_8601);
-        if (!momentStart.isValid()) {
-            res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
-            return;
-        }
-        if (req.body.hasOwnProperty('terminatedDate') && req.body.terminatedDate !== null && !momentTerminated.isValid()) {
-            res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
-            return;
-        }
-        let newObj = Object.assign({}, req.body);
-        newObj.startDate = momentStart.valueOf();
-        newObj.terminatedDate = (req.body.hasOwnProperty('terminatedDate') && req.body.terminatedDate !== null ? momentTerminated.valueOf() : null);
-
-        this.treatment.updateTreatment(req.user, req.body.id, newObj).then((result) => {
-            res.status(200).json(formatToJSON(result));
-            return true;
-        }).catch((error) => {
-            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-            return false;
-        });
-        return;
-    } else if (!req.body.hasOwnProperty('id')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    }
-};
-
-TreatmentController.prototype.deleteTreatment = function (req, res) {
-    if (!req.body.hasOwnProperty('treatmentId')) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    }
-    if (typeof req.body.treatmentId !== 'number') {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
-    }
-    this.treatment.deleteTreatment(req.user, req.body.treatmentId).then((result) => {
-        if (result.body === 0) {
-            res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
-            return false;
-        } else {
-            res.status(200).json(formatToJSON(result));
-            return true;
-        }
-    }).catch((error) => {
-        res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
-        return false;
-    });
-};
-
-TreatmentController.prototype.addInterruption = function (req, res) {    //need to search if treatment exists
-    if (req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('start_date') &&
-        typeof req.body.treatmentId === 'number' && typeof req.body.start_date === 'string') {
-        let momentStart = moment(req.body.start_date, moment.ISO_8601);
-        let momentEnd = moment(req.body.end_date, moment.ISO_8601);
-        if (!momentStart.isValid() && req.body.start_date !== null) {
-            let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
-            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-            return;
-        }
-        if (req.body.hasOwnProperty('end_date') && req.body.end_date !== null && !momentEnd.isValid()) {
-            let msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
-            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-            return;
-        }
-        if (req.body.hasOwnProperty('meddra') && req.body.meddra !== null && isNaN(parseInt(req.body.meddra))) {
+        if (!(typeof body.visitId === 'number' && typeof body.drugId === 'number' && typeof body.startDate === 'string')) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
+        if ((body.hasOwnProperty('dose') && typeof body.dose !== 'number') ||
+            (body.hasOwnProperty('unit') && body.unit !== 'mg' && body.unit !== 'cc') ||
+            (body.hasOwnProperty('form') && body.form !== 'OR' && body.form !== 'IV' && body.form !== 'IM' && body.form !== 'SC') ||
+            (body.hasOwnProperty('times') && typeof body.times !== 'number') ||
+            (body.hasOwnProperty('intervalUnit') && body.intervalUnit !== 'hour' && body.intervalUnit !== 'day' &&
+                body.intervalUnit !== 'week' && body.intervalUnit !== 'month' && body.intervalUnit !== 'year')) {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+        // No specific reason for 500 (max number of times) here
+        if (body.hasOwnProperty('times') && (body.times < 0 || body.times > 500)) {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+        if (body.hasOwnProperty('dose') && body.dose < 0) {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+        if (body.hasOwnProperty('times') && !body.hasOwnProperty('intervalUnit') || body.hasOwnProperty('intervalUnit') && !body.hasOwnProperty('times')) {
+            res.status(400).json(ErrorHelper(message.userError.FREQANDINTERVALMUSTCOPRESENT));
+            return;
+        }
+        let momentStart = moment(body.startDate, moment.ISO_8601);
+        let momentTerminated = moment(body.terminatedDate, moment.ISO_8601);
+        if (!momentStart.isValid() && body.startDate !== null) {
+            res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+        if (body.hasOwnProperty('terminatedDate') && body.terminatedDate !== null && !momentTerminated.isValid()) {
+            res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
+            return;
+        }
         let entryObj = {
-            'treatment': req.body.treatmentId,
-            'startDate': req.body.start_date !== null ? momentStart.valueOf() : null,
-            'meddra': req.body.hasOwnProperty('meddra') ? req.body.meddra : null,
-            'endDate': (req.body.hasOwnProperty('end_date') && req.body.end_date !== null ? momentEnd.valueOf() : null),
-            'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
-            'createdByUser': req.user.id
+            'orderedDuringVisit': body.visitId,
+            'drug': body.drugId,
+            'dose': (body.hasOwnProperty('dose') ? body.dose : null),
+            'unit': (body.hasOwnProperty('unit') ? body.unit : null),   // hardcoded SQL: only mg or cc
+            'form': (body.hasOwnProperty('form') ? body.form : null),   // hardcoded SQL: only OR, IV, IM or SC
+            'times': (body.hasOwnProperty('times') ? body.times : null),
+            'intervalUnit': (body.hasOwnProperty('intervalUnit') ? body.intervalUnit : null), // hardcoded: hour, day, week, month, year
+            'startDate': body.startDate !== null ? momentStart.valueOf() : null,
+            'terminatedDate': (body.hasOwnProperty('terminatedDate') && body.terminatedDate !== null ? momentTerminated.valueOf() : null),
+            'terminatedReason': (body.hasOwnProperty('terminatedReason') ? body.terminatedReason : null),
+            'createdByUser': user.id
         };
-        this.treatment.addInterruption(req.user, entryObj).then((result) => {
+        TreatmentCore.createTreatment(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
             res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return false;
         });
-    } else if (!(req.body.hasOwnProperty('treatmentId') && req.body.hasOwnProperty('start_date'))) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
     }
-};
 
-TreatmentController.prototype.editInterruption = function (req, res) {
-    if (req.body.hasOwnProperty('treatmentInterId') && typeof req.body.treatmentInterId === 'number' &&
-        req.body.hasOwnProperty('start_date') && typeof req.body.start_date === 'string') {
-        let momentStart = req.body.hasOwnProperty('start_date') && req.body.start_date !== null ? moment(req.body.start_date, moment.ISO_8601) : null;
-        let momentEnd = req.body.hasOwnProperty('end_date') && req.body.end_date !== null ? moment(req.body.end_date, moment.ISO_8601) : null;
-        if (momentStart !== null && !momentStart.isValid()) {
-            let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
-            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+    static addTerminationDate({ body }, res) {    //for adding termination date
+        if ((body.hasOwnProperty('treatmentId') && body.hasOwnProperty('terminationDate')) && body.hasOwnProperty('terminatedReason') &&
+            typeof body.treatmentId === 'number' && typeof body.terminatedDate === 'string' && typeof body.terminatedReason === 'number') {
+            let momentTerminated = moment(body.terminatedDate, moment.ISO_8601);
+            if (!momentTerminated.isValid() && body.terminatedDate !== null) {
+                res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
+                return;
+            }
+            TreatmentCore.addTerminationDateTreatment(body.treatmentId, { 'terminatedDate': body.terminatedDate !== null ? momentTerminated.valueOf() : null, 'terminatedReason': body.terminatedReason })
+                .then((result) => {
+                    res.status(200).json(formatToJSON(result));
+                    return true;
+                }).catch((error) => {
+                    res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+                    return false;
+                });
+        } else if (!((body.hasOwnProperty('treatmentId') && body.hasOwnProperty('terminationDate')) && body.hasOwnProperty('terminatedReason'))) {
+            res.status(400).json(message.userError.MISSINGARGUMENT);
             return;
-        }
-        if (momentEnd !== null && !momentEnd.isValid()) {
-            let msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
-            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-            return;
-        }
-        if (req.body.hasOwnProperty('meddra') && req.body.meddra !== null && isNaN(parseInt(req.body.meddra))) {
+        } else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
-        let newObj = {
-            'startDate': req.body.hasOwnProperty('start_date') && momentStart !== null ? momentStart.valueOf() : null,
-            'meddra': req.body.hasOwnProperty('meddra') ? parseInt(req.body.meddra) : null,
-            'endDate': req.body.hasOwnProperty('end_date') && momentEnd !== null ? momentEnd.valueOf() : null,
-            'reason': req.body.hasOwnProperty('reason') ? req.body.reason : null,
-            'createdByUser': req.user.id
-        };
-        this.treatment.updateInterruption(req.user, req.body.treatmentInterId, newObj).then((result) => {
-            res.status(200).json(formatToJSON(result));
-            return true;
-        }).catch((error) => {
-            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-            return false;
-        });
-    } else if (!(req.body.hasOwnProperty('treatmentInterId') && req.body.hasOwnProperty('start_date'))) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
     }
-};
 
-TreatmentController.prototype.deleteInterruption = function (req, res) {
-    if (req.body.hasOwnProperty('treatmentInterId') && typeof req.body.treatmentInterId === 'number') {
-        this.treatment.deleteInterruption(req.user, req.body.treatmentInterId).then((result) => {
+    static editTreatment({ body, user }, res) {
+        if (body.hasOwnProperty('id') && typeof body.id === 'number') {
+
+            let momentStart = moment(body.startDate, moment.ISO_8601);
+            let momentTerminated = moment(body.terminatedDate, moment.ISO_8601);
+            if (!momentStart.isValid()) {
+                res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
+                return;
+            }
+            if (body.hasOwnProperty('terminatedDate') && body.terminatedDate !== null && !momentTerminated.isValid()) {
+                res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
+                return;
+            }
+            let newObj = Object.assign({}, body);
+            newObj.startDate = momentStart.valueOf();
+            newObj.terminatedDate = (body.hasOwnProperty('terminatedDate') && body.terminatedDate !== null ? momentTerminated.valueOf() : null);
+
+            TreatmentCore.updateTreatment(user, body.id, newObj).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+                return false;
+            });
+            return;
+        } else if (!body.hasOwnProperty('id')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+    }
+
+    static deleteTreatment({ body, user }, res) {
+        if (!body.hasOwnProperty('treatmentId')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        if (typeof body.treatmentId !== 'number') {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+        TreatmentCore.deleteTreatment(user, body.treatmentId).then((result) => {
             if (result.body === 0) {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
                 return false;
@@ -262,57 +149,159 @@ TreatmentController.prototype.deleteInterruption = function (req, res) {
             res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
             return false;
         });
-    } else if (!(req.body.hasOwnProperty('treatmentInterId'))) {
-        res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-        return;
-    } else {
-        res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-        return;
     }
-};
 
-TreatmentController.prototype.getReasons = function (req, res) {
-    if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
-        this.treatment.searchReasons(`%${req.query.name}%`).then((result) => {
-            res.status(200).json(result);
-            return true;
-        }).catch((error) => {
-            res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return false;
-        });
-        return;
-    } else {
-        this.treatment.getReasons().then((result) => {
-            res.status(200).json(result);
-            return true;
-        }).catch((error) => {
-            res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return false;
-        });
-        return;
+    static addInterruption({ body, user }, res) {    //need to search if treatment exists
+        if (body.hasOwnProperty('treatmentId') && body.hasOwnProperty('start_date') &&
+            typeof body.treatmentId === 'number' && typeof body.start_date === 'string') {
+            let momentStart = moment(body.start_date, moment.ISO_8601);
+            let momentEnd = moment(body.end_date, moment.ISO_8601);
+            if (!momentStart.isValid() && body.start_date !== null) {
+                let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
+                res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+                return;
+            }
+            if (body.hasOwnProperty('end_date') && body.end_date !== null && !momentEnd.isValid()) {
+                let msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
+                res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+                return;
+            }
+            if (body.hasOwnProperty('meddra') && body.meddra !== null && isNaN(parseInt(body.meddra))) {
+                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+                return;
+            }
+            let entryObj = {
+                'treatment': body.treatmentId,
+                'startDate': body.start_date !== null ? momentStart.valueOf() : null,
+                'meddra': body.hasOwnProperty('meddra') ? body.meddra : null,
+                'endDate': (body.hasOwnProperty('end_date') && body.end_date !== null ? momentEnd.valueOf() : null),
+                'reason': body.hasOwnProperty('reason') ? body.reason : null,
+                'createdByUser': user.id
+            };
+            TreatmentCore.addInterruption(user, entryObj).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+                return false;
+            });
+        } else if (!(body.hasOwnProperty('treatmentId') && body.hasOwnProperty('start_date'))) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
     }
-};
 
-TreatmentController.prototype.getDrugs = function (req, res) {
-    if (Object.keys(req.query).length !== 0 && req.query.hasOwnProperty('name')) {
-        this.treatment.searchDrugs(`%${req.query.name}%`).then((result) => {
-            res.status(200).json(formatToJSON(result));
-            return true;
-        }).catch((error) => {
-            res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return false;
-        });
-        return;
-    } else {
-        this.treatment.getDrugs().then((result) => {
-            res.status(200).json(formatToJSON(result));
-            return true;
-        }).catch((error) => {
-            res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
-            return false;
-        });
-        return;
+    static editInterruption({ body, user }, res) {
+        if (body.hasOwnProperty('treatmentInterId') && typeof body.treatmentInterId === 'number' &&
+            body.hasOwnProperty('start_date') && typeof body.start_date === 'string') {
+            let momentStart = body.hasOwnProperty('start_date') && body.start_date !== null ? moment(body.start_date, moment.ISO_8601) : null;
+            let momentEnd = body.hasOwnProperty('end_date') && body.end_date !== null ? moment(body.end_date, moment.ISO_8601) : null;
+            if (momentStart !== null && !momentStart.isValid()) {
+                let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
+                res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+                return;
+            }
+            if (momentEnd !== null && !momentEnd.isValid()) {
+                let msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
+                res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+                return;
+            }
+            if (body.hasOwnProperty('meddra') && body.meddra !== null && isNaN(parseInt(body.meddra))) {
+                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+                return;
+            }
+            let newObj = {
+                'startDate': body.hasOwnProperty('start_date') && momentStart !== null ? momentStart.valueOf() : null,
+                'meddra': body.hasOwnProperty('meddra') ? parseInt(body.meddra) : null,
+                'endDate': body.hasOwnProperty('end_date') && momentEnd !== null ? momentEnd.valueOf() : null,
+                'reason': body.hasOwnProperty('reason') ? body.reason : null,
+                'createdByUser': user.id
+            };
+            TreatmentCore.updateInterruption(user, body.treatmentInterId, newObj).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+                return false;
+            });
+        } else if (!(body.hasOwnProperty('treatmentInterId') && body.hasOwnProperty('start_date'))) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
     }
-};
 
-module.exports = TreatmentController;
+    static deleteInterruption({ body, user }, res) {
+        if (body.hasOwnProperty('treatmentInterId') && typeof body.treatmentInterId === 'number') {
+            TreatmentCore.deleteInterruption(user, body.treatmentInterId).then((result) => {
+                if (result.body === 0) {
+                    res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL));
+                    return false;
+                } else {
+                    res.status(200).json(formatToJSON(result));
+                    return true;
+                }
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+                return false;
+            });
+        } else if (!(body.hasOwnProperty('treatmentInterId'))) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+    }
+
+    static getReasons({ query }, res) {
+        if (Object.keys(query).length !== 0 && query.hasOwnProperty('name')) {
+            TreatmentCore.searchReasons(`%${query.name}%`).then((result) => {
+                res.status(200).json(result);
+                return true;
+            }).catch((error) => {
+                res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+                return false;
+            });
+            return;
+        } else {
+            TreatmentCore.getReasons().then((result) => {
+                res.status(200).json(result);
+                return true;
+            }).catch((error) => {
+                res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+                return false;
+            });
+            return;
+        }
+    }
+
+    static getDrugs({ query }, res) {
+        if (Object.keys(query).length !== 0 && query.hasOwnProperty('name')) {
+            TreatmentCore.searchDrugs(`%${query.name}%`).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+                return false;
+            });
+            return;
+        } else {
+            TreatmentCore.getDrugs().then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(404).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+                return false;
+            });
+            return;
+        }
+    }
+}
+
+export default TreatmentController;

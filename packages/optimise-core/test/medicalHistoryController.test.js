@@ -1,10 +1,11 @@
 /* global beforeAll afterAll describe test expect */
 
-const request = require('supertest');
+import request from 'supertest';
+
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const message = require('../src/utils/message-utils');
-const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -16,18 +17,18 @@ afterAll(async () => {
     await disconnectAgent(user);
 });
 
-describe('Create Medical Historycontroller test', () => {
-    test('Creating Medical Historywithout body', () => admin
+describe('Create Medical History controller test', () => {
+    test('Creating Medical History without body', () => admin
         .post('/demographics/MedicalCondition')
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
-    test('Creating Medical Historywith body but empty property (Should Fail)', () => admin
+    test('Creating Medical History with body but empty property (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': null,
@@ -37,15 +38,15 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': null,
             'resolvedYear': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Creating Medical Historywith body but badly formated property (Should Fail)', () => admin
+    test('Creating Medical History with body but badly formated property (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 'WRONG',
@@ -55,15 +56,15 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': 0,
             'resolvedYear': '2002'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Creating Medical Historywith body but wrong patient (Should Fail)', () => admin
+    test('Creating Medical History with body but wrong patient (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 100,
@@ -73,15 +74,15 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
-    test('Creating Medical Historywith body but wrong relations (Should Fail)', () => admin
+    test('Creating Medical History with body but wrong relations (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -91,15 +92,15 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Creating Medical Historywith body but bad relations (Should Fail)', () => admin
+    test('Creating Medical History with body but bad relations (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -109,15 +110,15 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
-    test('Creating Medical Historywith body but wrong condition (Should Fail)', () => admin
+    test('Creating Medical History with body but wrong condition (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -127,15 +128,15 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Creating Medical Historywith body but bad condition (Should Fail)', () => admin
+    test('Creating Medical History with body but bad condition (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -145,15 +146,15 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
-    test('Creating Medical Historywith body but badly formatted startDate (Should Fail)', () => admin
+    test('Creating Medical History with body but badly formatted startDate (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -163,15 +164,15 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Creating Medical Historywith body but wrong outcome (Should Fail)', () => admin
+    test('Creating Medical History with body but wrong outcome (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -181,15 +182,15 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': 0,
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Creating Medical Historywith body but wrong resolved year (Should Fail)', () => admin
+    test('Creating Medical History with body but wrong resolved year (Should Fail)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -199,15 +200,15 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': '2002'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Creating Medical Historywell formatted (Should Succeed)', () => admin
+    test('Creating Medical History well formatted (Should Succeed)', () => admin
         .post('/demographics/MedicalCondition')
         .send({
             'patient': 1,
@@ -217,25 +218,25 @@ describe('Create Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(4);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(4);
             return true;
         }));
 
 });
 
-describe('Edit Medical Historycontroller test', () => {
+describe('Edit Medical History controller test', () => {
     test('Editing Medical Historywithout body', () => admin
         .put('/demographics/MedicalCondition')
-        .then(res => {
-            expect(res.status).toBe(400);
+        .then(({ status }) => {
+            expect(status).toBe(400);
             return true;
         }));
 
-    test('Editing Medical Historywith body but empty property (Should Fail)', () => admin
+    test('Editing Medical History with body but empty property (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': null,
@@ -246,15 +247,15 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': null,
             'resolvedYear': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Editing Medical Historywith body but badly formated property (Should Fail)', () => admin
+    test('Editing Medical History with body but badly formated property (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 'WRONG',
@@ -265,15 +266,15 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': 0,
             'resolvedYear': '2002'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Editing Medical Historywith body but wrong patient (Should Fail)', () => admin
+    test('Editing Medical History with body but wrong patient (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -284,15 +285,15 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
-    test('Editing Medical Historywith body but wrong relations (Should Fail)', () => admin
+    test('Editing Medical History with body but wrong relations (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -303,15 +304,15 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
-    test('Editing Medical Historywith body but bad relations (Should Fail)', () => admin
+    test('Editing Medical History with body but bad relations (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -322,15 +323,15 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
-    test('Editing Medical Historywith body but wrong condition (Should Fail)', () => admin
+    test('Editing Medical History with body but wrong condition (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -341,15 +342,15 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
-    test('Editing Medical Historywith body but bad condition (Should Fail)', () => admin
+    test('Editing Medical History with body but bad condition (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -360,15 +361,15 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
-    test('Editing Medical Historywith body but badly formatted startDate (should succeed - startDate is nullable)', () => admin
+    test('Editing Medical History with body but badly formatted startDate (should succeed - startDate is nullable)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -379,15 +380,15 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 
-    test('Editing Medical Historywith body but wrong outcome (Should Fail)', () => admin
+    test('Editing Medical History with body but wrong outcome (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -398,15 +399,15 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': 0,
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Editing Medical Historywith body but wrong resolved year (Should Fail)', () => admin
+    test('Editing Medical History with body but wrong resolved year (Should Fail)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 4,
@@ -417,15 +418,15 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': '2002'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Editing Medical Historywell formatted (Should Succeed)', () => admin
+    test('Editing Medical History well formatted (Should Succeed)', () => admin
         .put('/demographics/MedicalCondition')
         .send({
             'id': 1,
@@ -436,76 +437,76 @@ describe('Edit Medical Historycontroller test', () => {
             'outcome': 'resolved',
             'resolvedYear': 2002
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 
 });
 
-describe('Delete Medical Historycontroller test', () => {
-    test('Deleting Medical Historywithout body', () => admin
+describe('Delete Medical History controller test', () => {
+    test('Deleting Medical History without body', () => admin
         .delete('/demographics/MedicalCondition')
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
-    test('Deleting Medical Historywith body but empty property (Should Fail)', () => admin
+    test('Deleting Medical History with body but empty property (Should Fail)', () => admin
         .delete('/demographics/MedicalCondition')
         .send({
             'id': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Deleting Medical Historywith body but badly formated property (Should Fail)', () => admin
+    test('Deleting Medical History with body but badly formated property (Should Fail)', () => admin
         .delete('/demographics/MedicalCondition')
         .send({
             'id': 'WRONG'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
-    test('Deleting Medical Historywith body but out of bound id (Should Fail)', () => admin
+    test('Deleting Medical History with body but out of bound id (Should Fail)', () => admin
         .delete('/demographics/MedicalCondition')
         .send({
             'id': 90
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(0);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(0);
             return true;
         }));
 
-    test('Deleting Medical Historywith good preperty (Should Succeed)', () => admin
+    test('Deleting Medical History with good preperty (Should Succeed)', () => admin
         .delete('/demographics/MedicalCondition')
         .send({
             'id': 1
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 });

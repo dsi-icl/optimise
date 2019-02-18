@@ -3,21 +3,22 @@
  * @description Redirect request from /patients to the proper controller call
  */
 
-const express = require('express');
+import express from 'express';
+
 const patient = express();
 
-const PatientController = require('../controllers/patientController');
-const PatientCtrl = new PatientController();
+import PatientController from '../controllers/patientController';
+
 // Interacts with the patients in the DB
 patient.route('/')
-    .get(PatientCtrl.searchPatients)
-    .post(PatientCtrl.createPatient)
-    .patch(PatientCtrl.deletePatient)
-    .put(PatientCtrl.updatePatient)
-    .delete(PatientCtrl.erasePatient);
+    .get(PatientController.searchPatients)
+    .post(PatientController.createPatient)
+    .patch(PatientController.deletePatient)
+    .put(PatientController.updatePatient)
+    .delete(PatientController.erasePatient);
 
 // Get the profile of a certain user
 patient.route('/:patientId')
-    .get(PatientCtrl.getPatientProfileById);
+    .get(PatientController.getPatientProfileById);
 
-module.exports = patient;
+export default patient;

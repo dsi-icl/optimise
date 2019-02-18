@@ -1,24 +1,16 @@
 /* Export data for all patients */
 
-const dbcon = require('../utils/db-connection').default;
-const message = require('../utils/message-utils');
-const { searchEntry } = require('../utils/controller-utils');
-const fs = require('fs');
-const path = require('path');
+import dbcon from '../utils/db-connection';
+
+import message from '../utils/message-utils';
+import { searchEntry } from '../utils/controller-utils';
+import fs from 'fs';
+import path from 'path';
 require('express-zip');
 
 class ExportDataController {
 
-    constructor() {
-        this.createFile = this.createFile.bind(this);
-        this.createErrorFile = this.createErrorFile.bind(this);
-        this.createNoDataFile = this.createNoDataFile.bind(this);
-        this.createCsvDataFile = this.createCsvDataFile.bind(this);
-        this.createJsonDataFile = this.createJsonDataFile.bind(this);
-        this.exportDatabase = this.exportDatabase.bind(this);
-    }
-
-    createFile(filename, content) {
+    static createFile(filename, content) {
 
         if (!fs.existsSync(global.config.exportGenerationFolder)) {
             fs.mkdirSync(global.config.exportGenerationFolder);
@@ -33,19 +25,19 @@ class ExportDataController {
         };
     }
 
-    createErrorFile(errorMessage) {
+    static createErrorFile(errorMessage) {
 
-        return this.createFile('error.txt', errorMessage);
-
-    }
-
-    createNoDataFile() {
-
-        return this.createFile('noData.txt', message.userError.NODATAAVAILABLE);
+        return ExportDataController.createFile('error.txt', errorMessage);
 
     }
 
-    createCsvDataFile(result) {
+    static createNoDataFile() {
+
+        return ExportDataController.createFile('noData.txt', message.userError.NODATAAVAILABLE);
+
+    }
+
+    static createCsvDataFile(result) {
 
         const fileName = `${result[0]}.csv`;
         let keys = Object.keys(result[1][0]);
@@ -58,44 +50,44 @@ class ExportDataController {
             tempResult += '\n';
         });
         const fileContents = Buffer.from(tempResult);
-        return this.createFile(fileName, fileContents);
+        return ExportDataController.createFile(fileName, fileContents);
     }
 
-    createJsonDataFile(result) {
+    static createJsonDataFile(result) {
 
         const fileName = `${result[0]}.json`;
         const fileContents = Buffer.from(JSON.stringify(result[1]));
-        return this.createFile(fileName, fileContents);
+        return ExportDataController.createFile(fileName, fileContents);
 
     }
 
-    exportDatabase(req, res) {
+    static exportDatabase({ query }, res) {
 
         let _this = this;
         let queryfield = '';
         let queryvalue = '';
         const attachementName = `optimise_export_${Date.now()}.zip`;
 
-        if (typeof req.query.field === 'string')
-            queryfield = req.query.field;
-        else if (req.query.field !== undefined)
-            return res.status(400).zip([this.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
+        if (typeof query.field === 'string')
+            queryfield = query.field;
+        else if (query.field !== undefined)
+            return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
 
-        if (typeof req.query.value === 'string')
-            queryvalue = req.query.value;
-        else if (req.query.value !== undefined)
-            return res.status(400).zip([this.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
+        if (typeof query.value === 'string')
+            queryvalue = query.value;
+        else if (query.value !== undefined)
+            return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
 
         searchEntry(queryfield, queryvalue)
-            .then(result => result && result.length !== undefined ? result.filter(p => p.consent === true) : [])
-            .then(result => result.length > 0 ? _this.getPatientData(result.map(x => x.patientId)) : _this.createNoDataFile())
-            .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, _this.createJsonDataFile(dr), _this.createCsvDataFile(dr)] : a, []) : [domainResults])
+            .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
+            .then(result => result.length > 0 ? ExportDataController.getPatientData(result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
+            .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [domainResults])
             .then(filesArray => res.status(200).zip(filesArray), attachementName)
-            .catch(error => res.status(404).zip([_this.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], attachementName));
+            .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], attachementName));
 
     }
 
-    getPatientData(patientList) {
+    static getPatientData(patientList) {
 
         let dataPromises = [];
 
@@ -355,11 +347,11 @@ class ExportDataController {
                 ...x,
                 DOMAIN: 'LB',
                 LBTESTCD: x.LBTEST
-            })).concat(result.map(x => ({
+            })).concat(result.map(({ STUDYID, USUBJID, LBDTC }) => ({
                 DOMAIN: 'PR',
-                STUDYID: x.STUDYID,
-                USUBJID: x.USUBJID,
-                PRDTC: x.LBDTC
+                STUDYID: STUDYID,
+                USUBJID: USUBJID,
+                PRDTC: LBDTC
             })))]));
 
         /* Patient MRI data */
@@ -499,4 +491,4 @@ class ExportDataController {
     }
 }
 
-module.exports = ExportDataController;
+export default ExportDataController;

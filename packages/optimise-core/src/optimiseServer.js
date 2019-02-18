@@ -1,15 +1,15 @@
 //External node module imports
-const express = require('express');
-const expressSession = require('express-session');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../docs/swagger.json');
-const body_parser = require('body-parser');
-const passport = require('passport');
+import express from 'express';
 
-const optimiseOptions = require('./core/options');
+import expressSession from 'express-session';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../docs/swagger.json';
+import body_parser from 'body-parser';
+import passport from 'passport';
+import optimiseOptions from './core/options';
 import dbcon from './utils/db-connection';
 import { migrate } from '../src/utils/db-handler';
-const ErrorHelper = require('./utils/error_helper');
+import ErrorHelper from './utils/error_helper';
 
 class OptimiseServer {
     constructor(config) {
@@ -31,7 +31,7 @@ class OptimiseServer {
             });
         }
         // Middleware imports
-        this.requestMiddleware = require('./utils/requestMiddleware');
+        this.requestMiddleware = require('./utils/requestMiddleware').default;
     }
 
     /**
@@ -90,6 +90,7 @@ class OptimiseServer {
                 _this.setupFields();
                 _this.setupData();
                 _this.setupExport();
+                _this.setupMeddraUpload();
                 _this.setupLogs();
                 _this.setupPPII();
                 _this.setupPatientDiagnosis();
@@ -124,31 +125,30 @@ class OptimiseServer {
     setupUsers() {
 
         // Import the controller
-        const UserController = require('./controllers/userController');
-        this.userCtrl = new UserController();
+        const UserController = require('./controllers/userController').default;
 
         //Passport session serialize and deserialize
-        passport.serializeUser(this.userCtrl.serializeUser);
-        passport.deserializeUser(this.userCtrl.deserializeUser);
+        passport.serializeUser(UserController.serializeUser);
+        passport.deserializeUser(UserController.deserializeUser);
 
         this.app.route('/whoami')
-            .get(this.userCtrl.whoAmI); //GET current session user
+            .get(UserController.whoAmI); //GET current session user
 
         // Log the user in
-        this.app.route('/users/login').post(this.userCtrl.loginUser);
+        this.app.route('/users/login').post(UserController.loginUser);
 
         // Log the user out
-        this.app.route('/users/logout').post(this.userCtrl.logoutUser);
+        this.app.route('/users/logout').post(UserController.logoutUser);
 
         // Interacts with the user in the DB
         // (POST : create / DELETE : delete / PUT : modify)
         // Real path is /users
         this.app.route('/users')
-            .get(this.userCtrl.getUser)
-            .post(this.userCtrl.createUser)
-            .put(this.userCtrl.updateUser)
-            .patch(this.userCtrl.changeRights)
-            .delete(this.userCtrl.deleteUser);
+            .get(UserController.getUser)
+            .post(UserController.createUser)
+            .put(UserController.updateUser)
+            .patch(UserController.changeRights)
+            .delete(UserController.deleteUser);
     }
 
     /**
@@ -157,7 +157,7 @@ class OptimiseServer {
      */
     setupPatients() {
         // Import the controller
-        this.routePatients = require('./routes/patientRoute');
+        this.routePatients = require('./routes/patientRoute').default;
 
         // Modules
         this.app.use('/patients', this.routePatients);
@@ -169,7 +169,7 @@ class OptimiseServer {
      */
     setupVisits() {
         // Import the controller
-        this.routeVisits = require('./routes/visitRoute');
+        this.routeVisits = require('./routes/visitRoute').default;
 
         // Modules
         this.app.use('/visits', this.routeVisits);
@@ -181,7 +181,7 @@ class OptimiseServer {
      */
     setupDemographics() {
         // Import the controller
-        this.routeDemographics = require('./routes/demographicRoute');
+        this.routeDemographics = require('./routes/demographicRoute').default;
 
         // Modules
         this.app.use('/demographics', this.routeDemographics);
@@ -193,7 +193,7 @@ class OptimiseServer {
      */
     setupClinicalEvents() {
         // Import the controller
-        this.routeClinicalEvents = require('./routes/clinicalEventRoute');
+        this.routeClinicalEvents = require('./routes/clinicalEventRoute').default;
 
         // Modules
         this.app.use('/clinicalEvents', this.routeClinicalEvents);
@@ -205,7 +205,7 @@ class OptimiseServer {
      */
     setupTreatments() {
         // Import the controller
-        this.routeTreatments = require('./routes/treatmentRoute');
+        this.routeTreatments = require('./routes/treatmentRoute').default;
 
         // Modules
         this.app.use('/treatments', this.routeTreatments);
@@ -217,7 +217,7 @@ class OptimiseServer {
      */
     setupTests() {
         // Import the controller
-        this.routeTests = require('./routes/testRoute');
+        this.routeTests = require('./routes/testRoute').default;
 
         // Modules
         this.app.use('/tests', this.routeTests);
@@ -226,9 +226,10 @@ class OptimiseServer {
     /**
      * @fn setupFields
      * @desc Initialize the available fields related routes
-     */setupFields() {
+     */
+    setupFields() {
         //Import the controller
-        this.routeFields = require('./routes/fieldsRoute');
+        this.routeFields = require('./routes/fieldsRoute').default;
 
         // Modules
         this.app.use('/available', this.routeFields);
@@ -240,17 +241,14 @@ class OptimiseServer {
      */
     setupData() {
         // Import the controller
-        const DataController = require('./controllers/dataController');
-        const AvailableFieldController = require('./controllers/availableFieldController');
-
-        this.dataCtrl = new DataController();
-        this.availableFieldCtrl = new AvailableFieldController();
+        const DataController = require('./controllers/dataController').default;
+        const AvailableFieldController = require('./controllers/availableFieldController').default;
 
         // Modules
         this.app.route('/data/:dataType')
-            .post(this.dataCtrl._RouterAddOrUpdate)
-            .delete(this.dataCtrl._RouterDeleteData)
-            .get(this.availableFieldCtrl.getFields);
+            .post(DataController._RouterAddOrUpdate)
+            .delete(DataController._RouterDeleteData)
+            .get(AvailableFieldController.getFields);
     }
 
     /**
@@ -259,7 +257,7 @@ class OptimiseServer {
      */
     setupExport() {
         // Import the controller
-        this.routeExport = require('./routes/exportDataRoute');
+        this.routeExport = require('./routes/exportDataRoute').default;
 
         // Modules
         this.app.use('/export', this.routeExport);
@@ -271,7 +269,7 @@ class OptimiseServer {
      */
     setupLogs() {
         // Import the controller
-        this.routeLogs = require('./routes/actionRoute');
+        this.routeLogs = require('./routes/actionRoute').default;
 
         // Modules
         this.app.use('/logs', this.routeLogs);
@@ -283,10 +281,22 @@ class OptimiseServer {
      */
     setupPPII() {
         // Import the controller
-        this.routePPII = require('./routes/patientPiiRoute');
+        this.routePPII = require('./routes/patientPiiRoute').default;
 
         // Modules
         this.app.use('/patientPii', this.routePPII);
+    }
+
+    /*
+    * @fn setupMeddraUpload
+    * @desc Initialize the meddra upload related routes
+    */
+    setupMeddraUpload() {
+        // Import the controller
+        this.routeMeddraUpload = require('./routes/meddraRoute').default;
+
+        // Modules
+        this.app.use('/uploadMeddra', this.routeMeddraUpload);
     }
 
     /**
@@ -295,12 +305,10 @@ class OptimiseServer {
     setupMeddra() {
 
         // initializing the meddra controller
-        const MeddraController = require('./controllers/meddraController');
-
-        this.meddraCtrl = new MeddraController();
+        const MeddraController = require('./controllers/meddraController').default;
 
         this.app.route('/meddra')
-            .get(this.meddraCtrl.getMeddraField);
+            .get(MeddraController.getMeddraField);
     }
 
     /**
@@ -309,7 +317,7 @@ class OptimiseServer {
      */
     setupPatientDiagnosis() {
         // Import the controller
-        this.routePatientDiagnosis = require('./routes/patientDiagnosisRoute');
+        this.routePatientDiagnosis = require('./routes/patientDiagnosisRoute').default;
 
         // Modules
         this.app.use('/patientDiagnosis', this.routePatientDiagnosis);

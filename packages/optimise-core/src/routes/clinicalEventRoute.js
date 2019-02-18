@@ -3,15 +3,15 @@
  * @description Redirect request from /clinicalEvents to the proper controller call
  */
 
-const express = require('express');
+import express from 'express';
+
 const ce = express();
 
-const CeController = require('../controllers/ceController');
-const CECtrl = new CeController();
+import CeController from '../controllers/ceController';
 
 ce.route('/')
-    .post(CECtrl.createCe)
-    .put(CECtrl.updateCe)
-    .delete(CECtrl.deleteCe);
+    .post(CeController.createCe)
+    .put(CeController.updateCe)
+    .delete(CeController.deleteCe);
 
-module.exports = ce;
+export default ce;

@@ -3,12 +3,12 @@
  * @description Redirect request from /export to the proper controller call
  */
 
-const express = require('express');
+import express from 'express';
+
 const exportDB = express();
-const ExportDataController = require('../controllers/exportDataController');
-const ExportDataCtrl = new ExportDataController();
+import ExportDataController from '../controllers/exportDataController';
 
 exportDB.route('/')
-    .get(ExportDataCtrl.exportDatabase);
+    .get(ExportDataController.exportDatabase);
 
-module.exports = exportDB;
+export default exportDB;
