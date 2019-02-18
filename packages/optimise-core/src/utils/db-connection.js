@@ -1,9 +1,10 @@
 import knex from 'knex';
+import config from '../core/options';
 
 const connection = knex({
     client: 'sqlite3',
     connection: {
-        filename: process.env.NODE_ENV === 'test' ? ':memory:' : 'db/optimise-db.sqlite'
+        filename: process.env.NODE_ENV === 'test' ? ':memory:' : config.optimiseDBLocation
     },
     pool: {
         afterCreate: (conn, cb) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
-import appInfo from '../../../../package.json';
+import appInfo from '../../../package.json';
 
 export default class LocalHelmet extends Component {
 

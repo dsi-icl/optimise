@@ -1,6 +1,6 @@
-const dbcon = require('../utils/db-connection').default;
-const { PregnancyCore } = require('../core/demographic');
-const DiagnosisCore = require('../core/patientDiagnosis');
+import dbcon from '../utils/db-connection';
+import { PregnancyCore } from '../core/demographic';
+import DiagnosisCore from '../core/patientDiagnosis';
 
 class SelectorUtils {
     getVisitsWithoutData(patientId, deleted) {
@@ -197,11 +197,10 @@ class SelectorUtils {
     }
 
     getPregnancy(patientId, deleted) {
-        let pregnancy = new PregnancyCore();
         let whereObj = { 'patient': patientId };
         if (deleted === true)
             whereObj.deleted = '-';
-        return pregnancy.getPregnancy(whereObj).then((result) => ({ 'pregnancy': result }), (__unused__error) => ({ 'pregnancy': [] }));
+        return PregnancyCore.getPregnancy(whereObj).then((result) => ({ 'pregnancy': result }), (__unused__error) => ({ 'pregnancy': [] }));
     }
 
     _getVisitData(visitId, deleted) {
@@ -308,10 +307,9 @@ class SelectorUtils {
         let whereObj = { 'patient': patientId };
         if (deleted === true)
             whereObj.deleted = '-';
-        let diagnosis = new DiagnosisCore();
-        return diagnosis.getPatientDiagnosis(whereObj).then((result) => ({ 'diagnosis': result }), (__unused__error) => ({ 'diagnosis': [] }));
+        return DiagnosisCore.getPatientDiagnosis(whereObj).then((result) => ({ 'diagnosis': result }), (__unused__error) => ({ 'diagnosis': [] }));
     }
 }
 
 const _singleton = new SelectorUtils();
-module.exports = _singleton;
+export default _singleton;

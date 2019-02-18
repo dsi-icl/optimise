@@ -1,10 +1,11 @@
 /* global beforeAll afterAll describe test expect */
 
-const request = require('supertest');
+import request from 'supertest';
+
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const message = require('../src/utils/message-utils');
-const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -19,11 +20,11 @@ afterAll(async () => {
 describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy without body', () => admin
         .post('/demographics/Pregnancy')
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
@@ -33,13 +34,13 @@ describe('Create Pregnancy controller test', () => {
             'patient': null,
             'outcome': null,
             'startDate': null,
-            'meddra': null
+            // 'meddra': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -49,13 +50,13 @@ describe('Create Pregnancy controller test', () => {
             'patient': {},
             'outcome': {},
             'startDate': {},
-            'meddra': {}
+            // 'meddra': {}
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -64,13 +65,13 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'outcome': 2,
             'startDate': '2000-01-01',
-            'meddra': 3
+            // 'meddra': 3
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
@@ -80,13 +81,13 @@ describe('Create Pregnancy controller test', () => {
             'patient': {},
             'outcome': 2,
             'startDate': '2000-01-01',
-            'meddra': 3
+            // 'meddra': 3
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -96,13 +97,13 @@ describe('Create Pregnancy controller test', () => {
             'patient': 90,
             'outcome': 2,
             'startDate': '2000-01-01',
-            'meddra': 3
+            // 'meddra': 3
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -112,13 +113,13 @@ describe('Create Pregnancy controller test', () => {
             'patient': 1,
             'outcome': {},
             'startDate': '2000-01-01',
-            'meddra': 3
+            // 'meddra': 3
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -128,13 +129,13 @@ describe('Create Pregnancy controller test', () => {
             'patient': 1,
             'outcome': 1700,
             'startDate': '2000-01-01',
-            'meddra': 3
+            // 'meddra': 3
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -146,11 +147,11 @@ describe('Create Pregnancy controller test', () => {
             'startDate': '2000-01-01',
             'meddra': {}
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -162,11 +163,11 @@ describe('Create Pregnancy controller test', () => {
             'startDate': '2000-01-01',
             'meddra': 3000000
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.CREATIONFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.CREATIONFAIL);
             return true;
         }));
 
@@ -176,13 +177,13 @@ describe('Create Pregnancy controller test', () => {
             'patient': 1,
             'outcome': 2,
             'startDate': 'xx1337xx',
-            'meddra': 3
+            // 'meddra': 3
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.INVALIDDATE);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.INVALIDDATE);
             return true;
         }));
 
@@ -193,13 +194,13 @@ describe('Create Pregnancy controller test', () => {
             'outcome': 2,
             'outcomeDate': '2000-05-14',
             'startDate': '2000-01-01',
-            'meddra': 3
+            // 'meddra': 3
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(3);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(3);
             return true;
         }));
 
@@ -211,11 +212,11 @@ describe('Create Pregnancy controller test', () => {
             'outcome': 2,
             'startDate': '1989-03-04'
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(4);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(4);
             return true;
         }));
 
@@ -225,13 +226,13 @@ describe('Create Pregnancy controller test', () => {
         .send({
             'patient': 2,
             'startDate': '2000-01-01',
-            'meddra': 3
+            // 'meddra': 3
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(5);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(5);
             return true;
         }));
 });
@@ -239,8 +240,8 @@ describe('Create Pregnancy controller test', () => {
 describe('Edit Pregnancy controller test', () => {
     test('Editing Pregnancy without body', () => admin
         .put('/demographics/Pregnancy')
-        .then(res => {
-            expect(res.status).toBe(400);
+        .then(({ status }) => {
+            expect(status).toBe(400);
             return true;
         }));
 
@@ -250,11 +251,11 @@ describe('Edit Pregnancy controller test', () => {
             'id': null,
             'outcome': 4
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -264,11 +265,11 @@ describe('Edit Pregnancy controller test', () => {
             'id': 'WRONG',
             'outcome': 4
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -278,11 +279,11 @@ describe('Edit Pregnancy controller test', () => {
             'id': 90,
             'outcome': 4
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.errorMessages.UPDATEFAIL);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
 
@@ -292,11 +293,11 @@ describe('Edit Pregnancy controller test', () => {
             'id': 3,
             'outcome': 4
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 
@@ -305,11 +306,11 @@ describe('Edit Pregnancy controller test', () => {
 describe('Delete Pregnancy controller test', () => {
     test('Deleting Pregnancy without body', () => admin
         .delete('/demographics/Pregnancy')
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.MISSINGARGUMENT);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
 
@@ -318,11 +319,11 @@ describe('Delete Pregnancy controller test', () => {
         .send({
             'id': null
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -331,11 +332,11 @@ describe('Delete Pregnancy controller test', () => {
         .send({
             'id': 'WRONG'
         })
-        .then(res => {
-            expect(res.status).toBe(400);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGARGUMENTS);
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
             return true;
         }));
 
@@ -344,11 +345,11 @@ describe('Delete Pregnancy controller test', () => {
         .send({
             'id': 90
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(0);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(0);
             return true;
         }));
 
@@ -357,11 +358,11 @@ describe('Delete Pregnancy controller test', () => {
         .send({
             'id': 3
         })
-        .then(res => {
-            expect(res.status).toBe(200);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.state).toBeDefined();
-            expect(res.body.state).toBe(1);
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
             return true;
         }));
 });

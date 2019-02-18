@@ -3,27 +3,27 @@
  * @description Redirect request from /treatments to the proper controller call
  */
 
-const express = require('express');
+import express from 'express';
+
 const treatment = express();
 
-const TreatmentController = require('../controllers/treatmentController');
-const TreatmentCtrl = new TreatmentController();
+import TreatmentController from '../controllers/treatmentController';
 
 treatment.route('/')
-    .post(TreatmentCtrl.createTreatment)
-    .patch(TreatmentCtrl.addTerminationDate)
-    .put(TreatmentCtrl.editTreatment)
-    .delete(TreatmentCtrl.deleteTreatment);
+    .post(TreatmentController.createTreatment)
+    .patch(TreatmentController.addTerminationDate)
+    .put(TreatmentController.editTreatment)
+    .delete(TreatmentController.deleteTreatment);
 
 treatment.route('/interrupt')
-    .post(TreatmentCtrl.addInterruption)
-    .put(TreatmentCtrl.editInterruption)
-    .delete(TreatmentCtrl.deleteInterruption);
+    .post(TreatmentController.addInterruption)
+    .put(TreatmentController.editInterruption)
+    .delete(TreatmentController.deleteInterruption);
 
 treatment.route('/drugs')
-    .get(TreatmentCtrl.getDrugs);
+    .get(TreatmentController.getDrugs);
 
 treatment.route('/reasons')
-    .get(TreatmentCtrl.getReasons);
+    .get(TreatmentController.getReasons);
 
-module.exports = treatment;
+export default treatment;

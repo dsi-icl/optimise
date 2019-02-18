@@ -1,6 +1,6 @@
-let express = require('express');
-let os = require('os');
-let config = require('../config/optimise.config');
+import express from 'express';
+import os from 'os';
+import config from '../config/optimise.config';
 import OptimiseServer from './optimiseServer';
 
 let web_app = express();
@@ -20,5 +20,6 @@ optimise_server.start().then((optimise_router) => {
     return true;
 }).catch((error) => {
     console.error('An error occurred while starting the Optimise core.', error); // eslint-disable-line no-console
+    console.error(error.stack); // eslint-disable-line no-console
     return false;
 });

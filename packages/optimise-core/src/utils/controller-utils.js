@@ -1,27 +1,27 @@
-const dbcon = require('../utils/db-connection').default;
-const message = require('../utils/message-utils');
-const ErrorHelper = require('../utils/error_helper');
+import dbcon from '../utils/db-connection';
+import message from '../utils/message-utils';
+import ErrorHelper from '../utils/error_helper';
 
-function createEntry(tablename, entryObj) {
+export const createEntry = function (tablename, entryObj) {
     return new Promise((resolve, reject) => {
         dbcon(tablename).insert(entryObj).then((result) => resolve(result)).catch((error) => reject(error));
     });
-}
+};
 
-function deleteEntry(tablename, user, whereObj) {
+export const deleteEntry = function (tablename, { id }, whereObj) {
     whereObj.deleted = '-';
     return new Promise((resolve, reject) => {
-        dbcon(tablename).where(whereObj).update({ deleted: `${user.id}@${JSON.stringify(new Date())}` }).then((result) => resolve(result)).catch((error) => reject(error));
+        dbcon(tablename).where(whereObj).update({ deleted: `${id}@${JSON.stringify(new Date())}` }).then((result) => resolve(result)).catch((error) => reject(error));
     });
-}
+};
 
-function getEntry(tablename, whereObj, selectedObj) {
+export const getEntry = function (tablename, whereObj, selectedObj) {
     return new Promise((resolve, reject) => {
         dbcon(tablename).select(selectedObj).where(whereObj).then((result) => resolve(result)).catch((error) => reject(error));
     });
-}
+};
 
-function updateEntry(tablename, user, originObj, whereObj, newObj) {
+export const updateEntry = function (tablename, { id }, originObj, whereObj, newObj) {
     whereObj.deleted = '-';
     return new Promise((resolve, reject) => getEntry(tablename, whereObj, originObj)
         .then((getResult) => {
@@ -31,7 +31,7 @@ function updateEntry(tablename, user, originObj, whereObj, newObj) {
             let oldEntry = getResult[0];
             delete oldEntry.id;
             if (oldEntry.hasOwnProperty('deleted'))
-                oldEntry.deleted = `${user.id}@${new Date().getTime()}`;
+                oldEntry.deleted = `${id}@${new Date().getTime()}`;
             if (oldEntry.hasOwnProperty('createdTime'))
                 newObj.createdTime = dbcon.fn.now();
             return oldEntry;
@@ -42,15 +42,15 @@ function updateEntry(tablename, user, originObj, whereObj, newObj) {
             .where(whereObj))
         .then(updateRes => resolve(updateRes))
         .catch(error => reject(error)));
-}
+};
 
-function eraseEntry(tablename, whereObj) {
+export const eraseEntry = function (tablename, whereObj) {
     return dbcon(tablename)
         .del()
         .where(whereObj);
-}
+};
 
-function searchEntry(queryfield, queryvalue) {
+export const searchEntry = function (queryfield, queryvalue) {
     switch (queryfield) {
         case 'OPTIMISEID':
             return new Promise((resolve, reject) => dbcon('PATIENTS')
@@ -171,6 +171,6 @@ function searchEntry(queryfield, queryvalue) {
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
-}
+};
 
-module.exports = { getEntry: getEntry, createEntry: createEntry, updateEntry: updateEntry, deleteEntry: deleteEntry, eraseEntry: eraseEntry, searchEntry: searchEntry };
+export default { getEntry, createEntry, updateEntry, deleteEntry, eraseEntry, searchEntry };
