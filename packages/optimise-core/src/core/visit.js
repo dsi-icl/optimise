@@ -14,7 +14,7 @@ class Visit {
      * @param {Object} patientInfo alias of the patient targeted for the visit
      */
     static getVisit(patientInfo) {
-        return new Promise((resolve, reject) => dbcon('PATIENTS')
+        return new Promise((resolve, reject) => dbcon()('PATIENTS')
             .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', { visitId: 'VISITS.id' }, 'VISITS.communication', 'VISITS.visitDate', 'VISITS.type')
             .leftOuterJoin('VISITS', 'PATIENTS.id', 'VISITS.patient')
             .where({ 'PATIENTS.aliasId': patientInfo, 'VISITS.deleted': '-' })

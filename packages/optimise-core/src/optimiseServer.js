@@ -115,7 +115,7 @@ class OptimiseServer {
      * @return {Promise} Resolve to true on success, ErrorStack otherwise
      */
     stop() {
-        return dbcon.destroy();
+        return dbcon().destroy();
     }
 
     /**

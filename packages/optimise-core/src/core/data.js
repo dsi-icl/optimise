@@ -64,8 +64,8 @@ class Data {
 
     static deleteData({ id }, { dataTable, dataTableForeignKey }, idData, deleteObj) {
         return new Promise((resolve, reject) => {
-            dbcon.transaction(trx => {
-                dbcon(dataTable)
+            dbcon().transaction(trx => {
+                dbcon()(dataTable)
                     .where('field', 'in', deleteObj)
                     .andWhere('deleted', '-')
                     .andWhere(dataTableForeignKey, idData)

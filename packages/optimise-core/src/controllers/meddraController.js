@@ -27,7 +27,7 @@ class MeddraController {
             return null;
         }
 
-        dbcon.batchInsert('ADVERSE_EVENT_MEDDRA', result, 10)
+        dbcon().batchInsert('ADVERSE_EVENT_MEDDRA', result, 10)
             .then(() => {
                 res.status(200).json({ message: 'Meddra uploaded.' });
                 MeddraController.loadMeddraCollection();
@@ -37,7 +37,7 @@ class MeddraController {
     }
 
     static loadMeddraCollection() {
-        return new Promise((resolve, reject) => dbcon('ADVERSE_EVENT_MEDDRA')
+        return new Promise((resolve, reject) => dbcon()('ADVERSE_EVENT_MEDDRA')
             .select('*')
             .then((result) => {
                 MeddraController.setMeddraCollection(result);
