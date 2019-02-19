@@ -6,15 +6,19 @@
  */
 let Options = function (configuration = {}) {
     //Get all the attributes
-    for (let attr in configuration)
-        this[attr] = configuration[attr];
+    let config = {};
 
-    this.optimiseDBLocation = configuration.optimiseDBLocation ? configuration.optimiseDBLocation : 'db/optimise-db.sqlite';
-    this.optimiseUiFolder = configuration.optimiseUiFolder ? configuration.optimiseUiFolder : './node-modules/optimise-ui';
-    this.port = configuration.port ? configuration.port : 3030;
-    this.development = configuration.development ? configuration.development : false;
-    this.enableCors = configuration.enableCors ? configuration.enableCors : true;
-    this.exportGenerationFolder = configuration.exportGenerationFolder ? configuration.exportGenerationFolder : './temp/';
+    for (let attr in configuration)
+        config[attr] = configuration[attr];
+
+    config.optimiseDBLocation = configuration.optimiseDBLocation ? configuration.optimiseDBLocation : 'db/optimise-db.sqlite';
+    config.optimiseUiFolder = configuration.optimiseUiFolder ? configuration.optimiseUiFolder : './node-modules/optimise-ui';
+    config.port = configuration.port ? configuration.port : 3030;
+    config.development = configuration.development ? configuration.development : false;
+    config.enableCors = configuration.enableCors ? configuration.enableCors : true;
+    config.exportGenerationFolder = configuration.exportGenerationFolder ? configuration.exportGenerationFolder : './temp/';
+
+    return config;
 };
 
 export default Options;
