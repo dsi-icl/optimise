@@ -57,13 +57,15 @@ export async function migrate() {
 
 export function erase() {
     return new Promise((resolve, reject) => {
-        if (process.env.NODE_ENV !== 'production') console.log('Removing database file ...');
-        let filename = dbcon.client.config.connection.filename;
-        try {
-            if (fs.existsSync(filename))
-                fs.unlinkSync(filename);
-        } catch (err) {
-            return reject(err);
+        if (process.env.NODE_ENV !== 'test') {
+            if (process.env.NODE_ENV === 'development') console.log('Removing database file ...');
+            let filename = dbcon.client.config.connection.filename;
+            try {
+                if (fs.existsSync(filename))
+                    fs.unlinkSync(filename);
+            } catch (err) {
+                return reject(err);
+            }
         }
         return resolve();
     });
