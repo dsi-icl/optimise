@@ -6,11 +6,11 @@ import dbcon from '../utils/db-connection';
 
 class User {
     static getUserByUsername(user) {
-        return new Promise((resolve, reject) => dbcon('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('username', 'like', user).andWhere({ deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('username', 'like', user).andWhere({ deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     static getUserByID(uid) {
-        return new Promise((resolve, reject) => dbcon('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('id', uid).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('id', uid).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     static createUser({ id }, { pw, username, realname, isAdmin }) {
@@ -32,7 +32,7 @@ class User {
         return new Promise((resolve, reject) => {
             try {
                 let hashContainer = generateAndHash(pw);
-                return dbcon('USERS').update({ 'pw': hashContainer.hashed, 'salt': hashContainer.salt, 'iterations': hashContainer.iteration }).where({ username: username, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error)));
+                return dbcon()('USERS').update({ 'pw': hashContainer.hashed, 'salt': hashContainer.salt, 'iterations': hashContainer.iteration }).where({ username: username, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error)));
             } catch (err) {
                 return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, err));
             }
@@ -40,7 +40,7 @@ class User {
     }
 
     static changeRights({ adminPriv, id }) {
-        return new Promise((resolve, reject) => dbcon('USERS').update({ 'adminPriv': adminPriv }).where({ id: id, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').update({ 'adminPriv': adminPriv }).where({ id: id, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
     }
 
     static deleteUser(user, userReq) {

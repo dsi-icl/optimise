@@ -20,7 +20,7 @@ class AvailableFieldController {
                 moduleObj = { module: query.module };
             }
             let table = tableMap[params.dataType];
-            dbcon(table)
+            dbcon()(table)
                 .select('*')
                 .where(moduleObj)
                 .then((result) => {

@@ -13,7 +13,7 @@ class ActionLog {
     }
 
     static erasePatients(patientId, patientAlias) {
-        return new Promise((resolve, reject) => dbcon('LOG_ACTIONS')
+        return new Promise((resolve, reject) => dbcon()('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"aliasId":"${patientAlias}"%`)
             .orWhere('body', 'like', `%"patient":${patientId},%`)
@@ -25,7 +25,7 @@ class ActionLog {
     }
 
     static eraseVisits(visitId) {
-        return new Promise((resolve, reject) => dbcon('LOG_ACTIONS')
+        return new Promise((resolve, reject) => dbcon()('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"visit":${visitId},%`)
             .orWhere('body', 'like', `%"visit":${visitId}}%`)
@@ -37,7 +37,7 @@ class ActionLog {
     }
 
     static eraseCE(clinicalEventId) {
-        return new Promise((resolve, reject) => dbcon('LOG_ACTIONS')
+        return new Promise((resolve, reject) => dbcon()('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"clinicalEventId":${clinicalEventId},%`)
             .orWhere('body', 'like', `%"clinicalEventId":${clinicalEventId}}%`)
@@ -45,7 +45,7 @@ class ActionLog {
     }
 
     static eraseTreatments(treatmentsId) {
-        return new Promise((resolve, reject) => dbcon('LOG_ACTIONS')
+        return new Promise((resolve, reject) => dbcon()('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"treatmentId":${treatmentsId},%`)
             .orWhere('body', 'like', `%"treatmentId":${treatmentsId}"%`)
@@ -53,7 +53,7 @@ class ActionLog {
     }
 
     static eraseTreatmentsInters(treatmentsInterId) {
-        return new Promise((resolve, reject) => dbcon('LOG_ACTIONS')
+        return new Promise((resolve, reject) => dbcon()('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"treatmentInterId":${treatmentsInterId},%`)
             .orWhere('body', 'like', `%"treatmentInterId":${treatmentsInterId}}%`)
@@ -61,7 +61,7 @@ class ActionLog {
     }
 
     static eraseTests(testId) {
-        return new Promise((resolve, reject) => dbcon('LOG_ACTIONS')
+        return new Promise((resolve, reject) => dbcon()('LOG_ACTIONS')
             .del()
             .where('body', 'like', `%"testId":${testId},%`)
             .orWhere('body', 'like', `%"testId":${testId}}%`)
@@ -69,7 +69,7 @@ class ActionLog {
     }
 
     static eraseIdOnRoute(route, id) {
-        return new Promise((resolve, reject) => dbcon('LOG_ACTIONS')
+        return new Promise((resolve, reject) => dbcon()('LOG_ACTIONS')
             .del()
             .where({ 'router': route })
             .andWhere('body', 'like', `%"id":${id},%`)

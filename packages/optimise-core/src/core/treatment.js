@@ -18,7 +18,7 @@ class Treatment {
     }
 
     static addTerminationDateTreatment(idTreatment, updateEntry) {
-        return new Promise((resolve, reject) => dbcon('TREATMENTS').where({ id: idTreatment }).update(updateEntry).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('TREATMENTS').where({ id: idTreatment }).update(updateEntry).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
     }
 
     static deleteTreatment(user, idTreatment) {
@@ -42,7 +42,7 @@ class Treatment {
     }
 
     static searchReasons(reason) {
-        return new Promise((resolve, reject) => dbcon('REASONS').select('*').where('value', 'like', reason).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('REASONS').select('*').where('value', 'like', reason).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     static getDrugs() {
@@ -50,7 +50,7 @@ class Treatment {
     }
 
     static searchDrugs(drugSample) {
-        return new Promise((resolve, reject) => dbcon('AVAILABLE_DRUGS').select('*').where('name', 'like', drugSample).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('AVAILABLE_DRUGS').select('*').where('name', 'like', drugSample).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 }
 
