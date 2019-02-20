@@ -48,7 +48,8 @@ class OptimiseServer {
             // Operate database migration if necessary
             migrate().then(() => {
 
-                _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+                // This is awaiting for #286
+                // _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
                 // Setup sessions with third party middleware
                 _this.app.use(expressSession({
@@ -115,7 +116,7 @@ class OptimiseServer {
      * @return {Promise} Resolve to true on success, ErrorStack otherwise
      */
     stop() {
-        return dbcon.destroy();
+        return dbcon().destroy();
     }
 
     /**

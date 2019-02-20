@@ -23,7 +23,7 @@ class RequestMiddleware {
         // We do not filter here are assume password are always sent as 'pw'
         if (body.pw !== undefined)
             body.pw = '*';
-        dbcon('LOG_ACTIONS')
+        dbcon()('LOG_ACTIONS')
             .insert({ 'router': req.url, 'method': req.method, 'body': JSON.stringify(body), 'user': username ? username : '' })
             .then(__unused__res => {
                 if (process.env.NODE_ENV === 'development')

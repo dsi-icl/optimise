@@ -2,16 +2,23 @@
     "name": "optimise-core",
     "version": "0.10.0",
     "description": "Optimise:MS Backend",
+    "keywords": [
+        "ms"
+    ],
+    "author": {
+        "email": "f.guitton@imperial.ac.uk",
+        "name": "Florian Guitton"
+    },
+    "repository": "github:dsi-icl/optimise",
     "main": "./src/optimiseServer.js",
     "scripts": {
         "lint": "eslint --ext .jsx --ext .js ./",
         "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
         "test": "cross-env NODE_ENV=test jest --colors --verbose --detectOpenHandles --forceExit --runInBand",
-        "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --module-bind 'node=native-ext-loader' --config webpack.config.server.js",
-        "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --module-bind 'node=native-ext-loader' --config webpack.config.server.js"
+        "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
+        "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"
     },
     "contributors": [
-        "Florian Guitton <f.guitton@imperial.ac.uk>",
         "Pierre-Marie <p.danieau@imperial.ac.uk>",
         "Chon Sou <c.sou16@imperial.ac.uk>",
         "Eleni Pissaridou <e.pissaridou@imperial.ac.uk>"
@@ -28,10 +35,10 @@
         "moment": "2.24.0",
         "multer": "1.4.1",
         "nodeify": "1.0.1",
-        "optimise-sqlite": "4.0.6",
         "papaparse": "4.6.3",
         "passport": "0.4.0",
         "path": "0.12.7",
+        "sqlite3": "4.0.6",
         "swagger-ui-express": "4.0.2",
         "uuid": "3.3.2"
     },
@@ -53,7 +60,6 @@
         "rimraf": "2.6.3",
         "start-server-webpack-plugin": "2.2.5",
         "string-replace-loader": "2.1.1",
-        "sqlite3": "4.0.6",
         "supertest": "3.4.2",
         "webpack": "4.29.5",
         "webpack-cli": "3.2.3",
