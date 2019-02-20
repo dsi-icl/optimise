@@ -16,7 +16,17 @@ export const apiHelper = (endpoint, options, blockError) => {
         options = {};
     }
     const fetchOptions = { ...defaultOptions, ...options };
-    return fetch(`/api${endpoint}`, fetchOptions)
+
+    if ((process || (window || {}).process) !== undefined && window.ipcFetch === undefined)
+        return new Promise((resolve) => {
+            let id = setTimeout(() => {
+                clearTimeout(id);
+                resolve(apiHelper(endpoint, options, blockError));
+            }, 200);
+        });
+
+    let fetcher = window.ipcFetch || window.fetch;
+    return fetcher(`/api${endpoint}`, fetchOptions)
         .then(res =>
             res.json().then((json) => ({
                 status: res.status,
