@@ -18,7 +18,8 @@ module.exports = {
     externals: [nodeExternals({
         whitelist: process.env.NODE_ENV === 'development' ? ['webpack/hot/poll?1000'] : undefined
     }), {
-        sqlite3: 'commonjs sqlite3'
+        sqlite3: 'commonjs sqlite3',
+        express: 'commonjs express'
     }],
     module: {
         rules: [
@@ -55,11 +56,8 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'build'),
         filename: 'server.js',
-        libraryTarget: process.env.NODE_ENV === 'development' ? undefined : 'umd'
-    },
-    node: {
-        // We are doing this because of a bug in SwaggerUI
-        __filename: false,
-        __dirname: true
+        library: process.env.NODE_ENV === 'development' ? undefined : 'optimise-core',
+        libraryTarget: process.env.NODE_ENV === 'development' ? undefined : 'umd',
+        umdNamedDefine: process.env.NODE_ENV === 'development' ? undefined : true
     }
 };
