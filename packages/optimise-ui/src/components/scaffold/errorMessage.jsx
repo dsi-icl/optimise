@@ -14,12 +14,14 @@ export default class ErrorMessage extends PureComponent {
 
     inceptError(error) {
         if (!error)
-            return null;
+            return 'Unspecified error';
         let compile = '';
+        if (error instanceof Error)
+            compile = process.env.NODE_ENV === 'production' ? error.toString() : error.stack;
         if (typeof error === 'string')
             compile = error;
         if (typeof error === 'object' && (error.error || error.data))
-            compile += ` ${this.inceptError(error.error || error.data)}`;
+            compile += `${this.inceptError(error.error || error.data)}\n `;
         return compile;
     }
 
