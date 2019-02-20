@@ -137,6 +137,8 @@
     padding: 1em;
     overflow: hidden;
     word-wrap: break-word;
+    font-family: monospace;
+    font-size: 1.2em;
 }
 
 .cancelButton {
