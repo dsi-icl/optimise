@@ -1,8 +1,11 @@
 {
     "name": "optimise-electron",
-    "version": "0.10.0",
-    "description": "Optimise:MS App",
+    "productName": "OptimiseMSDesktop",
+    "version": "1.10.0",
+    "description": "Optimise:MS Desktop Application",
     "keywords": [
+        "research",
+        "clinical",
         "ms"
     ],
     "author": {
@@ -10,25 +13,110 @@
         "name": "Florian Guitton"
     },
     "repository": "github:dsi-icl/optimise",
-    "main": "./src/electron.js",
-    "license": "MIT",
-    "dependencies": {
-        "electron-log": "3.0.1",
-        "electron-updater": "4.0.6",
-        "optimise-core": "*",
-        "optimise-ui": "*",
-        "sqlite3": "^4.0.6"
-    },
+    "main": "index.js",
     "scripts": {
+        "start": "electron .",
+        "build": "webpack --config config/webpack.prod.js",
+        "build:dev": "webpack --config config/webpack.dev.js",
         "postinstall": "electron-builder install-app-deps",
-        "build": "build --win",
-        "start": "electron ./src/"
+        "package": "electron-builder ."
+    },
+    "license": "MIT",
+    "build": {
+        "appId": "org.optimise-ms.local.app",
+        "productName": "OptimiseMSDesktop",
+        "copyright": "Copyright (c) 2018 Data Science Institute",
+        "directories": {
+            "output": "build"
+        },
+        "files": [
+            "!**/.vscode",
+            "!**/build",
+            "!**/config",
+            "!**/assets/data",
+            "!**/src"
+        ],
+        "mac": {
+            "target": [
+                "dmg",
+                "pkg",
+                "zip"
+            ],
+            "category": "public.app-category.medical",
+            "icon": "resources/icons/mac/app.icns",
+            "type": "distribution"
+        },
+        "dmg": {
+            "background": "resources/dmg_background/background.png",
+            "iconSize": 160,
+            "iconTextSize": 12,
+            "window": {
+                "width": 660,
+                "height": 400
+            },
+            "contents": [
+                {
+                    "x": 180,
+                    "y": 170,
+                    "type": "file"
+                },
+                {
+                    "x": 480,
+                    "y": 170,
+                    "type": "link",
+                    "path": "/Applications"
+                }
+            ]
+        },
+        "win": {
+            "target": [
+                "nsis",
+                "portable",
+                "zip"
+            ],
+            "icon": "resources/icons/win/app.ico"
+        },
+        "nsis": {
+            "oneClick": false,
+            "perMachine": true,
+            "allowElevation": true
+        },
+        "linux": {
+            "target": [
+                "AppImage",
+                "deb",
+                "rpm",
+                "snap"
+            ],
+            "icon": "resources/icon",
+            "category": "Utility"
+        },
+        "snap": {
+            "grade": "stable",
+            "summary": "Multiple sclerosis patient data collection software"
+        },
+        "publish": {
+            "provider": "github",
+            "owner": "dsi-icl",
+            "releaseType": "release",
+            "publishAutoUpdate": false
+        }
+    },
+    "dependencies": {
+        "express": "4.16.4",
+        "sqlite3": "4.0.6"
     },
     "devDependencies": {
-        "copy-webpack-plugin": "4.6.0",
+        "@babel/core": "7.3.3",
+        "babel-loader": "8.0.5",
+        "copy-webpack-plugin": "5.0.0",
         "electron": "4.0.3",
         "electron-builder": "20.38.5",
-        "electron-is-dev": "1.0.1",
-        "webpack": "4.29.3"
+        "electron-icon-generator": "1.0.2",
+        "electron-reload": "1.4.0",
+        "html-webpack-plugin": "3.2.0",
+        "webpack": "4.29.5",
+        "webpack-command": "0.4.2",
+        "webpack-merge": "4.2.1"
     }
 }
