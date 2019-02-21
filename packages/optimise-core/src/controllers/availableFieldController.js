@@ -1,10 +1,10 @@
-const knex = require('../utils/db-connection');
-const ErrorHelper = require('../utils/error_helper');
-const message = require('../utils/message-utils');
-const formatToJSON = require('../utils/format-response');
+import dbcon from '../utils/db-connection';
+import ErrorHelper from '../utils/error_helper';
+import message from '../utils/message-utils';
+import formatToJSON from '../utils/format-response';
 
 class AvailableFieldController {
-    getFields(req, res) {     //bound to GETclinicalEvents and GETtestTypes too
+    static getFields({ params, query }, res) {     //bound to GETclinicalEvents and GETtestTypes too
         const tableMap = {
             'visitFields': 'AVAILABLE_FIELDS_VISITS',
             'visitSections': 'AVAILABLE_VISIT_SECTIONS',
@@ -15,12 +15,12 @@ class AvailableFieldController {
             'diagnoses': 'AVAILABLE_DIAGNOSES'
         };
         let moduleObj = {};
-        if (tableMap.hasOwnProperty(req.params.dataType)) {
-            if (req.params.dataType === 'visitFields' && req.query.module) {
-                moduleObj = { module: req.query.module };
+        if (tableMap.hasOwnProperty(params.dataType)) {
+            if (params.dataType === 'visitFields' && query.module) {
+                moduleObj = { module: query.module };
             }
-            let table = tableMap[req.params.dataType];
-            knex(table)
+            let table = tableMap[params.dataType];
+            dbcon()(table)
                 .select('*')
                 .where(moduleObj)
                 .then((result) => {
@@ -41,4 +41,4 @@ class AvailableFieldController {
     }
 }
 
-module.exports = AvailableFieldController;
+export default AvailableFieldController;

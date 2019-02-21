@@ -1,24 +1,16 @@
 /* Export data for all patients */
 
-const knex = require('../utils/db-connection');
-const message = require('../utils/message-utils');
-const { searchEntry } = require('../utils/controller-utils');
-const fs = require('fs');
-const path = require('path');
+import dbcon from '../utils/db-connection';
+
+import message from '../utils/message-utils';
+import { searchEntry } from '../utils/controller-utils';
+import fs from 'fs';
+import path from 'path';
 require('express-zip');
 
 class ExportDataController {
 
-    constructor() {
-        this.createFile = this.createFile.bind(this);
-        this.createErrorFile = this.createErrorFile.bind(this);
-        this.createNoDataFile = this.createNoDataFile.bind(this);
-        this.createCsvDataFile = this.createCsvDataFile.bind(this);
-        this.createJsonDataFile = this.createJsonDataFile.bind(this);
-        this.exportDatabase = this.exportDatabase.bind(this);
-    }
-
-    createFile(filename, content) {
+    static createFile(filename, content) {
 
         if (!fs.existsSync(global.config.exportGenerationFolder)) {
             fs.mkdirSync(global.config.exportGenerationFolder);
@@ -33,19 +25,19 @@ class ExportDataController {
         };
     }
 
-    createErrorFile(errorMessage) {
+    static createErrorFile(errorMessage) {
 
-        return this.createFile('error.txt', errorMessage);
-
-    }
-
-    createNoDataFile() {
-
-        return this.createFile('noData.txt', message.userError.NODATAAVAILABLE);
+        return ExportDataController.createFile('error.txt', errorMessage);
 
     }
 
-    createCsvDataFile(result) {
+    static createNoDataFile() {
+
+        return ExportDataController.createFile('noData.txt', message.userError.NODATAAVAILABLE);
+
+    }
+
+    static createCsvDataFile(result) {
 
         const fileName = `${result[0]}.csv`;
         let keys = Object.keys(result[1][0]);
@@ -58,49 +50,49 @@ class ExportDataController {
             tempResult += '\n';
         });
         const fileContents = Buffer.from(tempResult);
-        return this.createFile(fileName, fileContents);
+        return ExportDataController.createFile(fileName, fileContents);
     }
 
-    createJsonDataFile(result) {
+    static createJsonDataFile(result) {
 
         const fileName = `${result[0]}.json`;
         const fileContents = Buffer.from(JSON.stringify(result[1]));
-        return this.createFile(fileName, fileContents);
+        return ExportDataController.createFile(fileName, fileContents);
 
     }
 
-    exportDatabase(req, res) {
+    static exportDatabase({ query }, res) {
 
         let _this = this;
         let queryfield = '';
         let queryvalue = '';
         const attachementName = `optimise_export_${Date.now()}.zip`;
 
-        if (typeof req.query.field === 'string')
-            queryfield = req.query.field;
-        else if (req.query.field !== undefined)
-            return res.status(400).zip([this.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
+        if (typeof query.field === 'string')
+            queryfield = query.field;
+        else if (query.field !== undefined)
+            return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
 
-        if (typeof req.query.value === 'string')
-            queryvalue = req.query.value;
-        else if (req.query.value !== undefined)
-            return res.status(400).zip([this.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
+        if (typeof query.value === 'string')
+            queryvalue = query.value;
+        else if (query.value !== undefined)
+            return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
 
         searchEntry(queryfield, queryvalue)
-            .then(result => result && result.length !== undefined ? result.filter(p => p.consent === true) : [])
-            .then(result => result.length > 0 ? _this.getPatientData(result.map(x => x.patientId)) : _this.createNoDataFile())
-            .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, _this.createJsonDataFile(dr), _this.createCsvDataFile(dr)] : a, []) : [domainResults])
+            .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
+            .then(result => result.length > 0 ? ExportDataController.getPatientData(result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
+            .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [domainResults])
             .then(filesArray => res.status(200).zip(filesArray), attachementName)
-            .catch(error => res.status(404).zip([_this.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], attachementName));
+            .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], attachementName));
 
     }
 
-    getPatientData(patientList) {
+    static getPatientData(patientList) {
 
         let dataPromises = [];
 
         /* Patient demographic data */
-        dataPromises.push(knex('PATIENTS')
+        dataPromises.push(dbcon()('PATIENTS')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DEMOGRAPHIC.DOB as BRTHDTC', 'GENDERS.value as SEX',
                 'DOMINANT_HANDS.value as DOMINANT', 'ETHNICITIES.value as ETHNIC', 'COUNTRIES.value as COUNTRY')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
@@ -118,7 +110,7 @@ class ExportDataController {
             }))]));
 
         /* Smoking history data */
-        dataPromises.push(knex('PATIENTS')
+        dataPromises.push(dbcon()('PATIENTS')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'SMOKING_HISTORY.value as SCORRES')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
             .leftOuterJoin('SMOKING_HISTORY', 'SMOKING_HISTORY.id', 'PATIENT_DEMOGRAPHIC.smokingHistory')
@@ -132,7 +124,7 @@ class ExportDataController {
             }))]));
 
         /* Alcohol consumption data */
-        dataPromises.push(knex('PATIENTS')
+        dataPromises.push(dbcon()('PATIENTS')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
             .leftOuterJoin('ALCOHOL_USAGE', 'ALCOHOL_USAGE.id', 'PATIENT_DEMOGRAPHIC.alcoholUsage')
@@ -146,7 +138,7 @@ class ExportDataController {
             }))]));
 
         /* Patient pregnancy data */
-        dataPromises.push(knex('PATIENTS')
+        dataPromises.push(dbcon()('PATIENTS')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_PREGNANCY.startDate as MHSTDTC', 'PREGNANCY_OUTCOMES.value as MHENRTPT',
                 'PATIENT_PREGNANCY.outcomeDate as MHENDTC', 'ADVERSE_EVENT_MEDDRA.name as MHDECOD')
             .leftOuterJoin('PATIENT_PREGNANCY', 'PATIENT_PREGNANCY.patient', 'PATIENTS.id')
@@ -163,7 +155,7 @@ class ExportDataController {
             }))]));
 
         /* Patient vital signs data (within Visit) */
-        dataPromises.push(knex('VISIT_DATA')
+        dataPromises.push(dbcon()('VISIT_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.idname as VSTEST', 'VISIT_DATA.value as VSORRES',
                 'AVAILABLE_FIELDS_VISITS.unit as VSORRESU', 'VISITS.visitDate as VSDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
@@ -181,7 +173,7 @@ class ExportDataController {
             }))]));
 
         /* Patient Adverse Events data- Pregnancy */
-        dataPromises.push(knex('PATIENT_PREGNANCY')
+        dataPromises.push(dbcon()('PATIENT_PREGNANCY')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_PREGNANCY.patient')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
@@ -196,7 +188,7 @@ class ExportDataController {
             }))]));
 
         /* Patient Adverse Events data- Clinical Events */
-        dataPromises.push(knex('CLINICAL_EVENTS')
+        dataPromises.push(dbcon()('CLINICAL_EVENTS')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'CLINICAL_EVENTS.meddra')
@@ -211,7 +203,7 @@ class ExportDataController {
             }))]));
 
         /* Patient Adverse Events data- Treatment interruptions */
-        dataPromises.push(knex('TREATMENTS_INTERRUPTIONS')
+        dataPromises.push(dbcon()('TREATMENTS_INTERRUPTIONS')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
             .leftOuterJoin('TREATMENTS', 'TREATMENTS.id', 'TREATMENTS_INTERRUPTIONS.treatment')
             .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
@@ -228,7 +220,7 @@ class ExportDataController {
             }))]));
 
         /* Patient medical history data */
-        dataPromises.push(knex('MEDICAL_HISTORY')
+        dataPromises.push(dbcon()('MEDICAL_HISTORY')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'RELATIONS.value as SREL', 'CONDITIONS.value as MHTERM',
                 'MEDICAL_HISTORY.startDate as MHSTDTC', 'MEDICAL_HISTORY.outcome as MHENRTPT', 'MEDICAL_HISTORY.resolvedYear as MHENDTC')
             .leftOuterJoin('RELATIONS', 'RELATIONS.id', 'MEDICAL_HISTORY.relation')
@@ -244,7 +236,7 @@ class ExportDataController {
             }))]));
 
         /* Patient immunisation data */
-        dataPromises.push(knex('PATIENTS')
+        dataPromises.push(dbcon()('PATIENTS')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_IMMUNISATION.vaccineName as MHTERM', 'PATIENT_IMMUNISATION.immunisationDate as MHSTDTC')
             .leftOuterJoin('PATIENT_IMMUNISATION', 'PATIENT_IMMUNISATION.id', 'PATIENTS.id')
             .whereIn('PATIENTS.id', patientList)
@@ -257,7 +249,7 @@ class ExportDataController {
             }))]));
 
         /* Patient diagnosis data */
-        dataPromises.push(knex('PATIENTS')
+        dataPromises.push(dbcon()('PATIENTS')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DIAGNOSIS.diagnosisDate as MHSTDTC', 'AVAILABLE_DIAGNOSES.value as MHTERM')
             .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENT_DIAGNOSIS.patient', 'PATIENTS.id')
             .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
@@ -273,7 +265,7 @@ class ExportDataController {
             }))]));
 
         /* Patient CE data */
-        dataPromises.push(knex('CLINICAL_EVENTS')
+        dataPromises.push(dbcon()('CLINICAL_EVENTS')
             .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_CLINICAL_EVENT_TYPES.name as CETERM',
                 'CLINICAL_EVENTS.dateStartDate as CESTDTC', 'CLINICAL_EVENTS.endDate as CEENDTC',
                 'CLINICAL_EVENTS_DATA.value as CESEV', 'AVAILABLE_FIELDS_CE.id as fieldId',
@@ -297,7 +289,7 @@ class ExportDataController {
             }))]));
 
         /* Patient Evoked Potential test data */
-        dataPromises.push(knex('TEST_DATA')
+        dataPromises.push(dbcon()('TEST_DATA')
             .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_TESTS.cdiscName as NVTEST',
                 'TEST_DATA.value as NVORRES', 'AVAILABLE_FIELDS_TESTS.unit as NVORRESU', 'AVAILABLE_FIELDS_TESTS.laterality as NVLAT',
                 'ORDERED_TESTS.actualOccurredDate as NVDTC', 'ORDERED_TESTS.expectedOccurDate as VISITDY')
@@ -318,7 +310,7 @@ class ExportDataController {
             }))]));
 
         /* Patient Laboratory Test data */
-        dataPromises.push(knex('TEST_DATA')
+        dataPromises.push(dbcon()('TEST_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_TESTS.idname as LBTEST', 'TEST_DATA.value as LBORRES',
                 'ORDERED_TESTS.expectedOccurDate as LBDTC')
             .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
@@ -338,7 +330,7 @@ class ExportDataController {
             }))]));
 
         /* Lumbar Puncture */
-        dataPromises.push(knex('TEST_DATA')
+        dataPromises.push(dbcon()('TEST_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_TESTS.idname as LBTEST', 'TEST_DATA.value as LBORRES',
                 'ORDERED_TESTS.actualOccurredDate as LBDTC')
             .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
@@ -355,15 +347,15 @@ class ExportDataController {
                 ...x,
                 DOMAIN: 'LB',
                 LBTESTCD: x.LBTEST
-            })).concat(result.map(x => ({
+            })).concat(result.map(({ STUDYID, USUBJID, LBDTC }) => ({
                 DOMAIN: 'PR',
-                STUDYID: x.STUDYID,
-                USUBJID: x.USUBJID,
-                PRDTC: x.LBDTC
+                STUDYID: STUDYID,
+                USUBJID: USUBJID,
+                PRDTC: LBDTC
             })))]));
 
         /* Patient MRI data */
-        dataPromises.push(knex('TEST_DATA')
+        dataPromises.push(dbcon()('TEST_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_TESTS.idname as MOTEST', 'TEST_DATA.value as MOORRES',
                 'ORDERED_TESTS.actualOccurredDate as MODTC')
             .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
@@ -382,7 +374,7 @@ class ExportDataController {
             }))]));
 
         /* Clinical Event data */
-        dataPromises.push(knex('CLINICAL_EVENTS_DATA')
+        dataPromises.push(dbcon()('CLINICAL_EVENTS_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_CE.idname as FATEST', 'CLINICAL_EVENTS_DATA.value as FAORRES')
             .leftOuterJoin('CLINICAL_EVENTS', 'CLINICAL_EVENTS.id', 'CLINICAL_EVENTS_DATA.clinicalEvent')
             .leftOuterJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
@@ -397,7 +389,7 @@ class ExportDataController {
             }))]));
 
         /* Patient Symptoms and Signs at Visits */
-        dataPromises.push(knex('VISIT_DATA')
+        dataPromises.push(dbcon()('VISIT_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.idname as CETERM', 'VISIT_DATA.value as CEOCCUR', 'VISITS.visitDate as CEDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
@@ -415,7 +407,7 @@ class ExportDataController {
             }))]));
 
         /* Performance Measures Visual Acuity */
-        dataPromises.push(knex('VISIT_DATA')
+        dataPromises.push(dbcon()('VISIT_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.idname as OETEST',
                 'VISIT_DATA.value as OEORRES', 'AVAILABLE_FIELDS_VISITS.laterality as OELAT', 'VISITS.visitDate as OEDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
@@ -434,7 +426,7 @@ class ExportDataController {
             }))]));
 
         /* Performance Measures Questionnaires */
-        dataPromises.push(knex('VISIT_DATA')
+        dataPromises.push(dbcon()('VISIT_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.idname as QSTEST',
                 'VISIT_DATA.value as QSORRES', 'VISITS.visitDate as QSDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
@@ -453,7 +445,7 @@ class ExportDataController {
             }))]));
 
         /* Performance Measures Functional Tests */
-        dataPromises.push(knex('VISIT_DATA')
+        dataPromises.push(dbcon()('VISIT_DATA')
             .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.idname as FTTEST',
                 'VISIT_DATA.value as FTORRES', 'VISITS.visitDate as FTDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
@@ -472,7 +464,7 @@ class ExportDataController {
             }))]));
 
         /* Patient treatment data- Domain EC may be more appropriate */
-        dataPromises.push(knex('TREATMENTS')
+        dataPromises.push(dbcon()('TREATMENTS')
             .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_DRUGS.name as EXTRT',
                 'AVAILABLE_DRUGS.module as EXCLAS', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit as EXDOSU', 'TREATMENTS.startDate as EXSTDTC',
                 'TREATMENTS.times', 'TREATMENTS.intervalUnit', 'TREATMENTS.form as EXROUTE', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC_2',
@@ -499,4 +491,4 @@ class ExportDataController {
     }
 }
 
-module.exports = ExportDataController;
+export default ExportDataController;

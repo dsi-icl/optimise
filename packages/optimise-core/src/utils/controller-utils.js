@@ -1,27 +1,27 @@
-const knex = require('../utils/db-connection');
-const message = require('../utils/message-utils');
-const ErrorHelper = require('../utils/error_helper');
+import dbcon from '../utils/db-connection';
+import message from '../utils/message-utils';
+import ErrorHelper from '../utils/error_helper';
 
-function createEntry(tablename, entryObj) {
+export const createEntry = function (tablename, entryObj) {
     return new Promise((resolve, reject) => {
-        knex(tablename).insert(entryObj).then((result) => resolve(result)).catch((error) => reject(error));
+        dbcon()(tablename).insert(entryObj).then((result) => resolve(result)).catch((error) => reject(error));
     });
-}
+};
 
-function deleteEntry(tablename, user, whereObj) {
+export const deleteEntry = function (tablename, { id }, whereObj) {
     whereObj.deleted = '-';
     return new Promise((resolve, reject) => {
-        knex(tablename).where(whereObj).update({ deleted: `${user.id}@${JSON.stringify(new Date())}` }).then((result) => resolve(result)).catch((error) => reject(error));
+        dbcon()(tablename).where(whereObj).update({ deleted: `${id}@${JSON.stringify(new Date())}` }).then((result) => resolve(result)).catch((error) => reject(error));
     });
-}
+};
 
-function getEntry(tablename, whereObj, selectedObj) {
+export const getEntry = function (tablename, whereObj, selectedObj) {
     return new Promise((resolve, reject) => {
-        knex(tablename).select(selectedObj).where(whereObj).then((result) => resolve(result)).catch((error) => reject(error));
+        dbcon()(tablename).select(selectedObj).where(whereObj).then((result) => resolve(result)).catch((error) => reject(error));
     });
-}
+};
 
-function updateEntry(tablename, user, originObj, whereObj, newObj) {
+export const updateEntry = function (tablename, { id }, originObj, whereObj, newObj) {
     whereObj.deleted = '-';
     return new Promise((resolve, reject) => getEntry(tablename, whereObj, originObj)
         .then((getResult) => {
@@ -31,29 +31,29 @@ function updateEntry(tablename, user, originObj, whereObj, newObj) {
             let oldEntry = getResult[0];
             delete oldEntry.id;
             if (oldEntry.hasOwnProperty('deleted'))
-                oldEntry.deleted = `${user.id}@${new Date().getTime()}`;
+                oldEntry.deleted = `${id}@${new Date().getTime()}`;
             if (oldEntry.hasOwnProperty('createdTime'))
-                newObj.createdTime = knex.fn.now();
+                newObj.createdTime = dbcon().fn.now();
             return oldEntry;
         })
         .then(oldEntry => createEntry(tablename, oldEntry))
-        .then(__unused__createResult => knex(tablename)
+        .then(__unused__createResult => dbcon()(tablename)
             .update(newObj)
             .where(whereObj))
         .then(updateRes => resolve(updateRes))
         .catch(error => reject(error)));
-}
+};
 
-function eraseEntry(tablename, whereObj) {
-    return knex(tablename)
+export const eraseEntry = function (tablename, whereObj) {
+    return dbcon()(tablename)
         .del()
         .where(whereObj);
-}
+};
 
-function searchEntry(queryfield, queryvalue) {
+export const searchEntry = function (queryfield, queryvalue) {
     switch (queryfield) {
         case 'OPTIMISEID':
-            return new Promise((resolve, reject) => knex('PATIENTS')
+            return new Promise((resolve, reject) => dbcon()('PATIENTS')
                 .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
                 .where('uuid', 'like', `%${queryvalue}%`)
                 .andWhere('PATIENTS.deleted', '-')
@@ -65,7 +65,7 @@ function searchEntry(queryfield, queryvalue) {
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'SEX':
-            return new Promise((resolve, reject) => knex('PATIENT_DEMOGRAPHIC')
+            return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'GENDERS.value')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                 .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
@@ -80,7 +80,7 @@ function searchEntry(queryfield, queryvalue) {
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'EXTRT':
-            return new Promise((resolve, reject) => knex('TREATMENTS')
+            return new Promise((resolve, reject) => dbcon()('TREATMENTS')
                 .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'PATIENTS.aliasId', 'PATIENTS.consent', 'PATIENTS.study')
                 .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
@@ -98,7 +98,7 @@ function searchEntry(queryfield, queryvalue) {
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'ETHNIC':
-            return new Promise((resolve, reject) => knex('PATIENT_DEMOGRAPHIC')
+            return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'ETHNICITIES.value')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                 .leftOuterJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
@@ -113,7 +113,7 @@ function searchEntry(queryfield, queryvalue) {
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'COUNTRY':
-            return new Promise((resolve, reject) => knex('PATIENT_DEMOGRAPHIC')
+            return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'COUNTRIES.value')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                 .leftOuterJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
@@ -128,7 +128,7 @@ function searchEntry(queryfield, queryvalue) {
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'DOMINANT':
-            return new Promise((resolve, reject) => knex('PATIENT_DEMOGRAPHIC')
+            return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'DOMINANT_HANDS.value')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                 .leftOuterJoin('DOMINANT_HANDS', 'DOMINANT_HANDS.id', 'PATIENT_DEMOGRAPHIC.dominantHand')
@@ -143,7 +143,7 @@ function searchEntry(queryfield, queryvalue) {
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'MHTERM':
-            return new Promise((resolve, reject) => knex('PATIENT_DIAGNOSIS')
+            return new Promise((resolve, reject) => dbcon()('PATIENT_DIAGNOSIS')
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'AVAILABLE_DIAGNOSES.value')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DIAGNOSIS.patient')
                 .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
@@ -158,7 +158,7 @@ function searchEntry(queryfield, queryvalue) {
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         default:
-            return new Promise((resolve, reject) => knex('PATIENTS')
+            return new Promise((resolve, reject) => dbcon()('PATIENTS')
                 .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
                 .where('aliasId', 'like', `%${queryvalue}%`)
                 .andWhere('PATIENTS.deleted', '-')
@@ -171,6 +171,6 @@ function searchEntry(queryfield, queryvalue) {
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
-}
+};
 
-module.exports = { getEntry: getEntry, createEntry: createEntry, updateEntry: updateEntry, deleteEntry: deleteEntry, eraseEntry: eraseEntry, searchEntry: searchEntry };
+export default { getEntry, createEntry, updateEntry, deleteEntry, eraseEntry, searchEntry };

@@ -3,13 +3,13 @@
  * @description Redirect request from /available/{} to the proper controller call
  */
 
-const express = require('express');
+import express from 'express';
+
 const fields = express();
 
-const AvailableFieldController = require('../controllers/availableFieldController');
-const AvailableFieldCtrl = new AvailableFieldController();
+import AvailableFieldController from '../controllers/availableFieldController';
 
 fields.route('/:dataType')
-    .get(AvailableFieldCtrl.getFields);
+    .get(AvailableFieldController.getFields);
 
-module.exports = fields;
+export default fields;

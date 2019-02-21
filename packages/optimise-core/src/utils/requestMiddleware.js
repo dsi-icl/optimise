@@ -1,5 +1,5 @@
 /*eslint no-console: "off"*/
-const knex = require('../utils/db-connection');
+import dbcon from '../utils/db-connection';
 
 class RequestMiddleware {
     static verifySessionAndPrivilege(req, res, next) {
@@ -23,16 +23,16 @@ class RequestMiddleware {
         // We do not filter here are assume password are always sent as 'pw'
         if (body.pw !== undefined)
             body.pw = '*';
-        knex('LOG_ACTIONS')
+        dbcon()('LOG_ACTIONS')
             .insert({ 'router': req.url, 'method': req.method, 'body': JSON.stringify(body), 'user': username ? username : '' })
             .then(__unused__res => {
                 if (process.env.NODE_ENV === 'development')
-                    console.log(`${req.method} - ${req.originalUrl} : ${username ? username : ''}`);
+                    console.debug(`${req.method} - ${req.originalUrl} ${username ? `: ${username}` : ''}`);
                 return true;
             })
             .catch(err => {
                 if (process.env.NODE_ENV === 'development')
-                    console.log(`Error caught :${err}`);
+                    console.debug(`Error caught :${err}`);
                 return false;
             });
         next();
@@ -41,4 +41,4 @@ class RequestMiddleware {
 }
 
 
-module.exports = RequestMiddleware;
+export default RequestMiddleware;

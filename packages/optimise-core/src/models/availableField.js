@@ -56,4 +56,4 @@ const fieldContainer = {
     fieldVisit: fieldVisit
 };
 
-module.exports = fieldContainer;
+export default fieldContainer;

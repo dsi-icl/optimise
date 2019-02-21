@@ -15,4 +15,4 @@ function formatToJSON(obj) {
     }
 }
 
-module.exports = formatToJSON;
+export default formatToJSON;
