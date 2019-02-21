@@ -19,7 +19,8 @@
         "build": "rimraf -r dist && webpack --config config/webpack.prod.js",
         "build:dev": "rimraf -r dist && webpack --config config/webpack.dev.js",
         "postinstall": "electron-builder install-app-deps",
-        "package": "electron-builder ."
+        "package": "electron-builder .",
+        "publish": "electron-builder -p ."
     },
     "license": "MIT",
     "build": {
