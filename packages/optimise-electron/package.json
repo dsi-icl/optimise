@@ -25,6 +25,7 @@
     "license": "MIT",
     "build": {
         "appId": "org.optimise-ms.local.app",
+        "version": "1.10.0-alpha",
         "productName": "OptimiseMSDesktop",
         "copyright": "Copyright (c) 2018 Data Science Institute",
         "directories": {
