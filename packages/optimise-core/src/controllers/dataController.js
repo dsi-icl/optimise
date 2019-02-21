@@ -1,9 +1,9 @@
-const moment = require('moment');
-const DataCore = require('../core/data');
-const ErrorHelper = require('../utils/error_helper');
-const message = require('../utils/message-utils');
-const formatToJSON = require('../utils/format-response');
-const { getEntry, createEntry, updateEntry } = require('../utils/controller-utils');
+import moment from 'moment';
+import DataCore from '../core/data';
+import ErrorHelper from '../utils/error_helper';
+import message from '../utils/message-utils';
+import formatToJSON from '../utils/format-response';
+import { getEntry, createEntry, updateEntry } from '../utils/controller-utils';
 
 const optionsContainer = {
     'visit': {
@@ -33,23 +33,18 @@ const optionsContainer = {
 };
 
 class DataController {
-    constructor() {
-        this.dataCore = new DataCore;
-        this._RouterAddOrUpdate = this._RouterAddOrUpdate.bind(this);
-        this._RouterDeleteData = this._RouterDeleteData.bind(this);
-    }
 
-    _RouterDeleteData(req, res) {
-        let options = optionsContainer[`${req.params.dataType}`];
+    static _RouterDeleteData({ params, body, user }, res) {
+        let options = optionsContainer[`${params.dataType}`];
         if (options === undefined) {
-            res.status(400).json(ErrorHelper(`data type ${req.params.dataType} not supported.`));
+            res.status(400).json(ErrorHelper(`data type ${params.dataType} not supported.`));
             return;
         }
-        if (!req.body.hasOwnProperty(`${req.params.dataType}Id`) || !req.body.hasOwnProperty('delete')) {
+        if (!body.hasOwnProperty(`${params.dataType}Id`) || !body.hasOwnProperty('delete')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        this.dataCore.deleteData(req.user, options, req.body[`${req.params.dataType}Id`], req.body.delete)
+        DataCore.deleteData(user, options, body[`${params.dataType}Id`], body.delete)
             .then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
@@ -59,45 +54,45 @@ class DataController {
             });
     }
 
-    _getField(table, id) {
-        return getEntry(table, { id: id }, { id: 'id', definition: 'definition', type: 'type', permittedValues: 'permittedValues', referenceType: 'referenceType' });
+    static _getField(table, id) {
+        return getEntry(table, { id }, { id: 'id', definition: 'definition', type: 'type', permittedValues: 'permittedValues', referenceType: 'referenceType' });
     }
 
-    _checkField(options, entries) {
+    static _checkField({ fieldTable }, entries) {
         let promiseArr = [];
         for (let i = 0; entries.hasOwnProperty('updates') && i < entries.updates.length; i++) {
-            promiseArr.push(this._getField(options.fieldTable, entries.updates[i].field));
+            promiseArr.push(DataController._getField(fieldTable, entries.updates[i].field));
         }
         for (let i = 0; entries.hasOwnProperty('adds') && i < entries.adds.length; i++) {
-            promiseArr.push(this._getField(options.fieldTable, entries.adds[i].field));
+            promiseArr.push(DataController._getField(fieldTable, entries.adds[i].field));
         }
         return Promise.all(promiseArr);
     }
 
-    _formatEntries(options, req) {
+    static _formatEntries({ dataTableForeignKey, entryIdString }, { body, user }) {
         let returned = {};
-        const numOfUpdates = (req.body.hasOwnProperty('update')) ? Object.keys(req.body.update).length : 0;
-        const numOfAdds = (req.body.hasOwnProperty('add')) ? Object.keys(req.body.add).length : 0;
+        const numOfUpdates = (body.hasOwnProperty('update')) ? Object.keys(body.update).length : 0;
+        const numOfAdds = (body.hasOwnProperty('add')) ? Object.keys(body.add).length : 0;
         const updates = [];
         const adds = [];
         for (let i = 0; i < numOfUpdates; i++) {
             const entry = {
-                'field': Object.keys(req.body.update)[i],
-                'value': req.body.update[Object.keys(req.body.update)[i]],
-                'createdByUser': req.user.id,
+                'field': Object.keys(body.update)[i],
+                'value': body.update[Object.keys(body.update)[i]],
+                'createdByUser': user.id,
                 'deleted': '-'
             };
-            entry[options.dataTableForeignKey] = req.body[options.entryIdString];
+            entry[dataTableForeignKey] = body[entryIdString];
             updates.push(entry);
         }
         for (let i = 0; i < numOfAdds; i++) {
             const entry = {
-                'field': Object.keys(req.body.add)[i],
-                'value': req.body.add[Object.keys(req.body.add)[i]],
-                'createdByUser': req.user.id,
+                'field': Object.keys(body.add)[i],
+                'value': body.add[Object.keys(body.add)[i]],
+                'createdByUser': user.id,
                 'deleted': '-'
             };
-            entry[options.dataTableForeignKey] = req.body[options.entryIdString];
+            entry[dataTableForeignKey] = body[entryIdString];
             adds.push(entry);
         }
         if (numOfAdds > 0)
@@ -107,23 +102,22 @@ class DataController {
         return returned;
     }
 
-    _createAndUpdate(req, options, inputData) {
+    static _createAndUpdate({ user }, { dataTableForeignKey, dataTable }, inputData) {
         let promiseArr = [];
 
         for (let i = 0; inputData.hasOwnProperty('updates') && i < inputData.updates.length; i++) {
             let whereObj = {};
-            whereObj[options.dataTableForeignKey] = inputData.entryId;
+            whereObj[dataTableForeignKey] = inputData.entryId;
             whereObj.field = inputData.updates[i].field;
-            promiseArr.push(updateEntry(options.dataTable, req.user, '*', whereObj, inputData.updates[i]));
+            promiseArr.push(updateEntry(dataTable, user, '*', whereObj, inputData.updates[i]));
         }
         for (let i = 0; inputData.hasOwnProperty('adds') && i < inputData.adds.length; i++) {
-            promiseArr.push(createEntry(options.dataTable, inputData.adds[i]));
+            promiseArr.push(createEntry(dataTable, inputData.adds[i]));
         }
         return Promise.all(promiseArr);
     }
 
-    _RouterAddOrUpdate(req, res) {
-        let that = this;
+    static _RouterAddOrUpdate(req, res) {
         if (optionsContainer.hasOwnProperty(`${req.params.dataType}`)) {
             let options = optionsContainer[req.params.dataType];
             if (!(req.body.hasOwnProperty(`${options.entryIdString}`) &&
@@ -131,7 +125,7 @@ class DataController {
                 res.status(400).json(ErrorHelper(message.dataMessage.MISSINGVALUE + options.entryIdString));
                 return;
             } else {
-                let entries = this._formatEntries(options, req);
+                let entries = DataController._formatEntries(options, req);
                 entries.entryId = req.body[options.entryIdString];
                 if (!req.body.hasOwnProperty('update')) { req.body.update = {}; }  //adding an empty obj so that the code later doesn't throw error for undefined
                 if (!req.body.hasOwnProperty('add')) { req.body.add = {}; }   //same
@@ -143,7 +137,7 @@ class DataController {
                             return;
                         }
                         let entryType = entryResult[0].type;
-                        return that._checkField(options, entries).then((result) => {
+                        return DataController._checkField(options, entries).then((result) => {
                             if (result.length <= 0) {
                                 res.status(400).json(ErrorHelper(message.dataMessage.FIELDNOTFOUND));
                                 return false;
@@ -172,7 +166,7 @@ class DataController {
                                             }
                                             break;
                                         case 3: //'C':
-                                            if (inputValue !== '' && inputValue !== 'unselected' && result[i][0]['permittedValues'] !== null && !(result[i][0]['permittedValues'].split(',').indexOf(inputValue) !== -1)) {  //see if the value is in the permitted values
+                                            if (inputValue !== '' && inputValue !== 'unselected' && result[i][0]['permittedValues'] !== null && !(result[i][0]['permittedValues'].split(',').includes(inputValue))) {  //see if the value is in the permitted values
                                                 res.status(400).json(ErrorHelper(`${fieldDefinition}${message.dataMessage.CHARFIELD}${result[i][0]['permittedValues']}`));
                                                 return false;
                                             }
@@ -200,7 +194,7 @@ class DataController {
                                     }
                                 }
                             }
-                            return that._createAndUpdate(req, options, entries).then((__unused__result) => {
+                            return DataController._createAndUpdate(req, options, entries).then((__unused__result) => {
                                 res.status(200).json(formatToJSON(`${message.dataMessage.SUCCESS}`));
                                 return true;
                             }).catch((error) => {
@@ -222,4 +216,4 @@ class DataController {
     }
 }
 
-module.exports = DataController;
+export default DataController;

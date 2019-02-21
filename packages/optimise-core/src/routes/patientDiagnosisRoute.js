@@ -3,19 +3,20 @@
  * @description Redirect request from /patientDiagnosis to the proper controller call
  */
 
-const express = require('express');
+import express from 'express';
+
 const patient = express();
 
-const PatientDiagnosisController = require('../controllers/patientDiagnosisController');
-const PatientDiagnosisCtrl = new PatientDiagnosisController();
+import PatientDiagnosisController from '../controllers/patientDiagnosisController';
+
 // Interacts with the patientsPregnancy in the DB
 patient.route('/')
-    .get(PatientDiagnosisCtrl.getPatientDiagnosis)
-    .post(PatientDiagnosisCtrl.createPatientDiagnosis)
-    .put(PatientDiagnosisCtrl.updatePatientDiagnosis)
-    .delete(PatientDiagnosisCtrl.deletePatientDiagnosis);
+    .get(PatientDiagnosisController.getPatientDiagnosis)
+    .post(PatientDiagnosisController.createPatientDiagnosis)
+    .put(PatientDiagnosisController.updatePatientDiagnosis)
+    .delete(PatientDiagnosisController.deletePatientDiagnosis);
 
 patient.route('/fields')
-    .get(PatientDiagnosisCtrl.getDiagnosisOptions);
+    .get(PatientDiagnosisController.getDiagnosisOptions);
 
-module.exports = patient;
+export default patient;

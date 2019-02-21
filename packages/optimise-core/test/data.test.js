@@ -1,10 +1,11 @@
 /* global describe test expect */
 
-const request = require('supertest');
+import request from 'supertest';
+
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const message = require('../src/utils/message-utils');
-const { connectAdmin, connectUser, disconnectAgent } = require('./connection');
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => { //eslint-disable-line no-undef
     await connectAdmin(admin);
@@ -18,11 +19,11 @@ afterAll(async () => { //eslint-disable-line no-undef
 
 describe('Testing data controller in various way', () => {
     test('Requesting a wrong data type', () => admin
-        .post('/data/Wrong').then(res => {
-            expect(res.status).toBe(404);
-            expect(typeof res.body).toBe('object');
-            expect(res.body.error).toBeDefined();
-            expect(res.body.error).toBe(message.userError.WRONGPATH);
+        .post('/data/Wrong').then(({ status, body }) => {
+            expect(status).toBe(404);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGPATH);
             return true;
         }));
 

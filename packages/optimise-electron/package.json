@@ -1,39 +1,124 @@
 {
-  "name": "optimise-electron",
-  "version": "0.10.0",
-  "description": "Optimise:MS App",
-  "keywords": [
-    "ms"
-  ],
-  "author": {
-    "email": "f.guitton@imperial.ac.uk",
-    "name": "Florian Guitton"
-  },
-  "homepage": "https://github.com/dsi-icl/optimise",
-  "private": true,
-  "scripts": {
-    "prebuild": "copyfiles -u 2 \"../optimise-core/build/**/*\" server/ && copyfiles -u 2 \"../optimise-ui/build/**/*\" static/ && ./scripts/fixElectronBug.sh",
-    "build": "electron-webpack",
-    "electron": "electron dist/main/main.js",
-    "prepackage": "./scripts/revertElectronBug.sh",
-    "package": "electron-builder",
-    "start": "cross-env ELECTRON_START_URL=http://localhost:3000 electron-webpack dev",
-    "test": "echo Skipped."
-  },
-  "dependencies": {
-    "optimise-core": "^0.10.0",
-    "optimise-ui": "^0.10.0",
-    "source-map-support": "0.5.10"
-  },
-  "devDependencies": {
-    "copyfiles": "2.1.0",
-    "cross-env": "5.2.0",
-    "electron": "4.0.3",
-    "electron-builder": "20.38.5",
-    "electron-webpack": "2.6.1",
-    "webpack": "4.29.0"
-  },
-  "resolutions": {
-    "webpack-sources": "^1.1.0"
-  }
+    "name": "optimise-electron",
+    "productName": "OptimiseMSDesktop",
+    "version": "1.10.0",
+    "description": "Optimise:MS Desktop Application",
+    "keywords": [
+        "research",
+        "clinical",
+        "ms"
+    ],
+    "author": {
+        "email": "f.guitton@imperial.ac.uk",
+        "name": "Florian Guitton"
+    },
+    "repository": "github:dsi-icl/optimise",
+    "main": "index.js",
+    "scripts": {
+        "start": "electron .",
+        "build": "rimraf -r dist && webpack --config config/webpack.prod.js",
+        "build:dev": "rimraf -r dist && webpack --config config/webpack.dev.js",
+        "postinstall": "electron-builder install-app-deps",
+        "package": "electron-builder .",
+        "publish": "electron-builder -p ."
+    },
+    "license": "MIT",
+    "build": {
+        "appId": "org.optimise-ms.local.app",
+        "productName": "OptimiseMSDesktop",
+        "copyright": "Copyright (c) 2018 Data Science Institute",
+        "directories": {
+            "output": "build"
+        },
+        "files": [
+            "!**/.env*",
+            "!**/.vscode",
+            "!**/build",
+            "!**/config"
+        ],
+        "mac": {
+            "target": [
+                "dmg",
+                "pkg",
+                "zip"
+            ],
+            "category": "public.app-category.medical",
+            "icon": "resources/icons/mac/app.icns",
+            "type": "distribution"
+        },
+        "dmg": {
+            "background": "resources/dmg_background/background.png",
+            "iconSize": 160,
+            "iconTextSize": 12,
+            "window": {
+                "width": 660,
+                "height": 400
+            },
+            "contents": [
+                {
+                    "x": 180,
+                    "y": 170,
+                    "type": "file"
+                },
+                {
+                    "x": 480,
+                    "y": 170,
+                    "type": "link",
+                    "path": "/Applications"
+                }
+            ]
+        },
+        "win": {
+            "target": [
+                "nsis",
+                "portable",
+                "zip"
+            ],
+            "icon": "resources/icons/win/app.ico"
+        },
+        "nsis": {
+            "oneClick": false,
+            "perMachine": true,
+            "allowElevation": true
+        },
+        "linux": {
+            "target": [
+                "AppImage",
+                "deb",
+                "rpm",
+                "snap"
+            ],
+            "icon": "resources/icon",
+            "category": "Utility"
+        },
+        "snap": {
+            "grade": "stable",
+            "summary": "Multiple sclerosis patient data collection software"
+        },
+        "publish": {
+            "provider": "github",
+            "owner": "dsi-icl",
+            "releaseType": "release",
+            "publishAutoUpdate": false
+        }
+    },
+    "dependencies": {
+        "electron-log": "3.0.1",
+        "electron-updater": "4.0.6",
+        "express": "4.16.4",
+        "sqlite3": "4.0.6"
+    },
+    "devDependencies": {
+        "@babel/core": "7.3.3",
+        "babel-loader": "8.0.5",
+        "copy-webpack-plugin": "5.0.0",
+        "electron": "4.0.3",
+        "electron-builder": "20.38.5",
+        "electron-icon-generator": "1.0.2",
+        "electron-reload": "1.4.0",
+        "html-webpack-plugin": "3.2.0",
+        "webpack": "4.29.5",
+        "webpack-command": "0.4.2",
+        "webpack-merge": "4.2.1"
+    }
 }

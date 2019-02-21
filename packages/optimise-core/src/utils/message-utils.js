@@ -5,7 +5,6 @@ const ErrorMessage = {
     GETFAIL: 'Couldn\'t fetch the entry',
     NOTFOUND: 'Couldn\'t find the entry',
     ERASEFAILED: 'Couldn\'t erase entry',
-    SEEDUPDATEERROR: 'Errored while updating seed file: table is empty',
     SEARCHFAIL: 'Couldn\'t search the database'
 };
 
@@ -62,4 +61,4 @@ const DataControllerMessageRelated = {
     ERROR: 'An error occured while creating the entry'
 };
 
-module.exports = { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage, dataMessage: DataControllerMessageRelated, dateError: DateError, dateErrorIndex: DateErrorIndex };
+export default { errorMessages: ErrorMessage, userError: UserRelatedErrorMessage, dataMessage: DataControllerMessageRelated, dateError: DateError, dateErrorIndex: DateErrorIndex };
