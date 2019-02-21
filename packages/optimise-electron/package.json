@@ -16,8 +16,8 @@
     "main": "index.js",
     "scripts": {
         "start": "electron .",
-        "build": "webpack --config config/webpack.prod.js",
-        "build:dev": "webpack --config config/webpack.dev.js",
+        "build": "rimraf -r dist && webpack --config config/webpack.prod.js",
+        "build:dev": "rimraf -r dist && webpack --config config/webpack.dev.js",
         "postinstall": "electron-builder install-app-deps",
         "package": "electron-builder ."
     },
@@ -30,11 +30,10 @@
             "output": "build"
         },
         "files": [
+            "!**/.env*",
             "!**/.vscode",
             "!**/build",
-            "!**/config",
-            "!**/assets/data",
-            "!**/src"
+            "!**/config"
         ],
         "mac": {
             "target": [

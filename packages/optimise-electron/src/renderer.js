@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     })
 
     ipcRenderer.on('optimiseApiResult', function (event, { cid, res }) {
-        console.log('received answer for call', cid, 'with response: ', res);
         callStack[cid]({
             json: () => Promise.resolve(res)
         });
