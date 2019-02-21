@@ -1,31 +1,26 @@
-const ipcRenderer = require('electron').ipcRenderer;
+const { ipcRenderer } = require('electron');
 const callStack = {};
 
 document.addEventListener('DOMContentLoaded', function (event) {
 
-    // const appVersion = require('electron').remote.app.getVersion();
-    // document.getElementById('version').innerText = appVersion;
-
-    ipcRenderer.on('message', function (event, text) {
-        const container = document.getElementById('messages');
-        const message = document.createElement('div');
-        message.innerHTML = text;
-        container.appendChild(message);
-    })
+    window['ipcUpdateCommander'] = () => {
+        ipcRenderer.send('quitAndInstall');
+    };
 
     ipcRenderer.on('updateReady', function (event, text) {
-        // changes the text of the button
-        const container = document.getElementById('ready');
-        container.innerHTML = "new version ready!";
-        alert("new version ready!");
-    })
+        window['ipcUpdateReady'] = text;
+    });
+
+    ipcRenderer.on('message', function (event, text) {
+        window['ipcUpdateStatus'] = text;
+    });
 
     ipcRenderer.on('optimiseApiResult', function (event, { cid, res }) {
         callStack[cid]({
             json: () => Promise.resolve(res)
         });
         delete callStack[cid];
-    })
+    });
 
     window['ipcFetch'] = (url, options) => {
         return new Promise((resolve) => {
@@ -37,5 +32,5 @@ document.addEventListener('DOMContentLoaded', function (event) {
                 options
             })
         })
-    }
+    };
 })

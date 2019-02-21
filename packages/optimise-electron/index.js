@@ -3,15 +3,23 @@
 const path = require('path');
 const express = require('express');
 const { app, BrowserWindow, ipcMain } = require('electron');
+const log = require('electron-log');
+const { autoUpdater } = require('electron-updater');
 const optimiseCore = require('./dist/server').default;
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
 
 let waitBeforeClose = false;
 
 const devMode = /electron/.test(path.basename(app.getPath('exe'), '.exe'));
 if (devMode) {
+
 	// Set appname and userData to indicate development environment
 	app.setName(app.getName() + '-dev');
 	app.setPath('userData', app.getPath('userData') + '-dev');
+
+	autoUpdater.updateConfigPath = path.join(__dirname, 'src/dev-app-update.yml');
 
 	// Setup reload
 	// require('electron-reload')(path.join(__dirname, 'dist/app.js'), {
@@ -106,6 +114,7 @@ const createApi = () => {
 let mainWindow;
 
 let createWindow = () => {
+
 	// Create the browser window.
 	mainWindow = new BrowserWindow({ show: false });
 	mainWindow.once('ready-to-show', () => {
@@ -134,7 +143,6 @@ let createWindow = () => {
 		}
 	})
 
-
 	// Emitted when the window is closed.
 	mainWindow.on('closed', () => {
 		// Dereference the window object, usually you would store windows
@@ -145,10 +153,41 @@ let createWindow = () => {
 	});
 }
 
+const sendStatusToWindow = (text) => {
+	log.info(text);
+	if (mainWindow)
+		mainWindow.webContents.send('message', text);
+}
+
+autoUpdater.on('checking-for-update', () => {
+	sendStatusToWindow('Checking for update...');
+})
+
+autoUpdater.on('update-available', (ev, info) => {
+	sendStatusToWindow('Update available.');
+})
+
+autoUpdater.on('update-not-available', (ev, info) => {
+	sendStatusToWindow('Update not available.');
+})
+
+autoUpdater.on('error', (ev, err) => {
+	sendStatusToWindow('Error in auto-updater.');
+})
+
+autoUpdater.on('download-progress', (ev, progressObj) => {
+	sendStatusToWindow('Download progress...');
+})
+
+autoUpdater.on('update-downloaded', (ev, info) => {
+	sendStatusToWindow('Update downloaded; will install in 5 seconds');
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', () => {
 	createApi().then(createWindow);
+	setTimeout(() => autoUpdater.checkForUpdates(), 1000)
 });
 
 // Quit when all windows are closed.
@@ -165,3 +204,7 @@ app.on('activate', () => {
 	// dock icon is clicked and there are no other windows open.
 	if (mainWindow === null) createWindow();
 });
+
+ipcMain.on('quitAndInstall', (event, arg) => {
+	autoUpdater.quitAndInstall();
+})
