@@ -1,9 +1,11 @@
 'use strict';
 
-const express = require('express');
-const optimiseCore = require('./dist/server').default;
-const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const express = require('express');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const optimiseCore = require('./dist/server').default;
+
+let waitBeforeClose = false;
 
 const devMode = /electron/.test(path.basename(app.getPath('exe'), '.exe'));
 if (devMode) {
@@ -12,9 +14,9 @@ if (devMode) {
 	app.setPath('userData', app.getPath('userData') + '-dev');
 
 	// Setup reload
-	require('electron-reload')(path.join(__dirname, 'dist/app.js'), {
-		electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
-	});
+	// require('electron-reload')(path.join(__dirname, 'dist/app.js'), {
+	// 	electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+	// });
 }
 
 const web_app = express();
@@ -97,7 +99,6 @@ const createApi = () => {
 		console.log(error.stack);
 		return false;
 	});
-
 }
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -114,7 +115,6 @@ let createWindow = () => {
 	mainWindow.maximize();
 
 	// and load the index.html of the app.
-	console.log('CWD >', __dirname);
 	mainWindow.loadURL('file://' + __dirname + '/dist/index.html');
 
 	// Open the DevTools.
@@ -122,17 +122,17 @@ let createWindow = () => {
 		mainWindow.webContents.openDevTools();
 	}
 
-	// ipcMain.on('rendererIsFinished', (message) => {
-	// 	waitBeforeClose = false;
-	// 	app.quit();
-	// })
+	ipcMain.on('rendererIsFinished', (message) => {
+		waitBeforeClose = false;
+		app.quit();
+	})
 
-	// mainWindow.on('close', (event) => {
-	// 	if (waitBeforeClose) {
-	// 		mainWindow.webContents.send('closing');
-	// 		event.preventDefault();
-	// 	}
-	// })
+	mainWindow.on('close', (event) => {
+		if (waitBeforeClose) {
+			mainWindow.webContents.send('closing');
+			event.preventDefault();
+		}
+	})
 
 
 	// Emitted when the window is closed.
@@ -141,6 +141,7 @@ let createWindow = () => {
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
 		mainWindow = null;
+		app.quit();
 	});
 }
 
