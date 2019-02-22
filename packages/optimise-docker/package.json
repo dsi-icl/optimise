@@ -15,8 +15,13 @@
         "Florian Guitton <f.guitton@imperial.ac.uk>"
     ],
     "scripts": {
-        "build": "echo \"No builds\"",
-        "start": "node server.js",
+        "build": "docker build -t datascienceinstitute/optimise:1.10.0 -f Dockerfile ..",
+        "start": "echo \"Nothing to start\"",
         "test": "echo \"No tests\""
+    },
+    "dependencies": {
+        "compression": "1.7.3",
+        "express": "4.16.4",
+        "sqlite3": "4.0.6"
     }
 }
