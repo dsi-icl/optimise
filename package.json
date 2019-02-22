@@ -33,7 +33,8 @@
         "electron": "lerna run electron --scope optimise-electron",
         "lint": "echo Put your favorite linter here.",
         "prepackage": "yarn build",
-        "package": "lerna run package --scope optimise-electron --stream",
+        "package": "lerna run package --scope optimise-docker --scope optimise-electron --stream",
+        "publish": "lerna run package --scope optimise-docker --scope optimise-electron --stream",
         "start": "lerna exec --parallel --stream --ignore optimise-docker --ignore optimise-electron yarn start",
         "test": "lerna run test --parallel"
     },
