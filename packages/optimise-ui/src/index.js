@@ -9,9 +9,6 @@ import store from './redux/store';
 import history from './redux/history';
 import * as serviceWorker from './serviceWorker';
 
-if (parent)
-    console.log(parent);
-
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
