@@ -9,7 +9,6 @@
 		"email": "f.guitton@imperial.ac.uk",
 		"name": "Florian Guitton"
 	},
-	"homepage": "./",
 	"proxy": "http://localhost:3030/",
 	"private": true,
 	"scripts": {
