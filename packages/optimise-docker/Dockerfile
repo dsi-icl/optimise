@@ -6,15 +6,13 @@ RUN mkdir -p /optimise/db
 
 WORKDIR /optimise
 
-COPY ./package.json .
-COPY ./package-lock.json .
+COPY ./optimise-docker/package.json .
 
 RUN npm install --production
 
-COPY ./public ./public
-COPY ./build ./build
-COPY ./launcher ./launcher
-COPY ./config/optimise.sample.config.js ./config/optimise.config.js
+COPY ./optimise-docker/launcher.js ./
+COPY ./optimise-core/build/* ./
+COPY ./optimise-ui/build/* ./static/
 
 EXPOSE 3030
-CMD [ "npm", "start" ]
+CMD [ "node", "launcher.js" ]
