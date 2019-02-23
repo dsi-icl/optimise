@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import store from './redux/store';
+import { addError } from './redux/actions/error';
 import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, FullscreenPanel, StatusBar, ErrorMessage, AlertMessage } from './components/scaffold';
 import Body from './components/body';
 import Login from './components/login';
@@ -19,6 +21,10 @@ class App extends Component {
 
     componentDidMount() {
         this.props.whoami();
+    }
+
+    componentDidCatch(error, __unused__info) {
+        store.dispatch(addError({ error }));
     }
 
     render() {
