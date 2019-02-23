@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { HelmetProvider } from 'react-helmet-async';
 import { Router } from 'react-router-dom';
 import App from './application';
 import store from './redux/store';
@@ -12,7 +13,9 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <App />
+            <HelmetProvider>
+                <App />
+            </HelmetProvider>
         </Router>
     </Provider>,
     document.getElementById('root'));
