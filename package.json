@@ -28,7 +28,7 @@
         "yarn": "^1.10.0"
     },
     "scripts": {
-        "build": "lerna run build --stream",
+        "build": "lerna run build --scope optimise-core --scope optimise-docker --scope optimise-electron",
         "preelectron": "yarn build",
         "electron": "lerna run electron --scope optimise-electron",
         "lint": "echo Put your favorite linter here.",
