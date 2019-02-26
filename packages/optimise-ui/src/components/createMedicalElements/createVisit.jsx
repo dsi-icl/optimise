@@ -94,7 +94,7 @@ export class CreateVisit extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
+                    <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br />
                     <label htmlFor='reasonForVisit'>Reason for the visit:</label><br />
                     <select name='reasonForVisit'
                         onChange={this._handleKeyChange}
