@@ -33,7 +33,7 @@ class MeddraController {
                 MeddraController.loadMeddraCollection();
                 return null;
             })
-            .catch(err => { res.status(500).json({ error: err }); });
+            .catch(err => { res.status(500).json({ error: err.toString() }); });
     }
 
     static loadMeddraCollection() {
