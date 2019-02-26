@@ -54,7 +54,6 @@ const httpify = ({ url, options = {} }) => {
 			socket: {},
 			pipe: (destination) => {
 				let s = new Readable();
-				console.log(typeof queue);
 				s.push(queue);
 				s.push(null);
 				s.pipe(destination);
@@ -65,7 +64,7 @@ const httpify = ({ url, options = {} }) => {
 			}
 		});
 
-		if (options.headers !== undefined && options.headers['content-type'] !== 'application/json') {
+		if (options.headers !== undefined && options.headers['content-type'] && options.headers['content-type'].search('multipart/form-data') >= 0) {
 			let boundary = `--------------------------${Math.random().toString(5).substr(2, 16)}`;
 			let content;
 			Object.keys(options.body).forEach((k) => {
@@ -73,7 +72,7 @@ const httpify = ({ url, options = {} }) => {
 				content = fs.readFileSync(options.body[k].path, 'ascii');
 				queue += `${content}`;
 			})
-			queue += `${boundary}--`;
+			queue += `\r\n${boundary}--`;
 			req.headers = req.headers || {};
 			req.headers['content-type'] = `multipart/form-data; boundary=${boundary.substr(2)}`;
 			req.headers['content-length'] = queue.length;
