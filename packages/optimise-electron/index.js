@@ -38,6 +38,8 @@ let cookie;
 const httpify = ({ url, options = {} }) => {
 	return new Promise((resolve, reject) => {
 
+		if (options.method === undefined)
+			options.method = 'GET';
 		if (cookie !== undefined) {
 			if (options.headers === undefined)
 				options.headers = {};
@@ -63,7 +65,7 @@ const httpify = ({ url, options = {} }) => {
 			}
 		});
 
-		if (options.headers !== undefined && options.headers['content-type'] === 'multipart/form-data') {
+		if (options.headers !== undefined && options.headers['content-type'] !== 'application/json') {
 			let boundary = `--------------------------${Math.random().toString(5).substr(2, 16)}`;
 			let content;
 			Object.keys(options.body).forEach((k) => {
@@ -81,7 +83,7 @@ const httpify = ({ url, options = {} }) => {
 		}
 
 		const res = {
-			_sent: '',
+			_sent: Buffer.from(''),
 			_headers: {},
 			setHeader: (name, value) => {
 				res._headers[name] = value
@@ -92,23 +94,30 @@ const httpify = ({ url, options = {} }) => {
 			get: (name) => {
 				return res._headers[name]
 			},
-			write: (chunk) => {
-				res._sent += chunk.toString();
+			write: (chunk, encoding) => {
+				res._sent = Buffer.concat([res._sent, chunk]);
 			},
 			end: (chunk, __unused__encoding) => {
-
-				res._sent += chunk.toString();
-				if (res._sent === '')
+				if (chunk !== undefined)
+					res._sent = Buffer.concat([res._sent, chunk]);
+				if (Buffer.byteLength(res._sent) === 0)
 					reject({ error: 'Could not process relevant reponse in IPC Fetch' });
 
+				let type;
 				res.writeHead(res.statusCode);
 				Object.keys(res._headers).forEach((e) => {
 					if (e.toLowerCase() === 'set-cookie')
 						cookie = res._headers[e][0].split(';')[0];
+					if (e.toLowerCase() === 'content-type')
+						type = res._headers[e];
 				})
 
-				resolve(JSON.parse(res._sent));
-			},
+				if (type.search('application/json') >= 0)
+					resolve(JSON.parse(res._sent.toString()));
+				else {
+					resolve(res._sent);
+				}
+			}
 		};
 
 		web_app(req, res)
@@ -130,16 +139,20 @@ const createApi = () => {
 			})
 		})
 
-		ipcMain.on('optimiseExportCall', (event, { url }) => {
-			console.log(`Exporting for ${url}`);
+		ipcMain.on('optimiseExportCall', (event, parameters) => {
 			const options = {
-				title: 'Save CDISC formatted data',
-				defaultPath: app.getPath('documents') + '/optimise-data.pdf',
+				title: 'Save CDISC archive',
+				defaultPath: app.getPath('documents') + '/optimise-data.zip',
 			}
 			dialog.showSaveDialog(null, options, (path) => {
-				fs.writeFile(path, "fileData for Optimise CDISC", function (err) {
-					console.error(err);
-				});
+				httpify(parameters).then((res) => {
+					fs.writeFile(path, res, function (err) {
+						if (err) {
+							console.error(err);
+							alert(err);
+						}
+					});
+				})
 			});
 		})
 
