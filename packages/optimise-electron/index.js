@@ -1,8 +1,10 @@
 'use strict';
 
+const fs = require('fs');
 const path = require('path');
+const { Readable } = require('stream')
 const express = require('express');
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const log = require('electron-log');
 const { autoUpdater } = require('electron-updater');
 const optimiseCore = require('./dist/server').default;
@@ -42,14 +44,42 @@ const httpify = ({ url, options = {} }) => {
 			options.headers.cookie = cookie;
 		}
 
+		let queue = '';
+
 		const req = Object.assign(options, {
 			url,
-			body: options.body ? JSON.parse(options.body) : undefined,
+			_readableState: {},
+			socket: {},
+			pipe: (destination) => {
+				let s = new Readable();
+				console.log(typeof queue);
+				s.push(queue);
+				s.push(null);
+				s.pipe(destination);
+			},
 			unpipe: function () { },
 			connection: {
 				remoteAddress: '::1'
 			}
 		});
+
+		if (options.headers !== undefined && options.headers['content-type'] === 'multipart/form-data') {
+			let boundary = `--------------------------${Math.random().toString(5).substr(2, 16)}`;
+			let content;
+			Object.keys(options.body).forEach((k) => {
+				queue += `${boundary}\r\nContent-Disposition: form-data; name="${k}"; filename="${options.body[k].name}";\r\nContent-Type: text/plain\r\n\r\n`;
+				content = fs.readFileSync(options.body[k].path, 'ascii');
+				queue += `${content}`;
+			})
+			queue += `${boundary}--`;
+			req.headers = req.headers || {};
+			req.headers['content-type'] = `multipart/form-data; boundary=${boundary.substr(2)}`;
+			req.headers['content-length'] = queue.length;
+			req.body = queue;
+			console.log('CHONCHON');
+		} else {
+			req.body = options.body ? JSON.parse(options.body) : undefined;
+		}
 
 		const res = {
 			_sent: '',
@@ -99,6 +129,19 @@ const createApi = () => {
 					res
 				})
 			})
+		})
+
+		ipcMain.on('optimiseExportCall', (event, { url }) => {
+			console.log(`Exporting for ${url}`);
+			const options = {
+				title: 'Save CDISC formatted data',
+				defaultPath: app.getPath('documents') + '/optimise-data.pdf',
+			}
+			dialog.showSaveDialog(null, options, (path) => {
+				fs.writeFile(path, "fileData for Optimise CDISC", function (err) {
+					console.error(err);
+				});
+			});
 		})
 
 		return true;
