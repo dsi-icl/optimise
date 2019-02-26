@@ -221,7 +221,7 @@ class UpdateMedEntry extends Component {
                     <option value='IM'>Intramuscular</option>
                     <option value='SC'>Subcutaneous</option>
                 </select><br /><br />
-                <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
+                <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                 <label>Frequency (fill both or leave both blank): </label>
                 <select name='times' value={times} onChange={this._handleChange} autoComplete='off'>
                     <option value='unselected'></option>
@@ -238,7 +238,7 @@ class UpdateMedEntry extends Component {
                     <option value='year'>per year</option>
                 </select><br /><br />
                 <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}
+                {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /><br /></>)}
                 {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
