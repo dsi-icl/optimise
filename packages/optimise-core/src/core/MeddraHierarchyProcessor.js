@@ -1,7 +1,8 @@
 import Papa from 'papaparse';
 
 class MeddraHierarchyProcessor {
-    constructor(hierfile, lltfile) {
+    constructor(startingId, hierfile, lltfile) {
+        this.startingId = startingId;
         this.hierfile = hierfile;
         this.lltfile = lltfile;
         this.hierdata = [];
@@ -63,7 +64,7 @@ class MeddraHierarchyProcessor {
         });
 
         const transformedData = [];
-        let id = 1;
+        let id = this.startingId;
         Object.keys(parents).forEach(key => {
             if (parents[key] === null) {
                 transformedData.push({
