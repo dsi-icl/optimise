@@ -21,8 +21,8 @@ export class MeddraPicker extends Component {
             const topLevelNodes = meddra.filter(el => el.parent === null && el.deleted === '-');
             this.state = ({ treeData: topLevelNodes, expandedKeys: [] });
         } else if (meddraHash[value] === undefined || meddraHash[value].deleted === '1') {
-            const topLevelNodes = [{ ...meddraHash[value], isLeaf: 1, name: `${meddraHash[value].name} (from previous MedDRA codings)` } , ...meddra.filter(el => el.parent === null && el.deleted === '-')];
-            
+            const topLevelNodes = [{ ...meddraHash[value], isLeaf: 1, name: `${meddraHash[value].name} (from previous MedDRA codings)` }, ...meddra.filter(el => el.parent === null && el.deleted === '-')];
+
             this.state = ({ treeData: topLevelNodes, expandedKeys: [] });
         } else {
             const { meddraHash } = this.props;
