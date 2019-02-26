@@ -15,9 +15,14 @@ also need to pass an onChange handler from parent to change the parent's state *
 export class MeddraPicker extends Component {
     constructor(props) {
         super(props);
-        const { meddra, value } = props;
+        const { meddra, meddraHash } = props;
+        let { value } = props;
         if (value === undefined || value === null) {
-            const topLevelNodes = meddra.filter(el => el.parent === null);
+            const topLevelNodes = meddra.filter(el => el.parent === null && el.deleted === '-');
+            this.state = ({ treeData: topLevelNodes, expandedKeys: [] });
+        } else if (meddraHash[value] === undefined || meddraHash[value].deleted === '1') {
+            const topLevelNodes = [{ ...meddraHash[value], isLeaf: 1, name: `${meddraHash[value].name} (from previous MedDRA codings)` } , ...meddra.filter(el => el.parent === null && el.deleted === '-')];
+            
             this.state = ({ treeData: topLevelNodes, expandedKeys: [] });
         } else {
             const { meddraHash } = this.props;
@@ -35,7 +40,7 @@ export class MeddraPicker extends Component {
                 p.children = [...c, n].sort((a, b) => a.id - b.id);
                 n = p;
             }
-            const topLevelNodes = meddra.filter(el => el.parent === null && el.id !== p.id);
+            const topLevelNodes = meddra.filter(el => el.parent === null && el.deleted === '-' && el.id !== p.id);
             this.state = ({ expandedKeys, treeData: [...topLevelNodes, p].sort((a, b) => a.id - b.id) });
         }
     }
@@ -44,7 +49,7 @@ export class MeddraPicker extends Component {
     onLoadData = treeNode => {
         const nodeId = treeNode.props.value;
         const { meddra } = this.props;
-        const childrenNodes = meddra.filter(el => el.parent === parseInt(nodeId));
+        const childrenNodes = meddra.filter(el => el.parent === parseInt(nodeId) && el.deleted === '-');
         return new Promise(resolve => {
             treeNode.props.dataRef.children = childrenNodes;
             const newState = [...this.state.treeData];
