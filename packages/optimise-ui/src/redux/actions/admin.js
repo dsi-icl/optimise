@@ -2,6 +2,7 @@ import { addError } from './error';
 import store from '../store';
 import actionTypes from './listOfActions';
 import { apiHelper } from '../fetchHelper';
+import { getMeddraCall } from './availableFields'; 
 
 export const getLogRequest = payload => ({ type: actionTypes.admin.GET_LOG_REQUEST, payload: payload });
 export const getLogSuccess = payload => ({ type: actionTypes.admin.GET_LOG_SUCCESS, payload: payload });
@@ -58,5 +59,6 @@ export const uploadMeddraAPICall = form => dispatch => {
         }
     }).then(() => {
         dispatch(uploadMeddraSuccess());
+        dispatch(getMeddraCall());
     }).catch(msg => { store.dispatch(uploadMeddraFailure(msg)); });
 };
