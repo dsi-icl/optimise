@@ -5,7 +5,7 @@ import dbcon from '../utils/db-connection';
 
 class ActionLog {
     static getLogs() {
-        return new Promise((resolve, reject) => getEntry('LOG_ACTIONS', {}, '*')
+        return new Promise((resolve, reject) => getEntry('LOG_ACTIONS', {}, '*', { limit: 100 })
             .then(
                 result => resolve(result),
                 error => reject(ErrorHelper(message.errorMessages.GETFAIL, error)))
