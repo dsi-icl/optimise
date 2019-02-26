@@ -54,7 +54,7 @@ export class Meddra extends Component {
                 The coding is provided in multiple files. "mdhier.asc" contains the hierarchy for SOC, HLGT, HLT, and PT codings. "llt.asc" contains the coding for LLT. <br /><br /><br />
 
                 {
-                    this.props.requesting ? <p>Loading ...</p> :
+                    this.props.requesting ? <p>Loading... Please do not leave this page. This will take about 2 minutes.</p> :
                         <>
                             Please select applicable:
                             <select onChange={this.handleSelectChange} value={this.state.lltFileExists}>
