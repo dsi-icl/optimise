@@ -16,13 +16,16 @@ export class ExportSets extends Component {
 
     _handleExportAll(e) {
         e.preventDefault();
-        window.open('/api/export');
+
+        let opener = window.ipcOpen || window.open;
+        opener('/api/export');
     }
 
     _handleExport(e) {
         e.preventDefault();
         const { data: { currentSearchType, currentSearchString } } = this.props;
-        window.open(`/api/export?field=${currentSearchType}&value=${currentSearchString}`);
+        let opener = window.ipcOpen || window.open;
+        opener(`/api/export?field=${currentSearchType}&value=${currentSearchString}`);
     }
 
     render() {

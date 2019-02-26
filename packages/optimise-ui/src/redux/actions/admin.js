@@ -50,9 +50,14 @@ export const uploadMeddraSuccess = payload => ({ type: actionTypes.admin.UPLOAD_
 export const uploadMeddraFailure = payload => ({ type: actionTypes.admin.UPLOAD_MEDDRA_FAILURE, payload: payload });
 export const uploadMeddraAPICall = form => dispatch => {
     dispatch(uploadMeddraRequest());
-    return apiHelper('/uploadMeddra', { method: 'POST', body: form, headers: { accept: 'application/json' } })
-        .then(() => {
-            dispatch(uploadMeddraSuccess());
-        })
-        .catch(msg => { store.dispatch(uploadMeddraFailure(msg)); });
+    return apiHelper('/uploadMeddra', {
+        method: 'POST',
+        body: form,
+        headers: {
+            accept: 'application/json',
+            'content-type': 'multipart/form-data'
+        }
+    }).then(() => {
+        dispatch(uploadMeddraSuccess());
+    }).catch(msg => { store.dispatch(uploadMeddraFailure(msg)); });
 };
