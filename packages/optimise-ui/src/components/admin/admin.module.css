@@ -11,6 +11,19 @@
     text-align: center;
 }
 
+.success {
+    display: block;
+    width: 100%;
+    line-height: 2em;
+    background-color: rgb(25, 75, 25);
+    color: var(--color-font-active);
+    padding: 0.5em;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
 .ariane {
     grid-area: ariane;
     display: block;
@@ -78,10 +91,12 @@
     border-left: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
+/*
 .actionsDisplay > div {
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
     padding: 0.9em;
 }
+*/
 
 .actionsDisplay > a > div {
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
