@@ -76,7 +76,6 @@ const httpify = ({ url, options = {} }) => {
 			req.headers['content-type'] = `multipart/form-data; boundary=${boundary.substr(2)}`;
 			req.headers['content-length'] = queue.length;
 			req.body = queue;
-			console.log('CHONCHON');
 		} else {
 			req.body = options.body ? JSON.parse(options.body) : undefined;
 		}
