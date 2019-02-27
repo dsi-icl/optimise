@@ -207,34 +207,52 @@ let createWindow = () => {
 	});
 }
 
-const sendStatusToWindow = (text) => {
-	log.info(text);
+const sendUpdateStatusToWindow = (message) => {
+	log.info(message);
 	if (mainWindow)
-		mainWindow.webContents.send('message', text);
+		mainWindow.webContents.send('update-message', message);
 }
 
 autoUpdater.on('checking-for-update', () => {
-	sendStatusToWindow('Checking for update...');
+	sendUpdateStatusToWindow({
+		ready: false,
+		text: 'Checking for update...'
+	});
 })
 
 autoUpdater.on('update-available', (ev, info) => {
-	sendStatusToWindow('Update available.');
+	sendUpdateStatusToWindow({
+		ready: false,
+		text: 'There is an update available! It is being downloaded...'
+	});
 })
 
 autoUpdater.on('update-not-available', (ev, info) => {
-	sendStatusToWindow('Update not available.');
+	sendUpdateStatusToWindow({
+		ready: false,
+		text: 'Nothing to update today.'
+	});
 })
 
 autoUpdater.on('error', (ev, err) => {
-	sendStatusToWindow('Error in auto-updater.');
+	sendUpdateStatusToWindow({
+		ready: false,
+		text: `There was an error with the update process. ${err.message}`
+	});
 })
 
 autoUpdater.on('download-progress', (ev, progressObj) => {
-	sendStatusToWindow('Download progress...');
+	sendUpdateStatusToWindow({
+		ready: false,
+		text: `Update download in progress... (${progressObj.percent}%)`
+	});
 })
 
 autoUpdater.on('update-downloaded', (ev, info) => {
-	sendStatusToWindow('Update downloaded; will install in 5 seconds');
+	sendUpdateStatusToWindow({
+		ready: true,
+		text: 'The update is ready! Click the button below to install.'
+	});
 });
 
 // This method will be called when Electron has finished

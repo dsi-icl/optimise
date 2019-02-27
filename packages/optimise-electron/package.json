@@ -24,6 +24,7 @@
         "build:dev:noui": "rimraf -r dist && webpack --config config/webpack.dev.js",
         "postinstall": "electron-builder install-app-deps",
         "package": "electron-builder .",
+        "prepublish": "yarn build",
         "publish": "electron-builder -p onTagOrDraft ."
     },
     "license": "MIT",
@@ -74,6 +75,9 @@
             ]
         },
         "win": {
+            "publish": [
+                "github"
+            ],
             "target": [
                 "nsis",
                 "portable",
@@ -83,7 +87,6 @@
         },
         "nsis": {
             "oneClick": false,
-            "perMachine": true,
             "allowElevation": true
         },
         "linux": {
