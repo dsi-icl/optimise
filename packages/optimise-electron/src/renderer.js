@@ -1,16 +1,15 @@
 const { ipcRenderer } = require('electron');
+const packageInfo = require('../package.json');
 const callStack = {};
 
+window['optimiseVersion'] = packageInfo.version;
 window['ipcUpdateCommander'] = () => {
     ipcRenderer.send('quitAndInstall');
 };
 
-ipcRenderer.on('updateReady', function (event, text) {
-    window['ipcUpdateReady'] = text;
-});
-
-ipcRenderer.on('message', function (event, text) {
-    window['ipcUpdateStatus'] = text;
+ipcRenderer.on('update-message', function (event, message) {
+    window['ipcUpdateReady'] = message.ready;
+    window['ipcUpdateStatus'] = message.text;
 });
 
 ipcRenderer.on('optimiseApiResult', function (event, { cid, res }) {
