@@ -98,6 +98,11 @@
 }
 */
 
+.logCard {
+    border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+    padding: 0.9em;
+}
+
 .actionsDisplay > a > div {
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
     padding: 0.9em;
