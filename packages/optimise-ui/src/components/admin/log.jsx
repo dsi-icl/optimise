@@ -19,7 +19,7 @@ export class Log extends Component {
             return <div><Icon symbol='loading' /></div>;
         } else {
             if (error) {
-                return <div> Cannot fetch.. </div>;
+                return <div> Cannot fetch... </div>;
             } else {
                 const logs = result.slice(Math.max(0, result.length - 200));
                 logs.reverse();
@@ -36,7 +36,7 @@ export class LogEntry extends PureComponent {    /* consider mapping the endpoin
     render() {
         const el = this.props.entry;
         return (
-            <div>
+            <div className={style.logCard}>
                 <b>Id: </b> <pre className={style.actionOther}>{el.id}</pre> <br />
                 <b>User: </b><pre className={style.actionOther}>{el.user}</pre><br />
                 <b>Time: </b><pre className={style.actionOther}>{el.createdTime}</pre><br />
