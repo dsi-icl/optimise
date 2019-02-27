@@ -1,7 +1,7 @@
 {
     "name": "optimise-electron",
-    "productName": "OptimiseMSDesktop",
-    "version": "1.10.1",
+    "productName": "Optimise MS Desktop",
+    "version": "1.10.2",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
         "research",
@@ -30,7 +30,7 @@
     "license": "MIT",
     "build": {
         "appId": "org.optimise-ms.local.app",
-        "productName": "OptimiseMSDesktop",
+        "productName": "Optimise MS Desktop",
         "detectUpdateChannel": true,
         "copyright": "Copyright (c) 2018 Data Science Institute",
         "directories": {
@@ -49,11 +49,11 @@
                 "zip"
             ],
             "category": "public.app-category.medical",
-            "icon": "resources/icons/mac/app.icns",
+            "icon": "resources/icons/mac/icon.png",
             "type": "distribution"
         },
         "dmg": {
-            "background": "resources/dmg_background/background.png",
+            "background": "resources/background/background.png",
             "iconSize": 160,
             "iconTextSize": 12,
             "window": {
@@ -87,7 +87,9 @@
         },
         "nsis": {
             "oneClick": false,
-            "allowElevation": true
+            "allowElevation": true,
+            "license": "../../LICENSE",
+            "installerIcon": "resources/icons/win/app.ico"
         },
         "linux": {
             "target": [
