@@ -117,7 +117,7 @@ export default class EditPrimaryDiagnoses extends Component {
                             :
                             <>
                                 <div className={style.newInterruption}>
-                                    <label>Diagnosis date: </label><PickDate startDate={this.state.diagnosisDate} handleChange={this._handleStartDateChange} /><br />
+                                    <label>Diagnosis date: </label><PickDate startDate={this.state.diagnosisDate} handleChange={this._handleStartDateChange} /><br /><br />
                                     <label>Diagnosis: </label>
                                     <select value={this.state.diagnosis} onChange={this._handleDiagnosisChange}>
                                         <option value='unselected'></option>
@@ -240,7 +240,7 @@ class OneEditPrimaryDiagnoses extends Component {
                     editing ?
                         <>
                             <div className={style.editInterruption}>
-                                <label>Diagnosis date: </label><PickDate startDate={diagnosisDate} handleChange={this._handleStartDateChange} /><br />
+                                <label>Diagnosis date: </label><PickDate startDate={diagnosisDate} handleChange={this._handleStartDateChange} /><br /><br />
                                 <label>Diagnosis: </label>
                                 <select onChange={this._handleDiagnosisChange} value={diagnosis}>
                                     <option value='unselected'></option>

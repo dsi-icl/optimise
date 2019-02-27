@@ -63,7 +63,6 @@ class ExportDataController {
 
     static exportDatabase({ query }, res) {
 
-        let _this = this;
         let queryfield = '';
         let queryvalue = '';
         const attachementName = `optimise_export_${Date.now()}.zip`;

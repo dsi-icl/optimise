@@ -259,6 +259,15 @@ function uploadMeddra(state = initialState.uploadMeddra, action) {
     }
 }
 
+function serverInfo(state = initialState.serverInfo, action) {
+    switch(action.type) {
+        case actionTypes.serverInfo.GET_SERVER_INFO_SUCCESS:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatient,
@@ -271,6 +280,7 @@ export const rootReducer = combineReducers({
     appLevelError,
     alert,
     edssCalc,
-    uploadMeddra
+    uploadMeddra,
+    serverInfo
 });
 

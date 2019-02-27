@@ -6,6 +6,7 @@ import { loginAPICall } from '../../redux/actions/login';
 import LoadBar from '../loadBar';
 import store from '../../redux/store';
 import { clearError } from '../../redux/actions/error';
+import Helmet from '../scaffold/helmet';
 import style from './login.module.css';
 
 function mapStateToProps(state) {
@@ -62,6 +63,7 @@ class Login extends Component {
 
         return (
             <div className={style.page}>
+                <Helmet title='Login' />
                 <div className={style.box}>
                     <div className={style.title}>
                         <span>optimise<strong>:</strong>ms</span>

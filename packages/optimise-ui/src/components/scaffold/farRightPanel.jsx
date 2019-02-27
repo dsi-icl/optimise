@@ -7,6 +7,7 @@ import { CreateVisit } from '../createMedicalElements/createVisit';
 import { CreateElementRouter } from '../createMedicalElements/router';
 import { EditElementRouter } from '../editMedicalElements/router';
 import { ExportSets } from '../exportCDSIC/exportSet';
+import { DeletedPatient } from '../patientProfile/deletedProfile';
 import { UserDetail } from '../admin/userDetailPage';
 import style from './scaffold.module.css';
 
@@ -20,7 +21,7 @@ export default class FarRightPanel extends Component {
                     <Route path='/patientProfile/:patientId/data/:elementType/:elementId' render={({ match }) => <DataPageRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/createVisit' render={({ match }) => <CreateVisit match={match} />} />
                     <Route path='/patientProfile/:patientId' render={({ match }) => <Section match={match} />} />
-                    <Route exact path='/searchPatient/from/deletionSuccessful' component={() => <h3>The patient has been successfully deleted!</h3>} />
+                    <Route exact path='/searchPatient/from/deletionSuccessful' component={() => <DeletedPatient />} />
                     <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatient match={match} />} />
                     <Route exact path='/createPatient/' render={() => <CreatePatient />} />
                     <Route exact path='/filterPatients' component={() => <></>} />

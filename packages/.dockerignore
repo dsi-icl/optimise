@@ -1,0 +1,4 @@
+**
+!optimise-docker/*
+!optimise-core/build/**
+!optimise-ui/build/**

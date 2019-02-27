@@ -155,7 +155,7 @@ class UpdateDemoEntry extends Component {
                 <label htmlFor='postcode'>Postcode:</label><br /> <input value={postcode} name='postcode' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
 
                 <h4>Basic demographic data</h4><br />
-                <label>Date of birth:</label><br /> <PickDate startDate={moment(DOB, 'x')} handleChange={this._handleDobDateChange} /> <br />
+                <label>Date of birth:</label><br /> <PickDate startDate={moment(DOB, 'x')} handleChange={this._handleDobDateChange} /> <br /><br />
                 <label>Gender: </label>
                 <select defaultValue={gender} ref={genderRef}>
                     {fields.genders.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
