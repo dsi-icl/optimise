@@ -860,6 +860,20 @@
                         <img src="/img/systemInfo.png" alt="newUserFormError">
                         <br/>
                         <br/>
+                        <h1 id="ug-meddra">Managing MedDRA Codings (admin only)</h1>
+                        <p>The initial installation does not come with MedDra coding, due to license reason. The software comes with an opt-in upload of the MedDRA codes, after which users can select desired code in clinical events. NB upload can only be done by admin.</p>
+                        <p>In the Admin Menu, select "Manage MedDRA codings"; you will then see the following panel.</p>
+                        <img src="/img/uploadMeddraOnlyMdhier.png" alt="uploadMeddraOnlyMdhier">
+
+                        <p>Depending on your subscription to MedDRA and your preference of the granularity of the codings that will be in the application, select the appropriate option. Mdhier.asc contains all the terms higher than "Low-level terms" and llt.asc contains all the "Low-level terms" (in MedDRA terminology).</p>
+                        <img src="/img/uploadMeddraWithLlt.png" alt="uploadMeddraWithLlt">
+                        <br/>
+
+                        <p>Select the appropriate files of the indicated name in the files provided by MedDRA and click submit. The application will start to process the file. When you see the following message, the upload is finished:</p>
+                        <img src="/img/meddraUploadDone.png" alt="uploadMeddraWithLlt">
+
+                        <p>When you get a new version of MedDRA, you can update the codings in the application by doing the same steps. If some patients already have MedDRA coding data associated with them, it will be indicated that it is an old coding. If you decide to edit the MedDRA for a patient, you will only be able to select from the new codings:</p>
+                        <img src="/img/meddraOldCodings.png" alt="uploadMeddraWithLlt">
                         <h1 id="ug-logout">Logging out</h1>
                         <p>To log out click on the logout button.</p>
                         <img src="/img/logoutButton.png" alt="logoutButton">
@@ -928,6 +942,9 @@
                             </li>
                             <li>
                                 <a href="#ug-admin">Admin menu</a>
+                            </li>
+                            <li>
+                                <a href="#ug-meddra">Manage MedDRA codings</a>
                             </li>
                             <li>
                                 <a href="#ug-logout">Logging out</a>
