@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import store from './redux/store';
+import { addError } from './redux/actions/error';
 import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, FullscreenPanel, StatusBar, ErrorMessage, AlertMessage } from './components/scaffold';
 import Body from './components/body';
 import Login from './components/login';
 import { whoami } from './redux/actions/login';
 import { getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
+import { getServerInfoCall } from './redux/actions/serverInfo';
 import Icon from './components/icon';
 
 @withRouter
@@ -19,6 +22,10 @@ class App extends Component {
 
     componentDidMount() {
         this.props.whoami();
+    }
+
+    componentDidCatch(error, __unused__info) {
+        store.dispatch(addError({ error }));
     }
 
     render() {
@@ -47,7 +54,8 @@ function mapDispatchToProps(dispatch) {
         getPregnancyOutcomesCall: () => dispatch(getPregnancyOutcomesCall()),
         getMeddraCall: () => dispatch(getMeddraCall()),
         getInterruptionReasonsCall: () => dispatch(getInterruptionReasonsCall()),
-        getVisitSectionsCall: () => dispatch(getVisitSectionsCall())
+        getVisitSectionsCall: () => dispatch(getVisitSectionsCall()),
+        getServerInfoCall: () => dispatch(getServerInfoCall())
     };
 }
 @withRouter
@@ -55,7 +63,9 @@ function mapDispatchToProps(dispatch) {
     fetching: state.availableFields.fetching
 }), mapDispatchToProps)
 class LoadingFields extends Component {
+
     componentDidMount() {
+
         this.props.getVisitFieldsCall();
         this.props.getTestFieldsCall();
         this.props.getClinicalEventTypesCall();
@@ -69,7 +79,7 @@ class LoadingFields extends Component {
         this.props.getMeddraCall();
         this.props.getInterruptionReasonsCall();
         this.props.getVisitSectionsCall();
-
+        this.props.getServerInfoCall();
     }
 
     render() {

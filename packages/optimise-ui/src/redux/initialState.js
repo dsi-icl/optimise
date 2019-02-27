@@ -116,5 +116,8 @@ export default {
         requesting: false,
         error: undefined,
         success: false
+    },
+    serverInfo: {
+        version: ''
     }
 };

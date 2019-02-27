@@ -2,8 +2,8 @@
 import express from 'express';
 
 import expressSession from 'express-session';
-import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from '../docs/swagger.json';
+// import swaggerUi from 'swagger-ui-express';
+// import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
 import passport from 'passport';
 import optimiseOptions from './core/options';
@@ -92,6 +92,7 @@ class OptimiseServer {
                 _this.setupData();
                 _this.setupExport();
                 _this.setupMeddraUpload();
+                _this.setupInfo();
                 _this.setupLogs();
                 _this.setupPPII();
                 _this.setupPatientDiagnosis();
@@ -262,6 +263,18 @@ class OptimiseServer {
 
         // Modules
         this.app.use('/export', this.routeExport);
+    }
+
+    /**
+     * @fn setupInfo
+     * @desc Initialize the info related routes
+     */
+    setupInfo() {
+        // Import the controller
+        this.infoLogs = require('./routes/infoRoute').default;
+
+        // Modules
+        this.app.use('/info', this.infoLogs);
     }
 
     /**

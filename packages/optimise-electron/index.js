@@ -1,8 +1,10 @@
 'use strict';
 
+const fs = require('fs');
 const path = require('path');
+const { Readable } = require('stream')
 const express = require('express');
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const log = require('electron-log');
 const { autoUpdater } = require('electron-updater');
 const optimiseCore = require('./dist/server').default;
@@ -36,23 +38,51 @@ let cookie;
 const httpify = ({ url, options = {} }) => {
 	return new Promise((resolve, reject) => {
 
+		if (options.method === undefined)
+			options.method = 'GET';
 		if (cookie !== undefined) {
 			if (options.headers === undefined)
 				options.headers = {};
 			options.headers.cookie = cookie;
 		}
 
+		let queue = '';
+
 		const req = Object.assign(options, {
 			url,
-			body: options.body ? JSON.parse(options.body) : undefined,
+			_readableState: {},
+			socket: {},
+			pipe: (destination) => {
+				let s = new Readable();
+				s.push(queue);
+				s.push(null);
+				s.pipe(destination);
+			},
 			unpipe: function () { },
 			connection: {
 				remoteAddress: '::1'
 			}
 		});
 
+		if (options.headers !== undefined && options.headers['content-type'] && options.headers['content-type'].search('multipart/form-data') >= 0) {
+			let boundary = `--------------------------${Math.random().toString(5).substr(2, 16)}`;
+			let content;
+			Object.keys(options.body).forEach((k) => {
+				queue += `${boundary}\r\nContent-Disposition: form-data; name="${k}"; filename="${options.body[k].name}";\r\nContent-Type: text/plain\r\n\r\n`;
+				content = fs.readFileSync(options.body[k].path, 'ascii');
+				queue += `${content}`;
+			})
+			queue += `\r\n${boundary}--`;
+			req.headers = req.headers || {};
+			req.headers['content-type'] = `multipart/form-data; boundary=${boundary.substr(2)}`;
+			req.headers['content-length'] = queue.length;
+			req.body = queue;
+		} else {
+			req.body = options.body ? JSON.parse(options.body) : undefined;
+		}
+
 		const res = {
-			_sent: '',
+			_sent: Buffer.from(''),
 			_headers: {},
 			setHeader: (name, value) => {
 				res._headers[name] = value
@@ -63,23 +93,30 @@ const httpify = ({ url, options = {} }) => {
 			get: (name) => {
 				return res._headers[name]
 			},
-			write: (chunk) => {
-				res._sent += chunk.toString();
+			write: (chunk, encoding) => {
+				res._sent = Buffer.concat([res._sent, chunk]);
 			},
 			end: (chunk, __unused__encoding) => {
-
-				res._sent += chunk.toString();
-				if (res._sent === '')
+				if (chunk !== undefined)
+					res._sent = Buffer.concat([res._sent, chunk]);
+				if (Buffer.byteLength(res._sent) === 0)
 					reject({ error: 'Could not process relevant reponse in IPC Fetch' });
 
+				let type;
 				res.writeHead(res.statusCode);
 				Object.keys(res._headers).forEach((e) => {
 					if (e.toLowerCase() === 'set-cookie')
 						cookie = res._headers[e][0].split(';')[0];
+					if (e.toLowerCase() === 'content-type')
+						type = res._headers[e];
 				})
 
-				resolve(JSON.parse(res._sent));
-			},
+				if (type.search('application/json') >= 0)
+					resolve(JSON.parse(res._sent.toString()));
+				else {
+					resolve(res._sent);
+				}
+			}
 		};
 
 		web_app(req, res)
@@ -99,6 +136,23 @@ const createApi = () => {
 					res
 				})
 			})
+		})
+
+		ipcMain.on('optimiseExportCall', (event, parameters) => {
+			const options = {
+				title: 'Save CDISC archive',
+				defaultPath: app.getPath('documents') + '/optimise-data.zip',
+			}
+			dialog.showSaveDialog(null, options, (path) => {
+				httpify(parameters).then((res) => {
+					fs.writeFile(path, res, function (err) {
+						if (err) {
+							console.error(err);
+							alert(err);
+						}
+					});
+				})
+			});
 		})
 
 		return true;

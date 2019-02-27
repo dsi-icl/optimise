@@ -4,7 +4,7 @@ import MeddraHierarchyProcessor from '../core/MeddraHierarchyProcessor';
 
 class MeddraController {
 
-    static handleMeddraUploadByAdmin({ user, files }, res) {
+    static async handleMeddraUploadByAdmin({ user, files }, res) {
         if (user.priv !== 1) {
             res.status(401).json({ error: 'Not authorized.' });
             return;
@@ -17,9 +17,17 @@ class MeddraController {
         const mdhierfile = files.mdhierfile[0];
         const lltfile = files.lltfile && files.lltfile[0];
 
+        let highestId;
+        try {
+            highestId = (await dbcon()('ADVERSE_EVENT_MEDDRA').max('id'))[0]['max(`id`)'];
+        } catch (e) {
+            res.status(400).json({ error: e });
+            return null;
+        }
+
         let result;
         try {
-            const processor = new MeddraHierarchyProcessor(mdhierfile, lltfile);
+            const processor = new MeddraHierarchyProcessor(highestId + 1, mdhierfile, lltfile);
             processor.parsebuffer();
             result = processor.transformData();
         } catch (e) {
@@ -27,13 +35,21 @@ class MeddraController {
             return null;
         }
 
-        dbcon().batchInsert('ADVERSE_EVENT_MEDDRA', result, 10)
-            .then(() => {
-                res.status(200).json({ message: 'Meddra uploaded.' });
-                MeddraController.loadMeddraCollection();
-                return null;
-            })
-            .catch(err => { res.status(500).json({ error: err }); });
+        dbcon().transaction(trx => dbcon()('ADVERSE_EVENT_MEDDRA')
+            .transacting(trx)
+            .where({ deleted: '-' })
+            .update({ deleted: '1' })
+            .then(() => dbcon()
+                .batchInsert('ADVERSE_EVENT_MEDDRA', result, 10)
+                .transacting(trx)
+            )
+            .then(trx.commit)
+            .catch(trx.rollback)
+        ).then(() => {
+            res.status(200).json({ message: 'Meddra uploaded.' });
+            MeddraController.loadMeddraCollection();
+            return null;
+        }).catch(err => { res.status(500).json({ error: err.toString() }); });
     }
 
     static loadMeddraCollection() {

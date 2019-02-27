@@ -100,5 +100,8 @@ export default {
     edssCalc: {
         CLEAR_CALCULATOR: 'CLEAR_CALCULATOR',
         DISPLAY_CALCULATOR: 'DISPLAY_CALCULATOR'
+    },
+    serverInfo: {
+        GET_SERVER_INFO_SUCCESS: 'GET_SERVER_INFO_SUCCESS'
     }
 };
