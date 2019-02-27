@@ -8,10 +8,13 @@ import packageInfo from '../../../package.json';
 }))
 export default class StatusBar extends Component {
     render() {
+        let version = packageInfo.version;
+        if (window && window.optimiseVersion)
+            version = window.optimiseVersion;
         return (
             <div className={style.statusBar}>
                 <span> You are logged in as {this.props.username}</span>
-                <span className={style.rightPush}> OptimiseMS v{packageInfo.version}</span>
+                <span className={style.rightPush}> OptimiseMS v{version}</span>
             </div>
         );
     }

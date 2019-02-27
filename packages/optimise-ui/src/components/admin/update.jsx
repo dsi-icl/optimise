@@ -33,13 +33,8 @@ export class Update extends PureComponent {
         else
             return (
                 <>
-                    {}
-                    {this.state.ipcUpdateReady !== undefined ? (
-                        <>
-                            {this.state.ipcUpdateReady}<br /><br />
-                            <button onClick={() => window.ipcUpdateCommander()}>Quit and install</button>
-                        </>
-                    ) : this.state.ipcUpdateStatus || 'Checking for updates...'}
+                    {this.state.ipcUpdateStatus || 'Checking for updates...'}<br/><br/>
+                    {this.state.ipcUpdateReady === true ? <button onClick={() => window.ipcUpdateCommander()}>Quit and install</button> : null}
                 </>
             );
     }
