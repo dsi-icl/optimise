@@ -22,7 +22,7 @@
         "test": "echo \"No tests\""
     },
     "dependencies": {
-        "compression": "1.7.3",
+        "compression": "1.7.4",
         "express": "4.16.4",
         "sqlite3": "4.0.6"
     }
