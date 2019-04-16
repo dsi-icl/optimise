@@ -7015,7 +7015,12 @@ fsevents@1.2.4:
     nan "^2.9.2"
     node-pre-gyp "^0.10.0"
 
-fsevents@1.2.7, fsevents@^1.2.3, fsevents@^1.2.7:
+fsevents@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.0.4.tgz#44bc59e832b8570b617d7617236d739a51dca6db"
+  integrity sha512-s5Nz+S1I1krznEMeI8msYq+AYL3aj6rmbK6uaMykZvSpN9zY1Ev/11O1RXbrlpJyxvn0VzhySs8LNkxwOHMl1g==
+
+fsevents@^1.2.3, fsevents@^1.2.7:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.2.7.tgz#4851b664a3783e52003b3c66eb0eee1074933aa4"
   integrity sha512-Pxm6sI2MeBD7RdD12RYsqaP0nMiwx8eZBXCa6z2L+mRHm2DYrOYwihmhjpkdjUHwQhslWQjRpEgNq4XvBmaAuw==
