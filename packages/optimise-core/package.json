@@ -67,7 +67,7 @@
     },
     "optionalDependencies": {
         "ajv": "6.10.0",
-        "fsevents": "1.2.7"
+        "fsevents": "1.2.8"
     },
     "jest": {
         "globalSetup": "<rootDir>/test/setup.js",
