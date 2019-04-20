@@ -1,4 +1,4 @@
-import countries from './defaults/countries.json';
+import countries from './defaults_v1/countries.json';
 
 export const TABLE_NAME = 'COUNTRIES';
 export const PRIORITY = 0;

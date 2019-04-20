@@ -1,4 +1,4 @@
-import availableCETypes from './defaults/ceTypes.json';
+import availableCETypes from './defaults_v1/ceTypes.json';
 
 export const TABLE_NAME = 'AVAILABLE_CLINICAL_EVENT_TYPES';
 export const PRIORITY = 0;
