@@ -1,4 +1,4 @@
-import availableTestTypes from './defaults/testTypes.json';
+import availableTestTypes from './defaults_v1/testTypes.json';
 
 export const TABLE_NAME = 'AVAILABLE_TEST_TYPES';
 export const PRIORITY = 0;

@@ -1,4 +1,4 @@
-import visitFields from './defaults/visitFields.json';
+import visitFields from './defaults_v1/visitFields.json';
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_VISITS';
 export const PRIORITY = 1;
