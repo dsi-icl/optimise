@@ -21,6 +21,16 @@ export default async (dbcon, version) => {
                 table.unique(['patient', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
             });
             break;
+        case 2:
+            // TO-DO: Migrate Alcohol data from PATIENT_DEMOGRAPHIC to VISIT_DATA
+            await dbcon().table(TABLE_NAME, (table) => {
+                table.dropColumn('alcoholUsage');
+                table.dropColumn('smokingHistory');
+            });
+            await dbcon().schema
+                .dropTable('ALCOHOL_USAGE')
+                .dropTable('SMOKING_HISTORY');
+            break;
         default:
             break;
     }

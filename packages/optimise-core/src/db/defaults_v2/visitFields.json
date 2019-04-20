@@ -1,0 +1,32 @@
+[
+    {
+        "id": 252,
+        "definition": "Smoking habit",
+        "idname": "smoking habit",
+        "section": 1,
+        "subsection": null,
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "Smoker,Ex-smoker,Never smoked,E-cigarette smoker",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 253,
+        "definition": "Alcohol habit",
+        "idname": "alcohol habit",
+        "section": 1,
+        "subsection": null,
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "More than 3 units a day,Less than 3 units a day,Less than 3 units a week,No alcohol consumption,Unknown",
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    }
+]
