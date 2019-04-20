@@ -63,9 +63,10 @@ class ExportDataController {
 
     static exportDatabase({ query }, res) {
 
+        let isCDISC = query.cdisc !== undefined;
         let queryfield = '';
         let queryvalue = '';
-        const attachementName = `optimise_export_${Date.now()}.zip`;
+        let attachementName = `optimise_export_${Date.now()}`;
 
         if (typeof query.field === 'string')
             queryfield = query.field;
@@ -77,16 +78,25 @@ class ExportDataController {
         else if (query.value !== undefined)
             return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
 
+        let extractor = 'getPatientData';
+        if (isCDISC === true) {
+            extractor = 'getPatientDataCDISC';
+            attachementName += '_cdisc';
+        }
         searchEntry(queryfield, queryvalue)
             .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
-            .then(result => result.length > 0 ? ExportDataController.getPatientData(result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
-            .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [domainResults])
-            .then(filesArray => res.status(200).zip(filesArray), attachementName)
+            .then(result => result.length > 0 ? ExportDataController[extractor](result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
+            .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
+            .then(filesArray => res.status(200).zip(filesArray, `${attachementName}.zip`))
             .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], attachementName));
-
     }
 
     static getPatientData(patientList) {
+        let dataPromises = [];
+        return Promise.all(dataPromises);
+    }
+
+    static getPatientDataCDISC(patientList) {
 
         let dataPromises = [];
 
@@ -486,6 +496,7 @@ class ExportDataController {
                 EXDOSFRQ: x.times && x.intervalUnit ? `${x.times} ${x.intervalUnit}` : undefined
             }))]));
 
+        // Returning all domains as separate promise on matrix
         return Promise.all(dataPromises);
     }
 }
