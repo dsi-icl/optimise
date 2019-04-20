@@ -1,7 +1,7 @@
 {
     "name": "optimise-electron",
     "productName": "Optimise MS Desktop",
-    "version": "1.10.2",
+    "version": "1.10.4",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
         "research",
@@ -32,7 +32,7 @@
         "appId": "org.optimise-ms.local.app",
         "productName": "Optimise MS Desktop",
         "detectUpdateChannel": true,
-        "copyright": "Copyright (c) 2018 Data Science Institute",
+        "copyright": "Copyright (c) 2019 Data Science Institute",
         "directories": {
             "output": "build"
         },

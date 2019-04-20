@@ -269,7 +269,7 @@ class PrimaryDiagnosis extends Component {
     render() {
         if (this.props.data.diagnosis.length === 0) {
             return (
-                <PatientProfileSectionScaffold sectionName='Last Primary Diagnosis' actions={
+                <PatientProfileSectionScaffold sectionName='Last Primary MS Diagnosis' actions={
                     <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
                 }>
                     <i>No recorded diagnosis</i>
@@ -288,7 +288,7 @@ class PrimaryDiagnosis extends Component {
         }
 
         return (
-            <PatientProfileSectionScaffold sectionName='Last Primary Diagnosis' actions={
+            <PatientProfileSectionScaffold sectionName='Last Primary MS Diagnosis' actions={
                 <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
             }>
                 <>
