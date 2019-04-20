@@ -94,7 +94,7 @@ export default class EditPrimaryDiagnoses extends Component {
             return (
                 <>
                     <div className={style.ariane}>
-                        <h2>Primary Diagnoses</h2>
+                        <h2>Primary MS Diagnoses</h2>
                         <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                     </div>
                     <form className={style.panel}>

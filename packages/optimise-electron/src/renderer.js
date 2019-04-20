@@ -41,6 +41,8 @@ window['ipcFetch'] = (url, options) => {
                     size: llt.size
                 }
             options.body = files;
+            options.headers = options.headers || {};
+            options.headers['content-type'] = 'multipart/form-data';
         }
         ipcRenderer.send('optimiseApiCall', {
             cid,

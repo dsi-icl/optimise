@@ -180,7 +180,7 @@ export default class CreatePatient extends Component {    //get these props from
                             <label htmlFor='alcohol_usage'>Alcohol usage:</label><br /> <SelectField name='alcohol_usage' value={this.state['alcohol_usage']} options={alcohol_usage} handler={this._handleChange} /> <br /><br />
                             <label htmlFor='smoking_history'>Smoking history:</label><br /> <SelectField name='smoking_history' value={this.state['smoking_history']} options={smoking_history} handler={this._handleChange} /> <br /><br />
                             <br />
-                            <h4>Primary diagnosis</h4><br />
+                            <h4>Primary MS diagnosis</h4><br />
                             <label>Diagnosis date:</label><br /> <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleDiagnosisDateChange} /> <br /><br />
                             <label htmlFor='diagnosis'>Diagnosis:</label><br /> <SelectField name='diagnosis' value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} /> <br /><br />
                             {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}

@@ -8,7 +8,7 @@
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <meta content="Optimise" name="description">
     <meta content="Florian Guitton" name="author">
-    <title>Optimise MS v1.10.2 :: Welcome</title>
+    <title>Optimise MS v1.10.4 :: Welcome</title>
     <link href="/styles/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/styles/optimise.css" rel="stylesheet" type="text/css">
 </head>
@@ -75,40 +75,48 @@
                             evaluate
                             treatments.
                         </p>
-                        <p>The user can enter demographic, medical history and family medical history, clinical event,
-                            visit,
+                        <p>Users can enter demographic, medical history, clinical event, visit,
                             test and treatment data.</p>
-                        <p>Optimise MS can be used in two modes; the offline mode when networking is enabled and the
-                            online
-                            mode when networking is disabled.</p>
+                        <p>Optimise MS can be used in various settings and you can choose to install it in offline mode
+                            as a desktop application, useful when a network connection is not available enabled or in
+                            online mode, installed on your IT department servers usable by a whole team simultaneously.
+                        </p>
                         <p>This guide assumes that the Optimise MS system has been successfully configured as described
-                            at
-                            <a href="/#getting-started">Getting started</a>. An administrator needs to be defined who
-                            can control permissions for data
-                            access and securely provide users with login details. The PC and login passwords should be
-                            kept
-                            securely.
+                            at <a href="/#getting-started">Getting started</a>. An administrator needs to be defined who
+                            can control permissions for data access and securely provide users with login details. The
+                            PC and login passwords should be kept securely.
                         </p>
                         <h1 id="ug-patientID">Patient identifiers</h1>
                         <p>A patient identifier is required when creating a new patient in Optimise MS. The term Patient
-                            ID,
-                            used in this guide, refers to this identifier which may correspond to the patient's NHS ID.
-                            Optimise
-                            MS stores an independently generated, pseudonymised ID along with the patient ID entered by
-                            the
-                            user at patient creation time- this generated identifier is referred to as Optimise ID.</p>
-                        <p>The generated Optimise ID is included in the exported data (more about the export in the
-                            section
-                            <a href="#ug-export">Exporting patient data</a>). The patient ID, which, as mentioned above,
-                            can be the NHS ID, is
-                            not included in the exported data sets. You can retrieve the patient ID using the
-                            <a href="ug-search">Search tool</a> as search by this generated ID is also possible.
+                            ID, used in this guide, refers to this identifier which may correspond to the patient's NHS
+                            ID, CHI ID or otherwise qualified hospital identifier. Optimise MS stores an independently
+                            generated pseudo-anonymised ID along with the patient ID entered by the user at patient
+                            creation time - this generated identifier is referred to as Optimise ID.
+                        </p>
+                        <p>The Optimise ID is included in the exported data (more about the export in the section <a
+                                href="#ug-export">Exporting patient data</a>). Note that you can retrieve the original
+                            patient ID using the <a href="ug-search">Search tool</a> by searching the corresponding
+                            Optimise ID; you must be an administrator on the system to carry out this de-anonymisation
+                            operation.
                         </p>
                         <h1 id="ug-login">Logging in</h1>
-                        <p>To start using the Optimise MS portal, first open your favourite modern
-                            <a href="/index.html#support">Browser</a>.</p>
-                        <p>Then, enter the hosting address in the address bar.</p>
-                        <p>You should see the following screen.</p>
+                        <div class="bs-callout bs-callout-info" id="onlineVersion">
+                            <h4>For users of the online version</h4>
+                            <p>To start using Optimise MS, first open your favourite modern
+                                <a href="/index.html#support">Browser</a>. Then, enter the hosting address in the
+                                address bar <i>(You may need the assistance of your IT administrator)</i>.
+                            </p>
+                        </div>
+                        <div class="bs-callout bs-callout-info" id="offlineVersion">
+                            <h4>For users of the desktop version, working offline</h4>
+                            <p>To begin, simply launch the Optimise MS program installed on your computer. It might
+                                be found on the desktop <i>(You may need the assistance of your IT administrator)</i>
+                                and features the following icon:</p>
+                        </div>
+                        <img src="/img/desktopLaunchIcon.png" width="30%" alt="launchIcon">
+                        <img src="/img/desktopLaunch.png" alt="launch"><br />
+                        <br />
+                        <p>Once done, you should see the the following screen.</p>
                         <img src="/img/loginPage.png" alt="login">
                         <br />
                         <br />
@@ -161,14 +169,13 @@
                         <br />
                         <p>Data files generated by Optimise MS using the
                             <a href="#ug-export">Export option</a> do not include the
-                            <a href="#ug-patientID">patient ID</a>. You can retrieve the Patient ID using the Search
-                            tool. Select Anonymised ID from
-                            the drop-down 'Search by' list and enter the Optimise ID (labelled as USUBJID) you see in
-                            the
-                            exported files in the 'Containing' box. This allows retrieval of the patient ID- the patient
-                            ID is shown in the search results.
+                            <a href="#ug-patientID">patient ID</a>. Should you wish to retrieve the Patient ID, you can
+                            do so using the Search
+                            tool. You will need to obtain the Optimise ID (labelled 'USUBJID' in the CDISC standard) and
+                            search by 'Optimise ID' in the
+                            drop-down list.
                         </p>
-                        <p>Search by fields other than Patient ID and Anonymised ID (generated Optimise ID) is also
+                        <p>Search by fields other than Patient ID and Optimise ID (generated Optimise ID) is also
                             available.
                             The example below refers to a search by country of origin with search value 'Canada'. The
                             search
@@ -185,7 +192,8 @@
                         <br />
                         <p>The timeline and a summary of the patient's Medical History will be available in the left
                             panel.
-                            An overview that includes the patient profile, the primary diagnosis and other sections is
+                            An overview that includes the patient profile, the primary MS diagnosis and other sections
+                            is
                             available
                             in the right panel (see next screenshot). You may add, edit, or delete data for these
                             sections
@@ -195,7 +203,7 @@
                             you can
                             search and create patients, click on
                             <img src="/img/xButton.png" alt="examplePatientProfileClose"> which is located near the top
-                            centre of the page as shown below.</p>
+                            center of the page as shown below.</p>
                         <img src="/img/examplePatientProfileClose.png" alt="examplePatientProfileClose">
                         <br />
                         <br />
@@ -229,7 +237,8 @@
                             see
                             the following message, please ensure the new patient profile form is completed before
                             clicking
-                            Submit.
+                            Submit. Please note that some field propose explicitly the value 'Unknown', it is an
+                            acceptable value as long as it is selected from the list.
                         </p>
                         <img src="/img/newPatientProfileError.png" alt="newPatientErrorMessage">
                         <br />
@@ -248,7 +257,7 @@
                         <br />
                         <br />
                         <p>You may also return to the patient search page by clicking on
-                            <img src="/img/xButton.png" alt="close"> near the top centre of the screen highlighted
+                            <img src="/img/xButton.png" alt="close"> near the top center of the screen highlighted
                             below.</p>
                         <img src="/img/newPatientProfileClose.png" alt="newPatientClose">
                         <br />
@@ -332,14 +341,15 @@
                         <img src="/img/patientProfileEdit1.png" alt="editProfile1">
                         <br />
                         <br />
-                        <p>The Primary Diagnosis section in the Overview panel contains the most recent diagnosis data.
+                        <p>The Primary MS Diagnosis section in the Overview panel contains the most recent diagnosis
+                            data.
                             To edit
                             this or add more diagnoses, click
-                            <img src="/img/editButton.png" alt="editProfileButton"> next to Primary Diagnosis.</p>
+                            <img src="/img/editButton.png" alt="editProfileButton"> next to Primary MS Diagnosis.</p>
                         <img src="/img/primaryDiagnosisEditButton.png" alt="editDiagnosisButton">
                         <br />
                         <br />
-                        <p>A list of all diagnoses is shown in the right panel. Click on
+                        <p>A list of all prior MS diagnoses is shown in the right panel. Click on
                             <img src="/img/deleteEntry.png" alt="delete"> to delete the diagnosis entry. Click on
                             <img src="/img/editButton.png" alt="editProfileButton"> to edit that entry.
                         </p>
@@ -354,7 +364,7 @@
                         <img src="/img/primaryDiagnosisForm.png" alt="editDiagnosisForm">
                         <br />
                         <br />
-                        <p>To add more primary diagnoses, click on</p>
+                        <p>To add more primary MS diagnoses, click on</p>
                         <img src="/img/addDiagnosisButton.png" alt="addDiagnosisButton">
                         <br />
                         <br />
@@ -424,8 +434,8 @@
                         <br />
                         <h3 id="ug-visit">Visit data</h3>
                         <p>Each clinical consultation is represented as a Visit in Optimise MS. A “Baseline Visit” would
-                            usually
-                            refer to the first visit to the clinical site or consultant responsible for the database.
+                            usually refer to the first visit at the clinical site or consultant responsible for the
+                            database.
                         </p>
                         <p>Click on
                             <img src="/img/newVisitButton.png" alt="newVisit"> to create a new visit for the patient.
@@ -761,8 +771,9 @@
                             <a href="https://www.meddra.org">https://www.meddra.org</a>) is available. Note, however,
                             that as MedDRA coding is subject to
                             license, the full tree is not available on this openly downloadable version of Optimise MS
-                            (lower
-                            level terms are not available). Click on the arrows
+                            (lower level terms are not available). ). If you have a license ans which to use it, please
+                            go to the <a href="#ug-meddra">Manage MedDRA codings</a>
+                            section of this manual which will guide you through the upload process. Click on the arrows
                             <img src="/img/arrow.png" alt="interruptionFormMeddraArrow"> next to each grouping term in
                             the list to follow the expanding tree of terms and identify the
                             specific adverse event. Click on the term to store it in the MedDRA field. Any term at any
@@ -952,8 +963,7 @@
                         <br />
                         <br />
                         <p>The patient ID is not included in any of the export output files; the Optimise ID (an
-                            anonymised
-                            generated ID) replaces the patient ID as described in the section
+                            pseudo-anonymised generated ID) replaces the patient ID as described in the section
                             <a href="#ug-patientID">Patient identifiers</a>. The column USUBJID (Unique Subject
                             Identifier) in the exported treatment
                             data CSV file stores Optimise ID.</p>
