@@ -1,0 +1,41 @@
+.centered {
+	width:2em;
+	height:50px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+}
+
+.top, .bottom {
+	width:0.5em;
+	height:0.5em;
+	position:absolute;
+	border-radius:50%;
+	top:50%;left:50%;
+	transform:translate(-50%,-50%);
+}
+
+.top {
+	top:20%;
+	animation:osc-l 1.5s ease infinite;
+	background:#ffffff;
+}
+
+.bottom {
+	top:80%;
+	animation:osc-r 1.5s ease infinite;
+	background:#68dece;
+}
+
+@keyframes osc-l {
+	0%{top:20%;}
+	50%{top:50%;}
+	100%{top:20%;}
+}
+
+@keyframes osc-r {
+	0%{top:80%;}
+	50%{top:50%;}
+	100%{top:80%;}
+}

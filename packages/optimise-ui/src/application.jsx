@@ -6,10 +6,10 @@ import { addError } from './redux/actions/error';
 import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, FullscreenPanel, StatusBar, ErrorMessage, AlertMessage } from './components/scaffold';
 import Body from './components/body';
 import Login from './components/login';
+import CenterSpinner from './components/centerSpinner';
 import { whoami } from './redux/actions/login';
 import { getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
 import { getServerInfoCall } from './redux/actions/serverInfo';
-import Icon from './components/icon';
 
 @withRouter
 @connect(state => ({
@@ -31,7 +31,7 @@ class App extends Component {
     render() {
         return (
             <Body>
-                {this.props.checking ? <Icon symbol='loading' /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+                {this.props.checking ? <CenterSpinner /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
                 <AlertMessage />
                 <ErrorMessage />
             </Body>
@@ -84,7 +84,7 @@ class LoadingFields extends Component {
 
     render() {
         if (this.props.fetching) {
-            return <div><Icon symbol='loading' /></div>;
+            return <CenterSpinner />;
         } else {
             return (
                 <>
