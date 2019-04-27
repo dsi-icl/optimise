@@ -84,13 +84,11 @@ class DemographicSection extends Component {
     render() {
         const { data: { demographicData }, pii, fields } = this.props;
         if (demographicData) {
-            let { DOB, alcoholUsage, countryOfOrigin, dominantHand, ethnicity, gender, smokingHistory } = demographicData;
-            alcoholUsage = fields['alcohol_usage'].filter(el => el.id === alcoholUsage)[0].value;
+            let { DOB, countryOfOrigin, dominantHand, ethnicity, gender } = demographicData;
             countryOfOrigin = fields['countries'].filter(el => el.id === countryOfOrigin)[0].value;
             dominantHand = fields['dominant_hands'].filter(el => el.id === dominantHand)[0].value;
             ethnicity = fields['ethnicities'].filter(el => el.id === ethnicity)[0].value;
             gender = fields['genders'].filter(el => el.id === gender)[0].value;
-            smokingHistory = fields['smoking_history'].filter(el => el.id === smokingHistory)[0].value;
 
             return (
                 <PatientProfileSectionScaffold sectionName='Profile' actions={
@@ -101,8 +99,6 @@ class DemographicSection extends Component {
                     <label>Dominant hand:</label> <span>{dominantHand}</span> <br />
                     <label>Ethnicity:</label> <span>{ethnicity}</span> <br />
                     <label>Country of origin:</label> <span>{countryOfOrigin}</span> <br />
-                    <label>Alcohol usage:</label> <span>{alcoholUsage}</span> <br />
-                    <label>Smoking history:</label> <span>{smokingHistory}</span>
                     <div onMouseLeave={this._hidePii} className={`${style.closePii} ${pii && this.state.showPii ? style.openPii : ''}`}>
                         <span onClick={this._queryPatientData} className={style.piiUncover}>Show Personally Identifiable Information</span>
                         {pii ?

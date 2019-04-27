@@ -16,12 +16,12 @@ class DemographicDataController {
 
     static createDemographic({ body, user }, res) {
         if ((!body.hasOwnProperty('patient') || !body.hasOwnProperty('DOB') || !body.hasOwnProperty('gender') || !body.hasOwnProperty('dominant_hand')
-            || !body.hasOwnProperty('ethnicity') || !body.hasOwnProperty('country_of_origin') || !body.hasOwnProperty('alcohol_usage') || !body.hasOwnProperty('smoking_history'))) {
+            || !body.hasOwnProperty('ethnicity') || !body.hasOwnProperty('country_of_origin'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
         if (typeof body.patient !== 'number' || typeof body.DOB !== 'string' || typeof body.gender !== 'number' || typeof body.dominant_hand !== 'number'
-            || typeof body.ethnicity !== 'number' || typeof body.country_of_origin !== 'number' || typeof body.alcohol_usage !== 'number' || typeof body.smoking_history !== 'number') {
+            || typeof body.ethnicity !== 'number' || typeof body.country_of_origin !== 'number') {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -37,8 +37,6 @@ class DemographicDataController {
             'dominantHand': body.dominant_hand,
             'ethnicity': body.ethnicity,
             'countryOfOrigin': body.country_of_origin,
-            'alcoholUsage': body.alcohol_usage,
-            'smokingHistory': body.smoking_history,
             'createdByUser': user.id
         };
         if (body.hasOwnProperty('DOB') && body.DOB !== null)
