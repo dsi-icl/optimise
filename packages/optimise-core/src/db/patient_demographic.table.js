@@ -13,8 +13,8 @@ export default async (dbcon, version) => {
                 table.integer('dominantHand').notNullable().references('id').inTable('DOMINANT_HANDS');
                 table.integer('ethnicity').notNullable().references('id').inTable('ETHNICITIES');
                 table.integer('countryOfOrigin').notNullable().references('id').inTable('COUNTRIES');
-                table.integer('alcoholUsage').notNullable().references('id').inTable('ALCOHOL_USAGE');
-                table.integer('smokingHistory').notNullable().references('id').inTable('SMOKING_HISTORY');
+                table.integer('alcoholUsage').references('id').inTable('ALCOHOL_USAGE');
+                table.integer('smokingHistory').references('id').inTable('SMOKING_HISTORY');
                 table.text('createdTime').notNullable().defaultTo(dbcon().fn.now());
                 table.integer('createdByUser').notNullable().references('id').inTable('USERS');
                 table.text('deleted').notNullable().defaultTo('-');
