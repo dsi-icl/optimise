@@ -97,6 +97,7 @@ class OptimiseServer {
                 _this.setupPPII();
                 _this.setupPatientDiagnosis();
                 _this.setupMeddra();
+                _this.setupICD11();
 
                 _this.app.all('/*', (__unused__req, res) => {
                     res.status(400);
@@ -323,6 +324,14 @@ class OptimiseServer {
 
         this.app.route('/meddra')
             .get(MeddraController.getMeddraField);
+    }
+
+    setupICD11() {
+        // initializing the meddra controller
+        const ICD11Controller = require('./controllers/icd11Controller.js').default;
+
+        this.app.route('/icd11')
+            .get(ICD11Controller.getICD11Field);
     }
 
     /**
