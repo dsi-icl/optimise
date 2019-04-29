@@ -8,7 +8,7 @@ import Body from './components/body';
 import Login from './components/login';
 import CenterSpinner from './components/centerSpinner';
 import { whoami } from './redux/actions/login';
-import { getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
+import { getICD11Call, getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
 import { getServerInfoCall } from './redux/actions/serverInfo';
 
 @withRouter
@@ -55,7 +55,8 @@ function mapDispatchToProps(dispatch) {
         getMeddraCall: () => dispatch(getMeddraCall()),
         getInterruptionReasonsCall: () => dispatch(getInterruptionReasonsCall()),
         getVisitSectionsCall: () => dispatch(getVisitSectionsCall()),
-        getServerInfoCall: () => dispatch(getServerInfoCall())
+        getServerInfoCall: () => dispatch(getServerInfoCall()),
+        getICD11Call: () => dispatch(getICD11Call())
     };
 }
 @withRouter
@@ -80,6 +81,7 @@ class LoadingFields extends Component {
         this.props.getInterruptionReasonsCall();
         this.props.getVisitSectionsCall();
         this.props.getServerInfoCall();
+        this.props.getICD11Call();
     }
 
     render() {
