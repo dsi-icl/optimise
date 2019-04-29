@@ -45,6 +45,8 @@ export default {
         clinicalEventFields_Hash: null,
         medicalConditions: null,
         medicalConditions_Hash: null,
+        icd11: null,
+        icd11_Hash: null,
         inputTypes: [     //'I', 'F', 'BLOB' etc
             {
                 'id': 1,
