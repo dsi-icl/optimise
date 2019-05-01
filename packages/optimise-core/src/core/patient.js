@@ -37,7 +37,7 @@ class Patient {
                     return reject(ErrorHelper(message.errorMessages.NOTFOUND));
                 }
                 let promiseArr = [];
-                let availableFunctions = ['getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis'];
+                let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis'];
 
                 if (getOnly && typeof getOnly === 'string')
                     availableFunctions = getOnly.split(',').filter((func) => availableFunctions.includes(func));
