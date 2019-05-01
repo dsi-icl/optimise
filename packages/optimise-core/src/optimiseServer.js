@@ -88,6 +88,7 @@ class OptimiseServer {
                 _this.setupClinicalEvents();
                 _this.setupTreatments();
                 _this.setupTests();
+                _this.setupComorbidities();
                 _this.setupFields();
                 _this.setupData();
                 _this.setupExport();
@@ -164,6 +165,18 @@ class OptimiseServer {
 
         // Modules
         this.app.use('/patients', this.routePatients);
+    }
+
+    /**
+     * @fn setupComorbidities
+     * @desc Initialize the comorbidity related routes
+     */
+    setupComorbidities() {
+        // Import the controller
+        this.routeComorbidities = require('./routes/comorbidityRoute').default;
+
+        // Modules
+        this.app.use('/comorbidities', this.routeComorbidities);
     }
 
     /**
