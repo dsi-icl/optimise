@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { BackButton } from '../medicalData/utils';
 import { ICD11Picker } from '../comorbidityPicker/icd11Picker';
 import store from '../../redux/store';
 import { createComorbidityAPICall } from '../../redux/actions/comorbidities';
+import style from './editMedicalElements.module.css';
 
 export default class AddComorbidityPage extends Component {
     constructor() {
@@ -17,7 +19,8 @@ export default class AddComorbidityPage extends Component {
         this.setState({ value, error: undefined });
     }
 
-    _handleSubmit() {
+    _handleSubmit(ev) {
+        ev.preventDefault();
         if (this.state.value === undefined) {
             this.setState({ error: 'Invalid value.' });
             return;
@@ -27,12 +30,19 @@ export default class AddComorbidityPage extends Component {
 
     render() {
         return <>
-        <h4 onClick={this._handleSubmit}>Add comorbidity to visit</h4>
-        <ICD11Picker value={this.state.value} onChange={this._handleValueChange}/>
-        <button onClick={this._handleSubmit}>Submit</button>
-        {
-            this.state.error ? <div>{this.state.error}</div> : null
-        }
+        <div className={style.ariane}>
+            <h4 onClick={this._handleSubmit}>Add comorbidity to visit</h4>
+            <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+        </div>
+        <form className={style.panel}>
+            <ICD11Picker value={this.state.value} onChange={this._handleValueChange}/>
+            <br/><br/>
+
+            <button onClick={this._handleSubmit}>Submit</button>
+            {
+                this.state.error ? <div>{this.state.error}</div> : null
+            }
+        </form>
         </>;
     }
 }
