@@ -13,8 +13,8 @@ export default async (dbcon, version) => {
                 table.integer('dominantHand').notNullable().references('id').inTable('DOMINANT_HANDS');
                 table.integer('ethnicity').notNullable().references('id').inTable('ETHNICITIES');
                 table.integer('countryOfOrigin').notNullable().references('id').inTable('COUNTRIES');
-                table.integer('alcoholUsage').references('id').inTable('ALCOHOL_USAGE');
-                table.integer('smokingHistory').references('id').inTable('SMOKING_HISTORY');
+                table.integer('alcoholUsage').notNullable().references('id').inTable('ALCOHOL_USAGE');
+                table.integer('smokingHistory').notNullable().references('id').inTable('SMOKING_HISTORY');
                 table.text('createdTime').notNullable().defaultTo(dbcon().fn.now());
                 table.integer('createdByUser').notNullable().references('id').inTable('USERS');
                 table.text('deleted').notNullable().defaultTo('-');
@@ -22,8 +22,37 @@ export default async (dbcon, version) => {
             });
             break;
         case 2:
-            // TO-DO: Migrate Alcohol data from PATIENT_DEMOGRAPHIC to VISIT_DATA
+        {
+            const existingPatientsInThisTable = await dbcon()(TABLE_NAME).select('*');
+            const smokingHash = (await dbcon()('SMOKING_HISTORY').select('*')).reduce((a, e) => { a[e.id] = e.value; return a; }, {});
+            const alcoholHash = (await dbcon()('ALCOHOL_USAGE').select('*')).reduce((a, e) => { a[e.id] = e.value; return a; }, {});
+
+            for (let each of existingPatientsInThisTable) {
+                const patientID = each['patient'];
+                const alcoholUsage = each['alcoholUsage'];
+                const smokingHistory = each['smokingHistory'];
+                const createdByUser = each['createdByUser'];
+                // TO_DO: translate from 1 - text
+                const maxVisitId = (await dbcon()('VISITS').max('id').where({ patient: patientID, deleted: '-' }))[0]['max(`id`)'];
+                if (maxVisitId === null) { continue; }
+                await dbcon()('VISIT_DATA').insert([
+                    {
+                        visit: maxVisitId,
+                        field: 252,
+                        value: smokingHash[smokingHistory],
+                        createdByUser
+                    },
+                    {
+                        visit: maxVisitId,
+                        field: 253,
+                        value: alcoholHash[alcoholUsage],
+                        createdByUser
+                    },
+                ]);
+            }
             await dbcon().table(TABLE_NAME, (table) => {
+                table.dropForeign('alcoholUsage');
+                table.dropForeign('smokingHistory');
                 table.dropColumn('alcoholUsage');
                 table.dropColumn('smokingHistory');
             });
@@ -31,6 +60,7 @@ export default async (dbcon, version) => {
                 .dropTable('ALCOHOL_USAGE')
                 .dropTable('SMOKING_HISTORY');
             break;
+        }
         default:
             break;
     }

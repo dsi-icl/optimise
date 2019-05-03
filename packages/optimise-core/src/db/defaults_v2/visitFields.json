@@ -8,7 +8,7 @@
         "type": 3,
         "unit": null,
         "module": "MS",
-        "permittedValues": "Smoker,Ex-smoker,Never smoked,E-cigarette smoker",
+        "permittedValues": "smoker,ex-smoker,never smoked,electronic cigarette",
         "labels": null,
         "referenceType": 1,
         "laterality": null,
