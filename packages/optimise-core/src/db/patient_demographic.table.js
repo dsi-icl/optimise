@@ -32,7 +32,6 @@ export default async (dbcon, version) => {
                 const alcoholUsage = each['alcoholUsage'];
                 const smokingHistory = each['smokingHistory'];
                 const createdByUser = each['createdByUser'];
-                // TO_DO: translate from 1 - text
                 const maxVisitId = (await dbcon()('VISITS').max('id').where({ patient: patientID, deleted: '-' }))[0]['max(`id`)'];
                 if (maxVisitId === null) { continue; }
                 await dbcon()('VISIT_DATA').insert([
