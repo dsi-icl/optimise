@@ -7,7 +7,7 @@ export class PickDate extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: props.startDate ? props.startDate : undefined
+            selected: props.startDate ? props.startDate.toDate() : undefined
         };
         this._handleDateChange = this._handleDateChange.bind(this);
     }
@@ -16,10 +16,10 @@ export class PickDate extends Component {
         let time = date ? moment(date) : undefined;
         time = time && time.isValid() ? time : undefined;
         this.setState({
-            selected: time ? time : undefined
+            selected: time ? time.toDate() : undefined
         }, () => {
             if (this.props.handleChange)
-                this.props.handleChange(this.state.selected);
+                this.props.handleChange(moment(this.state.selected));
         });
     }
 
@@ -29,9 +29,9 @@ export class PickDate extends Component {
                 <DatePicker
                     selected={this.state.selected}
                     onChange={this._handleDateChange}
-                    dateFormat="DD/MM/YYYY"
+                    dateFormat="dd/MM/YYYY"
                     style={{ width: '100%' }} />
-                {this.props.handleChange === undefined ? <input style={{ display: 'none' }} type='test' value={this.state.selected ? this.state.selected.toISOString() : ''} ref={this.props.reference} readOnly /> : null}
+                {this.props.handleChange === undefined ? <input style={{ display: 'block' }} type='test' value={this.state.selected ? this.state.selected.toISOString() : ''} ref={this.props.reference} readOnly /> : null}
             </>
         );
     }
