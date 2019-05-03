@@ -21,7 +21,7 @@ class SelectorUtils {
         if (deleted === true)
             whereObj.deleted = '-';
         return dbcon()('PATIENT_DEMOGRAPHIC')
-            .select('id', 'DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin', 'alcoholUsage', 'smokingHistory')
+            .select('id', 'DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin')
             .where(whereObj)
             .then(result => {
                 const returnObj = { demographicData: result[0] };
