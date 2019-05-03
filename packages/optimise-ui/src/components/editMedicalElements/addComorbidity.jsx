@@ -15,7 +15,7 @@ export default class AddComorbidityPage extends Component {
         this._handleValueChange = this._handleValueChange.bind(this);
     }
 
-    _handleValueChange(value){
+    _handleValueChange(value) {
         this.setState({ value, error: undefined });
     }
 
@@ -30,19 +30,19 @@ export default class AddComorbidityPage extends Component {
 
     render() {
         return <>
-        <div className={style.ariane}>
-            <h4 onClick={this._handleSubmit}>Add comorbidity to visit</h4>
-            <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
-        </div>
-        <form className={style.panel}>
-            <ICD11Picker value={this.state.value} onChange={this._handleValueChange}/>
-            <br/><br/>
+            <div className={style.ariane}>
+                <h4 onClick={this._handleSubmit}>COMORBIDITIES</h4>
+                <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+            </div>
+            <form className={style.panel}>
+                <ICD11Picker value={this.state.value} onChange={this._handleValueChange} />
+                <br /><br />
 
-            <button onClick={this._handleSubmit}>Submit</button>
-            {
-                this.state.error ? <div>{this.state.error}</div> : null
-            }
-        </form>
+                <button onClick={this._handleSubmit}>Submit</button>
+                {
+                    this.state.error ? <div>{this.state.error}</div> : null
+                }
+            </form>
         </>;
     }
 }
