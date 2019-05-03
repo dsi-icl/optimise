@@ -122,7 +122,7 @@
         "@babel/core": "7.4.4",
         "babel-loader": "8.0.5",
         "copy-webpack-plugin": "5.0.3",
-        "electron": "4.2.0",
+        "electron": "5.0.0",
         "electron-builder": "20.39.0",
         "electron-icon-generator": "1.0.2",
         "electron-reload": "1.4.0",
