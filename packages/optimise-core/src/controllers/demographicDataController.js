@@ -298,9 +298,7 @@ class DemographicDataController {
             'gender': DemographicCore.getGenderFields,
             'dominant_hand': DemographicCore.getDominantHandsFields,
             'ethnicity': DemographicCore.getEthnicityFields,
-            'country': DemographicCore.getCountryFields,
-            'alcohol_usage': DemographicCore.getAlcoholUsageFields,
-            'smoking_history': DemographicCore.getSmokingFields
+            'country': DemographicCore.getCountryFields
         };
 
         if (Object.keys(query).length !== 0 && query.hasOwnProperty('fieldName')) {

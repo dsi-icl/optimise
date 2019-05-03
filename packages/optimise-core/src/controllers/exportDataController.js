@@ -108,33 +108,33 @@ class ExportDataController {
                 DOMAIN: 'DM'
             }))]));
 
-        /* Smoking history data */
-        dataPromises.push(dbcon()('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'SMOKING_HISTORY.value as SCORRES')
-            .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
-            .leftOuterJoin('SMOKING_HISTORY', 'SMOKING_HISTORY.id', 'PATIENT_DEMOGRAPHIC.smokingHistory')
-            .whereIn('PATIENTS.id', patientList)
-            .andWhere('PATIENTS.deleted', '-')
-            .andWhere('PATIENTS.consent', true)
-            .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
-            .then(result => ['SC_Smoking', result.map(x => ({
-                ...x,
-                DOMAIN: 'SC'
-            }))]));
+        // /* Smoking history data */
+        // dataPromises.push(dbcon()('PATIENTS')
+        //     .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'SMOKING_HISTORY.value as SCORRES')
+        //     .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
+        //     .leftOuterJoin('SMOKING_HISTORY', 'SMOKING_HISTORY.id', 'PATIENT_DEMOGRAPHIC.smokingHistory')
+        //     .whereIn('PATIENTS.id', patientList)
+        //     .andWhere('PATIENTS.deleted', '-')
+        //     .andWhere('PATIENTS.consent', true)
+        //     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
+        //     .then(result => ['SC_Smoking', result.map(x => ({
+        //         ...x,
+        //         DOMAIN: 'SC'
+        //     }))]));
 
-        /* Alcohol consumption data */
-        dataPromises.push(dbcon()('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
-            .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
-            .leftOuterJoin('ALCOHOL_USAGE', 'ALCOHOL_USAGE.id', 'PATIENT_DEMOGRAPHIC.alcoholUsage')
-            .whereIn('PATIENTS.id', patientList)
-            .andWhere('PATIENTS.deleted', '-')
-            .andWhere('PATIENTS.consent', true)
-            .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
-            .then(result => ['SU_AlcoholConsumption', result.map(x => ({
-                ...x,
-                DOMAIN: 'SU'
-            }))]));
+        // /* Alcohol consumption data */
+        // dataPromises.push(dbcon()('PATIENTS')
+        //     .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
+        //     .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
+        //     .leftOuterJoin('ALCOHOL_USAGE', 'ALCOHOL_USAGE.id', 'PATIENT_DEMOGRAPHIC.alcoholUsage')
+        //     .whereIn('PATIENTS.id', patientList)
+        //     .andWhere('PATIENTS.deleted', '-')
+        //     .andWhere('PATIENTS.consent', true)
+        //     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
+        //     .then(result => ['SU_AlcoholConsumption', result.map(x => ({
+        //         ...x,
+        //         DOMAIN: 'SU'
+        //     }))]));
 
         /* Patient pregnancy data */
         dataPromises.push(dbcon()('PATIENTS')

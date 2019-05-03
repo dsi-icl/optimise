@@ -29,20 +29,6 @@ export class DemographicCore {
         return new Promise((resolve, reject) => deleteEntry('PATIENT_DEMOGRAPHIC', user, whereObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error))));
     }
 
-    static getSmokingFields() {
-        return new Promise((resolve, reject) => getEntry('SMOKING_HISTORY', {}, '*').then((result) => {
-            let returnObj = { 'smoking_history': result };
-            return resolve(returnObj);
-        }).catch((error) => reject(error)));
-    }
-
-    static getAlcoholUsageFields() {
-        return new Promise((resolve, reject) => getEntry('ALCOHOL_USAGE', {}, '*').then((result) => {
-            let returnObj = { 'alcohol_usage': result };
-            return resolve(returnObj);
-        }).catch((error) => reject(error)));
-    }
-
     static getCountryFields() {
         return new Promise((resolve, reject) => getEntry('COUNTRIES', {}, '*').then((result) => {
             let returnObj = { 'countries': result };
