@@ -170,7 +170,12 @@ let mainWindow;
 let createWindow = () => {
 
 	// Create the browser window.
-	mainWindow = new BrowserWindow({ show: false });
+	mainWindow = new BrowserWindow({
+		show: false,
+		webPreferences: {
+			nodeIntegration: true
+		}
+	});
 	mainWindow.once('ready-to-show', () => {
 		mainWindow.show()
 	});
