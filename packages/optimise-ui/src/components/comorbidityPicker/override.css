@@ -1,0 +1,9 @@
+/* To override antd styles */
+
+.ant-select-tree li .ant-select-tree-node-content-wrapper {
+    transition: all 0s;
+}
+.ant-select-selection {
+    border-radius: 0px;
+    transition: 0s;
+}

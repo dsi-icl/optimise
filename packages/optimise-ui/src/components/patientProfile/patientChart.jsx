@@ -13,7 +13,6 @@ import store from '../../redux/store';
 import Icon from '../icon';
 import style from './patientProfile.module.css';
 
-
 //need to pass location to buttons  - do later
 
 @connect(state => ({
@@ -21,7 +20,6 @@ import style from './patientProfile.module.css';
     data: state.patientProfile.data
 }))
 export class PatientChart extends Component {
-
     constructor() {
         super();
         this.state = { hash: null };
@@ -75,7 +73,6 @@ export class PatientChart extends Component {
         );
     }
 }
-
 
 /* receives a prop data of one test*/
 @withRouter
@@ -218,7 +215,9 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
  */
 @connect(state => ({
     typedict: state.availableFields.visitFields_Hash[0],
-    inputType: state.availableFields.inputTypes_Hash[0]
+    inputType: state.availableFields.inputTypes_Hash[0],
+    icd11_Hash: state.availableFields.icd11_Hash[0]
+
 }))
 class OneVisit extends Component {
 
@@ -251,9 +250,11 @@ class OneVisit extends Component {
         const relevantEDSSFieldsIdArray = relevantEDSSFields.map(el => el.id);
         const performances = this.props.visitData.filter(el => el.field > 6 && relevantEDSSFieldsIdArray.includes(el.field));
         const communication = this.props.data.visits.filter(v => v.id === this.props.visitId)[0].communication;
+        const comorbidities = this.props.data.comorbidities.filter(el => el.visit === this.props.visitId);
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
 
         const filteredSymptoms = filterEmptyRenders(symptoms, this.props.inputType, this.props.typedict);
+        const filteredComorbidities = comorbidities;
         const filteredSigns = filterEmptyRenders(signs, this.props.inputType, this.props.typedict);
         const filteredEDSS = filterEmptyRenders(performances, this.props.inputType, this.props.typedict);
 
@@ -440,6 +441,32 @@ class OneVisit extends Component {
                         <br /><br />
                     </>
                 ) : null}
+
+                {this.props.visitType === 1 ?
+                    <>
+                        <h4><Icon symbol='symptom' />&nbsp;COMORBIDITIES</h4>
+                        {filteredComorbidities.length > 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <tbody>
+                                        {filteredComorbidities.map(el =>
+                                            this.props.icd11_Hash[el.comorbidity] ?
+                                                <tr key={el.id}>
+                                                    <td>{this.props.icd11_Hash[el.comorbidity].name}</td>
+                                                </tr> : null
+                                        )}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/comorbidity/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit comorbidities</button>
+                        </NavLink>
+                        <br /><br /></>
+                    : null}
+
+
                 {this.props.visitType === 1 ? (
                     <>
                         <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
