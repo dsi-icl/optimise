@@ -2,7 +2,7 @@ const fs = require('fs');
 const csvparse = require('csv-parse');
 
 const parser = csvparse({ columns: true });
-const readstream = fs.createReadStream('./simpletabulation.csv');
+const readstream = fs.createReadStream('./simpletabulation.csv', { encoding: 'utf8' });
 
 let tmpParent = [null];
 let tmpLevel = 0;
@@ -17,10 +17,11 @@ function getCurrentParent(tmpParent) {
 parser.on('readable', () => {
     let line;
     while (line = parser.read()) { // eslint-disable-line
-        const title = line.Title.split('-')[line.Title.split('-').length - 1].trim();
-        const level = line.Title.split('-').length - 1;
+        const match = /([ -]*)(.*)/.exec(line.Title);
+        const title = match[2].trim();
+        const level = match[1].split('-').length - 1;
         const isLeaf = line.isLeaf === 'True';
-        const code = line.Code || line.BlockId || `optimiseIntern_${id}`;
+        const code = line.Code || line.BlockId || line.ChapterNo;
 
         if (level > tmpLevel) {
             tmpParent.push(lastNode.id);
@@ -50,7 +51,7 @@ parser.on('readable', () => {
 });
 
 parser.on('end', () => {
-    fs.writeFileSync('../src/db/defaults_v2/icd11_data.json', JSON.stringify(data));
+    fs.writeFileSync('../src/db/defaults_v2/icd11_data.json', JSON.stringify(data), 'utf8');
 });
 
 readstream.pipe(parser);
