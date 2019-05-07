@@ -16,8 +16,8 @@ function getCurrentParent(tmpParent) {
 
 parser.on('readable', () => {
     let line;
-    while (line = parser.read()){ // eslint-disable-line
-        const title = line.Title.split('-')[line.Title.split('-').length - 1];
+    while (line = parser.read()) { // eslint-disable-line
+        const title = line.Title.split('-')[line.Title.split('-').length - 1].trim();
         const level = line.Title.split('-').length - 1;
         const isLeaf = line.isLeaf === 'True';
         const code = line.Code || line.BlockId || `optimiseIntern_${id}`;
@@ -50,7 +50,7 @@ parser.on('readable', () => {
 });
 
 parser.on('end', () => {
-    fs.writeFileSync('../src/db/defaults_v2/icd11_data.json',JSON.stringify(data));
+    fs.writeFileSync('../src/db/defaults_v2/icd11_data.json', JSON.stringify(data));
 });
 
 readstream.pipe(parser);
