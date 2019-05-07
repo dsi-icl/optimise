@@ -17,7 +17,6 @@
 		"test": "react-scripts test"
 	},
 	"dependencies": {
-		"antd": "3.17.0",
 		"deepmerge": "3.2.0",
 		"draft-js": "0.10.5",
 		"file-saver": "2.0.1",
@@ -33,15 +32,17 @@
 		"react-helmet-async": "1.0.2",
 		"react-redux": "7.0.3",
 		"react-router-dom": "5.0.0",
+		"react-virtualized": "9.21.0",
+		"react-virtualized-tree": "3.2.1",
 		"redux": "4.0.1",
-		"redux-logger": "3.0.6",
-		"redux-thunk": "2.3.0",
-		"react-scripts-rewired": "2.1.8"
+		"redux-thunk": "2.3.0"
 	},
 	"devDependencies": {
 		"@babel/core": "7.4.4",
 		"@babel/plugin-proposal-decorators": "7.4.4",
-		"http-proxy-middleware": "0.19.1"
+		"http-proxy-middleware": "0.19.1",
+		"prop-types": "15.7.2",
+		"react-scripts-rewired": "2.1.8"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
