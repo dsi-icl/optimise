@@ -131,9 +131,7 @@ function availableFields(state = initialState.availableFields, action) {
             break;
         case actionTypes.availableFields.GET_ICD11_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
-            let origTime = (new Date()).getTime();
             tree = constructTree(action.payload);
-            console.log(((new Date()).getTime() - origTime) / 1000);
             newState = { ...state, icd11: action.payload, icd11_Hash: [hash], icd11_Tree: tree };
             break;
         case actionTypes.availableFields.GET_VISIT_SECTIONS_SUCCESS:

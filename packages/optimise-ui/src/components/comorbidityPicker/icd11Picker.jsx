@@ -102,7 +102,7 @@ export class ICD11Picker extends Component {
                                                 collapsed: wideStyle.collapsedNode,
                                                 lastChild: wideStyle.lastChildNode,
                                             }}>
-                                                <b>{node.code}</b>&nbsp;{node.name}
+                                                {node.code[0] !== 'B' ? <b>{node.code}&nbsp;</b> : null}{node.name}
                                             </Expandable>
                                         </div>
                                     );
