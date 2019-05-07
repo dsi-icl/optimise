@@ -2,7 +2,7 @@ const fs = require('fs');
 const csvparse = require('csv-parse');
 
 const parser = csvparse({ columns: true });
-const readstream = fs.createReadStream('./simpletabulation.csv');
+const readstream = fs.createReadStream('./simpletabulation.csv', { encoding: 'utf8' });
 
 let tmpParent = [null];
 let tmpLevel = 0;
@@ -50,7 +50,7 @@ parser.on('readable', () => {
 });
 
 parser.on('end', () => {
-    fs.writeFileSync('../src/db/defaults_v2/icd11_data.json', JSON.stringify(data));
+    fs.writeFileSync('../src/db/defaults_v2/icd11_data.json', JSON.stringify(data), 'utf8');
 });
 
 readstream.pipe(parser);
