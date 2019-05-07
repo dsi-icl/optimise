@@ -9,6 +9,12 @@ export const createComorbidityAPICall = (body) => dispatch => apiHelper('/comorb
     })
     .catch(err => store.dispatch(addError({ error: err })));
 
+export const editComorbidityAPICall = (body) => dispatch => apiHelper('/comorbidities', { method: 'PUT', body: JSON.stringify(body.data) })
+    .then(() => {
+        dispatch(getPatientProfileById(body.patientId));
+    })
+    .catch(err => store.dispatch(addError({ error: err })));
+
 export const deleteComorbidityAPICall = (body) => dispatch => apiHelper('/comorbidities', { method: 'DELETE', body: JSON.stringify(body.data) })
     .then(() => {
         dispatch(getPatientProfileById(body.patientId));

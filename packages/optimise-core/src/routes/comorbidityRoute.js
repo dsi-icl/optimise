@@ -11,6 +11,7 @@ import ComorbidityController from '../controllers/comorbidityController';
 
 comorbidity.route('/')
     .post(ComorbidityController.createComorbidity)
+    .put(ComorbidityController.editComorbidity)
     .delete(ComorbidityController.deleteComorbidity);
 
 export default comorbidity;
