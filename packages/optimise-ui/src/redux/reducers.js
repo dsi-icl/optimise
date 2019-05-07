@@ -128,6 +128,10 @@ function availableFields(state = initialState.availableFields, action) {
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
             newState = { ...state, allMeddra: action.payload, meddra_Hash: [hash] };
             break;
+        case actionTypes.availableFields.GET_ICD11_SUCCESS:
+            hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            newState = { ...state, icd11: action.payload, icd11_Hash: [hash] };
+            break;
         case actionTypes.availableFields.GET_VISIT_SECTIONS_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
             newState = { ...state, visitSections: action.payload, visitSections_Hash: [hash] };

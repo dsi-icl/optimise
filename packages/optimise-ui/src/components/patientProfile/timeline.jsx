@@ -40,7 +40,6 @@ export class TimelineBox extends Component {   //unfinsihed
         };
 
         const mappingDateFunction = date => {
-            console.log('mappingDateFunction >', date);
             if (date.length < 1)
                 return null;
             if (date.length === 1)
