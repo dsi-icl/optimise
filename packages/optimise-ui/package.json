@@ -17,13 +17,13 @@
 		"test": "react-scripts test"
 	},
 	"dependencies": {
-		"antd": "3.16.6",
+		"antd": "3.17.0",
 		"deepmerge": "3.2.0",
 		"draft-js": "0.10.5",
 		"file-saver": "2.0.1",
 		"history": "4.9.0",
 		"immutable": "4.0.0-rc.12",
-		"interactjs": "1.4.0",
+		"interactjs": "1.4.1",
 		"moment": "2.24.0",
 		"react": "16.8.6",
 		"react-calendar-timeline": "0.18.2",
