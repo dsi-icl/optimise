@@ -55,6 +55,7 @@ function fetchingFinished(state) {
 function availableFields(state = initialState.availableFields, action) {
     let newState;
     let hash;
+    let tree;
     switch (action.type) {
         case actionTypes.availableFields.GET_CE_TYPES_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
@@ -130,7 +131,10 @@ function availableFields(state = initialState.availableFields, action) {
             break;
         case actionTypes.availableFields.GET_ICD11_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
-            newState = { ...state, icd11: action.payload, icd11_Hash: [hash] };
+            let origTime = (new Date()).getTime();
+            tree = constructTree(action.payload);
+            console.log(((new Date()).getTime() - origTime) / 1000);
+            newState = { ...state, icd11: action.payload, icd11_Hash: [hash], icd11_Tree: tree };
             break;
         case actionTypes.availableFields.GET_VISIT_SECTIONS_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
@@ -141,6 +145,13 @@ function availableFields(state = initialState.availableFields, action) {
     }
     newState.fetching = !fetchingFinished(newState);
     return newState;
+}
+
+function constructTree(table, parent = null) {
+    return table.filter(el => el.parent === parent && el.deleted === '-').map(el => ({
+        ...el,
+        children: el.isLeaf ? undefined : constructTree(table, el.id)
+    }));
 }
 
 function createPatient(state = initialState.createPatient, action) {
@@ -251,7 +262,7 @@ function edssCalc(state = initialState.edssCalc, action) {
 }
 
 function uploadMeddra(state = initialState.uploadMeddra, action) {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.admin.UPLOAD_MEDDRA_REQUEST:
             return { requesting: true, error: undefined, success: false };
         case actionTypes.admin.UPLOAD_MEDDRA_SUCCESS:
@@ -264,7 +275,7 @@ function uploadMeddra(state = initialState.uploadMeddra, action) {
 }
 
 function serverInfo(state = initialState.serverInfo, action) {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.serverInfo.GET_SERVER_INFO_SUCCESS:
             return action.payload;
         default:

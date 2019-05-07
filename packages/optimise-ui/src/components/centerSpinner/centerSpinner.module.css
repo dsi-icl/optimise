@@ -1,10 +1,16 @@
 .centered {
-	width:2em;
+	width:20em;
 	height:50px;
 	position:absolute;
 	top:50%;
 	left:50%;
 	transform:translate(-50%,-50%);
+}
+
+.text {
+	color: #fff;
+	padding-top: 4rem;
+	text-align: center;
 }
 
 .top, .bottom {
