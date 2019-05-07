@@ -49,6 +49,31 @@ class ComorbidityController {
         });
     }
 
+
+    static editComorbidity({ body, user }, res) {
+
+        if (body.hasOwnProperty('id') && typeof body.id === 'number') {
+            let entryObj = Object.assign({}, body);
+            if (typeof body.comorbidity !== 'number') {
+                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+                return;
+            }
+            Comorbidity.updateComorbidity(user, entryObj).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+                return false;
+            });
+        } else if (!body.hasOwnProperty('id')) {
+            res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+    }
+
     static deleteComorbidity({ body, user }, res) {
         if (body.hasOwnProperty('comorbidityId') && typeof body.comorbidityId === 'number') {
             Comorbidity.deleteComorbidity(user, { 'id': body.comorbidityId }).then((result) => {

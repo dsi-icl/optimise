@@ -11,8 +11,8 @@ class Comorbidity {
         return new Promise((resolve, reject) => createEntry('COMORBIDITY', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
     }
 
-    static updateComorbidity(user, id, updatedObj) {
-        return new Promise((resolve, reject) => updateEntry('COMORBIDITY', user, '*', { 'id': id }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
+    static updateComorbidity(user, updatedObj) {
+        return new Promise((resolve, reject) => updateEntry('COMORBIDITY', user, '*', { 'id': updatedObj.id }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
     }
 
     static deleteComorbidity(user, whereObj) {

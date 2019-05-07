@@ -7,10 +7,10 @@ import EditPregnanciesHandler from './editPregnancy';
 import EditPrimaryDiagnosesHandler from './editPrimaryDiagnosis';
 import EditCommunicationHandler from './editCommunication';
 import EditPerformanceMesaureHandler from './editEdss';
-import AddComorbidityHandler from './addComorbidity';
+import EditComorbiditiesHandler from './editComorbidity';
 
 export const EditVisit = EditVisitHandler;
-export const AddComorbidity = AddComorbidityHandler;
+export const EditComorbidities = EditComorbiditiesHandler;
 export const EditTest = EditTestHandler;
 export const EditCE = EditCEHandler;
 export const EditMed = EditMedHandler;

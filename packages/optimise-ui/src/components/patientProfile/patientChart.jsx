@@ -12,8 +12,6 @@ import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import Icon from '../icon';
 import style from './patientProfile.module.css';
-import { deleteComorbidityAPICall } from '../../redux/actions/comorbidities';
-
 
 //need to pass location to buttons  - do later
 
@@ -446,15 +444,15 @@ class OneVisit extends Component {
 
                 {this.props.visitType === 1 ?
                     <>
-                        <h4><Icon symbol='measure' />&nbsp;COMORBIDITIES</h4>
+                        <h4><Icon symbol='symptom' />&nbsp;COMORBIDITIES</h4>
                         {filteredComorbidities.length > 0 ? (
                             <div className={style.visitWrapper}>
                                 <table>
                                     <tbody>
-                                        {filteredComorbidities.map(el => 
+                                        {filteredComorbidities.map(el =>
                                             this.props.icd11_Hash[el.comorbidity] ?
                                                 <tr key={el.id}>
-                                                    <td>{this.props.icd11_Hash[el.comorbidity].name}</td><td><span style={{ cursor: 'pointer' }} onClick={() => store.dispatch(deleteComorbidityAPICall({ patientId: this.props.data.patientId , data: { comorbidityId: el.id } }))}>Delete</span></td>
+                                                    <td>{this.props.icd11_Hash[el.comorbidity].name}</td>
                                                 </tr> : null
                                         )}
                                     </tbody>
@@ -463,10 +461,10 @@ class OneVisit extends Component {
                             </div>
                         ) : null}
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/comorbidity/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Add comorbidity</button>
+                            <button>Edit comorbidities</button>
                         </NavLink>
                         <br /><br /></>
-                    : null }
+                    : null}
 
 
                 {this.props.visitType === 1 ? (
