@@ -77,7 +77,7 @@
     word-wrap: break-word;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .interruption:hover {
