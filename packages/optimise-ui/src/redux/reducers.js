@@ -127,7 +127,8 @@ function availableFields(state = initialState.availableFields, action) {
             break;
         case actionTypes.availableFields.GET_MEDDRA_SUCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
-            newState = { ...state, allMeddra: action.payload, meddra_Hash: [hash] };
+            tree = constructTree(action.payload);
+            newState = { ...state, allMeddra: action.payload, meddra_Hash: [hash], meddraTree: tree };
             break;
         case actionTypes.availableFields.GET_ICD11_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});

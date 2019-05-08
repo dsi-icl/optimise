@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Tree, { renderers, FilteringContainer } from 'react-virtualized-tree';
 import { connect } from 'react-redux';
-import wideStyle from './icd11Picker.module.css';
+import wideStyle from '../scaffold/pickers.module.css';
 
 const { Expandable } = renderers;
 

@@ -31,7 +31,6 @@ export default class EditComorbidity extends Component {
     }
 
     _handleValueChange(value) {
-        console.log('Parent received value (new) >', value);
         this.setState({ comorbidity: parseInt(value) });
     }
 
@@ -180,7 +179,6 @@ class OneComorbidity extends Component {
     }
 
     _handleValueChange = value => {
-        console.log('Parent received value (edit) >', value);
         this.setState({
             comorbidity: parseInt(value),
             error: false
