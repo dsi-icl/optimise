@@ -99,7 +99,7 @@ export class ICD11Picker extends Component {
                 <div className={`${wideStyle.wrapper} ${opened ? '' : wideStyle.hidePicker}`} onMouseLeave={this.handleMouseLeave}>
                     <FilteringContainer nodes={nodes}>
                         {({ nodes }) => (
-                            <div style={{ height: 500 }} className={wideStyle.tree}>
+                            <div style={{ height: '40vh' }} className={wideStyle.tree}>
                                 <Tree nodes={nodes}
                                     extensions={{
                                         updateTypeHandlers: {
