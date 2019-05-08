@@ -159,7 +159,7 @@ export default class EditPregnancy extends Component {
                                                 <option value='unselected'></option>
                                                 {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                             </select><br /><br />
-                                            <b>MedDRA: </b><MeddraPicker value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
+                                            <label>MedDRA: </label><MeddraPicker value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
                                         </>
                                     )}
                                 </div>
@@ -328,7 +328,7 @@ class OnePregnancy extends Component {
                                             <option value='unselected'></option>
                                             {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                         </select><br /><br />
-                                        <b>MedDRA: </b><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
+                                        <label>MedDRA: </label><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
                                     </>
                                 )}
                             </div>

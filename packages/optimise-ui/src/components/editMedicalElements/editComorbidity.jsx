@@ -31,6 +31,7 @@ export default class EditComorbidity extends Component {
     }
 
     _handleValueChange(value) {
+        console.log('Parent received value (new) >', value);
         this.setState({ comorbidity: parseInt(value) });
     }
 
@@ -91,7 +92,7 @@ export default class EditComorbidity extends Component {
                             :
                             <>
                                 <div className={style.newInterruption}>
-                                    <b>ICD11: </b><ICD11Picker value={this.state.comorbidity} onChange={this._handleValueChange} />
+                                    <label>ICD11: </label><ICD11Picker value={this.state.comorbidity} onChange={this._handleValueChange} />
                                 </div>
                                 {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
@@ -179,6 +180,7 @@ class OneComorbidity extends Component {
     }
 
     _handleValueChange = value => {
+        console.log('Parent received value (edit) >', value);
         this.setState({
             comorbidity: parseInt(value),
             error: false
@@ -194,7 +196,7 @@ class OneComorbidity extends Component {
                     editing ?
                         <>
                             <div className={style.editInterruption}>
-                                <b>ICD11: </b><ICD11Picker value={comorbidity} onChange={this._handleValueChange} />
+                                <label>ICD11: </label><ICD11Picker value={comorbidity} onChange={this._handleValueChange} />
                             </div>
                             {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                             <button onClick={this._handleSubmit}>Confirm change</button><br /><br />

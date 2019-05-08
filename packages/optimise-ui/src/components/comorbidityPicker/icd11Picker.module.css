@@ -2,6 +2,11 @@
     position: absolute;
     width: 100%;
     background-color: #fff;
+    margin-top: -2.7em;
+}
+
+.hidePicker {
+    display: none;
 }
 
 .tree span {
@@ -9,6 +14,10 @@
     white-space: nowrap;
     line-height: 1.2em;
     padding-left: 20px;
+}
+
+.tree span.noPadding {
+    padding: 0;
 }
 
 .tree span b {
