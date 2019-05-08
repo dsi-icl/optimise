@@ -148,7 +148,8 @@ function availableFields(state = initialState.availableFields, action) {
 function constructTree(table, parent = null) {
     return table.filter(el => el.parent === parent && el.deleted === '-').map(el => ({
         ...el,
-        children: el.isLeaf ? undefined : constructTree(table, el.id)
+        children: el.isLeaf ? undefined : constructTree(table, el.id),
+        state: { expanded: false, favorite: false, deletable: false }
     }));
 }
 
