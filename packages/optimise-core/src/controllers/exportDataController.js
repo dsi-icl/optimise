@@ -82,18 +82,265 @@ class ExportDataController {
         if (isCDISC === true) {
             extractor = 'getPatientDataCDISC';
             attachementName += '_cdisc';
-        }
-        searchEntry(queryfield, queryvalue)
-            .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
+        } searchEntry(queryfield, queryvalue) .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
             .then(result => result.length > 0 ? ExportDataController[extractor](result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
             .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
             .then(filesArray => res.status(200).zip(filesArray, `${attachementName}.zip`))
-            .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], attachementName));
+            .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachementName}.zip`));
     }
 
-    static getPatientData(patientList) {
-        let dataPromises = [];
-        return Promise.all(dataPromises);
+    static async getPatientData(patientList) {
+        const data = [];
+        let globalLineCount = 1;
+
+        const unwindEntries = tree => {
+            const largestChildNum = Math.max(tree.labs.length, tree.mri.length, tree.SAEs.length, tree.treatments.length, tree.relapses.length, tree.pregnancies.length);
+            const lines = [];
+            let i = 0;
+            do {
+                lines.push({
+                    lineNum: globalLineCount++,
+                    subjid: i === 0 ? tree.subjid : '',
+                    visit_id: i === 0 ? tree.visit_id : '',
+                    visit_date: i === 0 ? tree.visit_date : '',
+                    reason_for_visit: i === 0 ? tree.reason_for_visit : '',
+                    vitals_sbp: i === 0 ? tree.vitals_sbp : '',
+                    vitals_dbp: i === 0 ? tree.vitals_dbp : '',
+                    heart_rate: i === 0 ? tree.heart_rate : '',
+                    habits_alcohol: i === 0 ? tree.habits_alcohol : '',
+                    habits_smoking: i === 0 ? tree.habits_smoking : '',
+                    comorbid_diagnosis: '',
+                    comorbid_date_of_dx: '',
+                    EDSS_score: i === 0 ? tree.EDSS_score : '',
+                    pregnancy_start_date: '',
+                    pregnancy_end_date: '',
+                    pregnancy_outcome: '',
+                    DMT_name: '',
+                    DMT_dose: '',
+                    DMT_freq: '',
+                    DMT_start_date: '',
+                    DMT_end_date: '',
+                    relapse_type: '',
+                    relapse_start_date: '',
+                    relapse_severity: '',
+                    relapse_end_date: '',
+                    relapse_recovery: '',
+                    SAE_type: '',
+                    SAE_start_date: '',
+                    SAE_end_date: '',
+                    SAE_note: '',
+                    lab_test_id: '',
+                    lab_test_name: '',
+                    lab_test_value: '',
+                    lab_test_date: '',
+                    mri_id: '',
+                    mri_result_name: '',
+                    mri_result_value: '',
+                    mri_date: '',
+                    ...(tree.pregnancies[i] || {}),
+                    ...(tree.treatments[i] || {}),
+                    ...(tree.relapses[i] || {}),
+                    ...(tree.SAEs[i] || {}),
+                    ...(tree.labs[i] || {}),
+                    ...(tree.mri[i] || {}),
+                });
+                i++;
+            } while (i < largestChildNum);
+            return lines;
+        };
+
+        /* transform test from sql to csv */
+        const fetchAssociatedDataForTestandTransform = async data => {
+            let entry;
+            const associatedData = await dbcon()('TEST_DATA')
+                .select('TEST_DATA.value as value', 'AVAILABLE_FIELDS_TESTS.definition as definition')
+                .leftJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
+                .where('TEST_DATA.deleted', '-')
+                .where('TEST_DATA.test', data.id);
+            switch (data.type) {
+                case 1: // lab test
+                    entry = associatedData.map(e => ({
+                        lab_test_id: data.id,
+                        lab_test_name: e.definition,
+                        lab_test_value: e.value,
+                        lab_test_date: data.actualOccurredDate
+                    }));
+                    break;
+                case 3: // MRI
+                    entry = associatedData.map(e => ({
+                        mri_id: data.id,
+                        mri_result_name: e.definition,
+                        mri_result_value: e.value,
+                        mri_date: data.actualOccurredDate
+                    }));
+                    break;
+                default:
+                    return null;
+            }
+            return entry;
+        };
+
+        /* transform ce from sql to csv */
+        const fetchAssociatedDataForCEandTransform = async data => {
+            let entry;
+            let typeMap;
+            const associatedData = await dbcon()('CLINICAL_EVENTS_DATA').select('*').where('deleted', '-').where('clinicalEvent', data.id);
+            switch (data.type) {
+                case 1: // relapse
+                    entry = {
+                        relapse_type: associatedData.filter(e => [1,2,3,4,5,6,7].includes(e.field)).reduce((a, e) => `${a}${`_${e.definition}`}`, ''),
+                        relapse_start_date: data.dateStartDate,
+                        relapse_severity: associatedData.filter(e => e.field === 9).reduce((a, e) => `${a}${`_${e.value}`}`, ''),
+                        relapse_end_date: data.endDate,
+                        relapse_recovery: associatedData.filter(e => e.field === 10).reduce((a, e) => `${a}${`_${e.value}`}`, '')
+                    };
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    typeMap = { 2: 'Infection', 3: 'Opportunistic infection', 4: 'Death', 5: 'SAE-treatment-related', 6: 'Other SAEs' };
+                    entry = {
+                        SAE_type: typeMap[data.type],
+                        SAE_start_date: data.dateStartDate,
+                        SAE_end_date: data.endDate,
+                        SAE_note: associatedData.reduce((a, e) => `${a}|${e.field}: ${e.value}`, '')
+                    };
+                    break;
+            }
+            return entry;
+        };
+
+        /* visits */
+        let visits = await dbcon()('VISITS')
+            .select('VISITS.id as visitId', 'PATIENTS.id as patientId', 'PATIENTS.aliasId as patientAlias', 'VISITS.id as visitId', 'VISITS.visitDate', 'VISITS.type as visitType', 'VISITS.deleted as visitDeleted', 'PATIENTS.deleted as patientDeleted')
+            .leftJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .whereIn('PATIENTS.id', patientList)
+            .andWhere('PATIENTS.deleted', '-')
+            .andWhere('VISITS.deleted', '-')
+            .andWhere('PATIENTS.consent', 1);
+
+        /* creating a object containing { [patientId: string]: visitId[] } for later */
+        const patientToVisitsMap = visits.reduce((a, e) => {
+            if (a[e.patientId] === undefined) {
+                a[e.patientId] = [];
+            }
+            a[e.patientId].push(e.visitId);
+            return a;
+        }, {});
+
+        /* filter out the shadow visits */
+        visits = visits.filter(e => e.visitType === 1);
+
+        /* sort visit by patientId and date */
+        visits.sort((a, b) => parseInt(a.patientId) - parseInt(b.patientId) || parseInt(a.visitDate) - parseInt(b.visitDate));
+
+        /* get the data needed for each visit */
+        let lastVisitPatient;
+        let lastVisitDate;
+        for (let visit of visits) {
+            /* if last visit is for another patient then reset */
+            if (lastVisitPatient !== visit.patientId){
+                lastVisitDate = Number.MIN_SAFE_INTEGER;
+                lastVisitPatient = visit.patientId;
+            }
+
+            const thisVisitDate = parseInt(visit.visitDate);
+
+            /* data for this visit */
+            const visitData = await dbcon()('VISIT_DATA')
+                .select('*')
+                .whereIn('field', [0, 1, 2, 3, 252, 253, 121]) // 0 = reason for visit, 1 = systolic blood pressure, 2 = diastolic blood pressure, 3 = heart rate, 252 = smoke, 253 = alcohol, 121 = estimated EDSS
+                .where('visit', visit.visitId)
+                .where('deleted', '-');
+            const visitDataTransformed = visitData.reduce((a, e) => { a[e.field] = e.value; return a; }, {});
+
+            /* pregnancy for this visit */
+            const pregnancy = await dbcon()('PATIENT_PREGNANCY')
+                .select('PREGNANCY_OUTCOMES.value as outcome', 'PATIENT_PREGNANCY.startDate as startDate', 'PATIENT_PREGNANCY.outcomeDate as outcomeDate')
+                .leftOuterJoin('PREGNANCY_OUTCOMES', 'PREGNANCY_OUTCOMES.id', 'PATIENT_PREGNANCY.outcome')
+                .whereBetween(dbcon().raw('CAST(PATIENT_PREGNANCY.startDate as integer)'), [lastVisitDate, thisVisitDate])
+                .andWhere('PATIENT_PREGNANCY.deleted', '-')
+                .andWhere('PATIENT_PREGNANCY.patient', visit.patientId);
+            const pregnancy_transformed = pregnancy.map(e => ({
+                pregnancy_start_date: e.startDate,
+                pregnancy_end_date: e.outcomeDate,
+                pregnancy_outcome: e.outcome
+            }));
+
+            const treatments = await dbcon()('TREATMENTS')
+                .select('AVAILABLE_DRUGS.name as drug', 'TREATMENTS.dose as dose', 'TREATMENTS.unit as unit', 'TREATMENTS.times as times', 'TREATMENTS.intervalUnit as intervalUnit', 'TREATMENTS.startDate as startDate', 'TREATMENTS.terminatedDate as terminatedDate')
+                .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
+                .whereBetween(dbcon().raw('CAST(TREATMENTS.startDate as integer)'), [lastVisitDate, thisVisitDate])
+                .andWhere('TREATMENTS.deleted', '-')
+                .whereIn('TREATMENTS.orderedDuringVisit', patientToVisitsMap[visit.patientId]);
+            const treatment_transformed = treatments.map(e => ({
+                DMT_name: e.drug,
+                DMT_dose: e.dose ? `${e.dose} ${e.unit || ''}` : '',
+                DMT_freq: e.times && e.intervalUnit ? `${e.times} ${e.intervalUnit}` : '',
+                DMT_start_date: e.startDate,
+                DMT_end_date: e.terminatedDate || ''
+            }));
+
+            const all_ce = await dbcon()('CLINICAL_EVENTS')
+                .select('*')
+                .whereBetween(dbcon().raw('CAST(dateStartDate as integer)'), [lastVisitDate, thisVisitDate])
+                .andWhere('deleted', '-')
+                .whereIn('recordedDuringVisit', patientToVisitsMap[visit.patientId]);
+            /* type 1 = relapse, 2 = infection, 3 = opportunisitic infection, 4 = Death, 5 = SAE realted to treatment , 6 = other SAE*/
+            const all_ce_grouped = {};
+            for (let e of all_ce) {
+                if (all_ce_grouped[e.type] === undefined){
+                    all_ce_grouped[e.type] = [];
+                }
+                const entry = await fetchAssociatedDataForCEandTransform(e);
+                all_ce_grouped[e.type].push(entry);
+            }
+
+            const MRI_and_lab = await dbcon()('ORDERED_TESTS')
+                .select('*')
+                .whereBetween(dbcon().raw('CAST(actualOccurredDate as integer)'), [lastVisitDate, thisVisitDate])
+                .andWhere('deleted', '-')
+                .whereIn('type', [1,3])
+                .whereIn('orderedDuringVisit', patientToVisitsMap[visit.patientId]);
+            const tests_grouped = {};
+            for (let e of MRI_and_lab) {
+                if (tests_grouped[e.type] === undefined){
+                    tests_grouped[e.type] = [];
+                }
+                const entry = await fetchAssociatedDataForTestandTransform(e);
+                tests_grouped[e.type] = tests_grouped[e.type].concat(entry);
+            }
+
+            // console.log(lastVisitDate, thisVisitDate, visit.patientId,patientToVisitsMap[visit.patientId], visit.visitId, pregnancy, treatments, all_ce, '---------------------');
+            const csventry = {
+                subjid: visit.patientId,
+                visit_id: visit.visitId,
+                visit_date: visit.visitDate,
+                reason_for_visit: visitDataTransformed[0] || null,
+                vitals_sbp: visitDataTransformed[1] || null,
+                vitals_dbp: visitDataTransformed[2] || null,
+                heart_rate: visitDataTransformed[3] || null,
+                habits_alcohol: visitDataTransformed[253] || null,
+                habits_smoking: visitDataTransformed[252] || null,
+                comorbid_diagnosis: '',
+                comorbid_date_of_dx: '',
+                EDSS_score: visitDataTransformed[121] || null,
+                pregnancies: pregnancy_transformed,
+                treatments: treatment_transformed,
+                relapses: all_ce_grouped[1] || [],
+                SAEs: [...(all_ce_grouped[2] || []), ...(all_ce_grouped[3] || []), ...(all_ce_grouped[4] || []), ...(all_ce_grouped[5] || []), ...(all_ce_grouped[6] || [])],
+                labs: tests_grouped[1] || [],
+                mri: tests_grouped[3] || []
+            };
+
+            data.push(...unwindEntries(csventry));
+
+            lastVisitDate = thisVisitDate;
+        }
+
+        return [['SHORT_VISIT_SUMMARY', data]];
     }
 
     static getPatientDataCDISC(patientList) {
