@@ -82,7 +82,9 @@ class ExportDataController {
         if (isCDISC === true) {
             extractor = 'getPatientDataCDISC';
             attachementName += '_cdisc';
-        } searchEntry(queryfield, queryvalue) .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
+        }
+
+        searchEntry(queryfield, queryvalue) .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
             .then(result => result.length > 0 ? ExportDataController[extractor](result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
             .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
             .then(filesArray => res.status(200).zip(filesArray, `${attachementName}.zip`))
