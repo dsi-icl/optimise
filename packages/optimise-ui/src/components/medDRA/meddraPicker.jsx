@@ -10,7 +10,7 @@ export class MeddraPicker extends Component {
 
     render() {
         return (
-            <TreePicker {...this.props} />
+            <TreePicker {...this.props} formatter={(node) => <><b>{node.code}&nbsp;</b>{node.name}</>} />
         );
     }
 }

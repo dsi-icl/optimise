@@ -10,7 +10,7 @@ export class ICD11Picker extends Component {
 
     render() {
         return (
-            <TreePicker {...this.props} />
+            <TreePicker {...this.props} formatter={(node) => <><b>{node.code[0] === 'B' ? '' : node.code}&nbsp;</b>{node.name}</>} />
         );
     }
 }
