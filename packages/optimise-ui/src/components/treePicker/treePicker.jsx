@@ -23,12 +23,29 @@ const filterNodes = (filter, nodes) =>
             };
     }, { nodes: [] });
 
-const nameMatchesSearchTerm = searchTerm => ({ name }) => {
+const nameMatchesSearchTerm = searchTerm => ({ name, code }) => {
     const upperCaseName = name.toUpperCase();
+    const upperCaseCode = code.toUpperCase();
     const upperCaseSearchTerm = searchTerm.toUpperCase();
 
-    return upperCaseName.indexOf(upperCaseSearchTerm.trim()) > -1;
+    return upperCaseName.indexOf(upperCaseSearchTerm.trim()) > -1 || upperCaseCode.indexOf(upperCaseSearchTerm.trim()) > -1;
 };
+
+const debounce = (func, wait, immediate) => {
+    let timeout;
+    return function () {
+        let context = this, args = arguments;
+        let later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        let callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
 export default class TreePicker extends Component {
 
     constructor(props) {
@@ -82,30 +99,38 @@ export default class TreePicker extends Component {
                 currentTermName: hash[value].name
             });
         }
+        this.setFilterTerm = debounce(this.setFilterTerm, 500);
     }
 
     handleChange = nodes => {
         this.setState({ nodes });
     };
 
-    handleInputFocus = __unused__ev => {
+    handleInputFocus = ev => {
+        ev.preventDefault();
         this.setState({
             opened: true
+        }, () => {
+            this.searchField.focus();
         });
     }
 
     handleMouseLeave = __unused__ev => {
         this.setState({
-            opened: false
+            opened: false,
+            filterText: '',
         });
+        this.setFilterTerm();
     }
 
     nodeSelectionHandler = (nodes, updatedNode) => {
         this.props.onChange(updatedNode.id === undefined ? null : updatedNode.id);
         this.setState({
             opened: false,
+            filterText: '',
             currentTermName: updatedNode.name,
         });
+        this.setFilterTerm();
         return nodes;
     }
 
@@ -124,15 +149,16 @@ export default class TreePicker extends Component {
     };
 
     render() {
+        const { formatter = (node) => node.name } = this.props;
         const { currentTermName, filterTerm, filterText, opened, nodes } = this.state;
-        const { nodes: filteredNodes } = filterTerm ? filterNodes(nameMatchesSearchTerm(filterTerm), nodes) : { nodes };
+        const { nodes: filteredNodes } = filterTerm !== '' ? filterNodes(nameMatchesSearchTerm(filterTerm), nodes) : { nodes };
 
         return (
             <>
                 <input type="text" key={currentTermName} defaultValue={currentTermName} onClick={this.handleInputFocus} onKeyDown={e => e.preventDefault()}></input>
                 <div className={`${wideStyle.wrapper} ${opened ? '' : wideStyle.hidePicker}`} onMouseLeave={this.handleMouseLeave}>
                     <div className={wideStyle.lookup}>
-                        <input value={filterText} onChange={this.handleFilterTextChange} placeholder="Search..." />
+                        <input ref={(input) => { this.searchField = input; }} value={filterText} onChange={this.handleFilterTextChange} placeholder="Search..." />
                     </div>
                     <div style={{ height: '40vh' }} className={wideStyle.tree}>
                         <Tree nodes={filteredNodes}
@@ -152,7 +178,7 @@ export default class TreePicker extends Component {
                                             lastChild: wideStyle.lastChildNode,
                                         }}>
                                             <Selection node={node} {...rest}>
-                                                <b>{node.code}&nbsp;</b>{node.name}
+                                                {formatter(node)}
                                             </Selection>
                                         </Expandable>
                                     </div>
