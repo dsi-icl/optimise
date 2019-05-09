@@ -1,25 +1,55 @@
 import React, { Component } from 'react';
-import Tree, { renderers, FilteringContainer } from 'react-virtualized-tree';
+import Tree, { renderers } from 'react-virtualized-tree';
 import wideStyle from './treePicker.module.css';
 
 const { Expandable } = renderers;
 
+const filterNodes = (filter, nodes) =>
+    nodes.reduce((filtered, n) => {
+        const { nodes: filteredChildren } = n.children
+            ? filterNodes(filter, n.children)
+            : { nodes: [] };
+
+        return !(filter(n) || filteredChildren.length)
+            ? filtered
+            : {
+                nodes: [
+                    ...filtered.nodes,
+                    {
+                        ...n,
+                        children: filteredChildren,
+                    },
+                ]
+            };
+    }, { nodes: [] });
+
+const nameMatchesSearchTerm = searchTerm => ({ name }) => {
+    const upperCaseName = name.toUpperCase();
+    const upperCaseSearchTerm = searchTerm.toUpperCase();
+
+    return upperCaseName.indexOf(upperCaseSearchTerm.trim()) > -1;
+};
 export default class TreePicker extends Component {
 
     constructor(props) {
         super(props);
+        const state = {
+            currentTermName: '',
+            filterText: '',
+            filterTerm: '',
+            opened: false
+        };
         const { value, hash, tree } = props;
         if (value === undefined || value === null) {
             this.state = ({
-                nodes: tree,
-                opened: false
+                ...state,
+                nodes: tree
             });
         } else if (hash[value] === undefined || hash[value].deleted === '1') {
             this.state = ({
+                ...state,
                 nodes: tree,
-                currentTerm: value,
-                currentTermName: `${hash[value].name} (from previous MedDRA codings)`,
-                opened: false
+                currentTermName: `${hash[value].name} (from previous codings)`
             });
         } else {
             let node = hash[value];
@@ -44,11 +74,12 @@ export default class TreePicker extends Component {
                     };
                 });
             };
+            let origin = crawl(tree);
             this.state = ({
-                nodes: crawl(tree),
-                currentTerm: value,
-                currentTermName: hash[value].name,
-                opened: false
+                ...state,
+                nodesOrigin: origin,
+                nodes: origin,
+                currentTermName: hash[value].name
             });
         }
     }
@@ -73,7 +104,6 @@ export default class TreePicker extends Component {
         this.props.onChange(updatedNode.id === undefined ? null : updatedNode.id);
         this.setState({
             opened: false,
-            currentTerm: updatedNode.id,
             currentTermName: updatedNode.name,
         });
         return nodes;
@@ -83,42 +113,53 @@ export default class TreePicker extends Component {
         this.setState({ currentTermName: event.target.value });
     }
 
+    setFilterTerm() {
+        this.setState(ps => ({ filterTerm: ps.filterText }));
+    }
+
+    handleFilterTextChange = e => {
+        const filterText = e.target.value;
+        this.setState({ filterText });
+        this.setFilterTerm();
+    };
+
     render() {
-        const { currentTermName, opened, nodes } = this.state;
+        const { currentTermName, filterTerm, filterText, opened, nodes } = this.state;
+        const { nodes: filteredNodes } = filterTerm ? filterNodes(nameMatchesSearchTerm(filterTerm), nodes) : { nodes };
+
         return (
             <>
                 <input type="text" key={currentTermName} defaultValue={currentTermName} onClick={this.handleInputFocus} onKeyDown={e => e.preventDefault()}></input>
                 <div className={`${wideStyle.wrapper} ${opened ? '' : wideStyle.hidePicker}`} onMouseLeave={this.handleMouseLeave}>
-                    <FilteringContainer nodes={nodes}>
-                        {({ nodes }) => (
-                            <div style={{ height: '40vh' }} className={wideStyle.tree}>
-                                <Tree nodes={nodes}
-                                    extensions={{
-                                        updateTypeHandlers: {
-                                            'SELECT': this.nodeSelectionHandler,
-                                        },
-                                    }}
-                                    onChange={this.handleChange}>
-                                    {({ style, node, ...rest }) => {
-                                        style.width = undefined;
-                                        return (
-                                            <div style={style} className={wideStyle.item}>
-                                                <Expandable node={node} {...rest} iconsClassNameMap={{
-                                                    expanded: wideStyle.expandedNode,
-                                                    collapsed: wideStyle.collapsedNode,
-                                                    lastChild: wideStyle.lastChildNode,
-                                                }}>
-                                                    <Selection node={node} {...rest}>
-                                                        <b>{node.code}&nbsp;</b>{node.name}
-                                                    </Selection>
-                                                </Expandable>
-                                            </div>
-                                        );
-                                    }}
-                                </Tree>
-                            </div>
-                        )}
-                    </FilteringContainer>
+                    <div className={wideStyle.lookup}>
+                        <input value={filterText} onChange={this.handleFilterTextChange} placeholder="Search..." />
+                    </div>
+                    <div style={{ height: '40vh' }} className={wideStyle.tree}>
+                        <Tree nodes={filteredNodes}
+                            extensions={{
+                                updateTypeHandlers: {
+                                    'SELECT': this.nodeSelectionHandler,
+                                },
+                            }}
+                            onChange={this.handleChange}>
+                            {({ style, node, ...rest }) => {
+                                style.width = undefined;
+                                return (
+                                    <div style={style} className={wideStyle.item}>
+                                        <Expandable node={node} {...rest} iconsClassNameMap={{
+                                            expanded: wideStyle.expandedNode,
+                                            collapsed: wideStyle.collapsedNode,
+                                            lastChild: wideStyle.lastChildNode,
+                                        }}>
+                                            <Selection node={node} {...rest}>
+                                                <b>{node.code}&nbsp;</b>{node.name}
+                                            </Selection>
+                                        </Expandable>
+                                    </div>
+                                );
+                            }}
+                        </Tree>
+                    </div>
                 </div>
                 <br />
             </>

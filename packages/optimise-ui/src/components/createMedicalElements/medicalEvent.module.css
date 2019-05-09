@@ -77,7 +77,7 @@
     word-wrap: break-word;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .interruption:hover {
@@ -103,7 +103,6 @@
 }
 
 .editInterruption {
-    padding-top: 0.9em;
     padding-bottom: 0.9em;
     position: relative;
 }
