@@ -20,6 +20,10 @@
     color: var(--color-background)
 }
 
+.panelWrapper {
+    position: relative;
+}
+
 .panel {
     grid-area: panel;
     display: block;

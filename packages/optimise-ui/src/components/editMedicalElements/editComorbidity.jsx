@@ -189,7 +189,9 @@ class OneComorbidity extends Component {
         const { editing, comorbidity, comorbidity_original } = this.state;
         const { data, icd11_Hash } = this.props;
         return (
-            <div className={style.interruption}>
+            <div className={style.interruption} style={{
+                overflow: editing ? 'visible' : 'hidden'
+            }}>
                 {
                     editing ?
                         <>

@@ -313,7 +313,9 @@ class OnePregnancy extends Component {
         const { editing, startDate, outcomeDate, noEndDate, outcome, meddra, startDate_original, outcomeDate_original, outcome_original, meddra_original } = this.state;
         const { data, pregnancyOutcomes, meddra_Hash } = this.props;
         return (
-            <div className={style.interruption}>
+            <div className={style.interruption} style={{
+                overflow: editing ? 'visible' : 'hidden'
+            }}>
                 {
                     editing ?
                         <>
