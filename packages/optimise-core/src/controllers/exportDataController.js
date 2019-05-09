@@ -94,7 +94,7 @@ class ExportDataController {
         let globalLineCount = 1;
 
         const unwindEntries = tree => {
-            const largestChildNum = Math.max(tree.labs.length, tree.mri.length, tree.SAEs.length, tree.treatments.length, tree.relapses.length, tree.pregnancies.length);
+            const largestChildNum = Math.max(tree.comorbidities.length, tree.labs.length, tree.mri.length, tree.SAEs.length, tree.treatments.length, tree.relapses.length, tree.pregnancies.length);
             const lines = [];
             let i = 0;
             do {
@@ -109,8 +109,8 @@ class ExportDataController {
                     heart_rate: i === 0 ? tree.heart_rate : '',
                     habits_alcohol: i === 0 ? tree.habits_alcohol : '',
                     habits_smoking: i === 0 ? tree.habits_smoking : '',
-                    comorbid_diagnosis: '',
-                    comorbid_date_of_dx: '',
+                    comorbid_recorded_during_visit_code: '',
+                    comorbid_recorded_during_visit_name: '',
                     EDSS_score: i === 0 ? tree.EDSS_score : '',
                     pregnancy_start_date: '',
                     pregnancy_end_date: '',
@@ -142,6 +142,7 @@ class ExportDataController {
                     ...(tree.relapses[i] || {}),
                     ...(tree.SAEs[i] || {}),
                     ...(tree.labs[i] || {}),
+                    ...(tree.comorbidities[i] || {}),
                     ...(tree.mri[i] || {}),
                 });
                 i++;
@@ -313,7 +314,12 @@ class ExportDataController {
                 tests_grouped[e.type] = tests_grouped[e.type].concat(entry);
             }
 
-            // console.log(lastVisitDate, thisVisitDate, visit.patientId,patientToVisitsMap[visit.patientId], visit.visitId, pregnancy, treatments, all_ce, '---------------------');
+            const comorbidities = await dbcon()('COMORBIDITY')
+                .select('ICD11.code as comorbid_recorded_during_visit_code', 'ICD11.name as comorbid_recorded_during_visit_name')
+                .leftJoin('ICD11', 'ICD11.id', 'COMORBIDITY.comorbidity')
+                .where('COMORBIDITY.visit', visit.visitId)
+                .andWhere('deleted', '-');
+
             const csventry = {
                 subjid: visit.patientId,
                 visit_id: visit.visitId,
@@ -324,11 +330,10 @@ class ExportDataController {
                 heart_rate: visitDataTransformed[3] || null,
                 habits_alcohol: visitDataTransformed[253] || null,
                 habits_smoking: visitDataTransformed[252] || null,
-                comorbid_diagnosis: '',
-                comorbid_date_of_dx: '',
                 EDSS_score: visitDataTransformed[121] || null,
                 pregnancies: pregnancy_transformed,
                 treatments: treatment_transformed,
+                comorbidities,
                 relapses: all_ce_grouped[1] || [],
                 SAEs: [...(all_ce_grouped[2] || []), ...(all_ce_grouped[3] || []), ...(all_ce_grouped[4] || []), ...(all_ce_grouped[5] || []), ...(all_ce_grouped[6] || [])],
                 labs: tests_grouped[1] || [],
