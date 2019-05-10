@@ -4,9 +4,9 @@ import wideStyle from './treePicker.module.css';
 
 const { Expandable } = renderers;
 
-const filterNodes = (filter, nodes) =>
+const filterNodes = (filter, nodes, parents = []) =>
     nodes.reduce((filtered, n) => {
-        const { nodes: filteredChildren } = n.children
+        const { nodes: filteredChildren, nodeParentMappings: childrenNodeMappings } = n.children
             ? filterNodes(filter, n.children)
             : { nodes: [] };
 
@@ -18,8 +18,17 @@ const filterNodes = (filter, nodes) =>
                     {
                         ...n,
                         children: filteredChildren,
+                        state: {
+                            ...n.state,
+                            expanded: true
+                        }
                     },
-                ]
+                ],
+                nodeParentMappings: {
+                    ...filtered.nodeParentMappings,
+                    ...childrenNodeMappings,
+                    [n.id]: parents,
+                },
             };
     }, { nodes: [] });
 
@@ -60,12 +69,14 @@ export default class TreePicker extends Component {
         if (value === undefined || value === null) {
             this.state = ({
                 ...state,
-                nodes: tree
+                nodes: tree,
+                nodesOrigin: tree,
             });
         } else if (hash[value] === undefined || hash[value].deleted === '1') {
             this.state = ({
                 ...state,
                 nodes: tree,
+                nodesOrigin: tree,
                 currentTermName: `${hash[value].name} (from previous codings)`
             });
         } else {
@@ -94,8 +105,8 @@ export default class TreePicker extends Component {
             let origin = crawl(tree);
             this.state = ({
                 ...state,
-                nodesOrigin: origin,
                 nodes: origin,
+                nodesOrigin: origin,
                 currentTermName: hash[value].name
             });
         }
@@ -116,22 +127,23 @@ export default class TreePicker extends Component {
     }
 
     handleMouseLeave = __unused__ev => {
-        this.setState({
+        this.setState(ps => ({
             opened: false,
+            nodes: ps.nodesOrigin,
             filterText: '',
-        });
+        }));
         this.setFilterTerm();
     }
 
     nodeSelectionHandler = (nodes, updatedNode) => {
-        this.props.onChange(updatedNode.id === undefined ? null : updatedNode.id);
-        this.setState({
+        this.setState(ps => ({
             opened: false,
+            nodes: ps.nodesOrigin,
             filterText: '',
             currentTermName: updatedNode.name,
-        });
+        }));
         this.setFilterTerm();
-        return nodes;
+        return this.state.nodesOrigin;
     }
 
     handleInput(event) {
@@ -151,7 +163,7 @@ export default class TreePicker extends Component {
     render() {
         const { formatter = (node) => node.name } = this.props;
         const { currentTermName, filterTerm, filterText, opened, nodes } = this.state;
-        const { nodes: filteredNodes } = filterTerm !== '' ? filterNodes(nameMatchesSearchTerm(filterTerm), nodes) : { nodes };
+        const { nodes: filteredNodes, nodeParentMappings } = filterTerm !== '' ? filterNodes(nameMatchesSearchTerm(filterTerm), nodes) : { nodes, nodeParentMappings: {} };
 
         return (
             <>
@@ -162,6 +174,7 @@ export default class TreePicker extends Component {
                     </div>
                     <div style={{ height: '40vh' }} className={wideStyle.tree}>
                         <Tree nodes={filteredNodes}
+                            nodeParentMappings={nodeParentMappings}
                             extensions={{
                                 updateTypeHandlers: {
                                     'SELECT': this.nodeSelectionHandler,
