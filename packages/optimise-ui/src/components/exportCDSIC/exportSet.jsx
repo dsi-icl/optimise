@@ -12,6 +12,8 @@ export class ExportSets extends Component {
         super();
         this._handleExportAll = this._handleExportAll.bind(this);
         this._handleExport = this._handleExport.bind(this);
+        this._handleExportCDISC = this._handleExportCDISC.bind(this);
+        this._handleExportAllCDISC = this._handleExportAllCDISC.bind(this);
     }
 
     _handleExportAll(e) {
