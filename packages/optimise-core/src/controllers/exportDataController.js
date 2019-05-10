@@ -88,69 +88,83 @@ class ExportDataController {
             .then(result => result.length > 0 ? ExportDataController[extractor](result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
             .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
             .then(filesArray => res.status(200).zip(filesArray, `${attachementName}.zip`))
-            .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachementName}.zip`));
+            // .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachementName}.zip`));
+            .catch(e => console.log(e));
     }
 
     static async getPatientData(patientList) {
         const data = [];
         let globalLineCount = 1;
+        let globalMaxComorbidities = 1;
+        let globalMaxLabs = 1;
+        let globalMaxPregnancies = 1;
+        let globalMaxMRIs = 1;
+        let globalMaxSAEs = 1;
+        let globalMaxTreatments = 1;
+        let globalMaxRelapses = 1;
+        let globalMaxDiagnosis = 1;
 
         const unwindEntries = tree => {
-            const largestChildNum = Math.max(tree.comorbidities.length, tree.labs.length, tree.mri.length, tree.SAEs.length, tree.treatments.length, tree.relapses.length, tree.pregnancies.length);
-            const lines = [];
-            let i = 0;
-            do {
-                lines.push({
-                    lineNum: globalLineCount++,
-                    subjid: i === 0 ? tree.subjid : '',
-                    alias: i === 0 ? tree.aliasId : '',
-                    visit_id: i === 0 ? tree.visit_id : '',
-                    visit_date: i === 0 ? tree.visit_date : '',
-                    reason_for_visit: i === 0 ? tree.reason_for_visit : '',
-                    vitals_sbp: i === 0 ? tree.vitals_sbp : '',
-                    vitals_dbp: i === 0 ? tree.vitals_dbp : '',
-                    heart_rate: i === 0 ? tree.heart_rate : '',
-                    habits_alcohol: i === 0 ? tree.habits_alcohol : '',
-                    habits_smoking: i === 0 ? tree.habits_smoking : '',
-                    comorbid_recorded_during_visit_code: '',
-                    comorbid_recorded_during_visit_name: '',
-                    EDSS_score: i === 0 ? tree.EDSS_score : '',
-                    pregnancy_start_date: '',
-                    pregnancy_end_date: '',
-                    pregnancy_outcome: '',
-                    DMT_name: '',
-                    DMT_dose: '',
-                    DMT_freq: '',
-                    DMT_start_date: '',
-                    DMT_end_date: '',
-                    relapse_type: '',
-                    relapse_start_date: '',
-                    relapse_severity: '',
-                    relapse_end_date: '',
-                    relapse_recovery: '',
-                    SAE_type: '',
-                    SAE_start_date: '',
-                    SAE_end_date: '',
-                    SAE_note: '',
-                    lab_test_id: '',
-                    lab_test_name: '',
-                    lab_test_value: '',
-                    lab_test_date: '',
-                    mri_id: '',
-                    mri_result_name: '',
-                    mri_result_value: '',
-                    mri_date: '',
-                    ...(tree.pregnancies[i] || {}),
-                    ...(tree.treatments[i] || {}),
-                    ...(tree.relapses[i] || {}),
-                    ...(tree.SAEs[i] || {}),
-                    ...(tree.labs[i] || {}),
-                    ...(tree.comorbidities[i] || {}),
-                    ...(tree.mri[i] || {}),
-                });
-                i++;
-            } while (i < largestChildNum);
-            return lines;
+            const line = {
+                lineNum: globalLineCount++,
+                subjid: tree.subjid,
+                alias: tree.aliasId,
+                visit_id: tree.visit_id,
+                visit_date: tree.visit_date,
+                reason_for_visit: tree.reason_for_visit,
+                vitals_sbp: tree.vitals_sbp,
+                vitals_dbp: tree.vitals_dbp,
+                heart_rate: tree.heart_rate,
+                habits_alcohol: tree.habits_alcohol,
+                habits_smoking: tree.habits_smoking,
+                EDSS_score: tree.EDSS_score || ''
+            };
+            for (let i = 0; i < globalMaxDiagnosis; i++) {
+                line[`diagnosis_${i + 1}`] = tree.diagnoses[i] ? tree.diagnoses[i].diagnosis : '';
+                line[`diagnosis_date_${i + 1}`] = tree.diagnoses[i] ? tree.diagnoses[i].diagnosisDate : '';
+            }
+            for (let i = 0; i < globalMaxComorbidities; i++) {
+                line[`comorbid_recorded_during_visit_code_${i + 1}`] = tree.comorbidities[i] ? tree.comorbidities[i].comorbid_recorded_during_visit_code : '';
+                line[`comorbid_recorded_during_visit_name_${i + 1}`] = tree.comorbidities[i] ? tree.comorbidities[i].comorbid_recorded_during_visit_name : '';
+            }
+            for (let i = 0; i < globalMaxPregnancies; i++) {
+                line[`pregnancy_start_date_${i + 1}`] = tree.pregnancies[i] ? tree.pregnancies[i].pregnancy_start_date : '';
+                line[`pregnancy_end_date_${i + 1}`] = tree.pregnancies[i] ? tree.pregnancies[i].pregnancy_end_date : '';
+                line[`pregnancy_outcome_${i + 1}`] = tree.pregnancies[i] ? tree.pregnancies[i].pregnancy_outcome : '';
+            }
+            for (let i = 0; i < globalMaxTreatments; i++) {
+                line[`DMT_name_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_name : '';
+                line[`DMT_dose_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_dose : '';
+                line[`DMT_freq_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_freq : '';
+                line[`DMT_start_date_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_start_date : '';
+                line[`DMT_end_date_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_end_date : '';
+            }
+            for (let i = 0; i < globalMaxRelapses; i++) {
+                line[`relapse_start_date_${i + 1}`] = tree.relapses[i] ? tree.relapses[i].relapse_start_date : '';
+                line[`relapse_type_${i + 1}`] = tree.relapses[i] ? tree.relapses[i].relapse_type : '';
+                line[`relapse_severity_${i + 1}`] = tree.relapses[i] ? tree.relapses[i].relapse_severity : '';
+                line[`relapse_end_date_${i + 1}`] = tree.relapses[i] ? tree.relapses[i].relapse_end_date : '';
+                line[`relapse_recovery_${i + 1}`] = tree.relapses[i] ? tree.relapses[i].relapse_recovery : '';
+            }
+            for (let i = 0; i < globalMaxSAEs; i++) {
+                line[`SAE_type_${i + 1}`] = tree.SAEs[i] ? tree.SAEs[i].SAE_type : '';
+                line[`SAE_start_date_${i + 1}`] = tree.SAEs[i] ? tree.SAEs[i].SAE_start_date : '';
+                line[`SAE_end_date_${i + 1}`] = tree.SAEs[i] ? tree.SAEs[i].SAE_end_date : '';
+                line[`SAE_note_${i + 1}`] = tree.SAEs[i] ? tree.SAEs[i].SAE_note : '';
+            }
+            for (let i = 0; i < globalMaxTreatments; i++) {
+                line[`lab_test_id_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].lab_test_id : '';
+                line[`lab_test_name_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].lab_test_name : '';
+                line[`lab_test_value_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].lab_test_value : '';
+                line[`lab_test_date_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].lab_test_date : '';
+            }
+            for (let i = 0; i < globalMaxMRIs; i++) {
+                line[`mri_id_${i + 1}`] = tree.mri[i] ? tree.mri[i].mri_id : '';
+                line[`mri_result_name_${i + 1}`] = tree.mri[i] ? tree.mri[i].mri_result_name : '';
+                line[`mri_result_value_${i + 1}`] = tree.mri[i] ? tree.mri[i].mri_result_value : '';
+                line[`mri_date_${i + 1}`] = tree.mri[i] ? tree.mri[i].mri_date : '';
+            }
+            return line;
         };
 
         /* transform test from sql to csv */
@@ -233,6 +247,18 @@ class ExportDataController {
             a[e.patientId].push(e.visitId);
             return a;
         }, {});
+
+        /* creating a map for patient -> diagnosis[] */
+        const diagnosisMap = {};
+        let allDiagnosis = await dbcon()('PATIENT_DIAGNOSIS')
+            .select('PATIENT_DIAGNOSIS.patient as patient', 'PATIENT_DIAGNOSIS.diagnosisDate as diagnosisDate', 'AVAILABLE_DIAGNOSES.value as diagnosis')
+            .leftJoin('AVAILABLE_DIAGNOSES', 'PATIENT_DIAGNOSIS.diagnosis', 'AVAILABLE_DIAGNOSES.id')
+            .where('PATIENT_DIAGNOSIS.deleted', '-');
+        allDiagnosis = allDiagnosis.map(e => ({ ...e, diagnosisDate: new Date(parseInt(e.diagnosisDate)).toDateString() }));
+        const patients = Object.keys(patientToVisitsMap);
+        for (let each of patients) {
+            diagnosisMap[each] = allDiagnosis.filter(e => parseInt(e.patient) === parseInt(each));
+        }
 
         /* filter out the shadow visits */
         visits = visits.filter(e => e.visitType === 1);
@@ -326,6 +352,7 @@ class ExportDataController {
             const csventry = {
                 subjid: visit.patientId,
                 aliasId: visit.patientAlias,
+                diagnoses: diagnosisMap[visit.patientId],
                 visit_id: visit.visitId,
                 visit_date: new Date(parseInt(visit.visitDate)).toDateString(),
                 reason_for_visit: visitDataTransformed[0] || null,
@@ -337,20 +364,29 @@ class ExportDataController {
                 EDSS_score: visitDataTransformed[121] || null,
                 pregnancies: pregnancy_transformed,
                 treatments: treatment_transformed,
-                comorbidities,
+                comorbidities: comorbidities || [],
                 relapses: all_ce_grouped[1] || [],
                 SAEs: [...(all_ce_grouped[2] || []), ...(all_ce_grouped[3] || []), ...(all_ce_grouped[4] || []), ...(all_ce_grouped[5] || []), ...(all_ce_grouped[6] || [])],
                 labs: tests_grouped[1] || [],
                 mri: tests_grouped[3] || []
             };
 
-            data.push(csventry);
+            globalMaxComorbidities = csventry.comorbidities.length > globalMaxComorbidities ? csventry.comorbidities.length : globalMaxComorbidities;
+            globalMaxPregnancies = csventry.pregnancies.length > globalMaxPregnancies ? csventry.pregnancies.length : globalMaxPregnancies;
+            globalMaxTreatments = csventry.treatments.length > globalMaxTreatments ? csventry.treatments.length : globalMaxTreatments;
+            globalMaxRelapses = csventry.relapses.length > globalMaxRelapses ? csventry.relapses.length : globalMaxRelapses;
+            globalMaxSAEs = csventry.SAEs.length > globalMaxSAEs ? csventry.SAEs.length : globalMaxSAEs;
+            globalMaxLabs = csventry.labs.length > globalMaxLabs ? csventry.labs.length : globalMaxLabs;
+            globalMaxMRIs = csventry.mri.length > globalMaxMRIs ? csventry.mri.length : globalMaxMRIs;
 
+            data.push(csventry);
             lastVisitDate = thisVisitDate;
         }
+
         data.reverse();
+
         const unwoundData = data.reduce((a, e) => {
-            a = a.concat(unwindEntries(e));
+            a.push(unwindEntries(e));
             return a;
         }, []);
 
