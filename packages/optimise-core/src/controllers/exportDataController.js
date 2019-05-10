@@ -103,6 +103,7 @@ class ExportDataController {
                 lines.push({
                     lineNum: globalLineCount++,
                     subjid: i === 0 ? tree.subjid : '',
+                    alias: i === 0 ? tree.aliasId : '',
                     visit_id: i === 0 ? tree.visit_id : '',
                     visit_date: i === 0 ? tree.visit_date : '',
                     reason_for_visit: i === 0 ? tree.reason_for_visit : '',
@@ -166,7 +167,7 @@ class ExportDataController {
                         lab_test_id: data.id,
                         lab_test_name: e.definition,
                         lab_test_value: e.value,
-                        lab_test_date: data.actualOccurredDate
+                        lab_test_date: (data.actualOccurredDate && new Date(data.actualOccurredDate).toDateString()) || ''
                     }));
                     break;
                 case 3: // MRI
@@ -174,7 +175,7 @@ class ExportDataController {
                         mri_id: data.id,
                         mri_result_name: e.definition,
                         mri_result_value: e.value,
-                        mri_date: data.actualOccurredDate
+                        mri_date: (data.actualOccurredDate && new Date(data.actualOccurredDate).toDateString()) || ''
                     }));
                     break;
                 default:
@@ -192,9 +193,9 @@ class ExportDataController {
                 case 1: // relapse
                     entry = {
                         relapse_type: associatedData.filter(e => [1,2,3,4,5,6,7].includes(e.field)).reduce((a, e) => `${a}${`_${e.definition}`}`, ''),
-                        relapse_start_date: data.dateStartDate,
+                        relapse_start_date: (data.dateStartDate && new Date(parseInt(data.dateStartDate)).toDateString()) || '',
                         relapse_severity: associatedData.filter(e => e.field === 9).reduce((a, e) => `${a}${`_${e.value}`}`, ''),
-                        relapse_end_date: data.endDate,
+                        relapse_end_date: (data.endDate && new Date(parseInt(data.endDate)).toDateString()) || '',
                         relapse_recovery: associatedData.filter(e => e.field === 10).reduce((a, e) => `${a}${`_${e.value}`}`, '')
                     };
                     break;
@@ -206,8 +207,8 @@ class ExportDataController {
                     typeMap = { 2: 'Infection', 3: 'Opportunistic infection', 4: 'Death', 5: 'SAE-treatment-related', 6: 'Other SAEs' };
                     entry = {
                         SAE_type: typeMap[data.type],
-                        SAE_start_date: data.dateStartDate,
-                        SAE_end_date: data.endDate,
+                        SAE_start_date: (data.dateStartDate && new Date(parseInt(data.dateStartDate)).toDateString()) || '',
+                        SAE_end_date: (data.endDate && new Date(parseInt(data.endDate)).toDateString()) || '',
                         SAE_note: associatedData.reduce((a, e) => `${a}|${e.field}: ${e.value}`, '')
                     };
                     break;
@@ -267,8 +268,8 @@ class ExportDataController {
                 .andWhere('PATIENT_PREGNANCY.deleted', '-')
                 .andWhere('PATIENT_PREGNANCY.patient', visit.patientId);
             const pregnancy_transformed = pregnancy.map(e => ({
-                pregnancy_start_date: e.startDate,
-                pregnancy_end_date: e.outcomeDate,
+                pregnancy_start_date: new Date(parseInt(e.startDate)).toDateString(),
+                pregnancy_end_date: (e.outcomeDate && new Date(parseInt(e.outcomeDate)).toDateString()) || '',
                 pregnancy_outcome: e.outcome
             }));
 
@@ -282,8 +283,8 @@ class ExportDataController {
                 DMT_name: e.drug,
                 DMT_dose: e.dose ? `${e.dose} ${e.unit || ''}` : '',
                 DMT_freq: e.times && e.intervalUnit ? `${e.times} ${e.intervalUnit}` : '',
-                DMT_start_date: e.startDate,
-                DMT_end_date: e.terminatedDate || ''
+                DMT_start_date: new Date(parseInt(e.startDate)).toDateString(),
+                DMT_end_date: (e.terminatedDate && new Date(parseInt(e.terminatedDate)).toDateString()) || ''
             }));
 
             const all_ce = await dbcon()('CLINICAL_EVENTS')
@@ -320,12 +321,13 @@ class ExportDataController {
                 .select('ICD11.code as comorbid_recorded_during_visit_code', 'ICD11.name as comorbid_recorded_during_visit_name')
                 .leftJoin('ICD11', 'ICD11.id', 'COMORBIDITY.comorbidity')
                 .where('COMORBIDITY.visit', visit.visitId)
-                .andWhere('deleted', '-');
+                .andWhere('COMORBIDITY.deleted', '-');
 
             const csventry = {
                 subjid: visit.patientId,
+                aliasId: visit.patientAlias,
                 visit_id: visit.visitId,
-                visit_date: visit.visitDate,
+                visit_date: new Date(parseInt(visit.visitDate)).toDateString(),
                 reason_for_visit: visitDataTransformed[0] || null,
                 vitals_sbp: visitDataTransformed[1] || null,
                 vitals_dbp: visitDataTransformed[2] || null,
@@ -342,12 +344,17 @@ class ExportDataController {
                 mri: tests_grouped[3] || []
             };
 
-            data.push(...unwindEntries(csventry));
+            data.push(csventry);
 
             lastVisitDate = thisVisitDate;
         }
+        data.reverse();
+        const unwoundData = data.reduce((a, e) => {
+            a = a.concat(unwindEntries(e));
+            return a;
+        }, []);
 
-        return [['SHORT_VISIT_SUMMARY', data]];
+        return [['SHORT_VISIT_SUMMARY', unwoundData]];
     }
 
     static getPatientDataCDISC(patientList) {
