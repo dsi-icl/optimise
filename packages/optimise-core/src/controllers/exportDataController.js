@@ -218,7 +218,7 @@ class ExportDataController {
 
         /* visits */
         let visits = await dbcon()('VISITS')
-            .select('VISITS.id as visitId', 'PATIENTS.id as patientId', 'PATIENTS.aliasId as patientAlias', 'VISITS.id as visitId', 'VISITS.visitDate', 'VISITS.type as visitType', 'VISITS.deleted as visitDeleted', 'PATIENTS.deleted as patientDeleted')
+            .select('VISITS.id as visitId', 'PATIENTS.id as patientId', 'PATIENTS.uuid as patientAlias', 'VISITS.id as visitId', 'VISITS.visitDate', 'VISITS.type as visitType', 'VISITS.deleted as visitDeleted', 'PATIENTS.deleted as patientDeleted')
             .leftJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .whereIn('PATIENTS.id', patientList)
             .andWhere('PATIENTS.deleted', '-')
