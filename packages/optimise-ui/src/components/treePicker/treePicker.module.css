@@ -38,6 +38,16 @@
 	background-color: #ddd;
 }
 
+.item .matchedString {
+    color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 70%);
+    padding: 0;
+    margin: 0;
+}
+
+.item:hover .matchedString {
+    color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 50%);
+}
+
 .expandedNode, .collapsedNode, .lastChildNode {
     display: inline-block;
     font-style: normal;
