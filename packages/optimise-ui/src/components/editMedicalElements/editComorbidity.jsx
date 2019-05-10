@@ -74,6 +74,12 @@ export default class EditComorbidity extends Component {
                     <form className={style.panel}>
                         {patientProfile.data.comorbidities
                             .filter((el) => parseInt(el.visit) === parseInt(this.props.match.params.visitId))
+                            .sort((a, b) => {
+                                if (icd11_Hash && icd11_Hash[0] && icd11_Hash[0][a.comorbidity] && icd11_Hash[0][a.comorbidity].name)
+                                    return icd11_Hash[0][a.comorbidity].name.localeCompare(icd11_Hash[0][b.comorbidity].name);
+                                else
+                                    return 0;
+                            })
                             .map((el) =>
                                 <OneComorbidity
                                     key={Math.random()}
