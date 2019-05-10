@@ -135,7 +135,7 @@ export default class TreePicker extends Component {
         this.setFilterTerm();
     }
 
-    nodeSelectionHandler = (nodes, updatedNode) => {
+    nodeSelectionHandler = (__unused__nodes, updatedNode) => {
         this.setState(ps => ({
             opened: false,
             nodes: ps.nodesOrigin,
@@ -159,6 +159,28 @@ export default class TreePicker extends Component {
         this.setState({ filterText });
         this.setFilterTerm();
     };
+
+    searchHighlighter(htmlText) {
+        const searchString = this.state.filterText;
+        return React.Children.map(htmlText, (child) => {
+            if (typeof child === 'string') {
+                const ind = child.toLowerCase().indexOf(searchString.toLowerCase());
+                if (ind >= 0)
+                    return (
+                        <>
+                            {child.substring(0, ind)}
+                            <span className={wideStyle.matchedString}>
+                                {child.substring(ind, searchString.length + ind)}
+                            </span>
+                            {child.substring(searchString.length + ind, child.length)}
+                        </>
+                    );
+                else
+                    return child;
+            } else
+                return child.props && child.props.children ? React.cloneElement(child, {}, this.searchHighlighter(child.props.children)) : child;
+        });
+    }
 
     render() {
         const { formatter = (node) => node.name } = this.props;
@@ -191,7 +213,7 @@ export default class TreePicker extends Component {
                                             lastChild: wideStyle.lastChildNode,
                                         }}>
                                             <Selection node={node} {...rest}>
-                                                {formatter(node)}
+                                                {this.searchHighlighter(formatter(node))}
                                             </Selection>
                                         </Expandable>
                                     </div>
