@@ -4,32 +4,22 @@ import wideStyle from './treePicker.module.css';
 
 const { Expandable } = renderers;
 
-const filterNodes = (filter, nodes, parents = []) =>
+const filterNodes = (filter, nodes) =>
     nodes.reduce((filtered, n) => {
-        const { nodes: filteredChildren, nodeParentMappings: childrenNodeMappings } = n.children
-            ? filterNodes(filter, n.children)
-            : { nodes: [] };
-
-        return !(filter(n) || filteredChildren.length)
-            ? filtered
-            : {
-                nodes: [
-                    ...filtered.nodes,
-                    {
-                        ...n,
-                        children: filteredChildren,
-                        state: {
-                            ...n.state,
-                            expanded: true
-                        }
-                    },
-                ],
-                nodeParentMappings: {
-                    ...filtered.nodeParentMappings,
-                    ...childrenNodeMappings,
-                    [n.id]: parents,
+        const { nodes: filteredChildren } = n.children ? filterNodes(filter, n.children) : { nodes: [] };
+        return !(filter(n) || filteredChildren.length) ? filtered : {
+            nodes: [
+                ...filtered.nodes,
+                {
+                    ...n,
+                    children: filteredChildren,
+                    state: {
+                        ...n.state,
+                        expanded: true
+                    }
                 },
-            };
+            ]
+        };
     }, { nodes: [] });
 
 const nameMatchesSearchTerm = searchTerm => ({ name, code }) => {
@@ -136,6 +126,7 @@ export default class TreePicker extends Component {
     }
 
     nodeSelectionHandler = (__unused__nodes, updatedNode) => {
+        this.props.onChange(updatedNode.id === undefined ? null : updatedNode.id);
         this.setState(ps => ({
             opened: false,
             nodes: ps.nodesOrigin,
@@ -185,7 +176,7 @@ export default class TreePicker extends Component {
     render() {
         const { formatter = (node) => node.name } = this.props;
         const { currentTermName, filterTerm, filterText, opened, nodes } = this.state;
-        const { nodes: filteredNodes, nodeParentMappings } = filterTerm !== '' ? filterNodes(nameMatchesSearchTerm(filterTerm), nodes) : { nodes, nodeParentMappings: {} };
+        const { nodes: filteredNodes } = filterTerm !== '' ? filterNodes(nameMatchesSearchTerm(filterTerm), nodes) : { nodes };
 
         return (
             <>
@@ -196,7 +187,6 @@ export default class TreePicker extends Component {
                     </div>
                     <div style={{ height: '40vh' }} className={wideStyle.tree}>
                         <Tree nodes={filteredNodes}
-                            nodeParentMappings={nodeParentMappings}
                             extensions={{
                                 updateTypeHandlers: {
                                     'SELECT': this.nodeSelectionHandler,
