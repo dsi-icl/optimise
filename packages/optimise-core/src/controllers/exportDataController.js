@@ -63,27 +63,37 @@ class ExportDataController {
 
     static exportDatabase({ query }, res) {
 
+        let isPatientMappings = query.patientMappings !== undefined;
         let queryfield = '';
         let queryvalue = '';
-        const attachementName = `optimise_export_${Date.now()}.zip`;
+        let attachementName = `optimise_export_${Date.now()}`;
 
-        if (typeof query.field === 'string')
-            queryfield = query.field;
-        else if (query.field !== undefined)
-            return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
+        if (isPatientMappings === true) {
+            attachementName += '_patientMappings';
+            searchEntry(queryfield, queryvalue)
+                .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
+                .then(result => result.length > 0 ? result.map(({ uuid, aliasId }) => ({ optimiseID: uuid, patientId: aliasId })) : ExportDataController.createNoDataFile())
+                .then(result => result.length !== undefined ? [ExportDataController.createJsonDataFile(['patientMappings',result]), ExportDataController.createCsvDataFile(['patientMappings',result])] : [result])
+                .then(filesArray => res.status(200).zip(filesArray), `${attachementName}.zip`)
+                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachementName}.zip`));
+        } else {
+            if (typeof query.field === 'string')
+                queryfield = query.field;
+            else if (query.field !== undefined)
+                return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], `${attachementName}.zip`);
 
-        if (typeof query.value === 'string')
-            queryvalue = query.value;
-        else if (query.value !== undefined)
-            return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
+            if (typeof query.value === 'string')
+                queryvalue = query.value;
+            else if (query.value !== undefined)
+                return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], `${attachementName}.zip`);
 
-        searchEntry(queryfield, queryvalue)
-            .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
-            .then(result => result.length > 0 ? ExportDataController.getPatientData(result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
-            .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [domainResults])
-            .then(filesArray => res.status(200).zip(filesArray), attachementName)
-            .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], attachementName));
-
+            searchEntry(queryfield, queryvalue)
+                .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
+                .then(result => result.length > 0 ? ExportDataController.getPatientData(result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
+                .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [domainResults])
+                .then(filesArray => res.status(200).zip(filesArray), `${attachementName}.zip`)
+                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachementName}.zip`));
+        }
     }
 
     static getPatientData(patientList) {
