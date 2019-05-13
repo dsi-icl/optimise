@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "1.10.4",
+    "version": "1.11.0",
     "description": "Optimise:MS Backend",
     "keywords": [
         "ms"
@@ -43,14 +43,14 @@
         "uuid": "3.3.2"
     },
     "devDependencies": {
-        "@babel/preset-env": "7.4.4",
         "@babel/core": "7.4.4",
+        "@babel/plugin-syntax-dynamic-import": "7.2.0",
+        "@babel/polyfill": "7.4.4",
+        "@babel/preset-env": "7.4.4",
         "babel-eslint": "10.0.1",
         "babel-jest": "24.8.0",
         "babel-loader": "8.0.6",
         "babel-plugin-require-context-hook": "1.0.0",
-        "@babel/plugin-syntax-dynamic-import": "7.2.0",
-        "@babel/polyfill": "7.4.4",
         "chalk": "2.4.2",
         "codacy-coverage": "3.4.0",
         "eslint": "5.16.0",
