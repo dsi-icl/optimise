@@ -1,0 +1,71 @@
+.wrapper {
+    position: absolute;
+    width: 100%;
+    background-color: #fff;
+    margin-top: -2.7em;
+}
+
+.hidePicker {
+    display: none;
+}
+
+.tree span {
+    word-wrap: break-word;
+    white-space: nowrap;
+    line-height: 1.2em;
+    padding-left: 20px;
+}
+
+.tree span.noPadding {
+    padding: 0;
+}
+
+.tree span b {
+    word-wrap: break-word;
+    white-space: nowrap;
+}
+
+.tree span i {
+    margin-left: -20px;
+    padding-right: 8px;
+}
+
+.item {
+    padding: 5px 30px 5px 10px;
+}
+
+.item:hover {
+	background-color: #ddd;
+}
+
+.item .matchedString {
+    color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 70%);
+    padding: 0;
+    margin: 0;
+}
+
+.item:hover .matchedString {
+    color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 50%);
+}
+
+.expandedNode, .collapsedNode, .lastChildNode {
+    display: inline-block;
+    font-style: normal;
+}
+
+.expandedNode::before {
+    content: "\25BE";
+    width: 2em;
+    font-size: 1.3em;
+}
+
+.collapsedNode::before {
+    content: "\25B8";
+    width: 2em;
+    font-size: 1.3em;
+}
+
+.lastChildNode::before {
+    content: " ";
+    width: 2em;
+}
