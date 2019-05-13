@@ -1,0 +1,43 @@
+/* html, body {
+    position: relative;
+}
+
+div[id=root] {
+    position: relative;
+    grid: unset;
+} */
+
+.inlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.backing {
+    display: inline-block;
+    background: #ffffff;
+    vertical-align: middle;
+    padding-bottom: 10%;
+    padding-top: 10%;
+    width: 100%;
+}
+
+.backing div {
+    display: inline-block;
+    width: 10%;
+}
+
+.backing img {
+    width: 100%;
+}
+
+.pad {
+    width: 5%;
+}
