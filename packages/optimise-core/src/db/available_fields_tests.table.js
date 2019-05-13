@@ -1,4 +1,4 @@
-import testFields from './defaults/testFields.json';
+import testFields from './defaults_v1/testFields.json';
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_TESTS';
 export const PRIORITY = 1;

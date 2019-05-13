@@ -162,7 +162,7 @@ export class TreatmentInterruption extends Component {
                                                 <option value='unselected'></option>
                                                 {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                             </select><br /><br />
-                                            <b>MedDRA: </b><MeddraPicker key={params.elementId} value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
+                                            <label>MedDRA: </label><MeddraPicker key={params.elementId} value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
                                         </div>
                                         {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                                         <button onClick={this._handleSubmit}>Submit</button><br /><br />
@@ -319,7 +319,9 @@ class OneTreatmentInterruption extends Component {
         const { editing, startDate, endDate, noEndDate, reason, meddra, startDate_original, endDate_original, reason_original, meddra_original } = this.state;
         const { data, interruptionReasons, meddra_Hash } = this.props;
         return (
-            <div className={style.interruption}>
+            <div className={style.interruption} style={{
+                overflow: editing ? 'visible' : 'hidden'
+            }}>
                 {
                     editing ?
                         <>
@@ -332,7 +334,7 @@ class OneTreatmentInterruption extends Component {
                                     <option value='unselected'></option>
                                     {interruptionReasons.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                 </select><br /><br />
-                                <b>MedDRA: </b><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
+                                <label>MedDRA: </label><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
                             </div>
                             {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                             <button onClick={this._handleSubmit}>Confirm change</button><br /><br />

@@ -13,7 +13,6 @@ import store from '../../redux/store';
 import Icon from '../icon';
 import style from './patientProfile.module.css';
 
-
 //need to pass location to buttons  - do later
 
 @connect(state => ({
@@ -21,7 +20,6 @@ import style from './patientProfile.module.css';
     data: state.patientProfile.data
 }))
 export class PatientChart extends Component {
-
     constructor() {
         super();
         this.state = { hash: null };
@@ -75,7 +73,6 @@ export class PatientChart extends Component {
         );
     }
 }
-
 
 /* receives a prop data of one test*/
 @withRouter
@@ -218,7 +215,9 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
  */
 @connect(state => ({
     typedict: state.availableFields.visitFields_Hash[0],
-    inputType: state.availableFields.inputTypes_Hash[0]
+    inputType: state.availableFields.inputTypes_Hash[0],
+    icd11_Hash: state.availableFields.icd11_Hash[0]
+
 }))
 class OneVisit extends Component {
 
@@ -228,7 +227,7 @@ class OneVisit extends Component {
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
-        const VS = this.props.visitData.filter(el => [0, 1, 2, 3, 4, 5, 6].includes(el.field));
+        const VS = this.props.visitData.filter(el => [0, 1, 2, 3, 4, 5, 6, 252, 253].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
         const VSValueArray = [
             { name: 'Reason for the visit', value: VSHashTable['0'] },
@@ -237,6 +236,8 @@ class OneVisit extends Component {
             { name: 'Heart rate', value: VSHashTable['2'], unit: 'bpm' },
             { name: 'Height', value: VSHashTable['4'], unit: 'cm' },
             { name: 'Weight', value: VSHashTable['5'], unit: 'kg' },
+            { name: 'Smoking habit', value: VSHashTable['252'] },
+            { name: 'Alcohol habit', value: VSHashTable['253'] },
             { name: 'Academic concerns', value: isMinor && VSHashTable['6'] ? VSHashTable['6'] === '1' ? 'Yes' : undefined : undefined }
         ].filter(e => !!e.value);
         const relevantSymptomsFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && field.section === 2);
@@ -249,9 +250,11 @@ class OneVisit extends Component {
         const relevantEDSSFieldsIdArray = relevantEDSSFields.map(el => el.id);
         const performances = this.props.visitData.filter(el => el.field > 6 && relevantEDSSFieldsIdArray.includes(el.field));
         const communication = this.props.data.visits.filter(v => v.id === this.props.visitId)[0].communication;
+        const comorbidities = this.props.data.comorbidities.filter(el => el.visit === this.props.visitId);
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
 
         const filteredSymptoms = filterEmptyRenders(symptoms, this.props.inputType, this.props.typedict);
+        const filteredComorbidities = comorbidities;
         const filteredSigns = filterEmptyRenders(signs, this.props.inputType, this.props.typedict);
         const filteredEDSS = filterEmptyRenders(performances, this.props.inputType, this.props.typedict);
 
@@ -344,7 +347,7 @@ class OneVisit extends Component {
                         <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}/vitals`} className={style.visitEditButton}>
                             <span title='Edit visit date and reason' className={style.dataEdit}><Icon symbol='edit' /></span>
                         </NavLink><br />
-                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : ' AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
+                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY, VITAL SIGNS{isMinor ? ', ' : ' AND'} HABITS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
                         {VSValueArray.length > 0 ? (
                             <div className={style.visitWrapper}>
                                 <table>
@@ -368,6 +371,13 @@ class OneVisit extends Component {
                                                 <tr>
                                                     <td >{VSValueArray[4] ? `${VSValueArray[4].name}: ${VSValueArray[4].value} ${VSValueArray[4].unit ? VSValueArray[4].unit : ''}` : ''}</td>
                                                     <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
+                                                </tr>
+                                            ) : null}
+                                        {VSValueArray.length > 6 ?
+                                            (
+                                                <tr>
+                                                    <td >{VSValueArray[6] ? `${VSValueArray[6].name}: ${VSValueArray[6].value} ${VSValueArray[6].unit ? VSValueArray[6].unit : ''}` : ''}</td>
+                                                    <td >{VSValueArray[7] ? `${VSValueArray[7].name}: ${VSValueArray[7].value} ${VSValueArray[7].unit ? VSValueArray[7].unit : ''}` : ''}</td>
                                                 </tr>
                                             ) : null}
                                     </tbody>
@@ -431,6 +441,32 @@ class OneVisit extends Component {
                         <br /><br />
                     </>
                 ) : null}
+
+                {this.props.visitType === 1 ?
+                    <>
+                        <h4><Icon symbol='symptom' />&nbsp;COMORBIDITIES</h4>
+                        {filteredComorbidities.length > 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <tbody>
+                                        {filteredComorbidities.map(el =>
+                                            this.props.icd11_Hash[el.comorbidity] ?
+                                                <tr key={el.id}>
+                                                    <td>{this.props.icd11_Hash[el.comorbidity].name}</td>
+                                                </tr> : null
+                                        )}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/comorbidity/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit comorbidities</button>
+                        </NavLink>
+                        <br /><br /></>
+                    : null}
+
+
                 {this.props.visitType === 1 ? (
                     <>
                         <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>

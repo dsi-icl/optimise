@@ -1,4 +1,4 @@
-import visitTypes from './defaults/visitTypes.json';
+import visitTypes from './defaults_v1/visitTypes.json';
 
 export const TABLE_NAME = 'AVAILABLE_VISIT_TYPES';
 export const PRIORITY = 0;

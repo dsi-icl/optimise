@@ -21,7 +21,7 @@ class SelectorUtils {
         if (deleted === true)
             whereObj.deleted = '-';
         return dbcon()('PATIENT_DEMOGRAPHIC')
-            .select('id', 'DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin', 'alcoholUsage', 'smokingHistory')
+            .select('id', 'DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin')
             .where(whereObj)
             .then(result => {
                 const returnObj = { demographicData: result[0] };
@@ -308,6 +308,28 @@ class SelectorUtils {
         if (deleted === true)
             whereObj.deleted = '-';
         return DiagnosisCore.getPatientDiagnosis(whereObj).then((result) => ({ 'diagnosis': result }), (__unused__error) => ({ 'diagnosis': [] }));
+    }
+
+    getComorbidities(patientId, deleted) {
+        let whereObj = { 'patient': patientId };
+        let innerWhereObj = {};
+        if (deleted === true) {
+            whereObj.deleted = '-';
+            innerWhereObj.deleted = '-';
+        }
+        return dbcon()('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type' }).where(whereObj).then(resu => {
+            let ids = [];
+            let dates = [];
+            for (let i = 0; i < resu.length; i++) {
+                ids[i] = resu[i].id;
+                dates[resu[i].id] = resu[i].visitDate;
+            }
+            return dbcon()('COMORBIDITY')
+                .select('id', 'visit', 'comorbidity')
+                .whereIn('visit', ids)
+                .andWhere(innerWhereObj)
+                .then(result => ({ comorbidities: result }));
+        });
     }
 }
 

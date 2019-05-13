@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "name": "Clinical Visit",
+        "module": "MS"
+    },
+    {
+        "id": 2,
+        "name": "Remote",
+        "module": "MS"
+    }
+]
