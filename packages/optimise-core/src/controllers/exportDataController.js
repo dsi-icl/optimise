@@ -67,38 +67,38 @@ class ExportDataController {
         let isCDISC = query.cdisc !== undefined;
         let queryfield = '';
         let queryvalue = '';
-        let attachementName = `optimise_export_${Date.now()}`;
+        let attachmentName = `optimise_export_${Date.now()}`;
 
         if (isPatientMappings === true) {
-            attachementName += '_patientMappings';
+            attachmentName += '_patientMappings';
             searchEntry(queryfield, queryvalue)
                 .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
                 .then(result => result.length > 0 ? result.map(({ uuid, aliasId }) => ({ optimiseID: uuid, patientId: aliasId })) : ExportDataController.createNoDataFile())
                 .then(result => result.length !== undefined ? [ExportDataController.createJsonDataFile(['patientMappings', result]), ExportDataController.createCsvDataFile(['patientMappings', result])] : [result])
-                .then(filesArray => res.status(200).zip(filesArray), `${attachementName}.zip`)
-                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachementName}.zip`));
+                .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
+                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
         } else {
             if (typeof query.field === 'string')
                 queryfield = query.field;
             else if (query.field !== undefined)
-                return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], `${attachementName}.zip`);
+                return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], `${attachmentName}.zip`);
 
             if (typeof query.value === 'string')
                 queryvalue = query.value;
             else if (query.value !== undefined)
-                return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], `${attachementName}.zip`);
+                return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], `${attachmentName}.zip`);
 
             let extractor = 'getPatientData';
             if (isCDISC === true) {
                 extractor = 'getPatientDataCDISC';
-                attachementName += '_cdisc';
+                attachmentName += '_cdisc';
             }
 
             searchEntry(queryfield, queryvalue).then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
                 .then(result => result.length > 0 ? ExportDataController[extractor](result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
                 .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
-                .then(filesArray => res.status(200).zip(filesArray, `${attachementName}.zip`))
-                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachementName}.zip`));
+                .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
+                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
 
         }
     }
