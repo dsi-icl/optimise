@@ -88,8 +88,7 @@ class ExportDataController {
             .then(result => result.length > 0 ? ExportDataController[extractor](result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
             .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
             .then(filesArray => res.status(200).zip(filesArray, `${attachementName}.zip`))
-            // .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachementName}.zip`));
-            .catch(e => console.log(e));
+            .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachementName}.zip`));
     }
 
     static async getPatientData(patientList) {
