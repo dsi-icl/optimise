@@ -30,7 +30,7 @@ export class TimelineBox extends Component {   //unfinsihed
             }
         });
         const allDates = [...allVisitDates, ...allTestDates, ...allTreatmentDates, ...allCEDates].map(el => parseInt(el));
-        allDates.sort();
+        allDates.sort((a, b) => a - b);
         let maxDatePoint = allDates[allDates.length - 1] - allDates[0];
 
         const TimelineDynamicStyle = {
@@ -165,11 +165,20 @@ export class TimelineBox extends Component {   //unfinsihed
                     <div style={{ gridColumn: '1/2', gridRow: '11', overflow: 'hidden' }}>
 
                     </div>
+                    {this.props.data.treatments.map(mappingMedFunction)}
                     {this.props.data.visits.filter(el => el.type === 1).map(mappingVisitFunction)}
                     {this.props.data.tests.map(mappingTestFunction)}
-                    {this.props.data.treatments.map(mappingMedFunction)}
                     {this.props.data.clinicalEvents.map(mappingCEFunction)}
-                    <table style={{ gridColumn: '3/103', gridRow: '11' }} className={style.miniTimelineDateLine}><tbody><tr>{mappingDateFunction(allDates)}</tr></tbody></table>
+                    <table style={{
+                        gridColumn: '3/103',
+                        gridRow: '11'
+                    }} className={style.miniTimelineDateLine}>
+                        <tbody>
+                            <tr>
+                                {mappingDateFunction(allDates)}
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </PatientProfileSectionScaffold>
         );

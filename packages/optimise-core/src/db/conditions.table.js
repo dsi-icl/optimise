@@ -1,4 +1,4 @@
-import conditions from './defaults/conditions.json';
+import conditions from './defaults_v1/conditions.json';
 
 export const TABLE_NAME = 'CONDITIONS';
 export const PRIORITY = 0;

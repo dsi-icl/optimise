@@ -1,4 +1,4 @@
-import meddra from './defaults/meddra.json';
+import meddra from './defaults_v1/meddra.json';
 
 export const TABLE_NAME = 'ADVERSE_EVENT_MEDDRA';
 export const PRIORITY = 0;

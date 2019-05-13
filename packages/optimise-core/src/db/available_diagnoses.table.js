@@ -1,4 +1,4 @@
-import diagnoses from './defaults/diagnoses.json';
+import diagnoses from './defaults_v1/diagnoses.json';
 
 export const TABLE_NAME = 'AVAILABLE_DIAGNOSES';
 export const PRIORITY = 0;

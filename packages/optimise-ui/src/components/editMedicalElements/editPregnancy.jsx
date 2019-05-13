@@ -159,7 +159,7 @@ export default class EditPregnancy extends Component {
                                                 <option value='unselected'></option>
                                                 {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                             </select><br /><br />
-                                            <b>MedDRA: </b><MeddraPicker value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
+                                            <label>MedDRA: </label><MeddraPicker value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
                                         </>
                                     )}
                                 </div>
@@ -313,7 +313,9 @@ class OnePregnancy extends Component {
         const { editing, startDate, outcomeDate, noEndDate, outcome, meddra, startDate_original, outcomeDate_original, outcome_original, meddra_original } = this.state;
         const { data, pregnancyOutcomes, meddra_Hash } = this.props;
         return (
-            <div className={style.interruption}>
+            <div className={style.interruption} style={{
+                overflow: editing ? 'visible' : 'hidden'
+            }}>
                 {
                     editing ?
                         <>
@@ -328,7 +330,7 @@ class OnePregnancy extends Component {
                                             <option value='unselected'></option>
                                             {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                         </select><br /><br />
-                                        <b>MedDRA: </b><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
+                                        <label>MedDRA: </label><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
                                     </>
                                 )}
                             </div>

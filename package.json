@@ -1,6 +1,6 @@
 {
     "name": "optimise",
-    "version": "1.10.4",
+    "version": "1.11.0",
     "description": "Optimise:MS",
     "keywords": [
         "ms"
@@ -40,6 +40,6 @@
     },
     "devDependencies": {
         "cross-env": "5.2.0",
-        "lerna": "3.13.1"
+        "lerna": "3.13.4"
     }
 }

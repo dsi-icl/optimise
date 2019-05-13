@@ -1,4 +1,4 @@
-import drugs from './defaults/drugs.json';
+import drugs from './defaults_v1/drugs.json';
 
 export const TABLE_NAME = 'AVAILABLE_DRUGS';
 export const PRIORITY = 0;

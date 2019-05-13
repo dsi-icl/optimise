@@ -14,18 +14,16 @@ export class AdminActions extends Component {
                 </div>
                 <div className={style.panel}>
                     <div className={style.actionsMenu}>
-                        {/*
-                        <NavLink to='/administration/messages' activeClassName={style.activeNavLink}>
-                            <button>Messages</button>
-                        </NavLink>
-                        <br /><br />
-                        */}
                         <NavLink to='/administration/users' activeClassName={style.activeNavLink}>
                             <button>Manage users</button>
                         </NavLink>
                         <br /> <br />
                         <NavLink to='/administration/meddra' activeClassName={style.activeNavLink}>
                             <button>Manage MedDRA</button>
+                        </NavLink>
+                        <br /><br />
+                        <NavLink to='/administration/patientMappings' activeClassName={style.activeNavLink}>
+                            <button>Patient ID Mappings</button>
                         </NavLink>
                         <br /><br />
                         <NavLink to='/administration/log' activeClassName={style.activeNavLink}>

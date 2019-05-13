@@ -35,6 +35,7 @@ export default {
         interruptionReasons_Hash: null,
         allMeddra: null,
         meddra_Hash: null,
+        meddra_Tree: null,
         pregnancyOutcomes: null,
         pregnancyOutcomes_Hash: null,
         diagnoses: null,
@@ -45,6 +46,9 @@ export default {
         clinicalEventFields_Hash: null,
         medicalConditions: null,
         medicalConditions_Hash: null,
+        icd11: null,
+        icd11_Hash: null,
+        icd11_Tree: null,
         inputTypes: [     //'I', 'F', 'BLOB' etc
             {
                 'id': 1,

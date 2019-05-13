@@ -1,4 +1,4 @@
-import visitSections from './defaults/visitSections.json';
+import visitSections from './defaults_v1/visitSections.json';
 
 export const TABLE_NAME = 'AVAILABLE_VISIT_SECTIONS';
 export const PRIORITY = 0;
