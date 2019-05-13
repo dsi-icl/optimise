@@ -63,32 +63,44 @@ class ExportDataController {
 
     static exportDatabase({ query }, res) {
 
+        let isPatientMappings = query.patientMappings !== undefined;
         let isCDISC = query.cdisc !== undefined;
         let queryfield = '';
         let queryvalue = '';
-        let attachementName = `optimise_export_${Date.now()}`;
+        let attachmentName = `optimise_export_${Date.now()}`;
 
-        if (typeof query.field === 'string')
-            queryfield = query.field;
-        else if (query.field !== undefined)
-            return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
+        if (isPatientMappings === true) {
+            attachmentName += '_patientMappings';
+            searchEntry(queryfield, queryvalue)
+                .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
+                .then(result => result.length > 0 ? result.map(({ uuid, aliasId }) => ({ optimiseID: uuid, patientId: aliasId })) : ExportDataController.createNoDataFile())
+                .then(result => result.length !== undefined ? [ExportDataController.createJsonDataFile(['patientMappings', result]), ExportDataController.createCsvDataFile(['patientMappings', result])] : [result])
+                .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
+                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
+        } else {
+            if (typeof query.field === 'string')
+                queryfield = query.field;
+            else if (query.field !== undefined)
+                return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], `${attachmentName}.zip`);
 
-        if (typeof query.value === 'string')
-            queryvalue = query.value;
-        else if (query.value !== undefined)
-            return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
+            if (typeof query.value === 'string')
+                queryvalue = query.value;
+            else if (query.value !== undefined)
+                return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], `${attachmentName}.zip`);
 
-        let extractor = 'getPatientData';
-        if (isCDISC === true) {
-            extractor = 'getPatientDataCDISC';
-            attachementName += '_cdisc';
+            let extractor = 'getPatientData';
+            if (isCDISC === true) {
+                extractor = 'getPatientDataCDISC';
+                attachmentName += '_cdisc';
+            }
+
+            searchEntry(queryfield, queryvalue).then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
+                .then(result => result.length > 0 ? ExportDataController[extractor](result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
+                .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
+                .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
+                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
+
         }
-
-        searchEntry(queryfield, queryvalue) .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
-            .then(result => result.length > 0 ? ExportDataController[extractor](result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
-            .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
-            .then(filesArray => res.status(200).zip(filesArray, `${attachementName}.zip`))
-            .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachementName}.zip`));
     }
 
     static async getPatientData(patientList) {
@@ -205,7 +217,7 @@ class ExportDataController {
             switch (data.type) {
                 case 1: // relapse
                     entry = {
-                        relapse_type: associatedData.filter(e => [1,2,3,4,5,6,7].includes(e.field)).reduce((a, e) => `${a}${`_${e.definition}`}`, ''),
+                        relapse_type: associatedData.filter(e => [1, 2, 3, 4, 5, 6, 7].includes(e.field)).reduce((a, e) => `${a}${`_${e.definition}`}`, ''),
                         relapse_start_date: (data.dateStartDate && new Date(parseInt(data.dateStartDate)).toDateString()) || '',
                         relapse_severity: associatedData.filter(e => e.field === 9).reduce((a, e) => `${a}${`_${e.value}`}`, ''),
                         relapse_end_date: (data.endDate && new Date(parseInt(data.endDate)).toDateString()) || '',
@@ -270,7 +282,7 @@ class ExportDataController {
         let lastVisitDate;
         for (let visit of visits) {
             /* if last visit is for another patient then reset */
-            if (lastVisitPatient !== visit.patientId){
+            if (lastVisitPatient !== visit.patientId) {
                 lastVisitDate = Number.MIN_SAFE_INTEGER;
                 lastVisitPatient = visit.patientId;
             }
@@ -320,7 +332,7 @@ class ExportDataController {
             /* type 1 = relapse, 2 = infection, 3 = opportunisitic infection, 4 = Death, 5 = SAE realted to treatment , 6 = other SAE*/
             const all_ce_grouped = {};
             for (let e of all_ce) {
-                if (all_ce_grouped[e.type] === undefined){
+                if (all_ce_grouped[e.type] === undefined) {
                     all_ce_grouped[e.type] = [];
                 }
                 const entry = await fetchAssociatedDataForCEandTransform(e);
@@ -331,11 +343,11 @@ class ExportDataController {
                 .select('*')
                 .whereBetween(dbcon().raw('CAST(actualOccurredDate as integer)'), [lastVisitDate, thisVisitDate])
                 .andWhere('deleted', '-')
-                .whereIn('type', [1,3])
+                .whereIn('type', [1, 3])
                 .whereIn('orderedDuringVisit', patientToVisitsMap[visit.patientId]);
             const tests_grouped = {};
             for (let e of MRI_and_lab) {
-                if (tests_grouped[e.type] === undefined){
+                if (tests_grouped[e.type] === undefined) {
                     tests_grouped[e.type] = [];
                 }
                 const entry = await fetchAssociatedDataForTestandTransform(e);
