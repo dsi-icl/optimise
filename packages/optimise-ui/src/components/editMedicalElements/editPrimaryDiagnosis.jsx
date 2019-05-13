@@ -235,7 +235,9 @@ class OneEditPrimaryDiagnoses extends Component {
         const { data, diagnoses } = this.props;
 
         return (
-            <div className={style.interruption}>
+            <div className={style.interruption} style={{
+                overflow: editing ? 'visible' : 'hidden'
+            }}>
                 {
                     editing ?
                         <>

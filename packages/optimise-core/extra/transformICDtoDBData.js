@@ -21,7 +21,18 @@ parser.on('readable', () => {
         const title = match[2].trim();
         const level = match[1].split('-').length - 1;
         const isLeaf = line.isLeaf === 'True';
-        const code = line.Code || line.BlockId || line.ChapterNo;
+        let code;
+        switch (line.ClassKind) {
+            case 'chapter':
+                code = line.ChapterNo;
+                break;
+            case 'category':
+                code = line.Code;
+                break;
+            case 'block':
+                code = line.BlockId;
+                break;
+        }
 
         if (level > tmpLevel) {
             tmpParent.push(lastNode.id);
