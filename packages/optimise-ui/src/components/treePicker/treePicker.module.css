@@ -54,13 +54,15 @@
 }
 
 .expandedNode::before {
-    content: "⯆";
+    content: "\25BE";
     width: 2em;
+    font-size: 1.3em;
 }
 
 .collapsedNode::before {
-    content: "⯈";
+    content: "\25B8";
     width: 2em;
+    font-size: 1.3em;
 }
 
 .lastChildNode::before {
