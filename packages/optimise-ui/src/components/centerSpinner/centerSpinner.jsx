@@ -12,6 +12,7 @@ class CenterSpinner extends Component {
             <div className={style.centered}>
                 <div className={style.top}></div>
                 <div className={style.bottom}></div>
+                <div className={style.text}>Optimise is loading...</div>
             </div>
         );
     }

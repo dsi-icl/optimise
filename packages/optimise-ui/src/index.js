@@ -8,7 +8,11 @@ import { Router } from 'react-router-dom';
 import App from './application';
 import store from './redux/store';
 import history from './redux/history';
+import * as webWorker from './webWorker';
 import * as serviceWorker from './serviceWorker';
+
+webWorker.start();
+serviceWorker.unregister();
 
 ReactDOM.render(
     <Provider store={store}>
@@ -19,8 +23,3 @@ ReactDOM.render(
         </Router>
     </Provider>,
     document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();

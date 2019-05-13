@@ -74,6 +74,12 @@ export default class EditComorbidity extends Component {
                     <form className={style.panel}>
                         {patientProfile.data.comorbidities
                             .filter((el) => parseInt(el.visit) === parseInt(this.props.match.params.visitId))
+                            .sort((a, b) => {
+                                if (icd11_Hash && icd11_Hash[0] && icd11_Hash[0][a.comorbidity] && icd11_Hash[0][a.comorbidity].name)
+                                    return icd11_Hash[0][a.comorbidity].name.localeCompare(icd11_Hash[0][b.comorbidity].name);
+                                else
+                                    return 0;
+                            })
                             .map((el) =>
                                 <OneComorbidity
                                     key={Math.random()}
@@ -91,7 +97,7 @@ export default class EditComorbidity extends Component {
                             :
                             <>
                                 <div className={style.newInterruption}>
-                                    <b>ICD11: </b><ICD11Picker value={this.state.comorbidity} onChange={this._handleValueChange} />
+                                    <label>ICD11: </label><ICD11Picker value={this.state.comorbidity} onChange={this._handleValueChange} />
                                 </div>
                                 {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
@@ -189,12 +195,14 @@ class OneComorbidity extends Component {
         const { editing, comorbidity, comorbidity_original } = this.state;
         const { data, icd11_Hash } = this.props;
         return (
-            <div className={style.interruption}>
+            <div className={style.interruption} style={{
+                overflow: editing ? 'visible' : 'hidden'
+            }}>
                 {
                     editing ?
                         <>
                             <div className={style.editInterruption}>
-                                <b>ICD11: </b><ICD11Picker value={comorbidity} onChange={this._handleValueChange} />
+                                <label>ICD11: </label><ICD11Picker value={comorbidity} onChange={this._handleValueChange} />
                             </div>
                             {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                             <button onClick={this._handleSubmit}>Confirm change</button><br /><br />
