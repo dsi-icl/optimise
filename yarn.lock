@@ -13305,10 +13305,10 @@ react-scripts-rewired@2.1.8:
   optionalDependencies:
     fsevents "1.2.4"
 
-react-virtualized-tree@3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/react-virtualized-tree/-/react-virtualized-tree-3.2.1.tgz#7ae28ac4bc2e817e0061fda0dd8c504b6f8d755b"
-  integrity sha512-Q6NFUOfG9Flscl/5URT/pLdW426YIFyYeSLz3KTcLu+McwAWS0qvPy+Dg25rM+AWjK62QqFWO8eFMwuIoKCYgQ==
+react-virtualized-tree@3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/react-virtualized-tree/-/react-virtualized-tree-3.2.3.tgz#94b2f023fc04984aecacb091687628c84b5116cc"
+  integrity sha512-SH5Qf1cLOuBewZRv+G/PKq5YXNrMEMO/WEGKyZf+SOT2dOL9tXM1PZvPNrAqufJ1GgUUtbc9RJzAX8SelEuQQw==
   dependencies:
     classnames "^2.2.5"
     lodash "^4.17.4"
