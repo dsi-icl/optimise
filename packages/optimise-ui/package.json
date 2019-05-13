@@ -17,7 +17,7 @@
 		"test": "react-scripts test"
 	},
 	"dependencies": {
-		"antd": "3.17.0",
+		"antd": "3.18.0",
 		"deepmerge": "3.2.0",
 		"draft-js": "0.10.5",
 		"file-saver": "2.0.1",
