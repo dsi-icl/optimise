@@ -174,47 +174,52 @@ export default class TreePicker extends Component {
     }
 
     render() {
-        const { formatter = (node) => node.name } = this.props;
+        const { formatter = (node) => node.name, hash } = this.props;
         const { currentTermName, filterTerm, filterText, opened, nodes } = this.state;
         const { nodes: filteredNodes } = filterTerm !== '' ? filterNodes(nameMatchesSearchTerm(filterTerm), nodes) : { nodes };
 
-        return (
-            <>
-                <input type="text" key={currentTermName} defaultValue={currentTermName} onClick={this.handleInputFocus} onKeyDown={e => e.preventDefault()}></input>
-                <div className={`${wideStyle.wrapper} ${opened ? '' : wideStyle.hidePicker}`} onMouseLeave={this.handleMouseLeave}>
-                    <div className={wideStyle.lookup}>
-                        <input ref={(input) => { this.searchField = input; }} value={filterText} onChange={this.handleFilterTextChange} placeholder="Search..." />
+        if (Object.keys(hash).length <= 0)
+            return (
+                <p>No MedDra coding available. Admin can upload codings in settings if there is a subscription.</p>
+            );
+        else
+            return (
+                <>
+                    <input type="text" key={currentTermName} defaultValue={currentTermName} onClick={this.handleInputFocus} onKeyDown={e => e.preventDefault()}></input>
+                    <div className={`${wideStyle.wrapper} ${opened ? '' : wideStyle.hidePicker}`} onMouseLeave={this.handleMouseLeave}>
+                        <div className={wideStyle.lookup}>
+                            <input ref={(input) => { this.searchField = input; }} value={filterText} onChange={this.handleFilterTextChange} placeholder="Search..." />
+                        </div>
+                        <div style={{ height: '40vh' }} className={wideStyle.tree}>
+                            <Tree nodes={filteredNodes}
+                                extensions={{
+                                    updateTypeHandlers: {
+                                        'SELECT': this.nodeSelectionHandler,
+                                    },
+                                }}
+                                onChange={this.handleChange}>
+                                {({ style, node, ...rest }) => {
+                                    style.width = undefined;
+                                    return (
+                                        <div style={style} className={wideStyle.item}>
+                                            <Expandable node={node} {...rest} iconsClassNameMap={{
+                                                expanded: wideStyle.expandedNode,
+                                                collapsed: wideStyle.collapsedNode,
+                                                lastChild: wideStyle.lastChildNode,
+                                            }}>
+                                                <Selection node={node} {...rest}>
+                                                    {this.searchHighlighter(formatter(node))}
+                                                </Selection>
+                                            </Expandable>
+                                        </div>
+                                    );
+                                }}
+                            </Tree>
+                        </div>
                     </div>
-                    <div style={{ height: '40vh' }} className={wideStyle.tree}>
-                        <Tree nodes={filteredNodes}
-                            extensions={{
-                                updateTypeHandlers: {
-                                    'SELECT': this.nodeSelectionHandler,
-                                },
-                            }}
-                            onChange={this.handleChange}>
-                            {({ style, node, ...rest }) => {
-                                style.width = undefined;
-                                return (
-                                    <div style={style} className={wideStyle.item}>
-                                        <Expandable node={node} {...rest} iconsClassNameMap={{
-                                            expanded: wideStyle.expandedNode,
-                                            collapsed: wideStyle.collapsedNode,
-                                            lastChild: wideStyle.lastChildNode,
-                                        }}>
-                                            <Selection node={node} {...rest}>
-                                                {this.searchHighlighter(formatter(node))}
-                                            </Selection>
-                                        </Expandable>
-                                    </div>
-                                );
-                            }}
-                        </Tree>
-                    </div>
-                </div>
-                <br />
-            </>
-        );
+                    <br />
+                </>
+            );
     }
 }
 
