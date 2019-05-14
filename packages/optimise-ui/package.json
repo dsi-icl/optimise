@@ -22,7 +22,7 @@
 		"deepmerge": "3.2.0",
 		"detect-browser": "4.5.0",
 		"draft-js": "0.10.5",
-		"file-saver": "2.0.1",
+		"file-saver": "2.0.2",
 		"history": "4.9.0",
 		"immutable": "4.0.0-rc.12",
 		"interactjs": "1.4.1",
