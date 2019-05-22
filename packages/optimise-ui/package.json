@@ -41,7 +41,7 @@
 		"redux-thunk": "2.3.0"
 	},
 	"devDependencies": {
-		"@babel/core": "7.4.4",
+		"@babel/core": "7.4.5",
 		"@babel/plugin-proposal-decorators": "7.4.4",
 		"http-proxy-middleware": "0.19.1",
 		"prop-types": "15.7.2",
