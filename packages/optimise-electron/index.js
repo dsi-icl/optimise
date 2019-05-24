@@ -247,6 +247,7 @@ autoUpdater.on('error', (ev, err) => {
 })
 
 autoUpdater.on('download-progress', (ev, progressObj) => {
+	progressObj = progressObj || { percent: 0 }
 	sendUpdateStatusToWindow({
 		ready: false,
 		text: `Update download in progress... (${progressObj.percent}%)`
