@@ -52,6 +52,10 @@
     outline: none;
 }
 
+div[id=compat] {
+    display: none !important;
+}
+
 html,
 body {
     color: var(--color-font);
