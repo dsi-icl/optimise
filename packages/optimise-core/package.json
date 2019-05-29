@@ -26,7 +26,7 @@
     "license": "MIT",
     "dependencies": {
         "body-parser": "1.19.0",
-        "csv-parse": "4.4.1",
+        "csv-parse": "4.4.3",
         "express": "4.17.1",
         "express-session": "1.16.1",
         "express-zip": "2.0.1",
