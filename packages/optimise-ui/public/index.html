@@ -2,19 +2,80 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="theme-color" content="#000000">
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-  <title></title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <title>Optimise MS</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: table;
+        }
+
+        #compat {
+            display: none;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #compat.show {
+            display: table-cell;
+        }
+
+        #compat table {
+            margin: auto;
+        }
+
+        #compat img {
+            height: 40px;
+            width: 40px;
+        }
+    </style>
 </head>
 
 <body>
-  <noscript>
-    You need to enable JavaScript to run this app.
-  </noscript>
-  <div id="root"></div>
+    <noscript>
+        Oops, Optimise MS only supports modern browsers !
+        Please contact your IT administrator for more information.
+        Chrome &gt; 60, Edge &gt; 30, Firefox &gt; 40
+    </noscript>
+    <div id="compat">
+        <div class="backing">
+            <span>Oops, Optimise MS only supports modern browsers !</span><br />
+            <span>Please contact your IT administrator for more information.</span><br /><br /><br />
+            <table>
+                <tr>
+                    <td></td>
+                    <td width="100">
+                        <img src="/chrome.png" alt="Chrome" /><br />
+                        <em>Chrome &gt; 60</em>
+                    </td>
+                    <td width="100">
+                        <img src="/ms-edge.png" alt="Edge" /><br />
+                        <em>Edge &gt; 30</em>
+                    </td>
+                    <td width="100">
+                        <img src="/firefox.png" alt="Firefox" /><br />
+                        <em>Firefox &gt; 40</em>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="root"></div>
+    <script>
+        setTimeout(function () {
+            var el = document.getElementById("compat")
+            el.className = el.className + ' show';
+        }, 2000)
+    </script>
 </body>
 
 </html>
