@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "1.11.0",
+    "version": "1.11.2",
     "description": "Optimise:MS Backend",
     "keywords": [
         "ms"
@@ -26,12 +26,12 @@
     "license": "MIT",
     "dependencies": {
         "body-parser": "1.19.0",
-        "csv-parse": "4.4.1",
-        "express": "4.16.4",
+        "csv-parse": "4.4.3",
+        "express": "4.17.1",
         "express-session": "1.16.1",
         "express-zip": "2.0.1",
         "form-data": "2.3.3",
-        "knex": "0.16.7",
+        "knex": "0.17.0",
         "moment": "2.24.0",
         "multer": "1.4.1",
         "nodeify": "1.0.1",
@@ -39,14 +39,14 @@
         "passport": "0.4.0",
         "path": "0.12.7",
         "sqlite3": "4.0.8",
-        "swagger-ui-express": "4.0.2",
+        "swagger-ui-express": "4.0.5",
         "uuid": "3.3.2"
     },
     "devDependencies": {
-        "@babel/core": "7.4.4",
+        "@babel/core": "7.4.5",
         "@babel/plugin-syntax-dynamic-import": "7.2.0",
         "@babel/polyfill": "7.4.4",
-        "@babel/preset-env": "7.4.4",
+        "@babel/preset-env": "7.4.5",
         "babel-eslint": "10.0.1",
         "babel-jest": "24.8.0",
         "babel-loader": "8.0.6",
@@ -61,13 +61,13 @@
         "start-server-webpack-plugin": "2.2.5",
         "string-replace-loader": "2.1.1",
         "supertest": "4.0.2",
-        "webpack": "4.31.0",
+        "webpack": "4.32.2",
         "webpack-cli": "3.3.2",
         "webpack-node-externals": "1.7.2"
     },
     "optionalDependencies": {
         "ajv": "6.10.0",
-        "fsevents": "2.0.6"
+        "fsevents": "2.0.7"
     },
     "jest": {
         "globalSetup": "<rootDir>/test/setup.js",
