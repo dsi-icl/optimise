@@ -28,18 +28,18 @@
         "body-parser": "1.19.0",
         "csv-parse": "4.4.3",
         "express": "4.17.1",
-        "express-session": "1.16.1",
+        "express-session": "1.16.2",
         "express-zip": "2.0.1",
         "form-data": "2.3.3",
-        "knex": "0.17.0",
+        "knex": "0.17.5",
         "moment": "2.24.0",
         "multer": "1.4.1",
         "nodeify": "1.0.1",
-        "papaparse": "4.6.3",
+        "papaparse": "5.0.0",
         "passport": "0.4.0",
         "path": "0.12.7",
         "sqlite3": "4.0.8",
-        "swagger-ui-express": "4.0.5",
+        "swagger-ui-express": "4.0.6",
         "uuid": "3.3.2"
     },
     "devDependencies": {
@@ -61,8 +61,8 @@
         "start-server-webpack-plugin": "2.2.5",
         "string-replace-loader": "2.1.1",
         "supertest": "4.0.2",
-        "webpack": "4.32.2",
-        "webpack-cli": "3.3.2",
+        "webpack": "4.33.0",
+        "webpack-cli": "3.3.4",
         "webpack-node-externals": "1.7.2"
     },
     "optionalDependencies": {
