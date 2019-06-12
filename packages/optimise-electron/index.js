@@ -171,6 +171,7 @@ let createWindow = () => {
 
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
+		toolbar: false,
 		show: false,
 		webPreferences: {
 			nodeIntegration: true
@@ -188,6 +189,8 @@ let createWindow = () => {
 	// Open the DevTools.
 	if (devMode && process.argv.indexOf('--noDevTools') === -1) {
 		mainWindow.webContents.openDevTools();
+	} else {
+		mainWindow.setMenu(null);
 	}
 
 	ipcMain.on('rendererIsFinished', (message) => {
