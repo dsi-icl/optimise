@@ -31,7 +31,7 @@
         "express-session": "1.16.2",
         "express-zip": "2.0.1",
         "form-data": "2.4.0",
-        "knex": "0.18.1",
+        "knex": "0.18.2",
         "moment": "2.24.0",
         "multer": "1.4.1",
         "nodeify": "1.0.1",
