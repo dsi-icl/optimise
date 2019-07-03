@@ -56,7 +56,7 @@ export class PatientChart extends Component {
             <>
                 <div className={style.ariane}>
                     <Helmet title='Patient Profile' />
-                    <h2><Link to={`/patientProfile/${this.props.match.params.patientId}`}>Patient Profile {this.props.fetching ? '' : `(${this.props.data.patientId})`}</Link></h2>
+                    <h2><Link to={`/patientProfile/${this.props.match.params.patientId}`}>Patient {this.props.fetching ? '' : `${this.props.data.patientId}`}</Link></h2>
                     <PatientProfileTop />
                 </div>
                 <div className={`${style.panel} ${style.patientHistory}`}>
