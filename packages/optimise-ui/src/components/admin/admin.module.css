@@ -103,6 +103,11 @@
     padding: 0.9em;
 }
 
+.logLoadMore button {
+    display: inline-block;
+    text-align: center;
+}
+
 .actionsDisplay > a > div {
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
     padding: 0.9em;
@@ -127,6 +132,7 @@
 .actionOther, .actionBody {
     overflow: auto;
     max-width: 100%;
+    line-height: 1.8em;
 }
 
 
