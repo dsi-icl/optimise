@@ -1,7 +1,7 @@
 {
 	"name": "optimise-ui",
 	"productName": "Optimise MS",
-	"version": "1.11.2",
+	"version": "1.11.3",
 	"description": "Optimise:MS UI",
 	"keywords": [
 		"ms"
@@ -31,6 +31,7 @@
 		"react-dom": "16.8.6",
 		"react-event-timeline": "1.6.3",
 		"react-helmet-async": "1.0.2",
+		"react-markdown": "4.1.0",
 		"react-redux": "7.1.0",
 		"react-router-dom": "5.0.1",
 		"react-virtualized": "9.21.1",
@@ -39,9 +40,10 @@
 		"redux-thunk": "2.3.0"
 	},
 	"devDependencies": {
-		"@babel/core": "7.4.5",
+		"@babel/core": "7.5.0",
 		"@babel/plugin-proposal-decorators": "7.4.4",
 		"http-proxy-middleware": "0.19.1",
+		"markdown-image-loader": "2.0.0",
 		"prop-types": "15.7.2",
 		"react-scripts-rewired": "2.1.8"
 	},

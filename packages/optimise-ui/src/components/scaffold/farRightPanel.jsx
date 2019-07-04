@@ -9,6 +9,7 @@ import { EditElementRouter } from '../editMedicalElements/router';
 import { ExportSets } from '../exportCDSIC/exportSet';
 import { DeletedPatient } from '../patientProfile/deletedProfile';
 import { UserDetail } from '../admin/userDetailPage';
+import { UserManualMenu } from '../userManual';
 import style from './scaffold.module.css';
 
 export default class FarRightPanel extends Component {
@@ -27,6 +28,7 @@ export default class FarRightPanel extends Component {
                     <Route exact path='/filterPatients' component={() => <></>} />
                     <Route exact path='/administration/users/:userId' render={({ match }) => <UserDetail match={match} />} />
                     <Route path='/administration' component={() => <></>} />
+                    <Route path='/userManual' component={UserManualMenu} />
                     <Route path='/' render={({ match }) => <ExportSets match={match} />} />
                 </Switch>
             </div>
