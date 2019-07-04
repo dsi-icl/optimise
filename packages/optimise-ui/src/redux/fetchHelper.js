@@ -27,12 +27,7 @@ export const apiHelper = (endpoint, options, blockError) => {
                 res.json().then(json => ({
                     status: res.status,
                     data: json
-                })), err => ({
-                    status: 900,
-                    data: {
-                        error: err
-                    }
-                }))
+                })), err => ({ status: 900, data: { error: err } }))
             .then(json => {
                 if (json.status === undefined || json.data === undefined) {
                     store.dispatch(addError({ error: 'Unknown fatal error has occured' }));
