@@ -108,6 +108,11 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
+.logoutButton {
+    position: absolute;
+    bottom: 0;
+}
+
 .errorMessage {
     grid-area: annexe-start / content / auto / annexe;
     width: 100%;
