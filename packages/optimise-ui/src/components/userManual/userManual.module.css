@@ -51,6 +51,12 @@
     font-weight: bold;
 }
 
+.panel a[class="anchor"] {
+    display: block;
+    width: 1px;
+    height: 1px;
+}
+
 .panel p {
     line-height: 1.8em;
     padding-bottom: 1em;
@@ -70,7 +76,7 @@
 
 .panel h1 {
     padding: 1.2em;
-    margin: 1em -1.2em;
+    margin: 0 -1.2em 1em -1.2em;
     background-color: #eeeeee;
     font-size: 1.1em;
     text-transform: uppercase;

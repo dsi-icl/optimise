@@ -35,11 +35,8 @@ export default class UserManual extends Component {
                     <h2>Table of Content</h2>
                 </div>
                 <div className={`${style.panel} ${style.right}`}>
-                    <ReactMarkdown source={markup} escapeHtml={false} renderers={{
-                        link: ({ href, children }) => {
-                            console.log(hash, href, children);
-                            return <a href={href} className={hash === href ? style.active : ''}>{children}</a>;
-                        }
+                    <ReactMarkdown source={markup} renderers={{
+                        link: ({ href, children }) => <a href={href} className={hash === href ? style.active : ''}>{children}</a>
                     }} />
                 </div>
             </>
