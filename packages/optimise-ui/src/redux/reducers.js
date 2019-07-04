@@ -191,11 +191,14 @@ function patientProfile(state = initialState.patientProfile, action) {
 
 
 function log(state = initialState.log, action) {
+    let body;
+    let json;
     switch (action.type) {
         case actionTypes.admin.GET_LOG_REQUEST:
             return { result: [], fetching: true, error: false };
         case actionTypes.admin.GET_LOG_SUCCESS:
-            const { body, json } = action.payload;
+            body = action.payload.body;
+            json = action.payload.json;
             if (body === undefined || body.offset === undefined || body.offset === 0)
                 return { result: json, fetching: false, error: false };
             else

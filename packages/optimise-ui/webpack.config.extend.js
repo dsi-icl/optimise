@@ -12,5 +12,10 @@ module.exports = (webpackConfig, __unused__env, { __unused__paths }) => {
         }
     ]);
 
+    webpackConfig.module.rules[2].oneOf.splice(0, 0, {
+        test: /\.md$/,
+        use: require.resolve('markdown-image-loader'),
+    });
+
     return webpackConfig;
 };

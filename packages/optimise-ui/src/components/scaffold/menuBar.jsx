@@ -41,7 +41,11 @@ export default class MenuBar extends Component {
                         </NavLink>
                     ) : null}
 
-                <NavLink title='Logout' to='/logout' onClick={this._handleLogout} id='logoutButton' activeClassName={style.active}>
+                <NavLink to='/userManual' title='Browse the documentation on how to use the software' activeClassName={style.active}>
+                    <Icon symbol='help' />
+                </NavLink>
+
+                <NavLink title='Logout' to='/logout' onClick={this._handleLogout} className={style.logoutButton} activeClassName={style.active}>
                     <Icon symbol='logout' />
                 </NavLink>
 
