@@ -42,6 +42,10 @@
 	"devDependencies": {
 		"@babel/core": "7.5.0",
 		"@babel/plugin-proposal-decorators": "7.4.4",
+		"eslint-plugin-import": "2.18.0",
+		"eslint-plugin-jsx-a11y": "6.2.3",
+		"eslint-config-react-app": "4.0.1",
+		"eslint-plugin-react-hooks": "1.6.1",
 		"http-proxy-middleware": "0.19.1",
 		"markdown-image-loader": "2.0.0",
 		"prop-types": "15.7.2",
