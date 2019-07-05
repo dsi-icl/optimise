@@ -57,7 +57,7 @@ class OptimiseServer {
                     saveUninitialized: false,
                     resave: false,
                     cookie: { secure: false },
-                    store: _this.mongoStore
+                    // store: _this.mongoStore
                 })
                 );
 
