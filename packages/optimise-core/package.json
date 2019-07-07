@@ -66,7 +66,7 @@
         "webpack-node-externals": "1.7.2"
     },
     "optionalDependencies": {
-        "ajv": "6.10.0",
+        "ajv": "6.10.1",
         "fsevents": "2.0.7"
     },
     "jest": {
