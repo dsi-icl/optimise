@@ -17,7 +17,7 @@
 		"test": "react-scripts test"
 	},
 	"dependencies": {
-		"deepmerge": "3.3.0",
+		"deepmerge": "4.0.0",
 		"detect-browser": "4.6.0",
 		"draft-js": "0.10.5",
 		"file-saver": "2.0.2",
