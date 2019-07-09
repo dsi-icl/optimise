@@ -31,8 +31,14 @@ class SyncCore {
      * @param {*} options New value to use for synchronisation
      */
     static async setSyncOptions(options) {
+        let hostURL;
+        try {
+            hostURL = new URL(options.host);
+        } catch (e) {
+            return Promise.reject(ErrorHelper(message.errorMessages.UPDATEFAIL, e));
+        }
         const host = await dbcon()('OPT_KV').where({ key: 'SYNC_HOST' }).update({
-            value: options.host,
+            value: hostURL.href,
             updated_at: dbcon().fn.now()
         });
         const key = await dbcon()('OPT_KV').where({ key: 'SYNC_KEY' }).update({
@@ -46,6 +52,49 @@ class SyncCore {
                 status: 'success'
             });
         });
+    }
+
+    /**
+     * @function getSyncStatus obtain synchronization status.
+     *
+     */
+    static async getSyncStatus() {
+        return new Promise((resolve, reject) => {
+            if (process.__undefined__)
+                return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync status could not be retreived'));
+            return resolve({
+                status: 'success'
+            });
+        });
+    }
+
+
+    /**
+     * @function triggerSync trigger synchronization.
+     *
+     */
+    static async triggerSync() {
+        const config = await SyncCore.getSyncOptions();
+        return new Promise((resolve, reject) => {
+            if (config === undefined)
+                return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync configuration not initialized or invalid'));
+            setTimeout(() => SyncCore.startSync(config), 1000);
+            return resolve({
+                status: 'success'
+            });
+        });
+    }
+
+    /**
+ * @function startSync start synchronization.
+ *
+     * @param {*} config Connection information for synchronization
+ */
+    static startSync(config) {
+        console.log('Syncing ...');
+        return {
+            status: 'success'
+        };
     }
 }
 

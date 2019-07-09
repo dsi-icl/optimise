@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { getSyncOptionsAPICall, setSyncOptionsAPICall, syncNowAPICall } from '../../redux/actions/syncOptions';
+import { getSyncOptionsAPICall, setSyncOptionsAPICall, syncNowAPICall } from '../../redux/actions/syncInfo';
 import style from './admin.module.css';
 
 @connect(state => ({
-    syncOptions: state.syncOptions
+    syncInfo: state.syncInfo
 }), dispatch => ({
     getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
     setSyncOptions: body => dispatch(setSyncOptionsAPICall(body)),
@@ -43,7 +43,7 @@ export class Sync extends PureComponent {
     }
 
     render() {
-        const { syncOptions: { id, host, key } } = this.props;
+        const { syncInfo: { config: { id, host, key } } } = this.props;
 
         return (
             <>
