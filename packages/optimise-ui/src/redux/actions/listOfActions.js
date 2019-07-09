@@ -106,5 +106,9 @@ export default {
     },
     serverInfo: {
         GET_SERVER_INFO_SUCCESS: 'GET_SERVER_INFO_SUCCESS'
-    }
+    },
+    syncOptions: {
+        GET_SYNC_OPTIONS_SUCCESS: 'GET_SYNC_OPTIONS_SUCCESS',
+        SET_SYNC_OPTIONS_SUCCESS: 'SET_SYNC_OPTIONS_SUCCESS'
+    },
 };
