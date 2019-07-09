@@ -99,6 +99,7 @@ class OptimiseServer {
                 _this.setupPatientDiagnosis();
                 _this.setupMeddra();
                 _this.setupICD11();
+                _this.setupSync();
 
                 _this.app.all('/*', (__unused__req, res) => {
                     res.status(400);
@@ -357,6 +358,18 @@ class OptimiseServer {
 
         // Modules
         this.app.use('/patientDiagnosis', this.routePatientDiagnosis);
+    }
+
+    /**
+     * @fn setupSync
+     * @desc Initialize the synchronization related routes
+     */
+    setupSync() {
+        // Import the controller
+        this.routeSync = require('./routes/syncRoute').default;
+
+        // Modules
+        this.app.use('/sync', this.routeSync);
     }
 }
 
