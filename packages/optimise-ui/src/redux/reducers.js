@@ -296,14 +296,18 @@ function serverInfo(state = initialState.serverInfo, action) {
     }
 }
 
-function syncOptions(state = initialState.syncOptions, action) {
+function syncInfo(state = initialState.syncInfo, action) {
     switch (action.type) {
-        case actionTypes.syncOptions.GET_SYNC_OPTIONS_SUCCESS:
-            return action.payload;
-        case actionTypes.syncOptions.SET_SYNC_OPTIONS_SUCCESS:
+        case actionTypes.syncInfo.GET_SYNC_OPTIONS_SUCCESS:
+        case actionTypes.syncInfo.SET_SYNC_OPTIONS_SUCCESS:
             return {
                 ...state,
-                ...action.payload
+                config: action.payload
+            };
+        case actionTypes.syncInfo.GET_SYNC_STATUS_SUCCESS:
+            return {
+                ...state,
+                status: action.payload
             };
         default:
             return state;
@@ -324,6 +328,6 @@ export const rootReducer = combineReducers({
     edssCalc,
     uploadMeddra,
     serverInfo,
-    syncOptions
+    syncInfo
 });
 

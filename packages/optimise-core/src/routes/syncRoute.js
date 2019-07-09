@@ -5,13 +5,18 @@
 
 import express from 'express';
 
-const ce = express();
+const sync = express();
 
-import CeController from '../controllers/syncController';
+import syncController from '../controllers/syncController';
 
-ce.route('/')
-    .post(CeController.setSyncOptions)
-    .put(CeController.triggerSync)
-    .get(CeController.getSyncOptions);
+sync.route('/')
+    .put(syncController.triggerSync);
 
-export default ce;
+sync.route('/options')
+    .post(syncController.setSyncOptions)
+    .get(syncController.getSyncOptions);
+
+sync.route('/status')
+    .get(syncController.getSyncStatus);
+
+export default sync;

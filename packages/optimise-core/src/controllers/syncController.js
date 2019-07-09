@@ -5,6 +5,20 @@ import formatToJSON from '../utils/format-response';
 
 class SyncController {
 
+    static getSyncOptions({ user }, res) {
+        if (user.priv !== 1) {
+            res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+            return;
+        }
+        syncCore.getSyncOptions().then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return false;
+        });
+    }
+
     static setSyncOptions({ body, user }, res) {
         if (user.priv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
@@ -23,12 +37,12 @@ class SyncController {
         });
     }
 
-    static getSyncOptions({ user }, res) {
+    static getSyncStatus({ user }, res) {
         if (user.priv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
-        syncCore.getSyncOptions().then((result) => {
+        syncCore.getSyncStatus().then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
@@ -38,8 +52,12 @@ class SyncController {
     }
 
     static triggerSync(__unused__req, res) {
-        res.status(200).json({
-            status: 'success'
+        syncCore.triggerSync().then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return false;
         });
     }
 }

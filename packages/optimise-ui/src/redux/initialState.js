@@ -123,5 +123,15 @@ export default {
     },
     serverInfo: {
         version: ''
+    },
+    syncInfo: {
+        config: {
+            id: '',
+            host: '',
+            key: ''
+        },
+        status: {
+            syncing: true
+        }
     }
 };
