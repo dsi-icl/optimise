@@ -1,60 +1,40 @@
-import { getEntry, createEntry, updateEntry, deleteEntry } from '../utils/controller-utils';
+import dbcon from '../utils/db-connection';
 import ErrorHelper from '../utils/error_helper';
 import message from '../utils/message-utils';
 
-const ClinicalEventModel = {
-    patient: null,
-    recordedDuringVisit: null,
-    type: 0,
-    dateStartDate: '',
-    endDate: null
-};
-
-class ClinicalEvent {
+class SyncCore {
 
     /**
-     * @function getClinicalEvent retrieve the clinical event wished.
+     * @function updatePatient updates a patient profile
      *
+     * @param {*} agent Identifier for the agent sending the data
+     * @param {*} profile Patient Profile to save
      * @returns a Promise that contains the result from the select query
      */
-    static getClinicalEvent(requestedObj) {
-        return new Promise((resolve, reject) => getEntry('CLINICAL_EVENTS', requestedObj, '*').then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
-    }
-
-    /**
-     * @function createClinicalEvent add a new entry of clinicalEvent
-     *
-     * @param {user} user Information about the user
-     * @param {ClinicalEventModel} ce The added clinicalEvent
-     *
-     * @returns a new Promise
-     */
-    static createClinicalEvent(ce) {
+    static async updatePatientProfile(agent, profile) {
+        const db = await dbcon().then(client => client.db());
         return new Promise((resolve, reject) => {
-            let entryObj = Object.assign({}, ClinicalEventModel, ce);
-            return createEntry('CLINICAL_EVENTS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
+            resolve(db.collection(`PATIENT_PROFILES_${agent.toUpperCase()}`).updateOne({ uuid: profile.uuid }, {
+                $set: profile
+            }, { upsert: true }).catch(e => reject(e)));
         });
     }
 
     /**
-     * @function updateClinicalEvent delete an entry of clinicalEvent from an ID.
+     * @function updatePatient updates a patient profile
      *
-     * @param {*} user Information about the user
-     * @param {*} idObj ID of the entry that is going to be deleted
+     * @param {*} agent Identifier for the agent sending the data
+     * @param {*} profile Patient Profile to save
+     * @returns a Promise that contains the result from the select query
      */
-    static updateClinicalEvent(user, clinicalEvent) {
-        return new Promise((resolve, reject) => updateEntry('CLINICAL_EVENTS', user, '*', { id: clinicalEvent.id }, clinicalEvent).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
-    }
-
-    /**
-     * @function deleteClinicalEvent delete an entry of clinicalEvent from an ID.
-     *
-     * @param {*} user Information about the user
-     * @param {*} idObj ID of the entry that is going to be deleted
-     */
-    static deleteClinicalEvent(user, idObj) {
-        return new Promise((resolve, reject) => deleteEntry('CLINICAL_EVENTS', user, idObj).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
+    static async updateUser(agent, user) {
+        const db = await dbcon().then(client => client.db());
+        return new Promise((resolve, reject) => {
+            resolve(db.collection(`USERS_${agent.toUpperCase()}`).updateOne({ uuid: user.uuid }, {
+                $set: user
+            }, { upsert: true }).catch(e => reject(e)));
+        });
     }
 }
 
-export default ClinicalEvent;
+export default SyncCore;
