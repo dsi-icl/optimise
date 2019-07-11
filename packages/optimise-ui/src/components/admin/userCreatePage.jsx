@@ -4,6 +4,7 @@ import { BackButton } from '../medicalData/utils';
 import { createUserAPICall } from '../../redux/actions/admin';
 import style from './admin.module.css';
 
+// eslint-disable-next-line no-useless-escape
 const email_reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export class UserCreate extends Component {
