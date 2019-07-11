@@ -6,11 +6,11 @@ import dbcon from '../utils/db-connection';
 
 class User {
     static getUserByUsername(user) {
-        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('username', 'like', user).andWhere({ deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv', email: 'email' }).where('username', 'like', user).andWhere({ deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     static getUserByID(uid) {
-        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv' }).where('id', uid).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv', email: 'email' }).where('id', uid).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     static createUser({ id }, { pw, username, realname, isAdmin }) {
@@ -28,11 +28,19 @@ class User {
         });
     }
 
-    static updateUser({ pw, username }) {
+    static updateUser({ pw, email, username }) {
         return new Promise((resolve, reject) => {
+            let obj = {};
             try {
-                let hashContainer = generateAndHash(pw);
-                return dbcon()('USERS').update({ 'pw': hashContainer.hashed, 'salt': hashContainer.salt, 'iterations': hashContainer.iteration }).where({ username: username, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error)));
+                if (pw !== undefined) {
+                    let hashContainer = generateAndHash(pw);
+                    obj.pw = hashContainer.hashed;
+                    obj.salt = hashContainer.salt;
+                    obj.iterations = hashContainer.iteration;
+                }
+                if (email !== undefined)
+                    obj.email = email;
+                return dbcon()('USERS').update(obj).where({ username: username, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error)));
             } catch (err) {
                 return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, err));
             }
