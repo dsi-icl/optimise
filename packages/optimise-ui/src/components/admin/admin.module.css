@@ -40,7 +40,14 @@
     right: 0;
 }
 
-.ariane a,
+.ariane a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1.2em;
+    font-size: 1.1em;
+}
+
 .ariane span {
     width: 1.3em;
     margin-left: 1.2em;
@@ -157,3 +164,18 @@
     background-color: hsl(var(--color-shade-one-h), var(--color-shade-one-s), 97%);
 }
 
+.userFeature {
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+    transition: padding 100ms;
+}
+
+.userFeature:hover {
+    background-color: hsl(var(--color-background-h), var(--color-background-s), 93%);
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.userFeature:hover input {
+    background-color: white;
+}
