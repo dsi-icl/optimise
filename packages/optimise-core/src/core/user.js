@@ -1,3 +1,4 @@
+import uuid from 'uuid/v4';
 import { getEntry, createEntry, deleteEntry, eraseEntry } from '../utils/controller-utils';
 import ErrorHelper from '../utils/error_helper';
 import { hash, generateAndHash } from '../utils/generate-crypto';
@@ -13,12 +14,14 @@ class User {
         return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv', email: 'email' }).where('id', uid).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
-    static createUser({ id }, { pw, username, realname, isAdmin }) {
+    static createUser({ id }, { pw, username, realname, isAdmin, email }) {
         return new Promise((resolve, reject) => {
             let entryObj = {};
             let hashContainer = generateAndHash(pw);
+            entryObj.uuid = uuid();
             entryObj.username = username;
             entryObj.realname = realname;
+            entryObj.email = email;
             entryObj.pw = hashContainer.hashed;
             entryObj.salt = hashContainer.salt;
             entryObj.iterations = hashContainer.iteration;
