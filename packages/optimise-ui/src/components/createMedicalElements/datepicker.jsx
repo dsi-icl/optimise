@@ -29,7 +29,7 @@ export class PickDate extends Component {
                 <DatePicker
                     selected={this.state.selected}
                     onChange={this._handleDateChange}
-                    dateFormat="dd/MM/YYYY"
+                    dateFormat="dd/MM/yyyy"
                     style={{ width: '100%' }} />
                 {this.props.handleChange === undefined ? <input style={{ display: 'block' }} type='test' value={this.state.selected ? this.state.selected.toISOString() : ''} ref={this.props.reference} readOnly /> : null}
             </>
