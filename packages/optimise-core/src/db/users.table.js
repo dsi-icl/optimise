@@ -49,7 +49,7 @@ export default async (dbcon, version) => {
             const oldData = await dbcon()(OLD_TABLE_NAME).select('*');
             for (let i = 0; i < oldData.length; i++) {
                 oldData[i].uuid = uuid();
-                oldData[i].email = `${uuid()}@ic.ac.uk`;
+                oldData[i].email = `${uuid().split('-')[0]}@optimise.local`;
             }
             await dbcon().batchInsert(TABLE_NAME, oldData, 50);
             break;
