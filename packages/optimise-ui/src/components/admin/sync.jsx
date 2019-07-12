@@ -8,7 +8,7 @@ import style from './admin.module.css';
 }), dispatch => ({
     getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
     setSyncOptions: body => dispatch(setSyncOptionsAPICall(body)),
-    syncNow: () => dispatch(syncNowAPICall())
+    syncNow: adminPass => dispatch(syncNowAPICall(adminPass))
 }))
 export class Sync extends PureComponent {
 
@@ -67,7 +67,7 @@ export class Sync extends PureComponent {
     }
 
     _handleSync() {
-        this.props.syncNow();
+        this.props.syncNow(true);
     }
 
     _handleInputChange(event) {

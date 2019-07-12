@@ -33,7 +33,7 @@ export default class StatusBar extends Component {
 
     _updateStatus() {
 
-        const { syncInfo: { config, status: { lastSuccess, syncing, error, status } }, loggedIn } = this.props;
+        const { syncInfo: { config, status: { lastSuccess, syncing, error, status, adminPass } }, loggedIn } = this.props;
         const { lastCall, lastError, triggered } = this.state;
         const now = (new Date()).getTime();
 
@@ -46,6 +46,9 @@ export default class StatusBar extends Component {
 
         if ((status === 900 || error !== undefined) && lastError === 0)
             state.lastError = now;
+
+        if (syncing === true && adminPass !== undefined)
+            state.triggered = true;
         if (syncing !== true)
             state.triggered = false;
         if (lastCall === 0 || (lastError !== 0 && now - lastError >= limit) || (lastSuccess !== undefined && now - lastSuccess >= limit)) {
