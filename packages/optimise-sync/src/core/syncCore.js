@@ -1,7 +1,4 @@
 import dbcon from '../utils/db-connection';
-import ErrorHelper from '../utils/error_helper';
-import message from '../utils/message-utils';
-
 class SyncCore {
 
     /**
@@ -11,13 +8,15 @@ class SyncCore {
      * @param {*} profile Patient Profile to save
      * @returns a Promise that contains the result from the select query
      */
-    static async updatePatientProfile(agent, profile) {
+    static async updatePatientProfiles(agent, profiles) {
         const db = await dbcon().then(client => client.db());
-        return new Promise((resolve, reject) => {
-            resolve(db.collection(`PATIENT_PROFILES_${agent.toUpperCase()}`).updateOne({ uuid: profile.uuid }, {
+        const inserts = [];
+        profiles.forEach(profile => {
+            inserts.push(db.collection(`PATIENT_PROFILES_${agent.toUpperCase()}`).updateOne({ uuid: profile.uuid }, {
                 $set: profile
-            }, { upsert: true }).catch(e => reject(e)));
+            }, { upsert: true }).then(({ result }) => result));
         });
+        return Promise.all(inserts);
     }
 
     /**
@@ -27,13 +26,15 @@ class SyncCore {
      * @param {*} profile Patient Profile to save
      * @returns a Promise that contains the result from the select query
      */
-    static async updateUser(agent, user) {
+    static async updateUsers(agent, users) {
         const db = await dbcon().then(client => client.db());
-        return new Promise((resolve, reject) => {
-            resolve(db.collection(`USERS_${agent.toUpperCase()}`).updateOne({ uuid: user.uuid }, {
+        const inserts = [];
+        users.forEach(user => {
+            inserts.push(db.collection(`USERS_${agent.toUpperCase()}`).updateOne({ uuid: user.uuid }, {
                 $set: user
-            }, { upsert: true }).catch(e => reject(e)));
+            }, { upsert: true }).then(({ result }) => result));
         });
+        return Promise.all(inserts);
     }
 }
 

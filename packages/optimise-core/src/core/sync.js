@@ -63,11 +63,11 @@ class SyncCore {
      */
     static async getSyncStatus() {
         return new Promise((resolve, reject) => {
-            if (process.__undefined__)
-                return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync status could not be retreived'));
-            return resolve({
-                status: 'success'
-            });
+            return dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).then((result) => {
+                if (result.length !== 1)
+                    return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync status could not be retreived'));
+                return resolve(JSON.parse(result[0].value));
+            }).catch(() => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync status could not be retreived')));
         });
     }
 
@@ -81,12 +81,20 @@ class SyncCore {
         return new Promise((resolve, reject) => {
             if (config === undefined)
                 return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync configuration not initialized or invalid'));
-            setTimeout(() => {
-                SyncCore.startSync(config).catch(err => console.error('plop 5', err));
-            }, 1000);
-            return resolve({
-                status: 'success'
-            });
+            const status = {
+                status: 'scheduling',
+                syncing: true
+            };
+            dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify(status),
+                updated_at: dbcon().fn.now()
+            }).then(() => {
+                setTimeout(() => {
+                    SyncCore.startSync(config).catch(() => false);
+                }, 1000);
+                return resolve(status);
+            }).catch((e) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, e)));
+
         });
     }
 
@@ -96,60 +104,109 @@ class SyncCore {
      * @param {*} config Connection information for synchronization
      */
     static async startSync(config) {
-        const patients = await dbcon().select().table('PATIENTS');
-        const users = await dbcon().select().table('USERS');
-        if (patients.length <= 0)
-            return;
-        let patientPromises = [];
-        let patientProfiles = [];
-        patients.forEach(patient => {
-            patientPromises.push(PatientCore.getPatientProfile({ 'id': patient.id }, true).then(result => {
-                patientProfiles.push({
-                    ...patient,
-                    ...result,
-                    aliasId: undefined,
-                    patientId: undefined
-                });
-                return true;
-            }).catch(err => console.error('plop 3', err)));
-        });
-        await Promise.all(patientPromises).catch(err => console.error('plop 4', err));
-        const data = JSON.stringify({
-            uuid: config.id,
-            oshost: os.hostname(),
-            key: config.key,
-            data: {
-                patients: patientProfiles,
-                users: users.map(user => {
-                    delete user.pw;
-                    delete user.salt;
-                    delete user.iterations;
-                    return user;
-                })
-            }
-        });
 
-        const options = {
-            uri: `${config.host}api/sync/v1`,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': data.length
-            },
-            body: data
-        };
         try {
-            request(options, (error, response, body) => {
-                if (!error && response.statusCode === 200) {
-                    const result = JSON.parse(body);
-                    console.log('plop 1', result);
+            const patients = await dbcon().select().table('PATIENTS');
+            const users = await dbcon().select().table('USERS');
+
+            if (patients.length <= 0)
+                return;
+
+            let patientPromises = [];
+            let patientProfiles = [];
+            patients.forEach(patient => {
+                patientPromises.push(PatientCore.getPatientProfile({ 'id': patient.id }, true).then(result => {
+                    patientProfiles.push({
+                        ...patient,
+                        ...result,
+                        aliasId: undefined,
+                        patientId: undefined
+                    });
+                    return true;
+                }));
+            });
+
+            await Promise.all(patientPromises).catch(async (err) => {
+                await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                    value: JSON.stringify({
+                        error: {
+                            message: 'Error while processing existing records',
+                            exception: err
+                        }
+                    }),
+                    updated_at: dbcon().fn.now()
+                });
+            });
+
+            const data = JSON.stringify({
+                uuid: config.id,
+                oshost: os.hostname(),
+                key: config.key,
+                data: {
+                    patients: patientProfiles,
+                    users: users.map(user => {
+                        delete user.pw;
+                        delete user.salt;
+                        delete user.iterations;
+                        return user;
+                    })
                 }
             });
-        } catch (e) {
-            console.error('plop 2', e);
-        }
 
+            const options = {
+                uri: `${config.host}api/sync/v1`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': data.length
+                },
+                body: data
+            };
+
+            request(options, async (error, response, body) => {
+                if (!error && response.statusCode === 200) {
+                    const result = JSON.parse(body);
+                    if (result.status === 'success')
+                        await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                            value: JSON.stringify({
+                                status: 'success',
+                                lastSuccess: (new Date()).getTime()
+                            }),
+                            updated_at: dbcon().fn.now()
+                        });
+                    else
+                        await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                            value: JSON.stringify({
+                                error: {
+                                    message: 'Remote did not acknowledge success'
+                                }
+                            }),
+                            updated_at: dbcon().fn.now()
+                        });
+                } else if (error) {
+                    await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                        value: JSON.stringify({
+                            error: {
+                                message: error
+                            }
+                        }),
+                        updated_at: dbcon().fn.now()
+                    });
+                }
+            });
+        } catch (err) {
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    error: {
+                        message: 'Failed to send data to remote',
+                        exception: err
+                    }
+                }),
+                updated_at: dbcon().fn.now()
+            });
+        }
         return Promise.resolve();
+
         // const tables = [
         //     'ADVERSE_EVENT_MEDDRA',
         //     'CLINICAL_EVENTS',

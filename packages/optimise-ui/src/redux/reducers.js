@@ -307,6 +307,7 @@ function syncInfo(state = initialState.syncInfo, action) {
                     ...action.payload
                 }
             };
+        case actionTypes.syncInfo.SYNC_TRIGGER_SUCCESS:
         case actionTypes.syncInfo.GET_SYNC_STATUS_SUCCESS:
             return {
                 ...state,
