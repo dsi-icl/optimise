@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getSyncStatusAPICall, syncNowAPICall } from '../../redux/actions/syncInfo';
+import { getSyncOptionsAPICall, getSyncStatusAPICall, syncNowAPICall } from '../../redux/actions/syncInfo';
 import Icon from '../icon';
 import style from './scaffold.module.css';
 
 @connect(state => ({
+    loggedIn: state.login.loggedIn,
     syncInfo: state.syncInfo
 }), dispatch => ({
+    getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
     getSyncStatus: () => dispatch(getSyncStatusAPICall()),
     syncNow: () => dispatch(syncNowAPICall())
 }))
 export default class StatusBar extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             lastCall: 0,
             lastError: 0
@@ -31,7 +33,7 @@ export default class StatusBar extends Component {
 
     _updateStatus() {
 
-        const { syncInfo: { status: { lastSuccess, syncing, error, status } } } = this.props;
+        const { syncInfo: { config, status: { lastSuccess, syncing, error, status } }, loggedIn } = this.props;
         const { lastCall, lastError, triggered } = this.state;
         const now = (new Date()).getTime();
 
@@ -53,6 +55,11 @@ export default class StatusBar extends Component {
         } else if (triggered === true && syncing === true)
             this.props.getSyncStatus();
 
+        if (loggedIn === true && config.host === undefined) {
+            this.props.getSyncOptions();
+            state.lastError = 0;
+            state.lastCall = 0;
+        }
         this.setState(state);
     }
 
