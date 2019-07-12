@@ -26,19 +26,7 @@ export default class UserManual extends Component {
                                 alt,
                             }}
                             zoomImage={{
-                                className: style.zoomedImage,
-                            }}
-                            defaultStyles={{
-                                image: {
-                                    // marginLeft: '0%'
-                                },
-                                zoomImage: {
-                                    // transition: 'transform 300ms ease 0s, margin-left 300ms ease 0s',
-                                    // marginLeft: '50%'
-                                },
-                                zoomContainer: {
-                                    position: 'absolute'
-                                }
+                                className: style.bordered
                             }}
                         />
                     }} />

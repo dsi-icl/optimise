@@ -69,7 +69,7 @@
     max-width: 100%;
 }
 
-.panel p img[alt*="bordered"] {
+.panel p img[alt*="bordered"], .bordered {
     box-shadow: 0px 0px 10px 0px #888888;
     margin: 1em 0;
 }
@@ -95,10 +95,4 @@
 
 .panel ul {
     list-style: none;
-}
-
-.zoomedImage {
-    /* margin-left: 50%; */
-    /* transform: translateY(50%) */
-    /* transition: margin-left 300ms ease 0s */
 }
