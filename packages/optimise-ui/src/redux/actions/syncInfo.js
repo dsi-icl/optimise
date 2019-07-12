@@ -6,7 +6,7 @@ import { apiHelper } from '../fetchHelper';
 export const getSyncOptionsSuccess = (options) => ({ type: actionTypes.syncInfo.GET_SYNC_OPTIONS_SUCCESS, payload: options });
 export const setSyncOptionsSuccess = (options) => ({ type: actionTypes.syncInfo.SET_SYNC_OPTIONS_SUCCESS, payload: options });
 export const getSyncStatusSuccess = (result) => ({ type: actionTypes.syncInfo.GET_SYNC_STATUS_SUCCESS, payload: result });
-export const syncTriggerSuccess = () => ({ type: actionTypes.syncInfo.SYNC_TRIGGER_SUCCESS, payload: {} });
+export const syncTriggerSuccess = (result) => ({ type: actionTypes.syncInfo.SYNC_TRIGGER_SUCCESS, payload: result });
 
 export const setSyncOptionsAPICall = (body) => dispatch => apiHelper('/sync/options', { method: 'POST', body: JSON.stringify(body) })
     .then(() => {
@@ -20,14 +20,14 @@ export const getSyncOptionsAPICall = () => dispatch => apiHelper('/sync/options'
     })
     .catch(msg => dispatch(addError({ error: msg })));
 
-export const getSyncStatusAPICall = () => dispatch => apiHelper('/sync/status', { method: 'GET' })
+export const getSyncStatusAPICall = () => dispatch => apiHelper('/sync/status', { method: 'GET' }, true)
     .then(result => {
         dispatch(getSyncStatusSuccess(result));
     })
-    .catch(msg => dispatch(addError({ error: msg })));
+    .catch(result => dispatch(dispatch(getSyncStatusSuccess(result))));
 
-export const syncNowAPICall = () => dispatch => apiHelper('/sync', { method: 'PUT' })
-    .then(() => {
-        dispatch(syncTriggerSuccess());
+export const syncNowAPICall = () => dispatch => apiHelper('/sync', { method: 'PUT' }, true)
+    .then(result => {
+        dispatch(syncTriggerSuccess(result));
     })
-    .catch(msg => dispatch(addError({ error: msg })));
+    .catch(result => dispatch(dispatch(syncTriggerSuccess(result))));
