@@ -96,3 +96,9 @@
 .panel ul {
     list-style: none;
 }
+
+.zoomedImage {
+    /* margin-left: 50%; */
+    /* transform: translateY(50%) */
+    /* transition: margin-left 300ms ease 0s */
+}
