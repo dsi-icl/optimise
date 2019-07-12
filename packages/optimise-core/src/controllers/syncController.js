@@ -38,7 +38,7 @@ class SyncController {
     }
 
     static getSyncStatus({ user }, res) {
-        if (user.priv !== 1) {
+        if (!user || user.priv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }

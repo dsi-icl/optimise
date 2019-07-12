@@ -14,7 +14,7 @@ export default class StatusBar extends Component {
             version = window.optimiseVersion;
         const { username } = this.props;
         return (
-            <div className={style.statusBar}>
+            <div className={style.statusBar} style={{ visibility: username !== '' ? 'visible' : 'hidden' }}>
                 <span> Logged in as {username}</span>
                 <SyncIndicator></SyncIndicator>
                 <span className={style.rightPush}> OptimiseMS v{version}</span>
