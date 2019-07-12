@@ -125,11 +125,7 @@ export default {
         version: ''
     },
     syncInfo: {
-        config: {
-            id: '',
-            host: '',
-            key: ''
-        },
+        config: {},
         status: {
             syncing: true
         }
