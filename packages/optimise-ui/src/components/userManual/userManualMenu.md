@@ -32,6 +32,20 @@
 
 [Admin menu](#admin)
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[User management](#userManagement)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[MedDRA management](#meddraManagement)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Patient ID Mapping](#patientMapping)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Synchronisation](#synchronisation)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Updates](#updateManagement)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Action Log](#actionLog)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[System Information](#systemInfo)
+
 [Manage MedDRA codings](#meddra)
 
 [Updating the software](#update)

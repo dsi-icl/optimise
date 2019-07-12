@@ -125,7 +125,8 @@
 
 .logoutButton {
     position: absolute;
-    bottom: 0;
+    bottom: 2em;
+    left: 0;
 }
 
 .errorMessage {
