@@ -33,7 +33,7 @@
         "form-data": "2.5.0",
         "knex": "0.19.0",
         "moment": "2.24.0",
-        "multer": "1.4.1",
+        "multer": "1.4.2",
         "nodeify": "1.0.1",
         "papaparse": "5.0.0",
         "passport": "0.4.0",
