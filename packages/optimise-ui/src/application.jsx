@@ -62,6 +62,7 @@ class App extends Component {
             return (
                 <Body>
                     {this.props.checking ? <CenterSpinner /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+                    <StatusBar />
                     <AlertMessage />
                     <ErrorMessage />
                 </Body>
@@ -125,7 +126,6 @@ class LoadingFields extends Component {
                     <RightPanel />
                     <FarRightPanel />
                     <FullscreenPanel />
-                    <StatusBar />
                 </>
             );
         }

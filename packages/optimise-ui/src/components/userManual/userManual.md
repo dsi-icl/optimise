@@ -712,55 +712,94 @@ The administrator can click on the button located in the left panel as shown bel
 
 ![adminMenu bordered](./img/adminMenu.png)
 
+<a class="anchor" id="userManagement"></a>
+
+### User management
 
 The administrator can manage the users (create and delete user accounts) by accessing the relevant option (Manage users) in Admin menu. In order to update or delete a user account, click on the respective entry in the list of registered user accounts in the middle panel.
 
 ![manageUsersEditDelete bordered](./img/manageUsers1.png)
 
-
-To update the password for a particular user, select the user from the list (hover over and click on the user entry in the middle panel), fill in the User Information form as shown below and click Submit. Click Cancel to cancel the update.
-
-![editUser bordered](./img/editUser.png)
-
-
-To withdraw admin rights for admin users, click on the tool shown below.
-
-![editPriv bordered](./img/updatePriv.png)
-
-
-To delete a user, select from the users list and click on Delete.
-
-![deleteUser bordered](./img/deleteUser.png)
-
-
-A warning message will appear. Click ![close](./img/xButton.png) to cancel the deletion or YES, I AM SURE! to confirm the deletion.
-
-![deleteUserWarningMessage bordered](./img/deleteUserWarning.png)
-
-
 You may create a new user account by clicking on the Create a new user button.
 
 ![manageUsersNew bordered](./img/manageUsersNew.png)
-
 
 Fill in the highlighted form and click Submit.
 
 ![newUserForm bordered](./img/newUser.png)
 
-
 The following error message is shown if the submitted form is incomplete. Please complete all fields and re-submit.
 
 ![newUserFormError bordered](./img/newUserError.png)
 
+To update the password or email for a particular user, select the user from the list (hover over and click on the user entry in the middle panel), fill in the User Information form as shown below and click Submit. Click Cancel to cancel the update.
 
-The action log shows a detailed description of all the actions performed by users.
+![editUser bordered](./img/editUser.png)
+
+To withdraw admin rights for admin users, click on the tool shown below.
+
+![editPriv bordered](./img/updatePriv.png)
+
+To delete a user, select from the users list and click on Delete.
+
+![deleteUser bordered](./img/deleteUser.png)
+
+A warning message will appear. Click ![close](./img/xButton.png) to cancel the deletion or YES, I AM SURE! to confirm the deletion.
+
+![deleteUserWarningMessage bordered](./img/deleteUserWarning.png)
+
+<a class="anchor" id="meddraManagement"></a>
+
+### MedDRA Management
+
+The admin menu has a section allowing the management of MedDRA codings for users posessing a license.
+See the [dedicated section](#meddra) of this manual pertaining to MedDRA codings management.
+
+<a class="anchor" id="patientMapping"></a>
+
+### Patient ID Mappings
+
+While it is not recommended to do so and should be avoided at all times. The software offers the possibility to bulk export the patient ID to optimise ID mappings. You should never do this !
+
+<a class="anchor" id="synchronisation"></a>
+
+### Synchronisation
+
+For sites that wish to utilise data synchronisation to upload data to a central repository the configuration can be done in the Sunchronisation section.
+The "Remote Host" and "Validation Key" are information you should seek from your system administrator.
+
+![syncPage bordered](./img/syncPage.png)
+
+Once configured, synchronisation should be automatic in most cases. You will see a status indicator in the application's status bar.
+
+![syncRemoteSyncing bordered](./img/syncRemoteSyncing.png)
+
+If the status bar indicator mentions the remote site is unavailable you may want to contact your administrator for further investigation.
+
+![syncRemoteNotAvailable bordered](./img/syncRemoteNotAvailable.png)
+
+The synchronisation configuration page also features a button that can use to trigger synchronisation manually should this be necessary.
+
+<a class="anchor" id="updateManagement"></a>
+
+### Updates
+
+The admin menu has a section which allows to monitor for available updates and install them.
+See the [dedicated section](#update) of this manual pertaining to updating the software.
+
+<a class="anchor" id="actionLog"></a>
+
+### Action Log
 
 ![actionLog bordered](./img/actionLog.png)
 
+<a class="anchor" id="systemInfo"></a>
+
+### System Information
 
 Information about the software is also available in the Admin Menu.
 
-![newUserFormError bordered](./img/systemInfo.png)
+![systemInfo bordered](./img/systemInfo.png)
 
 <a class="anchor" id="meddra"></a>
 
@@ -790,11 +829,27 @@ When you get a new version of MedDRA, you can update the codings in the applicat
 Updating the software (desktop only)
 ====================================
 
+<blockquote>
+
+#### For users of the online version
+
+As this is only available for Desktop installations of Optimise MS, this section is not applicable.
+
+</blockquote>
+
 Optimise MS Desktop application is provided with a built-in update mechanism. To check if an update is available and to perform the installation you must log in as an administrator and visit the "Updates" section.
 
-There you will be able to consult the update status and will be prompted to install is applicable.
+There you will be able to consult the update status and will be prompted to install if applicable.
 
 ![updateDesktopApp bordered](./img/updateDesktopApp.png)
+
+The upgrade process will be performed with little friction and you will be able to monitor the progress on the screen.
+
+![updateInstalling bordered](./img/updateInstalling.png)
+
+At the end of the installation you may be prompted to click the "Finish" button with an option to restart Optimise MS immediatly.
+
+![updateComplete bordered](./img/updateComplete.png)
 
 <a class="anchor" id="logout"></a>
 
@@ -805,7 +860,6 @@ To log out click on the logout button.
 
 ![logoutButton bordered](./img/logoutButton.png)
 
-
-This is located in the panel on the left of the page as shown below.
+It is located in the bottom left corner of the screen.
 
 ![logout bordered](./img/logout.png)

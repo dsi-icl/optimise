@@ -13,9 +13,10 @@ const patientModel = {
  * @description Patient Core allow to get, search, create and delete a patient
  */
 class Patient {
-    static getPatient(whereObj, selectedObj) {
+    static getPatient(whereObj, selectedObj, deleted) {
         return new Promise((resolve, reject) => {
-            whereObj.deleted = '-';
+            if (deleted !== true)
+                whereObj.deleted = '-';
             return getEntry('PATIENTS', whereObj, selectedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error)));
         });
     }
@@ -28,7 +29,7 @@ class Patient {
      * @param {string} getOnly Filtering return.
      */
     static getPatientProfile(whereObj, deleted, getOnly) {
-        return new Promise((resolve, reject) => Patient.getPatient(whereObj, { patientId: 'id', alias: 'aliasId', study: 'study', consent: 'consent' })
+        return new Promise((resolve, reject) => Patient.getPatient(whereObj, { patientId: 'id', alias: 'aliasId', study: 'study', consent: 'consent' }, deleted)
             .then((Patientresult) => {
                 let patientId;
                 if (Patientresult.length === 1) {
