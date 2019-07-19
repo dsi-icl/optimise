@@ -8,7 +8,9 @@ import { CreateElementRouter } from '../createMedicalElements/router';
 import { EditElementRouter } from '../editMedicalElements/router';
 import { ExportSets } from '../exportCDSIC/exportSet';
 import { DeletedPatient } from '../patientProfile/deletedProfile';
+import { UserCreate } from '../admin/userCreatePage';
 import { UserDetail } from '../admin/userDetailPage';
+import { UserActions } from '../admin/userActions';
 import { UserManualMenu } from '../userManual';
 import style from './scaffold.module.css';
 
@@ -26,7 +28,9 @@ export default class FarRightPanel extends Component {
                     <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatient match={match} />} />
                     <Route exact path='/createPatient/' render={() => <CreatePatient />} />
                     <Route exact path='/filterPatients' component={() => <></>} />
+                    <Route exact path='/administration/users/create' render={({ match }) => <UserCreate match={match} />} />
                     <Route exact path='/administration/users/:userId' render={({ match }) => <UserDetail match={match} />} />
+                    <Route exact path='/administration/users' render={({ match }) => <UserActions match={match} />} />
                     <Route path='/administration' component={() => <></>} />
                     <Route path='/userManual' component={UserManualMenu} />
                     <Route path='/' render={({ match }) => <ExportSets match={match} />} />

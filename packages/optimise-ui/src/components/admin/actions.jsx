@@ -26,16 +26,20 @@ export class AdminActions extends Component {
                             <button>Patient ID Mappings</button>
                         </NavLink>
                         <br /><br />
+                        <NavLink to='/administration/sync' activeClassName={style.activeNavLink}>
+                            <button>Synchronisation</button>
+                        </NavLink>
+                        <br /><br />
+                        <NavLink to='/administration/update' activeClassName={style.activeNavLink}>
+                            <button>Updates</button>
+                        </NavLink>
+                        <br /><br />
                         <NavLink to='/administration/log' activeClassName={style.activeNavLink}>
                             <button>View access log</button>
                         </NavLink>
                         <br /><br />
                         <NavLink to='/administration/system' activeClassName={style.activeNavLink}>
                             <button>System information</button>
-                        </NavLink>
-                        <br /><br />
-                        <NavLink to='/administration/update' activeClassName={style.activeNavLink}>
-                            <button>Updates</button>
                         </NavLink>
                     </div>
                     <div className={style.actionsDisplay}>

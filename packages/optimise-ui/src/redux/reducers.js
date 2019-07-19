@@ -296,6 +296,28 @@ function serverInfo(state = initialState.serverInfo, action) {
     }
 }
 
+function syncInfo(state = initialState.syncInfo, action) {
+    switch (action.type) {
+        case actionTypes.syncInfo.GET_SYNC_OPTIONS_SUCCESS:
+        case actionTypes.syncInfo.SET_SYNC_OPTIONS_SUCCESS:
+            return {
+                ...state,
+                config: {
+                    ...state.config,
+                    ...action.payload
+                }
+            };
+        case actionTypes.syncInfo.SYNC_TRIGGER_SUCCESS:
+        case actionTypes.syncInfo.GET_SYNC_STATUS_SUCCESS:
+            return {
+                ...state,
+                status: action.payload
+            };
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatient,
@@ -309,6 +331,7 @@ export const rootReducer = combineReducers({
     alert,
     edssCalc,
     uploadMeddra,
-    serverInfo
+    serverInfo,
+    syncInfo
 });
 

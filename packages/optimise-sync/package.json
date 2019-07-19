@@ -1,0 +1,66 @@
+{
+    "name": "optimise-sync",
+    "version": "1.11.3",
+    "description": "Optimise:MS Synchroniser",
+    "keywords": [
+        "ms"
+    ],
+    "author": {
+        "email": "f.guitton@imperial.ac.uk",
+        "name": "Florian Guitton"
+    },
+    "repository": "github:dsi-icl/optimise",
+    "main": "./src/optimiseSyncServer.js",
+    "scripts": {
+        "lint": "eslint --ext .jsx --ext .js ./",
+        "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
+        "test": "cross-env NODE_ENV=test jest --colors --verbose --detectOpenHandles --forceExit --runInBand",
+        "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
+        "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "1.19.0",
+        "express": "4.17.1",
+        "express-session": "1.16.2",
+        "mongodb": "3.2.7"
+    },
+    "devDependencies": {
+        "@babel/core": "7.5.0",
+        "@babel/plugin-syntax-dynamic-import": "7.2.0",
+        "@babel/polyfill": "7.4.4",
+        "@babel/preset-env": "7.5.0",
+        "babel-eslint": "10.0.2",
+        "babel-jest": "24.8.0",
+        "babel-loader": "8.0.6",
+        "babel-plugin-require-context-hook": "1.0.0",
+        "chalk": "2.4.2",
+        "codacy-coverage": "3.4.0",
+        "eslint": "6.0.1",
+        "eslint-plugin-promise": "4.2.1",
+        "jest": "24.8.0",
+        "rimraf": "2.6.3",
+        "webpack": "4.35.2",
+        "webpack-cli": "3.3.5"
+    },
+    "optionalDependencies": {
+        "ajv": "6.10.0",
+        "fsevents": "2.0.7"
+    },
+    "jest": {
+        "globalSetup": "<rootDir>/test/setup.js",
+        "globalTeardown": "<rootDir>/test/teardown.js",
+        "testEnvironment": "<rootDir>/test/environment.js",
+        "collectCoverageFrom": [
+            "<rootDir>/src/**/*.{js,jsx}",
+            "!<rootDir>/node_modules/"
+        ],
+        "transform": {
+            "^.+\\.(js|html|scss)$": "<rootDir>/test/preprocessor.js"
+        },
+        "testMatch": [
+            "**/__tests__/**/*.{js,jsx,mjs}",
+            "**/+(*.)(spec|test).{js,jsx,mjs}"
+        ]
+    }
+}

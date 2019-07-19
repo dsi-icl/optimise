@@ -67,6 +67,9 @@ body {
     height: 100%;
     overflow: hidden;
     display: unset;
+    top: 0;
+    left: 0;
+    position: absolute;
 }
 
 body > div {

@@ -46,6 +46,9 @@ export const deleteUserAPICall = body => dispatch => apiHelper('/users', { metho
     .then(dispatch(getAllUsersAPICall()))
     .catch(msg => store.dispatch(addError({ error: msg })));
 
+export const changeEmailAPICall = body => () => apiHelper('/users', { method: 'PUT', body: JSON.stringify(body) })
+    .catch(msg => store.dispatch(addError({ error: msg })));
+
 export const changePasswordAPICall = body => () => apiHelper('/users', { method: 'PUT', body: JSON.stringify(body) })
     .catch(msg => store.dispatch(addError({ error: msg })));
 
