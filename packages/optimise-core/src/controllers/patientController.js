@@ -94,7 +94,7 @@ class PatientController {
 
     static getPatientProfileById({ params, query }, res) {
         if (params.hasOwnProperty('patientId')) {
-            return PatientCore.getPatientProfile({ 'aliasId': params.patientId }, true, query.getOnly)
+            return PatientCore.getPatientProfile({ 'aliasId': params.patientId }, false, query.getOnly)
                 .then(result => {
                     res.status(200).json(result);
                     return true;
