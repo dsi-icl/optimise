@@ -1,11 +1,13 @@
 import uuid from 'uuid/v4';
+import { tableMove } from '../utils/';
 
 export const TABLE_NAME = 'OPT_KV';
 export const PRIORITY = 0;
 export default async (dbcon, version) => {
     switch (version) {
         case 3:
-            return dbcon()(TABLE_NAME).insert([{
+            await tableMove(TABLE_NAME, version);
+            await dbcon()(TABLE_NAME).insert([{
                 key: 'SYNC_AGENT_ID',
                 value: uuid(),
                 created_at: dbcon().fn.now(),
@@ -26,6 +28,7 @@ export default async (dbcon, version) => {
                 created_at: dbcon().fn.now(),
                 updated_at: dbcon().fn.now()
             }]);
+            break;
         default:
             break;
     }
