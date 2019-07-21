@@ -14,7 +14,7 @@ export default async (dbcon, version) => {
             if (OLD_TABLE_NAME !== null) {
                 const oldData = await dbcon()(OLD_TABLE_NAME).select('*');
                 // We verify if we are already at version 2
-                if (oldData.lenght > 0 && oldData[0].smokingHistory !== undefined) {
+                if (oldData.length > 0 && oldData[0].smokingHistory !== undefined) {
 
                     const existingPatientsInThisTable = await dbcon()(OLD_TABLE_NAME).select('*');
                     const smokingHash = (await dbcon()('SMOKING_HISTORY').select('*')).reduce((a, e) => { a[e.id] = e.value; return a; }, {});

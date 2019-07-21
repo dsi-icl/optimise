@@ -21,7 +21,7 @@ export default async (dbcon, version) => {
             if (OLD_TABLE_NAME !== null) {
                 const oldData = await dbcon()(OLD_TABLE_NAME).select('*');
                 // We verify if we are already at version 3
-                if (oldData.lenght > 0 && oldData[0].uuid === undefined) {
+                if (oldData.length > 0 && oldData[0].uuid === undefined) {
                     for (let i = 0; i < oldData.length; i++) {
                         oldData[i].uuid = uuid();
                         oldData[i].email = `${uuid().split('-')[0]}@optimise.local`;
