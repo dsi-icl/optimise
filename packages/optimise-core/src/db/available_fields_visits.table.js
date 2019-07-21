@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import visitFields_v1 from './defaults_v1/visitFields.json';
 import visitFields_v2 from './defaults_v2/visitFields.json';
 

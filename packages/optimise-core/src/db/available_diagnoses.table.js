@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import diagnoses from './defaults_v1/diagnoses.json';
 
 export const TABLE_NAME = 'AVAILABLE_DIAGNOSES';

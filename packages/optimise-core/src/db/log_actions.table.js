@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 
 export const TABLE_NAME = 'LOG_ACTIONS';
 export const PRIORITY = 0;

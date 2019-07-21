@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import pregnancyOutcomes from './defaults_v1/pregnancyOutcomes.json';
 
 export const TABLE_NAME = 'PREGNANCY_OUTCOMES';

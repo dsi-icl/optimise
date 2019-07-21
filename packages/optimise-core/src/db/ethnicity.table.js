@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import ethnicities from './defaults_v1/ethnicities.json';
 
 export const TABLE_NAME = 'ETHNICITIES';

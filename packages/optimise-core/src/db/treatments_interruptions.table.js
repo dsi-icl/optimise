@@ -1,4 +1,4 @@
-import { tableMove, tableCopyBack } from '../utils/';
+import { tableMove, tableCopyBack } from '../utils/db-mover';
 
 export const TABLE_NAME = 'TREATMENTS_INTERRUPTIONS';
 export const PRIORITY = 4;

@@ -1,5 +1,5 @@
 import uuid from 'uuid/v4';
-import { tableMove, tableCopyBack } from '../utils/';
+import { tableMove, tableCopyBack } from '../utils/db-mover';
 import { generateAndHash } from '../utils/generate-crypto';
 let hashedAdmin;
 
