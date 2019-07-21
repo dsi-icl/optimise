@@ -1,3 +1,4 @@
+import { tableMove } from '../utils/';
 import ceFields from './defaults_v1/ceFields.json';
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_CE';
@@ -5,8 +6,7 @@ export const PRIORITY = 1;
 export default async (dbcon, version) => {
     switch (version) {
         case 1:
-            if (await dbcon().schema.hasTable(TABLE_NAME) === true)
-                await dbcon().schema.renameTable(TABLE_NAME, `ARCHIVE_${Date.now()}_${TABLE_NAME}`);
+            await tableMove(TABLE_NAME, version);
             await dbcon().schema.createTable(TABLE_NAME, (table) => {
                 table.increments('id').primary();
                 table.text('definition').notNullable();
@@ -24,7 +24,8 @@ export default async (dbcon, version) => {
                 table.text('deleted').notNullable().defaultTo('-');
                 table.unique(['idname', 'type', 'unit', 'module', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
             });
-            return dbcon()(TABLE_NAME).insert(ceFields);
+            await dbcon()(TABLE_NAME).insert(ceFields);
+            break;
         default:
             break;
     }
