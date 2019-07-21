@@ -1,0 +1,12 @@
+.wrapper {
+    grid: "ariane" 4em "panel" calc(100% - 4em) / 100%;
+    display: grid;
+}
+.userManual {
+    grid-area: content / content  / status / annexe;
+    background: linear-gradient(to top right, var(--color-shade-two), var(--color-shade-one));
+    height: 100%;
+    width: 100%;
+    background: #ffffff;
+    overflow: auto;
+}

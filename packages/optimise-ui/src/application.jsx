@@ -8,6 +8,7 @@ import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, FullscreenPanel, Statu
 import Body from './components/body';
 import Login from './components/login';
 import NoSupport from './components/noSupport';
+import NoAuth from './components/noAuth';
 import CenterSpinner from './components/centerSpinner';
 import { whoami } from './redux/actions/login';
 import { getICD11Call, getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
@@ -62,6 +63,7 @@ class App extends Component {
             return (
                 <Body>
                     {this.props.checking ? <CenterSpinner /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+                    <NoAuth />
                     <StatusBar />
                     <AlertMessage />
                     <ErrorMessage />
