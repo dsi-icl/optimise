@@ -15,11 +15,6 @@ export default async (dbcon, version) => {
                 { id: 1, username: 'admin', realName: 'Administrator', pw: hashedAdmin.hashed, salt: hashedAdmin.salt, iterations: hashedAdmin.iteration, adminPriv: 1, createdByUser: 1 },
             ]);
             break;
-        case 2:
-            await tableMove(TABLE_NAME, version);
-            await schema_v1(dbcon);
-            await tableCopyBack(TABLE_NAME);
-            break;
         case 3:
             const OLD_TABLE_NAME = await tableMove(TABLE_NAME, version);
             await schema_v3(dbcon);
