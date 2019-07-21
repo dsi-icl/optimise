@@ -4,8 +4,8 @@ import dbcon from './db-connection';
 let mapper = {};
 
 export async function tableMove(TABLE_NAME, version) {
-    mapper[TABLE_NAME] = `ARCHIVE_V${version - 1}_${Date.now()}_${TABLE_NAME}`;
     if (await dbcon().schema.hasTable(TABLE_NAME) === true) {
+        mapper[TABLE_NAME] = `ARCHIVE_V${version - 1}_${Date.now()}_${TABLE_NAME}`;
         await dbcon().schema.renameTable(TABLE_NAME, mapper[TABLE_NAME]);
         return mapper[TABLE_NAME];
     }
