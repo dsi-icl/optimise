@@ -167,21 +167,43 @@ Optimise MS is intended to be used after consent is given by patients to hold th
 
 You may update the patient consent status at any time. Go to the main patient profile page and use the highlighted control in the right panel to update the status of patient consent.
 
+![setConsent bordered](./img/patientConsent1.png)
+
 If the current consent status is set to Yes, the text on the consent button will read as follows:
 
 ![consentButton bordered](./img/withdrawConsentButton.png)
-
 
 For patient profiles currently not consenting, the consent button will look like
 
 ![setConsent bordered](./img/consentButton.png)
 
-![setConsent bordered](./img/patientConsent1.png)
-
-
 The current patient consent status is always visible on screen. Clicking the consent button in the right panel updates this label accordingly.
 
 ![consentLabel bordered](./img/patientConsent2.png)
+
+
+<a class="anchor" id="patientParticipation"></a>
+
+Updating patient participation status
+========================
+
+Optimise MS will consider that patients entered in are enrolled in the study by default.
+
+You may update a patient participation status at any time. Go to the main patient profile page and use the highlighted control in the right panel to update the status of patient participation.
+
+![setParticipation bordered](./img/patientParticipation1.png)
+
+If the current participation status is set to Yes, the text on the participation button will read as follows:
+
+![participationButton bordered](./img/withdrawParticipationButton.png)
+
+For patient profiles currently not enrolled, the participation button will look like
+
+![setParticipation bordered](./img/participationButton.png)
+
+The current patient participation status is always visible on screen. Clicking the participation button in the right panel updates this label accordingly.
+
+![participationLabel bordered](./img/patientParticipation2.png)
 
 
 <a class="anchor" id="deletePatient"></a>
@@ -207,8 +229,7 @@ Entering patient data
 =====================
 <a class="anchor" id="patientOverview"></a>
 
-Patient overview
-----------------
+### Patient overview
 
 The Profile section in the Overview panel contains the profile data entered during patient creation. To edit the Profile section, click the button ![editProfileButton](./img/editButton.png) next to Profile. Click on ![pii](./img/pii.png) to view the Patient Identifiable Information.
 
@@ -285,8 +306,7 @@ The immunisation records are added to the Overview panel as shown below. To remo
 
 <a class="anchor" id="medicalHistory"></a>
 
-Medical history
----------------
+### Medical history
 
 The filtering tool in the Medical History Summary allows you to select which medical elements are included in this section. This is especially useful for patients with considerable amount of recorded data. To include Treatments and Tests only, click on the respective buttons.
 
