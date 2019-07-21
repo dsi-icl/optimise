@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import conditions from './defaults_v1/conditions.json';
 
 export const TABLE_NAME = 'CONDITIONS';

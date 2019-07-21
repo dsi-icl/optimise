@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import visitSections from './defaults_v1/visitSections.json';
 
 export const TABLE_NAME = 'AVAILABLE_VISIT_SECTIONS';

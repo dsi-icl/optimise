@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import meddra from './defaults_v1/meddra.json';
 
 export const TABLE_NAME = 'ADVERSE_EVENT_MEDDRA';

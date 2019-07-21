@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import data from './defaults_v2/icd11_data.json';
 
 export const TABLE_NAME = 'ICD11';

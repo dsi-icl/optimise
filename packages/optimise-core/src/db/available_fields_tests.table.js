@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import testFields from './defaults_v1/testFields.json';
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_TESTS';

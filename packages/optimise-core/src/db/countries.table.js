@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import countries from './defaults_v1/countries.json';
 
 export const TABLE_NAME = 'COUNTRIES';

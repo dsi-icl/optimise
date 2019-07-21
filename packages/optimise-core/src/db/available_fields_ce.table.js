@@ -1,4 +1,4 @@
-import { tableMove } from '../utils/';
+import { tableMove } from '../utils/db-mover';
 import ceFields from './defaults_v1/ceFields.json';
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_CE';
