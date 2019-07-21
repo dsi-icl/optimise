@@ -8,6 +8,8 @@
 
 [Updating patient consent](#patientConsent)
 
+[Updating patient participation status](#patientParticipation)
+
 [Deleting a patient](#deletePatient)
 
 [Entering patient data](#enterPatientData)

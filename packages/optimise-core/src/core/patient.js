@@ -29,7 +29,7 @@ class Patient {
      * @param {string} getOnly Filtering return.
      */
     static getPatientProfile(whereObj, deleted, getOnly) {
-        return new Promise((resolve, reject) => Patient.getPatient(whereObj, { patientId: 'id', alias: 'aliasId', study: 'study', consent: 'consent' }, deleted)
+        return new Promise((resolve, reject) => Patient.getPatient(whereObj, { patientId: 'id', alias: 'aliasId', study: 'study', consent: 'consent', participation: 'participation' }, deleted)
             .then((Patientresult) => {
                 let patientId;
                 if (Patientresult.length === 1) {
@@ -52,6 +52,7 @@ class Patient {
                     responseObj.patientId = Patientresult[0].alias;
                     responseObj.id = patientId;
                     responseObj.consent = Boolean(Patientresult[0].consent);
+                    responseObj.participation = Boolean(Patientresult[0].participation);
                     for (let i = 0; i < result.length; i++) {
                         responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
                     }
