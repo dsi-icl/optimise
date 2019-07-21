@@ -3,8 +3,6 @@ export const PRIORITY = 0;
 export default async (dbcon, version) => {
     switch (version) {
         case 1:
-            if (await dbcon().schema.hasTable(TABLE_NAME) === true)
-                await dbcon().schema.renameTable(TABLE_NAME, `ARCHIVE_${Date.now()}_${TABLE_NAME}`);
             await dbcon().schema.createTable(TABLE_NAME, (table) => {
                 table.increments('id').primary().notNullable();
                 table.text('value').notNullable();
@@ -12,7 +10,7 @@ export default async (dbcon, version) => {
                 table.text('deleted').notNullable().defaultTo('-');
                 table.unique(['value', 'module', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
             });
-            return dbcon()(TABLE_NAME).insert([
+            await dbcon()(TABLE_NAME).insert([
                 { id: 1, value: 'Patient preference', module: 'TREATMENTS' },
                 { id: 2, value: 'Disease progresssion', module: 'TREATMENTS' },
                 { id: 3, value: 'Death', module: 'TREATMENTS' },
@@ -23,6 +21,7 @@ export default async (dbcon, version) => {
                 { id: 8, value: 'Adverse event', module: 'TREATMENTS_INTERRUPTIONS' },
                 { id: 9, value: 'Unknown', module: 'TREATMENTS_INTERRUPTIONS' }
             ]);
+            break;
         default:
             break;
     }
