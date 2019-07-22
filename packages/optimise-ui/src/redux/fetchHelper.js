@@ -24,11 +24,15 @@ export const apiHelper = (endpoint, options, blockError) => {
 
         returnValue = fetcher(`/api${endpoint}`, fetchOptions)
             .then(res =>
-                res.json().then((json) => ({
+                res.json().then(json => ({
                     status: res.status,
                     data: json
-                })), err => store.dispatch(addError({ error: err })))
+                })), err => ({ status: 900, data: { error: err } }))
             .then(json => {
+                if (json.status === undefined || json.data === undefined) {
+                    store.dispatch(addError({ error: 'Unknown fatal error has occured' }));
+                    return Promise.reject(json);
+                }
                 if (json.status === 200) {
                     return json.data;
                 } else {

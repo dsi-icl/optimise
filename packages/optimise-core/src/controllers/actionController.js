@@ -5,12 +5,17 @@ import formatToJSON from '../utils/format-response';
 
 class ActionController {
 
-    static getLogs({ user }, res) {
+    static getLogs({ user, query }, res) {
         if (user.priv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
-        ActionCore.getLogs().then((result) => {
+        let limitOffset = {};
+        if (query.hasOwnProperty('limit') && typeof parseInt(query.limit) === 'number')
+            limitOffset.limit = parseInt(query.limit);
+        if (query.hasOwnProperty('offset') && typeof parseInt(query.offset) === 'number')
+            limitOffset.offset = parseInt(query.offset);
+        ActionCore.getLogs(limitOffset).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {

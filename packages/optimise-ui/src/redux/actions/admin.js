@@ -8,11 +8,19 @@ export const getLogRequest = payload => ({ type: actionTypes.admin.GET_LOG_REQUE
 export const getLogSuccess = payload => ({ type: actionTypes.admin.GET_LOG_SUCCESS, payload: payload });
 export const getLogFailure = payload => ({ type: actionTypes.admin.GET_LOG_FAILURE, payload: payload });
 
-export const getLogAPICall = () => dispatch => apiHelper('/logs')
-    .then(json => {
-        dispatch(getLogSuccess(json));
-    })
-    .catch(msg => { store.dispatch(addError({ error: msg })); getLogFailure(); });
+export const getLogAPICall = (body = {}) => dispatch => {
+    let url = '/logs';
+    if (body.limit !== undefined && body.offset !== undefined)
+        url += `?limit=${body.limit}&offset=${body.offset}`;
+    return apiHelper(url)
+        .then(json => {
+            dispatch(getLogSuccess({
+                body,
+                json
+            }));
+        })
+        .catch(msg => { store.dispatch(addError({ error: msg })); getLogFailure(); });
+};
 
 
 export const getAllUsersRequest = payload => ({ type: actionTypes.admin.GET_ALL_USERS_REQUEST, payload: payload });
@@ -36,6 +44,9 @@ export const createUserAPICall = body => dispatch => apiHelper('/users', { metho
 
 export const deleteUserAPICall = body => dispatch => apiHelper('/users', { method: 'DELETE', body: JSON.stringify(body) })
     .then(dispatch(getAllUsersAPICall()))
+    .catch(msg => store.dispatch(addError({ error: msg })));
+
+export const changeEmailAPICall = body => () => apiHelper('/users', { method: 'PUT', body: JSON.stringify(body) })
     .catch(msg => store.dispatch(addError({ error: msg })));
 
 export const changePasswordAPICall = body => () => apiHelper('/users', { method: 'PUT', body: JSON.stringify(body) })

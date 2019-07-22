@@ -8,3 +8,9 @@ export const updateConsentAPICall = (body) => dispatch => apiHelper('/patients',
         dispatch(getPatientProfileById(body.patientId));
     })
     .catch(msg => store.dispatch(addError({ error: msg })));
+
+export const updateParticipationAPICall = (body) => dispatch => apiHelper('/patients', { method: 'PUT', body: JSON.stringify(body.data) })
+    .then(() => {
+        dispatch(getPatientProfileById(body.patientId));
+    })
+    .catch(msg => store.dispatch(addError({ error: msg })));

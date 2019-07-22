@@ -94,7 +94,7 @@ class PatientController {
 
     static getPatientProfileById({ params, query }, res) {
         if (params.hasOwnProperty('patientId')) {
-            return PatientCore.getPatientProfile({ 'aliasId': params.patientId }, true, query.getOnly)
+            return PatientCore.getPatientProfile({ 'aliasId': params.patientId }, false, query.getOnly)
                 .then(result => {
                     res.status(200).json(result);
                     return true;
@@ -159,7 +159,7 @@ class PatientController {
                             promiseContainer.push(ActionCore.eraseIdOnRoute('/demographics/MedicalCondition', result.medicalHistory[i].id));
                     if (result.hasOwnProperty('demographicData') && result.demographicData !== undefined)
                         promiseContainer.push(ActionCore.eraseIdOnRoute('/demographics/Demographic', result.demographicData.id));
-                    if (result.hasOwnProperty('diagnosis') && result.diagnosis.lenght >= 1)
+                    if (result.hasOwnProperty('diagnosis') && result.diagnosis.length >= 1)
                         for (let i = 0; i < result.diagnosis.length; i++)
                             promiseContainer.push(ActionCore.eraseIdOnRoute('/patientDiagnosis', result.diagnosis[i].id));
                     if (result.pregnancy.length >= 1)

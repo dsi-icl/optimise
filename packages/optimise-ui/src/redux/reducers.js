@@ -191,11 +191,18 @@ function patientProfile(state = initialState.patientProfile, action) {
 
 
 function log(state = initialState.log, action) {
+    let body;
+    let json;
     switch (action.type) {
         case actionTypes.admin.GET_LOG_REQUEST:
             return { result: [], fetching: true, error: false };
         case actionTypes.admin.GET_LOG_SUCCESS:
-            return { result: action.payload, fetching: false, error: false };
+            body = action.payload.body;
+            json = action.payload.json;
+            if (body === undefined || body.offset === undefined || body.offset === 0)
+                return { result: json, fetching: false, error: false };
+            else
+                return { result: state.result.length === 0 ? json : state.result.concat(json), fetching: false, error: false };
         case actionTypes.admin.GET_LOG_FAILURE:
             return { result: [], fetching: false, error: true };
         default:
@@ -289,6 +296,28 @@ function serverInfo(state = initialState.serverInfo, action) {
     }
 }
 
+function syncInfo(state = initialState.syncInfo, action) {
+    switch (action.type) {
+        case actionTypes.syncInfo.GET_SYNC_OPTIONS_SUCCESS:
+        case actionTypes.syncInfo.SET_SYNC_OPTIONS_SUCCESS:
+            return {
+                ...state,
+                config: {
+                    ...state.config,
+                    ...action.payload
+                }
+            };
+        case actionTypes.syncInfo.SYNC_TRIGGER_SUCCESS:
+        case actionTypes.syncInfo.GET_SYNC_STATUS_SUCCESS:
+            return {
+                ...state,
+                status: action.payload
+            };
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     createPatient,
     searchPatient,
@@ -302,6 +331,7 @@ export const rootReducer = combineReducers({
     alert,
     edssCalc,
     uploadMeddra,
-    serverInfo
+    serverInfo,
+    syncInfo
 });
 

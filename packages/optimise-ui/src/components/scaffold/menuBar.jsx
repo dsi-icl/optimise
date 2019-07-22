@@ -30,7 +30,6 @@ export default class MenuBar extends Component {
                 <NavLink to='/patientProfile' title='Patient view' activeClassName={style.active}>
                     <Icon symbol='user' />
                 </NavLink>
-
                 <NavLink to='/searchPatient' title='Search and edit patients' activeClassName={style.active}>
                     <Icon symbol='search' />
                 </NavLink>
@@ -40,11 +39,12 @@ export default class MenuBar extends Component {
                             <Icon symbol='setting' />
                         </NavLink>
                     ) : null}
-
-                <NavLink title='Logout' to='/logout' onClick={this._handleLogout} id='logoutButton' activeClassName={style.active}>
+                <NavLink to='/userManual' title='Browse the documentation on how to use the software' activeClassName={style.active}>
+                    <Icon symbol='help' />
+                </NavLink>
+                <NavLink title='Logout' to='/logout' onClick={this._handleLogout} className={style.logoutButton} activeClassName={style.active}>
                     <Icon symbol='logout' />
                 </NavLink>
-
             </div>
         );
     }
