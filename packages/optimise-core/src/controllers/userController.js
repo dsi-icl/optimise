@@ -68,11 +68,11 @@ class UserController {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
-        if (!body.hasOwnProperty('pw') || !body.hasOwnProperty('username') || !body.hasOwnProperty('isAdmin') || !body.hasOwnProperty('realname')) {
+        if (!body.hasOwnProperty('pw') || !body.hasOwnProperty('username') || !body.hasOwnProperty('isAdmin') || !body.hasOwnProperty('realname') || !body.hasOwnProperty('email')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        if (typeof body.pw !== 'string' || typeof body.username !== 'string' || typeof body.isAdmin !== 'number' || typeof body.realname !== 'string') {
+        if (typeof body.pw !== 'string' || typeof body.username !== 'string' || typeof body.isAdmin !== 'number' || typeof body.realname !== 'string' || typeof body.email !== 'string' || !email_reg.test(body.email)) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
