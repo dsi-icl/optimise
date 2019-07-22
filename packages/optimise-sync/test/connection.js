@@ -8,8 +8,8 @@ export const connectAgent = (agent, user, pw) => new Promise((resolve, reject) =
         username: user,
         pw
     })
-    .then(res => {
-        if (res.statusCode === 200)
+    .then(({ statusCode }) => {
+        if (statusCode === 200)
             return resolve();
         return reject(new Error(`The user '${user}' could not be logged in !`));
     }).catch(() => null));

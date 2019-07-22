@@ -5,7 +5,6 @@ module.exports = babelJest.createTransformer({
         [
             '@babel/preset-env',
             {
-                useBuiltIns: 'entry',
                 targets: {
                     esmodules: true
                 }
@@ -14,6 +13,7 @@ module.exports = babelJest.createTransformer({
     ],
     plugins: [
         'require-context-hook',
+        '@babel/plugin-transform-modules-commonjs',
         '@babel/plugin-syntax-dynamic-import'
     ],
     babelrc: false,

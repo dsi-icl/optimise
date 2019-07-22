@@ -105,6 +105,16 @@ class SyncCore {
      */
     static async startSync(config) {
 
+        if (config.host.trim() === '' || config.key.trim() === '') {
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    status: 'idle'
+                }),
+                updated_at: dbcon().fn.now()
+            });
+            return;
+        }
+
         try {
             const patients = await dbcon().select().table('PATIENTS');
             const users = await dbcon().select().table('USERS');
@@ -184,10 +194,12 @@ class SyncCore {
                             updated_at: dbcon().fn.now()
                         });
                 } else if (error) {
+                    console.log(error);
                     await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                         value: JSON.stringify({
                             error: {
-                                message: error
+                                message: error.message,
+                                stack: error.stack
                             }
                         }),
                         updated_at: dbcon().fn.now()
