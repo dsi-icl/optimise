@@ -123,5 +123,11 @@ export default {
     },
     serverInfo: {
         version: ''
+    },
+    syncInfo: {
+        config: {},
+        status: {
+            syncing: true
+        }
     }
 };

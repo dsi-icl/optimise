@@ -4,8 +4,11 @@ import message from '../utils/message-utils';
 import dbcon from '../utils/db-connection';
 
 class ActionLog {
-    static getLogs() {
-        return new Promise((resolve, reject) => getEntry('LOG_ACTIONS', {}, '*', { limit: 100 })
+    static getLogs(limitOffset) {
+        return new Promise((resolve, reject) => getEntry('LOG_ACTIONS', {}, '*', {
+            limitOffset,
+            orderBy: [{ column: 'id', order: 'desc' }]
+        })
             .then(
                 result => resolve(result),
                 error => reject(ErrorHelper(message.errorMessages.GETFAIL, error)))

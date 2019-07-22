@@ -27,13 +27,14 @@ export class Update extends PureComponent {
         if (!this.state.isUpdatableEnv)
             return (
                 <>
-                    You are not using the desktop version of this software, please check <a href="http://optimise-ms.org">http://optimise-ms.org</a> for more information about new versions.
+                    You are not using the desktop version of this software.
+                    Please check <a href="https://optimise-ms.org">https://optimise-ms.org</a> for more information about new versions.
             </>
             );
         else
             return (
                 <>
-                    {this.state.ipcUpdateStatus || 'Checking for updates...'}<br/><br/>
+                    {this.state.ipcUpdateStatus || 'Checking for updates...'}<br /><br />
                     {this.state.ipcUpdateReady === true ? <button onClick={() => window.ipcUpdateCommander()}>Quit and install</button> : null}
                 </>
             );

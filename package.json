@@ -35,11 +35,11 @@
         "prepackage": "yarn build",
         "package": "lerna run package --scope optimise-docker --scope optimise-electron --stream",
         "publish": "lerna run package --scope optimise-docker --scope optimise-electron --stream",
-        "start": "lerna exec --parallel --stream --scope optimise-core --scope optimise-ui yarn start",
+        "start": "lerna exec --parallel --stream --scope optimise-core --scope optimise-sync --scope optimise-ui yarn start",
         "test": "lerna run test --parallel"
     },
     "devDependencies": {
         "cross-env": "5.2.0",
-        "lerna": "3.15.0"
+        "lerna": "3.16.1"
     }
 }

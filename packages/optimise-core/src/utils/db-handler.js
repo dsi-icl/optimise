@@ -5,7 +5,7 @@ import fs from 'fs';
 
 // Current level of the DB
 // This field is to be updated with subsequent versions of the DB
-const CURRENT_VERSION = 2;
+const CURRENT_VERSION = 3;
 
 export async function migrate() {
 
@@ -44,8 +44,14 @@ export async function migrate() {
         // For every table file launch the update for sequential version up
         while (stepVersion < CURRENT_VERSION) {
             stepVersion++;
-            for (let i = 0; i < schemas.length; i++)
-                await schemas[i](dbcon, stepVersion);
+            try {
+                for (let i = 0; i < schemas.length; i++)
+                    await schemas[i](dbcon, stepVersion);
+            } catch (error) {
+                console.error(error.message);
+                console.error(error.stack);
+                return Promise.reject(error);
+            }
         }
 
         // Finally set the CURRENT_VERSION to the current level

@@ -1,10 +1,13 @@
+import { tableMove, tableCopyBack } from '../utils/db-mover';
+
 export const TABLE_NAME = 'PATIENT_PREGNANCY';
 export const PRIORITY = 2;
 export default async (dbcon, version) => {
     switch (version) {
         case 1:
-            if (await dbcon().schema.hasTable(TABLE_NAME) === true)
-                await dbcon().schema.renameTable(TABLE_NAME, `ARCHIVE_${Date.now()}_${TABLE_NAME}`);
+        case 2:
+        case 3:
+            await tableMove(TABLE_NAME, version);
             await dbcon().schema.createTable(TABLE_NAME, (table) => {
                 table.increments('id').primary();
                 table.integer('patient').notNullable().references('id').inTable('PATIENTS').onDelete('CASCADE');
@@ -17,6 +20,7 @@ export default async (dbcon, version) => {
                 table.text('deleted').notNullable().defaultTo('-');
                 table.unique(['patient', 'startDate', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
             });
+            await tableCopyBack(TABLE_NAME);
             break;
         default:
             break;

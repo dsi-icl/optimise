@@ -15,12 +15,14 @@ export const deleteEntry = function (tablename, { id }, whereObj) {
     });
 };
 
-export const getEntry = function (tablename, whereObj, selectedObj, limitOffset) {
+export const getEntry = function (tablename, whereObj, selectedObj, extra) {
     return new Promise((resolve, reject) => {
-        if (limitOffset !== undefined)
-            dbcon()(tablename).select(selectedObj).where(whereObj).limit(limitOffset.limit).offset(limitOffset.offset || 0).then((result) => resolve(result)).catch((error) => reject(error));
-        else
-            dbcon()(tablename).select(selectedObj).where(whereObj).then((result) => resolve(result)).catch((error) => reject(error));
+        let handle = dbcon()(tablename).select(selectedObj).where(whereObj);
+        if (extra !== undefined && extra.orderBy !== undefined)
+            handle = handle.orderBy(extra.orderBy || []);
+        if (extra !== undefined && extra.limitOffset !== undefined)
+            handle = handle.offset(extra.limitOffset.offset || 0).limit(extra.limitOffset.limit || 100);
+        return handle.then((result) => resolve(result)).catch((error) => reject(error));
     });
 };
 

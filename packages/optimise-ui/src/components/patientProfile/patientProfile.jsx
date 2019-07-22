@@ -9,7 +9,7 @@ import store from '../../redux/store';
 import { createImmunisationAPICall, deleteImmunisationAPICall } from '../../redux/actions/demographicData';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
 import { getPatientPii } from '../../redux/actions/patientProfile';
-import { updateConsentAPICall } from '../../redux/actions/consent';
+import { updateConsentAPICall, updateParticipationAPICall } from '../../redux/actions/consent';
 import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
 
@@ -357,6 +357,7 @@ class DeletePatient extends Component {
         super();
         this._handleClickDelete = this._handleClickDelete.bind(this);
         this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
+        this._handleClickWithdrawParticipation = this._handleClickWithdrawParticipation.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
     }
 
@@ -386,12 +387,27 @@ class DeletePatient extends Component {
         store.dispatch(updateConsentAPICall(body));
     }
 
+    _handleClickWithdrawParticipation() {
+        const { participation, id } = this.props.data;
+        const body = {
+            patientId: this.props.match.params.patientId,
+            data: {
+                participation: !participation,
+                id: id
+            }
+        };
+        store.dispatch(updateParticipationAPICall(body));
+    }
+
 
     render() {
-        const { consent } = this.props.data;
+        const { consent, participation } = this.props.data;
 
         return (
             <>
+                <PatientProfileSectionScaffold sectionName='Study participation'>
+                    <button onClick={this._handleClickWithdrawParticipation} >{participation ? 'This patient withdraws from the study' : 'This patient re-enrolls in the study'}</button>
+                </PatientProfileSectionScaffold>
                 <PatientProfileSectionScaffold sectionName='Consent'>
                     <button onClick={this._handleClickWithdrawConsent} >{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</button>
                 </PatientProfileSectionScaffold>

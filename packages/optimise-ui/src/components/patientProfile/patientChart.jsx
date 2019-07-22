@@ -56,13 +56,14 @@ export class PatientChart extends Component {
             <>
                 <div className={style.ariane}>
                     <Helmet title='Patient Profile' />
-                    <h2><Link to={`/patientProfile/${this.props.match.params.patientId}`}>Patient Profile {this.props.fetching ? '' : `(${this.props.data.patientId})`}</Link></h2>
+                    <h2><Link to={`/patientProfile/${this.props.match.params.patientId}`}>Patient {this.props.fetching ? '' : `${this.props.data.patientId}`}</Link></h2>
                     <PatientProfileTop />
                 </div>
                 <div className={`${style.panel} ${style.patientHistory}`}>
                     {this.props.fetching ? <div><Icon symbol='loading' /></div> :
                         <>
                             <br />
+                            <span className={this.props.data.participation ? '' : style.noConsentAlert}>{`This patient ${this.props.data.participation ? 'is enrolled in' : 'has withdrew from'} the study.`}</span><br /><br />
                             <span className={this.props.data.consent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
                             {this.props.data.visits.length > 0 ? <TimelineBox /> : null}
                             <Charts match={this.props.match} />
@@ -450,7 +451,7 @@ class OneVisit extends Component {
                                 <table>
                                     <tbody>
                                         {filteredComorbidities.map(el =>
-                                            this.props.icd11_Hash[el.comorbidity] ?
+                                            this.props.icd11_Hash && this.props.icd11_Hash[el.comorbidity] ?
                                                 <tr key={el.id}>
                                                     <td>{this.props.icd11_Hash[el.comorbidity].name}</td>
                                                 </tr> : null
@@ -626,6 +627,8 @@ export class Charts extends Component {
                         <Timeline className={style.history}>
                             {this._sortVisits(visits).map(
                                 (el) => {
+                                    if (el.data.length <= 0)
+                                        return <React.Fragment key={el.id} ></React.Fragment>;
                                     let suffix = '';
                                     switch (el.historyInd) {
                                         case undefined:
