@@ -40,6 +40,6 @@
     },
     "devDependencies": {
         "cross-env": "5.2.0",
-        "lerna": "3.16.1"
+        "lerna": "3.16.4"
     }
 }
