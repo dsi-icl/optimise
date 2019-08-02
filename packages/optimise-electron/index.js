@@ -251,7 +251,7 @@ autoUpdater.on('update-not-available', (ev, info) => {
 autoUpdater.on('error', (ev, err) => {
     sendUpdateStatusToWindow({
         ready: false,
-        text: `There was an error with the update process. ${err.message}`
+        text: `There was an error with the update process. ${err.message !== undefined ? err.message : ''}`
     });
 })
 
