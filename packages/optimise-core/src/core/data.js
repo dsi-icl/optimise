@@ -69,7 +69,7 @@ class Data {
                     .where('field', 'in', deleteObj)
                     .andWhere('deleted', '-')
                     .andWhere(dataTableForeignKey, idData)
-                    .update({ 'deleted': `${id}@${JSON.stringify(new Date())}` })
+                    .update({ 'deleted': `${id}@${(new Date()).getTime()}` })
                     .transacting(trx)
                     .then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error)))
                     .then(trx.commit)
