@@ -348,7 +348,7 @@ class OneVisit extends Component {
                         <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}/vitals`} className={style.visitEditButton}>
                             <span title='Edit visit date and reason' className={style.dataEdit}><Icon symbol='edit' /></span>
                         </NavLink><br />
-                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY, VITAL SIGNS{isMinor ? ', ' : ' AND'} HABITS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
+                        <h4><Icon symbol='addVS' />&nbsp;PHYSICAL MEASURES, VITAL SIGNS{isMinor ? ', ' : ' AND'} HABITS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
                         {VSValueArray.length > 0 ? (
                             <div className={style.visitWrapper}>
                                 <table>
@@ -387,7 +387,7 @@ class OneVisit extends Component {
                             </div>
                         ) : null}
                         <NavLink to={`/patientProfile/${this.props.patientId}/data/visit/${this.props.visitId}/vitals`} activeClassName={style.activeNavLink}>
-                            <button>Edit anthropometry{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit</button>
+                            <button>Edit physical measures{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit</button>
                         </NavLink>
                         <br /><br />
                     </>
