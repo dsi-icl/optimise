@@ -194,7 +194,6 @@ class SyncCore {
                             updated_at: dbcon().fn.now()
                         });
                 } else if (error) {
-                    console.log(error);
                     await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                         value: JSON.stringify({
                             error: {
