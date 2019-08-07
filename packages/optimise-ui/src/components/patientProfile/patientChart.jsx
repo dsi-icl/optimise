@@ -218,7 +218,6 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
     icd11_Hash: state.availableFields.icd11_Hash[0]
-
 }))
 class OneVisit extends Component {
 
@@ -345,10 +344,10 @@ class OneVisit extends Component {
 
                 {this.props.visitType === 1 ? (
                     <>
-                        <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}/vitals`} className={style.visitEditButton}>
+                        <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}`} className={style.visitEditButton}>
                             <span title='Edit visit date and reason' className={style.dataEdit}><Icon symbol='edit' /></span>
                         </NavLink><br />
-                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY, VITAL SIGNS{isMinor ? ', ' : ' AND'} HABITS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
+                        <h4><Icon symbol='addVS' />&nbsp;PHYSICAL MEASURES, VITAL SIGNS{isMinor ? ', ' : ' AND'} HABITS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
                         {VSValueArray.length > 0 ? (
                             <div className={style.visitWrapper}>
                                 <table>
@@ -387,7 +386,7 @@ class OneVisit extends Component {
                             </div>
                         ) : null}
                         <NavLink to={`/patientProfile/${this.props.patientId}/data/visit/${this.props.visitId}/vitals`} activeClassName={style.activeNavLink}>
-                            <button>Edit anthropometry{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit</button>
+                            <button>Edit physical measures{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit</button>
                         </NavLink>
                         <br /><br />
                     </>
@@ -478,7 +477,7 @@ class OneVisit extends Component {
                                         <tr><th>Recorded performance measures</th><th>Value</th></tr>
                                     </thead>
                                     <tbody>
-                                        {filteredEDSS.map(el => {
+                                        {filteredEDSS.filter(el => isNaN(parseFloat(el.value)) !== true).map(el => {
                                             let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale - estimated total';
                                             let EDSSComputed = edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData);
                                             return (
@@ -649,6 +648,7 @@ export class Charts extends Component {
                                     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                     const visitDate = new Date(parseInt(el.visitDate, 10));
                                     const reasonForVisit = el.data.filter(el => el.field === 0);
+
                                     return <OneVisit visitData={el.data}
                                         patientId={this.props.match.params.patientId}
                                         availableFields={this.props.availableFields}
