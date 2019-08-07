@@ -218,7 +218,6 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
     icd11_Hash: state.availableFields.icd11_Hash[0]
-
 }))
 class OneVisit extends Component {
 
@@ -649,6 +648,8 @@ export class Charts extends Component {
                                     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                     const visitDate = new Date(parseInt(el.visitDate, 10));
                                     const reasonForVisit = el.data.filter(el => el.field === 0);
+                                    console.log(el.data);
+
                                     return <OneVisit visitData={el.data}
                                         patientId={this.props.match.params.patientId}
                                         availableFields={this.props.availableFields}
