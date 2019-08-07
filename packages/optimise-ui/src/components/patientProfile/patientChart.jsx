@@ -648,7 +648,6 @@ export class Charts extends Component {
                                     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                     const visitDate = new Date(parseInt(el.visitDate, 10));
                                     const reasonForVisit = el.data.filter(el => el.field === 0);
-                                    console.log(el.data);
 
                                     return <OneVisit visitData={el.data}
                                         patientId={this.props.match.params.patientId}
