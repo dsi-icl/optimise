@@ -477,7 +477,7 @@ class OneVisit extends Component {
                                         <tr><th>Recorded performance measures</th><th>Value</th></tr>
                                     </thead>
                                     <tbody>
-                                        {filteredEDSS.map(el => {
+                                        {filteredEDSS.filter(el => isNaN(parseFloat(el.value)) !== true).map(el => {
                                             let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale - estimated total';
                                             let EDSSComputed = edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData);
                                             return (
