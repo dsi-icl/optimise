@@ -116,11 +116,27 @@ class SyncCore {
         }
 
         try {
+
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    status: 'running',
+                    step: 'collecting',
+                    syncing: true
+                }),
+                updated_at: dbcon().fn.now()
+            });
+
             const patients = await dbcon().select().table('PATIENTS');
             const users = await dbcon().select().table('USERS');
 
-            if (patients.length <= 0)
-                return;
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    status: 'running',
+                    step: 'counting',
+                    syncing: true
+                }),
+                updated_at: dbcon().fn.now()
+            });
 
             let patientPromises = [];
             let patientProfiles = [];
@@ -148,6 +164,15 @@ class SyncCore {
                 });
             });
 
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    status: 'running',
+                    step: 'merging',
+                    syncing: true
+                }),
+                updated_at: dbcon().fn.now()
+            });
+
             const data = JSON.stringify({
                 uuid: config.id,
                 oshost: os.hostname(),
@@ -173,6 +198,14 @@ class SyncCore {
                 body: data
             };
 
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    status: 'running',
+                    step: 'linking',
+                    syncing: true
+                }),
+                updated_at: dbcon().fn.now()
+            });
             request(options, async (error, response, body) => {
                 if (!error && response.statusCode === 200) {
                     const result = JSON.parse(body);
