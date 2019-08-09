@@ -34,11 +34,12 @@ class SyncCore {
      * @param {*} options New value to use for synchronisation
      */
     static async setSyncOptions(options) {
-        let hostURL;
+        let hostURL = { href: '' };
         try {
-            hostURL = new URL(options.host);
+            if (options.host !== undefined && options.host.trim() !== '')
+                hostURL = new URL(options.host);
         } catch (e) {
-            return Promise.reject(ErrorHelper(message.errorMessages.UPDATEFAIL, e));
+            return Promise.reject(ErrorHelper(message.userError.WRONGARGUMENTS, e));
         }
         const host = await dbcon()('OPT_KV').where({ key: 'SYNC_HOST' }).update({
             value: hostURL.href,
