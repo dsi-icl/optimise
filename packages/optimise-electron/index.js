@@ -234,36 +234,36 @@ autoUpdater.on('checking-for-update', () => {
     });
 })
 
-autoUpdater.on('update-available', (ev, info) => {
+autoUpdater.on('update-available', (info) => {
     sendUpdateStatusToWindow({
         ready: false,
         text: 'There is an update available! It is being downloaded...'
     });
 })
 
-autoUpdater.on('update-not-available', (ev, info) => {
+autoUpdater.on('update-not-available', (info) => {
     sendUpdateStatusToWindow({
         ready: false,
         text: 'Nothing to update today.'
     });
 })
 
-autoUpdater.on('error', (ev, err) => {
+autoUpdater.on('error', (err) => {
     sendUpdateStatusToWindow({
         ready: false,
         text: `There was an error with the update process. ${err.message !== undefined ? err.message : ''}`
     });
 })
 
-autoUpdater.on('download-progress', (ev, progressObj) => {
-    progressObj = progressObj || { percent: 0 }
+autoUpdater.on('download-progress', (info) => {
+    info = info || { percent: 0 }
     sendUpdateStatusToWindow({
         ready: false,
-        text: `Update download in progress... (${progressObj.percent}%)`
+        text: `Update download in progress... (${parseFloat(info.percent).toFixed(2)}%)`
     });
 })
 
-autoUpdater.on('update-downloaded', (ev, info) => {
+autoUpdater.on('update-downloaded', (info) => {
     sendUpdateStatusToWindow({
         ready: true,
         text: 'The update is ready! Click the button below to install.'
