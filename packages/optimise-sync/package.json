@@ -41,7 +41,7 @@
         "eslint-plugin-promise": "4.2.1",
         "jest": "24.8.0",
         "rimraf": "2.6.3",
-        "webpack": "4.39.1",
+        "webpack": "4.39.2",
         "webpack-cli": "3.3.6"
     },
     "optionalDependencies": {
