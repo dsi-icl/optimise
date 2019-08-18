@@ -116,7 +116,7 @@
         "electron-log": "3.0.7",
         "electron-updater": "4.1.2",
         "express": "4.17.1",
-        "sqlite3": "4.0.9"
+        "sqlite3": "4.1.0"
     },
     "devDependencies": {
         "@babel/core": "7.5.5",
