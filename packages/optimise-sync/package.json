@@ -42,7 +42,7 @@
         "jest": "24.9.0",
         "rimraf": "3.0.0",
         "webpack": "4.39.2",
-        "webpack-cli": "3.3.6"
+        "webpack-cli": "3.3.7"
     },
     "optionalDependencies": {
         "ajv": "6.10.2",
