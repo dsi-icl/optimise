@@ -79,9 +79,11 @@ export default class StatusBar extends Component {
             return (
                 <span><strong className={style.statusIcon}><Icon symbol={'cloud'}></Icon></strong> Synced with {(new URL(syncInfo.config.host)).host}</span>
             );
-        else
+        else if (syncInfo.status.error !== undefined)
             return (
                 <span><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> Remote unavailable</span>
             );
+        else
+            return null;
     }
 }

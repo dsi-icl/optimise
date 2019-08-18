@@ -136,7 +136,7 @@ export class CreateTreatment extends Component {
                         <label htmlFor='drug'>Treatment:</label><br />
                         <select name='drug' value={this.state.drugType} onChange={this._handleTypeChange} autoComplete='off'>
                             <option value='unselected'></option>
-                            {this.props.types.sort((a, b) => a.name.localeCompare(b.name)).map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}
+                            {this.props.types.filter(d => d.deleted === '-').sort((a, b) => a.name.localeCompare(b.name)).map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}
                         </select><br /><br />
                         {this.state.drugType !== 'unselected' ? <span><i>{`You have selected a treatment of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
 
