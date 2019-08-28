@@ -57,7 +57,7 @@
 		"markdown-image-loader": "2.0.0",
 		"prop-types": "15.7.2",
 		"react-scripts-rewired": "2.1.8",
-		"typescript": "3.5.3",
+		"typescript": "3.6.2",
 		"webpack": "4.39.2"
 	},
 	"eslintConfig": {
