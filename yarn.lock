@@ -6740,10 +6740,10 @@ electron-updater@4.1.2:
     pako "^1.0.10"
     semver "^6.2.0"
 
-electron@6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.2.tgz#437f3ac2bcb42116d92a3f1084280e0b2cff1493"
-  integrity sha512-2SV10JlUsEGZ8CePeQIllFBwrOmm1EONne3Ev7Ro1F4tuS9sF184d3/3wZjEtwOs7hsM6elceYnNuZfx93++YA==
+electron@6.0.6:
+  version "6.0.6"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.6.tgz#8438f1dd8a1c732fb678119bcdd41983102f8a8c"
+  integrity sha512-sh5PfAHpKk+J/LpLK+Q2P2mCfTA7WDs0kImQ05uPuwmKjpCB3T8nMYCDuStS+opDoma19XPTh4049897GmPXmw==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
