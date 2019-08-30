@@ -113,13 +113,15 @@ const httpify = ({ url, options = {} }) => {
 
                 if (type.search('application/json') >= 0)
                     resolve({
+                        headers: res._headers,
                         statusCode: res.statusCode,
                         json: JSON.parse(res._sent.toString())
                     });
                 else {
                     resolve({
+                        headers: res._headers,
                         statusCode: res.statusCode,
-                        text: res._sent.toString()
+                        buffer: res._sent
                     });
                 }
             }
@@ -145,18 +147,21 @@ const createApi = () => {
         })
 
         ipcMain.on('optimiseExportCall', (event, parameters) => {
-            const options = {
-                title: 'Save CDISC archive',
-                defaultPath: app.getPath('documents') + '/optimise-data.zip',
-            }
-            dialog.showSaveDialog(null, options, (path) => {
-                httpify(parameters).then((res) => {
-                    fs.writeFile(path, res, function (err) {
-                        if (err) {
-                            console.error(err);
-                            alert(err);
-                        }
-                    });
+
+            httpify(parameters).then((res) => {
+                const filename = (res.headers['Content-Disposition'] || '').match(/filename="(.*?)"/i);
+                const options = {
+                    title: 'Save export archive',
+                    defaultPath: `${app.getPath('downloads')}/${filename === null || filename[1] === undefined ? 'optimise-data.zip' : filename[1]}`,
+                }
+                dialog.showSaveDialog(null, options, (path) => {
+                    if (path !== undefined)
+                        fs.writeFile(path, res.buffer, function (err) {
+                            if (err) {
+                                console.error(err);
+                                alert(err);
+                            }
+                        });
                 })
             });
         })
