@@ -626,8 +626,6 @@ export class Charts extends Component {
                         <Timeline className={style.history}>
                             {this._sortVisits(visits).map(
                                 (el) => {
-                                    if (el.data.length <= 0)
-                                        return <React.Fragment key={el.id} ></React.Fragment>;
                                     let suffix = '';
                                     switch (el.historyInd) {
                                         case undefined:
