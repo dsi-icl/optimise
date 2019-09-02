@@ -5,6 +5,7 @@ import dbcon from '../utils/db-connection';
 import PatientCore from './patient';
 import ErrorHelper from '../utils/error_helper';
 import message from '../utils/message-utils';
+import packageInfo from '../../package.json';
 
 class SyncCore {
 
@@ -176,7 +177,10 @@ class SyncCore {
 
             const data = JSON.stringify({
                 uuid: config.id,
-                oshost: os.hostname(),
+                agent: {
+                    hostname: os.hostname(),
+                    version: packageInfo.version
+                },
                 key: config.key,
                 data: {
                     patients: patientProfiles,
@@ -208,8 +212,8 @@ class SyncCore {
                 updated_at: dbcon().fn.now()
             });
             request(options, async (error, response, body) => {
+                const result = body !== undefined ? JSON.parse(body) : {};
                 if (!error && response.statusCode === 200) {
-                    const result = JSON.parse(body);
                     if (result.status === 'success')
                         await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                             value: JSON.stringify({
@@ -227,12 +231,12 @@ class SyncCore {
                             }),
                             updated_at: dbcon().fn.now()
                         });
-                } else if (error) {
+                } else {
                     await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                         value: JSON.stringify({
                             error: {
-                                message: error.message,
-                                stack: error.stack
+                                message: error ? error.message : (result && result.error ? result.error : 'Unknown error'),
+                                stack: error ? error.stack : (result && result.stack ? result.stack : undefined)
                             }
                         }),
                         updated_at: dbcon().fn.now()
