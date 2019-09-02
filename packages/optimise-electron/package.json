@@ -116,19 +116,19 @@
         "electron-log": "3.0.7",
         "electron-updater": "4.1.2",
         "express": "4.17.1",
-        "sqlite3": "4.0.9"
+        "sqlite3": "4.1.0"
     },
     "devDependencies": {
         "@babel/core": "7.5.5",
         "babel-loader": "8.0.6",
         "copy-webpack-plugin": "5.0.4",
-        "electron": "5.0.9",
+        "electron": "6.0.7",
         "electron-builder": "21.2.0",
         "electron-icon-generator": "1.0.2",
         "electron-reload": "1.5.0",
         "html-webpack-plugin": "3.2.0",
-        "webpack": "4.39.1",
-        "webpack-command": "0.4.2",
-        "webpack-merge": "4.2.1"
+        "webpack": "4.39.3",
+        "webpack-command": "0.5.0",
+        "webpack-merge": "4.2.2"
     }
 }

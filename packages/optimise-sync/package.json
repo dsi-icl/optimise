@@ -23,7 +23,8 @@
         "body-parser": "1.19.0",
         "express": "4.17.1",
         "express-session": "1.16.2",
-        "mongodb": "3.2.7"
+        "mongodb": "3.3.2",
+        "saslprep": "1.0.3"
     },
     "devDependencies": {
         "@babel/core": "7.5.5",
@@ -31,18 +32,18 @@
         "@babel/plugin-transform-modules-commonjs": "7.5.0",
         "@babel/polyfill": "7.4.4",
         "@babel/preset-env": "7.5.5",
-        "babel-eslint": "10.0.2",
-        "babel-jest": "24.8.0",
+        "babel-eslint": "10.0.3",
+        "babel-jest": "24.9.0",
         "babel-loader": "8.0.6",
         "babel-plugin-require-context-hook": "1.0.0",
         "chalk": "2.4.2",
         "codacy-coverage": "3.4.0",
         "eslint": "5.16.0",
         "eslint-plugin-promise": "4.2.1",
-        "jest": "24.8.0",
-        "rimraf": "2.6.3",
-        "webpack": "4.39.1",
-        "webpack-cli": "3.3.6"
+        "jest": "24.9.0",
+        "rimraf": "3.0.0",
+        "webpack": "4.39.3",
+        "webpack-cli": "3.3.7"
     },
     "optionalDependencies": {
         "ajv": "6.10.2",

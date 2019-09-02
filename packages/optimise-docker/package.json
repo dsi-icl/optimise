@@ -24,6 +24,6 @@
     "dependencies": {
         "compression": "1.7.4",
         "express": "4.17.1",
-        "sqlite3": "4.0.9"
+        "sqlite3": "4.1.0"
     }
 }
