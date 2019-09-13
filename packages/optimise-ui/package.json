@@ -21,7 +21,7 @@
 		"detect-browser": "4.7.0",
 		"draft-js": "0.11.0",
 		"file-saver": "2.0.2",
-		"history": "4.10.0",
+		"history": "4.10.1",
 		"immutable": "4.0.0-rc.12",
 		"interactjs": "1.6.2",
 		"moment": "2.24.0",
