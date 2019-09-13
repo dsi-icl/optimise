@@ -58,7 +58,7 @@
 		"prop-types": "15.7.2",
 		"react-scripts-rewired": "2.1.8",
 		"typescript": "3.6.3",
-		"webpack": "4.39.3"
+		"webpack": "4.40.2"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
