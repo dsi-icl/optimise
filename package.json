@@ -40,7 +40,7 @@
         "test": "lerna run test --parallel"
     },
     "devDependencies": {
-        "cross-env": "5.2.1",
+        "cross-env": "6.0.0",
         "lerna": "3.16.4"
     }
 }
