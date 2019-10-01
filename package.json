@@ -29,14 +29,15 @@
     },
     "scripts": {
         "build": "lerna run build --scope optimise-core --scope optimise-docker --scope optimise-electron",
-        "preelectron": "yarn build",
+        "preelectron": "lerna run build --scope optimise-electron",
         "electron": "lerna run electron --scope optimise-electron",
         "lint": "echo Put your favorite linter here.",
         "prepackage": "yarn build",
-        "package": "lerna run package --scope optimise-docker --scope optimise-electron --stream",
-        "publish": "lerna run package --scope optimise-docker --scope optimise-electron --stream",
-        "postinstall": "yarn upgrade caniuse-lite browserslist",
-        "start": "lerna exec --parallel --stream --scope optimise-core --scope optimise-sync --scope optimise-ui yarn start",
+        "package": "lerna run package --scope optimise-docker --scope optimise-electron",
+        "publish": "lerna run publish --scope optimise-docker --scope optimise-electron",
+        "postinstall": "npm run bootstrap",
+        "bootstrap": "lerna bootstrap --hoist",
+        "start": "lerna run start --scope optimise-core --scope optimise-sync --scope optimise-ui --stream",
         "test": "lerna run test --parallel"
     },
     "devDependencies": {

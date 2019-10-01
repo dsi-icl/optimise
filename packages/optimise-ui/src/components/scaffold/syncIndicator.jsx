@@ -81,8 +81,8 @@ export default class StatusBar extends Component {
             );
         else if (syncInfo.status.error !== undefined) {
             let message = 'Remote unavailable';
-            if (syncInfo.status.error.message === "Validation key error")
-                message = 'Sync key error'
+            if (syncInfo.status.error.message === 'Validation key error')
+                message = 'Sync key error';
             return (
                 <span><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> {message}</span>
             );
