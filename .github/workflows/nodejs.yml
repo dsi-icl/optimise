@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macOS-latest, windows-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest]
         node: [10.x, 12.x]
 
     steps:
@@ -21,7 +21,6 @@ jobs:
     - name: yarn install and build
       run: |
         yarn install
-        yarn install --g lerna
         lerna run build --if-present
       env:
         CI: true
