@@ -18,10 +18,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node: ${{ matrix.node }}
-    - name: npm install, build, and test
+    - name: yarn install and build
       run: |
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+        yarn install
+        lerna run build --if-present
       env:
         CI: true
