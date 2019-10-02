@@ -79,11 +79,14 @@ export default class StatusBar extends Component {
             return (
                 <span><strong className={style.statusIcon}><Icon symbol={'cloud'}></Icon></strong> Synced with {(new URL(syncInfo.config.host)).host}</span>
             );
-        else if (syncInfo.status.error !== undefined)
+        else if (syncInfo.status.error !== undefined) {
+            let message = 'Remote unavailable';
+            if (syncInfo.status.error.message === 'Validation key error')
+                message = 'Sync key error';
             return (
-                <span><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> Remote unavailable</span>
+                <span><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> {message}</span>
             );
-        else
+        } else
             return null;
     }
 }

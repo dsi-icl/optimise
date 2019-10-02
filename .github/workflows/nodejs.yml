@@ -1,0 +1,26 @@
+name: Node CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macOS-latest]
+        node: [10.x, 12.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node }} on ${{ matrix.os }}
+      uses: actions/setup-node@v1
+      with:
+        node: ${{ matrix.node }}
+    - name: yarn install and build
+      run: |
+        yarn install
+        yarn run electron
+      env:
+        CI: true
