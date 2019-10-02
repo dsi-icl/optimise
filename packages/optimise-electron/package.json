@@ -24,7 +24,7 @@
         "build:dev:noui": "rimraf -r dist && webpack --config config/webpack.dev.js",
         "electron": "yarn run package",
         "postinstall": "electron-builder install-app-deps",
-        "package": "electron-builder .",
+        "package": "electron-builder -p never .",
         "prepublish": "yarn build",
         "publish": "electron-builder -p onTagOrDraft ."
     },
