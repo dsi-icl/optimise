@@ -234,6 +234,8 @@ class UpdateMedEntry extends Component {
                     <option value='unselected'></option>
                     <option value='day'>per day</option>
                     <option value='week'>per week</option>
+                    <option value='6weeks'>per six weeks</option>
+                    <option value='8weeks'>per eight weeks</option>
                     <option value='month'>per month</option>
                     <option value='year'>per year</option>
                 </select><br /><br />
