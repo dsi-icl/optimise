@@ -85,7 +85,7 @@ class OptimiseServer {
                 _this.app.use(body_parser.json());
 
                 // Setup CSRF protecting middleware
-                _this.app.use(csrf())
+                // _this.app.use(csrf())
 
                 // Adding session checks and monitoring
                 _this.app.use('/', _this.requestMiddleware.addActionToCollection);
