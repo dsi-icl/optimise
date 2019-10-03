@@ -1,11 +1,11 @@
 //External node module imports
 import express from 'express';
-
 import expressSession from 'express-session';
 import knexSessionConnect from 'connect-session-knex';
 // import swaggerUi from 'swagger-ui-express';
 // import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
+import csrf from 'csurf';
 import passport from 'passport';
 import optimiseOptions from './core/options';
 import dbcon from './utils/db-connection';
@@ -83,6 +83,9 @@ class OptimiseServer {
                     extended: true
                 }));
                 _this.app.use(body_parser.json());
+
+                // Setup CSRF protecting middleware
+                _this.app.use(csrf())
 
                 // Adding session checks and monitoring
                 _this.app.use('/', _this.requestMiddleware.addActionToCollection);
