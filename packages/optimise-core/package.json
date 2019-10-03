@@ -28,6 +28,7 @@
         "body-parser": "1.19.0",
         "csv-parse": "4.4.7",
         "connect-session-knex": "1.4.0",
+        "csurf": "1.10.0",
         "express": "4.17.1",
         "express-session": "1.16.2",
         "express-zip": "2.0.1",
