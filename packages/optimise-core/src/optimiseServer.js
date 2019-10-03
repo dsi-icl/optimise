@@ -2,6 +2,7 @@
 import express from 'express';
 
 import expressSession from 'express-session';
+import knexSessionConnect from 'connect-session-knex';
 // import swaggerUi from 'swagger-ui-express';
 // import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
@@ -10,6 +11,8 @@ import optimiseOptions from './core/options';
 import dbcon from './utils/db-connection';
 import { migrate } from '../src/utils/db-handler';
 import ErrorHelper from './utils/error_helper';
+
+const knexSession = knexSessionConnect(expressSession);
 
 class OptimiseServer {
     constructor(config) {
@@ -52,12 +55,17 @@ class OptimiseServer {
                 // _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
                 // Setup sessions with third party middleware
+                const knexSessionStore = new knexSession({
+                    knex: dbcon(),
+                    tablename: 'SESSIONS'
+                })
+
                 _this.app.use(expressSession({
-                    secret: 'optimise',
+                    secret: this.config.sessionSecret,
                     saveUninitialized: false,
                     resave: false,
                     cookie: { secure: false },
-                    // store: _this.mongoStore
+                    store: knexSessionStore
                 })
                 );
 
