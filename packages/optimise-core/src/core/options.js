@@ -17,6 +17,7 @@ let Options = function (configuration = {}) {
     config.development = configuration.development ? configuration.development : false;
     config.enableCors = configuration.enableCors ? configuration.enableCors : true;
     config.exportGenerationFolder = configuration.exportGenerationFolder ? configuration.exportGenerationFolder : './temp/';
+    config.sessionSecret = configuration.sessionSecret ? configuration.sessionSecret : Math.random().toString();
 
     return config;
 };
