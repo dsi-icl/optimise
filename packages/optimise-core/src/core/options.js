@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 /**
  * @fn Options
  * @param configuration JS configuration object
@@ -17,7 +19,7 @@ let Options = function (configuration = {}) {
     config.development = configuration.development ? configuration.development : false;
     config.enableCors = configuration.enableCors ? configuration.enableCors : true;
     config.exportGenerationFolder = configuration.exportGenerationFolder ? configuration.exportGenerationFolder : './temp/';
-    config.sessionSecret = configuration.sessionSecret ? configuration.sessionSecret : Math.random().toString();
+    config.sessionSecret = configuration.sessionSecret ? configuration.sessionSecret : crypto.randomBytes(48).toString('hex');
 
     return config;
 };
