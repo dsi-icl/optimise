@@ -12,8 +12,6 @@ const optimiseCore = require('./dist/server').default;
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 
-let waitBeforeClose = false;
-
 const devMode = /electron/.test(path.basename(app.getPath('exe'), '.exe'));
 if (devMode) {
 
@@ -219,15 +217,12 @@ let createWindow = () => {
     }
 
     ipcMain.on('rendererIsFinished', (message) => {
-        waitBeforeClose = false;
         app.quit();
     })
 
     mainWindow.on('close', (event) => {
-        if (waitBeforeClose) {
-            mainWindow.webContents.send('closing');
-            event.preventDefault();
-        }
+        mainWindow.webContents.send('closing');
+        event.preventDefault();
     })
 
     // Emitted when the window is closed.
