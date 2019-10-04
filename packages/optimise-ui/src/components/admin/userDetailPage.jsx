@@ -77,7 +77,7 @@ class ChangeUserEmail extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore });
+        this.setState(prevState => ({ addMore: !prevState.addMore }));
     }
 
     _handleSubmit() {
@@ -123,7 +123,7 @@ class ChangeUserPassword extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore });
+        this.setState(prevState => ({ addMore: !prevState.addMore }));
     }
 
     _handleSubmit() {

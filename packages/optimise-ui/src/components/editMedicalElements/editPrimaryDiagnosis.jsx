@@ -31,7 +31,7 @@ export default class EditPrimaryDiagnoses extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: '', error: false });
+        this.setState(prevState => ({ addMore: !prevState.addMore, newDate: moment(), newName: '', error: false }));
     }
 
     _handleInput(ev) {
