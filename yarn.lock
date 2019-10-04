@@ -5296,10 +5296,10 @@ csurf@1.10.0:
     csrf "3.1.0"
     http-errors "~1.7.2"
 
-csv-parse@4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-4.6.0.tgz#142f10195fba6c6b8560604d6f270e6fb9f6f2c9"
-  integrity sha512-OKDudw8f1kEW6ToVHZrZEWMER5ORzzCUH0O9eUahQg7ixiUml/UoB17gnDGIbBDvCzdmKOS/hBq5/yBasn1oOQ==
+csv-parse@4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-4.6.1.tgz#5b468e2f3ed79f19cb5813714841f557971ee493"
+  integrity sha512-4ynBqCVauF5HST3hZHPP62eOlCJpXYH00Tf+4MeQP/4aLoV3vsR9oVnLiTDDlOZ9wvNPbcvi0lXpCUoDp6Zk4w==
   dependencies:
     pad "^3.2.0"
 
