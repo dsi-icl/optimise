@@ -36,7 +36,8 @@ optimise_sync_server.start().then((optimise_sync_router) => {
 
 if (module.hot) {
     module.hot.accept('./optimiseSyncServer', () => {
-        web_server.removeListener('request', web_app);
+        if (web_app !== undefined)
+            web_server.removeListener('request', web_app);
         optimise_sync_server = new OptimiseSyncServer(config);
         optimise_sync_server.start().then((optimise_sync_router) => {
             web_app = setup();

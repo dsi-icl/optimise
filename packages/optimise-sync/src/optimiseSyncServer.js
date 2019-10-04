@@ -2,6 +2,7 @@
 import express from 'express';
 
 import expressSession from 'express-session';
+import mongoSessionConnect from 'connect-mongo';
 // import swaggerUi from 'swagger-ui-express';
 // import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
@@ -11,6 +12,7 @@ import dbcon from './utils/db-connection';
 import { migrate } from '../src/utils/db-handler';
 import ErrorHelper from './utils/error_helper';
 
+const mongoSession = mongoSessionConnect(expressSession);
 class OptimiseSyncServer {
     constructor(config) {
         this.config = new optimiseOptions(config);
@@ -44,20 +46,24 @@ class OptimiseSyncServer {
         return new Promise((resolve, reject) => {
 
             // Operate database migration if necessary
-            migrate().then(() => {
+            migrate().then(async () => {
 
                 // This is awaiting for #286
                 // _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
                 // Setup sessions with third party middleware
+                const mongoSessionStore = new mongoSession({
+                    client: await dbcon(),
+                    collection: 'SESSIONS'
+                })
+
                 _this.app.use(expressSession({
-                    secret: 'optimise',
+                    secret: _this.config.sessionSecret,
                     saveUninitialized: false,
                     resave: false,
                     cookie: { secure: false },
-                    store: _this.mongoStore
-                })
-                );
+                    store: mongoSessionStore
+                }));
 
                 _this.app.use(passport.initialize());
                 _this.app.use(passport.session());
