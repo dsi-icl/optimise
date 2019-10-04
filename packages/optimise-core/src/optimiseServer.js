@@ -61,13 +61,12 @@ class OptimiseServer {
                 })
 
                 _this.app.use(expressSession({
-                    secret: this.config.sessionSecret,
+                    secret: _this.config.sessionSecret,
                     saveUninitialized: false,
                     resave: false,
                     cookie: { secure: false },
                     store: knexSessionStore
-                })
-                );
+                }));
 
                 _this.app.use(passport.initialize());
                 _this.app.use(passport.session());
