@@ -5,7 +5,7 @@ import knexSessionConnect from 'connect-session-knex';
 // import swaggerUi from 'swagger-ui-express';
 // import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
-import csrf from 'csurf';
+// import csrf from 'csurf';
 import passport from 'passport';
 import optimiseOptions from './core/options';
 import dbcon from './utils/db-connection';
@@ -58,7 +58,7 @@ class OptimiseServer {
                 const knexSessionStore = new knexSession({
                     knex: dbcon(),
                     tablename: 'SESSIONS'
-                })
+                });
 
                 _this.app.use(expressSession({
                     secret: _this.config.sessionSecret,
