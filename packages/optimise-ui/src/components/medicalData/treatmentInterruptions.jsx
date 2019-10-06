@@ -151,7 +151,12 @@ export class TreatmentInterruption extends Component {
                                         <div className={style.newInterruption}>
                                             <label>Start date: </label><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
                                             <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                                            {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br /><br /></>)}
+                                            {this.state.noEndDate ? null : (
+                                                <>
+                                                    <label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.newEndDate} handleChange={this._handleEndDateChange} />
+                                                    <br /><br />
+                                                </>
+                                            )}
                                             <label>Reason: </label>
                                             <select value={this.state.reason} onChange={this._handleReasonChange}>
                                                 <option value='unselected'></option>
@@ -323,7 +328,12 @@ class OneTreatmentInterruption extends Component {
                             <div className={style.editInterruption}>
                                 <label>Start date: </label><PickDate startDate={startDate} handleChange={this._handleStartDateChange} /><br />
                                 <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={noEndDate} /><br />
-                                {noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!noEndDate ? endDate : null} handleChange={this._handleEndDateChange} /><br /><br /></>)}
+                                {noEndDate ? null : (
+                                    <>
+                                        <label htmlFor='endDate'>End date: </label><PickDate startDate={endDate} handleChange={this._handleEndDateChange} />
+                                        <br /><br />
+                                    </>
+                                )}
                                 <label>Reason: </label>
                                 <select onChange={this._handleReasonChange} value={reason}>
                                     <option value='unselected'></option>
