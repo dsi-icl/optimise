@@ -24,18 +24,13 @@ export default class EditPrimaryDiagnoses extends Component {
             error: false
         };
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
-        this._handleInput = this._handleInput.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleStartDateChange = this._handleStartDateChange.bind(this);
         this._handleDiagnosisChange = this._handleDiagnosisChange.bind(this);
     }
 
     _handleClickingAdd() {
-        this.setState(prevState => ({ addMore: !prevState.addMore, newDate: moment(), newName: '', error: false }));
-    }
-
-    _handleInput(ev) {
-        this.setState({ newName: ev.target.value, error: false });
+        this.setState(prevState => ({ addMore: !prevState.addMore, error: false }));
     }
 
     _handleStartDateChange(date) {
