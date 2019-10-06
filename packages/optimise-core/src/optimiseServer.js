@@ -2,8 +2,8 @@
 import express from 'express';
 import expressSession from 'express-session';
 import knexSessionConnect from 'connect-session-knex';
-// import swaggerUi from 'swagger-ui-express';
-// import swaggerDocument from '../docs/swagger.json';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
 // import csrf from 'csurf';
 import passport from 'passport';
@@ -51,8 +51,8 @@ class OptimiseServer {
             // Operate database migration if necessary
             migrate().then(() => {
 
-                // This is awaiting for #286
-                // _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+                // Adding API documentation
+                _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
                 // Setup sessions with third party middleware
                 const knexSessionStore = new knexSession({
