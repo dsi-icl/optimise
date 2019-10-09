@@ -15,7 +15,7 @@
 	"scripts": {
 		"start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true react-scripts start",
 		"build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build",
-		"test": "react-scripts test"
+		"test": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts test"
 	},
 	"dependencies": {
 		"antd": "3.13.5",
@@ -50,5 +50,11 @@
 		"not dead",
 		"not ie <= 11",
 		"not op_mini all"
-	]
+	],
+	"jest": {
+		"collectCoverageFrom": [
+			"<rootDir>/src/**/*.{js,jsx}",
+			"!<rootDir>/node_modules/"
+		]
+	}
 }

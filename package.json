@@ -29,14 +29,14 @@
     },
     "scripts": {
         "build": "lerna run build --stream",
-        "preelectron": "yarn build",
-        "electron": "lerna run electron --scope optimise-electron",
+        "preelectron": "lerna run --scope optimise-core build",
+        "electron": "lerna run --scope optimise-electron build",
         "lint": "echo Put your favorite linter here.",
         "prepackage": "yarn build",
         "package": "lerna run package --scope optimise-docker --scope optimise-electron --stream",
         "publish": "lerna run package --scope optimise-docker --scope optimise-electron --stream",
         "start": "lerna exec --parallel --stream --scope optimise-core --scope optimise-ui yarn start",
-        "test": "lerna run test --parallel"
+        "test": "lerna run test --parallel --stream"
     },
     "devDependencies": {
         "cross-env": "5.2.0",
