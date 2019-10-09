@@ -14,7 +14,7 @@
 	"scripts": {
 		"start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true react-scripts start",
 		"build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build",
-		"test": "react-scripts test"
+		"test": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts test --colors"
 	},
 	"dependencies": {
 		"deepmerge": "4.1.1",
@@ -47,7 +47,7 @@
 		"@typescript-eslint/parser": "2.3.3",
 		"babel-eslint": "10.0.3",
 		"cross-env": "6.0.3",
-		"eslint": "5.16.0",
+		"eslint": "6.5.1",
 		"eslint-config-react-app": "5.0.2",
 		"eslint-plugin-flowtype": "4.3.0",
 		"eslint-plugin-import": "2.18.2",
@@ -69,5 +69,11 @@
 		"not dead",
 		"not ie <= 11",
 		"not op_mini all"
-	]
+	],
+	"jest": {
+		"collectCoverageFrom": [
+			"<rootDir>/src/**/*.{js,jsx}",
+			"!<rootDir>/node_modules/"
+		]
+	}
 }
