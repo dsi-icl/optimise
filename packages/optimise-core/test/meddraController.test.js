@@ -120,6 +120,27 @@ describe('MedDRA upload tests', () => {
         })
     );
 
+    test('Updating MedDRA (upload again)', () => admin
+        .post('/uploadMeddra')
+        .attach('mdhierfile', './test/seed/mdhier.asc')
+        .then(({ statusCode }) => {
+            expect(statusCode).toBe(200);
+            return true;
+        })
+    );
+
+    test('MedDRA code database is updated', () => admin
+        .get('/meddra')
+        .then(({ statusCode, body }) => {
+            const oldEntries = meddraHierResult.map(el => ({ ...el, deleted: '1' }));
+            const newEntries = meddraHierResult.map(el => ({ ...el, id: el.id + 8, parent: el.parent && el.parent + 8 }));
+            expect(statusCode).toBe(200);
+            expect(body.length).toBe(16);
+            expect(body).toEqual([...oldEntries, ...newEntries]);
+            return true;
+        })
+    );
+
 });
 
 describe('Fetching MedDRA codes', () => {
@@ -130,7 +151,7 @@ describe('Fetching MedDRA codes', () => {
             expect(typeof body).toBe('object');
             expect(body).toBeDefined();
             expect(body).toHaveLength;
-            expect(body.length).toBe(1);
+            expect(body.length).toBe(2);
             return true;
         }));
 
@@ -141,7 +162,7 @@ describe('Fetching MedDRA codes', () => {
             expect(typeof body).toBe('object');
             expect(body).toBeDefined();
             expect(body).toHaveLength;
-            expect(body.length).toBe(1);
+            expect(body.length).toBe(2);
             return true;
         }));
 

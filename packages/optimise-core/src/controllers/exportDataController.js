@@ -63,31 +63,357 @@ class ExportDataController {
 
     static exportDatabase({ query }, res) {
 
-        let _this = this;
+        let isPatientMappings = query.patientMappings !== undefined;
+        let isCDISC = query.cdisc !== undefined;
         let queryfield = '';
         let queryvalue = '';
-        const attachementName = `optimise_export_${Date.now()}.zip`;
+        let attachmentName = `optimise_export_${Date.now()}`;
 
-        if (typeof query.field === 'string')
-            queryfield = query.field;
-        else if (query.field !== undefined)
-            return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
+        if (isPatientMappings === true) {
+            attachmentName += '_patientMappings';
+            searchEntry(queryfield, queryvalue)
+                .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
+                .then(result => result.length > 0 ? result.map(({ uuid, aliasId }) => ({ optimiseID: uuid, patientId: aliasId })) : ExportDataController.createNoDataFile())
+                .then(result => result.length !== undefined ? [ExportDataController.createJsonDataFile(['patientMappings', result]), ExportDataController.createCsvDataFile(['patientMappings', result])] : [result])
+                .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
+                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
+        } else {
+            if (typeof query.field === 'string')
+                queryfield = query.field;
+            else if (query.field !== undefined)
+                return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], `${attachmentName}.zip`);
 
-        if (typeof query.value === 'string')
-            queryvalue = query.value;
-        else if (query.value !== undefined)
-            return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], attachementName);
+            if (typeof query.value === 'string')
+                queryvalue = query.value;
+            else if (query.value !== undefined)
+                return res.status(400).zip([ExportDataController.createErrorFile(message.userError.INVALIDQUERY)], `${attachmentName}.zip`);
 
-        searchEntry(queryfield, queryvalue)
-            .then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
-            .then(result => result.length > 0 ? ExportDataController.getPatientData(result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
-            .then(domainResults => domainResults.length !== undefined ? domainResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [domainResults])
-            .then(filesArray => res.status(200).zip(filesArray), attachementName)
-            .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], attachementName));
+            let extractor = 'getPatientData';
+            if (isCDISC === true) {
+                extractor = 'getPatientDataCDISC';
+                attachmentName += '_cdisc';
+            }
 
+            searchEntry(queryfield, queryvalue).then(result => result && result.length !== undefined ? result.filter(({ consent }) => consent === true) : [])
+                .then(result => result.length > 0 ? ExportDataController[extractor](result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
+                .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
+                .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
+                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
+
+        }
     }
 
-    static getPatientData(patientList) {
+    static intervalUnitString(intervalUnit) {
+        if (intervalUnit === '6weeks')
+            return '6 weeks';
+        else if (intervalUnit === '8weeks')
+            return '8 weeks';
+        else
+            return intervalUnit;
+    }
+
+    static async getPatientData(patientList) {
+        const data = [];
+        let globalLineCount = 1;
+        let globalMaxComorbidities = 1;
+        let globalMaxLabs = 1;
+        let globalMaxPregnancies = 1;
+        let globalMaxMRIs = 1;
+        let globalMaxSAEs = 1;
+        let globalMaxTreatments = 1;
+        let globalMaxRelapses = 1;
+        let globalMaxDiagnosis = 1;
+
+        const unwindEntries = tree => {
+            const line = {
+                lineNum: globalLineCount++,
+                subjid: tree.subjid,
+                alias: tree.aliasId,
+                visit_id: tree.visit_id,
+                visit_date: tree.visit_date,
+                reason_for_visit: tree.reason_for_visit,
+                vitals_sbp: tree.vitals_sbp,
+                vitals_dbp: tree.vitals_dbp,
+                heart_rate: tree.heart_rate,
+                habits_alcohol: tree.habits_alcohol,
+                habits_smoking: tree.habits_smoking,
+                EDSS_score: tree.EDSS_score || ''
+            };
+            for (let i = 0; i < globalMaxDiagnosis; i++) {
+                line[`diagnosis_${i + 1}`] = tree.diagnoses[i] ? tree.diagnoses[i].diagnosis : '';
+                line[`diagnosis_date_${i + 1}`] = tree.diagnoses[i] ? tree.diagnoses[i].diagnosisDate : '';
+            }
+            for (let i = 0; i < globalMaxComorbidities; i++) {
+                line[`comorbid_recorded_during_visit_code_${i + 1}`] = tree.comorbidities[i] ? tree.comorbidities[i].comorbid_recorded_during_visit_code : '';
+                line[`comorbid_recorded_during_visit_name_${i + 1}`] = tree.comorbidities[i] ? tree.comorbidities[i].comorbid_recorded_during_visit_name : '';
+            }
+            for (let i = 0; i < globalMaxPregnancies; i++) {
+                line[`pregnancy_start_date_${i + 1}`] = tree.pregnancies[i] ? tree.pregnancies[i].pregnancy_start_date : '';
+                line[`pregnancy_end_date_${i + 1}`] = tree.pregnancies[i] ? tree.pregnancies[i].pregnancy_end_date : '';
+                line[`pregnancy_outcome_${i + 1}`] = tree.pregnancies[i] ? tree.pregnancies[i].pregnancy_outcome : '';
+            }
+            for (let i = 0; i < globalMaxTreatments; i++) {
+                line[`DMT_name_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_name : '';
+                line[`DMT_dose_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_dose : '';
+                line[`DMT_freq_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_freq : '';
+                line[`DMT_start_date_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_start_date : '';
+                line[`DMT_end_date_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_end_date : '';
+            }
+            for (let i = 0; i < globalMaxRelapses; i++) {
+                line[`relapse_start_date_${i + 1}`] = tree.relapses[i] ? tree.relapses[i].relapse_start_date : '';
+                line[`relapse_type_${i + 1}`] = tree.relapses[i] ? tree.relapses[i].relapse_type : '';
+                line[`relapse_severity_${i + 1}`] = tree.relapses[i] ? tree.relapses[i].relapse_severity : '';
+                line[`relapse_end_date_${i + 1}`] = tree.relapses[i] ? tree.relapses[i].relapse_end_date : '';
+                line[`relapse_recovery_${i + 1}`] = tree.relapses[i] ? tree.relapses[i].relapse_recovery : '';
+            }
+            for (let i = 0; i < globalMaxSAEs; i++) {
+                line[`SAE_type_${i + 1}`] = tree.SAEs[i] ? tree.SAEs[i].SAE_type : '';
+                line[`SAE_start_date_${i + 1}`] = tree.SAEs[i] ? tree.SAEs[i].SAE_start_date : '';
+                line[`SAE_end_date_${i + 1}`] = tree.SAEs[i] ? tree.SAEs[i].SAE_end_date : '';
+                line[`SAE_note_${i + 1}`] = tree.SAEs[i] ? tree.SAEs[i].SAE_note : '';
+            }
+            for (let i = 0; i < globalMaxTreatments; i++) {
+                line[`lab_test_id_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].lab_test_id : '';
+                line[`lab_test_name_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].lab_test_name : '';
+                line[`lab_test_value_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].lab_test_value : '';
+                line[`lab_test_date_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].lab_test_date : '';
+            }
+            for (let i = 0; i < globalMaxMRIs; i++) {
+                line[`mri_id_${i + 1}`] = tree.mri[i] ? tree.mri[i].mri_id : '';
+                line[`mri_result_name_${i + 1}`] = tree.mri[i] ? tree.mri[i].mri_result_name : '';
+                line[`mri_result_value_${i + 1}`] = tree.mri[i] ? tree.mri[i].mri_result_value : '';
+                line[`mri_date_${i + 1}`] = tree.mri[i] ? tree.mri[i].mri_date : '';
+            }
+            return line;
+        };
+
+        /* transform test from sql to csv */
+        const fetchAssociatedDataForTestandTransform = async data => {
+            let entry;
+            const associatedData = await dbcon()('TEST_DATA')
+                .select('TEST_DATA.value as value', 'AVAILABLE_FIELDS_TESTS.definition as definition')
+                .leftJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
+                .where('TEST_DATA.deleted', '-')
+                .where('TEST_DATA.test', data.id);
+            switch (data.type) {
+                case 1: // lab test
+                    entry = associatedData.map(e => ({
+                        lab_test_id: data.id,
+                        lab_test_name: e.definition,
+                        lab_test_value: e.value,
+                        lab_test_date: (data.actualOccurredDate && new Date(data.actualOccurredDate).toDateString()) || ''
+                    }));
+                    break;
+                case 3: // MRI
+                    entry = associatedData.map(e => ({
+                        mri_id: data.id,
+                        mri_result_name: e.definition,
+                        mri_result_value: e.value,
+                        mri_date: (data.actualOccurredDate && new Date(data.actualOccurredDate).toDateString()) || ''
+                    }));
+                    break;
+                default:
+                    return null;
+            }
+            return entry;
+        };
+
+        /* transform ce from sql to csv */
+        const fetchAssociatedDataForCEandTransform = async data => {
+            let entry;
+            let typeMap;
+            const associatedData = await dbcon()('CLINICAL_EVENTS_DATA').select('*').where('deleted', '-').where('clinicalEvent', data.id);
+            switch (data.type) {
+                case 1: // relapse
+                    entry = {
+                        relapse_type: associatedData.filter(e => [1, 2, 3, 4, 5, 6, 7].includes(e.field)).reduce((a, e) => `${a}${`_${e.definition}`}`, ''),
+                        relapse_start_date: (data.dateStartDate && new Date(parseInt(data.dateStartDate)).toDateString()) || '',
+                        relapse_severity: associatedData.filter(e => e.field === 9).reduce((a, e) => `${a}${`_${e.value}`}`, ''),
+                        relapse_end_date: (data.endDate && new Date(parseInt(data.endDate)).toDateString()) || '',
+                        relapse_recovery: associatedData.filter(e => e.field === 10).reduce((a, e) => `${a}${`_${e.value}`}`, '')
+                    };
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    typeMap = { 2: 'Infection', 3: 'Opportunistic infection', 4: 'Death', 5: 'SAE-treatment-related', 6: 'Other SAEs' };
+                    entry = {
+                        SAE_type: typeMap[data.type],
+                        SAE_start_date: (data.dateStartDate && new Date(parseInt(data.dateStartDate)).toDateString()) || '',
+                        SAE_end_date: (data.endDate && new Date(parseInt(data.endDate)).toDateString()) || '',
+                        SAE_note: associatedData.reduce((a, e) => `${a}|${e.field}: ${e.value}`, '')
+                    };
+                    break;
+            }
+            return entry;
+        };
+
+        /* visits */
+        let visits = await dbcon()('VISITS')
+            .select('VISITS.id as visitId', 'PATIENTS.id as patientId', 'PATIENTS.uuid as patientAlias', 'VISITS.id as visitId', 'VISITS.visitDate', 'VISITS.type as visitType', 'VISITS.deleted as visitDeleted', 'PATIENTS.deleted as patientDeleted')
+            .leftJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .whereIn('PATIENTS.id', patientList)
+            .andWhere('PATIENTS.deleted', '-')
+            .andWhere('VISITS.deleted', '-')
+            .andWhere('PATIENTS.consent', 1);
+
+        /* creating a object containing { [patientId: string]: visitId[] } for later */
+        const patientToVisitsMap = visits.reduce((a, e) => {
+            if (a[e.patientId] === undefined) {
+                a[e.patientId] = [];
+            }
+            a[e.patientId].push(e.visitId);
+            return a;
+        }, {});
+
+        /* creating a map for patient -> diagnosis[] */
+        const diagnosisMap = {};
+        let allDiagnosis = await dbcon()('PATIENT_DIAGNOSIS')
+            .select('PATIENT_DIAGNOSIS.patient as patient', 'PATIENT_DIAGNOSIS.diagnosisDate as diagnosisDate', 'AVAILABLE_DIAGNOSES.value as diagnosis')
+            .leftJoin('AVAILABLE_DIAGNOSES', 'PATIENT_DIAGNOSIS.diagnosis', 'AVAILABLE_DIAGNOSES.id')
+            .where('PATIENT_DIAGNOSIS.deleted', '-');
+        allDiagnosis = allDiagnosis.map(e => ({ ...e, diagnosisDate: new Date(parseInt(e.diagnosisDate)).toDateString() }));
+        const patients = Object.keys(patientToVisitsMap);
+        for (let each of patients) {
+            diagnosisMap[each] = allDiagnosis.filter(e => parseInt(e.patient) === parseInt(each));
+        }
+
+        /* filter out the shadow visits */
+        visits = visits.filter(e => e.visitType === 1);
+
+        /* sort visit by patientId and date */
+        visits.sort((a, b) => parseInt(a.patientId) - parseInt(b.patientId) || parseInt(a.visitDate) - parseInt(b.visitDate));
+
+        /* get the data needed for each visit */
+        let lastVisitPatient;
+        let lastVisitDate;
+        for (let visit of visits) {
+            /* if last visit is for another patient then reset */
+            if (lastVisitPatient !== visit.patientId) {
+                lastVisitDate = Number.MIN_SAFE_INTEGER;
+                lastVisitPatient = visit.patientId;
+            }
+
+            const thisVisitDate = parseInt(visit.visitDate);
+
+            /* data for this visit */
+            const visitData = await dbcon()('VISIT_DATA')
+                .select('*')
+                .whereIn('field', [0, 1, 2, 3, 252, 253, 121]) // 0 = reason for visit, 1 = systolic blood pressure, 2 = diastolic blood pressure, 3 = heart rate, 252 = smoke, 253 = alcohol, 121 = estimated EDSS
+                .where('visit', visit.visitId)
+                .where('deleted', '-');
+            const visitDataTransformed = visitData.reduce((a, e) => { a[e.field] = e.value; return a; }, {});
+
+            /* pregnancy for this visit */
+            const pregnancy = await dbcon()('PATIENT_PREGNANCY')
+                .select('PREGNANCY_OUTCOMES.value as outcome', 'PATIENT_PREGNANCY.startDate as startDate', 'PATIENT_PREGNANCY.outcomeDate as outcomeDate')
+                .leftOuterJoin('PREGNANCY_OUTCOMES', 'PREGNANCY_OUTCOMES.id', 'PATIENT_PREGNANCY.outcome')
+                .whereBetween(dbcon().raw('CAST(PATIENT_PREGNANCY.startDate as integer)'), [lastVisitDate, thisVisitDate])
+                .andWhere('PATIENT_PREGNANCY.deleted', '-')
+                .andWhere('PATIENT_PREGNANCY.patient', visit.patientId);
+            const pregnancy_transformed = pregnancy.map(e => ({
+                pregnancy_start_date: new Date(parseInt(e.startDate)).toDateString(),
+                pregnancy_end_date: (e.outcomeDate && new Date(parseInt(e.outcomeDate)).toDateString()) || '',
+                pregnancy_outcome: e.outcome
+            }));
+
+            const treatments = await dbcon()('TREATMENTS')
+                .select('AVAILABLE_DRUGS.name as drug', 'TREATMENTS.dose as dose', 'TREATMENTS.unit as unit', 'TREATMENTS.times as times', 'TREATMENTS.intervalUnit as intervalUnit', 'TREATMENTS.startDate as startDate', 'TREATMENTS.terminatedDate as terminatedDate')
+                .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
+                .whereBetween(dbcon().raw('CAST(TREATMENTS.startDate as integer)'), [lastVisitDate, thisVisitDate])
+                .andWhere('TREATMENTS.deleted', '-')
+                .whereIn('TREATMENTS.orderedDuringVisit', patientToVisitsMap[visit.patientId]);
+            const treatment_transformed = treatments.map(e => ({
+                DMT_name: e.drug,
+                DMT_dose: e.dose ? `${e.dose} ${e.unit || ''}` : '',
+                DMT_freq: e.times && e.intervalUnit ? `${e.times} / ${ExportDataController.intervalUnitString(e.intervalUnit)}` : '',
+                DMT_start_date: new Date(parseInt(e.startDate)).toDateString(),
+                DMT_end_date: (e.terminatedDate && new Date(parseInt(e.terminatedDate)).toDateString()) || ''
+            }));
+
+            const all_ce = await dbcon()('CLINICAL_EVENTS')
+                .select('*')
+                .whereBetween(dbcon().raw('CAST(dateStartDate as integer)'), [lastVisitDate, thisVisitDate])
+                .andWhere('deleted', '-')
+                .whereIn('recordedDuringVisit', patientToVisitsMap[visit.patientId]);
+            /* type 1 = relapse, 2 = infection, 3 = opportunisitic infection, 4 = Death, 5 = SAE realted to treatment , 6 = other SAE*/
+            const all_ce_grouped = {};
+            for (let e of all_ce) {
+                if (all_ce_grouped[e.type] === undefined) {
+                    all_ce_grouped[e.type] = [];
+                }
+                const entry = await fetchAssociatedDataForCEandTransform(e);
+                all_ce_grouped[e.type].push(entry);
+            }
+
+            const MRI_and_lab = await dbcon()('ORDERED_TESTS')
+                .select('*')
+                .whereBetween(dbcon().raw('CAST(actualOccurredDate as integer)'), [lastVisitDate, thisVisitDate])
+                .andWhere('deleted', '-')
+                .whereIn('type', [1, 3])
+                .whereIn('orderedDuringVisit', patientToVisitsMap[visit.patientId]);
+            const tests_grouped = {};
+            for (let e of MRI_and_lab) {
+                if (tests_grouped[e.type] === undefined) {
+                    tests_grouped[e.type] = [];
+                }
+                const entry = await fetchAssociatedDataForTestandTransform(e);
+                tests_grouped[e.type] = tests_grouped[e.type].concat(entry);
+            }
+
+            const comorbidities = await dbcon()('COMORBIDITY')
+                .select('ICD11.code as comorbid_recorded_during_visit_code', 'ICD11.name as comorbid_recorded_during_visit_name')
+                .leftJoin('ICD11', 'ICD11.id', 'COMORBIDITY.comorbidity')
+                .where('COMORBIDITY.visit', visit.visitId)
+                .andWhere('COMORBIDITY.deleted', '-');
+
+            const csventry = {
+                subjid: visit.patientId,
+                aliasId: visit.patientAlias,
+                diagnoses: diagnosisMap[visit.patientId],
+                visit_id: visit.visitId,
+                visit_date: new Date(parseInt(visit.visitDate)).toDateString(),
+                reason_for_visit: visitDataTransformed[0] || null,
+                vitals_sbp: visitDataTransformed[1] || null,
+                vitals_dbp: visitDataTransformed[2] || null,
+                heart_rate: visitDataTransformed[3] || null,
+                habits_alcohol: visitDataTransformed[253] || null,
+                habits_smoking: visitDataTransformed[252] || null,
+                EDSS_score: visitDataTransformed[121] || null,
+                pregnancies: pregnancy_transformed,
+                treatments: treatment_transformed,
+                comorbidities: comorbidities || [],
+                relapses: all_ce_grouped[1] || [],
+                SAEs: [...(all_ce_grouped[2] || []), ...(all_ce_grouped[3] || []), ...(all_ce_grouped[4] || []), ...(all_ce_grouped[5] || []), ...(all_ce_grouped[6] || [])],
+                labs: tests_grouped[1] || [],
+                mri: tests_grouped[3] || []
+            };
+
+            globalMaxComorbidities = csventry.comorbidities.length > globalMaxComorbidities ? csventry.comorbidities.length : globalMaxComorbidities;
+            globalMaxPregnancies = csventry.pregnancies.length > globalMaxPregnancies ? csventry.pregnancies.length : globalMaxPregnancies;
+            globalMaxTreatments = csventry.treatments.length > globalMaxTreatments ? csventry.treatments.length : globalMaxTreatments;
+            globalMaxRelapses = csventry.relapses.length > globalMaxRelapses ? csventry.relapses.length : globalMaxRelapses;
+            globalMaxSAEs = csventry.SAEs.length > globalMaxSAEs ? csventry.SAEs.length : globalMaxSAEs;
+            globalMaxLabs = csventry.labs.length > globalMaxLabs ? csventry.labs.length : globalMaxLabs;
+            globalMaxMRIs = csventry.mri.length > globalMaxMRIs ? csventry.mri.length : globalMaxMRIs;
+
+            data.push(csventry);
+            lastVisitDate = thisVisitDate;
+        }
+
+        data.reverse();
+
+        const unwoundData = data.reduce((a, e) => {
+            a.push(unwindEntries(e));
+            return a;
+        }, []);
+
+        return [['SHORT_VISIT_SUMMARY', unwoundData]];
+    }
+
+    static getPatientDataCDISC(patientList) {
 
         let dataPromises = [];
 
@@ -109,33 +435,33 @@ class ExportDataController {
                 DOMAIN: 'DM'
             }))]));
 
-        /* Smoking history data */
-        dataPromises.push(dbcon()('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'SMOKING_HISTORY.value as SCORRES')
-            .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
-            .leftOuterJoin('SMOKING_HISTORY', 'SMOKING_HISTORY.id', 'PATIENT_DEMOGRAPHIC.smokingHistory')
-            .whereIn('PATIENTS.id', patientList)
-            .andWhere('PATIENTS.deleted', '-')
-            .andWhere('PATIENTS.consent', true)
-            .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
-            .then(result => ['SC_Smoking', result.map(x => ({
-                ...x,
-                DOMAIN: 'SC'
-            }))]));
+        // /* Smoking history data */
+        // dataPromises.push(dbcon()('PATIENTS')
+        //     .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'SMOKING_HISTORY.value as SCORRES')
+        //     .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
+        //     .leftOuterJoin('SMOKING_HISTORY', 'SMOKING_HISTORY.id', 'PATIENT_DEMOGRAPHIC.smokingHistory')
+        //     .whereIn('PATIENTS.id', patientList)
+        //     .andWhere('PATIENTS.deleted', '-')
+        //     .andWhere('PATIENTS.consent', true)
+        //     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
+        //     .then(result => ['SC_Smoking', result.map(x => ({
+        //         ...x,
+        //         DOMAIN: 'SC'
+        //     }))]));
 
-        /* Alcohol consumption data */
-        dataPromises.push(dbcon()('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
-            .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
-            .leftOuterJoin('ALCOHOL_USAGE', 'ALCOHOL_USAGE.id', 'PATIENT_DEMOGRAPHIC.alcoholUsage')
-            .whereIn('PATIENTS.id', patientList)
-            .andWhere('PATIENTS.deleted', '-')
-            .andWhere('PATIENTS.consent', true)
-            .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
-            .then(result => ['SU_AlcoholConsumption', result.map(x => ({
-                ...x,
-                DOMAIN: 'SU'
-            }))]));
+        // /* Alcohol consumption data */
+        // dataPromises.push(dbcon()('PATIENTS')
+        //     .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
+        //     .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
+        //     .leftOuterJoin('ALCOHOL_USAGE', 'ALCOHOL_USAGE.id', 'PATIENT_DEMOGRAPHIC.alcoholUsage')
+        //     .whereIn('PATIENTS.id', patientList)
+        //     .andWhere('PATIENTS.deleted', '-')
+        //     .andWhere('PATIENTS.consent', true)
+        //     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
+        //     .then(result => ['SU_AlcoholConsumption', result.map(x => ({
+        //         ...x,
+        //         DOMAIN: 'SU'
+        //     }))]));
 
         /* Patient pregnancy data */
         dataPromises.push(dbcon()('PATIENTS')
@@ -484,9 +810,10 @@ class ExportDataController {
             .then(result => ['EX', result.map(x => ({
                 ...x,
                 DOMAIN: 'EX',
-                EXDOSFRQ: x.times && x.intervalUnit ? `${x.times} ${x.intervalUnit}` : undefined
+                EXDOSFRQ: x.times && x.intervalUnit ? `${x.times} / ${ExportDataController.intervalUnitString(x.intervalUnit)}` : undefined
             }))]));
 
+        // Returning all domains as separate promise on matrix
         return Promise.all(dataPromises);
     }
 }

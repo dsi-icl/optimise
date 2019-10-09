@@ -1,6 +1,6 @@
 {
     "name": "optimise-docker",
-    "version": "1.10.0",
+    "version": "1.13.0",
     "description": "Optimise:MS Docker",
     "keywords": [
         "ms",
@@ -16,14 +16,14 @@
     ],
     "scripts": {
         "prebuild": "cd ../optimise-ui && cross-env PUBLIC_URL=/ yarn build",
-        "build": "docker build -t datascienceinstitute/optimise:1.10.0 -f Dockerfile ..",
-        "build:noui": "docker build -t datascienceinstitute/optimise:1.10.0 -f Dockerfile ..",
+        "build": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
+        "build:noui": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
         "start": "echo \"Nothing to start\"",
         "test": "echo \"No tests\""
     },
     "dependencies": {
-        "compression": "1.7.3",
-        "express": "4.16.4",
-        "sqlite3": "4.0.6"
+        "compression": "1.7.4",
+        "express": "4.17.1",
+        "sqlite3": "4.1.0"
     }
 }

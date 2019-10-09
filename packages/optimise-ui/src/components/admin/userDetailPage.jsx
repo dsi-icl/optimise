@@ -2,9 +2,13 @@ import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import style from './admin.module.css';
-import { changePasswordAPICall, deleteUserAPICall, changePrivAPICall } from '../../redux/actions/admin';
+import { BackButton } from '../medicalData/utils';
+import { changePasswordAPICall, deleteUserAPICall, changePrivAPICall, changeEmailAPICall } from '../../redux/actions/admin';
 import { addAlert } from '../../redux/actions/alert';
 import store from '../../redux/store';
+
+// eslint-disable-next-line no-useless-escape
+const email_reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 /* receives prop this.props.match.params.userId and store.getAllUsers*/
 @connect(state => ({
@@ -20,15 +24,17 @@ export class UserDetail extends Component {
                 <>
                     <div className={style.ariane}>
                         <h2>USER INFORMATION</h2>
+                        <BackButton to={'/administration/users'} />
                     </div>
                     <div className={style.userDetailPanel}>
                         <div className={style.userDetail}>
                             {usersFiltered.length === 1 ?
                                 <>
-                                    <UserInfo data={usersFiltered[0]} />
+                                    <UserInfo data={usersFiltered[0]} /><br />
+                                    <ChangeUserEmail username={usersFiltered[0].username} /> <br /><br />
                                     <ChangeUserPassword username={usersFiltered[0].username} /> <br /><br />
                                     <ChangeUserPrivilege userId={usersFiltered[0].id} priv={usersFiltered[0].priv} /> <br /><br />
-                                    <DeleteUser username={usersFiltered[0].username} />
+                                    <DeleteUser username={usersFiltered[0].username} /> <br />
                                 </>
                                 :
                                 <div>
@@ -50,15 +56,60 @@ class UserInfo extends PureComponent {
         const { data } = this.props;
         return (
             <div>
-                <label>Username: </label> {data.username} <br />
                 <label>ID: </label> {data.id}  <br />
+                <label>Username: </label> {data.username} <br />
                 <label>Real name: </label> {data.realname} <br />
+                <label>Email: </label> {data.email} <br />
                 <label>This user is {data.priv ? 'an admin' : 'a standard user'}. </label> <br />
             </div>
         );
     }
 }
 
+/* receive props this.props.username*/
+class ChangeUserEmail extends Component {
+    constructor() {
+        super();
+        this.state = { addMore: false, error: false };
+        this.emailRef = React.createRef();
+        this._handleClickingAdd = this._handleClickingAdd.bind(this);
+        this._handleSubmit = this._handleSubmit.bind(this);
+    }
+
+    _handleClickingAdd() {
+        this.setState(prevState => ({ addMore: !prevState.addMore }));
+    }
+
+    _handleSubmit() {
+        if (this.emailRef.current.value === '' || !email_reg.test(this.emailRef.current.value)) {
+            this.setState({ error: true });
+            return;
+        }
+        const body = {
+            username: this.props.username,
+            email: this.emailRef.current.value,
+        };
+        store.dispatch(changeEmailAPICall(body));
+        this.setState({ addMore: false, error: false });
+    }
+
+    render() {
+        return (
+            <>
+                {!this.state.addMore ?
+                    <button onClick={this._handleClickingAdd}>Change user email</button>
+                    :
+                    <div className={style.userFeature}>
+                        <label htmlFor='email'>Email:</label><br /><input name='email' type='text' ref={this.emailRef} /><br /><br />
+                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /><br /></> : null}
+                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                        <button onClick={this._handleClickingAdd}>Cancel</button>
+                    </div>
+                }
+            </>
+        );
+    }
+}
 
 /* receive props this.props.username*/
 class ChangeUserPassword extends Component {
@@ -72,7 +123,7 @@ class ChangeUserPassword extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore });
+        this.setState(prevState => ({ addMore: !prevState.addMore }));
     }
 
     _handleSubmit() {
@@ -94,32 +145,18 @@ class ChangeUserPassword extends Component {
                 {!this.state.addMore ?
                     <button onClick={this._handleClickingAdd}>Change user password</button>
                     :
-                    <>
-                        <table>
-                            <thead>
-                                <tr><th>Password</th><th>Confirm your password</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <input type='password' ref={this.pwRef} />
-                                    </td>
-                                    <td>
-                                        <input type='password' ref={this.conPwRef} />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table><br /><br />
+                    <div className={style.userFeature}>
+                        <label htmlFor='password'>Password:</label><br /><input name='password' type='password' ref={this.pwRef} /><br /><br />
+                        <label htmlFor='passwordConf'>Confirm Password:</label><br /><input name='passwordConf' type='password' ref={this.conPwRef} /><br /><br />
                         {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /><br /></> : null}
                         <button onClick={this._handleSubmit}>Submit</button><br /><br />
                         <button onClick={this._handleClickingAdd}>Cancel</button>
-                    </>
+                    </div>
                 }
             </>
         );
     }
 }
-
 
 class ChangeUserPrivilege extends Component {
     _handleClick = () => {

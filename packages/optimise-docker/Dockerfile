@@ -1,4 +1,4 @@
-FROM node:11.10.0-alpine
+FROM node:alpine
 
 LABEL author="Florian Guitton" email="f.guitton@imperial.ac.uk"
 
@@ -7,6 +7,7 @@ RUN mkdir -p /optimise/db
 WORKDIR /optimise
 
 COPY ./optimise-docker/package.json .
+COPY ./optimise-docker/.npmrc .
 
 RUN npm install --production
 

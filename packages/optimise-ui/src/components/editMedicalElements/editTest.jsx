@@ -176,7 +176,7 @@ class UpdateTestEntry extends Component {
             <>
                 <label>Date of test: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} />
-                <br />
+                <br /><br />
                 {/*
                 <label>Date on which test results were processed: </label>
                 <PickDate startDate={actualOccurredDate} handleChange={this._handleActualDateChange} />

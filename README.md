@@ -1,6 +1,6 @@
 # optimise
 
-OPTIMISE MS is a system for recording data including demographics, clinical events, treatments and tests in a fashion interoperable with [Clinical Data Interchange Standards Consortium (CDISC)](https://www.cdisc.org/) standards for Multiple Sclerosis. OPTIMISE MS allows researchers to better monitor MS patients’ progress, record outcomes and evaluate treatments.
+Optimise MS is a system for recording data including demographics, clinical events, treatments and tests in a fashion interoperable with [Clinical Data Interchange Standards Consortium (CDISC)](https://www.cdisc.org/) standards for Multiple Sclerosis. Optimise MS allows researchers to better monitor MS patients’ progress, record outcomes and evaluate treatments.
 
 ## Getting Started for developpers
 

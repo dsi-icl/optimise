@@ -28,7 +28,6 @@ export default class EditPregnancy extends Component {
             meddra: undefined
         };
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
-        this._handleInput = this._handleInput.bind(this);
         this._handleEndDateChange = this._handleEndDateChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleStartDateChange = this._handleStartDateChange.bind(this);
@@ -39,11 +38,7 @@ export default class EditPregnancy extends Component {
 
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: '', error: false });
-    }
-
-    _handleInput(ev) {
-        this.setState({ newName: ev.target.value, error: false });
+        this.setState(prevState => ({ addMore: !prevState.addMore, error: false }));
     }
 
     _handleMeddraChange(value) {
@@ -159,7 +154,7 @@ export default class EditPregnancy extends Component {
                                                 <option value='unselected'></option>
                                                 {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                             </select><br /><br />
-                                            <b>MedDRA: </b><MeddraPicker value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
+                                            <label>MedDRA: </label><MeddraPicker value={this.state.meddra} onChange={this._handleMeddraChange} /><br />
                                         </>
                                     )}
                                 </div>
@@ -313,7 +308,9 @@ class OnePregnancy extends Component {
         const { editing, startDate, outcomeDate, noEndDate, outcome, meddra, startDate_original, outcomeDate_original, outcome_original, meddra_original } = this.state;
         const { data, pregnancyOutcomes, meddra_Hash } = this.props;
         return (
-            <div className={style.interruption}>
+            <div className={style.interruption} style={{
+                overflow: editing ? 'visible' : 'hidden'
+            }}>
                 {
                     editing ?
                         <>
@@ -328,7 +325,7 @@ class OnePregnancy extends Component {
                                             <option value='unselected'></option>
                                             {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                         </select><br /><br />
-                                        <b>MedDRA: </b><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
+                                        <label>MedDRA: </label><MeddraPicker key={data.id} value={meddra} onChange={this._handleMeddraChange} /><br />
                                     </>
                                 )}
                             </div>

@@ -25,13 +25,11 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
         await optimiseServer.stop();
     }
 
-    async setup(jestConfig) {
-        super.setup(jestConfig);
+    async setup(__unused__jestConfig) {
         this.global.optimiseRouter = optimiseRouter;
     }
 
-    async teardown(jestConfig) {
-        super.teardown(jestConfig);
+    async teardown(__unused__jestConfig) {
     }
 
     runScript(script) {

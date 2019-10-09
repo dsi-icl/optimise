@@ -55,6 +55,7 @@
     text-overflow: ellipsis;
     text-align: center;
 }
+
 .backButton {
     line-height: 0.8em;
 }
@@ -99,11 +100,12 @@
     border-top: 0.08em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
     padding-top: 0.9em;
     padding-bottom: 0.9em;
+    position: relative;
 }
 
 .editInterruption {
-    padding-top: 0.9em;
     padding-bottom: 0.9em;
+    position: relative;
 }
 
 .editInterruption input {

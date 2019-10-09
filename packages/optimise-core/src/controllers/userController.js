@@ -4,6 +4,8 @@ import userCore from '../core/user';
 import message from '../utils/message-utils';
 import formatToJSON from '../utils/format-response';
 
+const email_reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 class UserController {
 
     /**
@@ -66,11 +68,11 @@ class UserController {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
-        if (!body.hasOwnProperty('pw') || !body.hasOwnProperty('username') || !body.hasOwnProperty('isAdmin') || !body.hasOwnProperty('realname')) {
+        if (!body.hasOwnProperty('pw') || !body.hasOwnProperty('username') || !body.hasOwnProperty('isAdmin') || !body.hasOwnProperty('realname') || !body.hasOwnProperty('email')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        if (typeof body.pw !== 'string' || typeof body.username !== 'string' || typeof body.isAdmin !== 'number' || typeof body.realname !== 'string') {
+        if (typeof body.pw !== 'string' || typeof body.username !== 'string' || typeof body.isAdmin !== 'number' || typeof body.realname !== 'string' || typeof body.email !== 'string' || !email_reg.test(body.email)) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -88,11 +90,19 @@ class UserController {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
-        if (!body.hasOwnProperty('pw') || !body.hasOwnProperty('username')) {
+        if (!(body.hasOwnProperty('pw') || body.hasOwnProperty('email')) || !body.hasOwnProperty('username')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        if (typeof body.pw !== 'string' || typeof body.username !== 'string') {
+        if (typeof body.username !== 'string') {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+        if (body.pw !== undefined && typeof body.pw !== 'string') {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+        if (body.email !== undefined && (typeof body.email !== 'string' || !email_reg.test(body.email))) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

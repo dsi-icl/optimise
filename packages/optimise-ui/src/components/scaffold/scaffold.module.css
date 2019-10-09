@@ -9,6 +9,21 @@
     padding: 0.35em 1.2em;
 }
 
+.statusBar > span:not(.rightPush):not(:first-child) {
+    padding: 0 2em;
+}
+
+.statusIcon {
+    display: inline-block;
+    height: 90%;
+    width: 2em;
+    padding-right: 0.1em;
+}
+
+.statusIcon svg {
+    fill: var(--color-font-active);
+}
+
 .rightPush {
     display: inline-block;
     position: absolute;
@@ -108,6 +123,12 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
+.logoutButton {
+    position: absolute;
+    bottom: 2em;
+    left: 0;
+}
+
 .errorMessage {
     grid-area: annexe-start / content / auto / annexe;
     width: 100%;
@@ -139,6 +160,8 @@
     word-wrap: break-word;
     font-family: monospace;
     font-size: 1.2em;
+    max-height: 10em;
+    overflow: auto;
 }
 
 .cancelButton {
@@ -190,4 +213,19 @@
     left: 10%;
     color: white;
     overflow: auto;
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+.syncActive {
+    transform-origin: 65% 50%;
+    animation: rotating 2s linear infinite;
+    
 }

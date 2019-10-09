@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { detect } from 'detect-browser';
 import store from './redux/store';
 import { addError } from './redux/actions/error';
 import { FarRightPanel, MenuBar, MiddlePanel, RightPanel, FullscreenPanel, StatusBar, ErrorMessage, AlertMessage } from './components/scaffold';
 import Body from './components/body';
 import Login from './components/login';
+import NoSupport from './components/noSupport';
+import CenterSpinner from './components/centerSpinner';
 import { whoami } from './redux/actions/login';
-import { getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
+import { getICD11Call, getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
 import { getServerInfoCall } from './redux/actions/serverInfo';
-import Icon from './components/icon';
+
+const browser = detect();
 
 @withRouter
 @connect(state => ({
@@ -20,22 +24,49 @@ import Icon from './components/icon';
 }))
 class App extends Component {
 
+    constructor(...args) {
+        super(...args);
+        let state = {
+            support: false
+        };
+        switch (browser && browser.name) {
+            case 'chrome':
+            case 'firefox':
+            case 'edge':
+            case 'edge-chromium':
+                state.support = true;
+                break;
+            default:
+                break;
+        }
+        this.state = state;
+    }
+
     componentDidMount() {
-        this.props.whoami();
+        const { support } = this.state;
+        if (support)
+            this.props.whoami();
     }
 
     componentDidCatch(error, __unused__info) {
-        store.dispatch(addError({ error }));
+        const { support } = this.state;
+        if (support)
+            store.dispatch(addError({ error }));
     }
 
     render() {
-        return (
-            <Body>
-                {this.props.checking ? <Icon symbol='loading' /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
-                <AlertMessage />
-                <ErrorMessage />
-            </Body>
-        );
+        const { support } = this.state;
+        if (support === false)
+            return (<NoSupport />);
+        else
+            return (
+                <Body>
+                    {this.props.checking ? <CenterSpinner /> : this.props.loggedIn ? <LoadingFields /> : <Login />}
+                    <StatusBar />
+                    <AlertMessage />
+                    <ErrorMessage />
+                </Body>
+            );
     }
 }
 
@@ -55,7 +86,8 @@ function mapDispatchToProps(dispatch) {
         getMeddraCall: () => dispatch(getMeddraCall()),
         getInterruptionReasonsCall: () => dispatch(getInterruptionReasonsCall()),
         getVisitSectionsCall: () => dispatch(getVisitSectionsCall()),
-        getServerInfoCall: () => dispatch(getServerInfoCall())
+        getServerInfoCall: () => dispatch(getServerInfoCall()),
+        getICD11Call: () => dispatch(getICD11Call())
     };
 }
 @withRouter
@@ -80,11 +112,12 @@ class LoadingFields extends Component {
         this.props.getInterruptionReasonsCall();
         this.props.getVisitSectionsCall();
         this.props.getServerInfoCall();
+        this.props.getICD11Call();
     }
 
     render() {
         if (this.props.fetching) {
-            return <div><Icon symbol='loading' /></div>;
+            return <CenterSpinner />;
         } else {
             return (
                 <>
@@ -93,7 +126,6 @@ class LoadingFields extends Component {
                     <RightPanel />
                     <FarRightPanel />
                     <FullscreenPanel />
-                    <StatusBar />
                 </>
             );
         }

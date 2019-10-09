@@ -136,11 +136,11 @@ export class CreateTreatment extends Component {
                         <label htmlFor='drug'>Treatment:</label><br />
                         <select name='drug' value={this.state.drugType} onChange={this._handleTypeChange} autoComplete='off'>
                             <option value='unselected'></option>
-                            {this.props.types.sort((a, b) => a.name.localeCompare(b.name)).map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}
+                            {this.props.types.filter(d => d.deleted === '-').sort((a, b) => a.name.localeCompare(b.name)).map(type => <option key={type.id} data-drugmodule={type.module} value={type.id}>{type.name}</option>)}
                         </select><br /><br />
                         {this.state.drugType !== 'unselected' ? <span><i>{`You have selected a treatment of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
 
-                        <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
+                        <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                         <label htmlFor='dose'>Dose:</label><br /> <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text' autoComplete='off' /><br /><br />
                         <label htmlFor='unit'>Unit:</label><br />
                         <select name='unit' value={this.state.unit} onChange={this._handleInputChange} autoComplete='off'>
@@ -168,11 +168,13 @@ export class CreateTreatment extends Component {
                             <option value='unselected'></option>
                             <option value='day'>per day</option>
                             <option value='week'>per week</option>
+                            <option value='6weeks'>per six weeks</option>
+                            <option value='8weeks'>per eight weeks</option>
                             <option value='month'>per month</option>
                             <option value='year'>per year</option>
                         </select><br /><br />
                         <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                        {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}
+                        {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /><br /></>)}
                         {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                         <button onClick={this._handleSubmitClick} >Submit</button>
                     </form>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import store from '../../redux/store';
 import { uploadMeddraAPICall } from '../../redux/actions/admin';
+import style from './admin.module.css';
 
 @connect(state => ({
     error: state.uploadMeddra.error,
@@ -23,6 +24,9 @@ export class Meddra extends Component {
         this.setState({ lltFileExists: e.target.value, emptyFiles: false });
     }
 
+    handleFileAdded = () => {
+        this.setState({ emptyFiles: false });
+    }
 
     handleSubmit = () => {
         if (!this.hierRef.current.files[0]) {
@@ -50,7 +54,7 @@ export class Meddra extends Component {
                 The coding is provided in multiple files. "mdhier.asc" contains the hierarchy for SOC, HLGT, HLT, and PT codings. "llt.asc" contains the coding for LLT. <br /><br /><br />
 
                 {
-                    this.props.requesting ? <p>Loading</p> :
+                    this.props.requesting ? <p>Loading...<br />Please do not leave this page. This will take about 2 minutes.</p> :
                         <>
                             Please select applicable:
                             <select onChange={this.handleSelectChange} value={this.state.lltFileExists}>
@@ -61,15 +65,13 @@ export class Meddra extends Component {
                             <br /><br />
                             <form>
                                 Select <b>mdhier.asc</b> file:
-                                <input type='file' name='mdhierfile' accept='.asc' ref={this.hierRef} />
-                                {this.state.lltFileExists === '1' ? <><br /><br />Select <b>llt.asc</b> file<input type='file' name='lltfile' accept='.asc' ref={this.lltRef} /></> : null}
+                                <input type='file' name='mdhierfile' accept='.asc' ref={this.hierRef} onChange={this.handleFileAdded} />
+                                {this.state.lltFileExists === '1' ? <><br /><br />Select <b>llt.asc</b> file<input type='file' name='lltfile' accept='.asc' ref={this.lltRef} onChange={this.handleFileAdded} /></> : null}
                                 <br /><br />
                             </form>
-                            <button onClick={this.handleSubmit}>Upload file(s)</button>
-
-                            {this.state.emptyFiles ? <p>ERROR: One or more files are empty</p> : null}
-                            {this.props.error ? <p>{JSON.stringify(this.props.error)}</p> : null}
-                            {this.props.success ? <p>Successfully uploaded!</p> : null}
+                            {this.state.emptyFiles ? <><div className={style.error}>One or more files are empty!</div><br /></> : null}
+                            {this.props.success ? <><div className={style.success}>Successfully uploaded!</div><br /></> : null}
+                            <button onClick={this.handleSubmit}>Upload file{this.state.lltFileExists === '1' ? 's' : ''}</button>
                         </>
                 }
             </>
