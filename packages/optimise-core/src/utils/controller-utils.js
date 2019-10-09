@@ -11,13 +11,18 @@ export const createEntry = function (tablename, entryObj) {
 export const deleteEntry = function (tablename, { id }, whereObj) {
     whereObj.deleted = '-';
     return new Promise((resolve, reject) => {
-        dbcon()(tablename).where(whereObj).update({ deleted: `${id}@${JSON.stringify(new Date())}` }).then((result) => resolve(result)).catch((error) => reject(error));
+        dbcon()(tablename).where(whereObj).update({ deleted: `${id}@${(new Date()).getTime()}` }).then((result) => resolve(result)).catch((error) => reject(error));
     });
 };
 
-export const getEntry = function (tablename, whereObj, selectedObj) {
+export const getEntry = function (tablename, whereObj, selectedObj, extra) {
     return new Promise((resolve, reject) => {
-        dbcon()(tablename).select(selectedObj).where(whereObj).then((result) => resolve(result)).catch((error) => reject(error));
+        let handle = dbcon()(tablename).select(selectedObj).where(whereObj);
+        if (extra !== undefined && extra.orderBy !== undefined)
+            handle = handle.orderBy(extra.orderBy || []);
+        if (extra !== undefined && extra.limitOffset !== undefined)
+            handle = handle.offset(extra.limitOffset.offset || 0).limit(extra.limitOffset.limit || 100);
+        return handle.then((result) => resolve(result)).catch((error) => reject(error));
     });
 };
 
@@ -31,7 +36,7 @@ export const updateEntry = function (tablename, { id }, originObj, whereObj, new
             let oldEntry = getResult[0];
             delete oldEntry.id;
             if (oldEntry.hasOwnProperty('deleted'))
-                oldEntry.deleted = `${id}@${new Date().getTime()}`;
+                oldEntry.deleted = `${id}@${(new Date()).getTime()}`;
             if (oldEntry.hasOwnProperty('createdTime'))
                 newObj.createdTime = dbcon().fn.now();
             return oldEntry;

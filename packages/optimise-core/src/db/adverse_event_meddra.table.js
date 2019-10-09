@@ -1,12 +1,10 @@
-import meddra from './defaults/meddra.json';
+import meddra from './defaults_v1/meddra.json';
 
 export const TABLE_NAME = 'ADVERSE_EVENT_MEDDRA';
 export const PRIORITY = 0;
 export default async (dbcon, version) => {
     switch (version) {
         case 1:
-            if (await dbcon().schema.hasTable(TABLE_NAME) === true)
-                await dbcon().schema.renameTable(TABLE_NAME, `ARCHIVE_${Date.now()}_${TABLE_NAME}`);
             await dbcon().schema.createTable(TABLE_NAME, (table) => {
                 table.increments('id').primary().notNullable();
                 table.text('code').notNullable();

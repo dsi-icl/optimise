@@ -1,3 +1,4 @@
+import ActionCore from '../core/actionLog';
 import PatientCore from '../core/patient';
 import ErrorHelper from '../utils/error_helper';
 import message from '../utils/message-utils';
@@ -93,7 +94,7 @@ class PatientController {
 
     static getPatientProfileById({ params, query }, res) {
         if (params.hasOwnProperty('patientId')) {
-            return PatientCore.getPatientProfile({ 'aliasId': params.patientId }, true, query.getOnly)
+            return PatientCore.getPatientProfile({ 'aliasId': params.patientId }, false, query.getOnly)
                 .then(result => {
                     res.status(200).json(result);
                     return true;
@@ -132,38 +133,38 @@ class PatientController {
             return PatientCore.getPatientProfile({ id: patientId }, false)
                 .then(result => {
                     let promiseContainer = [];
-                    promiseContainer.push(PatientController.action.erasePatients(result.id, result.patientId, undefined));
+                    promiseContainer.push(ActionCore.erasePatients(result.id, result.patientId, undefined));
                     if (result.visits.length >= 1)
                         for (let i = 0; i < result.visits.length; i++)
-                            promiseContainer.push(PatientController.action.eraseVisits(result.visits[i].id));
+                            promiseContainer.push(ActionCore.eraseVisits(result.visits[i].id));
                     if (result.clinicalEvents.length >= 1)
                         for (let i = 0; i < result.clinicalEvents.length; i++)
-                            promiseContainer.push(PatientController.action.eraseCE(result.clinicalEvents[i].id));
+                            promiseContainer.push(ActionCore.eraseCE(result.clinicalEvents[i].id));
                     if (result.treatments.length >= 1)
                         for (let i = 0; i < result.clinicalEvents.length; i++) {
                             if (result.clinicalEvents[i].interruptions.length >= 1)
                                 for (let j = 0; j < result.clinicalEvents[i].interruptions.length; j++)
-                                    promiseContainer.push(PatientController.action.eraseTreatmentsInters(result.clinicalEvents[i].interruptions[j].id));
-                            promiseContainer.push(PatientController.action.eraseTreatments(result.clinicalEvents[i].id));
-                            promiseContainer.push(PatientController.action.eraseIdOnRoute('/treatments', result.clinicalEvents[i].id));
+                                    promiseContainer.push(ActionCore.eraseTreatmentsInters(result.clinicalEvents[i].interruptions[j].id));
+                            promiseContainer.push(ActionCore.eraseTreatments(result.clinicalEvents[i].id));
+                            promiseContainer.push(ActionCore.eraseIdOnRoute('/treatments', result.clinicalEvents[i].id));
                         }
                     if (result.tests.length >= 1)
                         for (let i = 0; i < result.tests.length; i++)
-                            promiseContainer.push(PatientController.action.eraseTests(result.tests[i].id));
+                            promiseContainer.push(ActionCore.eraseTests(result.tests[i].id));
                     if (result.immunisations.length >= 1)
                         for (let i = 0; i < result.immunisations.length; i++)
-                            promiseContainer.push(PatientController.action.eraseIdOnRoute('/demographics/Immunisation', result.immunisations[i].id));
+                            promiseContainer.push(ActionCore.eraseIdOnRoute('/demographics/Immunisation', result.immunisations[i].id));
                     if (result.medicalHistory.length >= 1)
                         for (let i = 0; i < result.medicalHistory.length; i++)
-                            promiseContainer.push(PatientController.action.eraseIdOnRoute('/demographics/MedicalCondition', result.medicalHistory[i].id));
+                            promiseContainer.push(ActionCore.eraseIdOnRoute('/demographics/MedicalCondition', result.medicalHistory[i].id));
                     if (result.hasOwnProperty('demographicData') && result.demographicData !== undefined)
-                        promiseContainer.push(PatientController.action.eraseIdOnRoute('/demographics/Demographic', result.demographicData.id));
-                    if (result.hasOwnProperty('diagnosis') && result.diagnosis.lenght >= 1)
+                        promiseContainer.push(ActionCore.eraseIdOnRoute('/demographics/Demographic', result.demographicData.id));
+                    if (result.hasOwnProperty('diagnosis') && result.diagnosis.length >= 1)
                         for (let i = 0; i < result.diagnosis.length; i++)
-                            promiseContainer.push(PatientController.action.eraseIdOnRoute('/patientDiagnosis', result.diagnosis[i].id));
+                            promiseContainer.push(ActionCore.eraseIdOnRoute('/patientDiagnosis', result.diagnosis[i].id));
                     if (result.pregnancy.length >= 1)
                         for (let i = 0; i < result.pregnancy.length; i++)
-                            promiseContainer.push(PatientController.action.eraseIdOnRoute('/demographics/Pregnancy', result.pregnancy[i].id));
+                            promiseContainer.push(ActionCore.eraseIdOnRoute('/demographics/Pregnancy', result.pregnancy[i].id));
                     let promises = Promise.all(promiseContainer);
                     return promises.then(subResult => {
                         if (subResult === 0 && process.env.NODE_ENV !== 'production')

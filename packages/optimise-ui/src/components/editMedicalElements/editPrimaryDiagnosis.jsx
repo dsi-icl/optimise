@@ -24,18 +24,13 @@ export default class EditPrimaryDiagnoses extends Component {
             error: false
         };
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
-        this._handleInput = this._handleInput.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleStartDateChange = this._handleStartDateChange.bind(this);
         this._handleDiagnosisChange = this._handleDiagnosisChange.bind(this);
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: '', error: false });
-    }
-
-    _handleInput(ev) {
-        this.setState({ newName: ev.target.value, error: false });
+        this.setState(prevState => ({ addMore: !prevState.addMore, error: false }));
     }
 
     _handleStartDateChange(date) {
@@ -94,7 +89,7 @@ export default class EditPrimaryDiagnoses extends Component {
             return (
                 <>
                     <div className={style.ariane}>
-                        <h2>Primary Diagnoses</h2>
+                        <h2>Primary MS Diagnoses</h2>
                         <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                     </div>
                     <form className={style.panel}>
@@ -117,7 +112,7 @@ export default class EditPrimaryDiagnoses extends Component {
                             :
                             <>
                                 <div className={style.newInterruption}>
-                                    <label>Diagnosis date: </label><PickDate startDate={this.state.diagnosisDate} handleChange={this._handleStartDateChange} /><br />
+                                    <label>Diagnosis date: </label><PickDate startDate={this.state.diagnosisDate} handleChange={this._handleStartDateChange} /><br /><br />
                                     <label>Diagnosis: </label>
                                     <select value={this.state.diagnosis} onChange={this._handleDiagnosisChange}>
                                         <option value='unselected'></option>
@@ -235,12 +230,14 @@ class OneEditPrimaryDiagnoses extends Component {
         const { data, diagnoses } = this.props;
 
         return (
-            <div className={style.interruption}>
+            <div className={style.interruption} style={{
+                overflow: editing ? 'visible' : 'hidden'
+            }}>
                 {
                     editing ?
                         <>
                             <div className={style.editInterruption}>
-                                <label>Diagnosis date: </label><PickDate startDate={diagnosisDate} handleChange={this._handleStartDateChange} /><br />
+                                <label>Diagnosis date: </label><PickDate startDate={diagnosisDate} handleChange={this._handleStartDateChange} /><br /><br />
                                 <label>Diagnosis: </label>
                                 <select onChange={this._handleDiagnosisChange} value={diagnosis}>
                                     <option value='unselected'></option>

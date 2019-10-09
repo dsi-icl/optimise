@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "1.10.0",
+    "version": "1.13.0",
     "description": "Optimise:MS Backend",
     "keywords": [
         "ms"
@@ -25,22 +25,24 @@
     ],
     "license": "MIT",
     "dependencies": {
-        "body-parser": "1.18.3",
-        "csv-parse": "4.3.3",
-        "express": "4.16.4",
-        "express-session": "1.15.6",
+        "body-parser": "1.19.0",
+        "csv-parse": "4.6.3",
+        "connect-session-knex": "1.4.0",
+        "csurf": "1.10.0",
+        "express": "4.17.1",
+        "express-session": "1.16.2",
         "express-zip": "2.0.1",
-        "form-data": "2.3.3",
-        "knex": "0.16.3",
+        "form-data": "2.5.1",
+        "knex": "0.19.5",
         "moment": "2.24.0",
-        "multer": "1.4.1",
+        "multer": "1.4.2",
         "nodeify": "1.0.1",
-        "papaparse": "4.6.3",
+        "papaparse": "5.1.0",
         "passport": "0.4.0",
         "path": "0.12.7",
-        "sqlite3": "4.0.6",
-        "swagger-ui-express": "4.0.2",
-        "uuid": "3.3.2"
+        "sqlite3": "4.1.0",
+        "swagger-ui-express": "4.1.2",
+        "uuid": "3.3.3"
     },
     "devDependencies": {
         "@babel/preset-env": "7.3.1",
@@ -53,21 +55,22 @@
         "@babel/polyfill": "7.2.5",
         "chalk": "2.4.2",
         "codacy-coverage": "3.4.0",
-        "eslint": "5.14.1",
-        "eslint-plugin-promise": "4.0.1",
+        "cross-env": "6.0.3",
+        "eslint": "5.16.0",
+        "eslint-plugin-promise": "4.2.1",
         "jest": "24.1.0",
         "native-ext-loader": "2.3.0",
-        "rimraf": "2.6.3",
+        "rimraf": "3.0.0",
         "start-server-webpack-plugin": "2.2.5",
-        "string-replace-loader": "2.1.1",
+        "string-replace-loader": "2.2.0",
         "supertest": "3.4.2",
-        "webpack": "4.29.5",
-        "webpack-cli": "3.2.3",
+        "webpack": "4.41.0",
+        "webpack-cli": "3.3.9",
         "webpack-node-externals": "1.7.2"
     },
     "optionalDependencies": {
-        "ajv": "6.9.2",
-        "fsevents": "1.2.7"
+        "ajv": "6.10.2",
+        "fsevents": "2.1.0"
     },
     "jest": {
         "globalSetup": "<rootDir>/test/setup.js",

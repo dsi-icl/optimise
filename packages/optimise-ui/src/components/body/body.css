@@ -52,6 +52,10 @@
     outline: none;
 }
 
+div[id=compat] {
+    display: none !important;
+}
+
 html,
 body {
     color: var(--color-font);
@@ -62,6 +66,10 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    display: unset;
+    top: 0;
+    left: 0;
+    position: absolute;
 }
 
 body > div {

@@ -42,12 +42,10 @@ class UpdateDemoEntry extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            alcoholUsageRef: React.createRef(),
             countryOfOriginRef: React.createRef(),
             dominantHandRef: React.createRef(),
             ethnicityRef: React.createRef(),
             genderRef: React.createRef(),
-            smokingHistoryRef: React.createRef(),
             hasPII: false
         };
         this._handleSubmit = this._handleSubmit.bind(this);
@@ -89,19 +87,17 @@ class UpdateDemoEntry extends Component {
             return;
 
         const { patientId } = this.props;
-        const { alcoholUsageRef, countryOfOriginRef, dominantHandRef, ethnicityRef, genderRef, smokingHistoryRef } = this.state;
+        const { countryOfOriginRef, dominantHandRef, ethnicityRef, genderRef } = this.state;
         const body = {
             patientId: patientId,
             to: `/patientProfile/${patientId}`,
             demoData: {
                 id: this.props.data ? this.props.data.id : null,
                 DOB: this.state.DOB ? this.state.DOB.toISOString() : this.props.data.DOB ? moment(this.props.data.DOB, 'x').toISOString() : null,
-                alcoholUsage: parseInt(alcoholUsageRef.current.value),
                 countryOfOrigin: parseInt(countryOfOriginRef.current.value),
                 dominantHand: parseInt(dominantHandRef.current.value),
                 ethnicity: parseInt(ethnicityRef.current.value),
                 gender: parseInt(genderRef.current.value),
-                smokingHistory: parseInt(smokingHistoryRef.current.value)
             },
             PIIData: {
                 id: this.props.pii ? this.props.pii.id : null,
@@ -138,12 +134,12 @@ class UpdateDemoEntry extends Component {
     }
 
     render() {
-        const { alcoholUsageRef, countryOfOriginRef, dominantHandRef, ethnicityRef, genderRef, smokingHistoryRef } = this.state;
+        const { countryOfOriginRef, dominantHandRef, ethnicityRef, genderRef } = this.state;
         const { fields, fetching } = this.props;
         if (fetching || !this.props.pii) {
             return null;
         }
-        const { alcoholUsage, countryOfOrigin, dominantHand, ethnicity, gender, smokingHistory, DOB } = this.props.data;
+        const { countryOfOrigin, dominantHand, ethnicity, gender, DOB } = this.props.data;
         const { givenName, surname, address, postcode } = this.state;
 
         return (
@@ -155,7 +151,7 @@ class UpdateDemoEntry extends Component {
                 <label htmlFor='postcode'>Postcode:</label><br /> <input value={postcode} name='postcode' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
 
                 <h4>Basic demographic data</h4><br />
-                <label>Date of birth:</label><br /> <PickDate startDate={moment(DOB, 'x')} handleChange={this._handleDobDateChange} /> <br />
+                <label>Date of birth:</label><br /> <PickDate startDate={moment(DOB, 'x')} handleChange={this._handleDobDateChange} /> <br /><br />
                 <label>Gender: </label>
                 <select defaultValue={gender} ref={genderRef}>
                     {fields.genders.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
@@ -174,16 +170,6 @@ class UpdateDemoEntry extends Component {
                 <label>Country of origin: </label>
                 <select defaultValue={countryOfOrigin} ref={countryOfOriginRef}>
                     {fields.countries.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
-                </select>
-                <br /><br />
-                <label>Alcohol usage: </label>
-                <select defaultValue={alcoholUsage} ref={alcoholUsageRef}>
-                    {fields.alcohol_usage.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
-                </select>
-                <br /><br />
-                <label>Smoking history: </label>
-                <select defaultValue={smokingHistory} ref={smokingHistoryRef}>
-                    {fields.smoking_history.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
                 <br /><br />
                 <button onClick={this._handleSubmit}>Submit</button>

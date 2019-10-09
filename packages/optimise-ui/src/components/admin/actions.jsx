@@ -14,14 +14,24 @@ export class AdminActions extends Component {
                 </div>
                 <div className={style.panel}>
                     <div className={style.actionsMenu}>
-                        {/*
-                        <NavLink to='/administration/messages' activeClassName={style.activeNavLink}>
-                            <button>Messages</button>
-                        </NavLink>
-                        <br /><br />
-                        */}
                         <NavLink to='/administration/users' activeClassName={style.activeNavLink}>
                             <button>Manage users</button>
+                        </NavLink>
+                        <br /> <br />
+                        <NavLink to='/administration/meddra' activeClassName={style.activeNavLink}>
+                            <button>Manage MedDRA</button>
+                        </NavLink>
+                        <br /><br />
+                        <NavLink to='/administration/patientMappings' activeClassName={style.activeNavLink}>
+                            <button>Patient ID Mappings</button>
+                        </NavLink>
+                        <br /><br />
+                        <NavLink to='/administration/sync' activeClassName={style.activeNavLink}>
+                            <button>Synchronisation</button>
+                        </NavLink>
+                        <br /><br />
+                        <NavLink to='/administration/update' activeClassName={style.activeNavLink}>
+                            <button>Updates</button>
                         </NavLink>
                         <br /><br />
                         <NavLink to='/administration/log' activeClassName={style.activeNavLink}>
@@ -30,10 +40,6 @@ export class AdminActions extends Component {
                         <br /><br />
                         <NavLink to='/administration/system' activeClassName={style.activeNavLink}>
                             <button>System information</button>
-                        </NavLink>
-                        <br/> <br/>
-                        <NavLink to='/administration/meddra' activeClassName={style.activeNavLink}>
-                            <button>Manage MedDRA</button>
                         </NavLink>
                     </div>
                     <div className={style.actionsDisplay}>

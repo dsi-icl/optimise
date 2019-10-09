@@ -31,8 +31,6 @@ export default class CreatePatient extends Component {    //get these props from
             dominant_hand: 0,
             ethnicity: 0,
             country_of_origin: 0,
-            alcohol_usage: 0,
-            smoking_history: 0,
             diagnosis: 0,
             diagnosisDate: moment()
         };
@@ -89,7 +87,7 @@ export default class CreatePatient extends Component {    //get these props from
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
 
-        const fieldCheck = ['DOB', 'address', 'alcohol_usage', 'aliasId', 'consent', 'country_of_origin', 'diagnosis', 'diagnosisDate', 'dominant_hand', 'ethnicity', 'gender', 'givenName', 'postcode', 'smoking_history', 'surname'];
+        const fieldCheck = ['DOB', 'address', 'aliasId', 'consent', 'country_of_origin', 'diagnosis', 'diagnosisDate', 'dominant_hand', 'ethnicity', 'gender', 'givenName', 'postcode', 'surname'];
         for (let i = 0; i < fieldCheck.length; i++) {
             if (this.state[fieldCheck[i]] === 0 || this.state[fieldCheck[i]] === null || this.state[fieldCheck[i]] === '' || this.state[fieldCheck[i]] === 'unselected') {
                 this.setState({ error: 'None of the fields can be empty!' });
@@ -111,8 +109,6 @@ export default class CreatePatient extends Component {    //get these props from
             dominant_hand: this.state.dominant_hand,
             ethnicity: this.state.ethnicity,
             country_of_origin: this.state.country_of_origin,
-            alcohol_usage: this.state.alcohol_usage,
-            smoking_history: this.state.smoking_history,
         };
         const PIIData = {
             firstName: this.state.givenName,
@@ -148,7 +144,7 @@ export default class CreatePatient extends Component {    //get these props from
 
     render() {
         if (!this.state.dispatched) {
-            const { genders, dominant_hands, ethnicities, countries, alcohol_usage, smoking_history } = this.props.demofields;
+            const { genders, dominant_hands, ethnicities, countries } = this.props.demofields;
             return (
                 <>
                     <div className={style.ariane}>
@@ -172,16 +168,14 @@ export default class CreatePatient extends Component {    //get these props from
                             </select><br /><br />
                             <br />
                             <h4>Basic demographic data</h4><br />
-                            <label>Date of birth:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDobDateChange} /> <br />
+                            <label>Date of birth:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDobDateChange} /> <br /><br />
                             <label htmlFor='gender'>Gender:</label><br /> <SelectField name='gender' value={this.state.gender} options={genders} handler={this._handleChange} /> <br /><br />
                             <label htmlFor='dominant_hand'>Dominant hand:</label><br /> <SelectField name='dominant_hand' value={this.state['dominant_hand']} options={dominant_hands} handler={this._handleChange} /> <br /><br />
                             <label htmlFor='ethnicity'>Ethnicity:</label><br /> <SelectField name='ethnicity' value={this.state['ethnicity']} options={ethnicities} handler={this._handleChange} /> <br /><br />
                             <label htmlFor='country_of_origin'>Country of origin:</label><br /> <SelectField name='country_of_origin' value={this.state['country_of_origin']} options={countries} handler={this._handleChange} /> <br /><br />
-                            <label htmlFor='alcohol_usage'>Alcohol usage:</label><br /> <SelectField name='alcohol_usage' value={this.state['alcohol_usage']} options={alcohol_usage} handler={this._handleChange} /> <br /><br />
-                            <label htmlFor='smoking_history'>Smoking history:</label><br /> <SelectField name='smoking_history' value={this.state['smoking_history']} options={smoking_history} handler={this._handleChange} /> <br /><br />
                             <br />
-                            <h4>Primary diagnosis</h4><br />
-                            <label>Diagnosis date:</label><br /> <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleDiagnosisDateChange} /> <br />
+                            <h4>Primary MS diagnosis</h4><br />
+                            <label>Diagnosis date:</label><br /> <PickDate startDate={this.state.diagnosisDate} handleChange={this._handleDiagnosisDateChange} /> <br /><br />
                             <label htmlFor='diagnosis'>Diagnosis:</label><br /> <SelectField name='diagnosis' value={this.state['diagnosis']} options={this.props.diagnosesfields} handler={this._handleChange} /> <br /><br />
                             {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                             <button type="submit">Submit</button>

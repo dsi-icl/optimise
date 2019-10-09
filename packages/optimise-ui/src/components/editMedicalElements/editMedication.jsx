@@ -106,7 +106,7 @@ class UpdateMedEntry extends Component {
             noEndDate: !props.data.terminatedDate,
             startDate: moment(parseInt(props.data.startDate)),
             terminatedDate: props.data.terminatedDate ? moment(parseInt(props.data.terminatedDate)) : undefined,
-            terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : undefined,
+            // terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : undefined,
             form: props.data.form ? props.data.form : 'unselected',
             times: props.data.times ? props.data.times : undefined,
             intervalUnit: props.data.intervalUnit || ''
@@ -203,7 +203,7 @@ class UpdateMedEntry extends Component {
                 <label>Treatment: </label>
                 <select onChange={this._handleChange} name='drug' value={drug}>
                     <option value='unselected'></option>
-                    {drugs.map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
+                    {drugs.filter(d => d.deleted === '-').map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
                 </select><br /><br />
                 <label>Dose: </label>
                 <input onChange={this._handleChange} name='dose' value={dose} /><br /><br />
@@ -221,7 +221,7 @@ class UpdateMedEntry extends Component {
                     <option value='IM'>Intramuscular</option>
                     <option value='SC'>Subcutaneous</option>
                 </select><br /><br />
-                <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
+                <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                 <label>Frequency (fill both or leave both blank): </label>
                 <select name='times' value={times} onChange={this._handleChange} autoComplete='off'>
                     <option value='unselected'></option>
@@ -234,11 +234,13 @@ class UpdateMedEntry extends Component {
                     <option value='unselected'></option>
                     <option value='day'>per day</option>
                     <option value='week'>per week</option>
+                    <option value='6weeks'>per six weeks</option>
+                    <option value='8weeks'>per eight weeks</option>
                     <option value='month'>per month</option>
                     <option value='year'>per year</option>
                 </select><br /><br />
                 <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /></>)}
+                {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /><br /></>)}
                 {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>

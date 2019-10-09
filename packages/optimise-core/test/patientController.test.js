@@ -5,7 +5,7 @@ import request from 'supertest';
 
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-const userSeeded = require('./seed/data').default['PATIENTS'];
+const userSeeded = require('./seed/data').default[1][1];
 import message from '../src/utils/message-utils';
 import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
@@ -126,6 +126,7 @@ describe('Patient controller tests', () => {
             expect(body.patientId).toBe('littlePatient');
             expect(body.id).toBe(8);
             expect(body.consent).toBe(false);
+            expect(body.participation).toBe(true);
             expect(body.immunisations).toBeDefined();
             expect(body.medicalHistory).toBeDefined();
             expect(body.visits).toBeDefined();
@@ -146,6 +147,7 @@ describe('Patient controller tests', () => {
             expect(body.patientId).toBe('chon');
             expect(body.id).toBe(1);
             expect(body.consent).toBe(true);
+            expect(body.participation).toBe(true);
             expect(body.visits).toBeDefined();
             return true;
         }));
@@ -158,7 +160,7 @@ describe('Patient controller tests', () => {
             return true;
         }));
 
-    test('Updating this patient', () => admin
+    test('Updating this patient consent', () => admin
         .put('/patients/')
         .send({
             'id': 8,
@@ -177,6 +179,30 @@ describe('Patient controller tests', () => {
             expect(body.patientId).toBe('littlePatient');
             expect(body.id).toBe(8);
             expect(body.consent).toBe(true);
+            expect(body.participation).toBe(true);
+            return true;
+        }));
+
+    test('Updating this patient', () => admin
+        .put('/patients/')
+        .send({
+            'id': 8,
+            'study': 'unknown',
+            'participation': false
+        })
+        .then(({ statusCode }) => {
+            expect(statusCode).toBe(200);
+            return true;
+        }));
+
+    test('Verifying patient participation update', () => admin
+        .get('/patients/littlePatient')
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(200);
+            expect(body.patientId).toBe('littlePatient');
+            expect(body.id).toBe(8);
+            expect(body.consent).toBe(true);
+            expect(body.participation).toBe(false);
             return true;
         }));
 

@@ -1,0 +1,118 @@
+[
+    {
+        "name": "Alemtuzumab (Lemtrada)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Azathioprine",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Cladribine (Mavenclad)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Cyclophosphamide",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Daclizumab (Zinbryta)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Dimethyl fumarate (DMF; Tecfidera)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Extavia (beta interferon-1b)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Fingolimod (Gilenya)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Glatiramer acetate (Copaxone)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Glatiramer acetate biosimilar (Brabio)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Hematopoetic stem cell therapy (HSCT)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Interferon beta-1a (Avonex)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Interferon beta-1a (Rebif)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Interferon beta-1b (Betaferon)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Intravenous immunoglobulin (IVIG)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Methotrexate",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Methylprednisolone (Oral) ",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Methylprednisolone (IV)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Mitoxantrone",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Mycophenolate",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Natalizumab (Tysabri)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Ocrelizumab (Ocrevus)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Plasma Exchange",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Prednisolone",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Peginterferon beta-1a (Plegridy)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Rituximab (Mabthera, Truxima)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Teriflunomide (Aubagio)",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Simvastatin",
+        "module": "Disease Modifying"
+    },
+    {
+        "name": "Vitamin D",
+        "module": "Disease Modifying"
+    }
+]

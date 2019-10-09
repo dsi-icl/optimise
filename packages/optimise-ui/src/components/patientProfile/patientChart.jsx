@@ -13,7 +13,6 @@ import store from '../../redux/store';
 import Icon from '../icon';
 import style from './patientProfile.module.css';
 
-
 //need to pass location to buttons  - do later
 
 @connect(state => ({
@@ -21,7 +20,6 @@ import style from './patientProfile.module.css';
     data: state.patientProfile.data
 }))
 export class PatientChart extends Component {
-
     constructor() {
         super();
         this.state = { hash: null };
@@ -58,13 +56,14 @@ export class PatientChart extends Component {
             <>
                 <div className={style.ariane}>
                     <Helmet title='Patient Profile' />
-                    <h2><Link to={`/patientProfile/${this.props.match.params.patientId}`}>Patient Profile {this.props.fetching ? '' : `(${this.props.data.patientId})`}</Link></h2>
+                    <h2><Link to={`/patientProfile/${this.props.match.params.patientId}`}>Patient {this.props.fetching ? '' : `${this.props.data.patientId}`}</Link></h2>
                     <PatientProfileTop />
                 </div>
                 <div className={`${style.panel} ${style.patientHistory}`}>
                     {this.props.fetching ? <div><Icon symbol='loading' /></div> :
                         <>
                             <br />
+                            <span className={this.props.data.participation ? '' : style.noConsentAlert}>{`This patient ${this.props.data.participation ? 'is enrolled in' : 'has withdrew from'} the study.`}</span><br /><br />
                             <span className={this.props.data.consent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
                             {this.props.data.visits.length > 0 ? <TimelineBox /> : null}
                             <Charts match={this.props.match} />
@@ -75,7 +74,6 @@ export class PatientChart extends Component {
         );
     }
 }
-
 
 /* receives a prop data of one test*/
 @withRouter
@@ -112,6 +110,16 @@ class Test extends PureComponent {
     patientId: state.patientProfile.data.patientId
 }))
 class Medication extends PureComponent {
+
+    intervalUnitString(intervalUnit) {
+        if (intervalUnit === '6weeks')
+            return '6 weeks';
+        else if (intervalUnit === '8weeks')
+            return '8 weeks';
+        else
+            return intervalUnit;
+    }
+
     render() {
         const { data, typedict, patientId } = this.props;
         const numberOfInterruptions = data.interruptions ? data.interruptions.length : 0;
@@ -125,7 +133,7 @@ class Medication extends PureComponent {
                 <td>{data.terminatedDate ? new Date(parseInt(data.terminatedDate, 10)).toDateString() : ''}</td>
                 <td>{data.dose ? `${data.dose} ${data.unit}` : ''}</td>
                 <td>{data.form ? data.form !== 'unselected' ? data.form : '' : ''}</td>
-                <td>{data.times && data.intervalUnit ? `${data.times} times/${data.intervalUnit}` : ''}</td>
+                <td>{data.times && data.intervalUnit ? `${data.times} times / ${this.intervalUnitString(data.intervalUnit)}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
                     <NavLink id={`treatment-${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
@@ -218,7 +226,8 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
  */
 @connect(state => ({
     typedict: state.availableFields.visitFields_Hash[0],
-    inputType: state.availableFields.inputTypes_Hash[0]
+    inputType: state.availableFields.inputTypes_Hash[0],
+    icd11_Hash: state.availableFields.icd11_Hash[0]
 }))
 class OneVisit extends Component {
 
@@ -228,7 +237,7 @@ class OneVisit extends Component {
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
-        const VS = this.props.visitData.filter(el => [0, 1, 2, 3, 4, 5, 6].includes(el.field));
+        const VS = this.props.visitData.filter(el => [0, 1, 2, 3, 4, 5, 6, 252, 253].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
         const VSValueArray = [
             { name: 'Reason for the visit', value: VSHashTable['0'] },
@@ -237,6 +246,8 @@ class OneVisit extends Component {
             { name: 'Heart rate', value: VSHashTable['2'], unit: 'bpm' },
             { name: 'Height', value: VSHashTable['4'], unit: 'cm' },
             { name: 'Weight', value: VSHashTable['5'], unit: 'kg' },
+            { name: 'Smoking habit', value: VSHashTable['252'] },
+            { name: 'Alcohol habit', value: VSHashTable['253'] },
             { name: 'Academic concerns', value: isMinor && VSHashTable['6'] ? VSHashTable['6'] === '1' ? 'Yes' : undefined : undefined }
         ].filter(e => !!e.value);
         const relevantSymptomsFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && field.section === 2);
@@ -249,9 +260,11 @@ class OneVisit extends Component {
         const relevantEDSSFieldsIdArray = relevantEDSSFields.map(el => el.id);
         const performances = this.props.visitData.filter(el => el.field > 6 && relevantEDSSFieldsIdArray.includes(el.field));
         const communication = this.props.data.visits.filter(v => v.id === this.props.visitId)[0].communication;
+        const comorbidities = this.props.data.comorbidities.filter(el => el.visit === this.props.visitId);
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
 
         const filteredSymptoms = filterEmptyRenders(symptoms, this.props.inputType, this.props.typedict);
+        const filteredComorbidities = comorbidities;
         const filteredSigns = filterEmptyRenders(signs, this.props.inputType, this.props.typedict);
         const filteredEDSS = filterEmptyRenders(performances, this.props.inputType, this.props.typedict);
 
@@ -341,10 +354,10 @@ class OneVisit extends Component {
 
                 {this.props.visitType === 1 ? (
                     <>
-                        <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}/vitals`} className={style.visitEditButton}>
+                        <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}`} className={style.visitEditButton}>
                             <span title='Edit visit date and reason' className={style.dataEdit}><Icon symbol='edit' /></span>
                         </NavLink><br />
-                        <h4><Icon symbol='addVS' />&nbsp;ANTHROPOMETRY{isMinor ? ', ' : ' AND'} VITAL SIGNS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
+                        <h4><Icon symbol='addVS' />&nbsp;PHYSICAL MEASURES, VITAL SIGNS{isMinor ? ', ' : ' AND'} HABITS{isMinor ? ' AND ACADEMIC CONCERNS' : ''}</h4>
                         {VSValueArray.length > 0 ? (
                             <div className={style.visitWrapper}>
                                 <table>
@@ -370,13 +383,20 @@ class OneVisit extends Component {
                                                     <td >{VSValueArray[5] ? `${VSValueArray[5].name}: ${VSValueArray[5].value} ${VSValueArray[5].unit ? VSValueArray[5].unit : ''}` : ''}</td>
                                                 </tr>
                                             ) : null}
+                                        {VSValueArray.length > 6 ?
+                                            (
+                                                <tr>
+                                                    <td >{VSValueArray[6] ? `${VSValueArray[6].name}: ${VSValueArray[6].value} ${VSValueArray[6].unit ? VSValueArray[6].unit : ''}` : ''}</td>
+                                                    <td >{VSValueArray[7] ? `${VSValueArray[7].name}: ${VSValueArray[7].value} ${VSValueArray[7].unit ? VSValueArray[7].unit : ''}` : ''}</td>
+                                                </tr>
+                                            ) : null}
                                     </tbody>
                                 </table>
                                 <br />
                             </div>
                         ) : null}
                         <NavLink to={`/patientProfile/${this.props.patientId}/data/visit/${this.props.visitId}/vitals`} activeClassName={style.activeNavLink}>
-                            <button>Edit anthropometry{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit</button>
+                            <button>Edit physical measures{isMinor ? ', ' : ' and '}vital signs{isMinor ? ' and academic concerns' : ''} data for this visit</button>
                         </NavLink>
                         <br /><br />
                     </>
@@ -431,6 +451,32 @@ class OneVisit extends Component {
                         <br /><br />
                     </>
                 ) : null}
+
+                {this.props.visitType === 1 ?
+                    <>
+                        <h4><Icon symbol='symptom' />&nbsp;COMORBIDITIES</h4>
+                        {filteredComorbidities.length > 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <tbody>
+                                        {filteredComorbidities.map(el =>
+                                            this.props.icd11_Hash && this.props.icd11_Hash[el.comorbidity] ?
+                                                <tr key={el.id}>
+                                                    <td>{this.props.icd11_Hash[el.comorbidity].name}</td>
+                                                </tr> : null
+                                        )}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/comorbidity/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit comorbidities</button>
+                        </NavLink>
+                        <br /><br /></>
+                    : null}
+
+
                 {this.props.visitType === 1 ? (
                     <>
                         <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
@@ -441,7 +487,7 @@ class OneVisit extends Component {
                                         <tr><th>Recorded performance measures</th><th>Value</th></tr>
                                     </thead>
                                     <tbody>
-                                        {filteredEDSS.map(el => {
+                                        {filteredEDSS.filter(el => isNaN(parseFloat(el.value)) !== true).map(el => {
                                             let isTotal = relevantEDSSFields.filter(f => f.id === el.field)[0].idname === 'edss:expanded disability status scale - estimated total';
                                             let EDSSComputed = edssAlgorithmFromProps(relevantEDSSFields, this.props.visitData);
                                             return (
@@ -610,6 +656,7 @@ export class Charts extends Component {
                                     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                     const visitDate = new Date(parseInt(el.visitDate, 10));
                                     const reasonForVisit = el.data.filter(el => el.field === 0);
+
                                     return <OneVisit visitData={el.data}
                                         patientId={this.props.match.params.patientId}
                                         availableFields={this.props.availableFields}

@@ -172,7 +172,7 @@ class UpdateCEEntry extends Component {
             to: `/patientProfile/${patientId}/edit/clinicalEvent/${id}`,
             data: {
                 id,
-                dateStartDate: startDate ? startDate.toISOString() : null,
+                dateStartDate: startDate.toISOString() || null,
                 meddra,
                 endDate: !noEndDate && endDate ? endDate.toISOString() : null
             }
@@ -189,16 +189,16 @@ class UpdateCEEntry extends Component {
     render() {
         const { startDate, meddra, id } = this.state;
         return (
-            <>
+            <div className={style.panelWrapper}>
                 <label>Start Date: </label>
                 <PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
                 <label htmlFor='noEndDate'>The event is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
-                {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}
+                {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /><br /></>)}
                 <label>MedDRA: </label>
                 <MeddraPicker key={id} value={meddra === null || meddra === undefined ? undefined : String(meddra)} onChange={this._handleMeddraChange} /><br /><br />
                 {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
-            </>
+            </div>
         );
     }
 }

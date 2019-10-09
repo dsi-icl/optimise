@@ -1,15 +1,18 @@
 //External node module imports
 import express from 'express';
-
 import expressSession from 'express-session';
-// import swaggerUi from 'swagger-ui-express';
-// import swaggerDocument from '../docs/swagger.json';
+import knexSessionConnect from 'connect-session-knex';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
+// import csrf from 'csurf';
 import passport from 'passport';
 import optimiseOptions from './core/options';
 import dbcon from './utils/db-connection';
 import { migrate } from '../src/utils/db-handler';
 import ErrorHelper from './utils/error_helper';
+
+const knexSession = knexSessionConnect(expressSession);
 
 class OptimiseServer {
     constructor(config) {
@@ -48,18 +51,22 @@ class OptimiseServer {
             // Operate database migration if necessary
             migrate().then(() => {
 
-                // This is awaiting for #286
-                // _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+                // Adding API documentation
+                _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
                 // Setup sessions with third party middleware
+                const knexSessionStore = new knexSession({
+                    knex: dbcon(),
+                    tablename: 'SESSIONS'
+                });
+
                 _this.app.use(expressSession({
-                    secret: 'optimise',
+                    secret: _this.config.sessionSecret,
                     saveUninitialized: false,
                     resave: false,
                     cookie: { secure: false },
-                    store: _this.mongoStore
-                })
-                );
+                    store: knexSessionStore
+                }));
 
                 _this.app.use(passport.initialize());
                 _this.app.use(passport.session());
@@ -76,6 +83,9 @@ class OptimiseServer {
                 }));
                 _this.app.use(body_parser.json());
 
+                // Setup CSRF protecting middleware
+                // _this.app.use(csrf())
+
                 // Adding session checks and monitoring
                 _this.app.use('/', _this.requestMiddleware.addActionToCollection);
                 _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
@@ -88,6 +98,7 @@ class OptimiseServer {
                 _this.setupClinicalEvents();
                 _this.setupTreatments();
                 _this.setupTests();
+                _this.setupComorbidities();
                 _this.setupFields();
                 _this.setupData();
                 _this.setupExport();
@@ -97,6 +108,8 @@ class OptimiseServer {
                 _this.setupPPII();
                 _this.setupPatientDiagnosis();
                 _this.setupMeddra();
+                _this.setupICD11();
+                _this.setupSync();
 
                 _this.app.all('/*', (__unused__req, res) => {
                     res.status(400);
@@ -163,6 +176,18 @@ class OptimiseServer {
 
         // Modules
         this.app.use('/patients', this.routePatients);
+    }
+
+    /**
+     * @fn setupComorbidities
+     * @desc Initialize the comorbidity related routes
+     */
+    setupComorbidities() {
+        // Import the controller
+        this.routeComorbidities = require('./routes/comorbidityRoute').default;
+
+        // Modules
+        this.app.use('/comorbidities', this.routeComorbidities);
     }
 
     /**
@@ -325,6 +350,14 @@ class OptimiseServer {
             .get(MeddraController.getMeddraField);
     }
 
+    setupICD11() {
+        // initializing the meddra controller
+        const ICD11Controller = require('./controllers/icd11Controller.js').default;
+
+        this.app.route('/icd11')
+            .get(ICD11Controller.getICD11Field);
+    }
+
     /**
      * @fn setupPatientDiagnosis
      * @desc Initialize the Patient Diagnosis related routes
@@ -335,6 +368,18 @@ class OptimiseServer {
 
         // Modules
         this.app.use('/patientDiagnosis', this.routePatientDiagnosis);
+    }
+
+    /**
+     * @fn setupSync
+     * @desc Initialize the synchronization related routes
+     */
+    setupSync() {
+        // Import the controller
+        this.routeSync = require('./routes/syncRoute').default;
+
+        // Modules
+        this.app.use('/sync', this.routeSync);
     }
 }
 

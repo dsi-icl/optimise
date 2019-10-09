@@ -41,7 +41,7 @@ describe('User controller tests', () => {
             .then(({ statusCode, headers, body }) => {
                 expect(statusCode).toBe(200);
                 expect(headers['content-type']).toBe('application/json; charset=utf-8');
-                expect(Object.keys(body).length).toBe(4);
+                expect(Object.keys(body).length).toBe(5);
                 expect(body.id).toBe(1);
                 expect(body.username).toBe('admin');
                 expect(body.realname).toBe('Administrator');
@@ -52,7 +52,7 @@ describe('User controller tests', () => {
     test('Admin creating user (no 1) without admin priv with real name', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
-        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realname': 'IAmTesting' })
+        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'email': 'test_user@test.com', 'realname': 'IAmTesting' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');
@@ -64,7 +64,43 @@ describe('User controller tests', () => {
     test('Admin creating user (no 2) without admin priv without real name', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
+        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0 })
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
+        }));
+
+    test('Admin creating user (no 2) without admin priv without email', () => admin
+        .post('/users')
+        .set('Content-type', 'application/json')
         .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'realname': 'IAmTesting' })
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
+        }));
+
+    test('Admin creating user (no 2) with invalid email', () => admin
+        .post('/users')
+        .set('Content-type', 'application/json')
+        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'email': 'test_.test.com', 'realname': 'IAmTesting2' })
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.WRONGARGUMENTS);
+            return true;
+        }));
+
+    test('Admin creating user (no 2) with valid data', () => admin
+        .post('/users')
+        .set('Content-type', 'application/json')
+        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'email': 'test_user2@test.com', 'realname': 'IAmTesting2' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');
@@ -76,7 +112,7 @@ describe('User controller tests', () => {
     test('Admin creating user (no 2) again', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
-        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'realname': 'IAmTesting' })
+        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'email': 'test_user2@test.com', 'realname': 'IAmTesting2' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
             expect(typeof body).toBe('object');
@@ -103,7 +139,7 @@ describe('User controller tests', () => {
                 expect(body[1]).toHaveProperty('realname');
                 expect(body[1]).toHaveProperty('priv');
                 expect(body[1].username).toBe('test_user2');
-                expect(body[1].realname).toBe('IAmTesting');
+                expect(body[1].realname).toBe('IAmTesting2');
                 expect(body[1].priv).toBe(0);
                 return true;
             }));
@@ -336,7 +372,7 @@ describe('User controller tests', () => {
     test('Admin creating another user (no 1) without admin priv with real name again', () => admin
         .post('/users')
         .set('Content-type', 'application/json')
-        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'realname': 'IAmTesting' })
+        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'email': 'test_user@test.com', 'realname': 'IAmTesting' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');

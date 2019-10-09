@@ -1,6 +1,7 @@
 import initialState from './initialState';
 import { combineReducers } from 'redux';
 import actionTypes from './actions/listOfActions';
+import { dispatch as workerDispatch } from '../webWorker';
 
 function login(state = initialState.login, action) {
     switch (action.type) {
@@ -126,7 +127,27 @@ function availableFields(state = initialState.availableFields, action) {
             break;
         case actionTypes.availableFields.GET_MEDDRA_SUCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            workerDispatch({
+                type: actionTypes.availableFields.GET_MEDDRA_TREE_SUCESS,
+                work: 'tree',
+                payload: action.payload
+            });
             newState = { ...state, allMeddra: action.payload, meddra_Hash: [hash] };
+            break;
+        case actionTypes.availableFields.GET_MEDDRA_TREE_SUCESS:
+            newState = { ...state, meddra_Tree: action.payload };
+            break;
+        case actionTypes.availableFields.GET_ICD11_SUCCESS:
+            hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            workerDispatch({
+                type: actionTypes.availableFields.GET_ICD11_TREE_SUCESS,
+                work: 'tree',
+                payload: action.payload
+            });
+            newState = { ...state, icd11: action.payload, icd11_Hash: [hash] };
+            break;
+        case actionTypes.availableFields.GET_ICD11_TREE_SUCESS:
+            newState = { ...state, icd11_Tree: action.payload };
             break;
         case actionTypes.availableFields.GET_VISIT_SECTIONS_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
@@ -170,11 +191,18 @@ function patientProfile(state = initialState.patientProfile, action) {
 
 
 function log(state = initialState.log, action) {
+    let body;
+    let json;
     switch (action.type) {
         case actionTypes.admin.GET_LOG_REQUEST:
             return { result: [], fetching: true, error: false };
         case actionTypes.admin.GET_LOG_SUCCESS:
-            return { result: action.payload, fetching: false, error: false };
+            body = action.payload.body;
+            json = action.payload.json;
+            if (body === undefined || body.offset === undefined || body.offset === 0)
+                return { result: json, fetching: false, error: false };
+            else
+                return { result: state.result.length === 0 ? json : state.result.concat(json), fetching: false, error: false };
         case actionTypes.admin.GET_LOG_FAILURE:
             return { result: [], fetching: false, error: true };
         default:
@@ -247,7 +275,7 @@ function edssCalc(state = initialState.edssCalc, action) {
 }
 
 function uploadMeddra(state = initialState.uploadMeddra, action) {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.admin.UPLOAD_MEDDRA_REQUEST:
             return { requesting: true, error: undefined, success: false };
         case actionTypes.admin.UPLOAD_MEDDRA_SUCCESS:
@@ -260,9 +288,34 @@ function uploadMeddra(state = initialState.uploadMeddra, action) {
 }
 
 function serverInfo(state = initialState.serverInfo, action) {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.serverInfo.GET_SERVER_INFO_SUCCESS:
             return action.payload;
+        default:
+            return state;
+    }
+}
+
+function syncInfo(state = initialState.syncInfo, action) {
+    switch (action.type) {
+        case actionTypes.syncInfo.GET_SYNC_OPTIONS_SUCCESS:
+        case actionTypes.syncInfo.SET_SYNC_OPTIONS_SUCCESS:
+            return {
+                ...state,
+                status: {
+                    syncing: false
+                },
+                config: {
+                    ...state.config,
+                    ...action.payload
+                }
+            };
+        case actionTypes.syncInfo.SYNC_TRIGGER_SUCCESS:
+        case actionTypes.syncInfo.GET_SYNC_STATUS_SUCCESS:
+            return {
+                ...state,
+                status: action.payload
+            };
         default:
             return state;
     }
@@ -281,6 +334,7 @@ export const rootReducer = combineReducers({
     alert,
     edssCalc,
     uploadMeddra,
-    serverInfo
+    serverInfo,
+    syncInfo
 });
 

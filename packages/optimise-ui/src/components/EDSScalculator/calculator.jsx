@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/utils';
 import Helmet from '../scaffold/helmet';
@@ -26,10 +27,11 @@ export default class EDSSPage extends Component {
 class EDSSCalculator extends Component {
     constructor() {
         super();
-        this.state = { autoCalculatedScore: 0, redirect: false };
+        this.state = { autoCalculatedScore: 0 };
         this.freeinputref = React.createRef();
         this._hoverType = this._hoverType.bind(this);
         this._handleClick = this._handleClick.bind(this);
+        this._handleCancel = this._handleCancel.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
     }
 
@@ -39,7 +41,6 @@ class EDSSCalculator extends Component {
         const EDSSFields = visitFields.filter(el => /^edss:(.*)/.test(el.idname));
         if (EDSSFields.length !== 9) {
             store.dispatch(addError({ error: 'EDSS should have 9 entries in the database! please contact your admin' }));
-            this.setState({ redirect: true });
         }
         this.EDSSFields = EDSSFields;    //the 9 fields of edss
         this.EDSSFields_Hash = EDSSFields.reduce((a, el) => { a[el.id] = el.idname; return a; }, {});
@@ -147,7 +148,16 @@ class EDSSCalculator extends Component {
         }, () => {
             store.dispatch(alterDataCall(body, () => {
                 this.originalValues = Object.assign({}, this.originalValues, add);
+                this.setState({
+                    close: true
+                });
             }));
+        });
+    }
+
+    _handleCancel() {
+        this.setState({
+            close: true
         });
     }
 
@@ -163,8 +173,14 @@ class EDSSCalculator extends Component {
     }
 
     render() {
+
         if (!this.originalValues || !this.EDSSFields_Hash_reverse || !this.EDSSFields) return null;
+
         const { match: { params }, patientProfile: { visits } } = this.props;
+
+        if (this.state.close === true)
+            return <Redirect to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}`} />;
+
         const { EDSSFields_Hash_reverse, originalValues, EDSSFields } = this;
         const rangeGen = ceiling => [...Array(ceiling).keys()];  //returns [0,1,2,3,...,*ceiling_inclusive*]
         const range_pyramidal = rangeGen(7);
@@ -237,6 +253,8 @@ class EDSSCalculator extends Component {
                             <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinician): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                             <br /><br />
                             <button type='submit'>Save</button>
+                            <br /><br />
+                            <button onClick={this._handleCancel}>Cancel</button>
                         </form>
                         :
                         <div>

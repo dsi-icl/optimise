@@ -5,12 +5,34 @@ import { getLogAPICall } from '../../redux/actions/admin';
 import Icon from '../icon';
 import style from './admin.module.css';
 
+const RETREIVAL_PER_CALL = 100;
+
 @connect(state => ({
     log: state.log
 }))
 export class Log extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            offset: 0
+        };
+        this._loadMore = this._loadMore.bind(this);
+    }
+
     componentDidMount() {
-        store.dispatch(getLogAPICall());
+        this._loadMore();
+    }
+
+    _loadMore() {
+        store.dispatch(getLogAPICall({
+            limit: RETREIVAL_PER_CALL,
+            offset: this.state.offset,
+        }));
+        this.setState(prevState => ({
+            ...prevState,
+            offset: prevState.offset + RETREIVAL_PER_CALL + 1
+        }));
     }
 
     render() {
@@ -19,11 +41,16 @@ export class Log extends Component {
             return <div><Icon symbol='loading' /></div>;
         } else {
             if (error) {
-                return <div> Cannot fetch.. </div>;
+                return <div> Cannot fetch... </div>;
             } else {
-                const logs = result.slice(Math.max(0, result.length - 200));
-                logs.reverse();
-                return <>{logs.map(el => <LogEntry key={el.id} entry={el} />)}</>;
+                return (
+                    <>
+                        {result.map(el => <LogEntry key={`${el.id}_${Math.random().toString(36).substr(2, 5)}`} entry={el} />)}
+                        <div className={style.logLoadMore}>
+                            <button onClick={this._loadMore}>Load More</button>
+                        </div>
+                    </>
+                );
             }
         }
     }
@@ -36,7 +63,7 @@ export class LogEntry extends PureComponent {    /* consider mapping the endpoin
     render() {
         const el = this.props.entry;
         return (
-            <div>
+            <div className={style.logCard}>
                 <b>Id: </b> <pre className={style.actionOther}>{el.id}</pre> <br />
                 <b>User: </b><pre className={style.actionOther}>{el.user}</pre><br />
                 <b>Time: </b><pre className={style.actionOther}>{el.createdTime}</pre><br />

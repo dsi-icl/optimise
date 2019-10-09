@@ -9,7 +9,7 @@ import store from '../../redux/store';
 import { createImmunisationAPICall, deleteImmunisationAPICall } from '../../redux/actions/demographicData';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
 import { getPatientPii } from '../../redux/actions/patientProfile';
-import { updateConsentAPICall } from '../../redux/actions/consent';
+import { updateConsentAPICall, updateParticipationAPICall } from '../../redux/actions/consent';
 import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
 
@@ -84,13 +84,11 @@ class DemographicSection extends Component {
     render() {
         const { data: { demographicData }, pii, fields } = this.props;
         if (demographicData) {
-            let { DOB, alcoholUsage, countryOfOrigin, dominantHand, ethnicity, gender, smokingHistory } = demographicData;
-            alcoholUsage = fields['alcohol_usage'].filter(el => el.id === alcoholUsage)[0].value;
+            let { DOB, countryOfOrigin, dominantHand, ethnicity, gender } = demographicData;
             countryOfOrigin = fields['countries'].filter(el => el.id === countryOfOrigin)[0].value;
             dominantHand = fields['dominant_hands'].filter(el => el.id === dominantHand)[0].value;
             ethnicity = fields['ethnicities'].filter(el => el.id === ethnicity)[0].value;
             gender = fields['genders'].filter(el => el.id === gender)[0].value;
-            smokingHistory = fields['smoking_history'].filter(el => el.id === smokingHistory)[0].value;
 
             return (
                 <PatientProfileSectionScaffold sectionName='Profile' actions={
@@ -101,8 +99,6 @@ class DemographicSection extends Component {
                     <label>Dominant hand:</label> <span>{dominantHand}</span> <br />
                     <label>Ethnicity:</label> <span>{ethnicity}</span> <br />
                     <label>Country of origin:</label> <span>{countryOfOrigin}</span> <br />
-                    <label>Alcohol usage:</label> <span>{alcoholUsage}</span> <br />
-                    <label>Smoking history:</label> <span>{smokingHistory}</span>
                     <div onMouseLeave={this._hidePii} className={`${style.closePii} ${pii && this.state.showPii ? style.openPii : ''}`}>
                         <span onClick={this._queryPatientData} className={style.piiUncover}>Show Personally Identifiable Information</span>
                         {pii ?
@@ -139,12 +135,12 @@ class ImmunisationSection extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({
-            addMore: !this.state.addMore,
+        this.setState(prevState => ({
+            addMore: !prevState.addMore,
             newDate: moment(),
             newName: '',
             error: false
-        });
+        }));
     }
 
     _handleInput(ev) {
@@ -210,11 +206,11 @@ class ImmunisationSection extends Component {
                 immunisationDate: this.state.newDate.toISOString()
             }
         };
-        this.setState({
-            newName: this.state.newName,
+        this.setState(prevState => ({
+            newName: prevState.newName,
             lastSubmit: (new Date()).getTime(),
             error: false
-        }, () => {
+        }), () => {
             store.dispatch(createImmunisationAPICall(body));
             this.setState({
                 newName: '',
@@ -269,7 +265,7 @@ class PrimaryDiagnosis extends Component {
     render() {
         if (this.props.data.diagnosis.length === 0) {
             return (
-                <PatientProfileSectionScaffold sectionName='Last Primary Diagnosis' actions={
+                <PatientProfileSectionScaffold sectionName='Last Primary MS Diagnosis' actions={
                     <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
                 }>
                     <i>No recorded diagnosis</i>
@@ -288,7 +284,7 @@ class PrimaryDiagnosis extends Component {
         }
 
         return (
-            <PatientProfileSectionScaffold sectionName='Last Primary Diagnosis' actions={
+            <PatientProfileSectionScaffold sectionName='Last Primary MS Diagnosis' actions={
                 <EditButton to={`/patientProfile/${this.props.patientId}/edit/diagnosis/data`} />
             }>
                 <>
@@ -361,6 +357,7 @@ class DeletePatient extends Component {
         super();
         this._handleClickDelete = this._handleClickDelete.bind(this);
         this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
+        this._handleClickWithdrawParticipation = this._handleClickWithdrawParticipation.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
     }
 
@@ -390,12 +387,27 @@ class DeletePatient extends Component {
         store.dispatch(updateConsentAPICall(body));
     }
 
+    _handleClickWithdrawParticipation() {
+        const { participation, id } = this.props.data;
+        const body = {
+            patientId: this.props.match.params.patientId,
+            data: {
+                participation: !participation,
+                id: id
+            }
+        };
+        store.dispatch(updateParticipationAPICall(body));
+    }
+
 
     render() {
-        const { consent } = this.props.data;
+        const { consent, participation } = this.props.data;
 
         return (
             <>
+                <PatientProfileSectionScaffold sectionName='Study participation'>
+                    <button onClick={this._handleClickWithdrawParticipation} >{participation ? 'This patient withdraws from the study' : 'This patient re-enrolls in the study'}</button>
+                </PatientProfileSectionScaffold>
                 <PatientProfileSectionScaffold sectionName='Consent'>
                     <button onClick={this._handleClickWithdrawConsent} >{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</button>
                 </PatientProfileSectionScaffold>

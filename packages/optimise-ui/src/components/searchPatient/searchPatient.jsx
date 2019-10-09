@@ -79,7 +79,7 @@ export default class SearchPatientsById extends Component {
                         <label htmlFor='searchType'>Search by:</label><br />
                         <select name='searchType' value={this.state.searchType} onChange={this._handleSelectChange} autoComplete='off'>
                             <option value='USUBJID'>Patient ID</option>
-                            {this.props.priv === 1 ? <option value='OPTIMISEID'>Anonymised ID</option> : null}
+                            {this.props.priv === 1 ? <option value='OPTIMISEID'>Optimise ID</option> : null}
                             <option value='SEX'>Sex</option>
                             <option value='EXTRT'>Treatment</option>
                             <option value='ETHNIC'>Ethnic Background</option>
