@@ -97,3 +97,4 @@ testem.log
 Thumbs.db
 *.sqlite
 /temp/
+/.stryker-tmp/
