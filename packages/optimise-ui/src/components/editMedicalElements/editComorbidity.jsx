@@ -27,7 +27,7 @@ export default class EditComorbidity extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore, error: false });
+        this.setState(prevState => ({ addMore: !prevState.addMore, error: false }));
     }
 
     _handleValueChange(value) {

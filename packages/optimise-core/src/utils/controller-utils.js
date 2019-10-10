@@ -11,7 +11,7 @@ export const createEntry = function (tablename, entryObj) {
 export const deleteEntry = function (tablename, { id }, whereObj) {
     whereObj.deleted = '-';
     return new Promise((resolve, reject) => {
-        dbcon()(tablename).where(whereObj).update({ deleted: `${id}@${JSON.stringify(new Date())}` }).then((result) => resolve(result)).catch((error) => reject(error));
+        dbcon()(tablename).where(whereObj).update({ deleted: `${id}@${(new Date()).getTime()}` }).then((result) => resolve(result)).catch((error) => reject(error));
     });
 };
 
@@ -36,7 +36,7 @@ export const updateEntry = function (tablename, { id }, originObj, whereObj, new
             let oldEntry = getResult[0];
             delete oldEntry.id;
             if (oldEntry.hasOwnProperty('deleted'))
-                oldEntry.deleted = `${id}@${new Date().getTime()}`;
+                oldEntry.deleted = `${id}@${(new Date()).getTime()}`;
             if (oldEntry.hasOwnProperty('createdTime'))
                 newObj.createdTime = dbcon().fn.now();
             return oldEntry;

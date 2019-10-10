@@ -1,10 +1,3 @@
-// import 'core-js/es6/';
-// import 'core-js/es/map';
-// import 'core-js/es/set';
-// import 'raf/polyfill';
-// import 'es6-promise/auto';
-// import 'es6-object-assign';
-// import 'es5-shim';
 import React, { Component } from 'react';
 import style from './noSupport.module.css';
 import firefoxImg from './firefox.png';

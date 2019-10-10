@@ -20,7 +20,8 @@ class TreatmentController {
             (body.hasOwnProperty('form') && body.form !== 'OR' && body.form !== 'IV' && body.form !== 'IM' && body.form !== 'SC') ||
             (body.hasOwnProperty('times') && typeof body.times !== 'number') ||
             (body.hasOwnProperty('intervalUnit') && body.intervalUnit !== 'hour' && body.intervalUnit !== 'day' &&
-                body.intervalUnit !== 'week' && body.intervalUnit !== 'month' && body.intervalUnit !== 'year')) {
+                body.intervalUnit !== 'week' && body.intervalUnit !== '6weeks' && body.intervalUnit !== '8weeks' &&
+                body.intervalUnit !== 'month' && body.intervalUnit !== 'year')) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const nodeExternals = require('webpack-node-externals');
+// const nodeExternals = require('webpack-node-externals');
 const StartServerPlugin = require('start-server-webpack-plugin');
 
 module.exports = {
@@ -15,12 +15,14 @@ module.exports = {
     ),
     watch: process.env.NODE_ENV === 'development' ? true : false,
     target: 'node',
-    externals: [nodeExternals({
-        whitelist: process.env.NODE_ENV === 'development' ? ['webpack/hot/poll?1000'] : undefined
-    }), {
-        sqlite3: 'commonjs sqlite3',
-        express: 'commonjs express'
-    }],
+    externals: [
+        //     nodeExternals({
+        //     whitelist: process.env.NODE_ENV === 'development' ? ['webpack/hot/poll?1000'] : undefined
+        // }),
+        {
+            express: 'commonjs express',
+            sqlite3: 'commonjs sqlite3'
+        }],
     module: {
         rules: [
             {
@@ -45,7 +47,7 @@ module.exports = {
         new webpack.NormalModuleReplacementPlugin(/node-pre-gyp/, `${__dirname}/src/utils/noop.js`),
         new webpack.NormalModuleReplacementPlugin(/\.\.\/migrate/, `${__dirname}/src/utils/noop.js`),
         new webpack.NormalModuleReplacementPlugin(/\.\.\/seed/, `${__dirname}/src/utils/noop.js`),
-        new webpack.IgnorePlugin(new RegExp('^(mssql.*|mariasql|.*oracle.*|mysql.*|pg.*|node-pre-gyp|tedious)$')),
+        new webpack.IgnorePlugin(new RegExp('^(.*mssql.*|.*mariasql|.*oracle.*|.*mysql.*|.*pg.*|.*postgres.*|.*redshift.*|node-pre-gyp|tedious)$')),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env': {

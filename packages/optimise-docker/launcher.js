@@ -23,7 +23,7 @@ optimise.start().then(router => {
     });
 
     root.listen(3030, error => {
-        if (error !== undefined || error !== null) {
+        if (error !== undefined && error !== null) {
             console.error(error); // eslint-disable-line no-console
             return;
         }

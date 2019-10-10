@@ -1,9 +1,8 @@
-/*eslint no-console: "off"*/
 import data from './data';
 
 export default async (dbcon) => {
-    for (let each in data) {
-        await dbcon()(each).del();
-        await dbcon()(each).insert(data[each]);
+    for (let i = 0; i < data.length; i++) {
+        await dbcon()(data[i][0]).del();
+        await dbcon()(data[i][0]).insert(data[i][1]);
     }
 };

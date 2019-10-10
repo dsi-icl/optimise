@@ -1,15 +1,40 @@
 //External node module imports
 import express from 'express';
-
 import expressSession from 'express-session';
-// import swaggerUi from 'swagger-ui-express';
-// import swaggerDocument from '../docs/swagger.json';
+import knexSessionConnect from 'connect-session-knex';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
+// import csrf from 'csurf';
 import passport from 'passport';
 import optimiseOptions from './core/options';
 import dbcon from './utils/db-connection';
 import { migrate } from '../src/utils/db-handler';
 import ErrorHelper from './utils/error_helper';
+
+import requestMiddleware from './utils/requestMiddleware';
+import UserController from './controllers/userController';
+import PatientRoute from './routes/patientRoute';
+import ComorbidityRoute from './routes/comorbidityRoute';
+import VisitRoute from './routes/visitRoute';
+import DemographicRoute from './routes/demographicRoute';
+import ClinicalEventRoute from './routes/clinicalEventRoute';
+import TreatmentRoute from './routes/treatmentRoute';
+import TestRoute from './routes/testRoute';
+import FieldsRoute from './routes/fieldsRoute';
+import DataController from './controllers/dataController';
+import AvailableFieldController from './controllers/availableFieldController';
+import ExportDataRoute from './routes/exportDataRoute';
+import InfoRoute from './routes/infoRoute';
+import ActionRoute from './routes/actionRoute';
+import PatientPiiRoute from './routes/patientPiiRoute';
+import MeddraRoute from './routes/meddraRoute';
+import MeddraController from './controllers/meddraController';
+import ICD11Controller from './controllers/icd11Controller';
+import PatientDiagnosisRoute from './routes/patientDiagnosisRoute';
+import SyncRoute from './routes/syncRoute';
+
+const knexSession = knexSessionConnect(expressSession);
 
 class OptimiseServer {
     constructor(config) {
@@ -31,7 +56,7 @@ class OptimiseServer {
             });
         }
         // Middleware imports
-        this.requestMiddleware = require('./utils/requestMiddleware').default;
+        this.requestMiddleware = requestMiddleware;
     }
 
     /**
@@ -48,18 +73,22 @@ class OptimiseServer {
             // Operate database migration if necessary
             migrate().then(() => {
 
-                // This is awaiting for #286
-                // _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+                // Adding API documentation
+                _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
                 // Setup sessions with third party middleware
+                const knexSessionStore = new knexSession({
+                    knex: dbcon(),
+                    tablename: 'SESSIONS'
+                });
+
                 _this.app.use(expressSession({
-                    secret: 'optimise',
+                    secret: _this.config.sessionSecret,
                     saveUninitialized: false,
                     resave: false,
                     cookie: { secure: false },
-                    // store: _this.mongoStore
-                })
-                );
+                    store: knexSessionStore
+                }));
 
                 _this.app.use(passport.initialize());
                 _this.app.use(passport.session());
@@ -75,6 +104,9 @@ class OptimiseServer {
                     extended: true
                 }));
                 _this.app.use(body_parser.json());
+
+                // Setup CSRF protecting middleware
+                // _this.app.use(csrf())
 
                 // Adding session checks and monitoring
                 _this.app.use('/', _this.requestMiddleware.addActionToCollection);
@@ -129,9 +161,6 @@ class OptimiseServer {
      */
     setupUsers() {
 
-        // Import the controller
-        const UserController = require('./controllers/userController').default;
-
         //Passport session serialize and deserialize
         passport.serializeUser(UserController.serializeUser);
         passport.deserializeUser(UserController.deserializeUser);
@@ -161,11 +190,7 @@ class OptimiseServer {
      * @desc Initialize the patients related routes
      */
     setupPatients() {
-        // Import the controller
-        this.routePatients = require('./routes/patientRoute').default;
-
-        // Modules
-        this.app.use('/patients', this.routePatients);
+        this.app.use('/patients', PatientRoute);
     }
 
     /**
@@ -173,11 +198,7 @@ class OptimiseServer {
      * @desc Initialize the comorbidity related routes
      */
     setupComorbidities() {
-        // Import the controller
-        this.routeComorbidities = require('./routes/comorbidityRoute').default;
-
-        // Modules
-        this.app.use('/comorbidities', this.routeComorbidities);
+        this.app.use('/comorbidities', ComorbidityRoute);
     }
 
     /**
@@ -185,11 +206,7 @@ class OptimiseServer {
      * @desc Initialize the visits related routes
      */
     setupVisits() {
-        // Import the controller
-        this.routeVisits = require('./routes/visitRoute').default;
-
-        // Modules
-        this.app.use('/visits', this.routeVisits);
+        this.app.use('/visits', VisitRoute);
     }
 
     /**
@@ -197,11 +214,7 @@ class OptimiseServer {
      * @desc Initialize the demographics related routes
      */
     setupDemographics() {
-        // Import the controller
-        this.routeDemographics = require('./routes/demographicRoute').default;
-
-        // Modules
-        this.app.use('/demographics', this.routeDemographics);
+        this.app.use('/demographics', DemographicRoute);
     }
 
     /**
@@ -209,11 +222,7 @@ class OptimiseServer {
      * @desc Initialize the clinicalEvents related routes
      */
     setupClinicalEvents() {
-        // Import the controller
-        this.routeClinicalEvents = require('./routes/clinicalEventRoute').default;
-
-        // Modules
-        this.app.use('/clinicalEvents', this.routeClinicalEvents);
+        this.app.use('/clinicalEvents', ClinicalEventRoute);
     }
 
     /**
@@ -221,11 +230,7 @@ class OptimiseServer {
      * @desc Initialize the treatments related routes
      */
     setupTreatments() {
-        // Import the controller
-        this.routeTreatments = require('./routes/treatmentRoute').default;
-
-        // Modules
-        this.app.use('/treatments', this.routeTreatments);
+        this.app.use('/treatments', TreatmentRoute);
     }
 
     /**
@@ -233,11 +238,7 @@ class OptimiseServer {
      * @desc Initialize the tests related routes
      */
     setupTests() {
-        // Import the controller
-        this.routeTests = require('./routes/testRoute').default;
-
-        // Modules
-        this.app.use('/tests', this.routeTests);
+        this.app.use('/tests', TestRoute);
     }
 
     /**
@@ -245,11 +246,7 @@ class OptimiseServer {
      * @desc Initialize the available fields related routes
      */
     setupFields() {
-        //Import the controller
-        this.routeFields = require('./routes/fieldsRoute').default;
-
-        // Modules
-        this.app.use('/available', this.routeFields);
+        this.app.use('/available', FieldsRoute);
     }
 
     /**
@@ -257,11 +254,6 @@ class OptimiseServer {
      * @desc Initialize the data related routes
      */
     setupData() {
-        // Import the controller
-        const DataController = require('./controllers/dataController').default;
-        const AvailableFieldController = require('./controllers/availableFieldController').default;
-
-        // Modules
         this.app.route('/data/:dataType')
             .post(DataController._RouterAddOrUpdate)
             .delete(DataController._RouterDeleteData)
@@ -273,11 +265,7 @@ class OptimiseServer {
      * @desc Initialize the export related routes
      */
     setupExport() {
-        // Import the controller
-        this.routeExport = require('./routes/exportDataRoute').default;
-
-        // Modules
-        this.app.use('/export', this.routeExport);
+        this.app.use('/export', ExportDataRoute);
     }
 
     /**
@@ -285,11 +273,7 @@ class OptimiseServer {
      * @desc Initialize the info related routes
      */
     setupInfo() {
-        // Import the controller
-        this.infoLogs = require('./routes/infoRoute').default;
-
-        // Modules
-        this.app.use('/info', this.infoLogs);
+        this.app.use('/info', InfoRoute);
     }
 
     /**
@@ -297,11 +281,7 @@ class OptimiseServer {
      * @desc Initialize the logs related routes
      */
     setupLogs() {
-        // Import the controller
-        this.routeLogs = require('./routes/actionRoute').default;
-
-        // Modules
-        this.app.use('/logs', this.routeLogs);
+        this.app.use('/logs', ActionRoute);
     }
 
     /**
@@ -309,11 +289,7 @@ class OptimiseServer {
      * @desc Initialize the PPII related routes
      */
     setupPPII() {
-        // Import the controller
-        this.routePPII = require('./routes/patientPiiRoute').default;
-
-        // Modules
-        this.app.use('/patientPii', this.routePPII);
+        this.app.use('/patientPii', PatientPiiRoute);
     }
 
     /*
@@ -321,29 +297,18 @@ class OptimiseServer {
     * @desc Initialize the meddra upload related routes
     */
     setupMeddraUpload() {
-        // Import the controller
-        this.routeMeddraUpload = require('./routes/meddraRoute').default;
-
-        // Modules
-        this.app.use('/uploadMeddra', this.routeMeddraUpload);
+        this.app.use('/uploadMeddra', MeddraRoute);
     }
 
     /**
      * @function setupMeddra initialize the route for meddra
      */
     setupMeddra() {
-
-        // initializing the meddra controller
-        const MeddraController = require('./controllers/meddraController').default;
-
         this.app.route('/meddra')
             .get(MeddraController.getMeddraField);
     }
 
     setupICD11() {
-        // initializing the meddra controller
-        const ICD11Controller = require('./controllers/icd11Controller.js').default;
-
         this.app.route('/icd11')
             .get(ICD11Controller.getICD11Field);
     }
@@ -353,11 +318,7 @@ class OptimiseServer {
      * @desc Initialize the Patient Diagnosis related routes
      */
     setupPatientDiagnosis() {
-        // Import the controller
-        this.routePatientDiagnosis = require('./routes/patientDiagnosisRoute').default;
-
-        // Modules
-        this.app.use('/patientDiagnosis', this.routePatientDiagnosis);
+        this.app.use('/patientDiagnosis', PatientDiagnosisRoute);
     }
 
     /**
@@ -365,11 +326,7 @@ class OptimiseServer {
      * @desc Initialize the synchronization related routes
      */
     setupSync() {
-        // Import the controller
-        this.routeSync = require('./routes/syncRoute').default;
-
-        // Modules
-        this.app.use('/sync', this.routeSync);
+        this.app.use('/sync', SyncRoute);
     }
 }
 

@@ -241,12 +241,14 @@ export default class FullTimeline extends Component {
     }
 
     toggleGroup = id => {
-        const { openGroups } = this.state;
-        this.setState({
-            openGroups: {
-                ...openGroups,
-                [id]: !openGroups[id]
-            }
+        this.setState(prevState => {
+            const { openGroups } = prevState;
+            return {
+                openGroups: {
+                    ...openGroups,
+                    [id]: !openGroups[id]
+                }
+            };
         });
     }
 

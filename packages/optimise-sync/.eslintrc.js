@@ -34,7 +34,6 @@ module.exports = {
         'block-spacing': ['error', 'always'],
         'object-curly-spacing': ['error', 'always'],
         'prefer-template': 'warn',
-        'no-var': 'error',
         'arrow-body-style': ['error', 'as-needed'],
         'no-case-declarations': 'warn',
         'no-eq-null': 'error',

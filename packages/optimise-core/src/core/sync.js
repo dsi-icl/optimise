@@ -5,6 +5,7 @@ import dbcon from '../utils/db-connection';
 import PatientCore from './patient';
 import ErrorHelper from '../utils/error_helper';
 import message from '../utils/message-utils';
+import packageInfo from '../../package.json';
 
 class SyncCore {
 
@@ -34,11 +35,12 @@ class SyncCore {
      * @param {*} options New value to use for synchronisation
      */
     static async setSyncOptions(options) {
-        let hostURL;
+        let hostURL = { href: '' };
         try {
-            hostURL = new URL(options.host);
+            if (options.host !== undefined && options.host.trim() !== '')
+                hostURL = new URL(options.host);
         } catch (e) {
-            return Promise.reject(ErrorHelper(message.errorMessages.UPDATEFAIL, e));
+            return Promise.reject(ErrorHelper(message.userError.WRONGARGUMENTS, e));
         }
         const host = await dbcon()('OPT_KV').where({ key: 'SYNC_HOST' }).update({
             value: hostURL.href,
@@ -105,12 +107,38 @@ class SyncCore {
      */
     static async startSync(config) {
 
+        if (config.host.trim() === '' || config.key.trim() === '') {
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    status: 'idle'
+                }),
+                updated_at: dbcon().fn.now()
+            });
+            return;
+        }
+
         try {
+
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    status: 'running',
+                    step: 'collecting',
+                    syncing: true
+                }),
+                updated_at: dbcon().fn.now()
+            });
+
             const patients = await dbcon().select().table('PATIENTS');
             const users = await dbcon().select().table('USERS');
 
-            if (patients.length <= 0)
-                return;
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    status: 'running',
+                    step: 'counting',
+                    syncing: true
+                }),
+                updated_at: dbcon().fn.now()
+            });
 
             let patientPromises = [];
             let patientProfiles = [];
@@ -138,9 +166,21 @@ class SyncCore {
                 });
             });
 
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    status: 'running',
+                    step: 'merging',
+                    syncing: true
+                }),
+                updated_at: dbcon().fn.now()
+            });
+
             const data = JSON.stringify({
                 uuid: config.id,
-                oshost: os.hostname(),
+                agent: {
+                    hostname: os.hostname(),
+                    version: packageInfo.version
+                },
                 key: config.key,
                 data: {
                     patients: patientProfiles,
@@ -163,9 +203,17 @@ class SyncCore {
                 body: data
             };
 
+            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                value: JSON.stringify({
+                    status: 'running',
+                    step: 'linking',
+                    syncing: true
+                }),
+                updated_at: dbcon().fn.now()
+            });
             request(options, async (error, response, body) => {
+                const result = body !== undefined ? JSON.parse(body) : {};
                 if (!error && response.statusCode === 200) {
-                    const result = JSON.parse(body);
                     if (result.status === 'success')
                         await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                             value: JSON.stringify({
@@ -183,11 +231,12 @@ class SyncCore {
                             }),
                             updated_at: dbcon().fn.now()
                         });
-                } else if (error) {
+                } else {
                     await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                         value: JSON.stringify({
                             error: {
-                                message: error
+                                message: error ? error.message : (result && result.error ? result.error : 'Unknown error'),
+                                stack: error ? error.stack : (result && result.stack ? result.stack : undefined)
                             }
                         }),
                         updated_at: dbcon().fn.now()

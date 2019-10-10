@@ -15,7 +15,6 @@ function mapStateToProps(state) {
     };
 }
 
-
 /**
  * @class DataTemplate
  * @description Renders the data page for test / visit / treatment / event data
@@ -32,9 +31,7 @@ function mapStateToProps(state) {
 export class VisitData extends Component {
     constructor() {
         super();
-        this.state = {
-            data: null
-        };
+        this.state = {};
         this.references = {};
         this.originalValues = {};
         this._handleSubmit = this._handleSubmit.bind(this);

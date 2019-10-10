@@ -172,7 +172,7 @@ class UpdateCEEntry extends Component {
             to: `/patientProfile/${patientId}/edit/clinicalEvent/${id}`,
             data: {
                 id,
-                dateStartDate: startDate ? startDate.toISOString() : null,
+                dateStartDate: startDate.toISOString() || null,
                 meddra,
                 endDate: !noEndDate && endDate ? endDate.toISOString() : null
             }

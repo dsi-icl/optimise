@@ -36,7 +36,8 @@ optimise_server.start().then((optimise_router) => {
 
 if (module.hot) {
     module.hot.accept('./optimiseServer', () => {
-        web_server.removeListener('request', web_app);
+        if (web_app !== undefined)
+            web_server.removeListener('request', web_app);
         optimise_server = new OptimiseServer(config);
         optimise_server.start().then((optimise_router) => {
             web_app = setup();

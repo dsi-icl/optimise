@@ -103,6 +103,15 @@ class ExportDataController {
         }
     }
 
+    static intervalUnitString(intervalUnit) {
+        if (intervalUnit === '6weeks')
+            return '6 weeks';
+        else if (intervalUnit === '8weeks')
+            return '8 weeks';
+        else
+            return intervalUnit;
+    }
+
     static async getPatientData(patientList) {
         const data = [];
         let globalLineCount = 1;
@@ -319,7 +328,7 @@ class ExportDataController {
             const treatment_transformed = treatments.map(e => ({
                 DMT_name: e.drug,
                 DMT_dose: e.dose ? `${e.dose} ${e.unit || ''}` : '',
-                DMT_freq: e.times && e.intervalUnit ? `${e.times} ${e.intervalUnit}` : '',
+                DMT_freq: e.times && e.intervalUnit ? `${e.times} / ${ExportDataController.intervalUnitString(e.intervalUnit)}` : '',
                 DMT_start_date: new Date(parseInt(e.startDate)).toDateString(),
                 DMT_end_date: (e.terminatedDate && new Date(parseInt(e.terminatedDate)).toDateString()) || ''
             }));
@@ -801,7 +810,7 @@ class ExportDataController {
             .then(result => ['EX', result.map(x => ({
                 ...x,
                 DOMAIN: 'EX',
-                EXDOSFRQ: x.times && x.intervalUnit ? `${x.times} ${x.intervalUnit}` : undefined
+                EXDOSFRQ: x.times && x.intervalUnit ? `${x.times} / ${ExportDataController.intervalUnitString(x.intervalUnit)}` : undefined
             }))]));
 
         // Returning all domains as separate promise on matrix

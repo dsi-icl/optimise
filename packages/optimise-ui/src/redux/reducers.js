@@ -302,6 +302,9 @@ function syncInfo(state = initialState.syncInfo, action) {
         case actionTypes.syncInfo.SET_SYNC_OPTIONS_SUCCESS:
             return {
                 ...state,
+                status: {
+                    syncing: false
+                },
                 config: {
                     ...state.config,
                     ...action.payload

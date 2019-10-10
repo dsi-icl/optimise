@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const nodeExternals = require('webpack-node-externals');
+// const nodeExternals = require('webpack-node-externals');
 const StartServerPlugin = require('start-server-webpack-plugin');
 
 module.exports = {
@@ -15,12 +15,14 @@ module.exports = {
     ),
     watch: process.env.NODE_ENV === 'development' ? true : false,
     target: 'node',
-    externals: [nodeExternals({
-        whitelist: process.env.NODE_ENV === 'development' ? ['webpack/hot/poll?1000'] : undefined
-    }), {
-        mongodb: 'commonjs mongodb',
-        express: 'commonjs express'
-    }],
+    externals: [
+        //     nodeExternals({
+        //     whitelist: process.env.NODE_ENV === 'development' ? ['webpack/hot/poll?1000'] : undefined
+        // }),
+        {
+            express: 'commonjs express',
+            mongodb: 'commonjs mongodb'
+        }],
     module: {
         rules: [
             {

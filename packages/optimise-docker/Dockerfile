@@ -7,6 +7,7 @@ RUN mkdir -p /optimise/db
 WORKDIR /optimise
 
 COPY ./optimise-docker/package.json .
+COPY ./optimise-docker/.npmrc .
 
 RUN npm install --production
 

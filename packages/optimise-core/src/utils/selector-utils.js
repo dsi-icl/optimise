@@ -5,7 +5,7 @@ import DiagnosisCore from '../core/patientDiagnosis';
 class SelectorUtils {
     getVisitsWithoutData(patientId, deleted) {
         let whereObj = { 'patient': patientId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('VISITS')
             .select({ visitId: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication' })
@@ -18,7 +18,7 @@ class SelectorUtils {
 
     getDemographicData(patientId, deleted) {
         let whereObj = { 'patient': patientId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('PATIENT_DEMOGRAPHIC')
             .select('id', 'DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin')
@@ -31,7 +31,7 @@ class SelectorUtils {
 
     getTestsWithoutData(patientId, deleted) {
         let whereObj = { 'patient': patientId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('VISITS').select({ 'id': 'id' }).where(whereObj).then(resu => {
             let ids = [];
@@ -39,7 +39,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             let innerWhereObj = {};
-            if (deleted === true)
+            if (deleted !== true)
                 innerWhereObj.deleted = '-';
             return dbcon()('ORDERED_TESTS')
                 .select('orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate')
@@ -54,7 +54,7 @@ class SelectorUtils {
 
     getImmunisations(patientId, deleted) {
         let whereObj = { 'patient': patientId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('PATIENT_IMMUNISATION')
             .select('id', 'vaccineName', 'immunisationDate')
@@ -67,7 +67,7 @@ class SelectorUtils {
 
     getMedicalHistory(patientId, deleted) {
         let whereObj = { 'patient': patientId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('MEDICAL_HISTORY')
             .select('id', 'relation', 'conditionName', 'startDate', 'outcome', 'resolvedYear')
@@ -81,7 +81,7 @@ class SelectorUtils {
     getVisits(patientId, deleted) {
         const _this = this;
         let whereObj = { 'patient': patientId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('VISITS')
             .select({ id: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication' })
@@ -113,7 +113,7 @@ class SelectorUtils {
         const _this = this;
         let whereObj = { 'patient': patientId };
         let innerWhereObj = {};
-        if (deleted === true) {
+        if (deleted !== true) {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
@@ -154,7 +154,7 @@ class SelectorUtils {
         const _this = this;
         let whereObj = { 'patient': patientId };
         let innerWhereObj = {};
-        if (deleted === true) {
+        if (deleted !== true) {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
@@ -198,14 +198,14 @@ class SelectorUtils {
 
     getPregnancy(patientId, deleted) {
         let whereObj = { 'patient': patientId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return PregnancyCore.getPregnancy(whereObj).then((result) => ({ 'pregnancy': result }), (__unused__error) => ({ 'pregnancy': [] }));
     }
 
     _getVisitData(visitId, deleted) {
         let whereObj = { 'visit': visitId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('VISIT_DATA')
             .select('id', 'field', 'value')
@@ -214,7 +214,7 @@ class SelectorUtils {
 
     _getTestData(testId, deleted) {
         let whereObj = { 'test': testId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('TEST_DATA')
             .select('id', 'field', 'value')
@@ -223,7 +223,7 @@ class SelectorUtils {
 
     _getTreatmentInterruptions(treatmentId, deleted) {
         let whereObj = { 'treatment': treatmentId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('TREATMENTS_INTERRUPTIONS')
             .select('id', 'reason', 'startDate', 'endDate', 'meddra')
@@ -232,7 +232,7 @@ class SelectorUtils {
 
     _getCeData(ceId, deleted) {
         let whereObj = { 'clinicalEvent': ceId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('CLINICAL_EVENTS_DATA')
             .select('id', 'field', 'value')
@@ -242,7 +242,7 @@ class SelectorUtils {
     getClinicalEventsWithoutData(patientId, deleted) {
         let whereObj = { 'patient': patientId };
         let innerWhereObj = {};
-        if (deleted === true) {
+        if (deleted !== true) {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
@@ -266,7 +266,7 @@ class SelectorUtils {
         const _this = this;
         let whereObj = { 'patient': patientId };
         let innerWhereObj = {};
-        if (deleted === true) {
+        if (deleted !== true) {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
@@ -305,7 +305,7 @@ class SelectorUtils {
 
     getDiagnosis(patientId, deleted) {
         let whereObj = { 'patient': patientId };
-        if (deleted === true)
+        if (deleted !== true)
             whereObj.deleted = '-';
         return DiagnosisCore.getPatientDiagnosis(whereObj).then((result) => ({ 'diagnosis': result }), (__unused__error) => ({ 'diagnosis': [] }));
     }
@@ -313,7 +313,7 @@ class SelectorUtils {
     getComorbidities(patientId, deleted) {
         let whereObj = { 'patient': patientId };
         let innerWhereObj = {};
-        if (deleted === true) {
+        if (deleted !== true) {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }

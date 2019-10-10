@@ -37,9 +37,7 @@ describe('Create Demographic controller test', () => {
             'gender': null,
             'dominant_hand': null,
             'ethnicity': null,
-            'country_of_origin': null,
-            'alcohol_usage': null,
-            'smoking_history': null
+            'country_of_origin': null
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -57,9 +55,7 @@ describe('Create Demographic controller test', () => {
             'gender': 'null',
             'dominant_hand': 'null',
             'ethnicity': 'null',
-            'country_of_origin': 'null',
-            'alcohol_usage': 'null',
-            'smoking_history': 'null'
+            'country_of_origin': 'null'
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -77,9 +73,7 @@ describe('Create Demographic controller test', () => {
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
-            'country_of_origin': 1,
-            'alcohol_usage': 1,
-            'smoking_history': 1
+            'country_of_origin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -97,9 +91,7 @@ describe('Create Demographic controller test', () => {
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
-            'country_of_origin': 1,
-            'alcohol_usage': 1,
-            'smoking_history': 1
+            'country_of_origin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -117,9 +109,7 @@ describe('Create Demographic controller test', () => {
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
-            'country_of_origin': 1,
-            'alcohol_usage': 1,
-            'smoking_history': 1
+            'country_of_origin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -138,9 +128,7 @@ describe('Create Demographic controller test', () => {
             'gender': 10,
             'dominant_hand': 1,
             'ethnicity': 1,
-            'country_of_origin': 1,
-            'alcohol_usage': 1,
-            'smoking_history': 1
+            'country_of_origin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -158,9 +146,7 @@ describe('Create Demographic controller test', () => {
             'gender': 1,
             'dominant_hand': 10,
             'ethnicity': 1,
-            'country_of_origin': 1,
-            'alcohol_usage': 1,
-            'smoking_history': 1
+            'country_of_origin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -178,9 +164,7 @@ describe('Create Demographic controller test', () => {
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 10,
-            'country_of_origin': 1,
-            'alcohol_usage': 1,
-            'smoking_history': 1
+            'country_of_origin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -198,9 +182,7 @@ describe('Create Demographic controller test', () => {
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
-            'country_of_origin': 15000,
-            'alcohol_usage': 1,
-            'smoking_history': 1
+            'country_of_origin': 15000
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -218,9 +200,7 @@ describe('Create Demographic controller test', () => {
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
-            'country_of_origin': 1,
-            'alcohol_usage': 10,
-            'smoking_history': 1
+            'country_of_origin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -238,9 +218,7 @@ describe('Create Demographic controller test', () => {
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
-            'country_of_origin': 1,
-            'alcohol_usage': 1,
-            'smoking_history': 10
+            'country_of_origin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -258,9 +236,7 @@ describe('Create Demographic controller test', () => {
             'gender': 1,
             'dominant_hand': 1,
             'ethnicity': 1,
-            'country_of_origin': 1,
-            'alcohol_usage': 1,
-            'smoking_history': 1
+            'country_of_origin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(200);
@@ -289,9 +265,7 @@ describe('Edit Demographic controller test', () => {
             'gender': null,
             'dominantHand': null,
             'ethnicity': null,
-            'countryOfOrigin': null,
-            'alcoholUsage': null,
-            'smokingHistory': null
+            'countryOfOrigin': null
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -310,9 +284,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 'null',
             'dominantHand': 'null',
             'ethnicity': 'null',
-            'countryOfOrigin': 'null',
-            'alcoholUsage': 'null',
-            'smokingHistory': 'null'
+            'countryOfOrigin': 'null'
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -331,9 +303,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
-            'countryOfOrigin': 1,
-            'alcoholUsage': 1,
-            'smokingHistory': 1
+            'countryOfOrigin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -353,9 +323,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
-            'countryOfOrigin': 1,
-            'alcoholUsage': 1,
-            'smokingHistory': 1
+            'countryOfOrigin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -375,9 +343,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
-            'countryOfOrigin': 1,
-            'alcoholUsage': 1,
-            'smokingHistory': 1
+            'countryOfOrigin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -396,9 +362,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
-            'countryOfOrigin': 1,
-            'alcoholUsage': 1,
-            'smokingHistory': 1
+            'countryOfOrigin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -417,9 +381,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 10,
             'dominantHand': 1,
             'ethnicity': 1,
-            'countryOfOrigin': 1,
-            'alcoholUsage': 1,
-            'smokingHistory': 1
+            'countryOfOrigin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -438,9 +400,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 1,
             'dominantHand': 10,
             'ethnicity': 1,
-            'countryOfOrigin': 1,
-            'alcoholUsage': 1,
-            'smokingHistory': 1
+            'countryOfOrigin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -459,9 +419,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 10,
-            'countryOfOrigin': 1,
-            'alcoholUsage': 1,
-            'smokingHistory': 1
+            'countryOfOrigin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -480,9 +438,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
-            'countryOfOrigin': 15000,
-            'alcoholUsage': 1,
-            'smokingHistory': 1
+            'countryOfOrigin': 15000
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -501,9 +457,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
-            'countryOfOrigin': 1,
-            'alcoholUsage': 10,
-            'smokingHistory': 1
+            'countryOfOrigin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -522,9 +476,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
-            'countryOfOrigin': 1,
-            'alcoholUsage': 1,
-            'smokingHistory': 10
+            'countryOfOrigin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -543,9 +495,7 @@ describe('Edit Demographic controller test', () => {
             'gender': 1,
             'dominantHand': 1,
             'ethnicity': 1,
-            'countryOfOrigin': 1,
-            'alcoholUsage': 1,
-            'smokingHistory': 1
+            'countryOfOrigin': 1
         })
         .then(({ status, body }) => {
             expect(status).toBe(200);

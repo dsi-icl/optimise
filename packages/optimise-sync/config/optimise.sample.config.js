@@ -1,4 +1,4 @@
 module.exports = {
     port: 3050,
-    exportGenerationFolder: './temp/'
+    mongo: 'mongodb://mongodb0.example.com:27017/admin'
 };

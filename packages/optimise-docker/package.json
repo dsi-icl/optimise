@@ -1,6 +1,6 @@
 {
     "name": "optimise-docker",
-    "version": "1.11.3",
+    "version": "1.13.0",
     "description": "Optimise:MS Docker",
     "keywords": [
         "ms",
@@ -24,6 +24,6 @@
     "dependencies": {
         "compression": "1.7.4",
         "express": "4.17.1",
-        "sqlite3": "4.0.9"
+        "sqlite3": "4.1.0"
     }
 }

@@ -29,13 +29,13 @@ export const loginAPICall = (body) => dispatch => {
         .then(json => {
             dispatch(loginSuccess(json));
         })
-        .catch(err => { dispatch(loginFailure(err)); });
+        .catch(() => { dispatch(loginFailure()); });
 };
 
 
 export const logoutRequest = () => ({ type: actionTypes.login.LOGOUT_REQUEST });
 export const logoutAPICall = (body) => dispatch => {
-    dispatch(logoutRequest(body));
+    dispatch(logoutRequest());
     return apiHelper('/users/logout', { method: 'POST', body: JSON.stringify(body) })
         .catch(err => store.dispatch(addError({ error: err })));
 };

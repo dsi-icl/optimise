@@ -344,12 +344,12 @@ The reason for the visit entered when the visit is created is used to label the 
 ![relapseVisit bordered](./img/relapseVisit.png)
 
 
-Enter Anthropometry and Vital Signs data, if available, by clicking on the highlighed button in the Medical History Summary. Fill in the right panel form. Click Save and then click on ![close](./img/xButton.png) at the top right corner to return to the Patient Overview. To cancel the data entry and return to the Overview without saving, click on ![close](./img/xButton.png).
+Enter Physical Measures and Vital Signs data, if available, by clicking on the highlighed button in the Medical History Summary. Fill in the right panel form. Click Save and then click on ![close](./img/xButton.png) at the top right corner to return to the Patient Overview. To cancel the data entry and return to the Overview without saving, click on ![close](./img/xButton.png).
 
 ![vital bordered](./img/vitalSigns.png)
 
 
-The data will be added to the Medical History Summary in the appropriate section (Anthropometry and Vital Signs, here).
+The data will be added to the Medical History Summary in the appropriate section (Physical Measures and Vital Signs, here).
 
 ![vitalAdded bordered](./img/vitalAdded.png)
 
