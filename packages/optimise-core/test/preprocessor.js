@@ -3,18 +3,16 @@ const babelJest = require('babel-jest');
 module.exports = babelJest.createTransformer({
     presets: [
         [
-            '@babel/preset-env',
+            '@babel/env',
             {
                 targets: {
-                    esmodules: true
+                    node: 'current'
                 }
             }
         ]
     ],
     plugins: [
-        'require-context-hook',
-        '@babel/plugin-transform-modules-commonjs',
-        '@babel/plugin-syntax-dynamic-import'
+        'require-context-hook'
     ],
     babelrc: false,
     configFile: false
