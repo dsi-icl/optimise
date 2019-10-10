@@ -1,7 +1,7 @@
 {
 	"name": "optimise-ui",
 	"productName": "Optimise MS",
-	"version": "1.12.7",
+	"version": "1.13.0",
 	"description": "Optimise:MS UI",
 	"keywords": [
 		"ms"
@@ -14,10 +14,10 @@
 	"scripts": {
 		"start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true react-scripts start",
 		"build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build",
-		"test": "react-scripts test"
+		"test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=true react-scripts test --colors"
 	},
 	"dependencies": {
-		"deepmerge": "4.0.0",
+		"deepmerge": "4.1.1",
 		"detect-browser": "4.7.0",
 		"draft-js": "0.11.1",
 		"file-saver": "2.0.2",
@@ -25,14 +25,14 @@
 		"immutable": "4.0.0-rc.12",
 		"interactjs": "1.6.2",
 		"moment": "2.24.0",
-		"react": "16.10.1",
+		"react": "16.10.2",
 		"react-calendar-timeline": "0.18.2",
 		"react-datepicker": "2.9.6",
-		"react-dom": "16.10.1",
+		"react-dom": "16.10.2",
 		"react-event-timeline": "1.6.3",
 		"react-helmet-async": "1.0.3",
 		"react-markdown": "4.2.2",
-		"react-medium-image-zoom": "3.1.1",
+		"react-medium-image-zoom": "3.1.2",
 		"react-redux": "7.1.1",
 		"react-router-dom": "5.1.2",
 		"react-virtualized": "9.21.1",
@@ -41,24 +41,24 @@
 		"redux-thunk": "2.3.0"
 	},
 	"devDependencies": {
-		"@babel/core": "7.6.2",
+		"@babel/core": "7.6.4",
 		"@babel/plugin-proposal-decorators": "7.6.0",
-		"@typescript-eslint/eslint-plugin": "1.13.0",
-		"@typescript-eslint/parser": "1.13.0",
+		"@typescript-eslint/eslint-plugin": "2.3.3",
+		"@typescript-eslint/parser": "2.3.3",
 		"babel-eslint": "10.0.3",
-		"cross-env": "6.0.2",
-		"eslint": "5.16.0",
-		"eslint-config-react-app": "4.0.1",
-		"eslint-plugin-flowtype": "2.50.3",
+		"cross-env": "6.0.3",
+		"eslint": "6.5.1",
+		"eslint-config-react-app": "5.0.2",
+		"eslint-plugin-flowtype": "4.3.0",
 		"eslint-plugin-import": "2.18.2",
 		"eslint-plugin-jsx-a11y": "6.2.3",
-		"eslint-plugin-react": "7.15.0",
-		"eslint-plugin-react-hooks": "2.1.1",
+		"eslint-plugin-react": "7.16.0",
+		"eslint-plugin-react-hooks": "2.1.2",
 		"http-proxy-middleware": "0.20.0",
 		"markdown-image-loader": "2.0.0",
 		"prop-types": "15.7.2",
-		"react-scripts-rewired": "2.1.8",
-		"typescript": "3.6.3",
+		"react-scripts-rewired": "3.1.1",
+		"typescript": "3.6.4",
 		"webpack": "4.41.0"
 	},
 	"eslintConfig": {
@@ -69,5 +69,11 @@
 		"not dead",
 		"not ie <= 11",
 		"not op_mini all"
-	]
+	],
+	"jest": {
+		"collectCoverageFrom": [
+			"<rootDir>/src/**/*.{js,jsx}",
+			"!<rootDir>/node_modules/"
+		]
+	}
 }

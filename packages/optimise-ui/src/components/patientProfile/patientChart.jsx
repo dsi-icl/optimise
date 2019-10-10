@@ -110,6 +110,16 @@ class Test extends PureComponent {
     patientId: state.patientProfile.data.patientId
 }))
 class Medication extends PureComponent {
+
+    intervalUnitString(intervalUnit) {
+        if (intervalUnit === '6weeks')
+            return '6 weeks';
+        else if (intervalUnit === '8weeks')
+            return '8 weeks';
+        else
+            return intervalUnit;
+    }
+
     render() {
         const { data, typedict, patientId } = this.props;
         const numberOfInterruptions = data.interruptions ? data.interruptions.length : 0;
@@ -123,7 +133,7 @@ class Medication extends PureComponent {
                 <td>{data.terminatedDate ? new Date(parseInt(data.terminatedDate, 10)).toDateString() : ''}</td>
                 <td>{data.dose ? `${data.dose} ${data.unit}` : ''}</td>
                 <td>{data.form ? data.form !== 'unselected' ? data.form : '' : ''}</td>
-                <td>{data.times && data.intervalUnit ? `${data.times} times/${data.intervalUnit}` : ''}</td>
+                <td>{data.times && data.intervalUnit ? `${data.times} times / ${this.intervalUnitString(data.intervalUnit)}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
                     <NavLink id={`treatment-${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
