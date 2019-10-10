@@ -106,7 +106,7 @@ class UpdateMedEntry extends Component {
             noEndDate: !props.data.terminatedDate,
             startDate: moment(parseInt(props.data.startDate)),
             terminatedDate: props.data.terminatedDate ? moment(parseInt(props.data.terminatedDate)) : undefined,
-            terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : undefined,
+            // terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : undefined,
             form: props.data.form ? props.data.form : 'unselected',
             times: props.data.times ? props.data.times : undefined,
             intervalUnit: props.data.intervalUnit || ''
@@ -234,6 +234,8 @@ class UpdateMedEntry extends Component {
                     <option value='unselected'></option>
                     <option value='day'>per day</option>
                     <option value='week'>per week</option>
+                    <option value='6weeks'>per six weeks</option>
+                    <option value='8weeks'>per eight weeks</option>
                     <option value='month'>per month</option>
                     <option value='year'>per year</option>
                 </select><br /><br />

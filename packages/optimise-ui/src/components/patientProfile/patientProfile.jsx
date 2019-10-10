@@ -135,12 +135,12 @@ class ImmunisationSection extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState({
-            addMore: !this.state.addMore,
+        this.setState(prevState => ({
+            addMore: !prevState.addMore,
             newDate: moment(),
             newName: '',
             error: false
-        });
+        }));
     }
 
     _handleInput(ev) {
@@ -206,11 +206,11 @@ class ImmunisationSection extends Component {
                 immunisationDate: this.state.newDate.toISOString()
             }
         };
-        this.setState({
-            newName: this.state.newName,
+        this.setState(prevState => ({
+            newName: prevState.newName,
             lastSubmit: (new Date()).getTime(),
             error: false
-        }, () => {
+        }), () => {
             store.dispatch(createImmunisationAPICall(body));
             this.setState({
                 newName: '',

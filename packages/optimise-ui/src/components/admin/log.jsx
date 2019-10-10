@@ -29,10 +29,10 @@ export class Log extends Component {
             limit: RETREIVAL_PER_CALL,
             offset: this.state.offset,
         }));
-        this.setState({
-            ...this.state,
-            offset: this.state.offset + RETREIVAL_PER_CALL + 1
-        });
+        this.setState(prevState => ({
+            ...prevState,
+            offset: prevState.offset + RETREIVAL_PER_CALL + 1
+        }));
     }
 
     render() {

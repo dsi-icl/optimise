@@ -27,7 +27,7 @@ export default class EDSSPage extends Component {
 class EDSSCalculator extends Component {
     constructor() {
         super();
-        this.state = { autoCalculatedScore: 0, redirect: false };
+        this.state = { autoCalculatedScore: 0 };
         this.freeinputref = React.createRef();
         this._hoverType = this._hoverType.bind(this);
         this._handleClick = this._handleClick.bind(this);
@@ -41,7 +41,6 @@ class EDSSCalculator extends Component {
         const EDSSFields = visitFields.filter(el => /^edss:(.*)/.test(el.idname));
         if (EDSSFields.length !== 9) {
             store.dispatch(addError({ error: 'EDSS should have 9 entries in the database! please contact your admin' }));
-            this.setState({ redirect: true });
         }
         this.EDSSFields = EDSSFields;    //the 9 fields of edss
         this.EDSSFields_Hash = EDSSFields.reduce((a, el) => { a[el.id] = el.idname; return a; }, {});

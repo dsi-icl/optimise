@@ -28,7 +28,6 @@ export class TreatmentInterruption extends Component {
             meddra: undefined
         };
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
-        this._handleInput = this._handleInput.bind(this);
         this._handleEndDateChange = this._handleEndDateChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleStartDateChange = this._handleStartDateChange.bind(this);
@@ -39,11 +38,7 @@ export class TreatmentInterruption extends Component {
 
 
     _handleClickingAdd() {
-        this.setState({ addMore: !this.state.addMore, newDate: moment(), newName: '', error: false });
-    }
-
-    _handleInput(ev) {
-        this.setState({ newName: ev.target.value, error: false });
+        this.setState(prevState => ({ addMore: !prevState.addMore, error: false }));
     }
 
     _handleMeddraChange(value) {
@@ -156,7 +151,12 @@ export class TreatmentInterruption extends Component {
                                         <div className={style.newInterruption}>
                                             <label>Start date: </label><PickDate startDate={this.state.newStartDate} handleChange={this._handleStartDateChange} /><br />
                                             <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                                            {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!this.state.noEndDate ? this.state.newEndDate : null} handleChange={this._handleEndDateChange} /><br /><br /></>)}
+                                            {this.state.noEndDate ? null : (
+                                                <>
+                                                    <label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.newEndDate} handleChange={this._handleEndDateChange} />
+                                                    <br /><br />
+                                                </>
+                                            )}
                                             <label>Reason: </label>
                                             <select value={this.state.reason} onChange={this._handleReasonChange}>
                                                 <option value='unselected'></option>
@@ -328,7 +328,12 @@ class OneTreatmentInterruption extends Component {
                             <div className={style.editInterruption}>
                                 <label>Start date: </label><PickDate startDate={startDate} handleChange={this._handleStartDateChange} /><br />
                                 <label htmlFor='noEndDate'>The interruption is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={noEndDate} /><br />
-                                {noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={!noEndDate ? endDate : null} handleChange={this._handleEndDateChange} /><br /><br /></>)}
+                                {noEndDate ? null : (
+                                    <>
+                                        <label htmlFor='endDate'>End date: </label><PickDate startDate={endDate} handleChange={this._handleEndDateChange} />
+                                        <br /><br />
+                                    </>
+                                )}
                                 <label>Reason: </label>
                                 <select onChange={this._handleReasonChange} value={reason}>
                                     <option value='unselected'></option>

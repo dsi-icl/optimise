@@ -18,9 +18,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node: ${{ matrix.node }}
-    - name: yarn install and build
-      run: |
-        yarn install
-        yarn run electron
+    - name: Installing dependencies
+      run: yarn install
+      env:
+        CI: true
+    - name: Building Electron  
+      run: yarn run electron
+      env:
+        CI: true
+    - name: Testing  
+      run: yarn test
       env:
         CI: true

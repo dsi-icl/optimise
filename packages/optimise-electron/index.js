@@ -12,8 +12,6 @@ const optimiseCore = require('./dist/server').default;
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 
-let waitBeforeClose = false;
-
 const devMode = /electron/.test(path.basename(app.getPath('exe'), '.exe'));
 if (devMode) {
 
@@ -97,32 +95,36 @@ const httpify = ({ url, options = {} }) => {
                 res._sent = Buffer.concat([res._sent, chunk]);
             },
             end: (chunk, __unused__encoding) => {
-                if (chunk !== undefined)
-                    res._sent = Buffer.concat([res._sent, chunk]);
-                if (Buffer.byteLength(res._sent) === 0)
-                    reject({ error: 'Could not process relevant reponse in IPC Fetch' });
+                try {
+                    if (chunk !== undefined)
+                        res._sent = Buffer.concat([res._sent, chunk]);
+                    if (Buffer.byteLength(res._sent) === 0)
+                        reject({ error: 'Could not process relevant reponse in IPC Fetch' });
 
-                let type;
-                res.writeHead(res.statusCode);
-                Object.keys(res._headers).forEach((e) => {
-                    if (e.toLowerCase() === 'set-cookie')
-                        cookie = res._headers[e][0].split(';')[0];
-                    if (e.toLowerCase() === 'content-type')
-                        type = res._headers[e];
-                })
+                    let type;
+                    res.writeHead(res.statusCode);
+                    Object.keys(res._headers).forEach((e) => {
+                        if (e.toLowerCase() === 'set-cookie')
+                            cookie = res._headers[e][0].split(';')[0];
+                        if (e.toLowerCase() === 'content-type')
+                            type = res._headers[e];
+                    })
 
-                if (type.search('application/json') >= 0)
-                    resolve({
-                        headers: res._headers,
-                        statusCode: res.statusCode,
-                        json: JSON.parse(res._sent.toString())
-                    });
-                else {
-                    resolve({
-                        headers: res._headers,
-                        statusCode: res.statusCode,
-                        buffer: res._sent
-                    });
+                    if (type.search('application/json') >= 0)
+                        resolve({
+                            headers: res._headers,
+                            statusCode: res.statusCode,
+                            json: JSON.parse(res._sent.toString())
+                        });
+                    else {
+                        resolve({
+                            headers: res._headers,
+                            statusCode: res.statusCode,
+                            buffer: res._sent
+                        });
+                    }
+                } catch (e) {
+                    reject({ error: `An error occurred processing IPC Fetch: ${e.message}` });
                 }
             }
         };
@@ -142,6 +144,16 @@ const createApi = () => {
                 event.sender.send('optimiseApiResult', {
                     cid,
                     res
+                })
+            }).catch((error) => {
+                event.sender.send('optimiseApiResult', {
+                    cid,
+                    error: {
+                        json: {
+                            ...error
+                        },
+                        statusCode: 500
+                    }
                 })
             })
         })
@@ -205,15 +217,12 @@ let createWindow = () => {
     }
 
     ipcMain.on('rendererIsFinished', (message) => {
-        waitBeforeClose = false;
         app.quit();
     })
 
     mainWindow.on('close', (event) => {
-        if (waitBeforeClose) {
-            mainWindow.webContents.send('closing');
-            event.preventDefault();
-        }
+        mainWindow.webContents.send('closing');
+        event.preventDefault();
     })
 
     // Emitted when the window is closed.
