@@ -26,3 +26,7 @@ jobs:
       run: yarn run electron
       env:
         CI: true
+    - name: Testing  
+      run: yarn test
+      env:
+        CI: true

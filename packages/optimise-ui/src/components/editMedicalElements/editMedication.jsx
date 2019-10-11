@@ -106,7 +106,7 @@ class UpdateMedEntry extends Component {
             noEndDate: !props.data.terminatedDate,
             startDate: moment(parseInt(props.data.startDate)),
             terminatedDate: props.data.terminatedDate ? moment(parseInt(props.data.terminatedDate)) : undefined,
-            terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : undefined,
+            // terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : undefined,
             form: props.data.form ? props.data.form : 'unselected',
             times: props.data.times ? props.data.times : undefined,
             intervalUnit: props.data.intervalUnit || ''

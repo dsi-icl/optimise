@@ -38,9 +38,9 @@
         "postinstall": "yarn run bootstrap",
         "bootstrap": "lerna bootstrap",
         "start": "lerna run start --scope optimise-core --scope optimise-sync --scope optimise-ui --stream",
-        "test": "lerna run test --parallel"
+        "test": "lerna run test --stream"
     },
     "devDependencies": {
-        "lerna": "3.16.4"
+        "lerna": "3.17.0"
     }
 }
