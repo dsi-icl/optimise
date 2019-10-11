@@ -2,7 +2,7 @@
 import { PureComponent } from 'react';
 import { default as T } from 'prop-types';
 import browserBehaviour from '../../utilities/browserBehaviour';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import 'draft-js/dist/Draft.css';
 import './body.css';
 import './datepicker.css';
