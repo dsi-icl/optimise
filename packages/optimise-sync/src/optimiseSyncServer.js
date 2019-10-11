@@ -55,7 +55,7 @@ class OptimiseSyncServer {
                 const mongoSessionStore = new mongoSession({
                     client: await dbcon(),
                     collection: 'SESSIONS'
-                })
+                });
 
                 _this.app.use(expressSession({
                     secret: _this.config.sessionSecret,
