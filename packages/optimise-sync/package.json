@@ -45,7 +45,7 @@
         "jest": "24.9.0",
         "rimraf": "3.0.0",
         "start-server-webpack-plugin": "2.2.5",
-        "webpack": "4.41.1",
+        "webpack": "4.41.2",
         "webpack-cli": "3.3.9"
     },
     "optionalDependencies": {
