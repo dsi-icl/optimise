@@ -212,6 +212,7 @@ class UpdateMedEntry extends Component {
                     <option value='unselected'></option>
                     <option value='cc'>cc</option>
                     <option value='mg'>mg</option>
+                    <option value='µg'>µg</option>
                 </select><br /><br />
                 <label>Form: </label>
                 <select onChange={this._handleChange} name='form' value={form}>

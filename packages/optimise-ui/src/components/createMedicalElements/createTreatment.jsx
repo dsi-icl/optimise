@@ -145,8 +145,9 @@ export class CreateTreatment extends Component {
                         <label htmlFor='unit'>Unit:</label><br />
                         <select name='unit' value={this.state.unit} onChange={this._handleInputChange} autoComplete='off'>
                             <option value='unselected'></option>
-                            <option value='mg'>mg</option>
                             <option value='cc'>cc</option>
+                            <option value='mg'>mg</option>
+                            <option value='µg'>µg</option>
                         </select><br /><br />
                         <label htmlFor='form'>Form:</label><br />
                         <select name='form' value={this.state.form} onChange={this._handleInputChange} autoComplete='off'>
