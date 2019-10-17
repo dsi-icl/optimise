@@ -22,6 +22,11 @@ export default async (dbcon, version) => {
                 { id: 9, value: 'Unknown', module: 'TREATMENTS_INTERRUPTIONS' }
             ]);
             break;
+        case 5:
+            await dbcon()(TABLE_NAME).insert([
+                { id: 10, value: 'Disease activity', module: 'TREATMENTS_INTERRUPTIONS' }
+            ]);
+            break;
         default:
             break;
     }

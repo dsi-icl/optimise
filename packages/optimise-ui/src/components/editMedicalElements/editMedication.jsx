@@ -203,7 +203,7 @@ class UpdateMedEntry extends Component {
                 <label>Treatment: </label>
                 <select onChange={this._handleChange} name='drug' value={drug}>
                     <option value='unselected'></option>
-                    {drugs.filter(d => d.deleted === '-').map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
+                    {drugs.filter(d => d.deleted === '-').sort((a, b) => a.name.localeCompare(b.name)).map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
                 </select><br /><br />
                 <label>Dose: </label>
                 <input onChange={this._handleChange} name='dose' value={dose} /><br /><br />
