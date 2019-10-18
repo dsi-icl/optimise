@@ -75,10 +75,14 @@ class OptimiseSyncServer {
                 });
 
                 // Init third party middleware for parsing HTTP requests body
-                _this.app.use(body_parser.urlencoded({
-                    extended: true
+                _this.app.use(body_parser.json({
+                    extended: true,
+                    limit: '100mb'
                 }));
-                _this.app.use(body_parser.json());
+                _this.app.use(body_parser.urlencoded({
+                    extended: true,
+                    limit: '100mb'
+                }));
 
                 // Setup remaining route using controllers
                 _this.setupSync();
