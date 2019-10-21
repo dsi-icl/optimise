@@ -28,6 +28,7 @@ export const loginAPICall = (body) => dispatch => {
     return apiHelper('/users/login', { method: 'POST', body: JSON.stringify(body) }, true)
         .then(json => {
             dispatch(loginSuccess(json));
+            dispatch(whoami());
         })
         .catch(() => { dispatch(loginFailure()); });
 };

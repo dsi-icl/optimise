@@ -1,11 +1,11 @@
 //External node module imports
 import express from 'express';
-
 import expressSession from 'express-session';
 import mongoSessionConnect from 'connect-mongo';
 // import swaggerUi from 'swagger-ui-express';
 // import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
+import csrf from 'csurf';
 import passport from 'passport';
 import optimiseOptions from './core/options';
 import dbcon from './utils/db-connection';
@@ -13,6 +13,8 @@ import { migrate } from '../src/utils/db-handler';
 import ErrorHelper from './utils/error_helper';
 
 const mongoSession = mongoSessionConnect(expressSession);
+const csrfHandle = csrf();
+
 class OptimiseSyncServer {
     constructor(config) {
         this.config = new optimiseOptions(config);
@@ -86,6 +88,20 @@ class OptimiseSyncServer {
 
                 // Setup remaining route using controllers
                 _this.setupSync();
+
+                // Setup CSRF protecting middleware
+                _this.app.use(function (req, res, next) {
+                    csrfHandle(req, res, (error) => {
+                        if (error && error.code === 'EBADCSRFTOKEN') {
+                            // Handle CSRF token errors here
+                            res.status(403)
+                            res.json(ErrorHelper('Form tempered with'))
+                        } else {
+                            req.optimiseCSRFToken = req.csrfToken();
+                            next();
+                        }
+                    });
+                });
 
                 _this.app.all('/*', (__unused__req, res) => {
                     res.status(400);
