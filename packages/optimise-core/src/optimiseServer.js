@@ -119,17 +119,23 @@ class OptimiseServer {
                 _this.setupSync();
 
                 // Setup CSRF protecting middleware
-                _this.app.use(function (req, res, next) {
-                    csrfHandle(req, res, (error) => {
-                        if (error && error.code === 'EBADCSRFTOKEN') {
+                _this.app.use(csrfHandle);
+                _this.app.use((error, __unused__req, res, next) => {
+                    if (!error)
+                        next();
+                    else {
+                        if (error.code === 'EBADCSRFTOKEN') {
                             // Handle CSRF token errors here
                             res.status(403)
                             res.json(ErrorHelper('Form tempered with'))
                         } else {
-                            req.optimiseCSRFToken = req.csrfToken();
-                            next();
+                            next(error);
                         }
-                    });
+                    }
+                });
+                _this.app.use((req, __unused__res, next) => {
+                    req.optimiseCSRFToken = req.csrfToken();
+                    next();
                 });
 
                 // Setup remaining route using controllers
