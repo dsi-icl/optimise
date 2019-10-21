@@ -1,4 +1,5 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 const OptimiseServer = require('./server').default;
 const path = require('path');
@@ -16,6 +17,11 @@ optimise.start().then(router => {
 
     // Binding static resources folder
     root.use('/static', express.static(path.normalize(`${__dirname}/static`)));
+
+    root.use(new rateLimit({
+        windowMs: 1 * 60 * 1000,
+        max: 500
+    }));
 
     // Referencing any other requests to the /public/index.html
     root.use('*', (__unused__req, res) => {
