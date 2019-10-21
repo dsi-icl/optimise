@@ -4,12 +4,14 @@ import message from '../utils/message-utils';
 
 class SyncController {
 
-    static async createSync({ body: { data, uuid, agent, key }, headers, connection }, res) {
-        if (data === undefined || uuid === undefined) {
+    static async createSync({ body: { data: encodedData, uuid, agent, key }, headers, connection }, res) {
+
+        if (encodedData === undefined || uuid === undefined) {
             res.status(401).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
         try {
+            const data = JSON.parse(decodeURI(encodedData));
             const validation = await syncCore.validateKey(uuid, key);
             const inserts = [];
             inserts.push(syncCore.createSyncRecord(uuid, {
