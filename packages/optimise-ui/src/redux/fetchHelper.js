@@ -1,3 +1,4 @@
+import merge from 'deepmerge';
 import { addError } from './actions/error';
 import store from './store';
 
@@ -11,11 +12,19 @@ const defaultOptions = {
     credentials: 'include'
 };
 
+let tokenCSRF = undefined;
+
 export const apiHelper = (endpoint, options, blockError) => {
     if (!options) {
         options = {};
     }
-    const fetchOptions = { ...defaultOptions, ...options };
+    const fetchOptions = {
+        ...merge.all([defaultOptions, options, tokenCSRF ? {
+            headers: {
+                'csrf-token': tokenCSRF
+            }
+        } : {}])
+    };
     let returnValue;
 
     try {
@@ -23,11 +32,15 @@ export const apiHelper = (endpoint, options, blockError) => {
         let fetcher = window.ipcFetch || window.fetch;
 
         returnValue = fetcher(`/api${endpoint}`, fetchOptions)
-            .then(res =>
-                res.json().then(json => ({
+            .then(res => {
+                const tokenCSRFHeader = res.headers.get('csrf-token');
+                if (tokenCSRFHeader)
+                    tokenCSRF = tokenCSRFHeader;
+                return res.json().then(json => ({
                     status: res.status,
                     data: json
-                })), err => ({ status: 900, data: { error: err } }))
+                }));
+            }, err => ({ status: 900, data: { error: err } }))
             .then(json => {
                 if (json.status === undefined || json.data === undefined) {
                     store.dispatch(addError({ error: 'Unknown fatal error has occured' }));

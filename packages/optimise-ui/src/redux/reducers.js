@@ -10,7 +10,7 @@ function login(state = initialState.login, action) {
         case actionTypes.login.LOGIN_FAILURE:
             return { ...state, loginFailed: true, loggingIn: false, loggedIn: false, initialCheckingStatus: false };
         case actionTypes.login.LOGIN_SUCCESS:
-            return { ...state, loggingIn: false, loggedIn: true, loginFailed: false, initialCheckingStatus: false, username: action.payload.username || (action.payload.account ? action.payload.account.username : ''), priv: action.payload.priv || (action.payload.account ? action.payload.account.priv : 0) };
+            return { ...state, loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: false, username: action.payload.username || (action.payload.account ? action.payload.account.username : ''), priv: action.payload.priv || (action.payload.account ? action.payload.account.priv : 0) };
         case actionTypes.login.CHECKING_LOGIN:
             return { ...state, loggingIn: false, loggedIn: false, loginFailed: false, initialCheckingStatus: true };
         case actionTypes.login.LOGGED_IN:
