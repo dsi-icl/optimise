@@ -70,7 +70,7 @@ class OptimiseSyncServer {
 
                 // Keeping a pointer to the original mounting point of the server
                 _this.app.use((req, __unused__res, next) => {
-                    req.optimiseRootUrl = req.baseUrl;
+                    req.optimiseSyncRootUrl = req.baseUrl;
                     next();
                 });
 
