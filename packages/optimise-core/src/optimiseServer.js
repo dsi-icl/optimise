@@ -5,7 +5,7 @@ import knexSessionConnect from 'connect-session-knex';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
-// import csrf from 'csurf';
+import csrf from 'csurf';
 import passport from 'passport';
 import optimiseOptions from './core/options';
 import dbcon from './utils/db-connection';
@@ -35,6 +35,7 @@ import PatientDiagnosisRoute from './routes/patientDiagnosisRoute';
 import SyncRoute from './routes/syncRoute';
 
 const knexSession = knexSessionConnect(expressSession);
+const csrfHandle = csrf();
 
 class OptimiseServer {
     constructor(config) {
@@ -93,6 +94,10 @@ class OptimiseServer {
                 _this.app.use(passport.initialize());
                 _this.app.use(passport.session());
 
+                //Passport session serialize and deserialize
+                passport.serializeUser(UserController.serializeUser);
+                passport.deserializeUser(UserController.deserializeUser);
+
                 // Keeping a pointer to the original mounting point of the server
                 _this.app.use((req, __unused__res, next) => {
                     req.optimiseRootUrl = req.baseUrl;
@@ -105,14 +110,30 @@ class OptimiseServer {
                 }));
                 _this.app.use(body_parser.json());
 
-                // Setup CSRF protecting middleware
-                // _this.app.use(csrf())
-
                 // Adding session checks and monitoring
                 _this.app.use('/', _this.requestMiddleware.addActionToCollection);
                 _this.app.use('/', _this.requestMiddleware.verifySessionAndPrivilege);
 
+                // Setup public endpoints
+                _this.setupNoCSRFPoints();
+                _this.setupSync();
+
+                // Setup CSRF protecting middleware
+                _this.app.use(function (req, res, next) {
+                    csrfHandle(req, res, (error) => {
+                        if (error && error.code === 'EBADCSRFTOKEN') {
+                            // Handle CSRF token errors here
+                            res.status(403)
+                            res.json(ErrorHelper('Form tempered with'))
+                        } else {
+                            req.optimiseCSRFToken = req.csrfToken();
+                            next();
+                        }
+                    });
+                });
+
                 // Setup remaining route using controllers
+                _this.setupIDProbe();
                 _this.setupUsers();
                 _this.setupPatients();
                 _this.setupVisits();
@@ -131,7 +152,6 @@ class OptimiseServer {
                 _this.setupPatientDiagnosis();
                 _this.setupMeddra();
                 _this.setupICD11();
-                _this.setupSync();
 
                 _this.app.all('/*', (__unused__req, res) => {
                     res.status(400);
@@ -156,10 +176,24 @@ class OptimiseServer {
     }
 
     /**
-     * @fn setupUsers
-     * @desc Initialize the users related routes
+     * @fn setupNoCSRFPoints
+     * @desc Initialize the routes accessible prior CSRF protection
      */
-    setupUsers() {
+    setupNoCSRFPoints() {
+
+        // Log the user in
+        this.app.route('/users/login').post(UserController.loginUser);
+
+        // Log the user out
+        this.app.route('/users/logout').post(UserController.logoutUser);
+
+    }
+
+    /**
+     * @fn setupIDProbe
+     * @desc Initialize the current ID routes
+     */
+    setupIDProbe() {
 
         //Passport session serialize and deserialize
         passport.serializeUser(UserController.serializeUser);
@@ -168,11 +202,13 @@ class OptimiseServer {
         this.app.route('/whoami')
             .get(UserController.whoAmI); //GET current session user
 
-        // Log the user in
-        this.app.route('/users/login').post(UserController.loginUser);
+    }
 
-        // Log the user out
-        this.app.route('/users/logout').post(UserController.logoutUser);
+    /**
+     * @fn setupUsers
+     * @desc Initialize the users related routes
+     */
+    setupUsers() {
 
         // Interacts with the user in the DB
         // (POST : create / DELETE : delete / PUT : modify)
