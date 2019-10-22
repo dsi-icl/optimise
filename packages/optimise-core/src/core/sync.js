@@ -182,7 +182,7 @@ class SyncCore {
                     version: packageInfo.version
                 },
                 key: config.key,
-                data: {
+                data: encodeURI(JSON.stringify({
                     patients: patientProfiles,
                     users: users.map(user => {
                         delete user.pw;
@@ -190,16 +190,17 @@ class SyncCore {
                         delete user.iterations;
                         return user;
                     })
-                }
+                }))
             });
 
             const options = {
-                uri: `${config.host}api/sync/v1`,
+                uri: `${config.host}api/sync/v1.1`,
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8',
                     'Content-Length': data.length
                 },
+                encoding: 'utf-8',
                 body: data
             };
 
@@ -211,32 +212,45 @@ class SyncCore {
                 }),
                 updated_at: dbcon().fn.now()
             });
+
             request(options, async (error, response, body) => {
-                const result = body !== undefined ? JSON.parse(body) : {};
-                if (!error && response.statusCode === 200) {
-                    if (result.status === 'success')
-                        await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
-                            value: JSON.stringify({
-                                status: 'success',
-                                lastSuccess: (new Date()).getTime()
-                            }),
-                            updated_at: dbcon().fn.now()
-                        });
-                    else
+                try {
+                    const result = body !== undefined ? JSON.parse(body) : {};
+                    if (!error && response.statusCode === 200) {
+                        if (result.status === 'success')
+                            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                value: JSON.stringify({
+                                    status: 'success',
+                                    lastSuccess: (new Date()).getTime()
+                                }),
+                                updated_at: dbcon().fn.now()
+                            });
+                        else
+                            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                value: JSON.stringify({
+                                    error: {
+                                        message: 'Remote did not acknowledge success'
+                                    }
+                                }),
+                                updated_at: dbcon().fn.now()
+                            });
+                    } else {
                         await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                             value: JSON.stringify({
                                 error: {
-                                    message: 'Remote did not acknowledge success'
+                                    message: error ? error.message : (result && result.error ? result.error : 'Unknown error'),
+                                    stack: error ? error.stack : (result && result.stack ? result.stack : undefined)
                                 }
                             }),
                             updated_at: dbcon().fn.now()
                         });
-                } else {
+                    }
+                } catch (exception) {
                     await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                         value: JSON.stringify({
                             error: {
-                                message: error ? error.message : (result && result.error ? result.error : 'Unknown error'),
-                                stack: error ? error.stack : (result && result.stack ? result.stack : undefined)
+                                message: exception.message ? exception.message : 'Unknown error',
+                                stack: exception.stack ? exception.stack : undefined
                             }
                         }),
                         updated_at: dbcon().fn.now()

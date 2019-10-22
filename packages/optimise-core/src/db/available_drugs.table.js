@@ -21,6 +21,11 @@ export default async (dbcon, version) => {
                 .update({ 'deleted': `0@${(new Date()).getTime()}` });
             await dbcon()(TABLE_NAME).insert(drugs_v4);
             break;
+        case 5:
+            await dbcon()(TABLE_NAME).insert([
+                { name: 'Duloxetine Hydrochloride', module: 'Disease Modifying' }
+            ]);
+            break;
         default:
             break;
     }

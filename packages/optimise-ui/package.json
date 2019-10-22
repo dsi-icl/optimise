@@ -17,7 +17,7 @@
 		"test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=true react-scripts test --colors"
 	},
 	"dependencies": {
-		"deepmerge": "4.1.1",
+		"deepmerge": "4.2.0",
 		"detect-browser": "4.7.0",
 		"draft-js": "0.11.1",
 		"file-saver": "2.0.2",
@@ -30,7 +30,7 @@
 		"react-datepicker": "2.9.6",
 		"react-dom": "16.10.2",
 		"react-event-timeline": "1.6.3",
-		"react-helmet-async": "1.0.3",
+		"react-helmet-async": "1.0.4",
 		"react-markdown": "4.2.2",
 		"react-medium-image-zoom": "3.1.2",
 		"react-redux": "7.1.1",
@@ -43,8 +43,8 @@
 	"devDependencies": {
 		"@babel/core": "7.6.4",
 		"@babel/plugin-proposal-decorators": "7.6.0",
-		"@typescript-eslint/eslint-plugin": "2.3.3",
-		"@typescript-eslint/parser": "2.3.3",
+		"@typescript-eslint/eslint-plugin": "2.5.0",
+		"@typescript-eslint/parser": "2.5.0",
 		"babel-eslint": "10.0.3",
 		"cross-env": "6.0.3",
 		"eslint": "6.5.1",
@@ -59,7 +59,7 @@
 		"prop-types": "15.7.2",
 		"react-scripts-rewired": "3.1.1",
 		"typescript": "3.6.4",
-		"webpack": "4.41.0"
+		"webpack": "4.41.2"
 	},
 	"eslintConfig": {
 		"extends": "react-app"

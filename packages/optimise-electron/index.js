@@ -83,13 +83,16 @@ const httpify = ({ url, options = {} }) => {
             _sent: Buffer.from(''),
             _headers: {},
             setHeader: (name, value) => {
-                res._headers[name] = value
+                res._headers[name] = value;
+            },
+            set: (name, value) => {
+                res._headers[name] = value;
             },
             getHeader: (name) => {
-                return res._headers[name]
+                return res._headers[name];
             },
             get: (name) => {
-                return res._headers[name]
+                return res._headers[name];
             },
             write: (chunk, encoding) => {
                 res._sent = Buffer.concat([res._sent, chunk]);

@@ -14,6 +14,7 @@ ipcRenderer.on('update-message', function (event, message) {
 
 ipcRenderer.on('optimiseApiResult', function (event, { cid, res }) {
     callStack[cid]({
+        headers: new Headers(res.headers),
         status: res.statusCode,
         json: () => Promise.resolve(res.json)
     });

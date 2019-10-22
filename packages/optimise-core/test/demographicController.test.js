@@ -1,6 +1,5 @@
 /* global beforeAll afterAll describe test expect */
 
-
 import request from 'supertest';
 
 const admin = request.agent(global.optimiseRouter);

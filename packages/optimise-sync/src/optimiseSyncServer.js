@@ -1,11 +1,11 @@
 //External node module imports
 import express from 'express';
-
 import expressSession from 'express-session';
 import mongoSessionConnect from 'connect-mongo';
 // import swaggerUi from 'swagger-ui-express';
 // import swaggerDocument from '../docs/swagger.json';
 import body_parser from 'body-parser';
+import csrf from 'csurf';
 import passport from 'passport';
 import optimiseOptions from './core/options';
 import dbcon from './utils/db-connection';
@@ -13,6 +13,8 @@ import { migrate } from '../src/utils/db-handler';
 import ErrorHelper from './utils/error_helper';
 
 const mongoSession = mongoSessionConnect(expressSession);
+const csrfHandle = csrf();
+
 class OptimiseSyncServer {
     constructor(config) {
         this.config = new optimiseOptions(config);
@@ -70,18 +72,42 @@ class OptimiseSyncServer {
 
                 // Keeping a pointer to the original mounting point of the server
                 _this.app.use((req, __unused__res, next) => {
-                    req.optimiseRootUrl = req.baseUrl;
+                    req.optimiseSyncRootUrl = req.baseUrl;
                     next();
                 });
 
                 // Init third party middleware for parsing HTTP requests body
-                _this.app.use(body_parser.urlencoded({
-                    extended: true
+                _this.app.use(body_parser.json({
+                    extended: true,
+                    limit: '100mb'
                 }));
-                _this.app.use(body_parser.json());
+                _this.app.use(body_parser.urlencoded({
+                    extended: true,
+                    limit: '100mb'
+                }));
 
                 // Setup remaining route using controllers
                 _this.setupSync();
+
+                // Setup CSRF protecting middleware
+                _this.app.use(csrfHandle);
+                _this.app.use((error, __unused__req, res, next) => {
+                    if (!error)
+                        next();
+                    else {
+                        if (error.code === 'EBADCSRFTOKEN') {
+                            // Handle CSRF token errors here
+                            res.status(403)
+                            res.json(ErrorHelper('Form tempered with'))
+                        } else {
+                            next(error);
+                        }
+                    }
+                });
+                _this.app.use((req, __unused__res, next) => {
+                    req.optimiseSyncCSRFToken = req.csrfToken();
+                    next();
+                });
 
                 _this.app.all('/*', (__unused__req, res) => {
                     res.status(400);
