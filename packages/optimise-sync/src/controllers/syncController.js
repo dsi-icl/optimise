@@ -4,14 +4,13 @@ import message from '../utils/message-utils';
 
 class SyncController {
 
-    static async createSync({ body: { data: encodedData, uuid, agent, key }, headers, connection }, res) {
+    static async createSync({ body: { data, uuid, agent, key }, headers, connection }, res) {
 
-        if (encodedData === undefined || uuid === undefined) {
+        if (data === undefined || uuid === undefined) {
             res.status(401).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
         try {
-            const data = JSON.parse(decodeURI(encodedData));
             const validation = await syncCore.validateKey(uuid, key);
             const inserts = [];
             inserts.push(syncCore.createSyncRecord(uuid, {
@@ -39,6 +38,27 @@ class SyncController {
                     return false;
                 });
             }
+        } catch (error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+            return false;
+        }
+    }
+
+    static async createSyncV1_0(req, res) {
+        return SyncController.createSync(req, res);
+    }
+
+    static async createSyncV1_1({ body, headers, connection }, res) {
+
+        try {
+            return SyncController.createSync({
+                body: {
+                    ...body,
+                    data: body.data !== undefined ? JSON.parse(decodeURI(body.data)) : undefined
+                },
+                headers,
+                connection
+            }, res);
         } catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;

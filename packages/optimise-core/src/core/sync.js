@@ -194,7 +194,7 @@ class SyncCore {
             });
 
             const options = {
-                uri: `${config.host}api/sync/v1`,
+                uri: `${config.host}api/sync/v1.1`,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8',
