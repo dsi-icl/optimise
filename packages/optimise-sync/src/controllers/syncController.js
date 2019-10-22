@@ -5,6 +5,7 @@ import message from '../utils/message-utils';
 class SyncController {
 
     static async createSync({ body: { data, uuid, agent, key }, headers, connection }, res) {
+
         if (data === undefined || uuid === undefined) {
             res.status(401).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
@@ -37,6 +38,27 @@ class SyncController {
                     return false;
                 });
             }
+        } catch (error) {
+            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+            return false;
+        }
+    }
+
+    static async createSyncV1_0(req, res) {
+        return SyncController.createSync(req, res);
+    }
+
+    static async createSyncV1_1({ body, headers, connection }, res) {
+
+        try {
+            return SyncController.createSync({
+                body: {
+                    ...body,
+                    data: body.data !== undefined ? JSON.parse(decodeURI(body.data)) : undefined
+                },
+                headers,
+                connection
+            }, res);
         } catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;

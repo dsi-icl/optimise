@@ -228,13 +228,14 @@ class UserController {
      * @param req Express.js request object
      * @param res Express.js response object
      */
-    static whoAmI({ user }, res) {
+    static whoAmI({ user, optimiseCSRFToken }, res) {
         let Iam = user;
         if (Iam === undefined || Iam === null) {
             res.status(404);
             res.json(ErrorHelper('An unknown unicorn'));
         }
         else {
+            res.set('CSRF-Token', optimiseCSRFToken);
             res.status(200);
             res.json(Iam);
         }

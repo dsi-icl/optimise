@@ -319,7 +319,7 @@ class OnePregnancy extends Component {
                                 <label htmlFor='noEndDate'>The pregnancy is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={noEndDate} /><br />
                                 {noEndDate ? null : (
                                     <>
-                                        <label htmlFor='outcomeDate'>Outcome date: </label><PickDate startDate={!noEndDate ? outcomeDate : null} handleChange={this._handleEndDateChange} /><br />
+                                        <label htmlFor='outcomeDate'>Outcome date: </label><PickDate startDate={outcomeDate} handleChange={this._handleEndDateChange} /><br />
                                         <label>Outcome: </label>
                                         <select onChange={this._handleOutcomeChange} value={outcome}>
                                             <option value='unselected'></option>

@@ -36,7 +36,6 @@ class RequestMiddleware {
                 return false;
             });
         next();
-        // }
     }
 }
 
