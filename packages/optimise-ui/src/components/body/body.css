@@ -72,7 +72,7 @@ body {
     position: absolute;
 }
 
-body > div {
+body > #root {
     display: grid;
     grid: "navigation sidebar content annexe fringe" calc(100% - 2em) "navigation status status status status" 2em / 4em 0 calc(60% - 2.5em) calc(40% - 2.5em) 1em;
     width: 100%;
