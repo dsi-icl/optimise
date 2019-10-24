@@ -15,11 +15,13 @@ webWorker.start();
 serviceWorker.unregister();
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Router history={history}>
-            <HelmetProvider>
-                <App />
-            </HelmetProvider>
-        </Router>
-    </Provider>,
+    <React.StrictMode>
+        <Provider store={store}>
+            <Router history={history}>
+                <HelmetProvider>
+                    <App />
+                </HelmetProvider>
+            </Router>
+        </Provider>
+    </React.StrictMode>,
     document.getElementById('root'));
