@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
@@ -15,7 +15,7 @@ webWorker.start();
 serviceWorker.unregister();
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <Provider store={store}>
             <Router history={history}>
                 <HelmetProvider>
@@ -23,5 +23,5 @@ ReactDOM.render(
                 </HelmetProvider>
             </Router>
         </Provider>
-    </React.StrictMode>,
+    </StrictMode>,
     document.getElementById('root'));
