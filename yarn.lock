@@ -5438,10 +5438,10 @@ dotenv@^8.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
-draft-js@0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.11.1.tgz#716991cf719ce54c418650c1f8c7b4c514afb8ce"
-  integrity sha512-7e90x4gWKNNP/U2UeAiZ3a4DZZ9+TVZ+wU8v3Qgt3OsceHIGIy7uHU8plq2XoHi9ro/v5H/tiOV2ZJes5OfT7Q==
+draft-js@0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.11.2.tgz#dd272d9c9e1299c3bd94f5f4aac3ac2784551d4c"
+  integrity sha512-JU96XdAigQ4hAmyBMVXps6RQ8+dMhhNI1dDJPMP6OeHuSv+uwDzDg/7lxGQ1PEq+1Q6575jtvxDa7Aw3vy0WHA==
   dependencies:
     fbjs "^1.0.0"
     immutable "~3.7.4"
