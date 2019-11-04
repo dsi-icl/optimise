@@ -26,7 +26,7 @@
     "license": "MIT",
     "dependencies": {
         "body-parser": "1.19.0",
-        "connect-session-knex": "1.4.0",
+        "connect-session-knex": "1.5.0",
         "csurf": "1.10.0",
         "csv-parse": "4.6.5",
         "express": "4.17.1",
