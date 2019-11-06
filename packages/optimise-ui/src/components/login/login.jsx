@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { default as T } from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import { loginAPICall } from '../../redux/actions/login';
@@ -30,10 +29,11 @@ class Login extends Component {
     // Custom name for container
     static displayName = 'Login';
 
-    // Types for available context
-    static contextTypes = {
-        dispatch: T.func
-    };
+    constructor(props) {
+        super(props);
+        this.usernameFieldRef = React.createRef();
+        this.passwordFieldRef = React.createRef();
+    }
 
     componentWillUnmount() {
         store.dispatch(clearError());
@@ -42,8 +42,8 @@ class Login extends Component {
     login = (e) => {
         e.preventDefault();
         this.props.requestLogin({
-            username: this.refs.username.value,
-            pw: this.refs.password.value
+            username: this.usernameFieldRef.current.value,
+            pw: this.passwordFieldRef.current.value
         });
     }
 
@@ -69,8 +69,8 @@ class Login extends Component {
                         <span>optimise<strong>:</strong>ms</span>
                     </div>
                     <form className={style.form} onSubmit={this.login.bind(this)}>
-                        <input type='text' placeholder='Username' ref='username' autoComplete='username' /><br />
-                        <input type='password' placeholder='Password' ref='password' autoComplete='current-password' /><br />
+                        <input type='text' placeholder='Username' ref={this.usernameFieldRef} autoComplete='username' /><br />
+                        <input type='password' placeholder='Password' ref={this.passwordFieldRef} autoComplete='current-password' /><br />
                         {isProcessing ? (<LoadBar />) : (<button type='submit'>Login</button>)}<br />
                         {hasAttempted && error !== undefined ? <div className={style.error}>{error}</div> : null}
                     </form>
