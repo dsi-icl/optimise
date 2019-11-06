@@ -32,7 +32,7 @@
         "express": "4.17.1",
         "express-session": "1.17.0",
         "express-zip": "2.0.1",
-        "form-data": "2.5.1",
+        "form-data": "3.0.0",
         "knex": "0.20.1",
         "moment": "2.24.0",
         "multer": "1.4.2",
