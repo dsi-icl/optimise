@@ -309,8 +309,7 @@ class OneVisit extends Component {
                             </table>
                         </div>
                     </>
-                ) : null
-                }
+                ) : null}
 
                 {visitHasMedications ? (
                     <>
@@ -328,8 +327,7 @@ class OneVisit extends Component {
                             </table>
                         </div>
                     </>
-                ) : null
-                }
+                ) : null}
 
                 {visitHasClinicalEvents ? (
                     <>
@@ -349,8 +347,7 @@ class OneVisit extends Component {
                         </div>
                         <br />
                     </>
-                ) : null
-                }
+                ) : null}
 
                 {this.props.visitType === 1 ? (
                     <>
@@ -401,6 +398,7 @@ class OneVisit extends Component {
                         <br /><br />
                     </>
                 ) : null}
+
                 {this.props.visitType === 1 || visitHasClinicalEvents ? (
                     <>
                         <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}</h4>
@@ -452,7 +450,7 @@ class OneVisit extends Component {
                     </>
                 ) : null}
 
-                {this.props.visitType === 1 ?
+                {this.props.visitType === 1 ? (
                     <>
                         <h4><Icon symbol='symptom' />&nbsp;COMORBIDITIES</h4>
                         {filteredComorbidities.length > 0 ? (
@@ -473,8 +471,9 @@ class OneVisit extends Component {
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/comorbidity/${this.props.visitId}`} activeClassName={style.activeNavLink}>
                             <button>Edit comorbidities</button>
                         </NavLink>
-                        <br /><br /></>
-                    : null}
+                        <br /><br />
+                    </>
+                ) : null}
 
 
                 {this.props.visitType === 1 ? (
@@ -514,20 +513,22 @@ class OneVisit extends Component {
                             <button>Edit performance measures data for this visit</button>
                         </NavLink>
                         <br /><br />
-                        <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
-                        {communication ? (
-                            <>
-                                <div className={`${style.visitWrapper} ${style.editorSneak}`}>
-                                    <Editor editorState={originalEditorState} onChange={() => null} />
-                                </div><br />
-                            </>
-                        ) : null}
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
-                            <button>Edit or export the visit report</button>
-                        </NavLink>
-                        <br /><br />
                     </>
                 ) : null}
+                <>
+                    <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
+                    {communication ? (
+                        <>
+                            <div className={`${style.visitWrapper} ${style.editorSneak}`}>
+                                <Editor editorState={originalEditorState} onChange={() => null} />
+                            </div><br />
+                        </>
+                    ) : null}
+                    <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/communication/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                        <button>Edit or export the visit report</button>
+                    </NavLink>
+                    <br /><br />
+                </>
             </TimelineEvent>
         );
     }
