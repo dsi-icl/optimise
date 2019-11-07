@@ -17,7 +17,7 @@ class TreatmentController {
         }
         if ((body.hasOwnProperty('dose') && typeof body.dose !== 'number') ||
             (body.hasOwnProperty('unit') && body.unit !== 'µg' && body.unit !== 'mg' && body.unit !== 'cc') ||
-            (body.hasOwnProperty('form') && body.form !== 'OR' && body.form !== 'IV' && body.form !== 'IM' && body.form !== 'SC') ||
+            (body.hasOwnProperty('form') && body.form !== 'OR' && body.form !== 'IV' && body.form !== 'IM' && body.form !== 'IT' && body.form !== 'SC') ||
             (body.hasOwnProperty('times') && typeof body.times !== 'number') ||
             (body.hasOwnProperty('intervalUnit') && body.intervalUnit !== 'hour' && body.intervalUnit !== 'day' &&
                 body.intervalUnit !== 'week' && body.intervalUnit !== '6weeks' && body.intervalUnit !== '8weeks' &&
