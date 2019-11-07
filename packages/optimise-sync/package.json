@@ -30,7 +30,7 @@
         "saslprep": "1.0.3"
     },
     "devDependencies": {
-        "@babel/core": "7.7.0",
+        "@babel/core": "7.7.2",
         "@babel/plugin-syntax-dynamic-import": "7.2.0",
         "@babel/plugin-transform-modules-commonjs": "7.7.0",
         "@babel/polyfill": "7.7.0",
