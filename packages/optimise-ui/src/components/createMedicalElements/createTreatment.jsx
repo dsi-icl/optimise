@@ -155,6 +155,7 @@ export class CreateTreatment extends Component {
                             <option value='OR'>Oral</option>
                             <option value='IV'>Intravenous</option>
                             <option value='IM'>Intramuscular</option>
+                            <option value='IT'>Intrathecal</option>
                             <option value='SC'>Subcutaneous</option>
                         </select><br /><br />
                         <label>Frequency (fill both or leave both blank): </label>
