@@ -2058,14 +2058,6 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@stryker-mutator/api@^2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@stryker-mutator/api/-/api-2.2.1.tgz#36f343f8c2c02a7465cf1feb3a3ae2af91f98ca3"
-  integrity sha512-XJc/2HOW+XGUO+zrKmUY2B5jsct+e8wz3234rAHm6qz3/njxLvzoWhNKFp/3Glagg26+TFTVsRoWuR/aNIS4UA==
-  dependencies:
-    mutation-testing-report-schema "^1.0.0"
-    tslib "~1.10.0"
-
 "@stryker-mutator/api@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@stryker-mutator/api/-/api-2.3.0.tgz#8f4010471f8cd22ceec8efe78429d39e7af12ccc"
@@ -2126,12 +2118,12 @@
     lodash.clonedeep "^4.5.0"
     tslib "~1.10.0"
 
-"@stryker-mutator/jest-runner@2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@stryker-mutator/jest-runner/-/jest-runner-2.2.1.tgz#6c7a917a7f2c9f6e01fab6f9b01209569568928c"
-  integrity sha512-B6ocgPAfGt7JfPyg58ft+mw2OQoJqxp3+92zSr3IZgHgtWd1RTQrQ+ufOPQXL+U/TTW+8oWvtBfX9KQe3m0Zhw==
+"@stryker-mutator/jest-runner@2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@stryker-mutator/jest-runner/-/jest-runner-2.3.0.tgz#4b7724745fa31ffb9f800bc8b1f2a50f49814414"
+  integrity sha512-d3b5aEsGBm7UNSXbapmibHzvIDFzmq8CUxHHTJn9sK89XbG6F+h8SYnMf//9ln/QFtbGPmjxvS5oP9ufHnHzJg==
   dependencies:
-    "@stryker-mutator/api" "^2.2.1"
+    "@stryker-mutator/api" "^2.3.0"
     semver "~6.3.0"
 
 "@stryker-mutator/util@^2.3.0":
