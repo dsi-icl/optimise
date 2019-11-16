@@ -142,6 +142,19 @@ class UpdateDemoEntry extends Component {
         const { countryOfOrigin, dominantHand, ethnicity, gender, DOB } = this.props.data;
         const { givenName, surname, address, postcode } = this.state;
 
+        let genders_sorted = [];
+        fields.genders.forEach((el) => {
+            el.value = el.value[0].toUpperCase() + el.value.slice(1).toLowerCase();
+            genders_sorted.push(el);
+        });
+        let dominant_hands_sorted = [];
+        fields.dominant_hands.forEach((el) => {
+            el.value = el.value[0].toUpperCase() + el.value.slice(1).toLowerCase();
+            if (el.value === 'Unknown')
+                dominant_hands_sorted.unshift(el);
+            else
+                dominant_hands_sorted.push(el);
+        });
         return (
             <>
                 <h4>Personal information</h4><br />
@@ -154,12 +167,12 @@ class UpdateDemoEntry extends Component {
                 <label>Date of birth:</label><br /> <PickDate startDate={moment(DOB, 'x')} handleChange={this._handleDobDateChange} /> <br /><br />
                 <label>Gender: </label>
                 <select defaultValue={gender} ref={genderRef}>
-                    {fields.genders.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
+                    {genders_sorted.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
                 <br /><br />
                 <label>Dominant hand: </label>
                 <select defaultValue={dominantHand} ref={dominantHandRef}>
-                    {fields.dominant_hands.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
+                    {dominant_hands_sorted.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
                 <br /><br />
                 <label>Ethnicity: </label>
