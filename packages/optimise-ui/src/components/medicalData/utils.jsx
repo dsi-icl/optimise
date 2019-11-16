@@ -272,6 +272,55 @@ export class TextField extends Component {
     }
 }
 
+/* receives ref */
+export class AntibodyField extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentBooleanValue: props.origVal === '-1',
+            currentTextValue: props.origVal && props.origVal !== '-1' ? props.origVal : ''
+        };
+        this._onChange = this._onChange.bind(this);
+        this._onClick = this._onClick.bind(this);
+    }
+
+    _onChange(ev) {
+        const newValue = ev.target ? ev.target.value : undefined;
+        this.setState(prevState => ({
+            ...prevState,
+            currentBooleanValue: false,
+            currentTextValue: newValue ? newValue : prevState.currentTextValue
+        }), () => {
+            this.props.reference.current.value = this.state.currentTextValue;
+        });
+    }
+
+    _onClick(ev) {
+        ev.preventDefault();
+        this.setState(prevState => ({
+            ...prevState,
+            currentBooleanValue: !prevState.currentBooleanValue,
+            currentTextValue: prevState.currentBooleanValue === false ? '' : prevState.currentTextValue
+        }), () => {
+            if (this.state.currentBooleanValue === true)
+                this.props.reference.current.value = '-1';
+            else
+                this.props.reference.current.value = '';
+        });
+    }
+
+    render() {
+        const { origVal, reference } = this.props;
+        const { currentTextValue, currentBooleanValue } = this.state;
+        return (
+            <div className={style.antibodyContainer}>
+                <input defaultValue={origVal} ref={reference} type='hidden' />
+                <button className={currentBooleanValue ? '' : style.noActive} onClick={this._onClick}>Not detected</button>
+                <input value={currentTextValue} onChange={this._onChange} type='text' />
+            </div>
+        );
+    }
+}
 
 export const createLevelObj = (fields) => {
     let obj = [];
@@ -279,17 +328,21 @@ export const createLevelObj = (fields) => {
     fields.forEach(f => {
         obj.push(f.idname.split(':').reverse().reduce((a, c) => !a ? { [c]: f } : ({ [c]: a }), null));
     });
+
     return merge.all(obj);
 };
 
-export const mappingFields = (typeHash, references, originalValues) => {
+export const mappingFields = (typeHash, references, originalValues, transformer) => {
     const curry = el => {
         const title = el[0];
-        const content = el[1];
+        let content = el[1];
         if (content.hasOwnProperty('id')) {
+            if (transformer !== undefined)
+                content = transformer(content);
             const origVal = originalValues[content.id];
+            const commutator = content.typeOverride || typeHash[content.type];
             let dateSlot;
-            switch (typeHash[content.type]) {
+            switch (commutator) {
                 case 'B':
                     return (
                         <div key={Math.random()} className={style.dataItem}>
@@ -310,6 +363,13 @@ export const mappingFields = (typeHash, references, originalValues) => {
                         <div key={Math.random()} className={style.dataItem}>
                             <label>{content.definition}</label>
                             <PickDate startDate={dateSlot ? dateSlot : undefined} reference={references[content.id].ref} /><br />
+                        </div>
+                    );
+                case 'FAB':
+                    return (
+                        <div key={Math.random()} className={style.dataItem}>
+                            <label>{content.definition}{content.unit ? <em> in {content.unit}</em> : ''}</label>
+                            <AntibodyField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
                         </div>
                     );
                 default:
