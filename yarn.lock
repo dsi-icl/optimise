@@ -9431,6 +9431,11 @@ mem@^4.0.0:
     mimic-fn "^2.0.0"
     p-is-promise "^2.0.0"
 
+memoize-one@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.1.1.tgz#047b6e3199b508eaec03504de71229b8eb1d75c0"
+  integrity sha512-HKeeBpWvqiVJD57ZUAsJNm71eHTykffzcLZVYWiVfQeI1rJtuEaS7hQiEpWfVVk18donPwJEcFKIkCmPJNOhHA==
+
 memory-fs@^0.4.0, memory-fs@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/memory-fs/-/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
@@ -12020,14 +12025,16 @@ react-app-polyfill@^1.0.2:
     regenerator-runtime "0.13.3"
     whatwg-fetch "3.0.0"
 
-react-calendar-timeline@0.18.2:
-  version "0.18.2"
-  resolved "https://registry.yarnpkg.com/react-calendar-timeline/-/react-calendar-timeline-0.18.2.tgz#9e3cd033c2eefeb6461dca1595aa288f8f51a171"
-  integrity sha512-7PIwFeKkl72YhMWovE3Hv/LqLBNTLYBdwWFmV1LzFaN/Jqxppl/XeBrQ2poZoueIANr/7AEA10Gs49tk5nf5aw==
+react-calendar-timeline@0.26.7:
+  version "0.26.7"
+  resolved "https://registry.yarnpkg.com/react-calendar-timeline/-/react-calendar-timeline-0.26.7.tgz#2cb510c37b163cf8da9f39ba4047e42670cbe739"
+  integrity sha512-50myBM8j/JUopMJCPBm3m+sxQUIG+hAfetAsCeZ7k9dn9EOLIIrM09Qu8JHYG2Urp+HqGyNzq+bOIWCJPgVoEw==
   dependencies:
+    classnames "^2.2.6"
     create-react-context "^0.2.2"
     element-resize-detector "^1.1.12"
     lodash.isequal "^4.5.0"
+    memoize-one "^5.1.1"
 
 react-datepicker@2.10.0:
   version "2.10.0"
