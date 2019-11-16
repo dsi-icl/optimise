@@ -289,7 +289,7 @@ export class AntibodyField extends Component {
         this.setState(prevState => ({
             ...prevState,
             currentBooleanValue: false,
-            currentTextValue: newValue ? newValue : prevState.currentTextValue
+            currentTextValue: newValue !== undefined ? newValue : prevState.currentTextValue
         }), () => {
             this.props.reference.current.value = this.state.currentTextValue;
         });
