@@ -360,4 +360,11 @@ button.noActive:hover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), 90%) !important;
 }
 
+.antibodyContainer button {
+    width: 10em;
+    margin-right: 1em;
+}
 
+.antibodyContainer input {
+    width: calc(100% - 11em);
+}

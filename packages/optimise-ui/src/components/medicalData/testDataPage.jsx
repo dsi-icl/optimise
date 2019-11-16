@@ -150,7 +150,12 @@ export class TestData extends Component {
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
                         <form onSubmit={this._handleSubmit} className={style.form}>
                             <div className={style.levelBody}>
-                                {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
+                                {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues, (item) => {
+                                    // Override for all with referenceType === 'Laboratory test'
+                                    if (item.referenceType === 1)
+                                        item.typeOverride = 'FAB';
+                                    return item;
+                                }))}
                             </div>
                             <button type='submit'>Save</button>
                         </form>
