@@ -28,7 +28,7 @@ export default class CreatePatient extends Component {    //get these props from
             consent: 'N',
             error: false,
             gender: 0,
-            dominant_hand: 0,
+            dominant_hand: 5,
             ethnicity: 0,
             country_of_origin: 0,
             diagnosis: 0,
@@ -145,6 +145,22 @@ export default class CreatePatient extends Component {    //get these props from
     render() {
         if (!this.state.dispatched) {
             const { genders, dominant_hands, ethnicities, countries } = this.props.demofields;
+            let genders_sorted = [];
+            genders.forEach((el) => {
+                el.value = el.value[0].toUpperCase() + el.value.slice(1).toLowerCase();
+                genders_sorted.push(el);
+            });
+            let dominant_hands_sorted = [];
+            dominant_hands.forEach((el) => {
+                el.value = el.value[0].toUpperCase() + el.value.slice(1).toLowerCase();
+                if (el.value === 'Unknown')
+                    dominant_hands_sorted.unshift({
+                        ...el,
+                        value: ''
+                    });
+                else
+                    dominant_hands_sorted.push(el);
+            });
             return (
                 <>
                     <div className={style.ariane}>
@@ -169,8 +185,8 @@ export default class CreatePatient extends Component {    //get these props from
                             <br />
                             <h4>Basic demographic data</h4><br />
                             <label>Date of birth:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDobDateChange} /> <br /><br />
-                            <label htmlFor='gender'>Gender:</label><br /> <SelectField name='gender' value={this.state.gender} options={genders} handler={this._handleChange} /> <br /><br />
-                            <label htmlFor='dominant_hand'>Dominant hand:</label><br /> <SelectField name='dominant_hand' value={this.state['dominant_hand']} options={dominant_hands} handler={this._handleChange} /> <br /><br />
+                            <label htmlFor='gender'>Gender:</label><br /> <SelectField name='gender' value={this.state.gender} options={genders_sorted} handler={this._handleChange} /> <br /><br />
+                            <label htmlFor='dominant_hand'>Dominant hand:</label><br /> <SelectField name='dominant_hand' value={this.state['dominant_hand']} options={dominant_hands_sorted} handler={this._handleChange} noEmpty={true} /> <br /><br />
                             <label htmlFor='ethnicity'>Ethnicity:</label><br /> <SelectField name='ethnicity' value={this.state['ethnicity']} options={ethnicities} handler={this._handleChange} /> <br /><br />
                             <label htmlFor='country_of_origin'>Country of origin:</label><br /> <SelectField name='country_of_origin' value={this.state['country_of_origin']} options={countries} handler={this._handleChange} /> <br /><br />
                             <br />
@@ -201,7 +217,7 @@ export class SelectField extends Component {
     render() {
         return (
             <select onChange={this.props.handler} name={this.props.name} value={this.props.value} autoComplete='off'>
-                <option value={0}></option>
+                {this.props.noEmpty !== true ? <option value={0}></option> : null}
                 {this.props.options.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
             </select>
         );
