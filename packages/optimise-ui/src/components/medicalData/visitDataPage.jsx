@@ -38,11 +38,11 @@ export class VisitData extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.match.path === state.vdPath)
+        if (props.match.url === state.vdPath)
             return state;
         return {
             ...state,
-            vdPath: props.match.path,
+            vdPath: props.match.url,
             refreshReferences: true
         };
     }
