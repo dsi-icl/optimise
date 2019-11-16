@@ -312,7 +312,6 @@ export class AntibodyField extends Component {
     render() {
         const { origVal, reference } = this.props;
         const { currentTextValue, currentBooleanValue } = this.state;
-        console.log(this.state);
         return (
             <div className={style.antibodyContainer}>
                 <input defaultValue={origVal} ref={reference} type='hidden' />
