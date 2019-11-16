@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import Timeline from 'react-calendar-timeline/lib';
+import Timeline, { TimelineHeaders, DateHeader } from 'react-calendar-timeline';
 import { edssAlgorithmFromProps } from '../EDSScalculator/calculator';
 import { BackButton } from '../medicalData/utils';
 import Helmet from '../scaffold/helmet';
@@ -284,7 +284,24 @@ export default class FullTimeline extends Component {
             );
     }
 
-    itemRenderer({ item, timelineContext }) {
+    itemRenderer({ item, getItemProps, timelineContext }) {
+
+        let itemProps = getItemProps(item.itemProps);
+        const itemPropsStyle = {
+            ...itemProps.style,
+            background: undefined,
+            border: undefined,
+            cursor: undefined
+        };
+        itemProps.style = itemPropsStyle;
+
+        const ItemWrapper = ({ children }) => (
+            <div {...itemProps}>
+                <div className={style.timelineItemConainter}>
+                    {children}
+                </div>
+            </div>
+        );
 
         if (item.title === 'Relapse') {
             let unit = (timelineContext.visibleTimeEnd - timelineContext.visibleTimeStart);
@@ -297,29 +314,31 @@ export default class FullTimeline extends Component {
             let severityRadius = item.severity === 'Mild' ? 5 : item.severity === 'Moderate' ? 10 : item.severity === 'Severe' ? 15 : 0;
 
             return (
-                <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>
-                    <div className={style.timelineBackground} style={{ width: timelineContext.timelineWidth }}>
-                        <svg height={40} width={timelineContext.timelineWidth}>
-                            {x2 - x1 > 5 ?
-                                (
-                                    <>
-                                        <line x1={x1} y1={15} x2={x2} y2={15} className={style.dashed} />
-                                        <line x1={x2} y1={10} x2={x2} y2={20} />
-                                    </>
-                                ) : null}
-                            {severityRadius === 0 ?
-                                (
-                                    <>
-                                        <line x1={x1 - 4} y1={15 - 4} x2={x1 + 4} y2={15 + 4} className={style.cross} />
-                                        <line x1={x1 - 4} y1={15 + 4} x2={x1 + 4} y2={15 - 4} className={style.cross} />
-                                    </>
-                                ) : (
-                                    <circle cx={x1} cy={15} r={severityRadius} />
-                                )
-                            }
-                        </svg>
-                    </div>
-                </Link>
+                <ItemWrapper>
+                    <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>
+                        <div className={style.timelineBackground} style={{ width: timelineContext.timelineWidth }}>
+                            <svg height={40} width={timelineContext.timelineWidth}>
+                                {x2 - x1 > 5 ?
+                                    (
+                                        <>
+                                            <line x1={x1} y1={15} x2={x2} y2={15} className={style.dashed} />
+                                            <line x1={x2} y1={10} x2={x2} y2={20} />
+                                        </>
+                                    ) : null}
+                                {severityRadius === 0 ?
+                                    (
+                                        <>
+                                            <line x1={x1 - 4} y1={15 - 4} x2={x1 + 4} y2={15 + 4} className={style.cross} />
+                                            <line x1={x1 - 4} y1={15 + 4} x2={x1 + 4} y2={15 - 4} className={style.cross} />
+                                        </>
+                                    ) : (
+                                        <circle cx={x1} cy={15} r={severityRadius} />
+                                    )
+                                }
+                            </svg>
+                        </div>
+                    </Link>
+                </ItemWrapper>
             );
         } else if (item.interruptions !== undefined) {
 
@@ -359,39 +378,47 @@ export default class FullTimeline extends Component {
             if (parseFloat(item.start) > timelineContext.visibleTimeStart)
                 x2i = x2i + ((timelineContext.visibleTimeStart - parseFloat(item.start)) * timelineContext.timelineWidth / unit);
             return (
-                <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>
-                    <div className={style.timelineBackground} style={{ width: (x2i - x1i), maxWidth: timelineContext.timelineWidth }}>
-                        <svg height={40} width={timelineContext.timelineWidth}>
-                            {overlays}
-                        </svg>
-                    </div>
-                    <div className={style.timelineTextContent}>{item.title}</div>
-                </Link>
+                <ItemWrapper>
+                    <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>
+                        <div className={style.timelineBackground} style={{ width: (x2i - x1i), maxWidth: timelineContext.timelineWidth }}>
+                            <svg height={40} width={timelineContext.timelineWidth}>
+                                {overlays}
+                            </svg>
+                        </div>
+                        <div className={style.timelineTextContent}>{item.title}</div>
+                    </Link>
+                </ItemWrapper >
             );
         } else if (item.id === 'edss_plotter') {
             let unit = (timelineContext.visibleTimeEnd - timelineContext.visibleTimeStart);
             let previous = null;
             return (
-                <div className={`${style.timelineBackground} ${item.className}`} style={{ width: timelineContext.timelineWidth }}>
-                    <svg height={40} width={timelineContext.timelineWidth}>
-                        {Object.keys(this.state.edssPoints).sort((a, b) => a - b).map(k => {
-                            let x = (parseFloat(k) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
-                            let y = 65 - (65 * parseFloat(this.state.edssPoints[k]) / 10);
-                            let line = previous ? <line x1={previous[0]} y1={previous[1]} x2={x} y2={y} /> : null;
-                            let point = <circle cx={x} cy={y} r={2} />;
-                            let text = <text x={x} y={y > 60 ? y - 8 : y + 15} textAnchor="middle">{this.state.edssPoints[k]}</text>;
-                            previous = [x, y];
-                            return <Fragment key={k}>{text}{point}{line}</Fragment>;
-                        })}
-                    </svg>
-                </div>
+                <ItemWrapper>
+                    <div className={`${style.timelineBackground} ${item.className}`} style={{ width: timelineContext.timelineWidth }}>
+                        <svg height={40} width={timelineContext.timelineWidth}>
+                            {Object.keys(this.state.edssPoints).sort((a, b) => a - b).map(k => {
+                                let x = (parseFloat(k) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
+                                let y = 65 - (65 * parseFloat(this.state.edssPoints[k]) / 10);
+                                let line = previous ? <line x1={previous[0]} y1={previous[1]} x2={x} y2={y} /> : null;
+                                let point = <circle cx={x} cy={y} r={2} />;
+                                let text = <text x={x} y={y > 60 ? y - 8 : y + 15} textAnchor="middle">{this.state.edssPoints[k]}</text>;
+                                previous = [x, y];
+                                return <Fragment key={k}>{text}{point}{line}</Fragment>;
+                            })}
+                        </svg>
+                    </div>
+                </ItemWrapper>
             );
         }
+
         return (
-            <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>
-                <div className={style.timelineBackground}></div>
-                <div className={style.timelineTextContent}>{item.title}</div>
-            </Link>);
+            <ItemWrapper>
+                <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>
+                    <div className={style.timelineBackground}></div>
+                    <div className={style.timelineTextContent}>{item.title}</div>
+                </Link>
+            </ItemWrapper>
+        );
     }
 
     render() {
@@ -424,7 +451,6 @@ export default class FullTimeline extends Component {
                         itemRenderer={this.itemRenderer}
                         keys={keys}
                         maxZoom={50 * 365.24 * 86400 * 1000}
-                        showCursorLine
                         sidebarWidth={150}
                         stackItems
                         itemsSorted
@@ -435,7 +461,12 @@ export default class FullTimeline extends Component {
                         defaultTimeStart={defaultTimeStart}
                         defaultTimeEnd={defaultTimeEnd}
                         onTimeChange={this.timeBoudary}
-                    />
+                    >
+                        <TimelineHeaders>
+                            <DateHeader unit="primaryHeader" className="rct-top-header" />
+                            <DateHeader className="rct-bottom-header" />
+                        </TimelineHeaders>
+                    </Timeline>
                     <br /><br />
                     <div>
                         To interact and navigate within the timeline you can click-hold then drag<br />

@@ -474,6 +474,14 @@ div.timelineCEBlack {
     fill: hsl(var(--color-background-h), var(--color-background-s), 40%);
 }
 
+.timelineItemConainter {
+    position: sticky;
+    display: inline-block;
+    left: 0;
+    height: 100%;
+    max-width: 100%;
+}
+
 .timelineBackground {
     position: absolute;
     top: 0;
