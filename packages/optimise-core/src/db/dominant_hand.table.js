@@ -16,6 +16,12 @@ export default async (dbcon, version) => {
                 { value: 'amputated' }
             ]);
             break;
+        case 6:
+            await dbcon()(TABLE_NAME).insert([
+                { value: 'Unknown' },
+                { value: 'Prefer not to say' }
+            ]);
+            break;
         default:
             break;
     }

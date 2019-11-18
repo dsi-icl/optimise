@@ -32,9 +32,28 @@ export class VisitData extends Component {
     constructor() {
         super();
         this.state = {};
-        this.references = {};
+        this.references = null;
         this.originalValues = {};
         this._handleSubmit = this._handleSubmit.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.match.url === state.vdPath)
+            return state;
+        return {
+            ...state,
+            vdPath: props.match.url,
+            refreshReferences: true
+        };
+    }
+
+    componentDidUpdate() {
+        if (this.state.refreshReferences === true) {
+            this.references = null;
+            this.setState({
+                refreshReferences: false
+            });
+        }
     }
 
     _handleSubmit(ev) {
@@ -42,6 +61,10 @@ export class VisitData extends Component {
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
         const { references, originalValues } = this;
+
+        if (references === null)
+            return;
+
         const update = {};
         const add = {};
         Object.entries(references).forEach(el => {
@@ -118,7 +141,10 @@ export class VisitData extends Component {
             const fieldTree = createLevelObj(relevantFields);
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
             this.originalValues = visitsMatched[0].data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
-            this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
+            if (this.references !== null && this.state.refreshReferences === true)
+                return null;
+            if (this.references === null)
+                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             return (
                 <>
                     <div className={scaffold_style.ariane}>

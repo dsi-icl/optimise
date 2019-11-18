@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
@@ -15,11 +15,13 @@ webWorker.start();
 serviceWorker.unregister();
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Router history={history}>
-            <HelmetProvider>
-                <App />
-            </HelmetProvider>
-        </Router>
-    </Provider>,
+    <StrictMode>
+        <Provider store={store}>
+            <Router history={history}>
+                <HelmetProvider>
+                    <App />
+                </HelmetProvider>
+            </Router>
+        </Provider>
+    </StrictMode>,
     document.getElementById('root'));

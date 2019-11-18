@@ -1,6 +1,6 @@
 {
     "name": "optimise",
-    "version": "1.13.2",
+    "version": "1.14.0",
     "description": "Optimise:MS",
     "keywords": [
         "ms"
@@ -41,6 +41,6 @@
         "test": "lerna run test --stream"
     },
     "devDependencies": {
-        "lerna": "3.18.2"
+        "lerna": "3.18.4"
     }
 }
