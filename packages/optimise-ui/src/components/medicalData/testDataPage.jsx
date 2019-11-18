@@ -36,9 +36,28 @@ export class TestData extends Component {
         this.state = {
             data: null
         };
-        this.references = {};
+        this.references = null;
         this.originalValues = {};
         this._handleSubmit = this._handleSubmit.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.match.url === state.vdPath)
+            return state;
+        return {
+            ...state,
+            vdPath: props.match.url,
+            refreshReferences: true
+        };
+    }
+
+    componentDidUpdate() {
+        if (this.state.refreshReferences === true) {
+            this.references = null;
+            this.setState({
+                refreshReferences: false
+            });
+        }
     }
 
     _handleSubmit(ev) {
@@ -46,6 +65,10 @@ export class TestData extends Component {
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
         const { references, originalValues } = this;
+
+        if (references === null)
+            return;
+
         const update = {};
         const add = {};
         Object.entries(references).forEach(el => {
@@ -114,7 +137,10 @@ export class TestData extends Component {
             const fieldTree = createLevelObj(relevantFields);
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
             this.originalValues = visitsMatched[0].data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
-            this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
+            if (this.references !== null && this.state.refreshReferences === true)
+                return null;
+            if (this.references === null)
+                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             return (
                 <>
                     <div className={scaffold_style.ariane}>
@@ -124,7 +150,12 @@ export class TestData extends Component {
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
                         <form onSubmit={this._handleSubmit} className={style.form}>
                             <div className={style.levelBody}>
-                                {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
+                                {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues, (item) => {
+                                    // Override for all with referenceType === 'Laboratory test'
+                                    if (item.referenceType === 1)
+                                        item.typeOverride = 'FAB';
+                                    return item;
+                                }))}
                             </div>
                             <button type='submit'>Save</button>
                         </form>
