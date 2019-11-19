@@ -1,7 +1,7 @@
 {
 	"name": "optimise-ui",
 	"productName": "Optimise MS",
-	"version": "1.14.0",
+	"version": "1.15.0",
 	"description": "Optimise:MS UI",
 	"keywords": [
 		"ms"
@@ -43,8 +43,8 @@
 	"devDependencies": {
 		"@babel/core": "7.7.2",
 		"@babel/plugin-proposal-decorators": "7.7.0",
-		"@typescript-eslint/eslint-plugin": "2.7.0",
-		"@typescript-eslint/parser": "2.7.0",
+		"@typescript-eslint/eslint-plugin": "2.8.0",
+		"@typescript-eslint/parser": "2.8.0",
 		"babel-eslint": "10.0.3",
 		"cross-env": "6.0.3",
 		"eslint": "6.6.0",
