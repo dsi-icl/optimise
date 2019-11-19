@@ -178,7 +178,11 @@ class OptimiseServer {
      * @return {Promise} Resolve to true on success, ErrorStack otherwise
      */
     stop() {
-        return dbcon().destroy();
+        try {
+            return dbcon().destroy();
+        } catch (__unused__exception) {
+            return Promise.resolve();
+        }
     }
 
     /**
