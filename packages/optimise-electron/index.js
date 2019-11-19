@@ -222,7 +222,7 @@ let createWindow = () => {
     }
 
     mainWindow.on('close', () => {
-        if (closingBlock === false && updatingBlock === false) {
+        if (updatingBlock === false) {
             if (mainWindow !== null && closingBlock === false) {
                 closingBlock = true;
                 mainWindow.close();
