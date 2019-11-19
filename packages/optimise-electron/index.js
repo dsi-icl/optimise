@@ -192,6 +192,7 @@ const createApi = () => {
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let updatingBlock = false;
 
 let createWindow = () => {
 
@@ -219,23 +220,18 @@ let createWindow = () => {
         mainWindow.setMenu(null);
     }
 
-    ipcMain.on('rendererIsFinished', (message) => {
-        app.quit();
+    mainWindow.on('close', () => {
+        if (updatingBlock === false) {
+            if (mainWindow !== null) {
+                mainWindow.close();
+                mainWindow = null;
+            }
+            // On OS X it is common for applications and their menu bar
+            // to stay active until the user quits explicitly with Cmd + Q
+            if (process.platform !== 'darwin')
+                app.quit();
+        }
     })
-
-    mainWindow.on('close', (event) => {
-        mainWindow.webContents.send('closing');
-        event.preventDefault();
-    })
-
-    // Emitted when the window is closed.
-    mainWindow.on('closed', () => {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
-        mainWindow = null;
-        app.quit();
-    });
 }
 
 const sendUpdateStatusToWindow = (message) => {
@@ -298,17 +294,28 @@ app.on('ready', () => {
 app.on('window-all-closed', () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') {
-        optimise_server.stop().then(app.quit());
-    }
+    if (process.platform !== 'darwin')
+        optimise_server.stop().then(() => app.quit());
 });
 
 app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (mainWindow === null) createWindow();
+    if (mainWindow === null)
+        createWindow();
 });
 
 ipcMain.on('quitAndInstall', (event, arg) => {
-    autoUpdater.quitAndInstall();
+    updatingBlock = true;
+    setImmediate(() => {
+        app.removeAllListeners('window-all-closed');
+        optimise_server.stop().then(() => autoUpdater.quitAndInstall(false));
+    })
+})
+
+ipcMain.on('rendererIsFinished', () => {
+    // On OS X it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin' && updatingBlock === false)
+        optimise_server.stop().then(() => app.quit());
 })

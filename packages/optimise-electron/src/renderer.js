@@ -7,12 +7,12 @@ window['ipcUpdateCommander'] = () => {
     ipcRenderer.send('quitAndInstall');
 };
 
-ipcRenderer.on('update-message', function (event, message) {
+ipcRenderer.on('update-message', function (__unused__event, message) {
     window['ipcUpdateReady'] = message.ready;
     window['ipcUpdateStatus'] = message.text;
 });
 
-ipcRenderer.on('optimiseApiResult', function (event, { cid, res }) {
+ipcRenderer.on('optimiseApiResult', function (__unused__event, { cid, res }) {
     callStack[cid]({
         headers: new Headers(res.headers),
         status: res.statusCode,
