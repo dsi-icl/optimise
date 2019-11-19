@@ -192,6 +192,7 @@ const createApi = () => {
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let closingBlock = false;
 let updatingBlock = false;
 
 let createWindow = () => {
@@ -221,8 +222,9 @@ let createWindow = () => {
     }
 
     mainWindow.on('close', () => {
-        if (updatingBlock === false) {
-            if (mainWindow !== null) {
+        if (closingBlock === false && updatingBlock === false) {
+            if (mainWindow !== null && closingBlock === false) {
+                closingBlock = true;
                 mainWindow.close();
                 mainWindow = null;
             }
@@ -301,8 +303,10 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (mainWindow === null)
+    if (mainWindow === null) {
+        closingBlock = false;
         createWindow();
+    }
 });
 
 ipcMain.on('quitAndInstall', (event, arg) => {
