@@ -8,7 +8,7 @@ class SelectorUtils {
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('VISITS')
-            .select({ visitId: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication' })
+            .select({ visitId: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication', deleted: 'deleted' })
             .where(whereObj)
             .then(result => {
                 const returnObj = { visitsWithoutData: result };
@@ -21,7 +21,7 @@ class SelectorUtils {
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('PATIENT_DEMOGRAPHIC')
-            .select('id', 'DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin')
+            .select('id', 'DOB', 'gender', 'dominantHand', 'ethnicity', 'countryOfOrigin', 'deleted')
             .where(whereObj)
             .then(result => {
                 const returnObj = { demographicData: result[0] };
@@ -42,7 +42,7 @@ class SelectorUtils {
             if (deleted !== true)
                 innerWhereObj.deleted = '-';
             return dbcon()('ORDERED_TESTS')
-                .select('orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate')
+                .select('orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate', 'deleted')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
                 .then(result => {
@@ -57,7 +57,7 @@ class SelectorUtils {
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('PATIENT_IMMUNISATION')
-            .select('id', 'vaccineName', 'immunisationDate')
+            .select('id', 'vaccineName', 'immunisationDate', 'deleted')
             .where({ 'patient': patientId, 'deleted': '-' })
             .then(result => {
                 const returnObj = { immunisations: result };
@@ -70,7 +70,7 @@ class SelectorUtils {
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('MEDICAL_HISTORY')
-            .select('id', 'relation', 'conditionName', 'startDate', 'outcome', 'resolvedYear')
+            .select('id', 'relation', 'conditionName', 'startDate', 'outcome', 'resolvedYear', 'deleted')
             .where(whereObj)
             .then(result => {
                 const returnObj = { medicalHistory: result };
@@ -84,7 +84,7 @@ class SelectorUtils {
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('VISITS')
-            .select({ id: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication' })
+            .select({ id: 'id', visitDate: 'visitDate', type: 'type', communication: 'communication', deleted: 'deleted' })
             .where(whereObj)
             .then(result => {
                 if (result.length >= 1) {
@@ -123,7 +123,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return dbcon()('ORDERED_TESTS')
-                .select({ 'id': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate')
+                .select({ 'id': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate', 'deleted')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
                 .then(result => {
@@ -158,7 +158,7 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
-        return dbcon()('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type', 'deleted': 'deleted' }).where(whereObj).then(resu => {
             let ids = [];
             let dates = [];
             for (let i = 0; i < resu.length; i++) {
@@ -166,7 +166,7 @@ class SelectorUtils {
                 dates[resu[i].id] = resu[i].visitDate;
             }
             return dbcon()('TREATMENTS')
-                .select('id', 'orderedDuringVisit', 'drug', 'dose', 'unit', 'form', 'times', 'intervalUnit', 'startDate', 'terminatedDate', 'terminatedReason')
+                .select('id', 'orderedDuringVisit', 'drug', 'dose', 'unit', 'form', 'times', 'intervalUnit', 'startDate', 'terminatedDate', 'terminatedReason', 'deleted')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
                 .then(result => {
@@ -208,7 +208,7 @@ class SelectorUtils {
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('VISIT_DATA')
-            .select('id', 'field', 'value')
+            .select('id', 'field', 'value', 'deleted')
             .where(whereObj);
     }
 
@@ -217,7 +217,7 @@ class SelectorUtils {
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('TEST_DATA')
-            .select('id', 'field', 'value')
+            .select('id', 'field', 'value', 'deleted')
             .where(whereObj);
     }
 
@@ -226,7 +226,7 @@ class SelectorUtils {
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('TREATMENTS_INTERRUPTIONS')
-            .select('id', 'reason', 'startDate', 'endDate', 'meddra')
+            .select('id', 'reason', 'startDate', 'endDate', 'meddra', 'deleted')
             .where(whereObj);
     }
 
@@ -235,7 +235,7 @@ class SelectorUtils {
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('CLINICAL_EVENTS_DATA')
-            .select('id', 'field', 'value')
+            .select('id', 'field', 'value', 'deleted')
             .where(whereObj);
     }
 
@@ -246,13 +246,13 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
-        return dbcon()('VISITS').select('id').where(whereObj).then(resu => {
+        return dbcon()('VISITS').select('id', 'deleted').where(whereObj).then(resu => {
             let ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
             }
             return dbcon()('CLINICAL_EVENTS')
-                .select('id', 'recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra')
+                .select('id', 'recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra', 'deleted')
                 .where(builder => builder.where('patient', patientId).orWhere('recordedDuringVisit', 'in', ids))
                 .andWhere(innerWhereObj)
                 .then(result => {
@@ -270,13 +270,13 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
-        return dbcon()('VISITS').select('id').where(whereObj).then(resu => {
+        return dbcon()('VISITS').select('id', 'deleted').where(whereObj).then(resu => {
             let ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
             }
             return dbcon()('CLINICAL_EVENTS')
-                .select('id', 'recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra')
+                .select('id', 'recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra', 'deleted')
                 .where(builder => builder.where('patient', patientId).orWhere('recordedDuringVisit', 'in', ids))
                 .andWhere(innerWhereObj)
                 .then(result => {
@@ -317,7 +317,7 @@ class SelectorUtils {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
-        return dbcon()('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type', 'deleted': 'deleted' }).where(whereObj).then(resu => {
             let ids = [];
             let dates = [];
             for (let i = 0; i < resu.length; i++) {
