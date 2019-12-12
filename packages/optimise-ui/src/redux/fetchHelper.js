@@ -1,4 +1,5 @@
 import merge from 'deepmerge';
+import isPlainObject from 'is-plain-object';
 import { addError } from './actions/error';
 import store from './store';
 
@@ -18,13 +19,20 @@ export const apiHelper = (endpoint, options, blockError) => {
     if (!options) {
         options = {};
     }
+
     const fetchOptions = {
         ...merge.all([defaultOptions, options, tokenCSRF ? {
             headers: {
                 'csrf-token': tokenCSRF
             }
-        } : {}])
+        } : {}], {
+            isMergeableObject: isPlainObject
+        })
     };
+
+    if (fetchOptions.headers['content-type'] === 'custom/delete')
+        delete fetchOptions.headers['content-type'];
+
     let returnValue;
 
     try {
