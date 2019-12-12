@@ -66,7 +66,8 @@ export const uploadMeddraAPICall = form => dispatch => {
         method: 'POST',
         body: form,
         headers: {
-            accept: 'application/json'
+            'accept': 'application/json',
+            'content-type': 'custom/delete'
         }
     }).then(() => {
         dispatch(uploadMeddraSuccess());
