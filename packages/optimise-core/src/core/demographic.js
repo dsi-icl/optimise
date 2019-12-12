@@ -131,7 +131,7 @@ export class ImmunisationCore {
 export class PregnancyCore {
 
     static getPregnancy(whereObj) {
-        return new Promise((resolve, reject) => getEntry('PATIENT_PREGNANCY', whereObj, { id: 'id', patient: 'patient', startDate: 'startDate', outcome: 'outcome', outcomeDate: 'outcomeDate', meddra: 'meddra' }).then((result) => resolve(result)).catch((error) => reject(error)));
+        return new Promise((resolve, reject) => getEntry('PATIENT_PREGNANCY', whereObj, { id: 'id', patient: 'patient', startDate: 'startDate', outcome: 'outcome', outcomeDate: 'outcomeDate', meddra: 'meddra', deleted: 'deleted' }).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
     static createPregnancy(entryObj) {
