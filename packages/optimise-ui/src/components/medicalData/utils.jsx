@@ -362,7 +362,7 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                     return (
                         <div key={Math.random()} className={style.dataItem}>
                             <label>{content.definition}</label>
-                            <PickDate startDate={dateSlot ? dateSlot : undefined} reference={references[content.id].ref} /><br />
+                            <PickDate startDate={dateSlot ? dateSlot : undefined} reference={references[content.id].ref} /><br /><br />
                         </div>
                     );
                 case 'FAB':
