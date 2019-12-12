@@ -31,7 +31,13 @@ export class PickDate extends Component {
                     onChange={this._handleDateChange}
                     dateFormat="dd/MM/yyyy"
                     style={{ width: '100%' }} />
-                {this.props.handleChange === undefined ? <input style={{ display: 'block' }} type='test' value={this.state.selected ? this.state.selected.toISOString() : ''} ref={this.props.reference} readOnly /> : null}
+                {this.props.handleChange === undefined ? (
+                    <input
+                        style={{ display: 'none' }}
+                        type='text'
+                        value={this.state.selected ? this.state.selected.toISOString() : ''}
+                        ref={this.props.reference} readOnly />)
+                    : null}
             </>
         );
     }
