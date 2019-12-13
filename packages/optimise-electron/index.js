@@ -194,6 +194,7 @@ const createApi = () => {
 let mainWindow;
 let closingBlock = false;
 let updatingBlock = false;
+let updatingTest = false;
 
 let createWindow = () => {
 
@@ -288,7 +289,12 @@ autoUpdater.on('update-downloaded', (info) => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', () => {
-    createApi().then(createWindow);
+    if (process.argv.includes('--autoupdate-test')) {
+        console.log('This run is for testing auto-update and fires no UI');
+        updatingTest = true;
+    }
+    else
+        createApi().then(createWindow);
     setTimeout(() => autoUpdater.checkForUpdates(), 1000)
 });
 

@@ -29,7 +29,7 @@
     },
     "scripts": {
         "build": "lerna run build --scope optimise-core --scope optimise-docker --scope optimise-electron",
-        "preelectron": "lerna run build --scope optimise-core --scope optimise-electron",
+        "preelectron": "lerna run build --concurrency 1 --scope optimise-core --scope optimise-electron --stream",
         "electron": "lerna run electron --scope optimise-electron",
         "lint": "echo Put your favorite linter here.",
         "prepackage": "yarn build",
