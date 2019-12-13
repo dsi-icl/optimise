@@ -1,7 +1,7 @@
 {
     "name": "optimise-electron",
     "productName": "Optimise MS Desktop",
-    "version": "1.15.3",
+    "version": "1.15.4",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
         "research",
@@ -123,8 +123,8 @@
         "@babel/core": "7.7.5",
         "babel-loader": "8.0.6",
         "copy-webpack-plugin": "5.1.1",
-        "electron": "7.1.4",
-        "electron-builder": "22.2.0",
+        "electron": "6.0.12",
+        "electron-builder": "21.2.0",
         "electron-reload": "1.5.0",
         "html-webpack-plugin": "3.2.0",
         "webpack": "4.41.2",
