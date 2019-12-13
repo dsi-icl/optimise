@@ -26,7 +26,9 @@
         "postinstall": "electron-builder install-app-deps",
         "package": "electron-builder -p never .",
         "prepublish": "yarn build",
-        "publish": "electron-builder -p onTagOrDraft ."
+        "publish": "electron-builder -p onTagOrDraft .",
+        "test:autoupdate": "node ./autoupdate.test.js",
+        "test": "yarn test:autoupdate"
     },
     "license": "MIT",
     "build": {
