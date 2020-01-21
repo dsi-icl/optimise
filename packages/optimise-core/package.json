@@ -27,7 +27,7 @@
     "dependencies": {
         "body-parser": "1.19.0",
         "connect-session-knex": "1.5.0",
-        "csurf": "1.10.0",
+        "csurf": "1.11.0",
         "csv-parse": "4.8.5",
         "express": "4.17.1",
         "express-session": "1.17.0",
