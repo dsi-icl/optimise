@@ -20,6 +20,7 @@ export default class UserManual extends Component {
                 </div>
                 <div className={style.panel}>
                     <ReactMarkdown source={markup} escapeHtml={false} renderers={{
+                        paragraph: ({ children }) => <div className={style.paragraph} >{children}</div>,
                         image: ({ alt, src }) => <Zoom>
                             <img alt={alt} src={src} className={style.bordered} />
                         </Zoom>
