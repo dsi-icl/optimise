@@ -242,8 +242,8 @@ class OneVisit extends Component {
         const VSValueArray = [
             { name: 'Reason for the visit', value: VSHashTable['0'] },
             { name: 'Systolic blood pressure', value: VSHashTable['1'], unit: 'mmHg' },
-            { name: 'Diastolic blood pressure', value: VSHashTable['3'], unit: 'mmHg' },
-            { name: 'Heart rate', value: VSHashTable['2'], unit: 'bpm' },
+            { name: 'Diastolic blood pressure', value: VSHashTable['2'], unit: 'mmHg' },
+            { name: 'Heart rate', value: VSHashTable['3'], unit: 'bpm' },
             { name: 'Height', value: VSHashTable['4'], unit: 'cm' },
             { name: 'Weight', value: VSHashTable['5'], unit: 'kg' },
             { name: 'Smoking habit', value: VSHashTable['252'] },
