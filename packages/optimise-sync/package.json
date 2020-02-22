@@ -50,7 +50,7 @@
         "webpack-cli": "3.3.11"
     },
     "optionalDependencies": {
-        "ajv": "6.11.0",
+        "ajv": "6.12.0",
         "fsevents": "2.1.2"
     },
     "jest": {
