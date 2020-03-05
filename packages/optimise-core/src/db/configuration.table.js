@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 
 export const TABLE_NAME = 'OPT_KV';
 export const PRIORITY = 0;

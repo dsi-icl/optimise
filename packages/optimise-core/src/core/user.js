@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import { getEntry, createEntry, deleteEntry, eraseEntry } from '../utils/controller-utils';
 import ErrorHelper from '../utils/error_helper';
 import { hash, generateAndHash } from '../utils/generate-crypto';

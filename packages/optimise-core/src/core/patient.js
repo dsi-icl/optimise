@@ -1,5 +1,5 @@
 import SelectorUtils from '../utils/selector-utils';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import { getEntry, createEntry, updateEntry, deleteEntry, searchEntry } from '../utils/controller-utils';
 import ErrorHelper from '../utils/error_helper';
 import message from '../utils/message-utils';
