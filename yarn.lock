@@ -5670,10 +5670,12 @@ connect-mongo@3.2.0:
   dependencies:
     mongodb "^3.1.0"
 
-connect-session-knex@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/connect-session-knex/-/connect-session-knex-1.5.0.tgz#78ff3d1df6c4e5b0e74d4f8ccf503926272958aa"
-  integrity sha512-hJsb489Aau9PVauVHJpO3O4yP3xykGyh/HqmTPGpWEE44qVvjW91fFOd85iRsjGIyLIvodZb671y/kiCxhpPTg==
+connect-session-knex@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/connect-session-knex/-/connect-session-knex-1.6.0.tgz#daeeab6d0518bbf02db5d627c9904d29c19248db"
+  integrity sha512-iU4cc/khw20lOjW9fPw0dS3XT72IgRxYzh8ZYpQmvuPxNl42zcr7kq/gJL9JnsBDCqQQ1gnWwdiQbxN1rpJuHg==
+  dependencies:
+    bluebird "^3.7.2"
 
 console-browserify@^1.1.0:
   version "1.2.0"
