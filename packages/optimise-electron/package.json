@@ -116,8 +116,8 @@
         }
     },
     "dependencies": {
-        "electron-log": "4.0.7",
-        "electron-updater": "4.2.4",
+        "electron-log": "4.1.0",
+        "electron-updater": "4.2.5",
         "express": "4.17.1",
         "sqlite3": "4.1.1"
     },
@@ -125,8 +125,8 @@
         "@babel/core": "7.8.7",
         "babel-loader": "8.0.6",
         "copy-webpack-plugin": "5.1.1",
-        "electron": "8.1.0",
-        "electron-builder": "22.4.0",
+        "electron": "8.1.1",
+        "electron-builder": "22.4.1",
         "electron-reload": "1.5.0",
         "html-webpack-plugin": "3.2.0",
         "webpack": "4.42.0",
