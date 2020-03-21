@@ -1,0 +1,62 @@
+[
+    {
+        "id": 24,
+        "definition": "COVID-19 Diagnostic test performed",
+        "idname": "COVID-19 Diagnostic test performed",
+        "section": null,
+        "subsection": null,
+        "type": 3,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": "Yes,No (self-diagnosed)",
+        "labels": null,
+        "referenceType": 7,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 25,
+        "definition": "Continuous dry cough",
+        "idname": "COVID-19 signs & symptoms:Continuous dry cough",
+        "section": "COVID-19 signs & symptoms",
+        "subsection": null,
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 7,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 26,
+        "definition": "Fever",
+        "idname": "COVID-19 signs & symptoms:Fever",
+        "section": "COVID-19 signs & symptoms",
+        "subsection": null,
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 7,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 27,
+        "definition": "Shortness of breath",
+        "idname": "COVID-19 signs & symptoms:Shortness of breath",
+        "section": "COVID-19 signs & symptoms",
+        "subsection": null,
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 7,
+        "laterality": null,
+        "cdiscName": null
+    }
+]
