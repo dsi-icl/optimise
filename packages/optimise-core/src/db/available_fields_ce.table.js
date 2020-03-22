@@ -1,5 +1,6 @@
 import { tableMove } from '../utils/db-mover';
 import ceFields from './defaults_v1/ceFields.json';
+import v7_ceFields from './defaults_v7/ceFields.json';
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_CE';
 export const PRIORITY = 1;
@@ -25,6 +26,9 @@ export default async (dbcon, version) => {
                 table.unique(['idname', 'type', 'unit', 'module', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
             });
             await dbcon()(TABLE_NAME).insert(ceFields);
+            break;
+        case 7:
+            await dbcon()(TABLE_NAME).insert(v7_ceFields);
             break;
         default:
             break;
