@@ -44,13 +44,13 @@
 	"devDependencies": {
 		"@babel/core": "7.9.0",
 		"@babel/plugin-proposal-decorators": "7.8.3",
-		"@typescript-eslint/eslint-plugin": "2.24.0",
-		"@typescript-eslint/parser": "2.24.0",
+		"@typescript-eslint/eslint-plugin": "2.25.0",
+		"@typescript-eslint/parser": "2.25.0",
 		"babel-eslint": "10.1.0",
 		"cross-env": "7.0.2",
 		"eslint": "6.8.0",
 		"eslint-config-react-app": "5.2.1",
-		"eslint-plugin-flowtype": "4.6.0",
+		"eslint-plugin-flowtype": "4.7.0",
 		"eslint-plugin-import": "2.20.1",
 		"eslint-plugin-jsx-a11y": "6.2.3",
 		"eslint-plugin-react": "7.19.0",
@@ -60,7 +60,7 @@
 		"prop-types": "15.7.2",
 		"react-scripts-rewired": "3.1.1",
 		"typescript": "3.8.3",
-		"webpack": "4.42.0"
+		"webpack": "4.42.1"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
