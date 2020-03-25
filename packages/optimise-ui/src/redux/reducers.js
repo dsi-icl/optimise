@@ -64,6 +64,11 @@ function availableFields(state = initialState.availableFields, action) {
         case actionTypes.availableFields.GET_DEMO_FIELDS_SUCCESS:
             hash = {};
             for (let each of Object.keys(action.payload)) {
+                if (each === 'countries') {
+                    const unknown_option = action.payload[each].shift();
+                    action.payload[each].sort((a, b) => a.value === 'Unknown' ? -1 : (a.value).localeCompare(b.value));
+                    action.payload[each].unshift(unknown_option);
+                }
                 hash[each] = action.payload[each].reduce((map, el) => { map[el.id] = el.value; return map; }, {});
             }
             newState = { ...state, demoFields: [action.payload], demoFields_Hash: [hash] };
