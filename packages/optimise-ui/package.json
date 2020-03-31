@@ -1,7 +1,7 @@
 {
 	"name": "optimise-ui",
 	"productName": "Optimise MS",
-	"version": "1.16.0",
+	"version": "1.16.1",
 	"description": "Optimise:MS UI",
 	"keywords": [
 		"ms"
@@ -19,7 +19,7 @@
 	"dependencies": {
 		"deepmerge": "4.2.2",
 		"detect-browser": "5.0.0",
-		"draft-js": "0.11.4",
+		"draft-js": "0.11.5",
 		"file-saver": "2.0.2",
 		"history": "4.10.1",
 		"immutable": "4.0.0-rc.12",
@@ -44,17 +44,17 @@
 	"devDependencies": {
 		"@babel/core": "7.9.0",
 		"@babel/plugin-proposal-decorators": "7.8.3",
-		"@typescript-eslint/eslint-plugin": "2.25.0",
-		"@typescript-eslint/parser": "2.25.0",
+		"@typescript-eslint/eslint-plugin": "2.26.0",
+		"@typescript-eslint/parser": "2.26.0",
 		"babel-eslint": "10.1.0",
 		"cross-env": "7.0.2",
 		"eslint": "6.8.0",
 		"eslint-config-react-app": "5.2.1",
 		"eslint-plugin-flowtype": "4.7.0",
-		"eslint-plugin-import": "2.20.1",
+		"eslint-plugin-import": "2.20.2",
 		"eslint-plugin-jsx-a11y": "6.2.3",
 		"eslint-plugin-react": "7.19.0",
-		"eslint-plugin-react-hooks": "2.5.1",
+		"eslint-plugin-react-hooks": "3.0.0",
 		"http-proxy-middleware": "1.0.3",
 		"markdown-image-loader": "2.0.0",
 		"prop-types": "15.7.2",
