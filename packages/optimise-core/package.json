@@ -37,7 +37,7 @@
         "moment": "2.24.0",
         "multer": "1.4.2",
         "nodeify": "1.0.1",
-        "papaparse": "5.1.1",
+        "papaparse": "5.2.0",
         "passport": "0.4.1",
         "path": "0.12.7",
         "sqlite3": "4.1.1",
