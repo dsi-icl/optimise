@@ -64,7 +64,7 @@
         "native-ext-loader": "2.3.0",
         "rimraf": "3.0.2",
         "start-server-webpack-plugin": "2.2.5",
-        "string-replace-loader": "2.2.0",
+        "string-replace-loader": "2.3.0",
         "supertest": "4.0.2",
         "webpack": "4.42.1",
         "webpack-cli": "3.3.11",
