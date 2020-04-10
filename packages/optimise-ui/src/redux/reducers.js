@@ -279,6 +279,28 @@ function edssCalc(state = initialState.edssCalc, action) {
     }
 }
 
+function baselineVisitFrontPage(state = initialState.baselineVisitFrontPage, action) {
+    switch (action.type) {
+        case actionTypes.visitFrontPage.CLEAR_BASELINE_VISIT_FRONTPAGE:
+            return { display: false };
+        case actionTypes.visitFrontPage.DISPLAY_BASELINE_VISIT_FRONTPAGE:
+            return { display: true };
+        default:
+            return state;
+    }
+}
+
+function followupVisitFrontPage(state = initialState.followupVisitFrontPage, action) {
+    switch (action.type) {
+        case actionTypes.visitFrontPage.CLEAR_FOLLOWUP_VISIT_FRONTPAGE:
+            return { display: false };
+        case actionTypes.visitFrontPage.DISPLAY_FOLLOWUP_VISIT_FRONTPAGE:
+            return { display: true };
+        default:
+            return state;
+    }
+}
+
 function uploadMeddra(state = initialState.uploadMeddra, action) {
     switch (action.type) {
         case actionTypes.admin.UPLOAD_MEDDRA_REQUEST:
@@ -338,6 +360,8 @@ export const rootReducer = combineReducers({
     appLevelError,
     alert,
     edssCalc,
+    baselineVisitFrontPage,
+    followupVisitFrontPage,
     uploadMeddra,
     serverInfo,
     syncInfo
