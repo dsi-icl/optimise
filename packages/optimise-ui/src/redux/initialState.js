@@ -116,6 +116,8 @@ export default {
     appLevelError: {},
     alert: {},
     edssCalc: { display: false },
+    baselineVisitFrontPage: { display: false },
+    followupVisitFrontPage: { display: false },
     uploadMeddra: {
         requesting: false,
         error: undefined,
