@@ -1,0 +1,22 @@
+.wrapper {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    grid-template-areas:
+        "create edit"
+        "list edit"
+}
+
+.create_element_panel {
+    grid-area: create;
+}
+
+.list_element_panel {
+    grid-area: list;
+}
+
+.edit_element_panel {
+    grid-area: edit;
+}

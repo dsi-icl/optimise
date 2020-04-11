@@ -1,0 +1,16 @@
+.ariane {
+    display: none;
+}
+.panel {
+    display: block;
+    width: 100%;
+    overflow: visible;
+}
+
+.cancelButton {
+    display: none;
+}
+
+.treatment_title {
+    display: none;
+}

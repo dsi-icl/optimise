@@ -22,6 +22,12 @@ export default class EditCommunication extends Component {
         if (fetching) {
             return null;
         }
+
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
+
         const { params } = match;
         const { VSFields_Hash, visitFields } = this.props.availableFields;
         let { visits } = data;
@@ -32,11 +38,11 @@ export default class EditCommunication extends Component {
         visits = visits.filter(el => el.id === parseInt(params.visitId));
         if (visits.length !== 1) {
             return <>
-                <div className={style.ariane}>
+                <div className={_style.ariane}>
                     <h2>Communication</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
-                <form className={style.panel}>
+                <form className={_style.panel}>
                     <div>
                         <i>We could not find the communication you are looking for.</i>
                     </div>
@@ -49,7 +55,7 @@ export default class EditCommunication extends Component {
         const perfBlock = formatEdss(visits[0].data || [], edssHash);
         const precomposed = { symptomBlock, VSBlock, perfBlock };
         const originalEditorState = visits[0].communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(visits[0].communication))) : EditorState.createEmpty();
-        return <Communication match={match} precomposed={precomposed} originalEditorState={originalEditorState} location={location} data={data} availableFields={this.props.availableFields} />;
+        return <Communication match={match} precomposed={precomposed} originalEditorState={originalEditorState} location={location} data={data} availableFields={this.props.availableFields} override_style={this.props.override_style} />;
     }
 }
 
@@ -59,13 +65,19 @@ class Communication extends Component {
         const { params } = match;
         if (data.visits === undefined)
             return null;
+
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
+
         return (
             <>
-                <div className={style.ariane}>
+                <div className={_style.ariane}>
                     <h2>Communication</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
-                <form className={style.panel}>
+                <form className={_style.panel}>
 
                     <CommunicationEditor precomposed={precomposed} match={match} originalEditorState={originalEditorState} location={location} data={data} availableFields={availableFields} />
                 </form>

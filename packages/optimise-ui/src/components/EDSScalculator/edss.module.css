@@ -27,19 +27,6 @@
     scroll-behavior: smooth;
 }
 
-.cancelButton {
-    font-size: 2.5rem;
-    position: absolute;
-    font-weight: bold;
-    right: 1.5rem;
-    top: 0.5rem;
-}
-
-.cancelButton:hover {
-    cursor: pointer;
-    color: rgb(231, 220, 220);
-}
-
 .title {
     grid-column: 1/3;
     grid-row: 1/2;

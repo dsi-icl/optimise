@@ -126,13 +126,19 @@ export class CreateTreatment extends Component {
     render() {
         if (this.props.visits) {
             const params = this.props.match.params;
+
+            let _style = style;
+            if (this.props.override_style) {
+                _style = { ...style, ...this.props.override_style };
+            }
+
             return (
                 <>
-                    <div className={style.ariane}>
+                    <div className={_style.ariane}>
                         <h2>Creating a new Treatment</h2>
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
-                    <form className={style.panel}>
+                    <form className={_style.panel}>
                         <label htmlFor='drug'>Treatment:</label><br />
                         <select name='drug' value={this.state.drugType} onChange={this._handleTypeChange} autoComplete='off'>
                             <option value='unselected'></option>

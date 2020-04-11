@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from './utils';
 import Icon from '../icon';
-import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
+import _scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './dataPage.module.css';
 import store from '../../redux/store';
 
@@ -113,6 +113,11 @@ export class VisitData extends Component {
     }
 
     render() {
+        let scaffold_style = _scaffold_style;
+        if (this.props.override_style) {
+            scaffold_style = { ..._scaffold_style, ...this.props.override_style };
+        }
+
         const { patientProfile, match } = this.props;
         const { params } = match;
         if (!patientProfile.fetching) {
