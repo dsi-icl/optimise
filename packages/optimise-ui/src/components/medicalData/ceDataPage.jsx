@@ -128,15 +128,21 @@ export class CeData extends Component {
     render() {
         const { patientProfile, match } = this.props;
         const { params } = match;
+
+        let _style = scaffold_style;
+        if (this.props.override_style) {
+            _style = { ...scaffold_style, ...this.props.override_style };
+        }
+
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.clinicalEvents.filter(visit => visit.id === parseInt(params.ceId, 10));
             if (visitsMatched.length !== 1) {
                 return <>
-                    <div className={scaffold_style.ariane}>
+                    <div className={_style.ariane}>
                         <h2>CLINICAL EVENT RESULTS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
-                    <div className={scaffold_style.panel}>
+                    <div className={_style.panel}>
                         <i>We could not find the event that you are looking for.</i>
                     </div>
                 </>;
@@ -152,12 +158,12 @@ export class CeData extends Component {
                 this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             return (
                 <>
-                    <div className={scaffold_style.ariane}>
+                    <div className={_style.ariane}>
                         <h2>CLINICAL EVENT RESULTS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
                     {Object.entries(fieldTree).length > 0 ?
-                        <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
+                        <div className={`${_style.panel} ${style.topLevelPanel}`}>
                             <form onSubmit={this._handleSubmit} className={style.form}>
                                 <div className={style.levelBody}>
                                     {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
@@ -166,7 +172,7 @@ export class CeData extends Component {
                             </form>
                         </div>
                         :
-                        <div className={scaffold_style.panel}>
+                        <div className={_style.panel}>
                             <i>There are no contextual data to record for this type of event. Please use the central panel to edit related symptoms and signs.</i>
                         </div>
                     }

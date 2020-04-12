@@ -2,21 +2,31 @@
     display: grid;
     height: 100%;
     width: 100%;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
+    grid-template-columns: 30% 60%;
+    grid-template-rows: 100%;
     grid-template-areas:
-        "create edit"
-        "list edit"
+        "create list"
+}
+
+.create_element_panel, .list_element_panel {
+    height: 100%;
+    padding: 1rem;
+    width: 100%;
 }
 
 .create_element_panel {
     grid-area: create;
+    padding-left: 0;
 }
 
 .list_element_panel {
     grid-area: list;
+    border-left: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+    padding-right: 0;
 }
 
-.edit_element_panel {
-    grid-area: edit;
+.treatment_table td,
+.treatment_table th {
+    height: 1.3em;
+    line-height: 1.3em;
 }

@@ -153,20 +153,20 @@ export class Medication extends PureComponent {
     patientId: state.patientProfile.data.patientId,
     meddraHash: state.availableFields.meddra_Hash[0]
 }))
-class ClinicalEvent extends PureComponent {
+export class ClinicalEvent extends PureComponent {
     render() {
-        const { data, typedict, patientId, meddraHash } = this.props;
+        const { data, typedict, patientId, meddraHash, renderedInFrontPage } = this.props;
         const date = new Date(parseInt(data.dateStartDate, 10)).toDateString();
         const endDate = data.endDate !== null && data.endDate !== undefined ? new Date(parseInt(data.endDate, 10)).toDateString() : '';
         return (
             <tr>
-                <td><EditButton to={`/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
+                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${data.recordedDuringVisit}/page/6/edit/${data.id}` : `/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>{endDate}</td>
                 <td>{data.meddra ? meddraHash[data.meddra].name : null}</td>
                 <td>
-                    <NavLink id={`clinicalEvent-${data.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`clinicalEvent-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${data.recordedDuringVisit}/page/6/data/${data.id}` : `/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Data</button>
                     </NavLink>
                 </td>

@@ -57,13 +57,19 @@ export default class EditCE extends Component {
         }
         const CEsFiltered = CEs.filter(el => el.id === parseInt(params.elementId));
         const CE = CEsFiltered ? CEsFiltered[0] : null;
+
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
+
         return (
             <>
-                <div className={style.ariane}>
+                <div className={_style.ariane}>
                     <h2>Edit Clinical Event</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
-                <form className={style.panel}>
+                <form className={_style.panel}>
                     {CE ?
                         <>
                             {wannaUpdate ? <UpdateCEEntry data={CE} elementId={params.elementId} /> : null}
