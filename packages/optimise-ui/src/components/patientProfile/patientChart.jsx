@@ -109,7 +109,7 @@ class Test extends PureComponent {
     typedict: state.availableFields.drugs_Hash[0],
     patientId: state.patientProfile.data.patientId
 }))
-class Medication extends PureComponent {
+export class Medication extends PureComponent {
 
     intervalUnitString(intervalUnit) {
         if (intervalUnit === '6weeks')
@@ -121,13 +121,13 @@ class Medication extends PureComponent {
     }
 
     render() {
-        const { data, typedict, patientId } = this.props;
+        const { data, typedict, patientId, renderedInFrontPage } = this.props;
         const numberOfInterruptions = data.interruptions ? data.interruptions.length : 0;
         if (!typedict[data.drug])
             return null;
         return (
             <tr>
-                <td><EditButton to={`/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
+                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${data.orderedDuringVisit}/page/5/edit/${data.id}` : `/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
                 <td>{data.terminatedDate ? new Date(parseInt(data.terminatedDate, 10)).toDateString() : ''}</td>
@@ -136,7 +136,7 @@ class Medication extends PureComponent {
                 <td>{data.times && data.intervalUnit ? `${data.times} times / ${this.intervalUnitString(data.intervalUnit)}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
-                    <NavLink id={`treatment-${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`treatment-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${data.orderedDuringVisit}/page/5/interruptions/${data.id}` : `/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Interruptions</button>
                     </NavLink>
                 </td>
