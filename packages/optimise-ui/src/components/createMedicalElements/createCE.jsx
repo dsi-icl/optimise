@@ -116,15 +116,20 @@ export class CreateCE extends Component {
     }
 
     render() {
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
+
         if (this.props.visits) {
             const params = this.props.match.params;
             return (
                 <>
-                    <div className={style.ariane}>
+                    <div className={_style.ariane}>
                         <h2>Creating a New Event</h2>
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
-                    <div className={style.panel}>
+                    <div className={_style.panel}>
                         <label htmlFor=''>Date of occurence:</label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br />
                         <label htmlFor='noEndDate'>The event is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
                         {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /></>)}<br />
