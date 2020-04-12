@@ -63,13 +63,18 @@ export default class EditMed extends Component {
         }
         const treatmentsFiltered = treatments.filter(el => el.id === parseInt(params.elementId));
         const treatment = treatmentsFiltered ? treatmentsFiltered[0] : null;
+
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
         return (
             <>
-                <div className={style.ariane}>
+                <div className={_style.ariane}>
                     <h2>Edit Treatment</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
-                <form className={style.panel}>
+                <form className={_style.panel}>
                     {treatment ?
                         <>
                             {wannaUpdate ? <UpdateMedEntry data={treatment} /> : null}

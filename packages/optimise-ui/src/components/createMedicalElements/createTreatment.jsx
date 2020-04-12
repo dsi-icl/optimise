@@ -107,7 +107,12 @@ export class CreateTreatment extends Component {
         }
 
         const requestBody = this._formatRequestBody();
-        requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
+        if (this.props.renderedInFrontPage && this.props.location) {
+            requestBody.to = this.props.location.pathname;
+            // http://localhost:3000/patientProfile/sfadsf/visitFrontPage/15/page/5
+        } else {
+            requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
+        }
         this.setState({
             lastSubmit: (new Date()).getTime(),
             error: false
