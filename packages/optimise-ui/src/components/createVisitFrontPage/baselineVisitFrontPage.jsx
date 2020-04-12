@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/utils';
 import style from './frontpage.module.css';
 import { NavLink } from 'react-router-dom';
-import { CreateCE } from '../createMedicalElements/createCE';
-import { CreateTreatment } from '../createMedicalElements/createTreatment';
 import { VSFrontPageWrapper } from './componentWrappers/vs/vsWrapper';
 import { ComorbidityWrapper } from './componentWrappers/comorbidity/comorbidityWrapper';
 import { EDSSWrapper } from './componentWrappers/edss/edssWrapper';
 import { CommunicationWrapper } from './componentWrappers/communication/communicationWrapper';
 import { TreatmentWrapper } from './componentWrappers/treatment/treatmentWrapper';
+import { CeWrapper } from './componentWrappers/ce/ceWrapper';
 
 @connect(state => ({
     visitFields: state.availableFields.visitFields,
@@ -68,12 +67,12 @@ class RenderCurrentPage extends PureComponent {
                     You will be able to edit these data afterwards in the patients homepage.</span><br /><br />
                 <br /><br />
             </>,
-            1: <VSFrontPageWrapper elementType='visit' match={this.props.match} category={'vitals'} />,
+            1: <VSFrontPageWrapper match={this.props.match} category={'vitals'} />,
             2: <ComorbidityWrapper match={this.props.match} location={this.props.location}/>,
             3: <EDSSWrapper match={this.props.match} location={this.props.location}/>,
             4: <h3>Concomitant medications</h3>,
             5: <TreatmentWrapper match={this.props.match}/>,
-            6: <CreateCE match={{ params: { patientId: params.patientId } }}/>,
+            6: <CeWrapper match={this.props.match}/>,
             7: <></>, //  lab test
             8: <CommunicationWrapper match={this.props.match} location={this.props.location}/>
         };
@@ -97,15 +96,16 @@ class RenderCurrentPage extends PureComponent {
             return <p>Something went wrong. Please go back.</p>;
         }
 
-        const backbutton = <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcLastPage()}`}><button>Back</button></NavLink></div>;
-        const nextbutton = <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcNextPage()}`}><button>Next</button></NavLink></div>;
+        const backbutton = <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcLastPage()}`}><button>Last page</button></NavLink></div>;
+        const nextbutton = <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcNextPage()}`}><button>Next page</button></NavLink></div>;
         return <>
-            { this.returnCurrentElement() }
-            <br/><br/>
+            <div className={style.page}>
+                { this.returnCurrentElement() }
+            </div>
             <div className={style.page_navigation_buttons}>
                 { currentPage === '0' ? nextbutton : null }
-                { currentPage === '7' ? backbutton : null }
-                { (currentPage !== '7' && currentPage !== '0')
+                { currentPage === '8' ? backbutton : null }
+                { (currentPage !== '8' && currentPage !== '0')
                     ?
                     <>
                         {backbutton}
