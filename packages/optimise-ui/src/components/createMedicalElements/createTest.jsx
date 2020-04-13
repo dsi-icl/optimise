@@ -59,7 +59,7 @@ export class CreateTest extends Component {
                 patientId: this.props.patientId,
                 expectedOccurDate: date.toISOString(),
                 actualOccurredDate: actualOccurredDate ? actualOccurredDate.toISOString() : null,
-                type: Number.parseInt(this.state.testType)
+                type: this.props.fixedTestType || Number.parseInt(this.state.testType)
             }
         };
     }
@@ -79,14 +79,15 @@ export class CreateTest extends Component {
         //         error: 'Please indicate the date on which the test results were processed'
         //     });
         // }
-        if (this.state.testType === 'unselected') {
+        if (this.state.testType === 'unselected' && !this.props.fixedTestType) {
             this.setState({
                 error: 'Please indicate the test type'
             });
             return;
         }
         const requestBody = this._formatRequestBody();
-        requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
+        const { patientId, visitId, currentPage } = this.props.match.params;
+        requestBody.toFormat = this.props.renderedInFrontPage ? (testId) => `/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}/data/${testId}` : () => `/patientProfile/${patientId}`;
 
         this.setState({
             lastSubmit: (new Date()).getTime(),
@@ -99,17 +100,24 @@ export class CreateTest extends Component {
     render() {
         if (this.props.visits) {
             const params = this.props.match.params;
+
+
+            let _style = style;
+            if (this.props.override_style) {
+                _style = { ...style, ...this.props.override_style };
+            }
+
             return (
                 <>
-                    <div className={style.ariane}>
+                    <div className={_style.ariane}>
                         <h2>Creating a new Test</h2>
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
-                    <form className={style.panel}>
+                    <form className={_style.panel}>
                         <label>Date of test: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                         {/* <label>Date on which test results were processed: </label><br /><PickDate startDate={this.state.actualOccurredDate} handleChange={this._handleActualDateChange} /><br /> */}
-                        <label htmlFor='test'>What type of test was it?</label><br />
-                        <select name='test' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>
+                        <label className={_style.test_type_hidden } htmlFor='test'>What type of test was it?</label><br />
+                        <select className={_style.test_type_hidden } name='test' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>
                             <option value='unselected'></option>
                             {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                         </select><br /><br />

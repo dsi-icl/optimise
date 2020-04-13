@@ -81,9 +81,9 @@ export class PatientChart extends Component {
     typedict: state.availableFields.testTypes_Hash[0],
     patientId: state.patientProfile.data.patientId
 }))
-class Test extends PureComponent {
+export class Test extends PureComponent {
     render() {
-        const { data, typedict, patientId } = this.props;
+        const { data, typedict, patientId, renderedInFrontPage } = this.props;
         const dateDone = data.expectedOccurDate ? new Date(parseInt(data.expectedOccurDate, 10)).toDateString() : '';
         // const dateResults = data.actualOccurredDate ? new Date(parseInt(data.actualOccurredDate, 10)).toDateString() : dateDone;
         return (
@@ -93,7 +93,7 @@ class Test extends PureComponent {
                 <td>{dateDone}</td>
                 {/* <td>{dateResults}</td> */}
                 <td>
-                    <NavLink id={`test-${data.id}`} to={`/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`test-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}` : `/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
                 </td>
