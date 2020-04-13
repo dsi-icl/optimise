@@ -3,10 +3,11 @@ import override_style from '../overrideStyle.module.css';
 import { CreateTest } from '../../../createMedicalElements/createTest';
 import { TestData } from '../../../medicalData/testDataPage';
 import { Test } from '../../../patientProfile/patientChart';
+import EditTest from '../../../editMedicalElements/editTest';
 
 export class RenderTestWrapper extends PureComponent {
     render() {
-        const { tests: allTests, displayThisType } = this.props;
+        const { tests: allTests, displayThisType, match } = this.props;
 
         const labtests = allTests.filter(el => el.type === displayThisType);
 
@@ -21,7 +22,7 @@ export class RenderTestWrapper extends PureComponent {
                 <tr><th></th><th>Type</th><th>Test date</th><th></th></tr>
             </thead>
             <tbody>
-                {labtests.map(el => <Test key={el.id} data={el} renderedInFrontPage={true} match={this.props.match}/>)}
+                {labtests.map(el => <Test key={el.id} data={el} renderedInFrontPage={true} match={match}/>)}
             </tbody>
         </table>;
     }
@@ -42,5 +43,12 @@ export class CreateTestWrapper extends Component {
         return (
             <CreateTest match={this.props.match} fixedTestType={fixedTestType} override_style={override_style} renderedInFrontPage={true}/>
         );
+    }
+}
+
+export class EditTestWrapper extends Component {
+    render() {
+        const { match, location } = this.props;
+        return <EditTest match={match} override_style={override_style} renderedInFrontPage={true} location={location}/>;
     }
 }
