@@ -26,12 +26,26 @@ export class BaselineVisitFrontPage extends Component {
             return null;
 
         const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
+        const currentPageNumber = parseInt(params.currentPage) + 1;
+
+        const pageToTitles = {
+            0: 'Introduction',
+            1: 'Vital signs',
+            2: 'Comorbidities',
+            3: 'EDSS',
+            4: 'Concomitant medications',
+            5: 'Disease modifying treatments',
+            6: 'SAE\'s and infections',
+            7: 'Lab tests',
+            8: 'MRI',
+            9: 'Communication and notes',
+        };
 
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>Baseline Visit Initial Data Entry ({this.props.match.params.patientId})</h2>
-                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}/edit/msPerfMeas/${params.visitId}`} />
+                    <h2>Baseline Visit Initial Data Entry ({this.props.match.params.patientId}) - Page {currentPageNumber}/10: {pageToTitles[params.currentPage]} </h2>
+                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                 </div>
                 <div className={style.panel}>
                     {visitFiltered.length === 1 ?
@@ -63,7 +77,6 @@ class RenderCurrentPage extends PureComponent {
         const { params } = this.props.match;
         const elements = {
             0: <>
-                {/* <span><i>Enter initial data for visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i><br /><br /> */}
                 <span>
                     You will be guided to enter the essential data for this visit in steps.
                     You will be able to edit these data afterwards in the patients homepage.</span><br /><br />
@@ -100,14 +113,14 @@ class RenderCurrentPage extends PureComponent {
         }
 
         const backbutton = <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcLastPage()}`}><button>Last page</button></NavLink></div>;
-        const nextbutton = <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcNextPage()}`}><button>Next page</button></NavLink></div>;
+        const nextbutton = <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcNextPage()}`}><button>Next page (does not automatically save)</button></NavLink></div>;
         return <>
             <div className={style.page}>
                 { this.returnCurrentElement() }
             </div>
             <div className={style.page_navigation_buttons}>
-                { currentPage === '0' ? nextbutton : null }
-                { currentPage === '9' ? backbutton : null }
+                { currentPage === '0' ? <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcNextPage()}`}><button>Start</button></NavLink></div> : null }
+                { currentPage === '9' ? <>{backbutton}<div><NavLink to={`/patientProfile/${patientId}`}><button className={style.finish_button}>Finish</button></NavLink></div></> : null }
                 { (currentPage !== '9' && currentPage !== '0')
                     ?
                     <>

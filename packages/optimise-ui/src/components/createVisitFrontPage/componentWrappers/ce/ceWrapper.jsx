@@ -19,14 +19,14 @@ export class CeWrapper extends Component {
             <div className={scaffold_style.create_element_panel}>
                 <Switch>
                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditEventWrapper match={match} location={location}/>}/>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:ceId' render={({ match }) => <EventCreatedMessage match={match}/>}/>
+                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:ceId' render={({ match }) => <EventCreatedMessage match={match} events={this.props.data.clinicalEvents}/>}/>
                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <CreateEventWrapper match={match} location={location}/>}/>
                 </Switch>
             </div>
             <div className={scaffold_style.list_element_panel}>
                 <Switch>
                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:ceId' render={({ match }) => <EditEventDataWrapper match={match}/>}/>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={() => <RenderEventsWrapper events={this.props.data.clinicalEvents} baselineVisit={true} />}/>
+                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match }) => <RenderEventsWrapper match={match} events={this.props.data.clinicalEvents} baselineVisit={true} />}/>
                 </Switch>
             </div>
         </div>;
@@ -35,7 +35,7 @@ export class CeWrapper extends Component {
 
 class RenderEventsWrapper extends PureComponent {
     render() {
-        const { events } = this.props;
+        const { events, match } = this.props;
         if (events.length === 0) {
             return <p>Clinical events (SAEs, opportunistic infections) will be displayed here.</p>;
         }
@@ -47,7 +47,7 @@ class RenderEventsWrapper extends PureComponent {
                 <tr><th></th><th>Type</th><th>Start date</th><th>End date</th><th>MedDRA</th><th></th></tr>
             </thead>
             <tbody>
-                { events.map(el => <ClinicalEvent key={el.id} data={el} renderedInFrontPage={true} />) }
+                { events.map(el => <ClinicalEvent key={el.id} data={el} renderedInFrontPage={true} match={match} />) }
             </tbody>
         </table>;
     }
@@ -77,10 +77,21 @@ class CreateEventWrapper extends PureComponent {
 
 class EventCreatedMessage extends Component {
     render() {
-        const { patientId, visitId, currentPage } = this.props.match.params;
+        const { patientId, visitId, currentPage, ceId } = this.props.match.params;
+        const eventsFiltered = this.props.events.filter(el => el.id.toString() === ceId);
+
+        if (eventsFiltered.length !== 1) {
+            return <p>Error: Cannot find event.</p>;
+        }
+
+        const currentEvent = eventsFiltered[0];
+        const dateOccur = new Date(parseInt(currentEvent.dateStartDate)).toDateString();
         return (
             <div>
                 <p>Event has been created! Please enter related data on the opposite panel.</p>
+                <p>{dateOccur}</p>
+                <p>{currentEvent.type}</p>
+                <p>{currentEvent.meddra}</p>
 
                 <p>You can also record another event:</p>
                 <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}`}> <button>Record another event</button></NavLink>

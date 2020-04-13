@@ -45,6 +45,22 @@
 
 .page_navigation_buttons div {
     margin: 1rem 7rem;
-    min-width: 5rem;
-    width: 20%
+    min-width: 7rem;
+    width: 30%
+} 
+
+.page_navigation_buttons button {
+    background-color: #8e8e8e;
+}
+
+.page_navigation_buttons button:hover {
+    background-color: #989898;
+}
+
+.page_navigation_buttons .finish_button {
+    background-color: #18c73f;
+}
+
+.page_navigation_buttons .finish_button:hover {
+    background-color: #15ab37;
 }

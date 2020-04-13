@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
 import { BackButton } from '../medicalData/utils';
@@ -44,13 +45,14 @@ export default class EditCE extends Component {
 
     _deleteFunction() {
         const { params } = this.props.match;
-        const body = { patientId: params.patientId, data: { ceId: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
+        const { renderedInFrontPage } = this.props;
+        const body = { patientId: params.patientId, data: { ceId: parseInt(params.elementId) }, to: renderedInFrontPage ? `/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}` : `/patientProfile/${params.patientId}` };
         store.dispatch(deleteCEAPICall(body));
     }
 
     render() {
         const { params } = this.props.match;
-        const { CEs } = this.props;
+        const { CEs, renderedInFrontPage } = this.props;
         const { wannaUpdate } = this.state;
         if (!CEs) {
             return <div></div>;
@@ -81,6 +83,15 @@ export default class EditCE extends Component {
                             <div>
                                 Note: You cannot change the type of clinical event. If you created the wrong type of clinical event you can delete this event record and create a new one.
                             </div>
+                            {
+                                renderedInFrontPage ?
+                                    <>
+                                        <br/><br/><br/>
+                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}`}><button>Back</button></NavLink>
+                                    </>
+                                    :
+                                    null
+                            }
                         </>
                         :
                         <div>

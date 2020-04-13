@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { NavLink } from 'react-router-dom';
 import { BackButton } from '../medicalData/utils';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
@@ -50,13 +51,14 @@ export default class EditMed extends Component {
 
     _deleteFunction() {
         const { params } = this.props.match;
-        const body = { patientId: params.patientId, data: { treatmentId: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
+        const { renderedInFrontPage } = this.props;
+        const body = { patientId: params.patientId, data: { treatmentId: parseInt(params.elementId) }, to: renderedInFrontPage ? `/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}` : `/patientProfile/${params.patientId}` };
         store.dispatch(deleteTreatmentCall(body));
     }
 
     render() {
         const { params } = this.props.match;
-        const { treatments } = this.props;
+        const { treatments, renderedInFrontPage } = this.props;
         const { wannaUpdate } = this.state;
         if (!treatments) {
             return <div></div>;
@@ -82,6 +84,15 @@ export default class EditMed extends Component {
                                 <><button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button> <br /> <br /></>
                             }
                             <button onClick={this._handleClick} className={style.deleteButton}>Delete this treatment</button>
+                            {
+                                renderedInFrontPage ?
+                                    <>
+                                        <br/><br/><br/>
+                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}`}><button>Back</button></NavLink>
+                                    </>
+                                    :
+                                    null
+                            }
                         </>
                         :
                         <div>

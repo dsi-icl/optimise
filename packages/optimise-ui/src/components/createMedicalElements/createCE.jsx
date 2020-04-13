@@ -105,7 +105,8 @@ export class CreateCE extends Component {
             return;
         }
         const requestBody = this._formatRequestBody();
-        requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
+        const { patientId, visitId, currentPage } = this.props.match.params;
+        requestBody.toFormat = this.props.renderedInFrontPage ? (ceId) => `/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}/data/${ceId}` : () => `/patientProfile/${this.props.match.params.patientId}`;
 
         this.setState({
             lastSubmit: (new Date()).getTime(),
