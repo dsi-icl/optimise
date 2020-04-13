@@ -9,6 +9,8 @@ import { EDSSWrapper } from './componentWrappers/edss/edssWrapper';
 import { CommunicationWrapper } from './componentWrappers/communication/communicationWrapper';
 import { TreatmentWrapper } from './componentWrappers/treatment/treatmentWrapper';
 import { CeWrapper } from './componentWrappers/ce/ceWrapper';
+import { TestWrapper } from './componentWrappers/labTests/testWrapper';
+import { MRIWrapper } from './componentWrappers/mriTests/testWrapper';
 
 @connect(state => ({
     visitFields: state.availableFields.visitFields,
@@ -73,8 +75,9 @@ class RenderCurrentPage extends PureComponent {
             4: <h3>Concomitant medications</h3>,
             5: <TreatmentWrapper match={this.props.match}/>,
             6: <CeWrapper match={this.props.match}/>,
-            7: <></>, //  lab test
-            8: <CommunicationWrapper match={this.props.match} location={this.props.location}/>
+            7: <TestWrapper match={this.props.match} location={this.props.location}/>, //  lab test
+            8: <MRIWrapper match={this.props.match} location={this.props.location}/>, //  lab test
+            9: <CommunicationWrapper match={this.props.match} location={this.props.location}/>
         };
         return elements[params.currentPage];
     }
@@ -92,7 +95,7 @@ class RenderCurrentPage extends PureComponent {
     render() {
         const { params: { currentPage, patientId, visitId } } = this.props.match;
         const _currentPage = parseInt(currentPage, 10);
-        if (_currentPage === undefined || _currentPage < 0 || _currentPage > 8) {
+        if (_currentPage === undefined || _currentPage < 0 || _currentPage > 9) {
             return <p>Something went wrong. Please go back.</p>;
         }
 
@@ -104,8 +107,8 @@ class RenderCurrentPage extends PureComponent {
             </div>
             <div className={style.page_navigation_buttons}>
                 { currentPage === '0' ? nextbutton : null }
-                { currentPage === '8' ? backbutton : null }
-                { (currentPage !== '8' && currentPage !== '0')
+                { currentPage === '9' ? backbutton : null }
+                { (currentPage !== '9' && currentPage !== '0')
                     ?
                     <>
                         {backbutton}
