@@ -1,12 +1,8 @@
-import React, { Component, PureComponent } from 'react';
-import override_style from './overrideStyle.module.css';
-import scaffold_style from './scaffoldStyle.module.css';
+import React, { Component } from 'react';
+import scaffold_style from '../scaffoldStyle.module.css';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import { CreateTest } from '../../../createMedicalElements/createTest';
-import { TestData } from '../../../medicalData/testDataPage';
-import { Test } from '../../../patientProfile/patientChart';
 import { RenderTestWrapper } from './common';
 import { EditTestDataWrapper } from './common';
 import { CreateTestWrapper } from './common';
@@ -28,7 +24,7 @@ export class MRIWrapper extends Component {
             <div className={scaffold_style.list_element_panel}>
                 <Switch>
                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match }) => <EditTestDataWrapper match={match}/>}/>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <RenderTestWrapper match={match} location={location} displayThisType={3} tests={this.props.data.tests} />}/>
+                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={() => <RenderTestWrapper displayThisType={3} tests={this.props.data.tests} />}/>
                 </Switch>
             </div>
         </div>;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { VisitData } from '../../../medicalData/visitDataPage';
-import override_style from './overrideStyle.module.css';
+import override_style from '../overrideStyle.module.css';
 
 export class VSFrontPageWrapper extends Component {
     render() {

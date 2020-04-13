@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import override_style from './overrideStyle.module.css';
+import override_style from '../overrideStyle.module.css';
 import EDSSPage from '../../../EDSScalculator/calculator';
 
 export class EDSSWrapper extends Component {
