@@ -1,12 +1,10 @@
 import React, { Component, PureComponent } from 'react';
-import override_style from './overrideStyle.module.css';
-import scaffold_style from './scaffoldStyle.module.css';
+import override_style from '../overrideStyle.module.css';
+import scaffold_style from '../scaffoldStyle.module.css';
 import { CreateTreatment } from '../../../createMedicalElements/createTreatment';
 import { TreatmentInterruption } from '../../../medicalData/treatmentInterruptions';
-import { RenderTreatments } from '../../../patientProfile/patientChart';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter, NavLink } from 'react-router-dom';
 import { Medication } from '../../../patientProfile/patientChart';
 import EditMed from '../../../editMedicalElements/editMedication';
 
@@ -21,12 +19,15 @@ export class TreatmentWrapper extends Component {
             <div className={scaffold_style.create_element_panel}>
                 <Switch>
                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditMedWrapper match={match} location={location}/>}/>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match }) => <TreatmentInterruptionWrapper match={match}/>}/>
+                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match }) => <TreatmentCreatedMessage match={match}/>}/>
                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <CreateTreatmentsWrapper match={match} location={location}/>}/>
                 </Switch>
             </div>
             <div className={scaffold_style.list_element_panel}>
-                <RenderTreatmentsWrapper treatments={this.props.data.treatments} baselineVisit={true} visitId={this.props.match.params.visitId}/>
+                <Switch>
+                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match }) => <TreatmentInterruptionWrapper match={match}/>}/>
+                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={() => <RenderTreatmentsWrapper treatments={this.props.data.treatments} baselineVisit={true}/>}/>
+                </Switch>
             </div>
         </div>;
     }
@@ -34,7 +35,7 @@ export class TreatmentWrapper extends Component {
 
 class RenderTreatmentsWrapper extends PureComponent {
     render() {
-        const { visitId, treatments } = this.props;
+        const { treatments } = this.props;
         if (treatments.length === 0) {
             return <p>Treatments will be displayed here.</p>;
         }
@@ -71,5 +72,19 @@ class CreateTreatmentsWrapper extends PureComponent {
         const { match, location } = this.props;
 
         return <CreateTreatment match={match} override_style={override_style} renderedInFrontPage={true} location={location}/>;
+    }
+}
+
+class TreatmentCreatedMessage extends Component {
+    render() {
+        const { patientId, visitId, currentPage } = this.props.match.params;
+        return (
+            <div>
+                <p>Treatment has been recorded! Please enter related data on the opposite panel.</p>
+
+                <p>You can also record another treatment:</p>
+                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}`}> <button>Record another treatment</button></NavLink>
+            </div>
+        );
     }
 }

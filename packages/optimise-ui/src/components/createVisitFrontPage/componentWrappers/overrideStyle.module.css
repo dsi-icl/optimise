@@ -10,3 +10,11 @@
 .test_type_hidden {
     visibility: hidden;
 }
+
+.cancelButton {
+    display: none;
+}
+
+.treatment_title {
+    display: none;
+}

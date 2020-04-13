@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import override_style from './overrideStyle.module.css';
+import override_style from '../overrideStyle.module.css';
 import EditComorbidity from '../../../editMedicalElements/editComorbidity';
 
 export class ComorbidityWrapper extends Component {

@@ -9,8 +9,8 @@ import { EDSSWrapper } from './componentWrappers/edss/edssWrapper';
 import { CommunicationWrapper } from './componentWrappers/communication/communicationWrapper';
 import { TreatmentWrapper } from './componentWrappers/treatment/treatmentWrapper';
 import { CeWrapper } from './componentWrappers/ce/ceWrapper';
-import { TestWrapper } from './componentWrappers/labTests/testWrapper';
-import { MRIWrapper } from './componentWrappers/mriTests/testWrapper';
+import { TestWrapper } from './componentWrappers/tests/labWrapper';
+import { MRIWrapper } from './componentWrappers/tests/mriWrapper';
 
 @connect(state => ({
     visitFields: state.availableFields.visitFields,

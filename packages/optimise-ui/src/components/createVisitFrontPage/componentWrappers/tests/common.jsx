@@ -1,9 +1,5 @@
 import React, { Component, PureComponent } from 'react';
-import override_style from './overrideStyle.module.css';
-import scaffold_style from './scaffoldStyle.module.css';
-import { withRouter, NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import override_style from '../overrideStyle.module.css';
 import { CreateTest } from '../../../createMedicalElements/createTest';
 import { TestData } from '../../../medicalData/testDataPage';
 import { Test } from '../../../patientProfile/patientChart';
