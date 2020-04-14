@@ -1,17 +1,16 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { BackButton } from '../medicalData/utils';
 import style from './frontpage.module.css';
-import { NavLink } from 'react-router-dom';
 import { VSFrontPageWrapper } from './componentWrappers/vs/vsWrapper';
 import { ComorbidityWrapper } from './componentWrappers/comorbidity/comorbidityWrapper';
 import { EDSSWrapper } from './componentWrappers/edss/edssWrapper';
 import { CommunicationWrapper } from './componentWrappers/communication/communicationWrapper';
 import { TreatmentWrapper } from './componentWrappers/treatment/treatmentWrapper';
-import { CeWrapper } from './componentWrappers/ce/ceWrapper';
+import { RelapseWrapper } from './componentWrappers/ce/relapseWrapper';
 import { TestWrapper } from './componentWrappers/tests/labWrapper';
 import { MRIWrapper } from './componentWrappers/tests/mriWrapper';
 import { FrontPageNavigationButton } from './componentWrappers/navigationButtons/navigationButtons';
+import { OtherSAEWrapper } from './componentWrappers/ce/otherSAEWrapper';
 
 @connect(state => ({
     visitFields: state.availableFields.visitFields,
@@ -36,10 +35,11 @@ export class BaselineVisitFrontPage extends Component {
             3: 'EDSS',
             4: 'Concomitant medications',
             5: 'Disease modifying treatments',
-            6: 'SAE\'s and infections',
-            7: 'Lab tests',
-            8: 'MRI',
-            9: 'Communication and notes',
+            6: 'Relapses',
+            7: 'SAE\'s and infections',
+            8: 'Lab tests',
+            9: 'MRI',
+            10: 'Communication and notes',
         };
 
         return (
@@ -85,18 +85,19 @@ class RenderCurrentPage extends PureComponent {
             3: <EDSSWrapper/>,
             4: <h3>Concomitant medications</h3>,
             5: <TreatmentWrapper/>,
-            6: <CeWrapper/>,
-            7: <TestWrapper/>,
-            8: <MRIWrapper/>,
-            9: <CommunicationWrapper/>
+            6: <RelapseWrapper/>,
+            7: <OtherSAEWrapper/>,
+            8: <TestWrapper/>,
+            9: <MRIWrapper/>,
+            10: <CommunicationWrapper/>
         };
         return elements[params.currentPage];
     }
 
     render() {
-        const { params: { currentPage, patientId, visitId } } = this.props.match;
+        const { params: { currentPage } } = this.props.match;
         const _currentPage = parseInt(currentPage, 10);
-        if (_currentPage === undefined || _currentPage < 0 || _currentPage > 9) {
+        if (_currentPage === undefined || _currentPage < 0 || _currentPage > 10) {
             return <p>Something went wrong. Please go back.</p>;
         }
 

@@ -136,7 +136,7 @@ export class Medication extends PureComponent {
                 <td>{data.times && data.intervalUnit ? `${data.times} times / ${this.intervalUnitString(data.intervalUnit)}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
-                    <NavLink id={`treatment-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/5/interruptions/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`treatment-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/interruptions/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Interruptions</button>
                     </NavLink>
                 </td>
@@ -160,13 +160,13 @@ export class ClinicalEvent extends PureComponent {
         const endDate = data.endDate !== null && data.endDate !== undefined ? new Date(parseInt(data.endDate, 10)).toDateString() : '';
         return (
             <tr>
-                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/6/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
+                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>{endDate}</td>
                 <td>{data.meddra ? meddraHash[data.meddra].name : null}</td>
                 <td>
-                    <NavLink id={`clinicalEvent-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/6/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`clinicalEvent-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Data</button>
                     </NavLink>
                 </td>

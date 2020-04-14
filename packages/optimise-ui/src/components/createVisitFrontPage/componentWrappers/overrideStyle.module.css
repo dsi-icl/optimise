@@ -9,6 +9,7 @@
 
 .test_type_hidden {
     visibility: hidden;
+    height: 0.1em;
 }
 
 .cancelButton {

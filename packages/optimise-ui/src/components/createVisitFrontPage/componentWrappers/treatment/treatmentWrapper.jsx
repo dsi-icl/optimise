@@ -77,7 +77,10 @@ class CreateTreatmentsWrapper extends PureComponent {
     render() {
         const { match, location } = this.props;
 
-        return <CreateTreatment match={match} override_style={override_style} renderedInFrontPage={true} location={location}/>;
+        return <>
+            <h3>Record a DMT</h3>
+            <CreateTreatment match={match} override_style={override_style} renderedInFrontPage={true} location={location}/>
+        </>;
     }
 }
 
