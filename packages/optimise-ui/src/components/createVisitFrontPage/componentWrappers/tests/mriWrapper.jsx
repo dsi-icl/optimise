@@ -22,15 +22,15 @@ export class MRIWrapper extends Component {
                 <div className={scaffold_style.wrapper}>
                     <div className={scaffold_style.create_element_panel}>
                         <Switch>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditTestWrapper match={match} location={location}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <LabTestCreatedMessage location={location} match={match} tests={this.props.data.tests}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <CreateTestWrapper fixedTestType={3} match={match} location={location}/>}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditTestWrapper title={'Edit this MRI'} match={match} location={location}/>}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <MRITestCreatedMessage location={location} match={match} tests={this.props.data.tests}/>}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <CreateTestWrapper title={'Record an MRI result'} fixedTestType={3} match={match} location={location}/>}/>
                         </Switch>
                     </div>
                     <div className={scaffold_style.list_element_panel}>
                         <Switch>
                             <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <EditTestDataWrapper location={location} match={match}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <RenderTestWrapper location={location} match={match} displayThisType={3} tests={this.props.data.tests} />}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <RenderTestWrapper title={'Here are all the MRI results for this patient:'} location={location} match={match} displayThisType={3} tests={this.props.data.tests} />}/>
                         </Switch>
                     </div>
                 </div>
@@ -39,7 +39,7 @@ export class MRIWrapper extends Component {
     }
 }
 
-class LabTestCreatedMessage extends Component {
+class MRITestCreatedMessage extends Component {
     render() {
         const { patientId, visitId, currentPage, testId } = this.props.match.params;
         const testsFiltered = this.props.tests.filter(el => el.id.toString() === testId);
@@ -52,9 +52,13 @@ class LabTestCreatedMessage extends Component {
         const dateOccur = new Date(parseInt(currentTest.expectedOccurDate)).toDateString();
         return (
             <div>
-                <p>Lab test has been created! Please enter lab results on the opposite panel.</p>
-                <p>{dateOccur}</p>
-                <p>You can also create another lab test (only create another test if it is from a different date):</p>
+                <p>Please enter MRI results on the opposite panel for the following MRI session:</p>
+                <br/>
+                <p><b>Date:</b> {dateOccur}</p>
+
+                <br/><br/>
+                <p>You can also record another MRI session (only if it is from a different date):</p>
+                <br/>
                 <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}> <button>Create another test</button></NavLink>
             </div>
         );
