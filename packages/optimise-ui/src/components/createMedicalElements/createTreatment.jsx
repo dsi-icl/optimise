@@ -108,8 +108,7 @@ export class CreateTreatment extends Component {
 
         const requestBody = this._formatRequestBody();
         if (this.props.renderedInFrontPage && this.props.location) {
-            requestBody.to = this.props.location.pathname;
-            // http://localhost:3000/patientProfile/sfadsf/visitFrontPage/15/page/5
+            requestBody.to = `${this.props.location.pathname}${this.props.location.search}`;
         } else {
             requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
         }

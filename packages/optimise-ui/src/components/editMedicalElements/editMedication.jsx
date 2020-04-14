@@ -52,7 +52,7 @@ export default class EditMed extends Component {
     _deleteFunction() {
         const { params } = this.props.match;
         const { renderedInFrontPage } = this.props;
-        const body = { patientId: params.patientId, data: { treatmentId: parseInt(params.elementId) }, to: renderedInFrontPage ? `/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}` : `/patientProfile/${params.patientId}` };
+        const body = { patientId: params.patientId, data: { treatmentId: parseInt(params.elementId) }, to: renderedInFrontPage ? `/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}` : `/patientProfile/${params.patientId}` };
         store.dispatch(deleteTreatmentCall(body));
     }
 
@@ -79,7 +79,7 @@ export default class EditMed extends Component {
                 <form className={_style.panel}>
                     {treatment ?
                         <>
-                            {wannaUpdate ? <UpdateMedEntry data={treatment} /> : null}
+                            {wannaUpdate ? <UpdateMedEntry location={this.props.location} renderedInFrontPage={this.props.renderedInFrontPage} data={treatment} /> : null}
                             {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
                                 <><button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button> <br /> <br /></>
                             }
@@ -88,7 +88,7 @@ export default class EditMed extends Component {
                                 renderedInFrontPage ?
                                     <>
                                         <br/><br/><br/>
-                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}`}><button>Back</button></NavLink>
+                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
                                     </>
                                     :
                                     null
@@ -188,7 +188,7 @@ class UpdateMedEntry extends Component {
         const { id, drug, dose, unit, form, times, intervalUnit } = this.state;
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}/edit/treatment/${id}`,
+            to: this.props.renderedInFrontPage ? `${this.props.location.pathname}${this.props.location.search}` : `/patientProfile/${patientId}/edit/treatment/${id}`,
             data: {
                 id,
                 drug: parseInt(drug),

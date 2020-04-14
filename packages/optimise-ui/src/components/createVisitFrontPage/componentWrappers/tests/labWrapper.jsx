@@ -7,6 +7,7 @@ import { RenderTestWrapper } from './common';
 import { EditTestDataWrapper } from './common';
 import { CreateTestWrapper } from './common';
 import { EditTestWrapper } from './common';
+import { YesOrNo } from '../yesOrNoQuestion/yesOrNoQuestion';
 
 @withRouter
 @connect(state => ({
@@ -15,21 +16,26 @@ import { EditTestWrapper } from './common';
 }))
 export class TestWrapper extends Component {
     render() {
-        return <div className={scaffold_style.wrapper}>
-            <div className={scaffold_style.create_element_panel}>
-                <Switch>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditTestWrapper match={match} location={location}/>}/>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match }) => <LabTestCreatedMessage match={match} tests={this.props.data.tests}/>}/>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <CreateTestWrapper fixedTestType={1} match={match} location={location}/>}/>
-                </Switch>
-            </div>
-            <div className={scaffold_style.list_element_panel}>
-                <Switch>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match }) => <EditTestDataWrapper match={match}/>}/>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match }) => <RenderTestWrapper match={match} displayThisType={1} tests={this.props.data.tests} />}/>
-                </Switch>
-            </div>
-        </div>;
+        return <Switch>
+            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no' render={({ match, location }) => <YesOrNo match={match} location={location} questionString={'Any lab tests?'}/>}/>
+            <Route render={() =>
+                <div className={scaffold_style.wrapper}>
+                    <div className={scaffold_style.create_element_panel}>
+                        <Switch>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditTestWrapper match={match} location={location}/>}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <LabTestCreatedMessage match={match} location={location} tests={this.props.data.tests}/>}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <CreateTestWrapper fixedTestType={1} match={match} location={location}/>}/>
+                        </Switch>
+                    </div>
+                    <div className={scaffold_style.list_element_panel}>
+                        <Switch>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <EditTestDataWrapper location={location} match={match}/>}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <RenderTestWrapper location={location} match={match} displayThisType={1} tests={this.props.data.tests} />}/>
+                        </Switch>
+                    </div>
+                </div>
+            }/>
+        </Switch>;
     }
 }
 
@@ -50,7 +56,7 @@ class LabTestCreatedMessage extends Component {
                 <p>{dateOccur}</p>
 
                 <p>You can also create another lab test (only create another test if it is from a different date):</p>
-                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}`}> <button>Create another test</button></NavLink>
+                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}> <button>Create another test</button></NavLink>
             </div>
         );
     }
