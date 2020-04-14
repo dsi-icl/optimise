@@ -25,6 +25,14 @@
     margin-bottom: 2.3rem;
 }
 
+.center_introduction_div {
+    text-align: center;
+}
+
+.center_introduction_div p {
+    font-size: 1.1rem;
+}
+
 .padding_div {
     padding: 1rem;
 }

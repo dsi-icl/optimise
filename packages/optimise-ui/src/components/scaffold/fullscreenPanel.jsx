@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import FullTimeline from '../patientProfile/fullTimeline';
 import EDSSCalculator from '../EDSScalculator/calculator';
 import style from './scaffold.module.css';
-import { BaselineVisitFrontPage } from '../createVisitFrontPage/baselineVisitFrontPage';
+import { FrontPage } from '../createVisitFrontPage/frontPageWrapper';
 
 export default class FullscreenPanel extends Component {
     render() {
@@ -22,7 +22,7 @@ export default class FullscreenPanel extends Component {
                     } />
                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) =>
                         <div className={style.fullscreenPanel}>
-                            <BaselineVisitFrontPage match={match} location={location} />
+                            <FrontPage match={match} location={location}/>
                         </div>
                     } />
                     <Route path='/' component={() => null} />

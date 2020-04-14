@@ -11,6 +11,10 @@
     padding-top: 5rem;
 }
 
+.yes_no_div p {
+    font-size: 1.3rem;
+}
+
 .no_button {
     background-color: var(--color-button-red-lighter);
 }
