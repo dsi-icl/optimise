@@ -11,6 +11,7 @@ import { TreatmentWrapper } from './componentWrappers/treatment/treatmentWrapper
 import { CeWrapper } from './componentWrappers/ce/ceWrapper';
 import { TestWrapper } from './componentWrappers/tests/labWrapper';
 import { MRIWrapper } from './componentWrappers/tests/mriWrapper';
+import { FrontPageNavigationButton } from './componentWrappers/navigationButtons/navigationButtons';
 
 @connect(state => ({
     visitFields: state.availableFields.visitFields,
@@ -45,7 +46,6 @@ export class BaselineVisitFrontPage extends Component {
             <>
                 <div className={style.ariane}>
                     <h2>Baseline Visit Initial Data Entry ({this.props.match.params.patientId}) - Page {currentPageNumber}/10: {pageToTitles[params.currentPage]} </h2>
-                    <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                 </div>
                 <div className={style.panel}>
                     {visitFiltered.length === 1 ?
@@ -68,8 +68,6 @@ class RenderCurrentPage extends PureComponent {
     // this.props.{currentPage, match, location, _nextPage _lastPage}
     constructor() {
         super();
-        this.calcNextPage = this.calcNextPage.bind(this);
-        this.calcLastPage = this.calcLastPage.bind(this);
         this.returnCurrentElement = this.returnCurrentElement.bind(this);
     }
 
@@ -83,26 +81,16 @@ class RenderCurrentPage extends PureComponent {
                 <br /><br />
             </>,
             1: <VSFrontPageWrapper match={this.props.match} category={'vitals'} />,
-            2: <ComorbidityWrapper match={this.props.match} location={this.props.location}/>,
-            3: <EDSSWrapper match={this.props.match} location={this.props.location}/>,
+            2: <ComorbidityWrapper/>,
+            3: <EDSSWrapper/>,
             4: <h3>Concomitant medications</h3>,
-            5: <TreatmentWrapper match={this.props.match}/>,
-            6: <CeWrapper match={this.props.match}/>,
-            7: <TestWrapper match={this.props.match} location={this.props.location}/>, //  lab test
-            8: <MRIWrapper match={this.props.match} location={this.props.location}/>, //  lab test
-            9: <CommunicationWrapper match={this.props.match} location={this.props.location}/>
+            5: <TreatmentWrapper/>,
+            6: <CeWrapper/>,
+            7: <TestWrapper/>,
+            8: <MRIWrapper/>,
+            9: <CommunicationWrapper/>
         };
         return elements[params.currentPage];
-    }
-
-    calcNextPage() {
-        const currentPage = parseInt(this.props.match.params.currentPage, 10);
-        return currentPage + 1;
-    }
-
-    calcLastPage() {
-        const currentPage = parseInt(this.props.match.params.currentPage, 10);
-        return currentPage - 1;
     }
 
     render() {
@@ -112,25 +100,11 @@ class RenderCurrentPage extends PureComponent {
             return <p>Something went wrong. Please go back.</p>;
         }
 
-        const backbutton = <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcLastPage()}`}><button>Last page</button></NavLink></div>;
-        const nextbutton = <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcNextPage()}`}><button>Next page (does not automatically save)</button></NavLink></div>;
         return <>
             <div className={style.page}>
                 { this.returnCurrentElement() }
             </div>
-            <div className={style.page_navigation_buttons}>
-                { currentPage === '0' ? <div><NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${this.calcNextPage()}`}><button>Start</button></NavLink></div> : null }
-                { currentPage === '9' ? <>{backbutton}<div><NavLink to={`/patientProfile/${patientId}`}><button className={style.finish_button}>Finish</button></NavLink></div></> : null }
-                { (currentPage !== '9' && currentPage !== '0')
-                    ?
-                    <>
-                        {backbutton}
-                        {nextbutton}
-                    </>
-                    :
-                    null
-                }
-            </div>
+            <FrontPageNavigationButton match={this.props.match} location={this.props.location}/>
         </>;
     }
 }

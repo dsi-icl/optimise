@@ -44,7 +44,7 @@ export default class EditTest extends Component {
     _deleteFunction() {
         const { params } = this.props.match;
         const { renderedInFrontPage } = this.props;
-        const body = { patientId: params.patientId, data: { testId: parseInt(params.elementId) }, to: renderedInFrontPage ? `/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}` : `/patientProfile/${params.patientId}` };
+        const body = { patientId: params.patientId, data: { testId: parseInt(params.elementId) }, to: renderedInFrontPage ? `/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}` : `/patientProfile/${params.patientId}` };
         store.dispatch(deleteTestAPICall(body));
     }
 
@@ -73,7 +73,7 @@ export default class EditTest extends Component {
                 <form className={_style.panel}>
                     {testsFiltered ?
                         <>
-                            {wannaUpdate ? <UpdateTestEntry location={location} data={test} elementId={params.elementId} /> : null}
+                            {wannaUpdate ? <UpdateTestEntry location={location} renderedInFrontPage={this.props.renderedInFrontPage} data={test} elementId={params.elementId} /> : null}
                             {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
                                 <><button onClick={this._handleWannaUpdateClick}>Change test date</button><br /><br /></>
                             }
@@ -84,7 +84,7 @@ export default class EditTest extends Component {
                                 renderedInFrontPage ?
                                     <>
                                         <br/><br/><br/>
-                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}`}><button>Back</button></NavLink>
+                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
                                     </>
                                     :
                                     null
@@ -171,7 +171,7 @@ class UpdateTestEntry extends Component {
         const { id, startDate, actualOccurredDate } = this.state;
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}/edit/test/${id}`,
+            to: this.props.renderedInFrontPage ? `${this.props.location.pathname}${this.props.location.search}` : `/patientProfile/${patientId}/edit/test/${id}`,
             data: {
                 id,
                 expectedOccurDate: startDate.toISOString(),

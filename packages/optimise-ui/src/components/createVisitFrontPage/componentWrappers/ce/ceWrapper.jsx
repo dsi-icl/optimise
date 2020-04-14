@@ -7,6 +7,7 @@ import { ClinicalEvent } from '../../../patientProfile/patientChart';
 import EditCE from '../../../editMedicalElements/editClinicalEvent';
 import { CeData } from '../../../medicalData/ceDataPage';
 import { CreateCE } from '../../../createMedicalElements/createCE';
+import { YesOrNo } from '../yesOrNoQuestion/yesOrNoQuestion';
 
 @withRouter
 @connect(state => ({
@@ -15,21 +16,26 @@ import { CreateCE } from '../../../createMedicalElements/createCE';
 }))
 export class CeWrapper extends Component {
     render() {
-        return <div className={scaffold_style.wrapper}>
-            <div className={scaffold_style.create_element_panel}>
-                <Switch>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditEventWrapper match={match} location={location}/>}/>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:ceId' render={({ match }) => <EventCreatedMessage match={match} events={this.props.data.clinicalEvents}/>}/>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <CreateEventWrapper match={match} location={location}/>}/>
-                </Switch>
-            </div>
-            <div className={scaffold_style.list_element_panel}>
-                <Switch>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:ceId' render={({ match }) => <EditEventDataWrapper match={match}/>}/>
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match }) => <RenderEventsWrapper match={match} events={this.props.data.clinicalEvents} baselineVisit={true} />}/>
-                </Switch>
-            </div>
-        </div>;
+        return <Switch>
+            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no' render={({ match, location }) => <YesOrNo match={match} location={location} questionString={'Any CE?'}/>}/>
+            <Route render={() =>
+                <div className={scaffold_style.wrapper}>
+                    <div className={scaffold_style.create_element_panel}>
+                        <Switch>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditEventWrapper match={match} location={location}/>}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:ceId' render={({ match, location }) => <EventCreatedMessage location={location} match={match} events={this.props.data.clinicalEvents}/>}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <CreateEventWrapper match={match} location={location}/>}/>
+                        </Switch>
+                    </div>
+                    <div className={scaffold_style.list_element_panel}>
+                        <Switch>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:ceId' render={({ match, location }) => <EditEventDataWrapper location={location} match={match}/>}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <RenderEventsWrapper match={match} location={location} events={this.props.data.clinicalEvents} baselineVisit={true} />}/>
+                        </Switch>
+                    </div>
+                </div>
+            }/>
+        </Switch>;
     }
 }
 
@@ -94,7 +100,7 @@ class EventCreatedMessage extends Component {
                 <p>{currentEvent.meddra}</p>
 
                 <p>You can also record another event:</p>
-                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}`}> <button>Record another event</button></NavLink>
+                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}> <button>Record another event</button></NavLink>
             </div>
         );
     }

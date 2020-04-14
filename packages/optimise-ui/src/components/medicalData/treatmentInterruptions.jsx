@@ -102,7 +102,8 @@ export class TreatmentInterruption extends Component {
                 end_date: !this.state.noEndDate && this.state.newEndDate ? this.state.newEndDate.toISOString() : null,
                 reason: parseInt(this.state.reason, 10),
                 meddra: this.state.meddra
-            }
+            },
+            to: this.props.renderedInFrontPage ? `${this.props.location.pathname}${this.props.location.search}` : undefined
         };
         this.setState({
             lastSubmit: (new Date()).getTime(),
@@ -143,6 +144,8 @@ export class TreatmentInterruption extends Component {
                                         meddra_Hash={meddra_Hash}
                                         _handleClickDelete={this._handleClickDelete}
                                         patientId={patientProfile.data.patientId}
+                                        location={this.props.location}
+                                        renderedInFrontPage={this.props.renderedInFrontPage}
                                     />
                                 )}
 
@@ -230,7 +233,8 @@ class OneTreatmentInterruption extends Component {
                 patientId: patientId,
                 data: {
                     treatmentInterId: id
-                }
+                },
+                to: that.props.renderedInFrontPage ? `${that.props.location.pathname}${that.props.location.search}` : undefined
             };
             store.dispatch(deleteTreatmentInterruptionAPICall(body));
         };

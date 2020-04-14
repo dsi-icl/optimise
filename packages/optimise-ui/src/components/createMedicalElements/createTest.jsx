@@ -87,7 +87,8 @@ export class CreateTest extends Component {
         }
         const requestBody = this._formatRequestBody();
         const { patientId, visitId, currentPage } = this.props.match.params;
-        requestBody.toFormat = this.props.renderedInFrontPage ? (testId) => `/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}/data/${testId}` : () => `/patientProfile/${patientId}`;
+        const searchString = this.props.location.search;
+        requestBody.toFormat = this.props.renderedInFrontPage ? (testId) => `/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}/data/${testId}${searchString}` : () => `/patientProfile/${patientId}`;
 
         this.setState({
             lastSubmit: (new Date()).getTime(),

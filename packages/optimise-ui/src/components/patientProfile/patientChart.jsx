@@ -88,12 +88,12 @@ export class Test extends PureComponent {
         // const dateResults = data.actualOccurredDate ? new Date(parseInt(data.actualOccurredDate, 10)).toDateString() : dateDone;
         return (
             <tr>
-                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}` : `/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
+                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{dateDone}</td>
                 {/* <td>{dateResults}</td> */}
                 <td>
-                    <NavLink id={`test-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}` : `/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`test-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
                 </td>
@@ -127,7 +127,7 @@ export class Medication extends PureComponent {
             return null;
         return (
             <tr>
-                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}` : `/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
+                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
                 <td>{data.terminatedDate ? new Date(parseInt(data.terminatedDate, 10)).toDateString() : ''}</td>
@@ -136,7 +136,7 @@ export class Medication extends PureComponent {
                 <td>{data.times && data.intervalUnit ? `${data.times} times / ${this.intervalUnitString(data.intervalUnit)}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
-                    <NavLink id={`treatment-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/5/interruptions/${data.id}` : `/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`treatment-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/5/interruptions/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Interruptions</button>
                     </NavLink>
                 </td>
@@ -160,13 +160,13 @@ export class ClinicalEvent extends PureComponent {
         const endDate = data.endDate !== null && data.endDate !== undefined ? new Date(parseInt(data.endDate, 10)).toDateString() : '';
         return (
             <tr>
-                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/6/edit/${data.id}` : `/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
+                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/6/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>{endDate}</td>
                 <td>{data.meddra ? meddraHash[data.meddra].name : null}</td>
                 <td>
-                    <NavLink id={`clinicalEvent-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/6/data/${data.id}` : `/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`clinicalEvent-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/6/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Data</button>
                     </NavLink>
                 </td>

@@ -12,7 +12,7 @@ export const createVisitAPICall = (body) => dispatch => apiHelper('/visits', { m
     })
     .then(() => {
         // history.push(`${body.to}/data/visit/${body.VSData.visitId}/vitals#visit-${body.VSData.visitId}`);
-        history.push(`${body.to}/visitFrontPage/${body.VSData.visitId}/page/0`);
+        history.push(`${body.to}/visitFrontPage/${body.VSData.visitId}/page/0?yesPages=foo`);
         dispatch(getPatientProfileById(body.patientId));
     })
     .catch(msg => store.dispatch(addError({ error: msg })));
