@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import { calcNextPage } from '../navigationButtons/navigationButtons';
+import style from './style.module.css';
+import frontpage_style from '../../frontpage.module.css';
 import qs from 'query-string';
 
 export class YesOrNo extends PureComponent {
@@ -20,10 +22,11 @@ export class YesOrNo extends PureComponent {
         const searchString = this.props.location.search;
 
         return (
-            <div>
+            <div className={style.yes_no_div}>
                 <p>{questionString}</p>
-                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${`${searchString},${currentPage}`}`}><button>Yes</button></NavLink>
-                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}><button>No</button></NavLink>
+                <br/><br/><br/>
+                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${`${searchString},${currentPage}`}`}><button className={frontpage_style.finish_button}>Yes</button></NavLink>
+                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}><button className={style.no_button}>No</button></NavLink>
             </div>
         );
     }
