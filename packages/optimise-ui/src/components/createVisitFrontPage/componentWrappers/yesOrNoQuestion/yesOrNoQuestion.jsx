@@ -23,10 +23,10 @@ export class YesOrNo extends PureComponent {
 
         return (
             <div className={style.yes_no_div}>
-                <p>{questionString}</p>
+                {questionString}
                 <br/><br/><br/>
-                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${`${searchString},${currentPage}`}`}><button className={frontpage_style.finish_button}>Yes</button></NavLink>
-                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}><button className={style.no_button}>No</button></NavLink>
+                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${`${searchString},${currentPage}`}`}><button className={frontpage_style.finish_button}>Yes and enter data</button></NavLink>
+                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}><button className={style.no_button}>No; or Continue with missing data</button></NavLink>
             </div>
         );
     }

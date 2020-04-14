@@ -16,8 +16,10 @@ import { YesOrNo } from '../yesOrNoQuestion/yesOrNoQuestion';
 }))
 export class MRIWrapper extends Component {
     render() {
+        const { yesOrNoQuestion } = this.props;
+        console.log(yesOrNoQuestion);
         return <Switch>
-            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no' render={({ match, location }) => <YesOrNo match={match} location={location} questionString={'Any MRI?'}/>}/>
+            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no' render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}/>
             <Route render={() =>
                 <div className={scaffold_style.wrapper}>
                     <div className={scaffold_style.create_element_panel}>

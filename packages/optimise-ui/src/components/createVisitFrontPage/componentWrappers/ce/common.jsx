@@ -89,9 +89,9 @@ export class EventCreatedMessage extends Component {
                         : null
                 }
                 <br/><br/>
-                <p>You can also record another event:</p>
+                <p>You can also record another entry:</p>
                 <br/>
-                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}> <button>Record another event</button></NavLink>
+                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${this.props.location.search}`}> <button>Record another entry</button></NavLink>
             </div>
         );
     }
