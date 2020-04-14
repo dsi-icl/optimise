@@ -38,10 +38,10 @@ export class EditTestDataWrapper extends PureComponent {
 
 export class CreateTestWrapper extends Component {
     render() {
-        const { fixedTestType } = this.props.fixedTestType
+        const { fixedTestType, match, location } = this.props;
         /* <p>If you have to record lab results for liver function, anti-JCV antibodies or blood cell count, please enter test date and click "Create test".</p>  */
         return (
-            <CreateTest match={this.props.match} fixedTestType={fixedTestType} override_style={override_style} renderedInFrontPage={true}/>
+            <CreateTest match={match} location={location} fixedTestType={fixedTestType} override_style={override_style} renderedInFrontPage={true}/>
         );
     }
 }
