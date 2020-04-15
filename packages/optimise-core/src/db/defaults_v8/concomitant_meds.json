@@ -1,0 +1,186 @@
+[
+    {
+        "id": 1,
+        "name": "Simvastatin"
+    },
+    {
+        "id": 2,
+        "name": "Aspirin"
+    },
+    {
+        "id": 3,
+        "name": "Levothyroxine Sodium"
+    },
+    {
+        "id": 4,
+        "name": "Omeprazole"
+    },
+    {
+        "id": 5,
+        "name": "Ramipril"
+    },
+    {
+        "id": 6,
+        "name": "Amlodipine"
+    },
+    {
+        "id": 7,
+        "name": "Paracetamol"
+    },
+    {
+        "id": 8,
+        "name": "Salbutamol"
+    },
+    {
+        "id": 9,
+        "name": "Lansoprazole"
+    },
+    {
+        "id": 10,
+        "name": "Atorvastatin"
+    },
+    {
+        "id": 11,
+        "name": "Metformin Hydrochloride"
+    },
+    {
+        "id": 12,
+        "name": "Colecalciferol"
+    },
+    {
+        "id": 13,
+        "name": "Bendroflumethiazide"
+    },
+    {
+        "id": 14,
+        "name": "Bisoprolol Fumarate"
+    },
+    {
+        "id": 15,
+        "name": "Co-Codamol (Codeine Phosphate/Paracetamol)"
+    },
+    {
+        "id": 16,
+        "name": "Citalopram Hydrobromide"
+    },
+    {
+        "id": 17,
+        "name": "Amoxicillin"
+    },
+    {
+        "id": 18,
+        "name": "Furosemide"
+    },
+    {
+        "id": 19,
+        "name": "Amitriptyline Hydrochloride"
+    },
+    {
+        "id": 20,
+        "name": "Warfarin Sodium"
+    },
+    {
+        "id": 21,
+        "name": "Echinacea"
+    },
+    {
+        "id": 22,
+        "name": "St John’s Wort"
+    },
+    {
+        "id": 23,
+        "name": "Valerian"
+    },
+    {
+        "id": 24,
+        "name": "Vitamin B12"
+    },
+    {
+        "id": 25,
+        "name": "Vitamin D"
+    },
+    {
+        "id": 26,
+        "name": "DHA (Omega 3)"
+    },
+    {
+        "id": 27,
+        "name": "GLA (Omega 6)"
+    },
+    {
+        "id": 28,
+        "name": "Cod Liver Oil"
+    },
+    {
+        "id": 29,
+        "name": "Calcium"
+    },
+    {
+        "id": 30,
+        "name": "Probiotics"
+    },
+    {
+        "id": 31,
+        "name": "Selenium"
+    },
+    {
+        "id": 32,
+        "name": "Zinc"
+    },
+    {
+        "id": 33,
+        "name": "Pregabalin"
+    },
+    {
+        "id": 34,
+        "name": "Modafinil"
+    },
+    {
+        "id": 35,
+        "name": "Gabapentin"
+    },
+    {
+        "id": 36,
+        "name": "Trimethoprim"
+    },
+    {
+        "id": 37,
+        "name": "Nitrofurantoin"
+    },
+    {
+        "id": 38,
+        "name": "Sertraline"
+    },
+    {
+        "id": 39,
+        "name": "Doxycycline"
+    },
+    {
+        "id": 40,
+        "name": "Adderall"
+    },
+    {
+        "id": 41,
+        "name": "Fampridine"
+    },
+    {
+        "id": 42,
+        "name": "Fluoxetine"
+    },
+    {
+        "id": 43,
+        "name": "Baclofen"
+    },
+    {
+        "id": 44,
+        "name": "Clonazepam"
+    },
+    {
+        "id": 45,
+        "name": "Dantrolene"
+    },
+    {
+        "id": 46,
+        "name": "Diazepam"
+    }
+]
