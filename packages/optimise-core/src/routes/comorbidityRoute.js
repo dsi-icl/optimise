@@ -1,6 +1,6 @@
 /**
  * Route comorbidity
- * @description Redirect request from /tests to the proper controller call
+ * @description Redirect request from /comorbidities to the proper controller call
  */
 
 import express from 'express';
