@@ -49,6 +49,8 @@ export default {
         icd11: null,
         icd11_Hash: null,
         icd11_Tree: null,
+        concomitantMedsList: null,
+        concomitantMedsList_hash: null,
         inputTypes: [     //'I', 'F', 'BLOB' etc
             {
                 'id': 1,
