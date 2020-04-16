@@ -158,6 +158,10 @@ function availableFields(state = initialState.availableFields, action) {
             hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
             newState = { ...state, visitSections: action.payload, visitSections_Hash: [hash] };
             break;
+        case actionTypes.availableFields.GET_CONCOMITANT_MEDS_SUCCESS:
+            hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            newState = { ...state, concomitantMedsList: action.payload, concomitantMedsList_hash: [hash] };
+            break;
         default:
             return state;
     }

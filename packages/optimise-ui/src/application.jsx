@@ -10,7 +10,7 @@ import Login from './components/login';
 import NoSupport from './components/noSupport';
 import CenterSpinner from './components/centerSpinner';
 import { whoami } from './redux/actions/login';
-import { getICD11Call, getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall } from './redux/actions/availableFields';
+import { getICD11Call, getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall, getConcomitantMedsCall } from './redux/actions/availableFields';
 import { getServerInfoCall } from './redux/actions/serverInfo';
 
 const browser = detect();
@@ -87,7 +87,8 @@ function mapDispatchToProps(dispatch) {
         getInterruptionReasonsCall: () => dispatch(getInterruptionReasonsCall()),
         getVisitSectionsCall: () => dispatch(getVisitSectionsCall()),
         getServerInfoCall: () => dispatch(getServerInfoCall()),
-        getICD11Call: () => dispatch(getICD11Call())
+        getICD11Call: () => dispatch(getICD11Call()),
+        getConcomitantMedsCall: () => dispatch(getConcomitantMedsCall())
     };
 }
 @withRouter
@@ -113,6 +114,7 @@ class LoadingFields extends Component {
         this.props.getVisitSectionsCall();
         this.props.getServerInfoCall();
         this.props.getICD11Call();
+        this.props.getConcomitantMedsCall();
     }
 
     render() {
