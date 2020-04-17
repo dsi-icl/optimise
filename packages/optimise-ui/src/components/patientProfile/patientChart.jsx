@@ -236,6 +236,10 @@ class OneVisit extends Component {
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
+
+        if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
+            return null;
+
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
         const VS = this.props.visitData.filter(el => [0, 1, 2, 3, 4, 5, 6, 252, 253].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
@@ -261,6 +265,7 @@ class OneVisit extends Component {
         const performances = this.props.visitData.filter(el => el.field > 6 && relevantEDSSFieldsIdArray.includes(el.field));
         const communication = this.props.data.visits.filter(v => v.id === this.props.visitId)[0].communication;
         const comorbidities = this.props.data.comorbidities.filter(el => el.visit === this.props.visitId);
+        const concomitantMeds = this.props.data.concomitantMeds.filter(el => el.visit === this.props.visitId);
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
 
         const filteredSymptoms = filterEmptyRenders(symptoms, this.props.inputType, this.props.typedict);
@@ -268,8 +273,6 @@ class OneVisit extends Component {
         const filteredSigns = filterEmptyRenders(signs, this.props.inputType, this.props.typedict);
         const filteredEDSS = filterEmptyRenders(performances, this.props.inputType, this.props.typedict);
 
-        if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
-            return null;
 
         let shouldRender = true;
         if (this.props.filter.visits || this.props.filter.tests || this.props.filter.treatments || this.props.filter.events) {
@@ -475,6 +478,33 @@ class OneVisit extends Component {
                     </>
                 ) : null}
 
+                {this.props.visitType === 1 ? (
+                    <>
+                        <h4><Icon symbol='addTreatment' />&nbsp;CONCOMITANT MEDICATIONS</h4>
+                        {concomitantMeds.length > 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Indication</th>
+                                            <th>Start date</th>
+                                            <th>End date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {concomitantMeds.map(el => <ConcomitantMed data={el} key={el.id}/>)}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/concomitantMed/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit concomitant medications</button>
+                        </NavLink>
+                        <br /><br />
+                    </>
+                ) : null}
 
                 {this.props.visitType === 1 ? (
                     <>
@@ -680,3 +710,27 @@ export class Charts extends Component {
         );
     }
 }
+
+/* receives a prop data of one treatment */
+@withRouter
+@connect(state => ({
+    typedict: state.availableFields.concomitantMedsList_hash[0],
+    patientId: state.patientProfile.data.patientId
+}))
+export class ConcomitantMed extends PureComponent {
+    render() {
+        const { data, typedict, patientId, renderedInFrontPage } = this.props;
+        if (!typedict || !typedict[data.concomitantMedId])
+            return null;
+        return (
+            <tr>
+                <td>{typedict[data.concomitantMedId].name}</td>
+                <td>{data.indication}</td>
+                <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
+                <td>{data.terminatedDate ? new Date(parseInt(data.terminatedDate, 10)).toDateString() : ''}</td>
+            </tr>
+
+        );
+    }
+}
+
