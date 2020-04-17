@@ -74,13 +74,11 @@ class ConcomitantMedController {
                     return;
                 }
             }
-            if (endDate) {
-                if (typeof endDate === 'number') {
-                    entryObj.endDate = endDate;
-                } else {
-                    res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-                    return;
-                }
+            if (typeof endDate === 'number' || endDate === null || endDate === undefined) {
+                entryObj.endDate = endDate;
+            } else {
+                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+                return;
             }
             ConcomitantMed.updateConcomitantMed(user, entryObj).then((result) => {
                 res.status(200).json(formatToJSON(result));
