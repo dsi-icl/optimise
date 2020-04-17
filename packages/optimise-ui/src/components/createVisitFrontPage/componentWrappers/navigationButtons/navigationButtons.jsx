@@ -34,7 +34,7 @@ export class FrontPageNavigationButton extends Component {
     }
 
     _isCompulsoryPage(currentPageInString) {
-        return ['1', '4'].includes(currentPageInString);
+        return ['1'].includes(currentPageInString);
     }
 
     render() {

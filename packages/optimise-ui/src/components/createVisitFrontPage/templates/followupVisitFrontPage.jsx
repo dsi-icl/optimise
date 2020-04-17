@@ -10,6 +10,7 @@ import { MRIWrapper } from '../componentWrappers/tests/mriWrapper';
 import { OtherSAEWrapper } from '../componentWrappers/ce/otherSAEWrapper';
 import { VisitFrontPageTemplate } from './template';
 import { VisitFrontPageIntroduction } from '../componentWrappers/introductoryPage/introductoryPage';
+import { ConcomitantMedWrapper } from '../componentWrappers/concomitantMed/concomitantMed';
 
 export class FollowupVisitFrontPage extends Component {
     render() {
@@ -19,7 +20,13 @@ export class FollowupVisitFrontPage extends Component {
             1: <VSFrontPageWrapper match={this.props.match} category={'vitals'} />,
             2: <ComorbidityWrapper yesOrNoQuestion={<p>Is there any <b>newly diagnosed</b> ICD11-identified comorbidity since last visit?</p>}/>,
             3: <EDSSWrapper yesOrNoQuestion={<p>Is EDSS measurement performed for this visit?</p>}/>,
-            4: <h3>Concomitant medications</h3>,
+            4: <ConcomitantMedWrapper yesOrNoQuestion={
+                <>
+                    <p>Has the patient started any <b>new</b> non-disease-modifying medication and/or supplements, or had <b>any change</b> (including termination) thereof since last visit?</p>
+                    <p>Please do the following:</p>
+                    <p>1. Record any new medications or supplements this visit; and</p>
+                    <p>2. Edit and add end date to any previous medications that has been terminated.</p>
+                </>}/>,
             5: <TreatmentWrapper
                 yesOrNoQuestion={
                     <>

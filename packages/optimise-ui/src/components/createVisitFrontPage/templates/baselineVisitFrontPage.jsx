@@ -10,6 +10,7 @@ import { MRIWrapper } from '../componentWrappers/tests/mriWrapper';
 import { OtherSAEWrapper } from '../componentWrappers/ce/otherSAEWrapper';
 import { VisitFrontPageTemplate } from './template';
 import { VisitFrontPageIntroduction } from '../componentWrappers/introductoryPage/introductoryPage';
+import { ConcomitantMedWrapper } from '../componentWrappers/concomitantMed/concomitantMed';
 
 export class BaselineVisitFrontPage extends Component {
     render() {
@@ -20,7 +21,7 @@ export class BaselineVisitFrontPage extends Component {
             1: <VSFrontPageWrapper match={this.props.match} category={'vitals'} />,
             2: <ComorbidityWrapper yesOrNoQuestion={<p>Is there any current or previous ICD11-identified comorbidity?</p>}/>,
             3: <EDSSWrapper yesOrNoQuestion={<p>Is EDSS measurement performed for this visit?</p>}/>,
-            4: <h3>Concomitant medications</h3>,
+            4: <ConcomitantMedWrapper yesOrNoQuestion={<p>Has the patient been on any non-disease modifying medication and/or supplements?</p>}/>,
             5: <TreatmentWrapper yesOrNoQuestion={<p>Has the patient been subject to any <b>current</b> or <b>previous</b> <b>disease-modifying treatments (DMT)</b>.</p>}/>,
             6: <RelapseWrapper yesOrNoQuestion={<p>Is there any <b>MS relapse within the last 2 years</b>?</p>}/>,
             7: <OtherSAEWrapper yesOrNoQuestion={<p>Is there any <b>serious adverse event</b>, <b>malignancy</b>, or <b>opportunistic infection</b> prior to this visit?</p> }/>,
