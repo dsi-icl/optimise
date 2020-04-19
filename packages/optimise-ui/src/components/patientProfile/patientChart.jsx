@@ -711,7 +711,6 @@ export class Charts extends Component {
     }
 }
 
-/* receives a prop data of one treatment */
 @withRouter
 @connect(state => ({
     typedict: state.availableFields.concomitantMedsList_hash[0],
@@ -719,7 +718,7 @@ export class Charts extends Component {
 }))
 export class ConcomitantMed extends PureComponent {
     render() {
-        const { data, typedict, patientId, renderedInFrontPage } = this.props;
+        const { data, typedict } = this.props;
         if (!typedict || !typedict[data.concomitantMedId])
             return null;
         return (
