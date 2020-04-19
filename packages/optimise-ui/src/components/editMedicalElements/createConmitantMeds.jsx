@@ -221,7 +221,7 @@ class OneComorbidity extends Component {
     }
 
     render() {
-        const { editing, comorbidity, comorbidity_original } = this.state;
+        const { editing } = this.state;
         const { data, typedict } = this.props;
         return (
             <div className={style.interruption} style={{
