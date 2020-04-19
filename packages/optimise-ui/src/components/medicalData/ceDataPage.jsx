@@ -121,6 +121,7 @@ export class CeData extends Component {
         }, () => {
             store.dispatch(alterDataCall(body, () => {
                 this.originalValues = Object.assign({}, this.originalValues, add);
+                this.setState({ saved: true });
             }));
         });
     }
@@ -168,6 +169,7 @@ export class CeData extends Component {
                                 <div className={style.levelBody}>
                                     {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
                                 </div><br />
+                                { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
                                 <button type='submit'>Save</button>
                             </form>
                         </div>
