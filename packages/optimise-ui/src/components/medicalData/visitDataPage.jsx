@@ -164,7 +164,7 @@ export class VisitData extends Component {
                             <div className={style.levelBody}>
                                 {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
                             </div>
-                            { this.state.saved ? <button disabled style={{ backgroundColor: 'green' }}>Successfully saved!</button> : null }
+                            { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
                             <button type='submit'>Save</button>
                         </form>
                     </div>

@@ -98,7 +98,7 @@ class EDSSCalculator extends Component {
                 scoreArr.push(parseFloat(document.querySelector(`input[name="${each}"]:checked`).value));
             }
         }
-        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseFloat(document.querySelector('input[name="edss:expanded disability status scale - ambulation"]:checked').value)) });
+        this.setState({ saved: false, autoCalculatedScore: edssAlgorithm(scoreArr, parseFloat(document.querySelector('input[name="edss:expanded disability status scale - ambulation"]:checked').value)) });
     }
 
     _handleSubmit(ev) {
@@ -149,7 +149,8 @@ class EDSSCalculator extends Component {
             store.dispatch(alterDataCall(body, () => {
                 this.originalValues = Object.assign({}, this.originalValues, add);
                 this.setState({
-                    close: true
+                    close: true,
+                    saved: true
                 });
             }));
         });
@@ -257,6 +258,7 @@ class EDSSCalculator extends Component {
                             <br /><br />
                             <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinician): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                             <br /><br />
+                            { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
                             <button type='submit'>Save</button>
                             <br /><br />
                             <button className={_style.cancelButton} onClick={this._handleCancel}>Cancel</button>

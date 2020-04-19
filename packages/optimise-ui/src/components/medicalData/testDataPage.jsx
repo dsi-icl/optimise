@@ -112,6 +112,7 @@ export class TestData extends Component {
         }, () => {
             store.dispatch(alterDataCall(body, () => {
                 this.originalValues = Object.assign({}, this.originalValues, add);
+                this.setState({ saved: true });
             }));
         });
     }
@@ -163,6 +164,7 @@ export class TestData extends Component {
                                     return item;
                                 }))}
                             </div>
+                            { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
                             <button type='submit'>Save</button>
                         </form>
                     </div>
