@@ -29,7 +29,7 @@ export default class EditConcomitantMeds extends Component {
     }
 
     render() {
-        const { patientProfile, match, location } = this.props;
+        const { patientProfile, match, location, renderedInFrontPage } = this.props;
 
         let _style = style;
         if (this.props.override_style) {
@@ -45,7 +45,8 @@ export default class EditConcomitantMeds extends Component {
                     </div>
                     <form className={_style.panel}>
                         {patientProfile.data.concomitantMeds
-                            .filter((el) => parseInt(el.visit) === parseInt(this.props.match.params.visitId))
+                            /* if rendered in front page then show all visits; if not then, only the visit in the page */
+                            .filter((el) => renderedInFrontPage ? true : parseInt(el.visit) === parseInt(this.props.match.params.visitId))
                             .map((el) =>
                                 <OneComorbidity
                                     key={el.id}
