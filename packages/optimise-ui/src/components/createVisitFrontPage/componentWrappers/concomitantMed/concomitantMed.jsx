@@ -12,10 +12,7 @@ export class ConcomitantMedWrapper extends Component {
             <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no' render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}/>
             <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) =>
                 <div className={scaffold_style.padding_div}>
-                    <p>This is all the concomitant medications or supplements this patient has been on.</p>
-                    <p>Please do the following:</p>
-                    <p>1. Record any new medications or supplements this visit; and</p>
-                    <p>2. Edit and add end date to any previous medications that has been terminated.</p>
+                    <p>All the concomitant medications or supplements this patient has been on will be shown here.</p>
                     <EditConcomitantMed match={match} location={location} renderedInFrontPage={true} override_style={override_style}/>
                 </div>
             }/>

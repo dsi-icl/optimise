@@ -79,7 +79,7 @@ export class EventCreatedMessage extends Component {
         const dateOccur = new Date(parseInt(currentEvent.dateStartDate)).toDateString();
         return (
             <div>
-                <p>Please enter related data on the opposite panel for the following test:</p>
+                <p>Please enter related data on the opposite panel for the following event:</p>
                 <br/>
                 <p><b>Date:</b> {dateOccur}</p>
                 <p><b>Type:</b> {typeHash[currentEvent.type]}</p>

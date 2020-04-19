@@ -48,7 +48,7 @@ export class BaselineVisitFrontPage extends Component {
             <VisitFrontPageTemplate
                 match={match}
                 location={location}
-                isBaselineVisit={false}
+                isBaselineVisit={true}
                 pageNumberToElementMap={pageNumberToElementMap}
                 pageToTitleMap={pageToTitleMap}
             />
