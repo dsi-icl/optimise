@@ -29,8 +29,12 @@ function mapStateToProps(state) {
 @withRouter
 @connect(mapStateToProps)
 export class VisitData extends Component {
-    constructor() {
+    constructor(props) {
         super();
+        const { childRef } = props;
+        if (childRef) {
+            childRef(this);
+        }
         this.state = {
             saved: false
         };
@@ -102,6 +106,7 @@ export class VisitData extends Component {
         });
         const { params } = this.props.match;
         if (checkIfObjIsEmpty(update, add)) {
+            this.setState({ saved: true });
             return;
         }
         const body = { data: { visitId: params.visitId, update, add }, type: 'visit', patientId: params.patientId };
@@ -160,12 +165,18 @@ export class VisitData extends Component {
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
-                        <form onSubmit={this._handleSubmit} className={style.form}>
+                        <form className={style.form}>
                             <div className={style.levelBody}>
                                 {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
                             </div>
                             { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
-                            <button type='submit'>Save</button>
+                            {
+                                this.props.renderedInFrontPage
+                                    ?
+                                    null
+                                    :
+                                    <button onClick={this._handleSubmit} type='submit'>Save</button>
+                            }
                         </form>
                     </div>
                 </>
