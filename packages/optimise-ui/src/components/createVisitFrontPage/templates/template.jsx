@@ -1,7 +1,6 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import style from '../frontpage.module.css';
-import { FrontPageNavigationButton } from '../componentWrappers/navigationButtons/navigationButtons';
 
 @connect(state => ({
     patientProfile: state.patientProfile.data

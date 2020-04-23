@@ -12,7 +12,7 @@ export class RenderTestWrapper extends PureComponent {
         const labtests = allTests.filter(el => el.type === displayThisType);
 
         if (labtests.length === 0) {
-            return <p>Lab tests will be displayed here.</p>;
+            return <p>No record is created for this patient yet.</p>;
         }
 
         // const treatmentssorted = [...treatments].sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate));

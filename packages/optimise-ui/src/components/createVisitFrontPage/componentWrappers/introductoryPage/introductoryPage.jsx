@@ -11,7 +11,6 @@ export class VisitFrontPageIntroduction extends PureComponent {
                     <br/>
                     <p>You will be able to navigate forward and backward to each form and make changes using the navigation button at the bottom of such page.</p>
                     <p>Don't worry if you discover you have entered wrong data after you clicked "Finish", you will be able to edit these data afterwards in the patients homepage.</p><br /><br />
-                    <p style={{ color: 'red' }}>Please note that clicking next page does not automatically save your data in forms where you have to fill out data fields. You will have to click "save" or "submit" button in the form.</p>
                     <p>If you understand, please click "Start" to enter data.</p>
                 </div>
                 <FrontPageNavigationButton match={this.props.match} location={this.props.location}/>

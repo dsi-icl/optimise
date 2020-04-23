@@ -3,6 +3,11 @@
     width: 20%;
     margin: 3rem;
     min-width: 5rem;
+    background-color: #8e8e8e;
+}
+
+.yes_no_div button:hover {
+    background-color: #989898;
 }
 
 .yes_no_div {
@@ -15,10 +20,10 @@
     font-size: 1.3rem;
 }
 
-.no_button {
+.yes_no_div .no_button {
     background-color: var(--color-button-red-lighter);
 }
 
-.no_button:hover {
+.yes_no_div .no_button:hover {
     background-color: var(--color-button-red);
 }

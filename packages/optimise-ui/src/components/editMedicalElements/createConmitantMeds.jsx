@@ -44,17 +44,23 @@ export default class EditConcomitantMeds extends Component {
                         <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                     </div>
                     <form className={_style.panel}>
-                        {patientProfile.data.concomitantMeds
-                            /* if rendered in front page then show all visits; if not then, only the visit in the page */
-                            .filter((el) => renderedInFrontPage ? true : parseInt(el.visit) === parseInt(this.props.match.params.visitId))
-                            .map((el) =>
-                                <OneComorbidity
-                                    key={el.id}
-                                    data={el}
-                                    _handleClickDelete={this._handleClickDelete}
-                                    patientId={patientProfile.data.patientId}
-                                />
-                            )}
+                        {
+                            patientProfile.data.concomitantMeds.length === 0
+                                ?
+                                <p>No concomitant medication recorded yet.</p>
+                                :
+                                patientProfile.data.concomitantMeds
+                                    /* if rendered in front page then show all visits; if not then, only the visit in the page */
+                                    .filter((el) => renderedInFrontPage ? true : parseInt(el.visit) === parseInt(this.props.match.params.visitId))
+                                    .map((el) =>
+                                        <OneComorbidity
+                                            key={el.id}
+                                            data={el}
+                                            _handleClickDelete={this._handleClickDelete}
+                                            patientId={patientProfile.data.patientId}
+                                        />
+                                    )
+                        }
                         {!this.state.addMore ?
                             <>
                                 <br />

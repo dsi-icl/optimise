@@ -22,12 +22,7 @@ export class TestWrapper extends Component {
         return <Switch>
             <Route
                 path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
-                render={({ match, location }) =>
-                    <>
-                        <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>
-                        <FrontPageNavigationButton match={match} location={location}/>
-                    </>
-                }
+                render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}
             />
             <Route render={({ match, location }) =>
                 <>

@@ -23,12 +23,7 @@ export class TreatmentWrapper extends Component {
         return <Switch>
             <Route
                 path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
-                render={({ match, location }) =>
-                    <>
-                        <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>
-                        <FrontPageNavigationButton match={match} location={location}/>
-                    </>
-                }
+                render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}
             />
             <Route render={({ match, location }) =>
                 <>
@@ -60,7 +55,7 @@ class RenderTreatmentsWrapper extends PureComponent {
     render() {
         const { treatments, match } = this.props;
         if (treatments.length === 0) {
-            return <p>Treatments will be displayed here.</p>;
+            return <p>No DMT has been recorded for this patient yet.</p>;
         }
 
         const treatmentssorted = [...treatments].sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate));
