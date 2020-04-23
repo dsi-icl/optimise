@@ -159,7 +159,7 @@ class OneComorbidity extends Component {
             endDate_new: data.endDate ? moment(parseInt(data.endDate)) : moment(),
             startDate_new: moment(parseInt(data.startDate)),
             indication_new: data.indication,
-            type_new: data.type,
+            type_new: data.concomitantMedId,
             error: false
         });
     }
