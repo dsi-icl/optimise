@@ -14,7 +14,7 @@ export class RenderEventsWrapper extends PureComponent {
         const filteredEvents = allEvents.filter(el => displayTheseTypes.includes(el.type));
 
         if (filteredEvents.length === 0) {
-            return <p>Events will be displayed here.</p>;
+            return <p>Patient has had no record yet.</p>;
         }
 
         // const treatmentssorted = [...treatments].sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate));

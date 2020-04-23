@@ -42,22 +42,23 @@ export class FrontPageNavigationButton extends Component {
         const { onClickNext, formSaved } = this.props;
         const searchString = this.props.location.search;
 
-        console.log(formSaved);
         if (formSaved && formSaved()) {
             return <Redirect to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}/>;
         }
 
-        const backButton = <div>
+        const backButtonWithoutDiv =
             <NavLink
                 to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcLastPage(currentPage)}${this._lastPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
             >
-                <button><b>&lt;&lt;</b> Last page</button>
-            </NavLink></div>;
+                <button><b>&lt;&lt;</b>Go back</button>
+            </NavLink>;
+
+        const backButton = <div>{backButtonWithoutDiv}</div>;
 
 
         const nextButton = this._isAYesOrNoPage() && !this._isCompulsoryPage(currentPage) ?
             <div>
-                <button disabled style={{ visibility: 'hidden' }}>Next page (does not automatically save) <b>&gt;&gt;</b></button>
+                <button disabled style={{ visibility: 'hidden' }}>Continue<b>&gt;&gt;</b></button>
             </div>
             :
             (
@@ -68,7 +69,7 @@ export class FrontPageNavigationButton extends Component {
                     :
                     <div>
                         <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}>
-                            <button onClick={onClickNext}>Save and continue<b>&gt;&gt;</b></button>
+                            <button onClick={onClickNext}>Continue<b>&gt;&gt;</b></button>
                         </NavLink>
                     </div>
             );
@@ -86,6 +87,11 @@ export class FrontPageNavigationButton extends Component {
             >
                 <button className={style.finish_button}>Finish</button>
             </NavLink></div>;
+
+        if (this.props.renderedInYesOrNoPage) {
+            return backButtonWithoutDiv;
+        }
+
 
         return (
             <div className={style.page_navigation_buttons}>
