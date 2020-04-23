@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 import { Route, Switch, withRouter, NavLink } from 'react-router-dom';
 import { Medication } from '../../../patientProfile/patientChart';
 import EditMed from '../../../editMedicalElements/editMedication';
+import style from '../../frontpage.module.css';
 import { YesOrNo } from '../yesOrNoQuestion/yesOrNoQuestion';
+import { FrontPageNavigationButton } from '../navigationButtons/navigationButtons';
 
 @withRouter
 @connect(state => ({
@@ -19,23 +21,36 @@ export class TreatmentWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;
         return <Switch>
-            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no' render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}/>
-            <Route render={() =>
-                <div className={scaffold_style.wrapper}>
-                    <div className={scaffold_style.create_element_panel}>
-                        <Switch>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditMedWrapper match={match} location={location}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match, location }) => <TreatmentCreatedMessage drugHash={this.props.drugHash} match={match} location={location} treatments={this.props.data.treatments}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <CreateTreatmentsWrapper match={match} location={location}/>}/>
-                        </Switch>
+            <Route
+                path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
+                render={({ match, location }) =>
+                    <>
+                        <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>
+                        <FrontPageNavigationButton match={match} location={location}/>
+                    </>
+                }
+            />
+            <Route render={({ match, location }) =>
+                <>
+                    <div className={style.page}>
+                        <div className={scaffold_style.wrapper}>
+                            <div className={scaffold_style.create_element_panel}>
+                                <Switch>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditMedWrapper match={match} location={location}/>}/>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match, location }) => <TreatmentCreatedMessage drugHash={this.props.drugHash} match={match} location={location} treatments={this.props.data.treatments}/>}/>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <CreateTreatmentsWrapper match={match} location={location}/>}/>
+                                </Switch>
+                            </div>
+                            <div className={scaffold_style.list_element_panel}>
+                                <Switch>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match, location }) => <TreatmentInterruptionWrapper match={match} location={location}/>}/>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <RenderTreatmentsWrapper match={match} location={location} treatments={this.props.data.treatments} baselineVisit={true}/>}/>
+                                </Switch>
+                            </div>
+                        </div>
                     </div>
-                    <div className={scaffold_style.list_element_panel}>
-                        <Switch>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match, location }) => <TreatmentInterruptionWrapper match={match} location={location}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <RenderTreatmentsWrapper match={match} location={location} treatments={this.props.data.treatments} baselineVisit={true}/>}/>
-                        </Switch>
-                    </div>
-                </div>
+                    <FrontPageNavigationButton match={match} location={location}/>
+                </>
             }/>
         </Switch>;
     }

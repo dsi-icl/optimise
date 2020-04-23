@@ -17,8 +17,8 @@ export class BaselineVisitFrontPage extends Component {
         const { match, location } = this.props;
 
         const pageNumberToElementMap = {
-            0: <VisitFrontPageIntroduction/>,
-            1: <VSFrontPageWrapper match={this.props.match} category={'vitals'} />,
+            0: <VisitFrontPageIntroduction match={match} location={location}/>,
+            1: <VSFrontPageWrapper match={match} location={location} category={'vitals'} />,
             2: <ComorbidityWrapper yesOrNoQuestion={<p>Is there any current or previous ICD11-identified comorbidity?</p>}/>,
             3: <EDSSWrapper yesOrNoQuestion={<p>Is EDSS measurement performed for this visit?</p>}/>,
             4: <ConcomitantMedWrapper yesOrNoQuestion={<p>Has the patient been on any non-disease modifying medication and/or supplements?</p>}/>,

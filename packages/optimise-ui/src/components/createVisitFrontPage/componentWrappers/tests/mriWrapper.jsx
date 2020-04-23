@@ -6,6 +6,8 @@ import { Route, Switch } from 'react-router-dom';
 import { RenderTestWrapper } from './common';
 import { EditTestDataWrapper } from './common';
 import { CreateTestWrapper } from './common';
+import { FrontPageNavigationButton } from '../navigationButtons/navigationButtons';
+import style from '../../frontpage.module.css';
 import { EditTestWrapper } from './common';
 import { YesOrNo } from '../yesOrNoQuestion/yesOrNoQuestion';
 
@@ -18,23 +20,36 @@ export class MRIWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;
         return <Switch>
-            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no' render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}/>
-            <Route render={() =>
-                <div className={scaffold_style.wrapper}>
-                    <div className={scaffold_style.create_element_panel}>
-                        <Switch>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditTestWrapper title={'Edit this MRI'} match={match} location={location}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <MRITestCreatedMessage location={location} match={match} tests={this.props.data.tests}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <CreateTestWrapper title={'Record an MRI result'} fixedTestType={3} match={match} location={location}/>}/>
-                        </Switch>
+            <Route
+                path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
+                render={({ match, location }) =>
+                    <>
+                        <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>
+                        <FrontPageNavigationButton match={match} location={location}/>
+                    </>
+                }
+            />
+            <Route render={({ match, location }) =>
+                <>
+                    <div className={style.page}>
+                        <div className={scaffold_style.wrapper}>
+                            <div className={scaffold_style.create_element_panel}>
+                                <Switch>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditTestWrapper title={'Edit this MRI'} match={match} location={location}/>}/>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <MRITestCreatedMessage location={location} match={match} tests={this.props.data.tests}/>}/>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <CreateTestWrapper title={'Record an MRI result'} fixedTestType={3} match={match} location={location}/>}/>
+                                </Switch>
+                            </div>
+                            <div className={scaffold_style.list_element_panel}>
+                                <Switch>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <EditTestDataWrapper location={location} match={match}/>}/>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <RenderTestWrapper title={'Here are all the MRI results for this patient:'} location={location} match={match} displayThisType={3} tests={this.props.data.tests} />}/>
+                                </Switch>
+                            </div>
+                        </div>
                     </div>
-                    <div className={scaffold_style.list_element_panel}>
-                        <Switch>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <EditTestDataWrapper location={location} match={match}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <RenderTestWrapper title={'Here are all the MRI results for this patient:'} location={location} match={match} displayThisType={3} tests={this.props.data.tests} />}/>
-                        </Switch>
-                    </div>
-                </div>
+                    <FrontPageNavigationButton match={match} location={location}/>
+                </>
             }/>
         </Switch>;
     }

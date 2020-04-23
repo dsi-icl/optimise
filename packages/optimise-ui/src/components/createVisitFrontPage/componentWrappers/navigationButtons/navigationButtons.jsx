@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import qs from 'query-string';
 import style from '../../frontpage.module.css';
 
@@ -39,7 +39,13 @@ export class FrontPageNavigationButton extends Component {
 
     render() {
         const { params: { currentPage, visitId, patientId } } = this.props.match;
+        const { onClickNext, formSaved } = this.props;
         const searchString = this.props.location.search;
+
+        console.log(formSaved);
+        if (formSaved && formSaved()) {
+            return <Redirect to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}/>;
+        }
 
         const backButton = <div>
             <NavLink
@@ -48,18 +54,24 @@ export class FrontPageNavigationButton extends Component {
                 <button><b>&lt;&lt;</b> Last page</button>
             </NavLink></div>;
 
+
         const nextButton = this._isAYesOrNoPage() && !this._isCompulsoryPage(currentPage) ?
             <div>
                 <button disabled style={{ visibility: 'hidden' }}>Next page (does not automatically save) <b>&gt;&gt;</b></button>
             </div>
             :
-            <div>
-                <NavLink
-                    to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
-                >
-                    <button>Next page (does not automatically save) <b>&gt;&gt;</b></button>
-                </NavLink>
-            </div>;
+            (
+                onClickNext ?
+                    <div>
+                        <button onClick={onClickNext}>Save and continue<b>&gt;&gt;</b></button>
+                    </div>
+                    :
+                    <div>
+                        <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}>
+                            <button onClick={onClickNext}>Save and continue<b>&gt;&gt;</b></button>
+                        </NavLink>
+                    </div>
+            );
 
         const firstPageButton = <div>
             <NavLink

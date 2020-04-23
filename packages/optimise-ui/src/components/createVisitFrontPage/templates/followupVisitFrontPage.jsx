@@ -16,8 +16,8 @@ export class FollowupVisitFrontPage extends Component {
     render() {
         const { match, location } = this.props;
         const pageNumberToElementMap = {
-            0: <VisitFrontPageIntroduction/>,
-            1: <VSFrontPageWrapper match={this.props.match} category={'vitals'} />,
+            0: <VisitFrontPageIntroduction match={match} location={location}/>,
+            1: <VSFrontPageWrapper match={match} location={location} category={'vitals'} />,
             2: <ComorbidityWrapper yesOrNoQuestion={<p>Is there any <b>newly diagnosed</b> ICD11-identified comorbidity since last visit?</p>}/>,
             3: <EDSSWrapper yesOrNoQuestion={<p>Is EDSS measurement performed for this visit?</p>}/>,
             4: <ConcomitantMedWrapper yesOrNoQuestion={

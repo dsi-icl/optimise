@@ -57,11 +57,6 @@ class RenderCurrentPage extends PureComponent {
             return <p>Something went wrong. Please go back.</p>;
         }
 
-        return <>
-            <div className={style.page}>
-                { this.returnCurrentElement() }
-            </div>
-            <FrontPageNavigationButton match={this.props.match} location={this.props.location}/>
-        </>;
+        return this.returnCurrentElement();
     }
 }

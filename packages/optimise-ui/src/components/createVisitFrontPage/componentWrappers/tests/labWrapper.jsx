@@ -4,6 +4,8 @@ import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { RenderTestWrapper } from './common';
+import style from '../../frontpage.module.css';
+import { FrontPageNavigationButton } from '../navigationButtons/navigationButtons';
 import { EditTestDataWrapper } from './common';
 import { CreateTestWrapper } from './common';
 import { EditTestWrapper } from './common';
@@ -18,23 +20,36 @@ export class TestWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;
         return <Switch>
-            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no' render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}/>
-            <Route render={() =>
-                <div className={scaffold_style.wrapper}>
-                    <div className={scaffold_style.create_element_panel}>
-                        <Switch>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditTestWrapper title={'Edit this lab test'} match={match} location={location}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <LabTestCreatedMessage match={match} location={location} tests={this.props.data.tests}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <CreateTestWrapper title={'Record a lab test result'} fixedTestType={1} match={match} location={location}/>}/>
-                        </Switch>
+            <Route
+                path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
+                render={({ match, location }) =>
+                    <>
+                        <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>
+                        <FrontPageNavigationButton match={match} location={location}/>
+                    </>
+                }
+            />
+            <Route render={({ match, location }) =>
+                <>
+                    <div className={style.page}>
+                        <div className={scaffold_style.wrapper}>
+                            <div className={scaffold_style.create_element_panel}>
+                                <Switch>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditTestWrapper title={'Edit this lab test'} match={match} location={location}/>}/>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <LabTestCreatedMessage match={match} location={location} tests={this.props.data.tests}/>}/>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <CreateTestWrapper title={'Record a lab test result'} fixedTestType={1} match={match} location={location}/>}/>
+                                </Switch>
+                            </div>
+                            <div className={scaffold_style.list_element_panel}>
+                                <Switch>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <EditTestDataWrapper location={location} match={match}/>}/>
+                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <RenderTestWrapper title={'Here are all the lab results for this patient:'} location={location} match={match} displayThisType={1} tests={this.props.data.tests} />}/>
+                                </Switch>
+                            </div>
+                        </div>
                     </div>
-                    <div className={scaffold_style.list_element_panel}>
-                        <Switch>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/data/:testId' render={({ match, location }) => <EditTestDataWrapper location={location} match={match}/>}/>
-                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/' render={({ match, location }) => <RenderTestWrapper title={'Here are all the lab results for this patient:'} location={location} match={match} displayThisType={1} tests={this.props.data.tests} />}/>
-                        </Switch>
-                    </div>
-                </div>
+                    <FrontPageNavigationButton match={match} location={location}/>
+                </>
             }/>
         </Switch>;
     }

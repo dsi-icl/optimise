@@ -7,6 +7,7 @@ import store from '../../redux/store';
 import style from './edss.module.css';
 import { addError } from '../../redux/actions/error';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
+import { checkIfObjIsEmpty } from '../medicalData/utils';
 
 @connect(state => ({
     edssCalc: state.edssCalc,
@@ -17,16 +18,20 @@ import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 export default class EDSSPage extends Component {
     render() {
         if (this.props.patientProfile.visits) {
-            const { edssCalc, visitFields, patientProfile, sections, match, override_style } = this.props;
-            return <EDSSCalculator match={match} edssCalc={edssCalc} visitFields={visitFields} patientProfile={patientProfile} sections={sections} override_style={override_style} />;
+            const { edssCalc, visitFields, patientProfile, sections, match, override_style, childRef, renderedInFrontPage } = this.props;
+            return <EDSSCalculator renderedInFrontPage={renderedInFrontPage} childRef={childRef} match={match} edssCalc={edssCalc} visitFields={visitFields} patientProfile={patientProfile} sections={sections} override_style={override_style} />;
         } else {
             return null;
         }
     }
 }
 class EDSSCalculator extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        const { childRef } = props;
+        if (childRef) {
+            childRef(this);
+        }
         this.state = { autoCalculatedScore: 0 };
         this.freeinputref = React.createRef();
         this._hoverType = this._hoverType.bind(this);
@@ -142,6 +147,11 @@ class EDSSCalculator extends Component {
         }
 
         const body = { data: { add, update, visitId: this.props.match.params.visitId }, patientId: this.props.match.params.patientId, type: 'visit' };
+
+        if (checkIfObjIsEmpty(update, add)) {
+            this.setState({ saved: true });
+            return;
+        }
 
         this.setState({
             lastSubmit: (new Date()).getTime()
@@ -259,7 +269,13 @@ class EDSSCalculator extends Component {
                             <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinician): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                             <br /><br />
                             { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
-                            <button type='submit'>Save</button>
+                            {
+                                this.props.renderedInFrontPage
+                                    ?
+                                    null
+                                    :
+                                    <button type='submit'>Save</button>
+                            }
                             <br /><br />
                             <button className={_style.cancelButton} onClick={this._handleCancel}>Cancel</button>
                         </form>
