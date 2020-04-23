@@ -25,7 +25,7 @@ export default class EditConcomitantMeds extends Component {
     }
 
     _handleClickingAdd() {
-        this.setState(prevState => ({ addMore: !prevState.addMore, error: false }));
+        this.setState(prevState => ({ addMore: !prevState.addMore }));
     }
 
     render() {
@@ -69,7 +69,7 @@ export default class EditConcomitantMeds extends Component {
                             :
                             <>
                                 <div className={_style.newInterruption}>
-                                    <label>Record new concomitant medication: </label><CreateConcomitantMed match={match} location={location} value={this.state.comorbidity} onChange={this._handleValueChange} />
+                                    <label>Record new concomitant medication: </label><CreateConcomitantMed match={match} location={location} onChange={this._handleValueChange} />
                                 </div>
                             </>
                         }
@@ -190,7 +190,7 @@ class OneComorbidity extends Component {
             return;
         if (!this.state.startDate_new
             || !this.state.indication_new
-            || !this.state.type_new === 'unselected'
+            || this.state.type_new === 'unselected'
             || (!this.state.noEndDate_new && !this.state.endDate_new)
         ) {
             this.setState({
@@ -331,7 +331,7 @@ class CreateConcomitantMed extends Component {
             return;
         if (!this.state.startDate
             || !this.state.indication
-            || !this.state.type === 'unselected'
+            || this.state.type === 'unselected'
             || (!this.state.noEndDate && !this.state.endDate)
         ) {
             this.setState({
