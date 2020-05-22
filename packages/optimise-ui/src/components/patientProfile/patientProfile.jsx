@@ -39,7 +39,7 @@ export class Section extends Component {
                         <div className={`${style.panel} ${style.patientInfo}`}>
                             <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
-                            <Pregnancy patientId={this.props.match.params.patientId} />
+                            <Pregnancy/>
                             <ImmunisationSection patientId={this.props.match.params.patientId} />
                             <DeletePatient match={this.props.match} />
                         </div>
@@ -316,7 +316,7 @@ class OneImmunisation extends Component {
                         el.vaccineName,
                         new Date(parseInt(el.immunisationDate, 10)).toDateString(),
                         <div className={style.editButton} style={{ cursor: 'pointer' }}>
-                            <div onClick={() => { this.setState({ editing: true })  }}>
+                            <div onClick={() => { this.setState({ editing: true }); }}>
                                 <span title='Edit' className={style.dataEdit}><Icon symbol='edit' /></span>
                             </div>
                         </div>,
@@ -386,7 +386,7 @@ class Pregnancy extends Component {
             if (this.props.data.pregnancy.length === 0) {
                 return (
                     <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
-                        <EditButton to={`/patientProfile/${this.props.patientId}/edit/pregnancy/data`} />
+                        <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
                     }>
                         <i>No recorded pregnancy</i>
                     </PatientProfileSectionScaffold>
@@ -403,7 +403,7 @@ class Pregnancy extends Component {
 
         return (
             <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
-                <EditButton to={`/patientProfile/${this.props.patientId}/edit/pregnancy/data`} />
+                <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
             }>
                 <>
                     <label>Start date: </label> {moment(pregnancy.startDate, 'x')._d.toDateString()}
