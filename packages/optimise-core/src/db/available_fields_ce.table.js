@@ -30,6 +30,10 @@ export default async (dbcon, version) => {
         case 7:
             await dbcon()(TABLE_NAME).insert(v7_ceFields);
             break;
+        case 8:
+            await dbcon()(TABLE_NAME).where('idname', 'Severity').update({ permittedValues: 'Mild,Moderate,Severe,Unknown' });
+            await dbcon()(TABLE_NAME).where('idname', 'Recovery').update({ permittedValues: 'Complete,Partial,None,Unknown' });
+            break;
         default:
             break;
     }
