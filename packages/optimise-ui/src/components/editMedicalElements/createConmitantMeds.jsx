@@ -189,7 +189,7 @@ class OneComorbidity extends Component {
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
         if (!this.state.startDate_new
-            || !this.state.indication_new
+            // || !this.state.indication_new
             || this.state.type_new === 'unselected'
             || (!this.state.noEndDate_new && !this.state.endDate_new)
         ) {
@@ -203,7 +203,7 @@ class OneComorbidity extends Component {
             data: {
                 concomitantMedEntryId: this.props.data.id,
                 concomitantMedId: parseInt(this.state.type_new),
-                indication: this.state.indication_new,
+                indication: this.state.indication_new || 'Unknown',
                 startDate: this.state.startDate_new.valueOf(),
                 endDate: this.state.noEndDate_new ? null : this.state.endDate_new.valueOf()
             }
@@ -330,7 +330,7 @@ class CreateConcomitantMed extends Component {
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
         if (!this.state.startDate
-            || !this.state.indication
+            // || !this.state.indication
             || this.state.type === 'unselected'
             || (!this.state.noEndDate && !this.state.endDate)
         ) {
@@ -345,7 +345,7 @@ class CreateConcomitantMed extends Component {
             data: {
                 visitId: parseInt(this.props.match.params.visitId),
                 concomitantMedId: parseInt(this.state.type),
-                indication: this.state.indication,
+                indication: this.state.indication || 'Unknown',
                 startDate: this.state.startDate.valueOf(),
                 endDate: this.state.noEndDate ? null : this.state.endDate.valueOf()
             }
