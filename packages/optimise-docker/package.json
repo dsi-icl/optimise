@@ -16,7 +16,7 @@
     ],
     "scripts": {
         "prebuild": "cd ../optimise-ui && cross-env PUBLIC_URL=/ yarn build",
-        "build": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
+        "build": "docker build -t datascienceinstitute/optimise:next -f Dockerfile ..",
         "build:noui": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
         "start": "echo \"Nothing to start\"",
         "test": "echo \"No tests\""
