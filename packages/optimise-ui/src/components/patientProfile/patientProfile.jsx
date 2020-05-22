@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
+import Icon from '../icon';
 import { PickDate } from '../createMedicalElements/datepicker';
 import { PatientProfileSectionScaffold, DeleteButton, EditButton } from './sharedComponents';
 import { formatRow } from './patientChart';
 import store from '../../redux/store';
-import { createImmunisationAPICall, deleteImmunisationAPICall } from '../../redux/actions/demographicData';
+import { createImmunisationAPICall, deleteImmunisationAPICall, editImmunisationAPICall, } from '../../redux/actions/demographicData';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
 import { getPatientPii } from '../../redux/actions/patientProfile';
 import { updateConsentAPICall, updateParticipationAPICall } from '../../redux/actions/consent';
@@ -130,8 +131,6 @@ class ImmunisationSection extends Component {
         this._handleInput = this._handleInput.bind(this);
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
-        this._handleClickDelete = this._handleClickDelete.bind(this);
-        this._deleteFunction = this._deleteFunction.bind(this);
     }
 
     _handleClickingAdd() {
@@ -149,25 +148,6 @@ class ImmunisationSection extends Component {
             error: false
         });
     }
-
-    _handleClickDelete(el) {
-        store.dispatch(addAlert({ alert: 'Are you sure you want to delete this immunisation record?', handler: this._deleteFunction(el.id) }));
-    }
-
-    _deleteFunction(id) {
-        const that = this;
-        return () => {
-            const body = {
-                patientId: that.props.patientId,
-                data: {
-                    id: id
-                }
-            };
-
-            store.dispatch(deleteImmunisationAPICall(body));
-        };
-    }
-
 
     _handleDateChange(date) {
         this.setState({
@@ -228,15 +208,7 @@ class ImmunisationSection extends Component {
                         <tr><th>Vaccine name</th><th>Date</th></tr>
                     </thead> : null}
                     <tbody>
-                        {data.immunisations.map(el => (
-                            <tr key={el.vaccineName} className={style.immunisationItem}>
-                                {formatRow([
-                                    el.vaccineName,
-                                    new Date(parseInt(el.immunisationDate, 10)).toDateString(),
-                                    <DeleteButton clickhandler={() => this._handleClickDelete(el)} />
-                                ])}
-                            </tr>
-                        ))}
+                        {data.immunisations.map(el => <OneImmunisation data={el} patientId={data.patientId}/>)}
                         {!this.state.addMore ? null : <tr className={style.immunisationNewItem}>
                             <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
                             <td colSpan='2'><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
@@ -245,6 +217,7 @@ class ImmunisationSection extends Component {
                 </table>
                 {!this.state.addMore ?
                     <>
+                        <br/>
                         <button onClick={this._handleClickingAdd}>Add immunisation</button>
                     </> :
                     <>
@@ -257,6 +230,105 @@ class ImmunisationSection extends Component {
         );
     }
 }
+
+class OneImmunisation extends Component {
+    /* this.props.data  this.props.patientId */
+    constructor(props) {
+        super(props);
+        this.state = {
+            editing: false,
+            newDate: moment(parseInt(this.props.data.immunisationDate)),
+            error: undefined
+        };
+        this._handleClickDelete = this._handleClickDelete.bind(this);
+        this._deleteFunction = this._deleteFunction.bind(this);
+        this._handleDateChange = this._handleDateChange.bind(this);
+        this._handleSave = this._handleSave.bind(this);
+    }
+
+    _handleDateChange(date) {
+        this.setState({
+            newDate: date,
+            error: undefined
+        });
+    }
+
+    _handleClickDelete(el) {
+        store.dispatch(addAlert({ alert: 'Are you sure you want to delete this immunisation record?', handler: this._deleteFunction(el.id) }));
+    }
+
+    _deleteFunction(id) {
+        const that = this;
+        return () => {
+            const body = {
+                patientId: that.props.patientId,
+                data: {
+                    id: id
+                }
+            };
+
+            store.dispatch(deleteImmunisationAPICall(body));
+        };
+    }
+
+    _handleSave() {
+        if (!this.state.newDate || !this.state.newDate.isValid()) {
+            this.setState({ error: 'Invalid date' });
+        }
+        const { data, patientId } = this.props;
+        const body = {
+            patientId,
+            data: {
+                id: data.id,
+                immunisationDate: this.state.newDate.toISOString()
+            }
+        };
+        store.dispatch(editImmunisationAPICall(body));
+        this.setState({ editing: false });
+    }
+
+    render() {
+        const el = this.props.data;
+
+        if (this.state.editing) {
+            return (
+                <>
+                    <tr key={el.vaccineName} className={style.immunisationItem}>
+                        {formatRow([
+                            el.vaccineName,
+                            <PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} />,
+                            <button onClick={this._handleSave}>Save</button>
+                        ])}
+                    </tr>
+                    {
+                        this.state.error
+                            ?
+                            <tr><span>{this.state.error}</span></tr>
+                            :
+                            null
+                    }
+                </>
+            );
+        } else {
+            return (
+                <tr key={el.vaccineName} className={style.immunisationItem}>
+                    {formatRow([
+                        el.vaccineName,
+                        new Date(parseInt(el.immunisationDate, 10)).toDateString(),
+                        <div className={style.editButton} style={{ cursor: 'pointer' }}>
+                            <div onClick={() => { this.setState({ editing: true })  }}>
+                                <span title='Edit' className={style.dataEdit}><Icon symbol='edit' /></span>
+                            </div>
+                        </div>,
+                        <DeleteButton clickhandler={() => this._handleClickDelete(el)} />
+                    ])}
+                </tr>
+            );
+        }
+
+    }
+}
+
 @connect(state => ({
     data: state.patientProfile.data,
     fields: state.availableFields.diagnoses
