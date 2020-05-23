@@ -238,6 +238,7 @@ class UpdateMedEntry extends Component {
                     <option value='IM'>Intramuscular</option>
                     <option value='IT'>Intrathecal</option>
                     <option value='SC'>Subcutaneous</option>
+                    <option value='SL'>Sublingual</option>
                 </select><br /><br />
                 <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                 <label>Frequency (fill both or leave both blank): </label>
