@@ -1,6 +1,7 @@
 import { tableMove } from '../utils/db-mover';
 import ceFields from './defaults_v1/ceFields.json';
 import v7_ceFields from './defaults_v7/ceFields.json';
+import v8_ceFields from './defaults_v8/ceFields.json';
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_CE';
 export const PRIORITY = 1;
@@ -33,6 +34,7 @@ export default async (dbcon, version) => {
         case 8:
             await dbcon()(TABLE_NAME).where('idname', 'Severity').update({ permittedValues: 'Mild,Moderate,Severe,Unknown' });
             await dbcon()(TABLE_NAME).where('idname', 'Recovery').update({ permittedValues: 'Complete,Partial,None,Unknown' });
+            await dbcon()(TABLE_NAME).insert(v8_ceFields);
             break;
         default:
             break;
