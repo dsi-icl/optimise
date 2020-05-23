@@ -144,12 +144,12 @@ export class VisitData extends Component {
             const { fields } = this.props;
             const category = this.props.category === 'symptoms' ? 2 : this.props.category === 'signs' ? 3 : 1;
             let relevantFields = fields.visitFields.filter(el => (el.referenceType === visitsMatched[0].type && el.section === category));
-            relevantFields = relevantFields.filter(el => {
-                if (el.idname === 'academic concerns')
-                    if (new Date().getTime() - parseInt(patientProfile.data.demographicData.DOB) > 568025136000)
-                        return false;
-                return true;
-            });
+            let academicConcernField = relevantFields.filter(el => el.idname === 'Special Educational Needs:yes_or_no');
+            let academicConcernCommentField = relevantFields.filter(el => el.idname === 'Special Educational Needs:comment');
+            relevantFields = relevantFields.filter(el => el.idname !== 'Special Educational Needs:yes_or_no' && el.idname !== 'Special Educational Needs:comment');
+            if (new Date().getTime() - parseInt(patientProfile.data.demographicData.DOB) < 568025136000) {
+                relevantFields = [...relevantFields, ...academicConcernField, ...academicConcernCommentField];
+            }
 
             const fieldTree = createLevelObj(relevantFields);
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});

@@ -1,6 +1,7 @@
 import { tableMove } from '../utils/db-mover';
 import visitFields_v1 from './defaults_v1/visitFields.json';
 import visitFields_v2 from './defaults_v2/visitFields.json';
+import visitFields_v8 from './defaults_v8/visitFields.json';
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_VISITS';
 export const PRIORITY = 1;
@@ -29,6 +30,13 @@ export default async (dbcon, version) => {
             break;
         case 2:
             await dbcon().batchInsert(TABLE_NAME, visitFields_v2, 50);
+            break;
+        case 8:
+            await dbcon()(TABLE_NAME).insert(visitFields_v8);
+            await dbcon()(TABLE_NAME).where('idname', 'academic concerns').update({
+                definition: 'Has special educational needs',
+                idname: 'Special Educational Needs:yes_or_no',
+            });
             break;
         default:
             break;
