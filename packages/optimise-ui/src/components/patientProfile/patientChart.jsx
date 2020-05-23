@@ -241,7 +241,7 @@ class OneVisit extends Component {
             return null;
 
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
-        const VS = this.props.visitData.filter(el => [0, 1, 2, 3, 4, 5, 6, 252, 253].includes(el.field));
+        const VS = this.props.visitData.filter(el => [0, 1, 2, 3, 4, 5, 6, 252, 253, 254].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
         const VSValueArray = [
             { name: 'Reason for the visit', value: VSHashTable['0'] },
@@ -252,7 +252,8 @@ class OneVisit extends Component {
             { name: 'Weight', value: VSHashTable['5'], unit: 'kg' },
             { name: 'Smoking habit', value: VSHashTable['252'] },
             { name: 'Alcohol habit', value: VSHashTable['253'] },
-            { name: 'Academic concerns', value: isMinor && VSHashTable['6'] ? VSHashTable['6'] === '1' ? 'Yes' : undefined : undefined }
+            { name: 'Special ed. needs', value: isMinor && VSHashTable['6'] ? VSHashTable['6'] === '1' ? 'Yes' : undefined : undefined },
+            { name: 'Special ed. needs comment', value: isMinor && VSHashTable['254'] ? VSHashTable['254'] : undefined }
         ].filter(e => !!e.value);
         const relevantSymptomsFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && field.section === 2);
         const relevantSymptomsFieldsIdArray = relevantSymptomsFields.map(el => el.id);
@@ -388,6 +389,13 @@ class OneVisit extends Component {
                                                 <tr>
                                                     <td >{VSValueArray[6] ? `${VSValueArray[6].name}: ${VSValueArray[6].value} ${VSValueArray[6].unit ? VSValueArray[6].unit : ''}` : ''}</td>
                                                     <td >{VSValueArray[7] ? `${VSValueArray[7].name}: ${VSValueArray[7].value} ${VSValueArray[7].unit ? VSValueArray[7].unit : ''}` : ''}</td>
+                                                </tr>
+                                            ) : null}
+                                        {VSValueArray.length > 8 ?
+                                            (
+                                                <tr>
+                                                    <td >{VSValueArray[8] ? `${VSValueArray[8].name}: ${VSValueArray[8].value} ${VSValueArray[8].unit ? VSValueArray[8].unit : ''}` : ''}</td>
+                                                    <td >{VSValueArray[9] ? `${VSValueArray[9].name}: ${VSValueArray[9].value} ${VSValueArray[9].unit ? VSValueArray[9].unit : ''}` : ''}</td>
                                                 </tr>
                                             ) : null}
                                     </tbody>
