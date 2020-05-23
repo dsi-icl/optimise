@@ -167,6 +167,7 @@ export class CreateTreatment extends Component {
                             <option value='IM'>Intramuscular</option>
                             <option value='IT'>Intrathecal</option>
                             <option value='SC'>Subcutaneous</option>
+                            <option value='SL'>Sublingual</option>
                         </select><br /><br />
                         <label>Frequency (fill both or leave both blank): </label>
                         <select name='times' value={this.state.times} onChange={this._handleInputChange} autoComplete='off'>
