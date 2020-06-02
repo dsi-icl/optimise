@@ -68,7 +68,7 @@ export class CreateTreatment extends Component {
                 drugId: Number.parseInt(this.state.drugType),
                 startDate: this.state.startDate.toISOString(),
                 terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.toISOString() : undefined,
-                dose: this.state.dose !== '' ? Number.parseInt(this.state.dose) : undefined,
+                dose: this.state.dose !== '' && this.state.unit !== 'na' ? Number.parseInt(this.state.dose) : undefined,
                 unit: this.state.unit !== '' ? this.state.unit : undefined,
                 form: this.state.form !== '' ? this.state.form : undefined,
                 times: isNaN(parseInt(this.state.times)) || this.state.intervalUnit === '' ? undefined : parseInt(this.state.times),
@@ -151,13 +151,14 @@ export class CreateTreatment extends Component {
                         {this.state.drugType !== 'unselected' ? <span><i>{`You have selected a treatment of type '${this.state.drugModule}'`}<br /><br /></i></span> : null}
 
                         <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
-                        <label htmlFor='dose'>Dose:</label><br /> <input value={this.state.dose} onChange={this._handleInputChange} name='dose' type='text' autoComplete='off' /><br /><br />
+                        <label htmlFor='dose'>Dose:</label><br /> <input disabled={this.state.unit === 'na'} value={this.state.unit === 'na' ? 'N/A' : this.state.dose} onChange={this._handleInputChange} name='dose' type='text' autoComplete='off' /><br /><br />
                         <label htmlFor='unit'>Unit:</label><br />
                         <select name='unit' value={this.state.unit} onChange={this._handleInputChange} autoComplete='off'>
                             <option value='unselected'></option>
                             <option value='cc'>cc</option>
                             <option value='mg'>mg</option>
                             <option value='µg'>µg</option>
+                            <option value='na'>N/A</option>
                         </select><br /><br />
                         <label htmlFor='form'>Form:</label><br />
                         <select name='form' value={this.state.form} onChange={this._handleInputChange} autoComplete='off'>
