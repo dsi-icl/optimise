@@ -192,7 +192,7 @@ class UpdateMedEntry extends Component {
             data: {
                 id,
                 drug: parseInt(drug),
-                dose: parseInt(dose),
+                dose: this.state.unit !== 'na' ? parseInt(dose) : null,
                 unit,
                 form,
                 times: isNaN(parseInt(times)) || intervalUnit === '' ? undefined : parseInt(times),
@@ -222,13 +222,14 @@ class UpdateMedEntry extends Component {
                     {drugs.filter(d => d.deleted === '-').sort((a, b) => a.name.localeCompare(b.name)).map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
                 </select><br /><br />
                 <label>Dose: </label>
-                <input onChange={this._handleChange} name='dose' value={dose} /><br /><br />
+                <input disabled={unit === 'na'} onChange={this._handleChange} name='dose' value={unit === 'na' ? 'N/A' : dose} /><br /><br />
                 <label>Unit: </label>
                 <select onChange={this._handleChange} name='unit' value={unit}>
                     <option value='unselected'></option>
                     <option value='cc'>cc</option>
                     <option value='mg'>mg</option>
                     <option value='µg'>µg</option>
+                    <option value='na'>N/A</option>
                 </select><br /><br />
                 <label>Form: </label>
                 <select onChange={this._handleChange} name='form' value={form}>
