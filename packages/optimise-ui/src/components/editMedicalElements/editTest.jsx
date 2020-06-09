@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { NavLink } from 'react-router-dom';
 import { PickDate } from '../createMedicalElements/datepicker';
 import { BackButton } from '../medicalData/utils';
 import style from './editMedicalElements.module.css';
@@ -42,13 +43,14 @@ export default class EditTest extends Component {
 
     _deleteFunction() {
         const { params } = this.props.match;
-        const body = { patientId: params.patientId, data: { testId: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
+        const { renderedInFrontPage } = this.props;
+        const body = { patientId: params.patientId, data: { testId: parseInt(params.elementId) }, to: renderedInFrontPage ? `/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}` : `/patientProfile/${params.patientId}` };
         store.dispatch(deleteTestAPICall(body));
     }
 
     render() {
         const { params } = this.props.match;
-        const { tests, location } = this.props;
+        const { tests, location, renderedInFrontPage } = this.props;
         const { wannaUpdate } = this.state;
 
         if (!tests) {
@@ -57,22 +59,36 @@ export default class EditTest extends Component {
         const testsFiltered = tests.filter(el => el.id === parseInt(params.elementId));
 
         const test = testsFiltered ? testsFiltered[0] : null;
+
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
         return (
             <>
-                <div className={style.ariane}>
+                <div className={_style.ariane}>
                     <h2>Edit test</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
-                <form className={style.panel}>
+                <form className={_style.panel}>
                     {testsFiltered ?
                         <>
-                            {wannaUpdate ? <UpdateTestEntry location={location} data={test} elementId={params.elementId} /> : null}
+                            {wannaUpdate ? <UpdateTestEntry location={location} renderedInFrontPage={this.props.renderedInFrontPage} data={test} elementId={params.elementId} /> : null}
                             {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
                                 <><button onClick={this._handleWannaUpdateClick}>Change test date</button><br /><br /></>
                             }
                             <button onClick={this._handleClick} className={style.deleteButton}>Delete this test</button>
                             <br /><br />
                             <div>Note: You cannot change the type of test. If you created the wrong type of test you can delete this event record and create a new one.</div>
+                            {
+                                renderedInFrontPage ?
+                                    <>
+                                        <br/><br/><br/>
+                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
+                                    </>
+                                    :
+                                    null
+                            }
                         </>
                         :
                         <div>
@@ -155,7 +171,7 @@ class UpdateTestEntry extends Component {
         const { id, startDate, actualOccurredDate } = this.state;
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}/edit/test/${id}`,
+            to: this.props.renderedInFrontPage ? `${this.props.location.pathname}${this.props.location.search}` : `/patientProfile/${patientId}/edit/test/${id}`,
             data: {
                 id,
                 expectedOccurDate: startDate.toISOString(),

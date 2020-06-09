@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from './utils';
 import Icon from '../icon';
-import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
+import _scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './dataPage.module.css';
 import store from '../../redux/store';
 
@@ -29,9 +29,15 @@ function mapStateToProps(state) {
 @withRouter
 @connect(mapStateToProps)
 export class VisitData extends Component {
-    constructor() {
+    constructor(props) {
         super();
-        this.state = {};
+        const { childRef } = props;
+        if (childRef) {
+            childRef(this);
+        }
+        this.state = {
+            saved: false
+        };
         this.references = null;
         this.originalValues = {};
         this._handleSubmit = this._handleSubmit.bind(this);
@@ -100,6 +106,7 @@ export class VisitData extends Component {
         });
         const { params } = this.props.match;
         if (checkIfObjIsEmpty(update, add)) {
+            this.setState({ saved: true });
             return;
         }
         const body = { data: { visitId: params.visitId, update, add }, type: 'visit', patientId: params.patientId };
@@ -108,11 +115,17 @@ export class VisitData extends Component {
         }, () => {
             store.dispatch(alterDataCall(body, () => {
                 this.originalValues = Object.assign({}, this.originalValues, add);
+                this.setState({ saved: true });
             }));
         });
     }
 
     render() {
+        let scaffold_style = _scaffold_style;
+        if (this.props.override_style) {
+            scaffold_style = { ..._scaffold_style, ...this.props.override_style };
+        }
+
         const { patientProfile, match } = this.props;
         const { params } = match;
         if (!patientProfile.fetching) {
@@ -131,12 +144,12 @@ export class VisitData extends Component {
             const { fields } = this.props;
             const category = this.props.category === 'symptoms' ? 2 : this.props.category === 'signs' ? 3 : 1;
             let relevantFields = fields.visitFields.filter(el => (el.referenceType === visitsMatched[0].type && el.section === category));
-            relevantFields = relevantFields.filter(el => {
-                if (el.idname === 'academic concerns')
-                    if (new Date().getTime() - parseInt(patientProfile.data.demographicData.DOB) > 568025136000)
-                        return false;
-                return true;
-            });
+            let academicConcernField = relevantFields.filter(el => el.idname === 'Special Educational Needs:yes_or_no');
+            let academicConcernCommentField = relevantFields.filter(el => el.idname === 'Special Educational Needs:comment');
+            relevantFields = relevantFields.filter(el => el.idname !== 'Special Educational Needs:yes_or_no' && el.idname !== 'Special Educational Needs:comment');
+            if (new Date().getTime() - parseInt(patientProfile.data.demographicData.DOB) < 568025136000) {
+                relevantFields = [...relevantFields, ...academicConcernField, ...academicConcernCommentField];
+            }
 
             const fieldTree = createLevelObj(relevantFields);
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
@@ -152,11 +165,18 @@ export class VisitData extends Component {
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
-                        <form onSubmit={this._handleSubmit} className={style.form}>
+                        <form className={style.form}>
                             <div className={style.levelBody}>
                                 {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
                             </div>
-                            <button type='submit'>Save</button>
+                            { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
+                            {
+                                this.props.renderedInFrontPage
+                                    ?
+                                    null
+                                    :
+                                    <button onClick={this._handleSubmit} type='submit'>Save</button>
+                            }
                         </form>
                     </div>
                 </>

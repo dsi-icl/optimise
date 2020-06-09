@@ -1,0 +1,21 @@
+.ariane {
+    display: none;
+}
+.panel {
+    display: block;
+    width: 100%;
+    overflow: visible;
+}
+
+.test_type_hidden {
+    visibility: hidden;
+    height: 0.1em;
+}
+
+.cancelButton {
+    display: none;
+}
+
+.treatment_title {
+    display: none;
+}

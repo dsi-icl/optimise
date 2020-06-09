@@ -7,6 +7,7 @@ import store from '../../redux/store';
 import style from './edss.module.css';
 import { addError } from '../../redux/actions/error';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
+import { checkIfObjIsEmpty } from '../medicalData/utils';
 
 @connect(state => ({
     edssCalc: state.edssCalc,
@@ -17,16 +18,20 @@ import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 export default class EDSSPage extends Component {
     render() {
         if (this.props.patientProfile.visits) {
-            const { edssCalc, visitFields, patientProfile, sections, match } = this.props;
-            return <EDSSCalculator match={match} edssCalc={edssCalc} visitFields={visitFields} patientProfile={patientProfile} sections={sections} />;
+            const { edssCalc, visitFields, patientProfile, sections, match, override_style, childRef, renderedInFrontPage } = this.props;
+            return <EDSSCalculator renderedInFrontPage={renderedInFrontPage} childRef={childRef} match={match} edssCalc={edssCalc} visitFields={visitFields} patientProfile={patientProfile} sections={sections} override_style={override_style} />;
         } else {
             return null;
         }
     }
 }
 class EDSSCalculator extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        const { childRef } = props;
+        if (childRef) {
+            childRef(this);
+        }
         this.state = { autoCalculatedScore: 0 };
         this.freeinputref = React.createRef();
         this._hoverType = this._hoverType.bind(this);
@@ -98,7 +103,7 @@ class EDSSCalculator extends Component {
                 scoreArr.push(parseFloat(document.querySelector(`input[name="${each}"]:checked`).value));
             }
         }
-        this.setState({ autoCalculatedScore: edssAlgorithm(scoreArr, parseFloat(document.querySelector('input[name="edss:expanded disability status scale - ambulation"]:checked').value)) });
+        this.setState({ saved: false, autoCalculatedScore: edssAlgorithm(scoreArr, parseFloat(document.querySelector('input[name="edss:expanded disability status scale - ambulation"]:checked').value)) });
     }
 
     _handleSubmit(ev) {
@@ -143,13 +148,19 @@ class EDSSCalculator extends Component {
 
         const body = { data: { add, update, visitId: this.props.match.params.visitId }, patientId: this.props.match.params.patientId, type: 'visit' };
 
+        if (checkIfObjIsEmpty(update, add)) {
+            this.setState({ saved: true });
+            return;
+        }
+
         this.setState({
             lastSubmit: (new Date()).getTime()
         }, () => {
             store.dispatch(alterDataCall(body, () => {
                 this.originalValues = Object.assign({}, this.originalValues, add);
                 this.setState({
-                    close: true
+                    close: true,
+                    saved: true
                 });
             }));
         });
@@ -178,7 +189,7 @@ class EDSSCalculator extends Component {
 
         const { match: { params }, patientProfile: { visits } } = this.props;
 
-        if (this.state.close === true)
+        if (this.state.close === true && !this.props.override_style)  // this.props.override_style is present when this component is rendered in visitfrontpage wrapper
             return <Redirect to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}`} />;
 
         const { EDSSFields_Hash_reverse, originalValues, EDSSFields } = this;
@@ -208,14 +219,19 @@ class EDSSCalculator extends Component {
         const visitFiltered = visits.filter(el => parseInt(params.visitId) === el.id);
         const currentEDSSObject = EDSSFields.reduce((a, el) => { a[el.id] = el; return a; }, {})[this.state.currentHoverMeasure];
 
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
+
         return (
             <>
-                <div className={style.ariane}>
+                <div className={_style.ariane}>
                     <Helmet title='Performance Measures' />
                     <h2>Performance Measures Calculator ({this.props.match.params.patientId})</h2>
                     <BackButton to={`/patientProfile/${this.props.match.params.patientId}/edit/msPerfMeas/${params.visitId}`} />
                 </div>
-                <div className={style.panel}>
+                <div className={_style.panel}>
                     {visitFiltered.length === 1 ?
                         <form onSubmit={this._handleSubmit}>
                             <span><i>This is the EDSS performance score calculator for visit of the {(new Date(parseInt(visitFiltered[0].visitDate))).toDateString()}</i><br /><br />
@@ -252,9 +268,16 @@ class EDSSCalculator extends Component {
                             <br /><br />
                             <label htmlFor='edss:expanded disability status scale - estimated total'>Estimated total score (by the clinician): </label><input type='text' ref={this.freeinputref} name='edss:expanded disability status scale - estimated total' defaultValue={originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] ? originalValues[EDSSFields_Hash_reverse['edss:expanded disability status scale - estimated total']] : ''} />
                             <br /><br />
-                            <button type='submit'>Save</button>
+                            { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
+                            {
+                                this.props.renderedInFrontPage
+                                    ?
+                                    null
+                                    :
+                                    <button type='submit'>Save</button>
+                            }
                             <br /><br />
-                            <button onClick={this._handleCancel}>Cancel</button>
+                            <button className={_style.cancelButton} onClick={this._handleCancel}>Cancel</button>
                         </form>
                         :
                         <div>

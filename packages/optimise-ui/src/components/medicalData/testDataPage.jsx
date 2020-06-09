@@ -112,6 +112,7 @@ export class TestData extends Component {
         }, () => {
             store.dispatch(alterDataCall(body, () => {
                 this.originalValues = Object.assign({}, this.originalValues, add);
+                this.setState({ saved: true });
             }));
         });
     }
@@ -119,15 +120,21 @@ export class TestData extends Component {
     render() {
         const { patientProfile, match } = this.props;
         const { params } = match;
+
+        let _style = scaffold_style;
+        if (this.props.override_style) {
+            _style = { ...scaffold_style, ...this.props.override_style };
+        }
+
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.tests.filter(visit => visit.id === parseInt(params.testId, 10));
             if (visitsMatched.length !== 1) {
                 return <>
-                    <div className={scaffold_style.ariane}>
+                    <div className={_style.ariane}>
                         <h2>TEST RESULTS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
-                    <div className={scaffold_style.panel}>
+                    <div className={_style.panel}>
                         <i>We could not find the test that you are looking for.</i>
                     </div>
                 </>;
@@ -143,11 +150,11 @@ export class TestData extends Component {
                 this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             return (
                 <>
-                    <div className={scaffold_style.ariane}>
+                    <div className={_style.ariane}>
                         <h2>TEST RESULTS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
-                    <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
+                    <div className={`${_style.panel} ${style.topLevelPanel}`}>
                         <form onSubmit={this._handleSubmit} className={style.form}>
                             <div className={style.levelBody}>
                                 {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues, (item) => {
@@ -157,6 +164,7 @@ export class TestData extends Component {
                                     return item;
                                 }))}
                             </div>
+                            { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
                             <button type='submit'>Save</button>
                         </form>
                     </div>

@@ -102,7 +102,8 @@ export class TreatmentInterruption extends Component {
                 end_date: !this.state.noEndDate && this.state.newEndDate ? this.state.newEndDate.toISOString() : null,
                 reason: parseInt(this.state.reason, 10),
                 meddra: this.state.meddra
-            }
+            },
+            to: this.props.renderedInFrontPage ? `${this.props.location.pathname}${this.props.location.search}` : undefined
         };
         this.setState({
             lastSubmit: (new Date()).getTime(),
@@ -116,17 +117,23 @@ export class TreatmentInterruption extends Component {
     render() {
         const { patientProfile, fields } = this.props;
         const { interruptionReasons, meddra_Hash } = fields;
+
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
+
         if (!patientProfile.fetching) {
             const { params } = this.props.match;
             const treatmentsFiltered = patientProfile.data.treatments.filter(el => el.id === parseInt(params.elementId, 10));
             const treatment = treatmentsFiltered ? treatmentsFiltered[0] : null;
             return (
                 <>
-                    <div className={style.ariane}>
+                    <div className={_style.ariane}>
                         <h2>Treatment Interruptions</h2>
                         <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                     </div>
-                    <form className={style.panel}>
+                    <form className={_style.panel}>
                         {treatment ?
                             <>
                                 {treatment.interruptions.map((el) =>
@@ -137,6 +144,8 @@ export class TreatmentInterruption extends Component {
                                         meddra_Hash={meddra_Hash}
                                         _handleClickDelete={this._handleClickDelete}
                                         patientId={patientProfile.data.patientId}
+                                        location={this.props.location}
+                                        renderedInFrontPage={this.props.renderedInFrontPage}
                                     />
                                 )}
 
@@ -224,7 +233,8 @@ class OneTreatmentInterruption extends Component {
                 patientId: patientId,
                 data: {
                     treatmentInterId: id
-                }
+                },
+                to: that.props.renderedInFrontPage ? `${that.props.location.pathname}${that.props.location.search}` : undefined
             };
             store.dispatch(deleteTreatmentInterruptionAPICall(body));
         };
