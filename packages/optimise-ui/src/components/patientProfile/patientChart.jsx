@@ -81,19 +81,19 @@ export class PatientChart extends Component {
     typedict: state.availableFields.testTypes_Hash[0],
     patientId: state.patientProfile.data.patientId
 }))
-class Test extends PureComponent {
+export class Test extends PureComponent {
     render() {
-        const { data, typedict, patientId } = this.props;
+        const { data, typedict, patientId, renderedInFrontPage } = this.props;
         const dateDone = data.expectedOccurDate ? new Date(parseInt(data.expectedOccurDate, 10)).toDateString() : '';
         // const dateResults = data.actualOccurredDate ? new Date(parseInt(data.actualOccurredDate, 10)).toDateString() : dateDone;
         return (
             <tr>
-                <td><EditButton to={`/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
+                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{dateDone}</td>
                 {/* <td>{dateResults}</td> */}
                 <td>
-                    <NavLink id={`test-${data.id}`} to={`/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`test-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
                 </td>
@@ -109,7 +109,7 @@ class Test extends PureComponent {
     typedict: state.availableFields.drugs_Hash[0],
     patientId: state.patientProfile.data.patientId
 }))
-class Medication extends PureComponent {
+export class Medication extends PureComponent {
 
     intervalUnitString(intervalUnit) {
         if (intervalUnit === '6weeks')
@@ -121,13 +121,13 @@ class Medication extends PureComponent {
     }
 
     render() {
-        const { data, typedict, patientId } = this.props;
+        const { data, typedict, patientId, renderedInFrontPage } = this.props;
         const numberOfInterruptions = data.interruptions ? data.interruptions.length : 0;
         if (!typedict[data.drug])
             return null;
         return (
             <tr>
-                <td><EditButton to={`/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
+                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
                 <td>{data.terminatedDate ? new Date(parseInt(data.terminatedDate, 10)).toDateString() : ''}</td>
@@ -136,7 +136,7 @@ class Medication extends PureComponent {
                 <td>{data.times && data.intervalUnit ? `${data.times} times / ${this.intervalUnitString(data.intervalUnit)}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
-                    <NavLink id={`treatment-${data.id}`} to={`/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`treatment-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/interruptions/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Interruptions</button>
                     </NavLink>
                 </td>
@@ -153,20 +153,20 @@ class Medication extends PureComponent {
     patientId: state.patientProfile.data.patientId,
     meddraHash: state.availableFields.meddra_Hash[0]
 }))
-class ClinicalEvent extends PureComponent {
+export class ClinicalEvent extends PureComponent {
     render() {
-        const { data, typedict, patientId, meddraHash } = this.props;
+        const { data, typedict, patientId, meddraHash, renderedInFrontPage } = this.props;
         const date = new Date(parseInt(data.dateStartDate, 10)).toDateString();
         const endDate = data.endDate !== null && data.endDate !== undefined ? new Date(parseInt(data.endDate, 10)).toDateString() : '';
         return (
             <tr>
-                <td><EditButton to={`/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
+                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>{endDate}</td>
                 <td>{data.meddra ? meddraHash[data.meddra].name : null}</td>
                 <td>
-                    <NavLink id={`clinicalEvent-${data.id}`} to={`/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`clinicalEvent-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Data</button>
                     </NavLink>
                 </td>
@@ -236,8 +236,12 @@ class OneVisit extends Component {
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
+
+        if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
+            return null;
+
         const allSymptoms = this.props.visitData.map(symptom => symptom.field);
-        const VS = this.props.visitData.filter(el => [0, 1, 2, 3, 4, 5, 6, 252, 253].includes(el.field));
+        const VS = this.props.visitData.filter(el => [0, 1, 2, 3, 4, 5, 6, 252, 253, 254].includes(el.field));
         const VSHashTable = VS.reduce((map, field) => { map[field.field] = field.value; return map; }, {});
         const VSValueArray = [
             { name: 'Reason for the visit', value: VSHashTable['0'] },
@@ -248,7 +252,8 @@ class OneVisit extends Component {
             { name: 'Weight', value: VSHashTable['5'], unit: 'kg' },
             { name: 'Smoking habit', value: VSHashTable['252'] },
             { name: 'Alcohol habit', value: VSHashTable['253'] },
-            { name: 'Academic concerns', value: isMinor && VSHashTable['6'] ? VSHashTable['6'] === '1' ? 'Yes' : undefined : undefined }
+            { name: 'Special ed. needs', value: isMinor && VSHashTable['6'] ? VSHashTable['6'] === '1' ? 'Yes' : undefined : undefined },
+            { name: 'Special ed. needs comment', value: isMinor && VSHashTable['254'] ? VSHashTable['254'] : undefined }
         ].filter(e => !!e.value);
         const relevantSymptomsFields = this.props.availableFields.visitFields.filter(field => allSymptoms.includes(field.id) && field.section === 2);
         const relevantSymptomsFieldsIdArray = relevantSymptomsFields.map(el => el.id);
@@ -261,6 +266,7 @@ class OneVisit extends Component {
         const performances = this.props.visitData.filter(el => el.field > 6 && relevantEDSSFieldsIdArray.includes(el.field));
         const communication = this.props.data.visits.filter(v => v.id === this.props.visitId)[0].communication;
         const comorbidities = this.props.data.comorbidities.filter(el => el.visit === this.props.visitId);
+        const concomitantMeds = this.props.data.concomitantMeds.filter(el => el.visit === this.props.visitId);
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
 
         const filteredSymptoms = filterEmptyRenders(symptoms, this.props.inputType, this.props.typedict);
@@ -268,8 +274,6 @@ class OneVisit extends Component {
         const filteredSigns = filterEmptyRenders(signs, this.props.inputType, this.props.typedict);
         const filteredEDSS = filterEmptyRenders(performances, this.props.inputType, this.props.typedict);
 
-        if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
-            return null;
 
         let shouldRender = true;
         if (this.props.filter.visits || this.props.filter.tests || this.props.filter.treatments || this.props.filter.events) {
@@ -387,6 +391,13 @@ class OneVisit extends Component {
                                                     <td >{VSValueArray[7] ? `${VSValueArray[7].name}: ${VSValueArray[7].value} ${VSValueArray[7].unit ? VSValueArray[7].unit : ''}` : ''}</td>
                                                 </tr>
                                             ) : null}
+                                        {VSValueArray.length > 8 ?
+                                            (
+                                                <tr>
+                                                    <td >{VSValueArray[8] ? `${VSValueArray[8].name}: ${VSValueArray[8].value} ${VSValueArray[8].unit ? VSValueArray[8].unit : ''}` : ''}</td>
+                                                    <td >{VSValueArray[9] ? `${VSValueArray[9].name}: ${VSValueArray[9].value} ${VSValueArray[9].unit ? VSValueArray[9].unit : ''}` : ''}</td>
+                                                </tr>
+                                            ) : null}
                                     </tbody>
                                 </table>
                                 <br />
@@ -475,6 +486,33 @@ class OneVisit extends Component {
                     </>
                 ) : null}
 
+                {this.props.visitType === 1 ? (
+                    <>
+                        <h4><Icon symbol='addTreatment' />&nbsp;CONCOMITANT MEDICATIONS</h4>
+                        {concomitantMeds.length > 0 ? (
+                            <div className={style.visitWrapper}>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Indication</th>
+                                            <th>Start date</th>
+                                            <th>End date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {concomitantMeds.map(el => <ConcomitantMed data={el} key={el.id}/>)}
+                                    </tbody>
+                                </table>
+                                <br />
+                            </div>
+                        ) : null}
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/concomitantMed/${this.props.visitId}`} activeClassName={style.activeNavLink}>
+                            <button>Edit concomitant medications</button>
+                        </NavLink>
+                        <br /><br />
+                    </>
+                ) : null}
 
                 {this.props.visitType === 1 ? (
                     <>
@@ -680,3 +718,26 @@ export class Charts extends Component {
         );
     }
 }
+
+@withRouter
+@connect(state => ({
+    typedict: state.availableFields.concomitantMedsList_hash[0],
+    patientId: state.patientProfile.data.patientId
+}))
+export class ConcomitantMed extends PureComponent {
+    render() {
+        const { data, typedict } = this.props;
+        if (!typedict || !typedict[data.concomitantMedId])
+            return null;
+        return (
+            <tr>
+                <td>{typedict[data.concomitantMedId].name}</td>
+                <td>{data.indication}</td>
+                <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
+                <td>{data.terminatedDate ? new Date(parseInt(data.terminatedDate, 10)).toDateString() : ''}</td>
+            </tr>
+
+        );
+    }
+}
+

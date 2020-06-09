@@ -12,10 +12,11 @@ class AvailableFieldController {
             'ceFields': 'AVAILABLE_FIELDS_CE',
             'clinicalEvents': 'AVAILABLE_CLINICAL_EVENT_TYPES',
             'testTypes': 'AVAILABLE_TEST_TYPES',
-            'diagnoses': 'AVAILABLE_DIAGNOSES'
+            'diagnoses': 'AVAILABLE_DIAGNOSES',
+            'concomitantMedsList': 'AVAILABLE_CONCOMITANT_MED'
         };
         let moduleObj = {};
-        if (tableMap.hasOwnProperty(params.dataType)) {
+        if (tableMap[params.dataType]) {
             if (params.dataType === 'visitFields' && query.module) {
                 moduleObj = { module: query.module };
             }
