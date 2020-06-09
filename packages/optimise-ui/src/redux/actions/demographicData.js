@@ -12,6 +12,14 @@ export const createImmunisationAPICall = (body) => dispatch => (
         .catch(msg => store.dispatch(addError({ error: msg })))
 );
 
+export const editImmunisationAPICall = (body) => dispatch => (
+    apiHelper('/demographics/Immunisation', { method: 'PUT', body: JSON.stringify(body.data) })
+        .then(() => {
+            dispatch(getPatientProfileById(body.patientId));
+        })
+        .catch(msg => store.dispatch(addError({ error: msg })))
+);
+
 export const deleteImmunisationAPICall = (body) => dispatch => (
     apiHelper('/demographics/Immunisation', { method: 'DELETE', body: JSON.stringify(body.data) })
         .then(() => {

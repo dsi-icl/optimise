@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { NavLink } from 'react-router-dom';
 import { BackButton } from '../medicalData/utils';
 import { PickDate } from '../createMedicalElements/datepicker';
 import store from '../../redux/store';
@@ -50,33 +51,48 @@ export default class EditMed extends Component {
 
     _deleteFunction() {
         const { params } = this.props.match;
-        const body = { patientId: params.patientId, data: { treatmentId: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
+        const { renderedInFrontPage } = this.props;
+        const body = { patientId: params.patientId, data: { treatmentId: parseInt(params.elementId) }, to: renderedInFrontPage ? `/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}` : `/patientProfile/${params.patientId}` };
         store.dispatch(deleteTreatmentCall(body));
     }
 
     render() {
         const { params } = this.props.match;
-        const { treatments } = this.props;
+        const { treatments, renderedInFrontPage } = this.props;
         const { wannaUpdate } = this.state;
         if (!treatments) {
             return <div></div>;
         }
         const treatmentsFiltered = treatments.filter(el => el.id === parseInt(params.elementId));
         const treatment = treatmentsFiltered ? treatmentsFiltered[0] : null;
+
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
         return (
             <>
-                <div className={style.ariane}>
+                <div className={_style.ariane}>
                     <h2>Edit Treatment</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
-                <form className={style.panel}>
+                <form className={_style.panel}>
                     {treatment ?
                         <>
-                            {wannaUpdate ? <UpdateMedEntry data={treatment} /> : null}
+                            {wannaUpdate ? <UpdateMedEntry location={this.props.location} renderedInFrontPage={this.props.renderedInFrontPage} data={treatment} /> : null}
                             {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
                                 <><button onClick={this._handleWannaUpdateClick}>Change treatment, dose, form or frequency</button> <br /> <br /></>
                             }
                             <button onClick={this._handleClick} className={style.deleteButton}>Delete this treatment</button>
+                            {
+                                renderedInFrontPage ?
+                                    <>
+                                        <br/><br/><br/>
+                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
+                                    </>
+                                    :
+                                    null
+                            }
                         </>
                         :
                         <div>
@@ -172,11 +188,11 @@ class UpdateMedEntry extends Component {
         const { id, drug, dose, unit, form, times, intervalUnit } = this.state;
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}/edit/treatment/${id}`,
+            to: this.props.renderedInFrontPage ? `${this.props.location.pathname}${this.props.location.search}` : `/patientProfile/${patientId}/edit/treatment/${id}`,
             data: {
                 id,
                 drug: parseInt(drug),
-                dose: parseInt(dose),
+                dose: this.state.unit !== 'na' ? parseInt(dose) : null,
                 unit,
                 form,
                 times: isNaN(parseInt(times)) || intervalUnit === '' ? undefined : parseInt(times),
@@ -206,13 +222,14 @@ class UpdateMedEntry extends Component {
                     {drugs.filter(d => d.deleted === '-').sort((a, b) => a.name.localeCompare(b.name)).map(el => <option key={el.id} value={el.id}>{el.name}</option>)}
                 </select><br /><br />
                 <label>Dose: </label>
-                <input onChange={this._handleChange} name='dose' value={dose} /><br /><br />
+                <input disabled={unit === 'na'} onChange={this._handleChange} name='dose' value={unit === 'na' ? 'N/A' : dose} /><br /><br />
                 <label>Unit: </label>
                 <select onChange={this._handleChange} name='unit' value={unit}>
                     <option value='unselected'></option>
                     <option value='cc'>cc</option>
                     <option value='mg'>mg</option>
                     <option value='µg'>µg</option>
+                    <option value='na'>N/A</option>
                 </select><br /><br />
                 <label>Form: </label>
                 <select onChange={this._handleChange} name='form' value={form}>
@@ -222,6 +239,7 @@ class UpdateMedEntry extends Component {
                     <option value='IM'>Intramuscular</option>
                     <option value='IT'>Intrathecal</option>
                     <option value='SC'>Subcutaneous</option>
+                    <option value='SL'>Sublingual</option>
                 </select><br /><br />
                 <label htmlFor='startDate'>Start date: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
                 <label>Frequency (fill both or leave both blank): </label>

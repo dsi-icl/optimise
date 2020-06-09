@@ -6,8 +6,9 @@ import { apiHelper } from '../fetchHelper';
 import history from '../history';
 
 export const createTestAPICall = (body) => dispatch => createShadowVisitAPICall(body.data.patientId, ({ visitId }) => apiHelper('/tests', { method: 'POST', body: JSON.stringify(Object.assign(body.data, { visitId })) })
-    .then(() => {
-        history.push(body.to);
+    .then((res) => {
+        const testId = res.state;
+        history.push(body.toFormat(testId));
         dispatch(getPatientProfileById(body.patientId));
     }).catch(err => store.dispatch(addError({ error: err })))
 );

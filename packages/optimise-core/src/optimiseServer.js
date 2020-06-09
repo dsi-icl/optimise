@@ -20,6 +20,7 @@ import VisitRoute from './routes/visitRoute';
 import DemographicRoute from './routes/demographicRoute';
 import ClinicalEventRoute from './routes/clinicalEventRoute';
 import TreatmentRoute from './routes/treatmentRoute';
+import ConcomitantMedRoute from './routes/concomitantMedRoute';
 import TestRoute from './routes/testRoute';
 import FieldsRoute from './routes/fieldsRoute';
 import DataController from './controllers/dataController';
@@ -126,8 +127,8 @@ class OptimiseServer {
                     else {
                         if (error.code === 'EBADCSRFTOKEN') {
                             // Handle CSRF token errors here
-                            res.status(403)
-                            res.json(ErrorHelper('Form tempered with'))
+                            res.status(403);
+                            res.json(ErrorHelper('Form tempered with'));
                         } else {
                             next(error);
                         }
@@ -158,6 +159,7 @@ class OptimiseServer {
                 _this.setupPatientDiagnosis();
                 _this.setupMeddra();
                 _this.setupICD11();
+                _this.setupConcomitantMeds();
 
                 _this.app.all('/*', (__unused__req, res) => {
                     res.status(400);
@@ -245,6 +247,14 @@ class OptimiseServer {
      */
     setupComorbidities() {
         this.app.use('/comorbidities', ComorbidityRoute);
+    }
+
+    /**
+     * @fn setupComorbidities
+     * @desc Initialize the comorbidity related routes
+     */
+    setupConcomitantMeds() {
+        this.app.use('/concomitantMeds', ConcomitantMedRoute);
     }
 
     /**
@@ -354,6 +364,9 @@ class OptimiseServer {
             .get(MeddraController.getMeddraField);
     }
 
+    /**
+     * @function setupICD11 initialize the route for ICD11
+     */
     setupICD11() {
         this.app.route('/icd11')
             .get(ICD11Controller.getICD11Field);

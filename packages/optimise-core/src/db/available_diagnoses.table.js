@@ -1,4 +1,5 @@
 import diagnoses from './defaults_v1/diagnoses.json';
+import v8_diagnoses from './defaults_v8/diagnoses.json';
 
 export const TABLE_NAME = 'AVAILABLE_DIAGNOSES';
 export const PRIORITY = 0;
@@ -12,6 +13,9 @@ export default async (dbcon, version) => {
                 table.unique(['value', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
             });
             await dbcon()(TABLE_NAME).insert(diagnoses);
+            break;
+        case 8:
+            await dbcon()(TABLE_NAME).insert(v8_diagnoses);
             break;
         default:
             break;

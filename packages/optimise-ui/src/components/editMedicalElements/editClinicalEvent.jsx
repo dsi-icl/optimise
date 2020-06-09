@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
 import { BackButton } from '../medicalData/utils';
@@ -44,29 +45,36 @@ export default class EditCE extends Component {
 
     _deleteFunction() {
         const { params } = this.props.match;
-        const body = { patientId: params.patientId, data: { ceId: parseInt(params.elementId) }, to: `/patientProfile/${params.patientId}` };
+        const { renderedInFrontPage } = this.props;
+        const body = { patientId: params.patientId, data: { ceId: parseInt(params.elementId) }, to: renderedInFrontPage ? `/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}` : `/patientProfile/${params.patientId}` };
         store.dispatch(deleteCEAPICall(body));
     }
 
     render() {
         const { params } = this.props.match;
-        const { CEs } = this.props;
+        const { CEs, renderedInFrontPage } = this.props;
         const { wannaUpdate } = this.state;
         if (!CEs) {
             return <div></div>;
         }
         const CEsFiltered = CEs.filter(el => el.id === parseInt(params.elementId));
         const CE = CEsFiltered ? CEsFiltered[0] : null;
+
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
+
         return (
             <>
-                <div className={style.ariane}>
+                <div className={_style.ariane}>
                     <h2>Edit Clinical Event</h2>
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
-                <form className={style.panel}>
+                <form className={_style.panel}>
                     {CE ?
                         <>
-                            {wannaUpdate ? <UpdateCEEntry data={CE} elementId={params.elementId} /> : null}
+                            {wannaUpdate ? <UpdateCEEntry location={this.props.location} renderedInFrontPage={this.props.renderedInFrontPage} data={CE} elementId={params.elementId} /> : null}
                             {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
                                 <><button onClick={this._handleWannaUpdateClick}>Change start date / MedDRA</button><br /><br /></>
                             }
@@ -75,6 +83,15 @@ export default class EditCE extends Component {
                             <div>
                                 Note: You cannot change the type of clinical event. If you created the wrong type of clinical event you can delete this event record and create a new one.
                             </div>
+                            {
+                                renderedInFrontPage ?
+                                    <>
+                                        <br/><br/><br/>
+                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
+                                    </>
+                                    :
+                                    null
+                            }
                         </>
                         :
                         <div>
@@ -169,7 +186,7 @@ class UpdateCEEntry extends Component {
         }
         const body = {
             patientId: patientId,
-            to: `/patientProfile/${patientId}/edit/clinicalEvent/${id}`,
+            to: this.props.renderedInFrontPage ? `${this.props.location.pathname}${this.props.location.search}` : `/patientProfile/${patientId}/edit/clinicalEvent/${id}`,
             data: {
                 id,
                 dateStartDate: startDate.toISOString() || null,
