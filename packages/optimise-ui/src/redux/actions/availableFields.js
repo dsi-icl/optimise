@@ -62,3 +62,6 @@ export const getClinicalEventTypesCall = APICall('/data/clinicalEvents', getClin
 
 export const getTestTypesSuccess = (payload) => ({ type: actions.availableFields.GET_TEST_TYPES_SUCCESS, payload: payload });
 export const getTestTypesCall = APICall('/data/testTypes', getTestTypesSuccess);
+
+export const getConcomitantMedsSuccess = (payload) => ({ type: actions.availableFields.GET_CONCOMITANT_MEDS_SUCCESS, payload: payload });
+export const getConcomitantMedsCall = APICall('/data/concomitantMedsList', getConcomitantMedsSuccess);

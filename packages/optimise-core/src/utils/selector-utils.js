@@ -16,6 +16,29 @@ class SelectorUtils {
             });
     }
 
+    getConcomitantMeds(patientId, deleted) {
+        let whereObj = { 'patient': patientId };
+        if (deleted !== true)
+            whereObj.deleted = '-';
+        return dbcon()('VISITS').select({ 'id': 'id' }).where(whereObj).then(resu => {
+            let ids = [];
+            for (let i = 0; i < resu.length; i++) {
+                ids[i] = resu[i].id;
+            }
+            let innerWhereObj = {};
+            if (deleted !== true)
+                innerWhereObj.deleted = '-';
+            return dbcon()('CONCOMITANT_MED')
+                .select('id', 'concomitantMedId', 'visit', 'indication', 'startDate', 'endDate')
+                .whereIn('visit', ids)
+                .andWhere(innerWhereObj)
+                .then(result => {
+                    const returnObj = { concomitantMeds: result };
+                    return returnObj;
+                });
+        });
+    }
+
     getDemographicData(patientId, deleted) {
         let whereObj = { 'patient': patientId };
         if (deleted !== true)

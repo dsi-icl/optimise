@@ -119,10 +119,16 @@ export default class EditPregnancy extends Component {
         if (!patientProfile.fetching) {
             return (
                 <>
-                    <div className={style.ariane}>
-                        <h2>Pregnancies</h2>
-                        <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
-                    </div>
+                    {
+                        this.props.renderedInFrontPage
+                            ?
+                            null
+                            :
+                            <div className={style.ariane}>
+                                <h2>Pregnancies</h2>
+                                <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
+                            </div>
+                    }
                     <form className={style.panel}>
                         {patientProfile.data.pregnancy
                             .sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate))

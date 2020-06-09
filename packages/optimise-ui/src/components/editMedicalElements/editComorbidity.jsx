@@ -64,14 +64,20 @@ export default class EditComorbidity extends Component {
     render() {
         const { patientProfile, fields } = this.props;
         const { icd11_Hash } = fields;
+
+        let _style = style;
+        if (this.props.override_style) {
+            _style = { ...style, ...this.props.override_style };
+        }
+
         if (!patientProfile.fetching) {
             return (
                 <>
-                    <div className={style.ariane}>
+                    <div className={_style.ariane}>
                         <h2>Comorbidities</h2>
                         <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                     </div>
-                    <form className={style.panel}>
+                    <form className={_style.panel}>
                         {patientProfile.data.comorbidities
                             .filter((el) => parseInt(el.visit) === parseInt(this.props.match.params.visitId))
                             .sort((a, b) => {
@@ -96,10 +102,10 @@ export default class EditComorbidity extends Component {
                             </>
                             :
                             <>
-                                <div className={style.newInterruption}>
+                                <div className={_style.newInterruption}>
                                     <label>ICD11: </label><ICD11Picker value={this.state.comorbidity} onChange={this._handleValueChange} />
                                 </div>
-                                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
+                                {this.state.error ? <><div className={_style.error}>{this.state.error}</div><br /></> : null}
                                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
                                 <button onClick={this._handleClickingAdd}>Cancel</button><br />
                             </>

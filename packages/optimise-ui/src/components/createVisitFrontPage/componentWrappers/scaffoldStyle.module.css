@@ -1,0 +1,63 @@
+.wrapper {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-columns: 420px calc(100% - 420px);
+    grid-template-rows: 100%;
+    grid-template-areas:
+        "create list"
+}
+
+.create_element_panel, .list_element_panel {
+    height: 100%;
+    padding: 1rem;
+    width: 100%;
+    overflow: auto;
+}
+
+.create_element_panel > h3, .list_element_panel > h3 {
+    margin-bottom: 2.3rem;
+    color: #545454;
+    text-transform: uppercase;
+}
+
+.create_element_panel > p, .list_element_panel > p {
+    margin-bottom: 2.3rem;
+}
+
+.center_introduction_div {
+    text-align: center;
+}
+
+.center_introduction_div p {
+    font-size: 1.1rem;
+}
+
+.padding_div {
+    padding: 1rem;
+}
+
+.padding_div > h3 {
+    margin-bottom: 2.3rem;
+    color: #545454;
+    text-transform: uppercase; 
+}
+
+.padding_div > p {
+    margin-bottom: 2.3rem;
+}
+
+.create_element_panel {
+    grid-area: create;
+}
+
+.list_element_panel {
+    grid-area: list;
+    border-left: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
+}
+
+.treatment_table td,
+.treatment_table th {
+    height: 1.3em;
+    line-height: 1.3em;
+}

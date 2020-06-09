@@ -17,6 +17,7 @@
 		"test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=true react-scripts test --colors"
 	},
 	"dependencies": {
+		"caniuse-lite": "1.0.30001048",
 		"deepmerge": "4.2.2",
 		"detect-browser": "5.1.0",
 		"draft-js": "0.11.5",
@@ -25,6 +26,7 @@
 		"immutable": "4.0.0-rc.12",
 		"interactjs": "1.9.17",
 		"is-plain-object": "3.0.0",
+		"query-string": "^6.12.1",
 		"moment": "2.25.3",
 		"react": "16.13.1",
 		"react-calendar-timeline": "0.26.7",
