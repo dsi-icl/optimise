@@ -25,7 +25,7 @@
         "express": "4.17.1",
         "express-session": "1.17.1",
         "connect-mongo": "3.2.0",
-        "mongodb": "3.5.7",
+        "mongodb": "3.5.9",
         "passport": "0.4.1",
         "saslprep": "1.0.3"
     },
