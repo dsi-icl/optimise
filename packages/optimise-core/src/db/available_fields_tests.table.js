@@ -1,5 +1,6 @@
 import { tableMove } from '../utils/db-mover';
 import testFields from './defaults_v1/testFields.json';
+import v9_testFields from './defaults_v9/testFields.json';
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_TESTS';
 export const PRIORITY = 1;
@@ -25,6 +26,9 @@ export default async (dbcon, version) => {
                 table.unique(['idname', 'type', 'unit', 'module', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
             });
             await dbcon().batchInsert(TABLE_NAME, testFields, 50);
+            break;
+        case 9:
+            await dbcon()(TABLE_NAME).insert(v9_testFields);
             break;
         default:
             break;
