@@ -679,3 +679,8 @@ div.timelineCEBlack {
     margin-left: -1em;
     font-weight: bold;
 }
+
+.editPatientIdDiv {
+    padding: 0.5rem;
+    background-color: #e4e4e4;
+}
