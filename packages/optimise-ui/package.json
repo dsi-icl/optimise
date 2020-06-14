@@ -20,7 +20,7 @@
 		"caniuse-lite": "1.0.30001083",
 		"deepmerge": "4.2.2",
 		"detect-browser": "5.1.0",
-		"draft-js": "0.11.5",
+		"draft-js": "0.11.6",
 		"file-saver": "2.0.2",
 		"history": "4.10.1",
 		"immutable": "4.0.0-rc.12",
