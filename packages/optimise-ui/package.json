@@ -27,7 +27,7 @@
 		"interactjs": "1.9.17",
 		"is-plain-object": "3.0.1",
 		"query-string": "6.13.1",
-		"moment": "2.25.3",
+		"moment": "2.27.0",
 		"react": "16.13.1",
 		"react-calendar-timeline": "0.26.7",
 		"react-datepicker": "2.16.0",
