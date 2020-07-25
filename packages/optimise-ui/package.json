@@ -17,7 +17,7 @@
 		"test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=true react-scripts test --colors"
 	},
 	"dependencies": {
-		"caniuse-lite": "1.0.30001105",
+		"caniuse-lite": "1.0.30001106",
 		"deepmerge": "4.2.2",
 		"detect-browser": "5.1.1",
 		"draft-js": "0.11.6",
