@@ -12,7 +12,7 @@ import style from './scaffold.module.css';
     getSyncStatus: () => dispatch(getSyncStatusAPICall()),
     syncNow: () => dispatch(syncNowAPICall())
 }))
-export default class StatusBar extends Component {
+export default class SyncIndicator extends Component {
 
     constructor(props) {
         super(props);
