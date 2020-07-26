@@ -194,7 +194,7 @@ class OptimiseServer {
     setupNoCSRFPoints() {
 
         // Log the user in
-        this.app.route('/users/login').post(UserController.loginUser);
+        this.app.route('/users/login').post(UserController.loginUser(this.config.remoteControlEndPoint));
 
         // Log the user out
         this.app.route('/users/logout').post(UserController.logoutUser);
@@ -212,7 +212,7 @@ class OptimiseServer {
         passport.deserializeUser(UserController.deserializeUser);
 
         this.app.route('/whoami')
-            .get(UserController.whoAmI); //GET current session user
+            .get(UserController.whoAmI(this.config.remoteControlEndPoint)); //GET current session user
 
     }
 
@@ -229,7 +229,7 @@ class OptimiseServer {
             .get(UserController.getUser)
             .post(UserController.createUser)
             .put(UserController.updateUser)
-            .patch(UserController.changeRights)
+            .patch(UserController.changeRights(this.config.remoteControlEndPoint))
             .delete(UserController.deleteUser);
     }
 
