@@ -20,6 +20,7 @@ let Options = function (configuration = {}) {
     config.enableCors = configuration.enableCors ? configuration.enableCors : true;
     config.exportGenerationFolder = configuration.exportGenerationFolder ? configuration.exportGenerationFolder : './temp/';
     config.sessionSecret = configuration.sessionSecret ? configuration.sessionSecret : crypto.randomBytes(48).toString('hex');
+    config.remoteControlEndPoint = configuration.remoteControlEndPoint ? configuration.remoteControlEndPoint : 'ws://localhost:9000';
 
     return config;
 };

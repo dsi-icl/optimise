@@ -4,6 +4,7 @@ import FullTimeline from '../patientProfile/fullTimeline';
 import EDSSCalculator from '../EDSScalculator/calculator';
 import style from './scaffold.module.css';
 import { FrontPage } from '../createVisitFrontPage/frontPageWrapper';
+import { RemoteControl } from '../remoteControl/remoteControl';
 
 export default class FullscreenPanel extends Component {
     render() {
@@ -23,6 +24,11 @@ export default class FullscreenPanel extends Component {
                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) =>
                         <div className={style.fullscreenPanel}>
                             <FrontPage match={match} location={location}/>
+                        </div>
+                    } />
+                    <Route path='/remoteControl' render={() =>
+                        <div className={style.fullscreenPanel}>
+                            <RemoteControl/>
                         </div>
                     } />
                     <Route path='/' component={() => null} />
