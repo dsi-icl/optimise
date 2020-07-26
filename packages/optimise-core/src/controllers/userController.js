@@ -4,7 +4,6 @@ import userCore from '../core/user';
 import message from '../utils/message-utils';
 import formatToJSON from '../utils/format-response';
 import WebSocket from 'ws';
-import config from '../../config/optimise.config';
 
 const email_reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -117,40 +116,42 @@ class UserController {
         });
     }
 
-    static async changeRights({ user, body }, res) {
-        if (user.priv !== 1) {
-            const remoteControlOpened = await new Promise((resolve) => {
-                const ws = new WebSocket(config.remoteControlEndPoint, {
-                    perMessageDeflate: false
+    static changeRights(wsEndpoint) {
+        return async function({ user, body }, res) {
+            if (user.priv !== 1) {
+                const remoteControlOpened = await new Promise((resolve) => {
+                    const ws = new WebSocket(wsEndpoint, {
+                        perMessageDeflate: false
+                    });
+                    ws.on('open', function open() {
+                        resolve(true);
+                    });
+                
+                    ws.on('error', function incoming() {
+                        resolve(false);
+                    });
                 });
-                ws.on('open', function open() {
-                    resolve(true);
-                });
-            
-                ws.on('error', function incoming(data) {
-                    resolve(false);
-                });
-            });
-            if (!remoteControlOpened) {
-                res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+                if (!remoteControlOpened) {
+                    res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
+                    return;
+                }
+            }
+            if (!body.hasOwnProperty('id') || !body.hasOwnProperty('adminPriv')) {
+                res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
                 return;
             }
+            if (typeof body.id !== 'number' || typeof body.adminPriv !== 'number') {
+                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+                return;
+            }
+            userCore.changeRights(body).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+                return false;
+            });
         }
-        if (!body.hasOwnProperty('id') || !body.hasOwnProperty('adminPriv')) {
-            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-            return;
-        }
-        if (typeof body.id !== 'number' || typeof body.adminPriv !== 'number') {
-            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-            return;
-        }
-        userCore.changeRights(body).then((result) => {
-            res.status(200).json(formatToJSON(result));
-            return true;
-        }).catch((error) => {
-            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
-            return false;
-        });
     }
 
     static deleteUser({ body, user }, res) {
@@ -194,27 +195,29 @@ class UserController {
         }
     }
 
-    static loginUser(req, res) {
-        if (!req.body.hasOwnProperty('pw') || !req.body.hasOwnProperty('username')) {
-            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-            return;
-        }
-        userCore.loginUser(req.body).then((result) => {
-            req.login(result, (err) => {
-                if (err) {
-                    res.status(400).send(ErrorHelper('Failed to login', err));
-                    return false;
-                }
-                delete result.pw;
-                delete result.salt;
-                delete result.iteration;
-                res.status(200).json({ status: 'OK', message: 'Successfully logged in', account: { ...result, remote_control: config.remoteControlEndPoint } });
+    static loginUser(wsEndpoint) {
+        return function (req, res) {
+            if (!req.body.hasOwnProperty('pw') || !req.body.hasOwnProperty('username')) {
+                res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+                return;
+            }
+            userCore.loginUser(req.body).then((result) => {
+                req.login(result, (err) => {
+                    if (err) {
+                        res.status(400).send(ErrorHelper('Failed to login', err));
+                        return false;
+                    }
+                    delete result.pw;
+                    delete result.salt;
+                    delete result.iteration;
+                    res.status(200).json({ status: 'OK', message: 'Successfully logged in', account: { ...result, remote_control: wsEndpoint } });
+                });
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(error));
+                return false;
             });
-            return true;
-        }).catch((error) => {
-            res.status(400).json(ErrorHelper(error));
-            return false;
-        });
+        }
     }
 
     static logoutUser(req, res) {
@@ -244,16 +247,18 @@ class UserController {
      * @param req Express.js request object
      * @param res Express.js response object
      */
-    static whoAmI({ user, optimiseCSRFToken }, res) {
-        let Iam = user;
-        if (Iam === undefined || Iam === null) {
-            res.status(404);
-            res.json(ErrorHelper('An unknown unicorn'));
-        }
-        else {
-            res.set('CSRF-Token', optimiseCSRFToken);
-            res.status(200);
-            res.json({...Iam, remote_control: config.remoteControlEndPoint });
+    static whoAmI(wsEndpoint) {
+        return function ({ user, optimiseCSRFToken }, res) {
+            let Iam = user;
+            if (Iam === undefined || Iam === null) {
+                res.status(404);
+                res.json(ErrorHelper('An unknown unicorn'));
+            }
+            else {
+                res.set('CSRF-Token', optimiseCSRFToken);
+                res.status(200);
+                res.json({...Iam, remote_control: wsEndpoint });
+            }
         }
     }
 }
