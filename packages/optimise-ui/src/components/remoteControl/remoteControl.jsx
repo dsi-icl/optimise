@@ -52,7 +52,7 @@ class WSActions extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            socket: undefined,
+            //socket: undefined,
             messages: []
         };
     }
@@ -88,14 +88,10 @@ class WSActions extends Component {
             }));
         };
 
-        socket.onclose = function(event) {
-            if (event.wasClean) {
-                //alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-            } else {
-                // e.g. server process killed or network down
-                // event.code is usually 1006 in this case
-                //alert('[close] Connection died');
-            }
+        socket.onclose = function() {
+            that.setState(prev => ({
+                messages: [...prev.messages, `${new Date().toISOString()}: Connection closed.`]
+            }));
         };
 
         socket.onerror = function() {
