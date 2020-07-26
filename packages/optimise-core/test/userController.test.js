@@ -45,7 +45,7 @@ describe('User controller tests', () => {
             expect(statusCode).toBe(200);
             expect(headers['content-type']).toBe('application/json; charset=utf-8');
             expect(headers['csrf-token']).toBeDefined();
-            expect(Object.keys(body).length).toBe(5);
+            expect(Object.keys(body).length).toBe(6);
             expect(body.id).toBe(1);
             expect(body.username).toBe('admin');
             expect(body.realname).toBe('Administrator');
