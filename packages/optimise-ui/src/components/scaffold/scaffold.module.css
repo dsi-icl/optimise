@@ -229,3 +229,12 @@
     animation: rotating 2s linear infinite;
     
 }
+
+.remote_button {
+    margin: 0 1rem;
+}
+
+.remote_button:hover {
+    color: #4f7071;
+    cursor: pointer;
+}

@@ -98,7 +98,9 @@ export default {
         initialCheckingStatus: true,
         loggingIn: false,
         loginFailed: false,
-        username: ''
+        id: -1,
+        username: '',
+        remote_control: ''
     },
     log: {
         fetching: true,
