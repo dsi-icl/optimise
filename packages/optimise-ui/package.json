@@ -1,7 +1,7 @@
 {
 	"name": "optimise-ui",
 	"productName": "Optimise MS",
-	"version": "1.17.1",
+	"version": "1.18.0",
 	"description": "Optimise:MS UI",
 	"keywords": [
 		"ms"
@@ -17,7 +17,6 @@
 		"test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=true react-scripts test --colors"
 	},
 	"dependencies": {
-		"caniuse-lite": "1.0.30001106",
 		"deepmerge": "4.2.2",
 		"detect-browser": "5.1.1",
 		"draft-js": "0.11.6",
@@ -44,10 +43,10 @@
 		"redux-thunk": "2.3.0"
 	},
 	"devDependencies": {
-		"@babel/core": "7.9.6",
-		"@babel/plugin-proposal-decorators": "7.8.3",
-		"@typescript-eslint/eslint-plugin": "3.7.0",
-		"@typescript-eslint/parser": "3.7.0",
+		"@babel/core": "7.10.5",
+		"@babel/plugin-proposal-decorators": "7.10.5",
+		"@typescript-eslint/eslint-plugin": "3.7.1",
+		"@typescript-eslint/parser": "3.7.1",
 		"babel-eslint": "10.1.0",
 		"cross-env": "7.0.2",
 		"eslint": "7.5.0",
@@ -55,7 +54,7 @@
 		"eslint-plugin-flowtype": "5.2.0",
 		"eslint-plugin-import": "2.22.0",
 		"eslint-plugin-jsx-a11y": "6.3.1",
-		"eslint-plugin-react": "7.20.3",
+		"eslint-plugin-react": "7.20.4",
 		"eslint-plugin-react-hooks": "4.0.8",
 		"http-proxy-middleware": "1.0.5",
 		"markdown-image-loader": "2.0.0",

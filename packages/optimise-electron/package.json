@@ -1,7 +1,7 @@
 {
     "name": "optimise-electron",
     "productName": "Optimise MS Desktop",
-    "version": "1.17.1",
+    "version": "1.18.0",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
         "research",
@@ -24,7 +24,7 @@
         "build:dev:noui": "rimraf -r dist && webpack --config config/webpack.dev.js",
         "electron": "yarn run package",
         "postinstall": "electron-builder install-app-deps",
-        "package": "electron-builder -p never .",
+        "package": "electron-builder -p never",
         "prepublish": "yarn build",
         "publish": "electron-builder -p onTagOrDraft .",
         "test:autoupdate": "node ./autoupdate.test.js",
@@ -119,14 +119,14 @@
         "electron-log": "4.2.2",
         "electron-updater": "4.3.1",
         "express": "4.17.1",
-        "sqlite3": "4.2.0"
+        "sqlite3": "5.0.0"
     },
     "devDependencies": {
-        "@babel/core": "7.9.6",
+        "@babel/core": "7.10.5",
         "babel-loader": "8.1.0",
         "copy-webpack-plugin": "6.0.3",
         "electron": "9.1.1",
-        "electron-builder": "22.7.0",
+        "electron-builder": "22.8.0",
         "electron-reload": "1.5.0",
         "html-webpack-plugin": "4.3.0",
         "webpack": "4.44.0",
