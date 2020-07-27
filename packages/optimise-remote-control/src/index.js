@@ -29,13 +29,13 @@ optimise_assist_server.start().then((optimise_assist_server) => {
     });
     return true;
 }).catch((error) => {
-    console.error('An error occurred while starting the Optimise sync.', error); // eslint-disable-line no-console
+    console.error('An error occurred while starting the Optimise assist.', error); // eslint-disable-line no-console
     console.error(error.stack); // eslint-disable-line no-console
     return false;
 });
 
 if (module.hot) {
-    module.hot.accept('./OptimiseAssistServer', () => {
+    module.hot.accept('./optimiseAssistServer', () => {
         if (web_app !== undefined)
             web_server.removeListener('request', web_app);
         optimise_assist_server = new OptimiseAssistServer(config);
@@ -45,7 +45,7 @@ if (module.hot) {
             web_server.on('request', web_app);
             return true;
         }).catch((error) => {
-            console.error('An error occurred while reloading the Optimise sync.', error); // eslint-disable-line no-console
+            console.error('An error occurred while reloading the Optimise assist.', error); // eslint-disable-line no-console
             console.error(error.stack); // eslint-disable-line no-console
             return false;
         });

@@ -19,7 +19,9 @@ const csrfHandle = csrf();
 class OptimiseAssistServer {
     constructor(config) {
         this.config = new optimiseOptions(config);
-        this.app = expressWs(express());
+        this.app = express();
+
+        expressWs(this.app);
 
         // Define config in global scope (needed for server extensions)
         global.config = this.config;
@@ -88,7 +90,7 @@ class OptimiseAssistServer {
                 }));
 
                 // Setup remaining route using controllers
-                _this.setupSync();
+                _this.setupAssist();
 
                 // Setup CSRF protecting middleware
                 _this.app.use(csrfHandle);
