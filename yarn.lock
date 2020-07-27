@@ -7421,6 +7421,13 @@ express-session@1.17.1:
     safe-buffer "5.2.0"
     uid-safe "~2.1.5"
 
+express-ws@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/express-ws/-/express-ws-4.0.0.tgz#dabd8dc974516418902a41fe6e30ed949b4d36c4"
+  integrity sha512-KEyUw8AwRET2iFjFsI1EJQrJ/fHeGiJtgpYgEWG3yDv4l/To/m3a2GaYfeGyB3lsWdvbesjF5XCMx+SVBgAAYw==
+  dependencies:
+    ws "^5.2.0"
+
 express-zip@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/express-zip/-/express-zip-3.0.0.tgz#f2590d5dd895842b51e9593c2af8dbfe3e5190f0"

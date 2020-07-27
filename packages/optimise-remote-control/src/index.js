@@ -1,31 +1,53 @@
-const WebSocket = require('ws');
+import http from 'http';
+import express from 'express';
+import os from 'os';
+import config from '../config/optimise.config';
+import OptimiseAssistServer from './optimiseAssistServer';
 
-const wss = new WebSocket.Server({
-  port: 9000,
-  perMessageDeflate: false
-  //  zlibDeflateOptions: {
-  //    // See zlib defaults.
-  //    chunkSize: 1024,
-  //    memLevel: 7,
-  //    level: 3
-  //  },
-  //  zlibInflateOptions: {
-  //    chunkSize: 10 * 1024
-  //  },
-  //  // Other options settable:
-  //  clientNoContextTakeover: true, // Defaults to negotiated value.
-  //  serverNoContextTakeover: true, // Defaults to negotiated value.
-  //  serverMaxWindowBits: 10, // Defaults to negotiated value.
-  //  // Below options specified as default values.
-  //  concurrencyLimit: 10, // Limits zlib concurrency for perf.
-  //  threshold: 1024 // Size (in bytes) below which messages
-  //  // should not be compressed.
-  //}
-});
+let web_app;
+let web_server;
+let optimise_assist_server = new OptimiseAssistServer(config);
 
-wss.on('connection', function connection(ws) {
-    ws.on('message', function incoming(message) {
-        console.log('received: %s', message);
-        ws.send(`ADD_PRIVILEGE|${message}`);
+const setup = () => {
+    web_app = express();
+    // Remove unwanted express headers
+    web_app.set('x-powered-by', false);
+    return web_app;
+};
+
+optimise_assist_server.start().then((optimise_assist_server) => {
+
+    web_app = setup();
+    web_app.use('/api', optimise_assist_server);
+    web_server = http.createServer(web_app);
+    web_server.listen(config.port, (error) => {
+        if (error) {
+            console.error('An error occurred while starting the HTTP server.', error); // eslint-disable-line no-console
+            return;
+        }
+        console.log(`Listening at http://${os.hostname()}:${config.port}/`); // eslint-disable-line no-console
     });
+    return true;
+}).catch((error) => {
+    console.error('An error occurred while starting the Optimise sync.', error); // eslint-disable-line no-console
+    console.error(error.stack); // eslint-disable-line no-console
+    return false;
 });
+
+if (module.hot) {
+    module.hot.accept('./OptimiseAssistServer', () => {
+        if (web_app !== undefined)
+            web_server.removeListener('request', web_app);
+        optimise_assist_server = new OptimiseAssistServer(config);
+        optimise_assist_server.start().then((optimise_assist_server) => {
+            web_app = setup();
+            web_app.use('/api', optimise_assist_server);
+            web_server.on('request', web_app);
+            return true;
+        }).catch((error) => {
+            console.error('An error occurred while reloading the Optimise sync.', error); // eslint-disable-line no-console
+            console.error(error.stack); // eslint-disable-line no-console
+            return false;
+        });
+    });
+}
