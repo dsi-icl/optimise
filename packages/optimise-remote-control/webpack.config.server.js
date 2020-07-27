@@ -21,7 +21,9 @@ module.exports = {
         // }),
         {
             express: 'commonjs express',
-            mongodb: 'commonjs mongodb'
+            mongodb: 'commonjs mongodb',
+            bufferutil: 'commonjs bufferutil',
+            'utf-8-validate': 'commonjs utf-8-validate'
         }],
     module: {
         rules: [

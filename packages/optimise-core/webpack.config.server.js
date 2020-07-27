@@ -21,7 +21,9 @@ module.exports = {
         // }),
         {
             express: 'commonjs express',
-            sqlite3: 'commonjs sqlite3'
+            sqlite3: 'commonjs sqlite3',
+            bufferutil: 'commonjs bufferutil',
+            'utf-8-validate': 'commonjs utf-8-validate'
         }],
     module: {
         rules: [
