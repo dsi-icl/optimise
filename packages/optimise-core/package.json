@@ -61,7 +61,7 @@
         "cross-env": "7.0.2",
         "eslint": "7.7.0",
         "eslint-plugin-promise": "4.2.1",
-        "jest": "26.4.1",
+        "jest": "26.4.2",
         "native-ext-loader": "2.3.0",
         "rimraf": "3.0.2",
         "start-server-webpack-plugin": "2.2.5",
