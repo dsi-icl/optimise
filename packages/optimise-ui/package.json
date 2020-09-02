@@ -43,7 +43,7 @@
 		"redux-thunk": "2.3.0"
 	},
 	"devDependencies": {
-		"@babel/core": "7.11.4",
+		"@babel/core": "7.11.5",
 		"@babel/plugin-proposal-decorators": "7.10.5",
 		"@typescript-eslint/eslint-plugin": "3.10.1",
 		"@typescript-eslint/parser": "3.10.1",
