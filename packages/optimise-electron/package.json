@@ -122,7 +122,7 @@
         "sqlite3": "5.0.0"
     },
     "devDependencies": {
-        "@babel/core": "7.11.4",
+        "@babel/core": "7.11.5",
         "babel-loader": "8.1.0",
         "copy-webpack-plugin": "6.0.3",
         "electron": "10.1.0",
