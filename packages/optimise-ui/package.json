@@ -25,7 +25,7 @@
 		"immutable": "4.0.0-rc.12",
 		"interactjs": "1.9.22",
 		"is-plain-object": "4.1.1",
-		"query-string": "6.13.1",
+		"query-string": "6.13.2",
 		"moment": "2.28.0",
 		"react": "16.13.1",
 		"react-calendar-timeline": "0.26.7",
