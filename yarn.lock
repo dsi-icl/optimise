@@ -5571,12 +5571,13 @@ connect-mongo@3.2.0:
   dependencies:
     mongodb "^3.1.0"
 
-connect-session-knex@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/connect-session-knex/-/connect-session-knex-1.6.0.tgz#daeeab6d0518bbf02db5d627c9904d29c19248db"
-  integrity sha512-iU4cc/khw20lOjW9fPw0dS3XT72IgRxYzh8ZYpQmvuPxNl42zcr7kq/gJL9JnsBDCqQQ1gnWwdiQbxN1rpJuHg==
+connect-session-knex@1.7.3:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/connect-session-knex/-/connect-session-knex-1.7.3.tgz#ae012f9948ac127d6d4a6cfc5d590fed2d749474"
+  integrity sha512-PBiVi9vT6c3gmom/MhRJR0/k4X7YQe1+AfETW6HLwTwKCzdubk1Sile8Mpqjwp0+yepJoarJO8HMsC3t6WkQ1Q==
   dependencies:
     bluebird "^3.7.2"
+    knex "^0.21.1"
 
 console-browserify@^1.1.0:
   version "1.2.0"
@@ -11075,7 +11076,7 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-knex@0.21.5:
+knex@0.21.5, knex@^0.21.1:
   version "0.21.5"
   resolved "https://registry.yarnpkg.com/knex/-/knex-0.21.5.tgz#c4be1958488f348aed3510aa4b7115639ee1bd01"
   integrity sha512-cQj7F2D/fu03eTr6ZzYCYKdB9w7fPYlvTiU/f2OeXay52Pq5PwD+NAkcf40WDnppt/4/4KukROwlMOaE7WArcA==
