@@ -122,7 +122,7 @@ class UpdateMedEntry extends Component {
             noEndDate: !props.data.terminatedDate,
             startDate: moment(parseInt(props.data.startDate)),
             terminatedDate: props.data.terminatedDate ? moment(parseInt(props.data.terminatedDate)) : undefined,
-            // terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : undefined,
+            terminatedReason: props.data.terminatedReason ? props.data.terminatedReason : 'unselected',
             form: props.data.form ? props.data.form : 'unselected',
             times: props.data.times ? props.data.times : undefined,
             intervalUnit: props.data.intervalUnit || ''
@@ -173,9 +173,9 @@ class UpdateMedEntry extends Component {
                 error: 'Please indicate the start date of the treatment'
             });
         }
-        if (!this.state.noEndDate && (!this.state.terminatedDate || !this.state.terminatedDate.isValid())) {
+        if (!this.state.noEndDate && (!this.state.terminatedDate || !this.state.terminatedDate.isValid() || this.state.terminatedReason === 'unselected')) {
             return this.setState({
-                error: 'Please indicate the termination date of the treatment'
+                error: 'Please indicate the termination date and reason of the treatment'
             });
         }
         if (this.state.drug === 'unselected') {
@@ -198,7 +198,7 @@ class UpdateMedEntry extends Component {
                 times: isNaN(parseInt(times)) || intervalUnit === '' ? undefined : parseInt(times),
                 startDate: this.state.startDate.toISOString(),
                 terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.toISOString() : undefined,
-                // terminatedReason: parseInt(this.reasonRef.current.value, 10),
+                terminatedReason: this.state.terminatedReason && !this.state.noEndDate ? this.state.terminatedReason : undefined,
                 intervalUnit: intervalUnit === '' || isNaN(parseInt(times)) ? undefined : intervalUnit,
                 // meddra: this.props.meddraDict[this.state.meddra.current.value]
             }
@@ -260,7 +260,16 @@ class UpdateMedEntry extends Component {
                     <option value='year'>per year</option>
                 </select><br /><br />
                 <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /><br /></>)}
+                {this.state.noEndDate ? null :
+                    (<><label htmlFor='terminatedDate'>End date: </label>
+                        <PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /><br />
+                        <label>Reason for termination:
+                        <select name='terminatedReason' value={this.state.terminatedReason} onChange={this._handleChange}>
+                            <option value='unselected'></option>
+                            {this.props.interruptionReasons.map(el => <option value={el.id}>{el.value}</option>)}
+                        </select>
+                        </label>
+                    </>)}
                 {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                 <button onClick={this._handleSubmit}>Submit</button><br /><br />
             </>
