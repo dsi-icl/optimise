@@ -53,6 +53,7 @@ class Patient {
                     responseObj.id = patientId;
                     responseObj.consent = Boolean(Patientresult[0].consent);
                     responseObj.participation = Boolean(Patientresult[0].participation);
+                    responseObj.study = Patientresult[0].study;
                     for (let i = 0; i < result.length; i++) {
                         responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
                     }
