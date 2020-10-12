@@ -194,10 +194,10 @@ export class CreateTreatment extends Component {
                             (<><label htmlFor='terminatedDate'>End date: </label>
                                 <PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /><br />
                                 <label>Reason for termination:
-                                <select name='terminatedReason' value={this.state.terminatedReason} onChange={this._handleInputChange}>
-                                    <option value='unselected'></option>
-                                    {this.props.interruptionReasons.map(el => <option value={el.id}>{el.value}</option>)}
-                                </select>
+                                    <select name='terminatedReason' value={this.state.terminatedReason} onChange={this._handleInputChange}>
+                                        <option value='unselected'></option>
+                                        {this.props.interruptionReasons.map(el => <option value={el.id}>{el.value}</option>)}
+                                    </select>
                                 </label>
                             </>)}
                         {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}

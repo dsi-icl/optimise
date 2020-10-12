@@ -194,8 +194,8 @@ export default class CreatePatient extends Component {    //get these props from
                             {
                                 this.state.consent === 'Y' ?
                                     <>
-                                    <label>Consent date:</label>
-                                    <PickDate startDate={this.state.consentDate} handleChange={this._handleConsentDateChange} /> <br /><br />
+                                        <label>Consent date:</label>
+                                        <PickDate startDate={this.state.consentDate} handleChange={this._handleConsentDateChange} /> <br /><br />
                                     </>
                                     :
                                     null
