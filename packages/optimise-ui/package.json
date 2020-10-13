@@ -1,7 +1,7 @@
 {
 	"name": "optimise-ui",
 	"productName": "Optimise MS",
-	"version": "1.18.0",
+	"version": "1.19.0",
 	"description": "Optimise:MS UI",
 	"keywords": [
 		"ms"
@@ -18,7 +18,7 @@
 	},
 	"dependencies": {
 		"deepmerge": "4.2.2",
-		"detect-browser": "5.1.1",
+		"detect-browser": "5.2.0",
 		"draft-js": "0.11.7",
 		"file-saver": "2.0.2",
 		"history": "4.10.1",
@@ -29,7 +29,7 @@
 		"moment": "2.29.1",
 		"react": "16.13.1",
 		"react-calendar-timeline": "0.26.7",
-		"react-datepicker": "3.2.2",
+		"react-datepicker": "3.3.0",
 		"react-dom": "16.13.1",
 		"react-event-timeline": "1.6.3",
 		"react-helmet-async": "1.0.7",
@@ -45,8 +45,8 @@
 	"devDependencies": {
 		"@babel/core": "7.11.6",
 		"@babel/plugin-proposal-decorators": "7.10.5",
-		"@typescript-eslint/eslint-plugin": "4.4.0",
-		"@typescript-eslint/parser": "4.4.0",
+		"@typescript-eslint/eslint-plugin": "4.4.1",
+		"@typescript-eslint/parser": "4.4.1",
 		"babel-eslint": "10.1.0",
 		"cross-env": "7.0.2",
 		"eslint": "7.10.0",
@@ -54,7 +54,7 @@
 		"eslint-plugin-flowtype": "5.2.0",
 		"eslint-plugin-import": "2.22.1",
 		"eslint-plugin-jsx-a11y": "6.3.1",
-		"eslint-plugin-react": "7.21.3",
+		"eslint-plugin-react": "7.21.4",
 		"eslint-plugin-react-hooks": "4.1.2",
 		"http-proxy-middleware": "1.0.5",
 		"markdown-image-loader": "2.0.0",
