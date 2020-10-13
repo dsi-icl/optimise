@@ -503,6 +503,7 @@ class DeletePatient extends Component {
             patientId: this.props.match.params.patientId,
             data: {
                 consent: !consent,
+                study: moment().toISOString(),
                 id: id
             }
         };
@@ -523,7 +524,7 @@ class DeletePatient extends Component {
 
 
     render() {
-        const { consent, participation } = this.props.data;
+        const { consent, participation, study } = this.props.data;
 
         return (
             <>
@@ -532,6 +533,7 @@ class DeletePatient extends Component {
                 </PatientProfileSectionScaffold>
                 <PatientProfileSectionScaffold sectionName='Consent'>
                     <button onClick={this._handleClickWithdrawConsent} >{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</button>
+                    { consent ? <span><b>Consent date</b>: {new Date(study).toLocaleDateString()}</span> : null }
                 </PatientProfileSectionScaffold>
                 {this.props.priv === 1 ?
                     (
