@@ -21,6 +21,7 @@ export class CreateTreatment extends Component {
             drugType: 'unselected',
             startDate: moment(),
             terminatedDate: moment(),
+            terminatedReason: 'unselected',
             drugModule: '',
             dose: '',
             unit: 'unselected',
@@ -68,6 +69,7 @@ export class CreateTreatment extends Component {
                 drugId: Number.parseInt(this.state.drugType),
                 startDate: this.state.startDate.toISOString(),
                 terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.toISOString() : undefined,
+                terminatedReason: this.state.terminatedReason  && !this.state.noEndDate ? this.state.terminatedReason : null,
                 dose: this.state.dose !== '' && this.state.unit !== 'na' ? Number.parseInt(this.state.dose) : undefined,
                 unit: this.state.unit !== '' ? this.state.unit : undefined,
                 form: this.state.form !== '' ? this.state.form : undefined,
@@ -95,9 +97,9 @@ export class CreateTreatment extends Component {
                 error: 'Please indicate the start date of the treatment'
             });
         }
-        if (!this.state.noEndDate && (!this.state.terminatedDate || !this.state.terminatedDate.isValid())) {
+        if (!this.state.noEndDate && (!this.state.terminatedDate || !this.state.terminatedDate.isValid() || this.state.terminatedReason === 'unselected')) {
             return this.setState({
-                error: 'Please indicate the termination date of the treatment'
+                error: 'Please indicate the termination date and reason of the treatment'
             });
         }
         if (this.state.drugType === 'unselected') {
@@ -188,7 +190,16 @@ export class CreateTreatment extends Component {
                             <option value='year'>per year</option>
                         </select><br /><br />
                         <label htmlFor='noEndDate'>The treatment is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleNoEndDate} checked={this.state.noEndDate} /><br />
-                        {this.state.noEndDate ? null : (<><label htmlFor='terminatedDate'>End date: </label><PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /><br /></>)}
+                        {this.state.noEndDate ? null :
+                            (<><label htmlFor='terminatedDate'>End date: </label>
+                                <PickDate startDate={this.state.terminatedDate ? this.state.terminatedDate : moment()} handleChange={this._handleTerminatedDateChange} /><br /><br />
+                                <label>Reason for termination:
+                                    <select name='terminatedReason' value={this.state.terminatedReason} onChange={this._handleInputChange}>
+                                        <option value='unselected'></option>
+                                        {this.props.interruptionReasons.map(el => <option value={el.id}>{el.value}</option>)}
+                                    </select>
+                                </label>
+                            </>)}
                         {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
                         <button onClick={this._handleSubmitClick} >Submit</button>
                     </form>
