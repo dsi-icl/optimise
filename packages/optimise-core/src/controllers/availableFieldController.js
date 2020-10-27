@@ -30,6 +30,9 @@ class AvailableFieldController {
                             delete result[i].deleted;
                         }
                     }
+                    if (params.dataType === 'testFields') {
+                        result = result.sort((a, b) => a.idname.localeCompare(b.idname));
+                    }
                     res.status(200).json(formatToJSON(result));
                     return true;
                 }).catch((error) => {

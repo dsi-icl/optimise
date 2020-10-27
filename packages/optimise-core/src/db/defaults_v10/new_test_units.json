@@ -1,0 +1,33 @@
+[
+    {
+        "id": 79,
+        "definition": "25-hydroxy vitamin D3 (Vitamin D)",
+        "idname": "Additional blood tests: 25-hydroxy vitamin D3 (Vitamin D)(nmol/L)",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": "nmol/L",
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+    },
+    {
+        "id": 80,
+        "definition": "Bilirubin",
+        "idname": "Additional blood tests:Bilirubin(umol/L)",
+        "section": null,
+        "subsection": null,
+        "type": 2,
+        "unit": "umol/L",
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 1,
+        "laterality": null,
+        "cdiscName": null
+
+    }
+]

@@ -1,6 +1,7 @@
 import { tableMove } from '../utils/db-mover';
 import testFields from './defaults_v1/testFields.json';
 import v9_testFields from './defaults_v9/testFields.json';
+import v10_testFields from './defaults_v10/new_test_units.json';
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_TESTS';
 export const PRIORITY = 1;
@@ -29,6 +30,9 @@ export default async (dbcon, version) => {
             break;
         case 9:
             await dbcon()(TABLE_NAME).insert(v9_testFields);
+            break;
+        case 10:
+            await dbcon()(TABLE_NAME).insert(v10_testFields);
             break;
         default:
             break;
