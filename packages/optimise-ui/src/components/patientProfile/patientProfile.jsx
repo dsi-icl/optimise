@@ -477,14 +477,23 @@ class Pregnancy extends Component {
 class DeletePatient extends Component {
     constructor() {
         super();
+        this.state = { selectedConsentDate: moment() }; // consentdate is saved as 'study' in the database
         this._handleClickDelete = this._handleClickDelete.bind(this);
         this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
+        this._handleClickGivesConsent = this._handleClickGivesConsent.bind(this);
         this._handleClickWithdrawParticipation = this._handleClickWithdrawParticipation.bind(this);
+        this._handleConsentDateChange = this._handleConsentDateChange.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
     }
 
     _handleClickDelete() {
         store.dispatch(addAlert({ alert: `Are you sure you want to delete patient ${this.props.data.patientId}?`, handler: this._deleteFunction }));
+    }
+
+    _handleConsentDateChange(date) {
+        this.setState({
+            selectedConsentDate: date
+        });
     }
 
     _deleteFunction() {
@@ -498,12 +507,25 @@ class DeletePatient extends Component {
     }
 
     _handleClickWithdrawConsent() {
-        const { consent, id } = this.props.data;
+        const { id } = this.props.data;
         const body = {
             patientId: this.props.match.params.patientId,
             data: {
-                consent: !consent,
+                consent: false,
                 study: moment().toISOString(),
+                id: id
+            }
+        };
+        store.dispatch(updateConsentAPICall(body));
+    }
+
+    _handleClickGivesConsent() {
+        const { id } = this.props.data;
+        const body = {
+            patientId: this.props.match.params.patientId,
+            data: {
+                consent: true,
+                study: this.state.selectedConsentDate.toISOString(),
                 id: id
             }
         };
@@ -532,8 +554,26 @@ class DeletePatient extends Component {
                     <button onClick={this._handleClickWithdrawParticipation} >{participation ? 'This patient withdraws from the study' : 'This patient re-enrolls in the study'}</button>
                 </PatientProfileSectionScaffold>
                 <PatientProfileSectionScaffold sectionName='Consent'>
-                    <button onClick={this._handleClickWithdrawConsent} >{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</button>
-                    { consent ? <span><b>Consent date</b>: {new Date(study).toLocaleDateString()}</span> : null }
+
+                    {
+                        consent ?
+                        <div>
+                            <span><b>Consent date</b>: {new Date(study).toLocaleDateString()}</span>
+                            <button onClick={this._handleClickWithdrawConsent} >This patient withdraws consent</button>
+                            <br/> <br/>
+                            <span>Select date of consent:</span>
+                            <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
+                            <button onClick={this._handleClickGivesConsent}>Change consent date</button>
+                        </div>
+                        :
+                        <div>
+                            <span>Select date of consent:</span>
+                            <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
+                            <button onClick={this._handleClickGivesConsent}>Patient gives consent</button>
+                        </div>
+                    }
+
+
                 </PatientProfileSectionScaffold>
                 {this.props.priv === 1 ?
                     (
