@@ -68,6 +68,17 @@ export default async (dbcon, version) => {
                 ] 
             );
             break;
+        case 11:
+            await dbcon()(TABLE_NAME).insert(
+                [
+                    {
+                        "id": 18,
+                        "value": "New Drug Cycle",
+                        "module": "TREATMENTS"
+
+                    }
+                ]
+            );
         default:
             break;
     }
