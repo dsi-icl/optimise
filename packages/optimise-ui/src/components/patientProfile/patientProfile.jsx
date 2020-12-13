@@ -557,20 +557,20 @@ class DeletePatient extends Component {
 
                     {
                         consent ?
-                        <div>
-                            <span><b>Consent date</b>: {new Date(study).toLocaleDateString()}</span>
-                            <button onClick={this._handleClickWithdrawConsent} >This patient withdraws consent</button>
-                            <br/> <br/>
-                            <span>Select date of consent:</span>
-                            <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
-                            <button onClick={this._handleClickGivesConsent}>Change consent date</button>
-                        </div>
-                        :
-                        <div>
-                            <span>Select date of consent:</span>
-                            <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
-                            <button onClick={this._handleClickGivesConsent}>Patient gives consent</button>
-                        </div>
+                            <div>
+                                <span><b>Consent date</b>: {new Date(study).toLocaleDateString()}</span>
+                                <button onClick={this._handleClickWithdrawConsent} >This patient withdraws consent</button>
+                                <br/> <br/>
+                                <span>Select date of consent:</span>
+                                <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
+                                <button onClick={this._handleClickGivesConsent}>Change consent date</button>
+                            </div>
+                            :
+                            <div>
+                                <span>Select date of consent:</span>
+                                <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
+                                <button onClick={this._handleClickGivesConsent}>Patient gives consent</button>
+                            </div>
                     }
 
 
