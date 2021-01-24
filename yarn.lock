@@ -1536,10 +1536,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@interactjs/types@1.10.0":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@interactjs/types/-/types-1.10.0.tgz#c2232ed3ba503891349912fa74aa05aa467403e9"
-  integrity sha512-TB4uHd++aXqiWHQNzERcP8cxOLHCd+b3fq0XoV7Ydnappoq25R8iIrrB8Yb2FqVkZXnj1SIFYnzpol1SYHFIMQ==
+"@interactjs/types@1.10.2":
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/@interactjs/types/-/types-1.10.2.tgz#45a74d019f9b3e8fccd3ccc288b55bcf510106bc"
+  integrity sha512-l0T1bU8OHRv716ztQOYwP+K7b/lA76C0T3r/cdabbUv6CKeAFdFRRFlmNxYOM36SxMGWAiq5VWrN3SeXlB7Fow==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
@@ -9509,12 +9509,12 @@ inquirer@^7.0.0, inquirer@~7.3.2:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-interactjs@1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/interactjs/-/interactjs-1.10.0.tgz#0fafd725b1fddfc9671cacd98c4f92ceae73a197"
-  integrity sha512-dblDEizs758xETNVoSSxcZiwrP0DmFeNKILeDfhmO13LQRIsnSvbJFEYerEBVeH5m9qsOyYeMgBTafA+ZKkyBg==
+interactjs@1.10.2:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/interactjs/-/interactjs-1.10.2.tgz#b8efa1ecc72fd3e3b8da32ce5082df308b318ba1"
+  integrity sha512-5tj+4k0jtIzUj4TeLp4+F4VUAHXzQHnXfFwuaUsU1pnfRXiP3EqawsUpAn7gfAOS6Ltj6EQvvurCN9GJn/G/Pw==
   dependencies:
-    "@interactjs/types" "1.10.0"
+    "@interactjs/types" "1.10.2"
 
 internal-ip@^4.2.0:
   version "4.3.0"
