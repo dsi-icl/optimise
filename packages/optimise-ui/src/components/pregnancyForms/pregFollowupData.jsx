@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 //import style from './dataPage.module.css';
 //import store from '../../redux/store';
 import { PickDate } from '../createMedicalElements/datepicker';
+import style from '../patientProfile/patientProfile.module.css';
 import moment from 'moment';
 
 
@@ -20,7 +21,7 @@ import moment from 'moment';
 //
 //@withRouter
 //@connect(mapStateToProps)
-export class PregnancyBaselineDataForm extends Component {
+export class PregnancyFollowupDataForm extends Component {
     constructor() {
         super();
         this.state = {
@@ -65,23 +66,13 @@ export class PregnancyBaselineDataForm extends Component {
     }
 
     render() {
-        return (<form>
+        return (
+            <>
+            <div className={style.ariane}>
+            <h2>Edit followup record</h2>
+            </div>
+            <div className={style.panel}>
             <label>Prenatal imaging: <PickDate startDate={this.state.EDD} handleChange={this._handleDateChange} /></label><br/><br/>
-
-            <label>Pregnancy outcome<br/>
-            <select value={this.state.ART}>
-            <option value='ongoing'>None</option>
-            <option value='term_delivery_healthy'>Term delivery healthy (&gt; 37 weeks)</option>
-            <option value='preterm_delivery_healthy'>Pre-term delivery healthy (&lt; 37 weeks)</option>
-            <option value='term_delivery_with_congenital_abnormality'>Term delivery with congenital abnormality (37 weeks)</option>
-            <option value='preterm_delivery_with_congenital_abnormality'>Pre-Term delivery with congenital abnormality (37 weeks)</option>
-            <option value='miscarrage_lt_20weeks'>Miscarriage (20weeks)</option>
-            <option value='miscarrage_gt_20weeks'>Miscarriages (20weeks)</option>
-            <option value='ectopic'>Ectopic Pregnancy</option>
-            <option value='elective_termination'>Elective Termination</option>
-            <option value='Neonatal death'>Neonatal death</option>
-            </select>
-            </label><br/><br/>
 
             <label>Estimated date of delivery: <PickDate startDate={this.state.EDD} handleChange={this._handleDateChange} /></label><br/><br/>
 
@@ -110,7 +101,8 @@ export class PregnancyBaselineDataForm extends Component {
             <option value='false'>No</option>
             </select>
             </label><br/><br/>
-
-            </form>);
+            <button>Save</button>
+            </div>
+            </>);
     }
 }

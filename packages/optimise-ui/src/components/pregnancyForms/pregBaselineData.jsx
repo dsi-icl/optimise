@@ -9,6 +9,8 @@ import React, { Component } from 'react';
 //import store from '../../redux/store';
 import { PickDate } from '../createMedicalElements/datepicker';
 import moment from 'moment';
+import style from '../patientProfile/patientProfile.module.css';
+import pregnancy_style from './pregnancy.module.css';
 
 
 //function mapStateToProps(state) {
@@ -24,11 +26,16 @@ export class PregnancyBaselineDataForm extends Component {
     constructor() {
         super();
         this.state = {
+            showAddNewImageData: false,
+            addNewImageData_counter: 1,
+            addNewImageData_date: moment(),
+            addNewImageData_mode: false,
+            addNewImageData_result: false,
+            addNewImageData_cache: [],
             LMP: moment(), //last menstrual period
             maternalAgeAtLMP: undefined,
             maternalBMI: undefined,
             EDD: moment(), //estimated delivery date
-            PNI_date: moment(), //prenatal imaging date
             ART: 'none', //assisted reproductive technology method
             numOfFoetuses: undefined, //number of foetuses
             folicAcidSuppUsed: false, //folic acid supplementation used
@@ -36,6 +43,7 @@ export class PregnancyBaselineDataForm extends Component {
             illicitDrugUse: false,
         };
         this.originalValues = {};
+        this._handleDateChange = this._handleDateChange.bind(this);
     }
 
     //static getDerivedStateFromProps(props, state) {
@@ -65,12 +73,15 @@ export class PregnancyBaselineDataForm extends Component {
     }
 
     render() {
-        return (<form>
+        return (<>
+            <div className={style.ariane}>
+            <h2>Edit baseline record</h2>
+            </div>
+            <div className={style.panel}>
             <label>Date of last menstrual period (LMP): <PickDate startDate={this.state.LMP} handleChange={this._handleDateChange} /></label><br/><br/>
             <label>Maternal age at LMP: <input value={this.state.maternalAgeAtLMP}/></label><br/><br/>
             <label>Maternal BMI: <input value={this.state.maternalBMI}/></label><br/><br/>
             <label>Estimated date of delivery: <PickDate startDate={this.state.EDD} handleChange={this._handleDateChange} /></label><br/><br/>
-            <label>Prenatal imaging: <PickDate startDate={this.state.EDD} handleChange={this._handleDateChange} /></label><br/><br/>
             <label>Assisted Reproductive Technology method:<br/>
             <select value={this.state.ART}>
             <option value='none'>None</option>
@@ -104,6 +115,57 @@ export class PregnancyBaselineDataForm extends Component {
             </select>
             </label><br/><br/>
 
-            </form>);
+            <div className={pregnancy_style.pregnancy_image_div}><h4>Image data</h4>
+            {
+                this.state.addNewImageData_cache.map(el =>
+                    <div key={el.id} className={pregnancy_style.one_tentative_image}>
+                        <span onClick={() => this.setState({
+                            addNewImageData_cache: this.state.addNewImageData_cache.filter(ele => ele.id !== el.id)
+                        })}>X</span>
+                        <span>Date: {el.date.toISOString()}</span><br/>
+                        <span>Mode: {el.mode}</span><br/>
+                        <span>Result: {el.result}</span><br/>
+                    </div>)
+            }
+            {
+                this.state.showAddNewImageData ?
+                <div>
+                <label>Image date:<PickDate startDate={this.state.addNewImageData_date} handleChange={this._handleDateChange} /></label><br/><br/>
+                <label>Mode:
+                    <select value={this.state.folicAcidSuppUsed}>
+                    <option value='yes'>Yes</option>
+                    <option value='no'>No</option>
+                    </select>
+                </label><br/><br/>
+                <label>Result:
+                    <select value={this.state.folicAcidSuppUsed}>
+                    <option value='yes'>Yes</option>
+                    <option value='no'>No</option>
+                    </select>
+                </label>
+                <button
+                onClick={() =>{
+                        this.setState(oldState => ({
+                            addNewImageData_cache: oldState.addNewImageData_cache.concat({
+                                id: oldState.addNewImageData_counter,
+                                date: oldState.addNewImageData_date,
+                                mode: oldState.addNewImageData_mode,
+                                result: oldState.addNewImageData_result,
+                            }),
+                            addNewImageData_counter: oldState.addNewImageData_counter + 1
+                        })) }
+                }
+                        >
+                        Confirm
+                </button>
+                <button onClick={() => this.setState({ showAddNewImageData: false })}>Cancel</button>
+                </div>
+                : 
+                <button onClick={() => this.setState({ showAddNewImageData: true })}>Add new image data</button>
+            }
+            </div>
+            <br/><br/>
+            <button>Save</button>
+            </div></>);
     }
 }

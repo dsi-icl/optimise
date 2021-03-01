@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 //import store from '../../redux/store';
 import { PickDate } from '../createMedicalElements/datepicker';
 import moment from 'moment';
-
+import style from '../patientProfile/patientProfile.module.css';
 
 //function mapStateToProps(state) {
 //    return {
@@ -20,7 +20,7 @@ import moment from 'moment';
 //
 //@withRouter
 //@connect(mapStateToProps)
-export class PregnancyBaselineDataForm extends Component {
+export class PregnancyPostDataForm extends Component {
     constructor() {
         super();
         this.state = {
@@ -65,7 +65,12 @@ export class PregnancyBaselineDataForm extends Component {
     }
 
     render() {
-        return (<form>
+        return (
+            <>
+            <div className={style.ariane}>
+            <h2>Edit postpartum record</h2>
+            </div>
+            <div className={style.panel}>
             <label>Pregnancy end date: <PickDate startDate={this.state.EDD} handleChange={this._handleDateChange} /></label><br/><br/>
 
             <label>Induction of delivery:
@@ -215,7 +220,8 @@ export class PregnancyBaselineDataForm extends Component {
             <option value='neuropsychiatric'>Formally diagnosed neuropsychiatric outcomes</option>
             </select>
             </label><br/><br/>
-
-            </form>);
+            <button>Save</button>
+            </div>
+            </>);
     }
 }
