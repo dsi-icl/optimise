@@ -38,6 +38,10 @@ export default async (dbcon, version) => {
                 idname: 'Special Educational Needs:yes_or_no',
             });
             break;
+        case 12:
+            await dbcon()(TABLE_NAME).where('idname', 'reason for the visit').update({
+                permittedValues: 'Routine,Drug Monitoring,Relapse Assessment,Urgent,Pregnancy Monitoring'
+            });
         default:
             break;
     }
