@@ -1,0 +1,37 @@
+.one_pregnancy_wrapper {
+    margin-bottom: 1rem;
+    border-bottom: 2px solid grey;
+}
+
+.one_pregnancy_wrapper div {
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+    border-left: 2px solid grey;
+}
+
+.one_pregnancy_wrapper a {
+    color: #ff4949;
+    text-decoration: underline;
+}
+
+.pregnancy_image_div {
+    padding: 0.5rem 0.5rem;
+    background-color: green;
+}
+
+.one_tentative_image {
+    padding: 0.5rem 0.5rem;
+    background-color: red;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.one_tentative_image span:first-child {
+    cursor: pointer;
+    text-decoration: bold;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    display: inline;
+}
