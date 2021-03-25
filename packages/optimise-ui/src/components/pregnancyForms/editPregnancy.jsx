@@ -21,6 +21,7 @@ import { PregnancyFollowupDataForm } from './pregFollowupData';
 export class EditPregnancies extends Component {
     render() {
         const matchId = this.props.match.params.entryId;
+        const renderedInFrontPage = this.props.renderedInFrontPage;
         console.log(examplePregnancyData);
         const data = examplePregnancyData.reduce((a, el) => { a = a.concat(el.dataEntries);  return a; }, []);
         console.log(data);
@@ -32,11 +33,11 @@ export class EditPregnancies extends Component {
 
         switch (matchedEntry[0].dataType) {
             case 'baseline':
-                return <PregnancyBaselineDataForm/>;
+                return <PregnancyBaselineDataForm renderedInFrontPage={renderedInFrontPage}/>;
             case 'followup':
-                return <PregnancyFollowupDataForm/>;
+                return <PregnancyFollowupDataForm renderedInFrontPage={renderedInFrontPage}/>;
             case 'term':
-                return <PregnancyPostDataForm/>;
+                return <PregnancyPostDataForm renderedInFrontPage={renderedInFrontPage}/>;
         }
     }
 }
