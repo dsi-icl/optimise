@@ -67,9 +67,13 @@ export class PregnancyPostDataForm extends Component {
     render() {
         return (
             <>
-            <div className={style.ariane}>
-            <h2>Edit postpartum record</h2>
-            </div>
+            {
+                this.props.renderedInFrontPage ?
+                null :
+                <div className={style.ariane}>
+                <h2>Edit postpartum record</h2>
+                </div>
+            }
             <div className={style.panel}>
             <label>Pregnancy end date: <PickDate startDate={this.state.EDD} handleChange={this._handleDateChange} /></label><br/><br/>
 
