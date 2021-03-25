@@ -432,15 +432,14 @@ class Pregnancy extends Component {
                 return null;
         }
 
-        const PregnancyListButton = <NavLink to={`/patientProfile/${this.props.data.patientId}/pregnancies`}><button>Edit data</button></NavLink>;
+        const PregnancyListButton = <NavLink to={`/patientProfile/${this.props.data.patientId}/pregnancies`}><button>Go to pregnancies</button></NavLink>;
 
         if (this.props.data.demographicData) {
             if (this.props.data.pregnancy.length === 0) {
                 return (
-                    <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
+                    <PatientProfileSectionScaffold sectionName='Pregnancies' actions={
                         <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
                     }>
-                    <i>No recorded pregnancy</i>
                     {PregnancyListButton}
                     </PatientProfileSectionScaffold>
                 );

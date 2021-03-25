@@ -74,9 +74,13 @@ export class PregnancyBaselineDataForm extends Component {
 
     render() {
         return (<>
-            <div className={style.ariane}>
-            <h2>Edit baseline record</h2>
-            </div>
+            {
+                this.props.renderedInFrontPage ?
+                null :
+                <div className={style.ariane}>
+                <h2>Edit baseline record</h2>
+                </div>
+            }
             <div className={style.panel}>
             <label>Date of last menstrual period (LMP): <PickDate startDate={this.state.LMP} handleChange={this._handleDateChange} /></label><br/><br/>
             <label>Maternal age at LMP: <input value={this.state.maternalAgeAtLMP}/></label><br/><br/>

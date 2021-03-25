@@ -3,11 +3,23 @@
     border-bottom: 2px solid grey;
 }
 
-.one_pregnancy_wrapper div {
+.one_pregnancy_wrapper .entry_div {
     padding: 0.5rem 1rem;
     margin-bottom: 1rem;
     margin-left: 2rem;
     border-left: 2px solid grey;
+}
+
+.add_new_entry_button {
+    border-left: 2px solid rgba(0,0,0,0) !important;
+    background-color: hsl(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l));
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+.add_new_entry_button:hover {
+    background-color: hsl(var(--color-accent-h), var(--color-accent-s), calc(var(--color-accent-l) * 1.05));
 }
 
 .one_pregnancy_wrapper a {
@@ -34,4 +46,17 @@
     top: 2px;
     right: 2px;
     display: inline;
+}
+
+.expand_button {
+    background-color: #efefef;
+    cursor: pointer;
+}
+
+.expand_button:hover {
+    background-color: #e8e8e8
+}
+
+.expanded_data {
+    background-color: #efefef;
 }
