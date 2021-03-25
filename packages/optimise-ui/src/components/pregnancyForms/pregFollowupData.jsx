@@ -68,9 +68,13 @@ export class PregnancyFollowupDataForm extends Component {
     render() {
         return (
             <>
-            <div className={style.ariane}>
-            <h2>Edit followup record</h2>
-            </div>
+            {
+                this.props.renderedInFrontPage ?
+                null :
+                <div className={style.ariane}>
+                <h2>Edit followup record</h2>
+                </div>
+            }
             <div className={style.panel}>
             <label>Prenatal imaging: <PickDate startDate={this.state.EDD} handleChange={this._handleDateChange} /></label><br/><br/>
 
