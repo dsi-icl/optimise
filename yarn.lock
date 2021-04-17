@@ -12690,10 +12690,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-image-loader@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/markdown-image-loader/-/markdown-image-loader-2.0.0.tgz#2182e8b4351143a6dfa977e38d9ab17dad807be0"
-  integrity sha512-osIW6Iww9CXPMuHTIwy30ZO/eSqDrOT80KADupmB+EUDc8xuQMo65Ob/h5SyFts6r2+cl1krzGN5vTED7uhmwQ==
+markdown-image-loader@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/markdown-image-loader/-/markdown-image-loader-2.0.1.tgz#3d4506d3f0e836987408e3b08fe7808add15a736"
+  integrity sha512-I1d4xxRY53t5o5LOkJ24dKeLuUQ5MCHxCp54kdX2+IhrYbgfr0yAwGbXH3B5aD1yT7M7muq7nh6nZMaClkgyEw==
 
 matcher@^3.0.0:
   version "3.0.0"
