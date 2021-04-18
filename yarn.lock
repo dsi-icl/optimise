@@ -19020,10 +19020,10 @@ webpack-cli@4.6.0:
     v8-compile-cache "^2.2.0"
     webpack-merge "^5.7.3"
 
-webpack-command@0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/webpack-command/-/webpack-command-0.5.0.tgz#abda6444894055737837ddd6981c49ec47226802"
-  integrity sha512-w3f/ugph5bFKYzCPXE0sngzJTWoUKaEGuWIzr+jMjY57MM19tEUJ7ukBqKS3ff8mOQri/z9rSQnC84lbJ/PKng==
+webpack-command@0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/webpack-command/-/webpack-command-0.5.1.tgz#20a756821cdfc97cec4f79343cc2dd33d5674b46"
+  integrity sha512-JFFBk2zsqs35JF4M26Fmvf5NwcjH3dVIKXrUGMwKCS5iCXRsMFI/kKqgTxNrVIo2YZEv7qtSPxscYupTu/qycQ==
   dependencies:
     "@webpack-contrib/config-loader" "^1.2.0"
     "@webpack-contrib/schema-utils" "^1.0.0-beta.0"
