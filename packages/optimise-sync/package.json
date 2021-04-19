@@ -49,7 +49,7 @@
         "webpack-cli": "4.6.0"
     },
     "optionalDependencies": {
-        "ajv": "6.12.6",
+        "ajv": "8.1.0",
         "fsevents": "2.3.2"
     },
     "jest": {
