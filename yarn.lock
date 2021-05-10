@@ -6702,10 +6702,10 @@ connect-mongo@4.4.1:
     kruptein "^3.0.0"
     mongodb "3.6.5"
 
-connect-session-knex@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/connect-session-knex/-/connect-session-knex-2.0.0.tgz#c49003b8edd3e4cd64c701356223920abd052053"
-  integrity sha512-1QaN7k9NjXcXmE+MHoH7YeAGcUGdqZzpIKb8otHgqFQ2IYLhoeGG/o1PP2cdJZNgcr1gPHJEL8hmKIx8XosOhg==
+connect-session-knex@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/connect-session-knex/-/connect-session-knex-2.1.0.tgz#7f1e32594d37f7a1ad24e6dee97d8f2d9799695e"
+  integrity sha512-6xHoDajVWxwByaq6UjfU+qGE89Nurajek4JsxeajtXscr8xznzbsIp+Q/3FKh3/2smfgoSeY+93+Gn+3ZXQVDQ==
   dependencies:
     bluebird "^3.7.2"
     knex "^0.21.5"
