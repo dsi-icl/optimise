@@ -31,6 +31,12 @@ export default async (dbcon, version) => {
                 { name: 'Sativex', module: 'Disease Modifying' }
             ]);
             break;
+        case 12:
+            await dbcon()(TABLE_NAME).insert([
+                { name: 'Amitriptyline', module: 'Disease Modifying' },
+                { name: 'Mirabegron (Solifenacin)', module: 'Disease Modifying' },
+            ]);
+            break;
         default:
             break;
     }
