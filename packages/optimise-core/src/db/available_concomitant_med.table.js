@@ -12,6 +12,18 @@ export default async (dbcon, version) => {
             });
             await dbcon().batchInsert(TABLE_NAME, data, 100);
             break;
+        case 12:
+            await dbcon()(TABLE_NAME).insert([
+                {
+                    id: 47,
+                    name: 'Amitriptyline'
+                },
+                {
+                    id: 48,
+                    name: 'Mirabegron (Solifenacin)'
+                },
+            ]);
+            break;
         default:
             break;
     }
