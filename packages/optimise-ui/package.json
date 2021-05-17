@@ -28,7 +28,7 @@
         "query-string": "6.13.8",
         "moment": "2.29.1",
         "react": "17.0.1",
-        "react-calendar-timeline": "0.26.7",
+        "react-calendar-timeline": "0.27.0",
         "react-datepicker": "3.3.0",
         "react-dom": "17.0.1",
         "react-event-timeline": "1.6.3",
