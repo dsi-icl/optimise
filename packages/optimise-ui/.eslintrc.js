@@ -1,6 +1,7 @@
 module.exports = {
     root: true,
     parser: '@babel/eslint-parser',
+    plugins: ['@babel'],
     extends: ['react-app'],
     settings: {
         react: {
@@ -13,6 +14,7 @@ module.exports = {
         es6: true
     },
     parserOptions: {
+        requireConfigFile: false,
         ecmaFeatures: {
             jsx: true,
             modules: true,
