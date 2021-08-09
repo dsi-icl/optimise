@@ -1,6 +1,6 @@
 module.exports = {
     root: true,
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
     plugins: ['promise'],
     extends: ['eslint:recommended', 'plugin:promise/recommended'],
     env: {
