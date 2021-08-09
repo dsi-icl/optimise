@@ -49,8 +49,8 @@ try {
         });
 
         cspr.stderr.on('data', function (data) {
-            data += '';
-            process.stderr.write(lines[i]);
+            const str = data.toString();
+            process.stderr.write(str);
         });
 
         cspr.on('exit', function (code) {
