@@ -10,14 +10,14 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macOS-latest]
-        node: [12.x, 14.x]
+        node: ['12', '14', '16']
 
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node }} on ${{ matrix.os }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
-        node: ${{ matrix.node }}
+          node-version: ${{ matrix.node }}
     - name: Installing dependencies
       run: yarn install
       env:
