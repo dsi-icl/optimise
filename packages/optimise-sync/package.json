@@ -23,33 +23,32 @@
         "body-parser": "1.19.0",
         "csurf": "1.11.0",
         "express": "4.17.1",
-        "express-session": "1.17.1",
+        "express-session": "1.17.2",
         "connect-mongo": "3.2.0",
-        "mongodb": "3.6.6",
+        "mongodb": "3.6.11",
         "passport": "0.4.1",
         "saslprep": "1.0.3"
     },
     "devDependencies": {
-        "@babel/core": "7.11.6",
+        "@babel/core": "7.15.0",
         "@babel/plugin-syntax-dynamic-import": "7.8.3",
-        "@babel/plugin-transform-modules-commonjs": "7.10.4",
-        "@babel/polyfill": "7.11.5",
-        "@babel/preset-env": "7.11.5",
+        "@babel/plugin-transform-modules-commonjs": "7.15.0",
+        "@babel/preset-env": "7.15.0",
         "babel-eslint": "10.1.0",
         "babel-jest": "26.6.3",
-        "babel-loader": "8.1.0",
+        "babel-loader": "8.2.2",
         "babel-plugin-require-context-hook": "1.0.0",
         "cross-env": "7.0.3",
-        "eslint": "7.19.0",
-        "eslint-plugin-promise": "4.2.1",
+        "eslint": "7.32.0",
+        "eslint-plugin-promise": "5.1.0",
         "jest": "26.6.3",
         "rimraf": "3.0.2",
         "start-server-webpack-plugin": "2.2.5",
         "webpack": "4.44.2",
-        "webpack-cli": "4.6.0"
+        "webpack-cli": "4.7.2"
     },
     "optionalDependencies": {
-        "ajv": "6.12.6",
+        "ajv": "8.6.2",
         "fsevents": "2.3.2"
     },
     "jest": {
