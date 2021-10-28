@@ -70,7 +70,7 @@
         "string-replace-loader": "3.0.3",
         "supertest": "6.1.6",
         "webpack": "4.46.0",
-        "webpack-cli": "4.8.0",
+        "webpack-cli": "4.9.1",
         "webpack-node-externals": "3.0.0"
     },
     "optionalDependencies": {
