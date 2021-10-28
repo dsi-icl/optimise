@@ -116,21 +116,21 @@
         }
     },
     "dependencies": {
-        "electron-log": "4.2.4",
-        "electron-updater": "4.3.5",
+        "electron-log": "4.4.1",
+        "electron-updater": "4.3.9",
         "express": "4.17.1",
-        "sqlite3": "5.0.0"
+        "sqlite3": "5.0.2"
     },
     "devDependencies": {
         "@babel/core": "7.11.6",
         "babel-loader": "8.1.0",
         "copy-webpack-plugin": "6.4.1",
-        "electron": "10.1.5",
-        "electron-builder": "22.9.1",
+        "electron": "14.2.0",
+        "electron-builder": "22.13.1",
         "electron-reload": "1.5.0",
         "html-webpack-plugin": "4.5.1",
         "webpack": "4.44.2",
         "webpack-command": "0.5.0",
-        "webpack-merge": "5.7.3"
+        "webpack-merge": "5.8.0"
     }
 }
