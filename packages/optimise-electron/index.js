@@ -169,14 +169,17 @@ const createApi = () => {
                     title: 'Save export archive',
                     defaultPath: `${app.getPath('downloads')}/${filename === null || filename[1] === undefined ? 'optimise-data.zip' : filename[1]}`,
                 }
-                dialog.showSaveDialog(null, options, (path) => {
-                    if (path !== undefined)
-                        fs.writeFile(path, res.buffer, function (err) {
+                dialog.showSaveDialog(null, options).then(({ filePath }) => {
+                    if (filePath !== undefined)
+                        fs.writeFile(filePath, res.buffer, function (err) {
                             if (err) {
                                 console.error(err);
                                 alert(err);
                             }
                         });
+                }).catch((err) => {
+                    console.error(err);
+                    alert(err);
                 })
             });
         })
@@ -203,7 +206,9 @@ let createWindow = () => {
         toolbar: false,
         show: false,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true
         }
     });
     mainWindow.once('ready-to-show', () => {
