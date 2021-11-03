@@ -36,7 +36,7 @@
         "react-markdown": "5.0.3",
         "react-medium-image-zoom": "3.1.2",
         "react-redux": "7.2.6",
-        "react-router-dom": "5.3.0",
+        "react-router-dom": "6.0.0",
         "react-virtualized": "9.22.3",
         "react-virtualized-tree": "3.4.1",
         "redux": "4.1.2",
