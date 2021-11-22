@@ -12,9 +12,9 @@
     },
     "private": true,
     "scripts": {
-        "start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true react-scripts start",
-        "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build",
-        "test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=true react-scripts test --colors"
+        "start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true react-app-rewired start",
+        "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
+        "test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=true react-app-rewired test --colors"
     },
     "dependencies": {
         "deepmerge": "4.2.2",
@@ -61,7 +61,8 @@
         "http-proxy-middleware": "2.0.1",
         "markdown-image-loader": "2.0.1",
         "prop-types": "15.7.2",
-        "react-scripts-rewired": "3.1.1",
+        "react-app-rewired": "^2.1.8",
+        "react-scripts": "3.1.1",
         "webpack": "4.46.0"
     },
     "eslintConfig": {
