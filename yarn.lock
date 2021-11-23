@@ -14951,6 +14951,13 @@ react-app-polyfill@^1.0.2:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
 
+react-app-rewired@2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/react-app-rewired/-/react-app-rewired-2.1.8.tgz#e192f93b98daf96889418d33d3e86cf863812b56"
+  integrity sha512-wjXPdKPLscA7mn0I1de1NHrbfWdXz4S1ladaGgHVKdn1hTgKK5N6EdGIJM0KrS6bKnJBj7WuqJroDTsPKKr66Q==
+  dependencies:
+    semver "^5.6.0"
+
 react-calendar-timeline@0.26.7:
   version "0.26.7"
   resolved "https://registry.yarnpkg.com/react-calendar-timeline/-/react-calendar-timeline-0.26.7.tgz#2cb510c37b163cf8da9f39ba4047e42670cbe739"
@@ -15132,10 +15139,10 @@ react-router@5.2.1:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-scripts-rewired@3.1.1:
+react-scripts@3.1.1:
   version "3.1.1"
-  resolved "https://registry.yarnpkg.com/react-scripts-rewired/-/react-scripts-rewired-3.1.1.tgz#f798e733e2f7b6b8cf0d1bb6f83fc3a1e3c689d7"
-  integrity sha512-ffTeTvi/pqybRymBLn94Rni3yrVCAQhGO24i/xOTSVI7G5ga6bDz6kfC6KgOjtP75iYFg1lQlHUhQCqwNPSXHg==
+  resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-3.1.1.tgz#1796bc92447f3a2d3072c3b71ca99f88d099c48d"
+  integrity sha512-dbjTG9vJC61OI62hIswQYg5xHvwlxDTH6QXz6ICEuA5AqkFQWk1LKl76sk8fVL2WsyumbBc4FErALwKcEV2vNA==
   dependencies:
     "@babel/core" "7.5.5"
     "@svgr/webpack" "4.3.2"
