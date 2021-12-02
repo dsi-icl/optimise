@@ -3,48 +3,52 @@ name: Node CI
 on: [push]
 
 jobs:
-  build:
+    build:
+        runs-on: ${{ matrix.os }}
 
-    runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [windows-latest, ubuntu-latest, macOS-latest]
+                node: ["14", "16"]
 
     strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest, macOS-latest]
-        node: ['14', '16']
+        matrix:
+            os: [windows-latest, ubuntu-latest, macOS-latest]
+            node: ["14", "16"]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node }} on ${{ matrix.os }}
-      uses: actions/setup-node@v2
-      with:
-          node-version: ${{ matrix.node }}
+        - uses: actions/checkout@v2
+        - name: Use Node.js ${{ matrix.node }} on ${{ matrix.os }}
+          uses: actions/setup-node@v2
+          with:
+              node-version: ${{ matrix.node }}
 
-    - name: Disable TCP/UDP Offloading
-      shell: bash
-      run: |
-        if [ "$RUNNER_OS" == "Linux" ]; then
-          sudo ethtool -K eth0 tx off rx off
-          exit 0
-        elif [ "$RUNNER_OS" == "macOS" ]; then
-          sudo sysctl -w net.link.generic.system.hwcksum_tx=0
-          sudo sysctl -w net.link.generic.system.hwcksum_rx=0
-          exit 0
-        else
-          echo "$RUNNER_OS not supported"
-          exit 0
-        fi        
+        - name: Disable TCP/UDP Offloading
+          shell: bash
+          run: |
+              if [ "$RUNNER_OS" == "Linux" ]; then
+                sudo ethtool -K eth0 tx off rx off
+                exit 0
+              elif [ "$RUNNER_OS" == "macOS" ]; then
+                sudo sysctl -w net.link.generic.system.hwcksum_tx=0
+                sudo sysctl -w net.link.generic.system.hwcksum_rx=0
+                exit 0
+              else
+                echo "$RUNNER_OS not supported"
+                exit 0
+              fi
 
-    - name: Installing dependencies
-      run: yarn install
-      env:
-        CI: true
+        - name: Installing dependencies
+          run: yarn install --network-timeout 1000000
+          env:
+              CI: true
 
-    - name: Building Electron  
-      run: yarn run electron
-      env:
-        CI: true
+        - name: Building Electron
+          run: yarn run electron
+          env:
+              CI: true
 
-    - name: Testing  
-      run: yarn test
-      env:
-        CI: true
+        - name: Testing
+          run: yarn test
+          env:
+              CI: true
