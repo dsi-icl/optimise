@@ -117,7 +117,7 @@
     },
     "dependencies": {
         "electron-log": "4.4.1",
-        "electron-updater": "4.3.9",
+        "electron-updater": "4.6.1",
         "express": "4.17.1",
         "sqlite3": "5.0.2"
     },
