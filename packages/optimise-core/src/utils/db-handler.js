@@ -5,7 +5,7 @@ import fs from 'fs';
 
 // Current level of the DB
 // This field is to be updated with subsequent versions of the DB
-const CURRENT_VERSION = 9;
+const CURRENT_VERSION = 13;
 
 export async function migrate() {
 

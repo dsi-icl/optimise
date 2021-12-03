@@ -10,22 +10,39 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macOS-latest]
-        node: [12.x, 13.x]
+        node: ['14', '16']
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node }} on ${{ matrix.os }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
-        node: ${{ matrix.node }}
+          node-version: ${{ matrix.node }}
+
+    - name: Disable TCP/UDP Offloading
+      shell: bash
+      run: |
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          sudo ethtool -K eth0 tx off rx off
+          exit 0
+        elif [ "$RUNNER_OS" == "macOS" ]; then
+          sudo sysctl -w net.link.generic.system.hwcksum_tx=0
+          sudo sysctl -w net.link.generic.system.hwcksum_rx=0
+          exit 0
+        else
+          echo "$RUNNER_OS not supported"
+          exit 0
+        fi        
     - name: Installing dependencies
-      run: yarn install
+      run: yarn install --network-timeout 1000000
       env:
         CI: true
+
     - name: Building Electron  
       run: yarn run electron
       env:
         CI: true
+
     - name: Testing  
       run: yarn test
       env:

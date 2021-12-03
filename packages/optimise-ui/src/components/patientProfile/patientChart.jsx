@@ -107,7 +107,8 @@ export class Test extends PureComponent {
 @withRouter
 @connect(state => ({
     typedict: state.availableFields.drugs_Hash[0],
-    patientId: state.patientProfile.data.patientId
+    patientId: state.patientProfile.data.patientId,
+    reasondict: state.availableFields.interruptionReasons_Hash[0],
 }))
 export class Medication extends PureComponent {
 
@@ -125,12 +126,13 @@ export class Medication extends PureComponent {
         const numberOfInterruptions = data.interruptions ? data.interruptions.length : 0;
         if (!typedict[data.drug])
             return null;
+        const endDate = data.terminatedDate !== null && data.terminatedDate !== undefined ? `${new Date(parseInt(data.terminatedDate, 10)).toDateString()}${data.terminatedReason ? `(${this.props.reasondict[data.terminatedReason].value})` : ''}` : '';
         return (
             <tr>
                 <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
-                <td>{data.terminatedDate ? new Date(parseInt(data.terminatedDate, 10)).toDateString() : ''}</td>
+                <td>{endDate}</td>
                 <td>{data.dose ? `${data.dose} ${data.unit}` : ''}</td>
                 <td>{data.form ? data.form !== 'unselected' ? data.form : '' : ''}</td>
                 <td>{data.times && data.intervalUnit ? `${data.times} times / ${this.intervalUnitString(data.intervalUnit)}` : ''}</td>

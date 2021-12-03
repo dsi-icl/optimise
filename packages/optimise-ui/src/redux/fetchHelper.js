@@ -1,5 +1,5 @@
 import merge from 'deepmerge';
-import isPlainObject from 'is-plain-object';
+import { isPlainObject } from 'is-plain-object';
 import { addError } from './actions/error';
 import store from './store';
 
