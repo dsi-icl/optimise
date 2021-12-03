@@ -98,7 +98,7 @@ describe('Create concomitant med controller test', () => {
             return true;
         }));
 
-    test('Creating the same drug for the same visit (should fail)', () => admin
+    test('Creating the same drug for the same visit (should pass)', () => admin
         .post('/concomitantMeds')
         .send({
             visitId: 1,
@@ -108,15 +108,15 @@ describe('Create concomitant med controller test', () => {
             endDate: 13428904
         })
         .then(({ status, body }) => {
-            expect(status).toBe(400);
+            expect(status).toBe(200);
             expect(typeof body).toBe('object');
-            expect(body.error).toBeDefined();
-            expect(body.error).toBe('Couldn\'t create entry');
-            expect(body.stack.stack.error.indexOf('UNIQUE constraint failed')).not.toBe(-1);
+            expect(body.error).toBeUndefined();
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(2);
             return true;
         }));
 
-    test('Creating concomitant med with out endDate', () => admin
+    test('Creating concomitant med with endDate', () => admin
         .post('/concomitantMeds')
         .send({
             visitId: 1,
@@ -130,7 +130,7 @@ describe('Create concomitant med controller test', () => {
             expect(typeof body).toBe('object');
             expect(body.error).toBeUndefined();
             expect(body.state).toBeDefined();
-            expect(body.state).toBe(2);
+            expect(body.state).toBe(3);
             return true;
         }));
 });
