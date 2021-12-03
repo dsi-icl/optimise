@@ -1,14 +1,19 @@
 {
-  "name": "optimise-remote-control",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
-  "scripts": {
-      "start": "node ./src/index.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "ws": "7.3.1"
-  }
+	"name": "optimise-remote-control",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/index.js",
+	"scripts": {
+		"start": "node ./src/index.js"
+	},
+	"author": {
+		"email": "c.sou16@imperial.ac.uk",
+		"name": "Chon Sou"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"bufferutil": "4.0.5",
+		"utf-8-validate": "5.0.7",
+		"ws": "8.2.3"
+	}
 }

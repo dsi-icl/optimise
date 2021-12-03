@@ -1,4 +1,4 @@
-export default {
+export const initialState = {
 
     searchPatient: {
         fetching: false,
@@ -137,3 +137,5 @@ export default {
         }
     }
 };
+
+export default initialState;
