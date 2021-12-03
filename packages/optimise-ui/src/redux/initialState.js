@@ -1,4 +1,4 @@
-export default {
+export const initialState = {
 
     searchPatient: {
         fetching: false,
@@ -98,7 +98,9 @@ export default {
         initialCheckingStatus: true,
         loggingIn: false,
         loginFailed: false,
-        username: ''
+        id: -1,
+        username: '',
+        remote_control: ''
     },
     log: {
         fetching: true,
@@ -135,3 +137,5 @@ export default {
         }
     }
 };
+
+export default initialState;

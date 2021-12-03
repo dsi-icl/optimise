@@ -93,7 +93,7 @@ describe('Patient controller tests', () => {
         .post('/patients')
         .send({
             'aliasId': 'littlePatient',
-            'study': 'optimise',
+            'study': 'NA',
             'consent': false
         })
         .then(({ statusCode, body }) => {
@@ -108,7 +108,7 @@ describe('Patient controller tests', () => {
         .post('/patients')
         .send({
             'aliasId': 'littlePatient',
-            'study': 'optimise',
+            'study': new Date().toISOString(),
             'consent': true
         })
         .then(({ statusCode, body }) => {

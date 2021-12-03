@@ -27,6 +27,58 @@ export default async (dbcon, version) => {
                 { id: 10, value: 'Disease activity', module: 'TREATMENTS_INTERRUPTIONS' }
             ]);
             break;
+        case 10:
+            await dbcon()(TABLE_NAME).insert(
+                [
+                    {
+                        "id": 11,
+                        "value": "DMT switch",
+                        "module": "TREATMENTS"
+                    },
+                    {
+                        "id": 12,
+                        "value": "Opportunistic infection",
+                        "module": "TREATMENTS"
+                    },
+                    {
+                        "id": 13,
+                        "value": "Not tolerating DMT",
+                        "module": "TREATMENTS"
+                    },
+                    {
+                        "id": 14,
+                        "value": "Trying to conceive",
+                        "module": "TREATMENTS"
+                    },
+                    {
+                        "id": 15,
+                        "value": "Clinician decision - no longer eligible for clinical reason",
+                        "module": "TREATMENTS"
+                    },
+                    {
+                        "id": 16,
+                        "value": "Entry into CTIMP",
+                        "module": "TREATMENTS"
+                    },
+                    {
+                        "id": 17,
+                        "value": "Safety based on monitoring results",
+                        "module": "TREATMENTS"
+                    }
+                ] 
+            );
+            break;
+        case 11:
+            await dbcon()(TABLE_NAME).insert(
+                [
+                    {
+                        "id": 18,
+                        "value": "New Drug Cycle",
+                        "module": "TREATMENTS"
+
+                    }
+                ]
+            );
         default:
             break;
     }

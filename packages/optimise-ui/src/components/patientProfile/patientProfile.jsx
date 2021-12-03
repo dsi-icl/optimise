@@ -9,7 +9,7 @@ import { formatRow } from './patientChart';
 import store from '../../redux/store';
 import { createImmunisationAPICall, deleteImmunisationAPICall, editImmunisationAPICall, } from '../../redux/actions/demographicData';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
-import { getPatientPii } from '../../redux/actions/patientProfile';
+import { getPatientPii, changePatientId } from '../../redux/actions/patientProfile';
 import { updateConsentAPICall, updateParticipationAPICall } from '../../redux/actions/consent';
 import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
@@ -59,9 +59,13 @@ class DemographicSection extends Component {
 
     constructor() {
         super();
-        this.state = {};
+        this.state = { showPii: false, showEditAliasId: false, editAliasIdInput: '' };
         this._hidePii = this._hidePii.bind(this);
         this._queryPatientData = this._queryPatientData.bind(this);
+        this._hideEditId = this._hideEditId.bind(this);
+        this._showEditId = this._showEditId.bind(this);
+        this._onChangeEditID = this._onChangeEditID.bind(this);
+        this._submitEditId = this._submitEditId.bind(this);
     }
 
     _queryPatientData(ev) {
@@ -82,8 +86,39 @@ class DemographicSection extends Component {
         });
     }
 
+    _hideEditId() {
+        this.setState({
+            showEditAliasId: false,
+            editAliasIdInput: ''
+        });
+    }
+
+    _showEditId() {
+        this.setState({
+            showEditAliasId: true
+        });
+    }
+
+    _onChangeEditID(e) {
+        this.setState({
+            editAliasIdInput: e.target.value
+        });
+    }
+
+    _submitEditId() {
+        store.dispatch(changePatientId({
+            data: {
+                id: this.props.data.id,
+                aliasId: this.state.editAliasIdInput
+            },
+            to: '/searchPatient'
+        }));
+    }
+
+
     render() {
         const { data: { demographicData }, pii, fields } = this.props;
+        const { showEditAliasId, editAliasIdInput } = this.state;
         if (demographicData) {
             let { DOB, countryOfOrigin, dominantHand, ethnicity, gender } = demographicData;
             countryOfOrigin = fields['countries'].filter(el => el.id === countryOfOrigin)[0].value;
@@ -112,6 +147,21 @@ class DemographicSection extends Component {
                             </>
                             : null}
                     </div>
+                    <br/>
+                    {showEditAliasId ?
+                        <div className={style.editPatientIdDiv}>
+                            <b>Edit Patient ID</b>
+                            <br/><br/>
+                            <input onChange={this._onChangeEditID} value={editAliasIdInput}/>
+                            <br/><br/>
+                            <button onClick={this._submitEditId}>Submit</button>
+                            <br/><br/>
+                            <button onClick={this._hideEditId}>Cancel</button>
+                            <p>Note: after changing patient ID you will be redirected to search tab.</p>
+                        </div>
+                        :
+                        <span onClick={this._showEditId} className={style.piiUncover}>Edit Patient ID</span>
+                    }
                 </PatientProfileSectionScaffold>
             );
         } else {
@@ -427,14 +477,23 @@ class Pregnancy extends Component {
 class DeletePatient extends Component {
     constructor() {
         super();
+        this.state = { selectedConsentDate: moment() }; // consentdate is saved as 'study' in the database
         this._handleClickDelete = this._handleClickDelete.bind(this);
         this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
+        this._handleClickGivesConsent = this._handleClickGivesConsent.bind(this);
         this._handleClickWithdrawParticipation = this._handleClickWithdrawParticipation.bind(this);
+        this._handleConsentDateChange = this._handleConsentDateChange.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);
     }
 
     _handleClickDelete() {
         store.dispatch(addAlert({ alert: `Are you sure you want to delete patient ${this.props.data.patientId}?`, handler: this._deleteFunction }));
+    }
+
+    _handleConsentDateChange(date) {
+        this.setState({
+            selectedConsentDate: date
+        });
     }
 
     _deleteFunction() {
@@ -448,11 +507,25 @@ class DeletePatient extends Component {
     }
 
     _handleClickWithdrawConsent() {
-        const { consent, id } = this.props.data;
+        const { id } = this.props.data;
         const body = {
             patientId: this.props.match.params.patientId,
             data: {
-                consent: !consent,
+                consent: false,
+                study: moment().toISOString(),
+                id: id
+            }
+        };
+        store.dispatch(updateConsentAPICall(body));
+    }
+
+    _handleClickGivesConsent() {
+        const { id } = this.props.data;
+        const body = {
+            patientId: this.props.match.params.patientId,
+            data: {
+                consent: true,
+                study: this.state.selectedConsentDate.toISOString(),
                 id: id
             }
         };
@@ -473,7 +546,7 @@ class DeletePatient extends Component {
 
 
     render() {
-        const { consent, participation } = this.props.data;
+        const { consent, participation, study } = this.props.data;
 
         return (
             <>
@@ -481,7 +554,26 @@ class DeletePatient extends Component {
                     <button onClick={this._handleClickWithdrawParticipation} >{participation ? 'This patient withdraws from the study' : 'This patient re-enrolls in the study'}</button>
                 </PatientProfileSectionScaffold>
                 <PatientProfileSectionScaffold sectionName='Consent'>
-                    <button onClick={this._handleClickWithdrawConsent} >{consent ? 'This patient withdraws consent' : 'This patient gives consent'}</button>
+
+                    {
+                        consent ?
+                            <div>
+                                <span><b>Consent date</b>: {new Date(study).toLocaleDateString()}</span>
+                                <button onClick={this._handleClickWithdrawConsent} >This patient withdraws consent</button>
+                                <br/> <br/>
+                                <span>Select date of consent:</span>
+                                <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
+                                <button onClick={this._handleClickGivesConsent}>Change consent date</button>
+                            </div>
+                            :
+                            <div>
+                                <span>Select date of consent:</span>
+                                <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
+                                <button onClick={this._handleClickGivesConsent}>Patient gives consent</button>
+                            </div>
+                    }
+
+
                 </PatientProfileSectionScaffold>
                 {this.props.priv === 1 ?
                     (

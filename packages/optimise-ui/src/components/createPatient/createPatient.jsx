@@ -26,6 +26,7 @@ export default class CreatePatient extends Component {    //get these props from
             postcode: '',
             DOB: moment(),
             consent: 'N',
+            consentDate: moment(),
             error: false,
             gender: 0,
             dominant_hand: 5,
@@ -35,6 +36,7 @@ export default class CreatePatient extends Component {    //get these props from
             diagnosisDate: moment()
         };
         this._handleDobDateChange = this._handleDobDateChange.bind(this);
+        this._handleConsentDateChange = this._handleConsentDateChange.bind(this);
         this._handleDiagnosisDateChange = this._handleDiagnosisDateChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleChange = this._handleChange.bind(this);
@@ -53,6 +55,13 @@ export default class CreatePatient extends Component {    //get these props from
     _handleDobDateChange(date) {
         this.setState({
             DOB: date,
+            error: false
+        });
+    }
+
+    _handleConsentDateChange(date) {
+        this.setState({
+            consentDate: date,
             error: false
         });
     }
@@ -123,7 +132,7 @@ export default class CreatePatient extends Component {    //get these props from
         const patientData = {
             aliasId: this.state.aliasId,
             consent: this.state.consent === 'Y' ? true : false,
-            study: 'optimise'
+            study: this.state.consent === 'Y' ? this.state.consentDate.toISOString() : 'NA'
         };
         const body = {
             patientData: patientData,
@@ -182,6 +191,15 @@ export default class CreatePatient extends Component {    //get these props from
                                 <option value='Y'>Yes</option>
                                 <option value='N'>No</option>
                             </select><br /><br />
+                            {
+                                this.state.consent === 'Y' ?
+                                    <>
+                                        <label>Consent date:</label>
+                                        <PickDate startDate={this.state.consentDate} handleChange={this._handleConsentDateChange} /> <br /><br />
+                                    </>
+                                    :
+                                    null
+                            }
                             <br />
                             <h4>Basic demographic data</h4><br />
                             <label>Date of birth:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDobDateChange} /> <br /><br />

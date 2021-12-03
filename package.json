@@ -1,6 +1,6 @@
 {
     "name": "optimise",
-    "version": "1.16.1",
+    "version": "1.19.5",
     "description": "Optimise:MS",
     "keywords": [
         "ms"
@@ -28,7 +28,7 @@
         "yarn": "^1.10.0"
     },
     "scripts": {
-        "build": "lerna run build --scope optimise-core --scope optimise-docker --scope optimise-electron",
+        "build": "lerna run build --concurrency 1 --scope optimise-core --scope optimise-docker --scope optimise-electron",
         "preelectron": "lerna run build --concurrency 1 --scope optimise-core --scope optimise-electron --stream",
         "electron": "lerna run electron --scope optimise-electron",
         "lint": "echo Put your favorite linter here.",
@@ -41,6 +41,8 @@
         "test": "lerna run test --stream"
     },
     "devDependencies": {
-        "lerna": "3.21.0"
-    }
+        "lerna": "4.0.0",
+        "typescript": "4.4.4"
+    },
+    "dependencies": {}
 }

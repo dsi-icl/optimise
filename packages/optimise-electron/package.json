@@ -1,7 +1,7 @@
 {
     "name": "optimise-electron",
     "productName": "Optimise MS Desktop",
-    "version": "0.0.1",
+    "version": "1.19.5",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
         "research",
@@ -24,7 +24,7 @@
         "build:dev:noui": "rimraf -r dist && webpack --config config/webpack.dev.js",
         "electron": "yarn run package",
         "postinstall": "electron-builder install-app-deps",
-        "package": "electron-builder -p never .",
+        "package": "electron-builder -p never",
         "prepublish": "yarn build",
         "publish": "electron-builder -p onTagOrDraft .",
         "test:autoupdate": "node ./autoupdate.test.js",
@@ -116,21 +116,21 @@
         }
     },
     "dependencies": {
-        "electron-log": "4.1.2",
-        "electron-updater": "4.3.1",
+        "electron-log": "4.4.1",
+        "electron-updater": "4.3.9",
         "express": "4.17.1",
-        "sqlite3": "4.2.0"
+        "sqlite3": "5.0.2"
     },
     "devDependencies": {
-        "@babel/core": "7.9.6",
-        "babel-loader": "8.1.0",
-        "copy-webpack-plugin": "6.0.1",
-        "electron": "9.0.0",
-        "electron-builder": "22.6.1",
+        "@babel/core": "7.16.0",
+        "babel-loader": "8.2.3",
+        "copy-webpack-plugin": "6.4.1",
+        "electron": "15.3.2",
+        "electron-builder": "22.13.1",
         "electron-reload": "1.5.0",
-        "html-webpack-plugin": "4.3.0",
-        "webpack": "4.43.0",
-        "webpack-command": "0.5.0",
-        "webpack-merge": "4.2.2"
+        "html-webpack-plugin": "4.5.2",
+        "webpack": "4.46.0",
+        "webpack-command": "0.5.1",
+        "webpack-merge": "5.8.0"
     }
 }

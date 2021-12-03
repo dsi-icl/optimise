@@ -1,4 +1,4 @@
-export default {
+export const listOfActions = {
 
     login: {
         LOGIN_REQUESTED: 'LOGIN_REQUESTED',
@@ -121,3 +121,5 @@ export default {
         DISPLAY_FOLLOWUP_VISIT_FRONTPAGE: 'DISPLAY_FOLLOWUP_VISIT_FRONTPAGE'
     }
 };
+
+export default listOfActions;

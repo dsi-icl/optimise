@@ -1,0 +1,17 @@
+[
+    {
+        "id": 78,
+        "definition": "Stable - No new lesions reported",
+        "idname": "Stable Result:Stable - No new lesions reported",
+        "section": null,
+        "subsection": null,
+        "type": 5,
+        "unit": null,
+        "module": "MS",
+        "permittedValues": null,
+        "labels": null,
+        "referenceType": 3,
+        "laterality": null,
+        "cdiscName": null
+    }
+]
