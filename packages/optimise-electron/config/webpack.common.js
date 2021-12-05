@@ -30,7 +30,7 @@ module.exports = {
             patterns: [
                 {
                     force: true, context: '../optimise-ui/build', from: '**', to: '.', globOptions: {
-                        ignore: ['*html']
+                        ignore: ['**/index.html']
                     }
                 },
                 { force: true, context: '../optimise-core/build', from: '**', to: '.' },
