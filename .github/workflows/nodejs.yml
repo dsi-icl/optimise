@@ -42,6 +42,11 @@ jobs:
       run: yarn run electron
       env:
         CI: true
+        
+    - name: Lint check  
+      run: yarn run lint
+      env:
+        CI: true
 
     - name: Testing  
       run: yarn test
