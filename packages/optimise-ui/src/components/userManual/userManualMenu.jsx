@@ -29,17 +29,17 @@ export default class UserManual extends Component {
 
     render() {
         const { hash } = this.state;
-        return (
-            <>
-                <div className={style.ariane}>
-                    <h2>Table of Content</h2>
-                </div>
-                <div className={`${style.panel} ${style.right}`}>
-                    <ReactMarkdown source={markup} renderers={{
-                        link: ({ href, children }) => <a href={href} className={hash === href ? style.active : ''}>{children}</a>
-                    }} />
-                </div>
-            </>
-        );
+        return <>
+            <div className={style.ariane}>
+                <h2>Table of Content</h2>
+            </div>
+            <div className={`${style.panel} ${style.right}`}>
+                <ReactMarkdown components={{
+                    a: ({ href, children }) => <a href={href} className={hash === href ? style.active : ''}>{children}</a>
+                }}>
+                    {markup}
+                </ReactMarkdown>
+            </div>
+        </>;
     }
 }

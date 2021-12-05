@@ -1,4 +1,6 @@
-import { tableMove } from '../utils/db-mover';
+import {
+    tableMove
+} from '../utils/db-mover';
 import testFields from './defaults_v1/testFields.json';
 import v9_testFields from './defaults_v9/testFields.json';
 import v10_testFields from './defaults_v10/new_test_units.json';
@@ -33,6 +35,11 @@ export default async (dbcon, version) => {
             break;
         case 10:
             await dbcon()(TABLE_NAME).insert(v10_testFields);
+            break;
+        case 13:
+            await dbcon()(TABLE_NAME).where('definition', 'Indication').update({
+                permittedValues: 'Diagnosis,Monitoring,Relapse,Other Clinical Events,Baseline Scan'
+            });
             break;
         default:
             break;
