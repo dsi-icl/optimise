@@ -10,7 +10,7 @@ module.exports = {
         {
             server: ['webpack/hot/poll?1000', './src/index']
         } : {
-            core: ['./src/optimiseServer']
+            core: ['./src/optimiseAssistServer']
         }
     ),
     target: 'node',
@@ -20,7 +20,7 @@ module.exports = {
         // }),
         {
             express: 'commonjs express',
-            sqlite3: 'commonjs sqlite3',
+            mongodb: 'commonjs mongodb',
             bufferutil: 'commonjs bufferutil',
             'utf-8-validate': 'commonjs utf-8-validate'
         }],
@@ -43,11 +43,6 @@ module.exports = {
         new StartServerPlugin('server.js'),
         new webpack.HotModuleReplacementPlugin()
     ] : []).concat([
-        new webpack.NormalModuleReplacementPlugin(/pg-connection-string/, `${__dirname}/src/utils/noop.js`),
-        new webpack.NormalModuleReplacementPlugin(/node-pre-gyp/, `${__dirname}/src/utils/noop.js`),
-        new webpack.NormalModuleReplacementPlugin(/\.\.\/migrate/, `${__dirname}/src/utils/noop.js`),
-        new webpack.NormalModuleReplacementPlugin(/\.\.\/seed/, `${__dirname}/src/utils/noop.js`),
-        new webpack.IgnorePlugin({ resourceRegExp: new RegExp('^(.*mssql.*|.*mariasql|.*oracle.*|.*mysql.*|.*pg.*|.*postgres.*|.*redshift.*|node-pre-gyp|tedious)$') }),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
@@ -58,11 +53,8 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'build'),
         filename: 'server.js',
-        library: process.env.NODE_ENV === 'development' ? undefined : 'optimise-core',
+        library: process.env.NODE_ENV === 'development' ? undefined : 'optimise-remote-control',
         libraryTarget: process.env.NODE_ENV === 'development' ? undefined : 'umd',
         umdNamedDefine: process.env.NODE_ENV === 'development' ? undefined : true
-    },
-    stats: {
-        errorDetails: true
     }
 };
