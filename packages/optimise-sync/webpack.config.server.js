@@ -13,7 +13,6 @@ module.exports = {
             core: ['./src/optimiseSyncServer']
         }
     ),
-    watch: process.env.NODE_ENV === 'development' ? true : false,
     target: 'node',
     externals: [
         //     nodeExternals({
@@ -40,7 +39,6 @@ module.exports = {
     },
     plugins: (process.env.NODE_ENV === 'development' ? [
         new StartServerPlugin('server.js'),
-        new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ] : []).concat([
         new webpack.NoEmitOnErrorsPlugin(),
@@ -56,5 +54,8 @@ module.exports = {
         library: process.env.NODE_ENV === 'development' ? undefined : 'optimise-sync',
         libraryTarget: process.env.NODE_ENV === 'development' ? undefined : 'umd',
         umdNamedDefine: process.env.NODE_ENV === 'development' ? undefined : true
+    },
+    stats: {
+        errorDetails: true
     }
 };
