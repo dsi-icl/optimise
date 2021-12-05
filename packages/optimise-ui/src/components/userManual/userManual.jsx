@@ -12,26 +12,26 @@ export default class UserManual extends Component {
     }
 
     render() {
-        return (
-            <>
-                <div className={style.ariane}>
-                    <Helmet title='User Manual' />
-                    <h2>User Manual</h2>
-                </div>
-                <div className={style.panel}>
-                    <ReactMarkdown source={markup} escapeHtml={false} renderers={{
-                        image: ({ alt, src }) => <ImageZoom
-                            image={{
-                                src,
-                                alt,
-                            }}
-                            zoomImage={{
-                                className: style.bordered
-                            }}
-                        />
-                    }} />
-                </div>
-            </>
-        );
+        return <>
+            <div className={style.ariane}>
+                <Helmet title='User Manual' />
+                <h2>User Manual</h2>
+            </div>
+            <div className={style.panel}>
+                <ReactMarkdown escapeHtml={false} components={{
+                    img: ({ alt, src }) => <ImageZoom
+                        image={{
+                            src,
+                            alt,
+                        }}
+                        zoomImage={{
+                            className: style.bordered
+                        }}
+                    />
+                }}>
+                    {markup}
+                </ReactMarkdown>
+            </div>
+        </>;
     }
 }
