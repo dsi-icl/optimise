@@ -1,4 +1,6 @@
-import { tableMove } from '../utils/db-mover';
+import {
+    tableMove
+} from '../utils/db-mover';
 import testFields from './defaults_v1/testFields.json';
 import v9_testFields from './defaults_v9/testFields.json';
 import v10_testFields from './defaults_v10/new_test_units.json';
@@ -38,6 +40,9 @@ export default async (dbcon, version) => {
             await dbcon()(TABLE_NAME)
                 .where('idname','Gd enhancing lesions:result')
                 .update({ permittedValues: 'None,Single,Multiple,Brain,Brain C Spine,Brain C & T Spine' });
+            await dbcon()(TABLE_NAME).where('definition', 'Indication').update({
+                permittedValues: 'Diagnosis,Monitoring,Relapse,Other Clinical Events,Baseline Scan'
+            });
             break;
         default:
             break;
