@@ -30,7 +30,7 @@
         "connect-session-knex": "2.1.1",
         "csurf": "1.11.0",
         "csv-parse": "5.0.3",
-        "express": "4.17.1",
+        "express": "4.17.2",
         "express-session": "1.17.2",
         "express-zip": "3.0.0",
         "form-data": "4.0.0",
