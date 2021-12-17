@@ -33,7 +33,10 @@ export default async (dbcon, version) => {
             break;
         case 13:
             await dbcon()(TABLE_NAME).insert([
-                { name: 'Siponimod', module: 'Disease Modifying' }
+                { name: 'Siponimod', module: 'Disease Modifying' }]);
+            await dbcon()(TABLE_NAME).where({ name: 'Plasma Exchange' }).del();
+            await dbcon()(TABLE_NAME).insert([
+                { name: 'Plasma Exchange', module: 'Disease Modifying' }
             ]);
             break;
         default:
