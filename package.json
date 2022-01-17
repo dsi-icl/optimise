@@ -1,6 +1,6 @@
 {
     "name": "optimise",
-    "version": "1.19.5",
+    "version": "2.0.0",
     "description": "Optimise:MS",
     "keywords": [
         "ms"
@@ -37,12 +37,12 @@
         "publish": "lerna run publish --scope optimise-docker --scope optimise-electron",
         "postinstall": "yarn run bootstrap",
         "bootstrap": "lerna bootstrap",
-        "start": "lerna run start --scope optimise-core --scope optimise-sync --scope optimise-ui --stream",
+        "start": "lerna run start --scope optimise-core --scope optimise-sync --scope optimise-remote-control --scope optimise-ui --stream",
         "test": "lerna run test --stream"
     },
     "devDependencies": {
         "lerna": "4.0.0",
-        "typescript": "4.4.4"
+        "typescript": "4.5.4"
     },
     "dependencies": {}
 }
