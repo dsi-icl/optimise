@@ -208,7 +208,8 @@ let createWindow = () => {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            enableRemoteModule: true
+            enableRemoteModule: true,
+            preload: path.join(__dirname, 'preload.js')
         }
     });
     mainWindow.once('ready-to-show', () => {
