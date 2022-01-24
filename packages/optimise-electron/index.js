@@ -4,13 +4,25 @@ const fs = require('fs');
 const path = require('path');
 const { Readable } = require('stream')
 const express = require('express');
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const log = require('electron-log');
 const { autoUpdater } = require('electron-updater');
 const optimiseCore = require('./dist/server').default;
+const packageInfo = require('./package.json');
+const { menu } = require('./src/menu');
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
+
+// Setup about panel 
+app.setAboutPanelOptions({ 
+    applicationName: packageInfo.productName, 
+    applicationVersion: packageInfo.version 
+});
+
+console.log("menu", menu)
+// Setup Menu
+Menu.setApplicationMenu(menu);
 
 const devMode = /electron/.test(path.basename(app.getPath('exe'), '.exe'));
 if (devMode) {
@@ -257,6 +269,11 @@ autoUpdater.on('checking-for-update', () => {
 })
 
 autoUpdater.on('update-available', (info) => {
+    // Prompt the user if an update is available!
+    dialog.showMessageBox({
+        message:
+            "There is an update available! It is being downloaded...",
+    });
     sendUpdateStatusToWindow({
         ready: false,
         text: 'There is an update available! It is being downloaded...'
@@ -286,6 +303,22 @@ autoUpdater.on('download-progress', (info) => {
 })
 
 autoUpdater.on('update-downloaded', (info) => {
+    // Promot the user to update, if update is available 
+    let options = {
+        buttons: ["Yes", "No"],
+        message: "Do you want to update the software now?",
+    };
+
+    let response = dialog.showMessageBoxSync(options);
+    if (response.response === 0) {
+        setImmediate(() => {
+            app.removeAllListeners("window-all-closed");
+
+            // Silent update & force restart works only for windows
+            optimise_server.stop().then(() => autoUpdater.quitAndInstall(true, true));
+        });
+    }
+
     sendUpdateStatusToWindow({
         ready: true,
         text: 'The update is ready! Click the button below to install.'
