@@ -339,17 +339,18 @@ autoUpdater.on("update-downloaded", (info) => {
         message: "Do you want to update the software now?",
     };
 
-    let response = dialog.showMessageBoxSync(options);
-    if (response.response === 0) {
-        setImmediate(() => {
-            app.removeAllListeners("window-all-closed");
+    dialog.showMessageBox(options).then((res) => {
+        if (res.response === 0) {
+            setImmediate(() => {
+                app.removeAllListeners("window-all-closed");
 
-            // Silent update & force restart works only for windows
-            optimise_server
-                .stop()
-                .then(() => autoUpdater.quitAndInstall(true, true));
-        });
-    }
+                // Silent update & force restart works only for windows
+                optimise_server
+                    .stop()
+                    .then(() => autoUpdater.quitAndInstall(true, true));
+            });
+        }
+    });
 
     sendUpdateStatusToWindow({
         ready: true,
