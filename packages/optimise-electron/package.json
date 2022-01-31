@@ -124,8 +124,8 @@
     "devDependencies": {
         "@babel/core": "7.16.12",
         "babel-loader": "8.2.3",
-        "copy-webpack-plugin": "10.2.1",
-        "electron": "16.0.7",
+        "copy-webpack-plugin": "10.2.4",
+        "electron": "16.0.8",
         "electron-builder": "22.14.5",
         "electron-reload": "1.5.0",
         "html-webpack-plugin": "5.5.0",
