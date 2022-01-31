@@ -25,6 +25,8 @@
     ],
     "license": "MIT",
     "dependencies": {
+        "@vscode/sqlite3": "5.0.7",
+        "better-sqlite3": "7.5.0",
         "body-parser": "1.19.1",
         "bufferutil": "4.0.6",
         "connect-session-knex": "2.1.1",
@@ -41,7 +43,6 @@
         "papaparse": "5.3.1",
         "passport": "0.5.2",
         "path": "0.12.7",
-        "sqlite3": "5.0.2",
         "swagger-ui-express": "4.3.0",
         "utf-8-validate": "5.0.8",
         "uuid": "8.3.2",
