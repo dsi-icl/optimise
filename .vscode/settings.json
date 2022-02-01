@@ -1,0 +1,11 @@
+{
+    "eslint.enable": true,
+    "eslint.validate": ["javascript", "javascriptreact"],
+    "eslint.packageManager": "yarn",
+    "eslint.run": "onType",
+    "eslint.alwaysShowStatus": true,
+    "editor.formatOnSave": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}
