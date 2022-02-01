@@ -22,9 +22,10 @@
         "test": "echo \"No tests\""
     },
     "dependencies": {
+        "@vscode/sqlite3": "5.0.7",
+        "better-sqlite3": "7.5.0",
         "compression": "1.7.4",
         "express": "4.17.2",
-        "express-rate-limit": "6.2.0",
-        "sqlite3": "5.0.2"
+        "express-rate-limit": "6.2.0"
     }
 }

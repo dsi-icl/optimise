@@ -11,7 +11,7 @@ module.exports = {
     },
 
     externals: {
-        sqlite3: 'commonjs sqlite3',
+        '@vscode/sqlite3': 'commonjs @vscode/sqlite3',
     },
 
     module: {
