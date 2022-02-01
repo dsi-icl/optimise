@@ -1,22 +1,31 @@
 {
-	"name": "optimise-remote-control",
-	"version": "1.0.0",
-	"description": "",
-	"main": "src/index.js",
-	"scripts": {
-		"start": "node ./src/index.js"
-	},
-	"author": {
-		"email": "c.sou16@imperial.ac.uk",
-		"name": "Chon Sou"
-	},
-	"license": "MIT",
-	"dependencies": {
-		"bufferutil": "4.0.6",
-		"utf-8-validate": "5.0.8",
-		"ws": "8.4.2"
-	},
-	"devDependencies": {
-		"eslint-plugin-promise": "6.0.0"
-	}
+    "name": "optimise-remote-control",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "node ./src/index.js"
+    },
+    "author": {
+        "email": "c.sou16@imperial.ac.uk",
+        "name": "Chon Sou"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "bufferutil": "4.0.6",
+        "utf-8-validate": "5.0.8",
+        "ws": "8.4.2"
+    },
+    "devDependencies": {
+        "@babel/core": "7.16.12",
+        "@babel/eslint-parser": "7.16.5",
+        "@babel/eslint-plugin": "7.16.5",
+        "@babel/plugin-syntax-dynamic-import": "7.8.3",
+        "@babel/preset-env": "7.16.11",
+        "babel-jest": "26.6.3",
+        "babel-loader": "8.2.3",
+        "babel-plugin-require-context-hook": "1.0.0",
+        "eslint": "8.7.0",
+        "eslint-plugin-promise": "6.0.0"
+    }
 }
