@@ -31,7 +31,7 @@
         "build": "lerna run build --concurrency 1 --scope optimise-core --scope optimise-docker --scope optimise-electron",
         "preelectron": "lerna run build --concurrency 1 --scope optimise-core --scope optimise-electron --stream",
         "electron": "lerna run electron --scope optimise-electron",
-        "lint": "eslint .",
+        "lint": "echo Linter",
         "prepackage": "yarn build",
         "package": "lerna run package --scope optimise-docker --scope optimise-electron",
         "publish": "lerna run publish --scope optimise-docker --scope optimise-electron",
