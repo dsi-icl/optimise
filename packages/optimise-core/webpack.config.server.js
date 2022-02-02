@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 // const nodeExternals = require('webpack-node-externals');
-const StartServerPlugin = require('start-server-webpack-plugin');
+const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 
 module.exports = {
     mode: process.env.NODE_ENV || 'production',
@@ -40,7 +40,9 @@ module.exports = {
         ]
     },
     plugins: (process.env.NODE_ENV === 'development' ? [
-        new StartServerPlugin('server.js'),
+        new RunScriptWebpackPlugin({
+            name: 'server.js',
+        }),
         new webpack.HotModuleReplacementPlugin()
     ] : []).concat([
         new webpack.NormalModuleReplacementPlugin(/pg-connection-string/, `${__dirname}/src/utils/noop.js`),
