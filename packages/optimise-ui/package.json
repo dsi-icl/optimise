@@ -63,7 +63,7 @@
         "http-proxy-middleware": "2.0.3",
         "markdown-image-loader": "2.0.1",
         "prop-types": "15.8.1",
-        "react-app-rewired": "2.1.11",
+        "react-app-rewired": "2.2.1",
         "react-scripts": "3.4.4",
         "webpack": "5.69.0"
     },
