@@ -125,7 +125,7 @@
         "@babel/core": "7.17.5",
         "babel-loader": "8.2.3",
         "copy-webpack-plugin": "10.2.4",
-        "electron": "17.0.1",
+        "electron": "17.1.0",
         "electron-builder": "22.14.13",
         "electron-reload": "1.5.0",
         "html-webpack-plugin": "5.5.0",
