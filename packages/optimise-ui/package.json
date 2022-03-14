@@ -43,9 +43,9 @@
         "redux-thunk": "2.4.1"
     },
     "devDependencies": {
-        "@babel/core": "7.17.5",
+        "@babel/core": "7.17.7",
         "@babel/eslint-parser": "7.17.0",
-        "@babel/eslint-plugin": "7.16.5",
+        "@babel/eslint-plugin": "7.17.7",
         "@babel/helper-builder-react-jsx": "7.16.7",
         "@babel/helper-builder-react-jsx-experimental": "7.12.11",
         "@babel/plugin-proposal-decorators": "7.17.2",
