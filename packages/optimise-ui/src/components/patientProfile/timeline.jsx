@@ -23,13 +23,15 @@ export class TimelineBox extends Component {   //unfinsihed
         const allTestDates = this.props.data.tests.map(el => el.actualOccurredDate || el.expectedOccurDate);
         const allTreatmentDates = this.props.data.treatments.map(el => el.startDate);
         const allCEDates = [];
+        const allPregnancyDates = this.props.data.pregnancy.map(el => el.startDate);
+
         this.props.data.clinicalEvents.forEach((el) => {
             allCEDates.push(el.dateStartDate);
             if (el.endDate) {
                 allCEDates.push(el.endDate);
             }
         });
-        const allDates = [...allVisitDates, ...allTestDates, ...allTreatmentDates, ...allCEDates].map(el => parseInt(el));
+        const allDates = [...allVisitDates, ...allTestDates, ...allTreatmentDates, ...allCEDates, ...allPregnancyDates].map(el => parseInt(el));
         allDates.sort((a, b) => a - b);
         let maxDatePoint = allDates[allDates.length - 1] - allDates[0];
 
@@ -132,6 +134,7 @@ export class TimelineBox extends Component {   //unfinsihed
             let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
             let end = Math.ceil((endDate - allDates[0]) * 100 / maxDatePoint);
             end = end > 100 ? 100 : end;
+        
             start = start >= end ? end - 1 : start;
             return (
                 <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '7' }} title={new Date(startDate).toDateString()} key={`${CE.id}`} href={`#clinicalEvent-${CE.id}`}>
@@ -139,6 +142,23 @@ export class TimelineBox extends Component {   //unfinsihed
                 </a>
             );
         };
+
+        const mappingPregnancy = pregnancy => {
+            const startDate = parseInt(pregnancy.startDate, 10);
+            const endDate = parseInt(pregnancy.outcomeDate || moment().valueOf(), 10);
+
+            let start = Math.floor((startDate - allDates[0]) * 100 / maxDatePoint);
+            let end = Math.ceil((endDate - allDates[0]) * 100 / maxDatePoint);
+           
+            end = end > 100 ? 100 : end;
+            start = start >= end ? end - 1 : start;
+            if(!pregnancy.outcomeDate) end = start + 1;
+            return (
+                <a style={{ gridColumn: `${start + 3}/${end + 3}`, gridRow: '11' }} title={new Date(startDate).toDateString()} key={`${pregnancy.id}`} href={`#pregnancy-${pregnancy.id}`}>
+                    <div className={style.pregnancyBox}>-</div>
+                </a>
+            )
+        }
 
         return (
             <PatientProfileSectionScaffold sectionName='Timeline' actions={(
@@ -163,15 +183,19 @@ export class TimelineBox extends Component {   //unfinsihed
                         EDSS
                     </div>
                     <div style={{ gridColumn: '1/2', gridRow: '11', overflow: 'hidden' }}>
+                       Pregnancy
+                    </div>
+                    <div style={{ gridColumn: '1/2', gridRow: '13', overflow: 'hidden' }}>
 
                     </div>
                     {this.props.data.treatments.map(mappingMedFunction)}
                     {this.props.data.visits.filter(el => el.type === 1).map(mappingVisitFunction)}
                     {this.props.data.tests.map(mappingTestFunction)}
                     {this.props.data.clinicalEvents.map(mappingCEFunction)}
+                    {this.props.data.pregnancy.map(mappingPregnancy)}
                     <table style={{
                         gridColumn: '3/103',
-                        gridRow: '11'
+                        gridRow: '13'
                     }} className={style.miniTimelineDateLine}>
                         <tbody>
                             <tr>

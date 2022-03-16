@@ -1,6 +1,7 @@
 import dbcon from '../utils/db-connection';
 import { PregnancyCore } from '../core/demographic';
 import DiagnosisCore from '../core/patientDiagnosis';
+import Pregnancy from '../controllers/pregnancyController';
 
 class SelectorUtils {
     getVisitsWithoutData(patientId, deleted) {
@@ -219,11 +220,25 @@ class SelectorUtils {
         });
     }
 
-    getPregnancy(patientId, deleted) {
+    async getPregnancy(patientId, deleted) {
         let whereObj = { 'patient': patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        return PregnancyCore.getPregnancy(whereObj).then((result) => ({ 'pregnancy': result }), (__unused__error) => ({ 'pregnancy': [] }));
+ 
+        try{
+            const pregnancies = await PregnancyCore.getPregnancy(whereObj);
+
+            for (let item of pregnancies) {
+                const data = await Pregnancy.getPregnancyDataById({
+                    pregnancyId: item.id,
+                });
+                item.dataEntries = data;
+            }
+            return { 'pregnancy': pregnancies };
+        }
+        catch (error) {
+            return { 'pregnancy': [] };
+        }
     }
 
     _getVisitData(visitId, deleted) {

@@ -1,17 +1,25 @@
+import { tableCopyBack } from '../utils/db-mover';
+
 export const TABLE_NAME = 'PATIENT_PREGNANCY_DATA';
 export const PRIORITY = 3;
 export default async (dbcon, version) => {
     switch (version) {
-        case 12:
+        case 15:
             await dbcon().schema.createTable(TABLE_NAME, (table) => {
                 table.increments('id').primary();
-                table.integer('pregnancyId').notNullable().references('id').inTable('PATIENT_PREGNANCY').onDelete('CASCADE');
+                table
+                    .integer('pregnancyId')
+                    .notNullable()
+                    .references('id')
+                    .inTable('PATIENT_PREGNANCY')
+                    .onDelete('CASCADE');
                 table.text('date').notNullable();
                 table.text('deleted').notNullable();
                 table.text('dataType').notNullable(); // 'baseline', 'followup', 'term'
 
                 //baseline
                 table.text('LMP');
+                table.text('maternalBMI');
                 table.text('maternalAgeAtLMP');
                 table.text('EDD'); // both followup and baseline
                 table.text('ART');
@@ -40,7 +48,10 @@ export default async (dbcon, version) => {
                 table.text('admission60');
                 table.text('developmentalOutcome');
 
-                table.unique(['pregnancyId', 'date', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
+                table.unique(
+                    ['pregnancyId', 'date', 'deleted'],
+                    `UNIQUE_${Date.now()}_${TABLE_NAME}`
+                );
             });
             await tableCopyBack(TABLE_NAME);
             break;

@@ -684,3 +684,12 @@ div.timelineCEBlack {
     padding: 0.5rem;
     background-color: #e4e4e4;
 }
+
+div.pregnancyBox {
+    background-color: rgb(153, 202, 120);
+    color: rgb(153, 202, 120);
+}
+
+.pregnancyBox {
+    fill: rgb(153, 202, 120);
+}
