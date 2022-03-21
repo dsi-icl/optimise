@@ -15,7 +15,7 @@ import pregstyle from './pregnancy.module.css';
 import { PickDate } from '../createMedicalElements/datepicker';
 import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
-
+import { apiHelper } from '../../redux/fetchHelper';
 @withRouter
 @connect((state) => ({
     outcomeHash: state.availableFields.pregnancyOutcomes_Hash[0],
@@ -89,8 +89,8 @@ export class PregnancyList extends Component {
         //        </PatientProfileSectionScaffold>
         //    );
         //}
-        const data = examplePregnancyData;
-        // const data = this.props.data.pregnancy;
+        // const data = examplePregnancyData;
+        const data = this.props.data.pregnancy;
 
         return (
             <>
@@ -163,13 +163,13 @@ export class PregnancyList extends Component {
     }
 }
 
+@withRouter
 class OnePregnancy extends Component {
     constructor() {
         super();
         this.state = {
             expanded: false,
-            addNewEntry_date: moment(),
-            addNewEntry_postpartum: false,
+            type: 'baseline',
         };
         this._handleDateChange = this._handleDateChange.bind(this);
     }
@@ -179,6 +179,23 @@ class OnePregnancy extends Component {
             addNewEntry_date: date,
         });
     }
+
+    handleChange = (e) => {
+        this.setState({ type: e.target.value });
+    };
+
+    handleClick = (pregnancyId) => {
+        const { history } = this.props;
+        const patientId = this.props.match.params.patientId;
+        const { type } = this.state;
+        let url = `/patientProfile/${patientId}/pregnancies/add/${type}/${pregnancyId}`;
+
+        if (this.props.renderedInFrontPage)
+            url = `/patientProfile/${patientId}/visitFrontPage/${patientId}/page/10/add/${type}?yesPages=foo,10`;
+
+        history.push(url);
+        this.setState({ expanded: false });
+    };
 
     render() {
         const { data } = this.props;
@@ -197,35 +214,27 @@ class OnePregnancy extends Component {
                 {this.state.expanded ? (
                     <>
                         <div className={pregstyle.entry_div}>
-                            <label>
+                            {/* <label>
                                 Enter new entry date:{' '}
                                 <PickDate
                                     startDate={this.state.LMP}
                                     handleChange={this._handleDateChange}
                                 />
-                            </label>{' '}
-                            <br />
-                            <br />
-                            <label>
-                                Postpartum record:{' '}
-                                <input
-                                    type="checkbox"
-                                    checked={this.state.addNewEntry_postpartum}
-                                    onChange={(e) =>
-                                        this.setState({
-                                            addNewEntry_postpartum:
-                                                e.target.checked,
-                                        })
-                                    }
-                                />
-                            </label>{' '}
+                            </label> */}
+
+                            <label>Record type:</label>
+                            <select
+                                value={this.state.type}
+                                onChange={this.handleChange}
+                            >
+                                <option value="baseline">Baseline</option>
+                                <option value="followup">Followup</option>
+                                <option value="term">Postpartum</option>
+                            </select>
                             <br />
                             <br />
                             <div
-                                onClick={() => {
-                                    addEntryToPregnancy(data.id);
-                                    this.forceUpdate();
-                                }}
+                                onClick={() => this.handleClick(data.id)}
                                 className={
                                     pregstyle.add_new_entry_button +
                                     ' ' +
@@ -314,6 +323,7 @@ class OneImage extends Component {
     }
 }
 
+@withRouter
 class OneDataEntryBaseline extends Component {
     constructor() {
         super();
@@ -322,8 +332,19 @@ class OneDataEntryBaseline extends Component {
         };
     }
 
+    handleDelete = async (dataId) => {
+        try {
+            await apiHelper(`/pregnancy/${dataId}`, {
+                method: 'DELETE',
+            });
+            const patientId = this.props.match.params.patientId;
+            store.dispatch(getPatientProfileById(patientId));
+        } catch (error) {}
+    };
+
     render() {
         const { data } = this.props;
+        const patientId = this.props.match.params.patientId;
         return this.state.expanded ? (
             <div
                 className={pregstyle.expanded_data + ' ' + pregstyle.entry_div}
@@ -331,8 +352,8 @@ class OneDataEntryBaseline extends Component {
                 <Link
                     to={
                         this.props.renderedInFrontPage
-                            ? `/patientProfile/fdsa/visitFrontPage/0/page/10/edit/${data.id}`
-                            : `editPregnancyDataEntry/${data.id}`
+                            ? `/patientProfile/${patientId}/visitFrontPage/${patientId}/page/10/edit/${data.id}`
+                            : `/patientProfile/${patientId}/pregnancies/edit/baseline/${data.pregnancyId}/${data.id}`
                     }
                 >
                     Edit this baseline record
@@ -348,6 +369,18 @@ class OneDataEntryBaseline extends Component {
                     }}
                 >
                     Hide
+                </span>
+                <span
+                    onClick={() => {
+                        this.handleDelete(data.id);
+                    }}
+                    style={{
+                        color: 'red',
+                        marginLeft: '1rem',
+                        cursor: 'pointer',
+                    }}
+                >
+                    Delete
                 </span>
                 <br />
                 <br />
@@ -382,22 +415,22 @@ class OneDataEntryBaseline extends Component {
                 <label>Illicit drug use:</label>{' '}
                 <span>{data.illicitDrugUse}</span>
                 <br />
-                {data.imaging?.map((el) => (
+                {/* {data.imaging?.map((el) => (
                     <OneImage key={el.id} data={el} />
-                ))}
+                ))} */}
             </div>
         ) : (
             <div
                 className={pregstyle.expand_button + ' ' + pregstyle.entry_div}
                 onClick={() => this.setState({ expanded: true })}
             >
-                <b>BASELINE RECORD</b>{' '}
-                {new Date(parseInt(data.date)).toDateString()}
+                <b>BASELINE RECORD</b> {new Date(data.date).toDateString()}
             </div>
         );
     }
 }
 
+@withRouter
 class OneDataEntryFollowup extends Component {
     constructor() {
         super();
@@ -406,14 +439,29 @@ class OneDataEntryFollowup extends Component {
         };
     }
 
+    handleDelete = async (dataId) => {
+        try {
+            await apiHelper(`/pregnancy/${dataId}`, {
+                method: 'DELETE',
+            });
+            const patientId = this.props.match.params.patientId;
+            store.dispatch(getPatientProfileById(patientId));
+        } catch (error) {}
+    };
+
     render() {
         const { data } = this.props;
+        const patientId = this.props.match.params.patientId;
         return this.state.expanded ? (
             <div
                 className={pregstyle.expanded_data + ' ' + pregstyle.entry_div}
             >
                 <Link
-                    to={`/patientProfile/fdsa/editPregnancyDataEntry/${data.id}`}
+                    to={
+                        this.props.renderedInFrontPage
+                            ? `/patientProfile/${patientId}/visitFrontPage/${patientId}/page/10/edit/${data.id}`
+                            : `/patientProfile/${patientId}/pregnancies/edit/followup/${data.pregnancyId}/${data.id}`
+                    }
                 >
                     Edit this followup record
                 </Link>
@@ -428,6 +476,18 @@ class OneDataEntryFollowup extends Component {
                     }}
                 >
                     Hide
+                </span>
+                <span
+                    onClick={() => {
+                        this.handleDelete(data.id);
+                    }}
+                    style={{
+                        color: 'red',
+                        marginLeft: '1rem',
+                        cursor: 'pointer',
+                    }}
+                >
+                    Delete
                 </span>
                 <br />
                 <br />
@@ -451,7 +511,7 @@ class OneDataEntryFollowup extends Component {
                 <label>Illicit drug use:</label>{' '}
                 <span>{data.illicitDrugUse}</span>
                 <br />
-                {data.imaging.map((el) => (
+                {data.imagingData.map((el) => (
                     <OneImage key={el.id} data={el} />
                 ))}
             </div>
@@ -460,8 +520,7 @@ class OneDataEntryFollowup extends Component {
                 className={pregstyle.expand_button + ' ' + pregstyle.entry_div}
                 onClick={() => this.setState({ expanded: true })}
             >
-                <b>FOLLOWUP RECORD</b>{' '}
-                {new Date(parseInt(data.date)).toDateString()}
+                <b>FOLLOWUP RECORD</b> {new Date(data.date).toDateString()}
             </div>
         );
     }
@@ -474,6 +533,8 @@ class OneDataEntryTerm extends Component {
             expanded: false,
         };
     }
+
+    handleDelete = (id) => {};
 
     render() {
         const { data } = this.props;
@@ -497,6 +558,18 @@ class OneDataEntryTerm extends Component {
                     }}
                 >
                     Hide
+                </span>
+                <span
+                    onClick={() => {
+                        this.handleDelete(data.id);
+                    }}
+                    style={{
+                        color: 'red',
+                        marginLeft: '1rem',
+                        cursor: 'pointer',
+                    }}
+                >
+                    Delete
                 </span>
                 <br />
                 <br />
@@ -562,8 +635,7 @@ class OneDataEntryTerm extends Component {
                 className={pregstyle.expand_button + ' ' + pregstyle.entry_div}
                 onClick={() => this.setState({ expanded: true })}
             >
-                <b>POSTPARTUM RECORD</b>{' '}
-                {new Date(parseInt(data.date)).toDateString()}
+                <b>POSTPARTUM RECORD</b> {new Date(data.date).toDateString()}
             </div>
         );
     }

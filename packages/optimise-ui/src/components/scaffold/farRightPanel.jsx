@@ -28,9 +28,9 @@ export default class FarRightPanel extends Component {
             <Route path='/patientProfile/:patientId/edit/:elementType/:elementId' render={({ match }) => <EditElementRouter match={match} />} />
             <Route path='/patientProfile/:patientId/data/:elementType/:elementId' render={({ match }) => <DataPageRouter match={match} />} />
             <Route path='/patientProfile/:patientId/createVisit' render={({ match }) => <CreateVisit match={match} />} />
-            <Route path='/patientProfile/:patientId/editPregnancyDataEntry/:entryId' render={({ match }) => <EditPregnancies match={match} />} />
+            <Route path='/patientProfile/:patientId/pregnancies/edit/:type/:pregnancyId/:pregnancyDataId' render={({ match }) => <EditPregnancies match={match} />} />
 
-            <Route path='/patientProfile/:patientId/addPregnancyDataEntry/:entryId' render={({ match }) => <EditPregnancies match={match} />} />
+            <Route path='/patientProfile/:patientId/pregnancies/add/:type/:pregnancyId' render={({ match }) => <EditPregnancies match={match} />} />
             <Route path='/patientProfile/:patientId' render={({ match }) => <Section match={match} />} />
             <Route exact path='/searchPatient/from/deletionSuccessful' component={() => <DeletedPatient />} />
             <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatient match={match} />} />

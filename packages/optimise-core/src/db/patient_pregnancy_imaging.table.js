@@ -17,11 +17,6 @@ export default async (dbcon, version) => {
                 table.text('deleted').notNullable();
                 table.text('mode').notNullable();
                 table.text('result').notNullable();
-
-                table.unique(
-                    ['pregnancyDataId', 'date', 'deleted'],
-                    `UNIQUE_${Date.now()}_${TABLE_NAME}`
-                );
             });
             await tableCopyBack(TABLE_NAME);
             break;

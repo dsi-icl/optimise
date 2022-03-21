@@ -9,13 +9,19 @@ const pregnancy = express();
 
 import PregnancyController from '../controllers/pregnancyController';
 
-// Get the pregnancy by patientId
+// Get the pregnancy & pregnancy data by patientId
 pregnancy
     .route('/:patientId')
     .get(PregnancyController.getPatientPregnanciesById);
 
+// Create new pregnancy data record
 pregnancy
-    .route('/:patientId/:pregancyId')
+    .route('/:patientId/:pregnancyId')
     .post(PregnancyController.createPregnancyData);
+
+// Delete pregnancy data record
+pregnancy
+    .route('/:pregnancyDataId')
+    .delete(PregnancyController.deletePregnancyData);
 
 export default pregnancy;

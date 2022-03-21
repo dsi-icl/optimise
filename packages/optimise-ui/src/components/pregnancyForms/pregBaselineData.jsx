@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
-//import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 //import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 //import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from './utils';
 //import Icon from '../icon';
@@ -11,25 +11,26 @@ import { PickDate } from '../createMedicalElements/datepicker';
 import moment from 'moment';
 import style from '../patientProfile/patientProfile.module.css';
 import pregnancy_style from './pregnancy.module.css';
+import { apiHelper } from '../../redux/fetchHelper';
+import { getPatientProfileById } from '../../redux/actions/searchPatient';
+import store from '../../redux/store';
 
-//function mapStateToProps(state) {
-//    return {
-//        fields: state.availableFields,
-//        patientProfile: state.patientProfile
-//    };
-//}
-//
-//@withRouter
-//@connect(mapStateToProps)
+function mapStateToProps(state) {
+    return {
+        patientProfile: state.patientProfile,
+    };
+}
+@connect(mapStateToProps)
+@withRouter
 export class PregnancyBaselineDataForm extends Component {
     constructor() {
         super();
         this.state = {
+            error: false,
             showAddNewImageData: false,
-            addNewImageData_counter: 1,
             addNewImageData_date: moment(),
-            addNewImageData_mode: false,
-            addNewImageData_result: false,
+            addNewImageData_mode: 'uss',
+            addNewImageData_result: 'yes',
             addNewImageData_cache: [],
             LMP: moment(), //last menstrual period
             maternalAgeAtLMP: undefined,
@@ -38,13 +39,44 @@ export class PregnancyBaselineDataForm extends Component {
             ART: 'none', //assisted reproductive technology method
             numOfFoetuses: undefined, //number of foetuses
             folicAcidSuppUsed: 'no', //folic acid supplementation used
-            folicAcidSuppUsedStartDate: moment(), //if so, folic acid supplementation start date
+            folicAcidSuppUsedStartDate: null, //if so, folic acid supplementation start date
             illicitDrugUse: 'no',
             weight: 0,
             height: 0,
         };
         this.originalValues = {};
-        this._handleDateChange = this._handleDateChange.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const isEdit = props.match.path.includes('/edit');
+        if (props.patientProfile?.data?.pregnancy?.length > 0 && isEdit) {
+            const pregnancyId = props.match.params.pregnancyId;
+            const pregnancyDataId = props.match.params.pregnancyDataId;
+
+            const pregnancyData = props.patientProfile.data.pregnancy.find(
+                (pregnancy) => pregnancy.id === Number(pregnancyId)
+            );
+
+            const pregnancyDataToEdit =
+                pregnancyData.dataEntries &&
+                pregnancyData.dataEntries.find(
+                    (data) => data.id === Number(pregnancyDataId)
+                );
+
+            const newState = {};
+
+            Object.keys(pregnancyDataToEdit).forEach((key) => {
+                newState[key] = pregnancyDataToEdit[key];
+            });
+
+            newState.LMP = moment(newState.LMP);
+            newState.EDD = moment(newState.EDD);
+            newState.folicAcidSuppUsedStartDate = moment(
+                newState.folicAcidSuppUsedStartDate
+            );
+
+            return newState;
+        }
     }
 
     calculateBMI = () => {
@@ -59,14 +91,47 @@ export class PregnancyBaselineDataForm extends Component {
         });
     };
 
-    _handleDateChange(date) {
+    _handleDateChangeLMP = (date) => {
         this.setState({
-            startDate: date,
-            error: false,
+            LMP: date,
         });
-    }
+    };
 
-    handleSave = (e) => {
+    _handleDateChangeEDD = (date) => {
+        this.setState({
+            EDD: date,
+        });
+    };
+
+    _handleDateChangeFolicAcid = (date) => {
+        this.setState({
+            folicAcidSuppUsedStartDate: date,
+        });
+    };
+
+    handleSave = async (e) => {
+        const patientId = this.props.match.params.patientId;
+        const pregnancyId = this.props.match.params.pregnancyId;
+
+        const requiredFields = [
+            'LMP',
+            'EDD',
+            'maternalAgeAtLMP',
+            'weight',
+            'height',
+            'ART',
+            'numOfFoetuses',
+            'illicitDrugUse',
+            'folicAcidSuppUsed',
+        ];
+
+        for (let item of requiredFields) {
+            if (!this.state[item]) {
+                this.setState({ error: true });
+                return;
+            }
+        }
+
         const pregnancyData = {
             maternalBMI: this.calculateBMI(),
             LMP: this.state.LMP.toISOString(),
@@ -76,20 +141,37 @@ export class PregnancyBaselineDataForm extends Component {
             numOfFoetuses: this.state.numOfFoetuses,
             folicAcidSuppUsed: this.state.folicAcidSuppUsed,
             folicAcidSuppUsedStartDate:
+                this.state.folicAcidSuppUsedStartDate &&
                 this.state.folicAcidSuppUsedStartDate.toISOString(),
             illicitDrugUse: this.state.illicitDrugUse,
             dataType: 'baseline',
+            weight: this.state.weight,
+            height: this.state.height,
+            imagingData: this.state.addNewImageData_cache,
         };
 
-        console.log(pregnancyData);
+        await apiHelper(`/pregnancy/${patientId}/${pregnancyId}`, {
+            method: 'POST',
+            body: JSON.stringify(pregnancyData),
+        });
+
+        store.dispatch(getPatientProfileById(patientId));
     };
+
+    getPageType = () =>
+        this.props.match.path.includes('/add') ? 'add' : 'edit';
+
+    getHeading = () =>
+        this.getPageType() === 'add'
+            ? 'Add Baseline Data'
+            : 'Edit Baseline Data';
 
     render() {
         return (
             <>
                 {this.props.renderedInFrontPage ? null : (
                     <div className={style.ariane}>
-                        <h2>Edit baseline record</h2>
+                        <h2>{this.getHeading()}</h2>
                     </div>
                 )}
                 <div className={style.panel}>
@@ -97,7 +179,7 @@ export class PregnancyBaselineDataForm extends Component {
                         Date of last menstrual period (LMP):{' '}
                         <PickDate
                             startDate={this.state.LMP}
-                            handleChange={this._handleDateChange}
+                            handleChange={this._handleDateChangeLMP}
                         />
                     </label>
                     <br />
@@ -152,7 +234,7 @@ export class PregnancyBaselineDataForm extends Component {
                         Estimated date of delivery:{' '}
                         <PickDate
                             startDate={this.state.EDD}
-                            handleChange={this._handleDateChange}
+                            handleChange={this._handleDateChangeEDD}
                         />
                     </label>
                     <br />
@@ -160,7 +242,11 @@ export class PregnancyBaselineDataForm extends Component {
                     <label>
                         Assisted Reproductive Technology method:
                         <br />
-                        <select value={this.state.ART}>
+                        <select
+                            onChange={this.handleChange}
+                            name="ART"
+                            value={this.state.ART}
+                        >
                             <option value="none">None</option>
                             <option value="ivf">IVF</option>
                             <option value="iui">IUI</option>
@@ -199,8 +285,12 @@ export class PregnancyBaselineDataForm extends Component {
                             <label>
                                 Folic acid supplementation start date:
                                 <PickDate
-                                    startDate={this.state.EDD}
-                                    handleChange={this._handleDateChange}
+                                    startDate={
+                                        this.state.folicAcidSuppUsedStartDate
+                                    }
+                                    handleChange={
+                                        this._handleDateChangeFolicAcid
+                                    }
                                 />
                             </label>
                             <br />
@@ -264,10 +354,12 @@ export class PregnancyBaselineDataForm extends Component {
                                 <label>
                                     Mode:
                                     <select
-                                        value={this.state.folicAcidSuppUsed}
+                                        onChange={this.handleChange}
+                                        name="addNewImageData_mode"
+                                        value={this.state.addNewImageData_mode}
                                     >
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
+                                        <option value="uss">USS</option>
+                                        <option value="other">Other</option>
                                     </select>
                                 </label>
                                 <br />
@@ -275,7 +367,11 @@ export class PregnancyBaselineDataForm extends Component {
                                 <label>
                                     Result:
                                     <select
-                                        value={this.state.folicAcidSuppUsed}
+                                        onChange={this.handleChange}
+                                        name="addNewImageData_result"
+                                        value={
+                                            this.state.addNewImageData_result
+                                        }
                                     >
                                         <option value="yes">Yes</option>
                                         <option value="no">No</option>
@@ -283,20 +379,24 @@ export class PregnancyBaselineDataForm extends Component {
                                 </label>
                                 <button
                                     onClick={() => {
-                                        this.setState((oldState) => ({
-                                            addNewImageData_cache:
-                                                oldState.addNewImageData_cache.concat(
-                                                    {
-                                                        id: oldState.addNewImageData_counter,
-                                                        date: oldState.addNewImageData_date,
-                                                        mode: oldState.addNewImageData_mode,
-                                                        result: oldState.addNewImageData_result,
-                                                    }
-                                                ),
-                                            addNewImageData_counter:
-                                                oldState.addNewImageData_counter +
-                                                1,
-                                        }));
+                                        const {
+                                            addNewImageData_date,
+                                            addNewImageData_result,
+                                            addNewImageData_cache,
+                                            addNewImageData_mode,
+                                        } = this.state;
+
+                                        this.setState({
+                                            addNewImageData_cache: [
+                                                ...addNewImageData_cache,
+                                                {
+                                                    date: addNewImageData_date,
+                                                    mode: addNewImageData_mode,
+                                                    result: addNewImageData_result,
+                                                },
+                                            ],
+                                            showAddNewImageData: false,
+                                        });
                                     }}
                                 >
                                     Confirm
@@ -324,6 +424,15 @@ export class PregnancyBaselineDataForm extends Component {
                     <br />
                     <br />
                     <button onClick={this.handleSave}>Save</button>
+                    {this.state.error ? (
+                        <>
+                            <div className={style.error}>
+                                None of the fields can be empty!
+                            </div>
+                            <br />
+                            <br />
+                        </>
+                    ) : null}
                 </div>
             </>
         );

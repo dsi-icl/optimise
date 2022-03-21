@@ -20,6 +20,8 @@ export default async (dbcon, version) => {
                 //baseline
                 table.text('LMP');
                 table.text('maternalBMI');
+                table.text('weight');
+                table.text('height');
                 table.text('maternalAgeAtLMP');
                 table.text('EDD'); // both followup and baseline
                 table.text('ART');
@@ -48,10 +50,7 @@ export default async (dbcon, version) => {
                 table.text('admission60');
                 table.text('developmentalOutcome');
 
-                table.unique(
-                    ['pregnancyId', 'date', 'deleted'],
-                    `UNIQUE_${Date.now()}_${TABLE_NAME}`
-                );
+
             });
             await tableCopyBack(TABLE_NAME);
             break;

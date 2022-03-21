@@ -224,22 +224,35 @@ class SelectorUtils {
         let whereObj = { 'patient': patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
- 
+
         try{
             const pregnancies = await PregnancyCore.getPregnancy(whereObj);
 
             for (let item of pregnancies) {
                 const data = await Pregnancy.getPregnancyDataById({
                     pregnancyId: item.id,
+                    deleted: '-'
                 });
+
                 item.dataEntries = data;
+
+                for(let pregnancyData of item.dataEntries){
+                    const data = await Pregnancy.getPregnancyImagingDataById({
+                        pregnancyDataId: pregnancyData.id,
+                        deleted: '-'
+                    });
+
+                    pregnancyData.imagingData = data;
+                }
             }
+
             return { 'pregnancy': pregnancies };
         }
         catch (error) {
             return { 'pregnancy': [] };
         }
     }
+
 
     _getVisitData(visitId, deleted) {
         let whereObj = { 'visit': visitId };

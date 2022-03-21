@@ -20,24 +20,32 @@ import { PregnancyFollowupDataForm } from './pregFollowupData';
 //@connect(mapStateToProps)
 export class EditPregnancies extends Component {
     render() {
-        const matchId = this.props.match.params.entryId;
+        const type = this.props.match.params.type;
         const renderedInFrontPage = this.props.renderedInFrontPage;
-        console.log(examplePregnancyData);
-        const data = examplePregnancyData.reduce((a, el) => { a = a.concat(el.dataEntries);  return a; }, []);
-        console.log(data);
-        const matchedEntry = data.filter(el => el.id === parseInt(matchId));
+        const pregnancyId = this.props.match.params.pregnancyId;
 
-        if (!matchedEntry || matchedEntry.length !== 1) {
-            return 'An error occured.';
-        }
-
-        switch (matchedEntry[0].dataType) {
+        switch (type) {
             case 'baseline':
-                return <PregnancyBaselineDataForm renderedInFrontPage={renderedInFrontPage}/>;
+                return (
+                    <PregnancyBaselineDataForm
+                        pregnancyId={pregnancyId}
+                        renderedInFrontPage={renderedInFrontPage}
+                    />
+                );
             case 'followup':
-                return <PregnancyFollowupDataForm renderedInFrontPage={renderedInFrontPage}/>;
+                return (
+                    <PregnancyFollowupDataForm
+                        renderedInFrontPage={renderedInFrontPage}
+                    />
+                );
             case 'term':
-                return <PregnancyPostDataForm renderedInFrontPage={renderedInFrontPage}/>;
+                return (
+                    <PregnancyPostDataForm
+                        renderedInFrontPage={renderedInFrontPage}
+                    />
+                );
+            default:
+                return null;
         }
     }
 }
