@@ -49,7 +49,7 @@
         "run-script-webpack-plugin": "0.0.11"
     },
     "optionalDependencies": {
-        "ajv": "8.10.0",
+        "ajv": "8.11.0",
         "fsevents": "2.3.2"
     },
     "jest": {
