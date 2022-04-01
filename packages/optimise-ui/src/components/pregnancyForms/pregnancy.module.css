@@ -60,3 +60,8 @@
 .expanded_data {
     background-color: #efefef;
 }
+
+.imageData{
+    border: 1px solid red;
+    padding: 10px;
+}

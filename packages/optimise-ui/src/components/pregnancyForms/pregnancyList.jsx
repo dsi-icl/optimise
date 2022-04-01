@@ -16,6 +16,7 @@ import { PickDate } from '../createMedicalElements/datepicker';
 import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import { apiHelper } from '../../redux/fetchHelper';
+import { EditPregnancies } from '../editMedicalElements';
 @withRouter
 @connect((state) => ({
     outcomeHash: state.availableFields.pregnancyOutcomes_Hash[0],
@@ -187,11 +188,13 @@ class OnePregnancy extends Component {
     handleClick = (pregnancyId) => {
         const { history } = this.props;
         const patientId = this.props.match.params.patientId;
+        const visitId = this.props.match.params.visitId;
         const { type } = this.state;
+
         let url = `/patientProfile/${patientId}/pregnancies/add/${type}/${pregnancyId}`;
 
         if (this.props.renderedInFrontPage)
-            url = `/patientProfile/${patientId}/visitFrontPage/${patientId}/page/10/add/${type}?yesPages=foo,10`;
+            url = `/patientProfile/${patientId}/visitFrontPage/${visitId}/page/10/add/${type}/${pregnancyId}?yesPages=foo,10`;
 
         history.push(url);
         this.setState({ expanded: false });
@@ -311,7 +314,7 @@ class OneImage extends Component {
     render() {
         const { data } = this.props;
         return (
-            <div>
+            <div className={pregstyle.imageData}>
                 <label>Image date:</label> <span>{data.date}</span>
                 <br />
                 <label>Mode</label> <span>{data.mode}</span>
@@ -345,19 +348,21 @@ class OneDataEntryBaseline extends Component {
     render() {
         const { data } = this.props;
         const patientId = this.props.match.params.patientId;
+        const visitId = this.props.match.params.visitId;
+
         return this.state.expanded ? (
             <div
                 className={pregstyle.expanded_data + ' ' + pregstyle.entry_div}
             >
-                <Link
+                {/* <Link
                     to={
                         this.props.renderedInFrontPage
-                            ? `/patientProfile/${patientId}/visitFrontPage/${patientId}/page/10/edit/${data.id}`
+                            ? `/patientProfile/${patientId}/visitFrontPage/${visitId}/page/10/edit/${data.id}`
                             : `/patientProfile/${patientId}/pregnancies/edit/baseline/${data.pregnancyId}/${data.id}`
                     }
                 >
                     Edit this baseline record
-                </Link>
+                </Link> */}
                 <span
                     onClick={() => {
                         this.setState({ expanded: false });
@@ -415,9 +420,9 @@ class OneDataEntryBaseline extends Component {
                 <label>Illicit drug use:</label>{' '}
                 <span>{data.illicitDrugUse}</span>
                 <br />
-                {/* {data.imaging?.map((el) => (
+                {data.imagingData?.map((el) => (
                     <OneImage key={el.id} data={el} />
-                ))} */}
+                ))}
             </div>
         ) : (
             <div
@@ -456,7 +461,7 @@ class OneDataEntryFollowup extends Component {
             <div
                 className={pregstyle.expanded_data + ' ' + pregstyle.entry_div}
             >
-                <Link
+                {/* <Link
                     to={
                         this.props.renderedInFrontPage
                             ? `/patientProfile/${patientId}/visitFrontPage/${patientId}/page/10/edit/${data.id}`
@@ -464,7 +469,7 @@ class OneDataEntryFollowup extends Component {
                     }
                 >
                     Edit this followup record
-                </Link>
+                </Link> */}
                 <span
                     onClick={() => {
                         this.setState({ expanded: false });
@@ -511,7 +516,7 @@ class OneDataEntryFollowup extends Component {
                 <label>Illicit drug use:</label>{' '}
                 <span>{data.illicitDrugUse}</span>
                 <br />
-                {data.imagingData.map((el) => (
+                {data.imagingData?.map((el) => (
                     <OneImage key={el.id} data={el} />
                 ))}
             </div>
@@ -525,7 +530,7 @@ class OneDataEntryFollowup extends Component {
         );
     }
 }
-
+@withRouter
 class OneDataEntryTerm extends Component {
     constructor() {
         super();
@@ -534,7 +539,15 @@ class OneDataEntryTerm extends Component {
         };
     }
 
-    handleDelete = (id) => {};
+    handleDelete = async (dataId) => {
+        try {
+            await apiHelper(`/pregnancy/${dataId}`, {
+                method: 'DELETE',
+            });
+            const patientId = this.props.match.params.patientId;
+            store.dispatch(getPatientProfileById(patientId));
+        } catch (error) {}
+    };
 
     render() {
         const { data } = this.props;
@@ -542,11 +555,11 @@ class OneDataEntryTerm extends Component {
             <div
                 className={pregstyle.expanded_data + ' ' + pregstyle.entry_div}
             >
-                <Link
+                {/* <Link
                     to={`/patientProfile/fdsa/editPregnancyDataEntry/${data.id}`}
                 >
                     Edit this postpartum record
-                </Link>
+                </Link> */}
                 <span
                     onClick={() => {
                         this.setState({ expanded: false });

@@ -38,8 +38,10 @@ export class PregnancyWrapper extends Component {
                             </div>
                             <div className={scaffold_style.list_element_panel}>
                                 <Switch>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => null }/>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:entryId' render={({ match, location }) => <EditPregnancies renderedInFrontPage={true}/>}/>
+                                    <Route exact path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => null }/>
+                                    <Route exact path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:entryId' render={({ match, location }) => <EditPregnancies match={match} location={location} renderedInFrontPage={true}/>}/>
+                                    <Route exact path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/add/:type/:pregnancyId' render={({ match, location }) => <EditPregnancies  match={match} location={location} renderedInFrontPage={true}/>}/>
+                                    {/*patientProfile/1s/visitFrontPage/2/page/10/add/baseline/1 */}
                                 </Switch>
                             </div>
                         </div>

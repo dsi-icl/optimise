@@ -98,7 +98,25 @@ class Pregnancy {
             ART: body.ART,
             maternalAgeAtLMP: body.maternalAgeAtLMP,
             dataType: body.dataType,
-
+            maternalBMI: body.maternalBMI,
+            inductionOfDelivery: body.inductionOfDelivery,
+            lengthOfPregnancy: body.lengthOfPregnancy,
+            pregnancyOutcome: body.pregnancyOutcome,
+            congenitalAbnormality: body.congenitalAbnormality,
+            modeOfDelivery: body.modeOfDelivery,
+            useOfEpidural: body.useOfEpidural,
+            birthWeight: body.birthWeight,
+            sexOfBaby: body.sexOfBaby,
+            APGAR0: body.APGAR0,
+            APGAR5: body.APGAR5,
+            everBreastFed: body.everBreastFed,
+            breastfeedStart: body.breastfeedStart,
+            exclusiveBreastfeedEnd: body.exclusiveBreastfeedEnd,
+            mixedBreastfeedEnd: body.mixedBreastfeedEnd,
+            admission12: body.admission12,
+            admission36: body.admission36,
+            admission60: body.admission60,
+            developmentalOutcome: body.developmentalOutcome
         };
 
 
