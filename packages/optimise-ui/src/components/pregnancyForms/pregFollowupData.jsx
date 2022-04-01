@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-//import { alterDataCall } from '../../redux/actions/addOrUpdateData';
-//import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from './utils';
-//import Icon from '../icon';
-//import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
-//import style from './dataPage.module.css';
-//import store from '../../redux/store';
 import { PickDate } from '../createMedicalElements/datepicker';
 import style from '../patientProfile/patientProfile.module.css';
 import moment from 'moment';
@@ -39,6 +33,39 @@ export class PregnancyFollowupDataForm extends Component {
             illicitDrugUse: 'no',
         };
         this.originalValues = {};
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const isEdit = props.match.path.includes('/edit');
+        if (props.patientProfile?.data?.pregnancy?.length > 0 && isEdit) {
+            const pregnancyId = props.match.params.pregnancyId;
+            const pregnancyDataId = props.match.params.pregnancyDataId;
+
+            const pregnancyData = props.patientProfile.data.pregnancy.find(
+                (pregnancy) => pregnancy.id === Number(pregnancyId)
+            );
+
+            const pregnancyDataToEdit =
+                pregnancyData.dataEntries &&
+                pregnancyData.dataEntries.find(
+                    (data) => data.id === Number(pregnancyDataId)
+                );
+
+            const newState = {};
+
+            Object.keys(pregnancyDataToEdit).forEach((key) => {
+                newState[key] = pregnancyDataToEdit[key];
+            });
+
+            newState.LMP = moment(newState.LMP);
+            newState.EDD = moment(newState.EDD);
+            if (newState.folicAcidSuppUsedStartDate)
+                newState.folicAcidSuppUsedStartDate = moment(
+                    newState.folicAcidSuppUsedStartDate
+                );
+
+            return newState;
+        }
     }
 
     _handleDateChangeEDD = (date) => {

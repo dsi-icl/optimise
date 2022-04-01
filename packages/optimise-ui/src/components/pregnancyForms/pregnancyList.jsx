@@ -8,7 +8,6 @@ import {
     PatientProfileTop,
 } from '../patientProfile/sharedComponents';
 import { withRouter, Link } from 'react-router-dom';
-import { examplePregnancyData, addEntryToPregnancy } from './exampleData';
 import Helmet from '../scaffold/helmet';
 import style from '../patientProfile/patientProfile.module.css';
 import pregstyle from './pregnancy.module.css';

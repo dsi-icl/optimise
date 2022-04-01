@@ -12,9 +12,6 @@
     grid-template-columns: 600px calc(100% - 600px);
 }
 
-
-
-
 .create_element_panel, .list_element_panel {
     height: 100%;
     padding: 1rem;
