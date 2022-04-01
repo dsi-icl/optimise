@@ -34,6 +34,8 @@ import MeddraController from './controllers/meddraController';
 import ICD11Controller from './controllers/icd11Controller';
 import PatientDiagnosisRoute from './routes/patientDiagnosisRoute';
 import SyncRoute from './routes/syncRoute';
+import PregnancyRoute from './routes/pregnancyRoute';
+
 
 const knexSession = knexSessionConnect(expressSession);
 const csrfHandle = csrf();
@@ -160,6 +162,7 @@ class OptimiseServer {
                 _this.setupMeddra();
                 _this.setupICD11();
                 _this.setupConcomitantMeds();
+                _this.setupPregnancy();
 
                 _this.app.all('/*', (__unused__req, res) => {
                     res.status(400);
@@ -387,6 +390,15 @@ class OptimiseServer {
     setupSync() {
         this.app.use('/sync', SyncRoute);
     }
+
+    /**
+     * @fn setupPregnancy
+     * @desc Initialize the pregnancy related routes
+     */
+    setupPregnancy() {
+        this.app.use('/pregnancy', PregnancyRoute);
+    }
+
 }
 
 export default OptimiseServer;
