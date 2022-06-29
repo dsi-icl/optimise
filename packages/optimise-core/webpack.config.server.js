@@ -49,7 +49,7 @@ module.exports = {
         new webpack.NormalModuleReplacementPlugin(/node-pre-gyp/, `${__dirname}/src/utils/noop.js`),
         new webpack.NormalModuleReplacementPlugin(/\.\.\/migrate/, `${__dirname}/src/utils/noop.js`),
         new webpack.NormalModuleReplacementPlugin(/\.\.\/seed/, `${__dirname}/src/utils/noop.js`),
-        new webpack.IgnorePlugin({ resourceRegExp: new RegExp('^(.*mssql.*|.*mariasql|.*oracle.*|.*mysql.*|.*pg.*|.*postgres.*|.*redshift.*|node-pre-gyp|tedious)$') }),
+        new webpack.IgnorePlugin({ resourceRegExp: new RegExp('^(.*mssql.*|.*mariasql|.*oracle.*|.*mysql.*|.*pg.*|.*postgres.*|.*redshift.*|.*better-sqlite3.*|.*cockroach.*|node-pre-gyp|tedious)$') }),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
