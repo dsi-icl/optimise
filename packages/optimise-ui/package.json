@@ -23,7 +23,7 @@
         "file-saver": "2.0.5",
         "history": "4.10.1",
         "immutable": "4.0.0",
-        "interactjs": "1.10.11",
+        "interactjs": "1.10.14",
         "is-plain-object": "5.0.0",
         "query-string": "7.1.1",
         "moment": "2.29.2",
