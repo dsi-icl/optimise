@@ -28,7 +28,7 @@
         "prepublish": "yarn build",
         "publish": "electron-builder -p onTagOrDraft .",
         "test:autoupdate": "node ./autoupdate.test.js",
-        "test": "yarn test:autoupdate"
+        "test": "cross-env NODE_ENV=test yarn test:autoupdate"
     },
     "license": "MIT",
     "build": {
