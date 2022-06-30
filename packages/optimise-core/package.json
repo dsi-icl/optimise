@@ -29,7 +29,7 @@
         "bufferutil": "4.0.6",
         "connect-session-knex": "3.0.0",
         "csurf": "1.11.0",
-        "csv-parse": "5.0.4",
+        "csv-parse": "5.2.1",
         "express": "4.17.3",
         "express-session": "1.17.3",
         "express-zip": "3.0.0",
