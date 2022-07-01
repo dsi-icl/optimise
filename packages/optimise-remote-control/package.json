@@ -14,6 +14,6 @@
 	"dependencies": {
 		"bufferutil": "4.0.6",
 		"utf-8-validate": "5.0.9",
-		"ws": "8.5.0"
+		"ws": "8.8.0"
 	}
 }
