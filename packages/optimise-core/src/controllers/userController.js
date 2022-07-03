@@ -221,21 +221,25 @@ class UserController {
     }
 
     static logoutUser(req, res) {
-        // userCore.logoutUser(req.user).then(() => {
-        req.session.destroy((err) => {
-            if (req.user === undefined || req.user === null) {
-                res.status(401);
-                res.json(ErrorHelper('Not logged in'));
-                return;
-            }
-            req.logout();
+        if (req.user === undefined || req.user === null) {
+            res.status(401);
+            res.json(ErrorHelper('Not logged in'));
+            return;
+        }
+        req.logout((err) => {
             if (err) {
                 res.status(500);
-                res.json(ErrorHelper('Cannot destroy session', err));
-            }
-            else {
-                res.status(200);
-                res.json({ message: 'Successfully logged out' });
+                res.json(ErrorHelper('Cannot logout of session', err));
+            } else {
+                req.session.destroy((err) => {
+                    if (err) {
+                        res.status(500);
+                        res.json(ErrorHelper('Cannot destroy session', err));
+                    } else {
+                        res.status(200);
+                        res.json({ message: 'Successfully logged out' });
+                    }
+                });
             }
         });
     }
