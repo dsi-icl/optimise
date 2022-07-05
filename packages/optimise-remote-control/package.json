@@ -13,7 +13,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"bufferutil": "4.0.6",
-		"utf-8-validate": "5.0.8",
-		"ws": "8.4.2"
+		"utf-8-validate": "5.0.9",
+		"ws": "8.8.0"
 	}
 }

@@ -34,6 +34,14 @@ if (devMode) {
         "src/dev-app-update.yml"
     );
 
+    // For tests, ensure that checkForUpdatesAndNotify doesn't short circuit
+    if (process.env.NODE_ENV === 'test')
+    Object.defineProperty(app, 'isPackaged', {
+        get() {
+            return true;
+        }
+    });
+
     // Setup reload
     // require('electron-reload')(path.join(__dirname, 'dist/app.js'), {
     // 	electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
