@@ -25,6 +25,6 @@
         "compression": "1.7.4",
         "express": "4.18.1",
         "express-rate-limit": "6.5.1",
-        "sqlite3": "5.0.10"
+        "sqlite3": "5.0.11"
     }
 }
