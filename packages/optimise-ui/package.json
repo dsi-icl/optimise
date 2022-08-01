@@ -43,12 +43,12 @@
         "redux-thunk": "2.4.1"
     },
     "devDependencies": {
-        "@babel/core": "7.18.9",
+        "@babel/core": "7.18.10",
         "@babel/eslint-parser": "7.18.9",
-        "@babel/eslint-plugin": "7.17.7",
+        "@babel/eslint-plugin": "7.18.10",
         "@babel/helper-builder-react-jsx": "7.18.6",
         "@babel/helper-builder-react-jsx-experimental": "7.12.11",
-        "@babel/plugin-proposal-decorators": "7.18.9",
+        "@babel/plugin-proposal-decorators": "7.18.10",
         "@babel/plugin-syntax-jsx": "7.18.6",
         "@typescript-eslint/eslint-plugin": "5.31.0",
         "@typescript-eslint/parser": "5.31.0",
