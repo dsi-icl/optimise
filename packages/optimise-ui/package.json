@@ -58,7 +58,7 @@
         "eslint-plugin-flowtype": "8.0.3",
         "eslint-plugin-import": "2.26.0",
         "eslint-plugin-jsx-a11y": "6.6.1",
-        "eslint-plugin-react": "7.31.0",
+        "eslint-plugin-react": "7.31.1",
         "eslint-plugin-react-hooks": "4.6.0",
         "http-proxy-middleware": "2.0.6",
         "markdown-image-loader": "3.0.0",
