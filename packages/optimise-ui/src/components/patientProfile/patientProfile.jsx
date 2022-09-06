@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, NavLink } from 'react-router-dom';
 import moment from 'moment';
 import Icon from '../icon';
 import { PickDate } from '../createMedicalElements/datepicker';
@@ -39,7 +39,7 @@ export class Section extends Component {
                         <div className={`${style.panel} ${style.patientInfo}`}>
                             <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
-                            <Pregnancy/>
+                            <Pregnancy />
                             <ImmunisationSection patientId={this.props.match.params.patientId} />
                             <DeletePatient match={this.props.match} />
                         </div>
@@ -254,22 +254,29 @@ class ImmunisationSection extends Component {
         return (
             <PatientProfileSectionScaffold sectionName='Immunisations' active={this.state.addMore}>
                 <table cellSpacing={'1em'}>
-                    {this.state.addMore || data.immunisations.length !== 0 ? <thead>
-                        <tr><th>Vaccine name</th><th>Date</th></tr>
-                    </thead> : null}
+                    {this.state.addMore || data.immunisations.length !== 0 ?
+                        <thead>
+                            <tr><th>Vaccine name</th><th>Date</th></tr>
+                        </thead>
+                        :
+                        null}
                     <tbody>
                         {data.immunisations.map(el => <OneImmunisation data={el} patientId={data.patientId}/>)}
-                        {!this.state.addMore ? null : <tr className={style.immunisationNewItem}>
-                            <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
-                            <td colSpan='2'><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
-                        </tr>}
+                        {!this.state.addMore ?
+                            null
+                            :
+                            <tr className={style.immunisationNewItem}>
+                                <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
+                                <td colSpan='2'><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
+                            </tr>}
                     </tbody>
                 </table>
                 {!this.state.addMore ?
                     <>
                         <br/>
                         <button onClick={this._handleClickingAdd}>Add immunisation</button>
-                    </> :
+                    </>
+                    :
                     <>
                         <br /><br />
                         {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
@@ -351,8 +358,7 @@ class OneImmunisation extends Component {
                         ])}
                     </tr>
                     {
-                        this.state.error
-                            ?
+                        this.state.error ?
                             <tr><span>{this.state.error}</span></tr>
                             :
                             null
@@ -432,13 +438,15 @@ class Pregnancy extends Component {
                 return null;
         }
 
+        const PregnancyListButton = <NavLink to={`/patientProfile/${this.props.data.patientId}/pregnancies`}><button>Go to pregnancies</button></NavLink>;
+
         if (this.props.data.demographicData) {
             if (this.props.data.pregnancy.length === 0) {
                 return (
-                    <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
+                    <PatientProfileSectionScaffold sectionName='Pregnancies' actions={
                         <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
                     }>
-                        <i>No recorded pregnancy</i>
+                        {PregnancyListButton}
                     </PatientProfileSectionScaffold>
                 );
             }
@@ -461,6 +469,7 @@ class Pregnancy extends Component {
                     {outcomeName ? <> <br /><label>Outcome: </label> {outcomeName}</> : null}
                     {MedDRAName ? <> <br /><label>MedDRA: </label> {MedDRAName.name}</> : null}
                 </>
+                {PregnancyListButton}
             </PatientProfileSectionScaffold>
         );
     }
@@ -554,7 +563,6 @@ class DeletePatient extends Component {
                     <button onClick={this._handleClickWithdrawParticipation} >{participation ? 'This patient withdraws from the study' : 'This patient re-enrolls in the study'}</button>
                 </PatientProfileSectionScaffold>
                 <PatientProfileSectionScaffold sectionName='Consent'>
-
                     {
                         consent ?
                             <div>
@@ -572,8 +580,6 @@ class DeletePatient extends Component {
                                 <button onClick={this._handleClickGivesConsent}>Patient gives consent</button>
                             </div>
                     }
-
-
                 </PatientProfileSectionScaffold>
                 {this.props.priv === 1 ?
                     (

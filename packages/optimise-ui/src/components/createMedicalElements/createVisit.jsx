@@ -6,18 +6,21 @@ import { createVisitAPICall } from '../../redux/actions/createVisit';
 import { PickDate } from './datepicker';
 import style from './medicalEvent.module.css';
 
-@connect(state => ({
-    patientId: state.patientProfile.data.id
-}), dispatch => ({
-    createVisit: body => dispatch(createVisitAPICall(body))
-}))
+@connect(
+    (state) => ({
+        patientId: state.patientProfile.data.id,
+    }),
+    (dispatch) => ({
+        createVisit: (body) => dispatch(createVisitAPICall(body)),
+    })
+)
 export class CreateVisit extends Component {
     constructor() {
         super();
         this.state = {
             startDate: moment(),
             reasonForVisit: 'unselected',
-            error: false
+            error: false,
         };
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
@@ -28,7 +31,7 @@ export class CreateVisit extends Component {
     _handleDateChange(date) {
         this.setState({
             startDate: date,
-            error: false
+            error: false,
         });
     }
 
@@ -52,20 +55,25 @@ export class CreateVisit extends Component {
         return {
             visitData: {
                 patientId: this.props.patientId,
-                visitDate: startDate.toISOString()
+                visitDate: startDate.toISOString(),
             },
             VSData: {
                 add: {
-                    0: reasonForVisit.trim()
-                }
+                    0: reasonForVisit.trim(),
+                },
             },
-            patientId: this.props.match.params.patientId
+            patientId: this.props.match.params.patientId,
         };
     }
 
     _handleSubmitClick(ev) {
         ev.preventDefault();
-        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+        if (
+            this.state.lastSubmit &&
+            new Date().getTime() - this.state.lastSubmit < 500
+                ? true
+                : false
+        )
             return;
         let error = this._formatRequestBody();
         if (typeof error === 'string') {
@@ -76,12 +84,15 @@ export class CreateVisit extends Component {
         const requestBody = this._formatRequestBody();
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
 
-        this.setState({
-            lastSubmit: (new Date()).getTime(),
-            error: false
-        }, () => {
-            this.props.createVisit(requestBody);
-        });
+        this.setState(
+            {
+                lastSubmit: new Date().getTime(),
+                error: false,
+            },
+            () => {
+                this.props.createVisit(requestBody);
+            }
+        );
     }
 
     render() {
@@ -94,21 +105,28 @@ export class CreateVisit extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br />
-                    <label htmlFor='reasonForVisit'>Reason for the visit:</label><br />
-                    <select name='reasonForVisit'
-                        onChange={this._handleKeyChange}
-                        value={reasonForVisit}
-                        autoComplete='off'
-                    >
-                        <option value='unselected'></option>
-                        <option value='Routine'>Routine</option>
-                        <option value='Drug Monitoring'>Drug Monitoring</option>
-                        <option value='Relapse Assessment'>Relapse Assessment</option>
-                        <option value='Urgent'>Urgent</option>
-                    </select><br /><br />
-                    {error ? <><div className={style.error}>{error}</div><br /></> : null}
-                    <button onClick={this._handleSubmitClick} >Submit</button>
+                    <label>Please enter date on which the visit occured:</label>
+                    <br />
+                    <PickDate startDate={startDate} handleChange={this._handleDateChange} />
+                    <br /><br />
+                    <label htmlFor="reasonForVisit">Reason for the visit:</label>
+                    <br />
+                    <select name="reasonForVisit" onChange={this._handleKeyChange} value={reasonForVisit} autoComplete="off" >
+                        <option value="unselected"></option>
+                        <option value="Routine">Routine</option>
+                        <option value="Drug Monitoring">Drug Monitoring</option>
+                        <option value="Relapse Assessment">Relapse Assessment</option>
+                        <option value="Urgent">Urgent</option>
+                        <option value="Pregnancy Monitoring">Pregnancy Monitoring</option>
+                    </select>
+                    <br /><br />
+                    {error ? (
+                        <>
+                            <div className={style.error}>{error}</div>
+                            <br />
+                        </>
+                    ) : null}
+                    <button onClick={this._handleSubmitClick}>Submit</button>
                 </form>
             </>
         );
