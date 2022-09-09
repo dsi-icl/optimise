@@ -37,7 +37,7 @@
         "publish": "lerna run publish --scope optimise-docker --scope optimise-electron",
         "postinstall": "yarn run bootstrap",
         "bootstrap": "lerna bootstrap",
-        "start": "lerna run start --scope optimise-core --scope optimise-sync --scope optimise-remote-control --scope optimise-ui --stream",
+        "start": "lerna run start --scope optimise-core --scope optimise-sync --scope optimise-ui --stream",
         "test": "lerna run test --stream"
     },
     "devDependencies": {

@@ -56,7 +56,7 @@ parser.on('readable', () => {
 
         lastNode = node;
         data.push(node);
-        process.stdout.write(`Entries processed: ${id}                      \r`);
+        process.stdout.write(`Entries processed: ${id}\r`);
         id++;
     }
 });
