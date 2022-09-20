@@ -82,6 +82,7 @@
     text-transform: uppercase;
     position: sticky;
     top: 0;
+    z-index: 1;
 }
 
 .panel blockquote {
