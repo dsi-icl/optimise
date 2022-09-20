@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import ImageZoom from 'react-medium-image-zoom';
 import Helmet from '../scaffold/helmet';
 import style from './userManual.module.css';
@@ -18,7 +19,7 @@ export default class UserManual extends Component {
                 <h2>User Manual</h2>
             </div>
             <div className={style.panel}>
-                <ReactMarkdown escapeHtml={false} components={{
+                <ReactMarkdown rehypePlugins={[rehypeRaw]} components={{
                     img: ({ alt, src }) => <ImageZoom
                         image={{
                             src,

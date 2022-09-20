@@ -40,7 +40,8 @@
         "react-virtualized": "9.22.3",
         "react-virtualized-tree": "3.4.1",
         "redux": "4.2.0",
-        "redux-thunk": "2.4.1"
+        "redux-thunk": "2.4.1",
+        "rehype-raw": "6.1.1"
     },
     "devDependencies": {
         "@babel/core": "7.19.1",
