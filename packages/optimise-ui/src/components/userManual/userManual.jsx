@@ -20,15 +20,9 @@ export default class UserManual extends Component {
             </div>
             <div className={style.panel}>
                 <ReactMarkdown rehypePlugins={[rehypeRaw]} components={{
-                    img: ({ alt, src }) => <ImageZoom
-                        image={{
-                            src,
-                            alt,
-                        }}
-                        zoomImage={{
-                            className: style.bordered
-                        }}
-                    />
+                    img: ({ alt, ...imgProps }) => <ImageZoom>
+                        <img alt={alt} {...imgProps} />
+                    </ImageZoom>
                 }}>
                     {markup}
                 </ReactMarkdown>
