@@ -51,7 +51,7 @@ module.exports = {
         'space-unary-ops': 'error',
         'no-trailing-spaces': 'warn',
         'no-irregular-whitespace': 'error',
-        'no-multiple-empty-lines': ['error', { "max": 2, "maxBOF": 0 }],
+        'no-multiple-empty-lines': ['error', { 'max': 2, 'maxBOF': 0 }],
         'no-unused-vars': [
             'warn',
             {
@@ -66,6 +66,7 @@ module.exports = {
         'arrow-body-style': ['error', 'as-needed'],
         'no-case-declarations': 'warn',
         'no-eq-null': 'error',
-        'key-spacing': ["error", { "beforeColon": false, "afterColon": true }]
+        'key-spacing': ['error', { 'beforeColon': false, 'afterColon': true }],
+        'no-prototype-builtins': 'off'
     }
 };

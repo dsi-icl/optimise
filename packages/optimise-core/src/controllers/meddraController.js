@@ -9,7 +9,7 @@ class MeddraController {
             res.status(401).json({ error: 'Not authorized.' });
             return;
         }
-        
+
         if (!files || !files.mdhierfile || files.mdhierfile.length !== 1) {
             res.status(400).json({ error: 'Cannot read file.' });
             return;

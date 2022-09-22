@@ -154,7 +154,7 @@ class OneEditPrimaryDiagnoses extends Component {
 
     _handleClickDelete = () => {
         store.dispatch(addAlert({ alert: 'Do you want to delete this diagnosis record?', handler: this._deleteFunction(this.props.data.id) }));
-    }
+    };
 
     _deleteFunction = id => {
         const that = this;
@@ -168,7 +168,7 @@ class OneEditPrimaryDiagnoses extends Component {
             };
             store.dispatch(deleteDiagnosisAPICall(body));
         };
-    }
+    };
 
     _handleSubmit = ev => {
         ev.preventDefault();
@@ -201,7 +201,7 @@ class OneEditPrimaryDiagnoses extends Component {
             store.dispatch(updateDiagnosisAPICall(body));
             this.setState({ editing: false });
         });
-    }
+    };
 
     _handleEditClick = ev => {
         ev.preventDefault();
@@ -209,21 +209,21 @@ class OneEditPrimaryDiagnoses extends Component {
             editing: !prevState.editing,
             error: false
         }));
-    }
+    };
 
     _handleStartDateChange = date => {
         this.setState({
             diagnosisDate: date,
             error: false
         });
-    }
+    };
 
     _handleDiagnosisChange = ev => {
         this.setState({
             diagnosis: ev.target.value,
             error: false
         });
-    }
+    };
 
     render() {
         const { editing, diagnosisDate, diagnosis, diagnosisDate_original, diagnosis_original } = this.state;

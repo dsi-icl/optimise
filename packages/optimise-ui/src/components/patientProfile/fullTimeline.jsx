@@ -250,7 +250,7 @@ export default class FullTimeline extends Component {
                 }
             };
         });
-    }
+    };
 
     timeBoudary = (visibleTimeStart, visibleTimeEnd, updateScrollCanvas) => {
         let now = moment().valueOf();
@@ -269,7 +269,7 @@ export default class FullTimeline extends Component {
                 updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
             }
         });
-    }
+    };
 
     groupRenderer({ group }) {
         if (group.root)

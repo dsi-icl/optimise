@@ -22,11 +22,11 @@ export class Meddra extends Component {
 
     handleSelectChange = e => {
         this.setState({ lltFileExists: e.target.value, emptyFiles: false });
-    }
+    };
 
     handleFileAdded = () => {
         this.setState({ emptyFiles: false });
-    }
+    };
 
     handleSubmit = () => {
         if (!this.hierRef.current.files[0]) {
@@ -45,7 +45,7 @@ export class Meddra extends Component {
             form.append('lltfile', this.lltRef.current.files[0]);
         }
         store.dispatch(uploadMeddraAPICall(form));
-    }
+    };
 
     render() {
         return (

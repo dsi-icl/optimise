@@ -4,6 +4,8 @@
 	"description": "",
 	"main": "src/index.js",
 	"scripts": {
+		"lint": "eslint --ext .jsx --ext .js ./",
+		"lint-fix": "eslint --ext .jsx --ext .js --fix ./",
 		"start": "node ./src/index.js"
 	},
 	"author": {

@@ -15,6 +15,8 @@
         "Florian Guitton <f.guitton@imperial.ac.uk>"
     ],
     "scripts": {
+        "lint": "eslint --ext .jsx --ext .js ./",
+        "lint-fix": "eslint --ext .jsx --ext .js --fix ./",
         "prebuild": "cd ../optimise-ui && cross-env PUBLIC_URL=/ yarn build",
         "build": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
         "build-noui": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",

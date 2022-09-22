@@ -5,7 +5,7 @@ import message from '../utils/message-utils';
 import formatToJSON from '../utils/format-response';
 import WebSocket from 'ws';
 
-const email_reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const email_reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 class UserController {
 
@@ -126,7 +126,7 @@ class UserController {
                     ws.on('open', function open() {
                         resolve(true);
                     });
-                
+
                     ws.on('error', function incoming() {
                         resolve(false);
                     });
@@ -151,7 +151,7 @@ class UserController {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        }
+        };
     }
 
     static deleteUser({ body, user }, res) {
@@ -217,7 +217,7 @@ class UserController {
                 res.status(400).json(ErrorHelper(error));
                 return false;
             });
-        }
+        };
     }
 
     static logoutUser(req, res) {
@@ -261,9 +261,9 @@ class UserController {
             else {
                 res.set('CSRF-Token', optimiseCSRFToken);
                 res.status(200);
-                res.json({...Iam, remote_control: wsEndpoint });
+                res.json({ ...Iam, remote_control: wsEndpoint });
             }
-        }
+        };
     }
 }
 

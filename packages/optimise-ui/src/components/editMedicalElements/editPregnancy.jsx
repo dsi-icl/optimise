@@ -209,7 +209,7 @@ class OnePregnancy extends Component {
 
     _handleClickDelete = () => {
         store.dispatch(addAlert({ alert: 'Do you want to delete this pregnancy record?', handler: this._deleteFunction(this.props.data.id) }));
-    }
+    };
 
     _deleteFunction = id => {
         const that = this;
@@ -223,7 +223,7 @@ class OnePregnancy extends Component {
             };
             store.dispatch(deletePregnancyAPICall(body));
         };
-    }
+    };
 
     _handleSubmit = ev => {
         ev.preventDefault();
@@ -265,7 +265,7 @@ class OnePregnancy extends Component {
             store.dispatch(editPregnancyAPICall(body));
             this.setState({ editing: false });
         });
-    }
+    };
 
     _handleEditClick = ev => {
         ev.preventDefault();
@@ -273,42 +273,42 @@ class OnePregnancy extends Component {
             editing: !prevState.editing,
             error: false
         }));
-    }
+    };
 
     _handleStartDateChange = date => {
         this.setState({
             startDate: date,
             error: false
         });
-    }
+    };
 
     _handleEndDateChange = date => {
         this.setState({
             outcomeDate: date,
             error: false
         });
-    }
+    };
 
     _handleToggleNoEndDate = ev => {
         this.setState({
             noEndDate: ev.target.checked,
             error: false
         });
-    }
+    };
 
     _handleOutcomeChange = ev => {
         this.setState({
             outcome: ev.target.value,
             error: false
         });
-    }
+    };
 
     _handleMeddraChange = value => {
         this.setState({
             meddra: value,
             error: false
         });
-    }
+    };
 
     render() {
         const { editing, startDate, outcomeDate, noEndDate, outcome, meddra, startDate_original, outcomeDate_original, outcome_original, meddra_original } = this.state;

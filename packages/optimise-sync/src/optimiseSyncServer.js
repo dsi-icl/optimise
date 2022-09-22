@@ -97,8 +97,8 @@ class OptimiseSyncServer {
                     else {
                         if (error.code === 'EBADCSRFTOKEN') {
                             // Handle CSRF token errors here
-                            res.status(403)
-                            res.json(ErrorHelper('Form tempered with'))
+                            res.status(403);
+                            res.json(ErrorHelper('Form tempered with'));
                         } else {
                             next(error);
                         }

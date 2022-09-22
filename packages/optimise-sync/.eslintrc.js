@@ -38,6 +38,7 @@ module.exports = {
         'arrow-body-style': ['error', 'as-needed'],
         'no-case-declarations': 'warn',
         'no-eq-null': 'error',
-        'key-spacing': ['error', { 'beforeColon': false, 'afterColon': true }]
+        'key-spacing': ['error', { 'beforeColon': false, 'afterColon': true }],
+        'no-prototype-builtins': 'off'
     }
 };
