@@ -154,7 +154,7 @@ class OneComorbidity extends Component {
                 handler: this._deleteFunction(this.props.data.id)
             })
         );
-    }
+    };
 
     _handleCancelClick = (ev) => {
         ev.preventDefault();
@@ -168,7 +168,7 @@ class OneComorbidity extends Component {
             type_new: data.concomitantMedId,
             error: false
         });
-    }
+    };
 
     _deleteFunction = id => {
         const that = this;
@@ -182,7 +182,7 @@ class OneComorbidity extends Component {
             };
             store.dispatch(deleteConcomitantMedAPICall(body));
         };
-    }
+    };
 
     _handleSubmit = ev => {
         ev.preventDefault();
@@ -216,7 +216,7 @@ class OneComorbidity extends Component {
             store.dispatch(editConcomitantMedAPICall(body));
             // this.setState({ addMore: false });
         });
-    }
+    };
 
     _handleEditClick = ev => {
         ev.preventDefault();
@@ -224,7 +224,7 @@ class OneComorbidity extends Component {
             editing: !prevState.editing,
             error: false
         }));
-    }
+    };
 
     render() {
         const { editing } = this.state;

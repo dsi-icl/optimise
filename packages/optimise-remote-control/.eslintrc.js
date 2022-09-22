@@ -1,7 +1,7 @@
 module.exports = {
     root: true,
-    parser: 'babel-eslint',
-    plugins: ['promise'],
+    parser: '@babel/eslint-parser',
+    plugins: ['@babel', 'promise'],
     extends: ['eslint:recommended', 'plugin:promise/recommended'],
     env: {
         browser: false,
@@ -9,6 +9,7 @@ module.exports = {
         es6: true
     },
     parserOptions: {
+        requireConfigFile: false,
         ecmaFeatures: {
             jsx: true,
             modules: true
@@ -29,7 +30,7 @@ module.exports = {
         'space-unary-ops': 'error',
         'no-trailing-spaces': 'error',
         'no-irregular-whitespace': 'error',
-        'no-multiple-empty-lines': ['error', { "max": 2, "maxBOF": 0 }],
+        'no-multiple-empty-lines': ['error', { 'max': 2, 'maxBOF': 0 }],
         'no-unused-vars': ['error', { 'vars': 'all', 'args': 'all', 'argsIgnorePattern': '^__unused__' }],
         'block-spacing': ['error', 'always'],
         'object-curly-spacing': ['error', 'always'],
@@ -37,6 +38,7 @@ module.exports = {
         'arrow-body-style': ['error', 'as-needed'],
         'no-case-declarations': 'warn',
         'no-eq-null': 'error',
-        'key-spacing': ["error", { "beforeColon": false, "afterColon": true }]
+        'key-spacing': ['error', { 'beforeColon': false, 'afterColon': true }],
+        'no-prototype-builtins': 'off'
     }
 };

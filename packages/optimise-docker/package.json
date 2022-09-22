@@ -1,6 +1,6 @@
 {
     "name": "optimise-docker",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "Optimise:MS Docker",
     "keywords": [
         "ms",
@@ -15,16 +15,18 @@
         "Florian Guitton <f.guitton@imperial.ac.uk>"
     ],
     "scripts": {
+        "lint": "eslint --ext .jsx --ext .js ./",
+        "lint-fix": "eslint --ext .jsx --ext .js --fix ./",
         "prebuild": "cd ../optimise-ui && cross-env PUBLIC_URL=/ yarn build",
         "build": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
-        "build:noui": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
+        "build-noui": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
         "start": "echo \"Nothing to start\"",
         "test": "echo \"No tests\""
     },
     "dependencies": {
         "compression": "1.7.4",
         "express": "4.18.1",
-        "express-rate-limit": "6.4.0",
-        "sqlite3": "5.0.8"
+        "express-rate-limit": "6.6.0",
+        "sqlite3": "5.1.1"
     }
 }

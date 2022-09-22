@@ -611,7 +611,7 @@ export class Charts extends Component {
             ...this.state.filter,
             [filter]: !this.state.filter[filter]
         }));
-    }
+    };
 
     _sortVisits = (visitList) => {
         let historyInd = 1;
@@ -644,7 +644,7 @@ export class Charts extends Component {
 
             return parseInt(dateA, 10) - parseInt(dateB, 10);
         }).map(v => ({ ...v, historyInd: v.type === 1 ? historyInd++ : undefined })).reverse();
-    }
+    };
 
     render() {
         if (!this.props.data.demographicData) {

@@ -1,5 +1,5 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {

@@ -114,7 +114,7 @@ export default class TreePicker extends Component {
         }, () => {
             this.searchField.focus();
         });
-    }
+    };
 
     handleMouseLeave = __unused__ev => {
         this.setState(ps => ({
@@ -123,7 +123,7 @@ export default class TreePicker extends Component {
             filterText: '',
         }));
         this.setFilterTerm();
-    }
+    };
 
     nodeSelectionHandler = (__unused__nodes, updatedNode) => {
         this.props.onChange(updatedNode.id === undefined ? null : updatedNode.id);
@@ -135,7 +135,7 @@ export default class TreePicker extends Component {
         }));
         this.setFilterTerm();
         return this.state.nodesOrigin;
-    }
+    };
 
     handleInput(event) {
         this.setState({ currentTermName: event.target.value });

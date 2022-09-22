@@ -14,6 +14,13 @@ import * as serviceWorker from './serviceWorker';
 webWorker.start();
 serviceWorker.unregister();
 
+if (window && window.process) {
+    window.process.on('uncaughtException', function (error) {
+        // eslint-disable-next-line no-console
+        console.error('Something went really wrong', error);
+    });
+}
+
 ReactDOM.render(
     <StrictMode>
         <Provider store={store}>

@@ -165,7 +165,7 @@ class ChangeUserPrivilege extends Component {
             adminPriv: this.props.priv === 1 ? 0 : 1
         };
         store.dispatch(changePrivAPICall(body));
-    }
+    };
     render() {
         return (
             <>

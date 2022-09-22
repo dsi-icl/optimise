@@ -46,7 +46,7 @@ class SyncCore {
      */
     static async createSyncRecord(agent, info) {
         const db = await dbcon().then(client => client.db());
-        return db.collection(`EVENTS`).insertOne({
+        return db.collection('EVENTS').insertOne({
             uuid: agent,
             version: info.version,
             hostname: info.hostname,
@@ -68,16 +68,16 @@ class SyncCore {
         const record = await db.collection('VALIDATION_KEYS').findOne({ key });
         let error = undefined;
         if (record === null || record === undefined)
-            error = 'The validation key does not exist'
+            error = 'The validation key does not exist';
         else {
             if (record.claim === undefined) {
                 await db.collection('VALIDATION_KEYS').updateOne({ _id: record._id }, {
                     $set: {
                         claim: agent
                     }
-                }, { upsert: false })
+                }, { upsert: false });
             } else if (record.claim !== agent) {
-                error = 'The validation key is claimed by a different agent'
+                error = 'The validation key is claimed by a different agent';
             }
         }
         return Promise.resolve({

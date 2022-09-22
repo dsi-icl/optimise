@@ -34,6 +34,8 @@ optimise.start().then(router => {
             return;
         }
     });
-}, error => {
-    console.error(error);
+
+    return;
+}).catch((err) => {
+    console.error(err);
 });

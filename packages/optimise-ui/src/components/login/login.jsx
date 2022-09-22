@@ -45,7 +45,7 @@ class Login extends Component {
             username: this.usernameFieldRef.current.value,
             pw: this.passwordFieldRef.current.value
         });
-    }
+    };
 
     render() {
 

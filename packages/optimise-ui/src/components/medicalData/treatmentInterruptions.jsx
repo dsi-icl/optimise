@@ -223,7 +223,7 @@ class OneTreatmentInterruption extends Component {
 
     _handleClickDelete = () => {
         store.dispatch(addAlert({ alert: 'Do you want to delete this interruption record?', handler: this._deleteFunction(this.props.data.id) }));
-    }
+    };
 
     _deleteFunction = id => {
         const that = this;
@@ -238,7 +238,7 @@ class OneTreatmentInterruption extends Component {
             };
             store.dispatch(deleteTreatmentInterruptionAPICall(body));
         };
-    }
+    };
 
     _handleSubmit = ev => {
         ev.preventDefault();
@@ -280,7 +280,7 @@ class OneTreatmentInterruption extends Component {
             store.dispatch(editTreatmentInterruptionAPICall(body));
             this.setState({ editing: false });
         });
-    }
+    };
 
     _handleEditClick = ev => {
         ev.preventDefault();
@@ -288,42 +288,42 @@ class OneTreatmentInterruption extends Component {
             editing: !prevState.editing,
             error: false
         }));
-    }
+    };
 
     _handleStartDateChange = date => {
         this.setState({
             startDate: date,
             error: false
         });
-    }
+    };
 
     _handleEndDateChange = date => {
         this.setState({
             endDate: date,
             error: false
         });
-    }
+    };
 
     _handleToggleNoEndDate = ev => {
         this.setState({
             noEndDate: ev.target.checked,
             error: false
         });
-    }
+    };
 
     _handleReasonChange = ev => {
         this.setState({
             reason: ev.target.value,
             error: false
         });
-    }
+    };
 
     _handleMeddraChange = value => {
         this.setState({
             meddra: value,
             error: false
         });
-    }
+    };
 
     render() {
         const { editing, startDate, endDate, noEndDate, reason, meddra, startDate_original, endDate_original, reason_original, meddra_original } = this.state;

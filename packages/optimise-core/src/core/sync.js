@@ -64,13 +64,11 @@ class SyncCore {
      *
      */
     static async getSyncStatus() {
-        return new Promise((resolve, reject) => {
-            return dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).then((result) => {
-                if (result.length !== 1)
-                    return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync status could not be retreived'));
-                return resolve(JSON.parse(result[0].value));
-            }).catch(() => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync status could not be retreived')));
-        });
+        return new Promise((resolve, reject) => dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).then((result) => {
+            if (result.length !== 1)
+                return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync status could not be retreived'));
+            return resolve(JSON.parse(result[0].value));
+        }).catch(() => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync status could not be retreived'))));
     }
 
 

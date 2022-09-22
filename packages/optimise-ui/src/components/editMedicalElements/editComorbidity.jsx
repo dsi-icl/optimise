@@ -139,7 +139,7 @@ class OneComorbidity extends Component {
 
     _handleClickDelete = () => {
         store.dispatch(addAlert({ alert: 'Do you want to delete this comorbidity record?', handler: this._deleteFunction(this.props.data.id) }));
-    }
+    };
 
     _deleteFunction = id => {
         const that = this;
@@ -153,7 +153,7 @@ class OneComorbidity extends Component {
             };
             store.dispatch(deleteComorbidityAPICall(body));
         };
-    }
+    };
 
     _handleSubmit = ev => {
         ev.preventDefault();
@@ -180,7 +180,7 @@ class OneComorbidity extends Component {
             store.dispatch(editComorbidityAPICall(body));
             this.setState({ editing: false });
         });
-    }
+    };
 
     _handleEditClick = ev => {
         ev.preventDefault();
@@ -188,14 +188,14 @@ class OneComorbidity extends Component {
             editing: !prevState.editing,
             error: false
         }));
-    }
+    };
 
     _handleValueChange = value => {
         this.setState({
             comorbidity: parseInt(value),
             error: false
         });
-    }
+    };
 
     render() {
         const { editing, comorbidity, comorbidity_original } = this.state;

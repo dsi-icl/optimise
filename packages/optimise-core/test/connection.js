@@ -17,19 +17,19 @@ export const connectAgent = (agent, user, pw) => new Promise((resolve, reject) =
     .then(() => agent.get('/whoami'))
     .then(({ headers }) => {
         agent.__csrf = headers['csrf-token'];
-        return agent.set('csrf-token', agent.__csrf)
+        return agent.set('csrf-token', agent.__csrf);
     })
     .then(() => resolve())
     .catch(() => null));
 
 export const disconnectAgent = agent => new Promise((resolve, reject) => {
-    agent.set('csrf-token', agent.__csrf)
+    agent.set('csrf-token', agent.__csrf);
     agent.post('/users/logout')
         .then(({ statusCode }) => {
             if (statusCode === 200)
                 return resolve();
             return reject(new Error('The previous user could not be logged out !'));
-        }).catch(() => null)
+        }).catch(() => null);
 });
 
 export default { connectAdmin, connectUser, disconnectAgent };

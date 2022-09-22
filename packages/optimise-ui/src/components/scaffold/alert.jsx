@@ -14,7 +14,7 @@ export default class AlertMessage extends Component {
 
     _handleCancel = () => {
         store.dispatch(clearAlert());
-    }
+    };
 
     _handleConfirm = () => {
         if (typeof this.props.alert.handler === 'function') {
@@ -23,7 +23,7 @@ export default class AlertMessage extends Component {
         } else {
             store.dispatch(addError({ error: 'This button is doing nothing! please contact your admin' }));
         }
-    }
+    };
 
     render() {
         const { alert } = this.props;
