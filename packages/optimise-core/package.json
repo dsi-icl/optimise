@@ -13,7 +13,7 @@
     "main": "./src/optimiseServer.js",
     "scripts": {
         "lint": "eslint --ext .jsx --ext .js ./",
-        "lint:fix": "eslint --ext .jsx --ext .js --fix ./",
+        "lint-fix": "eslint --ext .jsx --ext .js --fix ./",
         "test": "cross-env NODE_ENV=test jest --colors --verbose --detectOpenHandles --forceExit --runInBand",
         "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
         "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"

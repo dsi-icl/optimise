@@ -18,17 +18,17 @@
         "start": "electron .",
         "prebuild": "cd ../optimise-ui && cross-env PUBLIC_URL=./ yarn build",
         "build": "rimraf -r dist && webpack --config config/webpack.prod.js",
-        "build:noui": "rimraf -r dist && webpack --config config/webpack.prod.js",
+        "build-noui": "rimraf -r dist && webpack --config config/webpack.prod.js",
         "prebuild:dev": "cd ../optimise-ui && cross-env PUBLIC_URL=./ yarn build",
-        "build:dev": "rimraf -r dist && webpack --config config/webpack.dev.js",
-        "build:dev:noui": "rimraf -r dist && webpack --config config/webpack.dev.js",
+        "build-dev": "rimraf -r dist && webpack --config config/webpack.dev.js",
+        "build-dev-noui": "rimraf -r dist && webpack --config config/webpack.dev.js",
         "electron": "yarn run package",
         "postinstall": "electron-builder install-app-deps",
         "package": "electron-builder -p never",
         "prepublish": "yarn build",
         "publish": "electron-builder -p onTagOrDraft",
-        "test:autoupdate": "node ./autoupdate.test.js",
-        "test": "cross-env NODE_ENV=test yarn test:autoupdate"
+        "test-autoupdate": "node ./autoupdate.test.js",
+        "test": "cross-env NODE_ENV=test yarn test-autoupdate"
     },
     "license": "MIT",
     "build": {
