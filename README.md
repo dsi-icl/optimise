@@ -9,7 +9,7 @@ Optimise MS is a system for recording data including demographics, clinical even
 git clone https://github.com/dsi-icl/optimise optimise
 cd optimise
 
-# Bootstrap the Lerna project, will install all modules
+# Bootstrap the Nx project, will install all modules
 yarn install
 ```
 
