@@ -7,6 +7,7 @@ const express = require("express");
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require("electron");
 const log = require("electron-log");
 const { autoUpdater } = require("electron-updater");
+const unhandled = require('electron-unhandled');
 const optimiseCore = require("./dist/server").default;
 const packageInfo = require("./package.json");
 const { menu } = require("./src/menu");
@@ -46,6 +47,8 @@ if (devMode) {
     // require('electron-reload')(path.join(__dirname, 'dist/app.js'), {
     // 	electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
     // });
+} else {
+    unhandled();
 }
 
 const web_app = express();
