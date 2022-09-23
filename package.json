@@ -45,5 +45,13 @@
         "nx": "14.7.8",
         "typescript": "4.8.3"
     },
-    "dependencies": {}
+    "dependencies": {},
+    "resolutions": {
+        "@jest/reporters":"^24",
+        "@jest/test-result":"^24",
+        "jest": "^24",
+        "jest-config": "^24",
+        "jest-resolve": "^24",
+        "jest-util": "^24"
+    }
 }
