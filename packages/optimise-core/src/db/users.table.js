@@ -12,10 +12,10 @@ export default async (dbcon, version) => {
             await schema_v1(dbcon);
             hashedAdmin = generateAndHash('admin'); //pw: 'admin'
             await dbcon()(TABLE_NAME).insert([
-                { id: 1, username: 'admin', realName: 'Administrator', pw: hashedAdmin.hashed, salt: hashedAdmin.salt, iterations: hashedAdmin.iteration, adminPriv: 1, createdByUser: 1 },
+                { id: 1, username: 'admin', realName: 'Administrator', pw: hashedAdmin.hashed, salt: hashedAdmin.salt, iterations: hashedAdmin.iteration, adminPriv: 1, createdByUser: 1 }
             ]);
             break;
-        case 3:
+        case 3: {
             const OLD_TABLE_NAME = await tableMove(TABLE_NAME, version);
             await schema_v3(dbcon);
             if (OLD_TABLE_NAME !== null) {
@@ -30,6 +30,7 @@ export default async (dbcon, version) => {
                 }
             }
             break;
+        }
         default:
             break;
     }

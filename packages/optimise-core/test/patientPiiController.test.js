@@ -1,11 +1,9 @@
-/* global beforeAll afterAll describe test expect */
-
 import request from 'supertest';
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 const admin = request.agent(global.optimiseRouter);
-import message from '../src/utils/message-utils';
 const user = request.agent(global.optimiseRouter);
-import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -33,10 +31,10 @@ describe('Create PII controller test', () => {
     test('Create PII without patient', () =>
         admin.post('/patientPii/')
             .send({
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                firstName: 'Chon',
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -50,11 +48,11 @@ describe('Create PII controller test', () => {
     test('Create PII with wrong patient', () =>
         admin.post('/patientPii/')
             .send({
-                'patient': {},
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                patient: {},
+                firstName: 'Chon',
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -68,11 +66,11 @@ describe('Create PII controller test', () => {
     test('Create PII with bad patient', () =>
         admin.post('/patientPii/')
             .send({
-                'patient': 90,
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                patient: 90,
+                firstName: 'Chon',
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -86,10 +84,10 @@ describe('Create PII controller test', () => {
     test('Create PII without firstname', () =>
         admin.post('/patientPii/')
             .send({
-                'patient': 2,
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                patient: 2,
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -103,11 +101,11 @@ describe('Create PII controller test', () => {
     test('Create PII with wrong firstname', () =>
         admin.post('/patientPii/')
             .send({
-                'patient': 2,
-                'firstName': {},
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                patient: 2,
+                firstName: {},
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -121,10 +119,10 @@ describe('Create PII controller test', () => {
     test('Create PII without surname', () =>
         admin.post('/patientPii/')
             .send({
-                'patient': 2,
-                'firstName': 'Chon',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                patient: 2,
+                firstName: 'Chon',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -138,11 +136,11 @@ describe('Create PII controller test', () => {
     test('Create PII with wrong surname', () =>
         admin.post('/patientPii/')
             .send({
-                'patient': 2,
-                'firstName': 'Chon',
-                'surname': {},
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                patient: 2,
+                firstName: 'Chon',
+                surname: {},
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -156,10 +154,10 @@ describe('Create PII controller test', () => {
     test('Create PII without address', () =>
         admin.post('/patientPii/')
             .send({
-                'patient': 2,
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'postcode': 'W6 ICL'
+                patient: 2,
+                firstName: 'Chon',
+                surname: 'Sou',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -173,11 +171,11 @@ describe('Create PII controller test', () => {
     test('Create PII with wrong fullAddress', () =>
         admin.post('/patientPii/')
             .send({
-                'patient': 2,
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'fullAddress': {},
-                'postcode': 'W6 ICL'
+                patient: 2,
+                firstName: 'Chon',
+                surname: 'Sou',
+                fullAddress: {},
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -191,11 +189,11 @@ describe('Create PII controller test', () => {
     test('Create PII with good parameters', () =>
         admin.post('/patientPii/')
             .send({
-                'patient': 2,
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                patient: 2,
+                firstName: 'Chon',
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(200);
@@ -237,11 +235,11 @@ describe('Editing PII test suite', () => {
     test('Editing without id parameter', () =>
         admin.put('/patientPii/')
             .send({
-                'patient': 1,
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                patient: 1,
+                firstName: 'Chon',
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -254,12 +252,12 @@ describe('Editing PII test suite', () => {
     test('Editing with wrong id', () =>
         admin.put('/patientPii/')
             .send({
-                'id': {},
-                'patient': 1,
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                id: {},
+                patient: 1,
+                firstName: 'Chon',
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -272,12 +270,12 @@ describe('Editing PII test suite', () => {
     test('Editing with bad id', () =>
         admin.put('/patientPii/')
             .send({
-                'id': 90,
-                'patient': 1,
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                id: 90,
+                patient: 1,
+                firstName: 'Chon',
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -290,12 +288,12 @@ describe('Editing PII test suite', () => {
     test('Editing with bad patient', () =>
         admin.put('/patientPii/')
             .send({
-                'id': 3,
-                'patient': 90,
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                id: 3,
+                patient: 90,
+                firstName: 'Chon',
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -308,12 +306,12 @@ describe('Editing PII test suite', () => {
     test('Editing with good parameters', () =>
         admin.put('/patientPii/')
             .send({
-                'id': 1,
-                'patient': 1,
-                'firstName': 'Chon',
-                'surname': 'Sou',
-                'fullAddress': 'ICL, South Kensington, London',
-                'postcode': 'W6 ICL'
+                id: 1,
+                patient: 1,
+                firstName: 'Chon',
+                surname: 'Sou',
+                fullAddress: 'ICL, South Kensington, London',
+                postcode: 'W6 ICL'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(200);
@@ -340,7 +338,7 @@ describe('Delete PII test suite', () => {
     test('Deleting with wrong id', () =>
         admin.delete('/patientPii/')
             .send({
-                'id': {}
+                id: {}
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -353,7 +351,7 @@ describe('Delete PII test suite', () => {
     test('Deleting with bad id', () =>
         admin.delete('/patientPii/')
             .send({
-                'id': 90
+                id: 90
             })
             .then(({ status, body }) => {
                 expect(status).toBe(200);
@@ -366,7 +364,7 @@ describe('Delete PII test suite', () => {
     test('Deleting with good parameters', () =>
         admin.delete('/patientPii/')
             .send({
-                'id': 3
+                id: 3
             })
             .then(({ status, body }) => {
                 expect(status).toBe(200);

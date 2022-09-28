@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const test = express();
-
 import TestController from '../controllers/testController';
+
+const test = express();
 
 test.route('/')
     .post(TestController.createTest)

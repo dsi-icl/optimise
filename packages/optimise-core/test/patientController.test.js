@@ -1,13 +1,11 @@
-/* global beforeAll afterAll describe test expect */
-
 //UNFINISHED: test erase patients
 import request from 'supertest';
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
 const userSeeded = require('./seed/data').default[1][1];
-import message from '../src/utils/message-utils';
-import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -78,8 +76,8 @@ describe('Patient controller tests', () => {
     test('Creating a new patient with no consent (should fail)', () => admin
         .post('/patients')
         .send({
-            'aliasId': 'littlePatient',
-            'study': 'optimise'
+            aliasId: 'littlePatient',
+            study: 'optimise'
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
@@ -92,9 +90,9 @@ describe('Patient controller tests', () => {
     test('Creating a new patient', () => admin
         .post('/patients')
         .send({
-            'aliasId': 'littlePatient',
-            'study': 'NA',
-            'consent': false
+            aliasId: 'littlePatient',
+            study: 'NA',
+            consent: false
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
@@ -107,9 +105,9 @@ describe('Patient controller tests', () => {
     test('Creating the same patient again (should fail)', () => admin
         .post('/patients')
         .send({
-            'aliasId': 'littlePatient',
-            'study': new Date().toISOString(),
-            'consent': true
+            aliasId: 'littlePatient',
+            study: new Date().toISOString(),
+            consent: true
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
@@ -141,7 +139,7 @@ describe('Patient controller tests', () => {
 
     test('Getting this patient but only visits', () => admin
         .get('/patients/chon')
-        .send({ 'getOnly': 'getVisits' })
+        .send({ getOnly: 'getVisits' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(body.patientId).toBe('chon');
@@ -154,7 +152,7 @@ describe('Patient controller tests', () => {
 
     test('Getting this patient but only invalid properties', () => admin
         .get('/patients/littlePatient')
-        .send({ 'getOnly': 'must,not,work' })
+        .send({ getOnly: 'must,not,work' })
         .then(({ statusCode }) => {
             expect(statusCode).toBe(200);
             return true;
@@ -163,9 +161,9 @@ describe('Patient controller tests', () => {
     test('Updating this patient consent', () => admin
         .put('/patients/')
         .send({
-            'id': 8,
-            'study': 'unknown',
-            'consent': true
+            id: 8,
+            study: 'unknown',
+            consent: true
         })
         .then(({ statusCode }) => {
             expect(statusCode).toBe(200);
@@ -186,9 +184,9 @@ describe('Patient controller tests', () => {
     test('Updating this patient', () => admin
         .put('/patients/')
         .send({
-            'id': 8,
-            'study': 'unknown',
-            'participation': false
+            id: 8,
+            study: 'unknown',
+            participation: false
         })
         .then(({ statusCode }) => {
             expect(statusCode).toBe(200);
@@ -208,7 +206,7 @@ describe('Patient controller tests', () => {
 
     test('Deleting a patient by standard User (should fail)', () => user
         .patch('/patients')
-        .send({ 'aliasId': 'littlePatient' })
+        .send({ aliasId: 'littlePatient' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(401);
             expect(body).toHaveProperty('error');
@@ -218,7 +216,7 @@ describe('Patient controller tests', () => {
 
     test('Deleting a patient', () => admin
         .patch('/patients')
-        .send({ 'aliasId': 'littlePatient' })
+        .send({ aliasId: 'littlePatient' })
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
@@ -229,7 +227,7 @@ describe('Patient controller tests', () => {
 
     test('Deleting this patient again (should return 200 amd state:0)', () => admin
         .patch('/patients')
-        .send({ 'aliasId': 'littlePatient' })
+        .send({ aliasId: 'littlePatient' })
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');

@@ -16,8 +16,7 @@
     "main": "index.js",
     "scripts": {
         "start": "electron .",
-        "lint": "eslint --ext .jsx --ext .js ./",
-        "lint-fix": "eslint --ext .jsx --ext .js --fix ./",
+        "lint": "eslint .",
         "prebuild": "cd ../optimise-ui && cross-env PUBLIC_URL=./ yarn build",
         "build": "rimraf -r dist && webpack --config config/webpack.prod.js",
         "build-noui": "rimraf -r dist && webpack --config config/webpack.prod.js",

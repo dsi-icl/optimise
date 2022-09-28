@@ -6,18 +6,18 @@ const menu = Menu.buildFromTemplate([
         label: 'Optimise',
         submenu: [
             {
-                role: 'about',
+                role: 'about'
             },
             {
                 label: 'Check for updates',
                 click: function () {
                     autoUpdater.checkForUpdates();
-                },
+                }
             },
 
-            { role: 'quit' },
-        ],
-    },
+            { role: 'quit' }
+        ]
+    }
 ]);
 
 module.exports = { menu };

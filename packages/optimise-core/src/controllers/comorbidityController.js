@@ -76,7 +76,7 @@ class ComorbidityController {
 
     static deleteComorbidity({ body, user }, res) {
         if (body.hasOwnProperty('comorbidityId') && typeof body.comorbidityId === 'number') {
-            Comorbidity.deleteComorbidity(user, { 'id': body.comorbidityId }).then((result) => {
+            Comorbidity.deleteComorbidity(user, { id: body.comorbidityId }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {

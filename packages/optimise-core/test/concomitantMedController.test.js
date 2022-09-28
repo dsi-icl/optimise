@@ -1,11 +1,9 @@
-/* global beforeAll afterAll describe test expect */
-
 import request from 'supertest';
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-import message from '../src/utils/message-utils';
-import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -163,7 +161,7 @@ describe('Edit concomitant med controller test', () => {
         .put('/concomitantMeds')
         .send({
             concomitantMedEntryId: 1,
-            startDate: '123442314',
+            startDate: '123442314'
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);

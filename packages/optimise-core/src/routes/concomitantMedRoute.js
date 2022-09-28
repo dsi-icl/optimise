@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const concomitantMed = express();
-
 import ConcomitantMedController from '../controllers/concomitantMedController';
+
+const concomitantMed = express();
 
 concomitantMed.route('/')
     .post(ConcomitantMedController.createConcomitantMed)

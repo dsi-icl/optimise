@@ -15,7 +15,7 @@ import { YesOrNo } from '../yesOrNoQuestion/yesOrNoQuestion';
 @connect(state => ({
     fetching: state.patientProfile.fetching,
     data: state.patientProfile.data
-}))
+    }))
 export class MRIWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;

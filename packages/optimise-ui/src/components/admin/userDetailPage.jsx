@@ -13,7 +13,7 @@ const email_reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 /* receives prop this.props.match.params.userId and store.getAllUsers*/
 @connect(state => ({
     data: state.getAllUsers
-}))
+    }))
 export class UserDetail extends Component {
     render() {
         const { data } = this.props;
@@ -87,7 +87,7 @@ class ChangeUserEmail extends Component {
         }
         const body = {
             username: this.props.username,
-            email: this.emailRef.current.value,
+            email: this.emailRef.current.value
         };
         store.dispatch(changeEmailAPICall(body));
         this.setState({ addMore: false, error: false });
@@ -133,7 +133,7 @@ class ChangeUserPassword extends Component {
         }
         const body = {
             username: this.props.username,
-            pw: this.pwRef.current.value,
+            pw: this.pwRef.current.value
         };
         store.dispatch(changePasswordAPICall(body));
         this.setState({ addMore: false, error: false });

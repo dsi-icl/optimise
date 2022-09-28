@@ -14,12 +14,12 @@ import moment from 'moment';
     patientId: state.patientProfile.data.id,
     patientProfile: state.patientProfile,
     types: state.availableFields.concomitantMedsList
-}))
+    }))
 export default class EditConcomitantMeds extends Component {
     constructor() {
         super();
         this.state = {
-            addMore: false,
+            addMore: false
         };
         this._handleClickingAdd = this._handleClickingAdd.bind(this);
     }
@@ -67,11 +67,9 @@ export default class EditConcomitantMeds extends Component {
                                 <button onClick={this._handleClickingAdd}>Record more concomitant medication</button>
                             </>
                             :
-                            <>
-                                <div className={_style.newInterruption}>
-                                    <label>Record new concomitant medication: </label><CreateConcomitantMed match={match} location={location} onChange={this._handleValueChange} />
-                                </div>
-                            </>
+                            <div className={_style.newInterruption}>
+                                <label>Record new concomitant medication: </label><CreateConcomitantMed match={match} location={location} onChange={this._handleValueChange} />
+                            </div>
                         }
                     </form>
                 </>
@@ -86,7 +84,7 @@ export default class EditConcomitantMeds extends Component {
     typedict: state.availableFields.concomitantMedsList_hash[0],
     types: state.availableFields.concomitantMedsList,
     patientId: state.patientProfile.data.patientId
-}))
+    }))
 class OneComorbidity extends Component {
     constructor(props) {
         super();
@@ -238,7 +236,7 @@ class OneComorbidity extends Component {
                         <>
                             <label htmlFor='event'>What medication is it?</label><br />
                             <select name='event' value={this.state.type_new} onChange={this._handleTypeChange} autoComplete='off'>
-                                <>{this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}</>
+                                {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                             </select> <br /><br />
                             <label>Indication: <input type='text' value={this.state.indication_new} onChange={this._handleIndicationChange}/></label> <br/><br/>
                             <label htmlFor=''>Start date:</label><br /><PickDate startDate={this.state.startDate_new} handleChange={this._handleStartDateChange} /><br /><br/>
@@ -269,7 +267,7 @@ class OneComorbidity extends Component {
     patientId: state.patientProfile.data.id,
     patientProfile: state.patientProfile,
     types: state.availableFields.concomitantMedsList
-}))
+    }))
 class CreateConcomitantMed extends Component {
     constructor() {
         super();
@@ -279,7 +277,7 @@ class CreateConcomitantMed extends Component {
             endDate: moment(),
             startDate: moment(),
             indication: '',
-            type: 'unselected',
+            type: 'unselected'
         };
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
         this._handleTypeChange = this._handleTypeChange.bind(this);
@@ -369,7 +367,7 @@ class CreateConcomitantMed extends Component {
                 <label htmlFor='event'>What medication is it?</label><br />
                 <select name='event' value={this.state.type} onChange={this._handleTypeChange} autoComplete='off'>
                     <option value='unselected'></option>
-                    <>{this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}</>
+                    {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                 </select> <br /><br />
                 <label>Indication: <input type='text' value={this.state.indication} onChange={this._handleIndicationChange}/></label> <br/><br/>
                 <label htmlFor=''>Start date:</label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleStartDateChange} /><br /><br/>

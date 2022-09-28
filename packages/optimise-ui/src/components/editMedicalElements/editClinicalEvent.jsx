@@ -13,7 +13,7 @@ import { deleteCEAPICall, updateCECall } from '../../redux/actions/clinicalEvent
 
 @connect(state => ({
     CEs: state.patientProfile.data.clinicalEvents
-}))
+    }))
 export default class EditCE extends Component {
     constructor(props) {
         super(props);
@@ -107,7 +107,7 @@ export default class EditCE extends Component {
 
 @connect(state => ({
     patientId: state.patientProfile.data.patientId
-}))
+    }))
 class UpdateCEEntry extends Component {
     constructor(props) {
         super();

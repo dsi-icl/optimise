@@ -1,7 +1,7 @@
 /*eslint no-console: "off"*/
-const OptimiseServer = require('../src/optimiseServer').default;
 import { erase, migrate } from '../src/utils/db-handler';
 import seed from './seed';
+const OptimiseServer = require('../src/optimiseServer').default;
 const NodeEnvironment = require('jest-environment-node');
 
 let optimiseServer = null;
@@ -30,6 +30,7 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
     }
 
     async teardown(__unused__jestConfig) {
+        return;
     }
 
     runScript(script) {

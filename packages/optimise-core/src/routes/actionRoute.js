@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const action = express();
-
 import ActionController from '../controllers/actionController';
+
+const action = express();
 
 action.route('/')
     .get(ActionController.getLogs);

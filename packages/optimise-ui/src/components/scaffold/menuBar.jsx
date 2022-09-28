@@ -10,7 +10,7 @@ import style from './scaffold.module.css';
 @connect(state => ({
     username: state.login.username,
     priv: state.login.priv
-}))
+    }))
 export default class MenuBar extends Component {
     constructor() {
         super();

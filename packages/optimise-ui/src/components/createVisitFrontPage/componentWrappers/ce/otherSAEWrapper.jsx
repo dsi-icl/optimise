@@ -13,7 +13,7 @@ import style from '../../frontpage.module.css';
     data: state.patientProfile.data,
     typeHash: state.availableFields.clinicalEventTypes_Hash[0],
     meddraHash: state.availableFields.meddra_Hash[0]
-}))
+    }))
 export class OtherSAEWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;

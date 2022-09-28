@@ -35,7 +35,7 @@ export default async (dbcon, version) => {
             await dbcon()(TABLE_NAME).insert(visitFields_v8);
             await dbcon()(TABLE_NAME).where('idname', 'academic concerns').update({
                 definition: 'Has special educational needs',
-                idname: 'Special Educational Needs:yes_or_no',
+                idname: 'Special Educational Needs:yes_or_no'
             });
             break;
         default:

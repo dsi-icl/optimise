@@ -4,7 +4,7 @@ import DiagnosisCore from '../core/patientDiagnosis';
 
 class SelectorUtils {
     getVisitsWithoutData(patientId, deleted) {
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('VISITS')
@@ -17,10 +17,10 @@ class SelectorUtils {
     }
 
     getConcomitantMeds(patientId, deleted) {
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        return dbcon()('VISITS').select({ 'id': 'id' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then(resu => {
             let ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
@@ -40,7 +40,7 @@ class SelectorUtils {
     }
 
     getDemographicData(patientId, deleted) {
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('PATIENT_DEMOGRAPHIC')
@@ -53,10 +53,10 @@ class SelectorUtils {
     }
 
     getTestsWithoutData(patientId, deleted) {
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        return dbcon()('VISITS').select({ 'id': 'id' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then(resu => {
             let ids = [];
             for (let i = 0; i < resu.length; i++) {
                 ids[i] = resu[i].id;
@@ -76,12 +76,12 @@ class SelectorUtils {
     }
 
     getImmunisations(patientId, deleted) {
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('PATIENT_IMMUNISATION')
             .select('id', 'vaccineName', 'immunisationDate', 'deleted')
-            .where({ 'patient': patientId, 'deleted': '-' })
+            .where({ patient: patientId, deleted: '-' })
             .then(result => {
                 const returnObj = { immunisations: result };
                 return returnObj;
@@ -89,7 +89,7 @@ class SelectorUtils {
     }
 
     getMedicalHistory(patientId, deleted) {
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('MEDICAL_HISTORY')
@@ -103,7 +103,7 @@ class SelectorUtils {
 
     getVisits(patientId, deleted) {
         const _this = this;
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('VISITS')
@@ -134,7 +134,7 @@ class SelectorUtils {
 
     getTests(patientId, deleted) {
         const _this = this;
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         let innerWhereObj = {};
         if (deleted !== true) {
             whereObj.deleted = '-';
@@ -146,7 +146,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return dbcon()('ORDERED_TESTS')
-                .select({ 'id': 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate', 'deleted')
+                .select({ id: 'id' }, 'orderedDuringVisit', 'type', 'expectedOccurDate', 'actualOccurredDate', 'deleted')
                 .whereIn('orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
                 .then(result => {
@@ -175,13 +175,13 @@ class SelectorUtils {
 
     getTreatments(patientId, deleted) {
         const _this = this;
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         let innerWhereObj = {};
         if (deleted !== true) {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
-        return dbcon()('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type', 'deleted': 'deleted' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ id: 'id', visitDate: 'visitDate', type: 'type', deleted: 'deleted' }).where(whereObj).then(resu => {
             let ids = [];
             let dates = [];
             for (let i = 0; i < resu.length; i++) {
@@ -220,14 +220,14 @@ class SelectorUtils {
     }
 
     getPregnancy(patientId, deleted) {
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        return PregnancyCore.getPregnancy(whereObj).then((result) => ({ 'pregnancy': result }), (__unused__error) => ({ 'pregnancy': [] }));
+        return PregnancyCore.getPregnancy(whereObj).then((result) => ({ pregnancy: result }), (__unused__error) => ({ pregnancy: [] }));
     }
 
     _getVisitData(visitId, deleted) {
-        let whereObj = { 'visit': visitId };
+        let whereObj = { visit: visitId };
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('VISIT_DATA')
@@ -236,7 +236,7 @@ class SelectorUtils {
     }
 
     _getTestData(testId, deleted) {
-        let whereObj = { 'test': testId };
+        let whereObj = { test: testId };
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('TEST_DATA')
@@ -245,7 +245,7 @@ class SelectorUtils {
     }
 
     _getTreatmentInterruptions(treatmentId, deleted) {
-        let whereObj = { 'treatment': treatmentId };
+        let whereObj = { treatment: treatmentId };
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('TREATMENTS_INTERRUPTIONS')
@@ -254,7 +254,7 @@ class SelectorUtils {
     }
 
     _getCeData(ceId, deleted) {
-        let whereObj = { 'clinicalEvent': ceId };
+        let whereObj = { clinicalEvent: ceId };
         if (deleted !== true)
             whereObj.deleted = '-';
         return dbcon()('CLINICAL_EVENTS_DATA')
@@ -263,7 +263,7 @@ class SelectorUtils {
     }
 
     getClinicalEventsWithoutData(patientId, deleted) {
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         let innerWhereObj = {};
         if (deleted !== true) {
             whereObj.deleted = '-';
@@ -287,7 +287,7 @@ class SelectorUtils {
 
     getClinicalEvents(patientId, deleted) {
         const _this = this;
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         let innerWhereObj = {};
         if (deleted !== true) {
             whereObj.deleted = '-';
@@ -327,20 +327,20 @@ class SelectorUtils {
     }
 
     getDiagnosis(patientId, deleted) {
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        return DiagnosisCore.getPatientDiagnosis(whereObj).then((result) => ({ 'diagnosis': result }), (__unused__error) => ({ 'diagnosis': [] }));
+        return DiagnosisCore.getPatientDiagnosis(whereObj).then((result) => ({ diagnosis: result }), (__unused__error) => ({ diagnosis: [] }));
     }
 
     getComorbidities(patientId, deleted) {
-        let whereObj = { 'patient': patientId };
+        let whereObj = { patient: patientId };
         let innerWhereObj = {};
         if (deleted !== true) {
             whereObj.deleted = '-';
             innerWhereObj.deleted = '-';
         }
-        return dbcon()('VISITS').select({ 'id': 'id', 'visitDate': 'visitDate', 'type': 'type', 'deleted': 'deleted' }).where(whereObj).then(resu => {
+        return dbcon()('VISITS').select({ id: 'id', visitDate: 'visitDate', type: 'type', deleted: 'deleted' }).where(whereObj).then(resu => {
             let ids = [];
             let dates = [];
             for (let i = 0; i < resu.length; i++) {

@@ -10,7 +10,7 @@ import style from './searchPatient.module.css';
 @connect(state => ({
     data: state.searchPatient,
     priv: state.login.priv
-}))
+    }))
 export default class SearchPatientsById extends Component {
     constructor(props) {
         super(props);
@@ -53,7 +53,7 @@ export default class SearchPatientsById extends Component {
         this.setState({ searchType: ev.target.value });
         store.dispatch(searchPatientAPICall({
             field: ev.target.value,
-            value: this.state.searchString,
+            value: this.state.searchString
         }));
     }
 
@@ -99,7 +99,7 @@ export default class SearchPatientsById extends Component {
 
 @connect(null, dispatch => ({
     fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName))
-}))
+    }))
 export class SearchResultForPatients extends Component {
     render() {
         const { searchString, searchType, listOfPatients } = this.props;

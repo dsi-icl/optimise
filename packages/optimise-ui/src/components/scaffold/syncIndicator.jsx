@@ -7,11 +7,11 @@ import style from './scaffold.module.css';
 @connect(state => ({
     loggedIn: state.login.loggedIn,
     syncInfo: state.syncInfo
-}), dispatch => ({
-    getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
-    getSyncStatus: () => dispatch(getSyncStatusAPICall()),
-    syncNow: () => dispatch(syncNowAPICall())
-}))
+    }), dispatch => ({
+        getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
+        getSyncStatus: () => dispatch(getSyncStatusAPICall()),
+        syncNow: () => dispatch(syncNowAPICall())
+        }))
 export default class SyncIndicator extends Component {
 
     constructor(props) {

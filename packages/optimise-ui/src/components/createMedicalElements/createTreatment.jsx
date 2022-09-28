@@ -11,9 +11,9 @@ import style from './medicalEvent.module.css';
     visits: state.patientProfile.data.visits,
     interruptionReasons: state.availableFields.interruptionReasons,
     types: state.availableFields.drugs
-}), dispatch => ({
-    createTreatment: body => dispatch(createTreatmentAPICall(body))
-}))
+    }), dispatch => ({
+        createTreatment: body => dispatch(createTreatmentAPICall(body))
+        }))
 export class CreateTreatment extends Component {
     constructor() {
         super();
@@ -28,7 +28,7 @@ export class CreateTreatment extends Component {
             form: 'unselected',
             times: 'unselected',
             intervalUnit: 'unselected',
-            noEndDate: true,
+            noEndDate: true
         };
         this.reasonRef = React.createRef();
         this._handleSubmitClick = this._handleSubmitClick.bind(this);
@@ -74,7 +74,7 @@ export class CreateTreatment extends Component {
                 unit: this.state.unit !== '' ? this.state.unit : undefined,
                 form: this.state.form !== '' ? this.state.form : undefined,
                 times: isNaN(parseInt(this.state.times)) || this.state.intervalUnit === '' ? undefined : parseInt(this.state.times),
-                intervalUnit: this.state.intervalUnit === '' || isNaN(parseInt(this.state.times)) ? undefined : this.state.intervalUnit,
+                intervalUnit: this.state.intervalUnit === '' || isNaN(parseInt(this.state.times)) ? undefined : this.state.intervalUnit
             }
         };
     }

@@ -6,9 +6,9 @@
 
 import express from 'express';
 
-const visit = express();
-
 import VisitController from '../controllers/visitController';
+
+const visit = express();
 
 visit.route('/report')
     .get(VisitController.getReportOfVisit)

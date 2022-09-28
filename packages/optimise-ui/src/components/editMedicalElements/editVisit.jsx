@@ -11,9 +11,9 @@ import { addAlert } from '../../redux/actions/alert';
 @connect(state => ({
     patientId: state.patientProfile.data.id,
     visits: state.patientProfile.data.visits
-}), dispatch => ({
-    updateVisit: body => dispatch(updateVisitAPICall(body))
-}))
+    }), dispatch => ({
+        updateVisit: body => dispatch(updateVisitAPICall(body))
+        }))
 export default class EditVisit extends Component {
     constructor(props) {
         super(props);

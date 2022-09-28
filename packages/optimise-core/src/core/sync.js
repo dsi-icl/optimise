@@ -141,7 +141,7 @@ class SyncCore {
             let patientPromises = [];
             let patientProfiles = [];
             patients.forEach(patient => {
-                patientPromises.push(PatientCore.getPatientProfile({ 'id': patient.id }, true).then(result => {
+                patientPromises.push(PatientCore.getPatientProfile({ id: patient.id }, true).then(result => {
                     patientProfiles.push({
                         ...patient,
                         ...result,

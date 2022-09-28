@@ -5,11 +5,11 @@ import style from './admin.module.css';
 
 @connect(state => ({
     syncInfo: state.syncInfo
-}), dispatch => ({
-    getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
-    setSyncOptions: body => dispatch(setSyncOptionsAPICall(body)),
-    syncNow: adminPass => dispatch(syncNowAPICall(adminPass))
-}))
+    }), dispatch => ({
+        getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
+        setSyncOptions: body => dispatch(setSyncOptionsAPICall(body)),
+        syncNow: adminPass => dispatch(syncNowAPICall(adminPass))
+        }))
 export class Sync extends PureComponent {
 
     constructor(props) {
@@ -60,7 +60,7 @@ export class Sync extends PureComponent {
         }
         const body = {
             host: this.syncAddress.current.value.trim(),
-            key: this.syncKey.current.value.trim(),
+            key: this.syncKey.current.value.trim()
         };
         this.props.setSyncOptions(body);
         this.setState({ addMore: false, error: false });

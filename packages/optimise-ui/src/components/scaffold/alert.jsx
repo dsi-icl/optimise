@@ -9,7 +9,7 @@ import style from './scaffold.module.css';
 /*  get a click eventhandler state.alert.handler passed down from whatever needs confirmation */
 @connect(state => ({
     alert: state.alert
-}))
+    }))
 export default class AlertMessage extends Component {
 
     _handleCancel = () => {

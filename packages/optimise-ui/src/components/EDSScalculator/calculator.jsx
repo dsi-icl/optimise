@@ -14,7 +14,7 @@ import { checkIfObjIsEmpty } from '../medicalData/utils';
     visitFields: state.availableFields.visitFields,
     patientProfile: state.patientProfile.data,
     sections: state.availableFields.visitSections
-}))
+    }))
 export default class EDSSPage extends Component {
     render() {
         if (this.props.patientProfile.visits) {
@@ -118,7 +118,7 @@ class EDSSCalculator extends Component {
             'edss:expanded disability status scale - bowel bladder',
             'edss:expanded disability status scale - visual',
             'edss:expanded disability status scale - mental',
-            'edss:expanded disability status scale - ambulation',
+            'edss:expanded disability status scale - ambulation'
         ];
         const add = {};
         const update = {};

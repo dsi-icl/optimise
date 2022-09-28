@@ -41,7 +41,7 @@ export class BaselineVisitFrontPage extends Component {
             7: 'SAE\'s and infections',
             8: 'Lab tests',
             9: 'MRI',
-            10: 'Communication and notes',
+            10: 'Communication and notes'
         };
 
         return (

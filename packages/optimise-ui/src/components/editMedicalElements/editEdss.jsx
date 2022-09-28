@@ -10,7 +10,7 @@ import style from './editMedicalElements.module.css';
 @connect(state => ({
     visitFields: state.availableFields.visitFields,
     patientProfile: state.patientProfile.data,
-}))
+    }))
 export default class EditPerformanceMesaure extends Component {
 
     constructor() {

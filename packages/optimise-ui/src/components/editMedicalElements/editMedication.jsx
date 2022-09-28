@@ -11,7 +11,7 @@ import style from './editMedicalElements.module.css';
 
 @connect(state => ({
     treatments: state.patientProfile.data.treatments
-}))
+    }))
 export default class EditMed extends Component {
     constructor() {
         super();
@@ -110,7 +110,7 @@ export default class EditMed extends Component {
     drugs: state.availableFields.drugs,
     interruptionReasons: state.availableFields.interruptionReasons,
     patientId: state.patientProfile.data.patientId
-}))
+    }))
 class UpdateMedEntry extends Component {
     constructor(props) {
         super();
@@ -199,7 +199,7 @@ class UpdateMedEntry extends Component {
                 startDate: this.state.startDate.toISOString(),
                 terminatedDate: this.state.terminatedDate && !this.state.noEndDate ? this.state.terminatedDate.toISOString() : undefined,
                 terminatedReason: this.state.terminatedReason && !this.state.noEndDate ? this.state.terminatedReason : undefined,
-                intervalUnit: intervalUnit === '' || isNaN(parseInt(times)) ? undefined : intervalUnit,
+                intervalUnit: intervalUnit === '' || isNaN(parseInt(times)) ? undefined : intervalUnit
                 // meddra: this.props.meddraDict[this.state.meddra.current.value]
             }
         };

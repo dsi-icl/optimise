@@ -25,7 +25,7 @@ let keys = {
 @connect(state => ({
     data: state.patientProfile.data,
     availableFields: state.availableFields
-}))
+    }))
 export default class FullTimeline extends Component {
     constructor(props) {
         super(props);
@@ -135,7 +135,7 @@ export default class FullTimeline extends Component {
                         break;
                     default:
                         suffix = 'th';
-                };
+                }
                 if (maxTimeStart.valueOf() > moment(v.visitDate, 'x').valueOf())
                     maxTimeStart = moment(v.visitDate, 'x').toDate();
                 items.push({

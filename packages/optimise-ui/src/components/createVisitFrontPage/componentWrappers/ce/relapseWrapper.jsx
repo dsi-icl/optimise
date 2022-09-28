@@ -13,7 +13,7 @@ import { FrontPageNavigationButton } from '../navigationButtons/navigationButton
     data: state.patientProfile.data,
     typeHash: state.availableFields.clinicalEventTypes_Hash[0],
     meddraHash: state.availableFields.meddra_Hash[0]
-}))
+    }))
 export class RelapseWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;

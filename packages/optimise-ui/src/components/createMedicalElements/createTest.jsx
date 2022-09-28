@@ -11,9 +11,9 @@ import style from './medicalEvent.module.css';
     patientId: state.patientProfile.data.id,
     visits: state.patientProfile.data.visits,
     types: state.availableFields.testTypes
-}), dispatch => ({
-    createTest: body => dispatch(createTestAPICall(body))
-}))
+    }), dispatch => ({
+        createTest: body => dispatch(createTestAPICall(body))
+        }))
 export class CreateTest extends Component {
     constructor() {
         super();

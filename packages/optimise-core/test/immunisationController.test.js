@@ -1,11 +1,9 @@
-/* global beforeAll afterAll describe test expect */
-
 import request from 'supertest';
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-import message from '../src/utils/message-utils';
-import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -31,9 +29,9 @@ describe('Create Immunisation controller test', () => {
     test('Creating Immunisation with body but empty property (Should Fail)', () => admin
         .post('/demographics/Immunisation')
         .send({
-            'patient': null,
-            'vaccineName': null,
-            'immunisationDate': null
+            patient: null,
+            vaccineName: null,
+            immunisationDate: null
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -46,9 +44,9 @@ describe('Create Immunisation controller test', () => {
     test('Creating Immunisation with body but badly formated property (Should Fail)', () => admin
         .post('/demographics/Immunisation')
         .send({
-            'patient': 'WRONG',
-            'vaccineName': 0,
-            'immunisationDate': 0
+            patient: 'WRONG',
+            vaccineName: 0,
+            immunisationDate: 0
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -61,9 +59,9 @@ describe('Create Immunisation controller test', () => {
     test('Creating Immunisation with body but wrong patient (Should Fail)', () => admin
         .post('/demographics/Immunisation')
         .send({
-            'patient': 90,
-            'vaccineName': 'Vacthing',
-            'immunisationDate': '2009-05-02'
+            patient: 90,
+            vaccineName: 'Vacthing',
+            immunisationDate: '2009-05-02'
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -76,9 +74,9 @@ describe('Create Immunisation controller test', () => {
     test('Creating Immunisation with body but wrong vaccineName (Should Fail)', () => admin
         .post('/demographics/Immunisation')
         .send({
-            'patient': 1,
-            'vaccineName': 0,
-            'immunisationDate': '2009-05-02'
+            patient: 1,
+            vaccineName: 0,
+            immunisationDate: '2009-05-02'
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -91,9 +89,9 @@ describe('Create Immunisation controller test', () => {
     test('Creating Immunisation with body but badly formatted immunisation Date (Should Fail)', () => admin
         .post('/demographics/Immunisation')
         .send({
-            'patient': 1,
-            'vaccineName': 'Vacthing',
-            'immunisationDate': 0
+            patient: 1,
+            vaccineName: 'Vacthing',
+            immunisationDate: 0
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -106,9 +104,9 @@ describe('Create Immunisation controller test', () => {
     test('Creating Immunisation with body but wrong vaccine Date (Should Fail)', () => admin
         .post('/demographics/Immunisation')
         .send({
-            'patient': 1,
-            'vaccineName': 'Vacthing',
-            'immunisationDate': '2001-02-29'
+            patient: 1,
+            vaccineName: 'Vacthing',
+            immunisationDate: '2001-02-29'
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -122,9 +120,9 @@ describe('Create Immunisation controller test', () => {
     test('Creating Immunisation well formatted (Should Succeed)', () => admin
         .post('/demographics/Immunisation')
         .send({
-            'patient': 1,
-            'vaccineName': 'Vacthing',
-            'immunisationDate': '2009-05-02'
+            patient: 1,
+            vaccineName: 'Vacthing',
+            immunisationDate: '2009-05-02'
         })
         .then(({ status, body }) => {
             expect(status).toBe(200);
@@ -147,10 +145,10 @@ describe('Edit Immunisation controller test', () => {
     test('Editing Immunisation with body but empty property (Should Fail)', () => admin
         .put('/demographics/Immunisation')
         .send({
-            'id': null,
-            'patient': null,
-            'vaccineName': null,
-            'immunisationDate': null
+            id: null,
+            patient: null,
+            vaccineName: null,
+            immunisationDate: null
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -163,10 +161,10 @@ describe('Edit Immunisation controller test', () => {
     test('Editing Immunisation with body but badly formated property (Should Fail)', () => admin
         .put('/demographics/Immunisation')
         .send({
-            'id': 'WRONG',
-            'patient': 'WRONG',
-            'vaccineName': 0,
-            'immunisationDate': 0
+            id: 'WRONG',
+            patient: 'WRONG',
+            vaccineName: 0,
+            immunisationDate: 0
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -179,10 +177,10 @@ describe('Edit Immunisation controller test', () => {
     test('Editing Immunisation with body but wrong id (Should Fail)', () => admin
         .put('/demographics/Immunisation')
         .send({
-            'id': 90,
-            'patient': 1,
-            'vaccineName': 'A good vaccine',
-            'immunisationDate': '2009-05-02'
+            id: 90,
+            patient: 1,
+            vaccineName: 'A good vaccine',
+            immunisationDate: '2009-05-02'
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -196,10 +194,10 @@ describe('Edit Immunisation controller test', () => {
     test('Editing Immunisation with body but wrong patient (Should Fail)', () => admin
         .put('/demographics/Immunisation')
         .send({
-            'id': 1,
-            'patient': 90,
-            'vaccineName': 'A good vaccine',
-            'immunisationDate': '2009-05-02'
+            id: 1,
+            patient: 90,
+            vaccineName: 'A good vaccine',
+            immunisationDate: '2009-05-02'
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -212,10 +210,10 @@ describe('Edit Immunisation controller test', () => {
     test('Editing Immunisation with body but badly formatted immunisationDate (Should Fail)', () => admin
         .put('/demographics/Immunisation')
         .send({
-            'id': 1,
-            'patient': 1,
-            'vaccineName': 'A good vaccine',
-            'immunisationDate': null
+            id: 1,
+            patient: 1,
+            vaccineName: 'A good vaccine',
+            immunisationDate: null
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -228,10 +226,10 @@ describe('Edit Immunisation controller test', () => {
     test('Editing Immunisation well formatted (Should Succeed)', () => admin
         .put('/demographics/Immunisation')
         .send({
-            'id': 4,
-            'patient': 1,
-            'vaccineName': 'Immune D',
-            'immunisationDate': '2009-05-02'
+            id: 4,
+            patient: 1,
+            vaccineName: 'Immune D',
+            immunisationDate: '2009-05-02'
         })
         .then(({ status, body }) => {
             expect(status).toBe(200);
@@ -256,7 +254,7 @@ describe('Delete Immunisation controller test', () => {
     test('Deleting Immunisation with body but empty property (Should Fail)', () => admin
         .delete('/demographics/Immunisation')
         .send({
-            'id': null
+            id: null
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -269,7 +267,7 @@ describe('Delete Immunisation controller test', () => {
     test('Deleting Immunisation with body but badly formated property (Should Fail)', () => admin
         .delete('/demographics/Immunisation')
         .send({
-            'id': 'WRONG'
+            id: 'WRONG'
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -282,7 +280,7 @@ describe('Delete Immunisation controller test', () => {
     test('Deleting Immunisation with body but out of bound id (Should Fail)', () => admin
         .delete('/demographics/Immunisation')
         .send({
-            'id': 90
+            id: 90
         })
         .then(({ status, body }) => {
             expect(status).toBe(200);
@@ -295,7 +293,7 @@ describe('Delete Immunisation controller test', () => {
     test('Deleting Immunisation with good preperty (Should Succeed)', () => admin
         .delete('/demographics/Immunisation')
         .send({
-            'id': 3
+            id: 3
         })
         .then(({ status, body }) => {
             expect(status).toBe(200);

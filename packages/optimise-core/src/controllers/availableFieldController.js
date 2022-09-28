@@ -6,14 +6,14 @@ import formatToJSON from '../utils/format-response';
 class AvailableFieldController {
     static getFields({ params, query }, res) {     //bound to GETclinicalEvents and GETtestTypes too
         const tableMap = {
-            'visitFields': 'AVAILABLE_FIELDS_VISITS',
-            'visitSections': 'AVAILABLE_VISIT_SECTIONS',
-            'testFields': 'AVAILABLE_FIELDS_TESTS',
-            'ceFields': 'AVAILABLE_FIELDS_CE',
-            'clinicalEvents': 'AVAILABLE_CLINICAL_EVENT_TYPES',
-            'testTypes': 'AVAILABLE_TEST_TYPES',
-            'diagnoses': 'AVAILABLE_DIAGNOSES',
-            'concomitantMedsList': 'AVAILABLE_CONCOMITANT_MED'
+            visitFields: 'AVAILABLE_FIELDS_VISITS',
+            visitSections: 'AVAILABLE_VISIT_SECTIONS',
+            testFields: 'AVAILABLE_FIELDS_TESTS',
+            ceFields: 'AVAILABLE_FIELDS_CE',
+            clinicalEvents: 'AVAILABLE_CLINICAL_EVENT_TYPES',
+            testTypes: 'AVAILABLE_TEST_TYPES',
+            diagnoses: 'AVAILABLE_DIAGNOSES',
+            concomitantMedsList: 'AVAILABLE_CONCOMITANT_MED'
         };
         let moduleObj = {};
         if (tableMap[params.dataType]) {

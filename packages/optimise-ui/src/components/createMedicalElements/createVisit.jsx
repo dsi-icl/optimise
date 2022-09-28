@@ -8,9 +8,9 @@ import style from './medicalEvent.module.css';
 
 @connect(state => ({
     patientId: state.patientProfile.data.id
-}), dispatch => ({
-    createVisit: body => dispatch(createVisitAPICall(body))
-}))
+    }), dispatch => ({
+        createVisit: body => dispatch(createVisitAPICall(body))
+        }))
 export class CreateVisit extends Component {
     constructor() {
         super();

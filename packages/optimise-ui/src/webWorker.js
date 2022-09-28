@@ -27,7 +27,10 @@ worker.onmessage = function ({ data: { data, reponse } }) {
     });
 };
 
-export function start() { }
+export function start() {
+    return;
+}
+
 export function dispatch(data) {
     worker.postMessage(data);
 }

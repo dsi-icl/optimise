@@ -7,7 +7,7 @@ import { PickDate } from '../createMedicalElements/datepicker';
 import { PatientProfileSectionScaffold, DeleteButton, EditButton } from './sharedComponents';
 import { formatRow } from './patientChart';
 import store from '../../redux/store';
-import { createImmunisationAPICall, deleteImmunisationAPICall, editImmunisationAPICall, } from '../../redux/actions/demographicData';
+import { createImmunisationAPICall, deleteImmunisationAPICall, editImmunisationAPICall } from '../../redux/actions/demographicData';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
 import { getPatientPii, changePatientId } from '../../redux/actions/patientProfile';
 import { updateConsentAPICall, updateParticipationAPICall } from '../../redux/actions/consent';
@@ -17,7 +17,7 @@ import style from './patientProfile.module.css';
 @connect(state => ({
     fetching: state.patientProfile.fetching,
     erasePatient: state.erasePatient
-}))
+    }))
 export class Section extends Component {
     componentWillUnmount() {
         store.dispatch(erasePatientReset());
@@ -54,7 +54,7 @@ export class Section extends Component {
     data: state.patientProfile.data ? state.patientProfile.data : {},
     pii: state.patientProfile.pii,
     fields: state.availableFields.demoFields[0]
-}))
+    }))
 class DemographicSection extends Component {
 
     constructor() {
@@ -74,7 +74,7 @@ class DemographicSection extends Component {
             patient: this.props.data.id
         };
         this.setState({
-            showPii: true,
+            showPii: true
         });
         if (!this.props.pii)
             store.dispatch(getPatientPii(body));
@@ -82,7 +82,7 @@ class DemographicSection extends Component {
 
     _hidePii() {
         this.setState({
-            showPii: false,
+            showPii: false
         });
     }
 
@@ -172,7 +172,7 @@ class DemographicSection extends Component {
 
 @connect(state => ({
     data: state.patientProfile.data
-}))
+    }))
 class ImmunisationSection extends Component {
     constructor() {
         super();
@@ -382,7 +382,7 @@ class OneImmunisation extends Component {
 @connect(state => ({
     data: state.patientProfile.data,
     fields: state.availableFields.diagnoses
-}))
+    }))
 class PrimaryDiagnosis extends Component {
     render() {
         if (this.props.data.diagnosis.length === 0) {
@@ -423,7 +423,7 @@ class PrimaryDiagnosis extends Component {
     outcomeHash: state.availableFields.pregnancyOutcomes_Hash[0],
     data: state.patientProfile.data,
     meddra_Hash: state.availableFields.meddra_Hash[0]
-}))
+    }))
 class Pregnancy extends Component {
     render() {
 
@@ -473,7 +473,7 @@ class Pregnancy extends Component {
 @connect(state => ({
     data: state.patientProfile.data,
     priv: state.login.priv
-}))
+    }))
 class DeletePatient extends Component {
     constructor() {
         super();

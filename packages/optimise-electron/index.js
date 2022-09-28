@@ -16,7 +16,7 @@ autoUpdater.logger.transports.file.level = 'info';
 // Setup about panel
 app.setAboutPanelOptions({
     applicationName: packageInfo.productName,
-    applicationVersion: packageInfo.version,
+    applicationVersion: packageInfo.version
 });
 
 // Setup Menu
@@ -51,7 +51,7 @@ if (devMode) {
 
 const web_app = express();
 const optimise_server = new optimiseCore({
-    optimiseDBLocation: path.join(app.getPath('userData'), 'optimise.db'),
+    optimiseDBLocation: path.join(app.getPath('userData'), 'optimise.db')
 });
 
 let cookie;
@@ -74,10 +74,12 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
             s.push(null);
             s.pipe(destination);
         },
-        unpipe: function () { },
-        connection: {
-            remoteAddress: '::1',
+        unpipe: function () {
+            return;
         },
+        connection: {
+            remoteAddress: '::1'
+        }
     });
 
     if (
@@ -125,7 +127,7 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
                     res._sent = Buffer.concat([res._sent, chunk]);
                 if (Buffer.byteLength(res._sent) === 0)
                     reject({
-                        error: 'Could not process relevant reponse in IPC Fetch',
+                        error: 'Could not process relevant reponse in IPC Fetch'
                     });
 
                 let type;
@@ -141,21 +143,21 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
                     resolve({
                         headers: res._headers,
                         statusCode: res.statusCode,
-                        json: JSON.parse(res._sent.toString()),
+                        json: JSON.parse(res._sent.toString())
                     });
                 else {
                     resolve({
                         headers: res._headers,
                         statusCode: res.statusCode,
-                        buffer: res._sent,
+                        buffer: res._sent
                     });
                 }
             } catch (e) {
                 reject({
-                    error: `An error occurred processing IPC Fetch: ${e.message}`,
+                    error: `An error occurred processing IPC Fetch: ${e.message}`
                 });
             }
-        },
+        }
     };
 
     web_app(req, res);
@@ -173,17 +175,17 @@ const createApi = () => optimise_server
                 .then((res) =>
                     event.sender.send('optimiseApiResult', {
                         cid,
-                        res,
+                        res
                     }))
                 .catch((error) => {
                     event.sender.send('optimiseApiResult', {
                         cid,
                         error: {
                             json: {
-                                ...error,
+                                ...error
                             },
-                            statusCode: 500,
-                        },
+                            statusCode: 500
+                        }
                     });
                 });
         });
@@ -197,7 +199,7 @@ const createApi = () => optimise_server
                     title: 'Save export archive',
                     defaultPath: `${app.getPath('downloads')}/${filename === null || filename[1] === undefined
                         ? 'optimise-data.zip'
-                        : filename[1]}`,
+                        : filename[1]}`
                 };
                 return dialog
                     .showSaveDialog(null, options)
@@ -249,8 +251,8 @@ let createWindow = () => {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true,
-            preload: path.join(__dirname, 'preload.js'),
-        },
+            preload: path.join(__dirname, 'preload.js')
+        }
     });
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
@@ -290,32 +292,32 @@ const sendUpdateStatusToWindow = (message) => {
 autoUpdater.on('checking-for-update', () => {
     sendUpdateStatusToWindow({
         ready: false,
-        text: 'Checking for update...',
+        text: 'Checking for update...'
     });
 });
 
 autoUpdater.on('update-available', (__unused__info) => {
     // Prompt the user if an update is available!
     dialog.showMessageBox({
-        message: 'There is an update available! It is being downloaded...',
+        message: 'There is an update available! It is being downloaded...'
     });
     sendUpdateStatusToWindow({
         ready: false,
-        text: 'There is an update available! It is being downloaded...',
+        text: 'There is an update available! It is being downloaded...'
     });
 });
 
 autoUpdater.on('update-not-available', (__unused__info) => {
     sendUpdateStatusToWindow({
         ready: false,
-        text: 'Nothing to update today.',
+        text: 'Nothing to update today.'
     });
 });
 
 autoUpdater.on('error', (err) => {
     sendUpdateStatusToWindow({
         ready: false,
-        text: `There was an error with the update process. ${err.message !== undefined ? err.message : ''}`,
+        text: `There was an error with the update process. ${err.message !== undefined ? err.message : ''}`
     });
 });
 
@@ -325,7 +327,7 @@ autoUpdater.on('download-progress', (info) => {
         ready: false,
         text: `Update download in progress... (${parseFloat(
             info.percent
-        ).toFixed(2)}%)`,
+        ).toFixed(2)}%)`
     });
 });
 
@@ -333,7 +335,7 @@ autoUpdater.on('update-downloaded', (__unused__info) => {
     // Promot the user to update, if update is available
     let options = {
         buttons: ['Yes', 'No'],
-        message: 'Do you want to update the software now?',
+        message: 'Do you want to update the software now?'
     };
 
     dialog.showMessageBox(options).then((res) =>
@@ -358,7 +360,7 @@ autoUpdater.on('update-downloaded', (__unused__info) => {
 
     sendUpdateStatusToWindow({
         ready: true,
-        text: 'The update is ready! Click the button below to install.',
+        text: 'The update is ready! Click the button below to install.'
     });
 });
 

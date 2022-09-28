@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const patient = express();
-
 import PatientController from '../controllers/patientPiiController';
+
+const patient = express();
 
 // Interacts with the patientsPII in the DB
 patient.route('/')

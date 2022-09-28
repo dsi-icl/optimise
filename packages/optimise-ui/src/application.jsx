@@ -19,9 +19,9 @@ const browser = detect();
 @connect(state => ({
     loggedIn: state.login.loggedIn,
     checking: state.login.initialCheckingStatus
-}), dispatch => ({
-    whoami: () => dispatch(whoami())
-}))
+    }), dispatch => ({
+        whoami: () => dispatch(whoami())
+        }))
 class App extends Component {
 
     constructor(...args) {
@@ -94,7 +94,7 @@ function mapDispatchToProps(dispatch) {
 @withRouter
 @connect(state => ({
     fetching: state.availableFields.fetching
-}), mapDispatchToProps)
+    }), mapDispatchToProps)
 class LoadingFields extends Component {
 
     componentDidMount() {

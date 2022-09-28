@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const demogdata = express();
-
 import DemographicController from '../controllers/demographicDataController';
+
+const demogdata = express();
 // Interacts with the patients in the DB
 // Real path expected is /patients
 

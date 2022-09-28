@@ -1,11 +1,9 @@
-/* global beforeAll afterAll describe test expect */
-
 import request from 'supertest';
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-import message from '../src/utils/message-utils';
-import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -50,8 +48,8 @@ describe('Visit controller tests', () => {
     test('Creating visit for a patient', () => admin
         .post('/visits')
         .send({
-            'patientId': 6,
-            'visitDate': '2000-01-29'
+            patientId: 6,
+            visitDate: '2000-01-29'
         })
         .then(({ statusCode, headers, body }) => {
             expect(statusCode).toBe(200);
@@ -65,8 +63,8 @@ describe('Visit controller tests', () => {
     test('Creating the same visit for a patient (Should Succeed; even for duplication)', () => admin
         .post('/visits')
         .send({
-            'patientId': 6,
-            'visitDate': '2000-01-29'
+            patientId: 6,
+            visitDate: '2000-01-29'
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
@@ -79,8 +77,8 @@ describe('Visit controller tests', () => {
     test('Creating visit for a patient with malformed date', () => admin
         .post('/visits')
         .send({
-            'patientId': 6,
-            'visitDate': '32 Mar 2000'
+            patientId: 6,
+            visitDate: '32 Mar 2000'
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
@@ -102,8 +100,8 @@ describe('Visit controller tests', () => {
     test('Updating visit from id', () => admin
         .put('/visits')
         .send({
-            'id': 1,
-            'visitDate': '1990-03-05'
+            id: 1,
+            visitDate: '1990-03-05'
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
@@ -116,8 +114,8 @@ describe('Visit controller tests', () => {
     test('Updating visit\'s communication', () => admin
         .put('/visits')
         .send({
-            'id': 1,
-            'communication': JSON.stringify({ blockObject: { a: 'b' } })
+            id: 1,
+            communication: JSON.stringify({ blockObject: { a: 'b' } })
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
@@ -130,8 +128,8 @@ describe('Visit controller tests', () => {
     test('Updating visit from id second pass', () => admin
         .put('/visits')
         .send({
-            'id': 1,
-            'visitDate': '1962-02-15'
+            id: 1,
+            visitDate: '1962-02-15'
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
@@ -144,8 +142,8 @@ describe('Visit controller tests', () => {
     test('Updating visit which does not exist', () => admin
         .put('/visits')
         .send({
-            'id': 1000,
-            'visitDate': '1962-02-15'
+            id: 1000,
+            visitDate: '1962-02-15'
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
@@ -155,7 +153,7 @@ describe('Visit controller tests', () => {
 
     test('Deleting visit from visitId', () => admin
         .delete('/visits')
-        .send({ 'visitId': 4 })
+        .send({ visitId: 4 })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');
@@ -166,7 +164,7 @@ describe('Visit controller tests', () => {
 
     test('Deleting visit which does not exist', () => admin
         .delete('/visits')
-        .send({ 'visitId': 1000 })
+        .send({ visitId: 1000 })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');

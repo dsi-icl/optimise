@@ -24,7 +24,7 @@ class RequestMiddleware {
         if (body.pw !== undefined)
             body.pw = '*';
         dbcon()('LOG_ACTIONS')
-            .insert({ 'router': req.url, 'method': req.method, 'body': JSON.stringify(body), 'user': username ? username : '' })
+            .insert({ router: req.url, method: req.method, body: JSON.stringify(body), user: username ? username : '' })
             .then(__unused__res => {
                 if (process.env.NODE_ENV === 'development')
                     console.debug(`${req.method} - ${req.originalUrl} ${username ? `: ${username}` : ''}`);

@@ -98,7 +98,7 @@ class ConcomitantMedController {
 
     static deleteConcomitantMed({ body, user }, res) {
         if (body.concomitantMedEntryId && typeof body.concomitantMedEntryId === 'number') {
-            ConcomitantMed.deleteConcomitantMed(user, { 'id': body.concomitantMedEntryId }).then((result) => {
+            ConcomitantMed.deleteConcomitantMed(user, { id: body.concomitantMedEntryId }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {

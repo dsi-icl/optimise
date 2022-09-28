@@ -56,7 +56,7 @@ class PatientController {
         let entryObj = {
             aliasId: body.aliasId,
             createdByUser: user.id,
-            consent: body.consent,
+            consent: body.consent
         };
         if (body.study && body.study !== 'NA') { // study is placeholder for consent date
             entryObj.study = body.study;
@@ -104,7 +104,7 @@ class PatientController {
 
     static getPatientProfileById({ params, query }, res) {
         if (params.hasOwnProperty('patientId')) {
-            return PatientCore.getPatientProfile({ 'aliasId': params.patientId }, false, query.getOnly)
+            return PatientCore.getPatientProfile({ aliasId: params.patientId }, false, query.getOnly)
                 .then(result => {
                     res.status(200).json(result);
                     return true;

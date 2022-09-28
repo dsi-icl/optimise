@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 @connect(state => ({
     currentPatient: state.patientProfile.currentPatient
-}))
+    }))
 export class PatientDispatch extends Component {
     render() {
         if (this.props.currentPatient === undefined || this.props.currentPatient === null)

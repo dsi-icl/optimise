@@ -9,7 +9,7 @@ const RETREIVAL_PER_CALL = 100;
 
 @connect(state => ({
     log: state.log
-}))
+    }))
 export class Log extends Component {
 
     constructor() {
@@ -27,7 +27,7 @@ export class Log extends Component {
     _loadMore() {
         store.dispatch(getLogAPICall({
             limit: RETREIVAL_PER_CALL,
-            offset: this.state.offset,
+            offset: this.state.offset
         }));
         this.setState(prevState => ({
             ...prevState,

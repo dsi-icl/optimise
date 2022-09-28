@@ -11,9 +11,9 @@ import style from './medicalEvent.module.css';
     patientId: state.patientProfile.data.id,
     visits: state.patientProfile.data.visits,
     types: state.availableFields.clinicalEventTypes
-}), dispatch => ({
-    createCE: body => dispatch(createCEAPICall(body))
-}))
+    }), dispatch => ({
+        createCE: body => dispatch(createCEAPICall(body))
+        }))
 export class CreateCE extends Component {
     constructor() {
         super();
@@ -22,7 +22,7 @@ export class CreateCE extends Component {
             endDate: moment(),
             startDate: moment(),
             meddra: undefined,
-            ceType: 'unselected',
+            ceType: 'unselected'
         };
         this._handleDateChange = this._handleDateChange.bind(this);
         this._handleSubmitClick = this._handleSubmitClick.bind(this);

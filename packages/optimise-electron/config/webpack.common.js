@@ -3,7 +3,7 @@ let CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
-        'renderer': './src/renderer.js'
+        renderer: './src/renderer.js'
     },
 
     resolve: {
@@ -11,7 +11,7 @@ module.exports = {
     },
 
     externals: {
-        sqlite3: 'commonjs sqlite3',
+        sqlite3: 'commonjs sqlite3'
     },
 
     module: {
@@ -33,7 +33,7 @@ module.exports = {
                         ignore: ['**/index.html']
                     }
                 },
-                { force: true, context: '../optimise-core/build', from: '**', to: '.' },
+                { force: true, context: '../optimise-core/build', from: '**', to: '.' }
             ]
         })
     ],

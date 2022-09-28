@@ -13,7 +13,7 @@ import style from '../createMedicalElements/medicalEvent.module.css';
 @connect(state => ({
     patientProfile: state.patientProfile,
     fields: state.availableFields
-}))
+    }))
 export default class EditPrimaryDiagnoses extends Component {
     constructor() {
         super();
@@ -71,7 +71,7 @@ export default class EditPrimaryDiagnoses extends Component {
             data: {
                 patient: parseInt(data.id, 10),
                 diagnosisDate: this.state.diagnosisDate ? this.state.diagnosisDate.toISOString() : null,
-                diagnosis: parseInt(this.state.diagnosis, 10),
+                diagnosis: parseInt(this.state.diagnosis, 10)
             }
         };
         this.setState({
@@ -142,7 +142,7 @@ class OneEditPrimaryDiagnoses extends Component {
             diagnosisDate: moment(parseInt(data.diagnosisDate)),
             diagnosis: data.diagnosis,
             diagnosisDate_original: moment(parseInt(data.diagnosisDate)),
-            diagnosis_original: data.diagnosis,
+            diagnosis_original: data.diagnosis
         };
         this._handleClickDelete = this._handleClickDelete.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);

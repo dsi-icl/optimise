@@ -5,7 +5,7 @@ import style from './export.module.css';
 //not yet finished the dispatch
 @connect(state => ({
     data: state.searchPatient
-}))
+    }))
 export class ExportSets extends Component {
 
     constructor() {

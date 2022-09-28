@@ -1,11 +1,9 @@
-/* global beforeAll afterAll describe test expect */
-
 import request from 'supertest';
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-import message from '../src/utils/message-utils';
-import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -31,9 +29,9 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy with body but empty property (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': null,
-            'outcome': null,
-            'startDate': null,
+            patient: null,
+            outcome: null,
+            startDate: null
             // 'meddra': null
         })
         .then(({ status, body }) => {
@@ -47,9 +45,9 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy with body but badly formated property (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': {},
-            'outcome': {},
-            'startDate': {},
+            patient: {},
+            outcome: {},
+            startDate: {}
             // 'meddra': {}
         })
         .then(({ status, body }) => {
@@ -63,8 +61,8 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy without patient (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'outcome': 2,
-            'startDate': '2000-01-01',
+            outcome: 2,
+            startDate: '2000-01-01'
             // 'meddra': 3
         })
         .then(({ status, body }) => {
@@ -78,9 +76,9 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy with wrong patient (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': {},
-            'outcome': 2,
-            'startDate': '2000-01-01',
+            patient: {},
+            outcome: 2,
+            startDate: '2000-01-01'
             // 'meddra': 3
         })
         .then(({ status, body }) => {
@@ -94,9 +92,9 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy with bad patient (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 90,
-            'outcome': 2,
-            'startDate': '2000-01-01',
+            patient: 90,
+            outcome: 2,
+            startDate: '2000-01-01'
             // 'meddra': 3
         })
         .then(({ status, body }) => {
@@ -110,9 +108,9 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy with wrong outcome (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 1,
-            'outcome': {},
-            'startDate': '2000-01-01',
+            patient: 1,
+            outcome: {},
+            startDate: '2000-01-01'
             // 'meddra': 3
         })
         .then(({ status, body }) => {
@@ -126,9 +124,9 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy with bad outcome (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 1,
-            'outcome': 1700,
-            'startDate': '2000-01-01',
+            patient: 1,
+            outcome: 1700,
+            startDate: '2000-01-01'
             // 'meddra': 3
         })
         .then(({ status, body }) => {
@@ -142,10 +140,10 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy with wrong MedDRA type (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 1,
-            'outcome': 2,
-            'startDate': '2000-01-01',
-            'meddra': {}
+            patient: 1,
+            outcome: 2,
+            startDate: '2000-01-01',
+            meddra: {}
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -158,10 +156,10 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy with non-existing MedDRA (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 1,
-            'outcome': 2,
-            'startDate': '2000-01-01',
-            'meddra': 3000000
+            patient: 1,
+            outcome: 2,
+            startDate: '2000-01-01',
+            meddra: 3000000
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -174,9 +172,9 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy with bad startDate (Should Fail)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 1,
-            'outcome': 2,
-            'startDate': 'xx1337xx',
+            patient: 1,
+            outcome: 2,
+            startDate: 'xx1337xx'
             // 'meddra': 3
         })
         .then(({ status, body }) => {
@@ -190,10 +188,10 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy well formatted (Should Succeed)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 1,
-            'outcome': 2,
-            'outcomeDate': '2000-05-14',
-            'startDate': '2000-01-01',
+            patient: 1,
+            outcome: 2,
+            outcomeDate: '2000-05-14',
+            startDate: '2000-01-01'
             // 'meddra': 3
         })
         .then(({ status, body }) => {
@@ -207,10 +205,10 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy well formatted with no MedDRA (Should Succeed)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 3,
-            'outcomeDate': '2000-05-14',
-            'outcome': 2,
-            'startDate': '1989-03-04'
+            patient: 3,
+            outcomeDate: '2000-05-14',
+            outcome: 2,
+            startDate: '1989-03-04'
         })
         .then(({ status, body }) => {
             expect(status).toBe(200);
@@ -224,8 +222,8 @@ describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy without outcome (Should Succeed)', () => admin
         .post('/demographics/Pregnancy')
         .send({
-            'patient': 2,
-            'startDate': '2000-01-01',
+            patient: 2,
+            startDate: '2000-01-01'
             // 'meddra': 3
         })
         .then(({ status, body }) => {
@@ -248,8 +246,8 @@ describe('Edit Pregnancy controller test', () => {
     test('Editing Pregnancy with body but empty property (Should Fail)', () => admin
         .put('/demographics/Pregnancy')
         .send({
-            'id': null,
-            'outcome': 4
+            id: null,
+            outcome: 4
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -262,8 +260,8 @@ describe('Edit Pregnancy controller test', () => {
     test('Editing Pregnancy with body but badly formated property (Should Fail)', () => admin
         .put('/demographics/Pregnancy')
         .send({
-            'id': 'WRONG',
-            'outcome': 4
+            id: 'WRONG',
+            outcome: 4
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -276,8 +274,8 @@ describe('Edit Pregnancy controller test', () => {
     test('Editing Pregnancy with body but wrong id (Should Fail)', () => admin
         .put('/demographics/Pregnancy')
         .send({
-            'id': 90,
-            'outcome': 4
+            id: 90,
+            outcome: 4
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -290,8 +288,8 @@ describe('Edit Pregnancy controller test', () => {
     test('Editing Pregnancy well formatted (Should Succeed)', () => admin
         .put('/demographics/Pregnancy')
         .send({
-            'id': 3,
-            'outcome': 4
+            id: 3,
+            outcome: 4
         })
         .then(({ status, body }) => {
             expect(status).toBe(200);
@@ -317,7 +315,7 @@ describe('Delete Pregnancy controller test', () => {
     test('Deleting Pregnancy with body but empty property (Should Fail)', () => admin
         .delete('/demographics/Pregnancy')
         .send({
-            'id': null
+            id: null
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -330,7 +328,7 @@ describe('Delete Pregnancy controller test', () => {
     test('Deleting Pregnancy with body but badly formated property (Should Fail)', () => admin
         .delete('/demographics/Pregnancy')
         .send({
-            'id': 'WRONG'
+            id: 'WRONG'
         })
         .then(({ status, body }) => {
             expect(status).toBe(400);
@@ -343,7 +341,7 @@ describe('Delete Pregnancy controller test', () => {
     test('Deleting Pregnancy with body but out of bound id (Should Fail)', () => admin
         .delete('/demographics/Pregnancy')
         .send({
-            'id': 90
+            id: 90
         })
         .then(({ status, body }) => {
             expect(status).toBe(200);
@@ -356,7 +354,7 @@ describe('Delete Pregnancy controller test', () => {
     test('Deleting Pregnancy with good preperty (Should Succeed)', () => admin
         .delete('/demographics/Pregnancy')
         .send({
-            'id': 3
+            id: 3
         })
         .then(({ status, body }) => {
             expect(status).toBe(200);

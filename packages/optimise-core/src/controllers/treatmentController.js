@@ -49,17 +49,17 @@ class TreatmentController {
             return;
         }
         let entryObj = {
-            'orderedDuringVisit': body.visitId,
-            'drug': body.drugId,
-            'dose': (body.hasOwnProperty('dose') ? body.dose : null),
-            'unit': (body.hasOwnProperty('unit') ? body.unit : null),   // hardcoded SQL: only mg or cc
-            'form': (body.hasOwnProperty('form') ? body.form : null),   // hardcoded SQL: only OR, IV, IM or SC
-            'times': (body.hasOwnProperty('times') ? body.times : null),
-            'intervalUnit': (body.hasOwnProperty('intervalUnit') ? body.intervalUnit : null), // hardcoded: hour, day, week, month, year
-            'startDate': body.startDate !== null ? momentStart.valueOf() : null,
-            'terminatedDate': (body.hasOwnProperty('terminatedDate') && body.terminatedDate !== null ? momentTerminated.valueOf() : null),
-            'terminatedReason': (body.hasOwnProperty('terminatedReason') ? body.terminatedReason : null),
-            'createdByUser': user.id
+            orderedDuringVisit: body.visitId,
+            drug: body.drugId,
+            dose: (body.hasOwnProperty('dose') ? body.dose : null),
+            unit: (body.hasOwnProperty('unit') ? body.unit : null),   // hardcoded SQL: only mg or cc
+            form: (body.hasOwnProperty('form') ? body.form : null),   // hardcoded SQL: only OR, IV, IM or SC
+            times: (body.hasOwnProperty('times') ? body.times : null),
+            intervalUnit: (body.hasOwnProperty('intervalUnit') ? body.intervalUnit : null), // hardcoded: hour, day, week, month, year
+            startDate: body.startDate !== null ? momentStart.valueOf() : null,
+            terminatedDate: (body.hasOwnProperty('terminatedDate') && body.terminatedDate !== null ? momentTerminated.valueOf() : null),
+            terminatedReason: (body.hasOwnProperty('terminatedReason') ? body.terminatedReason : null),
+            createdByUser: user.id
         };
         TreatmentCore.createTreatment(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
@@ -78,7 +78,7 @@ class TreatmentController {
                 res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
                 return;
             }
-            TreatmentCore.addTerminationDateTreatment(body.treatmentId, { 'terminatedDate': body.terminatedDate !== null ? momentTerminated.valueOf() : null, 'terminatedReason': body.terminatedReason })
+            TreatmentCore.addTerminationDateTreatment(body.treatmentId, { terminatedDate: body.terminatedDate !== null ? momentTerminated.valueOf() : null, terminatedReason: body.terminatedReason })
                 .then((result) => {
                     res.status(200).json(formatToJSON(result));
                     return true;
@@ -172,12 +172,12 @@ class TreatmentController {
                 return;
             }
             let entryObj = {
-                'treatment': body.treatmentId,
-                'startDate': body.start_date !== null ? momentStart.valueOf() : null,
-                'meddra': body.hasOwnProperty('meddra') ? body.meddra : null,
-                'endDate': (body.hasOwnProperty('end_date') && body.end_date !== null ? momentEnd.valueOf() : null),
-                'reason': body.hasOwnProperty('reason') ? body.reason : null,
-                'createdByUser': user.id
+                treatment: body.treatmentId,
+                startDate: body.start_date !== null ? momentStart.valueOf() : null,
+                meddra: body.hasOwnProperty('meddra') ? body.meddra : null,
+                endDate: (body.hasOwnProperty('end_date') && body.end_date !== null ? momentEnd.valueOf() : null),
+                reason: body.hasOwnProperty('reason') ? body.reason : null,
+                createdByUser: user.id
             };
             TreatmentCore.addInterruption(user, entryObj).then((result) => {
                 res.status(200).json(formatToJSON(result));
@@ -215,11 +215,11 @@ class TreatmentController {
                 return;
             }
             let newObj = {
-                'startDate': body.hasOwnProperty('start_date') && momentStart !== null ? momentStart.valueOf() : null,
-                'meddra': body.hasOwnProperty('meddra') ? parseInt(body.meddra) : null,
-                'endDate': body.hasOwnProperty('end_date') && momentEnd !== null ? momentEnd.valueOf() : null,
-                'reason': body.hasOwnProperty('reason') ? body.reason : null,
-                'createdByUser': user.id
+                startDate: body.hasOwnProperty('start_date') && momentStart !== null ? momentStart.valueOf() : null,
+                meddra: body.hasOwnProperty('meddra') ? parseInt(body.meddra) : null,
+                endDate: body.hasOwnProperty('end_date') && momentEnd !== null ? momentEnd.valueOf() : null,
+                reason: body.hasOwnProperty('reason') ? body.reason : null,
+                createdByUser: user.id
             };
             TreatmentCore.updateInterruption(user, body.treatmentInterId, newObj).then((result) => {
                 res.status(200).json(formatToJSON(result));

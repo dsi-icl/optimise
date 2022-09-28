@@ -26,7 +26,7 @@ export function checkIfObjIsEmpty(...objs) {
         }
     }
     return true;
-};
+}
 
 
 /* receives ref and an array of choices  */

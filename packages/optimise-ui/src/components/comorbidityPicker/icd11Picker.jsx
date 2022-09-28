@@ -5,7 +5,7 @@ import TreePicker from '../treePicker';
 @connect(state => ({
     hash: state.availableFields.icd11_Hash[0],
     tree: state.availableFields.icd11_Tree
-}))
+    }))
 export class ICD11Picker extends Component {
 
     render() {

@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const info = express();
-
 import InfoController from '../controllers/infoController';
+
+const info = express();
 
 info.route('/')
     .get(InfoController.getInfo);

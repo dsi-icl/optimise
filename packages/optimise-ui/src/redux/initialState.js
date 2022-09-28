@@ -53,32 +53,32 @@ export const initialState = {
         concomitantMedsList_hash: null,
         inputTypes: [     //'I', 'F', 'BLOB' etc
             {
-                'id': 1,
-                'value': 'I'
+                id: 1,
+                value: 'I'
             },
             {
-                'id': 2,
-                'value': 'F'
+                id: 2,
+                value: 'F'
             },
             {
-                'id': 3,
-                'value': 'C'
+                id: 3,
+                value: 'C'
             },
             {
-                'id': 4,
-                'value': 'T'
+                id: 4,
+                value: 'T'
             },
             {
-                'id': 5,
-                'value': 'B'
+                id: 5,
+                value: 'B'
             },
             {
-                'id': 6,
-                'value': 'D'
+                id: 6,
+                value: 'D'
             },
             {
-                'id': 7,
-                'value': 'BLOB'
+                id: 7,
+                value: 'BLOB'
             }
         ],
         inputTypes_Hash: [

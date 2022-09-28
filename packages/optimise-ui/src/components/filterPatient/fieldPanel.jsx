@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 @connect(state => ({
     fields: state.availableFields
-}))
+    }))
 export class Fields extends Component {
 
     constructor() {

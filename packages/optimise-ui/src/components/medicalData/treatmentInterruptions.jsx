@@ -14,7 +14,7 @@ import style from '../createMedicalElements/medicalEvent.module.css';
 @connect(state => ({
     patientProfile: state.patientProfile,
     fields: state.availableFields
-}))
+    }))
 export class TreatmentInterruption extends Component {
     constructor() {
         super();
@@ -208,7 +208,7 @@ class OneTreatmentInterruption extends Component {
             startDate_original: moment(parseInt(data.startDate)),
             endDate_original: data.endDate ? moment(parseInt(data.endDate)) : null,
             reason_original: data.reason,
-            meddra_original: data.meddra,
+            meddra_original: data.meddra
         };
         this._handleClickDelete = this._handleClickDelete.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);

@@ -31,28 +31,28 @@ export class DemographicCore {
 
     static getCountryFields() {
         return new Promise((resolve, reject) => getEntry('COUNTRIES', {}, '*').then((result) => {
-            let returnObj = { 'countries': result };
+            let returnObj = { countries: result };
             return resolve(returnObj);
         }).catch((error) => reject(error)));
     }
 
     static getEthnicityFields() {
         return new Promise((resolve, reject) => getEntry('ETHNICITIES', {}, '*').then((result) => {
-            let returnObj = { 'ethnicities': result };
+            let returnObj = { ethnicities: result };
             return resolve(returnObj);
         }).catch((error) => reject(error)));
     }
 
     static getDominantHandsFields() {
         return new Promise((resolve, reject) => getEntry('DOMINANT_HANDS', {}, '*').then((result) => {
-            let returnObj = { 'dominant_hands': result };
+            let returnObj = { dominant_hands: result };
             return resolve(returnObj);
         }).catch((error) => reject(error)));
     }
 
     static getGenderFields() {
         return new Promise((resolve, reject) => getEntry('GENDERS', {}, '*').then((result) => {
-            let returnObj = { 'genders': result };
+            let returnObj = { genders: result };
             return resolve(returnObj);
         }).catch((error) => reject(error)));
     }
@@ -87,14 +87,14 @@ export class MedicalHistoryCore {
 
     static getRelations() {
         return new Promise((resolve, reject) => getEntry('RELATIONS', {}, '*').then((result) => {
-            let returnObj = { 'relations': result };
+            let returnObj = { relations: result };
             return resolve(returnObj);
         }).catch((error) => reject(error)));
     }
 
     static getConditions() {
         return new Promise((resolve, reject) => getEntry('CONDITIONS', {}, '*').then((result) => {
-            let returnObj = { 'conditions': result };
+            let returnObj = { conditions: result };
             return resolve(returnObj);
         }).catch((error) => reject(error)));
     }
@@ -139,7 +139,7 @@ export class PregnancyCore {
     }
 
     static editPregnancy(user, entryObj) {
-        return new Promise((resolve, reject) => updateEntry('PATIENT_PREGNANCY', user, '*', { 'id': entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+        return new Promise((resolve, reject) => updateEntry('PATIENT_PREGNANCY', user, '*', { id: entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
     static deletePregnancy(user, whereObj) {

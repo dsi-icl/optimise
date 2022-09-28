@@ -8,7 +8,7 @@ class PatientDiagnosisController {
 
     static getPatientDiagnosis({ query }, res) {
         if (query.hasOwnProperty('patient')) {
-            PatientDiagnosisCore.getPatientDiagnosis({ 'patient': parseInt(query.patient) }).then((result) => {
+            PatientDiagnosisCore.getPatientDiagnosis({ patient: parseInt(query.patient) }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {
@@ -86,7 +86,7 @@ class PatientDiagnosisController {
 
     static deletePatientDiagnosis({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
-            PatientDiagnosisCore.deletePatientDiagnosis(user, { 'id': body.id }).then((result) => {
+            PatientDiagnosisCore.deletePatientDiagnosis(user, { id: body.id }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {
