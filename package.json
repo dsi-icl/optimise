@@ -43,7 +43,7 @@
     "devDependencies": {
         "@commitlint/config-conventional": "17.1.0",
         "@nrwl/eslint-plugin-nx": "14.7.17",
-        "@nrwl/nx-cloud": "14.6.2",
+        "@nrwl/nx-cloud": "14.7.0",
         "@nrwl/workspace": "14.7.18",
         "commitlint": "17.1.2",
         "eslint-plugin-import": "2.26.0",
