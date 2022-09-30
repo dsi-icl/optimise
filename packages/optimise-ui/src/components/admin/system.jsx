@@ -10,7 +10,7 @@ function mapStateToProps(state) {
 }
 
 @connect(mapStateToProps)
-export class SystemInfo extends PureComponent {
+class SystemInfo extends PureComponent {
     render() {
         return (
             <>
@@ -19,3 +19,5 @@ export class SystemInfo extends PureComponent {
         );
     }
 }
+
+export {SystemInfo};

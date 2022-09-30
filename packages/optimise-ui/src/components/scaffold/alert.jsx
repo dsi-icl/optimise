@@ -10,7 +10,7 @@ import style from './scaffold.module.css';
 @connect(state => ({
     alert: state.alert
     }))
-export default class AlertMessage extends Component {
+class AlertMessage extends Component {
 
     _handleCancel = () => {
         store.dispatch(clearAlert());
@@ -44,3 +44,5 @@ export default class AlertMessage extends Component {
 
     }
 }
+
+export default AlertMessage;

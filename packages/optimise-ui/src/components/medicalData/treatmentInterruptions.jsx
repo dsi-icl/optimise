@@ -15,7 +15,7 @@ import style from '../createMedicalElements/medicalEvent.module.css';
     patientProfile: state.patientProfile,
     fields: state.availableFields
     }))
-export class TreatmentInterruption extends Component {
+class TreatmentInterruption extends Component {
     constructor() {
         super();
         this.state = {
@@ -369,3 +369,5 @@ class OneTreatmentInterruption extends Component {
         );
     }
 }
+
+export {TreatmentInterruption};

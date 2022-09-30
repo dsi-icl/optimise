@@ -6,7 +6,7 @@ import TreePicker from '../treePicker';
     hash: state.availableFields.meddra_Hash[0],
     tree: state.availableFields.meddra_Tree
     }))
-export class MeddraPicker extends Component {
+class MeddraPicker extends Component {
 
     render() {
         return (
@@ -14,3 +14,5 @@ export class MeddraPicker extends Component {
         );
     }
 }
+
+export {MeddraPicker};

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 @connect(state => ({
     fields: state.availableFields
     }))
-export class Fields extends Component {
+class Fields extends Component {
 
     constructor() {
         super();
@@ -24,3 +24,5 @@ export class Fields extends Component {
         );
     }
 }
+
+export {Fields};

@@ -13,7 +13,7 @@ import style from './createPatient.module.css';
     demofields: state.availableFields.demoFields[0],
     patientId: state.createPatient.patientId,
     }))
-export default class CreatePatient extends Component {    //get these props from state: this.props.visitFields, this.props.patientId
+class CreatePatient extends Component {    //get these props from state: this.props.visitFields, this.props.patientId
     constructor(props) {
         super(props);
         this.state = {
@@ -241,3 +241,5 @@ export class SelectField extends Component {
         );
     }
 }
+
+export default CreatePatient;

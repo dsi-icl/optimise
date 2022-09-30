@@ -14,7 +14,7 @@ import style from '../createMedicalElements/medicalEvent.module.css';
     patientProfile: state.patientProfile,
     fields: state.availableFields
     }))
-export default class EditPrimaryDiagnoses extends Component {
+class EditPrimaryDiagnoses extends Component {
     constructor() {
         super();
         this.state = {
@@ -131,6 +131,8 @@ export default class EditPrimaryDiagnoses extends Component {
         }
     }
 }
+
+export default EditPrimaryDiagnoses;
 
 class OneEditPrimaryDiagnoses extends Component {
     constructor(props) {

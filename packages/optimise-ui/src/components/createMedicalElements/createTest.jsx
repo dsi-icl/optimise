@@ -14,7 +14,7 @@ import style from './medicalEvent.module.css';
     }), dispatch => ({
         createTest: body => dispatch(createTestAPICall(body))
         }))
-export class CreateTest extends Component {
+class CreateTest extends Component {
     constructor() {
         super();
         this.state = {
@@ -131,3 +131,5 @@ export class CreateTest extends Component {
         }
     }
 }
+
+export {CreateTest};

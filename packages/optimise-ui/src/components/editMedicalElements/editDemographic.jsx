@@ -11,7 +11,7 @@ import { getPatientPii } from '../../redux/actions/patientProfile';
 @connect(state => ({
     CEs: state.patientProfile.data.clinicalEvents
     }))
-export default class EditDemo extends Component {
+class EditDemo extends Component {
 
     render() {
         const { params } = this.props.match;
@@ -29,6 +29,7 @@ export default class EditDemo extends Component {
     }
 }
 
+export default EditDemo;
 
 @connect(state => ({
     id: state.patientProfile.data.id,

@@ -11,7 +11,7 @@ import style from './scaffold.module.css';
     username: state.login.username,
     priv: state.login.priv
     }))
-export default class MenuBar extends Component {
+class MenuBar extends Component {
     constructor() {
         super();
         this._handleLogout = this._handleLogout.bind(this);
@@ -49,3 +49,5 @@ export default class MenuBar extends Component {
         );
     }
 }
+
+export default MenuBar;

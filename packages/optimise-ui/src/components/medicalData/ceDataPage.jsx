@@ -30,7 +30,7 @@ function mapStateToProps(state) {
 /* this component serves as a sieve for the data and pass the relevant one to the form as props*/
 @withRouter
 @connect(mapStateToProps)
-export class CeData extends Component {
+class CeData extends Component {
     constructor() {
         super();
         this.state = {};
@@ -185,3 +185,5 @@ export class CeData extends Component {
         }
     }
 }
+
+export {CeData};

@@ -10,7 +10,7 @@ const RETREIVAL_PER_CALL = 100;
 @connect(state => ({
     log: state.log
     }))
-export class Log extends Component {
+class Log extends Component {
 
     constructor() {
         super();
@@ -55,6 +55,8 @@ export class Log extends Component {
         }
     }
 }
+
+export {Log};
 
 /**
  * @prop {Object} this.props.entry

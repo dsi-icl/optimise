@@ -10,7 +10,7 @@ import style from './admin.module.css';
         setSyncOptions: body => dispatch(setSyncOptionsAPICall(body)),
         syncNow: adminPass => dispatch(syncNowAPICall(adminPass))
         }))
-export class Sync extends PureComponent {
+class Sync extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -94,3 +94,5 @@ export class Sync extends PureComponent {
 
     }
 }
+
+export { Sync};

@@ -26,7 +26,7 @@ let keys = {
     data: state.patientProfile.data,
     availableFields: state.availableFields
     }))
-export default class FullTimeline extends Component {
+class FullTimeline extends Component {
     constructor(props) {
         super(props);
 
@@ -484,6 +484,8 @@ export default class FullTimeline extends Component {
         );
     }
 }
+
+export default FullTimeline;
 
 function sortVisits(visitList) {
     const visits = [...visitList];

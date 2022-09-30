@@ -14,7 +14,7 @@ import { addAlert } from '../../redux/actions/alert';
     }), dispatch => ({
         updateVisit: body => dispatch(updateVisitAPICall(body))
         }))
-export default class EditVisit extends Component {
+class EditVisit extends Component {
     constructor(props) {
         super(props);
         this.state = { wannaUpdate: false };
@@ -165,3 +165,5 @@ export default class EditVisit extends Component {
         );
     }
 }
+
+export default EditVisit;

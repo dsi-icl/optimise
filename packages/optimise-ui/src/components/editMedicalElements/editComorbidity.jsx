@@ -13,7 +13,7 @@ import style from '../createMedicalElements/medicalEvent.module.css';
     patientProfile: state.patientProfile,
     fields: state.availableFields
     }))
-export default class EditComorbidity extends Component {
+class EditComorbidity extends Component {
     constructor() {
         super();
         this.state = {
@@ -119,6 +119,7 @@ export default class EditComorbidity extends Component {
     }
 }
 
+export default EditComorbidity;
 
 class OneComorbidity extends Component {
     constructor(props) {

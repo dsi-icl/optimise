@@ -17,7 +17,7 @@ from its date which css grid area it belongs to, by calculating the ratio and th
     data: state.patientProfile.data,
     visitFields: state.availableFields.visitFields
     }))
-export class TimelineBox extends Component {   //unfinsihed
+class TimelineBox extends Component {   //unfinsihed
     render() {
         const allVisitDates = this.props.data.visits.filter(el => el.type === 1).map(el => el.visitDate);
         const allTestDates = this.props.data.tests.map(el => el.actualOccurredDate || el.expectedOccurDate);
@@ -184,3 +184,5 @@ export class TimelineBox extends Component {   //unfinsihed
         );
     }
 }
+
+export {TimelineBox};

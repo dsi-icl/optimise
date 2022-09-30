@@ -14,7 +14,7 @@ import { deleteCEAPICall, updateCECall } from '../../redux/actions/clinicalEvent
 @connect(state => ({
     CEs: state.patientProfile.data.clinicalEvents
     }))
-export default class EditCE extends Component {
+class EditCE extends Component {
     constructor(props) {
         super(props);
         this.state = { wannaUpdate: false, elementId: props.match.params.elementId };
@@ -104,6 +104,7 @@ export default class EditCE extends Component {
     }
 }
 
+export default EditCE;
 
 @connect(state => ({
     patientId: state.patientProfile.data.patientId

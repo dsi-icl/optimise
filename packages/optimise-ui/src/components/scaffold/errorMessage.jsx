@@ -7,7 +7,7 @@ import style from './scaffold.module.css';
 @connect(state => ({
     error: state.appLevelError
     }))
-export default class ErrorMessage extends PureComponent {
+class ErrorMessage extends PureComponent {
     _handleCancel = () => {
         store.dispatch(clearError());
     };
@@ -45,3 +45,5 @@ export default class ErrorMessage extends PureComponent {
 
     }
 }
+
+export default ErrorMessage;

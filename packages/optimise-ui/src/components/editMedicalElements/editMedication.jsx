@@ -12,7 +12,7 @@ import style from './editMedicalElements.module.css';
 @connect(state => ({
     treatments: state.patientProfile.data.treatments
     }))
-export default class EditMed extends Component {
+class EditMed extends Component {
     constructor() {
         super();
         this.state = { wannaUpdate: false };
@@ -105,6 +105,7 @@ export default class EditMed extends Component {
     }
 }
 
+export default EditMed;
 
 @connect(state => ({
     drugs: state.availableFields.drugs,

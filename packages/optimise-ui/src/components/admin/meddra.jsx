@@ -9,7 +9,7 @@ import style from './admin.module.css';
     success: state.uploadMeddra.success,
     requesting: state.uploadMeddra.requesting,
     }))
-export class Meddra extends Component {
+class Meddra extends Component {
     constructor() {
         super();
         this.state = {
@@ -78,3 +78,5 @@ export class Meddra extends Component {
         );
     }
 }
+
+export {Meddra};

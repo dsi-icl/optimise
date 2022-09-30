@@ -19,7 +19,7 @@ import style from './patientProfile.module.css';
     fetching: state.patientProfile.fetching,
     data: state.patientProfile.data
     }))
-export class PatientChart extends Component {
+class PatientChart extends Component {
     constructor() {
         super();
         this.state = { hash: null };
@@ -75,13 +75,15 @@ export class PatientChart extends Component {
     }
 }
 
+export {PatientChart};
+
 /* receives a prop data of one test*/
 @withRouter
 @connect(state => ({
     typedict: state.availableFields.testTypes_Hash[0],
     patientId: state.patientProfile.data.patientId
     }))
-export class Test extends PureComponent {
+class Test extends PureComponent {
     render() {
         const { data, typedict, patientId, renderedInFrontPage } = this.props;
         const dateDone = data.expectedOccurDate ? new Date(parseInt(data.expectedOccurDate, 10)).toDateString() : '';
@@ -103,6 +105,8 @@ export class Test extends PureComponent {
     }
 }
 
+export {Test};
+
 /* receives a prop data of one treatment */
 @withRouter
 @connect(state => ({
@@ -110,7 +114,7 @@ export class Test extends PureComponent {
     patientId: state.patientProfile.data.patientId,
     reasondict: state.availableFields.interruptionReasons_Hash[0],
     }))
-export class Medication extends PureComponent {
+class Medication extends PureComponent {
 
     intervalUnitString(intervalUnit) {
         if (intervalUnit === '6weeks')
@@ -148,6 +152,8 @@ export class Medication extends PureComponent {
     }
 }
 
+export {Medication};
+
 /* receives a prop data of one clinical event*/
 @withRouter
 @connect(state => ({
@@ -155,7 +161,7 @@ export class Medication extends PureComponent {
     patientId: state.patientProfile.data.patientId,
     meddraHash: state.availableFields.meddra_Hash[0]
     }))
-export class ClinicalEvent extends PureComponent {
+class ClinicalEvent extends PureComponent {
     render() {
         const { data, typedict, patientId, meddraHash, renderedInFrontPage } = this.props;
         const date = new Date(parseInt(data.dateStartDate, 10)).toDateString();
@@ -177,6 +183,8 @@ export class ClinicalEvent extends PureComponent {
         );
     }
 }
+
+export {ClinicalEvent};
 
 const filterEmptyRenders = (allFields, inputType, typedict) => allFields.map(data => {
 
@@ -579,7 +587,7 @@ class OneVisit extends Component {
     historyFilter: state.patientProfile.historyFilter,
     availableFields: state.availableFields
     }))
-export class Charts extends Component {
+class Charts extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -721,12 +729,14 @@ export class Charts extends Component {
     }
 }
 
+export {Charts};
+
 @withRouter
 @connect(state => ({
     typedict: state.availableFields.concomitantMedsList_hash[0],
     patientId: state.patientProfile.data.patientId
     }))
-export class ConcomitantMed extends PureComponent {
+class ConcomitantMed extends PureComponent {
     render() {
         const { data, typedict } = this.props;
         if (!typedict || !typedict[data.concomitantMedId])
@@ -743,3 +753,4 @@ export class ConcomitantMed extends PureComponent {
     }
 }
 
+export {ConcomitantMed};

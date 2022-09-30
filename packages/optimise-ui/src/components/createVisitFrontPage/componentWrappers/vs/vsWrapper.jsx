@@ -10,7 +10,7 @@ import EditPregnancy from '../../../editMedicalElements/editPregnancy';
 @connect(state => ({
     data: state.patientProfile.data,
     }))
-export class VSFrontPageWrapper extends Component {
+class VSFrontPageWrapper extends Component {
     render() {
         return (
             <>
@@ -36,3 +36,5 @@ export class VSFrontPageWrapper extends Component {
         );
     }
 }
+
+export {VSFrontPageWrapper};

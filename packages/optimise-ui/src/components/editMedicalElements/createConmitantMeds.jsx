@@ -15,7 +15,7 @@ import moment from 'moment';
     patientProfile: state.patientProfile,
     types: state.availableFields.concomitantMedsList
     }))
-export default class EditConcomitantMeds extends Component {
+class EditConcomitantMeds extends Component {
     constructor() {
         super();
         this.state = {
@@ -380,3 +380,4 @@ class CreateConcomitantMed extends Component {
     }
 }
 
+export default EditConcomitantMeds;

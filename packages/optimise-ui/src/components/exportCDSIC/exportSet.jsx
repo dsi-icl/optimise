@@ -6,7 +6,7 @@ import style from './export.module.css';
 @connect(state => ({
     data: state.searchPatient
     }))
-export class ExportSets extends Component {
+class ExportSets extends Component {
 
     constructor() {
         super();
@@ -69,3 +69,5 @@ export class ExportSets extends Component {
         );
     }
 }
+
+export {ExportSets};

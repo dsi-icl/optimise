@@ -18,7 +18,7 @@ import style from './patientProfile.module.css';
     fetching: state.patientProfile.fetching,
     erasePatient: state.erasePatient
     }))
-export class Section extends Component {
+class Section extends Component {
     componentWillUnmount() {
         store.dispatch(erasePatientReset());
     }
@@ -49,6 +49,8 @@ export class Section extends Component {
         }
     }
 }
+
+export {Section};
 
 @connect(state => ({
     data: state.patientProfile.data ? state.patientProfile.data : {},

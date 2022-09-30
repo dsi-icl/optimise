@@ -11,7 +11,7 @@ import style from './searchPatient.module.css';
     data: state.searchPatient,
     priv: state.login.priv
     }))
-export default class SearchPatientsById extends Component {
+class SearchPatientsById extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -97,10 +97,12 @@ export default class SearchPatientsById extends Component {
     }
 }
 
+export default SearchPatientsById;
+
 @connect(null, dispatch => ({
     fetchPatientProfile: patientName => dispatch(getPatientProfileById(patientName))
     }))
-export class SearchResultForPatients extends Component {
+class SearchResultForPatients extends Component {
     render() {
         const { searchString, searchType, listOfPatients } = this.props;
         return (
@@ -118,6 +120,8 @@ export class SearchResultForPatients extends Component {
         );
     }
 }
+
+export {SearchResultForPatients};
 
 /*  receives prop 'data' as one patient; and seachString*/
 class PatientButton extends PureComponent {

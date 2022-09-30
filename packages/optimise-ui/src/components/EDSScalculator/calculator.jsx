@@ -15,7 +15,7 @@ import { checkIfObjIsEmpty } from '../medicalData/utils';
     patientProfile: state.patientProfile.data,
     sections: state.availableFields.visitSections
     }))
-export default class EDSSPage extends Component {
+class EDSSPage extends Component {
     render() {
         if (this.props.patientProfile.visits) {
             const { edssCalc, visitFields, patientProfile, sections, match, override_style, childRef, renderedInFrontPage } = this.props;
@@ -25,6 +25,9 @@ export default class EDSSPage extends Component {
         }
     }
 }
+
+export default EDSSPage;
+
 class EDSSCalculator extends Component {
     constructor(props) {
         super(props);

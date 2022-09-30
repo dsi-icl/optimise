@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 @connect(state => ({
     currentPatient: state.patientProfile.currentPatient
     }))
-export class PatientDispatch extends Component {
+class PatientDispatch extends Component {
     render() {
         if (this.props.currentPatient === undefined || this.props.currentPatient === null)
             return <Redirect to='/searchPatient' />;
@@ -13,3 +13,5 @@ export class PatientDispatch extends Component {
             return <Redirect to={`/patientProfile/${this.props.currentPatient}`} />;
     }
 }
+
+export {PatientDispatch};

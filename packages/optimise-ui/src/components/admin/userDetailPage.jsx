@@ -14,7 +14,7 @@ const email_reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 @connect(state => ({
     data: state.getAllUsers
     }))
-export class UserDetail extends Component {
+class UserDetail extends Component {
     render() {
         const { data } = this.props;
         const { userId } = this.props.match.params;
@@ -50,6 +50,8 @@ export class UserDetail extends Component {
         }
     }
 }
+
+export {UserDetail};
 
 class UserInfo extends PureComponent {
     render() {

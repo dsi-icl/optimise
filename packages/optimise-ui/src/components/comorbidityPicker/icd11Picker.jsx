@@ -6,7 +6,7 @@ import TreePicker from '../treePicker';
     hash: state.availableFields.icd11_Hash[0],
     tree: state.availableFields.icd11_Tree
     }))
-export class ICD11Picker extends Component {
+class ICD11Picker extends Component {
 
     render() {
         return (
@@ -14,3 +14,5 @@ export class ICD11Picker extends Component {
         );
     }
 }
+
+export {ICD11Picker};

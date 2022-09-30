@@ -11,7 +11,7 @@ import style from './editMedicalElements.module.css';
     visitFields: state.availableFields.visitFields,
     patientProfile: state.patientProfile.data,
     }))
-export default class EditPerformanceMesaure extends Component {
+class EditPerformanceMesaure extends Component {
 
     constructor() {
         super();
@@ -111,3 +111,5 @@ export default class EditPerformanceMesaure extends Component {
         );
     }
 }
+
+export default EditPerformanceMesaure;

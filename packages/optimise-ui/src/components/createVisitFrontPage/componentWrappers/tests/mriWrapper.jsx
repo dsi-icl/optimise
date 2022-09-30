@@ -16,7 +16,7 @@ import { YesOrNo } from '../yesOrNoQuestion/yesOrNoQuestion';
     fetching: state.patientProfile.fetching,
     data: state.patientProfile.data
     }))
-export class MRIWrapper extends Component {
+class MRIWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;
         return <Switch>
@@ -49,6 +49,8 @@ export class MRIWrapper extends Component {
         </Switch>;
     }
 }
+
+export {MRIWrapper};
 
 class MRITestCreatedMessage extends Component {
     render() {

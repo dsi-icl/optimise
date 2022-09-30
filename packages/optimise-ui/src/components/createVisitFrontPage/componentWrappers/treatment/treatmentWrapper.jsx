@@ -17,7 +17,7 @@ import { FrontPageNavigationButton } from '../navigationButtons/navigationButton
     data: state.patientProfile.data,
     drugHash: state.availableFields.drugs_Hash[0]
     }))
-export class TreatmentWrapper extends Component {
+class TreatmentWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;
         return <Switch>
@@ -50,6 +50,8 @@ export class TreatmentWrapper extends Component {
         </Switch>;
     }
 }
+
+export {TreatmentWrapper};
 
 class RenderTreatmentsWrapper extends PureComponent {
     render() {
