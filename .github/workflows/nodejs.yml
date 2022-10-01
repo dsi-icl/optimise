@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
+        uses: nrwl/nx-set-shas@v3
         with:
           main-branch-name: master
           error-on-no-successful-workflow: true
@@ -55,12 +55,16 @@ jobs:
         run: |
           yarn run nx affected --target=lint --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
 
+      - name: Building packages
+        run: |
+          yarn run build
+
       - name: Running unit tests
         run: |
           yarn run nx affected --target=test --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }} --parallel=1
         env:
           CI: true
 
-      - name: Building packages
+      - name: Bundling Electron
         run: |
           yarn run electron

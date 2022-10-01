@@ -29,9 +29,9 @@
     },
     "scripts": {
         "postinstall": "husky install",
-        "build": "nx run-many --target=build --parallel=1 --projects=optimise-core,optimise-docker,optimise-electron",
+        "build": "nx run-many --target=build --parallel=1 --projects=optimise-core,optimise-ui",
         "preelectron": "nx run-many --target=build --parallel=1 --projects=optimise-core,optimise-electron",
-        "electron": "nx run-many --target=electron --projects=optimise-electron",
+        "electron": "nx run-many --target=package --projects=optimise-electron",
         "lint": "nx affected --target=lint",
         "lint-fix": "nx affected --target=lint --fix",
         "prepackage": "yarn build",
