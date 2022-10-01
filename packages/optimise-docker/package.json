@@ -19,8 +19,8 @@
         "prebuild": "cd ../optimise-ui && cross-env PUBLIC_URL=/ yarn build",
         "build": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
         "build-noui": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
-        "start": "echo \"Nothing to start\"",
-        "test": "echo \"No tests\""
+        "start": "echo Nothing to start",
+        "test": "echo No test"
     },
     "dependencies": {
         "compression": "1.7.4",
