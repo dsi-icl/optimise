@@ -23,7 +23,6 @@
         "prebuild:dev": "cd ../optimise-ui && cross-env PUBLIC_URL=./ yarn build",
         "build-dev": "rimraf -r dist && webpack --config config/webpack.dev.js",
         "build-dev-noui": "rimraf -r dist && webpack --config config/webpack.dev.js",
-        "electron": "yarn run package",
         "postinstall": "electron-builder install-app-deps",
         "package": "electron-builder -p never",
         "prepublish": "yarn build",
@@ -36,7 +35,7 @@
         "appId": "org.optimise-ms.local.app",
         "productName": "Optimise MS Desktop",
         "detectUpdateChannel": true,
-        "copyright": "Copyright (c) 2019 Data Science Institute",
+        "copyright": "Copyright (c) 2022 Data Science Institute",
         "directories": {
             "output": "build"
         },
