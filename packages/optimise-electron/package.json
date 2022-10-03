@@ -119,7 +119,7 @@
         "electron-updater": "5.2.1",
         "express": "4.18.1",
         "electron-unhandled": "4.0.1",
-        "sqlite3": "5.1.1"
+        "sqlite3": "5.1.2"
     },
     "devDependencies": {
         "@babel/core": "7.19.3",
