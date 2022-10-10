@@ -83,6 +83,7 @@ class SyncCore {
                 return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync configuration not initialized or invalid'));
             const status = {
                 status: 'scheduling',
+                step: 'tiggered',
                 syncing: true
             };
             dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
