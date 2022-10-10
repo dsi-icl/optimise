@@ -4,8 +4,8 @@ import style from '../frontpage.module.css';
 
 @connect(state => ({
     patientProfile: state.patientProfile.data
-}))
-export class VisitFrontPageTemplate extends Component {
+    }))
+class VisitFrontPageTemplate extends Component {
     render() {
         const { match: { params }, patientProfile: { visits }, isBaselineVisit, pageNumberToElementMap, pageToTitleMap } = this.props;
 
@@ -37,6 +37,8 @@ export class VisitFrontPageTemplate extends Component {
         );
     }
 }
+
+export {VisitFrontPageTemplate};
 
 class RenderCurrentPage extends PureComponent {
     constructor() {

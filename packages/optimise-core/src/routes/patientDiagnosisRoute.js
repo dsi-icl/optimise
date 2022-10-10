@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const patient = express();
-
 import PatientDiagnosisController from '../controllers/patientDiagnosisController';
+
+const patient = express();
 
 // Interacts with the patientsPregnancy in the DB
 patient.route('/')

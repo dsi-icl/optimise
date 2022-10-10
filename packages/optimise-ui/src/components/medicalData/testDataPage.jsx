@@ -30,7 +30,7 @@ function mapStateToProps(state) {
 /* this component serves as a sieve for the data and pass the relevant one to the form as props*/
 @withRouter
 @connect(mapStateToProps)
-export class TestData extends Component {
+class TestData extends Component {
     constructor() {
         super();
         this.state = {
@@ -175,3 +175,5 @@ export class TestData extends Component {
         }
     }
 }
+
+export {TestData};

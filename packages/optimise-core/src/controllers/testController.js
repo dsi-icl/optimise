@@ -28,9 +28,9 @@ class TestController {
             return;
         }
         let entryObj = {
-            'orderedDuringVisit': body.visitId,
-            'type': body.type,
-            'createdByUser': user.id
+            orderedDuringVisit: body.visitId,
+            type: body.type,
+            createdByUser: user.id
         };
         if (body.hasOwnProperty('expectedOccurDate') && body.expectedOccurDate !== null)
             entryObj.expectedOccurDate = momentExpect.valueOf();
@@ -78,7 +78,7 @@ class TestController {
 
     static deleteTest({ body, user }, res) {
         if (body.hasOwnProperty('testId') && typeof body.testId === 'number') {
-            TestCore.deleteTest(user, { 'id': body.testId }).then((result) => {
+            TestCore.deleteTest(user, { id: body.testId }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {

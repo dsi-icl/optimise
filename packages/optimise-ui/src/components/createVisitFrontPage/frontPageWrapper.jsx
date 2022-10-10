@@ -6,8 +6,8 @@ import { FollowupVisitFrontPage } from './templates/followupVisitFrontPage';
 @connect(state => ({
     patientProfile: state.patientProfile.data,
     sections: state.availableFields.visitSections
-}))
-export class FrontPage extends Component {
+    }))
+class FrontPage extends Component {
     render() {
         const { match, patientProfile: { visits }, location } = this.props;
         if (visits === undefined)
@@ -21,5 +21,7 @@ export class FrontPage extends Component {
         } else {
             return <p>Something went wrong.</p>;
         }
-    };
+    }
 }
+
+export {FrontPage};

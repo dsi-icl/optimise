@@ -6,7 +6,7 @@ import formatToJSON from '../utils/format-response';
 import { getEntry, createEntry, updateEntry } from '../utils/controller-utils';
 
 const optionsContainer = {
-    'visit': {
+    visit: {
         entryIdString: 'visitId',
         fieldTable: 'AVAILABLE_FIELDS_VISITS',
         entryTable: 'VISITS',
@@ -14,7 +14,7 @@ const optionsContainer = {
         dataTable: 'VISIT_DATA',
         dataTableForeignKey: 'visit'
     },
-    'clinicalEvent': {
+    clinicalEvent: {
         entryIdString: 'clinicalEventId',
         fieldTable: 'AVAILABLE_FIELDS_CE',
         entryTable: 'clinical_events',
@@ -22,7 +22,7 @@ const optionsContainer = {
         dataTable: 'CLINICAL_EVENTS_DATA',
         dataTableForeignKey: 'clinicalEvent'
     },
-    'test': {
+    test: {
         entryIdString: 'testId',
         fieldTable: 'AVAILABLE_FIELDS_TESTS',
         entryTable: 'ORDERED_TESTS',
@@ -77,20 +77,20 @@ class DataController {
         const adds = [];
         for (let i = 0; i < numOfUpdates; i++) {
             const entry = {
-                'field': Object.keys(body.update)[i],
-                'value': body.update[Object.keys(body.update)[i]],
-                'createdByUser': user.id,
-                'deleted': '-'
+                field: Object.keys(body.update)[i],
+                value: body.update[Object.keys(body.update)[i]],
+                createdByUser: user.id,
+                deleted: '-'
             };
             entry[dataTableForeignKey] = body[entryIdString];
             updates.push(entry);
         }
         for (let i = 0; i < numOfAdds; i++) {
             const entry = {
-                'field': Object.keys(body.add)[i],
-                'value': body.add[Object.keys(body.add)[i]],
-                'createdByUser': user.id,
-                'deleted': '-'
+                field: Object.keys(body.add)[i],
+                value: body.add[Object.keys(body.add)[i]],
+                createdByUser: user.id,
+                deleted: '-'
             };
             entry[dataTableForeignKey] = body[entryIdString];
             adds.push(entry);

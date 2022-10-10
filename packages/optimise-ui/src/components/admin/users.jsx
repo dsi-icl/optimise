@@ -8,8 +8,8 @@ import style from './admin.module.css';
 
 @connect(state => ({
     getAllUsers: state.getAllUsers
-}))
-export class UserList extends Component {
+    }))
+class UserList extends Component {
     componentDidMount() {
         store.dispatch(getAllUsersAPICall());
     }
@@ -34,6 +34,8 @@ export class UserList extends Component {
         }
     }
 }
+
+export {UserList};
 
 /**
  * @prop {Object} this.props.entry

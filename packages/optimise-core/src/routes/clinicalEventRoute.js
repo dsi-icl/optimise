@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const ce = express();
-
 import CeController from '../controllers/ceController';
+
+const ce = express();
 
 ce.route('/')
     .post(CeController.createCe)

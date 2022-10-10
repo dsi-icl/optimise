@@ -4,9 +4,9 @@
  */
 
 import express from 'express';
+import ExportDataController from '../controllers/exportDataController';
 
 const exportDB = express();
-import ExportDataController from '../controllers/exportDataController';
 
 exportDB.route('/')
     .get(ExportDataController.exportDatabase);

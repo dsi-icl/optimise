@@ -17,7 +17,7 @@ class DragBox extends Component {
         if (ev.target.className === 'selectbox') {
             const data = ev.dataTransfer.getData('text');
             ev.target.appendChild(document.getElementById(data).cloneNode(true));
-        };
+        }
     }
 
     render() {

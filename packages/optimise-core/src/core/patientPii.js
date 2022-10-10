@@ -13,7 +13,7 @@ class PatientPii {
     }
 
     static updatePatientPii(user, id, updatedObj) {
-        return new Promise((resolve, reject) => updateEntry('PATIENT_PII', user, '*', { 'id': id }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => updateEntry('PATIENT_PII', user, '*', { id: id }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
     }
 
     static deletePatientPii(user, whereObj) {

@@ -3,5 +3,5 @@ let commonConfig = require('./webpack.common.js');
 
 module.exports = webpackMerge(commonConfig, {
     mode: 'development',
-    devtool: 'inline-source-map',
+    devtool: 'inline-source-map'
 });

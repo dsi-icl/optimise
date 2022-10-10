@@ -9,31 +9,29 @@ import { RemoteControl } from '../remoteControl/remoteControl';
 export default class FullscreenPanel extends Component {
     render() {
         return (
-            <>
-                <Switch>
-                    <Route path='/patientProfile/:patientId/timeline' render={({ match }) =>
-                        <div className={style.fullscreenPanel}>
-                            <FullTimeline match={match} />
-                        </div>
-                    } />
-                    <Route path='/patientProfile/:patientId/edit/msPerfMeas/:visitId/edss' render={({ match, location }) =>
-                        <div className={style.fullscreenPanel}>
-                            <EDSSCalculator match={match} location={location} />
-                        </div>
-                    } />
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) =>
-                        <div className={style.fullscreenPanel}>
-                            <FrontPage match={match} location={location}/>
-                        </div>
-                    } />
-                    <Route path='/remoteControl' render={() =>
-                        <div className={style.fullscreenPanel}>
-                            <RemoteControl/>
-                        </div>
-                    } />
-                    <Route path='/' component={() => null} />
-                </Switch>
-            </>
+            <Switch>
+                <Route path='/patientProfile/:patientId/timeline' render={({ match }) =>
+                    <div className={style.fullscreenPanel}>
+                        <FullTimeline match={match} />
+                    </div>
+                } />
+                <Route path='/patientProfile/:patientId/edit/msPerfMeas/:visitId/edss' render={({ match, location }) =>
+                    <div className={style.fullscreenPanel}>
+                        <EDSSCalculator match={match} location={location} />
+                    </div>
+                } />
+                <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) =>
+                    <div className={style.fullscreenPanel}>
+                        <FrontPage match={match} location={location}/>
+                    </div>
+                } />
+                <Route path='/remoteControl' render={() =>
+                    <div className={style.fullscreenPanel}>
+                        <RemoteControl/>
+                    </div>
+                } />
+                <Route path='/' component={() => null} />
+            </Switch>
         );
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "optimise",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "description": "Optimise:MS",
     "keywords": [
         "ms"
@@ -28,22 +28,39 @@
         "yarn": "^1.10.0"
     },
     "scripts": {
-        "build": "nx run-many --target=build --parallel=1 --projects=optimise-core,optimise-docker,optimise-electron",
+        "postinstall": "husky install",
+        "build": "nx run-many --target=build --parallel=1 --projects=optimise-core,optimise-ui",
         "preelectron": "nx run-many --target=build --parallel=1 --projects=optimise-core,optimise-electron",
-        "electron": "lerna run electron --scope optimise-electron",
-        "lint": "nx run-many --target=lint",
-        "lint-fix": "nx run-many --target=lint-fix",
+        "electron": "nx run-many --target=package --projects=optimise-electron",
+        "lint": "nx affected --target=lint",
+        "lint-fix": "nx affected --target=lint --fix",
         "prepackage": "yarn build",
-        "package": "nx run-many --target=package --projects=optimise-docker,optimise-electron",
-        "publish": "nx run-many --target=publish --projects=optimise-docker,optimise-electron",
-        "postinstall": "yarn run bootstrap",
-        "bootstrap": "lerna bootstrap",
+        "package": "nx run-many --target=package --parallel=1 --projects=optimise-docker,optimise-electron",
+        "publish": "nx run-many --target=publish --parallel=1 --projects=optimise-docker,optimise-electron",
         "start": "nx run-many --target=start --projects=optimise-core,optimise-sync,optimise-ui",
         "test": "nx run-many --target=test"
     },
     "devDependencies": {
-        "lerna": "5.5.2",
-        "typescript": "4.8.3"
+        "@commitlint/config-conventional": "17.1.0",
+        "@nrwl/eslint-plugin-nx": "14.8.3",
+        "@nrwl/nx-cloud": "14.7.0",
+        "@nrwl/workspace": "14.8.3",
+        "commitlint": "17.1.2",
+        "eslint-plugin-import": "2.26.0",
+        "eslint-plugin-json": "3.1.0",
+        "eslint-plugin-jsx-a11y": "6.6.1",
+        "eslint-plugin-react": "7.31.8",
+        "eslint-plugin-react-hooks": "4.6.0",
+        "husky": "8.0.1",
+        "nx": "14.8.3",
+        "typescript": "4.8.4"
     },
-    "dependencies": {}
+    "resolutions": {
+        "@jest/reporters": "^24",
+        "@jest/test-result": "^24",
+        "jest": "^24",
+        "jest-config": "^24",
+        "jest-resolve": "^24",
+        "jest-util": "^24"
+    }
 }

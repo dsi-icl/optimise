@@ -21,8 +21,8 @@ export class PatientProfileSectionScaffold extends Component {
 
 @connect(state => ({
     data: state.patientProfile.data
-}))
-export class PatientProfileTop extends PureComponent {
+    }))
+class PatientProfileTop extends PureComponent {
     render() {
         const { patientId } = this.props.data;
         return (
@@ -36,6 +36,8 @@ export class PatientProfileTop extends PureComponent {
         );
     }
 }
+
+export {PatientProfileTop};
 
 
 /*  receive props handler function this.props.clickhandler*/

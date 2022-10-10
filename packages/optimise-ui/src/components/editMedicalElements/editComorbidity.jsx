@@ -12,8 +12,8 @@ import style from '../createMedicalElements/medicalEvent.module.css';
 @connect(state => ({
     patientProfile: state.patientProfile,
     fields: state.availableFields
-}))
-export default class EditComorbidity extends Component {
+    }))
+class EditComorbidity extends Component {
     constructor() {
         super();
         this.state = {
@@ -119,6 +119,7 @@ export default class EditComorbidity extends Component {
     }
 }
 
+export default EditComorbidity;
 
 class OneComorbidity extends Component {
     constructor(props) {
@@ -128,7 +129,7 @@ class OneComorbidity extends Component {
             editing: false,
             error: false,
             comorbidity: data.comorbidity,
-            comorbidity_original: data.comorbidity,
+            comorbidity_original: data.comorbidity
         };
         this._handleClickDelete = this._handleClickDelete.bind(this);
         this._deleteFunction = this._deleteFunction.bind(this);

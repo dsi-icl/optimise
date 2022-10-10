@@ -19,9 +19,9 @@ module.exports = {
         //     whitelist: process.env.NODE_ENV === 'development' ? ['webpack/hot/poll?1000'] : undefined
         // }),
         {
-            express: 'commonjs express',
-            sqlite3: 'commonjs sqlite3',
-            bufferutil: 'commonjs bufferutil',
+            'express': 'commonjs express',
+            'sqlite3': 'commonjs sqlite3',
+            'bufferutil': 'commonjs bufferutil',
             'utf-8-validate': 'commonjs utf-8-validate'
         }],
     module: {
@@ -41,7 +41,7 @@ module.exports = {
     },
     plugins: (process.env.NODE_ENV === 'development' ? [
         new RunScriptWebpackPlugin({
-            name: 'server.js',
+            name: 'server.js'
         }),
         new webpack.HotModuleReplacementPlugin()
     ] : []).concat([
@@ -53,9 +53,9 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
-                'BUILD_TARGET': JSON.stringify('server')
+                BUILD_TARGET: JSON.stringify('server')
             }
-        }),
+        })
     ]),
     output: {
         path: path.join(__dirname, 'build'),

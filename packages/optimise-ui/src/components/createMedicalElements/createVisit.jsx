@@ -8,10 +8,10 @@ import style from './medicalEvent.module.css';
 
 @connect(state => ({
     patientId: state.patientProfile.data.id
-}), dispatch => ({
-    createVisit: body => dispatch(createVisitAPICall(body))
-}))
-export class CreateVisit extends Component {
+    }), dispatch => ({
+        createVisit: body => dispatch(createVisitAPICall(body))
+        }))
+class CreateVisit extends Component {
     constructor() {
         super();
         this.state = {
@@ -114,3 +114,5 @@ export class CreateVisit extends Component {
         );
     }
 }
+
+export { CreateVisit};

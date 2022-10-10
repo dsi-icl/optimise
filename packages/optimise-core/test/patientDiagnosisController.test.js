@@ -1,11 +1,9 @@
-/* global beforeAll afterAll describe test expect */
-
 import request from 'supertest';
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-import message from '../src/utils/message-utils';
-import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -32,8 +30,8 @@ describe('Create diagnosis test suite', () => {
     test('Creating diagnosis with missing diagnosis parameter', () =>
         admin.post('/patientDiagnosis/')
             .send({
-                'patient': 1,
-                'diagnosisDate': '2000-01-01'
+                patient: 1,
+                diagnosisDate: '2000-01-01'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -46,8 +44,8 @@ describe('Create diagnosis test suite', () => {
     test('Creating diagnosis with missing patient parameter', () =>
         admin.post('/patientDiagnosis/')
             .send({
-                'diagnosis': 3,
-                'diagnosisDate': '2000-01-01'
+                diagnosis: 3,
+                diagnosisDate: '2000-01-01'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -60,8 +58,8 @@ describe('Create diagnosis test suite', () => {
     test('Creating diagnosis with missing date parameter', () =>
         admin.post('/patientDiagnosis/')
             .send({
-                'patient': 1,
-                'diagnosis': 3
+                patient: 1,
+                diagnosis: 3
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -74,9 +72,9 @@ describe('Create diagnosis test suite', () => {
     test('Creating diagnosis with wrong patient parameter', () =>
         admin.post('/patientDiagnosis/')
             .send({
-                'patient': {},
-                'diagnosis': 3,
-                'diagnosisDate': '2000-01-01'
+                patient: {},
+                diagnosis: 3,
+                diagnosisDate: '2000-01-01'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -89,9 +87,9 @@ describe('Create diagnosis test suite', () => {
     test('Creating diagnosis with bad patient parameter', () =>
         admin.post('/patientDiagnosis/')
             .send({
-                'patient': 90,
-                'diagnosis': 3,
-                'diagnosisDate': '2000-01-01'
+                patient: 90,
+                diagnosis: 3,
+                diagnosisDate: '2000-01-01'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -104,9 +102,9 @@ describe('Create diagnosis test suite', () => {
     test('Creating diagnosis with wrong diagnosis parameter', () =>
         admin.post('/patientDiagnosis/')
             .send({
-                'patient': 1,
-                'diagnosis': {},
-                'diagnosisDate': '2000-01-01'
+                patient: 1,
+                diagnosis: {},
+                diagnosisDate: '2000-01-01'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -119,9 +117,9 @@ describe('Create diagnosis test suite', () => {
     test('Creating diagnosis with bad diagnosis parameter', () =>
         admin.post('/patientDiagnosis/')
             .send({
-                'patient': 90,
-                'diagnosis': 6000,
-                'diagnosisDate': '2000-01-01'
+                patient: 90,
+                diagnosis: 6000,
+                diagnosisDate: '2000-01-01'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -134,9 +132,9 @@ describe('Create diagnosis test suite', () => {
     test('Creating diagnosis with wrong date parameter', () =>
         admin.post('/patientDiagnosis/')
             .send({
-                'patient': 1,
-                'diagnosis': 3,
-                'diagnosisDate': {}
+                patient: 1,
+                diagnosis: 3,
+                diagnosisDate: {}
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -149,9 +147,9 @@ describe('Create diagnosis test suite', () => {
     test('Creating diagnosis with good parameters', () =>
         admin.post('/patientDiagnosis/')
             .send({
-                'patient': 1,
-                'diagnosis': 3,
-                'diagnosisDate': '2000-01-01'
+                patient: 1,
+                diagnosis: 3,
+                diagnosisDate: '2000-01-01'
             })
             .then(({ status, body }) => {
                 expect(status).toBe(200);
@@ -177,7 +175,7 @@ describe('Editing Diagnosis test suite', () => {
     test('Editing without id parameter', () =>
         admin.put('/patientDiagnosis')
             .send({
-                'diagnosis': 3
+                diagnosis: 3
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -190,8 +188,8 @@ describe('Editing Diagnosis test suite', () => {
     test('Editing with wrong id', () =>
         admin.put('/patientDiagnosis')
             .send({
-                'id': {},
-                'diagnosis': 3
+                id: {},
+                diagnosis: 3
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -204,8 +202,8 @@ describe('Editing Diagnosis test suite', () => {
     test('Editing with bad id', () =>
         admin.put('/patientDiagnosis')
             .send({
-                'id': 90,
-                'diagnosis': 3
+                id: 90,
+                diagnosis: 3
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -218,8 +216,8 @@ describe('Editing Diagnosis test suite', () => {
     test('Editing with bad diagnosis', () =>
         admin.put('/patientDiagnosis')
             .send({
-                'id': 4,
-                'diagnosis': 300
+                id: 4,
+                diagnosis: 300
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -232,8 +230,8 @@ describe('Editing Diagnosis test suite', () => {
     test('Editing with good parameters', () =>
         admin.put('/patientDiagnosis')
             .send({
-                'id': 2,
-                'diagnosis': 7
+                id: 2,
+                diagnosis: 7
             })
             .then(({ status, body }) => {
                 expect(status).toBe(200);
@@ -260,7 +258,7 @@ describe('Delete diagnosis test suite', () => {
     test('Deleting with wrong id', () =>
         admin.delete('/patientDiagnosis')
             .send({
-                'id': {}
+                id: {}
             })
             .then(({ status, body }) => {
                 expect(status).toBe(400);
@@ -273,7 +271,7 @@ describe('Delete diagnosis test suite', () => {
     test('Deleting with bad id', () =>
         admin.delete('/patientDiagnosis')
             .send({
-                'id': 90
+                id: 90
             })
             .then(({ status, body }) => {
                 expect(status).toBe(200);
@@ -286,7 +284,7 @@ describe('Delete diagnosis test suite', () => {
     test('Deleting with good parameters', () =>
         admin.delete('/patientDiagnosis')
             .send({
-                'id': 4
+                id: 4
             })
             .then(({ status, body }) => {
                 expect(status).toBe(200);

@@ -17,7 +17,7 @@ const filterNodes = (filter, nodes) =>
                         ...n.state,
                         expanded: true
                     }
-                },
+                }
             ]
         };
     }, { nodes: [] });
@@ -60,7 +60,7 @@ export default class TreePicker extends Component {
             this.state = ({
                 ...state,
                 nodes: tree,
-                nodesOrigin: tree,
+                nodesOrigin: tree
             });
         } else if (hash[value] === undefined || hash[value].deleted === '1') {
             this.state = ({
@@ -120,7 +120,7 @@ export default class TreePicker extends Component {
         this.setState(ps => ({
             opened: false,
             nodes: ps.nodesOrigin,
-            filterText: '',
+            filterText: ''
         }));
         this.setFilterTerm();
     };
@@ -131,7 +131,7 @@ export default class TreePicker extends Component {
             opened: false,
             nodes: ps.nodesOrigin,
             filterText: '',
-            currentTermName: updatedNode.name,
+            currentTermName: updatedNode.name
         }));
         this.setFilterTerm();
         return this.state.nodesOrigin;
@@ -194,8 +194,8 @@ export default class TreePicker extends Component {
                             <Tree nodes={filteredNodes}
                                 extensions={{
                                     updateTypeHandlers: {
-                                        'SELECT': this.nodeSelectionHandler,
-                                    },
+                                        SELECT: this.nodeSelectionHandler
+                                    }
                                 }}
                                 onChange={this.handleChange}>
                                 {({ style, node, ...rest }) => {
@@ -205,7 +205,7 @@ export default class TreePicker extends Component {
                                             <Expandable node={node} {...rest} iconsClassNameMap={{
                                                 expanded: wideStyle.expandedNode,
                                                 collapsed: wideStyle.collapsedNode,
-                                                lastChild: wideStyle.lastChildNode,
+                                                lastChild: wideStyle.lastChildNode
                                             }}>
                                                 <Selection node={node} {...rest}>
                                                     {this.searchHighlighter(formatter(node))}
@@ -227,7 +227,7 @@ const Selection = ({ node, children, onChange }) => (
     <span className={wideStyle.noPadding} onClick={() => {
         onChange({
             node,
-            type: 'SELECT',
+            type: 'SELECT'
         });
     }} >
         {children}

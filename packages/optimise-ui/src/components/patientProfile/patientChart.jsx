@@ -18,8 +18,8 @@ import style from './patientProfile.module.css';
 @connect(state => ({
     fetching: state.patientProfile.fetching,
     data: state.patientProfile.data
-}))
-export class PatientChart extends Component {
+    }))
+class PatientChart extends Component {
     constructor() {
         super();
         this.state = { hash: null };
@@ -75,13 +75,15 @@ export class PatientChart extends Component {
     }
 }
 
+export {PatientChart};
+
 /* receives a prop data of one test*/
 @withRouter
 @connect(state => ({
     typedict: state.availableFields.testTypes_Hash[0],
     patientId: state.patientProfile.data.patientId
-}))
-export class Test extends PureComponent {
+    }))
+class Test extends PureComponent {
     render() {
         const { data, typedict, patientId, renderedInFrontPage } = this.props;
         const dateDone = data.expectedOccurDate ? new Date(parseInt(data.expectedOccurDate, 10)).toDateString() : '';
@@ -103,14 +105,16 @@ export class Test extends PureComponent {
     }
 }
 
+export {Test};
+
 /* receives a prop data of one treatment */
 @withRouter
 @connect(state => ({
     typedict: state.availableFields.drugs_Hash[0],
     patientId: state.patientProfile.data.patientId,
     reasondict: state.availableFields.interruptionReasons_Hash[0],
-}))
-export class Medication extends PureComponent {
+    }))
+class Medication extends PureComponent {
 
     intervalUnitString(intervalUnit) {
         if (intervalUnit === '6weeks')
@@ -148,14 +152,16 @@ export class Medication extends PureComponent {
     }
 }
 
+export {Medication};
+
 /* receives a prop data of one clinical event*/
 @withRouter
 @connect(state => ({
     typedict: state.availableFields.clinicalEventTypes_Hash[0],
     patientId: state.patientProfile.data.patientId,
     meddraHash: state.availableFields.meddra_Hash[0]
-}))
-export class ClinicalEvent extends PureComponent {
+    }))
+class ClinicalEvent extends PureComponent {
     render() {
         const { data, typedict, patientId, meddraHash, renderedInFrontPage } = this.props;
         const date = new Date(parseInt(data.dateStartDate, 10)).toDateString();
@@ -177,6 +183,8 @@ export class ClinicalEvent extends PureComponent {
         );
     }
 }
+
+export {ClinicalEvent};
 
 const filterEmptyRenders = (allFields, inputType, typedict) => allFields.map(data => {
 
@@ -230,7 +238,7 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
     icd11_Hash: state.availableFields.icd11_Hash[0]
-}))
+    }))
 class OneVisit extends Component {
 
     render() {
@@ -537,7 +545,7 @@ class OneVisit extends Component {
                                                     </tr>
                                                     {isTotal && EDSSComputed !== '' ? (
                                                         <tr className={style.performanceHighlight}>
-                                                            <td>edss > expanded disability status scale - computed total</td>
+                                                            <td>edss &gt; expanded disability status scale - computed total</td>
                                                             <td>{EDSSComputed}</td>
                                                         </tr>
                                                     ) : null}
@@ -578,8 +586,8 @@ class OneVisit extends Component {
     data: state.patientProfile.data,
     historyFilter: state.patientProfile.historyFilter,
     availableFields: state.availableFields
-}))
-export class Charts extends Component {
+    }))
+class Charts extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -692,7 +700,7 @@ export class Charts extends Component {
                                             break;
                                         default:
                                             suffix = 'th';
-                                    };
+                                    }
                                     const baselineVisit = el.historyInd === 1 ? true : false;
                                     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                     const visitDate = new Date(parseInt(el.visitDate, 10));
@@ -721,12 +729,14 @@ export class Charts extends Component {
     }
 }
 
+export {Charts};
+
 @withRouter
 @connect(state => ({
     typedict: state.availableFields.concomitantMedsList_hash[0],
     patientId: state.patientProfile.data.patientId
-}))
-export class ConcomitantMed extends PureComponent {
+    }))
+class ConcomitantMed extends PureComponent {
     render() {
         const { data, typedict } = this.props;
         if (!typedict || !typedict[data.concomitantMedId])
@@ -743,3 +753,4 @@ export class ConcomitantMed extends PureComponent {
     }
 }
 
+export {ConcomitantMed};

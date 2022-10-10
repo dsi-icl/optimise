@@ -1,10 +1,8 @@
-/* global beforeAll afterAll describe test expect */
-
 import request from 'supertest';
-
-const admin = request.agent(global.optimiseRouter);
 import message from '../src/utils/message-utils';
 import { connectAdmin, disconnectAgent } from './connection';
+
+const admin = request.agent(global.optimiseRouter);
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -37,8 +35,8 @@ describe('Visit controller tests', () => {
     test('Creating report for a visit', () => admin
         .post('/visits/report')
         .send({
-            'visit': 2,
-            'report': 'Report test 2'
+            visit: 2,
+            report: 'Report test 2'
         })
         .then(({ statusCode, headers, body }) => {
             expect(statusCode).toBe(200);
@@ -52,8 +50,8 @@ describe('Visit controller tests', () => {
     test('Creating the same report for a visit (should fail)', () => admin
         .post('/visits/report')
         .send({
-            'visit': 2,
-            'report': 'Report test 2'
+            visit: 2,
+            report: 'Report test 2'
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
@@ -75,8 +73,8 @@ describe('Visit controller tests', () => {
     test('Updating report from id', () => admin
         .put('/visits/report')
         .send({
-            'id': 2,
-            'report': 'MODIFICATION'
+            id: 2,
+            report: 'MODIFICATION'
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
@@ -89,8 +87,8 @@ describe('Visit controller tests', () => {
     test('Updating report from id second pass', () => admin
         .put('/visits/report')
         .send({
-            'id': 2,
-            'report': 'Report test 2'
+            id: 2,
+            report: 'Report test 2'
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
@@ -103,8 +101,8 @@ describe('Visit controller tests', () => {
     test('Updating report which does not exist', () => admin
         .put('/visits/report')
         .send({
-            'id': 1000,
-            'report': '15 Feb 1962'
+            id: 1000,
+            report: '15 Feb 1962'
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
@@ -114,7 +112,7 @@ describe('Visit controller tests', () => {
 
     test('Deleting report from visitId', () => admin
         .delete('/visits/report')
-        .send({ 'id': 2 })
+        .send({ id: 2 })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');
@@ -125,7 +123,7 @@ describe('Visit controller tests', () => {
 
     test('Deleting report which does not exist', () => admin
         .delete('/visits/report')
-        .send({ 'id': 1000 })
+        .send({ id: 1000 })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');

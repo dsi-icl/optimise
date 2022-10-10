@@ -1,10 +1,8 @@
-/* global describe test expect */
-
 import request from 'supertest';
+import message from '../src/utils/message-utils';
 
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-import message from '../src/utils/message-utils';
 
 let csrfToken;
 
@@ -58,7 +56,7 @@ describe('User controller tests', () => {
         .post('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'email': 'test_user@test.com', 'realname': 'IAmTesting' })
+        .send({ username: 'test_user', pw: 'test_pw', isAdmin: 0, email: 'test_user@test.com', realname: 'IAmTesting' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');
@@ -71,7 +69,7 @@ describe('User controller tests', () => {
         .post('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0 })
+        .send({ username: 'test_user2', pw: 'test_pw2', isAdmin: 0 })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
             expect(typeof body).toBe('object');
@@ -84,7 +82,7 @@ describe('User controller tests', () => {
         .post('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'realname': 'IAmTesting' })
+        .send({ username: 'test_user2', pw: 'test_pw2', isAdmin: 0, realname: 'IAmTesting' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
             expect(typeof body).toBe('object');
@@ -97,7 +95,7 @@ describe('User controller tests', () => {
         .post('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'email': 'test_.test.com', 'realname': 'IAmTesting2' })
+        .send({ username: 'test_user2', pw: 'test_pw2', isAdmin: 0, email: 'test_.test.com', realname: 'IAmTesting2' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
             expect(typeof body).toBe('object');
@@ -110,7 +108,7 @@ describe('User controller tests', () => {
         .post('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'email': 'test_user2@test.com', 'realname': 'IAmTesting2' })
+        .send({ username: 'test_user2', pw: 'test_pw2', isAdmin: 0, email: 'test_user2@test.com', realname: 'IAmTesting2' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');
@@ -123,7 +121,7 @@ describe('User controller tests', () => {
         .post('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user2', 'pw': 'test_pw2', 'isAdmin': 0, 'email': 'test_user2@test.com', 'realname': 'IAmTesting2' })
+        .send({ username: 'test_user2', pw: 'test_pw2', isAdmin: 0, email: 'test_user2@test.com', realname: 'IAmTesting2' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
             expect(typeof body).toBe('object');
@@ -193,7 +191,7 @@ describe('User controller tests', () => {
         .delete('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user2' })
+        .send({ username: 'test_user2' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(401);
             expect(body.error).toBeDefined();
@@ -205,7 +203,7 @@ describe('User controller tests', () => {
         .put('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user2', 'pw': 'fake_password' })
+        .send({ username: 'test_user2', pw: 'fake_password' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(401);
             expect(body.error).toBeDefined();
@@ -218,7 +216,7 @@ describe('User controller tests', () => {
         .put('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user', 'pw': 'new_password' })
+        .send({ username: 'test_user', pw: 'new_password' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');
@@ -296,7 +294,7 @@ describe('User controller tests', () => {
         .delete('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user' })
+        .send({ username: 'test_user' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');
@@ -392,7 +390,7 @@ describe('User controller tests', () => {
         .delete('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user2' })
+        .send({ username: 'test_user2' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');
@@ -405,7 +403,7 @@ describe('User controller tests', () => {
         .post('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user', 'pw': 'test_pw', 'isAdmin': 0, 'email': 'test_user@test.com', 'realname': 'IAmTesting' })
+        .send({ username: 'test_user', pw: 'test_pw', isAdmin: 0, email: 'test_user@test.com', realname: 'IAmTesting' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');
@@ -418,7 +416,7 @@ describe('User controller tests', () => {
         .delete('/users')
         .set('Content-type', 'application/json')
         .set('CSRF-Token', csrfToken)
-        .send({ 'username': 'test_user' })
+        .send({ username: 'test_user' })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
             expect(typeof body).toBe('object');

@@ -1,6 +1,4 @@
-module.exports = function override(webpackConfig, env) {
-    // CRA2 prevents usage of ESLint config file
-    delete webpackConfig.module.rules[1].use[0].options.useEslintrc;
+module.exports = function override(webpackConfig) {
 
     // CRA2 does not add decorator proposal
     webpackConfig.module.rules[2].oneOf[1].options.plugins.unshift([
@@ -12,7 +10,7 @@ module.exports = function override(webpackConfig, env) {
 
     webpackConfig.module.rules[2].oneOf.splice(0, 0, {
         test: /\.md$/,
-        use: require.resolve('markdown-image-loader'),
+        use: require.resolve('markdown-image-loader')
     });
 
     return webpackConfig;

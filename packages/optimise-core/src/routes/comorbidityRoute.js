@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const comorbidity = express();
-
 import ComorbidityController from '../controllers/comorbidityController';
+
+const comorbidity = express();
 
 comorbidity.route('/')
     .post(ComorbidityController.createComorbidity)

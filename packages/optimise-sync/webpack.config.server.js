@@ -39,16 +39,16 @@ module.exports = {
     },
     plugins: (process.env.NODE_ENV === 'development' ? [
         new RunScriptWebpackPlugin({
-            name: 'server.js',
+            name: 'server.js'
         }),
         new webpack.HotModuleReplacementPlugin()
     ] : []).concat([
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
-                'BUILD_TARGET': JSON.stringify('server')
+                BUILD_TARGET: JSON.stringify('server')
             }
-        }),
+        })
     ]),
     output: {
         path: path.join(__dirname, 'build'),

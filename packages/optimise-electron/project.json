@@ -1,0 +1,23 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/optimise-electron/src",
+    "projectType": "application",
+    "targets": {
+        "test": {
+            "dependsOn": [
+                {
+                    "projects": "self",
+                    "target": "build"
+                }
+            ],
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "nx test-autoupdate optimise-electron"
+            }
+        }
+    },
+    "tags": [],
+    "implicitDependencies": [
+        "optimise-core"
+    ]
+}

@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const treatment = express();
-
 import TreatmentController from '../controllers/treatmentController';
+
+const treatment = express();
 
 treatment.route('/')
     .post(TreatmentController.createTreatment)

@@ -74,7 +74,7 @@ class ActionLog {
     static eraseIdOnRoute(route, id) {
         return new Promise((resolve, reject) => dbcon()('LOG_ACTIONS')
             .del()
-            .where({ 'router': route })
+            .where({ router: route })
             .andWhere('body', 'like', `%"id":${id},%`)
             .then(result => resolve(result), error => reject(error)));
     }

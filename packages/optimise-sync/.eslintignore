@@ -1,4 +1,6 @@
-/dist
-/build
-/node_modules
-/coverage
+build
+dist
+temp
+reports
+converage
+node_modules

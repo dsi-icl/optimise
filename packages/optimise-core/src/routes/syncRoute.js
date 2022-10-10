@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const sync = express();
-
 import syncController from '../controllers/syncController';
+
+const sync = express();
 
 sync.route('/')
     .put(syncController.triggerSync);

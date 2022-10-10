@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const fields = express();
-
 import AvailableFieldController from '../controllers/availableFieldController';
+
+const fields = express();
 
 fields.route('/:dataType')
     .get(AvailableFieldController.getFields);

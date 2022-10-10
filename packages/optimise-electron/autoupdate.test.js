@@ -54,12 +54,12 @@ try {
         });
 
         cspr.on('exit', function (code) {
-            console.log(`child process exited with code ${  code}`);
+            console.log(`child process exited with code ${code}`);
             process.exit(code);
         });
 
         cspr.on('error', function (error) {
-            console.error(`child process had an error ${  error}`);
+            console.error(`child process had an error ${error}`);
             process.exit(1);
         });
 

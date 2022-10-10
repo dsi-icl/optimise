@@ -8,7 +8,7 @@ class ConcomitantMed {
     }
 
     static updateConcomitantMed(user, updatedObj) {
-        return new Promise((resolve, reject) => updateEntry('CONCOMITANT_MED', user, '*', { 'id': updatedObj.id }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => updateEntry('CONCOMITANT_MED', user, '*', { id: updatedObj.id }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
     }
 
     static deleteConcomitantMed(user, whereObj) {

@@ -17,7 +17,7 @@ export class RemoteControl extends Component {
     }
 
     _clickCloseWS() {
-
+        return;
     }
 
     render() {
@@ -47,7 +47,7 @@ export class RemoteControl extends Component {
     username: state.login.username,
     userId: state.login.id,
     wsEndpoint: state.login.remote_control
-}))
+    }))
 class WSActions extends Component {
     constructor(props) {
         super(props);

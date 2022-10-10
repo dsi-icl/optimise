@@ -9,8 +9,8 @@ import { NavLink } from 'react-router-dom';
     username: state.login.username,
     fetching: state.availableFields.fetching,
     priv: state.login.priv
-}))
-export default class StatusBar extends Component {
+    }))
+class StatusBar extends Component {
     render() {
         let version = packageInfo.version;
         if (window && window.optimiseVersion)
@@ -34,3 +34,5 @@ export default class StatusBar extends Component {
         );
     }
 }
+
+export default StatusBar;

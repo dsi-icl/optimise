@@ -5,11 +5,11 @@ import moment from 'moment';
 import { DemographicCore, MedicalHistoryCore, ImmunisationCore, PregnancyCore } from '../core/demographic';
 
 const PregnancyModel = {
-    'patient': 0,
-    'startDate': null,
-    'outcome': undefined,
-    'outcomeDate': undefined,
-    'meddra': undefined
+    patient: 0,
+    startDate: null,
+    outcome: undefined,
+    outcomeDate: undefined,
+    meddra: undefined
 };
 
 class DemographicDataController {
@@ -32,12 +32,12 @@ class DemographicDataController {
             return;
         }
         let entryObj = {
-            'patient': body.patient,
-            'gender': body.gender,
-            'dominantHand': body.dominant_hand,
-            'ethnicity': body.ethnicity,
-            'countryOfOrigin': body.country_of_origin,
-            'createdByUser': user.id
+            patient: body.patient,
+            gender: body.gender,
+            dominantHand: body.dominant_hand,
+            ethnicity: body.ethnicity,
+            countryOfOrigin: body.country_of_origin,
+            createdByUser: user.id
         };
         if (body.hasOwnProperty('DOB') && body.DOB !== null)
             entryObj.DOB = momentDOB.valueOf();
@@ -60,9 +60,9 @@ class DemographicDataController {
                 return;
             }
             const entryObj = {
-                'patient': body.patient,
-                'vaccineName': body.vaccineName,
-                'createdByUser': user.id
+                patient: body.patient,
+                vaccineName: body.vaccineName,
+                createdByUser: user.id
             };
             if (body.hasOwnProperty('immunisationDate') && body.immunisationDate !== null)
                 entryObj.immunisationDate = momentImmun.valueOf();
@@ -93,11 +93,11 @@ class DemographicDataController {
                 return;
             }
             const entryObj = {
-                'patient': body.patient,
-                'relation': body.relation,
-                'outcome': body.outcome,
-                'conditionName': body.conditionName,
-                'createdByUser': user.id
+                patient: body.patient,
+                relation: body.relation,
+                outcome: body.outcome,
+                conditionName: body.conditionName,
+                createdByUser: user.id
             };
             if (body.hasOwnProperty('immunisationDate') && body.immunisationDate !== null)
                 entryObj.startDate = momentStart.valueOf();
@@ -251,14 +251,14 @@ class DemographicDataController {
 
     static getDemogData({ params, query }, res) {
         if (params.hasOwnProperty('dataType')) {
-            let whereObj = { 'deleted': '-' };
+            let whereObj = { deleted: '-' };
             if (query.hasOwnProperty('patient'))
                 whereObj.patient = query.patient;
             let action = {
-                'Demographic': DemographicCore.getDemographic,
-                'Immunisation': ImmunisationCore.getImmunisation,
-                'MedicalCondition': MedicalHistoryCore.getMedicalHistory,
-                'Pregnancy': PregnancyCore.getPregnancy
+                Demographic: DemographicCore.getDemographic,
+                Immunisation: ImmunisationCore.getImmunisation,
+                MedicalCondition: MedicalHistoryCore.getMedicalHistory,
+                Pregnancy: PregnancyCore.getPregnancy
             };
             action[params.dataType](whereObj).then((result) => {
                 res.status(200).json(formatToJSON(result));
@@ -276,9 +276,9 @@ class DemographicDataController {
     static getFields(req, res, next) {
         if (req.params.hasOwnProperty('dataType')) {
             let action = {
-                'Demographic': DemographicDataController.getDemographicFields,
-                'MedicalCondition': DemographicDataController.getMedicalConditionFields,
-                'Pregnancy': DemographicDataController.getPregnancyFields
+                Demographic: DemographicDataController.getDemographicFields,
+                MedicalCondition: DemographicDataController.getMedicalConditionFields,
+                Pregnancy: DemographicDataController.getPregnancyFields
             };
             if (!action.hasOwnProperty(req.params.dataType)) {
                 res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
@@ -295,10 +295,10 @@ class DemographicDataController {
 
     static getDemographicFields({ query }, res) {
         let action = {
-            'gender': DemographicCore.getGenderFields,
-            'dominant_hand': DemographicCore.getDominantHandsFields,
-            'ethnicity': DemographicCore.getEthnicityFields,
-            'country': DemographicCore.getCountryFields
+            gender: DemographicCore.getGenderFields,
+            dominant_hand: DemographicCore.getDominantHandsFields,
+            ethnicity: DemographicCore.getEthnicityFields,
+            country: DemographicCore.getCountryFields
         };
 
         if (Object.keys(query).length !== 0 && query.hasOwnProperty('fieldName')) {
@@ -336,8 +336,8 @@ class DemographicDataController {
 
     static getMedicalConditionFields({ query }, res) {
         let action = {
-            'relations': MedicalHistoryCore.getRelations,
-            'conditions': MedicalHistoryCore.getConditions
+            relations: MedicalHistoryCore.getRelations,
+            conditions: MedicalHistoryCore.getConditions
         };
 
         if (Object.keys(query).length !== 0 && query.hasOwnProperty('fieldName')) {
@@ -478,7 +478,7 @@ class DemographicDataController {
 
     static deletePregnancy({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
-            PregnancyCore.deletePregnancy(user, { 'id': body.id }).then((result) => {
+            PregnancyCore.deletePregnancy(user, { id: body.id }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {

@@ -28,7 +28,7 @@ function mapStateToProps(state) {
 /* this component serves as a sieve for the data and pass the relevant one to the form as props*/
 @withRouter
 @connect(mapStateToProps)
-export class VisitData extends Component {
+class VisitData extends Component {
     constructor(props) {
         super();
         const { childRef } = props;
@@ -186,3 +186,5 @@ export class VisitData extends Component {
         }
     }
 }
+
+export {VisitData};

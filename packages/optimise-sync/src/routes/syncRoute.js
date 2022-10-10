@@ -5,9 +5,9 @@
 
 import express from 'express';
 
-const ce = express();
-
 import CeController from '../controllers/syncController';
+
+const ce = express();
 
 ce.route('/v1')
     .post(CeController.createSyncV1_0)

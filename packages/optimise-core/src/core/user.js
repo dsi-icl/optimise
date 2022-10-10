@@ -51,7 +51,7 @@ class User {
     }
 
     static changeRights({ adminPriv, id }) {
-        return new Promise((resolve, reject) => dbcon()('USERS').update({ 'adminPriv': adminPriv }).where({ id: id, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').update({ adminPriv: adminPriv }).where({ id: id, deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error))));
     }
 
     static deleteUser(user, userReq) {
@@ -59,7 +59,7 @@ class User {
     }
 
     static eraseUser(id) {
-        return new Promise((resolve, reject) => eraseEntry('USERS', { 'id': id }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.ERASEFAILED, error))));
+        return new Promise((resolve, reject) => eraseEntry('USERS', { id: id }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.ERASEFAILED, error))));
     }
 
     static loginUser({ username, pw }) {

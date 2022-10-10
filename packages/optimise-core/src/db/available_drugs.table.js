@@ -18,7 +18,7 @@ export default async (dbcon, version) => {
         case 4:
             await dbcon()(TABLE_NAME)
                 .where('module', 'Disease Modifying')
-                .update({ 'deleted': `0@${(new Date()).getTime()}` });
+                .update({ deleted: `0@${(new Date()).getTime()}` });
             await dbcon()(TABLE_NAME).insert(drugs_v4);
             break;
         case 5:

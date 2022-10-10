@@ -15,8 +15,8 @@ import { saveAs } from 'file-saver';
     fetching: state.patientProfile.fetching,
     data: state.patientProfile.data,
     availableFields: state.availableFields
-}))
-export default class EditCommunication extends Component {
+    }))
+class EditCommunication extends Component {
     render() {
         const { fetching, data, match, location } = this.props;
         if (fetching) {
@@ -58,6 +58,8 @@ export default class EditCommunication extends Component {
         return <Communication match={match} precomposed={precomposed} originalEditorState={originalEditorState} location={location} data={data} availableFields={this.props.availableFields} override_style={this.props.override_style} />;
     }
 }
+
+export default EditCommunication;
 
 class Communication extends Component {
     render() {

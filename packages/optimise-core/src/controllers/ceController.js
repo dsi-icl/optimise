@@ -85,7 +85,7 @@ class CeController {
 
     static deleteCe({ body, user }, res) {
         if (body.hasOwnProperty('ceId')) {
-            clinicalEventCore.deleteClinicalEvent(user, { 'id': body.ceId }).then((result) => {
+            clinicalEventCore.deleteClinicalEvent(user, { id: body.ceId }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {

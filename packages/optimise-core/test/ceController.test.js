@@ -1,11 +1,9 @@
-/* global beforeAll afterAll describe test expect */
-
 import request from 'supertest';
+import message from '../src/utils/message-utils';
+import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
-import message from '../src/utils/message-utils';
-import { connectAdmin, connectUser, disconnectAgent } from './connection';
 
 beforeAll(async () => {
     await connectAdmin(admin);
@@ -37,7 +35,7 @@ describe('Create Clinical Event controller tests', () => {
                 jour: 1,
                 mois: 3,
                 année: 2011
-            },
+            }
             // meddra: 1
         })
         .then(({ status, body }) => {
@@ -73,7 +71,7 @@ describe('Create Clinical Event controller tests', () => {
         .send({
             visitId: 1,
             type: 1,
-            dateStartDate: '1980-01-01',
+            dateStartDate: '1980-01-01'
             // meddra: 1
         })
         .then(({ status, body }) => {
@@ -90,7 +88,7 @@ describe('Update Clinical Event', () => {
     test('Update meddra code of an event', () => user
         .put('/clinicalEvents')
         .send({
-            id: 3,
+            id: 3
             // meddra: 4
         })
         .then(({ status, body }) => {
@@ -140,7 +138,7 @@ describe('Delete Clinical Event controller tests', () => {
 
     test('Request deletion with bad ID reference (should fail)', () => admin
         .delete('/clinicalEvents')
-        .send({ 'ceId': 99999999 })
+        .send({ ceId: 99999999 })
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
@@ -151,7 +149,7 @@ describe('Delete Clinical Event controller tests', () => {
 
     test('Request deletion with good body (should succeed)', () => admin
         .delete('/clinicalEvents')
-        .send({ 'ceId': 4 })
+        .send({ ceId: 4 })
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');

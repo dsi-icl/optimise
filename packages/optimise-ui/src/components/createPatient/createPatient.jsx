@@ -12,8 +12,8 @@ import style from './createPatient.module.css';
     diagnosesfields: state.availableFields.diagnoses,
     demofields: state.availableFields.demoFields[0],
     patientId: state.createPatient.patientId,
-}))
-export default class CreatePatient extends Component {    //get these props from state: this.props.visitFields, this.props.patientId
+    }))
+class CreatePatient extends Component {    //get these props from state: this.props.visitFields, this.props.patientId
     constructor(props) {
         super(props);
         this.state = {
@@ -117,13 +117,13 @@ export default class CreatePatient extends Component {    //get these props from
             gender: this.state.gender,
             dominant_hand: this.state.dominant_hand,
             ethnicity: this.state.ethnicity,
-            country_of_origin: this.state.country_of_origin,
+            country_of_origin: this.state.country_of_origin
         };
         const PIIData = {
             firstName: this.state.givenName,
             surname: this.state.surname,
             fullAddress: this.state.address,
-            postcode: this.state.postcode,
+            postcode: this.state.postcode
         };
         const diagnosisData = {
             diagnosis: this.state.diagnosis,
@@ -241,3 +241,5 @@ export class SelectField extends Component {
         );
     }
 }
+
+export default CreatePatient;

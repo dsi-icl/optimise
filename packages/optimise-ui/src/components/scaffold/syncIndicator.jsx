@@ -7,12 +7,12 @@ import style from './scaffold.module.css';
 @connect(state => ({
     loggedIn: state.login.loggedIn,
     syncInfo: state.syncInfo
-}), dispatch => ({
-    getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
-    getSyncStatus: () => dispatch(getSyncStatusAPICall()),
-    syncNow: () => dispatch(syncNowAPICall())
-}))
-export default class SyncIndicator extends Component {
+    }), dispatch => ({
+        getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
+        getSyncStatus: () => dispatch(getSyncStatusAPICall()),
+        syncNow: () => dispatch(syncNowAPICall())
+        }))
+class SyncIndicator extends Component {
 
     constructor(props) {
         super(props);
@@ -71,22 +71,24 @@ export default class SyncIndicator extends Component {
 
         if (syncInfo.config === undefined || syncInfo.config.host === undefined || syncInfo.config.host === '')
             return null;
-        if (syncInfo.status.syncing === true)
+        if (syncInfo.status.error !== undefined) {
+            let message = 'Remote unavailable';
+            if (syncInfo.status.error.message === 'Validation key error')
+                message = 'Sync key error';
             return (
-                <span><strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol={'sync'}></Icon></strong> Syncing ...</span>
+                <span title={`${syncInfo.status.error.message}: ${syncInfo.status.error.exception}`}><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> {message}</span>
+            );
+        } else if (syncInfo.status.syncing === true)
+            return (
+                <span title={`${syncInfo.status.status}: ${syncInfo.status.step}`}><strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol={'sync'}></Icon></strong> Syncing ...</span>
             );
         else if (syncInfo.status.lastSuccess !== undefined)
             return (
                 <span><strong className={style.statusIcon}><Icon symbol={'cloud'}></Icon></strong> Synced with {(new URL(syncInfo.config.host)).host}</span>
             );
-        else if (syncInfo.status.error !== undefined) {
-            let message = 'Remote unavailable';
-            if (syncInfo.status.error.message === 'Validation key error')
-                message = 'Sync key error';
-            return (
-                <span><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> {message}</span>
-            );
-        } else
+        else
             return null;
     }
 }
+
+export default SyncIndicator;

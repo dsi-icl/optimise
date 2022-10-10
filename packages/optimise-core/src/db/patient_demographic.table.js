@@ -8,7 +8,7 @@ export default async (dbcon, version) => {
             await tableMove(TABLE_NAME, version);
             await schema_v1(dbcon);
             break;
-        case 2:
+        case 2: {
             const OLD_TABLE_NAME = await tableMove(TABLE_NAME, version);
             await schema_v2(dbcon);
             if (OLD_TABLE_NAME !== null) {
@@ -45,7 +45,7 @@ export default async (dbcon, version) => {
                                         field: 253,
                                         value: alcoholHash[alcoholUsage],
                                         createdByUser
-                                    },
+                                    }
                                 ]);
                             }
                         }
@@ -60,6 +60,7 @@ export default async (dbcon, version) => {
                 }
             }
             break;
+        }
         case 3:
             await tableMove(TABLE_NAME, version);
             await schema_v2(dbcon);

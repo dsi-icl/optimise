@@ -12,7 +12,7 @@ class Comorbidity {
     }
 
     static updateComorbidity(user, updatedObj) {
-        return new Promise((resolve, reject) => updateEntry('COMORBIDITY', user, '*', { 'id': updatedObj.id }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => updateEntry('COMORBIDITY', user, '*', { id: updatedObj.id }, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(messages.errorMessages.GETFAIL, error))));
     }
 
     static deleteComorbidity(user, whereObj) {

@@ -21,7 +21,7 @@ export default async (dbcon, version) => {
                 {
                     id: 48,
                     name: 'Mirabegron (Solifenacin)'
-                },
+                }
             ]);
             break;
         default:

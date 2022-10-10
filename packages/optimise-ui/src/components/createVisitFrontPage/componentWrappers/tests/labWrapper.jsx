@@ -15,8 +15,8 @@ import { YesOrNo } from '../yesOrNoQuestion/yesOrNoQuestion';
 @connect(state => ({
     fetching: state.patientProfile.fetching,
     data: state.patientProfile.data
-}))
-export class TestWrapper extends Component {
+    }))
+class TestWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;
         return <Switch>
@@ -49,6 +49,8 @@ export class TestWrapper extends Component {
         </Switch>;
     }
 }
+
+export {TestWrapper};
 
 class LabTestCreatedMessage extends Component {
     render() {
