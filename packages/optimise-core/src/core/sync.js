@@ -7,6 +7,8 @@ import ErrorHelper from '../utils/error_helper';
 import message from '../utils/message-utils';
 import packageInfo from '../../package.json';
 
+let isSyncing = false;
+
 class SyncCore {
 
     /**
@@ -76,8 +78,9 @@ class SyncCore {
      * @function triggerSync trigger synchronization.
      *
      */
-    static async triggerSync() {
+    static async triggerSync(options) {
         const config = await SyncCore.getSyncOptions();
+        config.adminPass = options ? options.adminPass : false;
         return new Promise((resolve, reject) => {
             if (config === undefined)
                 return reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync configuration not initialized or invalid'));
@@ -105,6 +108,11 @@ class SyncCore {
      * @param {*} config Connection information for synchronization
      */
     static async startSync(config) {
+
+        if (isSyncing && !config.adminPass)
+            return Promise.resolve();
+
+        isSyncing = true;
 
         if (config.host.trim() === '' || config.key.trim() === '') {
             await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
@@ -139,21 +147,21 @@ class SyncCore {
                 updated_at: dbcon().fn.now()
             });
 
-            let patientPromises = [];
-            let patientProfiles = [];
-            patients.forEach(patient => {
-                patientPromises.push(PatientCore.getPatientProfile({ id: patient.id }, true).then(result => {
+            const patientProfiles = [];
+            try {
+                for (const patient of patients) {
+                    if (!config.adminPass)
+                        await new Promise(r => setTimeout(r, 1000));
+                    process.stderr.write('Getting patient ' + patient.id + '\n');
+                    const result = await PatientCore.getPatientProfile({ id: patient.id }, true);
                     patientProfiles.push({
                         ...patient,
                         ...result,
                         aliasId: undefined,
                         patientId: undefined
                     });
-                    return true;
-                }));
-            });
-
-            await Promise.all(patientPromises).catch(async (err) => {
+                }
+            } catch (err) {
                 await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                     value: JSON.stringify({
                         error: {
@@ -163,7 +171,7 @@ class SyncCore {
                     }),
                     updated_at: dbcon().fn.now()
                 });
-            });
+            }
 
             await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                 value: JSON.stringify({
@@ -267,6 +275,7 @@ class SyncCore {
                 updated_at: dbcon().fn.now()
             });
         }
+        isSyncing = false;
         return Promise.resolve();
 
         // const tables = [

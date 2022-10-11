@@ -1,6 +1,9 @@
 const { ipcRenderer } = require('electron');
+const unhandled = require('electron-unhandled');
 const packageInfo = require('./package.json');
 const callStack = {};
+
+unhandled();
 
 window['optimiseVersion'] = packageInfo.version;
 window['ipcUpdateCommander'] = () => {

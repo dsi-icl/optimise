@@ -26,7 +26,7 @@ export const getSyncStatusAPICall = () => dispatch => apiHelper('/sync/status', 
     })
     .catch(result => dispatch(dispatch(getSyncStatusSuccess(result))));
 
-export const syncNowAPICall = adminPass => dispatch => apiHelper('/sync', { method: 'PUT' }, true)
+export const syncNowAPICall = adminPass => dispatch => apiHelper('/sync', { method: 'PUT', body: JSON.stringify({ adminPass: !!adminPass }) }, true)
     .then(result => {
         dispatch(syncTriggerSuccess({
             ...result,
