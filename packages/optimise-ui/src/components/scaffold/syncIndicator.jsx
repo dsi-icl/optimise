@@ -71,20 +71,28 @@ class SyncIndicator extends Component {
 
         if (syncInfo.config === undefined || syncInfo.config.host === undefined || syncInfo.config.host === '')
             return null;
-        if (syncInfo.status.error !== undefined) {
+
+        const { status } = syncInfo;
+
+        if (status === undefined)
+            return null;
+
+        const { lastSuccess, error } = syncInfo;
+
+        if (error !== undefined) {
             let message = 'Remote unavailable';
-            if (syncInfo.status.error.message === 'Validation key error')
+            if (error.message === 'Validation key error')
                 message = 'Sync key error';
             return (
-                <span title={`${syncInfo.status.error.message}: ${syncInfo.status.error.exception}`}><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> {message}</span>
+                <span title={`${error.message}: ${error.exception}`}><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> {message}</span>
             );
-        } else if (syncInfo.status.syncing === true)
+        } else if (status.syncing === true)
             return (
-                <span title={`${syncInfo.status.status}: ${syncInfo.status.step}`}><strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol={'sync'}></Icon></strong> Syncing ...</span>
+                <span title={`${status.status}: ${status.step}`}><strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol={'sync'}></Icon></strong> Syncing ...</span>
             );
-        else if (syncInfo.status.lastSuccess !== undefined)
+        else if (lastSuccess !== undefined)
             return (
-                <span><strong className={style.statusIcon}><Icon symbol={'cloud'}></Icon></strong> Synced with {(new URL(syncInfo.config.host)).host}</span>
+                <span title={lastSuccess}><strong className={style.statusIcon}><Icon symbol={'cloud'}></Icon></strong> Synced with {(new URL(syncInfo.config.host)).host}</span>
             );
         else
             return null;
