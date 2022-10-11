@@ -51,8 +51,8 @@ class SyncController {
         });
     }
 
-    static triggerSync(__unused__req, res) {
-        syncCore.triggerSync().then((result) => {
+    static triggerSync({ body }, res) {
+        syncCore.triggerSync(body).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
