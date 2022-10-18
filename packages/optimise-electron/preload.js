@@ -25,13 +25,13 @@ ipcRenderer.on('optimiseApiResult', function (__unused__event, { cid, res }) {
 });
 
 window['ipcFetch'] = (url, options) => new Promise((resolve) => {
-    let cid = `${Math.random().toString(36).substr(2, 5)}`;
+    const cid = `${Math.random().toString(36).substr(2, 5)}`;
     callStack[cid] = resolve;
 
-    let files = {};
+    const files = {};
     if (options.body instanceof FormData) {
-        let mdh = options.body.getAll('mdhierfile')[0];
-        let llt = options.body.getAll('lltfile')[0];
+        const mdh = options.body.getAll('mdhierfile')[0];
+        const llt = options.body.getAll('lltfile')[0];
         if (mdh !== undefined)
             files.mdhierfile = {
                 name: mdh.name,

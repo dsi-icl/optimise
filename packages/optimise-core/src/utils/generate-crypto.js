@@ -1,13 +1,13 @@
 import crypto from 'crypto';
 
 export const generateSaltIteration = function () {
-    let salt = crypto.randomBytes(32).toString('base64');
-    let iteration = Number.parseInt(crypto.randomBytes(2).toString('hex'), 16);
+    const salt = crypto.randomBytes(32).toString('base64');
+    const iteration = Number.parseInt(crypto.randomBytes(2).toString('hex'), 16);
     return { salt, iteration };
 };
 
 export const generateAndHash = function (secret) {
-    let saltitContainer = generateSaltIteration();
+    const saltitContainer = generateSaltIteration();
     let hashed = crypto.pbkdf2Sync(secret, saltitContainer.salt, saltitContainer.iteration, 64, 'sha512');
 
     hashed = hashed.toString('base64');

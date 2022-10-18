@@ -47,13 +47,13 @@ class PatientController {
         }
 
         if (body.study && body.study !== 'NA') { //study is placeholder for consent date
-            if (typeof body.study !== 'string' || !new Date(body.study).valueOf()){
+            if (typeof body.study !== 'string' || !new Date(body.study).valueOf()) {
                 res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return false;
             }
         }
 
-        let entryObj = {
+        const entryObj = {
             aliasId: body.aliasId,
             createdByUser: user.id,
             consent: body.consent
@@ -142,7 +142,7 @@ class PatientController {
             // Erasing log entries referencing the user
             return PatientCore.getPatientProfile({ id: patientId }, false)
                 .then(result => {
-                    let promiseContainer = [];
+                    const promiseContainer = [];
                     promiseContainer.push(ActionCore.erasePatients(result.id, result.patientId, undefined));
                     if (result.visits.length >= 1)
                         for (let i = 0; i < result.visits.length; i++)
@@ -175,11 +175,11 @@ class PatientController {
                     if (result.pregnancy.length >= 1)
                         for (let i = 0; i < result.pregnancy.length; i++)
                             promiseContainer.push(ActionCore.eraseIdOnRoute('/demographics/Pregnancy', result.pregnancy[i].id));
-                    let promises = Promise.all(promiseContainer);
+                    const promises = Promise.all(promiseContainer);
                     return promises.then(subResult => {
                         if (subResult === 0 && process.env.NODE_ENV !== 'production')
                             console.error('No logs were found corresponding to the patient. Please check the LOG_ACTIONS table.'); // eslint-disable-line no-console
-                        return eraseEntry('PATIENTS', { id: patientId }).then((__unused__result) => {
+                        return eraseEntry('PATIENTS', { id: patientId }).then(() => {
                             res.status(200).json({ success: true, message: 'Erasure completed. Check for any data retreivable if needed.' });
                             return true;
                         }).catch((error) => {
@@ -190,7 +190,7 @@ class PatientController {
                         if (process.env.NODE_ENV !== 'production') {
                             console.error(JSON.stringify(ErrorHelper('An error occured while erasing logs.', subError))); // eslint-disable-line no-console
                         }
-                        return eraseEntry('PATIENTS', { id: patientId }).then((__unused__result) => {
+                        return eraseEntry('PATIENTS', { id: patientId }).then(() => {
                             res.status(200).json({ success: true, message: 'Erasure completed. Check for any data retreivable if needed.' });
                             return true;
                         }).catch((error) => {
@@ -198,7 +198,7 @@ class PatientController {
                             return false;
                         });
                     });
-                }, __unused__error => eraseEntry('PATIENTS', { id: patientId }).then((__unused__result) => {
+                }, () => eraseEntry('PATIENTS', { id: patientId }).then(() => {
                     res.status(200).json({ success: true, message: 'Erasure completed. Check for any data retreivable if needed.' });
                     return true;
                 }).catch((error) => {

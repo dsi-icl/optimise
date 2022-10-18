@@ -28,7 +28,7 @@ export async function migrate() {
         });
     } else {
         // Otherwise fetch the CURRENT_VERSION
-        let stepVersionResult = await dbcon()('OPT_KV').where({
+        const stepVersionResult = await dbcon()('OPT_KV').where({
             key: 'CURRENT_VERSION'
         }).select('value');
 
@@ -70,7 +70,7 @@ export function erase() {
     return new Promise((resolve, reject) => {
         if (process.env.NODE_ENV !== 'test') {
             if (process.env.NODE_ENV === 'development') console.log('Removing database file ...');
-            let filename = dbcon().client.config.connection.filename;
+            const filename = dbcon().client.config.connection.filename;
             try {
                 if (fs.existsSync(filename))
                     fs.unlinkSync(filename);

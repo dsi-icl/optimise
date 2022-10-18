@@ -69,7 +69,7 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
         _readableState: {},
         socket: {},
         pipe: (destination) => {
-            let s = new Readable();
+            const s = new Readable();
             s.push(queue);
             s.push(null);
             s.pipe(destination);
@@ -87,7 +87,7 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
         options.headers['content-type'] &&
         options.headers['content-type'].search('multipart/form-data') >= 0
     ) {
-        let boundary = `--------------------------${Math.random()
+        const boundary = `--------------------------${Math.random()
             .toString(5)
             .substr(2, 16)}`;
         let content;
@@ -118,10 +118,10 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
         },
         getHeader: (name) => res._headers[name],
         get: (name) => res._headers[name],
-        write: (chunk, __unused__encoding) => {
+        write: (chunk) => {
             res._sent = Buffer.concat([res._sent, chunk]);
         },
-        end: (chunk, __unused__encoding) => {
+        end: (chunk) => {
             try {
                 if (chunk !== undefined)
                     res._sent = Buffer.concat([res._sent, chunk]);
@@ -242,7 +242,7 @@ let mainWindow;
 let closingBlock = false;
 let updatingBlock = false;
 
-let createWindow = () => {
+const createWindow = () => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         toolbar: false,
@@ -296,7 +296,7 @@ autoUpdater.on('checking-for-update', () => {
     });
 });
 
-autoUpdater.on('update-available', (__unused__info) => {
+autoUpdater.on('update-available', () => {
     // Prompt the user if an update is available!
     dialog.showMessageBox({
         message: 'There is an update available! It is being downloaded...'
@@ -307,7 +307,7 @@ autoUpdater.on('update-available', (__unused__info) => {
     });
 });
 
-autoUpdater.on('update-not-available', (__unused__info) => {
+autoUpdater.on('update-not-available', () => {
     sendUpdateStatusToWindow({
         ready: false,
         text: 'Nothing to update today.'
@@ -331,9 +331,9 @@ autoUpdater.on('download-progress', (info) => {
     });
 });
 
-autoUpdater.on('update-downloaded', (__unused__info) => {
+autoUpdater.on('update-downloaded', () => {
     // Promot the user to update, if update is available
-    let options = {
+    const options = {
         buttons: ['Yes', 'No'],
         message: 'Do you want to update the software now?'
     };
@@ -404,7 +404,7 @@ app.on('activate', () => {
     }
 });
 
-ipcMain.on('quitAndInstall', (__unused__event, __unused__arg) => {
+ipcMain.on('quitAndInstall', () => {
     updatingBlock = true;
     setImmediate(() => {
         app.removeAllListeners('window-all-closed');

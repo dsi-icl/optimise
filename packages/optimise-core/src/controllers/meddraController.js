@@ -71,8 +71,8 @@ class MeddraController {
     }
 
     static async getMeddraField({ query }, res) {
-        let result = [];
-        let maxOccurency = 20;
+        const result = [];
+        const maxOccurency = 20;
         await MeddraController.loadMeddraCollection();
         if (query.hasOwnProperty('search')) {
             let j = 0;

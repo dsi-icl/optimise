@@ -27,12 +27,12 @@ class PatientDiagnosisController {
     }
 
     static createPatientDiagnosis({ body, user }, res) {
-        let entryObj = {};
+        const entryObj = {};
         if (body.hasOwnProperty('patient') && body.hasOwnProperty('diagnosis') && body.hasOwnProperty('diagnosisDate') &&
             typeof body.patient === 'number' && typeof body.diagnosis === 'number' && typeof body.diagnosisDate === 'string') {
-            let momentDiagnos = moment(body.diagnosisDate, moment.ISO_8601);
+            const momentDiagnos = moment(body.diagnosisDate, moment.ISO_8601);
             if (!momentDiagnos.isValid() && body.diagnosisDate !== null) {
-                let msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
+                const msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(messages.userError.INVALIDDATE)));
                 return;
             }
@@ -58,10 +58,10 @@ class PatientDiagnosisController {
 
     static updatePatientDiagnosis({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
-            let entryObj = body;
-            let momentDiagnos = moment(body.diagnosisDate, moment.ISO_8601);
+            const entryObj = body;
+            const momentDiagnos = moment(body.diagnosisDate, moment.ISO_8601);
             if (body.hasOwnProperty('diagnosisDate') && body.diagnosisDate !== null && !momentDiagnos.isValid()) {
-                let msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
+                const msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(messages.userError.INVALIDDATE)));
                 return;
             } else if (body.hasOwnProperty('diagnosisDate') && body.diagnosisDate !== null) {

@@ -35,7 +35,7 @@ class ComorbidityController {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
-        let entryObj = {
+        const entryObj = {
             visit: body.visitId,
             comorbidity: body.comorbidity,
             createdByUser: user.id
@@ -53,7 +53,7 @@ class ComorbidityController {
     static editComorbidity({ body, user }, res) {
 
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
-            let entryObj = Object.assign({}, body);
+            const entryObj = Object.assign({}, body);
             if (typeof body.comorbidity !== 'number') {
                 res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;

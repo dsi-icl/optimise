@@ -35,7 +35,7 @@ const optionsContainer = {
 class DataController {
 
     static _RouterDeleteData({ params, body, user }, res) {
-        let options = optionsContainer[`${params.dataType}`];
+        const options = optionsContainer[`${params.dataType}`];
         if (options === undefined) {
             res.status(400).json(ErrorHelper(`data type ${params.dataType} not supported.`));
             return;
@@ -59,7 +59,7 @@ class DataController {
     }
 
     static _checkField({ fieldTable }, entries) {
-        let promiseArr = [];
+        const promiseArr = [];
         for (let i = 0; entries.hasOwnProperty('updates') && i < entries.updates.length; i++) {
             promiseArr.push(DataController._getField(fieldTable, entries.updates[i].field));
         }
@@ -70,7 +70,7 @@ class DataController {
     }
 
     static _formatEntries({ dataTableForeignKey, entryIdString }, { body, user }) {
-        let returned = {};
+        const returned = {};
         const numOfUpdates = (body.hasOwnProperty('update')) ? Object.keys(body.update).length : 0;
         const numOfAdds = (body.hasOwnProperty('add')) ? Object.keys(body.add).length : 0;
         const updates = [];
@@ -103,10 +103,10 @@ class DataController {
     }
 
     static _createAndUpdate({ user }, { dataTableForeignKey, dataTable }, inputData) {
-        let promiseArr = [];
+        const promiseArr = [];
 
         for (let i = 0; inputData.hasOwnProperty('updates') && i < inputData.updates.length; i++) {
-            let whereObj = {};
+            const whereObj = {};
             whereObj[dataTableForeignKey] = inputData.entryId;
             whereObj.field = inputData.updates[i].field;
             promiseArr.push(updateEntry(dataTable, user, '*', whereObj, inputData.updates[i]));
@@ -119,13 +119,13 @@ class DataController {
 
     static _RouterAddOrUpdate(req, res) {
         if (optionsContainer.hasOwnProperty(`${req.params.dataType}`)) {
-            let options = optionsContainer[req.params.dataType];
+            const options = optionsContainer[req.params.dataType];
             if (!(req.body.hasOwnProperty(`${options.entryIdString}`) &&
                 (req.body.hasOwnProperty('add') || req.body.hasOwnProperty('update')))) {
                 res.status(400).json(ErrorHelper(message.dataMessage.MISSINGVALUE + options.entryIdString));
                 return;
             } else {
-                let entries = DataController._formatEntries(options, req);
+                const entries = DataController._formatEntries(options, req);
                 entries.entryId = req.body[options.entryIdString];
                 if (!req.body.hasOwnProperty('update')) { req.body.update = {}; }  //adding an empty obj so that the code later doesn't throw error for undefined
                 if (!req.body.hasOwnProperty('add')) { req.body.add = {}; }   //same
@@ -136,7 +136,7 @@ class DataController {
                             res.status(404).json(ErrorHelper(options.errMsgForUnfoundEntry));
                             return;
                         }
-                        let entryType = entryResult[0].type;
+                        const entryType = entryResult[0].type;
                         return DataController._checkField(options, entries).then((result) => {
                             if (result.length <= 0) {
                                 res.status(400).json(ErrorHelper(message.dataMessage.FIELDNOTFOUND));
@@ -152,11 +152,11 @@ class DataController {
                                     return false;
                                 }
                                 if (result[i].length === 1) {
-                                    let addOrUpdate = (entries.hasOwnProperty('updates') && i < entries.updates.length) ? 'update' : 'add';
-                                    let fieldId = result[i][0].id;
-                                    let fieldDefinition = result[i][0].definition;
-                                    let fieldType = result[i][0].type;
-                                    let inputValue = req.body[addOrUpdate][fieldId];
+                                    const addOrUpdate = (entries.hasOwnProperty('updates') && i < entries.updates.length) ? 'update' : 'add';
+                                    const fieldId = result[i][0].id;
+                                    const fieldDefinition = result[i][0].definition;
+                                    const fieldType = result[i][0].type;
+                                    const inputValue = req.body[addOrUpdate][fieldId];
                                     let time;
                                     switch (fieldType) {
                                         case 5: //'B':
@@ -186,7 +186,7 @@ class DataController {
                                         case 6: //'D':
                                             time = moment(inputValue, moment.ISO_8601);
                                             if (inputValue !== '' && !time.isValid()) {
-                                                let msg = (time.invalidAt() === undefined || time.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[time.invalidAt()];
+                                                const msg = (time.invalidAt() === undefined || time.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[time.invalidAt()];
                                                 res.status(400).json(ErrorHelper(`${msg} at field ${fieldDefinition}`));
                                                 return false;
                                             }
@@ -194,7 +194,7 @@ class DataController {
                                     }
                                 }
                             }
-                            return DataController._createAndUpdate(req, options, entries).then((__unused__result) => {
+                            return DataController._createAndUpdate(req, options, entries).then(() => {
                                 res.status(200).json(formatToJSON(`${message.dataMessage.SUCCESS}`));
                                 return true;
                             }).catch((error) => {

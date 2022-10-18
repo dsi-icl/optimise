@@ -37,7 +37,7 @@ class Patient {
                 } else {
                     return reject(ErrorHelper(message.errorMessages.NOTFOUND));
                 }
-                let promiseArr = [];
+                const promiseArr = [];
                 let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis', 'getConcomitantMeds'];
 
                 if (getOnly && typeof getOnly === 'string')
@@ -46,7 +46,7 @@ class Patient {
                 for (let i = 0; i < availableFunctions.length; i++) {
                     promiseArr.push(SelectorUtils[availableFunctions[i]](patientId, deleted));
                 }
-                let selectorPromises = Promise.all(promiseArr);
+                const selectorPromises = Promise.all(promiseArr);
                 selectorPromises.then((result) => {
                     const responseObj = {};
                     responseObj.patientId = Patientresult[0].alias;
@@ -78,7 +78,7 @@ class Patient {
      */
     static createPatient(patient) {
         return new Promise((resolve, reject) => {
-            let entryObj = Object.assign({}, patientModel, patient);
+            const entryObj = Object.assign({}, patientModel, patient);
             entryObj.uuid = uuid();
             return createEntry('PATIENTS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
         });

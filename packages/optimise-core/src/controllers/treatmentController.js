@@ -34,12 +34,12 @@ class TreatmentController {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
-        if (body.hasOwnProperty('times') && !body.hasOwnProperty('intervalUnit') || body.hasOwnProperty('intervalUnit') && !body.hasOwnProperty('times')) {
+        if ((body.hasOwnProperty('times') && !body.hasOwnProperty('intervalUnit')) || (body.hasOwnProperty('intervalUnit') && !body.hasOwnProperty('times'))) {
             res.status(400).json(ErrorHelper(message.userError.FREQANDINTERVALMUSTCOPRESENT));
             return;
         }
-        let momentStart = moment(body.startDate, moment.ISO_8601);
-        let momentTerminated = moment(body.terminatedDate, moment.ISO_8601);
+        const momentStart = moment(body.startDate, moment.ISO_8601);
+        const momentTerminated = moment(body.terminatedDate, moment.ISO_8601);
         if (!momentStart.isValid() && body.startDate !== null) {
             res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
             return;
@@ -48,7 +48,7 @@ class TreatmentController {
             res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
             return;
         }
-        let entryObj = {
+        const entryObj = {
             orderedDuringVisit: body.visitId,
             drug: body.drugId,
             dose: (body.hasOwnProperty('dose') ? body.dose : null),
@@ -73,7 +73,7 @@ class TreatmentController {
     static addTerminationDate({ body }, res) {    //for adding termination date
         if ((body.hasOwnProperty('treatmentId') && body.hasOwnProperty('terminationDate')) && body.hasOwnProperty('terminatedReason') &&
             typeof body.treatmentId === 'number' && typeof body.terminatedDate === 'string' && typeof body.terminatedReason === 'number') {
-            let momentTerminated = moment(body.terminatedDate, moment.ISO_8601);
+            const momentTerminated = moment(body.terminatedDate, moment.ISO_8601);
             if (!momentTerminated.isValid() && body.terminatedDate !== null) {
                 res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
                 return;
@@ -98,8 +98,8 @@ class TreatmentController {
     static editTreatment({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
 
-            let momentStart = moment(body.startDate, moment.ISO_8601);
-            let momentTerminated = moment(body.terminatedDate, moment.ISO_8601);
+            const momentStart = moment(body.startDate, moment.ISO_8601);
+            const momentTerminated = moment(body.terminatedDate, moment.ISO_8601);
             if (!momentStart.isValid()) {
                 res.status(400).json(ErrorHelper(message.dateError[momentStart.invalidAt()], new Error(message.userError.INVALIDDATE)));
                 return;
@@ -108,7 +108,7 @@ class TreatmentController {
                 res.status(400).json(ErrorHelper(message.dateError[momentTerminated.invalidAt()], new Error(message.userError.INVALIDDATE)));
                 return;
             }
-            let newObj = Object.assign({}, body);
+            const newObj = Object.assign({}, body);
             newObj.startDate = momentStart.valueOf();
             newObj.terminatedDate = (body.hasOwnProperty('terminatedDate') && body.terminatedDate !== null ? momentTerminated.valueOf() : null);
 
@@ -155,15 +155,15 @@ class TreatmentController {
     static addInterruption({ body, user }, res) {    //need to search if treatment exists
         if (body.hasOwnProperty('treatmentId') && body.hasOwnProperty('start_date') &&
             typeof body.treatmentId === 'number' && typeof body.start_date === 'string') {
-            let momentStart = moment(body.start_date, moment.ISO_8601);
-            let momentEnd = moment(body.end_date, moment.ISO_8601);
+            const momentStart = moment(body.start_date, moment.ISO_8601);
+            const momentEnd = moment(body.end_date, moment.ISO_8601);
             if (!momentStart.isValid() && body.start_date !== null) {
-                let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
             if (body.hasOwnProperty('end_date') && body.end_date !== null && !momentEnd.isValid()) {
-                let msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
@@ -171,7 +171,7 @@ class TreatmentController {
                 res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
             }
-            let entryObj = {
+            const entryObj = {
                 treatment: body.treatmentId,
                 startDate: body.start_date !== null ? momentStart.valueOf() : null,
                 meddra: body.hasOwnProperty('meddra') ? body.meddra : null,
@@ -198,15 +198,15 @@ class TreatmentController {
     static editInterruption({ body, user }, res) {
         if (body.hasOwnProperty('treatmentInterId') && typeof body.treatmentInterId === 'number' &&
             body.hasOwnProperty('start_date') && typeof body.start_date === 'string') {
-            let momentStart = body.hasOwnProperty('start_date') && body.start_date !== null ? moment(body.start_date, moment.ISO_8601) : null;
-            let momentEnd = body.hasOwnProperty('end_date') && body.end_date !== null ? moment(body.end_date, moment.ISO_8601) : null;
+            const momentStart = body.hasOwnProperty('start_date') && body.start_date !== null ? moment(body.start_date, moment.ISO_8601) : null;
+            const momentEnd = body.hasOwnProperty('end_date') && body.end_date !== null ? moment(body.end_date, moment.ISO_8601) : null;
             if (momentStart !== null && !momentStart.isValid()) {
-                let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
             if (momentEnd !== null && !momentEnd.isValid()) {
-                let msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentEnd.invalidAt()] !== undefined ? message.dateError[momentEnd.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
@@ -214,7 +214,7 @@ class TreatmentController {
                 res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
             }
-            let newObj = {
+            const newObj = {
                 startDate: body.hasOwnProperty('start_date') && momentStart !== null ? momentStart.valueOf() : null,
                 meddra: body.hasOwnProperty('meddra') ? parseInt(body.meddra) : null,
                 endDate: body.hasOwnProperty('end_date') && momentEnd !== null ? momentEnd.valueOf() : null,

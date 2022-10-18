@@ -25,7 +25,7 @@ export async function migrate() {
         });
     } else {
         // Otherwise fetch the CURRENT_VERSION
-        let stepVersionResult = await db.collection('OPT_ASSIST_KV').findOne({
+        const stepVersionResult = await db.collection('OPT_ASSIST_KV').findOne({
             key: 'CURRENT_VERSION'
         });
 

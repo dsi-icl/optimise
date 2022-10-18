@@ -33,7 +33,7 @@ export const updateEntry = function (tablename, { id }, originObj, whereObj, new
             if (getResult.length !== 1) {
                 return reject(message.errorMessages.NOTFOUND);
             }
-            let oldEntry = getResult[0];
+            const oldEntry = getResult[0];
             delete oldEntry.id;
             if (oldEntry.hasOwnProperty('deleted'))
                 oldEntry.deleted = `${id}@${(new Date()).getTime()}`;
@@ -42,7 +42,7 @@ export const updateEntry = function (tablename, { id }, originObj, whereObj, new
             return oldEntry;
         })
         .then(oldEntry => createEntry(tablename, oldEntry))
-        .then(__unused__createResult => dbcon()(tablename)
+        .then(() => dbcon()(tablename)
             .update(newObj)
             .where(whereObj))
         .then(updateRes => resolve(updateRes))

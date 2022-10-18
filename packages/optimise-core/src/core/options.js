@@ -6,11 +6,11 @@ import crypto from 'crypto';
  * @desc Complete the configuration object with default values
  * @constructor
  */
-let Options = function (configuration = {}) {
+const Options = function (configuration = {}) {
     //Get all the attributes
-    let config = {};
+    const config = {};
 
-    for (let attr in configuration)
+    for (const attr in configuration)
         config[attr] = configuration[attr];
 
     config.optimiseDBLocation = configuration.optimiseDBLocation ? configuration.optimiseDBLocation : 'db/optimise-db.sqlite';

@@ -20,8 +20,8 @@ class ICD11Controller {
     }
 
     static async getICD11Field({ query }, res) {
-        let result = [];
-        let maxOccurency = 20;
+        const result = [];
+        const maxOccurency = 20;
         await ICD11Controller.loadICD11Collection();
         if (query.hasOwnProperty('search')) {
             let j = 0;

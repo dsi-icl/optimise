@@ -15,19 +15,19 @@ class TestController {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
-        let momentExpect = moment(body.expectedOccurDate, moment.ISO_8601);
+        const momentExpect = moment(body.expectedOccurDate, moment.ISO_8601);
         if (!momentExpect.isValid() && body.expectedOccurDate !== null) {
-            let msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
+            const msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
-        let momentOccur = moment(body.actualOccurredDate, moment.ISO_8601);
+        const momentOccur = moment(body.actualOccurredDate, moment.ISO_8601);
         if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null && !momentOccur.isValid()) {
-            let msg = message.dateError[momentOccur.invalidAt()] !== undefined ? message.dateError[momentOccur.invalidAt()] : message.userError.INVALIDDATE;
+            const msg = message.dateError[momentOccur.invalidAt()] !== undefined ? message.dateError[momentOccur.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
-        let entryObj = {
+        const entryObj = {
             orderedDuringVisit: body.visitId,
             type: body.type,
             createdByUser: user.id
@@ -50,18 +50,18 @@ class TestController {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        let entryObj = Object.assign({}, body);
-        let momentExpect = moment(body.expectedOccurDate, moment.ISO_8601);
+        const entryObj = Object.assign({}, body);
+        const momentExpect = moment(body.expectedOccurDate, moment.ISO_8601);
         if (body.hasOwnProperty('expectedOccurDate') && body.expectedOccurDate !== null && !momentExpect.isValid()) {
-            let msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
+            const msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         } else if (body.hasOwnProperty('expectedOccurDate') && body.expectedOccurDate !== null) {
             entryObj.expectedOccurDate = momentExpect.valueOf();
         }
-        let momentOccur = moment(body.actualOccurredDate, moment.ISO_8601);
+        const momentOccur = moment(body.actualOccurredDate, moment.ISO_8601);
         if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null && !momentOccur.isValid()) {
-            let msg = message.dateError[momentOccur.invalidAt()] !== undefined ? message.dateError[momentOccur.invalidAt()] : message.userError.INVALIDDATE;
+            const msg = message.dateError[momentOccur.invalidAt()] !== undefined ? message.dateError[momentOccur.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         } else if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null) {

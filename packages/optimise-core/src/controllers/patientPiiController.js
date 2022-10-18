@@ -31,7 +31,7 @@ class PatientPiiController {
     static createPatientPii({ body, user }, res) {
         if (body.hasOwnProperty('patient') && body.hasOwnProperty('firstName') && body.hasOwnProperty('surname') && body.hasOwnProperty('fullAddress') && body.hasOwnProperty('postcode') &&
             typeof body.patient === 'number' && typeof body.firstName === 'string' && typeof body.surname === 'string' && typeof body.fullAddress === 'string' && typeof body.postcode === 'string') {
-            let entryObj = Object.assign({}, PatientPiiModel, body);
+            const entryObj = Object.assign({}, PatientPiiModel, body);
             entryObj.createdByUser = user.id;
             PatientPiiCore.createPatientPii(entryObj).then((result) => {
                 res.status(200).json(formatToJSON(result));
@@ -51,7 +51,7 @@ class PatientPiiController {
 
     static updatePatientPii({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
-            let entryObj = body;
+            const entryObj = body;
             entryObj.createdByUser = user.id;
             PatientPiiCore.updatePatientPii(user, body.id, entryObj).then((result) => {
                 res.status(200).json(formatToJSON(result));
