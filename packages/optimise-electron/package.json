@@ -1,7 +1,7 @@
 {
     "name": "optimise-electron",
     "productName": "Optimise MS Desktop",
-    "version": "2.1.4",
+    "version": "2.1.5",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
         "research",
@@ -121,10 +121,10 @@
         "sqlite3": "5.1.2"
     },
     "devDependencies": {
-        "@babel/core": "7.19.3",
-        "babel-loader": "8.2.5",
+        "@babel/core": "7.19.6",
+        "babel-loader": "9.0.1",
         "copy-webpack-plugin": "11.0.0",
-        "electron": "21.1.0",
+        "electron": "21.2.1",
         "electron-builder": "23.6.0",
         "electron-reload": "1.5.0",
         "html-webpack-plugin": "5.5.0",

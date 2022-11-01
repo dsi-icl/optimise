@@ -10,7 +10,7 @@ class ActionController {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
-        let limitOffset = {};
+        const limitOffset = {};
         if (query.hasOwnProperty('limit') && typeof parseInt(query.limit) === 'number')
             limitOffset.limit = parseInt(query.limit);
         if (query.hasOwnProperty('offset') && typeof parseInt(query.offset) === 'number')

@@ -20,7 +20,7 @@ export default async (dbcon, version) => {
                     const smokingHash = (await dbcon()('SMOKING_HISTORY').select('*')).reduce((a, e) => { a[e.id] = e.value; return a; }, {});
                     const alcoholHash = (await dbcon()('ALCOHOL_USAGE').select('*')).reduce((a, e) => { a[e.id] = e.value; return a; }, {});
 
-                    for (let each of eligiblePatients) {
+                    for (const each of eligiblePatients) {
 
                         /* copying data to visit data */
                         const patientID = each['patient'];

@@ -14,14 +14,12 @@ class FrontPage extends Component {
             return null;
 
         const number_of_routine_visits = this.props.patientProfile.visits.filter(visit => visit.type === 1);
-        if (number_of_routine_visits.length === 1) {
-            return <BaselineVisitFrontPage match={match} location={location}/>;
-        } else if (number_of_routine_visits.length > 1) {
-            return <FollowupVisitFrontPage match={match} location={location}/>;
-        } else {
-            return <p>Something went wrong.</p>;
-        }
+        if (number_of_routine_visits.length === 1)
+            return <BaselineVisitFrontPage match={match} location={location} />;
+        else if (number_of_routine_visits.length > 1)
+            return <FollowupVisitFrontPage match={match} location={location} />;
+        return null;
     }
 }
 
-export {FrontPage};
+export { FrontPage };

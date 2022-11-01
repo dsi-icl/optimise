@@ -4,8 +4,8 @@ const compression = require('compression');
 const OptimiseServer = require('./server').default;
 const path = require('path');
 
-let root = express();
-let optimise = new OptimiseServer();
+const root = express();
+const optimise = new OptimiseServer();
 
 optimise.start().then(router => {
 

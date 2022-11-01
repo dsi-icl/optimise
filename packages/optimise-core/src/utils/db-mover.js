@@ -1,7 +1,7 @@
 /*eslint no-console: "off"*/
 import dbcon from './db-connection';
 
-let mapper = {};
+const mapper = {};
 
 export async function tableMove(TABLE_NAME, version) {
     if (await dbcon().schema.hasTable(TABLE_NAME) === true) {

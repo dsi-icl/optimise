@@ -1,6 +1,6 @@
 {
     "name": "optimise",
-    "version": "2.1.4",
+    "version": "2.1.5",
     "description": "Optimise:MS",
     "keywords": [
         "ms"
@@ -37,22 +37,22 @@
         "prepackage": "yarn build",
         "package": "nx run-many --target=package --parallel=1 --projects=optimise-docker,optimise-electron",
         "publish": "nx run-many --target=publish --parallel=1 --projects=optimise-docker,optimise-electron",
-        "start": "nx run-many --target=start --projects=optimise-core,optimise-sync,optimise-ui",
+        "start": "nx run-many --target=start --parallel=3 --projects=optimise-core,optimise-sync,optimise-ui",
         "test": "nx run-many --target=test"
     },
     "devDependencies": {
-        "@commitlint/config-conventional": "17.1.0",
-        "@nrwl/eslint-plugin-nx": "14.8.3",
-        "@nrwl/nx-cloud": "14.7.0",
-        "@nrwl/workspace": "14.8.3",
-        "commitlint": "17.1.2",
+        "@commitlint/config-conventional": "17.2.0",
+        "@nrwl/eslint-plugin-nx": "15.0.4",
+        "@nrwl/nx-cloud": "15.0.0",
+        "@nrwl/workspace": "15.0.4",
+        "commitlint": "17.2.0",
         "eslint-plugin-import": "2.26.0",
         "eslint-plugin-json": "3.1.0",
         "eslint-plugin-jsx-a11y": "6.6.1",
         "eslint-plugin-react": "7.31.10",
         "eslint-plugin-react-hooks": "4.6.0",
         "husky": "8.0.1",
-        "nx": "14.8.3",
+        "nx": "15.0.4",
         "typescript": "4.8.4"
     },
     "resolutions": {

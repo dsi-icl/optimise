@@ -16,7 +16,7 @@ class ExportDataController {
             fs.mkdirSync(global.config.exportGenerationFolder);
         }
 
-        let filepath = path.normalize(`${global.config.exportGenerationFolder}${filename}.${Date.now()}`);
+        const filepath = path.normalize(`${global.config.exportGenerationFolder}${filename}.${Date.now()}`);
         fs.writeFileSync(filepath, content);
 
         return {
@@ -40,7 +40,7 @@ class ExportDataController {
     static createCsvDataFile(result) {
 
         const fileName = `${result[0]}.csv`;
-        let keys = Object.keys(result[1][0]);
+        const keys = Object.keys(result[1][0]);
         let tempResult = `${keys.join(',')}\n`;
         result[1].forEach((obj) => {
             keys.forEach((a, b) => {
@@ -63,8 +63,8 @@ class ExportDataController {
 
     static exportDatabase({ query }, res) {
 
-        let isPatientMappings = query.patientMappings !== undefined;
-        let isCDISC = query.cdisc !== undefined;
+        const isPatientMappings = query.patientMappings !== undefined;
+        const isCDISC = query.cdisc !== undefined;
         let queryfield = '';
         let queryvalue = '';
         let attachmentName = `optimise_export_${Date.now()}`;
@@ -122,7 +122,7 @@ class ExportDataController {
         let globalMaxSAEs = 1;
         let globalMaxTreatments = 1;
         let globalMaxRelapses = 1;
-        let globalMaxDiagnosis = 1;
+        const globalMaxDiagnosis = 1;
 
         const unwindEntries = tree => {
             const line = {
@@ -276,7 +276,7 @@ class ExportDataController {
             .where('PATIENT_DIAGNOSIS.deleted', '-');
         allDiagnosis = allDiagnosis.map(e => ({ ...e, diagnosisDate: new Date(parseInt(e.diagnosisDate)).toDateString() }));
         const patients = Object.keys(patientToVisitsMap);
-        for (let each of patients) {
+        for (const each of patients) {
             diagnosisMap[each] = allDiagnosis.filter(e => parseInt(e.patient) === parseInt(each));
         }
 
@@ -289,7 +289,7 @@ class ExportDataController {
         /* get the data needed for each visit */
         let lastVisitPatient;
         let lastVisitDate;
-        for (let visit of visits) {
+        for (const visit of visits) {
             /* if last visit is for another patient then reset */
             if (lastVisitPatient !== visit.patientId) {
                 lastVisitDate = Number.MIN_SAFE_INTEGER;
@@ -340,7 +340,7 @@ class ExportDataController {
                 .whereIn('recordedDuringVisit', patientToVisitsMap[visit.patientId]);
             /* type 1 = relapse, 2 = infection, 3 = opportunisitic infection, 4 = Death, 5 = SAE realted to treatment , 6 = other SAE*/
             const all_ce_grouped = {};
-            for (let e of all_ce) {
+            for (const e of all_ce) {
                 if (all_ce_grouped[e.type] === undefined) {
                     all_ce_grouped[e.type] = [];
                 }
@@ -355,7 +355,7 @@ class ExportDataController {
                 .whereIn('type', [1, 3])
                 .whereIn('orderedDuringVisit', patientToVisitsMap[visit.patientId]);
             const tests_grouped = {};
-            for (let e of MRI_and_lab) {
+            for (const e of MRI_and_lab) {
                 if (tests_grouped[e.type] === undefined) {
                     tests_grouped[e.type] = [];
                 }
@@ -415,7 +415,7 @@ class ExportDataController {
 
     static getPatientDataCDISC(patientList) {
 
-        let dataPromises = [];
+        const dataPromises = [];
 
         /* Patient demographic data */
         dataPromises.push(dbcon()('PATIENTS')

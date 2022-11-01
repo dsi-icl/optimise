@@ -28,7 +28,7 @@ class ConcomitantMedController {
             return;
         }
 
-        let entryObj = {
+        const entryObj = {
             visit: visitId,
             concomitantMedId,
             indication,
@@ -48,7 +48,7 @@ class ConcomitantMedController {
 
     static editConcomitantMed({ body, user }, res) {
         if (body.concomitantMedEntryId && typeof body.concomitantMedEntryId === 'number') {
-            let entryObj = { id: body.concomitantMedEntryId };
+            const entryObj = { id: body.concomitantMedEntryId };
             const { concomitantMedId, indication, startDate, endDate } = body;
             if (concomitantMedId) {
                 if (typeof concomitantMedId === 'number') {

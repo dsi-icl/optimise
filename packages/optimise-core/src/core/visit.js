@@ -78,7 +78,7 @@ class Visit {
      */
     static updateReport(user, updatedObj) {
         return new Promise((resolve, reject) => {
-            let whereObj = {};
+            const whereObj = {};
             whereObj.id = updatedObj.id;
             delete updatedObj.id;
             return updateEntry('VISIT_REPORT', user, '*', whereObj, updatedObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, error)));

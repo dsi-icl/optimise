@@ -1,5 +1,5 @@
 function formatToJSON(obj) {
-    let returnedObj = {};
+    const returnedObj = {};
     if (Array.isArray(obj) && obj.length === 1 && typeof obj[0] === 'number') {
         returnedObj.state = obj[0];
         return returnedObj;

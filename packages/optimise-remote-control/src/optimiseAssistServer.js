@@ -47,7 +47,7 @@ class OptimiseAssistServer {
      * In case of error, an ErrorStack is rejected.
      */
     start() {
-        let _this = this;
+        const _this = this;
         return new Promise((resolve, reject) => {
 
             // Operate database migration if necessary

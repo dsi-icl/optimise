@@ -20,7 +20,7 @@ class AvailableFieldController {
             if (params.dataType === 'visitFields' && query.module) {
                 moduleObj = { module: query.module };
             }
-            let table = tableMap[params.dataType];
+            const table = tableMap[params.dataType];
             dbcon()(table)
                 .select('*')
                 .where(moduleObj)

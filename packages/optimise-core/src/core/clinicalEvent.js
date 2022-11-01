@@ -31,7 +31,7 @@ class ClinicalEvent {
      */
     static createClinicalEvent(ce) {
         return new Promise((resolve, reject) => {
-            let entryObj = Object.assign({}, ClinicalEventModel, ce);
+            const entryObj = Object.assign({}, ClinicalEventModel, ce);
             return createEntry('CLINICAL_EVENTS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
         });
     }

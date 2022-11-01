@@ -96,6 +96,8 @@ testem.log
 .DS_Store
 Thumbs.db
 *.sqlite
+db/*
+!db/.*
 /temp/
 /.stryker-tmp/
 /reports/

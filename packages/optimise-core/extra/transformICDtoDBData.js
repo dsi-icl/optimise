@@ -4,11 +4,11 @@ const csvparse = require('csv-parse');
 const parser = csvparse({ columns: true });
 const readstream = fs.createReadStream('./simpletabulation.csv', { encoding: 'utf8' });
 
-let tmpParent = [null];
+const tmpParent = [null];
 let tmpLevel = 0;
 let lastNode = null;
 let id = 1;
-let data = [];
+const data = [];
 
 function getCurrentParent(tmpParent) {
     return tmpParent[tmpParent.length - 1];

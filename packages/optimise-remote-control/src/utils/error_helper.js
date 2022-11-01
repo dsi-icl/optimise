@@ -4,7 +4,7 @@
  * @param {*} error_stack Raised error
  */
 function ErrorStack(error_obj, error_stack) {
-    let error = {};
+    const error = {};
     let error_message = '';
 
     error.toString = () => JSON.stringify(this);

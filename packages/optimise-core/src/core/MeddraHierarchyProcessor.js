@@ -76,7 +76,7 @@ class MeddraHierarchyProcessor {
                 });
                 id++;
             } else {
-                let array = Array.from(parents[key]);
+                const array = Array.from(parents[key]);
                 for (let i = 0; i < array.length; i++) {
                     if (key !== array[i]) {
                         transformedData.push({

@@ -25,13 +25,13 @@ class DemographicDataController {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
-        let momentDOB = moment(body.DOB, moment.ISO_8601);
+        const momentDOB = moment(body.DOB, moment.ISO_8601);
         if (!momentDOB.isValid()) {
-            let msg = message.dateError[momentDOB.invalidAt()] !== undefined ? message.dateError[momentDOB.invalidAt()] : message.userError.INVALIDDATE;
+            const msg = message.dateError[momentDOB.invalidAt()] !== undefined ? message.dateError[momentDOB.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
-        let entryObj = {
+        const entryObj = {
             patient: body.patient,
             gender: body.gender,
             dominantHand: body.dominant_hand,
@@ -53,9 +53,9 @@ class DemographicDataController {
     static createImmunisation({ body, user }, res) {
         if (body.hasOwnProperty('patient') && body.hasOwnProperty('immunisationDate') && body.hasOwnProperty('vaccineName') &&
             typeof body.patient === 'number' && typeof body.immunisationDate === 'string' && typeof body.vaccineName === 'string') {
-            let momentImmun = moment(body.immunisationDate, moment.ISO_8601);
+            const momentImmun = moment(body.immunisationDate, moment.ISO_8601);
             if (!momentImmun.isValid() && body.immunisationDate !== null) {
-                let msg = message.dateError[momentImmun.invalidAt()] !== undefined ? message.dateError[momentImmun.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentImmun.invalidAt()] !== undefined ? message.dateError[momentImmun.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
@@ -86,9 +86,9 @@ class DemographicDataController {
         if (body.hasOwnProperty('patient') && body.hasOwnProperty('startDate') && body.hasOwnProperty('outcome') && body.hasOwnProperty('relation') && body.hasOwnProperty('conditionName') &&
             ((body.hasOwnProperty('resolvedYear') && typeof body.resolvedYear === 'number') || !body.hasOwnProperty('resolvedYear')) &&
             typeof body.patient === 'number' && typeof body.startDate === 'string' && typeof body.outcome === 'string' && typeof body.relation === 'number' && typeof body.conditionName === 'number') {
-            let momentStart = moment(body.startDate, moment.ISO_8601);
+            const momentStart = moment(body.startDate, moment.ISO_8601);
             if (!momentStart.isValid() && body.startDate !== null) {
-                let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
@@ -177,9 +177,9 @@ class DemographicDataController {
     static editDemographic({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
             if (body.DOB) {
-                let momentDOB = moment(body.DOB, moment.ISO_8601);
+                const momentDOB = moment(body.DOB, moment.ISO_8601);
                 if (!momentDOB.isValid()) {
-                    let msg = message.dateError[momentDOB.invalidAt()] !== undefined ? message.dateError[momentDOB.invalidAt()] : message.userError.INVALIDDATE;
+                    const msg = message.dateError[momentDOB.invalidAt()] !== undefined ? message.dateError[momentDOB.invalidAt()] : message.userError.INVALIDDATE;
                     res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                     return;
                 }
@@ -204,13 +204,13 @@ class DemographicDataController {
     static editImmunisation({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number' &&
             ((body.hasOwnProperty('immunisationDate') && typeof body.immunisationDate === 'string') || !body.hasOwnProperty('immunisationDate'))) {
-            let momentImmun = moment(body.immunisationDate, moment.ISO_8601);
+            const momentImmun = moment(body.immunisationDate, moment.ISO_8601);
             if (body.hasOwnProperty('immunisationDate') && body.immunisationDate !== null && !momentImmun.isValid()) {
-                let msg = message.dateError[momentImmun.invalidAt()] !== undefined ? message.dateError[momentImmun.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentImmun.invalidAt()] !== undefined ? message.dateError[momentImmun.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
-            let updateObj = Object.assign(body);
+            const updateObj = Object.assign(body);
             if (updateObj.hasOwnProperty('immunisationDate') && body.immunisationDate !== null)
                 updateObj.immunisationDate = momentImmun.valueOf();
             ImmunisationCore.editImmunisation(user, updateObj).then((result) => {
@@ -251,10 +251,10 @@ class DemographicDataController {
 
     static getDemogData({ params, query }, res) {
         if (params.hasOwnProperty('dataType')) {
-            let whereObj = { deleted: '-' };
+            const whereObj = { deleted: '-' };
             if (query.hasOwnProperty('patient'))
                 whereObj.patient = query.patient;
-            let action = {
+            const action = {
                 Demographic: DemographicCore.getDemographic,
                 Immunisation: ImmunisationCore.getImmunisation,
                 MedicalCondition: MedicalHistoryCore.getMedicalHistory,
@@ -275,7 +275,7 @@ class DemographicDataController {
 
     static getFields(req, res, next) {
         if (req.params.hasOwnProperty('dataType')) {
-            let action = {
+            const action = {
                 Demographic: DemographicDataController.getDemographicFields,
                 MedicalCondition: DemographicDataController.getMedicalConditionFields,
                 Pregnancy: DemographicDataController.getPregnancyFields
@@ -294,7 +294,7 @@ class DemographicDataController {
     }
 
     static getDemographicFields({ query }, res) {
-        let action = {
+        const action = {
             gender: DemographicCore.getGenderFields,
             dominant_hand: DemographicCore.getDominantHandsFields,
             ethnicity: DemographicCore.getEthnicityFields,
@@ -319,7 +319,7 @@ class DemographicDataController {
             for (let key = 0; key < Object.keys(action).length; key++) {
                 promiseArray.push(action[Object.keys(action)[key]]());
             }
-            let promiseHandler = Promise.all(promiseArray);
+            const promiseHandler = Promise.all(promiseArray);
             promiseHandler.then((result) => {
                 const responseObj = {};
                 for (let i = 0; i < result.length; i++) {
@@ -335,7 +335,7 @@ class DemographicDataController {
     }
 
     static getMedicalConditionFields({ query }, res) {
-        let action = {
+        const action = {
             relations: MedicalHistoryCore.getRelations,
             conditions: MedicalHistoryCore.getConditions
         };
@@ -358,7 +358,7 @@ class DemographicDataController {
             for (let key = 0; key < Object.keys(action).length; key++) {
                 promiseArray.push(action[Object.keys(action)[key]]());
             }
-            let promiseHandler = Promise.all(promiseArray);
+            const promiseHandler = Promise.all(promiseArray);
             promiseHandler.then((result) => {
                 const responseObj = {};
                 for (let i = 0; i < result.length; i++) {
@@ -374,7 +374,7 @@ class DemographicDataController {
     }
 
     static getPregnancy({ query }, res) {
-        let whereObj = {};
+        const whereObj = {};
         if (query.hasOwnProperty('patient'))
             whereObj.patient = query.patient;
         PregnancyCore.getPregnancy(whereObj).then((result) => {
@@ -398,15 +398,15 @@ class DemographicDataController {
                 return;
             }
 
-            let momentStart = moment(body.startDate, moment.ISO_8601);
-            let momentOutcome = moment(body.outcomeDate, moment.ISO_8601);
+            const momentStart = moment(body.startDate, moment.ISO_8601);
+            const momentOutcome = moment(body.outcomeDate, moment.ISO_8601);
             if (body.hasOwnProperty('startDate') && body.startDate !== null && !momentStart.isValid()) {
-                let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
             if (body.hasOwnProperty('outcomeDate') && body.outcomeDate !== null && !momentOutcome.isValid()) {
-                let msg = message.dateError[momentOutcome.invalidAt()] !== undefined ? message.dateError[momentOutcome.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentOutcome.invalidAt()] !== undefined ? message.dateError[momentOutcome.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
@@ -416,7 +416,7 @@ class DemographicDataController {
                 return;
             }
 
-            let entryObj = Object.assign({}, PregnancyModel, body);
+            const entryObj = Object.assign({}, PregnancyModel, body);
             if (body.hasOwnProperty('startDate') && body.startDate !== null)
                 entryObj.startDate = momentStart.valueOf();
             if (body.hasOwnProperty('outcomeDate') && body.outcomeDate !== null)
@@ -442,18 +442,18 @@ class DemographicDataController {
     static editPregnancy({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
 
-            let entryObj = Object.assign({}, body);
-            let momentStart = moment(body.startDate, moment.ISO_8601);
-            let momentOutcome = moment(body.outcomeDate, moment.ISO_8601);
+            const entryObj = Object.assign({}, body);
+            const momentStart = moment(body.startDate, moment.ISO_8601);
+            const momentOutcome = moment(body.outcomeDate, moment.ISO_8601);
             if (body.hasOwnProperty('startDate') && body.startDate !== null && !momentStart.isValid()) {
-                let msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             } else if (body.hasOwnProperty('startDate') && body.startDate !== null) {
                 entryObj.startDate = momentStart.valueOf();
             }
             if (body.hasOwnProperty('outcomeDate') && body.outcomeDate !== null && !momentOutcome.isValid()) {
-                let msg = message.dateError[momentOutcome.invalidAt()] !== undefined ? message.dateError[momentOutcome.invalidAt()] : message.userError.INVALIDDATE;
+                const msg = message.dateError[momentOutcome.invalidAt()] !== undefined ? message.dateError[momentOutcome.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             } else if (body.hasOwnProperty('outcomeDate') && body.outcomeDate !== null) {

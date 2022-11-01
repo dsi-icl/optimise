@@ -34,13 +34,13 @@ class VisitController {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        let momentVisit = moment(body.visitDate, moment.ISO_8601);
+        const momentVisit = moment(body.visitDate, moment.ISO_8601);
         if (!momentVisit.isValid() && body.visitDate !== null) {
-            let msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
+            const msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
-        let entryObj = {};
+        const entryObj = {};
         if (body.hasOwnProperty('visitDate') && body.visitDate !== null)
             entryObj.visitDate = momentVisit.valueOf();
         entryObj.patient = body.patientId;
@@ -58,14 +58,14 @@ class VisitController {
 
     static updateVisit({ body, user }, res) {
         let updatedObj = {};
-        let whereObj = {};
+        const whereObj = {};
         if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        let momentVisit = moment(body.visitDate, moment.ISO_8601);
+        const momentVisit = moment(body.visitDate, moment.ISO_8601);
         if (body.hasOwnProperty('visitDate') && body.visitDate !== null && !momentVisit.isValid()) {
-            let msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
+            const msg = message.dateError[momentVisit.invalidAt()] !== undefined ? message.dateError[momentVisit.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
@@ -105,7 +105,7 @@ class VisitController {
      * @param {Object} res Response Object
      */
     static getReportOfVisit({ query }, res) {
-        let whereObj = {};
+        const whereObj = {};
         if (query.hasOwnProperty('id')) {
             whereObj.visit = query.id;
         }
@@ -127,7 +127,7 @@ class VisitController {
     static createReport({ body, user }, res) {
         if (body.hasOwnProperty('visit') && body.hasOwnProperty('report') &&
             typeof body.visit === 'number' && typeof body.report === 'string') {
-            let newEntry = {};
+            const newEntry = {};
             newEntry.visit = body.visit;
             newEntry.report = body.report;
             newEntry.createdByUser = user.id;

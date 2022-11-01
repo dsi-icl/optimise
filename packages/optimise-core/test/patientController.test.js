@@ -24,7 +24,7 @@ describe('Patient controller tests', () => {
             expect(statusCode).toBe(200);
             expect(headers['content-type']).toBe('application/json; charset=utf-8');
             expect(body.length).toBe(userSeeded.length);
-            for (let i = 0; i, i < body.length; i++) {
+            for (let i = 0; i < body.length; i++) {
                 userSeeded[i].patientId = userSeeded[i].id;
                 delete userSeeded[i].uuid;
                 delete userSeeded[i].id;

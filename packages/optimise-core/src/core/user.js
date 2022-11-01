@@ -16,8 +16,8 @@ class User {
 
     static createUser({ id }, { pw, username, realname, isAdmin, email }) {
         return new Promise((resolve, reject) => {
-            let entryObj = {};
-            let hashContainer = generateAndHash(pw);
+            const entryObj = {};
+            const hashContainer = generateAndHash(pw);
             entryObj.uuid = uuid();
             entryObj.username = username;
             entryObj.realname = realname;
@@ -33,10 +33,10 @@ class User {
 
     static updateUser({ pw, email, username }) {
         return new Promise((resolve, reject) => {
-            let obj = {};
+            const obj = {};
             try {
                 if (pw !== undefined) {
-                    let hashContainer = generateAndHash(pw);
+                    const hashContainer = generateAndHash(pw);
                     obj.pw = hashContainer.hashed;
                     obj.salt = hashContainer.salt;
                     obj.iterations = hashContainer.iteration;
@@ -67,7 +67,7 @@ class User {
             if (result.length <= 0)
                 return reject(ErrorHelper(message.errorMessages.GETFAIL));
             try {
-                let crypted = hash(pw, result[0].salt, result[0].iteration);
+                const crypted = hash(pw, result[0].salt, result[0].iteration);
                 if (crypted !== result[0].pw)
                     return reject(ErrorHelper(message.userError.BADPASSWORD));
                 else
@@ -78,7 +78,7 @@ class User {
         }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
-    static logoutUser(__unused__user) {
+    static logoutUser() {
         return Promise.resolve(true);
     }
 }

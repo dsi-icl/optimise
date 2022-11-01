@@ -1,7 +1,7 @@
 {
     "name": "optimise-ui",
     "productName": "Optimise MS",
-    "version": "2.1.4",
+    "version": "2.1.5",
     "description": "Optimise:MS UI",
     "keywords": [
         "ms"
@@ -35,7 +35,7 @@
         "react-event-timeline": "1.6.3",
         "react-helmet-async": "1.3.0",
         "react-markdown": "8.0.3",
-        "react-medium-image-zoom": "5.0.3",
+        "react-medium-image-zoom": "5.1.1",
         "react-redux": "8.0.4",
         "react-router-dom": "5.3.4",
         "react-virtualized": "9.22.3",
@@ -45,17 +45,17 @@
         "rehype-raw": "6.1.1"
     },
     "devDependencies": {
-        "@babel/core": "7.19.3",
+        "@babel/core": "7.19.6",
         "@babel/eslint-parser": "7.19.1",
         "@babel/eslint-plugin": "7.19.1",
         "@babel/helper-builder-react-jsx": "7.19.0",
         "@babel/helper-builder-react-jsx-experimental": "7.12.11",
-        "@babel/plugin-proposal-decorators": "7.19.3",
+        "@babel/plugin-proposal-decorators": "7.20.0",
         "@babel/plugin-syntax-jsx": "7.18.6",
-        "@typescript-eslint/eslint-plugin": "5.40.0",
-        "@typescript-eslint/parser": "5.40.0",
+        "@typescript-eslint/eslint-plugin": "5.42.0",
+        "@typescript-eslint/parser": "5.42.0",
         "cross-env": "7.0.3",
-        "eslint": "8.25.0",
+        "eslint": "8.26.0",
         "eslint-config-react-app": "7.0.1",
         "eslint-plugin-flowtype": "8.0.3",
         "eslint-plugin-import": "2.26.0",

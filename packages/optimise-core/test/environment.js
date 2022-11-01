@@ -9,10 +9,6 @@ let optimiseRouter = null;
 
 class OptimiseNodeEnvironment extends NodeEnvironment {
 
-    constructor(config, context) {
-        super(config, context);
-    }
-
     static async globalSetup() {
         process.env.NODE_ENV = 'test';
         optimiseServer = new OptimiseServer({});
@@ -25,11 +21,11 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
         await optimiseServer.stop();
     }
 
-    async setup(__unused__jestConfig) {
+    async setup() {
         this.global.optimiseRouter = optimiseRouter;
     }
 
-    async teardown(__unused__jestConfig) {
+    async teardown() {
         return;
     }
 

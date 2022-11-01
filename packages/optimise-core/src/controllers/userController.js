@@ -253,7 +253,7 @@ class UserController {
      */
     static whoAmI(wsEndpoint) {
         return function ({ user, optimiseCSRFToken }, res) {
-            let Iam = user;
+            const Iam = user;
             if (Iam === undefined || Iam === null) {
                 res.status(404);
                 res.json(ErrorHelper('An unknown unicorn'));
