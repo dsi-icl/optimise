@@ -7,7 +7,8 @@ import { PickDate } from './datepicker';
 import style from './medicalEvent.module.css';
 
 @connect(state => ({
-    patientId: state.patientProfile.data.id
+    patientId: state.patientProfile.data.id,
+    agentId: state.syncInfo.config.id,
     }), dispatch => ({
         createVisit: body => dispatch(createVisitAPICall(body))
         }))
@@ -75,6 +76,7 @@ class CreateVisit extends Component {
 
         const requestBody = this._formatRequestBody();
         requestBody.to = `/patientProfile/${this.props.match.params.patientId}`;
+        requestBody.agentId = this.props.agentId;
 
         this.setState({
             lastSubmit: (new Date()).getTime(),
@@ -115,4 +117,4 @@ class CreateVisit extends Component {
     }
 }
 
-export { CreateVisit};
+export { CreateVisit };

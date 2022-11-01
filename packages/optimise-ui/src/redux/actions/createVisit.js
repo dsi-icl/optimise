@@ -5,14 +5,18 @@ import { getPatientProfileById } from './searchPatient';
 import { apiHelper } from '../fetchHelper';
 import history from '../history';
 
+const questionnaireAgentPassList = (process.env.REACT_APP_NX_VISIT_QUESTIONNAIRE_PASS_LIST ?? '').split(',').map(id => id.toLocaleLowerCase());
+
 export const createVisitAPICall = (body) => dispatch => apiHelper('/visits', { method: 'POST', body: JSON.stringify(body.visitData) })
     .then(json => {
         body.VSData.visitId = json.state;
         return apiHelper('/data/visit', { method: 'POST', body: JSON.stringify(body.VSData) });
     })
     .then(() => {
-        // history.push(`${body.to}/data/visit/${body.VSData.visitId}/vitals#visit-${body.VSData.visitId}`);
-        history.push(`${body.to}/visitFrontPage/${body.VSData.visitId}/page/0?yesPages=foo`);
+        if (questionnaireAgentPassList.includes(body.agentId.toLocaleLowerCase()))
+            history.push(`${body.to}/data/visit/${body.VSData.visitId}/vitals#visit-${body.VSData.visitId}`);
+        else
+            history.push(`${body.to}/visitFrontPage/${body.VSData.visitId}/page/0?yesPages=foo`);
         dispatch(getPatientProfileById(body.patientId));
     })
     .catch(msg => store.dispatch(addError({ error: msg })));
