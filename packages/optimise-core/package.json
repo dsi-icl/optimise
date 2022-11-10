@@ -44,7 +44,7 @@
         "swagger-ui-express": "4.6.0",
         "utf-8-validate": "5.0.10",
         "uuid": "9.0.0",
-        "ws": "8.10.0"
+        "ws": "8.11.0"
     },
     "devDependencies": {
         "@babel/core": "7.20.2",
