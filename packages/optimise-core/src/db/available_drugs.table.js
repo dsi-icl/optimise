@@ -43,6 +43,9 @@ export default async (dbcon, version) => {
             await dbcon()(TABLE_NAME).insert([{ name: 'Ozanimod', module: 'Disease Modifying' }]);
             await dbcon()(TABLE_NAME).insert([{ name: 'Ofatumumab', module: 'Disease Modifying' }]);
             break;
+        case 15:
+            await dbcon()(TABLE_NAME).insert([{ name: 'Ponesimod', module: 'Disease Modifying' }]);
+            break;
         default:
             break;
     }
