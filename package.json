@@ -53,7 +53,7 @@
         "eslint-plugin-react-hooks": "4.6.0",
         "husky": "8.0.2",
         "nx": "15.3.0",
-        "typescript": "4.9.3"
+        "typescript": "4.9.4"
     },
     "resolutions": {
         "@jest/reporters": "^24",
