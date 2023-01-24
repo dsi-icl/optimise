@@ -39,7 +39,7 @@ class Section extends Component {
                         <div className={`${style.panel} ${style.patientInfo}`}>
                             <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
-                            <Pregnancy/>
+                            <Pregnancy />
                             <ImmunisationSection patientId={this.props.match.params.patientId} />
                             <DeletePatient match={this.props.match} />
                         </div>
@@ -50,7 +50,7 @@ class Section extends Component {
     }
 }
 
-export {Section};
+export { Section };
 
 @connect(state => ({
     data: state.patientProfile.data ? state.patientProfile.data : {},
@@ -149,15 +149,15 @@ class DemographicSection extends Component {
                             </>
                             : null}
                     </div>
-                    <br/>
+                    <br />
                     {showEditAliasId ?
                         <div className={style.editPatientIdDiv}>
                             <b>Edit Patient ID</b>
-                            <br/><br/>
-                            <input onChange={this._onChangeEditID} value={editAliasIdInput}/>
-                            <br/><br/>
+                            <br /><br />
+                            <input onChange={this._onChangeEditID} value={editAliasIdInput} />
+                            <br /><br />
                             <button onClick={this._submitEditId}>Submit</button>
-                            <br/><br/>
+                            <br /><br />
                             <button onClick={this._hideEditId}>Cancel</button>
                             <p>Note: after changing patient ID you will be redirected to search tab.</p>
                         </div>
@@ -260,7 +260,7 @@ class ImmunisationSection extends Component {
                         <tr><th>Vaccine name</th><th>Date</th></tr>
                     </thead> : null}
                     <tbody>
-                        {data.immunisations.map(el => <OneImmunisation data={el} patientId={data.patientId}/>)}
+                        {data.immunisations.map(el => <OneImmunisation data={el} patientId={data.patientId} />)}
                         {!this.state.addMore ? null : <tr className={style.immunisationNewItem}>
                             <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
                             <td colSpan='2'><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
@@ -269,7 +269,7 @@ class ImmunisationSection extends Component {
                 </table>
                 {!this.state.addMore ?
                     <>
-                        <br/>
+                        <br />
                         <button onClick={this._handleClickingAdd}>Add immunisation</button>
                     </> :
                     <>
@@ -474,7 +474,7 @@ class Pregnancy extends Component {
  */
 @connect(state => ({
     data: state.patientProfile.data,
-    priv: state.login.priv
+    adminPriv: state.login.adminPriv
     }))
 class DeletePatient extends Component {
     constructor() {
@@ -562,7 +562,7 @@ class DeletePatient extends Component {
                             <div>
                                 <span><b>Consent date</b>: {new Date(study).toLocaleDateString()}</span>
                                 <button onClick={this._handleClickWithdrawConsent} >This patient withdraws consent</button>
-                                <br/> <br/>
+                                <br /> <br />
                                 <span>Select date of consent:</span>
                                 <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
                                 <button onClick={this._handleClickGivesConsent}>Change consent date</button>
@@ -577,7 +577,7 @@ class DeletePatient extends Component {
 
 
                 </PatientProfileSectionScaffold>
-                {this.props.priv === 1 ?
+                {this.props.adminPriv === 1 ?
                     (
                         <PatientProfileSectionScaffold sectionName='Delete'>
                             <button onClick={this._handleClickDelete} className={style.deleteButton}>Delete this patient</button>

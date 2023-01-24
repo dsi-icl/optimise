@@ -6,7 +6,7 @@ import formatToJSON from '../utils/format-response';
 class SyncController {
 
     static getSyncOptions({ user }, res) {
-        if (user.priv !== 1) {
+        if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
@@ -20,7 +20,7 @@ class SyncController {
     }
 
     static setSyncOptions({ body, user }, res) {
-        if (user.priv !== 1) {
+        if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
@@ -38,7 +38,7 @@ class SyncController {
     }
 
     static getSyncStatus({ user }, res) {
-        if (!user || user.priv !== 1) {
+        if (!user || user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }

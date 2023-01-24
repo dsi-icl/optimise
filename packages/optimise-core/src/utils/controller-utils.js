@@ -59,19 +59,20 @@ export const searchEntry = function (queryfield, queryvalue) {
     switch (queryfield) {
         case 'OPTIMISEID':
             return new Promise((resolve, reject) => dbcon()('PATIENTS')
-                .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
+                .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent', 'participation')
                 .where('uuid', 'like', `%${queryvalue}%`)
                 .andWhere('PATIENTS.deleted', '-')
                 .then((result) => {
                     if (Array.isArray(result))
                         for (let i = 0; i < result.length; i++) {
                             result[i].consent = Boolean(result[i].consent);
+                            result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'SEX':
             return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
-                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'GENDERS.value')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'PATIENTS.participation', 'GENDERS.value')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                 .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
                 .where('GENDERS.value', `${queryvalue.trim().toLowerCase()}`)
@@ -81,12 +82,13 @@ export const searchEntry = function (queryfield, queryvalue) {
                     if (Array.isArray(result))
                         for (let i = 0; i < result.length; i++) {
                             result[i].consent = Boolean(result[i].consent);
+                            result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'EXTRT':
             return new Promise((resolve, reject) => dbcon()('TREATMENTS')
-                .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'PATIENTS.aliasId', 'PATIENTS.consent', 'PATIENTS.study')
+                .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'PATIENTS.aliasId', 'PATIENTS.consent', 'PATIENTS.participation', 'PATIENTS.study')
                 .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
                 .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
@@ -99,12 +101,13 @@ export const searchEntry = function (queryfield, queryvalue) {
                     if (Array.isArray(result))
                         for (let i = 0; i < result.length; i++) {
                             result[i].consent = Boolean(result[i].consent);
+                            result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'ETHNIC':
             return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
-                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'ETHNICITIES.value')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'PATIENTS.participation', 'ETHNICITIES.value')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                 .leftOuterJoin('ETHNICITIES', 'ETHNICITIES.id', 'PATIENT_DEMOGRAPHIC.ethnicity')
                 .where('ETHNICITIES.value', 'like', `%${queryvalue}%`)
@@ -114,12 +117,13 @@ export const searchEntry = function (queryfield, queryvalue) {
                     if (Array.isArray(result))
                         for (let i = 0; i < result.length; i++) {
                             result[i].consent = Boolean(result[i].consent);
+                            result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'COUNTRY':
             return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
-                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'COUNTRIES.value')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'PATIENTS.participation', 'COUNTRIES.value')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                 .leftOuterJoin('COUNTRIES', 'COUNTRIES.id', 'PATIENT_DEMOGRAPHIC.countryOfOrigin')
                 .where('COUNTRIES.value', 'like', `%${queryvalue}%`)
@@ -129,12 +133,13 @@ export const searchEntry = function (queryfield, queryvalue) {
                     if (Array.isArray(result))
                         for (let i = 0; i < result.length; i++) {
                             result[i].consent = Boolean(result[i].consent);
+                            result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'DOMINANT':
             return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
-                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'DOMINANT_HANDS.value')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'PATIENTS.participation', 'DOMINANT_HANDS.value')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
                 .leftOuterJoin('DOMINANT_HANDS', 'DOMINANT_HANDS.id', 'PATIENT_DEMOGRAPHIC.dominantHand')
                 .where('DOMINANT_HANDS.value', 'like', `%${queryvalue}%`)
@@ -144,12 +149,13 @@ export const searchEntry = function (queryfield, queryvalue) {
                     if (Array.isArray(result))
                         for (let i = 0; i < result.length; i++) {
                             result[i].consent = Boolean(result[i].consent);
+                            result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'MHTERM':
             return new Promise((resolve, reject) => dbcon()('PATIENT_DIAGNOSIS')
-                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'AVAILABLE_DIAGNOSES.value')
+                .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.study', 'PATIENTS.consent', 'PATIENTS.participation', 'AVAILABLE_DIAGNOSES.value')
                 .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_DIAGNOSIS.patient')
                 .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
                 .where('AVAILABLE_DIAGNOSES.value', 'like', `%${queryvalue}%`)
@@ -159,18 +165,20 @@ export const searchEntry = function (queryfield, queryvalue) {
                     if (Array.isArray(result))
                         for (let i = 0; i < result.length; i++) {
                             result[i].consent = Boolean(result[i].consent);
+                            result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         default:
             return new Promise((resolve, reject) => dbcon()('PATIENTS')
-                .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
+                .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent', 'participation')
                 .where('aliasId', 'like', `%${queryvalue}%`)
                 .andWhere('PATIENTS.deleted', '-')
                 .then((result) => {
                     if (Array.isArray(result))
                         for (let i = 0; i < result.length; i++) {
                             result[i].consent = Boolean(result[i].consent);
+                            result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));

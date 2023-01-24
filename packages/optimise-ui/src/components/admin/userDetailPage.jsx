@@ -33,7 +33,7 @@ class UserDetail extends Component {
                                     <UserInfo data={usersFiltered[0]} /><br />
                                     <ChangeUserEmail username={usersFiltered[0].username} /> <br /><br />
                                     <ChangeUserPassword username={usersFiltered[0].username} /> <br /><br />
-                                    <ChangeUserPrivilege userId={usersFiltered[0].id} priv={usersFiltered[0].priv} /> <br /><br />
+                                    <ChangeUserPrivilege userId={usersFiltered[0].id} adminPriv={usersFiltered[0].adminPriv} /> <br /><br />
                                     <DeleteUser username={usersFiltered[0].username} /> <br />
                                 </>
                                 :
@@ -51,7 +51,7 @@ class UserDetail extends Component {
     }
 }
 
-export {UserDetail};
+export { UserDetail };
 
 class UserInfo extends PureComponent {
     render() {
@@ -62,7 +62,7 @@ class UserInfo extends PureComponent {
                 <label>Username: </label> {data.username} <br />
                 <label>Real name: </label> {data.realname} <br />
                 <label>Email: </label> {data.email} <br />
-                <label>This user is {data.priv ? 'an admin' : 'a standard user'}. </label> <br />
+                <label>This user is {data.adminPriv ? 'an admin' : 'a standard user'}. </label> <br />
             </div>
         );
     }
@@ -164,14 +164,14 @@ class ChangeUserPrivilege extends Component {
     _handleClick = () => {
         const body = {
             id: this.props.userId,
-            adminPriv: this.props.priv === 1 ? 0 : 1
+            adminPriv: this.props.adminPriv === 1 ? 0 : 1
         };
         store.dispatch(changePrivAPICall(body));
     };
     render() {
         return (
             <>
-                {this.props.priv === 1 ?
+                {this.props.adminPriv === 1 ?
                     <button onClick={this._handleClick}>Withdraw admin privileges from this user</button>
                     :
                     <button onClick={this._handleClick}>Give this user admin privileges</button>

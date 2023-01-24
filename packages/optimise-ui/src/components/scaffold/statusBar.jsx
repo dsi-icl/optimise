@@ -8,18 +8,18 @@ import { NavLink } from 'react-router-dom';
 @connect(state => ({
     username: state.login.username,
     fetching: state.availableFields.fetching,
-    priv: state.login.priv
+    adminPriv: state.login.adminPriv
     }))
 class StatusBar extends Component {
     render() {
         let version = packageInfo.version;
         if (window && window.optimiseVersion)
             version = window.optimiseVersion;
-        const { username, fetching, priv } = this.props;
+        const { username, fetching, adminPriv } = this.props;
         return (
             <div className={style.statusBar} style={{ visibility: (username !== '' && fetching !== true) ? 'visible' : 'hidden' }}>
                 <span> Logged in as {username}</span>
-                { priv === 1 ?
+                {adminPriv === 1 ?
                     <SyncIndicator></SyncIndicator>
                     :
                     null

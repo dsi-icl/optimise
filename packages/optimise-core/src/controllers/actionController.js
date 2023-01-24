@@ -6,7 +6,7 @@ import formatToJSON from '../utils/format-response';
 class ActionController {
 
     static getLogs({ user, query }, res) {
-        if (user.priv !== 1) {
+        if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }

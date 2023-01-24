@@ -1,6 +1,6 @@
 {
     "name": "optimise",
-    "version": "2.1.5",
+    "version": "2.2.0",
     "description": "Optimise:MS",
     "keywords": [
         "ms"
@@ -41,19 +41,19 @@
         "test": "nx run-many --target=test"
     },
     "devDependencies": {
-        "@commitlint/config-conventional": "17.2.0",
-        "@nrwl/eslint-plugin-nx": "15.0.4",
-        "@nrwl/nx-cloud": "15.0.0",
-        "@nrwl/workspace": "15.0.4",
-        "commitlint": "17.2.0",
-        "eslint-plugin-import": "2.26.0",
+        "@commitlint/config-conventional": "17.4.2",
+        "@nrwl/eslint-plugin-nx": "15.6.1",
+        "@nrwl/nx-cloud": "15.0.2",
+        "@nrwl/workspace": "15.6.1",
+        "commitlint": "17.4.2",
+        "eslint-plugin-import": "2.27.5",
         "eslint-plugin-json": "3.1.0",
-        "eslint-plugin-jsx-a11y": "6.6.1",
-        "eslint-plugin-react": "7.31.10",
+        "eslint-plugin-jsx-a11y": "6.7.1",
+        "eslint-plugin-react": "7.32.1",
         "eslint-plugin-react-hooks": "4.6.0",
-        "husky": "8.0.1",
-        "nx": "15.0.4",
-        "typescript": "4.8.4"
+        "husky": "8.0.3",
+        "nx": "15.6.1",
+        "typescript": "4.9.4"
     },
     "resolutions": {
         "@jest/reporters": "^24",
