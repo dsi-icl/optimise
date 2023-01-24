@@ -57,7 +57,7 @@
         "@stryker-mutator/javascript-mutator": "4.0.0",
         "@stryker-mutator/jest-runner": "6.3.1",
         "babel-jest": "24.9.0",
-        "babel-loader": "9.1.0",
+        "babel-loader": "9.1.2",
         "babel-plugin-require-context-hook": "1.0.0",
         "cross-env": "7.0.3",
         "eslint": "8.30.0",
