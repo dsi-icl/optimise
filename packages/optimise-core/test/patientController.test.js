@@ -146,7 +146,15 @@ describe('Patient controller tests', () => {
             expect(body.id).toBe(1);
             expect(body.consent).toBe(true);
             expect(body.participation).toBe(true);
+            expect(body.immunisations).toBeUndefined();
+            expect(body.medicalHistory).toBeUndefined();
             expect(body.visits).toBeDefined();
+            expect(body.tests).toBeUndefined();
+            expect(body.treatments).toBeUndefined();
+            expect(body.clinicalEvents).toBeUndefined();
+            expect(body.pregnancy).toBeUndefined();
+            expect(body.diagnosis).toBeUndefined();
+            expect(body.demographicData).toBeUndefined();
             return true;
         }));
 
