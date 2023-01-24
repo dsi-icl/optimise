@@ -27,7 +27,7 @@ class SelectorUtils {
     }
 
     getDemographicData(patientId, deleted) {
-        const whereObj = { patient: patientId };
+        const whereObj = { 'PATIENT_DEMOGRAPHIC.patient': patientId };
         if (deleted !== true)
             whereObj['PATIENT_DEMOGRAPHIC.deleted'] = '-';
         return dbcon()('PATIENT_DEMOGRAPHIC')
@@ -57,7 +57,7 @@ class SelectorUtils {
     }
 
     getMedicalHistory(patientId, deleted) {
-        const whereObj = { patient: patientId };
+        const whereObj = { 'MEDICAL_HISTORY.patient': patientId };
         if (deleted !== true)
             whereObj['MEDICAL_HISTORY.deleted'] = '-';
         return dbcon()('MEDICAL_HISTORY')
@@ -72,7 +72,7 @@ class SelectorUtils {
     }
 
     getVisitsWithoutData(patientId, deleted) {
-        const whereObj = { patient: patientId };
+        const whereObj = { 'VISITS.patient': patientId };
         if (deleted !== true)
             whereObj['VISITS.deleted'] = '-';
         return dbcon()('VISITS')
@@ -87,7 +87,7 @@ class SelectorUtils {
 
     getVisits(patientId, deleted) {
         const _this = this;
-        const whereObj = { patient: patientId };
+        const whereObj = { 'VISITS.patient': patientId };
         if (deleted !== true)
             whereObj['VISITS.deleted'] = '-';
         return dbcon()('VISITS')
@@ -155,7 +155,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return dbcon()('ORDERED_TESTS')
-                .select({ orderedDuringVisit: 'ORDERED_TESTS.orderedDuringVisit', type: 'ORDERED_TESTS.type', type_name: 'AVAILABLE_TEST_TYPES.name', type_module: 'AVAILABLE_TEST_TYPES.module', expectedOccurDate: 'ORDERED_TESTS.expectedOccurDate', actualOccurredDate: 'ORDERED_TESTS.actualOccurredDate', deleted: 'ORDERED_TESTS.deleted' })
+                .select({ id: 'ORDERED_TESTS.id', orderedDuringVisit: 'ORDERED_TESTS.orderedDuringVisit', type: 'ORDERED_TESTS.type', type_name: 'AVAILABLE_TEST_TYPES.name', type_module: 'AVAILABLE_TEST_TYPES.module', expectedOccurDate: 'ORDERED_TESTS.expectedOccurDate', actualOccurredDate: 'ORDERED_TESTS.actualOccurredDate', deleted: 'ORDERED_TESTS.deleted' })
                 .leftJoin('AVAILABLE_TEST_TYPES', 'AVAILABLE_TEST_TYPES.id', 'ORDERED_TESTS.type')
                 .whereIn('ORDERED_TESTS.orderedDuringVisit', ids)
                 .andWhere(innerWhereObj)
@@ -247,7 +247,7 @@ class SelectorUtils {
     }
 
     _getVisitData(visitId, deleted) {
-        const whereObj = { visit: visitId };
+        const whereObj = { 'VISIT_DATA.visit': visitId };
         if (deleted !== true)
             whereObj['VISIT_DATA.deleted'] = '-';
         return dbcon()('VISIT_DATA')
@@ -257,7 +257,7 @@ class SelectorUtils {
     }
 
     _getTestData(testId, deleted) {
-        const whereObj = { test: testId };
+        const whereObj = { 'TEST_DATA.test': testId };
         if (deleted !== true)
             whereObj['TEST_DATA.deleted'] = '-';
         return dbcon()('TEST_DATA')
@@ -267,22 +267,22 @@ class SelectorUtils {
     }
 
     _getTreatmentInterruptions(treatmentId, deleted) {
-        const whereObj = { treatment: treatmentId };
+        const whereObj = { 'TREATMENTS_INTERRUPTIONS.treatment': treatmentId };
         if (deleted !== true)
             whereObj['TREATMENTS_INTERRUPTIONS.deleted'] = '-';
         return dbcon()('TREATMENTS_INTERRUPTIONS')
-            .select({ id: 'TREATMENTS_INTERRUPTIONS.id', reason: 'TREATMENTS_INTERRUPTIONS.reason', reason_value: 'REASON.value', startDate: 'TREATMENTS_INTERRUPTIONS.startDate', endDate: 'TREATMENTS_INTERRUPTIONS.endDate', meddra: 'TREATMENTS_INTERRUPTIONS.meddra', meddra_code: 'ADVERSE_EVENT_MEDDRA.code', deleted: 'TREATMENTS_INTERRUPTIONS.deleted' })
+            .select({ id: 'TREATMENTS_INTERRUPTIONS.id', reason: 'TREATMENTS_INTERRUPTIONS.reason', reason_value: 'REASONS.value', startDate: 'TREATMENTS_INTERRUPTIONS.startDate', endDate: 'TREATMENTS_INTERRUPTIONS.endDate', meddra: 'TREATMENTS_INTERRUPTIONS.meddra', meddra_code: 'ADVERSE_EVENT_MEDDRA.code', deleted: 'TREATMENTS_INTERRUPTIONS.deleted' })
             .leftJoin('REASONS', 'REASONS.id', 'TREATMENTS_INTERRUPTIONS.reason')
             .leftJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'TREATMENTS_INTERRUPTIONS.meddra')
             .where(whereObj);
     }
 
     _getCeData(ceId, deleted) {
-        const whereObj = { clinicalEvent: ceId };
+        const whereObj = { 'CLINICAL_EVENTS_DATA.clinicalEvent': ceId };
         if (deleted !== true)
             whereObj['CLINICAL_EVENTS_DATA.deleted'] = '-';
         return dbcon()('CLINICAL_EVENTS_DATA')
-            .select({ id: 'CLINICAL_EVENTS_DATA.id', field: 'CLINICAL_EVENTS_DATA.field', field_idname: 'CLINICAL_EVENTS_DATA.idname', field_module: 'CLINICAL_EVENTS_DATA.module', value: 'CLINICAL_EVENTS_DATA.value', deleted: 'CLINICAL_EVENTS_DATA.deleted' })
+            .select({ id: 'CLINICAL_EVENTS_DATA.id', field: 'CLINICAL_EVENTS_DATA.field', field_idname: 'AVAILABLE_FIELDS_CE.idname', field_module: 'AVAILABLE_FIELDS_CE.module', value: 'CLINICAL_EVENTS_DATA.value', deleted: 'CLINICAL_EVENTS_DATA.deleted' })
             .leftJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
             .where(whereObj);
     }
