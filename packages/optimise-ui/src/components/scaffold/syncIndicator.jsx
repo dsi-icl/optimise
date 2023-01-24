@@ -24,11 +24,14 @@ class SyncIndicator extends Component {
     }
 
     componentDidMount() {
-        this.statusUpdater = setInterval(this._updateStatus, 1000);
+        const { syncInfo: { config } } = this.props;
+        if (config.host && config.host !== '' && config.key && config.key !== '')
+            this.statusUpdater = setInterval(this._updateStatus, 1000);
     }
 
     componentWillUnmount() {
-        clearInterval(this.statusUpdater);
+        if (this.statusUpdater !== undefined)
+            clearInterval(this.statusUpdater);
     }
 
     _updateStatus() {
@@ -57,7 +60,6 @@ class SyncIndicator extends Component {
             state.lastError = 0;
         } else if (triggered === true && syncing === true)
             this.props.getSyncStatus();
-
         if (loggedIn === true && config.host === undefined) {
             this.props.getSyncOptions();
             state.lastError = 0;
