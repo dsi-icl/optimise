@@ -45,7 +45,7 @@ class ExportDataController {
         result[1].forEach((obj) => {
             keys.forEach((a, b) => {
                 if (b) tempResult += ',';
-                tempResult += obj[a];
+                tempResult += obj[a] === undefined ? '' : obj[a];
             });
             tempResult += '\n';
         });
@@ -145,6 +145,8 @@ class ExportDataController {
                 line[`diagnosis_${i + 1}`] = tree.diagnoses[i] ? tree.diagnoses[i].diagnosis : '';
                 line[`diagnosis_date_${i + 1}`] = tree.diagnoses[i] ? tree.diagnoses[i].diagnosisDate : '';
             }
+            if (tree.visit_id === undefined)
+                return line;
             for (let i = 0; i < globalMaxComorbidities; i++) {
                 line[`comorbid_recorded_during_visit_code_${i + 1}`] = tree.comorbidities[i] ? tree.comorbidities[i].comorbid_recorded_during_visit_code : '';
                 line[`comorbid_recorded_during_visit_name_${i + 1}`] = tree.comorbidities[i] ? tree.comorbidities[i].comorbid_recorded_during_visit_name : '';
@@ -275,7 +277,8 @@ class ExportDataController {
             .leftJoin('AVAILABLE_DIAGNOSES', 'PATIENT_DIAGNOSIS.diagnosis', 'AVAILABLE_DIAGNOSES.id')
             .where('PATIENT_DIAGNOSIS.deleted', '-');
         allDiagnosis = allDiagnosis.map(e => ({ ...e, diagnosisDate: new Date(parseInt(e.diagnosisDate)).toDateString() }));
-        const patients = Object.keys(patientToVisitsMap);
+        const patients = patientList;
+        // const patients = Object.keys(patientToVisitsMap);
         for (const each of patients) {
             diagnosisMap[each] = allDiagnosis.filter(e => parseInt(e.patient) === parseInt(each));
         }
@@ -375,13 +378,13 @@ class ExportDataController {
                 diagnoses: diagnosisMap[visit.patientId],
                 visit_id: visit.visitId,
                 visit_date: new Date(parseInt(visit.visitDate)).toDateString(),
-                reason_for_visit: visitDataTransformed[0] || null,
-                vitals_sbp: visitDataTransformed[1] || null,
-                vitals_dbp: visitDataTransformed[2] || null,
-                heart_rate: visitDataTransformed[3] || null,
-                habits_alcohol: visitDataTransformed[253] || null,
-                habits_smoking: visitDataTransformed[252] || null,
-                EDSS_score: visitDataTransformed[121] || null,
+                reason_for_visit: visitDataTransformed[0] || '',
+                vitals_sbp: visitDataTransformed[1] || '',
+                vitals_dbp: visitDataTransformed[2] || '',
+                heart_rate: visitDataTransformed[3] || '',
+                habits_alcohol: visitDataTransformed[253] || '',
+                habits_smoking: visitDataTransformed[252] || '',
+                EDSS_score: visitDataTransformed[121] || '',
                 pregnancies: pregnancy_transformed,
                 treatments: treatment_transformed,
                 comorbidities: comorbidities || [],
@@ -401,6 +404,31 @@ class ExportDataController {
 
             data.push(csventry);
             lastVisitDate = thisVisitDate;
+        }
+
+        const withVisitPatients = visits.map(visit => visit.patientId);
+        const withoutVisitPatients = patientList.filter(function (id) {
+            return !withVisitPatients.includes(id);
+        });
+
+        if (withoutVisitPatients.length > 0) {
+            try {
+                const noVisitPatients = await dbcon()('PATIENTS')
+                    .select('PATIENTS.id', 'PATIENTS.uuid')
+                    .whereIn('PATIENTS.id', withoutVisitPatients);
+
+                console.log('>> withVisitPatients', withVisitPatients);
+                console.log('>> withoutVisitPatients', withoutVisitPatients);
+                noVisitPatients.forEach(patient => {
+                    data.push({
+                        subjid: patient.id,
+                        aliasId: patient.uuid,
+                        diagnoses: diagnosisMap[patient.id]
+                    });
+                });
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         data.reverse();
