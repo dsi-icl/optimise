@@ -164,13 +164,14 @@ export const searchEntry = function (queryfield, queryvalue) {
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         default:
             return new Promise((resolve, reject) => dbcon()('PATIENTS')
-                .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent')
+                .select({ patientId: 'id' }, 'aliasId', 'uuid', 'study', 'consent', 'participation')
                 .where('aliasId', 'like', `%${queryvalue}%`)
                 .andWhere('PATIENTS.deleted', '-')
                 .then((result) => {
                     if (Array.isArray(result))
                         for (let i = 0; i < result.length; i++) {
                             result[i].consent = Boolean(result[i].consent);
+                            result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
                 }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
