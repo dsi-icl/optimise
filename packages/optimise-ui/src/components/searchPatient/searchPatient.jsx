@@ -9,7 +9,7 @@ import style from './searchPatient.module.css';
 
 @connect(state => ({
     data: state.searchPatient,
-    priv: state.login.priv
+    adminPriv: state.login.adminPriv
     }))
 class SearchPatientsById extends Component {
     constructor(props) {
@@ -79,7 +79,7 @@ class SearchPatientsById extends Component {
                         <label htmlFor='searchType'>Search by:</label><br />
                         <select name='searchType' value={this.state.searchType} onChange={this._handleSelectChange} autoComplete='off'>
                             <option value='USUBJID'>Patient ID</option>
-                            {this.props.priv === 1 ? <option value='OPTIMISEID'>Optimise ID</option> : null}
+                            {this.props.adminPriv === 1 ? <option value='OPTIMISEID'>Optimise ID</option> : null}
                             <option value='SEX'>Sex</option>
                             <option value='EXTRT'>Treatment</option>
                             <option value='ETHNIC'>Ethnic Background</option>
@@ -121,7 +121,7 @@ class SearchResultForPatients extends Component {
     }
 }
 
-export {SearchResultForPatients};
+export { SearchResultForPatients };
 
 /*  receives prop 'data' as one patient; and seachString*/
 class PatientButton extends PureComponent {

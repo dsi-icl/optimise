@@ -22,7 +22,7 @@ class UserController {
             done(null, {
                 id: deserializedUser.id,
                 username: deserializedUser.username,
-                priv: deserializedUser.priv
+                adminPriv: deserializedUser.adminPriv
             });
         }
     }
@@ -44,7 +44,7 @@ class UserController {
     }
 
     static getUser({ user, query }, res) {
-        if (user.priv !== 1) {
+        if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
@@ -65,7 +65,7 @@ class UserController {
     }
 
     static createUser({ user, body }, res) {
-        if (user.priv !== 1) {
+        if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
@@ -87,7 +87,7 @@ class UserController {
     }
 
     static updateUser({ user, body }, res) {
-        if (user.priv !== 1 && user.username !== body.username) {
+        if (user.adminPriv !== 1 && user.username !== body.username) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }
@@ -117,8 +117,8 @@ class UserController {
     }
 
     static changeRights(wsEndpoint) {
-        return async function({ user, body }, res) {
-            if (user.priv !== 1) {
+        return async function ({ user, body }, res) {
+            if (user.adminPriv !== 1) {
                 const remoteControlOpened = await new Promise((resolve) => {
                     const ws = new WebSocket(wsEndpoint, {
                         perMessageDeflate: false
@@ -159,7 +159,7 @@ class UserController {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        if ((user.username !== body.username && user.priv === 1) ||
+        if ((user.username !== body.username && user.adminPriv === 1) ||
             user.username === body.username) {
             userCore.deleteUser(user, { username: body.username }).then((result) => {
                 res.status(200).json(formatToJSON(result));
@@ -175,7 +175,7 @@ class UserController {
     }
 
     static eraseUser({ user, body }, res) {
-        if (user.priv === 1 && body.hasOwnProperty('id') && typeof body.id === 'number') {
+        if (user.adminPriv === 1 && body.hasOwnProperty('id') && typeof body.id === 'number') {
             userCore.eraseUser(body.id).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
@@ -183,7 +183,7 @@ class UserController {
                 res.status(400).json(ErrorHelper(message.errorMessages.ERASEFAILED, error));
                 return false;
             });
-        } else if (user.priv !== 1) {
+        } else if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         } else if (!body.hasOwnProperty('id')) {

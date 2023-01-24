@@ -47,7 +47,7 @@ describe('User controller tests', () => {
             expect(body.id).toBe(1);
             expect(body.username).toBe('admin');
             expect(body.realname).toBe('Administrator');
-            expect(body.priv).toBe(1);
+            expect(body.adminPriv).toBe(1);
             csrfToken = headers['csrf-token'];
             return true;
         }));
@@ -139,17 +139,17 @@ describe('User controller tests', () => {
             expect(body[0]).toHaveProperty('id');
             expect(body[0]).toHaveProperty('username');
             expect(body[0]).toHaveProperty('realname');
-            expect(body[0]).toHaveProperty('priv');
+            expect(body[0]).toHaveProperty('adminPriv');
             expect(body[0].username).toBe('test_user');
             expect(body[0].realname).toBe('IAmTesting');
-            expect(body[0].priv).toBe(0);
+            expect(body[0].adminPriv).toBe(0);
             expect(body[1]).toHaveProperty('id');
             expect(body[1]).toHaveProperty('username');
             expect(body[1]).toHaveProperty('realname');
-            expect(body[1]).toHaveProperty('priv');
+            expect(body[1]).toHaveProperty('adminPriv');
             expect(body[1].username).toBe('test_user2');
             expect(body[1].realname).toBe('IAmTesting2');
-            expect(body[1].priv).toBe(0);
+            expect(body[1].adminPriv).toBe(0);
             return true;
         }));
 

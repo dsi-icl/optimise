@@ -5,7 +5,7 @@ import MeddraHierarchyProcessor from '../core/MeddraHierarchyProcessor';
 class MeddraController {
 
     static async handleMeddraUploadByAdmin({ user, files }, res) {
-        if (user.priv !== 1) {
+        if (user.adminPriv !== 1) {
             res.status(401).json({ error: 'Not authorized.' });
             return;
         }
