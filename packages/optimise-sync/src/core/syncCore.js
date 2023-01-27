@@ -12,7 +12,7 @@ class SyncCore {
         const db = await dbcon().then(client => client.db());
         const inserts = [];
         profiles.forEach(profile => {
-            inserts.push(db.collection(`PATIENT_PROFILES_${agent.toUpperCase()}`).updateOne({ uuid: profile.uuid }, {
+            inserts.push(db.collection(`PATIENT_PROFILES_${agent.toUpperCase()}`).updateOne({ id: profile.id }, {
                 $set: profile
             }, { upsert: true }).then(({ result }) => result));
         });
