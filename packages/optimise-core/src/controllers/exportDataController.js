@@ -72,7 +72,7 @@ class ExportDataController {
         if (isPatientMappings === true) {
             attachmentName += '_patientMappings';
             searchEntry(queryfield, queryvalue)
-                .then(result => result && result.length !== undefined ? result.filter(({ consent, participation }) => consent === true && participation === true) : [])
+                .then(result => result && result.length !== undefined ? result : [])
                 .then(result => result.length > 0 ? result.map(({ uuid, aliasId }) => ({ optimiseID: uuid, patientId: aliasId })) : ExportDataController.createNoDataFile())
                 .then(result => result.length !== undefined ? [ExportDataController.createJsonDataFile(['patientMappings', result]), ExportDataController.createCsvDataFile(['patientMappings', result])] : [result])
                 .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
@@ -95,7 +95,7 @@ class ExportDataController {
             }
 
             searchEntry(queryfield, queryvalue)
-                .then(result => result && result.length !== undefined ? result.filter(({ consent, participation }) => consent === true && participation === true) : [])
+                .then(result => result && result.length !== undefined ? result : [])
                 .then(result => result.length > 0 ? ExportDataController[extractor](result.map(({ patientId }) => patientId)) : ExportDataController.createNoDataFile())
                 .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
                 .then(matrixResults => matrixResults.length !== 0 ? matrixResults : [ExportDataController.createNoDataFile()])
@@ -131,6 +131,8 @@ class ExportDataController {
                 lineNum: globalLineCount++,
                 subjid: tree.subjid,
                 alias: tree.aliasId,
+                consent: tree.consent === 1 ? 'YES' : 'NO',
+                participation: tree.participation === 1 ? 'YES' : 'NO',
                 visit_id: tree.visit_id,
                 visit_date: tree.visit_date,
                 reason_for_visit: tree.reason_for_visit,
@@ -141,6 +143,8 @@ class ExportDataController {
                 habits_smoking: tree.habits_smoking,
                 EDSS_score: tree.EDSS_score || ''
             };
+            if (tree.consent === false)
+                return line;
             for (let i = 0; i < globalMaxDiagnosis; i++) {
                 line[`diagnosis_${i + 1}`] = tree.diagnoses[i] ? tree.diagnoses[i].diagnosis : '';
                 line[`diagnosis_date_${i + 1}`] = tree.diagnoses[i] ? tree.diagnoses[i].diagnosisDate : '';
@@ -256,7 +260,7 @@ class ExportDataController {
 
         /* visits */
         let visits = await dbcon()('VISITS')
-            .select('VISITS.id as visitId', 'PATIENTS.id as patientId', 'PATIENTS.uuid as patientAlias', 'VISITS.id as visitId', 'VISITS.visitDate', 'VISITS.type as visitType', 'VISITS.deleted as visitDeleted', 'PATIENTS.deleted as patientDeleted')
+            .select('VISITS.id as visitId', 'PATIENTS.id as patientId', 'PATIENTS.uuid as patientAlias', 'PATIENTS.consent as patientConsent', 'PATIENTS.participation as patientParticipation', 'VISITS.id as visitId', 'VISITS.visitDate', 'VISITS.type as visitType', 'VISITS.deleted as visitDeleted', 'PATIENTS.deleted as patientDeleted')
             .leftJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .whereIn('PATIENTS.id', patientList)
             .andWhere('VISITS.deleted', '-');
@@ -375,6 +379,8 @@ class ExportDataController {
             const csventry = {
                 subjid: visit.patientId,
                 aliasId: visit.patientAlias,
+                consent: visit.patientConsent,
+                participation: visit.patientParticipation,
                 diagnoses: diagnosisMap[visit.patientId],
                 visit_id: visit.visitId,
                 visit_date: new Date(parseInt(visit.visitDate)).toDateString(),
