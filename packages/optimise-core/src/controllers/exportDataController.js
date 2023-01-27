@@ -423,8 +423,6 @@ class ExportDataController {
                     .select('PATIENTS.id', 'PATIENTS.uuid')
                     .whereIn('PATIENTS.id', withoutVisitPatients);
 
-                console.log('>> withVisitPatients', withVisitPatients);
-                console.log('>> withoutVisitPatients', withoutVisitPatients);
                 noVisitPatients.forEach(patient => {
                     data.push({
                         subjid: patient.id,
