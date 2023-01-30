@@ -1,7 +1,7 @@
 {
     "name": "optimise-electron",
     "productName": "Optimise MS Desktop",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
         "research",
@@ -33,7 +33,7 @@
         "appId": "org.optimise-ms.local.app",
         "productName": "Optimise MS Desktop",
         "detectUpdateChannel": true,
-        "copyright": "Copyright (c) 2022 Data Science Institute",
+        "copyright": "Copyright (c) 2023 Data Science Institute",
         "directories": {
             "output": "build"
         },
@@ -124,7 +124,7 @@
         "@babel/core": "7.20.12",
         "babel-loader": "9.1.2",
         "copy-webpack-plugin": "11.0.0",
-        "electron": "22.0.3",
+        "electron": "22.1.0",
         "electron-builder": "23.6.0",
         "electron-reload": "1.5.0",
         "html-webpack-plugin": "5.5.0",

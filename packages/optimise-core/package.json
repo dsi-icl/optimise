@@ -1,6 +1,6 @@
 {
     "name": "optimise-core",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "description": "Optimise:MS Backend",
     "keywords": [
         "ms"
@@ -42,7 +42,7 @@
         "path": "0.12.7",
         "sqlite3": "5.1.4",
         "swagger-ui-express": "4.6.0",
-        "utf-8-validate": "6.0.1",
+        "utf-8-validate": "6.0.2",
         "uuid": "9.0.0",
         "ws": "8.12.0"
     },

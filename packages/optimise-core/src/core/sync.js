@@ -150,8 +150,22 @@ class SyncCore {
                                 updated_at: dbcon().fn.now()
                             });
                             reject(error);
-                        } else
-                            resolve();
+                        } else {
+                            if (result.status === 'ready')
+                                resolve();
+                            else {
+                                await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                    value: JSON.stringify({
+                                        error: {
+                                            message: 'Synching endpoint is not ready',
+                                            stack: undefined
+                                        }
+                                    }),
+                                    updated_at: dbcon().fn.now()
+                                });
+                                reject();
+                            }
+                        }
                     } catch (exception) {
                         await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                             value: JSON.stringify({
