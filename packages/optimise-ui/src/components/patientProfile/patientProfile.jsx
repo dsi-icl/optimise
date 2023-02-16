@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, NavLink } from 'react-router-dom';
 import moment from 'moment';
 import Icon from '../icon';
 import { PickDate } from '../createMedicalElements/datepicker';
@@ -434,13 +434,15 @@ class Pregnancy extends Component {
                 return null;
         }
 
+        const PregnancyListButton = <NavLink to={`/patientProfile/${this.props.data.patientId}/pregnancies`}><button>Go to pregnancies</button></NavLink>;
+
         if (this.props.data.demographicData) {
             if (this.props.data.pregnancy.length === 0) {
                 return (
-                    <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
+                    <PatientProfileSectionScaffold sectionName='Pregnancies' actions={
                         <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
                     }>
-                        <i>No recorded pregnancy</i>
+                        {PregnancyListButton}
                     </PatientProfileSectionScaffold>
                 );
             }
@@ -463,6 +465,7 @@ class Pregnancy extends Component {
                     {outcomeName ? <> <br /><label>Outcome: </label> {outcomeName}</> : null}
                     {MedDRAName ? <> <br /><label>MedDRA: </label> {MedDRAName.name}</> : null}
                 </>
+                {PregnancyListButton}
             </PatientProfileSectionScaffold>
         );
     }

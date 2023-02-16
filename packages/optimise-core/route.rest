@@ -1,0 +1,93 @@
+GET http://localhost:3030/patientProfile/001
+
+###
+GET http://localhost:3001/fooddiet/name/fish
+
+
+###
+
+GET http://localhost:3001/fooddiet/id/63c7a769ab85d2ad800afd54
+
+
+###
+POST http://localhost:3001/fooddiet
+Content-Type: application/json
+
+{
+    "name":"cold fish",
+    "calorie":100
+}
+
+###
+POST http://localhost:3001/fooddiet
+Content-Type: application/json
+
+{
+    "name":"salmon fish",
+    "calorie":150
+}
+
+###
+POST http://localhost:3001/fooddiet
+Content-Type: application/json
+
+{
+    "name":"blue fish",
+    "calorie":180
+}
+
+###
+POST http://localhost:3001/fooddiet
+Content-Type: application/json
+
+{
+    "name":"beef fillet",
+    "calorie":200
+}
+
+###
+POST http://localhost:3001/fooddiet
+Content-Type: application/json
+
+{
+    "name":"beef ribs",
+    "calorie":400
+}
+
+###
+POST http://localhost:3001/fooddiet
+Content-Type: application/json
+
+{
+    "name":"blue cheese",
+    "calorie":100
+}
+
+###
+POST http://localhost:3001/fooddiet
+Content-Type: application/json
+
+{
+    "name":"cheese pizza",
+    "calorie":200
+}
+
+###
+POST http://localhost:3001/fooddiet
+Content-Type: application/json
+
+{
+    "name":"beef pizza",
+    "calorie":700
+}
+###
+DELETE http://localhost:3001/fooddiet/id/63c7a844ab85d2ad800afd61
+
+
+###
+PATCH http://localhost:3001/fooddiet/id/63c7161435a7f93482cab753
+Content-Type: application/json
+
+{
+    "calorie":15
+}

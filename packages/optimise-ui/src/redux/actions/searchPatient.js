@@ -7,10 +7,12 @@ export const searchPatientSuccess = data => ({ type: actionTypes.searchPatient.S
 export const searchPatientClear = () => ({ type: actionTypes.searchPatient.SEARCH_PATIENTS_BY_ID_CLEAR });
 
 export const searchPatientAPICall = (searchString) => dispatch => {
+    console.log('search string:',searchString);
     dispatch(searchPatientRequest(searchString));
     return apiHelper(`/patients?field=${searchString.field}&value=${searchString.value}`)
         .then(json => {
             dispatch(searchPatientSuccess(json));
+            console.log(json);
         })
         .catch(() => { dispatch(searchPatientFailure(searchString)); });
 };

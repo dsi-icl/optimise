@@ -18,7 +18,7 @@ class VisitFrontPageTemplate extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>{isBaselineVisit ? 'Baseline' : 'Follow-up'} Visit Initial Data Entry ({this.props.match.params.patientId}) - Page {currentPageNumber}/11: {pageToTitleMap[params.currentPage]} </h2>
+                    <h2>{isBaselineVisit ? 'Baseline' : 'Follow-up'} Visit Initial Data Entry ({this.props.match.params.patientId}) - Page {currentPageNumber}/12: {pageToTitleMap[params.currentPage]} </h2>
                 </div>
                 <div className={style.panel}>
                     {visitFiltered.length === 1 ?
@@ -54,7 +54,7 @@ class RenderCurrentPage extends PureComponent {
     render() {
         const { params: { currentPage } } = this.props.match;
         const _currentPage = parseInt(currentPage, 10);
-        if (_currentPage === undefined || _currentPage < 0 || _currentPage > 10) {
+        if (_currentPage === undefined || _currentPage < 0 || _currentPage > 11) {
             return <p>Something went wrong. Please go back.</p>;
         }
 

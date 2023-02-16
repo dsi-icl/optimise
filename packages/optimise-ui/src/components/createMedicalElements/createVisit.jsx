@@ -108,6 +108,7 @@ class CreateVisit extends Component {
                         <option value='Drug Monitoring'>Drug Monitoring</option>
                         <option value='Relapse Assessment'>Relapse Assessment</option>
                         <option value='Urgent'>Urgent</option>
+                        <option value='Pregnancy Monitoring'>Pregnancy Monitoring</option>
                     </select><br /><br />
                     {error ? <><div className={style.error}>{error}</div><br /></> : null}
                     <button onClick={this._handleSubmitClick} >Submit</button>
