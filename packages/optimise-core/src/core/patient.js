@@ -5,8 +5,7 @@ import ErrorHelper from '../utils/error_helper';
 import message from '../utils/message-utils';
 
 const patientModel = {
-    aliasId: '',
-    study: ''
+    aliasId: ''
 };
 
 /**
@@ -29,7 +28,7 @@ class Patient {
      * @param {string} getOnly Filtering return.
      */
     static getPatientProfile(whereObj, deleted, getOnly) {
-        return new Promise((resolve, reject) => Patient.getPatient(whereObj, { patientId: 'id', alias: 'aliasId', study: 'study', consent: 'consent', participation: 'participation' }, deleted)
+        return new Promise((resolve, reject) => Patient.getPatient(whereObj, { patientId: 'id', alias: 'aliasId', optimiseConsent: 'optimiseConsent', participation: 'participation' }, deleted)
             .then((Patientresult) => {
                 let patientId;
                 if (Patientresult.length === 1) {
@@ -63,9 +62,8 @@ class Patient {
                     const responseObj = {};
                     responseObj.patientId = Patientresult[0].alias;
                     responseObj.id = patientId;
-                    responseObj.consent = Boolean(Patientresult[0].consent);
+                    responseObj.optimiseConsent = Patientresult[0].optimiseConsent;
                     responseObj.participation = Boolean(Patientresult[0].participation);
-                    responseObj.study = Patientresult[0].study;
                     for (let i = 0; i < result.length; i++) {
                         responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];
                     }

@@ -37,30 +37,20 @@ class PatientController {
     }
 
     static createPatient({ body, user }, res) {
-        if (!(body.hasOwnProperty('aliasId') && body.hasOwnProperty('consent'))) {
+        if (!(body.hasOwnProperty('aliasId') && body.hasOwnProperty('optimiseConsent'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return false;
         }
-        if (typeof body.aliasId !== 'string' || typeof body.study !== 'string' || typeof body.consent !== 'boolean') {
+        if (typeof body.aliasId !== 'string' || (typeof body.optimiseConsent !== 'string' && body.optimiseConsent !== null)) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return false;
-        }
-
-        if (body.study && body.study !== 'NA') { //study is placeholder for consent date
-            if (typeof body.study !== 'string' || !new Date(body.study).valueOf()) {
-                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-                return false;
-            }
         }
 
         const entryObj = {
             aliasId: body.aliasId,
             createdByUser: user.id,
-            consent: body.consent
+            optimiseConsent: body.optimiseConsent
         };
-        if (body.study && body.study !== 'NA') { // study is placeholder for consent date
-            entryObj.study = body.study;
-        }
         PatientCore.createPatient(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;

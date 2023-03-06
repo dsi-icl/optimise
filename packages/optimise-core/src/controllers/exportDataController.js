@@ -131,7 +131,7 @@ class ExportDataController {
                 lineNum: globalLineCount++,
                 subjid: tree.subjid,
                 alias: tree.aliasId,
-                consent: tree.consent === 1 ? 'YES' : 'NO',
+                consent: tree.optimiseConsent !== null ? 'YES' : 'NO',
                 participation: tree.participation === 1 ? 'YES' : 'NO',
                 visit_id: tree.visit_id,
                 visit_date: tree.visit_date,
@@ -143,7 +143,7 @@ class ExportDataController {
                 habits_smoking: tree.habits_smoking,
                 EDSS_score: tree.EDSS_score || ''
             };
-            if (tree.consent === false)
+            if (tree.optimiseConsent === null)
                 return line;
             for (let i = 0; i < globalMaxDiagnosis; i++) {
                 line[`diagnosis_${i + 1}`] = tree.diagnoses[i] ? tree.diagnoses[i].diagnosis : '';
@@ -260,7 +260,7 @@ class ExportDataController {
 
         /* visits */
         let visits = await dbcon()('VISITS')
-            .select('VISITS.id as visitId', 'PATIENTS.id as patientId', 'PATIENTS.uuid as patientAlias', 'PATIENTS.consent as patientConsent', 'PATIENTS.participation as patientParticipation', 'VISITS.id as visitId', 'VISITS.visitDate', 'VISITS.type as visitType', 'VISITS.deleted as visitDeleted', 'PATIENTS.deleted as patientDeleted')
+            .select('VISITS.id as visitId', 'PATIENTS.id as patientId', 'PATIENTS.uuid as patientAlias', 'PATIENTS.optimiseConsent as patientOptimiseConsent', 'PATIENTS.participation as patientParticipation', 'VISITS.id as visitId', 'VISITS.visitDate', 'VISITS.type as visitType', 'VISITS.deleted as visitDeleted', 'PATIENTS.deleted as patientDeleted')
             .leftJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
             .whereIn('PATIENTS.id', patientList)
             .andWhere('VISITS.deleted', '-');
@@ -379,7 +379,7 @@ class ExportDataController {
             const csventry = {
                 subjid: visit.patientId,
                 aliasId: visit.patientAlias,
-                consent: visit.patientConsent,
+                optimiseConsent: visit.patientOptimiseConsent,
                 participation: visit.patientParticipation,
                 diagnoses: diagnosisMap[visit.patientId],
                 visit_id: visit.visitId,
@@ -448,10 +448,11 @@ class ExportDataController {
     static getPatientDataCDISC(patientList) {
 
         const dataPromises = [];
+        const STUDYID = 'optimise';
 
         /* Patient demographic data */
         dataPromises.push(dbcon()('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DEMOGRAPHIC.DOB as BRTHDTC', 'GENDERS.value as SEX',
+            .select('PATIENTS.uuid as USUBJID', 'PATIENT_DEMOGRAPHIC.DOB as BRTHDTC', 'GENDERS.value as SEX',
                 'DOMINANT_HANDS.value as DOMINANT', 'ETHNICITIES.value as ETHNIC', 'COUNTRIES.value as COUNTRY')
             .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENTS.id', 'PATIENT_DEMOGRAPHIC.patient')
             .leftOuterJoin('GENDERS', 'GENDERS.id', 'PATIENT_DEMOGRAPHIC.gender')
@@ -462,36 +463,39 @@ class ExportDataController {
             .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
             .then(result => ['DM', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'DM'
             }))]));
 
         // /* Smoking history data */
         // dataPromises.push(dbcon()('PATIENTS')
-        //     .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'SMOKING_HISTORY.value as SCORRES')
+        //     .select('PATIENTS.uuid as USUBJID', 'SMOKING_HISTORY.value as SCORRES')
         //     .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
         //     .leftOuterJoin('SMOKING_HISTORY', 'SMOKING_HISTORY.id', 'PATIENT_DEMOGRAPHIC.smokingHistory')
         //     .whereIn('PATIENTS.id', patientList)
         //     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
         //     .then(result => ['SC_Smoking', result.map(x => ({
         //         ...x,
+        //         STUDYID,
         //         DOMAIN: 'SC'
         //     }))]));
 
         // /* Alcohol consumption data */
         // dataPromises.push(dbcon()('PATIENTS')
-        //     .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
+        //     .select('PATIENTS.uuid as USUBJID', 'ALCOHOL_USAGE.value as SUDOSFRQ')
         //     .leftOuterJoin('PATIENT_DEMOGRAPHIC', 'PATIENT_DEMOGRAPHIC.patient', 'PATIENTS.id')
         //     .leftOuterJoin('ALCOHOL_USAGE', 'ALCOHOL_USAGE.id', 'PATIENT_DEMOGRAPHIC.alcoholUsage')
         //     .whereIn('PATIENTS.id', patientList)
         //     .andWhere('PATIENT_DEMOGRAPHIC.deleted', '-')
         //     .then(result => ['SU_AlcoholConsumption', result.map(x => ({
         //         ...x,
+        //         STUDYID,
         //         DOMAIN: 'SU'
         //     }))]));
 
         /* Patient pregnancy data */
         dataPromises.push(dbcon()('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_PREGNANCY.startDate as MHSTDTC', 'PREGNANCY_OUTCOMES.value as MHENRTPT',
+            .select('PATIENTS.uuid as USUBJID', 'PATIENT_PREGNANCY.startDate as MHSTDTC', 'PREGNANCY_OUTCOMES.value as MHENRTPT',
                 'PATIENT_PREGNANCY.outcomeDate as MHENDTC', 'ADVERSE_EVENT_MEDDRA.name as MHDECOD')
             .leftOuterJoin('PATIENT_PREGNANCY', 'PATIENT_PREGNANCY.patient', 'PATIENTS.id')
             .leftJoin('PREGNANCY_OUTCOMES', 'PREGNANCY_OUTCOMES.id', 'PATIENT_PREGNANCY.outcome')
@@ -500,13 +504,14 @@ class ExportDataController {
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => ['MH_Pregnancy', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'MH',
                 MHCAT: 'GENERAL'
             }))]));
 
         /* Patient vital signs data (within Visit) */
         dataPromises.push(dbcon()('VISIT_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.idname as VSTEST', 'VISIT_DATA.value as VSORRES',
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_VISITS.idname as VSTEST', 'VISIT_DATA.value as VSORRES',
                 'AVAILABLE_FIELDS_VISITS.unit as VSORRESU', 'VISITS.visitDate as VSDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
@@ -517,38 +522,41 @@ class ExportDataController {
             .andWhere('AVAILABLE_FIELDS_VISITS.section', 1)
             .then(result => ['VS', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'VS'
             }))]));
 
         /* Patient Adverse Events data- Pregnancy */
         dataPromises.push(dbcon()('PATIENT_PREGNANCY')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
+            .select('PATIENTS.uuid as USUBJID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'PATIENT_PREGNANCY.patient')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'PATIENT_PREGNANCY.meddra')
             .whereIn('PATIENTS.id', patientList)
             .andWhere('PATIENT_PREGNANCY.deleted', '-')
             .then(result => ['AE_Pregnancy', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'AE',
                 AETERM: x.AELLT
             }))]));
 
         /* Patient Adverse Events data- Clinical Events */
         dataPromises.push(dbcon()('CLINICAL_EVENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
+            .select('PATIENTS.uuid as USUBJID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
             .leftOuterJoin('ADVERSE_EVENT_MEDDRA', 'ADVERSE_EVENT_MEDDRA.id', 'CLINICAL_EVENTS.meddra')
             .whereIn('PATIENTS.id', patientList)
             .andWhere('CLINICAL_EVENTS.deleted', '-')
             .then(result => ['AE_ClinicalEvents', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'AE',
                 AETERM: x.AELLT
             }))]));
 
         /* Patient Adverse Events data- Treatment interruptions */
         dataPromises.push(dbcon()('TREATMENTS_INTERRUPTIONS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
+            .select('PATIENTS.uuid as USUBJID', 'ADVERSE_EVENT_MEDDRA.name as AELLT')
             .leftOuterJoin('TREATMENTS', 'TREATMENTS.id', 'TREATMENTS_INTERRUPTIONS.treatment')
             .leftOuterJoin('VISITS', 'VISITS.id', 'TREATMENTS.orderedDuringVisit')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
@@ -557,13 +565,14 @@ class ExportDataController {
             .andWhere('TREATMENTS_INTERRUPTIONS.deleted', '-')
             .then(result => ['AE_Treatments', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'AE',
                 AETERM: x.AELLT
             }))]));
 
         /* Patient medical history data */
         dataPromises.push(dbcon()('MEDICAL_HISTORY')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'RELATIONS.value as SREL', 'CONDITIONS.value as MHTERM',
+            .select('PATIENTS.uuid as USUBJID', 'RELATIONS.value as SREL', 'CONDITIONS.value as MHTERM',
                 'MEDICAL_HISTORY.startDate as MHSTDTC', 'MEDICAL_HISTORY.outcome as MHENRTPT', 'MEDICAL_HISTORY.resolvedYear as MHENDTC')
             .leftOuterJoin('RELATIONS', 'RELATIONS.id', 'MEDICAL_HISTORY.relation')
             .leftOuterJoin('CONDITIONS', 'CONDITIONS.id', 'MEDICAL_HISTORY.conditionName')
@@ -572,29 +581,32 @@ class ExportDataController {
             .andWhere('MEDICAL_HISTORY.deleted', '-')
             .then(result => ['MH_Relations', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'MH'
             }))]));
 
         /* Patient immunisation data */
         dataPromises.push(dbcon()('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_IMMUNISATION.vaccineName as MHTERM', 'PATIENT_IMMUNISATION.immunisationDate as MHSTDTC')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENT_IMMUNISATION.vaccineName as MHTERM', 'PATIENT_IMMUNISATION.immunisationDate as MHSTDTC')
             .leftOuterJoin('PATIENT_IMMUNISATION', 'PATIENT_IMMUNISATION.id', 'PATIENTS.id')
             .whereIn('PATIENTS.id', patientList)
             .andWhere('PATIENT_IMMUNISATION.deleted', '-')
             .then(result => ['MH_Immunisation', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'MH'
             }))]));
 
         /* Patient diagnosis data */
         dataPromises.push(dbcon()('PATIENTS')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'PATIENT_DIAGNOSIS.diagnosisDate as MHSTDTC', 'AVAILABLE_DIAGNOSES.value as MHTERM')
+            .select('PATIENTS.uuid as USUBJID', 'PATIENT_DIAGNOSIS.diagnosisDate as MHSTDTC', 'AVAILABLE_DIAGNOSES.value as MHTERM')
             .leftOuterJoin('PATIENT_DIAGNOSIS', 'PATIENT_DIAGNOSIS.patient', 'PATIENTS.id')
             .leftOuterJoin('AVAILABLE_DIAGNOSES', 'AVAILABLE_DIAGNOSES.id', 'PATIENT_DIAGNOSIS.diagnosis')
             .whereIn('PATIENTS.id', patientList)
             .andWhere('PATIENT_DIAGNOSIS.deleted', '-')
             .then(result => ['MH_Diagnosis', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'MH',
                 MHCAT: 'PRIMARY DIAGNOSIS',
                 MHSCAT: 'ONSET COURSE'
@@ -602,7 +614,7 @@ class ExportDataController {
 
         /* Patient CE data */
         dataPromises.push(dbcon()('CLINICAL_EVENTS')
-            .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_CLINICAL_EVENT_TYPES.name as CETERM',
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_CLINICAL_EVENT_TYPES.name as CETERM',
                 'CLINICAL_EVENTS.dateStartDate as CESTDTC', 'CLINICAL_EVENTS.endDate as CEENDTC',
                 'CLINICAL_EVENTS_DATA.value as CESEV', 'AVAILABLE_FIELDS_CE.id as fieldId',
                 'CLINICAL_EVENTS_DATA.field', 'CLINICAL_EVENTS_DATA.deleted')
@@ -618,13 +630,14 @@ class ExportDataController {
                 field: undefined,
                 fieldId: undefined,
                 deleted: undefined,
+                STUDYID,
                 DOMAIN: 'CE',
                 CESEV: x.fieldId && x.fieldId !== 9 && x.CESEV ? null : x.CESEV
             }))]));
 
         /* Patient Evoked Potential test data */
         dataPromises.push(dbcon()('TEST_DATA')
-            .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_TESTS.cdiscName as NVTEST',
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_TESTS.cdiscName as NVTEST',
                 'TEST_DATA.value as NVORRES', 'AVAILABLE_FIELDS_TESTS.unit as NVORRESU', 'AVAILABLE_FIELDS_TESTS.laterality as NVLAT',
                 'ORDERED_TESTS.actualOccurredDate as NVDTC', 'ORDERED_TESTS.expectedOccurDate as VISITDY')
             .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
@@ -637,13 +650,14 @@ class ExportDataController {
             .andWhere('ORDERED_TESTS.type', 2)
             .then(result => ['NV', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'NV',
                 NVCAT: 'Visual Evoked Potential (VEP)'
             }))]));
 
         /* Patient Laboratory Test data */
         dataPromises.push(dbcon()('TEST_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_TESTS.idname as LBTEST', 'TEST_DATA.value as LBORRES',
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_TESTS.idname as LBTEST', 'TEST_DATA.value as LBORRES',
                 'ORDERED_TESTS.expectedOccurDate as LBDTC')
             .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
             .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')
@@ -655,13 +669,14 @@ class ExportDataController {
             .andWhere('ORDERED_TESTS.type', 1)
             .then(result => ['LB', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'LB',
                 LBTESTCD: x.LBTEST
             }))]));
 
         /* Lumbar Puncture */
         dataPromises.push(dbcon()('TEST_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_TESTS.idname as LBTEST', 'TEST_DATA.value as LBORRES',
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_TESTS.idname as LBTEST', 'TEST_DATA.value as LBORRES',
                 'ORDERED_TESTS.actualOccurredDate as LBDTC')
             .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
             .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')
@@ -673,6 +688,7 @@ class ExportDataController {
             .andWhere('ORDERED_TESTS.type', 4)
             .then(result => ['LBPR', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'LB',
                 LBTESTCD: x.LBTEST
             })).concat(result.map(({ STUDYID, USUBJID, LBDTC }) => ({
@@ -684,7 +700,7 @@ class ExportDataController {
 
         /* Patient MRI data */
         dataPromises.push(dbcon()('TEST_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_TESTS.idname as MOTEST', 'TEST_DATA.value as MOORRES',
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_TESTS.idname as MOTEST', 'TEST_DATA.value as MOORRES',
                 'ORDERED_TESTS.actualOccurredDate as MODTC')
             .leftOuterJoin('ORDERED_TESTS', 'ORDERED_TESTS.id', 'TEST_DATA.test')
             .leftOuterJoin('VISITS', 'VISITS.id', 'ORDERED_TESTS.orderedDuringVisit')
@@ -696,12 +712,13 @@ class ExportDataController {
             .andWhere('ORDERED_TESTS.type', 3)
             .then(result => ['MO', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'MO'
             }))]));
 
         /* Clinical Event data */
         dataPromises.push(dbcon()('CLINICAL_EVENTS_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_CE.idname as FATEST', 'CLINICAL_EVENTS_DATA.value as FAORRES')
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_CE.idname as FATEST', 'CLINICAL_EVENTS_DATA.value as FAORRES')
             .leftOuterJoin('CLINICAL_EVENTS', 'CLINICAL_EVENTS.id', 'CLINICAL_EVENTS_DATA.clinicalEvent')
             .leftOuterJoin('AVAILABLE_FIELDS_CE', 'AVAILABLE_FIELDS_CE.id', 'CLINICAL_EVENTS_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'CLINICAL_EVENTS.patient')
@@ -709,12 +726,13 @@ class ExportDataController {
             .andWhere('CLINICAL_EVENTS_DATA.deleted', '-')
             .then(result => ['FA', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'FA'
             }))]));
 
         /* Patient Symptoms and Signs at Visits */
         dataPromises.push(dbcon()('VISIT_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.idname as CETERM', 'VISIT_DATA.value as CEOCCUR', 'VISITS.visitDate as CEDTC')
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_VISITS.idname as CETERM', 'VISIT_DATA.value as CEOCCUR', 'VISITS.visitDate as CEDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
             .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
@@ -725,12 +743,13 @@ class ExportDataController {
             .andWhere('VISIT_DATA.deleted', '-')
             .then(result => ['CE_SymptomsSigns', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'CE'
             }))]));
 
         /* Performance Measures Visual Acuity */
         dataPromises.push(dbcon()('VISIT_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.idname as OETEST',
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_VISITS.idname as OETEST',
                 'VISIT_DATA.value as OEORRES', 'AVAILABLE_FIELDS_VISITS.laterality as OELAT', 'VISITS.visitDate as OEDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
@@ -741,13 +760,14 @@ class ExportDataController {
             .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'VisualAcuity')
             .then(result => ['OE', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'OE',
                 OELOC: 'EYE'
             }))]));
 
         /* Performance Measures Questionnaires */
         dataPromises.push(dbcon()('VISIT_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.idname as QSTEST',
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_VISITS.idname as QSTEST',
                 'VISIT_DATA.value as QSORRES', 'VISITS.visitDate as QSDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
@@ -758,13 +778,14 @@ class ExportDataController {
             .andWhere('AVAILABLE_FIELDS_VISITS.subsection', 'QS')
             .then(result => ['QS', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'QS',
                 QSSTRESN: x.QSORRES
             }))]));
 
         /* Performance Measures Functional Tests */
         dataPromises.push(dbcon()('VISIT_DATA')
-            .select('PATIENTS.uuid as USUBJID', 'PATIENTS.study as STUDYID', 'AVAILABLE_FIELDS_VISITS.idname as FTTEST',
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_VISITS.idname as FTTEST',
                 'VISIT_DATA.value as FTORRES', 'VISITS.visitDate as FTDTC')
             .leftOuterJoin('VISITS', 'VISITS.id', 'VISIT_DATA.visit')
             .leftOuterJoin('AVAILABLE_FIELDS_VISITS', 'AVAILABLE_FIELDS_VISITS.id', 'VISIT_DATA.field')
@@ -775,13 +796,14 @@ class ExportDataController {
             .andWhere('AVAILABLE_FIELDS_VISITS.section', 4)
             .then(result => ['FT', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'FT',
                 FTSTRESN: x.FTORRES
             }))]));
 
         /* Patient treatment data- Domain EC may be more appropriate */
         dataPromises.push(dbcon()('TREATMENTS')
-            .select('PATIENTS.study as STUDYID', 'PATIENTS.uuid as USUBJID', 'AVAILABLE_DRUGS.name as EXTRT',
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_DRUGS.name as EXTRT',
                 'AVAILABLE_DRUGS.module as EXCLAS', 'TREATMENTS.dose as EXDOSE', 'TREATMENTS.unit as EXDOSU', 'TREATMENTS.startDate as EXSTDTC',
                 'TREATMENTS.times', 'TREATMENTS.intervalUnit', 'TREATMENTS.form as EXROUTE', 'TREATMENTS_INTERRUPTIONS.startDate as EXSTDTC_2',
                 'TREATMENTS.terminatedDate as EXENDTC', 'TREATMENTS.terminatedReason',
@@ -797,6 +819,7 @@ class ExportDataController {
             .andWhere('TREATMENTS.deleted', '-')
             .then(result => ['EX', result.map(x => ({
                 ...x,
+                STUDYID,
                 DOMAIN: 'EX',
                 EXDOSFRQ: x.times && x.intervalUnit ? `${x.times} / ${ExportDataController.intervalUnitString(x.intervalUnit)}` : undefined
             }))]));
