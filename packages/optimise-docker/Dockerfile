@@ -9,7 +9,7 @@ WORKDIR /optimise
 COPY ./optimise-docker/package.json .
 COPY ./optimise-docker/.npmrc .
 
-RUN npm install --production
+RUN npm install --omit=dev
 
 COPY ./optimise-docker/launcher.js ./
 COPY ./optimise-core/build/* ./
