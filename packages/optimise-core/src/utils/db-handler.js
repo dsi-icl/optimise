@@ -41,6 +41,8 @@ export async function migrate() {
         if (CURRENT_VERSION < stepVersion)
             return Promise.reject(new Error('The existing database was created with a newer version of Optimise ! Please upgrade before using Optimise !'));
 
+        await dbcon().raw('PRAGMA foreign_keys = OFF');
+
         // For every table file launch the update for sequential version up
         while (stepVersion < CURRENT_VERSION) {
             stepVersion++;
@@ -54,6 +56,8 @@ export async function migrate() {
             }
         }
 
+        await dbcon().raw('PRAGMA foreign_keys = ON');
+
         // Finally set the CURRENT_VERSION to the current level
         await dbcon()('OPT_KV').where({
             key: 'CURRENT_VERSION'
@@ -61,6 +65,7 @@ export async function migrate() {
             value: `${stepVersion}`,
             updated_at: dbcon().fn.now()
         });
+
     }
 
     return dbcon;
