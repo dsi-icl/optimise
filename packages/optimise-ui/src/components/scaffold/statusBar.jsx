@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
     username: state.login.username,
     fetching: state.availableFields.fetching,
     adminPriv: state.login.adminPriv
-}))
+    }))
 class StatusBar extends Component {
     render() {
         let version = packageInfo.version;
