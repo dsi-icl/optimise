@@ -66,6 +66,12 @@ export default async (dbcon, version) => {
             await schema_v2(dbcon);
             await tableCopyBack(TABLE_NAME);
             break;
+        case 16:
+            await dbcon().schema.table(TABLE_NAME, (table) => {
+                table.dropForeign('patient');
+                table.foreign('patient').references('id').inTable('PATIENTS').onDelete('CASCADE');
+            });
+            break;
         default:
             break;
     }
