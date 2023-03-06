@@ -1,2093 +1,2093 @@
 {
-	"info": {
-		"_postman_id": "7f9ffcc4-6a7d-47e2-9429-85f2a2040201",
-		"name": "optimise copy copy",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "login/logout",
-			"description": null,
-			"item": [
-				{
-					"name": "userlogin",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"username\": \"admin\", \"pw\": \"admin\"}"
-						},
-						"url": {
-							"raw": "{{url}}/users/login",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"users",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "userlogout",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"username\": \"chon\"}"
-						},
-						"url": {
-							"raw": "{{url}}/users/logout",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"users",
-								"logout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "whoami",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/whoami",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"whoami"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "users",
-			"description": null,
-			"item": [
-				{
-					"name": "create user (only admin)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"username\": \"normal\", \"pw\": \"admin\", \"isAdmin\": 0}"
-						},
-						"url": {
-							"raw": "{{url}}/users",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete user (only admin)",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"username\": \"chon\"}"
-						},
-						"url": {
-							"raw": "{{url}}/users",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "change user password (only self)",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"username\": \"pm\", \"pw\": \"admin\"}"
-						},
-						"url": {
-							"raw": "{{url}}/users/",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"users",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetUser",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/users?username=",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"users"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "export",
-			"description": null,
-			"item": [
-				{
-					"name": "export full database",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/zip"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/export",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"export"
-							]
-						},
-						"description": "Exports data for all patients in database"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "patients",
-			"description": null,
-			"item": [
-				{
-					"name": "PatientPii",
-					"description": "Request related to table patientPii",
-					"item": [
-						{
-							"name": "Create patientPii",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"patient\":2,\n\t\"firstName\":\"Chon\",\n\t\"surname\":\"Sou\",\n\t\"fullAddress\":\"ICL, South Kensington, London\",\n\t\"postcode\":\"W6 ICL\"\n}"
-								},
-								"url": {
-									"raw": "{{url}}/patientPii/",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientPii",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get PPII",
-							"request": {
-								"method": "GET",
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{url}}/patientPii?patient=1",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientPii"
-									],
-									"query": [
-										{
-											"key": "patient",
-											"value": "1"
-										}
-									]
-								},
-								"description": "Get the PPII of a patient or all of them\n"
-							},
-							"response": []
-						},
-						{
-							"name": "Edit PPII",
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":2,\n\t\"firstName\":\"Modified\"\n}"
-								},
-								"url": {
-									"raw": "{{url}}/patientPii",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientPii"
-									]
-								},
-								"description": "Update PPII of a patient"
-							},
-							"response": []
-						},
-						{
-							"name": "Delete PII",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":1\n}"
-								},
-								"url": {
-									"raw": "{{url}}/patientPii",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientPii"
-									]
-								},
-								"description": "Delete a specific PII"
-							},
-							"response": []
-						}
-					],
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "PatientDiagnosis",
-					"description": "Request related to table PATIENT_DIAGNOSIS",
-					"item": [
-						{
-							"name": "Create patientDiagnosis",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"patient\":1,\n\t\"diagnosis\":4,\n\t\"diagnosisDate\":\"1 jan 2001\"\n}"
-								},
-								"url": {
-									"raw": "{{url}}/patientDiagnosis/",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientDiagnosis",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Diagnosis",
-							"request": {
-								"method": "GET",
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{url}}/patientDiagnosis?patient=1",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientDiagnosis"
-									],
-									"query": [
-										{
-											"key": "patient",
-											"value": "1"
-										}
-									]
-								},
-								"description": "Get the Diagnosis of a patient or all of them\n"
-							},
-							"response": []
-						},
-						{
-							"name": "Edit Diagnosis",
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":2,\n\t\"diagnosis\":3\n}"
-								},
-								"url": {
-									"raw": "{{url}}/patientDiagnosis",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientDiagnosis"
-									]
-								},
-								"description": "Update Diagnosis of a patient"
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Diagnosis",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":1\n}"
-								},
-								"url": {
-									"raw": "{{url}}/patientDiagnosis",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"patientDiagnosis"
-									]
-								},
-								"description": "Delete a specific Diagnosis"
-							},
-							"response": []
-						}
-					],
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "search for a patient by Id",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
-						},
-						"url": {
-							"raw": "{{url}}/patients?id=o",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"patients"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "o"
-								}
-							]
-						},
-						"description": "shows all patients with id similar to the one provided"
-					},
-					"response": []
-				},
-				{
-					"name": "get all patients",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
-						},
-						"url": {
-							"raw": "{{url}}/patients",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"patients"
-							]
-						},
-						"description": "shows all patients with id similar to the one provided"
-					},
-					"response": []
-				},
-				{
-					"name": "get profile of a specific patient",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
-						},
-						"url": {
-							"raw": "{{url}}/patients/littleP",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"patients",
-								"littleP"
-							]
-						},
-						"description": "shows all patients with id similar to the one provided"
-					},
-					"response": []
-				},
-				{
-					"name": "get profile of a specific patient (but only a certain field)",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
-						},
-						"url": {
-							"raw": "{{url}}/patients/chon?getOnly=Visits,Tests",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"patients",
-								"chon"
-							],
-							"query": [
-								{
-									"key": "getOnly",
-									"value": "Visits,Tests"
-								}
-							]
-						},
-						"description": "shows all patients with id similar to the one provided"
-					},
-					"response": []
-				},
-				{
-					"name": "create a new patient",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"aliasId\": \"littleP\", \"study\": \"optimise\"}"
-						},
-						"url": {
-							"raw": "{{url}}/patients",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"patients"
-							]
-						},
-						"description": "shows all patients with id similar to the one provided"
-					},
-					"response": []
-				},
-				{
-					"name": "delete a patient (only admin)",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"aliasId\": \"littlePlanet\"}"
-						},
-						"url": {
-							"raw": "{{url}}/patients",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"patients"
-							]
-						},
-						"description": "shows all patients with id similar to the one provided"
-					},
-					"response": []
-				},
-				{
-					"name": "Erase Patient",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"patientId\": 9}"
-						},
-						"url": {
-							"raw": "{{url}}/patients",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"patients"
-							]
-						},
-						"description": "Erase in the database the user"
-					},
-					"response": []
-				},
-				{
-					"name": "Update consent of patient",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"patientId\":1,\n\t\"consent\":true\n}"
-						},
-						"url": {
-							"raw": "{{url}}/patients",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"patients"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "tests",
-			"description": null,
-			"item": [
-				{
-					"name": "create a test",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"visitId\": 3, \"type\": 1, \"expectedDate\": \"1 Jan 2020\"}"
-						},
-						"url": {
-							"raw": "{{url}}/tests",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"tests"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "add date of actual occurence",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"testId\": 1, \"actualOccurredDate\":  \"4 Jan 2020\" }"
-						},
-						"url": {
-							"raw": "{{url}}/tests/addOccurredDate",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"tests",
-								"addOccurredDate"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete a test (only admin)",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"testId\": 1}"
-						},
-						"url": {
-							"raw": "{{url}}/tests/",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"tests",
-								""
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "visits",
-			"description": null,
-			"item": [
-				{
-					"name": "create a visit",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"patientId\": 5, \"visitDate\": \"2018-2-29\"}"
-						},
-						"url": {
-							"raw": "{{url}}/visits",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"visits"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete a visit (only admin)",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"visitId\":1}"
-						},
-						"url": {
-							"raw": "{{url}}/visits",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"visits"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get a visit",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/visits?patientId=chon",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"visits"
-							],
-							"query": [
-								{
-									"key": "patientId",
-									"value": "chon"
-								}
-							]
-						},
-						"description": "Get a visit relative to a patient"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "treatments",
-			"description": null,
-			"item": [
-				{
-					"name": "create a treatment",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\t\"drugId\": 5,\n\t\"dose\": 4,\n\t\"unit\": \"mg\",\n\t\"form\": \"OR\",\n\t\"times\": 1,\n\t\"intervalUnit\": \"year\",\n\t\"adverseEvent\": 4}"
-						},
-						"url": {
-							"raw": "{{url}}/treatments",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"treatments"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Add termination date treatment",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"treatmentId\":1, \"terminatedReason\":1, \"terminationDate\": \"4 July 2000\"}"
-						},
-						"url": {
-							"raw": "{{url}}/treatments",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"treatments"
-							]
-						},
-						"description": "Self explaining"
-					},
-					"response": []
-				},
-				{
-					"name": "Edit treatment",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"id\":1,\n\t\"orderedDuringVisit\": 1,\n\t\"drug\": 3,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"OR\",\n\t\"times\": 2,\n\t\"intervalUnit\": \"year\",\n\t\"adverseEvent\":4}"
-						},
-						"url": {
-							"raw": "{{url}}/treatments",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"treatments"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete treatment",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"treatmentId\":\"lol\"}"
-						},
-						"url": {
-							"raw": "{{url}}/treatments",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"treatments"
-							]
-						},
-						"description": "Set as delete the asked treatment"
-					},
-					"response": []
-				},
-				{
-					"name": "Create Treatment Interruption",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"treatmentId\" : 2,\n    \"start_date\" : \"3 March 2010\",\n    \"end_date\" : \"3 March 2011\",\n    \"reason\" : 3,\n    \"meddra\" : 5}"
-						},
-						"url": {
-							"raw": "{{url}}/treatments/interrupt",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"treatments",
-								"interrupt"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Treatment Interruption",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"treatmentInterId\":1}"
-						},
-						"url": {
-							"raw": "{{url}}/treatments/interrupt",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"treatments",
-								"interrupt"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get drugs",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/treatments/drugs",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"treatments",
-								"drugs"
-							]
-						},
-						"description": "Get all drugs"
-					},
-					"response": []
-				},
-				{
-					"name": "Search drug",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/treatments/drugs?name=on",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"treatments",
-								"drugs"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "on"
-								}
-							]
-						},
-						"description": "Get drugs from a query"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Reasons",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "{{url}}/treatments/reasons",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"treatments",
-								"reasons"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "clinicalEvents",
-			"description": null,
-			"item": [
-				{
-					"name": "create a CE",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": \"1 March 2010\",\n\t\"meddra\" : 1}"
-						},
-						"url": {
-							"raw": "{{url}}/clinicalEvents",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"clinicalEvents"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete CE",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"ceId\":800}"
-						},
-						"url": {
-							"raw": "{{url}}/clinicalEvents",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"clinicalEvents"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "FIELDS",
-			"description": null,
-			"item": [
-				{
-					"name": "get all visitFields",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/available/visitFields",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"available",
-								"visitFields"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get all visitFields of a specific module",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/available/visitFields?module=MS",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"available",
-								"visitFields"
-							],
-							"query": [
-								{
-									"key": "module",
-									"value": "MS"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get all visitSections",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/available/visitSections",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"available",
-								"visitSections"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get all testFields",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/available/testFields",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"available",
-								"testFields"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get all clinicalEvents types",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/available/clinicalEvents",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"available",
-								"clinicalEvents"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get all testTypes",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/available/testTypes",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"available",
-								"testTypes"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get CE Fields",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/available/ceFields",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"available",
-								"ceFields"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get diagnoses",
-					"request": {
-						"method": "GET",
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{url}}/available/diagnoses",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"available",
-								"diagnoses"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "data",
-			"description": null,
-			"item": [
-				{
-					"name": "add / update visit data (update by admin only)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
-						},
-						"url": {
-							"raw": "{{url}}/data/visit",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"data",
-								"visit"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete visit data (update by admin only)",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"visitId\": 1,\n\"delete\": [1,42,5,2]\n}"
-						},
-						"url": {
-							"raw": "{{url}}/data/visit",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"data",
-								"visit"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete test data (update by admin only)",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"testId\": 1,\n\"delete\": [1,42,5,2]\n}"
-						},
-						"url": {
-							"raw": "{{url}}/data/test",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"data",
-								"test"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete clinicalEvent data (update by admin only)",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"clinicalEventId\": 1,\n\"delete\": [1,42,5,2]\n}"
-						},
-						"url": {
-							"raw": "{{url}}/data/clinicalEvent",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"data",
-								"clinicalEvent"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "add / update clinicalEvent data (update by admin only)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"clinicalEventId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
-						},
-						"url": {
-							"raw": "{{url}}/data/clinicalEvent",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"data",
-								"clinicalEvent"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "add / update test data (update by admin only)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"testId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
-						},
-						"url": {
-							"raw": "{{url}}/data/test",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"data",
-								"test"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "demographic / static data",
-			"description": null,
-			"item": [
-				{
-					"name": "Demographic request",
-					"description": null,
-					"item": [
-						{
-							"name": "Create Demographic",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"patient\":5,\n  \"DOB\" : \"1 Jan 1966\",\n  \"gender\" : 1,\n    \"dominant_hand\" : 1,\n    \"ethnicity\" : 1,\n    \"country_of_origin\" : 1,\n    \"alcohol_usage\" : 1,\n    \"smoking_history\" : 1\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Demographic",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Demographic"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Demographic",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\":6\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Demographic",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Demographic"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Edit Demographic data",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\":7,\n  \"patient\":1,\n  \"gender\" : 2,\n    \"dominantHand\" : 2,\n    \"ethnicity\" : 3,\n    \"countryOfOrigin\" : 4,\n    \"alcoholUsage\" : 2,\n    \"smokingHistory\" : 2\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Demographic",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Demographic"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Demographic Fields",
-							"request": {
-								"method": "GET",
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Fields/Demographic",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Fields",
-										"Demographic"
-									]
-								},
-								"description": "Getting all the fields"
-							},
-							"response": []
-						},
-						{
-							"name": "Get specific demographic field",
-							"request": {
-								"method": "GET",
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Fields/Demographic?fieldName=gender",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Fields",
-										"Demographic"
-									],
-									"query": [
-										{
-											"key": "fieldName",
-											"value": "gender"
-										}
-									]
-								},
-								"description": "Getting a specific field in demographic"
-							},
-							"response": []
-						}
-					],
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "Immunisation request",
-					"description": null,
-					"item": [
-						{
-							"name": "Create Immunisation",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"patient\":1,\n\t\"vaccineName\":\"Vacthing\",\n\t\"immunisationDate\":\"2/5/2009\"\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Immunisation",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Immunisation"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Immunisation",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":2\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Immunisation",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Immunisation"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Edit Immunisation data",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":1,\n\t\"patient\":1,\n\t\"vaccineName\":\"A good vaccine\",\n\t\"immunisationDate\":{\"day\":3, \"month\":5, \"year\":2009}\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Immunisation",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Immunisation"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "Medical condition request",
-					"description": null,
-					"item": [
-						{
-							"name": "Create MedicalCondition",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"patient\":1,\n    \"relation\":1,\n    \"conditionName\":1,\n    \"startDate\": \"1/1/2001\",\n    \"outcome\": \"resolved\",\n    \"resolvedYear\":2002\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/MedicalCondition",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"MedicalCondition"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete MedicalCondition",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":4\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/MedicalCondition",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"MedicalCondition"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Edit MedicalCondition",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":2,\n    \"patient\":1,\n    \"relation\":\"mother\",\n    \"conditionName\":\"Cold\",\n    \"startDate\": {\"day\":1, \"month\":1, \"year\":2001},\n    \"outcome\": \"ongoing\",\n    \"resolvedYear\":null\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/MedicalCondition",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"MedicalCondition"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get MedCond Fields",
-							"request": {
-								"method": "GET",
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Fields/MedicalCondition",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Fields",
-										"MedicalCondition"
-									]
-								},
-								"description": "Getting all fields in Medical Condition"
-							},
-							"response": []
-						},
-						{
-							"name": "Get specific MedCond Fields",
-							"request": {
-								"method": "GET",
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Fields/MedicalCondition?fieldName=conditions",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Fields",
-										"MedicalCondition"
-									],
-									"query": [
-										{
-											"key": "fieldName",
-											"value": "conditions"
-										}
-									]
-								},
-								"description": "Getting a specific fields in Medical Condition"
-							},
-							"response": []
-						}
-					],
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "Pregnancy",
-					"description": "Pregnancy related requests",
-					"item": [
-						{
-							"name": "Get All Pregnancy",
-							"request": {
-								"method": "GET",
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Pregnancy",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Pregnancy"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get specific patient pregnancy",
-							"request": {
-								"method": "GET",
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Pregnancy?patient=3",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Pregnancy"
-									],
-									"query": [
-										{
-											"key": "patient",
-											"value": "3"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Pregnancy",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"patient\":4,\n\t\"outcome\":2,\n\t\"startDate\":\"1 Jan 2000\"\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Pregnancy",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Pregnancy"
-									]
-								},
-								"description": "Create a [rgnancy to a patient]"
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Pregnancy",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":3\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Pregnancy",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Pregnancy"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Pregnancy Fields",
-							"request": {
-								"method": "GET",
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Fields/Pregnancy",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Fields",
-										"Pregnancy"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Edit pregnancy",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"id\":2,\n\t\"outcome\":4\n}"
-								},
-								"url": {
-									"raw": "{{url}}/demographics/Pregnancy",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"demographics",
-										"Pregnancy"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"_postman_isSubFolder": true
-				}
-			]
-		},
-		{
-			"name": "Get Actions Log",
-			"request": {
-				"method": "GET",
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url}}/logs",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"logs"
-					]
-				},
-				"description": "Get the logs of the API"
-			},
-			"response": []
-		},
-		{
-			"name": "Get Meddra",
-			"request": {
-				"method": "GET",
-				"body": {},
-				"url": {
-					"raw": "{{url}}/meddra?search=oxyl",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"meddra"
-					],
-					"query": [
-						{
-							"key": "search",
-							"value": "oxyl"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	]
+    "info": {
+        "_postman_id": "7f9ffcc4-6a7d-47e2-9429-85f2a2040201",
+        "name": "optimise copy copy",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "login/logout",
+            "description": null,
+            "item": [
+                {
+                    "name": "userlogin",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"admin\", \"pw\": \"admin\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/users/login",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "userlogout",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"chon\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/users/logout",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "logout"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "whoami",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/whoami",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "whoami"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "users",
+            "description": null,
+            "item": [
+                {
+                    "name": "create user (only admin)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"normal\", \"pw\": \"admin\", \"isAdmin\": 0}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/users",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "users"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete user (only admin)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"chon\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/users",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "users"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "change user password (only self)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"pm\", \"pw\": \"admin\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/users/",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "users",
+                                ""
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GetUser",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/users?username=",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "users"
+                            ],
+                            "query": [
+                                {
+                                    "key": "username",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "export",
+            "description": null,
+            "item": [
+                {
+                    "name": "export full database",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/zip"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/export",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "export"
+                            ]
+                        },
+                        "description": "Exports data for all patients in database"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "patients",
+            "description": null,
+            "item": [
+                {
+                    "name": "PatientPii",
+                    "description": "Request related to table patientPii",
+                    "item": [
+                        {
+                            "name": "Create patientPii",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"patient\":2,\n\t\"firstName\":\"Chon\",\n\t\"surname\":\"Sou\",\n\t\"fullAddress\":\"ICL, South Kensington, London\",\n\t\"postcode\":\"W6 ICL\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/patientPii/",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "patientPii",
+                                        ""
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get PPII",
+                            "request": {
+                                "method": "GET",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": ""
+                                },
+                                "url": {
+                                    "raw": "{{url}}/patientPii?patient=1",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "patientPii"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "patient",
+                                            "value": "1"
+                                        }
+                                    ]
+                                },
+                                "description": "Get the PPII of a patient or all of them\n"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Edit PPII",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"id\":2,\n\t\"firstName\":\"Modified\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/patientPii",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "patientPii"
+                                    ]
+                                },
+                                "description": "Update PPII of a patient"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Delete PII",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"id\":1\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/patientPii",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "patientPii"
+                                    ]
+                                },
+                                "description": "Delete a specific PII"
+                            },
+                            "response": []
+                        }
+                    ],
+                    "_postman_isSubFolder": true
+                },
+                {
+                    "name": "PatientDiagnosis",
+                    "description": "Request related to table PATIENT_DIAGNOSIS",
+                    "item": [
+                        {
+                            "name": "Create patientDiagnosis",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"patient\":1,\n\t\"diagnosis\":4,\n\t\"diagnosisDate\":\"1 jan 2001\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/patientDiagnosis/",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "patientDiagnosis",
+                                        ""
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get Diagnosis",
+                            "request": {
+                                "method": "GET",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": ""
+                                },
+                                "url": {
+                                    "raw": "{{url}}/patientDiagnosis?patient=1",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "patientDiagnosis"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "patient",
+                                            "value": "1"
+                                        }
+                                    ]
+                                },
+                                "description": "Get the Diagnosis of a patient or all of them\n"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Edit Diagnosis",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"id\":2,\n\t\"diagnosis\":3\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/patientDiagnosis",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "patientDiagnosis"
+                                    ]
+                                },
+                                "description": "Update Diagnosis of a patient"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Delete Diagnosis",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"id\":1\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/patientDiagnosis",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "patientDiagnosis"
+                                    ]
+                                },
+                                "description": "Delete a specific Diagnosis"
+                            },
+                            "response": []
+                        }
+                    ],
+                    "_postman_isSubFolder": true
+                },
+                {
+                    "name": "search for a patient by Id",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/patients?id=o",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "patients"
+                            ],
+                            "query": [
+                                {
+                                    "key": "id",
+                                    "value": "o"
+                                }
+                            ]
+                        },
+                        "description": "shows all patients with id similar to the one provided"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get all patients",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/patients",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "patients"
+                            ]
+                        },
+                        "description": "shows all patients with id similar to the one provided"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get profile of a specific patient",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/patients/littleP",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "patients",
+                                "littleP"
+                            ]
+                        },
+                        "description": "shows all patients with id similar to the one provided"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get profile of a specific patient (but only a certain field)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"eleni\", \"pw\": \"iAmEleni\", \"isAdmin\": 1, \"realName\": \"Eleni Dostoyevsky\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/patients/chon?getOnly=Visits,Tests",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "patients",
+                                "chon"
+                            ],
+                            "query": [
+                                {
+                                    "key": "getOnly",
+                                    "value": "Visits,Tests"
+                                }
+                            ]
+                        },
+                        "description": "shows all patients with id similar to the one provided"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "create a new patient",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"aliasId\": \"littleP\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/patients",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "patients"
+                            ]
+                        },
+                        "description": "shows all patients with id similar to the one provided"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete a patient (only admin)",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"aliasId\": \"littlePlanet\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/patients",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "patients"
+                            ]
+                        },
+                        "description": "shows all patients with id similar to the one provided"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Erase Patient",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"patientId\": 9}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/patients",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "patients"
+                            ]
+                        },
+                        "description": "Erase in the database the user"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update consent of patient",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"patientId\":1,\n\t\"optimiseConsent\":\"2020-10-17T23:00:00.000Z\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/patients",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "patients"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "tests",
+            "description": null,
+            "item": [
+                {
+                    "name": "create a test",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"visitId\": 3, \"type\": 1, \"expectedDate\": \"1 Jan 2020\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/tests",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "tests"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "add date of actual occurence",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"testId\": 1, \"actualOccurredDate\":  \"4 Jan 2020\" }"
+                        },
+                        "url": {
+                            "raw": "{{url}}/tests/addOccurredDate",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "tests",
+                                "addOccurredDate"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete a test (only admin)",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"testId\": 1}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/tests/",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "tests",
+                                ""
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "visits",
+            "description": null,
+            "item": [
+                {
+                    "name": "create a visit",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"patientId\": 5, \"visitDate\": \"2018-2-29\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/visits",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "visits"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete a visit (only admin)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"visitId\":1}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/visits",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "visits"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get a visit",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/visits?patientId=chon",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "visits"
+                            ],
+                            "query": [
+                                {
+                                    "key": "patientId",
+                                    "value": "chon"
+                                }
+                            ]
+                        },
+                        "description": "Get a visit relative to a patient"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "treatments",
+            "description": null,
+            "item": [
+                {
+                    "name": "create a treatment",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"visitId\": 1,\n\t\"drugId\": 5,\n\t\"dose\": 4,\n\t\"unit\": \"mg\",\n\t\"form\": \"OR\",\n\t\"times\": 1,\n\t\"intervalUnit\": \"year\",\n\t\"adverseEvent\": 4}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/treatments",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "treatments"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Add termination date treatment",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"treatmentId\":1, \"terminatedReason\":1, \"terminationDate\": \"4 July 2000\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/treatments",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "treatments"
+                            ]
+                        },
+                        "description": "Self explaining"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Edit treatment",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"id\":1,\n\t\"orderedDuringVisit\": 1,\n\t\"drug\": 3,\n\t\"dose\": 2,\n\t\"unit\": \"cc\",\n\t\"form\": \"OR\",\n\t\"times\": 2,\n\t\"intervalUnit\": \"year\",\n\t\"adverseEvent\":4}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/treatments",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "treatments"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete treatment",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"treatmentId\":\"lol\"}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/treatments",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "treatments"
+                            ]
+                        },
+                        "description": "Set as delete the asked treatment"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Treatment Interruption",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"treatmentId\" : 2,\n    \"start_date\" : \"3 March 2010\",\n    \"end_date\" : \"3 March 2011\",\n    \"reason\" : 3,\n    \"meddra\" : 5}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/treatments/interrupt",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "treatments",
+                                "interrupt"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Treatment Interruption",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"treatmentInterId\":1}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/treatments/interrupt",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "treatments",
+                                "interrupt"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get drugs",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/treatments/drugs",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "treatments",
+                                "drugs"
+                            ]
+                        },
+                        "description": "Get all drugs"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Search drug",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/treatments/drugs?name=on",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "treatments",
+                                "drugs"
+                            ],
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "on"
+                                }
+                            ]
+                        },
+                        "description": "Get drugs from a query"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Reasons",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {},
+                        "url": {
+                            "raw": "{{url}}/treatments/reasons",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "treatments",
+                                "reasons"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "clinicalEvents",
+            "description": null,
+            "item": [
+                {
+                    "name": "create a CE",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"visitId\": 1,\n\t\"type\": 1,\n\t\"startDate\": \"1 March 2010\",\n\t\"meddra\" : 1}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/clinicalEvents",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "clinicalEvents"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete CE",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"ceId\":800}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/clinicalEvents",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "clinicalEvents"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "FIELDS",
+            "description": null,
+            "item": [
+                {
+                    "name": "get all visitFields",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/available/visitFields",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "available",
+                                "visitFields"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get all visitFields of a specific module",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/available/visitFields?module=MS",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "available",
+                                "visitFields"
+                            ],
+                            "query": [
+                                {
+                                    "key": "module",
+                                    "value": "MS"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get all visitSections",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/available/visitSections",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "available",
+                                "visitSections"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get all testFields",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/available/testFields",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "available",
+                                "testFields"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get all clinicalEvents types",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/available/clinicalEvents",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "available",
+                                "clinicalEvents"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get all testTypes",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/available/testTypes",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "available",
+                                "testTypes"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get CE Fields",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/available/ceFields",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "available",
+                                "ceFields"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get diagnoses",
+                    "request": {
+                        "method": "GET",
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{url}}/available/diagnoses",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "available",
+                                "diagnoses"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "data",
+            "description": null,
+            "item": [
+                {
+                    "name": "add / update visit data (update by admin only)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"visitId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/data/visit",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "data",
+                                "visit"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete visit data (update by admin only)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"visitId\": 1,\n\"delete\": [1,42,5,2]\n}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/data/visit",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "data",
+                                "visit"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete test data (update by admin only)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"testId\": 1,\n\"delete\": [1,42,5,2]\n}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/data/test",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "data",
+                                "test"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete clinicalEvent data (update by admin only)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"clinicalEventId\": 1,\n\"delete\": [1,42,5,2]\n}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/data/clinicalEvent",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "data",
+                                "clinicalEvent"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "add / update clinicalEvent data (update by admin only)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"clinicalEventId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/data/clinicalEvent",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "data",
+                                "clinicalEvent"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "add / update test data (update by admin only)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"testId\": 1,\n\"add\": {\"1\": \"BOTH\", \"2\": 42},\n\"update\": {\"4\":3}\n}"
+                        },
+                        "url": {
+                            "raw": "{{url}}/data/test",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "data",
+                                "test"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "demographic / static data",
+            "description": null,
+            "item": [
+                {
+                    "name": "Demographic request",
+                    "description": null,
+                    "item": [
+                        {
+                            "name": "Create Demographic",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"patient\":5,\n  \"DOB\" : \"1 Jan 1966\",\n  \"gender\" : 1,\n    \"dominant_hand\" : 1,\n    \"ethnicity\" : 1,\n    \"country_of_origin\" : 1,\n    \"alcohol_usage\" : 1,\n    \"smoking_history\" : 1\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Demographic",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Demographic"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Delete Demographic",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"id\":6\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Demographic",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Demographic"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Edit Demographic data",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"id\":7,\n  \"patient\":1,\n  \"gender\" : 2,\n    \"dominantHand\" : 2,\n    \"ethnicity\" : 3,\n    \"countryOfOrigin\" : 4,\n    \"alcoholUsage\" : 2,\n    \"smokingHistory\" : 2\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Demographic",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Demographic"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get Demographic Fields",
+                            "request": {
+                                "method": "GET",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": ""
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Fields/Demographic",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Fields",
+                                        "Demographic"
+                                    ]
+                                },
+                                "description": "Getting all the fields"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get specific demographic field",
+                            "request": {
+                                "method": "GET",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": ""
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Fields/Demographic?fieldName=gender",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Fields",
+                                        "Demographic"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "fieldName",
+                                            "value": "gender"
+                                        }
+                                    ]
+                                },
+                                "description": "Getting a specific field in demographic"
+                            },
+                            "response": []
+                        }
+                    ],
+                    "_postman_isSubFolder": true
+                },
+                {
+                    "name": "Immunisation request",
+                    "description": null,
+                    "item": [
+                        {
+                            "name": "Create Immunisation",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"patient\":1,\n\t\"vaccineName\":\"Vacthing\",\n\t\"immunisationDate\":\"2/5/2009\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Immunisation",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Immunisation"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Delete Immunisation",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"id\":2\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Immunisation",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Immunisation"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Edit Immunisation data",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"id\":1,\n\t\"patient\":1,\n\t\"vaccineName\":\"A good vaccine\",\n\t\"immunisationDate\":{\"day\":3, \"month\":5, \"year\":2009}\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Immunisation",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Immunisation"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "_postman_isSubFolder": true
+                },
+                {
+                    "name": "Medical condition request",
+                    "description": null,
+                    "item": [
+                        {
+                            "name": "Create MedicalCondition",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"patient\":1,\n    \"relation\":1,\n    \"conditionName\":1,\n    \"startDate\": \"1/1/2001\",\n    \"outcome\": \"resolved\",\n    \"resolvedYear\":2002\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/MedicalCondition",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "MedicalCondition"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Delete MedicalCondition",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"id\":4\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/MedicalCondition",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "MedicalCondition"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Edit MedicalCondition",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"id\":2,\n    \"patient\":1,\n    \"relation\":\"mother\",\n    \"conditionName\":\"Cold\",\n    \"startDate\": {\"day\":1, \"month\":1, \"year\":2001},\n    \"outcome\": \"ongoing\",\n    \"resolvedYear\":null\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/MedicalCondition",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "MedicalCondition"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get MedCond Fields",
+                            "request": {
+                                "method": "GET",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": ""
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Fields/MedicalCondition",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Fields",
+                                        "MedicalCondition"
+                                    ]
+                                },
+                                "description": "Getting all fields in Medical Condition"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get specific MedCond Fields",
+                            "request": {
+                                "method": "GET",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": ""
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Fields/MedicalCondition?fieldName=conditions",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Fields",
+                                        "MedicalCondition"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "fieldName",
+                                            "value": "conditions"
+                                        }
+                                    ]
+                                },
+                                "description": "Getting a specific fields in Medical Condition"
+                            },
+                            "response": []
+                        }
+                    ],
+                    "_postman_isSubFolder": true
+                },
+                {
+                    "name": "Pregnancy",
+                    "description": "Pregnancy related requests",
+                    "item": [
+                        {
+                            "name": "Get All Pregnancy",
+                            "request": {
+                                "method": "GET",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": ""
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Pregnancy",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Pregnancy"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get specific patient pregnancy",
+                            "request": {
+                                "method": "GET",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": ""
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Pregnancy?patient=3",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Pregnancy"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "patient",
+                                            "value": "3"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Create Pregnancy",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"patient\":4,\n\t\"outcome\":2,\n\t\"startDate\":\"1 Jan 2000\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Pregnancy",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Pregnancy"
+                                    ]
+                                },
+                                "description": "Create a [rgnancy to a patient]"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Delete Pregnancy",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"id\":3\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Pregnancy",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Pregnancy"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Get Pregnancy Fields",
+                            "request": {
+                                "method": "GET",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": ""
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Fields/Pregnancy",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Fields",
+                                        "Pregnancy"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Edit pregnancy",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n\t\"id\":2,\n\t\"outcome\":4\n}"
+                                },
+                                "url": {
+                                    "raw": "{{url}}/demographics/Pregnancy",
+                                    "host": [
+                                        "{{url}}"
+                                    ],
+                                    "path": [
+                                        "demographics",
+                                        "Pregnancy"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "_postman_isSubFolder": true
+                }
+            ]
+        },
+        {
+            "name": "Get Actions Log",
+            "request": {
+                "method": "GET",
+                "body": {
+                    "mode": "raw",
+                    "raw": ""
+                },
+                "url": {
+                    "raw": "{{url}}/logs",
+                    "host": [
+                        "{{url}}"
+                    ],
+                    "path": [
+                        "logs"
+                    ]
+                },
+                "description": "Get the logs of the API"
+            },
+            "response": []
+        },
+        {
+            "name": "Get Meddra",
+            "request": {
+                "method": "GET",
+                "body": {},
+                "url": {
+                    "raw": "{{url}}/meddra?search=oxyl",
+                    "host": [
+                        "{{url}}"
+                    ],
+                    "path": [
+                        "meddra"
+                    ],
+                    "query": [
+                        {
+                            "key": "search",
+                            "value": "oxyl"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
 }

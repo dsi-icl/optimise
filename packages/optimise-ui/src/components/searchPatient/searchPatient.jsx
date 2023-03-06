@@ -153,8 +153,8 @@ class PatientButton extends PureComponent {
                 <div>
                     {styledName} <br /><br />
                     <span>
-                        study: {data.study} <br />
-                        consent: {data.consent === true ? 'yes' : 'no'}
+                        study: optimise <br />
+                        consent: {data.optimiseConsent ? 'yes' : 'no'}
                     </span>
                 </div>
             </Link >

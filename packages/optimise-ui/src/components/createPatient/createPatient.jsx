@@ -25,8 +25,8 @@ class CreatePatient extends Component {    //get these props from state: this.pr
             address: '',
             postcode: '',
             DOB: moment(),
-            consent: 'N',
-            consentDate: moment(),
+            showConsentDatePicker: 'N',
+            optimiseConsentDate: moment(),
             error: false,
             gender: 0,
             dominant_hand: 5,
@@ -61,7 +61,7 @@ class CreatePatient extends Component {    //get these props from state: this.pr
 
     _handleConsentDateChange(date) {
         this.setState({
-            consentDate: date,
+            optimiseConsentDate: date,
             error: false
         });
     }
@@ -96,7 +96,7 @@ class CreatePatient extends Component {    //get these props from state: this.pr
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
 
-        const fieldCheck = ['DOB', 'address', 'aliasId', 'consent', 'country_of_origin', 'diagnosis', 'diagnosisDate', 'dominant_hand', 'ethnicity', 'gender', 'givenName', 'postcode', 'surname'];
+        const fieldCheck = ['DOB', 'address', 'aliasId', 'showConsentDatePicker', 'country_of_origin', 'diagnosis', 'diagnosisDate', 'dominant_hand', 'ethnicity', 'gender', 'givenName', 'postcode', 'surname'];
         for (let i = 0; i < fieldCheck.length; i++) {
             if (this.state[fieldCheck[i]] === 0 || this.state[fieldCheck[i]] === null || this.state[fieldCheck[i]] === '' || this.state[fieldCheck[i]] === 'unselected') {
                 this.setState({ error: 'None of the fields can be empty!' });
@@ -131,8 +131,7 @@ class CreatePatient extends Component {    //get these props from state: this.pr
         };
         const patientData = {
             aliasId: this.state.aliasId,
-            consent: this.state.consent === 'Y' ? true : false,
-            study: this.state.consent === 'Y' ? this.state.consentDate.toISOString() : 'NA'
+            optimiseConsent: this.state.showConsentDatePicker === 'Y' ? this.state.optimiseConsentDate.toISOString() : null
         };
         const body = {
             patientData: patientData,
@@ -186,16 +185,16 @@ class CreatePatient extends Component {    //get these props from state: this.pr
                             <label htmlFor='postcode'>Postcode:</label><br /> <input value={this.state.postcode} name='postcode' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
                             <br />
                             <h4>Consent</h4><br />
-                            <label htmlFor='consent'>Does the patient give consent for sharing:</label><br />
-                            <select name='consent' value={this.state.consent} onChange={this._handleConsentChange} autoComplete='off'>
+                            <label htmlFor='showConsentDatePicker'>Does the patient give consent for sharing:</label><br />
+                            <select name='showConsentDatePicker' value={this.state.showConsentDatePicker} onChange={this._handleConsentChange} autoComplete='off'>
                                 <option value='Y'>Yes</option>
                                 <option value='N'>No</option>
                             </select><br /><br />
                             {
-                                this.state.consent === 'Y' ?
+                                this.state.showConsentDatePicker === 'Y' ?
                                     <>
                                         <label>Consent date:</label>
-                                        <PickDate startDate={this.state.consentDate} handleChange={this._handleConsentDateChange} /> <br /><br />
+                                        <PickDate startDate={this.state.optimiseConsentDate} handleChange={this._handleConsentDateChange} /> <br /><br />
                                     </>
                                     :
                                     null

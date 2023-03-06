@@ -64,7 +64,7 @@ class PatientChart extends Component {
                         <>
                             <br />
                             <span className={this.props.data.participation ? '' : style.noConsentAlert}>{`This patient ${this.props.data.participation ? 'is enrolled in' : 'has withdrew from'} the study.`}</span><br /><br />
-                            <span className={this.props.data.consent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
+                            <span className={this.props.data.optimiseConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.optimiseConsent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
                             {this.props.data.visits.length > 0 ? <TimelineBox /> : null}
                             <Charts match={this.props.match} />
                         </>
@@ -75,7 +75,7 @@ class PatientChart extends Component {
     }
 }
 
-export {PatientChart};
+export { PatientChart };
 
 /* receives a prop data of one test*/
 @withRouter
@@ -90,12 +90,12 @@ class Test extends PureComponent {
         // const dateResults = data.actualOccurredDate ? new Date(parseInt(data.actualOccurredDate, 10)).toDateString() : dateDone;
         return (
             <tr>
-                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
+                <td><EditButton to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{dateDone}</td>
                 {/* <td>{dateResults}</td> */}
                 <td>
-                    <NavLink id={`test-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`test-${data.id}`} to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
                 </td>
@@ -105,7 +105,7 @@ class Test extends PureComponent {
     }
 }
 
-export {Test};
+export { Test };
 
 /* receives a prop data of one treatment */
 @withRouter
@@ -133,7 +133,7 @@ class Medication extends PureComponent {
         const endDate = data.terminatedDate !== null && data.terminatedDate !== undefined ? `${new Date(parseInt(data.terminatedDate, 10)).toDateString()}${data.terminatedReason ? `(${this.props.reasondict[data.terminatedReason].value})` : ''}` : '';
         return (
             <tr>
-                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
+                <td><EditButton to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
                 <td>{endDate}</td>
@@ -142,7 +142,7 @@ class Medication extends PureComponent {
                 <td>{data.times && data.intervalUnit ? `${data.times} times / ${this.intervalUnitString(data.intervalUnit)}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
-                    <NavLink id={`treatment-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/interruptions/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`treatment-${data.id}`} to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/interruptions/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Interruptions</button>
                     </NavLink>
                 </td>
@@ -152,7 +152,7 @@ class Medication extends PureComponent {
     }
 }
 
-export {Medication};
+export { Medication };
 
 /* receives a prop data of one clinical event*/
 @withRouter
@@ -168,13 +168,13 @@ class ClinicalEvent extends PureComponent {
         const endDate = data.endDate !== null && data.endDate !== undefined ? new Date(parseInt(data.endDate, 10)).toDateString() : '';
         return (
             <tr>
-                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
+                <td><EditButton to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>{endDate}</td>
                 <td>{data.meddra ? meddraHash[data.meddra].name : null}</td>
                 <td>
-                    <NavLink id={`clinicalEvent-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`clinicalEvent-${data.id}`} to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Data</button>
                     </NavLink>
                 </td>
@@ -184,7 +184,7 @@ class ClinicalEvent extends PureComponent {
     }
 }
 
-export {ClinicalEvent};
+export { ClinicalEvent };
 
 const filterEmptyRenders = (allFields, inputType, typedict) => allFields.map(data => {
 
@@ -511,7 +511,7 @@ class OneVisit extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {concomitantMeds.map(el => <ConcomitantMed data={el} key={el.id}/>)}
+                                        {concomitantMeds.map(el => <ConcomitantMed data={el} key={el.id} />)}
                                     </tbody>
                                 </table>
                                 <br />
@@ -729,7 +729,7 @@ class Charts extends Component {
     }
 }
 
-export {Charts};
+export { Charts };
 
 @withRouter
 @connect(state => ({
@@ -753,4 +753,4 @@ class ConcomitantMed extends PureComponent {
     }
 }
 
-export {ConcomitantMed};
+export { ConcomitantMed };
