@@ -39,7 +39,7 @@ class SyncIndicator extends Component {
     _updateStatus() {
 
         const now = (new Date()).getTime();
-        const { syncInfo: { config, status: { syncing, error, status, adminPass } }, loggedIn } = this.props;
+        const { syncInfo: { config, status: { syncing, error, status } }, loggedIn } = this.props;
         const { lastCall, triggered } = this.state;
         let state = this.state;
 
