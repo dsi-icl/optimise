@@ -13,7 +13,7 @@
     "private": true,
     "scripts": {
         "lint": "eslint --ext .jsx --ext .js ./",
-        "start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true react-app-rewired start",
+        "start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true NODE_OPTIONS=--openssl-legacy-provider react-app-rewired start",
         "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
         "test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=true react-app-rewired test --colors"
     },
