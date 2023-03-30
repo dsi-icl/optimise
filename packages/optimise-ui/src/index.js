@@ -10,6 +10,7 @@ import store from './redux/store';
 import history from './redux/history';
 import * as webWorker from './webWorker';
 import * as serviceWorker from './serviceWorker';
+import { PregnancyBaselineDataForm } from './components/pregnancyForms/pregBaselineData';
 
 webWorker.start();
 serviceWorker.unregister();

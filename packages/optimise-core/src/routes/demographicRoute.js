@@ -31,6 +31,26 @@ demogdata.route('/Pregnancy')
     .put(DemographicController.editPregnancy)
     .delete(DemographicController.deletePregnancy);
 
+demogdata.route('/PregnancyOutcome')
+    .post(DemographicController.createPregnancyOutcome)
+    .put(DemographicController.editPregnancyOutcome)
+    .delete(DemographicController.deletePregnancyOutcome);
+
+
+demogdata.route('/PregnancyData')
+    .post(DemographicController.createPregnancyData)
+    .put(DemographicController.editPregnancyData)
+    .delete(DemographicController.deletePregnancyData);
+
+demogdata.route('/PregnancyImage')
+    .post(DemographicController.createPregnancyImage)
+    .put(DemographicController.editPregnancyImage)
+    .delete(DemographicController.deletePregnancyImage);
+
+demogdata.route('/PregnancyFields')
+    .get(DemographicController.getPregnancyFields);
+
+
 // Get the profile of a certain user
 // Real path expected is /patientProfile
 demogdata.route('/:dataType')

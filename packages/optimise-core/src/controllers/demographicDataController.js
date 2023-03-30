@@ -494,6 +494,45 @@ class DemographicDataController {
         }
     }
 
+    //PregnancyOutcome
+    static createPregnancyOutcome({ body, user }, res) {
+        //
+    }
+
+    static editPregnancyOutcome({ body, user }, res) {
+        //
+    }
+
+    static deletePregnancyOutcome({ body, user }, res) {
+        //
+    }
+
+    //PregnancyData
+    static createPregnancyData({ body, user }, res) {
+        //
+    }
+
+    static editPregnancyData({ body, user }, res) {
+        //
+    }
+
+    static deletePregnancyData({ body, user }, res) {
+        //
+    }
+
+    //PregnancyImage
+    static createPregnancyImage({ body, user }, res) {
+        //
+    }
+
+    static editPregnancyImage({ body, user }, res) {
+        //
+    }
+
+    static deletePregnancyImage({ body, user }, res) {
+        //
+    }
+
     static getPregnancyFields(__unused__req, res) {
         PregnancyCore.getPregnancyOutcomes().then((result) => {
             res.status(200).json(formatToJSON(result));
@@ -503,6 +542,18 @@ class DemographicDataController {
             return false;
         });
     }
+
+    static getPregnancyAllFields(__unused__req, res) {
+        PregnancyCore.getPregnancyAllFields().then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            return false;
+        });
+    }
+
+
 }
 
 export default DemographicDataController;

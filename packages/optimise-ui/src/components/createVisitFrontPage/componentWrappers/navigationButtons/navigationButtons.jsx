@@ -96,8 +96,8 @@ export class FrontPageNavigationButton extends Component {
         return (
             <div className={style.page_navigation_buttons}>
                 { currentPage === '0' ? firstPageButton : null }
-                { currentPage === '10' ? <>{backButton}{finishButton}</> : null }
-                { (currentPage !== '10' && currentPage !== '0')
+                { currentPage === '11' ? <>{backButton}{finishButton}</> : null }
+                { (currentPage !== '11' && currentPage !== '0')
                     ?
                     <>
                         {backButton}
