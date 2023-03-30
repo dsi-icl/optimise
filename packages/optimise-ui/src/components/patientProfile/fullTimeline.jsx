@@ -377,6 +377,7 @@ export default class FullTimeline extends Component {
             let x2i = (parseFloat(item.end) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
             if (parseFloat(item.start) > timelineContext.visibleTimeStart)
                 x2i = x2i + ((timelineContext.visibleTimeStart - parseFloat(item.start)) * timelineContext.timelineWidth / unit);
+
             return (
                 <ItemWrapper>
                     <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { detect } from 'detect-browser';
 import store from './redux/store';
@@ -15,7 +15,7 @@ import { getServerInfoCall } from './redux/actions/serverInfo';
 
 const browser = detect();
 
-@withRouter
+// @withRouter
 @connect(state => ({
     loggedIn: state.login.loggedIn,
     checking: state.login.initialCheckingStatus
@@ -91,7 +91,7 @@ function mapDispatchToProps(dispatch) {
         getConcomitantMedsCall: () => dispatch(getConcomitantMedsCall())
     };
 }
-@withRouter
+// @withRouter
 @connect(state => ({
     fetching: state.availableFields.fetching
 }), mapDispatchToProps)

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Log } from './log';
 import { UserList } from './users';
 import { SystemInfo } from './system';
@@ -11,16 +11,16 @@ import { PatientMappings } from './patientMappings';
 export class AdminRouter extends Component {
     render() {
         return (
-            <Switch>
-                <Route exact path='/administration/log' render={({ match }) => <Log match={match} />} />
-                <Route path='/administration/users' render={({ match }) => <UserList match={match} />} />
-                <Route exact path='/administration/system' render={({ match }) => <SystemInfo match={match} />} />
-                <Route exact path='/administration/meddra' render={({ match }) => <Meddra match={match} />} />
-                <Route exact path='/administration/update' render={({ match }) => <Update match={match} />} />
-                <Route exact path='/administration/sync' render={({ match }) => <Sync match={match} />} />
-                <Route exact path='/administration/patientMappings' render={({ match }) => <PatientMappings match={match} />} />
-                <Route path='/' component={() => <></>} />
-            </Switch>
+            <Routes>
+                <Route path='/administration/log' element={<Log />} />
+                <Route path='/administration/users/*' element={<UserList />} />
+                <Route path='/administration/system' element={<SystemInfo />} />
+                <Route path='/administration/meddra' element={ <Meddra />} />
+                <Route path='/administration/update' element={<Update />} />
+                <Route path='/administration/sync' element={<Sync />} />
+                <Route path='/administration/patientMappings' element={<PatientMappings />} />
+                <Route path='/' element={<></>} />
+            </Routes>
         );
     }
 }

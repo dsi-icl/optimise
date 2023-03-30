@@ -11,7 +11,7 @@ import style from './dataPage.module.css';
 export class BackButton extends Component {
     render() {
         return (
-            <Link to={this.props.to} title='Close' className={scaffold_style.backButton}><Icon symbol='close' /></Link>
+            <Link to={`/${this.props.to}`} title='Close' className={scaffold_style.backButton}><Icon symbol='close' /></Link>
         );
     }
 }

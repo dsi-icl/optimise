@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import FullTimeline from '../patientProfile/fullTimeline';
 import EDSSCalculator from '../EDSScalculator/calculator';
 import style from './scaffold.module.css';
@@ -10,29 +10,29 @@ export default class FullscreenPanel extends Component {
     render() {
         return (
             <>
-                <Switch>
-                    <Route path='/patientProfile/:patientId/timeline' render={({ match }) =>
+                <Routes>
+                    <Route path='/patientProfile/:patientId/timeline' element={
                         <div className={style.fullscreenPanel}>
-                            <FullTimeline match={match} />
+                            <FullTimeline />
                         </div>
                     } />
-                    <Route path='/patientProfile/:patientId/edit/msPerfMeas/:visitId/edss' render={({ match, location }) =>
+                    <Route path='/patientProfile/:patientId/edit/msPerfMeas/:visitId/edss' element={
                         <div className={style.fullscreenPanel}>
-                            <EDSSCalculator match={match} location={location} />
+                            <EDSSCalculator location={useLocation()} />
                         </div>
                     } />
-                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) =>
+                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' element={
                         <div className={style.fullscreenPanel}>
-                            <FrontPage match={match} location={location}/>
+                            <FrontPage location={useLocation()}/>
                         </div>
                     } />
-                    <Route path='/remoteControl' render={() =>
+                    <Route path='/remoteControl' element={
                         <div className={style.fullscreenPanel}>
-                            <RemoteControl/>
+                            <RemoteControl />
                         </div>
                     } />
-                    <Route path='/' component={() => null} />
-                </Switch>
+                    <Route path='/' element={<></>} />
+                </Routes>
             </>
         );
     }

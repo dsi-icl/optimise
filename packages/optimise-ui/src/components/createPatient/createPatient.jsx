@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import moment from 'moment';
 import { PickDate } from '../createMedicalElements/datepicker';
 import { BackButton } from '../medicalData/utils';
@@ -219,7 +219,7 @@ export default class CreatePatient extends Component {    //get these props from
                 </>
             );
         } else {
-            return <Redirect to={`/patientProfile/${this.state.aliasId}`} />;
+            return <Navigate replace to={`/patientProfile/${this.state.aliasId}`} />;
         }
     }
 }

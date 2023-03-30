@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from './utils';
 import Icon from '../icon';
@@ -26,7 +25,7 @@ function mapStateToProps(state) {
  */
 
 /* this component serves as a sieve for the data and pass the relevant one to the form as props*/
-@withRouter
+
 @connect(mapStateToProps)
 export class VisitData extends Component {
     constructor(props) {

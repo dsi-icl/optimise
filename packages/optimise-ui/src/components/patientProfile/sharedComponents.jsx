@@ -27,7 +27,7 @@ export class PatientProfileTop extends PureComponent {
         const { patientId } = this.props.data;
         return (
             <div className={style.profileActions}>
-                <Link title='New visit' to={`/patientProfile/${patientId}/createVisit`} ><Icon symbol='addVisit' /><span>New visit</span></Link>
+                <Link title='New visit' to={`/patientProfile/${patientId}/createVisit`}><Icon symbol='addVisit' /><span>New visit</span></Link>
                 <Link title='Record test' to={`/patientProfile/${patientId}/create/test`}><Icon symbol='addTest' /><span>Record test</span></Link>
                 <Link title='Record treatment' to={`/patientProfile/${patientId}/create/treatment`}><Icon symbol='addTreatment' /><span>Record treatment</span></Link>
                 <Link title='Record event' to={`/patientProfile/${patientId}/create/clinicalEvent`}><Icon symbol='addEvent' /><span>Record event</span></Link>
@@ -51,7 +51,7 @@ export class DeleteButton extends Component {
 export class EditButton extends Component {
     render() {
         return (
-            <NavLink to={this.props.to} className={style.editButton} activeClassName={style.activeEdit}>
+            <NavLink to={`/${this.props.to}`} className={style.activeEdit}>
                 <span title='Edit' className={style.dataEdit}><Icon symbol='edit' /></span>
             </NavLink>
         );

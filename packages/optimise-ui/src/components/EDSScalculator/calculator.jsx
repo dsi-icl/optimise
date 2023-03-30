@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/utils';
 import Helmet from '../scaffold/helmet';
@@ -190,7 +190,7 @@ class EDSSCalculator extends Component {
         const { match: { params }, patientProfile: { visits } } = this.props;
 
         if (this.state.close === true && !this.props.override_style)  // this.props.override_style is present when this component is rendered in visitfrontpage wrapper
-            return <Redirect to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}`} />;
+            return <Navigate replace to={`/patientProfile/${params.patientId}/edit/msPerfMeas/${params.visitId}`} />;
 
         const { EDSSFields_Hash_reverse, originalValues, EDSSFields } = this;
         const rangeGen = ceiling => [...Array(ceiling).keys()];  //returns [0,1,2,3,...,*ceiling_inclusive*]

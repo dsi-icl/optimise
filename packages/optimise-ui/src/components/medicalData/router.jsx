@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { TreatmentInterruption } from './treatmentInterruptions';
 import { VisitData } from './visitDataPage';
 import { TestData } from './testDataPage';
@@ -11,15 +11,15 @@ export class DataPageRouter extends Component {
            keeping the logic of validating url in one place (routers) instead of in components */
         /* different elementType passed to dataTemplate makes it look in different places in the store */
         return (
-            <Switch>
-                <Route path='/patientProfile/:patientId/data/test/:testId' render={({ match }) => <TestData elementType='test' match={match} />} />
-                <Route path='/patientProfile/:patientId/data/visit/:visitId/vitals' render={({ match }) => <VisitData elementType='visit' match={match} category={'vitals'} />} />
-                <Route path='/patientProfile/:patientId/data/visit/:visitId/symptoms' render={({ match }) => <VisitData elementType='visit' match={match} category={'symptoms'} />} />
-                <Route path='/patientProfile/:patientId/data/visit/:visitId/signs' render={({ match }) => <VisitData elementType='visit' match={match} category={'signs'} />} />
-                <Route path='/patientProfile/:patientId/data/treatment/:elementId' render={({ match }) => <TreatmentInterruption match={match} />} />
-                <Route path='/patientProfile/:patientId/data/clinicalEvent/:ceId' render={({ match }) => <CeData elementType='clinicalEvent' match={match} />} />
-                <Route path='/' component={() => <></>} />
-            </Switch>
+            <Routes>
+                <Route path='/patientProfile/:patientId/data/test/:testId' element={ <TestData elementType='test' />} />
+                <Route path='/patientProfile/:patientId/data/visit/:visitId/vitals' element={ <VisitData elementType='visit' category={'vitals'} />} />
+                <Route path='/patientProfile/:patientId/data/visit/:visitId/symptoms' element={ <VisitData elementType='visit' category={'symptoms'} />} />
+                <Route path='/patientProfile/:patientId/data/visit/:visitId/signs' element={ <VisitData elementType='visit' category={'signs'} />} />
+                <Route path='/patientProfile/:patientId/data/treatment/:elementId' element={ <TreatmentInterruption />} />
+                <Route path='/patientProfile/:patientId/data/clinicalEvent/:ceId' element={ <CeData elementType='clinicalEvent' />} />
+                <Route path='/' element={<></>} />
+            </Routes>
         );
-    }
+    }ú
 }

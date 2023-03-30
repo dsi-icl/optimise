@@ -4,50 +4,44 @@ import scaffold_style from '../scaffoldStyle.module.css';
 import { CreateTreatment } from '../../../createMedicalElements/createTreatment';
 import { TreatmentInterruption } from '../../../medicalData/treatmentInterruptions';
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter, NavLink } from 'react-router-dom';
+import { Route, Routes, NavLink, useLocation } from 'react-router-dom';
 import { Medication } from '../../../patientProfile/patientChart';
 import EditMed from '../../../editMedicalElements/editMedication';
 import style from '../../frontpage.module.css';
 import { YesOrNo } from '../yesOrNoQuestion/yesOrNoQuestion';
 import { FrontPageNavigationButton } from '../navigationButtons/navigationButtons';
 
-@withRouter
+
 @connect(state => ({
     fetching: state.patientProfile.fetching,
     data: state.patientProfile.data,
     drugHash: state.availableFields.drugs_Hash[0]
 }))
+
 export class TreatmentWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;
-        return <Switch>
-            <Route
-                path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
-                render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}
-            />
-            <Route render={({ match, location }) =>
-                <>
-                    <div className={style.page}>
-                        <div className={scaffold_style.wrapper}>
-                            <div className={scaffold_style.create_element_panel}>
-                                <Switch>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' render={({ match, location }) => <EditMedWrapper match={match} location={location}/>}/>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match, location }) => <TreatmentCreatedMessage drugHash={this.props.drugHash} match={match} location={location} treatments={this.props.data.treatments}/>}/>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <CreateTreatmentsWrapper match={match} location={location}/>}/>
-                                </Switch>
-                            </div>
-                            <div className={scaffold_style.list_element_panel}>
-                                <Switch>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' render={({ match, location }) => <TreatmentInterruptionWrapper match={match} location={location}/>}/>
-                                    <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <RenderTreatmentsWrapper match={match} location={location} treatments={this.props.data.treatments} baselineVisit={true}/>}/>
-                                </Switch>
-                            </div>
-                        </div>
+        return <>
+            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no' element={<YesOrNo location={useLocation()} questionString={yesOrNoQuestion} />} />
+            <div className={style.page}>
+                <div className={scaffold_style.wrapper}>
+                    <div className={scaffold_style.create_element_panel}>
+                        <Routes>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:elementId' element={<EditMedWrapper location={useLocation()} />}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' element={<TreatmentCreatedMessage drugHash={this.props.drugHash} location={useLocation()} treatments={this.props.data.treatments} />}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' element={<CreateTreatmentsWrapper location={useLocation()} />}/>
+                        </Routes>
                     </div>
-                    <FrontPageNavigationButton match={match} location={location}/>
-                </>
-            }/>
-        </Switch>;
+                    <div className={scaffold_style.list_element_panel}>
+                        <Routes>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/interruptions/:elementId' element={<TreatmentInterruptionWrapper location={useLocation()} />}/>
+                            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' element={<RenderTreatmentsWrapper location={useLocation()} treatments={this.props.data.treatments} baselineVisit={true} />}/>
+                        </Routes>
+                    </div>
+                </div>
+            </div>
+            <FrontPageNavigationButton location={useLocation()}/>
+        </>;
     }
 }
 

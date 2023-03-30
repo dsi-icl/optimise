@@ -144,8 +144,9 @@ class PatientButton extends PureComponent {
                 </b>
             </span>
         );
+
         return (
-            <Link key={data.aliasId} to={`/patientProfile/${data.aliasId}`} className={style.searchItem} >
+            <Link key={data.aliasId}  to={`/patientProfile/${data.aliasId}`} className={style.searchItem} >
                 <div>
                     {styledName} <br /><br />
                     <span>

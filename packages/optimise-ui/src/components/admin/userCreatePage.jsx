@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import store from '../../redux/store';
 import { BackButton } from '../medicalData/utils';
 import { createUserAPICall } from '../../redux/actions/admin';
@@ -70,7 +70,7 @@ export class UserCreate extends Component {
                 </>
             );
         } else {
-            return <Redirect to={'/administration/users'} />;
+            return <Navigate replace to='/administration/users' />;
         }
     }
 }

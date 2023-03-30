@@ -1,6 +1,6 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import style from './admin.module.css';
 import { BackButton } from '../medicalData/utils';
 import { changePasswordAPICall, deleteUserAPICall, changePrivAPICall, changeEmailAPICall } from '../../redux/actions/admin';
@@ -199,7 +199,7 @@ class DeleteUser extends Component {
 
     render() {
         if (this.state.clicked) {
-            return <Redirect to='/administration/users' />;
+            return <Navigate replace to='/administration/users' />;
         } else {
             return (
                 <div>

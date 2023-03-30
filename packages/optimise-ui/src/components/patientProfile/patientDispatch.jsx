@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 @connect(state => ({
@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 export class PatientDispatch extends Component {
     render() {
         if (this.props.currentPatient === undefined || this.props.currentPatient === null)
-            return <Redirect to='/searchPatient' />;
+            return <Navigate replace to={'/searchPatient'} />;
         else
-            return <Redirect to={`/patientProfile/${this.props.currentPatient}`} />;
+            return <Navigate replace to={`/patientProfile/${this.props.currentPatient}`} />;
     }
 }

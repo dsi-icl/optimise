@@ -80,7 +80,7 @@ export class EventCreatedMessage extends Component {
         return (
             <div>
                 <p>Please enter related data on the opposite panel for the following event:</p>
-                <br/>
+                <br/>   q
                 <p><b>Date:</b> {dateOccur}</p>
                 <p><b>Type:</b> {typeHash[currentEvent.type]}</p>
                 {

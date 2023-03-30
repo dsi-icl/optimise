@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink, Navigate } from 'react-router-dom';
 import qs from 'query-string';
 import style from '../../frontpage.module.css';
 
@@ -43,13 +43,11 @@ export class FrontPageNavigationButton extends Component {
         const searchString = this.props.location.search;
 
         if (formSaved && formSaved()) {
-            return <Redirect to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}/>;
+            return <Navigate replace to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`} />;
         }
 
         const backButtonWithoutDiv =
-            <NavLink
-                to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcLastPage(currentPage)}${this._lastPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
-            >
+            <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcLastPage(currentPage)}${this._lastPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`} >
                 <button><b>&lt;&lt;</b>Go back</button>
             </NavLink>;
 
@@ -75,16 +73,12 @@ export class FrontPageNavigationButton extends Component {
             );
 
         const firstPageButton = <div>
-            <NavLink
-                to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}
-            >
+            <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`} >
                 <button>Start</button>
             </NavLink></div>;
 
         const finishButton = <div>
-            <NavLink
-                to={`/patientProfile/${patientId}`}
-            >
+            <NavLink to={`/patientProfile/${patientId}`} >
                 <button className={style.finish_button}>Finish</button>
             </NavLink></div>;
 

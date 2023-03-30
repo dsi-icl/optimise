@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import moment from 'moment';
 import Icon from '../icon';
 import { PickDate } from '../createMedicalElements/datepicker';
@@ -29,7 +29,7 @@ export class Section extends Component {
             return <span></span>;
         } else {
             if (erasePatient.success) {
-                return <Redirect to='/searchPatient/from/deletionSuccessful' />;
+                return <Navigate replace to={'/searchPatient/from/deletionSuccessful'} />;
             } else {
                 return (
                     <>
@@ -157,7 +157,7 @@ class DemographicSection extends Component {
                             <button onClick={this._submitEditId}>Submit</button>
                             <br/><br/>
                             <button onClick={this._hideEditId}>Cancel</button>
-                            <p>Note: after changing patient ID you will be redirected to search tab.</p>
+                            <p>Note: after changing patient ID you will be Navigate replaceed to search tab.</p>
                         </div>
                         :
                         <span onClick={this._showEditId} className={style.piiUncover}>Edit Patient ID</span>

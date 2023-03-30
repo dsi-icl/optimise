@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, withRouter } from 'react-router-dom';
+// import { Redirect, withRouter } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { loginAPICall } from '../../redux/actions/login';
 import LoadBar from '../loadBar';
 import store from '../../redux/store';
@@ -22,7 +23,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-@withRouter
+// @withRouter
 @connect(mapStateToProps, mapDispatchToProps)
 class Login extends Component {
 
@@ -45,19 +46,20 @@ class Login extends Component {
             username: this.usernameFieldRef.current.value,
             pw: this.passwordFieldRef.current.value
         });
-    }
+    };
 
     render() {
 
         const { location, isAuthenticated, isProcessing, hasAttempted, error } = this.props;
-        const { from } = location.state || { from: { pathname: '/' } };
+        // const { from } = location.state || { from: { pathname: '/' } };
+        const { from } = { from: { pathname: '/' } };
 
         if (from.pathname === '/logout')
             from.pathname = '/';
 
         if (isAuthenticated === true) {
             return (
-                <Redirect to={from} />
+                <Navigate to={from} />
             );
         }
 

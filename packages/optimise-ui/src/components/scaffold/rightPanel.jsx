@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { PatientChart } from '../patientProfile/patientChart';
 import { PatientDispatch } from '../patientProfile/patientDispatch';
 import { SearchPatient } from '../searchPatient';
@@ -12,19 +12,15 @@ export default class RightPanel extends Component {
     render() {
         return (
             <div className={style.rightPanel}>
-                <Switch>
-                    <Route path='/administration' render={({ match, location }) =>
-                        <AdminActions location={location.pathname} match={match} />
-                    } />
-                    <Route path='/createPatient' component={SearchPatient} />
-                    <Route path='/patientProfile/:patientId' render={({ match, location }) =>
-                        <PatientChart location={location.pathname} match={match} />
-                    } />
-                    <Route path='/patientProfile' component={PatientDispatch} />
-                    <Route path='/filterPatients' component={FilterPanel} />
-                    <Route path='/userManual' component={UserManual} />
-                    <Route path='/' component={SearchPatient} />
-                </Switch>
+                <Routes>
+                    <Route path='/administration' element={<AdminActions location={useLocation().pathname} />} />
+                    <Route path='/createPatient' element={<SearchPatient />} />
+                    <Route path='/patientProfile/:patientId' element={<PatientChart location={useLocation().pathname} />} />
+                    <Route path='/patientProfile' element={<PatientDispatch />} />
+                    <Route path='/filterPatients' element={<FilterPanel />} />
+                    <Route path='/userManual' element={<UserManual />} />
+                    <Route path='/' element={<SearchPatient />} />
+                </Routes>
             </div>
         );
     }

@@ -1,6 +1,6 @@
 import React, { Component, PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, withRouter, Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Timeline, TimelineEvent } from 'react-event-timeline';
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import { edssAlgorithmFromProps } from '../EDSScalculator/calculator';
@@ -76,7 +76,7 @@ export class PatientChart extends Component {
 }
 
 /* receives a prop data of one test*/
-@withRouter
+// @withRouter
 @connect(state => ({
     typedict: state.availableFields.testTypes_Hash[0],
     patientId: state.patientProfile.data.patientId
@@ -104,7 +104,7 @@ export class Test extends PureComponent {
 }
 
 /* receives a prop data of one treatment */
-@withRouter
+// @withRouter
 @connect(state => ({
     typedict: state.availableFields.drugs_Hash[0],
     patientId: state.patientProfile.data.patientId,
@@ -149,7 +149,7 @@ export class Medication extends PureComponent {
 }
 
 /* receives a prop data of one clinical event*/
-@withRouter
+// @withRouter
 @connect(state => ({
     typedict: state.availableFields.clinicalEventTypes_Hash[0],
     patientId: state.patientProfile.data.patientId,
@@ -611,7 +611,7 @@ export class Charts extends Component {
             ...this.state.filter,
             [filter]: !this.state.filter[filter]
         }));
-    }
+    };
 
     _sortVisits = (visitList) => {
         let historyInd = 1;
@@ -644,7 +644,7 @@ export class Charts extends Component {
 
             return parseInt(dateA, 10) - parseInt(dateB, 10);
         }).map(v => ({ ...v, historyInd: v.type === 1 ? historyInd++ : undefined })).reverse();
-    }
+    };
 
     render() {
         if (!this.props.data.demographicData) {
@@ -721,7 +721,7 @@ export class Charts extends Component {
     }
 }
 
-@withRouter
+// @withRouter
 @connect(state => ({
     typedict: state.availableFields.concomitantMedsList_hash[0],
     patientId: state.patientProfile.data.patientId
