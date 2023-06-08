@@ -21,7 +21,6 @@
         }
     },
     "extends": "nx/presets/npm.json",
-    "npmScope": "itmat-broker",
     "affected": {
         "defaultBase": "master"
     },
@@ -57,5 +56,6 @@
             ]
         }
     },
-    "defaultProject": "optimise-core"
+    "defaultProject": "optimise-core",
+    "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }
