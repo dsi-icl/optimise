@@ -6432,10 +6432,10 @@ electron-updater@5.3.0:
     semver "^7.3.5"
     typed-emitter "^2.1.0"
 
-electron@24.4.1:
-  version "24.4.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-24.4.1.tgz#48943b879d27adbaf9a9ac8d62e182be7ed0b689"
-  integrity sha512-tVZw5/dKGJbU1h8bdY0gfz4Y7ANYi8VddnIiLg/sPidJWc4CdshCZhLfU0lW1ySjtEt35JYxGHfmerkJJqUSTw==
+electron@24.5.0:
+  version "24.5.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-24.5.0.tgz#09506cc5e1ff3a590d8eeaceb0a603b8baeb9d38"
+  integrity sha512-9Xo2EFZHWeuw1otm9mcJYKCNC64fPRpgp+ZJWMJ9RtvsnSgcuitkM4esZv4gIsqhWk5yiKApYHqinIUyu82O0Q==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^18.11.18"
