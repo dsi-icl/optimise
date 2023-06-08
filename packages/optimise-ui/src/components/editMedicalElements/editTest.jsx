@@ -11,7 +11,7 @@ import { deleteTestAPICall, updateTestCall } from '../../redux/actions/tests';
 
 @connect(state => ({
     tests: state.patientProfile.data.tests
-    }))
+}))
 class EditTest extends Component {
     constructor(props) {
         super(props);
@@ -105,7 +105,7 @@ export default EditTest;
 
 @connect(state => ({
     patientId: state.patientProfile.data.patientId
-    }))
+}))
 class UpdateTestEntry extends Component {
     constructor(props) {
         super();

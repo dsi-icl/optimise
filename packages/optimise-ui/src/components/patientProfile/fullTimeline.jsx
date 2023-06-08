@@ -25,7 +25,7 @@ let keys = {
 @connect(state => ({
     data: state.patientProfile.data,
     availableFields: state.availableFields
-    }))
+}))
 class FullTimeline extends Component {
     constructor(props) {
         super(props);

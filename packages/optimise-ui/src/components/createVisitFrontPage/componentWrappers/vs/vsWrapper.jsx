@@ -8,8 +8,8 @@ import { FrontPageNavigationButton } from '../navigationButtons/navigationButton
 import EditPregnancy from '../../../editMedicalElements/editPregnancy';
 
 @connect(state => ({
-    data: state.patientProfile.data,
-    }))
+    data: state.patientProfile.data
+}))
 class VSFrontPageWrapper extends Component {
     render() {
         return (

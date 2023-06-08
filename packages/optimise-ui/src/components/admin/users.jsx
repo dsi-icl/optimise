@@ -8,7 +8,7 @@ import style from './admin.module.css';
 
 @connect(state => ({
     getAllUsers: state.getAllUsers
-    }))
+}))
 class UserList extends Component {
     componentDidMount() {
         store.dispatch(getAllUsersAPICall());

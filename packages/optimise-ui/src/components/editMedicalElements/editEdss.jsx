@@ -9,8 +9,8 @@ import style from './editMedicalElements.module.css';
 
 @connect(state => ({
     visitFields: state.availableFields.visitFields,
-    patientProfile: state.patientProfile.data,
-    }))
+    patientProfile: state.patientProfile.data
+}))
 class EditPerformanceMesaure extends Component {
 
     constructor() {

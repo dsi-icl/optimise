@@ -13,7 +13,7 @@ const email_reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"
 /* receives prop this.props.match.params.userId and store.getAllUsers*/
 @connect(state => ({
     data: state.getAllUsers
-    }))
+}))
 class UserDetail extends Component {
     render() {
         const { data } = this.props;
