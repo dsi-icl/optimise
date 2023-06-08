@@ -11,8 +11,8 @@ import style from './createPatient.module.css';
 @connect(state => ({
     diagnosesfields: state.availableFields.diagnoses,
     demofields: state.availableFields.demoFields[0],
-    patientId: state.createPatient.patientId,
-    }))
+    patientId: state.createPatient.patientId
+}))
 class CreatePatient extends Component {    //get these props from state: this.props.visitFields, this.props.patientId
     constructor(props) {
         super(props);

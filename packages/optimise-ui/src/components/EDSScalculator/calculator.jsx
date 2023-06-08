@@ -14,7 +14,7 @@ import { checkIfObjIsEmpty } from '../medicalData/utils';
     visitFields: state.availableFields.visitFields,
     patientProfile: state.patientProfile.data,
     sections: state.availableFields.visitSections
-    }))
+}))
 class EDSSPage extends Component {
     render() {
         if (this.props.patientProfile.visits) {

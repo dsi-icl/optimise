@@ -4,7 +4,7 @@ import style from '../frontpage.module.css';
 
 @connect(state => ({
     patientProfile: state.patientProfile.data
-    }))
+}))
 class VisitFrontPageTemplate extends Component {
     render() {
         const { match: { params }, patientProfile: { visits }, isBaselineVisit, pageNumberToElementMap, pageToTitleMap } = this.props;

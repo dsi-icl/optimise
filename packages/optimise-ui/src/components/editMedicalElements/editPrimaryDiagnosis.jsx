@@ -13,7 +13,7 @@ import style from '../createMedicalElements/medicalEvent.module.css';
 @connect(state => ({
     patientProfile: state.patientProfile,
     fields: state.availableFields
-    }))
+}))
 class EditPrimaryDiagnoses extends Component {
     constructor() {
         super();
