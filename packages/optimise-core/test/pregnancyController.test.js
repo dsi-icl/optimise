@@ -8,12 +8,14 @@ const user = request.agent(global.optimiseRouter);
 beforeAll(async () => {
     await connectAdmin(admin);
     await connectUser(user);
+
 });
 
 afterAll(async () => {
     await disconnectAgent(admin);
     await disconnectAgent(user);
 });
+
 
 describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy without body', () => admin
@@ -363,4 +365,179 @@ describe('Delete Pregnancy controller test', () => {
             expect(body.state).toBe(1);
             return true;
         }));
+});
+
+// Pregnancy data entry tests
+
+describe('Create Pregnancy data entry controller test', () => {
+    test('Creating Pregnancy data entry without body', () => admin
+        .post('/demographics/PregnancyData')
+        .then(({ status, body }) => {
+            console.log("data entry wihtout body", status, body);
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
+        }));
+
+    test('Creating Pregnancy baseline data entry well formatted (Should Succeed)', () => admin
+        .post('/demographics/PregnancyData')
+        .send({
+            pregnancyId: 1,
+            date: '2000-01-01',
+            deleted: '-',
+            dataType: 'baseline',
+            LMP: 'test',
+            maternalAgeAtLMP: 'test',
+            EDD: 'test',
+            ART: 'test',
+            numOfFoetuses: 'test',
+            folicAcidSuppUsed: 'test',
+            folicAcidSuppUsedStartDate: 'test',
+            illicitDrugUse: 'test'
+        })
+        .then(({ status, body }) => {
+            console.log("baseline data", status, body);
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
+            return true;
+        }));
+
+
+    test('Creating Pregnancy followup data entry well formatted (Should Succeed)', () => admin
+        .post('/demographics/PregnancyData')
+        .send({
+            pregnancyId: 1,
+            date: '2000-01-01',
+            deleted: '-',
+            dataType: 'followup',
+            EDD: 'test',
+            numOfFoetuses: 'test',
+            folicAcidSuppUsed: 'test',
+            folicAcidSuppUsedStartDate: 'test',
+            illicitDrugUse: 'test'
+        })
+        .then(({ status, body }) => {
+            console.log("followup data", status, body);
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(2);
+            return true;
+        }));
+
+    test('Creating Pregnancy term data entry well formatted (Should Succeed)', () => admin
+        .post('/demographics/PregnancyData')
+        .send({
+            pregnancyId: 1,
+            date: '2000-01-01',
+            deleted: '-',
+            dataType: 'term',
+            inductionOfDelivery: 'test',
+            lengthOfPregnancy: 'test',
+            pregnancyOutcome: 'test',
+            congenitalAbnormality: 'test',
+            modeOfDelivery: 'test',
+            useOfEpidural: 'test',
+            birthWeight: 'test',
+            sexOfBaby: 'test',
+            APGAR0: 'test',
+            APGAR5: 'test',
+            everBreastFed: 'test',
+            breastfeedStart: 'test',
+            exclusiveBreastfeedEnd: 'test',
+            mixedBreastfeedEnd: 'test',
+            admission12: 'test',
+            admission36: 'test',
+            admission60: 'test',
+            developmentalOutcome: 'test'
+
+        })
+        .then(({ status, body }) => {
+            console.log("term data", status, body);
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(3);
+            return true;
+        }));
+
+
+});
+
+describe('Edit Pregnancy data controller test', () => {
+    test('Editing Pregnancy data without body', () => admin
+        .put('/demographics/PregnancyData')
+        .then(({ status }) => {
+            expect(status).toBe(400);
+            return true;
+        }));
+
+
+    test('Editing Pregnancy data well formatted (Should Succeed)', () => admin
+        .put('/demographics/PregnancyData')
+        .send({
+            id: 1,
+            ART: "test 2"
+        })
+        .then(({ status, body }) => {
+            console.log("edit pregnancy data", status, body);
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
+            return true;
+        }));
+});
+
+
+describe('Delete Pregnancy data controller test', () => {
+    test('Deleting Pregnancy data without body', () => admin
+        .delete('/demographics/PregnancyData')
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
+        }));
+
+});
+
+
+
+// Pregnancy image test
+
+describe('Create Pregnancy image controller test', () => {
+    test('Creating Pregnancy image without body', () => admin
+        .post('/demographics/PregnancyImage')
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
+        }));
+
+    test('Creating Pregnancy Image well formatted (Should Succeed)', () => admin
+        .post('/demographics/PregnancyImage')
+        .send({
+            pregnancyDataId: 1,
+            date: '2000-05-14',
+            deleted: '-',
+            mode: 'plain',
+            result: 'successful'
+        })
+        .then(({ status, body }) => {
+            console.log(status, body);
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
+            return true;
+        }));
+
 });

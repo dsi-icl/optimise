@@ -18,7 +18,7 @@ import style from './patientProfile.module.css';
 @connect(state => ({
     fetching: state.patientProfile.fetching,
     data: state.patientProfile.data
-    }))
+}))
 class PatientChart extends Component {
     constructor() {
         super();
@@ -52,6 +52,7 @@ class PatientChart extends Component {
 
         if (!this.props.data.visits)
             return null;
+        console.log("patient chart", this.props.data)
         return (
             <>
                 <div className={style.ariane}>
@@ -75,14 +76,14 @@ class PatientChart extends Component {
     }
 }
 
-export {PatientChart};
+export { PatientChart };
 
 /* receives a prop data of one test*/
 @withRouter
 @connect(state => ({
     typedict: state.availableFields.testTypes_Hash[0],
     patientId: state.patientProfile.data.patientId
-    }))
+}))
 class Test extends PureComponent {
     render() {
         const { data, typedict, patientId, renderedInFrontPage } = this.props;
@@ -90,12 +91,12 @@ class Test extends PureComponent {
         // const dateResults = data.actualOccurredDate ? new Date(parseInt(data.actualOccurredDate, 10)).toDateString() : dateDone;
         return (
             <tr>
-                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
+                <td><EditButton to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/test/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{dateDone}</td>
                 {/* <td>{dateResults}</td> */}
                 <td>
-                    <NavLink id={`test-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`test-${data.id}`} to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/test/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Results</button>
                     </NavLink>
                 </td>
@@ -105,7 +106,7 @@ class Test extends PureComponent {
     }
 }
 
-export {Test};
+export { Test };
 
 /* receives a prop data of one treatment */
 @withRouter
@@ -113,7 +114,7 @@ export {Test};
     typedict: state.availableFields.drugs_Hash[0],
     patientId: state.patientProfile.data.patientId,
     reasondict: state.availableFields.interruptionReasons_Hash[0],
-    }))
+}))
 class Medication extends PureComponent {
 
     intervalUnitString(intervalUnit) {
@@ -133,7 +134,7 @@ class Medication extends PureComponent {
         const endDate = data.terminatedDate !== null && data.terminatedDate !== undefined ? `${new Date(parseInt(data.terminatedDate, 10)).toDateString()}${data.terminatedReason ? `(${this.props.reasondict[data.terminatedReason].value})` : ''}` : '';
         return (
             <tr>
-                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
+                <td><EditButton to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/treatment/${data.id}`} /></td>
                 <td>{`${typedict[data.drug].name} ${typedict[data.drug].module}`}</td>
                 <td>{new Date(parseInt(data.startDate, 10)).toDateString()}</td>
                 <td>{endDate}</td>
@@ -142,7 +143,7 @@ class Medication extends PureComponent {
                 <td>{data.times && data.intervalUnit ? `${data.times} times / ${this.intervalUnitString(data.intervalUnit)}` : ''}</td>
                 <td>{numberOfInterruptions}</td>
                 <td>
-                    <NavLink id={`treatment-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/interruptions/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`treatment-${data.id}`} to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/interruptions/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/treatment/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Interruptions</button>
                     </NavLink>
                 </td>
@@ -152,7 +153,7 @@ class Medication extends PureComponent {
     }
 }
 
-export {Medication};
+export { Medication };
 
 /* receives a prop data of one clinical event*/
 @withRouter
@@ -160,7 +161,7 @@ export {Medication};
     typedict: state.availableFields.clinicalEventTypes_Hash[0],
     patientId: state.patientProfile.data.patientId,
     meddraHash: state.availableFields.meddra_Hash[0]
-    }))
+}))
 class ClinicalEvent extends PureComponent {
     render() {
         const { data, typedict, patientId, meddraHash, renderedInFrontPage } = this.props;
@@ -168,13 +169,13 @@ class ClinicalEvent extends PureComponent {
         const endDate = data.endDate !== null && data.endDate !== undefined ? new Date(parseInt(data.endDate, 10)).toDateString() : '';
         return (
             <tr>
-                <td><EditButton to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
+                <td><EditButton to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/edit/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/edit/clinicalEvent/${data.id}`} /></td>
                 <td>{typedict[data.type]}</td>
                 <td>{date}</td>
                 <td>{endDate}</td>
                 <td>{data.meddra ? meddraHash[data.meddra].name : null}</td>
                 <td>
-                    <NavLink id={`clinicalEvent-${data.id}`} to={ renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
+                    <NavLink id={`clinicalEvent-${data.id}`} to={renderedInFrontPage ? `/patientProfile/${patientId}/visitFrontPage/${this.props.match.params.visitId}/page/${this.props.match.params.currentPage}/data/${data.id}${this.props.location.search}` : `/patientProfile/${patientId}/data/clinicalEvent/${data.id}`} activeClassName={style.activeNavLink}>
                         <button>Data</button>
                     </NavLink>
                 </td>
@@ -184,7 +185,7 @@ class ClinicalEvent extends PureComponent {
     }
 }
 
-export {ClinicalEvent};
+export { ClinicalEvent };
 
 const filterEmptyRenders = (allFields, inputType, typedict) => allFields.map(data => {
 
@@ -238,7 +239,7 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
     icd11_Hash: state.availableFields.icd11_Hash[0]
-    }))
+}))
 class OneVisit extends Component {
 
     render() {
@@ -296,6 +297,8 @@ class OneVisit extends Component {
         }
         if (!shouldRender)
             return null;
+
+        console.log("Visit card title", this.props.title)
         return (
             <TimelineEvent
                 title={this.props.title}
@@ -362,6 +365,87 @@ class OneVisit extends Component {
                         <br />
                     </>
                 ) : null}
+
+                {this.props.title.includes("Pregnancy") && <>
+
+                    <h4><Icon symbol='symptom' />&nbsp;PREGNANCY</h4>
+                    <div className={style.visitWrapper}>
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Pregnancy baseline entry</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td>Pregnancy start date</td>
+                                <td>-</td>
+
+
+                            </tbody>
+                            <tbody>
+                                <td>Date of Last Mentrual Period</td>
+                                <td>-</td>
+
+
+                            </tbody>
+                            <tbody>
+                                <td>Maternal age at LMP</td>
+                                <td>-</td>
+
+                            </tbody>
+                            <tbody>
+                                <td>Maternal weight/BMI</td>
+                                <td>-</td>
+
+                            </tbody>
+                            <tbody>
+                                <td>Estimate date of delivery</td>
+                                <td>-</td>
+
+                            </tbody>
+                            <tbody>
+                                <td>Prenatal imaging</td>
+                                <td>-</td>
+
+                            </tbody>
+                            <tbody>
+                                <td>Assisted Reproductive technology method</td>
+                                <td>-</td>
+
+                            </tbody>
+                            <tbody>
+                                <td>Number foetuses</td>
+                                <td>-</td>
+
+                            </tbody>
+                            <tbody>
+                                <td>Folic acid supplementation</td>
+                                <td>-</td>
+
+                            </tbody>
+                            <tbody>
+                                <td>Smoking status</td>
+                                <td>-</td>
+                            </tbody>
+
+                            {/* <tbody>
+                                        {concomitantMeds.map(el => <ConcomitantMed data={el} key={el.id} />)}
+                                    </tbody> */}
+                        </table>
+                        <br />
+                    </div>
+                    <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data/1`} activeClassName={style.activeNavLink}>
+                        <button>Edit pregnancy entry</button>
+                    </NavLink>
+                    {/* 
+                    <NavLink to={`/patientProfile/fdsa/editPregnancyDataEntry/1`} activeClassName={style.activeNavLink}>
+                        <button>Edit pregnancy entry</button>
+                    </NavLink> */}
+                    {/* 
+                    <Link to={`/patientProfile/fdsa/editPregnancyDataEntry/${data.id}`}>Edit pregnancy entry</Link> */}
+                </>}
 
                 {this.props.visitType === 1 ? (
                     <>
@@ -511,7 +595,7 @@ class OneVisit extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {concomitantMeds.map(el => <ConcomitantMed data={el} key={el.id}/>)}
+                                        {concomitantMeds.map(el => <ConcomitantMed data={el} key={el.id} />)}
                                     </tbody>
                                 </table>
                                 <br />
@@ -577,6 +661,8 @@ class OneVisit extends Component {
                     </NavLink>
                     <br /><br />
                 </>
+
+
             </TimelineEvent>
         );
     }
@@ -586,7 +672,7 @@ class OneVisit extends Component {
     data: state.patientProfile.data,
     historyFilter: state.patientProfile.historyFilter,
     availableFields: state.availableFields
-    }))
+}))
 class Charts extends Component {
     constructor(props) {
         super(props);
@@ -622,6 +708,7 @@ class Charts extends Component {
     };
 
     _sortVisits = (visitList) => {
+        console.log("visitList: ", visitList);
         let historyInd = 1;
         const visits = [...visitList];
         return visits.sort((a, b) => {
@@ -729,13 +816,13 @@ class Charts extends Component {
     }
 }
 
-export {Charts};
+export { Charts };
 
 @withRouter
 @connect(state => ({
     typedict: state.availableFields.concomitantMedsList_hash[0],
     patientId: state.patientProfile.data.patientId
-    }))
+}))
 class ConcomitantMed extends PureComponent {
     render() {
         const { data, typedict } = this.props;
@@ -753,4 +840,4 @@ class ConcomitantMed extends PureComponent {
     }
 }
 
-export {ConcomitantMed};
+export { ConcomitantMed };

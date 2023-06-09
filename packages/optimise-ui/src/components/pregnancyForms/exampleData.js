@@ -15,7 +15,7 @@ import { searchPatientAPICall } from '../../redux/actions/searchPatient';
 export function testPregnancy(s) {
     //
     console.log('call example data');
-    console.log('s=',s);
+    console.log('s=', s);
     searchPatientAPICall({
         field: 'USUBJID',
         value: '001'
@@ -23,6 +23,72 @@ export function testPregnancy(s) {
     console.log('call example data end');
 }
 
+// export const baselinePregnancyModel = {
+//     pregnancyId: undefined,
+//     date: undefined,
+//     deleted: '-',
+//     dataType: undefined,
+//     LMP: undefined,
+//     maternalAgeAtLMP: undefined,
+//     EDD: undefined,
+//     ART: undefined,
+//     numOfFoetuses: undefined,
+//     folicAcidSuppUsed: undefined,
+//     folicAcidSuppUsedStartDate: undefined,
+//     illicitDrugUse: undefined,
+// };
+
+export const baselinePregnancyModel = {
+    pregnancyId: 1,
+    date: '2000-01-01',
+    deleted: '-',
+    dataType: 'baseline',
+    LMP: 'test',
+    maternalAgeAtLMP: 'test',
+    EDD: 'test',
+    ART: 'test',
+    numOfFoetuses: 'test',
+    folicAcidSuppUsed: 'test',
+    folicAcidSuppUsedStartDate: 'test',
+    illicitDrugUse: 'test'
+};
+
+export const followUpPregnancyModel = {
+    pregnancyId: undefined,
+    date: undefined,
+    deleted: '-',
+    dataType: undefined,
+    EDD: undefined,
+    numOfFoetuses: undefined,
+    folicAcidSuppUsed: undefined,
+    folicAcidSuppUsedStartDate: undefined,
+    illicitDrugUse: undefined,
+};
+
+export const termPregnancyModel = {
+    pregnancyId: undefined,
+    date: undefined,
+    deleted: '-',
+    dataType: undefined,
+    inductionOfDelivery: undefined,
+    lengthOfPregnancy: undefined,
+    pregnancyOutcome: undefined,
+    congenitalAbnormality: undefined,
+    modeOfDelivery: undefined,
+    useOfEpidural: undefined,
+    birthWeight: undefined,
+    sexOfBaby: undefined,
+    APGAR0: undefined,
+    APGAR5: undefined,
+    everBreastFed: undefined,
+    breastfeedStart: undefined,
+    exclusiveBreastfeedEnd: undefined,
+    mixedBreastfeedEnd: undefined,
+    admission12: undefined,
+    admission36: undefined,
+    admission60: undefined,
+    developmentalOutcome: undefined
+}
 
 
 export const examplePregnancyData = [
@@ -34,7 +100,7 @@ export const examplePregnancyData = [
         patient: 22,
         startDate: '1612871504797.0',
         deleted: '-',
-        dataEntries: [
+        pregnancyDataEntries: [
             {
                 id: 1,
                 pregnancyId: 1,
@@ -125,7 +191,7 @@ export const examplePregnancyData = [
         patient: 22,
         startDate: '16128715024797.0',
         deleted: '-',
-        dataEntries: [
+        pregnancyDataEntries: [
             {
                 id: 4,
                 pregnancyId: 2,
@@ -202,10 +268,10 @@ export function addEntryToPregnancy(pregnancyId, newEntry) {
         illicitDrugUse: 'no',
         imaging: []
     };
-    for (let i = 0 ; i < examplePregnancyData.length; i++) {
+    for (let i = 0; i < examplePregnancyData.length; i++) {
         const each = examplePregnancyData[i];
         if (each.id === pregnancyId) {
-            examplePregnancyData[i].dataEntries.push(template);
+            examplePregnancyData[i].pregnancyDataEntries.push(template);
         }
     }
 }

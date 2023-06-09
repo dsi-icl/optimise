@@ -18,9 +18,16 @@ export default async (dbcon, version) => {
                 table.text('createdTime').notNullable().defaultTo(dbcon().fn.now());
                 table.integer('createdByUser').notNullable().references('id').inTable('USERS');
                 table.text('deleted').notNullable().defaultTo('-');
+
                 table.unique(['patient', 'startDate', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
             });
             await tableCopyBack(TABLE_NAME);
+            break;
+        case 16:
+            await dbcon().schema.table(TABLE_NAME, (table) => {
+                table.dropForeign('patient');
+                table.foreign('patient').references('id').inTable('PATIENTS').onDelete('CASCADE');
+            });
             break;
         default:
             break;

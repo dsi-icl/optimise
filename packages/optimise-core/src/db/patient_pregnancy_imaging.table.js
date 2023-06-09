@@ -14,8 +14,11 @@ export default async (dbcon, version) => {
                     table.text('mode').notNullable();
                     table.text('result').notNullable();
 
+                    table.integer('createdByUser').notNullable().references('id').inTable('USERS');
+
                     table.unique(['pregnancyDataId', 'date', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
                 });
+
             }
             break;
         default:

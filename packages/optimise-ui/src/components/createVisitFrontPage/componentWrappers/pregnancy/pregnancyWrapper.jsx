@@ -12,22 +12,51 @@ import { YesOrNo } from '../yesOrNoQuestion/yesOrNoQuestion';
 import { FrontPageNavigationButton } from '../navigationButtons/navigationButtons';
 import PregnancyList from '../../../pregnancyForms/pregnancyList';
 import EditPregnancies from '../../../pregnancyForms/editPregnancy';
+//
+import CreatePregnancyEntry from '../../../pregnancyForms/createPregnancyEntry';
+
 
 @withRouter
 @connect(state => ({
     fetching: state.patientProfile.fetching,
     data: state.patientProfile.data,
     drugHash: state.availableFields.drugs_Hash[0]
-    }))
+}))
 class PregnancyWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;
         return <Switch>
             <Route
                 path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
-                render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}
+                render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion} />}
             />
-            <Route render={({ match, location }) =>
+
+            <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) =>
+                <>
+                    <div className={style.page}>
+                        <div className={scaffold_style.padding_div}>
+                            <p>Please select the type of pregnancy entry and enter all relevant entry fields </p>
+
+                            <CreatePregnancyEntry
+                                childRef={component => { this.form = component; }}
+                                match={match}
+                                location={location}
+                                renderedInFrontPage={true}
+                            />
+
+                        </div>
+                    </div>
+                    <FrontPageNavigationButton
+                        onClickNext={(ev) => {
+                            console.log("form", this.form)
+                            this.form._handleSubmit(ev);
+                            this.forceUpdate();
+                        }}
+                        formSaved={() => this.form.state.saved}
+                        match={match} location={location} />
+                </>
+            } />
+            {/* <Route render={({ match, location }) =>
                 <>
                     <div className={style.page}>
                         <div className={scaffold_style.wrapper + ' ' + scaffold_style.wrapper_pregnancy}>
@@ -46,10 +75,48 @@ class PregnancyWrapper extends Component {
                     </div>
                     <FrontPageNavigationButton match={match} location={location}/>
                 </>
-            }/>
+            }/> */}
         </Switch>;
     }
 }
+
+// @withRouter
+// @connect(state => ({
+//     fetching: state.patientProfile.fetching,
+//     data: state.patientProfile.data,
+//     drugHash: state.availableFields.drugs_Hash[0]
+//     }))
+// class PregnancyWrapper extends Component {
+//     render() {
+//         const { yesOrNoQuestion } = this.props;
+//         return <Switch>
+//             <Route
+//                 path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
+//                 render={({ match, location }) => <YesOrNo match={match} location={location} questionString={yesOrNoQuestion}/>}
+//             />
+//             <Route render={({ match, location }) =>
+//                 <>
+//                     <div className={style.page}>
+//                         <div className={scaffold_style.wrapper + ' ' + scaffold_style.wrapper_pregnancy}>
+//                             <div className={scaffold_style.create_element_panel}>
+//                                 <Switch>
+//                                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => <PregnancyList renderedInFrontPage={true}/>}/>
+//                                 </Switch>
+//                             </div>
+//                             <div className={scaffold_style.list_element_panel}>
+//                                 <Switch>
+//                                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage' render={({ match, location }) => null }/>
+//                                     <Route path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/edit/:entryId' render={({ match, location }) => <EditPregnancies renderedInFrontPage={true}/>}/>
+//                                 </Switch>
+//                             </div>
+//                         </div>
+//                     </div>
+//                     <FrontPageNavigationButton match={match} location={location}/>
+//                 </>
+//             }/>
+//         </Switch>;
+//     }
+// }
 
 //class RenderTreatmentsWrapper extends PureComponent {
 //    render() {
