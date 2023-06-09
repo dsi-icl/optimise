@@ -56,8 +56,8 @@ export default async (dbcon, version) => {
                 table.foreign('pregnancyId').references('id').inTable('PATIENT_PREGNANCY').onDelete('CASCADE');
                 table.dropForeign('createdByUser');
                 table.foreign('createdByUser').references('id').inTable('USERS');
-                table.dropForeign('recordedDuringVisit');
-                table.foreign('recordedDuringVisit').references('id').inTable('VISITS');
+                table.dropForeign('visitId');
+                table.foreign('visitId').references('id').inTable('VISITS');
             });
             break;
         default:
