@@ -13,6 +13,7 @@ import { createPregnancyDataAPICall } from '../../redux/actions/demographicData'
 import store from '../../redux/store';
 import { Link } from 'react-router-dom';
 import PregnancyList from './pregnancyList';
+import EditPregnancy from '../editMedicalElements/editPregnancy';
 
 
 @withRouter
@@ -152,7 +153,9 @@ class CreatePregnancyEntry extends Component {
                     </label><br /><br />
 
                     <p style={{ 'color': 'red' }}> No recent pregnancy to associate with this entry. Please click below to add the pregnancy:</p> <br></br>
-                    <button>Add pregnancy </button>
+                    <p>Previous pregnancies:</p>
+                    <EditPregnancy match={this.props.match} location={this.props.location} renderedInFrontPage={true} />
+
 
                 </div>
                 <div style={{ 'flexBasis': '70%', 'overflow': 'auto' }}>

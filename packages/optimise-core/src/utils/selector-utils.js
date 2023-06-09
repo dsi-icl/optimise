@@ -256,11 +256,23 @@ class SelectorUtils {
         const whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        const result = await dbcon()('PATIENT_PREGNANCY_DATA')
-            .select('*')
-            .where(whereObj);
-
-        return { pregnancyEntries: result || [] };
+        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then(resu => {
+            const ids = [];
+            for (let i = 0; i < resu.length; i++) {
+                ids[i] = resu[i].id;
+            }
+            const innerWhereObj = {};
+            if (deleted !== true)
+                innerWhereObj.deleted = '-';
+            return dbcon()('PATIENT_PREGNANCY_DATA')
+                .select('*')
+                .whereIn('visitId', ids)
+                .andWhere(innerWhereObj)
+                .then(result => {
+                    const returnObj = { pregnancyEntries: result };
+                    return returnObj;
+                });
+        });
     }
 
 
@@ -310,7 +322,7 @@ class SelectorUtils {
         return dbcon()('VISITS').select('id', 'deleted').where(whereObj).then(resu => {
             const ids = [];
             for (let i = 0; i < resu.length; i++) {
-                ids[i] = resu[i].id; c
+                ids[i] = resu[i].id;
             }
             return dbcon()('CLINICAL_EVENTS')
                 .select('id', 'recordedDuringVisit', 'type', 'dateStartDate', 'endDate', 'meddra', 'deleted')

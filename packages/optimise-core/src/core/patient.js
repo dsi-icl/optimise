@@ -38,9 +38,9 @@ class Patient {
                     return reject(ErrorHelper(message.errorMessages.NOTFOUND));
                 }
                 const promiseArr = [];
-                // let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis', 'getConcomitantMeds'];
+                let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis', 'getConcomitantMeds'];
 
-                let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getPregnancyEntries', 'getDiagnosis', 'getConcomitantMeds'];
+                //let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getPregnancyEntries', 'getDiagnosis', 'getConcomitantMeds'];
 
                 if (getOnly && typeof getOnly === 'string')
                     availableFunctions = getOnly.split(',').filter((func) => availableFunctions.includes(func));

@@ -225,8 +225,8 @@ class OnePregnancy extends Component {
 
 
         const body = {
-            //patientId: this.props.data.patientId,
-            patientId: 1
+            patientId: this.props.data.patientId,
+
         };
 
         switch (this.state.addNewEntry_type) {
