@@ -19,7 +19,7 @@ export class PickDate extends Component {
             selected: time ? time.toDate() : undefined
         }, () => {
             if (this.props.handleChange)
-                this.props.handleChange(moment(this.state.selected));
+                this.props.handleChange(this.state.selected ? moment(this.state.selected) : undefined);
         });
     }
 

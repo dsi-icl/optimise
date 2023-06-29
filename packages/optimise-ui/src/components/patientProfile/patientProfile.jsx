@@ -480,7 +480,7 @@ class Pregnancy extends Component {
 class ConsentSection extends Component {
     constructor(props) {
         super();
-        this.state = { selectedConsentDate: moment(props.data.optimiseConsent ?? undefined) };
+        this.state = { selectedConsentDate: props.data.optimiseConsent ? moment(props.data.optimiseConsent) : undefined };
         this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
         this._handleClickGivesConsent = this._handleClickGivesConsent.bind(this);
         this._handleClickWithdrawParticipation = this._handleClickWithdrawParticipation.bind(this);
@@ -547,13 +547,13 @@ class ConsentSection extends Component {
                             <br /> <br />
                             <span>Select date of consent:</span>
                             <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
-                            <button onClick={this._handleClickGivesConsent}>Change consent date</button>
+                            <button disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Change consent date</button>
                         </div>
                         :
                         <div>
                             <span>Select date of consent:</span>
-                            <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
-                            <button onClick={this._handleClickGivesConsent}>Patient gives consent</button>
+                            <PickDate handleChange={this._handleConsentDateChange} />
+                            <button disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Patient gives consent</button>
                         </div>
                 }
 
