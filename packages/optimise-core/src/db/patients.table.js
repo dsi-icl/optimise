@@ -37,6 +37,39 @@ export default async (dbcon, version) => {
             }
             break;
         }
+        case 17: {
+            const listOfTables = await dbcon().raw('SELECT name FROM sqlite_master WHERE type="table" ORDER BY name');
+            const V15_TABLE_NAME = listOfTables.find((table) => table.name.match(/ARCHIVE_V15_(\d*)_PATIENTS/) !== null).name;
+            const OLD_TABLE_NAME = await tableMove(TABLE_NAME, version);
+            await schema_v16(dbcon);
+            if (OLD_TABLE_NAME !== null) {
+                const oldData = await dbcon()(OLD_TABLE_NAME).select('*');
+                if (Array.isArray(oldData) && oldData.length) {
+                    for (let i = 0; i < oldData.length; i++) {
+                        if (oldData[i].optimiseConsent === null) {
+                            const recordPointsOld = await dbcon()(OLD_TABLE_NAME).where({
+                                uuid: oldData[i].uuid
+                            });
+                            const v15Data = await dbcon()(V15_TABLE_NAME)
+                                .where({
+                                    uuid: oldData[i].uuid
+                                });
+                            if (Array.isArray(recordPointsOld) && recordPointsOld.length && Array.isArray(v15Data) && v15Data.length && recordPointsOld.length === v15Data.length) {
+                                const v15Tip = v15Data.find((v15) => v15.deleted === '-');
+                                if (v15Tip && v15Tip.id === oldData[i].id) {
+                                    if (v15Tip.study !== 'optimise')
+                                        oldData[i].optimiseConsent = v15Tip.study;
+                                    else
+                                        oldData[i].optimiseConsent = v15Tip.createdTime;
+                                }
+                            }
+                        }
+                    }
+                    await dbcon().batchInsert(TABLE_NAME, oldData, 50);
+                }
+            }
+            break;
+        }
         default:
             break;
     }
