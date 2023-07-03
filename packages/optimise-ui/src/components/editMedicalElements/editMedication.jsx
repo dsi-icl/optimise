@@ -11,7 +11,7 @@ import style from './editMedicalElements.module.css';
 
 @connect(state => ({
     treatments: state.patientProfile.data.treatments
-    }))
+}))
 class EditMed extends Component {
     constructor() {
         super();
@@ -111,7 +111,7 @@ export default EditMed;
     drugs: state.availableFields.drugs,
     interruptionReasons: state.availableFields.interruptionReasons,
     patientId: state.patientProfile.data.patientId
-    }))
+}))
 class UpdateMedEntry extends Component {
     constructor(props) {
         super();

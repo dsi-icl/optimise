@@ -5,11 +5,11 @@ import style from './admin.module.css';
 
 @connect(state => ({
     syncInfo: state.syncInfo
-    }), dispatch => ({
-        getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
-        setSyncOptions: body => dispatch(setSyncOptionsAPICall(body)),
-        syncNow: adminPass => dispatch(syncNowAPICall(adminPass))
-        }))
+}), dispatch => ({
+    getSyncOptions: () => dispatch(getSyncOptionsAPICall()),
+    setSyncOptions: body => dispatch(setSyncOptionsAPICall(body)),
+    syncNow: adminPass => dispatch(syncNowAPICall(adminPass))
+}))
 class Sync extends PureComponent {
 
     constructor(props) {

@@ -1,9 +1,7 @@
 {
-    "extends": "nx/presets/npm.json",
-    "npmScope": "itmat-broker",
     "tasksRunnerOptions": {
         "default": {
-            "runner": "@nrwl/nx-cloud",
+            "runner": "nx-cloud",
             "options": {
                 "cacheableOperations": [
                     "build",
@@ -17,15 +15,17 @@
             }
         }
     },
-    "affected": {
-        "defaultBase": "master"
-    },
-    "implicitDependencies": {},
     "pluginsConfig": {
         "@nrwl/js": {
             "analyzeSourceFiles": false
         }
     },
+    "extends": "nx/presets/npm.json",
+    "npmScope": "itmat-broker",
+    "affected": {
+        "defaultBase": "master"
+    },
+    "implicitDependencies": {},
     "generators": {
         "@nrwl/react": {
             "application": {

@@ -11,9 +11,9 @@ import style from './medicalEvent.module.css';
     patientId: state.patientProfile.data.id,
     visits: state.patientProfile.data.visits,
     types: state.availableFields.clinicalEventTypes
-    }), dispatch => ({
-        createCE: body => dispatch(createCEAPICall(body))
-        }))
+}), dispatch => ({
+    createCE: body => dispatch(createCEAPICall(body))
+}))
 class CreateCE extends Component {
     constructor() {
         super();

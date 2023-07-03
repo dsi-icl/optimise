@@ -17,7 +17,7 @@ import style from './patientProfile.module.css';
 @connect(state => ({
     fetching: state.patientProfile.fetching,
     erasePatient: state.erasePatient
-    }))
+}))
 class Section extends Component {
     componentWillUnmount() {
         store.dispatch(erasePatientReset());
@@ -57,7 +57,7 @@ export { Section };
     data: state.patientProfile.data ? state.patientProfile.data : {},
     pii: state.patientProfile.pii,
     fields: state.availableFields.demoFields[0]
-    }))
+}))
 class DemographicSection extends Component {
 
     constructor() {
@@ -175,7 +175,7 @@ class DemographicSection extends Component {
 
 @connect(state => ({
     data: state.patientProfile.data
-    }))
+}))
 class ImmunisationSection extends Component {
     constructor() {
         super();
@@ -385,7 +385,7 @@ class OneImmunisation extends Component {
 @connect(state => ({
     data: state.patientProfile.data,
     fields: state.availableFields.diagnoses
-    }))
+}))
 class PrimaryDiagnosis extends Component {
     render() {
         if (this.props.data.diagnosis.length === 0) {
@@ -426,7 +426,7 @@ class PrimaryDiagnosis extends Component {
     outcomeHash: state.availableFields.pregnancyOutcomes_Hash[0],
     data: state.patientProfile.data,
     meddra_Hash: state.availableFields.meddra_Hash[0]
-    }))
+}))
 class Pregnancy extends Component {
     render() {
 
@@ -476,11 +476,11 @@ class Pregnancy extends Component {
 @connect(state => ({
     data: state.patientProfile.data,
     adminPriv: state.login.adminPriv
-    }))
+}))
 class ConsentSection extends Component {
     constructor(props) {
         super();
-        this.state = { selectedConsentDate: moment(props.data.optimiseConsent ?? undefined) };
+        this.state = { selectedConsentDate: props.data.optimiseConsent ? moment(props.data.optimiseConsent) : undefined };
         this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
         this._handleClickGivesConsent = this._handleClickGivesConsent.bind(this);
         this._handleClickWithdrawParticipation = this._handleClickWithdrawParticipation.bind(this);
@@ -547,13 +547,13 @@ class ConsentSection extends Component {
                             <br /> <br />
                             <span>Select date of consent:</span>
                             <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
-                            <button onClick={this._handleClickGivesConsent}>Change consent date</button>
+                            <button disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Change consent date</button>
                         </div>
                         :
                         <div>
                             <span>Select date of consent:</span>
-                            <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
-                            <button onClick={this._handleClickGivesConsent}>Patient gives consent</button>
+                            <PickDate handleChange={this._handleConsentDateChange} />
+                            <button disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Patient gives consent</button>
                         </div>
                 }
 
@@ -570,7 +570,7 @@ class ConsentSection extends Component {
 @connect(state => ({
     data: state.patientProfile.data,
     adminPriv: state.login.adminPriv
-    }))
+}))
 class DeletePatient extends Component {
     constructor() {
         super();

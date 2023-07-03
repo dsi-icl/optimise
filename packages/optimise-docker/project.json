@@ -1,10 +1,12 @@
 {
+    "name": "optimise-docker",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/optimise-docker/src",
     "projectType": "application",
     "targets": {},
     "tags": [],
     "implicitDependencies": [
-        "optimise-core"
+        "optimise-core",
+        "optimise-ui"
     ]
 }

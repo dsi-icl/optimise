@@ -10,7 +10,7 @@ import { getPatientPii } from '../../redux/actions/patientProfile';
 
 @connect(state => ({
     CEs: state.patientProfile.data.clinicalEvents
-    }))
+}))
 class EditDemo extends Component {
 
     render() {
@@ -38,7 +38,7 @@ export default EditDemo;
     data: state.patientProfile.data.demographicData,
     pii: state.patientProfile.pii,
     fields: state.availableFields.demoFields[0]
-    }))
+}))
 class UpdateDemoEntry extends Component {
     constructor(props) {
         super(props);
