@@ -13,24 +13,43 @@ import { VisitFrontPageIntroduction } from '../componentWrappers/introductoryPag
 import { ConcomitantMedWrapper } from '../componentWrappers/concomitantMed/concomitantMed';
 import PregnancyWrapper from '../componentWrappers/pregnancy/pregnancyWrapper';
 
-export class BaselineVisitFrontPage extends Component {
+import { connect } from 'react-redux';
+
+@connect(state => ({
+    fetching: state.patientProfile.fetching,
+    data: state.patientProfile.data
+}))
+class BaselineVisitFrontPage extends Component {
     render() {
         const { match, location } = this.props;
+        const { consent } = this.props.data;
+        console.log("baseline consent", consent);
 
         const pageNumberToElementMap = {
-            0: <VisitFrontPageIntroduction match={match} location={location}/>,
+            0: <VisitFrontPageIntroduction match={match} location={location} />,
             1: <VSFrontPageWrapper match={match} location={location} category={'vitals'} />,
-            2: <ComorbidityWrapper yesOrNoQuestion={<p>Is there any current or previous ICD11-identified comorbidity?</p>}/>,
-            3: <EDSSWrapper yesOrNoQuestion={<p>Was an EDSS measurement performed at this visit?</p>}/>,
-            4: <ConcomitantMedWrapper yesOrNoQuestion={<p>Has the patient been on any non-disease modifying medication and/or supplements?</p>}/>,
-            5: <TreatmentWrapper yesOrNoQuestion={<p>Has the patient been subject to any <b>current</b> or <b>previous</b> <b>disease-modifying treatments (DMT)</b>.</p>}/>,
-            6: <RelapseWrapper yesOrNoQuestion={<p>Have there been any <b>MS relapses within the last 2 years</b>?</p>}/>,
-            7: <OtherSAEWrapper yesOrNoQuestion={<p>Is there any <b>serious adverse event</b>, <b>malignancy</b>, or <b>opportunistic infection</b> prior?</p> }/>,
-            8: <TestWrapper yesOrNoQuestion={<p>Is there any baseline lab result for <b>Anti-JCV antibody status</b>, <b>total white cell and lymphocyte count</b>, or <b>liver function</b> available?</p>}/>,
-            9: <MRIWrapper yesOrNoQuestion={<p>Is there any baseline <b>brain MRI</b> result available?</p>}/>,
-            10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>}/>,
-            11: <CommunicationWrapper/>
+            2: <ComorbidityWrapper yesOrNoQuestion={<p>Is there any current or previous ICD11-identified comorbidity?</p>} />,
+            3: <EDSSWrapper yesOrNoQuestion={<p>Was an EDSS measurement performed at this visit?</p>} />,
+            4: <ConcomitantMedWrapper yesOrNoQuestion={<p>Has the patient been on any non-disease modifying medication and/or supplements?</p>} />,
+            5: <TreatmentWrapper yesOrNoQuestion={<p>Has the patient been subject to any <b>current</b> or <b>previous</b> <b>disease-modifying treatments (DMT)</b>.</p>} />,
+            6: <RelapseWrapper yesOrNoQuestion={<p>Have there been any <b>MS relapses within the last 2 years</b>?</p>} />,
+            7: <OtherSAEWrapper yesOrNoQuestion={<p>Is there any <b>serious adverse event</b>, <b>malignancy</b>, or <b>opportunistic infection</b> prior?</p>} />,
+            8: <TestWrapper yesOrNoQuestion={<p>Is there any baseline lab result for <b>Anti-JCV antibody status</b>, <b>total white cell and lymphocyte count</b>, or <b>liver function</b> available?</p>} />,
+            9: <MRIWrapper yesOrNoQuestion={<p>Is there any baseline <b>brain MRI</b> result available?</p>} />,
+            // 10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>} />,
+            // 11: <CommunicationWrapper />
         };
+
+        if (consent) {
+            Object.assign(pageNumberToElementMap, {
+                10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>} />,
+                11: <CommunicationWrapper />
+            })
+        } else {
+            Object.assign(pageNumberToElementMap, {
+                10: <CommunicationWrapper />
+            })
+        }
 
         const pageToTitleMap = {
             0: 'Introduction',
@@ -43,9 +62,21 @@ export class BaselineVisitFrontPage extends Component {
             7: 'SAE\'s and infections',
             8: 'Lab tests',
             9: 'MRI',
-            10: 'Pregnancy',
-            11: 'Communication and notes'
+            // 10: 'Pregnancy',
+            // 11: 'Communication and notes'
         };
+
+        if (consent) {
+            Object.assign(pageToTitleMap, {
+                10: "Pregnancy",
+                11: "Communication and notes"
+            })
+        } else {
+            Object.assign(pageToTitleMap, {
+                10: "Communication and notes"
+            })
+        }
+
 
         return (
             <VisitFrontPageTemplate
@@ -58,3 +89,6 @@ export class BaselineVisitFrontPage extends Component {
         );
     }
 }
+
+
+export { BaselineVisitFrontPage };

@@ -13,11 +13,13 @@ import { getPatientPii, changePatientId } from '../../redux/actions/patientProfi
 import { updateConsentAPICall, updateParticipationAPICall } from '../../redux/actions/consent';
 import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
+import EditPregnancy from '../editMedicalElements/editPregnancy';
 
 @connect(state => ({
     fetching: state.patientProfile.fetching,
-    erasePatient: state.erasePatient
-    }))
+    erasePatient: state.erasePatient,
+    patientProfile: state.patientProfile,
+}))
 class Section extends Component {
     componentWillUnmount() {
         store.dispatch(erasePatientReset());
@@ -39,7 +41,8 @@ class Section extends Component {
                         <div className={`${style.panel} ${style.patientInfo}`}>
                             <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
-                            <Pregnancy/>
+                            {this.props.patientProfile.consent ? <Pregnancy /> : null}
+
                             <ImmunisationSection patientId={this.props.match.params.patientId} />
                             <DeletePatient match={this.props.match} />
                         </div>
@@ -50,13 +53,13 @@ class Section extends Component {
     }
 }
 
-export {Section};
+export { Section };
 
 @connect(state => ({
     data: state.patientProfile.data ? state.patientProfile.data : {},
     pii: state.patientProfile.pii,
     fields: state.availableFields.demoFields[0]
-    }))
+}))
 class DemographicSection extends Component {
 
     constructor() {
@@ -149,15 +152,15 @@ class DemographicSection extends Component {
                             </>
                             : null}
                     </div>
-                    <br/>
+                    <br />
                     {showEditAliasId ?
                         <div className={style.editPatientIdDiv}>
                             <b>Edit Patient ID</b>
-                            <br/><br/>
-                            <input onChange={this._onChangeEditID} value={editAliasIdInput}/>
-                            <br/><br/>
+                            <br /><br />
+                            <input onChange={this._onChangeEditID} value={editAliasIdInput} />
+                            <br /><br />
                             <button onClick={this._submitEditId}>Submit</button>
-                            <br/><br/>
+                            <br /><br />
                             <button onClick={this._hideEditId}>Cancel</button>
                             <p>Note: after changing patient ID you will be redirected to search tab.</p>
                         </div>
@@ -174,7 +177,7 @@ class DemographicSection extends Component {
 
 @connect(state => ({
     data: state.patientProfile.data
-    }))
+}))
 class ImmunisationSection extends Component {
     constructor() {
         super();
@@ -260,7 +263,7 @@ class ImmunisationSection extends Component {
                         <tr><th>Vaccine name</th><th>Date</th></tr>
                     </thead> : null}
                     <tbody>
-                        {data.immunisations.map(el => <OneImmunisation data={el} patientId={data.patientId}/>)}
+                        {data.immunisations.map(el => <OneImmunisation data={el} patientId={data.patientId} />)}
                         {!this.state.addMore ? null : <tr className={style.immunisationNewItem}>
                             <td><input value={this.state.newName} onChange={this._handleInput} placeholder='vaccine name' name='vaccineName' type='text' /></td>
                             <td colSpan='2'><PickDate startDate={this.state.newDate} handleChange={this._handleDateChange} /></td>
@@ -269,7 +272,7 @@ class ImmunisationSection extends Component {
                 </table>
                 {!this.state.addMore ?
                     <>
-                        <br/>
+                        <br />
                         <button onClick={this._handleClickingAdd}>Add immunisation</button>
                     </> :
                     <>
@@ -384,7 +387,7 @@ class OneImmunisation extends Component {
 @connect(state => ({
     data: state.patientProfile.data,
     fields: state.availableFields.diagnoses
-    }))
+}))
 class PrimaryDiagnosis extends Component {
     render() {
         if (this.props.data.diagnosis.length === 0) {
@@ -425,7 +428,7 @@ class PrimaryDiagnosis extends Component {
     outcomeHash: state.availableFields.pregnancyOutcomes_Hash[0],
     data: state.patientProfile.data,
     meddra_Hash: state.availableFields.meddra_Hash[0]
-    }))
+}))
 class Pregnancy extends Component {
     render() {
 
@@ -442,22 +445,24 @@ class Pregnancy extends Component {
                     <PatientProfileSectionScaffold sectionName='Pregnancies' actions={
                         <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
                     }>
-                        {PregnancyListButton}
+                        {/* {PregnancyListButton} */}
                     </PatientProfileSectionScaffold>
                 );
             }
         }
-        const pregnancy = this.props.data.pregnancy.sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate))[0];
+        const pregnancy = this.props.data.pregnancy.sort((a, b) => parseInt(b.startDate) - parseInt(a.startDate))[0];
         if (!pregnancy) {
             return null;
         }
 
         const outcomeName = this.props.outcomeHash[pregnancy.outcome];
         const MedDRAName = this.props.meddra_Hash[pregnancy.meddra];
+        const { consent } = this.props.data;
 
         return (
             <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
                 <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
+
             }>
                 <>
                     <label>Start date: </label> {moment(pregnancy.startDate, 'x')._d.toDateString()}
@@ -465,7 +470,7 @@ class Pregnancy extends Component {
                     {outcomeName ? <> <br /><label>Outcome: </label> {outcomeName}</> : null}
                     {MedDRAName ? <> <br /><label>MedDRA: </label> {MedDRAName.name}</> : null}
                 </>
-                {PregnancyListButton}
+                {/* {PregnancyListButton} */}
             </PatientProfileSectionScaffold>
         );
     }
@@ -478,7 +483,7 @@ class Pregnancy extends Component {
 @connect(state => ({
     data: state.patientProfile.data,
     priv: state.login.priv
-    }))
+}))
 class DeletePatient extends Component {
     constructor() {
         super();
@@ -565,7 +570,7 @@ class DeletePatient extends Component {
                             <div>
                                 <span><b>Consent date</b>: {new Date(study).toLocaleDateString()}</span>
                                 <button onClick={this._handleClickWithdrawConsent} >This patient withdraws consent</button>
-                                <br/> <br/>
+                                <br /> <br />
                                 <span>Select date of consent:</span>
                                 <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
                                 <button onClick={this._handleClickGivesConsent}>Change consent date</button>

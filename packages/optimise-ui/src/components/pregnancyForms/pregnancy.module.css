@@ -11,7 +11,7 @@
 }
 
 .add_new_entry_button {
-    border-left: 2px solid rgba(0,0,0,0) !important;
+    border-left: 2px solid rgba(0, 0, 0, 0) !important;
     background-color: hsl(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l));
     cursor: pointer;
     color: white;
@@ -29,14 +29,19 @@
 
 .pregnancy_image_div {
     padding: 0.5rem 0.5rem;
-    background-color: green;
+    background-color: rgb(146, 169, 190);
+    border-radius: 3px;
+    color: black;
+
 }
 
 .one_tentative_image {
+    border-radius: 3px;
     padding: 0.5rem 0.5rem;
-    background-color: red;
+    background-color: rgb(199, 111, 111);
     margin-bottom: 0.5rem;
     position: relative;
+    color: #e8e8e8;
 }
 
 .one_tentative_image span:first-child {
@@ -59,4 +64,9 @@
 
 .expanded_data {
     background-color: #efefef;
+}
+
+.panel label {
+    width: 100% !important;
+
 }

@@ -25,6 +25,7 @@ import CreatePregnancyEntry from '../../../pregnancyForms/createPregnancyEntry';
 class PregnancyWrapper extends Component {
     render() {
         const { yesOrNoQuestion } = this.props;
+
         return <Switch>
             <Route
                 path='/patientProfile/:patientId/visitFrontPage/:visitId/page/:currentPage/yes_or_no'
@@ -35,7 +36,7 @@ class PregnancyWrapper extends Component {
                 <>
                     <div className={style.page}>
                         <div className={scaffold_style.padding_div}>
-                            <p>Please select the type of pregnancy entry and enter all relevant entry fields </p>
+                            {/* <p>Please select the type of pregnancy entry and enter all relevant entry fields </p> */}
 
                             <CreatePregnancyEntry
                                 childRef={component => { this.form = component; }}
@@ -48,7 +49,6 @@ class PregnancyWrapper extends Component {
                     </div>
                     <FrontPageNavigationButton
                         onClickNext={(ev) => {
-                            console.log("form", this.form)
                             this.form._handleSubmit(ev);
                             this.forceUpdate();
                         }}

@@ -13,15 +13,6 @@ import style from '../patientProfile/patientProfile.module.css';
 import PregnancyFollowupDataForm from './pregFollowupData';
 import { editPregnancyDataAPICall } from '../../redux/actions/demographicData';
 
-//function mapStateToProps(state) {
-//    return {
-//        fields: state.availableFields,
-//        patientProfile: state.patientProfile
-//    };
-//}
-//
-//@withRouter
-//@connect(mapStateToProps)
 
 @withRouter
 @connect(state => ({
@@ -119,7 +110,7 @@ class PregnancyPostDataForm extends Component {
 
         const body = {
             patientId: this.props.data.patientId,
-            body: {
+            data: {
                 id: this.props.formData.id,
                 dataType: this.state.dataType,
                 inductionOfDelivery: this.state.inductionOfDelivery,

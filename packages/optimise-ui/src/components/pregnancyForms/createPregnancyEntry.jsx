@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import { examplePregnancyData } from './exampleData';
-//import { PregnancyBaselineDataForm } from './pregBaselineData';
 import PregnancyBaselineDataForm from './pregBaselineData';
-//import { PregnancyPostDataForm } from './pregPostData';
 import PregnancyPostDataForm from './pregPostData';
-//import { PregnancyFollowupDataForm } from './pregFollowupData';
 import PregnancyFollowupDataForm from './pregFollowupData';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-import { createPregnancyDataAPICall } from '../../redux/actions/demographicData';
+import { createPregnancyDataAPICall, createPregnancyItemsCall, alterPregnancyItemsCall } from '../../redux/actions/demographicData';
 import store from '../../redux/store';
-import { Link } from 'react-router-dom';
-import PregnancyList from './pregnancyList';
-import EditPregnancy from '../editMedicalElements/editPregnancy';
+import style from '../patientProfile/patientProfile.module.css';
+import PregnancyImageForm from './pregImage';
+import moment from 'moment';
 
 
 @withRouter
@@ -24,52 +20,177 @@ import EditPregnancy from '../editMedicalElements/editPregnancy';
 
 }))
 class CreatePregnancyEntry extends Component {
-    constructor() {
+    constructor(props) {
         super();
+        const { childRef } = props;
+        if (childRef) {
+            childRef(this);
+        }
+
+        let matchedEntry = {};
+        let matchedPregnancy = {};
+
+        const patientPregnancyEntries = props.data.pregnancyEntries;
+
+        let visitEntry = patientPregnancyEntries.filter((el) => parseInt(el.visitId) === parseInt(props.match.params.visitId))
+
+        if (visitEntry.length) {
+            Object.assign(matchedEntry, visitEntry[0])
+
+            const pregnanciesFiltered = props.data.pregnancy.filter((el) => el.id === visitEntry[0].pregnancyId);
+
+            if (pregnanciesFiltered.length) {
+                Object.assign(matchedPregnancy, pregnanciesFiltered[0]);
+            }
+        }
+
+
         this.state = {
-            entryType: 'followup',
-            saved: false,
-            formData: null
+            entryType: matchedEntry.dataType,
+            formData: {},
+
+            pregnancyId: matchedEntry.pregnancyId,
+            pregnancyStartDate: matchedPregnancy.startDate ? new Date(parseFloat(matchedPregnancy.startDate)) : null,
+            entryId: matchedEntry.id,
+            createEntry: matchedEntry.id ? false : true
 
 
         };
-
         this._renderSwitch = this._renderSwitch.bind(this);
         this.pregnancyForm = null;
         this._handleFormSubmit = this._handleFormSubmit.bind(this);
-        this._createPregnancyEntry = this._createPregnancyEntry.bind(this);
+        this._handleSubmit = this._handleSubmit.bind(this);
+        this._isValidDate = this._isValidDate.bind(this);
 
-        // this._handleClick = this._handleClick.bind(this);
-        // this._deleteFunction = this._deleteFunction.bind(this);
-        // this._handleDateChange = this._handleDateChange.bind(this);
-        // this._handleWannaUpdateClick = this._handleWannaUpdateClick.bind(this);
     }
 
-    _createPregnancyEntry() {
+    componentDidMount() {
+
+        if (!this.state.entryId) {
+            const currentVisitId = parseInt(this.props.match.params.visitId);
+            const currentVisit = this.props.data.visits.filter((el) => parseInt(el.id) === currentVisitId);
+            const currentVisitDate = new Date(parseFloat(currentVisit[0].visitDate));
+
+            this._setPregnancyStatus(currentVisitDate, this.props.data.pregnancy);
+            this.setState({ createEntry: true });
+
+        }
+    }
+
+
+    _isValidDate(d) {
+        return d instanceof Date && !isNaN(d);
+    }
+
+    _setPregnancyStatus(date, pregnancies) {
+
+        const sortedPregnancies = pregnancies.sort((a, b) => {
+            // Sort pregnancies in descending order based on startDate
+            return new Date(parseFloat(b.startDate)) - new Date(parseFloat(a.startDate));
+        });
+
+
+        for (const pregnancy of sortedPregnancies) {
+            const startDate = new Date(parseFloat(pregnancy.startDate));
+            const outcomeDate = new Date(parseFloat(pregnancy.outcomeDate));
+
+            if (startDate <= date && (!this._isValidDate(outcomeDate) || outcomeDate >= date)) {
+                // Date falls within an ongoing pregnancy
+
+                this.setState({
+                    pregnancyStartDate: startDate,
+                    pregnancyId: parseInt(pregnancy.id),
+                    entryType: 'followup'
+                });
+
+                return;
+            }
+
+            if (this._isValidDate(outcomeDate) && outcomeDate < date) {
+                // All pregnancies have concluded before the given date
+
+                this.setState({
+                    entryType: 'baseline'
+                });
+
+                return;
+            }
+        }
+
+        // No pregnancies found
+        this.setState({
+            entryType: 'baseline'
+        });
+    }
+
+    _handleSubmit(ev) {
+        ev.preventDefault();
+
+        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
+            return;
+
+        const validationErrorMessage = this.pregForm._validateFields(this.props.match.params.visitId, this.state.pregnancyId);
+
+
+        if (validationErrorMessage) {
+            this.setState({ error: validationErrorMessage });
+            return;
+        }
 
         const currentVisitId = parseInt(this.props.match.params.visitId);
         const currentVisit = this.props.data.visits.filter((el) => parseInt(el.id) === currentVisitId);
         const currentVisitDate = currentVisit[0].visitDate;
 
-        // var date = new Date(parseInt(currentVisitDate));
-        // console.log("visitdate", date.toUTCString());
+        var date = new Date(parseInt(currentVisitDate));
 
         const body = {
             patientId: this.props.data.patientId,
-            body: {
-                date: currentVisitDate,
-                dataType: 'baseline',
-                visitId: currentVisitId
-            }
+            data: {
+                //common fields
+                date: date.toISOString(),
+                dataType: this.pregForm.state.dataType,
+                visitId: parseInt(this.props.match.params.visitId),
+                id: parseInt(this.state.entryId),
+                pregnancyId: parseInt(this.state.pregnancyId),
+
+                //entry type specific fields 
+                LMP: this.pregForm.state.LMP ? this.pregForm.state.LMP.toISOString() : undefined,
+                maternalAgeAtLMP: this.pregForm.state.maternalAgeAtLMP,
+                maternalBMI: this.pregForm.state.maternalBMI,
+                EDD: this.pregForm.state.EDD ? this.pregForm.state.EDD.toISOString() : undefined,
+                ART: this.pregForm.state.ART,
+                numOfFoetuses: this.pregForm.state.numOfFoetuses,
+                folicAcidSuppUsed: this.pregForm.state.folicAcidSuppUsed,
+                folicAcidSuppUsedStartDate: this.pregForm.state.folicAcidSuppUsedStartDate ? this.pregForm.state.folicAcidSuppUsedStartDate.toISOString() : undefined,
+                illicitDrugUse: this.pregForm.state.illicitDrugUse,
+            },
+            pregnancy: {
+                id: parseInt(this.state.pregnancyId),
+                patient: parseInt(this.props.data.patientId),
+
+            },
+            createEntry: this.state.createEntry,
 
         };
+
+        if (this.pregForm.state.dataType === 'baseline') {
+            body.pregnancy.startDate = this.pregForm.state.startDate ? this.pregForm.state.startDate.toISOString() : null;
+        }
+        else {
+            body.pregnancy.outcome = this.pregForm.state.dataType === 'term' && this.pregForm.state.pregnancyOutcome
+                ? parseInt(this.pregForm.state.pregnancyOutcome, 10) : null;
+            body.pregnancy.outcomeDate = this.pregForm.state.dataType === 'term' && this.pregForm.state.outcomeDate
+                ? this.pregForm.state.outcomeDate.toISOString() : null;
+        }
+
 
         this.setState({
             lastSubmit: (new Date()).getTime(),
             error: false
         }, () => {
-            store.dispatch(createPregnancyDataAPICall(body));
-            this.setState({ addMore: false });
+
+            store.dispatch(alterPregnancyItemsCall(body))
+            this.setState({ saved: true })
         });
 
     }
@@ -77,7 +198,6 @@ class CreatePregnancyEntry extends Component {
 
 
     _handleFormSubmit(ev) {
-        console.log("submitted");
         if (this.pregnancyForm) {
             this.pregnancyForm._handleSubmit(ev);
         }
@@ -88,84 +208,80 @@ class CreatePregnancyEntry extends Component {
         switch (entryType) {
             case 'baseline':
                 return <PregnancyBaselineDataForm
-                    childRef={childRef}
+                    // childRef={childRef}
+                    formRef={component => { this.pregForm = component; }}
                     renderedInFrontPage={this.props.renderedInFrontPage}
-                    formData={this.state.formData} />;
+                    entryId={this.state.entryId} />;
             case 'followup':
                 return <PregnancyFollowupDataForm
-                    childRef={childRef}
+                    pregnancyId={this.state.pregnancyId}
+                    // childRef={childRef}
+                    formRef={component => { this.pregForm = component; }}
                     renderedInFrontPage={this.props.renderedInFrontPage}
-                    formData={this.state.formData} />;
+                    entryId={this.state.entryId} />;
+
             case 'term':
-                return <PregnancyPostDataForm
-                    childRef={childRef}
+                return <PregnancyFollowupDataForm
+                    pregnancyId={this.state.pregnancyId}
+                    // childRef={childRef}
+                    formRef={component => { this.pregForm = component; }}
                     renderedInFrontPage={this.props.renderedInFrontPage}
-                    formData={this.state.formData} />;
+                    entryId={this.state.entryId} />;
+
+            // case 'term':
+            //     return <PregnancyPostDataForm
+            //         // childRef={childRef}
+            //         formRef={component => { this.pregForm = component; }}
+            //         renderedInFrontPage={this.props.renderedInFrontPage}
+            //         entryId={this.state.entryId} />;
             default: return <> </>
         }
     }
 
+
+
     render() {
-        console.log("createPregnancyEntry", this.props.data);
-
-        const { visitFields, childRef, renderedInFrontPage } = this.props;
-
-
-
-        // const patientPregnancyEntries = this.props.data.pregnancyEntries;
-
-        // let visitEntry = patientPregnancyEntries.filter((el) => parseInt(el.visitId) === parseInt(this.props.match.params.visitId))
-
-        // if (!visitEntry.length) {
-        //     this._createPregnancyEntry()
-        // }
-        // else {
-        //     this.state.formData = visitEntry[0];
-        // }
-
-        const matchId = this.props.match.params.entryId;
-
-        const data = examplePregnancyData.reduce((a, el) => { a = a.concat(el.pregnancyDataEntries); return a; }, []);
-
-        //const data = this.props.data.pregnancy.reduce((a, el) => { a = a.concat(el.pregnancyDataEntries); return a; }, []);
-
-        const matchedEntry = data.filter(el => el.id === parseInt(matchId));
-
-        console.log("edit pregnancy", this.props)
-
-        // if (!matchedEntry || matchedEntry.length !== 1) {
-        //     return 'An error occured.';
-        // }
-
 
 
         return (
-            <div style={{ 'display': 'flex' }}>
-                <div style={{ 'flexBasis': '30%', 'paddingRight': '15px' }}>
+            <>
+                <div
+                    style={{ 'display': 'flex' }}
+                >
+                    <div style={{ 'flexBasis': '30%', 'paddingRight': '15px' }}>
 
-                    <label>Pregnancy entry type: <br />
-                        <select value={this.state.entryType} onChange={e => this.setState({ entryType: e.target.value })}>
-                            <option value='baseline'>Baseline</option>
-                            <option value='followup'>Follow-up</option>
-                            <option value='term'>Postpartum</option>
+                        {
+                            this.state.entryType === 'baseline' &&
+                            <p>Please enter details for a baseline pregnancy record.   </p>
+                        }
 
-                        </select>
-                    </label><br /><br />
+                        {
+                            (this.state.entryType === 'followup' || this.state.entryType === 'term') &&
+                            <div>
+                                <p>Current ongoing pregnancy start date: {this.state.pregnancyStartDate && this.state.pregnancyStartDate.toDateString()}. Please enter details for a follow up pregnancy record.</p>
 
-                    <p style={{ 'color': 'red' }}> No recent pregnancy to associate with this entry. Please click below to add the pregnancy:</p> <br></br>
-                    <p>Previous pregnancies:</p>
-                    <EditPregnancy match={this.props.match} location={this.props.location} renderedInFrontPage={true} />
+                            </div>
+                        }
+                        <br /> <br />
+                        <PregnancyImageForm visitId={this.props.match.params.visitId}></PregnancyImageForm>
 
 
-                </div>
-                <div style={{ 'flexBasis': '70%', 'overflow': 'auto' }}>
-                    {/* <PregnancyPostDataForm childRef={component => { this.pregnancyForm = component; }} renderedInFrontPage={this.props.renderedInFrontPage} /> */}
-                    <div style={{ 'width': '100%' }}>
-                        {this._renderSwitch(this.state.entryType)}
                     </div>
-                </div>
+                    <div style={{ 'flexBasis': '70%', 'overflow': 'auto' }}>
 
-            </div>
+                        <div style={{ 'width': '100%' }}>
+                            {this._renderSwitch(this.state.entryType)}
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div>
+                    {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
+                    {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /></> : null}
+                </div>
+            </>
         )
 
 

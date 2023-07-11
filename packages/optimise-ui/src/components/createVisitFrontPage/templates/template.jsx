@@ -4,10 +4,12 @@ import style from '../frontpage.module.css';
 
 @connect(state => ({
     patientProfile: state.patientProfile.data
-    }))
+}))
 class VisitFrontPageTemplate extends Component {
     render() {
         const { match: { params }, patientProfile: { visits }, isBaselineVisit, pageNumberToElementMap, pageToTitleMap } = this.props;
+
+        const { consent } = this.props.patientProfile;
 
         if (visits === undefined)
             return null;
@@ -18,7 +20,7 @@ class VisitFrontPageTemplate extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>{isBaselineVisit ? 'Baseline' : 'Follow-up'} Visit Initial Data Entry ({this.props.match.params.patientId}) - Page {currentPageNumber}/12: {pageToTitleMap[params.currentPage]} </h2>
+                    <h2>{isBaselineVisit ? 'Baseline' : 'Follow-up'} Visit Initial Data Entry ({this.props.match.params.patientId}) - Page {currentPageNumber}/{consent ? "12" : "11"}: {pageToTitleMap[params.currentPage]} </h2>
                 </div>
                 <div className={style.panel}>
                     {visitFiltered.length === 1 ?
@@ -38,7 +40,7 @@ class VisitFrontPageTemplate extends Component {
     }
 }
 
-export {VisitFrontPageTemplate};
+export { VisitFrontPageTemplate };
 
 class RenderCurrentPage extends PureComponent {
     constructor() {

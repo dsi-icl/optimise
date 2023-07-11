@@ -226,54 +226,52 @@ class SelectorUtils {
         return PregnancyCore.getPregnancy(whereObj).then((result) => ({ pregnancy: result }), () => ({ pregnancy: [] }));
     }
 
-    // async getPregnancy(patientId, deleted) {
-
-    //     const whereObj = { patient: patientId };
-    //     if (deleted !== true)
-    //         whereObj.deleted = '-';
-    //     const pregnancies = await dbcon()('PATIENT_PREGNANCY')
-    //         .select('*')
-    //         .where(whereObj);
-
-    //     if (pregnancies.length === 0) {
-    //         return {
-    //             pregnancy: []
-    //         };
-    //     }
-
-    //     const pregnanciesWithEntries = await Promise.all(
-    //         pregnancies.map(async (pregnancy) => {
-    //             let pregnancyDataWhereObj = { pregnancyId: pregnancy.id }
-    //             const pregnancyDataEntries = await PregnancyCore.getPregnancyData(pregnancyDataWhereObj);
-    //             return { ...pregnancy, pregnancyDataEntries: pregnancyDataEntries || [] };
-    //         })
-    //     );
-
-    //     return { pregnancy: pregnanciesWithEntries };
-    // }
-
     async getPregnancyEntries(patientId, deleted) {
         const whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then(resu => {
-            const ids = [];
-            for (let i = 0; i < resu.length; i++) {
-                ids[i] = resu[i].id;
-            }
-            const innerWhereObj = {};
-            if (deleted !== true)
-                innerWhereObj.deleted = '-';
-            return dbcon()('PATIENT_PREGNANCY_DATA')
-                .select('*')
-                .whereIn('visitId', ids)
-                .andWhere(innerWhereObj)
-                .then(result => {
-                    const returnObj = { pregnancyEntries: result };
-                    return returnObj;
-                });
-        });
+
+        const visitIds = await dbcon()('VISITS')
+            .select('id')
+            .where(whereObj)
+            .then(results => results.map(result => result.id));
+
+        const innerWhereObj = {};
+        if (deleted !== true)
+            innerWhereObj.deleted = '-';
+
+        const dataEntries = await dbcon()('PATIENT_PREGNANCY_DATA')
+            .select('*')
+            .whereIn('visitId', visitIds)
+            .andWhere(innerWhereObj);
+
+
+        return { pregnancyEntries: dataEntries };
     }
+
+    async getPregnancyImages(patientId, deleted) {
+        const whereObj = { patient: patientId };
+        if (deleted !== true)
+            whereObj.deleted = '-';
+
+        const visitIds = await dbcon()('VISITS')
+            .select('id')
+            .where(whereObj)
+            .then(results => results.map(result => result.id));
+
+        const innerWhereObj = {};
+        if (deleted !== true)
+            innerWhereObj.deleted = '-';
+
+        const dataEntries = await dbcon()('PATIENT_PREGNANCY_IMAGING')
+            .select('*')
+            .whereIn('visitId', visitIds)
+            .andWhere(innerWhereObj);
+
+        return { pregnancyImages: dataEntries };
+    }
+
+
 
 
     _getVisitData(visitId, deleted) {

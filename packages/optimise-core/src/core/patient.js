@@ -29,6 +29,7 @@ class Patient {
      * @param {string} getOnly Filtering return.
      */
     static getPatientProfile(whereObj, deleted, getOnly) {
+        console.log("getPatientProfile");
         return new Promise((resolve, reject) => Patient.getPatient(whereObj, { patientId: 'id', alias: 'aliasId', study: 'study', consent: 'consent', participation: 'participation' }, deleted)
             .then((Patientresult) => {
                 let patientId;
@@ -38,9 +39,9 @@ class Patient {
                     return reject(ErrorHelper(message.errorMessages.NOTFOUND));
                 }
                 const promiseArr = [];
-                let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis', 'getConcomitantMeds'];
+                //let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis', 'getConcomitantMeds'];
 
-                //let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getPregnancyEntries', 'getDiagnosis', 'getConcomitantMeds'];
+                let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getPregnancyEntries', 'getPregnancyImages', 'getDiagnosis', 'getConcomitantMeds'];
 
                 if (getOnly && typeof getOnly === 'string')
                     availableFunctions = getOnly.split(',').filter((func) => availableFunctions.includes(func));

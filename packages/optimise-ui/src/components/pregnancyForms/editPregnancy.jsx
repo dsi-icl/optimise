@@ -15,50 +15,45 @@ import PregnancyFollowupDataForm from './pregFollowupData';
 import PregnancyBaselineDataForm from './pregBaselineData';
 import PregnancyPostDataForm from './pregPostData';
 
-//function mapStateToProps(state) {
-//    return {
-//        fields: state.availableFields,
-//        patientProfile: state.patientProfile
-//    };
-//}
-//
-//@withRouter
-//@connect(mapStateToProps)
-
 
 @withRouter
 @connect(state => ({
     fields: state.availableFields,
     data: state.patientProfile.data,
+    patientProfile: state.patientProfile
 
 }))
-class EditPregnancies extends Component {
+class EditPregnancyDataEntries extends Component {
     render() {
-        const matchId = this.props.match.params.entryId;
-        const renderedInFrontPage = this.props.renderedInFrontPage;
+
+        const patientProfile = this.props.patientProfile;
 
 
-        const data = examplePregnancyData.reduce((a, el) => { a = a.concat(el.pregnancyDataEntries); return a; }, []);
+        if (!patientProfile.fetching) {
 
-        //const data = this.props.data.pregnancy.reduce((a, el) => { a = a.concat(el.pregnancyDataEntries); return a; }, []);
+            const matchId = this.props.match.params.entryId;
+            const renderedInFrontPage = this.props.renderedInFrontPage;
+            const matchedEntry = this.props.data.pregnancyEntries.filter(el => el.id === parseInt(matchId));
 
-        const matchedEntry = data.filter(el => el.id === parseInt(matchId));
 
-        console.log("edit pregnancy", this.props)
+            if (!matchedEntry || matchedEntry.length !== 1) {
+                return 'An error occured.';
+            }
 
-        if (!matchedEntry || matchedEntry.length !== 1) {
-            return 'An error occured.';
-        }
-
-        switch (matchedEntry[0].dataType) {
-            case 'baseline':
-                return <PregnancyBaselineDataForm renderedInFrontPage={renderedInFrontPage} />;
-            case 'followup':
-                return <PregnancyFollowupDataForm renderedInFrontPage={renderedInFrontPage} />;
-            case 'term':
-                return <PregnancyPostDataForm renderedInFrontPage={renderedInFrontPage} />;
+            switch (matchedEntry[0].dataType) {
+                case 'baseline':
+                    return <PregnancyBaselineDataForm renderedInFrontPage={renderedInFrontPage} entryId={matchedEntry[0].id} />;
+                case 'followup':
+                    return <PregnancyFollowupDataForm renderedInFrontPage={renderedInFrontPage} entryId={matchedEntry[0].id} />;
+                case 'term':
+                    return <PregnancyFollowupDataForm renderedInFrontPage={renderedInFrontPage} entryId={matchedEntry[0].id} />;
+                // case 'term':
+                //     return <PregnancyPostDataForm renderedInFrontPage={renderedInFrontPage} formData={matchedEntry[0]} />;
+            }
+        } else {
+            return "Loading..."
         }
     }
 }
 
-export default EditPregnancies;
+export default EditPregnancyDataEntries;

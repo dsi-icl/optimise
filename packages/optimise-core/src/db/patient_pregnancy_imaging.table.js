@@ -1,22 +1,23 @@
 import { tableMove } from '../utils/db-mover';
 
 export const TABLE_NAME = 'PATIENT_PREGNANCY_IMAGING';
-export const PRIORITY = 4;
+export const PRIORITY = 5;
 export default async (dbcon, version) => {
     switch (version) {
-        case 1:
+        case 18:
             if (await dbcon().schema.hasTable(TABLE_NAME) === false) {
                 await dbcon().schema.createTable(TABLE_NAME, (table) => {
                     table.increments('id').primary();
-                    table.integer('pregnancyDataId').notNullable().references('id').inTable('PATIENT_PREGNANCY_DATA').onDelete('CASCADE');
+                    //table.integer('pregnancyDataId').notNullable().references('id').inTable('PATIENT_PREGNANCY_DATA').onDelete('CASCADE');
+                    table.integer('visitId').notNullable().references('id').inTable('VISITS').onDelete('CASCADE');
                     table.text('date').notNullable();
-                    table.text('deleted').notNullable();
+                    table.text('deleted').notNullable().defaultTo('-');
                     table.text('mode').notNullable();
                     table.text('result').notNullable();
 
                     table.integer('createdByUser').notNullable().references('id').inTable('USERS');
 
-                    table.unique(['pregnancyDataId', 'date', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
+                    //table.unique(['pregnancyDataId', 'date', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
                 });
 
             }

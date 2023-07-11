@@ -18,8 +18,8 @@ export default class RightPanel extends Component {
                         <AdminActions location={location.pathname} match={match} />
                     } />
                     <Route path='/createPatient' component={SearchPatient} />
-                    <Route path='/patientProfile/:patientId/pregnancies' render={({ match }) => <PregnancyList match={match} />} />
-                    <Route path='/patientProfile/:patientId/editPregnancyDataEntry/' render={({ match }) => <PregnancyList match={match} />} />
+                    {/* <Route path='/patientProfile/:patientId/pregnancies' render={({ match }) => <PregnancyList match={match} />} />
+                    <Route path='/patientProfile/:patientId/editPregnancyDataEntry/' render={({ match }) => <PregnancyList match={match} />} /> */}
                     <Route path='/patientProfile/:patientId' render={({ match, location }) =>
                         <PatientChart location={location.pathname} match={match} />
                     } />

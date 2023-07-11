@@ -14,9 +14,9 @@ const PregnancyModel = {
 
 
 let baseDataEntryModel = {
+    visitId: null,
     pregnancyId: null,
     date: null,
-    deleted: null,
     dataType: null
 };
 
@@ -436,6 +436,7 @@ class DemographicDataController {
     }
 
     static createPregnancy({ body, user }, res) {
+
         if (body.hasOwnProperty('patient') && typeof body.patient === 'number') {
 
             if (body.hasOwnProperty('meddra') && body.meddra !== null && isNaN(parseInt(body.meddra))) {
@@ -615,23 +616,20 @@ class DemographicDataController {
     static createPregnancyData({ body, user }, res) {
         //
 
-
-        let momentDataDate = moment(moment(body.date, moment.ISO_8601))
+        let momentDataDate = moment(body.date, moment.ISO_8601);
         if (body.hasOwnProperty('date') && body.date !== null && !momentDataDate.isValid()) {
             let msg = message.dateError[momentDataDate.invalidAt()] !== undefined ? message.dateError[momentDataDate.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
         }
 
-        // if (body.hasOwnProperty('pregnancyId') && typeof body.pregnancyId === 'number' &&
-        //     body.hasOwnProperty('dataType') && typeof body.dataType === 'string' ) {
-
         if (body.hasOwnProperty('visitId') && typeof body.visitId === 'number' &&
-            body.hasOwnProperty('dataType') && typeof body.dataType === 'string') {
+            body.hasOwnProperty('dataType') && typeof body.dataType === 'string' &&
+            body.hasOwnProperty('pregnancyId') && typeof body.pregnancyId === 'number') {
 
             let entryObj;
 
-            if (body.dataType === 'baseline') {
+            if (body.dataType === 'baseline' || body.dataType === 'followup' || body.dataType === 'term') {
                 const {
                     LMP,
                     maternalAgeAtLMP,
@@ -643,78 +641,122 @@ class DemographicDataController {
                     illicitDrugUse,
                 } = body;
 
-                // if (!LMP || !maternalAgeAtLMP || !EDD || !ART || !numOfFoetuses || !folicAcidSuppUsed || !folicAcidSuppUsedStartDate || !illicitDrugUse) {
-                //     res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-                //     return;
-                // }
+                if (body.hasOwnProperty('maternalAgeAtLMP') && body.maternalAgeAtLMP !== null && isNaN(parseInt(body.maternalAgeAtLMP))) {
+                    res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+                    return;
+                }
+                if (body.hasOwnProperty('numOfFoetuses') && body.numOfFoetuses !== null && isNaN(parseInt(body.numOfFoetuses))) {
+                    res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+                    return;
+                }
+                if (body.hasOwnProperty('maternalBMI') && body.maternalBMI !== null && isNaN(parseInt(body.maternalBMI))) {
+                    res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+                    return;
+                }
+
+                const momentLMP = moment(body.LMP, moment.ISO_8601);
+                const momentEDD = moment(body.EDD, moment.ISO_8601);
+                const momentFolicSupp = moment(body.folicAcidSuppUsedStartDate, moment.ISO_8601);
+                if (body.hasOwnProperty('LMP') && body.LMP !== null && !momentLMP.isValid()) {
+                    const msg = message.dateError[momentLMP.invalidAt()] !== undefined ? message.dateError[momentLMP.invalidAt()] : message.userError.INVALIDDATE;
+                    res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+                    return;
+                }
+                if (body.hasOwnProperty('EDD') && body.EDD !== null && !momentEDD.isValid()) {
+                    const msg = message.dateError[momentEDD.invalidAt()] !== undefined ? message.dateError[momentEDD.invalidAt()] : message.userError.INVALIDDATE;
+                    res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+                    return;
+                }
+                if (body.hasOwnProperty('folicAcidSuppUsedStartDate') && body.folicAcidSuppUsedStartDate !== null && !momentFolicSupp.isValid()) {
+                    const msg = message.dateError[momentFolicSupp.invalidAt()] !== undefined ? message.dateError[momentFolicSupp.invalidAt()] : message.userError.INVALIDDATE;
+                    res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+                    return;
+                }
+
 
                 entryObj = Object.assign({}, PregnancyBaselineModel, body);
+
+                if (body.hasOwnProperty('LMP') && body.LMP !== null) {
+                    entryObj.LMP = momentLMP.valueOf();
+                }
+                if (body.hasOwnProperty('EDD') && body.LMP !== null) {
+                    entryObj.EDD = momentEDD.valueOf();
+                }
+                if (body.hasOwnProperty('folicAcidSuppUsedStartDate') && body.LMP !== null) {
+                    entryObj.folicAcidSuppUsedStartDate = momentFolicSupp.valueOf();
+                }
+
+
+            }
+            else {
+                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+                return;
             }
 
 
-            if (body.dataType === 'followup') {
-                const {
-                    EDD,
-                    numOfFoetuses,
-                    folicAcidSuppUsed,
-                    folicAcidSuppUsedStartDate,
-                    illicitDrugUse,
-                } = body;
+            // if (body.dataType === 'followup') {
+            //     const {
+            //         EDD,
+            //         numOfFoetuses,
+            //         folicAcidSuppUsed,
+            //         folicAcidSuppUsedStartDate,
+            //         illicitDrugUse,
+            //     } = body;
 
-                // if (!EDD || !numOfFoetuses || !folicAcidSuppUsed || !folicAcidSuppUsedStartDate || !illicitDrugUse) {
-                //     res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-                //     return;
-                // }
+            //     // if (!EDD || !numOfFoetuses || !folicAcidSuppUsed || !folicAcidSuppUsedStartDate || !illicitDrugUse) {
+            //     //     res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            //     //     return;
+            //     // }
 
-                entryObj = Object.assign({}, PregnancyFollowupModel, body);
-            }
+            //     entryObj = Object.assign({}, PregnancyFollowupModel, body);
+            // }
 
-            if (body.dataType === 'term') {
-                const {
-                    inductionOfDelivery,
-                    lengthOfPregnancy,
-                    pregnancyOutcome,
-                    congenitalAbnormality,
-                    modeOfDelivery,
-                    useOfEpidural,
-                    birthWeight,
-                    sexOfBaby,
-                    APGAR0,
-                    APGAR5,
-                    everBreastFed,
-                    breastfeedStart,
-                    exclusiveBreastfeedEnd,
-                    mixedBreastfeedEnd,
-                    admission12,
-                    admission36,
-                    admission60,
-                    developmentalOutcome
-                } = body;
+            // if (body.dataType === 'term') {
+            //     const {
+            //         inductionOfDelivery,
+            //         lengthOfPregnancy,
+            //         pregnancyOutcome,
+            //         congenitalAbnormality,
+            //         modeOfDelivery,
+            //         useOfEpidural,
+            //         birthWeight,
+            //         sexOfBaby,
+            //         APGAR0,
+            //         APGAR5,
+            //         everBreastFed,
+            //         breastfeedStart,
+            //         exclusiveBreastfeedEnd,
+            //         mixedBreastfeedEnd,
+            //         admission12,
+            //         admission36,
+            //         admission60,
+            //         developmentalOutcome
+            //     } = body;
 
-                // if (!inductionOfDelivery ||
-                //     !lengthOfPregnancy ||
-                //     !pregnancyOutcome ||
-                //     !congenitalAbnormality ||
-                //     !modeOfDelivery ||
-                //     !useOfEpidural ||
-                //     !birthWeight ||
-                //     !sexOfBaby ||
-                //     !APGAR0 ||
-                //     !APGAR5 ||
-                //     !everBreastFed ||
-                //     !breastfeedStart ||
-                //     !exclusiveBreastfeedEnd ||
-                //     !mixedBreastfeedEnd ||
-                //     !admission12 ||
-                //     !admission36 ||
-                //     !admission60 ||
-                //     !developmentalOutcome) {
-                //     res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-                //     return;
-                // }
+            //     // if (!inductionOfDelivery ||
+            //     //     !lengthOfPregnancy ||
+            //     //     !pregnancyOutcome ||
+            //     //     !congenitalAbnormality ||
+            //     //     !modeOfDelivery ||
+            //     //     !useOfEpidural ||
+            //     //     !birthWeight ||
+            //     //     !sexOfBaby ||
+            //     //     !APGAR0 ||
+            //     //     !APGAR5 ||
+            //     //     !everBreastFed ||
+            //     //     !breastfeedStart ||
+            //     //     !exclusiveBreastfeedEnd ||
+            //     //     !mixedBreastfeedEnd ||
+            //     //     !admission12 ||
+            //     //     !admission36 ||
+            //     //     !admission60 ||
+            //     //     !developmentalOutcome) {
+            //     //     res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            //     //     return;
+            //     // }
 
-                entryObj = Object.assign({}, PregnancyTermModel, body);
-            }
+            //     entryObj = Object.assign({}, PregnancyTermModel, body);
+            // }
 
             let baseObj = Object.assign({}, baseDataEntryModel, body);
 
@@ -790,22 +832,22 @@ class DemographicDataController {
     //PregnancyImage
     static createPregnancyImage({ body, user }, res) {
         //
-        if (body.hasOwnProperty('pregnancyDataId') && typeof body.pregnancyDataId === 'number') {
+
+        if (body.hasOwnProperty('visitId') && typeof body.visitId === 'number') {
             let momentDate = moment(body.date, moment.ISO_8601);
             if (body.hasOwnProperty('date') && body.date !== null && !momentDate.isValid()) {
                 let msg = message.dateError[momentDate.invalidAt()] !== undefined ? message.dateError[momentDate.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
             }
-            if (!body.hasOwnProperty('deleted') || !body.hasOwnProperty('mode') || !body.hasOwnProperty('result')) {
+            if (!body.hasOwnProperty('mode') || !body.hasOwnProperty('result')) {
                 res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
                 return;
             }
 
             let entryObj = {
-                pregnancyDataId: body.pregnancyDataId,
+                visitId: body.visitId,
                 date: momentDate.valueOf(),
-                deleted: body.deleted,
                 mode: body.mode,
                 result: body.result,
                 createdByUser: user.id
@@ -819,57 +861,51 @@ class DemographicDataController {
                 return false;
             });
         } else {
-            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
+
     }
 
     static editPregnancyImage({ body, user }, res) {
         //
-        if (!body.hasOwnProperty('id') || !body.id) {
-            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-            return;
-        }
+        if (body.hasOwnProperty('id') && typeof body.id === 'number') {
 
-        PregnancyCore.getPregnancyImage(body.id).then((result) => {
-            if (!result) {
-                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            const entryObj = Object.assign({}, body);
+            const momentDate = moment(body.date, moment.ISO_8601);
+
+            if (body.hasOwnProperty('date') && body.date !== null && !momentDate.isValid()) {
+                const msg = message.dateError[momentDate.invalidAt()] !== undefined ? message.dateError[momentDate.invalidAt()] : message.userError.INVALIDDATE;
+                res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
+            } else if (body.hasOwnProperty('date') && body.date !== null) {
+                entryObj.date = momentDate.valueOf();
             }
 
-            // Update the fields that were passed in
-            const updatedFields = {};
-            if (body.hasOwnProperty('date') && body.date !== null) {
-                let momentDate = moment(body.date, moment.ISO_8601);
-                if (!momentDate.isValid()) {
-                    let msg = message.dateError[momentDate.invalidAt()] !== undefined ? message.dateError[momentDate.invalidAt()] : message.userError.INVALIDDATE;
-                    res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-                    return;
-                }
-                updatedFields.date = momentDate.valueOf();
-            }
-            if (body.hasOwnProperty('mode') && body.mode !== null) {
-                updatedFields.mode = body.mode;
-            }
-            if (body.hasOwnProperty('result') && body.result !== null) {
-                updatedFields.result = body.result;
+            if (body.hasOwnProperty('mode') && body.mode !== undefined) {
+                entryObj.mode = body.mode;
             }
 
-            // Merge the updated fields with the existing pregnancy image data
-            const updatedPregnancyImage = Object.assign({}, result, updatedFields);
+            if (body.hasOwnProperty('result') && body.result !== undefined) {
+                entryObj.result = body.result;
+            }
 
-            // Save the updated pregnancy image data
-            PregnancyCore.updatePregnancyImage(updatedPregnancyImage).then((result) => {
+
+            PregnancyCore.editPregnancyImage(user, entryObj).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        }).catch((error) => {
-            res.status(400).json(ErrorHelper(message.errorMessages.FETCHFAIL, error));
-            return false;
-        });
+        } else if (!body.hasOwnProperty('id')) {
+            res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+
 
     }
 

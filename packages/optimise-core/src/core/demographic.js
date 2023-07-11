@@ -182,8 +182,8 @@ export class PregnancyCore {
         return new Promise((resolve, reject) => createEntry('PATIENT_PREGNANCY_IMAGING', entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
-    static getPregnancyImage() {
-        return new Promise((resolve, reject) => getEntry('PATIENT_PREGNANCY_IMAGING', {}).then((result) => resolve(result)).catch((error) => reject(error)));
+    static getPregnancyImage(whereObj) {
+        return new Promise((resolve, reject) => getEntry('PATIENT_PREGNANCY_IMAGING', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
     static editPregnancyImage(user, entryObj) {

@@ -9,9 +9,9 @@ import style from './medicalEvent.module.css';
 @connect(state => ({
     patientId: state.patientProfile.data.id,
     agentId: state.syncInfo.config.id,
-    }), dispatch => ({
-        createVisit: body => dispatch(createVisitAPICall(body))
-        }))
+}), dispatch => ({
+    createVisit: body => dispatch(createVisitAPICall(body))
+}))
 class CreateVisit extends Component {
     constructor() {
         super();
@@ -108,7 +108,7 @@ class CreateVisit extends Component {
                         <option value='Drug Monitoring'>Drug Monitoring</option>
                         <option value='Relapse Assessment'>Relapse Assessment</option>
                         <option value='Urgent'>Urgent</option>
-                        <option value='Pregnancy Monitoring'>Pregnancy Monitoring</option>
+                        {/* <option value='Pregnancy Monitoring'>Pregnancy Monitoring</option> */}
                     </select><br /><br />
                     {error ? <><div className={style.error}>{error}</div><br /></> : null}
                     <button onClick={this._handleSubmitClick} >Submit</button>

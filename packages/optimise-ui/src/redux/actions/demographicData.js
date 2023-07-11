@@ -28,13 +28,26 @@ export const deleteImmunisationAPICall = (body) => dispatch => (
         .catch(msg => store.dispatch(addError({ error: msg })))
 );
 
-export const createPregnancyAPICall = (body) => dispatch => (
+// export const createPregnancyAPICall = (body) => dispatch => (
+//     apiHelper('/demographics/Pregnancy', { method: 'POST', body: JSON.stringify(body.data) })
+//         .then(() => {
+//             dispatch(getPatientProfileById(body.patientId));
+//         })
+//         .catch(msg => store.dispatch(addError({ error: msg })))
+// );
+
+export const createPregnancyAPICall = (body, callback) => dispatch => (
     apiHelper('/demographics/Pregnancy', { method: 'POST', body: JSON.stringify(body.data) })
-        .then(() => {
+        .then((json) => {
             dispatch(getPatientProfileById(body.patientId));
+            if (typeof callback === 'function') {
+                callback(json);
+            }
         })
         .catch(msg => store.dispatch(addError({ error: msg })))
 );
+
+
 
 export const editPregnancyAPICall = (body) => dispatch => (
     apiHelper('/demographics/Pregnancy', { method: 'PUT', body: JSON.stringify(body.data) })
@@ -54,12 +67,19 @@ export const deletePregnancyAPICall = (body) => dispatch => (
 
 
 //need to add pregnancy outcome
-export const createPregnancyOutcomeAPICall = (body) => dispatch => (
+export const createPregnancyOutcomeAPICall = (body, callback) => dispatch => (
     apiHelper('/demographics/PregnancyOutcome', { method: 'POST', body: JSON.stringify(body.data) })
-        .then(() => {
+        .then((json) => {
             dispatch(getPatientProfileById(body.patientId));
+            if (typeof callback === 'function') {
+                callback(json);
+            }
         })
-        .catch(msg => store.dispatch(addError({ error: msg })))
+        .catch(msg => {
+            console.log(msg);
+            store.dispatch(addError({ error: msg }));
+        }
+        )
 );
 
 export const editPregnancyOutcomeAPICall = (body) => dispatch => (
@@ -77,6 +97,69 @@ export const deletePregnancyOutcomeAPICall = (body) => dispatch => (
         })
         .catch(msg => store.dispatch(addError({ error: msg })))
 );
+
+export const alterPregnancyItemsCall = (body) => (dispatch) => {
+    if (body.createEntry && body.data.dataType === 'baseline') {
+        return apiHelper('/demographics/Pregnancy', {
+            method: 'POST', body: JSON.stringify(body.pregnancy)
+        })
+            .then((json) => {
+                console.log("alterPregnancy", json);
+                const pregnancyId = json.state;
+                body.data.pregnancyId = pregnancyId;
+                console.log("alterpregnancy", body);
+                dispatch(createPregnancyDataAPICall(body));
+            })
+            .catch((msg) => dispatch(addError({ error: msg })));
+    } else if (body.createEntry) {
+        return apiHelper('/demographics/Pregnancy', {
+            method: 'PUT', body: JSON.stringify(body.pregnancy)
+        })
+            .then(() => {
+                dispatch(createPregnancyDataAPICall(body));
+            })
+            .catch((msg) => dispatch(addError({ error: msg })));
+    } else {
+        return dispatch(editPregnancyItemsCall(body));
+    }
+};
+
+export const createPregnancyItemsCall = (body) => (dispatch) => {
+    if (body.pregnancy) {
+        return apiHelper('/demographics/Pregnancy', {
+            method: 'POST',
+            body: JSON.stringify(body.pregnancy)
+        })
+            .then((json) => {
+                const pregnancyId = json.state;
+                body.data.pregnancyId = pregnancyId;
+                console.log(body);
+                dispatch(createPregnancyDataAPICall(body));
+            })
+            .catch((msg) => dispatch(addError({ error: msg })));
+    } else {
+        return dispatch(createPregnancyDataAPICall(body));
+    }
+};
+
+
+export const editPregnancyItemsCall = (body) => (dispatch) => {
+    if (body.pregnancy) {
+        return apiHelper('/demographics/Pregnancy', {
+            method: 'PUT',
+            body: JSON.stringify(body.pregnancy)
+        })
+            .then(() => {
+                dispatch(editPregnancyDataAPICall(body));
+            })
+            .catch((msg) => {
+                console.log(msg);
+                dispatch(addError({ error: msg }))
+            });
+    } else {
+        return dispatch(editPregnancyDataAPICall(body));
+    }
+};
 
 
 //need to add pregnancy data
@@ -108,13 +191,18 @@ export const deletePregnancyDataAPICall = (body) => dispatch => (
 );
 
 
+
+
 //need to add pregnancy image
 export const createPregnancyImageAPICall = (body) => dispatch => (
     apiHelper('/demographics/PregnancyImage', { method: 'POST', body: JSON.stringify(body.data) })
         .then(() => {
             dispatch(getPatientProfileById(body.patientId));
         })
-        .catch(msg => store.dispatch(addError({ error: msg })))
+        .catch(msg => {
+            console.log(msg);
+            store.dispatch(addError({ error: msg }))
+        })
 );
 
 export const editPregnancyImageAPICall = (body) => dispatch => (

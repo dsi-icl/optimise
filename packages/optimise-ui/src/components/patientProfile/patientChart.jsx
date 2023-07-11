@@ -247,6 +247,9 @@ class OneVisit extends Component {
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
+        //
+
+
 
         if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
             return null;
@@ -279,6 +282,36 @@ class OneVisit extends Component {
         const comorbidities = this.props.data.comorbidities.filter(el => el.visit === this.props.visitId);
         const concomitantMeds = this.props.data.concomitantMeds.filter(el => el.visit === this.props.visitId);
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
+
+        //
+        const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el.visitId === this.props.visitId);
+        const pregnancyImages = this.props.data.pregnancyImages.filter(el => el.visitId === this.props.visitId);
+        console.log("pregnancyImages", pregnancyImages);
+        let pregnancy;
+        let pregnancyValueArray = [];
+
+
+        if (pregnancyEntries.length) {
+            console.log("pregnancyEntries chart", pregnancyEntries);
+
+            pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
+
+            pregnancyValueArray = [
+                { name: 'Date of last menstrual period (LMP)', value: pregnancyEntries[0].LMP ? new Date(pregnancyEntries[0].LMP).toDateString() : null },
+                { name: 'Maternal age at LMP', value: pregnancyEntries[0].maternalAgeAtLMP },
+                { name: 'Maternal BMI', value: pregnancyEntries[0].maternalBMI },
+                { name: 'Estimated date of delivery', value: pregnancyEntries[0].EDD ? new Date(pregnancyEntries[0].EDD).toDateString() : null },
+                { name: 'Assisted Reproductive Technology method', value: pregnancyEntries[0].ART ? pregnancyEntries[0].ART : null },
+                { name: 'Number of foetuses', value: pregnancyEntries[0].numOfFoetuses },
+                { name: 'Folic acid supplementation', value: pregnancyEntries[0].folicAcidSuppUsed },
+                { name: 'Folic acid supplementation start date', value: pregnancyEntries[0].folicAcidSuppUsedStartDate && pregnancyEntries[0].folicAcidSuppUsed === 'yes' ? new Date(pregnancyEntries[0].folicAcidSuppUsedStartDate).toDateString() : null },
+                { name: 'Illicit drug use', value: pregnancyEntries[0].illicitDrugUse },
+
+            ]
+
+        }
+
+
 
         const filteredSymptoms = filterEmptyRenders(symptoms, this.props.inputType, this.props.typedict);
         const filteredComorbidities = comorbidities;
@@ -366,86 +399,106 @@ class OneVisit extends Component {
                     </>
                 ) : null}
 
-                {this.props.title.includes("Pregnancy") && <>
+                {pregnancyEntries.length && pregnancy.length && this.props.data.consent ?
+                    <>
 
-                    <h4><Icon symbol='symptom' />&nbsp;PREGNANCY</h4>
-                    <div className={style.visitWrapper}>
-                        <table>
+                        <h4><Icon symbol='symptom' />&nbsp;PREGNANCY</h4>
+                        <div className={style.visitWrapper}>
+                            <table>
 
-                            <thead>
-                                <tr>
-                                    <th colspan="2">Pregnancy baseline entry</th>
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">{pregnancyEntries[0].dataType === 'baseline' ? 'Baseline' : 'Follow up'}</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <td>Pregnancy start date</td>
-                                <td>-</td>
-
-
-                            </tbody>
-                            <tbody>
-                                <td>Date of Last Mentrual Period</td>
-                                <td>-</td>
+                                    </tr>
+                                </thead>
+                                {pregnancyEntries[0].dataType === 'baseline' ?
+                                    <tbody>
+                                        <td>Pregnancy start date</td>
+                                        <td>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
 
 
-                            </tbody>
-                            <tbody>
-                                <td>Maternal age at LMP</td>
-                                <td>-</td>
+                                    </tbody>
+                                    : null}
 
-                            </tbody>
-                            <tbody>
-                                <td>Maternal weight/BMI</td>
-                                <td>-</td>
+                                {pregnancy[0].outcomeDate ? pregnancyEntries[0].dataType === 'term' &&
+                                    <tbody>
+                                        <td>Pregnancy end date</td>
+                                        <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
 
-                            </tbody>
-                            <tbody>
-                                <td>Estimate date of delivery</td>
-                                <td>-</td>
 
-                            </tbody>
-                            <tbody>
-                                <td>Prenatal imaging</td>
-                                <td>-</td>
+                                    </tbody>
+                                    : null
+                                }
 
-                            </tbody>
-                            <tbody>
-                                <td>Assisted Reproductive technology method</td>
-                                <td>-</td>
 
-                            </tbody>
-                            <tbody>
-                                <td>Number foetuses</td>
-                                <td>-</td>
+                                {pregnancyValueArray.length ?
+                                    pregnancyValueArray.map(el => {
+                                        if (el.value) {
+                                            return (
+                                                <tbody>
+                                                    <td>{el.name}</td>
+                                                    <td>{el.value}</td>
 
-                            </tbody>
-                            <tbody>
-                                <td>Folic acid supplementation</td>
-                                <td>-</td>
 
-                            </tbody>
-                            <tbody>
-                                <td>Smoking status</td>
-                                <td>-</td>
-                            </tbody>
+                                                </tbody>
+                                            )
+                                        }
 
-                            {/* <tbody>
-                                        {concomitantMeds.map(el => <ConcomitantMed data={el} key={el.id} />)}
-                                    </tbody> */}
-                        </table>
-                        <br />
-                    </div>
-                    <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data/1`} activeClassName={style.activeNavLink}>
-                        <button>Edit pregnancy entry</button>
-                    </NavLink>
-                    {/* 
-                    <NavLink to={`/patientProfile/fdsa/editPregnancyDataEntry/1`} activeClassName={style.activeNavLink}>
-                        <button>Edit pregnancy entry</button>
-                    </NavLink> */}
-                    {/* 
-                    <Link to={`/patientProfile/fdsa/editPregnancyDataEntry/${data.id}`}>Edit pregnancy entry</Link> */}
-                </>}
+                                    })
+                                    : null
+                                }
+
+
+
+                                {pregnancyImages.length ? pregnancyImages.map(el => {
+                                    return (
+                                        <>
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">Pregnancy Image</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <td>Date</td>
+                                                <td>{new Date(parseFloat(el.date)).toDateString()}</td>
+
+
+
+                                            </tbody>
+                                            <tbody>
+
+
+                                                <td>Mode</td>
+                                                <td>{el.mode}</td>
+
+                                            </tbody>
+                                            <tbody>
+
+
+                                                <td>Result</td>
+                                                <td>{el.result}</td>
+
+
+                                            </tbody>
+                                        </>
+                                    )
+                                })
+                                    : null
+
+                                }
+
+                            </table>
+                            <br />
+                        </div>
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/pregnancyDataEntry/data/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
+                            <button>Edit pregnancy entry</button>
+                        </NavLink>
+
+                    </>
+                    : null}
 
                 {this.props.visitType === 1 ? (
                     <>
