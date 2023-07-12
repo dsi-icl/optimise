@@ -47,11 +47,11 @@
         "ws": "8.13.0"
     },
     "devDependencies": {
-        "@babel/core": "7.22.8",
-        "@babel/eslint-parser": "7.22.7",
+        "@babel/core": "7.22.9",
+        "@babel/eslint-parser": "7.22.9",
         "@babel/eslint-plugin": "7.22.5",
         "@babel/plugin-syntax-dynamic-import": "7.8.3",
-        "@babel/preset-env": "7.22.7",
+        "@babel/preset-env": "7.22.9",
         "@stryker-mutator/core": "7.1.0",
         "@stryker-mutator/html-reporter": "3.1.0",
         "@stryker-mutator/javascript-mutator": "4.0.0",
