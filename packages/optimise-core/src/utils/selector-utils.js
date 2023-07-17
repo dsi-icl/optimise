@@ -219,12 +219,26 @@ class SelectorUtils {
         });
     }
 
-    getPregnancy(patientId, deleted) {
+    // getPregnancy(patientId, deleted) {
+    //     const whereObj = { patient: patientId };
+    //     if (deleted !== true)
+    //         whereObj.deleted = '-';
+    //     return PregnancyCore.getPregnancy(whereObj).then((result) => ({ pregnancy: result }), () => ({ pregnancy: [] }));
+    // }
+
+    async getPregnancy(patientId, deleted) {
         const whereObj = { patient: patientId };
         if (deleted !== true)
             whereObj.deleted = '-';
-        return PregnancyCore.getPregnancy(whereObj).then((result) => ({ pregnancy: result }), () => ({ pregnancy: [] }));
+
+        const dataEntries = await dbcon()('PATIENT_PREGNANCY')
+            .select('*')
+            .where(whereObj);
+        return { pregnancy: dataEntries }
+
     }
+
+
 
     async getPregnancyEntries(patientId, deleted) {
         const whereObj = { patient: patientId };
