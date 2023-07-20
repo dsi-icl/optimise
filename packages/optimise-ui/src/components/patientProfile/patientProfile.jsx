@@ -27,6 +27,7 @@ class Section extends Component {
 
     render() {
         const { fetching, erasePatient } = this.props;
+
         if (fetching) {
             return <span></span>;
         } else {
@@ -41,7 +42,7 @@ class Section extends Component {
                         <div className={`${style.panel} ${style.patientInfo}`}>
                             <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
-                            {this.props.patientProfile.consent ? <Pregnancy /> : null}
+                            {!this.props.patientProfile.data.consent ? <Pregnancy /> : null}
 
                             <ImmunisationSection patientId={this.props.match.params.patientId} />
                             <DeletePatient match={this.props.match} />
@@ -445,6 +446,7 @@ class Pregnancy extends Component {
                     <PatientProfileSectionScaffold sectionName='Pregnancies' actions={
                         <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
                     }>
+                        No pregnancies recorded
                         {/* {PregnancyListButton} */}
                     </PatientProfileSectionScaffold>
                 );

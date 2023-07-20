@@ -286,15 +286,15 @@ class OneVisit extends Component {
         //
         const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el.visitId === this.props.visitId);
         const pregnancyImages = this.props.data.pregnancyImages.filter(el => el.visitId === this.props.visitId);
-        console.log("pregnancyImages", pregnancyImages);
+
         let pregnancy;
         let pregnancyValueArray = [];
 
 
         if (pregnancyEntries.length) {
-            console.log("pregnancyEntries chart", pregnancyEntries);
 
             pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
+
 
             pregnancyValueArray = [
                 { name: 'Date of last menstrual period (LMP)', value: pregnancyEntries[0].LMP ? new Date(pregnancyEntries[0].LMP).toDateString() : null },
