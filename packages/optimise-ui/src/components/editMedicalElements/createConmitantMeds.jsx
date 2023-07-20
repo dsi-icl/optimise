@@ -14,7 +14,7 @@ import moment from 'moment';
     patientId: state.patientProfile.data.id,
     patientProfile: state.patientProfile,
     types: state.availableFields.concomitantMedsList
-    }))
+}))
 class EditConcomitantMeds extends Component {
     constructor() {
         super();
@@ -84,7 +84,7 @@ class EditConcomitantMeds extends Component {
     typedict: state.availableFields.concomitantMedsList_hash[0],
     types: state.availableFields.concomitantMedsList,
     patientId: state.patientProfile.data.patientId
-    }))
+}))
 class OneComorbidity extends Component {
     constructor(props) {
         super();
@@ -267,7 +267,7 @@ class OneComorbidity extends Component {
     patientId: state.patientProfile.data.id,
     patientProfile: state.patientProfile,
     types: state.availableFields.concomitantMedsList
-    }))
+}))
 class CreateConcomitantMed extends Component {
     constructor() {
         super();

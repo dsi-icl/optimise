@@ -11,9 +11,9 @@ import style from './medicalEvent.module.css';
     visits: state.patientProfile.data.visits,
     interruptionReasons: state.availableFields.interruptionReasons,
     types: state.availableFields.drugs
-    }), dispatch => ({
-        createTreatment: body => dispatch(createTreatmentAPICall(body))
-        }))
+}), dispatch => ({
+    createTreatment: body => dispatch(createTreatmentAPICall(body))
+}))
 class CreateTreatment extends Component {
     constructor() {
         super();

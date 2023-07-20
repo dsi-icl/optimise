@@ -1,7 +1,7 @@
 {
     "name": "optimise-electron",
     "productName": "Optimise MS Desktop",
-    "version": "2.1.5",
+    "version": "3.0.2",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
         "research",
@@ -33,7 +33,7 @@
         "appId": "org.optimise-ms.local.app",
         "productName": "Optimise MS Desktop",
         "detectUpdateChannel": true,
-        "copyright": "Copyright (c) 2022 Data Science Institute",
+        "copyright": "Copyright (c) 2023 Data Science Institute",
         "directories": {
             "output": "build"
         },
@@ -115,21 +115,21 @@
     },
     "dependencies": {
         "electron-log": "4.4.8",
-        "electron-updater": "5.3.0",
+        "electron-updater": "6.1.1",
         "express": "4.18.2",
         "electron-unhandled": "4.0.1",
-        "sqlite3": "5.1.2"
+        "sqlite3": "5.1.6"
     },
     "devDependencies": {
-        "@babel/core": "7.19.6",
-        "babel-loader": "9.0.1",
+        "@babel/core": "7.22.9",
+        "babel-loader": "9.1.3",
         "copy-webpack-plugin": "11.0.0",
-        "electron": "21.2.1",
-        "electron-builder": "23.6.0",
+        "electron": "25.3.0",
+        "electron-builder": "24.4.0",
         "electron-reload": "1.5.0",
-        "html-webpack-plugin": "5.5.0",
-        "webpack": "5.74.0",
-        "webpack-cli": "4.10.0",
-        "webpack-merge": "5.8.0"
+        "html-webpack-plugin": "5.5.3",
+        "webpack": "5.88.2",
+        "webpack-cli": "5.1.4",
+        "webpack-merge": "5.9.0"
     }
 }

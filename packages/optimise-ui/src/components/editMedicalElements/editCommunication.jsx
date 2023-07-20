@@ -15,7 +15,7 @@ import { saveAs } from 'file-saver';
     fetching: state.patientProfile.fetching,
     data: state.patientProfile.data,
     availableFields: state.availableFields
-    }))
+}))
 class EditCommunication extends Component {
     render() {
         const { fetching, data, match, location } = this.props;

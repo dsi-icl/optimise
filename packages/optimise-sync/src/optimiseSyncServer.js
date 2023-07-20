@@ -79,11 +79,11 @@ class OptimiseSyncServer {
                 // Init third party middleware for parsing HTTP requests body
                 _this.app.use(body_parser.json({
                     extended: true,
-                    limit: '100mb'
+                    limit: '1000mb'
                 }));
                 _this.app.use(body_parser.urlencoded({
                     extended: true,
-                    limit: '100mb'
+                    limit: '1000mb'
                 }));
 
                 // Setup remaining route using controllers

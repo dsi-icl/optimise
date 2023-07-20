@@ -179,7 +179,7 @@ class VisitController {
      * @param {Object} res Response Object
      */
     static deleteReport({ user, body }, res) {
-        if (user.priv !== 1) {
+        if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return;
         }

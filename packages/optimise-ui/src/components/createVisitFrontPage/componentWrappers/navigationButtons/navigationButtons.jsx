@@ -95,6 +95,8 @@ class FrontPageNavigationButton extends Component {
                 <button className={style.finish_button}>Finish</button>
             </NavLink></div>;
 
+        const femaleConsentingPatient = consent && this.props.data.demographicData.gender !== 1;
+
         if (this.props.renderedInYesOrNoPage) {
             return backButtonWithoutDiv;
         }
@@ -103,8 +105,8 @@ class FrontPageNavigationButton extends Component {
         return (
             <div className={style.page_navigation_buttons}>
                 {currentPage === '0' ? firstPageButton : null}
-                {((currentPage === '10' && !consent) || (currentPage === '11' && consent)) ? <>{backButton}{finishButton}</> : null}
-                {(((currentPage !== '10' && !consent) || (currentPage !== '11' && consent)) && currentPage !== '0')
+                {((currentPage === '10' && !femaleConsentingPatient) || (currentPage === '11' && femaleConsentingPatient)) ? <>{backButton}{finishButton}</> : null}
+                {(((currentPage !== '10' && !femaleConsentingPatient) || (currentPage !== '11' && femaleConsentingPatient)) && currentPage !== '0')
                     ?
                     <>
                         {backButton}

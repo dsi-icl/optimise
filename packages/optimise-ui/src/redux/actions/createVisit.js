@@ -13,7 +13,7 @@ export const createVisitAPICall = (body) => dispatch => apiHelper('/visits', { m
         return apiHelper('/data/visit', { method: 'POST', body: JSON.stringify(body.VSData) });
     })
     .then(() => {
-        if (questionnaireAgentPassList.includes(body.agentId.toLocaleLowerCase()))
+        if (body.agentId && questionnaireAgentPassList.includes(body.agentId.toLocaleLowerCase()))
             history.push(`${body.to}/data/visit/${body.VSData.visitId}/vitals#visit-${body.VSData.visitId}`);
         else
             history.push(`${body.to}/visitFrontPage/${body.VSData.visitId}/page/0?yesPages=foo`);

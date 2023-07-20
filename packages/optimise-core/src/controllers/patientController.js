@@ -37,30 +37,20 @@ class PatientController {
     }
 
     static createPatient({ body, user }, res) {
-        if (!(body.hasOwnProperty('aliasId') && body.hasOwnProperty('consent'))) {
+        if (!(body.hasOwnProperty('aliasId') && body.hasOwnProperty('optimiseConsent'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return false;
         }
-        if (typeof body.aliasId !== 'string' || typeof body.study !== 'string' || typeof body.consent !== 'boolean') {
+        if (typeof body.aliasId !== 'string' || (typeof body.optimiseConsent !== 'string' && body.optimiseConsent !== null)) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return false;
-        }
-
-        if (body.study && body.study !== 'NA') { //study is placeholder for consent date
-            if (typeof body.study !== 'string' || !new Date(body.study).valueOf()) {
-                res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-                return false;
-            }
         }
 
         const entryObj = {
             aliasId: body.aliasId,
             createdByUser: user.id,
-            consent: body.consent
+            optimiseConsent: body.optimiseConsent
         };
-        if (body.study && body.study !== 'NA') { // study is placeholder for consent date
-            entryObj.study = body.study;
-        }
         PatientCore.createPatient(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
@@ -85,7 +75,7 @@ class PatientController {
     }
 
     static deletePatient({ user, body }, res) {
-        if (user.priv === 1 && body.hasOwnProperty('aliasId')) {
+        if (user.adminPriv === 1 && body.hasOwnProperty('aliasId')) {
             PatientCore.deletePatient(user, { aliasId: body.aliasId, deleted: '-' }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
@@ -93,7 +83,7 @@ class PatientController {
                 res.status(404).json(ErrorHelper(message.errorMessages.NOTFOUND, error));
                 return false;
             });
-        } else if (user.priv !== 1) {
+        } else if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return false;
         } else {
@@ -102,9 +92,9 @@ class PatientController {
         }
     }
 
-    static getPatientProfileById({ params, query }, res) {
+    static getPatientProfileById({ params, body }, res) {
         if (params.hasOwnProperty('patientId')) {
-            return PatientCore.getPatientProfile({ aliasId: params.patientId }, false, query.getOnly)
+            return PatientCore.getPatientProfile({ aliasId: params.patientId }, false, body.getOnly)
                 .then(result => {
                     res.status(200).json(result);
                     return true;
@@ -120,7 +110,7 @@ class PatientController {
 
     static erasePatient({ user, body }, res) {
         let patientId = undefined;
-        if (user.priv !== 1) {
+        if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
             return false;
         }

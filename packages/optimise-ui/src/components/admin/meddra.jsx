@@ -7,8 +7,8 @@ import style from './admin.module.css';
 @connect(state => ({
     error: state.uploadMeddra.error,
     success: state.uploadMeddra.success,
-    requesting: state.uploadMeddra.requesting,
-    }))
+    requesting: state.uploadMeddra.requesting
+}))
 class Meddra extends Component {
     constructor() {
         super();

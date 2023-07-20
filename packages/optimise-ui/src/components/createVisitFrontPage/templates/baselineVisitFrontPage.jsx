@@ -40,7 +40,7 @@ class BaselineVisitFrontPage extends Component {
             // 11: <CommunicationWrapper />
         };
 
-        if (consent) {
+        if (consent && this.props.data.demographicData.gender !== 1) {
             Object.assign(pageNumberToElementMap, {
                 10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>} />,
                 11: <CommunicationWrapper />
@@ -66,7 +66,7 @@ class BaselineVisitFrontPage extends Component {
             // 11: 'Communication and notes'
         };
 
-        if (consent) {
+        if (consent && this.props.data.demographicData.gender !== 1) {
             Object.assign(pageToTitleMap, {
                 10: "Pregnancy",
                 11: "Communication and notes"

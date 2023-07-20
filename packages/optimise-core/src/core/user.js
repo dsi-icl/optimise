@@ -7,11 +7,11 @@ import dbcon from '../utils/db-connection';
 
 class User {
     static getUserByUsername(user) {
-        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv', email: 'email' }).where('username', 'like', user).andWhere({ deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', adminPriv: 'adminPriv', email: 'email' }).where('username', 'like', user).andWhere({ deleted: '-' }).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     static getUserByID(uid) {
-        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', priv: 'adminPriv', email: 'email' }).where('id', uid).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => dbcon()('USERS').select({ id: 'id', username: 'username', realname: 'realname', adminPriv: 'adminPriv', email: 'email' }).where('id', uid).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     static createUser({ id }, { pw, username, realname, isAdmin, email }) {
@@ -63,7 +63,7 @@ class User {
     }
 
     static loginUser({ username, pw }) {
-        return new Promise((resolve, reject) => getEntry('USERS', { username: username }, { pw: 'pw', id: 'id', username: 'username', priv: 'adminPriv', salt: 'salt', iteration: 'iterations' }).then((result) => {
+        return new Promise((resolve, reject) => getEntry('USERS', { username: username }, { pw: 'pw', id: 'id', username: 'username', adminPriv: 'adminPriv', salt: 'salt', iteration: 'iterations' }).then((result) => {
             if (result.length <= 0)
                 return reject(ErrorHelper(message.errorMessages.GETFAIL));
             try {

@@ -65,7 +65,7 @@ class PatientChart extends Component {
                         <>
                             <br />
                             <span className={this.props.data.participation ? '' : style.noConsentAlert}>{`This patient ${this.props.data.participation ? 'is enrolled in' : 'has withdrew from'} the study.`}</span><br /><br />
-                            <span className={this.props.data.consent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.consent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
+                            <span className={this.props.data.optimiseConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.optimiseConsent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
                             {this.props.data.visits.length > 0 ? <TimelineBox /> : null}
                             <Charts match={this.props.match} />
                         </>
@@ -113,7 +113,7 @@ export { Test };
 @connect(state => ({
     typedict: state.availableFields.drugs_Hash[0],
     patientId: state.patientProfile.data.patientId,
-    reasondict: state.availableFields.interruptionReasons_Hash[0],
+    reasondict: state.availableFields.interruptionReasons_Hash[0]
 }))
 class Medication extends PureComponent {
 

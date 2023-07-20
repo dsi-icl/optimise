@@ -11,6 +11,8 @@ class VisitFrontPageTemplate extends Component {
 
         const { consent } = this.props.patientProfile;
 
+        const femaleConsentingPatient = consent && this.props.patientProfile.demographicData.gender !== 1;
+
         if (visits === undefined)
             return null;
 
@@ -20,7 +22,7 @@ class VisitFrontPageTemplate extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>{isBaselineVisit ? 'Baseline' : 'Follow-up'} Visit Initial Data Entry ({this.props.match.params.patientId}) - Page {currentPageNumber}/{consent ? "12" : "11"}: {pageToTitleMap[params.currentPage]} </h2>
+                    <h2>{isBaselineVisit ? 'Baseline' : 'Follow-up'} Visit Initial Data Entry ({this.props.match.params.patientId}) - Page {currentPageNumber}/{femaleConsentingPatient ? "12" : "11"}: {pageToTitleMap[params.currentPage]} </h2>
                 </div>
                 <div className={style.panel}>
                     {visitFiltered.length === 1 ?

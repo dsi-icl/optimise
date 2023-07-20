@@ -9,7 +9,7 @@ const RETREIVAL_PER_CALL = 100;
 
 @connect(state => ({
     log: state.log
-    }))
+}))
 class Log extends Component {
 
     constructor() {

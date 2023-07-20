@@ -9,8 +9,8 @@ import style from './scaffold.module.css';
 @withRouter
 @connect(state => ({
     username: state.login.username,
-    priv: state.login.priv
-    }))
+    adminPriv: state.login.adminPriv
+}))
 class MenuBar extends Component {
     constructor() {
         super();
@@ -33,7 +33,7 @@ class MenuBar extends Component {
                 <NavLink to='/searchPatient' title='Search and edit patients' activeClassName={style.active}>
                     <Icon symbol='search' />
                 </NavLink>
-                {this.props.priv === 1 ?
+                {this.props.adminPriv === 1 ?
                     (
                         <NavLink to='/administration' title='Admin settings' activeClassName={style.active}>
                             <Icon symbol='setting' />

@@ -11,7 +11,7 @@ const jsonRules = {
 
 const javascriptRules = {
     ...jsonRules,
-    '@nrwl/nx/enforce-module-boundaries': [
+    '@nx/enforce-module-boundaries': [
         'error',
         {
             enforceBuildableLibDependency: true,
@@ -50,16 +50,16 @@ module.exports = {
         tsconfigRootDir: __dirname
     },
     ignorePatterns: ['**/*', '!**/*.json', '!**/*.js', '!**/*.ts', '!scripts', '!tools', '!.vscode'],
-    plugins: ['@nrwl/nx', 'json'],
+    plugins: ['@nx', 'json'],
     overrides: [
         // {
         //     files: ['*.ts', '*.tsx'],
-        //     extends: ['plugin:@nrwl/nx/typescript'],
+        //     extends: ['plugin:@nx/typescript'],
         //     rules: typescriptRules
         // },
         {
             files: ['*.js', '*.jsx'],
-            extends: ['plugin:@nrwl/nx/javascript'],
+            extends: ['plugin:@nx/javascript'],
             rules: javascriptRules
         },
         {

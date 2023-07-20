@@ -8,7 +8,7 @@ import style from './medicalEvent.module.css';
 
 @connect(state => ({
     patientId: state.patientProfile.data.id,
-    agentId: state.syncInfo.config.id,
+    agentId: state.syncInfo.config.id
 }), dispatch => ({
     createVisit: body => dispatch(createVisitAPICall(body))
 }))
