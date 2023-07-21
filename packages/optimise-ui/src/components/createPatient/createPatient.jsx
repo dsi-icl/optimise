@@ -26,7 +26,9 @@ class CreatePatient extends Component {    //get these props from state: this.pr
             postcode: '',
             DOB: moment(),
             showConsentDatePicker: 'N',
+            showPregnancyConsentDatePicker: 'N',
             optimiseConsentDate: moment(),
+            pregnancyConsentDate: moment(),
             error: false,
             gender: 0,
             dominant_hand: 5,
@@ -42,6 +44,8 @@ class CreatePatient extends Component {    //get these props from state: this.pr
         this._handleChange = this._handleChange.bind(this);
         this._handleConsentChange = this._handleConsentChange.bind(this);
         this._handleFreeTextChange = this._handleFreeTextChange.bind(this);
+        this._handlePregnancyConsentChange = this._handlePregnancyConsentChange.bind(this);
+        this._handlePregnancyConsentDateChange = this._handlePregnancyConsentDateChange.bind(this);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -60,6 +64,13 @@ class CreatePatient extends Component {    //get these props from state: this.pr
     }
 
     _handleConsentDateChange(date) {
+        this.setState({
+            optimiseConsentDate: date,
+            error: false
+        });
+    }
+
+    _handlePregnancyConsentDateChange(date) {
         this.setState({
             optimiseConsentDate: date,
             error: false
@@ -85,6 +96,12 @@ class CreatePatient extends Component {    //get these props from state: this.pr
         this.setState(newState);
     }
 
+    _handlePregnancyConsentChange(ev) {
+        const newState = { error: false };
+        newState[ev.target.name] = ev.target.value;
+        this.setState(newState);
+    }
+
     _handleFreeTextChange(ev) {
         const newState = { error: false };
         newState[ev.target.name] = ev.target.value;
@@ -96,8 +113,9 @@ class CreatePatient extends Component {    //get these props from state: this.pr
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
 
-        const fieldCheck = ['DOB', 'address', 'aliasId', 'showConsentDatePicker', 'country_of_origin', 'diagnosis', 'diagnosisDate', 'dominant_hand', 'ethnicity', 'gender', 'givenName', 'postcode', 'surname'];
+        const fieldCheck = ['DOB', 'address', 'aliasId', 'showConsentDatePicker', 'showPregnancyConsentDatePicker', 'country_of_origin', 'diagnosis', 'diagnosisDate', 'dominant_hand', 'ethnicity', 'gender', 'givenName', 'postcode', 'surname'];
         for (let i = 0; i < fieldCheck.length; i++) {
+            console.log(this.state[fieldCheck[i]]);
             if (this.state[fieldCheck[i]] === 0 || this.state[fieldCheck[i]] === null || this.state[fieldCheck[i]] === '' || this.state[fieldCheck[i]] === 'unselected') {
                 this.setState({ error: 'None of the fields can be empty!' });
                 return;
@@ -131,7 +149,8 @@ class CreatePatient extends Component {    //get these props from state: this.pr
         };
         const patientData = {
             aliasId: this.state.aliasId,
-            optimiseConsent: this.state.showConsentDatePicker === 'Y' ? this.state.optimiseConsentDate.toISOString() : null
+            optimiseConsent: this.state.showConsentDatePicker === 'Y' ? this.state.optimiseConsentDate.toISOString() : null,
+            pregnancySubStudyConsent: this.state.showPregnancyConsentDatePicker === 'Y' ? this.state.pregnancyConsentDate.toISOString() : null
         };
         const body = {
             patientData: patientData,
@@ -203,6 +222,27 @@ class CreatePatient extends Component {    //get these props from state: this.pr
                             <h4>Basic demographic data</h4><br />
                             <label>Date of birth:</label><br /> <PickDate startDate={this.state.DOB} handleChange={this._handleDobDateChange} /> <br /><br />
                             <label htmlFor='gender'>Gender:</label><br /> <SelectField name='gender' value={this.state.gender} options={genders_sorted} handler={this._handleChange} /> <br /><br />
+                            {
+                                this.state.gender !== 0 && this.state.gender !== 1 ?
+                                    <>
+                                        <h4>*Pregnancy sub study consent</h4><br />
+                                        <label htmlFor='showPregnancyConsentDatePicker'>Does the patient give consent for sharing pregnancy data:</label><br />
+                                        <select name='showPregnancyConsentDatePicker' value={this.state.showPregnancyConsentDatePicker} onChange={this._handlePregnancyConsentChange} autoComplete='off'>
+                                            <option value='Y'>Yes</option>
+                                            <option value='N'>No</option>
+                                        </select><br /><br />
+                                        {
+                                            this.state.showPregnancyConsentDatePicker === 'Y' ?
+                                                <>
+                                                    <label>Consent date:</label>
+                                                    <PickDate startDate={this.state.pregnancyConsentDate} handleChange={this._handlePregnancyConsentDateChange} /> <br /><br />
+                                                </>
+                                                :
+                                                null
+                                        }
+                                    </>
+                                    : null
+                            }
                             <label htmlFor='dominant_hand'>Dominant hand:</label><br /> <SelectField name='dominant_hand' value={this.state['dominant_hand']} options={dominant_hands_sorted} handler={this._handleChange} noEmpty={true} /> <br /><br />
                             <label htmlFor='ethnicity'>Ethnicity:</label><br /> <SelectField name='ethnicity' value={this.state['ethnicity']} options={ethnicities} handler={this._handleChange} /> <br /><br />
                             <label htmlFor='country_of_origin'>Country of origin:</label><br /> <SelectField name='country_of_origin' value={this.state['country_of_origin']} options={countries} handler={this._handleChange} /> <br /><br />

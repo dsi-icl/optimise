@@ -207,6 +207,28 @@ describe('Patient controller tests', () => {
             return true;
         }));
 
+    test('Updating this patient pregnancy consent', () => admin
+        .put('/patients/')
+        .send({
+            id: 8,
+            pregnancySubStudyConsent: '2019-11-13T00:00:00.000Z'
+        })
+        .then(({ statusCode }) => {
+            expect(statusCode).toBe(200);
+            return true;
+        }));
+
+    test('Verifying patient pregnancy consent update', () => admin
+        .get('/patients/littlePatient')
+        .then(({ statusCode, body }) => {
+            expect(statusCode).toBe(200);
+            expect(body.patientId).toBe('littlePatient');
+            expect(body.id).toBe(8);
+            expect(body.pregnancySubStudyConsent).toBe('2019-11-13T00:00:00.000Z');
+            expect(body.participation).toBe(true);
+            return true;
+        }));
+
     test('Deleting a patient by standard User (should fail)', () => user
         .patch('/patients')
         .send({ aliasId: 'littlePatient' })

@@ -204,13 +204,18 @@ class PregnancyBaselineDataForm extends Component {
     _handleDateChange(date, field) {
         this.setState({
             [field]: date,
-            error: false
+            error: false,
+            saved: false
         });
     }
 
     _handleInputChange(event, field) {
         const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-        this.setState({ [field]: value });
+        this.setState({
+            [field]: value,
+            error: false,
+            saved: false
+        });
     }
 
 

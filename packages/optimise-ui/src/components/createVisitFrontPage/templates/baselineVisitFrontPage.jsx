@@ -22,8 +22,8 @@ import { connect } from 'react-redux';
 class BaselineVisitFrontPage extends Component {
     render() {
         const { match, location } = this.props;
-        const { consent } = this.props.data;
-        console.log("baseline consent", consent);
+        const { pregnancySubStudyConsent } = this.props.data;
+
 
         const pageNumberToElementMap = {
             0: <VisitFrontPageIntroduction match={match} location={location} />,
@@ -40,7 +40,7 @@ class BaselineVisitFrontPage extends Component {
             // 11: <CommunicationWrapper />
         };
 
-        if (consent && this.props.data.demographicData.gender !== 1) {
+        if (pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1) {
             Object.assign(pageNumberToElementMap, {
                 10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>} />,
                 11: <CommunicationWrapper />
@@ -66,7 +66,7 @@ class BaselineVisitFrontPage extends Component {
             // 11: 'Communication and notes'
         };
 
-        if (consent && this.props.data.demographicData.gender !== 1) {
+        if (pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1) {
             Object.assign(pageToTitleMap, {
                 10: "Pregnancy",
                 11: "Communication and notes"

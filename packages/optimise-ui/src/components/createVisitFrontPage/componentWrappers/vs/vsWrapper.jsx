@@ -17,7 +17,7 @@ class VSFrontPageWrapper extends Component {
                 <div className={style.page}>
                     <div className={scaffold_style.padding_div}>
                         {
-                            this.props.data.demographicData && this.props.data.demographicData.gender !== 1 && !this.props.data.consent
+                            this.props.data.demographicData && this.props.data.demographicData.gender !== 1 && !this.props.data.pregnancySubStudyConsent
                                 ?
                                 <>
                                     <p style={{ marginBottom: 0, fontSize: '1.1rem' }}>Please update this list of pregnancies:</p>

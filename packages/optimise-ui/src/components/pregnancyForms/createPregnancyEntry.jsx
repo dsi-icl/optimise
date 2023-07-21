@@ -61,6 +61,7 @@ class CreatePregnancyEntry extends Component {
         this._handleFormSubmit = this._handleFormSubmit.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._isValidDate = this._isValidDate.bind(this);
+        this._scrollToBottom = this._scrollToBottom.bind(this);
 
     }
 
@@ -123,6 +124,10 @@ class CreatePregnancyEntry extends Component {
         });
     }
 
+    _scrollToBottom() {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    };
+
     _handleSubmit(ev) {
         ev.preventDefault();
 
@@ -134,6 +139,7 @@ class CreatePregnancyEntry extends Component {
 
         if (validationErrorMessage) {
             this.setState({ error: validationErrorMessage });
+            this._scrollToBottom();
             return;
         }
 
@@ -279,7 +285,11 @@ class CreatePregnancyEntry extends Component {
                 </div>
                 <div>
                     {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
+
                     {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /></> : null}
+                </div>
+                <div
+                    ref={(el) => { this.messagesEnd = el; }}>
                 </div>
             </>
         )

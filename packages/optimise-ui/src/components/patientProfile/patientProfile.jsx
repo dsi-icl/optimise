@@ -42,7 +42,7 @@ class Section extends Component {
                         <div className={`${style.panel} ${style.patientInfo}`}>
                             <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
-                            {!this.props.patientProfile.data.consent ? <Pregnancy /> : null}
+                            {!this.props.patientProfile.data.pregnancySubStudyConsent ? <Pregnancy /> : null}
 
                             <ImmunisationSection patientId={this.props.match.params.patientId} />
                             <ConsentSection match={this.props.match} />
@@ -490,11 +490,18 @@ class Pregnancy extends Component {
 class ConsentSection extends Component {
     constructor(props) {
         super();
-        this.state = { selectedConsentDate: props.data.optimiseConsent ? moment(props.data.optimiseConsent) : undefined };
+        this.state = {
+            selectedConsentDate: props.data.optimiseConsent ? moment(props.data.optimiseConsent) : undefined,
+            selectedPregnancyConsentDate: props.data.pregnancySubStudyConsent ? moment(props.data.pregnancySubStudyConsent) : undefined
+        };
         this._handleClickWithdrawConsent = this._handleClickWithdrawConsent.bind(this);
         this._handleClickGivesConsent = this._handleClickGivesConsent.bind(this);
         this._handleClickWithdrawParticipation = this._handleClickWithdrawParticipation.bind(this);
         this._handleConsentDateChange = this._handleConsentDateChange.bind(this);
+        this._handleClickWithdrawPregnancyConsent = this._handleClickWithdrawPregnancyConsent.bind(this);
+        this._handleClickGivesPregnancyConsent = this._handleClickGivesPregnancyConsent.bind(this);
+        this._handlePregnancyConsentDateChange = this._handlePregnancyConsentDateChange.bind(this);
+
     }
 
     _handleConsentDateChange(date) {
@@ -527,6 +534,36 @@ class ConsentSection extends Component {
         store.dispatch(updateConsentAPICall(body));
     }
 
+    _handlePregnancyConsentDateChange(date) {
+        this.setState({
+            selectedPregnancyConsentDate: date
+        });
+    }
+
+    _handleClickWithdrawPregnancyConsent() {
+        const { id } = this.props.data;
+        const body = {
+            patientId: this.props.match.params.patientId,
+            data: {
+                pregnancySubStudyConsent: null,
+                id: id
+            }
+        };
+        store.dispatch(updateConsentAPICall(body));
+    }
+
+    _handleClickGivesPregnancyConsent() {
+        const { id } = this.props.data;
+        const body = {
+            patientId: this.props.match.params.patientId,
+            data: {
+                pregnancySubStudyConsent: this.state.selectedPregnancyConsentDate ? this.state.selectedPregnancyConsentDate.toISOString() : null,
+                id: id
+            }
+        };
+        store.dispatch(updateConsentAPICall(body));
+    }
+
     _handleClickWithdrawParticipation() {
         const { participation, id } = this.props.data;
         const body = {
@@ -541,7 +578,9 @@ class ConsentSection extends Component {
 
 
     render() {
-        const { participation, optimiseConsent } = this.props.data;
+        const { participation, optimiseConsent, pregnancySubStudyConsent } = this.props.data;
+        const femalePatient = this.props.data.demographicData && this.props.data.demographicData.gender !== 1;
+
 
         return <>
             <PatientProfileSectionScaffold sectionName='Study participation'>
@@ -564,6 +603,28 @@ class ConsentSection extends Component {
                             <span>Select date of consent:</span>
                             <PickDate handleChange={this._handleConsentDateChange} />
                             <button disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Patient gives consent</button>
+                        </div>
+                }
+
+
+
+            </PatientProfileSectionScaffold>
+            <PatientProfileSectionScaffold sectionName='Pregnancy sub study consent'>
+                {
+                    pregnancySubStudyConsent && femalePatient ?
+                        <div>
+                            <span><b>Consent date</b>: {new Date(pregnancySubStudyConsent).toLocaleDateString()}</span>
+                            <button onClick={this._handleClickWithdrawPregnancyConsent} >Withdraw pregnancy sub study consent</button>
+                            <br /> <br />
+                            <span>Select date of consent: </span>
+                            <PickDate startDate={this.state.selectedPregnancyConsentDate} handleChange={this._handlePregnancyConsentDateChange} />
+                            <button disabled={this.state.selectedPregnancyConsentDate === undefined} onClick={this._handleClickGivesPregnancyConsent}>Change pregnancy sub study consent date</button>
+                        </div>
+                        :
+                        <div>
+                            <span>Select date of consent: </span>
+                            <PickDate handleChange={this._handlePregnancyConsentDateChange} />
+                            <button disabled={this.state.selectedPregnancyConsentDate === undefined} onClick={this._handleClickGivesPregnancyConsent}>Patient gives consent for pregnancy sub study</button>
                         </div>
                 }
 

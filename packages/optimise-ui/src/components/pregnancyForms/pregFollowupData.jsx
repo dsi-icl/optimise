@@ -244,7 +244,8 @@ class PregnancyFollowupDataForm extends Component {
     _handleDateChange(date, field) {
         this.setState({
             [field]: date,
-            error: false
+            error: false,
+            saved: false
         });
     }
 
@@ -252,7 +253,8 @@ class PregnancyFollowupDataForm extends Component {
         const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
         this.setState({
             [field]: value,
-            error: false
+            error: false,
+            saved: false
         });
     }
 
@@ -260,7 +262,8 @@ class PregnancyFollowupDataForm extends Component {
         this.setState({
             outcomeApplicable: event.target.value,
             dataType: event.target.value === 'yes' ? 'term' : 'followup',
-            error: false
+            error: false,
+            saved: false,
 
         });
     }

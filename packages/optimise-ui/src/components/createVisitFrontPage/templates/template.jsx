@@ -9,9 +9,9 @@ class VisitFrontPageTemplate extends Component {
     render() {
         const { match: { params }, patientProfile: { visits }, isBaselineVisit, pageNumberToElementMap, pageToTitleMap } = this.props;
 
-        const { consent } = this.props.patientProfile;
+        const { pregnancySubStudyConsent } = this.props.patientProfile;
 
-        const femaleConsentingPatient = consent && this.props.patientProfile.demographicData.gender !== 1;
+        const femaleConsentingPatient = pregnancySubStudyConsent && this.props.patientProfile.demographicData.gender !== 1;
 
         if (visits === undefined)
             return null;

@@ -66,6 +66,13 @@ class PatientChart extends Component {
                             <br />
                             <span className={this.props.data.participation ? '' : style.noConsentAlert}>{`This patient ${this.props.data.participation ? 'is enrolled in' : 'has withdrew from'} the study.`}</span><br /><br />
                             <span className={this.props.data.optimiseConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.optimiseConsent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
+                            {
+                                this.props.data.demographicData && this.props.data.demographicData.gender !== 1 ?
+                                    <>
+                                        <span className={this.props.data.pregnancySubStudyConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.pregnancySubStudyConsent ? 'consents' : 'does NOT consent'} to have their pregnancy data shared for research purposes.`}</span><br /><br />
+                                    </>
+                                    : null
+                            }
                             {this.props.data.visits.length > 0 ? <TimelineBox /> : null}
                             <Charts match={this.props.match} />
                         </>
@@ -399,7 +406,7 @@ class OneVisit extends Component {
                     </>
                 ) : null}
 
-                {pregnancyEntries.length && pregnancy.length && this.props.data.consent ?
+                {pregnancyEntries.length && pregnancy.length && this.props.data.pregnancySubStudyConsent ?
                     <>
 
                         <h4><Icon symbol='symptom' />&nbsp;PREGNANCY</h4>

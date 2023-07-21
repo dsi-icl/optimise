@@ -46,7 +46,7 @@ class FrontPageNavigationButton extends Component {
     render() {
         const { params: { currentPage, visitId, patientId } } = this.props.match;
         const { onClickNext, formSaved } = this.props;
-        const { consent } = this.props.data;
+        const { pregnancySubStudyConsent } = this.props.data;
         const searchString = this.props.location.search;
 
         if (formSaved && formSaved()) {
@@ -95,7 +95,7 @@ class FrontPageNavigationButton extends Component {
                 <button className={style.finish_button}>Finish</button>
             </NavLink></div>;
 
-        const femaleConsentingPatient = consent && this.props.data.demographicData.gender !== 1;
+        const femaleConsentingPatient = pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1;
 
         if (this.props.renderedInYesOrNoPage) {
             return backButtonWithoutDiv;
