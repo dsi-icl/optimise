@@ -172,12 +172,13 @@ class CreatePregnancyEntry extends Component {
             },
             pregnancy: {
                 id: parseInt(this.state.pregnancyId),
-                patient: parseInt(this.props.data.patientId),
+                patient: parseInt(this.props.data.id),
 
             },
             createEntry: this.state.createEntry,
 
         };
+
 
         if (this.pregForm.state.dataType === 'baseline') {
             body.pregnancy.startDate = this.pregForm.state.startDate ? this.pregForm.state.startDate.toISOString() : null;
@@ -188,7 +189,6 @@ class CreatePregnancyEntry extends Component {
             body.pregnancy.outcomeDate = this.pregForm.state.dataType === 'term' && this.pregForm.state.outcomeDate
                 ? this.pregForm.state.outcomeDate.toISOString() : null;
         }
-
 
         this.setState({
             lastSubmit: (new Date()).getTime(),
