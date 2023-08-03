@@ -13730,10 +13730,10 @@ react-markdown@8.0.7:
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
-react-medium-image-zoom@5.1.7:
-  version "5.1.7"
-  resolved "https://registry.yarnpkg.com/react-medium-image-zoom/-/react-medium-image-zoom-5.1.7.tgz#ab668d5a831bb3a7afd55ba3b7b69bacdcaf6e1c"
-  integrity sha512-GV+0aB8WZvMRZLm05su29SbA3CL0H5D8xV57Q1EjsgV2OP+LdLPgWVI1rFNLyZgBMVevxZqL/+6ZGz9l4X0wKw==
+react-medium-image-zoom@5.1.8:
+  version "5.1.8"
+  resolved "https://registry.yarnpkg.com/react-medium-image-zoom/-/react-medium-image-zoom-5.1.8.tgz#e4972849ce95ff9076fa6826b91fb6d9e8ea07ec"
+  integrity sha512-2X4oLlEopIWg7qalR1Qpy4gPrU9CTF0DvJ7HNu5u/NwdyQWupEsje2vuMbjBz7+np8MmQ4DKJ6zGr1ofCuzB3g==
 
 react-onclickoutside@^6.12.2:
   version "6.13.0"
