@@ -132,14 +132,12 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
     try {
         //if pregnancy entry needs to be created and entry type is 1 (baseline) then new pregnancy needs to be created
 
-        console.log("alter pregnancy items")
-
         const pregnancyMethod = body.pregnancyEntry?.type === 1 ? 'POST' : 'PUT';
         const pregnancyResponse = await apiHelper('/demographics/Pregnancy', {
             method: pregnancyMethod,
             body: JSON.stringify(body.pregnancy)
         });
-        console.log("pregnancysubmitted");
+
         const pregnancyId = pregnancyResponse.state;
         if (body.pregnancyEntry) {
             if (body.pregnancyEntry.type === 1) {
@@ -163,7 +161,6 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
             dispatch(getPatientProfileById(body.patientId));
         }
     } catch (msg) {
-        console.log(msg);
         dispatch(addError({ error: msg }));
     }
 };

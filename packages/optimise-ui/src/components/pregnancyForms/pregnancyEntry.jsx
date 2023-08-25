@@ -191,7 +191,7 @@ class PregnancyEntry extends Component {
     }
 
 
-    initializeState() {
+    initializeComponent() {
         const { fields, patientProfile } = this.props;
 
         if (!patientProfile.fetching) {
@@ -213,14 +213,14 @@ class PregnancyEntry extends Component {
     }
 
     componentDidMount() {
-        this.initializeState();
+        this.initializeComponent();
     }
 
     componentDidUpdate(prevProps, prevState) {
 
         if (prevProps.match.params.visitId !== this.props.match.params.visitId ||
             prevProps.patientProfile.fetching !== this.props.patientProfile.fetching) {
-            this.initializeState();
+            this.initializeComponent();
         }
     }
 

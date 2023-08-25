@@ -13,7 +13,8 @@ export const alterDataCall = (body, callback) => dispatch => apiHelper(`/data/${
         if (typeof callback === 'function') {
             callback();
         }
-
         dispatch(getPatientProfileById(body.patientId));
     })
-    .catch(err => store.dispatch(addError({ error: err })));
+    .catch(err => {
+        store.dispatch(addError({ error: err }))
+    });
