@@ -14,6 +14,7 @@ import PregnancyList from '../../../pregnancyForms/pregnancyList';
 import EditPregnancies from '../../../pregnancyForms/editPregnancy';
 //
 import CreatePregnancyEntry from '../../../pregnancyForms/createPregnancyEntry';
+import { PregnancyEntry } from '../../../pregnancyForms/pregnancyEntry';
 
 
 @withRouter
@@ -38,7 +39,14 @@ class PregnancyWrapper extends Component {
                         <div className={scaffold_style.padding_div}>
                             {/* <p>Please select the type of pregnancy entry and enter all relevant entry fields </p> */}
 
-                            <CreatePregnancyEntry
+                            {/* <CreatePregnancyEntry
+                                childRef={component => { this.form = component; }}
+                                match={match}
+                                location={location}
+                                renderedInFrontPage={true}
+                            /> */}
+
+                            <PregnancyEntry
                                 childRef={component => { this.form = component; }}
                                 match={match}
                                 location={location}

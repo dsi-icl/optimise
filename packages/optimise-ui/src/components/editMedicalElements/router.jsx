@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { EditVisit, EditTest, EditCE, EditMed, EditDemo, EditDiagnoses, EditPregnancies, EditCommunication, EditPerformanceMesaure, EditComorbidities } from './index';
 //import { EditVisit, EditTest, EditCE, EditMed, EditDemo, EditDiagnoses, EditCommunication, EditPerformanceMesaure, EditComorbidities } from './index';
 import EditPregnancyDataEntries from '../pregnancyForms/editPregnancy';
+import { PregnancyEntry } from '../pregnancyForms/pregnancyEntry';
 import EditConcomitantMeds from './createConmitantMeds';
 
 export class EditElementRouter extends Component {
@@ -19,7 +20,7 @@ export class EditElementRouter extends Component {
                 <Route path='/patientProfile/:patientId/edit/diagnosis/data' render={({ match, location }) => <EditDiagnoses match={match} location={location} />} />
 
                 <Route path='/patientProfile/:patientId/edit/pregnancy/data/' render={({ match, location }) => <EditPregnancies match={match} location={location} />} />
-                <Route path='/patientProfile/:patientId/edit/pregnancyDataEntry/data/:entryId' render={({ match, location }) => <EditPregnancyDataEntries match={match} location={location} />} />
+                <Route path='/patientProfile/:patientId/edit/pregnancyDataEntry/data/:entryId' render={({ match, location }) => <PregnancyEntry match={match} location={location} />} />
 
 
                 <Route path='/patientProfile/:patientId/edit/communication/:visitId' render={({ match, location }) => <EditCommunication match={match} location={location} />} />

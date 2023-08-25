@@ -929,6 +929,75 @@ class DemographicDataController {
         }
     }
 
+    static createPregnancyEntry({ body, user }, res) {
+        if (!body.hasOwnProperty('visitId') || !body.hasOwnProperty('type') || !body.hasOwnProperty('pregnancyId')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        if (typeof body.visitId !== 'number' || typeof body.type !== 'number' || typeof body.pregnancyId !== 'number') {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+
+        const entryObj = {
+            recordedDuringVisit: body.visitId,
+            type: body.type,
+            pregnancyId: body.pregnancyId,
+            createdByUser: user.id
+        };
+
+        PregnancyCore.createPregnancyEntry(entryObj).then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+            return false;
+        });
+    }
+
+    static editPregnancyEntry({ body, user }, res) {
+        if (!body.hasOwnProperty('id')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        const entryObj = Object.assign({}, body);
+
+        if (body.hasOwnProperty('pregnancyId') && body.pregnancyId !== undefined && typeof body.type !== 'number') {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+
+        } else if (body.hasOwnProperty('pregnancyId') && body.pregnancyId !== undefined) {
+            entryObj.pregnancyId = body.result;
+        }
+        PregnancyCore.editPregnancyEntry(user, entryObj).then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+            return false;
+        });
+    }
+
+    static deletePregnancyEntry({ body, user }, res) {
+        if (body.hasOwnProperty('pregnancyEntryId') && typeof body.pregnancyEntryId === 'number') {
+            PregnancyCore.deletePregnancyEntry(user, { id: body.pregnancyEntryId }).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+                return false;
+            });
+        }
+        else if (!body.hasOwnProperty('pregnancyEntryId')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+    }
+
+
+
     static getPregnancyFields(__unused__req, res) {
         PregnancyCore.getPregnancyOutcomes().then((result) => {
             res.status(200).json(formatToJSON(result));

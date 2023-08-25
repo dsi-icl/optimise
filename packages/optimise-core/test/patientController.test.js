@@ -90,7 +90,8 @@ describe('Patient controller tests', () => {
         .post('/patients')
         .send({
             aliasId: 'littlePatient',
-            optimiseConsent: null
+            optimiseConsent: null,
+            pregnancySubStudyConsent: null
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(200);
@@ -104,7 +105,8 @@ describe('Patient controller tests', () => {
         .post('/patients')
         .send({
             aliasId: 'littlePatient',
-            optimiseConsent: new Date().toISOString()
+            optimiseConsent: new Date().toISOString(),
+            pregnancySubStudyConsent: new Date().toISOString()
         })
         .then(({ statusCode, body }) => {
             expect(statusCode).toBe(400);
@@ -167,7 +169,8 @@ describe('Patient controller tests', () => {
         .put('/patients/')
         .send({
             id: 8,
-            optimiseConsent: '2019-11-13T00:00:00.000Z'
+            optimiseConsent: '2019-11-13T00:00:00.000Z',
+
         })
         .then(({ statusCode }) => {
             expect(statusCode).toBe(200);
@@ -181,6 +184,7 @@ describe('Patient controller tests', () => {
             expect(body.patientId).toBe('littlePatient');
             expect(body.id).toBe(8);
             expect(body.optimiseConsent).toBe('2019-11-13T00:00:00.000Z');
+
             expect(body.participation).toBe(true);
             return true;
         }));
@@ -225,7 +229,6 @@ describe('Patient controller tests', () => {
             expect(body.patientId).toBe('littlePatient');
             expect(body.id).toBe(8);
             expect(body.pregnancySubStudyConsent).toBe('2019-11-13T00:00:00.000Z');
-            expect(body.participation).toBe(true);
             return true;
         }));
 

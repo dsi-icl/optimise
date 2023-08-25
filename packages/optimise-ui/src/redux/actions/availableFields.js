@@ -31,6 +31,12 @@ export const getICD11Call = APICall('/icd11', getICD11Success);
 export const getPregnancyOutcomesSuccess = (payload) => ({ type: actions.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS, payload: payload });
 export const getPregnancyOutcomesCall = APICall('/demographics/Fields/Pregnancy', getPregnancyOutcomesSuccess);
 
+//
+export const getPregnancyEntryTypesSuccess = (payload) => ({ type: actions.availableFields.GET_PREGNANCY_ENTRY_TYPES_SUCCESS, payload: payload });
+export const getPregnancyEntryTypesCall = APICall('/available/pregnancyEntryTypes', getPregnancyEntryTypesSuccess);
+
+export const getPregnancyEntryFieldsSuccess = (payload) => ({ type: actions.availableFields.GET_PREGNANCY_ENTRY_FIELDS_SUCCESS, payload: payload });
+export const getPregnancyEntryFieldsCall = APICall('/available/pregnancyEntryFields', getPregnancyEntryFieldsSuccess);
 
 export const getCEFieldsSuccess = (payload) => ({ type: actions.availableFields.GET_CE_FIELDS_SUCCESS, payload: payload });
 export const getCEFieldsCall = APICall('/available/ceFields', getCEFieldsSuccess);

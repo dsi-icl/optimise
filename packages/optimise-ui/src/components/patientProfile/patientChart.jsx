@@ -12,12 +12,14 @@ import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import Icon from '../icon';
 import style from './patientProfile.module.css';
+import { PregnancyEntry } from '../pregnancyForms/pregnancyEntry';
 
 //need to pass location to buttons  - do later
 
 @connect(state => ({
     fetching: state.patientProfile.fetching,
-    data: state.patientProfile.data
+    data: state.patientProfile.data,
+    patientProfile: state.availableFields
 }))
 class PatientChart extends Component {
     constructor() {
@@ -52,7 +54,8 @@ class PatientChart extends Component {
 
         if (!this.props.data.visits)
             return null;
-        console.log("patient chart", this.props.data)
+        console.log("patient chart", this.props.data);
+        console.log("patient chart all", this.props.patientProfile);
         return (
             <>
                 <div className={style.ariane}>
@@ -291,30 +294,22 @@ class OneVisit extends Component {
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
 
         //
-        const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el.visitId === this.props.visitId);
+        const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el['recordedDuringVisit'] === this.props.visitId);
         const pregnancyImages = this.props.data.pregnancyImages.filter(el => el.visitId === this.props.visitId);
 
+        function isValidDateFormat(dateString) {
+            const date = new Date(dateString);
+            return !isNaN(date) && dateString === date.toISOString();
+        }
+
         let pregnancy;
-        let pregnancyValueArray = [];
-
-
+        let entryIsTerm = false;
         if (pregnancyEntries.length) {
 
             pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
+            entryIsTerm = PregnancyEntry._checkIfTermEntry(pregnancyEntries[0], pregnancy[0], this.props.data);
 
 
-            pregnancyValueArray = [
-                { name: 'Date of last menstrual period (LMP)', value: pregnancyEntries[0].LMP ? new Date(pregnancyEntries[0].LMP).toDateString() : null },
-                { name: 'Maternal age at LMP', value: pregnancyEntries[0].maternalAgeAtLMP },
-                { name: 'Maternal BMI', value: pregnancyEntries[0].maternalBMI },
-                { name: 'Estimated date of delivery', value: pregnancyEntries[0].EDD ? new Date(pregnancyEntries[0].EDD).toDateString() : null },
-                { name: 'Assisted Reproductive Technology method', value: pregnancyEntries[0].ART ? pregnancyEntries[0].ART : null },
-                { name: 'Number of foetuses', value: pregnancyEntries[0].numOfFoetuses },
-                { name: 'Folic acid supplementation', value: pregnancyEntries[0].folicAcidSuppUsed },
-                { name: 'Folic acid supplementation start date', value: pregnancyEntries[0].folicAcidSuppUsedStartDate && pregnancyEntries[0].folicAcidSuppUsed === 'yes' ? new Date(pregnancyEntries[0].folicAcidSuppUsedStartDate).toDateString() : null },
-                { name: 'Illicit drug use', value: pregnancyEntries[0].illicitDrugUse },
-
-            ]
 
         }
 
@@ -415,11 +410,11 @@ class OneVisit extends Component {
 
                                 <thead>
                                     <tr>
-                                        <th colspan="2">{pregnancyEntries[0].dataType === 'baseline' ? 'Baseline' : 'Follow up'}</th>
+                                        <th colspan="2">{pregnancyEntries[0].type === 1 ? 'Baseline' : pregnancyEntries[0].type === 2 ? 'Follow up' : pregnancyEntries[0].type === 3 ? 'Term' : 'Unknown'}</th>
 
                                     </tr>
                                 </thead>
-                                {pregnancyEntries[0].dataType === 'baseline' ?
+                                {pregnancyEntries[0].type === 1 ?
                                     <tbody>
                                         <td>Pregnancy start date</td>
                                         <td>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
@@ -428,7 +423,7 @@ class OneVisit extends Component {
                                     </tbody>
                                     : null}
 
-                                {pregnancy[0].outcomeDate ? pregnancyEntries[0].dataType === 'term' &&
+                                {pregnancy[0].outcomeDate ? entryIsTerm &&
                                     <tbody>
                                         <td>Pregnancy end date</td>
                                         <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
@@ -439,7 +434,7 @@ class OneVisit extends Component {
                                 }
 
 
-                                {pregnancyValueArray.length ?
+                                {/* {pregnancyValueArray.length ?
                                     pregnancyValueArray.map(el => {
                                         if (el.value) {
                                             return (
@@ -454,6 +449,19 @@ class OneVisit extends Component {
 
                                     })
                                     : null
+                                } */}
+
+                                {
+
+                                    <tbody>
+                                        {pregnancyEntries[0].data.map(el => (
+                                            <tr key={el.field}>
+                                                <td>{el.field_idname}</td>
+                                                <td>{isValidDateFormat(el.value) ? el.value.slice(0, 10) : el.value}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+
                                 }
 
 
@@ -500,9 +508,15 @@ class OneVisit extends Component {
                             </table>
                             <br />
                         </div>
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/pregnancyDataEntry/data/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
+
+
+
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
                             <button>Edit pregnancy entry</button>
                         </NavLink>
+                        {/* <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/pregnancyDataEntry/data/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
+                            <button>Edit pregnancy entry</button>
+                        </NavLink> */}
 
                     </>
                     : null}

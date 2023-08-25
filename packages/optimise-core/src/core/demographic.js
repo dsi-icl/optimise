@@ -194,6 +194,24 @@ export class PregnancyCore {
         return new Promise((resolve, reject) => deleteEntry('PATIENT_PREGNANCY_IMAGING', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
+    //Pregnancy entry
+    static createPregnancyEntry(entryObj) {
+        return new Promise((resolve, reject) => createEntry('PREGNANCY_ENTRY', entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static getPregnancyEntry(whereObj) {
+        return new Promise((resolve, reject) => getEntry('PREGNANCY_ENTRY', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static editPregnancyEntry(user, entryObj) {
+        return new Promise((resolve, reject) => updateEntry('PREGNANCY_ENTRY', user, '*', { 'id': entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static deletePregnancyEntry(user, whereObj) {
+        return new Promise((resolve, reject) => deleteEntry('PREGNANCY_ENTRY', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+
     //PregnancyFileds
     // static getPregnancyAllFields(user, whereObj) {
     //     // return new Promise((resolve, reject) => deleteEntry('PATIENT_PREGNANCY_IMAGING', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));

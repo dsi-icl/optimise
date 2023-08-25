@@ -10,10 +10,12 @@ class AvailableFieldController {
             visitSections: 'AVAILABLE_VISIT_SECTIONS',
             testFields: 'AVAILABLE_FIELDS_TESTS',
             ceFields: 'AVAILABLE_FIELDS_CE',
+            pregnancyEntryFields: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY',
             clinicalEvents: 'AVAILABLE_CLINICAL_EVENT_TYPES',
             testTypes: 'AVAILABLE_TEST_TYPES',
             diagnoses: 'AVAILABLE_DIAGNOSES',
-            concomitantMedsList: 'AVAILABLE_CONCOMITANT_MED'
+            concomitantMedsList: 'AVAILABLE_CONCOMITANT_MED',
+            pregnancyEntryTypes: 'AVAILABLE_PREGNANCY_ENTRY_TYPES',
         };
         let moduleObj = {};
         if (tableMap[params.dataType]) {
