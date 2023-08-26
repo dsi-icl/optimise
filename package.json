@@ -68,7 +68,7 @@
         "eslint-plugin-react-hooks": "^4",
         "jest": "^24",
         "jest-config": "^24",
-        "jest-resolve": "^24",
+        "jest-resolve": "^29.0.0",
         "jest-util": "^24"
     }
 }
