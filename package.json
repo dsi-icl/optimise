@@ -69,6 +69,6 @@
         "jest": "^24",
         "jest-config": "^24",
         "jest-resolve": "^24",
-        "jest-util": "^24"
+        "jest-util": "^29.0.0"
     }
 }
