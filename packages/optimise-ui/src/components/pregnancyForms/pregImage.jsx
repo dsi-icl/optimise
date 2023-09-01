@@ -11,6 +11,7 @@ import { MeddraPicker } from '../medDRA/meddraPicker';
 import { addAlert } from '../../redux/actions/alert';
 import Icon from '../icon';
 import { createPregnancyImageAPICall, deletePregnancyImageAPICall, editPregnancyImageAPICall } from '../../redux/actions/demographicData';
+import { ContextExclusionPlugin } from 'webpack';
 
 @withRouter
 @connect(state => ({
@@ -25,8 +26,8 @@ class PregnancyImageForm extends Component {
             showAddNewImageData: false,
             addNewImageData_counter: 1,
             date: moment(),
-            mode: 'Other',
-            result: 'Other',
+            mode: 'unselected',
+            result: '',
             addNewImageData_cache: [],
         };
 
@@ -63,6 +64,25 @@ class PregnancyImageForm extends Component {
         if (this.state.lastImageSubmit && (new Date()).getTime() - this.state.lastImageSubmit < 500 ? true : false)
             return;
 
+        if (!this.state.date) {
+            this.setState({
+                error: 'Please select an image date'
+            });
+            return;
+        }
+        if (!this.state.mode || this.state.mode === 'unselected') {
+            this.setState({
+                error: 'Please select the image mode'
+            });
+            return;
+        }
+        if (!this.state.result) {
+            this.setState({
+                error: 'Please enter the imaging result'
+            });
+            return;
+        }
+
         const body = {
             patientId: this.props.data.patientId,
             data: {
@@ -94,6 +114,9 @@ class PregnancyImageForm extends Component {
     }
 
     render() {
+        const { fields } = this.props;
+        console.log(fields);
+        const { pregnancyImagingModes } = fields
         return (
             <>
                 <div className={pregnancy_style.pregnancy_image_div}><p>Please enter pregnancy image data, if any: </p> <br></br>
@@ -101,7 +124,7 @@ class PregnancyImageForm extends Component {
                         this.state.addNewImageData_cache && this.state.addNewImageData_cache.map(el =>
                             <div key={el.id} className={pregnancy_style.one_tentative_image}>
 
-                                <OnePregnancyImage data={el} patientId={this.props.data.patientId}></OnePregnancyImage>
+                                <OnePregnancyImage data={el} patientId={this.props.data.patientId} pregnancyImagingModes={pregnancyImagingModes}></OnePregnancyImage>
                             </div>)
                     }
                     {
@@ -110,17 +133,12 @@ class PregnancyImageForm extends Component {
                                 <label>Image date:<PickDate startDate={this.state.date} handleChange={this._handleDateChange} /></label><br /><br />
                                 <label>Mode:
                                     <select defaultValue={this.state.mode} onChange={this._handleModeChange}>
-                                        <option value='USS'>USS</option>
-                                        <option value='Other'>Other</option>
+                                        <option value='unselected'>Unselected</option>
+                                        {pregnancyImagingModes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                     </select>
                                 </label><br /><br />
                                 <label>Result:
-                                    <select defaultValue={this.state.result} onChange={this._handleResultChange}>
-                                        <option value='Result One'>One</option>
-                                        <option value='Result Two'>Two</option>
-                                        <option value='Other'>Other</option>
-                                    </select>
-                                </label>
+                                    <input value={this.state.result} onChange={this._handleResultChange} /></label><br /><br />
 
                                 <button
                                     onClick={this._handleSubmit}
@@ -188,7 +206,7 @@ class OnePregnancyImage extends Component {
             });
             return;
         }
-        if (!this.state.mode) {
+        if (!this.state.mode || this.state.mode === 'unselected') {
             this.setState({
                 error: 'Please select the image mode'
             });
@@ -247,8 +265,8 @@ class OnePregnancyImage extends Component {
 
 
     render() {
-        const { editing, date, result, mode } = this.state;
-        const { data } = this.props;
+        const { editing, date, result, mode, pregnancyImagingModes } = this.state;
+
         return (
             <div className={style.interruption} style={{
                 overflow: editing ? 'visible' : 'hidden'
@@ -259,19 +277,14 @@ class OnePregnancyImage extends Component {
                             <div className={style.editInterruption}>
                                 <label>Date: </label><PickDate startDate={date} handleChange={this._handleDateChange} /><br />
                                 <label>Mode:
-                                    <select defaultValue={'other'} onChange={this._handleModeChange}>
-                                        <option value='USS'>USS</option>
-                                        <option value='Other'>Other</option>
+                                    <select defaultValue={'unselected'} onChange={this._handleModeChange}>
+                                        <option value='unselected'>Unselected</option>
+                                        {pregnancyImagingModes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                     </select>
                                 </label><br /><br />
 
                                 <label>Result:
-                                    <select defaultValue={'other'} onChange={this._handleResultChange}>
-                                        <option value='Result One'>One</option>
-                                        <option value='Result Two'>Two</option>
-                                        <option value='Other'>Other</option>
-                                    </select>
-                                </label><br /><br />
+                                    <input value={this.state.result} onChange={this._handleResultChange} /></label><br /><br />
 
                             </div>
                             {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}

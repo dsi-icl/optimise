@@ -32,6 +32,9 @@ export const getPregnancyOutcomesSuccess = (payload) => ({ type: actions.availab
 export const getPregnancyOutcomesCall = APICall('/demographics/Fields/Pregnancy', getPregnancyOutcomesSuccess);
 
 //
+export const getPregnancyImagingModesSuccess = (payload) => ({ type: actions.availableFields.GET_PREGNANCY_IMAGING_MODES_SUCCESS, payload: payload });
+export const getPregnancyImagingModesCall = APICall('/demographics/Fields/pregnancyImaging', getPregnancyImagingModesSuccess);
+
 export const getPregnancyEntryTypesSuccess = (payload) => ({ type: actions.availableFields.GET_PREGNANCY_ENTRY_TYPES_SUCCESS, payload: payload });
 export const getPregnancyEntryTypesCall = APICall('/available/pregnancyEntryTypes', getPregnancyEntryTypesSuccess);
 

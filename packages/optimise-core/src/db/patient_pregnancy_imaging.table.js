@@ -12,7 +12,8 @@ export default async (dbcon, version) => {
                     table.integer('visitId').notNullable().references('id').inTable('VISITS').onDelete('CASCADE');
                     table.text('date').notNullable();
                     table.text('deleted').notNullable().defaultTo('-');
-                    table.text('mode').notNullable();
+                    //table.text('mode').notNullable();
+                    table.integer('mode').notNullable().references('id').inTable('PREGNANCY_IMAGING_MODES');
                     table.text('result').notNullable();
 
                     table.integer('createdByUser').notNullable().references('id').inTable('USERS');

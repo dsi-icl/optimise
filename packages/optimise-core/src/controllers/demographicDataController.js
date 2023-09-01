@@ -998,14 +998,40 @@ class DemographicDataController {
 
 
 
-    static getPregnancyFields(__unused__req, res) {
-        PregnancyCore.getPregnancyOutcomes().then((result) => {
-            res.status(200).json(formatToJSON(result));
-            return true;
-        }).catch((error) => {
+    // static getPregnancyFields(__unused__req, res) {
+    //     PregnancyCore.getPregnancyOutcomes().then((result) => {
+    //         res.status(200).json(formatToJSON(result));
+    //         return true;
+    //     }).catch((error) => {
+    //         res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+    //         return false;
+    //     });
+    // }
+
+    static getPregnancyFields(req, res) {
+        const dataType = req.params.dataType;
+
+        if (dataType === 'Pregnancy') {
+            PregnancyCore.getPregnancyOutcomes().then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+                return false;
+            });
+        } else if (dataType === 'pregnancyImaging') {
+            PregnancyCore.getPregnancyImagingModes().then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+                return false;
+            });
+        } else {
             res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
             return false;
-        });
+        }
+
     }
 
     static getPregnancyAllFields(__unused__req, res) {

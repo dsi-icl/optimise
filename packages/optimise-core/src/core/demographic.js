@@ -160,6 +160,11 @@ export class PregnancyCore {
         return new Promise((resolve, reject) => deleteEntry('PREGNANCY_OUTCOMES', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
+    //Pregnancy Image fields
+    static getPregnancyImagingModes() {
+        return new Promise((resolve, reject) => getEntry('PREGNANCY_IMAGING_MODES', {}).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
     //PregnancyData
     static createPregnancyData(entryObj) {
         return new Promise((resolve, reject) => createEntry('PATIENT_PREGNANCY_DATA', entryObj).then((result) => resolve(result)).catch((error) => reject(error)));

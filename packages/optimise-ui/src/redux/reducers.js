@@ -126,6 +126,10 @@ function availableFields(state = initialState.availableFields, action) {
             hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
             newState = { ...state, pregnancyOutcomes: action.payload, pregnancyOutcomes_Hash: [hash] };
             break;
+        case actionTypes.availableFields.GET_PREGNANCY_IMAGING_MODES_SUCCESS:
+            hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
+            newState = { ...state, pregnancyImagingModes: action.payload, pregnancyImagingModes_Hash: [hash] };
+            break;
         case actionTypes.availableFields.GET_PREGNANCY_ENTRY_FIELDS_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
             newState = { ...state, pregnancyEntryFields: action.payload, pregnancyEntryFields_Hash: [hash] };
