@@ -80,10 +80,11 @@ describe('Creating PREGNANCY ENTRY data', () => {
             return true;
         }));
 
-    test('Request creation with unmatching test and field', () => admin
+    test('Request creation with unmatching data and field', () => admin
         .post('/data/pregnancyEntry')
-        .send({ pregnancyEntryId: 1, add: { 50: 120 } })
+        .send({ pregnancyEntryId: 1, add: { 1: 23 } })
         .then(({ status, body }) => {
+
             expect(status).toBe(400);
             expect(typeof body).toBe('object');
             expect(body.error).toBeDefined();
@@ -93,7 +94,7 @@ describe('Creating PREGNANCY ENTRY data', () => {
 
     test('Request creation succesfull', () => user
         .post('/data/pregnancyEntry')
-        .send({ pregnancyEntryId: 1, add: { 50: 10 } })
+        .send({ pregnancyEntryId: 1, add: { 10: '2023-08-09T23:00:00.000Z' } })
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
@@ -106,7 +107,7 @@ describe('Creating PREGNANCY ENTRY data', () => {
 
     test('Request update succesfull', () => admin
         .post('/data/pregnancyEntry')
-        .send({ pregnancyEntryId: 1, update: { 50: 65 } })
+        .send({ pregnancyEntryId: 1, update: { 10: '2023-09-09T23:00:00.000Z' } })
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');

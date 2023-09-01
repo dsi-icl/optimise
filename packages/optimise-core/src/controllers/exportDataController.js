@@ -100,7 +100,10 @@ class ExportDataController {
                 .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
                 .then(matrixResults => matrixResults.length !== 0 ? matrixResults : [ExportDataController.createNoDataFile()])
                 .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
-                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
+                .catch(error => {
+                    console.log(error);
+                    res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`)
+                });
 
         }
     }
@@ -120,6 +123,7 @@ class ExportDataController {
         let globalMaxComorbidities = 1;
         let globalMaxLabs = 1;
         let globalMaxPregnancies = 1;
+        let globalMaxPregnancyEntries = 1;
         let globalMaxMRIs = 1;
         let globalMaxSAEs = 1;
         let globalMaxTreatments = 1;
@@ -159,6 +163,14 @@ class ExportDataController {
                 line[`pregnancy_start_date_${i + 1}`] = tree.pregnancies[i] ? tree.pregnancies[i].pregnancy_start_date : '';
                 line[`pregnancy_end_date_${i + 1}`] = tree.pregnancies[i] ? tree.pregnancies[i].pregnancy_end_date : '';
                 line[`pregnancy_outcome_${i + 1}`] = tree.pregnancies[i] ? tree.pregnancies[i].pregnancy_outcome : '';
+            }
+            for (let i = 0; i < globalMaxPregnancyEntries; i++) {
+                line[`entry_id_${i + 1}`] = tree.pregnancy_entries[i] ? tree.pregnancy_entries[i].entry_id : '';
+                line[`entry_name_${i + 1}`] = tree.pregnancy_entries[i] ? tree.pregnancy_entries[i].entry_name : '';
+                line[`entry_value_${i + 1}`] = tree.pregnancy_entries[i] ? tree.pregnancy_entries[i].entry_value : '';
+                line[`entry_date_${i + 1}`] = tree.pregnancy_entries[i] ? tree.pregnancy_entries[i].entry_date : '';
+                line[`entry_pregnancy_id_${i + 1}`] = tree.pregnancy_entries[i] ? tree.pregnancy_entries[i].entry_pregnancy_id : '';
+                line[`entry_type_${i + 1}`] = tree.pregnancy_entries[i] ? tree.pregnancy_entries[i].entry_type : '';
             }
             for (let i = 0; i < globalMaxTreatments; i++) {
                 line[`DMT_name_${i + 1}`] = tree.treatments[i] ? tree.treatments[i].DMT_name : '';
@@ -219,6 +231,39 @@ class ExportDataController {
                         mri_result_value: e.value,
                         mri_date: (data.actualOccurredDate && new Date(data.actualOccurredDate).toDateString()) || ''
                     }));
+                    break;
+                default:
+                    return null;
+            }
+            return entry;
+        };
+
+
+
+        /* transform pregnancy entry from sql to csv */
+        const fetchAssociatedDataForPregnancyEntryandTransform = async data => {
+
+            const associatedData = await dbcon()('PREGNANCY_ENTRY_DATA')
+                .select('PREGNANCY_ENTRY_DATA.value as value', 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.definition as definition', 'VISITS.visitDate as date')
+                .leftJoin('AVAILABLE_FIELDS_PREGNANCY_ENTRY', 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.id', 'PREGNANCY_ENTRY_DATA.field')
+                .leftOuterJoin('PREGNANCY_ENTRY', 'PREGNANCY_ENTRY.id', 'PREGNANCY_ENTRY_DATA.pregnancyEntry')
+                .leftOuterJoin('VISITS', 'VISITS.id', 'PREGNANCY_ENTRY.recordedDuringVisit')
+                .where('PREGNANCY_ENTRY_DATA.deleted', '-')
+                .where('PREGNANCY_ENTRY_DATA.pregnancyEntry', data.id);
+
+            let entry = associatedData.map(e => ({
+                entry_id: data.id,
+                entry_name: e.definition,
+                entry_value: e.value,
+                entry_date: new Date(e.date).toDateString(),
+                entry_pregnancy_id: data.pregnancyId
+            }));
+            switch (data.type) {
+                case 1: // lab test
+                    entry.entry_type = 'baseline'
+                    break;
+                case 2: // MRI
+                    entry.entry_type = 'follow up'
                     break;
                 default:
                     return null;
@@ -326,6 +371,19 @@ class ExportDataController {
                 pregnancy_outcome: e.outcome
             }));
 
+            const all_pe = await dbcon()('PREGNANCY_ENTRY')
+                .select('*')
+                .where('recordedDuringVisit', visit.visitId)
+                .andWhere('deleted', '-')
+            const all_pe_data = [];
+            for (const e of all_pe) {
+                if (all_pe_data[e.type] === undefined) {
+                    all_pe_data[e.type] = [];
+                }
+                const entry = await fetchAssociatedDataForPregnancyEntryandTransform(e);
+                all_pe_data.push(entry);
+            }
+
             const treatments = await dbcon()('TREATMENTS')
                 .select('AVAILABLE_DRUGS.name as drug', 'TREATMENTS.dose as dose', 'TREATMENTS.unit as unit', 'TREATMENTS.times as times', 'TREATMENTS.intervalUnit as intervalUnit', 'TREATMENTS.startDate as startDate', 'TREATMENTS.terminatedDate as terminatedDate')
                 .leftOuterJoin('AVAILABLE_DRUGS', 'AVAILABLE_DRUGS.id', 'TREATMENTS.drug')
@@ -392,6 +450,7 @@ class ExportDataController {
                 habits_smoking: visitDataTransformed[252] || '',
                 EDSS_score: visitDataTransformed[121] || '',
                 pregnancies: pregnancy_transformed,
+                pregnancy_entries: all_pe_data,
                 treatments: treatment_transformed,
                 comorbidities: comorbidities || [],
                 relapses: all_ce_grouped[1] || [],
@@ -402,6 +461,7 @@ class ExportDataController {
 
             globalMaxComorbidities = csventry.comorbidities.length > globalMaxComorbidities ? csventry.comorbidities.length : globalMaxComorbidities;
             globalMaxPregnancies = csventry.pregnancies.length > globalMaxPregnancies ? csventry.pregnancies.length : globalMaxPregnancies;
+            globalMaxPregnancyEntries = csventry.pregnancy_entries.length > globalMaxPregnancyEntries ? csventry.pregnancy_entries.length : globalMaxPregnancyEntries;
             globalMaxTreatments = csventry.treatments.length > globalMaxTreatments ? csventry.treatments.length : globalMaxTreatments;
             globalMaxRelapses = csventry.relapses.length > globalMaxRelapses ? csventry.relapses.length : globalMaxRelapses;
             globalMaxSAEs = csventry.SAEs.length > globalMaxSAEs ? csventry.SAEs.length : globalMaxSAEs;
@@ -728,6 +788,21 @@ class ExportDataController {
                 ...x,
                 STUDYID,
                 DOMAIN: 'FA'
+            }))]));
+
+        /*Pregnancy entry data*/
+        dataPromises.push(dbcon()('PREGNANCY_ENTRY_DATA')
+            .select('PATIENTS.uuid as USUBJID', 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.idname as PEID', 'PREGNANCY_ENTRY_DATA.value as PEDATA', 'VISITS.visitDate as VD')
+            .leftOuterJoin('PREGNANCY_ENTRY', 'PREGNANCY_ENTRY.id', 'PREGNANCY_ENTRY_DATA.pregnancyEntry')
+            .leftOuterJoin('AVAILABLE_FIELDS_PREGNANCY_ENTRY', 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.id', 'PREGNANCY_ENTRY_DATA.field')
+            .leftOuterJoin('VISITS', 'VISITS.id', 'PREGNANCY_ENTRY.recordedDuringVisit')
+            .leftOuterJoin('PATIENTS', 'PATIENTS.id', 'VISITS.patient')
+            .whereIn('PATIENTS.id', patientList)
+            .andWhere('PREGNANCY_ENTRY_DATA.deleted', '-')
+            .then(result => ['PE', result.map(x => ({
+                ...x,
+                STUDYID,
+                DOMAIN: 'PE'
             }))]));
 
         /* Patient Symptoms and Signs at Visits */

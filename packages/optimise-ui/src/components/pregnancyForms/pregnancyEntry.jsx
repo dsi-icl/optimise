@@ -143,9 +143,11 @@ class PregnancyEntry extends Component {
         }
 
 
+        console.log(matchedEntry);
+
+
 
         return ({
-            // entryType: 'baseline',
             pregnancyEntry: matchedEntry,
             pregnancyId: matchedPregnancy.id,
             pregnancyStartDate: matchedPregnancy.startDate ? moment(parseInt(matchedPregnancy.startDate)) : moment(),
@@ -153,7 +155,7 @@ class PregnancyEntry extends Component {
             pregnancyOutcome: matchedPregnancy.outcome,
             createEntry: createEntry,
             outcomeApplicable: outcomeApplicable,
-            saved: false
+            saved: false,
         });
     }
 
@@ -229,7 +231,8 @@ class PregnancyEntry extends Component {
     _formatBody(update, add) {
         const { params } = this.props.match;
         const { outcomeApplicable, pregnancyEntry } = this.state;
-        const entryType = outcomeApplicable === "yes" ? 3 : parseInt(pregnancyEntry.type);
+
+        const entryType = pregnancyEntry.type === 1 ? 1 : (outcomeApplicable === 'yes' ? 3 : 2)
 
         // 1 - baseline,
         // 2 - follow up,
@@ -263,7 +266,6 @@ class PregnancyEntry extends Component {
         }
         if (this.state.createEntry) {
             body.pregnancyEntry = {
-                //type: outcomeApplicable ? 3 : parseInt(entryType), // if outcome is applicable, pregnancy entry type is 3 (term)
                 type: this.state.pregnancyEntry.type,
                 visitId: parseInt(params.visitId),
                 pregnancyId: this.state.pregnancyEntry.pregnancyId //if the entry type is baseline, no pregnancy will have been created yet
@@ -345,13 +347,18 @@ class PregnancyEntry extends Component {
             lastSubmit: (new Date()).getTime()
         }, () => {
             store.dispatch(
-
                 alterPregnancyItemsCall(body, () => {
-                    this.originalValues = Object.assign({}, this.originalValues, add);
-                    this.setState({ saved: true });
+
+                    this.originalValues = Object.assign({}, this.state.originalValues, add, update);
+                    console.log(add, update);
+                    this.setState({
+                        saved: true,
+
+                    });
                 }));
         });
     }
+
 
 
     _findDateRange(date, entryType) {
@@ -425,7 +432,7 @@ class PregnancyEntry extends Component {
         const { data } = this.props;
         const { visits } = data;
 
-        const entryType = outcomeApplicable === 'yes' ? 3 : parseInt(pregnancyEntry.type);
+        const entryType = pregnancyEntry.type === 1 ? 1 : (outcomeApplicable === 'yes' ? 3 : 2)
 
         if (entryType === 2) {
             return "";
@@ -471,28 +478,32 @@ class PregnancyEntry extends Component {
     _handleStartDateChange(date) {
         this.setState({
             pregnancyStartDate: date,
-            error: false
+            error: false,
+            saved: false
         });
     }
 
     _handleOutcomeDateChange(date) {
         this.setState({
             pregnancyOutcomeDate: date,
-            error: false
+            error: false,
+            saved: false
         });
     }
 
     _handleOutcomeChange(ev) {
         this.setState({
             pregnancyOutcome: ev.target.value,
-            error: false
+            error: false,
+            saved: false
         });
     }
 
     _handleOutcomeApplicableChange(ev) {
         this.setState({
             outcomeApplicable: ev.target.value,
-            error: false
+            error: false,
+            saved: false
         });
     }
 
@@ -624,7 +635,8 @@ class PregnancyEntry extends Component {
 
                                 {
                                     this.state.outcomeApplicable === 'yes'
-                                        // || this.state.pregnancyEntry.type === 3
+                                        && this.state.pregnancyEntry.type === 2
+
                                         ?
                                         <div>
                                             <label >Pregnancy end date:

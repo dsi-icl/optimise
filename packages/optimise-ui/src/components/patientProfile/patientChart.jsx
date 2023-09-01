@@ -54,8 +54,7 @@ class PatientChart extends Component {
 
         if (!this.props.data.visits)
             return null;
-        console.log("patient chart", this.props.data);
-        console.log("patient chart all", this.props.patientProfile);
+
         return (
             <>
                 <div className={style.ariane}>
@@ -423,7 +422,7 @@ class OneVisit extends Component {
                                     </tbody>
                                     : null}
 
-                                {pregnancy[0].outcomeDate ? entryIsTerm &&
+                                {pregnancy[0].outcomeDate ? entryIsTerm && pregnancyEntries[0].type === 2 &&
                                     <tbody>
                                         <td>Pregnancy end date</td>
                                         <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
