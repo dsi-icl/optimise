@@ -77,10 +77,7 @@ class PregnancyEntry extends Component {
         this._getFirstMinuteOfDay = this._getFirstMinuteOfDay.bind(this);
         this._getLastMinuteOfDay = this._getLastMinuteOfDay.bind(this);
         this._findDateRange = this._findDateRange.bind(this);
-        //this._checkIfTermEntry = this._checkIfTermEntry.bind(this);
-        //this._getPregnancyStatus = this._getPregnancyStatus.bind(this);
-        //this._isValidDate = this._isValidDate.bind(this);
-        //this._getNewStateFromProps = this._getNewStateFromProps.bind(this);
+
 
         this.references = {};
         this.originalValues = {};
@@ -112,6 +109,7 @@ class PregnancyEntry extends Component {
                 const currentVisitDate = new Date(parseFloat(currentVisit[0].visitDate));
                 const pregnancyStatus = PregnancyEntry._getPregnancyStatus(currentVisitDate, data.pregnancy);
                 if (props.renderedInFrontPage) {
+                    //no pregnancy entry exists for this visit
                     createEntry = true;
                 }
 
@@ -119,7 +117,7 @@ class PregnancyEntry extends Component {
                 matchedEntry = {
                     data: [],
                     type: pregnancyStatus.typeId,
-                    visitId: params.visitId,
+                    recordedDuringVisit: params.visitId,
                     pregnancyId: pregnancyStatus.pregnancyId
 
                 }
@@ -135,15 +133,20 @@ class PregnancyEntry extends Component {
             }
         }
 
+
+        const entryOrder = matchedEntry.pregnancyId ? PregnancyEntry._checkEntryOrder(matchedEntry, data) : null;
+
         if (matchedEntry.id && matchedPregnancy.id) {
 
-            if (PregnancyEntry._checkIfTermEntry(matchedEntry, matchedPregnancy, data)) {
+            if (entryOrder === 'latest' && typeof matchedPregnancy.outcome === 'number' && matchedPregnancy.outcomeDate) {
                 outcomeApplicable = 'yes';
             }
+        } else if (!matchedEntry.id && matchedEntry.type === 2 && (entryOrder === 'first' || entryOrder === 'sole entry')) {
+            //pregnancy exists but associated baseline pregnancy entry has been deleted
+            matchedEntry.type = 1;
         }
 
 
-        console.log(matchedEntry);
 
 
 
@@ -155,22 +158,27 @@ class PregnancyEntry extends Component {
             pregnancyOutcome: matchedPregnancy.outcome,
             createEntry: createEntry,
             outcomeApplicable: outcomeApplicable,
+            entryOrder: entryOrder,
             saved: false,
         });
     }
 
-    static _checkIfTermEntry(entry, pregnancy, data) {
+    static _checkEntryOrder(pregnancyEntry, data) {
+        let pregnancyId = pregnancyEntry.pregnancyId;
+        const currentVisit = data.visits.find(el => parseInt(el.id) === parseInt(pregnancyEntry.recordedDuringVisit));
 
-        let pregnancyId = entry.pregnancyId;
         const allPregnancyEntries = data.pregnancyEntries.filter((el) => parseInt(el.pregnancyId) === parseInt(pregnancyId));
 
-
+        if (allPregnancyEntries.length === 1 && allPregnancyEntries[0].id === pregnancyEntry.id) {
+            return "sole entry"
+        }
 
         let latestEntry = null;
+        let earliestEntry = null;
         let latestVisitDate = new Date(0);
+        let earliestVisitDate = new Date();
 
         for (let entry of allPregnancyEntries) {
-
             let visit = data.visits.find(el => parseInt(el.id) === parseInt(entry.recordedDuringVisit));
 
             if (visit) {
@@ -180,17 +188,24 @@ class PregnancyEntry extends Component {
                     latestVisitDate = visitDate;
                     latestEntry = entry;
                 }
+
+                if (visitDate < earliestVisitDate) {
+                    earliestVisitDate = visitDate;
+                    earliestEntry = entry;
+                }
             }
         }
 
-        if (latestEntry && latestEntry.id === entry.id && typeof pregnancy.outcome === 'number' && pregnancy.outcomeDate) {
-            return true;
+
+        if (latestEntry && (latestEntry.id === pregnancyEntry.id || latestVisitDate < new Date(parseInt(currentVisit.visitDate)))) {
+            return "latest";
+        } else if (earliestEntry && (earliestEntry.id === pregnancyEntry.id || earliestVisitDate > new Date(parseInt(currentVisit.visitDate)))) {
+            return "first";
         }
 
-        return false;
-
-
+        return "";
     }
+
 
 
     initializeComponent() {
@@ -259,9 +274,12 @@ class PregnancyEntry extends Component {
             body.pregnancy.startDate = this.state.pregnancyStartDate ? this.state.pregnancyStartDate.toISOString() : null;
         }
         else {
-            body.pregnancy.outcome = entryType === 3 && this.state.pregnancyOutcome
+
+            body.pregnancy.outcome = (entryType === 3 && this.state.pregnancyOutcome)
+                || (entryType === 2 && this.state.pregnancyOutcome && this.state.entryOrder !== "sole entry" && this.state.entryOrder !== "latest") // follow up entry added between term and baseline
                 ? parseInt(this.state.pregnancyOutcome, 10) : null;
-            body.pregnancy.outcomeDate = entryType === 3 && this.state.pregnancyOutcomeDate
+            body.pregnancy.outcomeDate = (entryType === 3 && this.state.pregnancyOutcomeDate)
+                || (entryType === 2 && this.state.pregnancyOutcomeDate && this.state.entryOrder !== "sole entry" && this.state.entryOrder !== "latest")
                 ? this.state.pregnancyOutcomeDate.toISOString() : null;
         }
         if (this.state.createEntry) {
@@ -350,7 +368,6 @@ class PregnancyEntry extends Component {
                 alterPregnancyItemsCall(body, () => {
 
                     this.originalValues = Object.assign({}, this.state.originalValues, add, update);
-                    console.log(add, update);
                     this.setState({
                         saved: true,
 

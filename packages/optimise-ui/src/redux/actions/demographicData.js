@@ -77,7 +77,6 @@ export const createPregnancyOutcomeAPICall = (body, callback) => dispatch => (
             }
         })
         .catch(msg => {
-            console.log(msg);
             store.dispatch(addError({ error: msg }));
         }
         )
@@ -99,40 +98,11 @@ export const deletePregnancyOutcomeAPICall = (body) => dispatch => (
         .catch(msg => store.dispatch(addError({ error: msg })))
 );
 
-// export const alterPregnancyItemsCall = (body) => (dispatch) => {
-//     if (body.createEntry && body.data.dataType === 'baseline') {
-//         return apiHelper('/demographics/Pregnancy', {
-//             method: 'POST', body: JSON.stringify(body.pregnancy)
-//         })
-//             .then((json) => {
-//                 console.log("alterPregnancy", json);
-//                 const pregnancyId = json.state;
-//                 body.data.pregnancyId = pregnancyId;
-//                 console.log("alterpregnancy", body);
-//                 dispatch(createPregnancyDataAPICall(body));
-//             })
-//             .catch((msg) => {
-//                 console.log(msg);
-//                 dispatch(addError({ error: msg }))
-//             });
-//     } else if (body.createEntry) {
-//         return apiHelper('/demographics/Pregnancy', {
-//             method: 'PUT', body: JSON.stringify(body.pregnancy)
-//         })
-//             .then(() => {
-//                 dispatch(createPregnancyDataAPICall(body));
-//             })
-//             .catch((msg) => dispatch(addError({ error: msg })));
-//     } else {
-//         return dispatch(editPregnancyItemsCall(body));
-//     }
-// };
-
 export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
     try {
         //if pregnancy entry needs to be created and entry type is 1 (baseline) then new pregnancy needs to be created
 
-        const pregnancyMethod = body.pregnancyEntry?.type === 1 ? 'POST' : 'PUT';
+        const pregnancyMethod = body.pregnancyEntry?.type === 1 && !body.pregnancy.id ? 'POST' : 'PUT';
         const pregnancyResponse = await apiHelper('/demographics/Pregnancy', {
             method: pregnancyMethod,
             body: JSON.stringify(body.pregnancy)
@@ -140,7 +110,7 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
 
         const pregnancyId = pregnancyResponse.state;
         if (body.pregnancyEntry) {
-            if (body.pregnancyEntry.type === 1) {
+            if (body.pregnancyEntry.type === 1 && !body.pregnancy.id) {
                 body.pregnancyEntry.pregnancyId = pregnancyId;
             }
             const pregnancyEntryResponse = await apiHelper('/demographics/PregnancyEntry', {
@@ -174,7 +144,6 @@ export const createPregnancyItemsCall = (body) => (dispatch) => {
             .then((json) => {
                 const pregnancyId = json.state;
                 body.data.pregnancyId = pregnancyId;
-                console.log(body);
                 dispatch(createPregnancyDataAPICall(body));
             })
             .catch((msg) => dispatch(addError({ error: msg })));
@@ -194,7 +163,6 @@ export const editPregnancyItemsCall = (body) => (dispatch) => {
                 dispatch(editPregnancyDataAPICall(body));
             })
             .catch((msg) => {
-                console.log(msg);
                 dispatch(addError({ error: msg }))
             });
     } else {
@@ -212,7 +180,6 @@ export const createPregnancyDataAPICall = (body) => dispatch => (
             dispatch(getPatientProfileById(body.patientId));
         })
         .catch(msg => {
-            console.log(msg);
             store.dispatch(addError({ error: msg }))
         })
 );
@@ -243,7 +210,6 @@ export const createPregnancyImageAPICall = (body) => dispatch => (
             dispatch(getPatientProfileById(body.patientId));
         })
         .catch(msg => {
-            console.log(msg);
             store.dispatch(addError({ error: msg }))
         })
 );

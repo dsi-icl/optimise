@@ -303,10 +303,13 @@ class OneVisit extends Component {
 
         let pregnancy;
         let entryIsTerm = false;
+        let baselineDeleted = false;
         if (pregnancyEntries.length) {
 
+            const entryOrder = PregnancyEntry._checkEntryOrder(pregnancyEntries[0], this.props.data);
             pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
-            entryIsTerm = PregnancyEntry._checkIfTermEntry(pregnancyEntries[0], pregnancy[0], this.props.data);
+            entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
+            baselineDeleted = (entryOrder === 'first' || entryOrder === 'sole entry') && pregnancyEntries[0].type === 2;
 
 
 
@@ -422,7 +425,20 @@ class OneVisit extends Component {
                                     </tbody>
                                     : null}
 
-                                {pregnancy[0].outcomeDate ? entryIsTerm && pregnancyEntries[0].type === 2 &&
+                                {baselineDeleted ?
+                                    <tbody>
+                                        <tr>
+                                            <td style={{ color: 'red' }}>Pregnancy start date
+                                                *Baseline entry error - please recreate</td>
+                                            <td style={{ color: 'red' }}>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
+                                        </tr>
+                                    </tbody>
+                                    : null}
+
+
+
+
+                                {pregnancy[0].outcomeDate !== null ? entryIsTerm && pregnancyEntries[0].type === 2 &&
                                     <tbody>
                                         <td>Pregnancy end date</td>
                                         <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
@@ -431,24 +447,6 @@ class OneVisit extends Component {
                                     </tbody>
                                     : null
                                 }
-
-
-                                {/* {pregnancyValueArray.length ?
-                                    pregnancyValueArray.map(el => {
-                                        if (el.value) {
-                                            return (
-                                                <tbody>
-                                                    <td>{el.name}</td>
-                                                    <td>{el.value}</td>
-
-
-                                                </tbody>
-                                            )
-                                        }
-
-                                    })
-                                    : null
-                                } */}
 
                                 {
 
@@ -513,9 +511,7 @@ class OneVisit extends Component {
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
                             <button>Edit pregnancy entry</button>
                         </NavLink>
-                        {/* <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/pregnancyDataEntry/data/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
-                            <button>Edit pregnancy entry</button>
-                        </NavLink> */}
+
 
                     </>
                     : null}
