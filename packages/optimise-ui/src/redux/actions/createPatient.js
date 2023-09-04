@@ -10,7 +10,6 @@ export const createPatientCall = (body) => dispatch => (
     apiHelper('/patients', { method: 'POST', body: JSON.stringify(body.patientData) })
         .then(json => {
             dispatch(getPatientProfileByIdRequest());
-            console.log(json);
             const patientId = json.state;
             body.PIIData.patient = json.state;
             body.diagnosisData.patient = json.state;
@@ -27,7 +26,6 @@ export const createPatientCall = (body) => dispatch => (
         })
         .then(() => { dispatch(getPatientProfileById(body.patientId)); })
         .catch(err => {
-            console.log(err)
             store.dispatch(addError({ error: err }))
         })
 

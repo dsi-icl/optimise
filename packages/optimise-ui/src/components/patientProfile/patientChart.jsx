@@ -247,12 +247,14 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
 @connect(state => ({
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
-    icd11_Hash: state.availableFields.icd11_Hash[0]
+    icd11_Hash: state.availableFields.icd11_Hash[0],
+    pregnancyOutcome_hash: state.availableFields.pregnancyOutcomes_Hash[0],
 }))
 class OneVisit extends Component {
 
     render() {
-        const { baselineVisit, isMinor } = this.props;
+        const { baselineVisit, isMinor, fields } = this.props;
+        console.log("fields", fields);
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
@@ -303,10 +305,14 @@ class OneVisit extends Component {
 
         let pregnancy;
         let entryIsTerm = false;
+        let baselineDeleted = false;
+        let pregnancyOutcome;
         if (pregnancyEntries.length) {
 
+            const entryOrder = PregnancyEntry._checkEntryOrder(pregnancyEntries[0], this.props.data);
             pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
-            entryIsTerm = PregnancyEntry._checkIfTermEntry(pregnancyEntries[0], pregnancy[0], this.props.data);
+            entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
+            baselineDeleted = (entryOrder === 'first' || entryOrder === 'sole entry') && pregnancyEntries[0].type === 2;
 
 
 
@@ -422,33 +428,36 @@ class OneVisit extends Component {
                                     </tbody>
                                     : null}
 
-                                {pregnancy[0].outcomeDate ? entryIsTerm && pregnancyEntries[0].type === 2 &&
+                                {baselineDeleted ?
                                     <tbody>
-                                        <td>Pregnancy end date</td>
-                                        <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
+                                        <tr>
+                                            <td style={{ color: 'red' }}>Pregnancy start date
+                                                *Baseline entry error - please recreate</td>
+                                            <td style={{ color: 'red' }}>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
+                                        </tr>
+                                    </tbody>
+                                    : null}
 
+
+
+
+                                {pregnancy[0].outcomeDate !== null ? entryIsTerm && pregnancyEntries[0].type === 2 &&
+                                    <tbody>
+
+                                        <tr>
+                                            <td>Pregnancy end date</td>
+                                            <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Pregnancy outcome</td>
+                                            <td>{this.props.pregnancyOutcome_hash[pregnancy[0].outcome]}</td>
+
+                                        </tr>
 
                                     </tbody>
                                     : null
                                 }
-
-
-                                {/* {pregnancyValueArray.length ?
-                                    pregnancyValueArray.map(el => {
-                                        if (el.value) {
-                                            return (
-                                                <tbody>
-                                                    <td>{el.name}</td>
-                                                    <td>{el.value}</td>
-
-
-                                                </tbody>
-                                            )
-                                        }
-
-                                    })
-                                    : null
-                                } */}
 
                                 {
 
@@ -513,9 +522,7 @@ class OneVisit extends Component {
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
                             <button>Edit pregnancy entry</button>
                         </NavLink>
-                        {/* <NavLink to={`/patientProfile/${this.props.data.patientId}/edit/pregnancyDataEntry/data/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
-                            <button>Edit pregnancy entry</button>
-                        </NavLink> */}
+
 
                     </>
                     : null}

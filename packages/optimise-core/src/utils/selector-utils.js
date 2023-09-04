@@ -246,31 +246,6 @@ class SelectorUtils {
             });
     }
 
-
-
-    // async getPregnancyEntries(patientId, deleted) {
-    //     const whereObj = { patient: patientId };
-    //     if (deleted !== true)
-    //         whereObj.deleted = '-';
-
-    //     const visitIds = await dbcon()('VISITS')
-    //         .select('id')
-    //         .where(whereObj)
-    //         .then(results => results.map(result => result.id));
-
-    //     const innerWhereObj = {};
-    //     if (deleted !== true)
-    //         innerWhereObj.deleted = '-';
-
-    //     const dataEntries = await dbcon()('PATIENT_PREGNANCY_DATA')
-    //         .select('*')
-    //         .whereIn('visitId', visitIds)
-    //         .andWhere(innerWhereObj);
-
-
-    //     return { pregnancyEntries: dataEntries };
-    // }
-
     getPregnancyEntriesWithoutData(patientId, deleted) {
         const whereObj = { patient: patientId };
         if (deleted !== true)

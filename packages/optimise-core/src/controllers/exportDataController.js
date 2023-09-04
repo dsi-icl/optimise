@@ -100,10 +100,7 @@ class ExportDataController {
                 .then(matrixResults => matrixResults.length !== undefined ? matrixResults.reduce((a, dr) => dr[1][0] !== undefined ? [...a, ExportDataController.createJsonDataFile(dr), ExportDataController.createCsvDataFile(dr)] : a, []) : [ExportDataController.createNoDataFile()])
                 .then(matrixResults => matrixResults.length !== 0 ? matrixResults : [ExportDataController.createNoDataFile()])
                 .then(filesArray => res.status(200).zip(filesArray, `${attachmentName}.zip`))
-                .catch(error => {
-                    console.log(error);
-                    res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`)
-                });
+                .catch(error => res.status(404).zip([ExportDataController.createErrorFile(message.errorMessages.NOTFOUND.concat(` ${error}`))], `${attachmentName}.zip`));
 
         }
     }
