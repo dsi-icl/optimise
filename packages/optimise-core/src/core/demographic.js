@@ -147,7 +147,6 @@ export class PregnancyCore {
     }
 
     //Pregnancy outcomes
-
     static getPregnancyOutcomes() {
         return new Promise((resolve, reject) => getEntry('PREGNANCY_OUTCOMES', {}).then((result) => resolve(result)).catch((error) => reject(error)));
     }
@@ -158,23 +157,6 @@ export class PregnancyCore {
 
     static deletePregnancyOutcomes(user, whereObj) {
         return new Promise((resolve, reject) => deleteEntry('PREGNANCY_OUTCOMES', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
-    }
-
-    //PregnancyData
-    static createPregnancyData(entryObj) {
-        return new Promise((resolve, reject) => createEntry('PATIENT_PREGNANCY_DATA', entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
-    }
-
-    static getPregnancyData(whereObj) {
-        return new Promise((resolve, reject) => getEntry('PATIENT_PREGNANCY_DATA', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(error)));
-    }
-
-    static editPregnancyData(user, entryObj) {
-        return new Promise((resolve, reject) => updateEntry('PATIENT_PREGNANCY_DATA', user, '*', { 'id': entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
-    }
-
-    static deletePregnancyData(user, whereObj) {
-        return new Promise((resolve, reject) => deleteEntry('PATIENT_PREGNANCY_DATA', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
     //PregnancyImage
@@ -212,11 +194,6 @@ export class PregnancyCore {
     }
 
 
-    //PregnancyFileds
-    // static getPregnancyAllFields(user, whereObj) {
-    //     // return new Promise((resolve, reject) => deleteEntry('PATIENT_PREGNANCY_IMAGING', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
-
-    // }
     static getPregnancyAllFields(queryfield, queryvalue) {
         return new Promise((resolve, reject) => searchEntry(queryfield, queryvalue).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.SEARCHFAIL, error))));
     }

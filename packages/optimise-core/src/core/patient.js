@@ -37,7 +37,6 @@ class Patient {
                     return reject(ErrorHelper(message.errorMessages.NOTFOUND));
                 }
                 const promiseArr = [];
-                //let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getDiagnosis', 'getConcomitantMeds'];
 
                 let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getPregnancyEntries', 'getPregnancyImages', 'getDiagnosis', 'getConcomitantMeds'];
 

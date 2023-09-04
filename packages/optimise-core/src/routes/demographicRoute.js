@@ -31,17 +31,6 @@ demogdata.route('/Pregnancy')
     .put(DemographicController.editPregnancy)
     .delete(DemographicController.deletePregnancy);
 
-demogdata.route('/PregnancyOutcome')
-    .post(DemographicController.createPregnancyOutcome)
-    .put(DemographicController.editPregnancyOutcome)
-    .delete(DemographicController.deletePregnancyOutcome);
-
-
-demogdata.route('/PregnancyData')
-    .post(DemographicController.createPregnancyData)
-    .put(DemographicController.editPregnancyData)
-    .delete(DemographicController.deletePregnancyData);
-
 demogdata.route('/PregnancyImage')
     .post(DemographicController.createPregnancyImage)
     .put(DemographicController.editPregnancyImage)

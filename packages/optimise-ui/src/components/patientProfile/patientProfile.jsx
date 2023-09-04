@@ -439,8 +439,6 @@ class Pregnancy extends Component {
                 return null;
         }
 
-        const PregnancyListButton = <NavLink to={`/patientProfile/${this.props.data.patientId}/pregnancies`}><button>Go to pregnancies</button></NavLink>;
-
         if (this.props.data.demographicData) {
             if (this.props.data.pregnancy.length === 0) {
                 return (
@@ -448,7 +446,7 @@ class Pregnancy extends Component {
                         <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
                     }>
                         No pregnancies recorded
-                        {/* {PregnancyListButton} */}
+
                     </PatientProfileSectionScaffold>
                 );
             }
@@ -473,7 +471,7 @@ class Pregnancy extends Component {
                     {outcomeName ? <> <br /><label>Outcome: </label> {outcomeName}</> : null}
                     {MedDRAName ? <> <br /><label>MedDRA: </label> {MedDRAName.name}</> : null}
                 </>
-                {/* {PregnancyListButton} */}
+
             </PatientProfileSectionScaffold>
         );
     }

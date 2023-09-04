@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { alterDataCall } from '../../redux/actions/addOrUpdateData';
 import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from '../medicalData/utils';
 import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
@@ -9,7 +8,7 @@ import style from '../medicalData/dataPage.module.css';
 import store from '../../redux/store';
 import PregnancyImageForm from './pregImage';
 import moment from 'moment';
-import { createPregnancyDataAPICall, createPregnancyItemsCall, alterPregnancyItemsCall } from '../../redux/actions/demographicData';
+import { alterPregnancyItemsCall } from '../../redux/actions/demographicData';
 import { PickDate } from '../createMedicalElements/datepicker';
 import profile_style from '../patientProfile/patientProfile.module.css';
 import pregnancy_style from './pregnancy.module.css';

@@ -7,7 +7,6 @@ import { UserManual } from '../userManual';
 import { AdminActions } from '../admin/actions';
 import { FilterPanel } from '../filterPatient/selectPanel';
 import style from './scaffold.module.css';
-import PregnancyList from '../pregnancyForms/pregnancyList';
 
 export default class RightPanel extends Component {
     render() {
@@ -18,8 +17,6 @@ export default class RightPanel extends Component {
                         <AdminActions location={location.pathname} match={match} />
                     } />
                     <Route path='/createPatient' component={SearchPatient} />
-                    {/* <Route path='/patientProfile/:patientId/pregnancies' render={({ match }) => <PregnancyList match={match} />} />
-                    <Route path='/patientProfile/:patientId/editPregnancyDataEntry/' render={({ match }) => <PregnancyList match={match} />} /> */}
                     <Route path='/patientProfile/:patientId' render={({ match, location }) =>
                         <PatientChart location={location.pathname} match={match} />
                     } />
