@@ -247,12 +247,14 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
 @connect(state => ({
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
-    icd11_Hash: state.availableFields.icd11_Hash[0]
+    icd11_Hash: state.availableFields.icd11_Hash[0],
+    pregnancyOutcome_hash: state.availableFields.pregnancyOutcomes_Hash[0],
 }))
 class OneVisit extends Component {
 
     render() {
-        const { baselineVisit, isMinor } = this.props;
+        const { baselineVisit, isMinor, fields } = this.props;
+        console.log("fields", fields);
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
@@ -304,6 +306,7 @@ class OneVisit extends Component {
         let pregnancy;
         let entryIsTerm = false;
         let baselineDeleted = false;
+        let pregnancyOutcome;
         if (pregnancyEntries.length) {
 
             const entryOrder = PregnancyEntry._checkEntryOrder(pregnancyEntries[0], this.props.data);
@@ -440,9 +443,17 @@ class OneVisit extends Component {
 
                                 {pregnancy[0].outcomeDate !== null ? entryIsTerm && pregnancyEntries[0].type === 2 &&
                                     <tbody>
-                                        <td>Pregnancy end date</td>
-                                        <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
 
+                                        <tr>
+                                            <td>Pregnancy end date</td>
+                                            <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Pregnancy outcome</td>
+                                            <td>{this.props.pregnancyOutcome_hash[pregnancy[0].outcome]}</td>
+
+                                        </tr>
 
                                     </tbody>
                                     : null
