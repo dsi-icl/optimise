@@ -13,7 +13,6 @@ import { PickDate } from '../createMedicalElements/datepicker';
 import profile_style from '../patientProfile/patientProfile.module.css';
 import pregnancy_style from './pregnancy.module.css';
 
-
 const MemoizedDataFields = React.memo(function MemoizedDataFields({
     references,
     originalValues,
@@ -232,7 +231,7 @@ class PregnancyEntry extends Component {
         this.initializeComponent();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
 
         if (prevProps.match.params.visitId !== this.props.match.params.visitId ||
             prevProps.patientProfile.fetching !== this.props.patientProfile.fetching) {
@@ -623,7 +622,7 @@ class PregnancyEntry extends Component {
                                         : null
                                 }
                                 {
-                                    this.props.renderedInFrontPage && this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3 ?
+                                    this.props.renderedInFrontPage && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
                                         <>
                                             <p>Current ongoing pregnancy start date: {this.state.pregnancyStartDate && this.state.pregnancyStartDate.toString().slice(0, 10)}. Please enter details for a follow up pregnancy record.</p><br /><br />
                                         </>

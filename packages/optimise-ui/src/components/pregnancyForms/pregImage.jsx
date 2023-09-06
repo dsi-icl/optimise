@@ -7,7 +7,6 @@ import moment from 'moment';
 import style from '../patientProfile/patientProfile.module.css';
 import pregnancy_style from './pregnancy.module.css';
 import { DeleteButton } from '../patientProfile/sharedComponents';
-import { MeddraPicker } from '../medDRA/meddraPicker';
 import { addAlert } from '../../redux/actions/alert';
 import Icon from '../icon';
 import { createPregnancyImageAPICall, deletePregnancyImageAPICall, editPregnancyImageAPICall } from '../../redux/actions/demographicData';
@@ -124,7 +123,7 @@ class PregnancyImageForm extends Component {
                             <button
                                 onClick={this._handleSubmit}
                             >
-                                    Confirm
+                                Confirm
                             </button>
                             <button onClick={() => this.setState({ showAddNewImageData: false })}>Cancel</button>
                         </div>
@@ -246,7 +245,6 @@ class OnePregnancyImage extends Component {
 
     render() {
         const { editing, date, result, mode } = this.state;
-        const { data } = this.props;
         return (
             <div className={style.interruption} style={{
                 overflow: editing ? 'visible' : 'hidden'

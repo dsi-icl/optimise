@@ -253,13 +253,10 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
 class OneVisit extends Component {
 
     render() {
-        const { baselineVisit, isMinor, fields } = this.props;
+        const { baselineVisit, isMinor } = this.props;
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
-        //
-
-
 
         if (this.props.visitType !== 1 && !visitHasTests && !visitHasMedications && !visitHasClinicalEvents)
             return null;

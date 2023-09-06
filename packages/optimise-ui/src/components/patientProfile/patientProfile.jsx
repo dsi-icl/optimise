@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, NavLink } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import Icon from '../icon';
 import { PickDate } from '../createMedicalElements/datepicker';
@@ -13,7 +13,6 @@ import { getPatientPii, changePatientId } from '../../redux/actions/patientProfi
 import { updateConsentAPICall, updateParticipationAPICall } from '../../redux/actions/consent';
 import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
-import EditPregnancy from '../editMedicalElements/editPregnancy';
 
 @connect(state => ({
     fetching: state.patientProfile.fetching,
@@ -458,7 +457,6 @@ class Pregnancy extends Component {
 
         const outcomeName = this.props.outcomeHash[pregnancy.outcome];
         const MedDRAName = this.props.meddra_Hash[pregnancy.meddra];
-        const { consent } = this.props.data;
 
         return (
             <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
