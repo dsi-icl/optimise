@@ -15,7 +15,7 @@ class AvailableFieldController {
             testTypes: 'AVAILABLE_TEST_TYPES',
             diagnoses: 'AVAILABLE_DIAGNOSES',
             concomitantMedsList: 'AVAILABLE_CONCOMITANT_MED',
-            pregnancyEntryTypes: 'AVAILABLE_PREGNANCY_ENTRY_TYPES',
+            pregnancyEntryTypes: 'AVAILABLE_PREGNANCY_ENTRY_TYPES'
         };
         let moduleObj = {};
         if (tableMap[params.dataType]) {

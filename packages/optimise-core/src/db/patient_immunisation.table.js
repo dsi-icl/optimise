@@ -37,6 +37,7 @@ export default async (dbcon, version) => {
                 table.dropForeign('patient');
                 table.foreign('patient').references('id').inTable('PATIENTS').onDelete('CASCADE');
             });
+            break;
         default:
             break;
     }

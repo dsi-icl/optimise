@@ -18,7 +18,7 @@ import EditPregnancy from '../editMedicalElements/editPregnancy';
 @connect(state => ({
     fetching: state.patientProfile.fetching,
     erasePatient: state.erasePatient,
-    patientProfile: state.patientProfile,
+    patientProfile: state.patientProfile
 }))
 class Section extends Component {
     componentWillUnmount() {

@@ -580,7 +580,7 @@ class DemographicDataController {
         //
 
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
-            PregnancyCore.deletePregnancyImage(user, { 'id': body.id }).then((result) => {
+            PregnancyCore.deletePregnancyImage(user, { id: body.id }).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {

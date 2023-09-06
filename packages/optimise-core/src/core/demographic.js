@@ -152,7 +152,7 @@ export class PregnancyCore {
     }
 
     static editPregnancyOutcomes(user, entryObj) {
-        return new Promise((resolve, reject) => updateEntry('PREGNANCY_OUTCOMES', user, '*', { 'id': entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+        return new Promise((resolve, reject) => updateEntry('PREGNANCY_OUTCOMES', user, '*', { id: entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
     static deletePregnancyOutcomes(user, whereObj) {
@@ -169,7 +169,7 @@ export class PregnancyCore {
     }
 
     static editPregnancyImage(user, entryObj) {
-        return new Promise((resolve, reject) => updateEntry('PATIENT_PREGNANCY_IMAGING', user, '*', { 'id': entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+        return new Promise((resolve, reject) => updateEntry('PATIENT_PREGNANCY_IMAGING', user, '*', { id: entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
     static deletePregnancyImage(user, whereObj) {
@@ -186,7 +186,7 @@ export class PregnancyCore {
     }
 
     static editPregnancyEntry(user, entryObj) {
-        return new Promise((resolve, reject) => updateEntry('PREGNANCY_ENTRY', user, '*', { 'id': entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+        return new Promise((resolve, reject) => updateEntry('PREGNANCY_ENTRY', user, '*', { id: entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
     static deletePregnancyEntry(user, whereObj) {

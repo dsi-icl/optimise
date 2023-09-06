@@ -42,6 +42,7 @@ export default async (dbcon, version) => {
             await dbcon()(TABLE_NAME).where('idname', 'reason for the visit').update({
                 permittedValues: 'Routine,Drug Monitoring,Relapse Assessment,Urgent,Pregnancy Monitoring'
             });
+            break;
         default:
             break;
     }

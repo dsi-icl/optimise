@@ -16,5 +16,5 @@ export const alterDataCall = (body, callback) => dispatch => apiHelper(`/data/${
         dispatch(getPatientProfileById(body.patientId));
     })
     .catch(err => {
-        store.dispatch(addError({ error: err }))
+        store.dispatch(addError({ error: err }));
     });

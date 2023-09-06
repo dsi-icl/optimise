@@ -169,7 +169,7 @@ describe('Patient controller tests', () => {
         .put('/patients/')
         .send({
             id: 8,
-            optimiseConsent: '2019-11-13T00:00:00.000Z',
+            optimiseConsent: '2019-11-13T00:00:00.000Z'
 
         })
         .then(({ statusCode }) => {

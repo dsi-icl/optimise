@@ -45,11 +45,11 @@ function mapStateToProps(state) {
  * @prop {Object} this.props.patientProfile - from store
  * @prop {Function} this.props.submitData - from connect
  *
- * Pregnancy entry type names by id: 
+ * Pregnancy entry type names by id:
  * 1 - Baseline,
  * 2 - Follow up.
  * 3 - Term
- * 
+ *
  * /
 
 /* this component serves as a sieve for the data and pass the relevant one to the form as props*/
@@ -119,7 +119,7 @@ class PregnancyEntry extends Component {
                     recordedDuringVisit: params.visitId,
                     pregnancyId: pregnancyStatus.pregnancyId
 
-                }
+                };
             }
         }
 
@@ -158,7 +158,7 @@ class PregnancyEntry extends Component {
             createEntry: createEntry,
             outcomeApplicable: outcomeApplicable,
             entryOrder: entryOrder,
-            saved: false,
+            saved: false
         });
     }
 
@@ -169,7 +169,7 @@ class PregnancyEntry extends Component {
         const allPregnancyEntries = data.pregnancyEntries.filter((el) => parseInt(el.pregnancyId) === parseInt(pregnancyId));
 
         if (allPregnancyEntries.length === 1 && allPregnancyEntries[0].id === pregnancyEntry.id) {
-            return "sole entry"
+            return 'sole entry';
         }
 
         let latestEntry = null;
@@ -197,12 +197,12 @@ class PregnancyEntry extends Component {
 
 
         if (latestEntry && (latestEntry.id === pregnancyEntry.id || latestVisitDate < new Date(parseInt(currentVisit.visitDate)))) {
-            return "latest";
+            return 'latest';
         } else if (earliestEntry && (earliestEntry.id === pregnancyEntry.id || earliestVisitDate > new Date(parseInt(currentVisit.visitDate)))) {
-            return "first";
+            return 'first';
         }
 
-        return "";
+        return '';
     }
 
 
@@ -246,7 +246,7 @@ class PregnancyEntry extends Component {
         const { params } = this.props.match;
         const { outcomeApplicable, pregnancyEntry } = this.state;
 
-        const entryType = pregnancyEntry.type === 1 ? 1 : (outcomeApplicable === 'yes' ? 3 : 2)
+        const entryType = pregnancyEntry.type === 1 ? 1 : (outcomeApplicable === 'yes' ? 3 : 2);
 
         // 1 - baseline,
         // 2 - follow up,
@@ -257,8 +257,8 @@ class PregnancyEntry extends Component {
             patientId: params.patientId,
             pregnancy: {
                 id: parseInt(this.state.pregnancyId),
-                patient: parseInt(this.props.data.id),
-            },
+                patient: parseInt(this.props.data.id)
+            }
 
         };
 
@@ -266,7 +266,7 @@ class PregnancyEntry extends Component {
             body.data = {
                 pregnancyEntryId: this.state.pregnancyEntry.id,
                 update, add
-            }
+            };
         }
 
         if (entryType === 1) {
@@ -275,10 +275,10 @@ class PregnancyEntry extends Component {
         else {
 
             body.pregnancy.outcome = (entryType === 3 && this.state.pregnancyOutcome)
-                || (entryType === 2 && this.state.pregnancyOutcome && this.state.entryOrder !== "sole entry" && this.state.entryOrder !== "latest") // follow up entry added between term and baseline
+                || (entryType === 2 && this.state.pregnancyOutcome && this.state.entryOrder !== 'sole entry' && this.state.entryOrder !== 'latest') // follow up entry added between term and baseline
                 ? parseInt(this.state.pregnancyOutcome, 10) : null;
             body.pregnancy.outcomeDate = (entryType === 3 && this.state.pregnancyOutcomeDate)
-                || (entryType === 2 && this.state.pregnancyOutcomeDate && this.state.entryOrder !== "sole entry" && this.state.entryOrder !== "latest")
+                || (entryType === 2 && this.state.pregnancyOutcomeDate && this.state.entryOrder !== 'sole entry' && this.state.entryOrder !== 'latest')
                 ? this.state.pregnancyOutcomeDate.toISOString() : null;
         }
         if (this.state.createEntry) {
@@ -286,7 +286,7 @@ class PregnancyEntry extends Component {
                 type: this.state.pregnancyEntry.type,
                 visitId: parseInt(params.visitId),
                 pregnancyId: this.state.pregnancyEntry.pregnancyId //if the entry type is baseline, no pregnancy will have been created yet
-            }
+            };
         }
 
         return body;
@@ -368,7 +368,7 @@ class PregnancyEntry extends Component {
 
                     this.originalValues = Object.assign({}, this.state.originalValues, add, update);
                     this.setState({
-                        saved: true,
+                        saved: true
 
                     });
                 }));
@@ -414,15 +414,15 @@ class PregnancyEntry extends Component {
 
             return {
                 minDate: relevantDate ? this._getFirstMinuteOfDay(relevantDate) : null,
-                maxDate: this._getLastMinuteOfDay(maxDate),
-            }
+                maxDate: this._getLastMinuteOfDay(maxDate)
+            };
         }
         else {
 
             return {
                 minDate: this._getFirstMinuteOfDay(new Date(parseFloat(currentPregnancy.startDate))),
                 maxDate: this._getLastMinuteOfDay(date)
-            }
+            };
         }
 
 
@@ -448,10 +448,10 @@ class PregnancyEntry extends Component {
         const { data } = this.props;
         const { visits } = data;
 
-        const entryType = pregnancyEntry.type === 1 ? 1 : (outcomeApplicable === 'yes' ? 3 : 2)
+        const entryType = pregnancyEntry.type === 1 ? 1 : (outcomeApplicable === 'yes' ? 3 : 2);
 
         if (entryType === 2) {
-            return "";
+            return '';
         }
 
         const currentVisit = visits.find(el => parseInt(el.id) === parseInt(visitId));
@@ -465,7 +465,7 @@ class PregnancyEntry extends Component {
             date > dateLimit.maxDate || date < dateLimit.minDate
         );
 
-        const formatDate = date => PregnancyEntry._isValidDate(date) ? date.toDateString() : "No limit";
+        const formatDate = date => PregnancyEntry._isValidDate(date) ? date.toDateString() : 'No limit';
 
         if ((entryType === 1 && this._getLastMinuteOfDay(visitDate) < this.state.pregnancyStartDate.toDate()) ||
             (entryType === 3 && this._getLastMinuteOfDay(visitDate) < this.state.pregnancyOutcomeDate.toDate())) {
@@ -484,10 +484,10 @@ class PregnancyEntry extends Component {
 
 
         if (entryType === 3 && (!this.state.pregnancyOutcomeDate || !this.state.pregnancyOutcome || this.state.pregnancyOutcome === 'none')) {
-            return 'Please enter both the outcome date and the outcome'
+            return 'Please enter both the outcome date and the outcome';
         }
 
-        return "";
+        return '';
     }
 
 
@@ -570,7 +570,7 @@ class PregnancyEntry extends Component {
 
 
     render() {
-        const { patientProfile, match, } = this.props;
+        const { patientProfile, match } = this.props;
         const { params } = match;
         const { pregnancyOutcomes } = this.props.fields;
 

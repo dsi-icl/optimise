@@ -15,7 +15,7 @@ import { createPregnancyImageAPICall, deletePregnancyImageAPICall, editPregnancy
 @withRouter
 @connect(state => ({
     fields: state.availableFields,
-    data: state.patientProfile.data,
+    data: state.patientProfile.data
 
 }))
 class PregnancyImageForm extends Component {
@@ -27,7 +27,7 @@ class PregnancyImageForm extends Component {
             date: moment(),
             mode: 'Other',
             result: 'Other',
-            addNewImageData_cache: [],
+            addNewImageData_cache: []
         };
 
         this._handleSubmit = this._handleSubmit.bind(this);
@@ -78,7 +78,7 @@ class PregnancyImageForm extends Component {
             showAddNewImageData: false,
             error: false
         }, () => {
-            store.dispatch(createPregnancyImageAPICall(body))
+            store.dispatch(createPregnancyImageAPICall(body));
             //this.setState({ saved: true })
         });
 
@@ -95,46 +95,44 @@ class PregnancyImageForm extends Component {
 
     render() {
         return (
-            <>
-                <div className={pregnancy_style.pregnancy_image_div}><p>Please enter pregnancy image data, if any: </p> <br></br>
-                    {
-                        this.state.addNewImageData_cache && this.state.addNewImageData_cache.map(el =>
-                            <div key={el.id} className={pregnancy_style.one_tentative_image}>
+            <div className={pregnancy_style.pregnancy_image_div}><p>Please enter pregnancy image data, if any: </p> <br></br>
+                {
+                    this.state.addNewImageData_cache && this.state.addNewImageData_cache.map(el =>
+                        <div key={el.id} className={pregnancy_style.one_tentative_image}>
 
-                                <OnePregnancyImage data={el} patientId={this.props.data.patientId}></OnePregnancyImage>
-                            </div>)
-                    }
-                    {
-                        this.state.showAddNewImageData ?
-                            <div>
-                                <label>Image date:<PickDate startDate={this.state.date} handleChange={this._handleDateChange} /></label><br /><br />
-                                <label>Mode:
-                                    <select defaultValue={this.state.mode} onChange={this._handleModeChange}>
-                                        <option value='USS'>USS</option>
-                                        <option value='Other'>Other</option>
-                                    </select>
-                                </label><br /><br />
-                                <label>Result:
-                                    <select defaultValue={this.state.result} onChange={this._handleResultChange}>
-                                        <option value='Result One'>One</option>
-                                        <option value='Result Two'>Two</option>
-                                        <option value='Other'>Other</option>
-                                    </select>
-                                </label>
+                            <OnePregnancyImage data={el} patientId={this.props.data.patientId}></OnePregnancyImage>
+                        </div>)
+                }
+                {
+                    this.state.showAddNewImageData ?
+                        <div>
+                            <label>Image date:<PickDate startDate={this.state.date} handleChange={this._handleDateChange} /></label><br /><br />
+                            <label>Mode:
+                                <select defaultValue={this.state.mode} onChange={this._handleModeChange}>
+                                    <option value='USS'>USS</option>
+                                    <option value='Other'>Other</option>
+                                </select>
+                            </label><br /><br />
+                            <label>Result:
+                                <select defaultValue={this.state.result} onChange={this._handleResultChange}>
+                                    <option value='Result One'>One</option>
+                                    <option value='Result Two'>Two</option>
+                                    <option value='Other'>Other</option>
+                                </select>
+                            </label>
 
-                                <button
-                                    onClick={this._handleSubmit}
-                                >
+                            <button
+                                onClick={this._handleSubmit}
+                            >
                                     Confirm
-                                </button>
-                                <button onClick={() => this.setState({ showAddNewImageData: false })}>Cancel</button>
-                            </div>
-                            :
-                            <button onClick={() => this.setState({ showAddNewImageData: true })}>Add new image data</button>
-                    }
-                </div>
-            </>
-        )
+                            </button>
+                            <button onClick={() => this.setState({ showAddNewImageData: false })}>Cancel</button>
+                        </div>
+                        :
+                        <button onClick={() => this.setState({ showAddNewImageData: true })}>Add new image data</button>
+                }
+            </div>
+        );
     }
 }
 

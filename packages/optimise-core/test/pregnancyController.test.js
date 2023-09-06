@@ -390,7 +390,6 @@ describe('Create Pregnancy image controller test', () => {
             result: 'successful'
         })
         .then(({ status, body }) => {
-            console.log(status, body);
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
             expect(body.state).toBeDefined();

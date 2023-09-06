@@ -26,7 +26,7 @@ export const createPatientCall = (body) => dispatch => (
         })
         .then(() => { dispatch(getPatientProfileById(body.patientId)); })
         .catch(err => {
-            store.dispatch(addError({ error: err }))
+            store.dispatch(addError({ error: err }));
         })
 
 );

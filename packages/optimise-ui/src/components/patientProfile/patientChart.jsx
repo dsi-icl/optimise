@@ -248,13 +248,12 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
     icd11_Hash: state.availableFields.icd11_Hash[0],
-    pregnancyOutcome_hash: state.availableFields.pregnancyOutcomes_Hash[0],
+    pregnancyOutcome_hash: state.availableFields.pregnancyOutcomes_Hash[0]
 }))
 class OneVisit extends Component {
 
     render() {
         const { baselineVisit, isMinor, fields } = this.props;
-        console.log("fields", fields);
         const visitHasTests = this.props.data.tests.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasMedications = this.props.data.treatments.filter(el => el['orderedDuringVisit'] === this.props.visitId).length !== 0;
         const visitHasClinicalEvents = this.props.data.clinicalEvents.filter(el => el['recordedDuringVisit'] === this.props.visitId).length !== 0;
@@ -338,7 +337,6 @@ class OneVisit extends Component {
         if (!shouldRender)
             return null;
 
-        console.log("Visit card title", this.props.title)
         return (
             <TimelineEvent
                 title={this.props.title}
@@ -507,7 +505,7 @@ class OneVisit extends Component {
 
                                             </tbody>
                                         </>
-                                    )
+                                    );
                                 })
                                     : null
 
@@ -788,7 +786,6 @@ class Charts extends Component {
     };
 
     _sortVisits = (visitList) => {
-        console.log("visitList: ", visitList);
         let historyInd = 1;
         const visits = [...visitList];
         return visits.sort((a, b) => {

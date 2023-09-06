@@ -27,7 +27,7 @@ import {
     getTestFieldsCall,
     getTestTypesCall,
     getVisitFieldsCall,
-    getConcomitantMedsCall,
+    getConcomitantMedsCall
 
 } from './redux/actions/availableFields';
 import { getServerInfoCall } from './redux/actions/serverInfo';

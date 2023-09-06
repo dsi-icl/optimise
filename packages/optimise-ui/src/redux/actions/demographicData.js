@@ -99,7 +99,7 @@ export const createPregnancyImageAPICall = (body) => dispatch => (
             dispatch(getPatientProfileById(body.patientId));
         })
         .catch(msg => {
-            store.dispatch(addError({ error: msg }))
+            store.dispatch(addError({ error: msg }));
         })
 );
 

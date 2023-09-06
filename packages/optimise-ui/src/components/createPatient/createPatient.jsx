@@ -115,7 +115,6 @@ class CreatePatient extends Component {    //get these props from state: this.pr
 
         const fieldCheck = ['DOB', 'address', 'aliasId', 'showConsentDatePicker', 'showPregnancyConsentDatePicker', 'country_of_origin', 'diagnosis', 'diagnosisDate', 'dominant_hand', 'ethnicity', 'gender', 'givenName', 'postcode', 'surname'];
         for (let i = 0; i < fieldCheck.length; i++) {
-            console.log(this.state[fieldCheck[i]]);
             if (this.state[fieldCheck[i]] === 0 || this.state[fieldCheck[i]] === null || this.state[fieldCheck[i]] === '' || this.state[fieldCheck[i]] === 'unselected') {
                 this.setState({ error: 'None of the fields can be empty!' });
                 return;

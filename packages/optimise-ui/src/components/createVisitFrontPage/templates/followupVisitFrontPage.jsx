@@ -47,7 +47,7 @@ class FollowupVisitFrontPage extends Component {
             6: <RelapseWrapper yesOrNoQuestion={<p>Is there any <b>MS relapse</b> since last visit?</p>} />,
             7: <OtherSAEWrapper yesOrNoQuestion={<p>Is there any <b>serious adverse event</b>, <b>malignancy</b>, or <b>opportunistic infection</b> since last visit?</p>} />,
             8: <TestWrapper yesOrNoQuestion={<p>Are there any lab results for <b>Anti-JCV antibody status</b>, <b>total white cell and lymphocyte count</b>, or <b>liver function</b> since last visit?</p>} />,
-            9: <MRIWrapper yesOrNoQuestion={<p>Are there any <b>brain MRI</b> results since last visit?</p>} />,
+            9: <MRIWrapper yesOrNoQuestion={<p>Are there any <b>brain MRI</b> results since last visit?</p>} />
             // // 10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>} />,
             // // 11: <CommunicationWrapper />
 
@@ -57,11 +57,11 @@ class FollowupVisitFrontPage extends Component {
             Object.assign(pageNumberToElementMap, {
                 10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>} />,
                 11: <CommunicationWrapper />
-            })
+            });
         } else {
             Object.assign(pageNumberToElementMap, {
                 10: <CommunicationWrapper />
-            })
+            });
         }
 
         const pageToTitleMap = {
@@ -74,20 +74,20 @@ class FollowupVisitFrontPage extends Component {
             6: 'Relapses',
             7: 'SAE\'s and infections',
             8: 'Lab tests',
-            9: 'MRI',
+            9: 'MRI'
             // // 10: 'Pregnancy',
             // // 11: 'Communication and notes'
         };
 
         if (pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1) {
             Object.assign(pageToTitleMap, {
-                10: "Pregnancy",
-                11: "Communication and notes"
-            })
+                10: 'Pregnancy',
+                11: 'Communication and notes'
+            });
         } else {
             Object.assign(pageToTitleMap, {
-                10: "Communication and notes"
-            })
+                10: 'Communication and notes'
+            });
         }
 
         return (

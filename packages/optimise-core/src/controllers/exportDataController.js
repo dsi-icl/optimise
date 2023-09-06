@@ -257,10 +257,10 @@ class ExportDataController {
             }));
             switch (data.type) {
                 case 1: // lab test
-                    entry.entry_type = 'baseline'
+                    entry.entry_type = 'baseline';
                     break;
                 case 2: // MRI
-                    entry.entry_type = 'follow up'
+                    entry.entry_type = 'follow up';
                     break;
                 default:
                     return null;
@@ -371,7 +371,7 @@ class ExportDataController {
             const all_pe = await dbcon()('PREGNANCY_ENTRY')
                 .select('*')
                 .where('recordedDuringVisit', visit.visitId)
-                .andWhere('deleted', '-')
+                .andWhere('deleted', '-');
             const all_pe_data = [];
             for (const e of all_pe) {
                 if (all_pe_data[e.type] === undefined) {
