@@ -12,7 +12,6 @@ const PregnancyModel = {
     meddra: undefined
 };
 
-
 class DemographicDataController {
 
     static createDemographic({ body, user }, res) {
@@ -388,7 +387,6 @@ class DemographicDataController {
     }
 
     static createPregnancy({ body, user }, res) {
-
         if (body.hasOwnProperty('patient') && typeof body.patient === 'number') {
 
             if (body.hasOwnProperty('meddra') && body.meddra !== null && isNaN(parseInt(body.meddra))) {
@@ -662,8 +660,6 @@ class DemographicDataController {
             return;
         }
     }
-
-
 
     static getPregnancyFields(__unused__req, res) {
         PregnancyCore.getPregnancyOutcomes().then((result) => {

@@ -305,25 +305,18 @@ class OneVisit extends Component {
         let pregnancy;
         let entryIsTerm = false;
         let baselineDeleted = false;
-        let pregnancyOutcome;
         if (pregnancyEntries.length) {
 
             const entryOrder = PregnancyEntry._checkEntryOrder(pregnancyEntries[0], this.props.data);
             pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
             entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
             baselineDeleted = (entryOrder === 'first' || entryOrder === 'sole entry') && pregnancyEntries[0].type === 2;
-
-
-
         }
-
-
 
         const filteredSymptoms = filterEmptyRenders(symptoms, this.props.inputType, this.props.typedict);
         const filteredComorbidities = comorbidities;
         const filteredSigns = filterEmptyRenders(signs, this.props.inputType, this.props.typedict);
         const filteredEDSS = filterEmptyRenders(performances, this.props.inputType, this.props.typedict);
-
 
         let shouldRender = true;
         if (this.props.filter.visits || this.props.filter.tests || this.props.filter.treatments || this.props.filter.events) {
@@ -404,9 +397,8 @@ class OneVisit extends Component {
                     </>
                 ) : null}
 
-                {pregnancyEntries.length && pregnancy.length && this.props.data.pregnancySubStudyConsent ?
-                    <>
-
+                {pregnancyEntries.length && pregnancy.length && this.props.data.pregnancySubStudyConsent
+                    ? <>
                         <h4><Icon symbol='symptom' />&nbsp;PREGNANCY</h4>
                         <div className={style.visitWrapper}>
                             <table>
@@ -417,29 +409,29 @@ class OneVisit extends Component {
 
                                     </tr>
                                 </thead>
-                                {pregnancyEntries[0].type === 1 ?
-                                    <tbody>
+                                {pregnancyEntries[0].type === 1
+                                    ? <tbody>
                                         <td>Pregnancy start date</td>
                                         <td>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
 
 
                                     </tbody>
-                                    : null}
+                                    : null
+                                }
 
-                                {baselineDeleted ?
-                                    <tbody>
+                                {baselineDeleted
+                                    ? <tbody>
                                         <tr>
                                             <td style={{ color: 'red' }}>Pregnancy start date
                                                 *Baseline entry error - please recreate</td>
                                             <td style={{ color: 'red' }}>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
                                         </tr>
                                     </tbody>
-                                    : null}
+                                    : null
+                                }
 
-
-
-
-                                {pregnancy[0].outcomeDate !== null ? entryIsTerm && pregnancyEntries[0].type === 2 &&
+                                {pregnancy[0].outcomeDate !== null
+                                    ? entryIsTerm && pregnancyEntries[0].type === 2 &&
                                     <tbody>
 
                                         <tr>
@@ -470,63 +462,57 @@ class OneVisit extends Component {
 
                                 }
 
+                                {pregnancyImages.length
+                                    ? pregnancyImages.map(el => {
+                                        return (
+                                            <>
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2">Pregnancy Image</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <td>Date</td>
+                                                    <td>{new Date(parseFloat(el.date)).toDateString()}</td>
 
 
-                                {pregnancyImages.length ? pregnancyImages.map(el => {
-                                    return (
-                                        <>
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="2">Pregnancy Image</th>
 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                <td>Date</td>
-                                                <td>{new Date(parseFloat(el.date)).toDateString()}</td>
+                                                </tbody>
+                                                <tbody>
 
 
+                                                    <td>Mode</td>
+                                                    <td>{el.mode}</td>
 
-                                            </tbody>
-                                            <tbody>
-
-
-                                                <td>Mode</td>
-                                                <td>{el.mode}</td>
-
-                                            </tbody>
-                                            <tbody>
+                                                </tbody>
+                                                <tbody>
 
 
-                                                <td>Result</td>
-                                                <td>{el.result}</td>
+                                                    <td>Result</td>
+                                                    <td>{el.result}</td>
 
 
-                                            </tbody>
-                                        </>
-                                    );
-                                })
+                                                </tbody>
+                                            </>
+                                        );
+                                    })
                                     : null
-
                                 }
-
                             </table>
                             <br />
                         </div>
 
-
-
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
                             <button>Edit pregnancy entry</button>
                         </NavLink>
-
-
                     </>
-                    : null}
+                    : null
+                }
 
-                {this.props.visitType === 1 ? (
-                    <>
+                {this.props.visitType === 1
+                    ? <>
                         <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}`} className={style.visitEditButton}>
                             <span title='Edit visit date and reason' className={style.dataEdit}><Icon symbol='edit' /></span>
                         </NavLink><br />
@@ -580,10 +566,11 @@ class OneVisit extends Component {
                         </NavLink>
                         <br /><br />
                     </>
-                ) : null}
+                    : null
+                }
 
-                {this.props.visitType === 1 || visitHasClinicalEvents ? (
-                    <>
+                {this.props.visitType === 1 || visitHasClinicalEvents
+                    ? <>
                         <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}</h4>
                         {filteredSymptoms.length > 0 ? (
                             <div className={style.visitWrapper}>
@@ -629,12 +616,14 @@ class OneVisit extends Component {
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/signs`} activeClassName={style.activeNavLink}>
                             <button>Edit signs data for this visit</button>
                         </NavLink>
-                        <br /><br />
+                        <br />
+                        <br />
                     </>
-                ) : null}
+                    : null
+                }
 
-                {this.props.visitType === 1 ? (
-                    <>
+                {this.props.visitType === 1
+                    ? <>
                         <h4><Icon symbol='symptom' />&nbsp;COMORBIDITIES</h4>
                         {filteredComorbidities.length > 0 ? (
                             <div className={style.visitWrapper}>
@@ -656,10 +645,11 @@ class OneVisit extends Component {
                         </NavLink>
                         <br /><br />
                     </>
-                ) : null}
+                    : null
+                }
 
-                {this.props.visitType === 1 ? (
-                    <>
+                {this.props.visitType === 1
+                    ? <>
                         <h4><Icon symbol='addTreatment' />&nbsp;CONCOMITANT MEDICATIONS</h4>
                         {concomitantMeds.length > 0 ? (
                             <div className={style.visitWrapper}>
@@ -684,10 +674,11 @@ class OneVisit extends Component {
                         </NavLink>
                         <br /><br />
                     </>
-                ) : null}
+                    : null
+                }
 
-                {this.props.visitType === 1 ? (
-                    <>
+                {this.props.visitType === 1
+                    ? <>
                         <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
                         {filteredEDSS.length > 0 ? (
                             <div className={style.visitWrapper}>
@@ -724,7 +715,8 @@ class OneVisit extends Component {
                         </NavLink>
                         <br /><br />
                     </>
-                ) : null}
+                    : null
+                }
                 <>
                     <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
                     {communication ? (
@@ -739,8 +731,6 @@ class OneVisit extends Component {
                     </NavLink>
                     <br /><br />
                 </>
-
-
             </TimelineEvent>
         );
     }

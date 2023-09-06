@@ -8,14 +8,12 @@ const user = request.agent(global.optimiseRouter);
 beforeAll(async () => {
     await connectAdmin(admin);
     await connectUser(user);
-
 });
 
 afterAll(async () => {
     await disconnectAgent(admin);
     await disconnectAgent(user);
 });
-
 
 describe('Create Pregnancy controller test', () => {
     test('Creating Pregnancy without body', () => admin
@@ -368,7 +366,6 @@ describe('Delete Pregnancy controller test', () => {
 });
 
 // Pregnancy image test
-
 describe('Create Pregnancy image controller test', () => {
     test('Creating Pregnancy image without body', () => admin
         .post('/demographics/PregnancyImage')

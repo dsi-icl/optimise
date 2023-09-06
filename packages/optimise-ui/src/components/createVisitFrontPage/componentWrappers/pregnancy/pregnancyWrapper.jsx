@@ -53,5 +53,4 @@ class PregnancyWrapper extends Component {
     }
 }
 
-
 export default PregnancyWrapper;

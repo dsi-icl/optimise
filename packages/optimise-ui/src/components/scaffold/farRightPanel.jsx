@@ -14,7 +14,6 @@ import { UserActions } from '../admin/userActions';
 import { UserManualMenu } from '../userManual';
 import style from './scaffold.module.css';
 
-
 export default class FarRightPanel extends Component {
     render() {
         return (

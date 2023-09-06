@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { VSFrontPageWrapper } from '../componentWrappers/vs/vsWrapper';
 import { ComorbidityWrapper } from '../componentWrappers/comorbidity/comorbidityWrapper';
 import { EDSSWrapper } from '../componentWrappers/edss/edssWrapper';
@@ -12,8 +13,6 @@ import { VisitFrontPageTemplate } from './template';
 import { VisitFrontPageIntroduction } from '../componentWrappers/introductoryPage/introductoryPage';
 import { ConcomitantMedWrapper } from '../componentWrappers/concomitantMed/concomitantMed';
 import PregnancyWrapper from '../componentWrappers/pregnancy/pregnancyWrapper';
-
-import { connect } from 'react-redux';
 
 @connect(state => ({
     fetching: state.patientProfile.fetching,
@@ -36,8 +35,6 @@ class BaselineVisitFrontPage extends Component {
             7: <OtherSAEWrapper yesOrNoQuestion={<p>Is there any <b>serious adverse event</b>, <b>malignancy</b>, or <b>opportunistic infection</b> prior?</p>} />,
             8: <TestWrapper yesOrNoQuestion={<p>Is there any baseline lab result for <b>Anti-JCV antibody status</b>, <b>total white cell and lymphocyte count</b>, or <b>liver function</b> available?</p>} />,
             9: <MRIWrapper yesOrNoQuestion={<p>Is there any baseline <b>brain MRI</b> result available?</p>} />
-            // 10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>} />,
-            // 11: <CommunicationWrapper />
         };
 
         if (pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1) {
@@ -62,8 +59,6 @@ class BaselineVisitFrontPage extends Component {
             7: 'SAE\'s and infections',
             8: 'Lab tests',
             9: 'MRI'
-            // 10: 'Pregnancy',
-            // 11: 'Communication and notes'
         };
 
         if (pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1) {
@@ -77,7 +72,6 @@ class BaselineVisitFrontPage extends Component {
             });
         }
 
-
         return (
             <VisitFrontPageTemplate
                 match={match}
@@ -89,6 +83,5 @@ class BaselineVisitFrontPage extends Component {
         );
     }
 }
-
 
 export { BaselineVisitFrontPage };

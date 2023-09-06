@@ -16,7 +16,6 @@ afterAll(async () => {
 });
 
 let createdPregnancyEntryId;
-
 describe('Create pregnancy controller tests', () => {
     test('Request creation without body (should fail)', () => admin
         .post('/demographics/PregnancyEntry')

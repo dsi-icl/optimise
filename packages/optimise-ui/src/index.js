@@ -11,7 +11,6 @@ import history from './redux/history';
 import * as webWorker from './webWorker';
 import * as serviceWorker from './serviceWorker';
 
-
 webWorker.start();
 serviceWorker.unregister();
 
