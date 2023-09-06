@@ -380,7 +380,7 @@ describe('Create Pregnancy image controller test', () => {
     test('Creating Pregnancy Image well formatted (Should Succeed)', () => admin
         .post('/demographics/PregnancyImage')
         .send({
-            pregnancyDataId: 1,
+            visitId: 1,
             date: '2000-05-14',
             deleted: '-',
             mode: 'plain',

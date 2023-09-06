@@ -496,40 +496,39 @@ class DemographicDataController {
 
     //PregnancyImage
     static createPregnancyImage({ body, user }, res) {
-        //
 
-        if (body.hasOwnProperty('visitId') && typeof body.visitId === 'number') {
-            let momentDate = moment(body.date, moment.ISO_8601);
-            if (body.hasOwnProperty('date') && body.date !== null && !momentDate.isValid()) {
-                let msg = message.dateError[momentDate.invalidAt()] !== undefined ? message.dateError[momentDate.invalidAt()] : message.userError.INVALIDDATE;
-                res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
-                return;
-            }
-            if (!body.hasOwnProperty('mode') || !body.hasOwnProperty('result')) {
-                res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
-                return;
-            }
-
-            let entryObj = {
-                visitId: body.visitId,
-                date: momentDate.valueOf(),
-                mode: body.mode,
-                result: body.result,
-                createdByUser: user.id
-            };
-
-            PregnancyCore.createPregnancyImage(entryObj).then((result) => {
-                res.status(200).json(formatToJSON(result));
-                return true;
-            }).catch((error) => {
-                res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
-                return false;
-            });
-        } else {
-            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        if (!body.hasOwnProperty('visitId') || !body.hasOwnProperty('date') || !body.hasOwnProperty('mode') || !body.hasOwnProperty('result')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
 
+        if (body.hasOwnProperty('visitId') && typeof body.visitId !== 'number') {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+
+        let momentDate = moment(body.date, moment.ISO_8601);
+        if (body.hasOwnProperty('date') && body.date !== null && !momentDate.isValid()) {
+            let msg = message.dateError[momentDate.invalidAt()] !== undefined ? message.dateError[momentDate.invalidAt()] : message.userError.INVALIDDATE;
+            res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
+            return;
+        }
+
+        let entryObj = {
+            visitId: body.visitId,
+            date: momentDate.valueOf(),
+            mode: body.mode,
+            result: body.result,
+            createdByUser: user.id
+        };
+
+        PregnancyCore.createPregnancyImage(entryObj).then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
+            return false;
+        });
     }
 
     static editPregnancyImage({ body, user }, res) {
