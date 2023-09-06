@@ -20,7 +20,7 @@ export class EditElementRouter extends Component {
                 <Route path='/patientProfile/:patientId/edit/pregnancyDataEntry/data/:entryId' render={({ match, location }) => <PregnancyEntry match={match} location={location} />} />
                 <Route path='/patientProfile/:patientId/edit/communication/:visitId' render={({ match, location }) => <EditCommunication match={match} location={location} />} />
                 <Route path='/patientProfile/:patientId/edit/msPerfMeas/:visitId' render={({ match, location }) => <EditPerformanceMesaure match={match} location={location} />} />
-                <Route path='/' component={() => <></>} />
+                <Route path='/' component={() => null} />
             </Switch>
         );
     }

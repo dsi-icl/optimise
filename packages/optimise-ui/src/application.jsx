@@ -67,7 +67,7 @@ class App extends Component {
             this.props.whoami();
     }
 
-    componentDidCatch(error, __unused__info) {
+    componentDidCatch(error) {
         const { support } = this.state;
         if (support)
             store.dispatch(addError({ error }));

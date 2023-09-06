@@ -19,7 +19,7 @@ import { createPregnancyImageAPICall, deletePregnancyImageAPICall, editPregnancy
 }))
 class PregnancyImageForm extends Component {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             showAddNewImageData: false,
             addNewImageData_counter: 1,
@@ -28,13 +28,10 @@ class PregnancyImageForm extends Component {
             result: 'Other',
             addNewImageData_cache: []
         };
-
         this._handleSubmit = this._handleSubmit.bind(this);
         this._updateImageData = this._updateImageData.bind(this);
         this._handleResultChange = this._handleResultChange.bind(this);
         this._handleModeChange = this._handleModeChange.bind(this);
-
-
     }
 
     componentDidMount() {
@@ -240,8 +237,6 @@ class OnePregnancyImage extends Component {
     _handleModeChange(ev) {
         this.setState({ mode: ev.target.value, error: false });
     }
-
-
 
     render() {
         const { editing, date, result, mode } = this.state;

@@ -22,7 +22,7 @@ export class DataPageRouter extends Component {
                 <Route path='/patientProfile/:patientId/data/visit/:visitId/signs' render={({ match }) => <VisitData elementType='visit' match={match} category={'signs'} />} />
                 <Route path='/patientProfile/:patientId/data/treatment/:elementId' render={({ match }) => <TreatmentInterruption match={match} />} />
                 <Route path='/patientProfile/:patientId/data/clinicalEvent/:ceId' render={({ match }) => <CeData elementType='clinicalEvent' match={match} />} />
-                <Route path='/' component={() => <></>} />
+                <Route path='/' component={() => null} />
             </Switch>
         );
     }

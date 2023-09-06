@@ -96,20 +96,14 @@ class ChangeUserEmail extends Component {
     }
 
     render() {
-        return (
-            <>
-                {!this.state.addMore ?
-                    <button onClick={this._handleClickingAdd}>Change user email</button>
-                    :
-                    <div className={style.userFeature}>
-                        <label htmlFor='email'>Email:</label><br /><input name='email' type='text' ref={this.emailRef} /><br /><br />
-                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /><br /></> : null}
-                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                        <button onClick={this._handleClickingAdd}>Cancel</button>
-                    </div>
-                }
-            </>
-        );
+        if (this.state.addMore)
+            return <div className={style.userFeature}>
+                <label htmlFor='email'>Email:</label><br /><input name='email' type='text' ref={this.emailRef} /><br /><br />
+                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /><br /></> : null}
+                <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                <button onClick={this._handleClickingAdd}>Cancel</button>
+            </div>;
+        return <button onClick={this._handleClickingAdd}>Change user email</button>;
     }
 }
 
@@ -142,21 +136,15 @@ class ChangeUserPassword extends Component {
     }
 
     render() {
-        return (
-            <>
-                {!this.state.addMore ?
-                    <button onClick={this._handleClickingAdd}>Change user password</button>
-                    :
-                    <div className={style.userFeature}>
-                        <label htmlFor='password'>Password:</label><br /><input name='password' type='password' ref={this.pwRef} /><br /><br />
-                        <label htmlFor='passwordConf'>Confirm Password:</label><br /><input name='passwordConf' type='password' ref={this.conPwRef} /><br /><br />
-                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /><br /></> : null}
-                        <button onClick={this._handleSubmit}>Submit</button><br /><br />
-                        <button onClick={this._handleClickingAdd}>Cancel</button>
-                    </div>
-                }
-            </>
-        );
+        if (this.state.addMore)
+            return <div className={style.userFeature}>
+                <label htmlFor='password'>Password:</label><br /><input name='password' type='password' ref={this.pwRef} /><br /><br />
+                <label htmlFor='passwordConf'>Confirm Password:</label><br /><input name='passwordConf' type='password' ref={this.conPwRef} /><br /><br />
+                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /><br /></> : null}
+                <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                <button onClick={this._handleClickingAdd}>Cancel</button>
+            </div>;
+        return <button onClick={this._handleClickingAdd}>Change user password</button>;
     }
 }
 
@@ -169,15 +157,9 @@ class ChangeUserPrivilege extends Component {
         store.dispatch(changePrivAPICall(body));
     };
     render() {
-        return (
-            <>
-                {this.props.adminPriv === 1 ?
-                    <button onClick={this._handleClick}>Withdraw admin privileges from this user</button>
-                    :
-                    <button onClick={this._handleClick}>Give this user admin privileges</button>
-                }
-            </>
-        );
+        if (this.props.adminPriv === 1)
+            return <button onClick={this._handleClick}>Withdraw admin privileges from this user</button>;
+        return <button onClick={this._handleClick}>Give this user admin privileges</button>;
     }
 }
 
