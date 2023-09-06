@@ -1,4 +1,4 @@
-import availablePregnancyEntryTypes from './defaults_v11/pregnancyEntryTypes.json';
+import availablePregnancyEntryTypes from './defaults_v18/pregnancyEntryTypes.json';
 
 export const TABLE_NAME = 'AVAILABLE_PREGNANCY_ENTRY_TYPES';
 export const PRIORITY = 0;
