@@ -10,12 +10,18 @@
         "email": "f.guitton@imperial.ac.uk",
         "name": "Florian Guitton"
     },
+    "contributors": [
+        "Chon Sou <c.sou16@imperial.ac.uk>",
+        "Pierre-Marie <p.danieau@imperial.ac.uk>",
+        "Eleni Pissaridou <e.pissaridou@imperial.ac.uk>",
+        "Joanna Thomas <joanna.thomas21@imperial.ac.uk>"
+    ],
     "private": true,
     "scripts": {
         "lint": "eslint --ext .jsx --ext .js ./",
-        "start": "cross-env BROWSER=none SKIP_PREFLIGHT_CHECK=true react-app-rewired start",
-        "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
-        "test": "cross-env SKIP_PREFLIGHT_CHECK=true CI=true react-app-rewired test --colors"
+        "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider BROWSER=none SKIP_PREFLIGHT_CHECK=true react-app-rewired start",
+        "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
+        "test": "cross-env NODE_OPTIONS=--openssl-legacy-provider SKIP_PREFLIGHT_CHECK=true CI=true react-app-rewired test --colors"
     },
     "dependencies": {
         "deepmerge": "4.3.1",
