@@ -35,7 +35,8 @@ const javascriptRules = {
     'no-prototype-builtins': 'off',
     '@typescript-eslint/no-this-alias': 'off',
     '@typescript-eslint/camelcase': 'off',
-    '@typescript-eslint/no-unused-vars': ['warn', { args: 'after-used', varsIgnorePattern: '^__unused' }]
+    '@typescript-eslint/no-unused-vars': ['warn', { args: 'after-used', varsIgnorePattern: '^__unused' }],
+    '@typescript-eslint/consistent-type-assertions': 'off'
 };
 
 // const typescriptRules = {
@@ -47,10 +48,14 @@ const javascriptRules = {
 module.exports = {
     root: true,
     parserOptions: {
-        tsconfigRootDir: __dirname
+        tsconfigRootDir: __dirname,
+        project: false
     },
     ignorePatterns: ['**/*', '!**/*.json', '!**/*.js', '!**/*.ts', '!scripts', '!tools', '!.vscode'],
     plugins: ['@nx', 'json'],
+    rules: {
+        '@typescript-eslint/consistent-type-assertions': 'off'
+    },
     overrides: [
         // {
         //     files: ['*.ts', '*.tsx'],
