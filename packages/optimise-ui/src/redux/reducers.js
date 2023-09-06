@@ -126,6 +126,14 @@ function availableFields(state = initialState.availableFields, action) {
             hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
             newState = { ...state, pregnancyOutcomes: action.payload, pregnancyOutcomes_Hash: [hash] };
             break;
+        case actionTypes.availableFields.GET_PREGNANCY_ENTRY_FIELDS_SUCCESS:
+            hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
+            newState = { ...state, pregnancyEntryFields: action.payload, pregnancyEntryFields_Hash: [hash] };
+            break;
+        case actionTypes.availableFields.GET_PREGNANCY_ENTRY_TYPES_SUCCESS:
+            hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
+            newState = { ...state, pregnancyEntryTypes: action.payload, pregnancyEntryTypes_Hash: [hash] };
+            break;
         case actionTypes.availableFields.GET_INTERRUPTION_REASONS_SUCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
             newState = { ...state, interruptionReasons: action.payload, interruptionReasons_Hash: [hash] };

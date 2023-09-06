@@ -9,6 +9,12 @@
         "email": "f.guitton@imperial.ac.uk",
         "name": "Florian Guitton"
     },
+    "contributors": [
+        "Chon Sou <c.sou16@imperial.ac.uk>",
+        "Pierre-Marie <p.danieau@imperial.ac.uk>",
+        "Eleni Pissaridou <e.pissaridou@imperial.ac.uk>",
+        "Joanna Thomas <joanna.thomas21@imperial.ac.uk>"
+    ],
     "repository": "github:dsi-icl/optimise",
     "homepage": "https://github.com/dsi-icl/optimise",
     "license": "MIT",

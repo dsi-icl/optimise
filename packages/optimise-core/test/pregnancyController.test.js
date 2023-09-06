@@ -364,3 +364,34 @@ describe('Delete Pregnancy controller test', () => {
             return true;
         }));
 });
+
+// Pregnancy image test
+describe('Create Pregnancy image controller test', () => {
+    test('Creating Pregnancy image without body', () => admin
+        .post('/demographics/PregnancyImage')
+        .then(({ status, body }) => {
+            expect(status).toBe(400);
+            expect(typeof body).toBe('object');
+            expect(body.error).toBeDefined();
+            expect(body.error).toBe(message.userError.MISSINGARGUMENT);
+            return true;
+        }));
+
+    test('Creating Pregnancy Image well formatted (Should Succeed)', () => admin
+        .post('/demographics/PregnancyImage')
+        .send({
+            visitId: 1,
+            date: '2000-05-14',
+            deleted: '-',
+            mode: 'plain',
+            result: 'successful'
+        })
+        .then(({ status, body }) => {
+            expect(status).toBe(200);
+            expect(typeof body).toBe('object');
+            expect(body.state).toBeDefined();
+            expect(body.state).toBe(1);
+            return true;
+        }));
+
+});

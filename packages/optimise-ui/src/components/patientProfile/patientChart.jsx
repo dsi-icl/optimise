@@ -12,12 +12,14 @@ import { getPatientProfileById } from '../../redux/actions/searchPatient';
 import store from '../../redux/store';
 import Icon from '../icon';
 import style from './patientProfile.module.css';
+import { PregnancyEntry } from '../pregnancyForms/pregnancyEntry';
 
 //need to pass location to buttons  - do later
 
 @connect(state => ({
     fetching: state.patientProfile.fetching,
-    data: state.patientProfile.data
+    data: state.patientProfile.data,
+    patientProfile: state.availableFields
 }))
 class PatientChart extends Component {
     constructor() {
@@ -52,6 +54,7 @@ class PatientChart extends Component {
 
         if (!this.props.data.visits)
             return null;
+
         return (
             <>
                 <div className={style.ariane}>
@@ -65,6 +68,13 @@ class PatientChart extends Component {
                             <br />
                             <span className={this.props.data.participation ? '' : style.noConsentAlert}>{`This patient ${this.props.data.participation ? 'is enrolled in' : 'has withdrew from'} the study.`}</span><br /><br />
                             <span className={this.props.data.optimiseConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.optimiseConsent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
+                            {
+                                this.props.data.demographicData && this.props.data.demographicData.gender !== 1 ?
+                                    <>
+                                        <span className={this.props.data.pregnancySubStudyConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.pregnancySubStudyConsent ? 'consents' : 'does NOT consent'} to have their pregnancy data shared for research purposes.`}</span><br /><br />
+                                    </>
+                                    : null
+                            }
                             {this.props.data.visits.length > 0 ? <TimelineBox /> : null}
                             <Charts match={this.props.match} />
                         </>
@@ -237,7 +247,8 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
 @connect(state => ({
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
-    icd11_Hash: state.availableFields.icd11_Hash[0]
+    icd11_Hash: state.availableFields.icd11_Hash[0],
+    pregnancyOutcome_hash: state.availableFields.pregnancyOutcomes_Hash[0]
 }))
 class OneVisit extends Component {
 
@@ -279,11 +290,30 @@ class OneVisit extends Component {
         const concomitantMeds = this.props.data.concomitantMeds.filter(el => el.visit === this.props.visitId);
         const originalEditorState = communication ? EditorState.createWithContent(convertFromRaw(JSON.parse(communication))) : EditorState.createEmpty();
 
+        //
+        const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el['recordedDuringVisit'] === this.props.visitId);
+        const pregnancyImages = this.props.data.pregnancyImages.filter(el => el.visitId === this.props.visitId);
+
+        function isValidDateFormat(dateString) {
+            const date = new Date(dateString);
+            return !isNaN(date) && dateString === date.toISOString();
+        }
+
+        let pregnancy;
+        let entryIsTerm = false;
+        let baselineDeleted = false;
+        if (pregnancyEntries.length) {
+
+            const entryOrder = PregnancyEntry._checkEntryOrder(pregnancyEntries[0], this.props.data);
+            pregnancy = this.props.data.pregnancy.filter(el => el.id === pregnancyEntries[0].pregnancyId);
+            entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
+            baselineDeleted = (entryOrder === 'first' || entryOrder === 'sole entry') && pregnancyEntries[0].type === 2;
+        }
+
         const filteredSymptoms = filterEmptyRenders(symptoms, this.props.inputType, this.props.typedict);
         const filteredComorbidities = comorbidities;
         const filteredSigns = filterEmptyRenders(signs, this.props.inputType, this.props.typedict);
         const filteredEDSS = filterEmptyRenders(performances, this.props.inputType, this.props.typedict);
-
 
         let shouldRender = true;
         if (this.props.filter.visits || this.props.filter.tests || this.props.filter.treatments || this.props.filter.events) {
@@ -296,6 +326,7 @@ class OneVisit extends Component {
         }
         if (!shouldRender)
             return null;
+
         return (
             <TimelineEvent
                 title={this.props.title}
@@ -363,8 +394,122 @@ class OneVisit extends Component {
                     </>
                 ) : null}
 
-                {this.props.visitType === 1 ? (
-                    <>
+                {pregnancyEntries.length && pregnancy.length && this.props.data.pregnancySubStudyConsent
+                    ? <>
+                        <h4><Icon symbol='symptom' />&nbsp;PREGNANCY</h4>
+                        <div className={style.visitWrapper}>
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">{pregnancyEntries[0].type === 1 ? 'Baseline' : pregnancyEntries[0].type === 2 ? 'Follow up' : pregnancyEntries[0].type === 3 ? 'Term' : 'Unknown'}</th>
+
+                                    </tr>
+                                </thead>
+                                {pregnancyEntries[0].type === 1
+                                    ? <tbody>
+                                        <td>Pregnancy start date</td>
+                                        <td>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
+
+
+                                    </tbody>
+                                    : null
+                                }
+
+                                {baselineDeleted
+                                    ? <tbody>
+                                        <tr>
+                                            <td style={{ color: 'red' }}>Pregnancy start date
+                                                *Baseline entry error - please recreate</td>
+                                            <td style={{ color: 'red' }}>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
+                                        </tr>
+                                    </tbody>
+                                    : null
+                                }
+
+                                {pregnancy[0].outcomeDate !== null
+                                    ? entryIsTerm && pregnancyEntries[0].type === 2 &&
+                                    <tbody>
+
+                                        <tr>
+                                            <td>Pregnancy end date</td>
+                                            <td>{new Date(parseFloat(pregnancy[0].outcomeDate)).toDateString()}</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Pregnancy outcome</td>
+                                            <td>{this.props.pregnancyOutcome_hash[pregnancy[0].outcome]}</td>
+
+                                        </tr>
+
+                                    </tbody>
+                                    : null
+                                }
+
+                                {
+
+                                    <tbody>
+                                        {pregnancyEntries[0].data.map(el => (
+                                            <tr key={el.field}>
+                                                <td>{el.field_idname}</td>
+                                                <td>{isValidDateFormat(el.value) ? el.value.slice(0, 10) : el.value}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+
+                                }
+
+                                {pregnancyImages.length
+                                    ? pregnancyImages.map(el => {
+                                        return (
+                                            <>
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2">Pregnancy Image</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <td>Date</td>
+                                                    <td>{new Date(parseFloat(el.date)).toDateString()}</td>
+
+
+
+                                                </tbody>
+                                                <tbody>
+
+
+                                                    <td>Mode</td>
+                                                    <td>{el.mode}</td>
+
+                                                </tbody>
+                                                <tbody>
+
+
+                                                    <td>Result</td>
+                                                    <td>{el.result}</td>
+
+
+                                                </tbody>
+                                            </>
+                                        );
+                                    })
+                                    : null
+                                }
+                            </table>
+                            <br />
+                        </div>
+
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
+                            <button>Edit pregnancy entry</button>
+                        </NavLink>
+                    </>
+                    : null
+                }
+
+                {this.props.visitType === 1
+                    ? <>
                         <NavLink to={`/patientProfile/${this.props.patientId}/edit/visit/${this.props.visitId}`} className={style.visitEditButton}>
                             <span title='Edit visit date and reason' className={style.dataEdit}><Icon symbol='edit' /></span>
                         </NavLink><br />
@@ -418,10 +563,11 @@ class OneVisit extends Component {
                         </NavLink>
                         <br /><br />
                     </>
-                ) : null}
+                    : null
+                }
 
-                {this.props.visitType === 1 || visitHasClinicalEvents ? (
-                    <>
+                {this.props.visitType === 1 || visitHasClinicalEvents
+                    ? <>
                         <h4><Icon symbol='symptom' />&nbsp;{baselineVisit ? 'FIRST SYMPTOMS INDICATING MS' : 'SYMPTOMS'}</h4>
                         {filteredSymptoms.length > 0 ? (
                             <div className={style.visitWrapper}>
@@ -467,12 +613,14 @@ class OneVisit extends Component {
                         <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/signs`} activeClassName={style.activeNavLink}>
                             <button>Edit signs data for this visit</button>
                         </NavLink>
-                        <br /><br />
+                        <br />
+                        <br />
                     </>
-                ) : null}
+                    : null
+                }
 
-                {this.props.visitType === 1 ? (
-                    <>
+                {this.props.visitType === 1
+                    ? <>
                         <h4><Icon symbol='symptom' />&nbsp;COMORBIDITIES</h4>
                         {filteredComorbidities.length > 0 ? (
                             <div className={style.visitWrapper}>
@@ -494,10 +642,11 @@ class OneVisit extends Component {
                         </NavLink>
                         <br /><br />
                     </>
-                ) : null}
+                    : null
+                }
 
-                {this.props.visitType === 1 ? (
-                    <>
+                {this.props.visitType === 1
+                    ? <>
                         <h4><Icon symbol='addTreatment' />&nbsp;CONCOMITANT MEDICATIONS</h4>
                         {concomitantMeds.length > 0 ? (
                             <div className={style.visitWrapper}>
@@ -522,10 +671,11 @@ class OneVisit extends Component {
                         </NavLink>
                         <br /><br />
                     </>
-                ) : null}
+                    : null
+                }
 
-                {this.props.visitType === 1 ? (
-                    <>
+                {this.props.visitType === 1
+                    ? <>
                         <h4><Icon symbol='measure' />&nbsp;PERFORMANCE MEASURES</h4>
                         {filteredEDSS.length > 0 ? (
                             <div className={style.visitWrapper}>
@@ -562,7 +712,8 @@ class OneVisit extends Component {
                         </NavLink>
                         <br /><br />
                     </>
-                ) : null}
+                    : null
+                }
                 <>
                     <h4><Icon symbol='communication' />&nbsp;COMMUNICATION</h4>
                     {communication ? (

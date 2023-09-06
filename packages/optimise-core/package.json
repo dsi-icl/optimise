@@ -18,9 +18,10 @@
         "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"
     },
     "contributors": [
-        "Pierre-Marie <p.danieau@imperial.ac.uk>",
         "Chon Sou <c.sou16@imperial.ac.uk>",
-        "Eleni Pissaridou <e.pissaridou@imperial.ac.uk>"
+        "Pierre-Marie <p.danieau@imperial.ac.uk>",
+        "Eleni Pissaridou <e.pissaridou@imperial.ac.uk>",
+        "Joanna Thomas <joanna.thomas21@imperial.ac.uk>"
     ],
     "license": "MIT",
     "dependencies": {
