@@ -56,5 +56,6 @@
             ]
         }
     },
-    "defaultProject": "optimise-core"
+    "defaultProject": "optimise-core",
+    "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }
