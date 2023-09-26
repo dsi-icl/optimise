@@ -25,7 +25,6 @@
     "affected": {
         "defaultBase": "master"
     },
-    "implicitDependencies": {},
     "generators": {
         "@nrwl/react": {
             "application": {
