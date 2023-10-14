@@ -43,7 +43,7 @@
         "jest": "24.9.0",
         "rimraf": "5.0.5",
         "run-script-webpack-plugin": "0.2.0",
-        "webpack": "5.88.2",
+        "webpack": "5.89.0",
         "webpack-cli": "5.1.4"
     },
     "optionalDependencies": {
