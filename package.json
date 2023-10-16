@@ -58,7 +58,7 @@
         "eslint-plugin-react-hooks": "4.6.0",
         "husky": "8.0.3",
         "nx": "16.10.0",
-        "nx-cloud": "16.4.0",
+        "nx-cloud": "16.5.2",
         "typescript": "5.2.2"
     },
     "resolutions": {
