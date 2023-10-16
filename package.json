@@ -47,10 +47,10 @@
         "test": "nx run-many --target=test"
     },
     "devDependencies": {
-        "@commitlint/config-conventional": "17.7.0",
+        "@commitlint/config-conventional": "17.8.0",
         "@nx/eslint-plugin": "16.10.0",
         "@nx/workspace": "16.10.0",
-        "commitlint": "17.7.2",
+        "commitlint": "17.8.0",
         "eslint-plugin-import": "2.28.1",
         "eslint-plugin-json": "3.1.0",
         "eslint-plugin-jsx-a11y": "6.7.1",
