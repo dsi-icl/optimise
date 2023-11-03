@@ -5510,13 +5510,13 @@ connect-mongo@5.1.0:
     debug "^4.3.1"
     kruptein "^3.0.0"
 
-connect-session-knex@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/connect-session-knex/-/connect-session-knex-3.0.1.tgz#2c7c8c77ea4a65b836b3011e9a28cfc924a5bb03"
-  integrity sha512-w+sNn/mdEmAGCfw90hyXlC0QixGvkfzTs9hZpDWLnzdyI3BQqnWUxZshWJlYNeZza45OrTxT+yqe3epNMPbs2Q==
+connect-session-knex@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/connect-session-knex/-/connect-session-knex-4.0.0.tgz#87df15d723a544afa765455dcefd7e92666aa8a8"
+  integrity sha512-syZf6ao03b+x42k5iwr76IBnHC6l+0Kr9d88lCTmGWimbW45ns6UYGEKv/ug60DkMrh3Wt8mO3hjhdaZLH1Rbg==
   dependencies:
     bluebird "^3.7.2"
-    knex "^2.3.0"
+    knex "3"
 
 console-browserify@^1.1.0:
   version "1.2.0"
@@ -10647,30 +10647,10 @@ kleur@^4.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.5.tgz#95106101795f7050c6c650f350c683febddb1780"
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
-knex@3.0.1:
+knex@3, knex@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/knex/-/knex-3.0.1.tgz#b12f3173c30d8c7b6d69dc257cc9c84db00ad60e"
   integrity sha512-ruASxC6xPyDklRdrcDy6a9iqK+R9cGK214aiQa+D9gX2ZnHZKv6o6JC9ZfgxILxVAul4bZ13c3tgOAHSuQ7/9g==
-  dependencies:
-    colorette "2.0.19"
-    commander "^10.0.0"
-    debug "4.3.4"
-    escalade "^3.1.1"
-    esm "^3.2.25"
-    get-package-type "^0.1.0"
-    getopts "2.3.0"
-    interpret "^2.2.0"
-    lodash "^4.17.21"
-    pg-connection-string "2.6.1"
-    rechoir "^0.8.0"
-    resolve-from "^5.0.0"
-    tarn "^3.0.2"
-    tildify "2.0.0"
-
-knex@^2.3.0:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/knex/-/knex-2.5.1.tgz#a6c6b449866cf4229f070c17411f23871ba52ef9"
-  integrity sha512-z78DgGKUr4SE/6cm7ku+jHvFT0X97aERh/f0MUKAKgFnwCYBEW4TFBqtHWFYiJFid7fMrtpZ/gxJthvz5mEByA==
   dependencies:
     colorette "2.0.19"
     commander "^10.0.0"
