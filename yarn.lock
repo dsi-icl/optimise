@@ -1932,10 +1932,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@interactjs/types@1.10.22":
-  version "1.10.22"
-  resolved "https://registry.yarnpkg.com/@interactjs/types/-/types-1.10.22.tgz#c981011a231025a1c73a58871242d96058ff6b73"
-  integrity sha512-a1bBKGM8J9e//2+qCec57pH2gopMODC74C9oql1JKSJ6LtQfUSk5Ne9UprQ+bo4DEFglC1Yy2TuaCt+aLT7rHw==
+"@interactjs/types@1.10.25":
+  version "1.10.25"
+  resolved "https://registry.yarnpkg.com/@interactjs/types/-/types-1.10.25.tgz#574ba6fbb9e46c5c33a470905a03c254b908444c"
+  integrity sha512-mGeUWFKVYDd3kiqST/bZNIMOZ33K7fqXfDcsqoVt5t2L3moICeNQr2LDsU6Yz6YPSM1xHlIKEfRGAAKkYYtxuw==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -9294,12 +9294,12 @@ inquirer@~9.2.0:
     strip-ansi "^6.0.1"
     wrap-ansi "^6.2.0"
 
-interactjs@1.10.22:
-  version "1.10.22"
-  resolved "https://registry.yarnpkg.com/interactjs/-/interactjs-1.10.22.tgz#f43eaa89c38af74580de4bf0d5687feb50cb48a4"
-  integrity sha512-T0Wt27rerCAEn8LinYCc8wIJhJ67E4e3//GQIrzHZlABJOXM4nkuqTWfk+o4Ttu4v+gOgghI4AI9fRi88KwmMA==
+interactjs@1.10.25:
+  version "1.10.25"
+  resolved "https://registry.yarnpkg.com/interactjs/-/interactjs-1.10.25.tgz#8ee9bb39143d164451691e0db4de7c15a3bc8cd7"
+  integrity sha512-fmk+WI3JWQY1ebe/2PWILnLIIJ/DHGguLPzpemFpUVmSkcVgdyApDxQppUOYg1ofy9bJvPDaTPvyIXa7nl5d0w==
   dependencies:
-    "@interactjs/types" "1.10.22"
+    "@interactjs/types" "1.10.25"
 
 internal-ip@^4.3.0:
   version "4.3.0"
