@@ -17,6 +17,7 @@ packages/optimise-electron/static/build
 .env.development.local
 .env.test.local
 .env.production.local
+.nx
 
 # log files
 *.log*
