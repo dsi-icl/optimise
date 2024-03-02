@@ -29,7 +29,7 @@
         "draft-js": "0.11.7",
         "file-saver": "2.0.5",
         "history": "4.10.1",
-        "immutable": "4.3.4",
+        "immutable": "4.3.5",
         "interactjs": "1.10.26",
         "is-plain-object": "5.0.0",
         "query-string": "7.1.3",
@@ -41,7 +41,7 @@
         "react-event-timeline": "1.6.3",
         "react-helmet-async": "1.3.0",
         "react-markdown": "8.0.7",
-        "react-medium-image-zoom": "5.1.8",
+        "react-medium-image-zoom": "5.1.10",
         "react-redux": "8.1.3",
         "react-router-dom": "5.3.4",
         "react-virtualized": "9.22.5",
@@ -51,15 +51,15 @@
         "rehype-raw": "6.1.1"
     },
     "devDependencies": {
-        "@babel/core": "7.23.6",
-        "@babel/eslint-parser": "7.23.3",
+        "@babel/core": "7.24.0",
+        "@babel/eslint-parser": "7.23.10",
         "@babel/eslint-plugin": "7.23.5",
         "@babel/helper-builder-react-jsx": "7.22.10",
         "@babel/helper-builder-react-jsx-experimental": "7.12.11",
-        "@babel/plugin-proposal-decorators": "7.23.6",
+        "@babel/plugin-proposal-decorators": "7.24.0",
         "@babel/plugin-syntax-jsx": "7.23.3",
-        "@typescript-eslint/eslint-plugin": "6.21.0",
-        "@typescript-eslint/parser": "6.21.0",
+        "@typescript-eslint/eslint-plugin": "7.1.0",
+        "@typescript-eslint/parser": "7.1.0",
         "cross-env": "7.0.3",
         "eslint-config-react-app": "7.0.1",
         "eslint-plugin-flowtype": "8.0.3",
@@ -72,7 +72,7 @@
         "prop-types": "15.8.1",
         "react-app-rewired": "2.2.1",
         "react-scripts": "3.4.4",
-        "webpack": "5.89.0"
+        "webpack": "5.90.3"
     },
     "eslintConfig": {
         "extends": "react-app"
