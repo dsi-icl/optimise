@@ -63,7 +63,7 @@ class PatientChart extends Component {
                     {this.props.fetching ? <div><Icon symbol='loading' /></div> :
                         <>
                             <br />
-                            <span className={this.props.data.participation ? '' : style.noConsentAlert}>{`This patient ${this.props.data.participation ? 'is enrolled in' : 'has withdrew from'} the study.`}</span><br /><br />
+                            <span className={this.props.data.participation ? '' : style.noConsentAlert}>{`This patient ${this.props.data.participation ? 'is enrolled in' : 'has withdrawn from'} the study.`}</span><br /><br />
                             <span className={this.props.data.optimiseConsent ? '' : style.noConsentAlert}>{`This patient ${this.props.data.optimiseConsent ? 'consents' : 'does NOT consent'} to have their data shared for research purposes.`}</span><br /><br />
                             {this.props.data.visits.length > 0 ? <TimelineBox /> : null}
                             <Charts match={this.props.match} />
