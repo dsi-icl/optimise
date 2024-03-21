@@ -12,9 +12,9 @@ class SyncCore {
         const db = await dbcon().then(client => client.db());
         const inserts = [];
         profiles.forEach(profile => {
-            inserts.push(db.collection(`PATIENT_PROFILES_${agent.toUpperCase()}`).replaceOne({ id: profile.id }, {
-                $set: profile
-            }, { upsert: true }).then(({ result }) => result));
+            delete profile.consent;
+            delete profile.study;
+            inserts.push(db.collection(`PATIENT_PROFILES_${agent.toUpperCase()}`).replaceOne({ id: profile.id }, profile, { upsert: true }).then(({ result }) => result));
         });
         return Promise.all(inserts);
     }
@@ -30,9 +30,7 @@ class SyncCore {
         const db = await dbcon().then(client => client.db());
         const inserts = [];
         users.forEach(user => {
-            inserts.push(db.collection(`USERS_${agent.toUpperCase()}`).replaceOne({ uuid: user.uuid }, {
-                $set: user
-            }, { upsert: true }).then(({ result }) => result));
+            inserts.push(db.collection(`USERS_${agent.toUpperCase()}`).replaceOne({ uuid: user.uuid }, user, { upsert: true }).then(({ result }) => result));
         });
         return Promise.all(inserts);
     }

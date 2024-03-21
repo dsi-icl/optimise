@@ -274,61 +274,79 @@ class SyncCore {
                 updated_at: dbcon().fn.now()
             });
 
-            await (() => new Promise((resolve, reject) => {
-                request(syncOptions, async (error, response, body) => {
-                    try {
-                        const result = body !== undefined ? JSON.parse(body) : {};
-                        if (!error && response.statusCode === 200) {
-                            if (result.status === 'success') {
-                                await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
-                                    value: JSON.stringify({
-                                        status: 'success',
-                                        lastSuccess: (new Date()).getTime()
-                                    }),
-                                    updated_at: dbcon().fn.now()
-                                });
-                                resolve();
+            try {
+                await (() => new Promise((resolve, reject) => {
+                    request(syncOptions, async (error, response, body) => {
+                        try {
+                            const result = body !== undefined ? JSON.parse(body) : {};
+                            if (!error && response.statusCode === 200) {
+                                if (result.status === 'success') {
+                                    await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                        value: JSON.stringify({
+                                            status: 'success',
+                                            step: 'done',
+                                            syncing: false,
+                                            lastSuccess: (new Date()).getTime()
+                                        }),
+                                        updated_at: dbcon().fn.now()
+                                    });
+                                    resolve();
+                                } else {
+                                    await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                        value: JSON.stringify({
+                                            status: 'errored',
+                                            step: 'errored',
+                                            syncing: false,
+                                            error: {
+                                                message: 'Remote did not acknowledge success'
+                                            }
+                                        }),
+                                        updated_at: dbcon().fn.now()
+                                    });
+                                    reject();
+                                }
                             } else {
                                 await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                     value: JSON.stringify({
+                                        status: 'errored',
+                                        step: 'errored',
+                                        syncing: false,
                                         error: {
-                                            message: 'Remote did not acknowledge success'
+                                            message: error ? error.message : (result && result.error ? result.error : 'Unknown error'),
+                                            stack: error ? error.stack : (result && result.stack ? result.stack : undefined)
                                         }
                                     }),
                                     updated_at: dbcon().fn.now()
                                 });
-                                reject();
+                                reject(error);
                             }
-                        } else {
+                        } catch (exception) {
                             await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                 value: JSON.stringify({
+                                    status: 'errored',
+                                    step: 'errored',
+                                    syncing: false,
                                     error: {
-                                        message: error ? error.message : (result && result.error ? result.error : 'Unknown error'),
-                                        stack: error ? error.stack : (result && result.stack ? result.stack : undefined)
+                                        message: exception.message ? exception.message : 'Unknown error',
+                                        stack: exception.stack ? exception.stack : undefined
                                     }
                                 }),
                                 updated_at: dbcon().fn.now()
                             });
-                            reject(error);
+                            reject(exception);
                         }
-                    } catch (exception) {
-                        await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
-                            value: JSON.stringify({
-                                error: {
-                                    message: exception.message ? exception.message : 'Unknown error',
-                                    stack: exception.stack ? exception.stack : undefined
-                                }
-                            }),
-                            updated_at: dbcon().fn.now()
-                        });
-                        reject(exception);
-                    }
-                });
-            }))();
+                    });
+                }))();
+            } catch (err) {
+                // Should already be handled
+            }
 
         } catch (err) {
             await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                 value: JSON.stringify({
+                    status: 'errored',
+                    step: 'errored',
+                    syncing: false,
                     error: {
                         message: 'Failed to send data to remote',
                         exception: err
