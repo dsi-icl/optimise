@@ -29,6 +29,11 @@ class SyncIndicator extends Component {
             this.statusUpdater = setInterval(this._updateStatus, 1000);
     }
 
+    componentDidUpdate() {
+        if (this.statusUpdater === null)
+            this.statusUpdater = setInterval(this._updateStatus, 1000);
+    }
+
     componentWillUnmount() {
         if (this.statusUpdater !== undefined) {
             clearInterval(this.statusUpdater);
@@ -53,14 +58,32 @@ class SyncIndicator extends Component {
             return;
         }
 
-        if (!syncing && lastCall !== 0) {
+        if (status === 900 || error !== undefined) {
             state.triggered = false;
+            clearInterval(this.statusUpdater);
+            setTimeout(() => {
+                this.props.syncNow(true);
+                clearInterval(this.statusUpdater);
+                state.triggered = true;
+                this.setState(state);
+                this.statusUpdater = setInterval(this._updateStatus, 1000);
+            }, 10000);
+            this.statusUpdater = null;
             this.setState(state);
             return;
         }
 
-        if (status === 900 || error !== undefined) {
+        if (!syncing && lastCall !== 0) {
             state.triggered = false;
+            clearInterval(this.statusUpdater);
+            setTimeout(() => {
+                this.props.syncNow(true);
+                clearInterval(this.statusUpdater);
+                state.triggered = true;
+                this.setState(state);
+                this.statusUpdater = setInterval(this._updateStatus, 1000);
+            }, 1000 * 60 * 15);
+            this.statusUpdater = null;
             this.setState(state);
             return;
         }
@@ -70,12 +93,22 @@ class SyncIndicator extends Component {
             return;
         }
 
+        if (!triggered && status === 'scheduling') {
+            clearInterval(this.statusUpdater);
+            state.triggered = true;
+            this.setState(state);
+            this.statusUpdater = setInterval(this._updateStatus, 1000);
+            return;
+        }
+
         // Sync every 15 minutes
         const limit = 1000 * 60 * 15;
 
         if ((lastCall === 0) || (now - lastCall >= limit)) {
             state.triggered = true;
             state.lastCall = now;
+            clearInterval(this.statusUpdater);
+            this.statusUpdater = setInterval(this._updateStatus, 1000);
             this.setState(state, () => {
                 this.props.syncNow();
             });
@@ -98,10 +131,13 @@ class SyncIndicator extends Component {
 
         if (error !== undefined) {
             let message = 'Remote unavailable';
-            if (error.message === 'Validation key error')
+            if (error.message.startsWith('Validation key error'))
                 message = 'Sync key error';
+            let title = error.message;
+            if (error.exception !== undefined)
+                title = `${error.message}: ${error.exception}`;
             return (
-                <span title={`${error.message}: ${error.exception}`}><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> {message}</span>
+                <span title={title}><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> {message}</span>
             );
         } else if (status.syncing === true) {
             return <span title={`${status.status}: ${status.step}`}><strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol={'sync'}></Icon></strong>

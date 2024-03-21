@@ -11,6 +11,8 @@ class SyncController {
             return;
         }
         try {
+
+            console.log('Incoming Synchronisation:', uuid, agent, key);
             const validation = await syncCore.validateKey(uuid, key);
             const inserts = [];
             inserts.push(syncCore.createSyncRecord(uuid, {
@@ -20,7 +22,7 @@ class SyncController {
             }));
 
             if (validation.error !== undefined) {
-                res.status(400).json(ErrorHelper('Validation key error'));
+                res.status(400).json(ErrorHelper('Validation key error: ' + validation.error));
                 return false;
             } else {
                 if (data.patients !== undefined && data.patients.length > 0)
