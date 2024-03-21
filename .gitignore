@@ -12,6 +12,7 @@ dist
 packages/optimise-electron/static/build
 
 # misc
+.nx
 .DS_Store
 .env.local
 .env.development.local
