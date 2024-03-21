@@ -20,12 +20,12 @@
     "license": "MIT",
     "dependencies": {
         "body-parser": "1.20.2",
-        "connect-mongo": "5.0.0",
+        "connect-mongo": "5.1.0",
         "csurf": "1.11.0",
-        "express": "4.18.2",
-        "express-session": "1.17.3",
-        "mongodb": "5.8.0",
-        "passport": "0.6.0",
+        "express": "4.19.1",
+        "express-session": "1.18.0",
+        "mongodb": "6.5.0",
+        "passport": "0.7.0",
         "saslprep": "1.0.3"
     },
     "devDependencies": {
@@ -36,20 +36,19 @@
         "@babel/plugin-transform-modules-commonjs": "7.22.5",
         "@babel/preset-env": "7.22.5",
         "babel-jest": "24.9.0",
-        "babel-loader": "9.1.2",
         "babel-plugin-require-context-hook": "1.0.0",
         "cross-env": "7.0.3",
         "eslint": "8.44.0",
         "eslint-plugin-promise": "6.1.1",
         "jest": "24.9.0",
-        "rimraf": "5.0.1",
+        "rimraf": "5.0.5",
         "run-script-webpack-plugin": "0.2.0",
-        "webpack": "5.88.1",
+        "webpack": "5.91.0",
         "webpack-cli": "5.1.4"
     },
     "optionalDependencies": {
         "ajv": "8.12.0",
-        "fsevents": "2.3.2"
+        "fsevents": "2.3.3"
     },
     "jest": {
         "globalSetup": "<rootDir>/test/setup.js",

@@ -46,6 +46,19 @@ export const updateVisitAPICall = (body) => dispatch => apiHelper('/visits', { m
 
 export const deleteVisitAPICall = (body) => dispatch => apiHelper('/visits', { method: 'DELETE', body: JSON.stringify(body.data) })
     .then(() => {
+
+        if (body.deletePregnancy) {
+            return apiHelper('/demographics/Pregnancy', { method: 'DELETE', body: JSON.stringify(body.deletePregnancy) });
+        }
+
+        if (body.alterPregnancy) {
+            return apiHelper('/demographics/Pregnancy', { method: 'PUT', body: JSON.stringify(body.alterPregnancy) });
+        }
+
+        return true;
+
+    })
+    .then(() => {
         history.push(body.to);
         dispatch(getPatientProfileById(body.patientId));
     }).catch(err => store.dispatch(addError({ error: err })));

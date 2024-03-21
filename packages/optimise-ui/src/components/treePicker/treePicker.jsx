@@ -116,7 +116,7 @@ export default class TreePicker extends Component {
         });
     };
 
-    handleMouseLeave = __unused__ev => {
+    handleMouseLeave = () => {
         this.setState(ps => ({
             opened: false,
             nodes: ps.nodesOrigin,

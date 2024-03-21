@@ -10,7 +10,26 @@ import Login from './components/login';
 import NoSupport from './components/noSupport';
 import CenterSpinner from './components/centerSpinner';
 import { whoami } from './redux/actions/login';
-import { getICD11Call, getVisitSectionsCall, getCEFieldsCall, getClinicalEventTypesCall, getDemoCall, getDiagnosesCall, getDrugsCall, getInterruptionReasonsCall, getMeddraCall, getPregnancyOutcomesCall, getRelationCall, getTestFieldsCall, getTestTypesCall, getVisitFieldsCall, getConcomitantMedsCall } from './redux/actions/availableFields';
+import {
+    getICD11Call,
+    getVisitSectionsCall,
+    getCEFieldsCall,
+    getClinicalEventTypesCall,
+    getDemoCall,
+    getDiagnosesCall,
+    getDrugsCall,
+    getInterruptionReasonsCall,
+    getMeddraCall,
+    getPregnancyOutcomesCall,
+    getPregnancyEntryFieldsCall,
+    getPregnancyEntryTypesCall,
+    getRelationCall,
+    getTestFieldsCall,
+    getTestTypesCall,
+    getVisitFieldsCall,
+    getConcomitantMedsCall
+
+} from './redux/actions/availableFields';
 import { getServerInfoCall } from './redux/actions/serverInfo';
 
 const browser = detect();
@@ -48,7 +67,7 @@ class App extends Component {
             this.props.whoami();
     }
 
-    componentDidCatch(error, __unused__info) {
+    componentDidCatch(error) {
         const { support } = this.state;
         if (support)
             store.dispatch(addError({ error }));
@@ -83,6 +102,8 @@ function mapDispatchToProps(dispatch) {
         getDiagnosesCall: () => dispatch(getDiagnosesCall()),
         getCEFieldsCall: () => dispatch(getCEFieldsCall()),
         getPregnancyOutcomesCall: () => dispatch(getPregnancyOutcomesCall()),
+        getPregnancyEntryFieldsCall: () => dispatch(getPregnancyEntryFieldsCall()),
+        getPregnancyEntryTypesCall: () => dispatch(getPregnancyEntryTypesCall()),
         getMeddraCall: () => dispatch(getMeddraCall()),
         getInterruptionReasonsCall: () => dispatch(getInterruptionReasonsCall()),
         getVisitSectionsCall: () => dispatch(getVisitSectionsCall()),
@@ -109,6 +130,8 @@ class LoadingFields extends Component {
         this.props.getDiagnosesCall();
         this.props.getCEFieldsCall();
         this.props.getPregnancyOutcomesCall();
+        this.props.getPregnancyEntryFieldsCall();
+        this.props.getPregnancyEntryTypesCall();
         this.props.getMeddraCall();
         this.props.getInterruptionReasonsCall();
         this.props.getVisitSectionsCall();

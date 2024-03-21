@@ -25,7 +25,9 @@ export const createPatientCall = (body) => dispatch => (
             return apiHelper('/patientPii/', { method: 'POST', body: JSON.stringify(body.PIIData) });
         })
         .then(() => { dispatch(getPatientProfileById(body.patientId)); })
-        .catch(err => store.dispatch(addError({ error: err })))
+        .catch(err => {
+            store.dispatch(addError({ error: err }));
+        })
 
 );
 

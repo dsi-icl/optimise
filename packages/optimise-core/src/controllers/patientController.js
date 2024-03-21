@@ -41,7 +41,8 @@ class PatientController {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return false;
         }
-        if (typeof body.aliasId !== 'string' || (typeof body.optimiseConsent !== 'string' && body.optimiseConsent !== null)) {
+        if (typeof body.aliasId !== 'string' || (typeof body.optimiseConsent !== 'string' && body.optimiseConsent !== null)
+            || (typeof body.pregnancySubStudyConsent !== 'string' && body.pregnancySubStudyConsent !== null)) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return false;
         }
@@ -49,7 +50,8 @@ class PatientController {
         const entryObj = {
             aliasId: body.aliasId,
             createdByUser: user.id,
-            optimiseConsent: body.optimiseConsent
+            optimiseConsent: body.optimiseConsent,
+            pregnancySubStudyConsent: body.pregnancySubStudyConsent
         };
         PatientCore.createPatient(entryObj).then((result) => {
             res.status(200).json(formatToJSON(result));

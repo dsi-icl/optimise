@@ -27,11 +27,11 @@ export default class FarRightPanel extends Component {
                     <Route exact path='/searchPatient/from/deletionSuccessful' component={() => <DeletedPatient />} />
                     <Route exact path='/createPatient/:patientIdCreated' render={({ match }) => <CreatePatient match={match} />} />
                     <Route exact path='/createPatient/' render={() => <CreatePatient />} />
-                    <Route exact path='/filterPatients' component={() => <></>} />
+                    <Route exact path='/filterPatients' component={() => null} />
                     <Route exact path='/administration/users/create' render={({ match }) => <UserCreate match={match} />} />
                     <Route exact path='/administration/users/:userId' render={({ match }) => <UserDetail match={match} />} />
                     <Route exact path='/administration/users' render={({ match }) => <UserActions match={match} />} />
-                    <Route path='/administration' component={() => <></>} />
+                    <Route path='/administration' component={() => null} />
                     <Route path='/userManual' component={UserManualMenu} />
                     <Route path='/' render={({ match }) => <ExportSets match={match} />} />
                 </Switch>

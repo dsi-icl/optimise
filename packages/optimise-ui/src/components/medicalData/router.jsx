@@ -4,6 +4,7 @@ import { TreatmentInterruption } from './treatmentInterruptions';
 import { VisitData } from './visitDataPage';
 import { TestData } from './testDataPage';
 import { CeData } from './ceDataPage';
+import { PregnancyEntry } from '../pregnancyForms/pregnancyEntry';
 
 export class DataPageRouter extends Component {
     render() {
@@ -15,10 +16,13 @@ export class DataPageRouter extends Component {
                 <Route path='/patientProfile/:patientId/data/test/:testId' render={({ match }) => <TestData elementType='test' match={match} />} />
                 <Route path='/patientProfile/:patientId/data/visit/:visitId/vitals' render={({ match }) => <VisitData elementType='visit' match={match} category={'vitals'} />} />
                 <Route path='/patientProfile/:patientId/data/visit/:visitId/symptoms' render={({ match }) => <VisitData elementType='visit' match={match} category={'symptoms'} />} />
+
+                <Route path='/patientProfile/:patientId/data/visit/:visitId/pregnancy/:entryId' render={({ match }) => <PregnancyEntry elementType='pregnancy' match={match} />} />
+
                 <Route path='/patientProfile/:patientId/data/visit/:visitId/signs' render={({ match }) => <VisitData elementType='visit' match={match} category={'signs'} />} />
                 <Route path='/patientProfile/:patientId/data/treatment/:elementId' render={({ match }) => <TreatmentInterruption match={match} />} />
                 <Route path='/patientProfile/:patientId/data/clinicalEvent/:ceId' render={({ match }) => <CeData elementType='clinicalEvent' match={match} />} />
-                <Route path='/' component={() => <></>} />
+                <Route path='/' component={() => null} />
             </Switch>
         );
     }
