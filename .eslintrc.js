@@ -49,13 +49,13 @@ module.exports = {
     root: true,
     parserOptions: {
         tsconfigRootDir: __dirname,
-        project: false
+        ecmaVersion: 'latest'
+    },
+    env: {
+        es6: true
     },
     ignorePatterns: ['**/*', '!**/*.json', '!**/*.js', '!**/*.ts', '!scripts', '!tools', '!.vscode'],
     plugins: ['@nx', 'json'],
-    rules: {
-        '@typescript-eslint/consistent-type-assertions': 'off'
-    },
     overrides: [
         // {
         //     files: ['*.ts', '*.tsx'],
