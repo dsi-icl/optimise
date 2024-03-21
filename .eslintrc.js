@@ -47,7 +47,11 @@ const javascriptRules = {
 module.exports = {
     root: true,
     parserOptions: {
-        tsconfigRootDir: __dirname
+        tsconfigRootDir: __dirname,
+        ecmaVersion: 'latest'
+    },
+    env: {
+        es6: true
     },
     ignorePatterns: ['**/*', '!**/*.json', '!**/*.js', '!**/*.ts', '!scripts', '!tools', '!.vscode'],
     plugins: ['@nx', 'json'],
