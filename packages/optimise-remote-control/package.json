@@ -14,16 +14,16 @@
     "license": "MIT",
     "dependencies": {
         "bufferutil": "4.0.8",
-        "utf-8-validate": "6.0.3",
-        "ws": "8.16.0"
+        "utf-8-validate": "6.0.4",
+        "ws": "8.17.0"
     },
     "devDependencies": {
-        "@babel/core": "7.22.5",
-        "@babel/eslint-parser": "7.22.5",
-        "@babel/eslint-plugin": "7.22.5",
+        "@babel/core": "7.24.5",
+        "@babel/eslint-parser": "7.24.5",
+        "@babel/eslint-plugin": "7.24.5",
         "@babel/plugin-syntax-dynamic-import": "7.8.3",
-        "@babel/plugin-transform-modules-commonjs": "7.22.5",
-        "@babel/preset-env": "7.22.5",
+        "@babel/plugin-transform-modules-commonjs": "7.24.1",
+        "@babel/preset-env": "7.24.5",
         "eslint-plugin-promise": "6.1.1"
     }
 }
