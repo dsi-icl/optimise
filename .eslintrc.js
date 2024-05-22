@@ -35,7 +35,8 @@ const javascriptRules = {
     'no-prototype-builtins': 'off',
     '@typescript-eslint/no-this-alias': 'off',
     '@typescript-eslint/camelcase': 'off',
-    '@typescript-eslint/no-unused-vars': ['warn', { args: 'after-used', varsIgnorePattern: '^__unused' }]
+    '@typescript-eslint/no-unused-vars': ['warn', { args: 'after-used', varsIgnorePattern: '^__unused' }],
+    '@typescript-eslint/consistent-type-assertions': 'off'
 };
 
 // const typescriptRules = {

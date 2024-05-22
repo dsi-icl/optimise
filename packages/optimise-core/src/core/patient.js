@@ -28,7 +28,7 @@ class Patient {
      * @param {string} getOnly Filtering return.
      */
     static getPatientProfile(whereObj, deleted, getOnly) {
-        return new Promise((resolve, reject) => Patient.getPatient(whereObj, { patientId: 'id', alias: 'aliasId', optimiseConsent: 'optimiseConsent', participation: 'participation' }, deleted)
+        return new Promise((resolve, reject) => Patient.getPatient(whereObj, { patientId: 'id', alias: 'aliasId', optimiseConsent: 'optimiseConsent', pregnancySubStudyConsent: 'pregnancySubStudyConsent', participation: 'participation' }, deleted)
             .then((Patientresult) => {
                 let patientId;
                 if (Patientresult.length === 1) {
@@ -37,19 +37,8 @@ class Patient {
                     return reject(ErrorHelper(message.errorMessages.NOTFOUND));
                 }
                 const promiseArr = [];
-                let availableFunctions = [
-                    'getComorbidities',
-                    'getDemographicData',
-                    'getImmunisations',
-                    'getMedicalHistory',
-                    'getVisits',
-                    'getTests',
-                    'getTreatments',
-                    'getClinicalEvents',
-                    'getPregnancy',
-                    'getDiagnosis',
-                    'getConcomitantMeds'
-                ];
+
+                let availableFunctions = ['getComorbidities', 'getDemographicData', 'getImmunisations', 'getMedicalHistory', 'getVisits', 'getTests', 'getTreatments', 'getClinicalEvents', 'getPregnancy', 'getPregnancyEntries', 'getPregnancyImages', 'getDiagnosis', 'getConcomitantMeds'];
 
                 if (getOnly && typeof getOnly === 'string')
                     availableFunctions = getOnly.split(',').filter((func) => availableFunctions.includes(func));
@@ -63,6 +52,7 @@ class Patient {
                     responseObj.patientId = Patientresult[0].alias;
                     responseObj.id = patientId;
                     responseObj.optimiseConsent = Patientresult[0].optimiseConsent;
+                    responseObj.pregnancySubStudyConsent = Patientresult[0].pregnancySubStudyConsent;
                     responseObj.participation = Boolean(Patientresult[0].participation);
                     for (let i = 0; i < result.length; i++) {
                         responseObj[Object.keys(result[i])[0]] = result[i][Object.keys(result[i])[0]];

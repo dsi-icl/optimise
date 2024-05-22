@@ -5,20 +5,20 @@
 
 import express from 'express';
 
-import CeController from '../controllers/syncController';
+import SyncController from '../controllers/syncController';
 
-const ce = express();
+const sr = express();
 
-ce.route('/v1')
-    .post(CeController.createSyncV1_0)
-    .get(CeController.checkSync);
+sr.route('/v1')
+    .post(SyncController.createSyncV1_0)
+    .get(SyncController.checkSync);
 
-ce.route('/v1.0')
-    .post(CeController.createSyncV1_0)
-    .get(CeController.checkSync);
+sr.route('/v1.0')
+    .post(SyncController.createSyncV1_0)
+    .get(SyncController.checkSync);
 
-ce.route('/v1.1')
-    .post(CeController.createSyncV1_1)
-    .get(CeController.checkSync);
+sr.route('/v1.1')
+    .post(SyncController.createSyncV1_1)
+    .get(SyncController.checkSync);
 
-export default ce;
+export default sr;

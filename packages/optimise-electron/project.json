@@ -4,6 +4,16 @@
     "sourceRoot": "packages/optimise-electron/src",
     "projectType": "application",
     "targets": {
+        "build": {
+            "dependsOn": [
+                {
+                    "projects": [
+                        "optimise-core"
+                    ],
+                    "target": "build"
+                }
+            ]
+        },
         "test": {
             "dependsOn": [
                 {

@@ -1,6 +1,6 @@
 import ErrorHelper from '../utils/error_helper';
 import message from '../utils/message-utils';
-import { getEntry, createEntry, deleteEntry, updateEntry } from '../utils/controller-utils';
+import { getEntry, createEntry, deleteEntry, updateEntry, searchEntry } from '../utils/controller-utils';
 
 export class DemographicCore {
 
@@ -146,8 +146,56 @@ export class PregnancyCore {
         return new Promise((resolve, reject) => deleteEntry('PATIENT_PREGNANCY', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
+    //Pregnancy outcomes
     static getPregnancyOutcomes() {
         return new Promise((resolve, reject) => getEntry('PREGNANCY_OUTCOMES', {}).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static editPregnancyOutcomes(user, entryObj) {
+        return new Promise((resolve, reject) => updateEntry('PREGNANCY_OUTCOMES', user, '*', { id: entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static deletePregnancyOutcomes(user, whereObj) {
+        return new Promise((resolve, reject) => deleteEntry('PREGNANCY_OUTCOMES', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    //PregnancyImage
+    static createPregnancyImage(entryObj) {
+        return new Promise((resolve, reject) => createEntry('PATIENT_PREGNANCY_IMAGING', entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static getPregnancyImage(whereObj) {
+        return new Promise((resolve, reject) => getEntry('PATIENT_PREGNANCY_IMAGING', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static editPregnancyImage(user, entryObj) {
+        return new Promise((resolve, reject) => updateEntry('PATIENT_PREGNANCY_IMAGING', user, '*', { id: entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static deletePregnancyImage(user, whereObj) {
+        return new Promise((resolve, reject) => deleteEntry('PATIENT_PREGNANCY_IMAGING', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    //Pregnancy entry
+    static createPregnancyEntry(entryObj) {
+        return new Promise((resolve, reject) => createEntry('PREGNANCY_ENTRY', entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static getPregnancyEntry(whereObj) {
+        return new Promise((resolve, reject) => getEntry('PREGNANCY_ENTRY', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static editPregnancyEntry(user, entryObj) {
+        return new Promise((resolve, reject) => updateEntry('PREGNANCY_ENTRY', user, '*', { id: entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static deletePregnancyEntry(user, whereObj) {
+        return new Promise((resolve, reject) => deleteEntry('PREGNANCY_ENTRY', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+
+    static getPregnancyAllFields(queryfield, queryvalue) {
+        return new Promise((resolve, reject) => searchEntry(queryfield, queryvalue).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.SEARCHFAIL, error))));
     }
 }
 

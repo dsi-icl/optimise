@@ -9,6 +9,10 @@ class VisitFrontPageTemplate extends Component {
     render() {
         const { match: { params }, patientProfile: { visits }, isBaselineVisit, pageNumberToElementMap, pageToTitleMap } = this.props;
 
+        const { pregnancySubStudyConsent } = this.props.patientProfile;
+
+        const femaleConsentingPatient = pregnancySubStudyConsent && this.props.patientProfile.demographicData.gender !== 1;
+
         if (visits === undefined)
             return null;
 
@@ -18,7 +22,7 @@ class VisitFrontPageTemplate extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <h2>{isBaselineVisit ? 'Baseline' : 'Follow-up'} Visit Initial Data Entry ({this.props.match.params.patientId}) - Page {currentPageNumber}/11: {pageToTitleMap[params.currentPage]} </h2>
+                    <h2>{isBaselineVisit ? 'Baseline' : 'Follow-up'} Visit Initial Data Entry ({this.props.match.params.patientId}) - Page {currentPageNumber}/{femaleConsentingPatient ? '12' : '11'}: {pageToTitleMap[params.currentPage]} </h2>
                 </div>
                 <div className={style.panel}>
                     {visitFiltered.length === 1 ?
@@ -38,7 +42,7 @@ class VisitFrontPageTemplate extends Component {
     }
 }
 
-export {VisitFrontPageTemplate};
+export { VisitFrontPageTemplate };
 
 class RenderCurrentPage extends PureComponent {
     constructor() {
@@ -54,7 +58,7 @@ class RenderCurrentPage extends PureComponent {
     render() {
         const { params: { currentPage } } = this.props.match;
         const _currentPage = parseInt(currentPage, 10);
-        if (_currentPage === undefined || _currentPage < 0 || _currentPage > 10) {
+        if (_currentPage === undefined || _currentPage < 0 || _currentPage > 11) {
             return <p>Something went wrong. Please go back.</p>;
         }
 

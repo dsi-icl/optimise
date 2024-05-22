@@ -10,7 +10,11 @@ export const alterDataFailure = (body) => ({ type: actionTypes.data.ALTER_DATA_F
 
 export const alterDataCall = (body, callback) => dispatch => apiHelper(`/data/${body.type}`, { method: 'POST', body: JSON.stringify(body.data) })
     .then(() => {
-        callback();
+        if (typeof callback === 'function') {
+            callback();
+        }
         dispatch(getPatientProfileById(body.patientId));
     })
-    .catch(err => store.dispatch(addError({ error: err })));
+    .catch(err => {
+        store.dispatch(addError({ error: err }));
+    });

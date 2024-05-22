@@ -29,6 +29,14 @@ const optionsContainer = {
         errMsgForUnfoundEntry: message.dataMessage.TEST,
         dataTable: 'TEST_DATA',
         dataTableForeignKey: 'test'
+    },
+    pregnancyEntry: {
+        entryIdString: 'pregnancyEntryId',
+        fieldTable: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY',
+        entryTable: 'PREGNANCY_ENTRY',
+        errMsgForUnfoundEntry: message.dataMessage.PREGNANCYENTRY,
+        dataTable: 'PREGNANCY_ENTRY_DATA',
+        dataTableForeignKey: 'pregnancyEntry'
     }
 };
 
