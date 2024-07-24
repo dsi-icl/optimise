@@ -93,7 +93,7 @@ class SyncIndicator extends Component {
             return;
         }
 
-        if (!triggered && status === 'scheduling') {
+        if (status === 'scheduling') {
             clearInterval(this.statusUpdater);
             state.triggered = true;
             this.setState(state);

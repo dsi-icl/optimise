@@ -15,7 +15,7 @@
         "lint": "eslint .",
         "test": "cross-env NODE_ENV=test jest --colors --verbose --detectOpenHandles --forceExit --runInBand",
         "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
-        "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"
+        "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js --watch"
     },
     "contributors": [
         "Chon Sou <c.sou16@imperial.ac.uk>",
@@ -27,7 +27,7 @@
     "dependencies": {
         "body-parser": "1.20.2",
         "bufferutil": "4.0.8",
-        "connect-session-knex": "5.0.0",
+        "connect-session-knex": "4.0.2",
         "csurf": "1.11.0",
         "csv-parse": "5.5.6",
         "express": "4.19.2",
