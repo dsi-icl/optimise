@@ -53,7 +53,7 @@ jobs:
 
       - name: Checking for lint
         run: |
-          yarn run nx affected --target=lint --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
+          yarn run nx affected --target=lint --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }} --parallel=1
 
       - name: Building packages
         run: |
