@@ -55,7 +55,7 @@ module.exports = {
         es6: true
     },
     ignorePatterns: ['**/*', '!**/*.json', '!**/*.js', '!**/*.ts', '!scripts', '!tools', '!.vscode'],
-    plugins: ['@nx', 'json'],
+    plugins: ['@nx', 'jsonc'],
     overrides: [
         // {
         //     files: ['*.ts', '*.tsx'],
@@ -69,7 +69,8 @@ module.exports = {
         },
         {
             files: ['*.json'],
-            extends: ['plugin:json/recommended'],
+            parser: 'jsonc-eslint-parser',
+            extends: ['plugin:jsonc/recommended-with-json'],
             rules: jsonRules
         }
     ]
