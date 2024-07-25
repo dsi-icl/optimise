@@ -63,6 +63,8 @@
         "@jest/test-result": "^24",
         "@typescript-eslint/eslint-plugin": "^5",
         "@typescript-eslint/parser": "^5",
+        "builder-util-runtime": "^9",
+        "chokidar": "^3",
         "eslint-config-react-app": "^7",
         "eslint-plugin-flowtype": "^8",
         "eslint-plugin-import": "^2",
@@ -72,7 +74,9 @@
         "jest": "^24",
         "jest-config": "^24",
         "jest-resolve": "^24",
-        "jest-util": "^24"
+        "jest-util": "^24",
+        "shell-quote": "^1.7.3",
+        "ws": "^8"
     },
     "dependencies": {}
 }
