@@ -42,7 +42,7 @@
         "passport": "0.7.0",
         "path": "0.12.7",
         "sqlite3": "5.1.6",
-        "swagger-ui-express": "4.6.3",
+        "swagger-ui-express": "5.0.1",
         "utf-8-validate": "6.0.4",
         "uuid": "10.0.0",
         "ws": "8.18.0"
