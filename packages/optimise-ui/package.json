@@ -68,7 +68,7 @@
         "eslint-plugin-jsx-a11y": "6.9.0",
         "eslint-plugin-react": "7.35.0",
         "eslint-plugin-react-hooks": "4.6.2",
-        "http-proxy-middleware": "2.0.6",
+        "http-proxy-middleware": "3.0.0",
         "markdown-image-loader": "3.0.1",
         "prop-types": "15.8.1",
         "react-app-rewired": "2.2.1",
