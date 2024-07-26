@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "API documentation for OPTIMISE MS",
-        "version": "1.0.0",
+        "version": "3.0.3",
         "title": "OPTIMISE MS API",
         "license": {
             "name": "MIT License"
