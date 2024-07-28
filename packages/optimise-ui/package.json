@@ -51,29 +51,11 @@
         "rehype-raw": "6.1.1"
     },
     "devDependencies": {
-        "@babel/core": "7.24.9",
-        "@babel/eslint-parser": "7.24.8",
-        "@babel/eslint-plugin": "7.24.7",
-        "@babel/helper-builder-react-jsx": "7.24.7",
-        "@babel/helper-builder-react-jsx-experimental": "7.12.11",
-        "@babel/plugin-proposal-decorators": "7.24.7",
-        "@babel/plugin-syntax-jsx": "7.24.7",
-        "@typescript-eslint/eslint-plugin": "7.17.0",
-        "@typescript-eslint/parser": "7.17.0",
-        "cross-env": "7.0.3",
-        "eslint": "8.57.0",
-        "eslint-config-react-app": "7.0.1",
-        "eslint-plugin-flowtype": "8.0.3",
-        "eslint-plugin-import": "2.29.1",
-        "eslint-plugin-jsx-a11y": "6.9.0",
-        "eslint-plugin-react": "7.35.0",
-        "eslint-plugin-react-hooks": "4.6.2",
         "http-proxy-middleware": "2.0.6",
         "markdown-image-loader": "3.0.1",
         "prop-types": "15.8.1",
         "react-app-rewired": "2.2.1",
-        "react-scripts": "3.4.4",
-        "webpack": "5.93.0"
+        "react-scripts": "3.4.4"
     },
     "eslintConfig": {
         "extends": "react-app"
