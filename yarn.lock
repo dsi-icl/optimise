@@ -6618,10 +6618,10 @@ electron-updater@6.3.1:
     semver "^7.3.8"
     tiny-typed-emitter "^2.1.0"
 
-electron@31.2.1:
-  version "31.2.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-31.2.1.tgz#cfd7de576520d5c02d7c1f979bac85ad6b26d78d"
-  integrity sha512-g3CLKjl4yuXt6VWm/KpgEjYYhFiCl19RgUn8lOC8zV/56ZXAS3+mqV4wWzicE/7vSYXs6GRO7vkYRwrwhX3Gaw==
+electron@31.6.0:
+  version "31.6.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-31.6.0.tgz#625809a2dfad1dbabcc04552b35f313fc238fd69"
+  integrity sha512-J64VtIF8DI/zsGgoYd3p5LbxAWjt59tk2cBSHJNzVhzgiVgDyPFkBwsqmN4gUvyv+6l6+WoYpYmYdapr2o4bPw==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^20.9.0"
