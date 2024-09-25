@@ -29,10 +29,40 @@
 
 .pregnancy_image_div {
     padding: 0.5rem 0.5rem;
-    background-color: rgb(146, 169, 190);
+    background-color: rgb(235, 235, 235);
     border-radius: 3px;
     color: black;
 
+}
+
+.offspring_card {
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.5rem;
+    color: black;
+}
+
+.offspring_card:nth-of-type(1) {
+    background-color: hsla(231, 48%, 48%, 0.3);
+}
+
+.offspring_card:nth-of-type(2) {
+    background-color: hsla(188, 64%, 44%, 0.3);
+}
+
+.offspring_card:nth-of-type(3) {
+    background-color: hsla(122, 39%, 49%, 0.3);
+}
+
+.offspring_card:nth-of-type(4) {
+    background-color: hsla(51, 75%, 51%, 0.3);
+}
+
+.offspring_card:nth-of-type(5) {
+    background-color: hsla(36, 100%, 50%, 0.3);
+}
+
+.offspring_card:nth-of-type(6) {
+    background-color: hsla(4, 90%, 58%, 0.3);
 }
 
 .one_tentative_image {

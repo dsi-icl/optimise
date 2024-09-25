@@ -71,9 +71,13 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
             if (body.pregnancyEntry.type === 1 && !body.pregnancy.id) {
                 body.pregnancyEntry.pregnancyId = pregnancyId;
             }
+            const pregnancyEntry = body.pregnancyEntry;
+            if (pregnancyEntry.id !== undefined)
+                // Problem with visitId recorded as recordedDuringVisit
+                delete pregnancyEntry.visitId;
             const pregnancyEntryResponse = await apiHelper('/demographics/PregnancyEntry', {
-                method: 'POST',
-                body: JSON.stringify({ ...body.pregnancyEntry })
+                method: pregnancyEntry.id === undefined ? 'POST' : 'PUT',
+                body: JSON.stringify(pregnancyEntry)
             });
 
             const pregnancyEntryId = pregnancyEntryResponse.state;

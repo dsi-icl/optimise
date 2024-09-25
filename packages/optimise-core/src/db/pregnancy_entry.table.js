@@ -11,6 +11,7 @@ export default async (dbcon, version) => {
                 table.integer('recordedDuringVisit').notNullable().references('id').inTable('VISITS').onDelete('CASCADE');
                 table.integer('type').notNullable().references('id').inTable('AVAILABLE_PREGNANCY_ENTRY_TYPES');
                 table.integer('pregnancyId').notNullable().references('id').inTable('PATIENT_PREGNANCY');
+                table.text('offsprings').nullable();
                 table.text('createdTime').notNullable().defaultTo(dbcon().fn.now());
                 table.integer('createdByUser').notNullable().references('id').inTable('USERS');
                 table.text('deleted').notNullable().defaultTo('-');

@@ -402,16 +402,15 @@ class OneVisit extends Component {
 
                                 <thead>
                                     <tr>
-                                        <th colspan="2">{pregnancyEntries[0].type === 1 ? 'Baseline' : pregnancyEntries[0].type === 2 ? 'Follow up' : pregnancyEntries[0].type === 3 ? 'Term' : 'Unknown'}</th>
-
+                                        <th colSpan="2">{pregnancyEntries[0].type === 1 ? 'Baseline' : pregnancyEntries[0].type === 2 ? 'Follow up' : pregnancyEntries[0].type === 3 ? 'Term' : 'Unknown'}</th>
                                     </tr>
                                 </thead>
                                 {pregnancyEntries[0].type === 1
                                     ? <tbody>
-                                        <td>Pregnancy start date</td>
-                                        <td>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
-
-
+                                        <tr>
+                                            <td>Pregnancy start date</td>
+                                            <td>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
+                                        </tr>
                                     </tbody>
                                     : null
                                 }
@@ -419,8 +418,7 @@ class OneVisit extends Component {
                                 {baselineDeleted
                                     ? <tbody>
                                         <tr>
-                                            <td style={{ color: 'red' }}>Pregnancy start date
-                                                *Baseline entry error - please recreate</td>
+                                            <td style={{ color: 'red' }}>Pregnancy start date * Baseline entry error - please recreate</td>
                                             <td style={{ color: 'red' }}>{new Date(parseFloat(pregnancy[0].startDate)).toDateString()}</td>
                                         </tr>
                                     </tbody>
@@ -465,32 +463,20 @@ class OneVisit extends Component {
                                             <>
                                                 <thead>
                                                     <tr>
-                                                        <th colspan="2">Pregnancy Image</th>
-
+                                                        <th colSpan="2">Pregnancy Image</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-
                                                     <td>Date</td>
                                                     <td>{new Date(parseFloat(el.date)).toDateString()}</td>
-
-
-
                                                 </tbody>
                                                 <tbody>
-
-
                                                     <td>Mode</td>
                                                     <td>{el.mode}</td>
-
                                                 </tbody>
                                                 <tbody>
-
-
                                                     <td>Result</td>
                                                     <td>{el.result}</td>
-
-
                                                 </tbody>
                                             </>
                                         );
@@ -501,7 +487,7 @@ class OneVisit extends Component {
                             <br />
                         </div>
 
-                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy/${pregnancyEntries[0].id}`} activeClassName={style.activeNavLink}>
+                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy`} activeClassName={style.activeNavLink}>
                             <button>Edit pregnancy entry</button>
                         </NavLink>
                     </>

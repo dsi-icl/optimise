@@ -284,7 +284,7 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return dbcon()('PREGNANCY_ENTRY')
-                .select({ id: 'PREGNANCY_ENTRY.id', recordedDuringVisit: 'PREGNANCY_ENTRY.recordedDuringVisit', type: 'PREGNANCY_ENTRY.type', type_name: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.name', type_module: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.module', pregnancyId: 'PREGNANCY_ENTRY.pregnancyId', deleted: 'PREGNANCY_ENTRY.deleted' })
+                .select({ id: 'PREGNANCY_ENTRY.id', recordedDuringVisit: 'PREGNANCY_ENTRY.recordedDuringVisit', type: 'PREGNANCY_ENTRY.type', offsprings: 'PREGNANCY_ENTRY.offsprings', type_name: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.name', type_module: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.module', pregnancyId: 'PREGNANCY_ENTRY.pregnancyId', deleted: 'PREGNANCY_ENTRY.deleted' })
                 .leftJoin('AVAILABLE_PREGNANCY_ENTRY_TYPES', 'AVAILABLE_PREGNANCY_ENTRY_TYPES.id', 'PREGNANCY_ENTRY.type')
                 .whereIn('PREGNANCY_ENTRY.recordedDuringVisit', ids)
                 .andWhere(innerWhereObj)

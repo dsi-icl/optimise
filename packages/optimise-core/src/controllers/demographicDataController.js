@@ -605,6 +605,7 @@ class DemographicDataController {
 
         const entryObj = {
             recordedDuringVisit: body.visitId,
+            offsprings: body.offsprings,
             type: body.type,
             pregnancyId: body.pregnancyId,
             createdByUser: user.id

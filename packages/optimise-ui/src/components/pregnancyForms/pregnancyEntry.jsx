@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from '../medicalData/utils';
@@ -19,13 +19,99 @@ const MemoizedDataFields = React.memo(function MemoizedDataFields({
     fieldTree,
     inputTypeHash
 }) {
-
     return (
         <>
             {Object.entries(fieldTree).map(mappingFields(inputTypeHash, references, originalValues))}
         </>
     );
 });
+
+const OffspringDataFields = ({
+    originalValues,
+    atDeliveryOutcome,
+    onOffspringChange
+}) => {
+    const [offsprings, setOffsprings] = useState(originalValues ?? []);
+
+    useEffect(() => {
+        if (originalValues && originalValues.length > 0) {
+            setOffsprings(originalValues);
+        }
+    }, [originalValues, originalValues.length]);
+
+    useEffect(() => {
+        if (onOffspringChange)
+            onOffspringChange(offsprings);
+    }, [offsprings, onOffspringChange]);
+
+    if (!offsprings.length)
+        return null;
+
+    const _handleGenderChange = (index, event) => {
+        if (!offsprings[index])
+            offsprings[index] = {};
+        offsprings[index].gender = event.target.value;
+        setOffsprings([...offsprings]);
+    };
+
+    const _handleWeigthChange = (index, event) => {
+        if (!offsprings[index])
+            offsprings[index] = {};
+        offsprings[index].weight = event.target.value;
+        setOffsprings([...offsprings]);
+    };
+
+    const _handleAPGAR1Change = (index, event) => {
+        if (!offsprings[index])
+            offsprings[index] = {};
+        offsprings[index].apgar1 = event.target.value;
+        setOffsprings([...offsprings]);
+    };
+
+    const _handleAPGAR5Change = (index, event) => {
+        if (!offsprings[index])
+            offsprings[index] = {};
+        offsprings[index].apgar5 = event.target.value;
+        setOffsprings([...offsprings]);
+    };
+
+    const _handleCongenitalAffectChange = (index, event) => {
+        if (!offsprings[index])
+            offsprings[index] = {};
+        offsprings[index].congenitalAffect = event.target.value;
+        setOffsprings([...offsprings]);
+    };
+
+    return offsprings.map((offpringData, index) => {
+        return <div key={index} className={`${pregnancy_style.offspring_card}`}>
+            <p>Data card for offpring {index + 1}</p>
+            <br></br>
+            <label >Gender of baby</label>
+            <select value={offpringData.gender} onChange={(event) => _handleGenderChange(index, event)}>
+                <option value='unselected'></option>
+                <option value='male'>Boy</option>
+                <option value='female'>Girl</option>
+            </select>
+            {atDeliveryOutcome
+                ? <>
+                    <br /><br />
+                    <label>Weight of infant at delivery</label>
+                    <input value={offpringData.weight} onChange={(event) => _handleWeigthChange(index, event)} />
+                    <br /><br />
+                    <label>APGAR score at 1 minute</label>
+                    <input value={offpringData.apgar1} onChange={(event) => _handleAPGAR1Change(index, event)} />
+                    <br /><br />
+                    <label>APGAR score at 5 minutes</label>
+                    <input value={offpringData.apgar5} onChange={(event) => _handleAPGAR5Change(index, event)} />
+                    <br /><br />
+                    <label>Presence of any major and/or minor congential malformations or medical diagnoses in the newborn (EUROCAT)</label>
+                    <input value={offpringData.congenitalAffect} onChange={(event) => _handleCongenitalAffectChange(index, event)} />
+                </>
+                : null
+            }
+        </div>;
+    });
+};
 
 function mapStateToProps(state) {
     return {
@@ -65,65 +151,74 @@ class PregnancyEntry extends Component {
 
         this.state = PregnancyEntry._getNewStateFromProps(props);
 
-
         this._formatBody = this._formatBody.bind(this);
         this._handleStartDateChange = this._handleStartDateChange.bind(this);
         this._handleOutcomeDateChange = this._handleOutcomeDateChange.bind(this);
         this._handleOutcomeChange = this._handleOutcomeChange.bind(this);
         this._handleOutcomeApplicableChange = this._handleOutcomeApplicableChange.bind(this);
+        this._handleInducedDeliveryChange = this._handleInducedDeliveryChange.bind(this);
+        this._handleDeliveryModeChange = this._handleDeliveryModeChange.bind(this);
+        this._handleOutcomeApplicableChange = this._handleOutcomeApplicableChange.bind(this);
+        this._handleOffspringChange = this._handleOffspringChange.bind(this);
         this._validateFields = this._validateFields.bind(this);
         this._getFirstMinuteOfDay = this._getFirstMinuteOfDay.bind(this);
         this._getLastMinuteOfDay = this._getLastMinuteOfDay.bind(this);
         this._findDateRange = this._findDateRange.bind(this);
 
-
         this.references = {};
         this.originalValues = {};
+        this.originalOffspringsValues = [];
         this.fieldTree = {};
         this.inputTypeHash = {};
         this._handleSubmit = this._handleSubmit.bind(this);
     }
 
     static _getNewStateFromProps(props) {
+
         const { patientProfile, data, match } = props;
         const { params } = match;
 
-        let createEntry = false;
+        let previousEntry = {};
         let matchedEntry = {};
         let matchedPregnancy = {};
         let outcomeApplicable = 'no';
+
         if (!patientProfile.fetching) {
+
+            const currentVisitId = parseInt(params.visitId);
+            const currentVisit = data.visits.filter((el) => parseInt(el.id) === currentVisitId);
+            const currentVisitDate = new Date(parseFloat(currentVisit[0].visitDate));
+            const pregnancyStatus = PregnancyEntry._getPregnancyStatus(currentVisitDate, data.pregnancy);
+
+            const selectedPreviousEntry = data.pregnancyEntries
+                .filter((el) => parseInt(el.pregnancyId) === parseInt(pregnancyStatus.pregnancyId))
+                .sort((a, b) => {
+                    const visitA = data.visits.find((el) => parseInt(el.id) === parseInt(a.recordedDuringVisit));
+                    const visitB = data.visits.find((el) => parseInt(el.id) === parseInt(b.recordedDuringVisit));
+                    return parseInt(visitB.visitDate) - parseInt(visitA.visitDate);
+                })[0];
+
+            previousEntry = {
+                ...selectedPreviousEntry,
+                offsprings: JSON.parse(selectedPreviousEntry?.offsprings ?? '[]')
+            };
+
             const entriesFiltered = data.pregnancyEntries.filter((el) => parseInt(el.recordedDuringVisit) === parseInt(params.visitId));
-            if (entriesFiltered.length > 0) {
-
-                if (entriesFiltered.length) {
-                    Object.assign(matchedEntry, entriesFiltered[0]);
-                }
-
+            if (!props.renderedInFrontPage && entriesFiltered.length > 0) {
+                Object.assign(matchedEntry, entriesFiltered[0], {
+                    offsprings: JSON.parse(entriesFiltered[0].offsprings ?? '[]')
+                });
             } else {
-
-                const currentVisitId = parseInt(params.visitId);
-                const currentVisit = data.visits.filter((el) => parseInt(el.id) === currentVisitId);
-                const currentVisitDate = new Date(parseFloat(currentVisit[0].visitDate));
-                const pregnancyStatus = PregnancyEntry._getPregnancyStatus(currentVisitDate, data.pregnancy);
-                if (props.renderedInFrontPage) {
-                    //no pregnancy entry exists for this visit
-                    createEntry = true;
-                }
-
-
                 matchedEntry = {
                     data: [],
                     type: pregnancyStatus.typeId,
                     recordedDuringVisit: params.visitId,
-                    pregnancyId: pregnancyStatus.pregnancyId
-
+                    pregnancyId: pregnancyStatus.pregnancyId,
+                    offsprings: previousEntry.offsprings
                 };
             }
         }
-
-
-        if (matchedEntry.pregnancyId) {
+        if (matchedEntry.pregnancyId !== undefined) {
             const pregnanciesFiltered = data.pregnancy.filter((el) => el.id === matchedEntry.pregnancyId);
 
             if (pregnanciesFiltered.length) {
@@ -131,10 +226,9 @@ class PregnancyEntry extends Component {
             }
         }
 
-
         const entryOrder = matchedEntry.pregnancyId ? PregnancyEntry._checkEntryOrder(matchedEntry, data) : null;
 
-        if (matchedEntry.id && matchedPregnancy.id) {
+        if (matchedEntry.id !== undefined && matchedPregnancy.id !== undefined) {
 
             if (entryOrder === 'latest' && typeof matchedPregnancy.outcome === 'number' && matchedPregnancy.outcomeDate) {
                 outcomeApplicable = 'yes';
@@ -144,17 +238,15 @@ class PregnancyEntry extends Component {
             matchedEntry.type = 1;
         }
 
-
-
-
-
         return ({
             pregnancyEntry: matchedEntry,
             pregnancyId: matchedPregnancy.id,
             pregnancyStartDate: matchedPregnancy.startDate ? moment(parseInt(matchedPregnancy.startDate)) : moment(),
             pregnancyOutcomeDate: matchedPregnancy.outcomeDate ? moment(parseInt(matchedPregnancy.outcomeDate)) : moment(),
             pregnancyOutcome: matchedPregnancy.outcome,
-            createEntry: createEntry,
+            previousPregnancyEntry: previousEntry,
+            inducedDelivery: undefined,
+            deliveryMode: undefined,
             outcomeApplicable: outcomeApplicable,
             entryOrder: entryOrder,
             saved: false
@@ -216,6 +308,20 @@ class PregnancyEntry extends Component {
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
             const fieldTree = createLevelObj(relevantFields);
             this.originalValues = pregnancyEntry.data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
+            this.originalOffspringsValues = pregnancyEntry.offsprings;
+
+            if (pregnancyEntry.type !== 1) {
+
+                let xId = `${relevantFields.find(el => el.idname === 'estimated date of delivery')?.id ?? 'noop'}`;
+                if (this.originalValues[xId] === undefined)
+                    this.originalValues[xId] = newPregnancyState.previousPregnancyEntry?.data?.find(el => el.field_idname === 'estimated date of delivery')?.value;
+                xId = `${relevantFields.find(el => el.idname === 'number of offsprings')?.id ?? 'noop'}`;
+                if (this.originalValues[xId] === undefined)
+                    this.originalValues[xId] = pregnancyEntry.offsprings.length;
+
+                delete this.originalValues['noop'];
+            }
+
             this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             this.inputTypeHash = inputTypeHash;
             this.fieldTree = fieldTree;
@@ -232,9 +338,8 @@ class PregnancyEntry extends Component {
     }
 
     componentDidUpdate(prevProps) {
-
         if (prevProps.match.params.visitId !== this.props.match.params.visitId ||
-            prevProps.patientProfile.fetching !== this.props.patientProfile.fetching) {
+            prevProps.patientProfile !== this.props.patientProfile) {
             this.initializeComponent();
         }
     }
@@ -272,21 +377,21 @@ class PregnancyEntry extends Component {
             body.pregnancy.startDate = this.state.pregnancyStartDate ? this.state.pregnancyStartDate.toISOString() : null;
         }
         else {
-
             body.pregnancy.outcome = (entryType === 3 && this.state.pregnancyOutcome)
                 || (entryType === 2 && this.state.pregnancyOutcome && this.state.entryOrder !== 'sole entry' && this.state.entryOrder !== 'latest') // follow up entry added between term and baseline
                 ? parseInt(this.state.pregnancyOutcome, 10) : null;
-            body.pregnancy.outcomeDate = (entryType === 3 && this.state.pregnancyOutcomeDate)
-                || (entryType === 2 && this.state.pregnancyOutcomeDate && this.state.entryOrder !== 'sole entry' && this.state.entryOrder !== 'latest')
+            body.pregnancy.outcomeDate = this.state.pregnancyOutcome && ((entryType === 3 && this.state.pregnancyOutcomeDate)
+                || (entryType === 2 && this.state.pregnancyOutcomeDate && this.state.entryOrder !== 'sole entry' && this.state.entryOrder !== 'latest'))
                 ? this.state.pregnancyOutcomeDate.toISOString() : null;
         }
-        if (this.state.createEntry) {
-            body.pregnancyEntry = {
-                type: this.state.pregnancyEntry.type,
-                visitId: parseInt(params.visitId),
-                pregnancyId: this.state.pregnancyEntry.pregnancyId //if the entry type is baseline, no pregnancy will have been created yet
-            };
-        }
+
+        body.pregnancyEntry = {
+            id: this.state.pregnancyEntry.id,
+            type: this.state.pregnancyEntry.type,
+            visitId: parseInt(params.visitId),
+            pregnancyId: this.state.pregnancyEntry.pregnancyId, //if the entry type is baseline, no pregnancy will have been created yet
+            offsprings: JSON.stringify(this.state.pregnancyEntry.offsprings)
+        };
 
         return body;
     }
@@ -311,7 +416,7 @@ class PregnancyEntry extends Component {
             return;
         }
 
-        const update = {};
+        let update = {};
         const add = {};
         Object.entries(references).forEach(el => {
             const fieldId = el[0];
@@ -357,6 +462,11 @@ class PregnancyEntry extends Component {
         //     return;
         // }
 
+        if (this.state.pregnancyEntry.id === undefined) {
+            Object.assign(add, update);
+            update = {};
+        }
+
         const body = this._formatBody(update, add);
 
         this.setState({
@@ -365,10 +475,9 @@ class PregnancyEntry extends Component {
             store.dispatch(
                 alterPregnancyItemsCall(body, () => {
 
-                    this.originalValues = Object.assign({}, this.state.originalValues, add, update);
+                    this.originalValues = Object.assign({}, this.state.originalValues);
                     this.setState({
                         saved: true
-
                     });
                 }));
         });
@@ -514,9 +623,48 @@ class PregnancyEntry extends Component {
         });
     }
 
+    _handleInducedDeliveryChange(ev) {
+        this.setState({
+            inducedDelivery: ev.target.value,
+            error: false,
+            saved: false
+        });
+    }
+
+    _handleDeliveryModeChange(ev) {
+        this.setState({
+            deliveryMode: ev.target.value,
+            error: false,
+            saved: false
+        });
+    }
+
     _handleOutcomeApplicableChange(ev) {
+        const newType = this.state.pregnancyEntry.type === 2 ? 3 : 2;
         this.setState({
             outcomeApplicable: ev.target.value,
+            pregnancyEntry: {
+                ...this.state.pregnancyEntry,
+                type: newType
+            },
+            error: false,
+            saved: false
+        });
+        const relevantFields = this.props.fields.pregnancyEntryFields.filter(el => (el.referenceType === newType));
+        const inputTypeHash = this.props.fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
+        const fieldTree = createLevelObj(relevantFields);
+        this.originalValues = this.state.pregnancyEntry.data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
+        this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
+        this.inputTypeHash = inputTypeHash;
+        this.fieldTree = fieldTree;
+    }
+
+    _handleOffspringChange(offspringData) {
+        this.setState({
+            pregnancyEntry: {
+                ...this.state.pregnancyEntry,
+                offsprings: offspringData
+            },
             error: false,
             saved: false
         });
@@ -530,15 +678,15 @@ class PregnancyEntry extends Component {
 
         const sortedPregnancies = pregnancies.sort((a, b) => {
             // Sort pregnancies in descending order based on startDate
-            return new Date(parseFloat(b.startDate)) - new Date(parseFloat(a.startDate));
+            return parseFloat(b.startDate) - parseFloat(a.startDate);
         });
 
 
         for (const pregnancy of sortedPregnancies) {
             const startDate = new Date(parseFloat(pregnancy.startDate));
             const outcomeDate = new Date(parseFloat(pregnancy.outcomeDate));
-
-            if (startDate <= date && (!this._isValidDate(outcomeDate) || outcomeDate >= date)) {
+            const maxEndDate = new Date(startDate.getTime() + 300 * 24 * 60 * 60 * 1000);
+            if (startDate <= date && date < maxEndDate && (!this._isValidDate(outcomeDate) || outcomeDate >= date)) {
                 // Date falls within an ongoing pregnancy
 
                 return {
@@ -573,7 +721,6 @@ class PregnancyEntry extends Component {
         const { params } = match;
         const { pregnancyOutcomes } = this.props.fields;
 
-
         let _style = scaffold_style;
         if (this.props.override_style) {
             _style = { ...scaffold_style, ...this.props.override_style };
@@ -582,7 +729,6 @@ class PregnancyEntry extends Component {
         if (!patientProfile.fetching && this.state.pregnancyEntry) {
 
             let pregnancyEntry = this.state.pregnancyEntry;
-
 
             if (!pregnancyEntry || (!pregnancyEntry.id && !this.props.renderedInFrontPage)) {
 
@@ -617,6 +763,7 @@ class PregnancyEntry extends Component {
                                 {
                                     this.props.renderedInFrontPage && this.state.pregnancyEntry.type === 1 ?
                                         <>
+                                            <br /><br />
                                             <p> Please enter details for a baseline pregnancy entry.</p><br /><br />
                                         </>
                                         : null
@@ -624,13 +771,14 @@ class PregnancyEntry extends Component {
                                 {
                                     this.props.renderedInFrontPage && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
                                         <>
-                                            <p>Current ongoing pregnancy start date: {this.state.pregnancyStartDate && this.state.pregnancyStartDate.toString().slice(0, 10)}. Please enter details for a follow up pregnancy record.</p><br /><br />
+                                            <br /><br />
+                                            <p>Ongoing pregnancy start date: {this.state.pregnancyStartDate && this.state.pregnancyStartDate.toString().slice(0, 10)}. Please enter details for a follow up pregnancy record.</p><br /><br />
                                         </>
                                         : null
                                 }
-                                <PregnancyImageForm visitId={params.visitId}></PregnancyImageForm><br /><br />
                                 {this.state.pregnancyEntry.type === 1 ?
                                     <div>
+                                        {!this.props.renderedInFrontPage ? <><br /><br /></> : null}
                                         <label key="startDate">Pregnancy start date: <PickDate startDate={this.state.pregnancyStartDate} handleChange={(date) => this._handleStartDateChange(date)} /></label><br /><br />
                                     </div>
                                     : null
@@ -647,11 +795,9 @@ class PregnancyEntry extends Component {
                                     </div>
                                     : null
                                 }
-
                                 {
                                     this.state.outcomeApplicable === 'yes'
-                                        && this.state.pregnancyEntry.type === 2
-
+                                        && this.state.pregnancyEntry.type === 3
                                         ?
                                         <div>
                                             <label >Pregnancy end date:
@@ -661,27 +807,33 @@ class PregnancyEntry extends Component {
                                             </label><br /><br />
                                             <label >Pregnancy outcome<br />
                                                 <select value={this.state.pregnancyOutcome} onChange={(event) => this._handleOutcomeChange(event)}>
-                                                    <option value='none'>None</option>
+                                                    <option value='unselected'></option>
                                                     {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
-
                                                 </select>
-                                            </label><br /><br />
+                                            </label><br />
                                         </div>
                                         :
                                         null
                                 }
                                 <div className='protected'>
-
                                     <MemoizedDataFields
                                         references={this.references}
                                         originalValues={this.originalValues}
                                         fieldTree={this.fieldTree}
                                         inputTypeHash={this.inputTypeHash}
                                     />
-
                                 </div>
-
-
+                                <br />
+                                <label>Offspring data cards</label>
+                                <div className='protected'>
+                                    <OffspringDataFields
+                                        originalValues={this.originalOffspringsValues}
+                                        atDeliveryOutcome={this.state.outcomeApplicable === 'yes'}
+                                        onOffspringChange={this._handleOffspringChange}
+                                    />
+                                </div>
+                                <br />
+                                <PregnancyImageForm visitId={params.visitId}></PregnancyImageForm><br /><br />
                             </div>
                             {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /></> : null}
                             {this.state.error ? <><div className={profile_style.error}>{this.state.error}</div><br /></> : null}

@@ -90,8 +90,9 @@ class PregnancyImageForm extends Component {
     }
 
     render() {
-        return (
-            <div className={pregnancy_style.pregnancy_image_div}><p>Please enter pregnancy image data, if any: </p> <br></br>
+        return <>
+            <label>Please enter pregnancy image data, if any:</label>
+            <div className={pregnancy_style.pregnancy_image_div}>
                 {
                     this.state.addNewImageData_cache && this.state.addNewImageData_cache.map(el =>
                         <div key={el.id} className={pregnancy_style.one_tentative_image}>
@@ -128,7 +129,7 @@ class PregnancyImageForm extends Component {
                         <button onClick={() => this.setState({ showAddNewImageData: true })}>Add new image data</button>
                 }
             </div>
-        );
+        </>;
     }
 }
 

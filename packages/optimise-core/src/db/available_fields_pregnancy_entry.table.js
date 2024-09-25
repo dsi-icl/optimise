@@ -1,7 +1,7 @@
 import {
     tableMove
 } from '../utils/db-mover';
-import pregnancyEntryFields from './defaults_v11/pregnancyEntryFields.json';
+import pregnancyEntryFields from './defaults_v18/pregnancyEntryFields.json';
 
 
 export const TABLE_NAME = 'AVAILABLE_FIELDS_PREGNANCY_ENTRY';
