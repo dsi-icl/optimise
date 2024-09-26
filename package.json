@@ -48,13 +48,13 @@
     },
     "devDependencies": {
         "@commitlint/config-conventional": "19.2.2",
-        "@nx/eslint-plugin": "19.5.3",
-        "@nx/workspace": "19.5.3",
+        "@nx/eslint-plugin": "19.8.2",
+        "@nx/workspace": "19.8.2",
         "babel-loader": "8.3.0",
         "commitlint": "19.3.0",
         "eslint-plugin-jsonc": "2.16.0",
         "husky": "9.1.2",
-        "nx": "19.5.3",
+        "nx": "19.8.2",
         "typescript": "5.5.4"
     },
     "resolutions": {
