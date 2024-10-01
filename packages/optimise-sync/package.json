@@ -14,8 +14,8 @@
     "scripts": {
         "lint": "eslint .",
         "test": "echo No test",
-        "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
-        "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"
+        "build": "rimraf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
+        "start": "rimraf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"
     },
     "license": "MIT",
     "dependencies": {
