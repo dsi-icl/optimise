@@ -19,12 +19,12 @@
     },
     "license": "MIT",
     "dependencies": {
-        "body-parser": "1.20.2",
+        "body-parser": "1.20.3",
         "connect-mongo": "5.1.0",
         "csurf": "1.11.0",
         "express": "4.19.2",
         "express-session": "1.18.0",
-        "mongodb": "6.8.0",
+        "mongodb": "6.8.2",
         "passport": "0.7.0",
         "saslprep": "1.0.3"
     },

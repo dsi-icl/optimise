@@ -115,10 +115,10 @@
     },
     "dependencies": {
         "electron-log": "5.1.7",
-        "electron-updater": "6.3.1",
+        "electron-updater": "6.3.8",
         "express": "4.19.2",
         "electron-unhandled": "4.0.1",
-        "sqlite3": "5.1.6"
+        "sqlite3": "5.1.7"
     },
     "devDependencies": {
         "copy-webpack-plugin": "11.0.0",
