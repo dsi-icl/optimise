@@ -34,7 +34,8 @@
         "yarn": "^1.10.0"
     },
     "scripts": {
-        "postinstall": "husky install",
+        "prepare": "husky",
+        "postinstall": "husky",
         "build": "nx run-many --target=build --parallel=1 --projects=optimise-core,optimise-ui",
         "preelectron": "nx run-many --target=build --parallel=1 --projects=optimise-core,optimise-electron",
         "electron": "nx run-many --target=package --projects=optimise-electron",
