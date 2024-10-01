@@ -641,15 +641,15 @@ class PregnancyEntry extends Component {
 
     _handleOutcomeApplicableChange(ev) {
         const newType = this.state.pregnancyEntry.type === 2 ? 3 : 2;
-        this.setState({
+        this.setState(prevState => ({
             outcomeApplicable: ev.target.value,
             pregnancyEntry: {
-                ...this.state.pregnancyEntry,
+                ...prevState.pregnancyEntry,
                 type: newType
             },
             error: false,
             saved: false
-        });
+        }));
         const relevantFields = this.props.fields.pregnancyEntryFields.filter(el => (el.referenceType === newType));
         const inputTypeHash = this.props.fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
         const fieldTree = createLevelObj(relevantFields);
@@ -660,14 +660,14 @@ class PregnancyEntry extends Component {
     }
 
     _handleOffspringChange(offspringData) {
-        this.setState({
+        this.setState(prevState => ({
             pregnancyEntry: {
-                ...this.state.pregnancyEntry,
+                ...prevState.pregnancyEntry,
                 offsprings: offspringData
             },
             error: false,
             saved: false
-        });
+        }));
     }
 
     static _isValidDate(d) {
