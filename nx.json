@@ -56,7 +56,6 @@
     },
     "defaultProject": "optimise-core",
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
-    "nxCloudAccessToken": "NDBmODdlNDgtMTk4ZC00OGMxLWFiYTYtODhmNTAxNTczMzAxfHJlYWQtd3JpdGU=",
     "useInferencePlugins": false,
     "defaultBase": "master"
 }
