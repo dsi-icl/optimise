@@ -151,7 +151,7 @@ class SyncIndicator extends Component {
                 <span title={lastSuccess}><strong className={style.statusIcon}><Icon symbol={'cloud'}></Icon></strong> Synced with {(new URL(syncInfo.config.host)).host}</span>
             );
         else
-            return <>Coucou</>;
+            return null;
     }
 }
 
