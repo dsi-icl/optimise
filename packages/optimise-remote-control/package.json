@@ -16,8 +16,5 @@
         "bufferutil": "4.0.8",
         "utf-8-validate": "6.0.4",
         "ws": "8.18.0"
-    },
-    "devDependencies": {
-        "eslint-plugin-promise": "6.6.0"
     }
 }
