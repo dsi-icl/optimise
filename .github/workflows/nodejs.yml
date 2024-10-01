@@ -9,15 +9,15 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        node: ["20"]
+        node: ["22"]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v3
+        uses: nrwl/nx-set-shas@v4
         with:
           main-branch-name: master
           error-on-no-successful-workflow: true
@@ -27,7 +27,7 @@ jobs:
           echo "Git head: ${{ env.NX_HEAD }}"
 
       - name: Using Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -53,7 +53,7 @@ jobs:
 
       - name: Checking for lint
         run: |
-          yarn run nx affected --target=lint --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
+          yarn run nx affected --target=lint --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }} --parallel=1
 
       - name: Building packages
         run: |

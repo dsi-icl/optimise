@@ -35,7 +35,8 @@ const javascriptRules = {
     'no-prototype-builtins': 'off',
     '@typescript-eslint/no-this-alias': 'off',
     '@typescript-eslint/camelcase': 'off',
-    '@typescript-eslint/no-unused-vars': ['warn', { args: 'after-used', varsIgnorePattern: '^__unused' }]
+    '@typescript-eslint/no-unused-vars': ['warn', { args: 'after-used', varsIgnorePattern: '^__unused' }],
+    '@typescript-eslint/consistent-type-assertions': 'off'
 };
 
 // const typescriptRules = {
@@ -54,7 +55,7 @@ module.exports = {
         es6: true
     },
     ignorePatterns: ['**/*', '!**/*.json', '!**/*.js', '!**/*.ts', '!scripts', '!tools', '!.vscode'],
-    plugins: ['@nx', 'json'],
+    plugins: ['@nx', 'jsonc'],
     overrides: [
         // {
         //     files: ['*.ts', '*.tsx'],
@@ -68,7 +69,8 @@ module.exports = {
         },
         {
             files: ['*.json'],
-            extends: ['plugin:json/recommended'],
+            parser: 'jsonc-eslint-parser',
+            extends: ['plugin:jsonc/recommended-with-json'],
             rules: jsonRules
         }
     ]

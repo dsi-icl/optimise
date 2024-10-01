@@ -298,9 +298,10 @@ autoUpdater.on('checking-for-update', () => {
 
 autoUpdater.on('update-available', () => {
     // Prompt the user if an update is available!
-    dialog.showMessageBox({
-        message: 'There is an update available! It is being downloaded...'
-    });
+    if (process.env.NODE_ENV !== 'test')
+        dialog.showMessageBox({
+            message: 'There is an update available! It is being downloaded...'
+        });
     sendUpdateStatusToWindow({
         ready: false,
         text: 'There is an update available! It is being downloaded...'

@@ -108,6 +108,18 @@ export default [
         ]
     ],
     [
+        'PREGNANCY_ENTRY',
+        [
+            { id: 1, pregnancyId: 2, recordedDuringVisit: 3, type: 2, createdByUser: 1, deleted: '-' }
+        ]
+    ],
+    [
+        'PREGNANCY_ENTRY_DATA',
+        [
+            { id: 1, field: 1, value: 34, pregnancyEntry: 1, createdByUser: 1, deleted: '-' }
+        ]
+    ],
+    [
         'CLINICAL_EVENTS',
         [
             { id: 1, patient: 1, type: 1, dateStartDate: '1514764800000', createdByUser: 1, deleted: '-' },

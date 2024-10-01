@@ -3,7 +3,13 @@ import { NavLink, Redirect } from 'react-router-dom';
 import qs from 'query-string';
 import style from '../../frontpage.module.css';
 
-export class FrontPageNavigationButton extends Component {
+import { connect } from 'react-redux';
+
+@connect(state => ({
+    fetching: state.patientProfile.fetching,
+    data: state.patientProfile.data
+}))
+class FrontPageNavigationButton extends Component {
     _lastPageAnsweredYes(currentPageInString) {
         const queryParsed = qs.parse(this.props.location.search, { arrayFormat: 'comma' });
         let query_yesPages = queryParsed.yesPages;
@@ -40,10 +46,11 @@ export class FrontPageNavigationButton extends Component {
     render() {
         const { params: { currentPage, visitId, patientId } } = this.props.match;
         const { onClickNext, formSaved } = this.props;
+        const { pregnancySubStudyConsent } = this.props.data;
         const searchString = this.props.location.search;
 
         if (formSaved && formSaved()) {
-            return <Redirect to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}/>;
+            return <Redirect to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`} />;
         }
 
         const backButtonWithoutDiv =
@@ -88,6 +95,8 @@ export class FrontPageNavigationButton extends Component {
                 <button className={style.finish_button}>Finish</button>
             </NavLink></div>;
 
+        const femaleConsentingPatient = pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1;
+
         if (this.props.renderedInYesOrNoPage) {
             return backButtonWithoutDiv;
         }
@@ -95,9 +104,9 @@ export class FrontPageNavigationButton extends Component {
 
         return (
             <div className={style.page_navigation_buttons}>
-                { currentPage === '0' ? firstPageButton : null }
-                { currentPage === '10' ? <>{backButton}{finishButton}</> : null }
-                { (currentPage !== '10' && currentPage !== '0')
+                {currentPage === '0' ? firstPageButton : null}
+                {((currentPage === '10' && !femaleConsentingPatient) || (currentPage === '11' && femaleConsentingPatient)) ? <>{backButton}{finishButton}</> : null}
+                {(((currentPage !== '10' && !femaleConsentingPatient) || (currentPage !== '11' && femaleConsentingPatient)) && currentPage !== '0')
                     ?
                     <>
                         {backButton}
@@ -110,6 +119,8 @@ export class FrontPageNavigationButton extends Component {
         );
     }
 }
+
+export { FrontPageNavigationButton };
 
 export function calcNextPage(currentPageInString) {
     const currentPage = parseInt(currentPageInString, 10);

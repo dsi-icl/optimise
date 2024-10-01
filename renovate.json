@@ -1,6 +1,10 @@
 {
-  "baseBranch": "develop",
-  "extends": [
-    "config:base"
-  ]
+    "baseBranch": "develop",
+    "extends": [
+        "config:base"
+    ],
+    "prConcurrentLimit": 10,
+    "labels": [
+        "dependencies"
+    ]
 }

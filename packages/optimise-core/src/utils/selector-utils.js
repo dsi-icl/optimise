@@ -246,6 +246,97 @@ class SelectorUtils {
             });
     }
 
+    getPregnancyEntriesWithoutData(patientId, deleted) {
+        const whereObj = { patient: patientId };
+        if (deleted !== true)
+            whereObj.deleted = '-';
+        return dbcon()('VISITS').select({ id: 'id' }).where(whereObj).then(resu => {
+            const ids = [];
+            for (let i = 0; i < resu.length; i++) {
+                ids[i] = resu[i].id;
+            }
+            const innerWhereObj = {};
+            if (deleted !== true)
+                innerWhereObj['PREGNANCY_ENTRY.deleted'] = '-';
+            return dbcon()('PREGNANCY_ENTRY')
+                .select({ recordedDuringVisit: 'PREGNANCY_ENTRY.recordedDuringVisit', type: 'PREGNANCY_ENTRY.type', type_name: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.name', type_module: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.module', pregnancyId: 'PREGNANCY_ENTRY.pregnancyId', deleted: 'PREGNANCY_ENTRY.deleted' })
+                .leftJoin('AVAILABLE_PREGNANCY_ENTRY_TYPES', 'AVAILABLE_PREGNANCY_ENTRY_TYPES.id', 'PREGNANCY_ENTRY.type')
+                .whereIn('PREGNANCY_ENTRY.recordedDuringVisit', ids)
+                .andWhere(innerWhereObj)
+                .then(result => {
+                    const returnObj = { pregnancyEntriesWithoutData: result };
+                    return returnObj;
+                });
+        });
+    }
+
+    getPregnancyEntries(patientId, deleted) {
+        const _this = this;
+        const whereObj = { patient: patientId };
+        const innerWhereObj = {};
+        if (deleted !== true) {
+            whereObj.deleted = '-';
+            innerWhereObj['PREGNANCY_ENTRY.deleted'] = '-';
+        }
+        return dbcon()('VISITS').select('id').where(whereObj).then(resu => {
+            const ids = [];
+            for (let i = 0; i < resu.length; i++) {
+                ids[i] = resu[i].id;
+            }
+            return dbcon()('PREGNANCY_ENTRY')
+                .select({ id: 'PREGNANCY_ENTRY.id', recordedDuringVisit: 'PREGNANCY_ENTRY.recordedDuringVisit', type: 'PREGNANCY_ENTRY.type', offsprings: 'PREGNANCY_ENTRY.offsprings', type_name: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.name', type_module: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.module', pregnancyId: 'PREGNANCY_ENTRY.pregnancyId', deleted: 'PREGNANCY_ENTRY.deleted' })
+                .leftJoin('AVAILABLE_PREGNANCY_ENTRY_TYPES', 'AVAILABLE_PREGNANCY_ENTRY_TYPES.id', 'PREGNANCY_ENTRY.type')
+                .whereIn('PREGNANCY_ENTRY.recordedDuringVisit', ids)
+                .andWhere(innerWhereObj)
+                .then(result => {
+                    if (result.length >= 1) {
+                        const promiseArr = [];
+                        for (let i = 0; i < result.length; i++) {
+                            promiseArr.push(_this._getPregnancyEntryData(result[i].id, deleted));
+                        }
+                        const allPromisesResolving = Promise.all(promiseArr).then(
+                            data => {
+                                for (let i = 0; i < data.length; i++) {
+                                    result[i].data = data[i];
+                                }
+                                const returnObj = { pregnancyEntries: result };
+                                return returnObj;
+                            }
+                        );
+                        return allPromisesResolving;
+                    } else {
+                        const returnObj = { pregnancyEntries: result };
+                        return returnObj;
+                    }
+                });
+        });
+    }
+
+    async getPregnancyImages(patientId, deleted) {
+        const whereObj = { patient: patientId };
+        if (deleted !== true)
+            whereObj.deleted = '-';
+
+        const visitIds = await dbcon()('VISITS')
+            .select('id')
+            .where(whereObj)
+            .then(results => results.map(result => result.id));
+
+        const innerWhereObj = {};
+        if (deleted !== true)
+            innerWhereObj.deleted = '-';
+
+        const dataEntries = await dbcon()('PATIENT_PREGNANCY_IMAGING')
+            .select('*')
+            .whereIn('visitId', visitIds)
+            .andWhere(innerWhereObj);
+
+        return { pregnancyImages: dataEntries };
+    }
+
+
+
+
     _getVisitData(visitId, deleted) {
         const whereObj = { 'VISIT_DATA.visit': visitId };
         if (deleted !== true)
@@ -263,6 +354,16 @@ class SelectorUtils {
         return dbcon()('TEST_DATA')
             .select({ id: 'TEST_DATA.id', field: 'TEST_DATA.field', field_idname: 'AVAILABLE_FIELDS_TESTS.idname', field_module: 'AVAILABLE_FIELDS_TESTS.module', field_unit: 'AVAILABLE_FIELDS_TESTS.unit', value: 'TEST_DATA.value', deleted: 'TEST_DATA.deleted' })
             .leftJoin('AVAILABLE_FIELDS_TESTS', 'AVAILABLE_FIELDS_TESTS.id', 'TEST_DATA.field')
+            .where(whereObj);
+    }
+
+    _getPregnancyEntryData(pregnancyEntryId, deleted) {
+        const whereObj = { 'PREGNANCY_ENTRY_DATA.pregnancyEntry': pregnancyEntryId };
+        if (deleted !== true)
+            whereObj['PREGNANCY_ENTRY_DATA.deleted'] = '-';
+        return dbcon()('PREGNANCY_ENTRY_DATA')
+            .select({ id: 'PREGNANCY_ENTRY_DATA.id', field: 'PREGNANCY_ENTRY_DATA.field', field_idname: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.idname', field_module: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.module', field_unit: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.unit', value: 'PREGNANCY_ENTRY_DATA.value', deleted: 'PREGNANCY_ENTRY_DATA.deleted' })
+            .leftJoin('AVAILABLE_FIELDS_PREGNANCY_ENTRY', 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.id', 'PREGNANCY_ENTRY_DATA.field')
             .where(whereObj);
     }
 

@@ -343,20 +343,28 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
             const commutator = content.typeOverride || typeHash[content.type];
             let dateSlot;
             switch (commutator) {
-                case 'B':
+                case 'B': // 5
                     return (
                         <div key={Math.random()} className={style.dataItem}>
                             <BooleanField reference={references[content.id].ref} name={content.definition} default={origVal && origVal === '1' ? true : false} /><br /><br />
                         </div>
                     );
-                case 'C':
+                case 'C': { // 3
+                    if (content.permittedValues)
+                        return (
+                            <div key={Math.random()} className={style.dataItem}>
+                                <label>{content.definition}</label>
+                                <SelectField origVal={origVal ? origVal : null} reference={references[content.id].ref} choices={content.permittedValues.split(',')} /><br /><br />
+                            </div>
+                        );
                     return (
                         <div key={Math.random()} className={style.dataItem}>
                             <label>{content.definition}</label>
-                            <SelectField origVal={origVal ? origVal : null} reference={references[content.id].ref} choices={content.permittedValues.split(',')} /><br /><br />
+                            <TextField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
                         </div>
                     );
-                case 'D':
+                }
+                case 'D': // 6
                     dateSlot = origVal ? moment(origVal, moment.ISO_8601) : undefined;
                     dateSlot = dateSlot && dateSlot.isValid() ? dateSlot : undefined;
                     return (
@@ -372,7 +380,7 @@ export const mappingFields = (typeHash, references, originalValues, transformer)
                             <AntibodyField origVal={origVal ? origVal : null} reference={references[content.id].ref} /><br /><br />
                         </div>
                     );
-                default:
+                default: // 3
                     return (
                         <div key={Math.random()} className={style.dataItem}>
                             <label>{content.definition}{content.unit ? <em> in {content.unit}</em> : ''}</label>

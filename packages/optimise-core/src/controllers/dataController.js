@@ -17,7 +17,7 @@ const optionsContainer = {
     clinicalEvent: {
         entryIdString: 'clinicalEventId',
         fieldTable: 'AVAILABLE_FIELDS_CE',
-        entryTable: 'clinical_events',
+        entryTable: 'CLINICAL_EVENTS',
         errMsgForUnfoundEntry: message.dataMessage.CLINICALEVENT,
         dataTable: 'CLINICAL_EVENTS_DATA',
         dataTableForeignKey: 'clinicalEvent'
@@ -29,6 +29,14 @@ const optionsContainer = {
         errMsgForUnfoundEntry: message.dataMessage.TEST,
         dataTable: 'TEST_DATA',
         dataTableForeignKey: 'test'
+    },
+    pregnancyEntry: {
+        entryIdString: 'pregnancyEntryId',
+        fieldTable: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY',
+        entryTable: 'PREGNANCY_ENTRY',
+        errMsgForUnfoundEntry: message.dataMessage.PREGNANCYENTRY,
+        dataTable: 'PREGNANCY_ENTRY_DATA',
+        dataTableForeignKey: 'pregnancyEntry'
     }
 };
 

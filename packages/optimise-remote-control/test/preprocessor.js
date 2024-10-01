@@ -5,6 +5,7 @@ module.exports = babelJest.createTransformer({
         [
             '@babel/preset-env',
             {
+                loose: true,
                 targets: {
                     esmodules: true
                 }

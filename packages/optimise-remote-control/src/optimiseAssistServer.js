@@ -13,7 +13,6 @@ import dbcon from './utils/db-connection';
 import { migrate } from '../src/utils/db-handler';
 import ErrorHelper from './utils/error_helper';
 
-const mongoSession = mongoSessionConnect(expressSession);
 const csrfHandle = csrf();
 
 class OptimiseAssistServer {
@@ -57,17 +56,15 @@ class OptimiseAssistServer {
                 // _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
                 // Setup sessions with third party middleware
-                const mongoSessionStore = new mongoSession({
-                    client: await dbcon(),
-                    collection: 'SESSIONS'
-                });
-
                 _this.app.use(expressSession({
                     secret: _this.config.sessionSecret,
                     saveUninitialized: false,
                     resave: false,
                     cookie: { secure: false },
-                    store: mongoSessionStore
+                    store: mongoSessionConnect.create({
+                        collectionName: 'SESSIONS',
+                        client: await dbcon()
+                    })
                 }));
 
                 _this.app.use(passport.initialize());

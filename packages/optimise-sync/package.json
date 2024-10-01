@@ -1,6 +1,6 @@
 {
     "name": "optimise-sync",
-    "version": "3.0.3",
+    "version": "3.1.0",
     "description": "Optimise:MS Synchroniser",
     "keywords": [
         "ms"
@@ -14,42 +14,27 @@
     "scripts": {
         "lint": "eslint .",
         "test": "echo No test",
-        "build": "rimraf -rf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
-        "start": "rimraf -rf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"
+        "build": "rimraf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
+        "start": "rimraf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"
     },
     "license": "MIT",
     "dependencies": {
-        "body-parser": "1.20.2",
-        "connect-mongo": "5.0.0",
+        "body-parser": "1.20.3",
+        "connect-mongo": "5.1.0",
         "csurf": "1.11.0",
-        "express": "4.18.2",
-        "express-session": "1.17.3",
-        "mongodb": "5.8.0",
-        "passport": "0.6.0",
+        "express": "4.21.0",
+        "express-session": "1.18.0",
+        "mongodb": "6.9.0",
+        "passport": "0.7.0",
         "saslprep": "1.0.3"
     },
     "devDependencies": {
-        "@babel/core": "7.22.5",
-        "@babel/eslint-parser": "7.22.5",
-        "@babel/eslint-plugin": "7.22.5",
-        "@babel/plugin-syntax-dynamic-import": "7.8.3",
-        "@babel/plugin-transform-modules-commonjs": "7.22.5",
-        "@babel/preset-env": "7.22.5",
-        "babel-jest": "24.9.0",
-        "babel-loader": "9.1.2",
-        "babel-plugin-require-context-hook": "1.0.0",
-        "cross-env": "7.0.3",
-        "eslint": "8.44.0",
-        "eslint-plugin-promise": "6.1.1",
         "jest": "24.9.0",
-        "rimraf": "5.0.1",
-        "run-script-webpack-plugin": "0.2.0",
-        "webpack": "5.88.1",
-        "webpack-cli": "5.1.4"
+        "run-script-webpack-plugin": "0.2.0"
     },
     "optionalDependencies": {
-        "ajv": "8.12.0",
-        "fsevents": "2.3.2"
+        "ajv": "8.17.1",
+        "fsevents": "2.3.3"
     },
     "jest": {
         "globalSetup": "<rootDir>/test/setup.js",

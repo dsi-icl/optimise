@@ -1,31 +1,17 @@
 {
-    "tasksRunnerOptions": {
-        "default": {
-            "runner": "nx-cloud",
-            "options": {
-                "cacheableOperations": [
-                    "build",
-                    "test",
-                    "lint",
-                    "package",
-                    "prepare"
-                ],
-                "accessToken": "ZDQ1NzgyNGEtZTAzMC00MWE2LWIxZTAtOTRmYzhjMzdjYWYyfHJlYWQtd3JpdGU=",
-                "skipNxCache": true
-            }
-        }
-    },
     "pluginsConfig": {
         "@nrwl/js": {
             "analyzeSourceFiles": false
         }
     },
-    "extends": "nx/presets/npm.json",
-    "npmScope": "itmat-broker",
-    "affected": {
-        "defaultBase": "master"
+    "tasksRunnerOptions": {
+        "default": {
+            "options": {
+                "skipNxCache": true
+            }
+        }
     },
-    "implicitDependencies": {},
+    "extends": "nx/presets/npm.json",
     "generators": {
         "@nrwl/react": {
             "application": {
@@ -48,14 +34,28 @@
                 "default",
                 "^default",
                 "{workspaceRoot}/jest.preset.js"
-            ]
+            ],
+            "cache": true
         },
         "lint": {
             "inputs": [
                 "default",
                 "{workspaceRoot}/.eslintrc.json"
-            ]
+            ],
+            "cache": true
+        },
+        "build": {
+            "cache": true
+        },
+        "package": {
+            "cache": true
+        },
+        "prepare": {
+            "cache": true
         }
     },
-    "defaultProject": "optimise-core"
+    "defaultProject": "optimise-core",
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "useInferencePlugins": false,
+    "defaultBase": "master"
 }

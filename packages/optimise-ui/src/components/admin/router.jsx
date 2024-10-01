@@ -19,7 +19,7 @@ export class AdminRouter extends Component {
                 <Route exact path='/administration/update' render={({ match }) => <Update match={match} />} />
                 <Route exact path='/administration/sync' render={({ match }) => <Sync match={match} />} />
                 <Route exact path='/administration/patientMappings' render={({ match }) => <PatientMappings match={match} />} />
-                <Route path='/' component={() => <></>} />
+                <Route path='/' component={() => null} />
             </Switch>
         );
     }

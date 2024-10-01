@@ -70,6 +70,11 @@ export default async (dbcon, version) => {
             }
             break;
         }
+        case 18:
+            await tableMove(TABLE_NAME, version);
+            await schema_v18(dbcon);
+            await tableCopyBack(TABLE_NAME);
+            break;
         default:
             break;
     }
@@ -106,6 +111,19 @@ const schema_v16 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => 
     table.text('uuid').notNullable();
     table.text('aliasId').notNullable();
     table.text('optimiseConsent').nullable();
+    table.text('createdTime').notNullable().defaultTo(dbcon().fn.now());
+    table.integer('createdByUser').notNullable().references('id').inTable('USERS');
+    table.text('deleted').notNullable().defaultTo('-');
+    table.unique(['aliasId', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
+});
+
+const schema_v18 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => {
+    table.increments('id').primary();
+    table.boolean('participation').notNullable().defaultTo(true);
+    table.text('uuid').notNullable();
+    table.text('aliasId').notNullable();
+    table.text('optimiseConsent').nullable();
+    table.text('pregnancySubStudyConsent').nullable();
     table.text('createdTime').notNullable().defaultTo(dbcon().fn.now());
     table.integer('createdByUser').notNullable().references('id').inTable('USERS');
     table.text('deleted').notNullable().defaultTo('-');

@@ -38,6 +38,11 @@ export const initialState = {
         meddra_Tree: null,
         pregnancyOutcomes: null,
         pregnancyOutcomes_Hash: null,
+        //
+        pregnancyEntryFields: null,
+        pregnancyEntryFields_Hash: null,
+        pregnancyEntryTypes: null,
+        pregnancyEntryTypes_Hash: null,
         diagnoses: null,
         diagnoses_Hash: null,
         relations: null,
