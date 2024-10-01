@@ -17,7 +17,7 @@ const optionsContainer = {
     clinicalEvent: {
         entryIdString: 'clinicalEventId',
         fieldTable: 'AVAILABLE_FIELDS_CE',
-        entryTable: 'clinical_events',
+        entryTable: 'CLINICAL_EVENTS',
         errMsgForUnfoundEntry: message.dataMessage.CLINICALEVENT,
         dataTable: 'CLINICAL_EVENTS_DATA',
         dataTableForeignKey: 'clinicalEvent'
