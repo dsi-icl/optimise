@@ -12,7 +12,7 @@ class SyncController {
         }
         try {
 
-            console.log('Incoming Synchronisation:', uuid, agent, key);
+            console.log('Incoming Synchronisation:', `${uuid.replace(/\n|\r/g, '')}`);
             const validation = await syncCore.validateKey(uuid, key);
             const inserts = [];
             inserts.push(syncCore.createSyncRecord(uuid, {
