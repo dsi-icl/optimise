@@ -18,6 +18,12 @@ module.exports = {
         ['@babel/plugin-proposal-decorators', {
             legacy: true
             // decoratorsBeforeExport: true
+        }],
+        ['@babel/plugin-transform-private-property-in-object', {
+            loose: true
+        }],
+        ['@babel/plugin-transform-private-methods', {
+            loose: true
         }]
     ]
 };
