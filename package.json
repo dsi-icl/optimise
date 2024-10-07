@@ -92,7 +92,7 @@
         "chokidar": "^4.0.0",
         "ejs": "^3",
         "eslint-loader": "^4",
-        "eslint-config-react-app": "^6",
+        "eslint-config-react-app": "^7.0.0",
         "eslint-plugin-import": "^2.30.0",
         "eslint-plugin-jsx-a11y": "^6.10.0",
         "eslint-plugin-react": "^7.37.0",
