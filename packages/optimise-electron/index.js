@@ -56,7 +56,10 @@ const optimise_server = new optimiseCore({
 
 let cookie;
 const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
-    if (options.method === undefined) options.method = 'GET';
+
+    if (options.method === undefined)
+        options.method = 'GET';
+
     if (cookie !== undefined) {
         if (options.headers === undefined) options.headers = {};
         options.headers.cookie = cookie;
@@ -131,21 +134,28 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
                     });
 
                 let type;
-                res.writeHead(res.statusCode);
+                // res.writeHead(res.statusCode);
                 Object.keys(res._headers).forEach((e) => {
                     if (e.toLowerCase() === 'set-cookie')
                         cookie = res._headers[e][0].split(';')[0];
                     if (e.toLowerCase() === 'content-type')
                         type = res._headers[e];
                 });
-
-                if (type.search('application/json') >= 0)
+                if (type.search('application/json') >= 0) {
+                    let json = {
+                        error: 'Could not parse JSON response'
+                    };
+                    try {
+                        json = JSON.parse(res._sent.toString());
+                    } catch (e) {
+                        console.error(e);
+                    }
                     resolve({
                         headers: res._headers,
                         statusCode: res.statusCode,
-                        json: JSON.parse(res._sent.toString())
+                        json
                     });
-                else {
+                } else {
                     resolve({
                         headers: res._headers,
                         statusCode: res.statusCode,
