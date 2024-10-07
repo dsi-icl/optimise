@@ -98,7 +98,7 @@
         "eslint-plugin-react": "^7.37.0",
         "eslint-plugin-react-hooks": "^4.6.2",
         "express": "^4",
-        "formidable": "^2",
+        "formidable": "^3.0.0",
         "node-gyp": "^10",
         "jest": "^24",
         "jest-config": "^24",
