@@ -89,7 +89,7 @@
         "@jest/test-result": "^24",
         "@typescript-eslint/eslint-plugin": "^7",
         "@typescript-eslint/parser": "^7",
-        "chokidar": "^3",
+        "chokidar": "^4.0.0",
         "ejs": "^3",
         "eslint-loader": "^4",
         "eslint-config-react-app": "^6",
