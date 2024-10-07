@@ -16,15 +16,18 @@ ipcRenderer.on('update-message', function (__unused__event, message) {
 });
 
 ipcRenderer.on('optimiseApiResult', function (__unused__event, { cid, res }) {
+
     callStack[cid]({
-        headers: new Headers(res.headers),
-        status: res.statusCode,
-        json: () => Promise.resolve(res.json)
+        headers: new Headers(res?.headers ?? {}),
+        status: res?.statusCode ?? 500,
+        json: () => Promise.resolve(res?.json ?? { error: 'An error occurred querying the API' })
     });
+
     delete callStack[cid];
 });
 
 window['ipcFetch'] = (url, options) => new Promise((resolve) => {
+
     const cid = `${Math.random().toString(36).substr(2, 5)}`;
     callStack[cid] = resolve;
 
