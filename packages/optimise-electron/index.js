@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { Readable } = require('stream');
 const express = require('express');
-const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
+const { app, session, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const log = require('electron-log');
 const { autoUpdater } = require('electron-updater');
 const unhandled = require('electron-unhandled');
@@ -46,13 +46,21 @@ if (devMode) {
     // 	electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
     // });
 } else {
-    unhandled();
+    unhandled({
+        showDialog: process.argv.indexOf('--devTools') !== -1
+    });
 }
 
 const web_app = express();
+
+console.log('starting server...', optimiseCore);
+console.log('optimise.db', path.join(app.getPath('userData'), 'optimise.db'));
+
 const optimise_server = new optimiseCore({
     optimiseDBLocation: path.join(app.getPath('userData'), 'optimise.db')
 });
+
+console.log('has started server ...');
 
 let cookie;
 const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
@@ -176,6 +184,9 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
 const createApi = () => optimise_server
     .start()
     .then((optimise_router) => {
+
+        console.log('optimise_router', optimise_router);
+
         // Remove unwanted express headers
         web_app.set('x-powered-by', false);
         web_app.use('/api', optimise_router);
@@ -251,6 +262,7 @@ const createApi = () => optimise_server
 let mainWindow;
 let closingBlock = false;
 let updatingBlock = false;
+const indexLocation = `file://${__dirname}/dist/index.html`;
 
 const createWindow = () => {
     // Create the browser window.
@@ -271,10 +283,10 @@ const createWindow = () => {
     mainWindow.maximize();
 
     // and load the index.html of the app.
-    mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
+    mainWindow.loadURL(indexLocation);
 
     // Open the DevTools.
-    if (devMode && process.argv.indexOf('--noDevTools') === -1) {
+    if ((devMode && process.argv.indexOf('--noDevTools') === -1) || process.argv.indexOf('--devTools') !== -1) {
         mainWindow.webContents.openDevTools();
     } else {
         mainWindow.setMenu(null);
@@ -295,6 +307,11 @@ const createWindow = () => {
 };
 
 const sendUpdateStatusToWindow = (message) => {
+    log.info(message);
+    if (mainWindow) mainWindow.webContents.send('update-message', message);
+};
+
+const sendAlertToWindow = (message) => {
     log.info(message);
     if (mainWindow) mainWindow.webContents.send('update-message', message);
 };
@@ -378,12 +395,24 @@ autoUpdater.on('update-downloaded', () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', () => {
+
+    // Set CSP HTTP headers
+    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+        callback({
+            responseHeaders: {
+                ...details.responseHeaders,
+                'Content-Security-Policy': ['default-src \'self\' \'unsafe-inline\' data: blob:']
+            }
+        });
+    });
+
     if (process.argv.includes('--autoupdate-test')) {
         console.log('This run is for testing auto-update and fires no UI');
     } else createApi().then(createWindow)
         .catch((err) => {
+            sendAlertToWindow(err.toString());
             console.error(err);
-            if (devMode) {
+            if (devMode || process.argv.indexOf('--devTools') !== -1) {
                 // eslint-disable-next-line no-alert
                 alert(err);
             }
@@ -399,7 +428,7 @@ app.on('window-all-closed', () => {
         optimise_server.stop().then(() => app.quit())
             .catch((err) => {
                 console.error(err);
-                if (devMode) {
+                if (devMode || process.argv.indexOf('--devTools') !== -1) {
                     // eslint-disable-next-line no-alert
                     alert(err);
                 }
@@ -422,7 +451,7 @@ ipcMain.on('quitAndInstall', () => {
         optimise_server.stop().then(() => autoUpdater.quitAndInstall(false))
             .catch((err) => {
                 console.error(err);
-                if (devMode) {
+                if (devMode || process.argv.indexOf('--devTools') !== -1) {
                     // eslint-disable-next-line no-alert
                     alert(err);
                 }
@@ -437,7 +466,7 @@ ipcMain.on('rendererIsFinished', () => {
         optimise_server.stop().then(() => app.quit())
             .catch((err) => {
                 console.error(err);
-                if (devMode) {
+                if (devMode || process.argv.indexOf('--devTools') !== -1) {
                     // eslint-disable-next-line no-alert
                     alert(err);
                 }
