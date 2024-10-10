@@ -15,13 +15,12 @@
         "lint": "eslint .",
         "test": "cross-env NODE_ENV=test jest --colors --verbose --detectOpenHandles --forceExit --runInBand",
         "build": "rimraf ./build && cross-env NODE_ENV=production webpack --config webpack.config.server.js",
-        "start": "rimraf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js --watch"
+        "start": "rimraf ./build && cross-env NODE_ENV=development webpack --config webpack.config.server.js"
     },
     "contributors": [
-        "Chon Sou <c.sou16@imperial.ac.uk>",
         "Pierre-Marie <p.danieau@imperial.ac.uk>",
-        "Eleni Pissaridou <e.pissaridou@imperial.ac.uk>",
-        "Joanna Thomas <joanna.thomas21@imperial.ac.uk>"
+        "Chon Sou <c.sou16@imperial.ac.uk>",
+        "Eleni Pissaridou <e.pissaridou@imperial.ac.uk>"
     ],
     "license": "MIT",
     "dependencies": {
@@ -30,8 +29,8 @@
         "connect-session-knex": "4.0.2",
         "csurf": "1.11.0",
         "csv-parse": "5.5.6",
-        "express": "4.21.0",
-        "express-session": "1.18.0",
+        "express": "4.21.1",
+        "express-session": "1.18.1",
         "express-zip": "3.0.0",
         "form-data": "4.0.0",
         "knex": "3.1.0",
@@ -41,22 +40,22 @@
         "papaparse": "5.4.1",
         "passport": "0.7.0",
         "path": "0.12.7",
-        "sqlite3": "5.1.7",
+        "sqlite3": "5.1.6",
         "swagger-ui-express": "5.0.1",
         "utf-8-validate": "6.0.4",
         "uuid": "10.0.0",
         "ws": "8.18.0"
     },
     "devDependencies": {
-        "@stryker-mutator/core": "8.6.0",
+        "@stryker-mutator/core": "7.3.0",
         "@stryker-mutator/html-reporter": "3.1.0",
         "@stryker-mutator/javascript-mutator": "4.0.0",
-        "@stryker-mutator/jest-runner": "8.6.0",
+        "@stryker-mutator/jest-runner": "7.3.0",
         "jest": "24.9.0",
         "native-ext-loader": "2.3.0",
         "run-script-webpack-plugin": "0.2.0",
         "string-replace-loader": "3.1.0",
-        "supertest": "7.0.0"
+        "supertest": "6.3.4"
     },
     "optionalDependencies": {
         "ajv": "8.17.1",

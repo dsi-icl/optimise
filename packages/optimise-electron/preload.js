@@ -3,7 +3,9 @@ const unhandled = require('electron-unhandled');
 const packageInfo = require('./package.json');
 const callStack = {};
 
-unhandled();
+unhandled({
+    showDialog: process.argv.indexOf('--devTools') !== -1
+});
 
 window['optimiseVersion'] = packageInfo.version;
 window['ipcUpdateCommander'] = () => {
@@ -13,6 +15,10 @@ window['ipcUpdateCommander'] = () => {
 ipcRenderer.on('update-message', function (__unused__event, message) {
     window['ipcUpdateReady'] = message.ready;
     window['ipcUpdateStatus'] = message.text;
+});
+
+ipcRenderer.on('alert', function (__unused__event, message) {
+    alert(message);
 });
 
 ipcRenderer.on('optimiseApiResult', function (__unused__event, { cid, res }) {
