@@ -176,8 +176,13 @@ class PregnancyEntry extends Component {
     _handleFormInput() {
 
         const pregnancyEntry = this.state.pregnancyEntry;
-        const xId = `${this.props.fields.pregnancyEntryFields.find(el => el.idname === 'number of offsprings' || el.idname === 'number of foetuses')?.id ?? 'noop'}`;
-        const numberOffsprings = parseInt(this.references[xId]?.ref.current.value) ?? 0;
+        const possibleFields = this.props.fields.pregnancyEntryFields.filter(el => el.idname === 'number of offsprings' || el.idname === 'number of foetuses');
+        let numberOffsprings = 0;
+        for (let field of possibleFields) {
+            const num = parseInt(this.references[field.id]?.ref.current.value);
+            if (num)
+                numberOffsprings = num;
+        }
 
         const newOffringsValues = [];
         for (let i = 0; i < numberOffsprings; i++)
