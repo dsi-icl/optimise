@@ -145,11 +145,12 @@ class PregnancyEntry extends Component {
     constructor(props) {
         super();
 
-        const { childRef } = props;
+        const { childRef, renderedInFrontPage, location } = props;
         if (childRef) {
             childRef(this);
         }
 
+        this.treatAsNewEntry = renderedInFrontPage || location.search === '?add';
         this.state = PregnancyEntry._getNewStateFromProps(props);
 
         this._formatBody = this._formatBody.bind(this);
@@ -267,7 +268,7 @@ class PregnancyEntry extends Component {
             deliveryMode: undefined,
             outcomeApplicable: outcomeApplicable,
             entryOrder: entryOrder,
-            saved: false,
+            saved: true,
             error: false,
             updateNumber: 0
         });
@@ -741,15 +742,13 @@ class PregnancyEntry extends Component {
 
             let pregnancyEntry = this.state.pregnancyEntry;
 
-            if (!pregnancyEntry || (!pregnancyEntry.id && !this.props.renderedInFrontPage)) {
+            if (!pregnancyEntry.id && !this.treatAsNewEntry) {
 
                 return <>
-                    {!this.props.renderedInFrontPage ?
-                        <div className={scaffold_style.ariane}>
-                            <h2>EDIT PREGNANCY ENTRY</h2>
-                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                        </div>
-                        : null}
+                    <div className={scaffold_style.ariane}>
+                        <h2>EDIT PREGNANCY ENTRY</h2>
+                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                    </div>
                     <div className={_style.panel}>
                         <i>We could not find the entry that you are looking for.</i>
                     </div>
@@ -762,17 +761,20 @@ class PregnancyEntry extends Component {
 
             return (
                 <>
-                    {!this.props.renderedInFrontPage ?
+                    {this.treatAsNewEntry ?
                         <div className={scaffold_style.ariane}>
-                            <h2>EDIT PREGNANCY ENTRY</h2>
+                            <h2>ADD PREGNANCY ENTRY</h2>
                             <BackButton to={`/patientProfile/${match.params.patientId}`} />
                         </div>
-                        : null}
+                        : <div className={scaffold_style.ariane}>
+                            <h2>EDIT PREGNANCY ENTRY</h2>
+                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                        </div>}
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
                         <form className={style.form} onInput={this._handleFormInput}>
                             <div className={`${style.levelBody} ${pregnancy_style.panel}`}>
                                 {
-                                    this.props.renderedInFrontPage && this.state.pregnancyEntry.type === 1 ?
+                                    this.treatAsNewEntry && this.state.pregnancyEntry.type === 1 ?
                                         <>
                                             <br /><br />
                                             <p> Please enter details for a baseline pregnancy entry.</p><br /><br />
@@ -780,7 +782,7 @@ class PregnancyEntry extends Component {
                                         : null
                                 }
                                 {
-                                    this.props.renderedInFrontPage && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
+                                    this.treatAsNewEntry && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
                                         <>
                                             <br /><br />
                                             <p>Ongoing pregnancy start date: {this.state.pregnancyStartDate && this.state.pregnancyStartDate.toString().slice(0, 10)}. Please enter details for a follow up pregnancy record.</p><br /><br />
@@ -789,12 +791,12 @@ class PregnancyEntry extends Component {
                                 }
                                 {this.state.pregnancyEntry.type === 1 ?
                                     <div>
-                                        {!this.props.renderedInFrontPage ? <><br /><br /></> : null}
+                                        {!this.treatAsNewEntry ? <><br /><br /></> : null}
                                         <label key="startDate">Pregnancy start date: <PickDate startDate={this.state.pregnancyStartDate} handleChange={(date) => this._handleStartDateChange(date)} /></label><br /><br />
                                     </div>
                                     : null
                                 }
-                                {this.props.renderedInFrontPage && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
+                                {this.treatAsNewEntry && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
                                     <div>
                                         <label >Would you like to add an outcome for this pregnancy?:
                                             <select value={this.state.outcomeApplicable}
