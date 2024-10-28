@@ -1,6 +1,5 @@
 {
     "name": "optimise-electron",
-    "productName": "Optimise MS Desktop",
     "version": "3.1.4",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
@@ -8,27 +7,46 @@
         "clinical",
         "ms"
     ],
-    "author": {
-        "email": "f.guitton@imperial.ac.uk",
-        "name": "Florian Guitton"
-    },
     "repository": "github:dsi-icl/optimise",
+    "license": "MIT",
+    "author": {
+        "name": "Florian Guitton",
+        "email": "f.guitton@imperial.ac.uk"
+    },
     "main": "index.js",
     "scripts": {
-        "start": "electron .",
-        "lint": "eslint .",
         "prebuild": "cd ../optimise-ui && cross-env PUBLIC_URL=./ yarn build",
         "build": "rimraf dist && webpack --config config/webpack.prod.js",
-        "build-noui": "rimraf dist && webpack --config config/webpack.prod.js",
         "prebuild-dev": "cd ../optimise-ui && cross-env NODE_ENV=development PUBLIC_URL=./ yarn build",
         "build-dev": "rimraf dist && webpack --config config/webpack.dev.js",
         "build-dev-noui": "rimraf dist && webpack --config config/webpack.dev.js",
+        "build-noui": "rimraf dist && webpack --config config/webpack.prod.js",
         "postinstall": "electron-builder install-app-deps",
+        "lint": "eslint .",
         "package": "electron-builder -p never",
         "package-to-github": "electron-builder -p onTagOrDraft",
+        "start": "electron .",
         "test-autoupdate": "cross-env NODE_ENV=test node ./autoupdate.test.js"
     },
-    "license": "MIT",
+    "dependencies": {
+        "electron-log": "5.2.0",
+        "electron-unhandled": "4.0.1",
+        "electron-updater": "6.3.9",
+        "express": "4.21.1",
+        "sqlite3": "5.1.6"
+    },
+    "devDependencies": {
+        "@babel/core": "7.22.20",
+        "babel-loader": "9.1.3",
+        "copy-webpack-plugin": "11.0.0",
+        "electron": "32.1.2",
+        "electron-builder": "25.1.8",
+        "electron-reload": "1.5.0",
+        "html-webpack-plugin": "5.6.0",
+        "webpack": "5.95.0",
+        "webpack-cli": "5.1.4",
+        "webpack-merge": "5.10.0"
+    },
     "build": {
         "appId": "org.optimise-ms.local.app",
         "productName": "Optimise MS Desktop",
@@ -113,18 +131,5 @@
             "publishAutoUpdate": false
         }
     },
-    "dependencies": {
-        "electron-log": "5.2.0",
-        "electron-unhandled": "4.0.1",
-        "electron-updater": "6.3.9",
-        "express": "4.21.1",
-        "sqlite3": "5.1.6"
-    },
-    "devDependencies": {
-        "copy-webpack-plugin": "12.0.2",
-        "electron": "32.1.2",
-        "electron-builder": "25.1.8",
-        "electron-reload": "1.5.0",
-        "html-webpack-plugin": "5.6.0"
-    }
+    "productName": "Optimise MS Desktop"
 }

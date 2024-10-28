@@ -1,24 +1,18 @@
 {
     "name": "optimise",
     "version": "3.1.4",
+    "private": true,
     "description": "Optimise:MS",
     "keywords": [
         "ms"
     ],
-    "author": {
-        "email": "f.guitton@imperial.ac.uk",
-        "name": "Florian Guitton"
-    },
-    "contributors": [
-        "Chon Sou <c.sou16@imperial.ac.uk>",
-        "Pierre-Marie <p.danieau@imperial.ac.uk>",
-        "Eleni Pissaridou <e.pissaridou@imperial.ac.uk>",
-        "Joanna Thomas <joanna.thomas21@imperial.ac.uk>"
-    ],
-    "repository": "github:dsi-icl/optimise",
     "homepage": "https://github.com/dsi-icl/optimise",
+    "repository": "github:dsi-icl/optimise",
     "license": "MIT",
-    "private": true,
+    "author": {
+        "name": "Florian Guitton",
+        "email": "f.guitton@imperial.ac.uk"
+    },
     "workspaces": {
         "packages": [
             "packages/*"
@@ -30,95 +24,53 @@
             "**/electron-webpack/**"
         ]
     },
-    "engines": {
-        "yarn": "^1.10.0"
-    },
     "scripts": {
-        "prepare": "husky",
-        "postinstall": "patch-package",
         "build": "nx run-many --target=build --parallel=1 --projects=optimise-core,optimise-ui",
         "preelectron": "nx run-many --target=build --parallel=1 --projects=optimise-core,optimise-electron",
         "electron": "nx run-many --target=package --projects=optimise-electron",
+        "postinstall": "patch-package",
         "lint": "nx affected --target=lint",
         "lint-fix": "nx affected --target=lint --fix",
         "prepackage": "yarn build",
         "package": "nx run-many --target=package --parallel=1 --projects=optimise-docker,optimise-electron",
+        "prepare": "husky",
         "publish": "nx run-many --target=publish --parallel=1 --projects=optimise-docker,optimise-electron",
         "start": "nx run-many --target=start --parallel=3 --projects=optimise-core,optimise-sync,optimise-ui",
         "test": "nx run-many --target=test"
     },
-    "devDependencies": {
-        "@babel/helper-environment-visitor": "~7.24.0",
-        "@babel/helper-function-name": "~7.24.0",
-        "@babel/helper-hoist-variables": "~7.24.0",
-        "@babel/helper-split-export-declaration": "~7.24.0",
-        "@commitlint/config-conventional": "19.5.0",
-        "@nx/eslint-plugin": "20.0.0",
-        "@nx/workspace": "20.0.0",
-        "babel-jest": "24.9.0",
-        "babel-loader": "8.4.1",
-        "babel-plugin-require-context-hook": "1.0.0",
-        "commitlint": "19.5.0",
-        "cross-env": "7.0.3",
-        "eslint": "8.57.1",
-        "eslint-plugin-import": "2.31.0",
-        "eslint-plugin-jest": "28.8.3",
-        "eslint-plugin-jsonc": "2.16.0",
-        "eslint-plugin-jsx-a11y": "6.10.0",
-        "eslint-plugin-promise": "7.1.0",
-        "eslint-plugin-react": "7.37.1",
-        "eslint-plugin-react-hooks": "4.6.2",
-        "husky": "9.1.6",
-        "nx": "20.0.0",
-        "patch-package": "8.0.0",
-        "rimraf": "6.0.1",
-        "typescript": "5.6.3",
-        "webpack": "5.95.0",
-        "webpack-cli": "5.1.4",
-        "webpack-merge": "6.0.1",
-        "webpack-node-externals": "3.0.0"
-    },
     "resolutions": {
-        "@babel/code-frame": "~7.23.0",
-        "@babel/core": "~7.23.0",
-        "@babel/helpers": "~7.23.0",
-        "@babel/preset-env": "~7.23.0",
         "@jest/reporters": "^24",
         "@jest/test-result": "^24",
         "@typescript-eslint/eslint-plugin": "^5",
         "@typescript-eslint/parser": "^5",
-        "ansi-html": "^0.0.8",
-        "babel-preset-react-app": "^10",
-        "body-parser": "^1.20.3",
-        "braces": "^3.0.3",
-        "browserslist": "^4.24.0",
-        "cookie": "^0.7.2",
-        "ejs": "^3.1.10",
         "eslint-config-react-app": "^7",
         "eslint-plugin-flowtype": "^8",
         "eslint-plugin-import": "^2",
         "eslint-plugin-jsx-a11y": "^6",
         "eslint-plugin-react": "^7",
         "eslint-plugin-react-hooks": "^4",
-        "ip": "^2.0.1",
-        "micromatch": "^4.0.8",
-        "minimatch": "^3.0.5 || ^5 || ^9 || ^10",
-        "node-fetch": "^2.6.7",
-        "node-forge": "^1.3.0",
-        "nth-check": "^2.0.1",
-        "postcss": "^7.0.39",
         "jest": "^24",
         "jest-config": "^24",
         "jest-resolve": "^24",
-        "jest-util": "^24",
-        "loader-utils": "^1.4.2 || ^2",
-        "node-notifier": "^8.0.1",
-        "path-to-regexp": "^0.1.10",
-        "send": "^0.19.0",
-        "serve-static": "^1.16.0",
-        "shell-quote": "^1.7.3",
-        "tough-cookie": "^4.1.3",
-        "ws": "^8"
+        "jest-util": "^24"
     },
-    "dependencies": {}
+    "dependencies": {},
+    "devDependencies": {
+        "@commitlint/config-conventional": "17.8.1",
+        "@nx/eslint-plugin": "20.0.0",
+        "@nx/workspace": "20.0.0",
+        "commitlint": "17.8.1",
+        "eslint-plugin-import": "2.31.0",
+        "eslint-plugin-jsonc": "2.16.0",
+        "eslint-plugin-jsx-a11y": "6.10.0",
+        "eslint-plugin-react": "7.37.1",
+        "eslint-plugin-react-hooks": "4.6.2",
+        "husky": "9.1.6",
+        "nx": "20.0.0",
+        "patch-package": "8.0.0",
+        "typescript": "5.6.3"
+    },
+    "engines": {
+        "yarn": "^1.10.0"
+    }
 }

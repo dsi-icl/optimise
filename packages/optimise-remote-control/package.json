@@ -2,16 +2,16 @@
     "name": "optimise-remote-control",
     "version": "3.1.4",
     "description": "",
+    "license": "MIT",
+    "author": {
+        "name": "Chon Sou",
+        "email": "c.sou16@imperial.ac.uk"
+    },
     "main": "src/index.js",
     "scripts": {
         "lint": "eslint .",
         "start": "node ./src/index.js"
     },
-    "author": {
-        "email": "c.sou16@imperial.ac.uk",
-        "name": "Chon Sou"
-    },
-    "license": "MIT",
     "dependencies": {
         "bufferutil": "4.0.8",
         "utf-8-validate": "6.0.4",

@@ -15,10 +15,10 @@
         "Florian Guitton <f.guitton@imperial.ac.uk>"
     ],
     "scripts": {
-        "lint": "eslint .",
         "prebuild": "cd ../optimise-ui && cross-env PUBLIC_URL=/ yarn build",
         "build": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
         "build-noui": "docker build -t datascienceinstitute/optimise:latest -f Dockerfile ..",
+        "lint": "eslint .",
         "start": "echo Nothing to start",
         "test": "echo No test"
     },
