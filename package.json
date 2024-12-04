@@ -39,9 +39,9 @@
         "test": "nx run-many --target=test"
     },
     "resolutions": {
-        "@babel/code-frame": "~7.24.0",
-        "@babel/preset-env": "~7.24.0",
-        "@babel/traverse": "~7.24.0",
+        "@babel/code-frame": "~7.26.0",
+        "@babel/preset-env": "~7.26.0",
+        "@babel/traverse": "~7.26.0",
         "@jest/reporters": "^24",
         "@jest/test-result": "^24",
         "@typescript-eslint/eslint-plugin": "^5",
