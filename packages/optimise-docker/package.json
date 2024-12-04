@@ -23,7 +23,7 @@
         "test": "echo No test"
     },
     "dependencies": {
-        "compression": "1.7.4",
+        "compression": "1.7.5",
         "express": "4.21.1",
         "express-rate-limit": "7.4.1",
         "sqlite3": "5.1.6"
