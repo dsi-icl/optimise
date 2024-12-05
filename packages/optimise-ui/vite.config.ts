@@ -43,6 +43,15 @@ export default defineConfig({
                     return `export default ${JSON.stringify(code)};`;
                 }
             }
+        },
+        {
+            name: 'asset-path-replacement',
+            transformIndexHtml: {
+                order: 'post',
+                async handler(html) {
+                    return html.replaceAll('/assets/', 'assets/')
+                }
+            }
         }
     ],
     build: {
