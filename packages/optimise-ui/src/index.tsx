@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-
+window.global = window
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
