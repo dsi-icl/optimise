@@ -8,6 +8,17 @@
             "dependsOn": [
                 {
                     "projects": [
+                        "optimise-core",
+                        "optimise-ui"
+                    ],
+                    "target": "build"
+                }
+            ]
+        },
+        "build-noui": {
+            "dependsOn": [
+                {
+                    "projects": [
                         "optimise-core"
                     ],
                     "target": "build"
