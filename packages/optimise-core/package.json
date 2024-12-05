@@ -50,7 +50,7 @@
         "connect-session-knex": "3.0.1",
         "csurf": "1.11.0",
         "csv-parse": "5.6.0",
-        "express": "4.21.1",
+        "express": "4.21.2",
         "express-session": "1.18.1",
         "express-zip": "3.0.0",
         "form-data": "4.0.1",
@@ -81,7 +81,7 @@
         "run-script-webpack-plugin": "0.2.0",
         "string-replace-loader": "3.1.0",
         "supertest": "6.3.4",
-        "webpack": "5.97.0",
+        "webpack": "5.97.1",
         "webpack-cli": "5.1.4",
         "webpack-node-externals": "3.0.0"
     },
