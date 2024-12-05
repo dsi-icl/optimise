@@ -13,6 +13,10 @@
                     ],
                     "target": "build"
                 }
+            ],
+            "cache": true,
+            "outputs": [
+                "{workspaceRoot}/packages/optimise-electron/dist"
             ]
         },
         "build-noui": {
@@ -23,6 +27,10 @@
                     ],
                     "target": "build"
                 }
+            ],
+            "cache": true,
+            "outputs": [
+                "{workspaceRoot}/packages/optimise-electron/dist"
             ]
         },
         "test": {
@@ -35,6 +43,20 @@
             "options": {
                 "command": "nx test-autoupdate optimise-electron"
             }
+        },
+        "package": {
+            "dependsOn": [
+                {
+                    "target": "build"
+                }
+            ]
+        },
+        "package-to-github": {
+            "dependsOn": [
+                {
+                    "target": "build"
+                }
+            ]
         }
     },
     "tags": [],
