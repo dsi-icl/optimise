@@ -55,6 +55,7 @@
         "eslint-plugin-jsx-a11y": "^6",
         "eslint-plugin-react": "^7",
         "eslint-plugin-react-hooks": "^4",
+        "fbjs": "^3",
         "fork-ts-checker-webpack-plugin": "^4",
         "ip": "^2.0.1",
         "jest": "^24",
