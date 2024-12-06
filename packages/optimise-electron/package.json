@@ -1,6 +1,6 @@
 {
     "name": "optimise-electron",
-    "version": "3.1.4",
+    "version": "3.1.5",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
         "research",
@@ -33,7 +33,7 @@
         "electron-unhandled": "4.0.1",
         "electron-updater": "6.3.9",
         "express": "4.21.2",
-        "sqlite3": "5.1.7"
+        "sqlite3": "5.1.6"
     },
     "devDependencies": {
         "copy-webpack-plugin": "12.0.2",
