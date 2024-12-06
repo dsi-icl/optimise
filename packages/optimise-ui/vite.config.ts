@@ -26,10 +26,6 @@ export default defineConfig({
                         "@babel/plugin-proposal-decorators",
                         { /* loose: true, version: "2023-11", decoratorsBeforeExport: true */legacy: true },
                     ],
-                    [
-                        "@babel/plugin-proposal-class-properties",
-                        { "loose": false }
-                    ],
                     "@babel/plugin-syntax-dynamic-import"
                 ],
             },
