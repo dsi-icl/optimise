@@ -70,7 +70,7 @@
         "@nx/eslint-plugin": "20.2.0",
         "@nx/workspace": "20.2.0",
         "@tailwindcss/postcss": "4.0.0-beta.5",
-        "@tailwindcss/vite": "4.0.0-beta.5",
+        "@tailwindcss/vite": "4.0.0-beta.6",
         "@vitejs/plugin-react-swc": "^3.7.2",
         "@vitest/coverage-v8": "^2.2.0-beta.2",
         "autoprefixer": "10.4.20",
