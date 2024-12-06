@@ -11940,6 +11940,11 @@ tailwindcss@4.0.0-beta.5:
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-4.0.0-beta.5.tgz#af52b6972fbfc60c46ced13a7c81201795c055ff"
   integrity sha512-59zeDyaVE5z1iQnhk5cGeBJvb6Z/Iym4qSFzPddiotWbnqWcIqj0kRgZH8OyR4VZU+solTRQaWRgfDZ8PQ+p8A==
 
+tailwindcss@4.0.0-beta.6:
+  version "4.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-4.0.0-beta.6.tgz#42b1a88491bf7ab9a1ff60653537520b741940af"
+  integrity sha512-eCCuMk3H65w4J/QWkjxfeWoBSKbCD3E6Uj2LA6Xkkl4eMa1MXuwVpIU1RXcLIp+BVsXGEZMP7i7uJig7KxfAXQ==
+
 tapable@^2.0.0, tapable@^2.1.1, tapable@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.2.1.tgz#1967a73ef4060a82f12ab96af86d52fdb76eeca0"
