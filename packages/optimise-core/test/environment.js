@@ -2,12 +2,12 @@
 import { erase, migrate } from '../src/utils/db-handler';
 import seed from './seed';
 const OptimiseServer = require('../src/optimiseServer').default;
-const NodeEnvironment = require('jest-environment-node');
+const { TestEnvironment } = require('jest-environment-node');
 
 let optimiseServer = null;
 let optimiseRouter = null;
 
-class OptimiseNodeEnvironment extends NodeEnvironment {
+class OptimiseNodeEnvironment extends TestEnvironment {
 
     static async globalSetup() {
         process.env.NODE_ENV = 'test';

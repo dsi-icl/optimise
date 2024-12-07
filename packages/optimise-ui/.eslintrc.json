@@ -3,6 +3,12 @@
         "plugin:@nx/react",
         "../../.eslintrc.json"
     ],
+    "parserOptions": {
+        "project": [
+            "tsconfig.*?.json"
+        ],
+        "sourceType": "module"
+    },
     "ignorePatterns": [
         "!**/*"
     ]

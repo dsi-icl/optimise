@@ -41,8 +41,7 @@ class Section extends Component {
                         <div className={`${style.panel} ${style.patientInfo}`}>
                             <DemographicSection patientId={this.props.match.params.patientId} />
                             <PrimaryDiagnosis patientId={this.props.match.params.patientId} />
-                            {!this.props.patientProfile.data.pregnancySubStudyConsent ? <Pregnancy /> : null}
-
+                            <Pregnancy />
                             <ImmunisationSection patientId={this.props.match.params.patientId} />
                             <ConsentSection match={this.props.match} />
                             <DeletePatient match={this.props.match} />
@@ -442,10 +441,9 @@ class Pregnancy extends Component {
             if (this.props.data.pregnancy.length === 0) {
                 return (
                     <PatientProfileSectionScaffold sectionName='Pregnancies' actions={
-                        <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
+                        !this.props.data.pregnancySubStudyConsent ? <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} /> : undefined
                     }>
                         No pregnancies recorded
-
                     </PatientProfileSectionScaffold>
                 );
             }
@@ -460,8 +458,7 @@ class Pregnancy extends Component {
 
         return (
             <PatientProfileSectionScaffold sectionName='Last Pregnancy' actions={
-                <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} />
-
+                !this.props.data.pregnancySubStudyConsent ? <EditButton to={`/patientProfile/${this.props.data.patientId}/edit/pregnancy/data`} /> : undefined
             }>
                 <>
                     <label>Start date: </label> {moment(pregnancy.startDate, 'x')._d.toDateString()}
@@ -474,7 +471,6 @@ class Pregnancy extends Component {
         );
     }
 }
-
 
 /**
  * @prop {Object} this.props.match
@@ -586,18 +582,18 @@ class ConsentSection extends Component {
                 {
                     optimiseConsent ?
                         <div>
-                            <span><b>Consent date</b>: {new Date(optimiseConsent).toLocaleDateString()}</span>
-                            <button onClick={this._handleClickWithdrawConsent} >This patient withdraws consent</button>
+                            <span><b>Consent date:</b> {new Date(optimiseConsent).toLocaleDateString()}</span>
+                            <button style={{ marginTop: '0.5rem' }} onClick={this._handleClickWithdrawConsent} >This patient withdraws consent</button>
                             <br /> <br />
                             <span>Select date of consent:</span>
                             <PickDate startDate={this.state.selectedConsentDate} handleChange={this._handleConsentDateChange} />
-                            <button disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Change consent date</button>
+                            <button style={{ marginTop: '0.5rem' }} disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Change consent date</button>
                         </div>
                         :
                         <div>
                             <span>Select date of consent:</span>
                             <PickDate handleChange={this._handleConsentDateChange} />
-                            <button disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Patient gives consent</button>
+                            <button style={{ marginTop: '0.5rem' }} disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Patient gives consent</button>
                         </div>
                 }
 
@@ -609,18 +605,18 @@ class ConsentSection extends Component {
                     {
                         pregnancySubStudyConsent ?
                             <div>
-                                <span><b>Consent date</b>: {new Date(pregnancySubStudyConsent).toLocaleDateString()}</span>
-                                <button onClick={this._handleClickWithdrawPregnancyConsent} >Withdraw pregnancy sub study consent</button>
+                                <span><b>Consent date:</b> {new Date(pregnancySubStudyConsent).toLocaleDateString()}</span>
+                                <button style={{ marginTop: '0.5rem' }} onClick={this._handleClickWithdrawPregnancyConsent} >Withdraw pregnancy sub study consent</button>
                                 <br /> <br />
                                 <span>Select date of consent: </span>
                                 <PickDate startDate={this.state.selectedPregnancyConsentDate} handleChange={this._handlePregnancyConsentDateChange} />
-                                <button disabled={this.state.selectedPregnancyConsentDate === undefined} onClick={this._handleClickGivesPregnancyConsent}>Change pregnancy sub study consent date</button>
+                                <button style={{ marginTop: '0.5rem' }} disabled={this.state.selectedPregnancyConsentDate === undefined} onClick={this._handleClickGivesPregnancyConsent}>Change pregnancy sub study consent date</button>
                             </div>
                             :
                             <div>
                                 <span>Select date of consent: </span>
                                 <PickDate handleChange={this._handlePregnancyConsentDateChange} />
-                                <button disabled={this.state.selectedPregnancyConsentDate === undefined} onClick={this._handleClickGivesPregnancyConsent}>Patient gives consent for pregnancy sub study</button>
+                                <button style={{ marginTop: '0.5rem' }} disabled={this.state.selectedPregnancyConsentDate === undefined} onClick={this._handleClickGivesPregnancyConsent}>Patient gives consent for pregnancy sub study</button>
                             </div>
                     }
                 </PatientProfileSectionScaffold>

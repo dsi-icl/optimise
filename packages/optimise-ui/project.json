@@ -1,0 +1,21 @@
+{
+    "name": "optimise-ui",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/optimise-ui/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "cache": true,
+            "outputs": [
+                "{workspaceRoot}/packages/optimise-ui/build"
+            ]
+        },
+        "build-noui": {
+            "cache": true,
+            "outputs": [
+                "{workspaceRoot}/packages/optimise-ui/build"
+            ]
+        }
+    },
+    "tags": []
+}

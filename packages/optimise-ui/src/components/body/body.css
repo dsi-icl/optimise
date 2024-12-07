@@ -1,5 +1,6 @@
+/* @import 'tailwindcss'; */
 @import './fonts.css';
-@import '~react-medium-image-zoom/dist/styles.css';
+@import 'react-medium-image-zoom/dist/styles.css';
 
 :root {
 
@@ -73,9 +74,9 @@ body {
     position: absolute;
 }
 
-body > #root {
+body>#root {
     display: grid;
-    grid: "navigation sidebar content annexe fringe" calc(100% - 2em) "navigation status status status status" 2em / 4em 0 calc(60% - 2.5em) calc(40% - 2.5em) 1em;
+    grid: "navigation sidebar content annexe fringe"calc(100% - 2em) "navigation status status status status"2em / 4em 0 calc(60% - 2.5em) calc(40% - 2.5em) 1em;
     width: 100%;
     height: 100%;
 }
@@ -125,11 +126,9 @@ textarea::placeholder {
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover
-textarea:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {

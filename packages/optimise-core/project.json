@@ -1,0 +1,15 @@
+{
+    "name": "optimise-core",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/optimise-core/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "cache": true,
+            "outputs": [
+                "{workspaceRoot}/packages/optimise-core/build"
+            ]
+        }
+    },
+    "tags": []
+}

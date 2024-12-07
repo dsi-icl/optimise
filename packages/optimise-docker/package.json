@@ -1,6 +1,6 @@
 {
     "name": "optimise-docker",
-    "version": "3.1.4",
+    "version": "3.1.5",
     "description": "Optimise:MS Docker",
     "keywords": [
         "ms",
@@ -23,8 +23,8 @@
         "test": "echo No test"
     },
     "dependencies": {
-        "compression": "1.7.4",
-        "express": "4.21.1",
+        "compression": "1.7.5",
+        "express": "4.21.2",
         "express-rate-limit": "7.4.1",
         "sqlite3": "5.1.6"
     }
