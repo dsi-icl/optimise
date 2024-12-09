@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import ReactMarkdown from 'react-markdown';
 import style from './userManual.module.css';
-import markup from './userManualMenu.md';
+import UserManualMDX from './userManualMenu.mdx';
 
 export default class UserManual extends Component {
 
@@ -34,11 +33,9 @@ export default class UserManual extends Component {
                 <h2>Table of Content</h2>
             </div>
             <div className={`${style.panel} ${style.right}`}>
-                <ReactMarkdown components={{
+                <UserManualMDX components={{
                     a: ({ href, children }) => <a href={href} className={hash === href ? style.active : ''}>{children}</a>
-                }}>
-                    {markup}
-                </ReactMarkdown>
+                }} />
             </div>
         </>;
     }

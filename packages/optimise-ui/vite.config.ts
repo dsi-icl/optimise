@@ -1,5 +1,8 @@
 import { defineConfig } from 'vitest/config'
 import babel from 'vite-plugin-babel';
+import mdx from '@mdx-js/rollup';
+import rehypeRaw from 'rehype-raw';
+import rehypeMdxImportMedia from 'rehype-mdx-import-media'
 import react from '@vitejs/plugin-react-swc'
 // import tailwindcss from '@tailwindcss/vite';
 
@@ -7,7 +10,6 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
     base: '/',
     plugins: [
-        react(),
         babel({
             babelConfig: {
                 compact: true,
@@ -30,16 +32,25 @@ export default defineConfig({
                 ],
             },
         }),
+        mdx({
+            providerImportSource: '@mdx-js/react',
+            remarkPlugins: [], rehypePlugins: [
+                [rehypeRaw, { passThrough: ['mdxjsEsm', 'mdxFlowExpression', 'mdxJsxFlowElement', 'mdxJsxTextElement', 'mdxTextExpression'] }],
+                rehypeMdxImportMedia
+            ]
+        }),
         // tailwindcss(),
         {
             name: "markdown-loader",
             transform(code, id) {
                 if (id.slice(-3) === ".md") {
+                    // console.log('markdown-loader', code, id);
                     // For .md files, get the raw content
                     return `export default ${JSON.stringify(code)};`;
                 }
             }
         },
+        react(),
         {
             name: 'asset-path-replacement',
             transformIndexHtml: {

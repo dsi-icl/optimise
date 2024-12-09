@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 import { PureComponent } from 'react';
-import { default as T } from 'prop-types';
 import browserBehaviour from '../../utilities/browserBehaviour';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'draft-js/dist/Draft.css';
@@ -12,11 +11,6 @@ export default class Body extends PureComponent {
 
     // Custom name for container
     static displayName = 'Body';
-
-    // Typechecking for container's props
-    static propTypes = {
-        children: T.oneOfType([T.array, T.element])
-    };
 
     componentDidMount() {
         browserBehaviour.apply();
