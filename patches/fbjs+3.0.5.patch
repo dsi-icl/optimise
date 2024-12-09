@@ -1,0 +1,12 @@
+diff --git a/node_modules/fbjs/lib/setImmediate.js b/node_modules/fbjs/lib/setImmediate.js
+index 7f8ee34..7a65600 100644
+--- a/node_modules/fbjs/lib/setImmediate.js
++++ b/node_modules/fbjs/lib/setImmediate.js
+@@ -10,4 +10,4 @@
+ 
+ require("setimmediate");
+ 
+-module.exports = global.setImmediate;
+\ No newline at end of file
++module.exports = (typeof window !== 'undefined' ? window : global).setImmediate;
+\ No newline at end of file
