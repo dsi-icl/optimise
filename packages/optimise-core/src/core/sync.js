@@ -1,5 +1,5 @@
 import os from 'os';
-import request from 'request';
+import axios from 'axios';
 import { getEntry } from '../utils/controller-utils';
 import dbcon from '../utils/db-connection';
 import PatientCore from './patient';
@@ -126,59 +126,72 @@ class SyncCore {
 
         try {
 
+            /** @type { import('axios').AxiosRequestConfig } */
             const checkOptions = {
-                uri: `${config.host}api/sync/v1.1`,
+                url: `${config.host}api/sync/v1.1`,
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
-                },
-                encoding: 'utf-8'
+                }
             };
 
             await (() => new Promise((resolve, reject) => {
-                request(checkOptions, async (error, response, body) => {
-                    try {
-                        const result = body !== undefined ? JSON.parse(body) : {};
-                        if (error || response.statusCode !== 200) {
-                            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
-                                value: JSON.stringify({
-                                    error: {
-                                        message: error ? error.message : (result && result.error ? result.error : 'Unknown error'),
-                                        stack: error ? error.stack : (result && result.stack ? result.stack : undefined)
-                                    }
-                                }),
-                                updated_at: dbcon().fn.now()
-                            });
-                            reject(error);
-                        } else {
-                            if (result.status === 'ready')
-                                resolve();
-                            else {
+                axios.request(checkOptions)
+                    .then(async (response) => {
+                        try {
+                            const result = response.data !== undefined ? (typeof response.data === 'string' ? JSON.parse(response.data) : response.data) : {};
+                            if (response.status !== 200) {
                                 await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                     value: JSON.stringify({
                                         error: {
-                                            message: 'Synching endpoint is not ready',
-                                            stack: undefined
+                                            message: result && result.error ? result.error : 'Unknown error',
+                                            stack: result && result.stack ? result.stack : undefined
                                         }
                                     }),
                                     updated_at: dbcon().fn.now()
                                 });
-                                reject();
+                                reject(result.error);
+                            } else {
+                                if (result.status === 'ready')
+                                    resolve();
+                                else {
+                                    await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                        value: JSON.stringify({
+                                            error: {
+                                                message: 'Synching endpoint is not ready',
+                                                stack: undefined
+                                            }
+                                        }),
+                                        updated_at: dbcon().fn.now()
+                                    });
+                                    reject();
+                                }
                             }
+                        } catch (exception) {
+                            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                value: JSON.stringify({
+                                    error: {
+                                        message: exception.message ? exception.message : 'Unknown error',
+                                        stack: exception.stack ? exception.stack : undefined
+                                    }
+                                }),
+                                updated_at: dbcon().fn.now()
+                            });
+                            reject();
                         }
-                    } catch (exception) {
+                    })
+                    .catch(async (error) => {
                         await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                             value: JSON.stringify({
                                 error: {
-                                    message: exception.message ? exception.message : 'Unknown error',
-                                    stack: exception.stack ? exception.stack : undefined
+                                    message: error.message ? error.message : 'Unknown error',
+                                    stack: error.stack ? error.stack : undefined
                                 }
                             }),
                             updated_at: dbcon().fn.now()
                         });
-                        reject();
-                    }
-                });
+                        reject(error);
+                    });
             }))();
 
             await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
@@ -254,15 +267,15 @@ class SyncCore {
                 }))
             });
 
+            /** @type { import('axios').AxiosRequestConfig } */
             const syncOptions = {
-                uri: `${config.host}api/sync/v1.1`,
+                url: `${config.host}api/sync/v1.1`,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8',
                     'Content-Length': data.length
                 },
-                encoding: 'utf-8',
-                body: data
+                data
             };
 
             await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
@@ -276,21 +289,36 @@ class SyncCore {
 
             try {
                 await (() => new Promise((resolve, reject) => {
-                    request(syncOptions, async (error, response, body) => {
-                        try {
-                            const result = body !== undefined ? JSON.parse(body) : {};
-                            if (!error && response.statusCode === 200) {
-                                if (result.status === 'success') {
-                                    await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
-                                        value: JSON.stringify({
-                                            status: 'success',
-                                            step: 'done',
-                                            syncing: false,
-                                            lastSuccess: (new Date()).getTime()
-                                        }),
-                                        updated_at: dbcon().fn.now()
-                                    });
-                                    resolve();
+                    axios.request(syncOptions)
+                        .then(async (response) => {
+                            try {
+                                const result = response.data !== undefined ? (typeof response.data === 'string' ? JSON.parse(response.data) : response.data) : {};
+                                if (response.status === 200) {
+                                    if (result.status === 'success') {
+                                        await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                            value: JSON.stringify({
+                                                status: 'success',
+                                                step: 'done',
+                                                syncing: false,
+                                                lastSuccess: (new Date()).getTime()
+                                            }),
+                                            updated_at: dbcon().fn.now()
+                                        });
+                                        resolve();
+                                    } else {
+                                        await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                            value: JSON.stringify({
+                                                status: 'errored',
+                                                step: 'errored',
+                                                syncing: false,
+                                                error: {
+                                                    message: 'Remote did not acknowledge success'
+                                                }
+                                            }),
+                                            updated_at: dbcon().fn.now()
+                                        });
+                                        reject();
+                                    }
                                 } else {
                                     await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                         value: JSON.stringify({
@@ -298,44 +326,45 @@ class SyncCore {
                                             step: 'errored',
                                             syncing: false,
                                             error: {
-                                                message: 'Remote did not acknowledge success'
+                                                message: result && result.error ? result.error : 'Unknown error',
+                                                stack: result && result.stack ? result.stack : undefined
                                             }
                                         }),
                                         updated_at: dbcon().fn.now()
                                     });
-                                    reject();
+                                    reject(result.error);
                                 }
-                            } else {
+                            } catch (exception) {
                                 await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                     value: JSON.stringify({
                                         status: 'errored',
                                         step: 'errored',
                                         syncing: false,
                                         error: {
-                                            message: error ? error.message : (result && result.error ? result.error : 'Unknown error'),
-                                            stack: error ? error.stack : (result && result.stack ? result.stack : undefined)
+                                            message: exception.message ? exception.message : 'Unknown error',
+                                            stack: exception.stack ? exception.stack : undefined
                                         }
                                     }),
                                     updated_at: dbcon().fn.now()
                                 });
-                                reject(error);
+                                reject(exception);
                             }
-                        } catch (exception) {
+                        })
+                        .catch(async (error) => {
                             await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                 value: JSON.stringify({
                                     status: 'errored',
                                     step: 'errored',
                                     syncing: false,
                                     error: {
-                                        message: exception.message ? exception.message : 'Unknown error',
-                                        stack: exception.stack ? exception.stack : undefined
+                                        message: error.message ? error.message : 'Unknown error',
+                                        stack: error.stack ? error.stack : undefined
                                     }
                                 }),
                                 updated_at: dbcon().fn.now()
                             });
-                            reject(exception);
-                        }
-                    });
+                            reject(error);
+                        });
                 }))();
             } catch (err) {
                 // Should already be handled
