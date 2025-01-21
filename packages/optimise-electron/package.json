@@ -49,7 +49,7 @@
         "appId": "org.optimise-ms.local.app",
         "productName": "Optimise MS Desktop",
         "detectUpdateChannel": true,
-        "copyright": "Copyright (c) 2024 Data Science Institute",
+        "copyright": "Copyright (c) 2025 Data Science Institute",
         "directories": {
             "output": "build"
         },
