@@ -24,7 +24,6 @@ export default class UserManual extends Component {
                         </ImageZoom>);
                     },
                     a: (aaa) => {
-                        console.log('aaa', aaa);
                         return <a href={aaa.href} target="_blank" rel="noopener noreferrer">{aaa.children}</a>;
                     }
                 }} />

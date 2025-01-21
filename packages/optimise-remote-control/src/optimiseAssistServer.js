@@ -138,12 +138,10 @@ class OptimiseAssistServer {
     setupAssist() {
 
         // Modules
-        this.app.use('/assist', (ws, req) => {
+        this.app.use('/assist', (ws) => {
             ws.on('message', function incoming(message) {
-                console.log('received: %s', message);
                 ws.send(`ADD_PRIVILEGE|${message}`);
             });
-            console.log('socket', req.testing);
         });
     }
 }
