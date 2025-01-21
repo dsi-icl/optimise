@@ -45,6 +45,7 @@ if (devMode) {
     // require('electron-reload')(path.join(__dirname, 'dist/app.js'), {
     // 	electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
     // });
+
 } else {
     unhandled({
         showDialog: process.argv.indexOf('--devTools') !== -1
@@ -53,14 +54,13 @@ if (devMode) {
 
 const web_app = express();
 
-console.log('starting server...', optimiseCore);
-console.log('optimise.db', path.join(app.getPath('userData'), 'optimise.db'));
+console.log('Starting server...', optimiseCore);
 
 const optimise_server = new optimiseCore({
     optimiseDBLocation: path.join(app.getPath('userData'), 'optimise.db')
 });
 
-console.log('has started server ...');
+console.log('Has started server ...');
 
 let cookie;
 const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
@@ -185,8 +185,6 @@ const createApi = () => optimise_server
     .start()
     .then((optimise_router) => {
 
-        console.log('optimise_router', optimise_router);
-
         // Remove unwanted express headers
         web_app.set('x-powered-by', false);
         web_app.use('/api', optimise_router);
@@ -253,7 +251,7 @@ const createApi = () => optimise_server
             'An error occurred while starting the Optimise core.',
             error
         ); // eslint-disable-line no-console
-        console.log(error.stack);
+        console.error(error.stack);
         return false;
     });
 

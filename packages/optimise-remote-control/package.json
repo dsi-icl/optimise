@@ -1,6 +1,6 @@
 {
     "name": "optimise-remote-control",
-    "version": "3.1.6",
+    "version": "3.1.7",
     "description": "",
     "license": "MIT",
     "author": {
@@ -13,7 +13,7 @@
         "start": "node ./src/index.js"
     },
     "dependencies": {
-        "bufferutil": "4.0.8",
+        "bufferutil": "4.0.9",
         "utf-8-validate": "6.0.5",
         "ws": "8.18.0"
     }

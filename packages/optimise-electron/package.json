@@ -1,6 +1,6 @@
 {
     "name": "optimise-electron",
-    "version": "3.1.6",
+    "version": "3.1.7",
     "description": "Optimise:MS Desktop Application",
     "keywords": [
         "research",
@@ -37,19 +37,19 @@
     },
     "devDependencies": {
         "copy-webpack-plugin": "12.0.2",
-        "electron": "32.2.7",
+        "electron": "34.0.0",
         "electron-builder": "25.1.8",
         "electron-reload": "1.5.0",
         "html-webpack-plugin": "5.6.3",
         "webpack": "5.97.1",
-        "webpack-cli": "5.1.4",
+        "webpack-cli": "6.0.1",
         "webpack-merge": "6.0.1"
     },
     "build": {
         "appId": "org.optimise-ms.local.app",
         "productName": "Optimise MS Desktop",
         "detectUpdateChannel": true,
-        "copyright": "Copyright (c) 2024 Data Science Institute",
+        "copyright": "Copyright (c) 2025 Data Science Institute",
         "directories": {
             "output": "build"
         },

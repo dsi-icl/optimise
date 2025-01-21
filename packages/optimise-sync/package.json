@@ -1,6 +1,6 @@
 {
     "name": "optimise-sync",
-    "version": "3.1.6",
+    "version": "3.1.7",
     "description": "Optimise:MS Synchroniser",
     "keywords": [
         "ms"
@@ -40,7 +40,7 @@
         "csurf": "1.11.0",
         "express": "4.21.2",
         "express-session": "1.18.1",
-        "mongodb": "6.11.0",
+        "mongodb": "6.12.0",
         "passport": "0.7.0",
         "saslprep": "1.0.3"
     },
@@ -51,7 +51,7 @@
         "rimraf": "6.0.1",
         "run-script-webpack-plugin": "0.2.0",
         "webpack": "5.97.1",
-        "webpack-cli": "5.1.4"
+        "webpack-cli": "6.0.1"
     },
     "optionalDependencies": {
         "ajv": "8.17.1",
