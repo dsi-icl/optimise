@@ -49,9 +49,25 @@ class SyncCore {
             version: info.version,
             hostname: info.hostname,
             ip: info.ip,
+            type: info.type,
+            size: info.size,
             time: (new Date()).toISOString(),
             error: info.error
         });
+    }
+
+    /**
+     * @function createSyncRecord update a synchronisation record
+     *
+     * @param {*} id Identifier for the document to update
+     * @param {*} data Information to update about the sync event
+     * @returns a Promise that contains the result from the select query
+     */
+    static async updateSyncRecord(id, data) {
+        const db = await dbcon().then(client => client.db());
+        return db.collection('EVENTS').updateOne({
+            _id: id
+        }, { $set: data }, { upsert: false });
     }
 
     /**
