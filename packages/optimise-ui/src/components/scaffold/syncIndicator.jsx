@@ -30,8 +30,14 @@ class SyncIndicator extends Component {
     }
 
     componentDidUpdate() {
-        if (this.statusUpdater === null)
-            this.statusUpdater = setInterval(this._updateStatus, 1000);
+        if (this.state.triggered === false) {
+            if (this.props.syncInfo?.status?.step === 'triggered' ||
+                this.props.syncInfo?.status?.syncing === true)
+                this.setState({ triggered: true }, () => {
+                    if (this.statusUpdater === null)
+                        this.statusUpdater = setInterval(this._updateStatus, 1000);
+                });
+        }
     }
 
     componentWillUnmount() {
