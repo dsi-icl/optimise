@@ -79,7 +79,7 @@ class SyncCore {
      */
     static async validateKey(agent, key) {
         const db = await dbcon().then(client => client.db());
-        const record = await db.collection('VALIDATION_KEYS').findOne({ key });
+        const record = await db.collection('VALIDATION_KEYS').findOne({ key: { $eq: key } });
         let error = undefined;
         if (record === null || record === undefined)
             error = 'The validation key does not exist';

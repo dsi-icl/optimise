@@ -1,6 +1,7 @@
 import { gunzipSync } from 'node:zlib';
 import prettyBytes from 'pretty-bytes';
 import fs from 'node:fs';
+import path from 'node:path';
 
 import ErrorHelper from '../utils/error_helper';
 import syncCore from '../core/syncCore';
@@ -15,11 +16,14 @@ class SyncController {
             return;
         }
 
+        const uploadType = format === 'sqlite' ? 'sqlite' : 'json';
+        const size = prettyBytes(Number.parseInt(headers['content-length'] ?? '0'));
+        console.log(`Synchronisation ${uuid.replace(/\n|\r/g, '').split('-')[0]} ${uploadType} ${size}`);
         const eventRecordInfo = await syncCore.createSyncRecord(uuid, {
             ...agent,
             ip: headers !== undefined && headers['x-forwarded-for'] ? headers['x-forwarded-for'] : connection !== undefined ? connection.remoteAddress : undefined,
-            type: format,
-            size: prettyBytes(Number.parseInt(headers['content-length'] ?? '0'))
+            type: uploadType,
+            size
         }).catch(() => {
             // ignore
         });
@@ -32,14 +36,18 @@ class SyncController {
                 return false;
             }
 
-            console.log('Format is', format);
-            if (format !== undefined && format === 'sqlite') {
+            if (uploadType === 'sqlite') {
 
-                const filename = `${uuid}..db`;
+                const filename = `${uuid.replace(/\n|\r/g, '')}.db`;
                 const decompressedBuffer = gunzipSync(Buffer.from(data.b64, 'base64'));
 
-                fs.mkdirSync(global.config.sqliteDumpsDir, { recursive: true });
-                const output = fs.createWriteStream(`${global.config.sqliteDumpsDir}/${filename}`, { flags: 'w', autoClose: true });
+                const dirPath = path.resolve(global.config.sqliteDumpsDir);
+                const filePath = path.resolve(dirPath, filename);
+                if (!filePath.startsWith(dirPath))
+                    return res.status(500).json(ErrorHelper('Could not locate the upload directory'));
+
+                fs.mkdirSync(dirPath, { recursive: true });
+                const output = fs.createWriteStream(filePath, { flags: 'w', autoClose: true });
 
                 output.write(decompressedBuffer);
 
@@ -84,8 +92,6 @@ class SyncController {
     }
 
     static async createSyncV1_1({ body, headers, connection }, res) {
-
-        console.log('Incoming Synchronisation:', `${body.uuid.replace(/\n|\r/g, '')}`);
         try {
             return SyncController.createSync({
                 body: {
