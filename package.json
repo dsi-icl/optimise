@@ -46,7 +46,7 @@
         "@babel/preset-typescript": "^7.26.0",
         "cookie": "^0.7.2",
         "fbjs": "^3",
-        "path-to-regexp": "^0.1.12"
+        "path-to-regexp": "^0.2.0"
     },
     "dependencies": {
         "axios": "^1.7.9",
