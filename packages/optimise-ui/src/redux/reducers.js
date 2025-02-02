@@ -151,7 +151,9 @@ function availableFields(state = initialState.availableFields, action) {
             newState = { ...state, meddra_Tree: action.payload };
             break;
         case actionTypes.availableFields.GET_ICD11_SUCCESS:
-            hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            hash = {};
+            for (const each of action.payload)
+                hash[each.id] = each;
             workerDispatch({
                 type: actionTypes.availableFields.GET_ICD11_TREE_SUCCESS,
                 work: 'tree',
