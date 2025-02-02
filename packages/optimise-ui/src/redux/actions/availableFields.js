@@ -18,11 +18,11 @@ export const getDrugsSuccess = (payload) => ({ type: actions.availableFields.GET
 export const getDrugsCall = APICall('/treatments/drugs', getDrugsSuccess);
 
 
-export const getInterruptionReasonsSuccess = (payload) => ({ type: actions.availableFields.GET_INTERRUPTION_REASONS_SUCESS, payload: payload });
+export const getInterruptionReasonsSuccess = (payload) => ({ type: actions.availableFields.GET_INTERRUPTION_REASONS_SUCCESS, payload: payload });
 export const getInterruptionReasonsCall = APICall('/treatments/reasons', getInterruptionReasonsSuccess);
 
 
-export const getMeddraSuccess = (payload) => ({ type: actions.availableFields.GET_MEDDRA_SUCESS, payload: payload });
+export const getMeddraSuccess = (payload) => ({ type: actions.availableFields.GET_MEDDRA_SUCCESS, payload: payload });
 export const getMeddraCall = APICall('/meddra', getMeddraSuccess);
 
 export const getICD11Success = (payload) => ({ type: actions.availableFields.GET_ICD11_SUCCESS, payload: payload });
