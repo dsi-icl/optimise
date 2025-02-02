@@ -44,7 +44,7 @@
         "@babel/parser": "^7.26.3",
         "@babel/plugin-proposal-decorators": "^7.25.9",
         "@babel/preset-typescript": "^7.26.0",
-        "cookie": "^0.7.2",
+        "cookie": "^1.0.0",
         "fbjs": "^3",
         "path-to-regexp": "^1.9.0"
     },
