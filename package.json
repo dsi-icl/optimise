@@ -30,10 +30,12 @@
         "electron": "nx run-many --target=package --projects=optimise-electron",
         "postinstall": "patch-package",
         "lint": "nx affected --target=lint",
+        "lint-commit": "commitlint -c false --edit",
         "lint-fix": "nx affected --target=lint --fix",
+        "lint-staged": "lint-staged",
         "prepackage": "yarn build",
         "package": "nx run-many --target=package --parallel=1 --projects=optimise-docker,optimise-electron",
-        "prepare": "husky",
+        "prepare": "is-ci || husky",
         "publish": "nx run-many --target=publish --parallel=1 --projects=optimise-docker,optimise-electron",
         "start": "nx run-many --target=start --parallel=3 --projects=optimise-core,optimise-sync,optimise-ui",
         "test": "nx run-many --target=test"
@@ -46,6 +48,7 @@
         "@babel/preset-typescript": "^7.26.0",
         "cookie": "^1",
         "fbjs": "^3",
+        "is-ci": "^4",
         "path-to-regexp": "^1.9.0"
     },
     "dependencies": {
@@ -73,8 +76,10 @@
         "eslint-plugin-react": "^7.37.4",
         "eslint-plugin-react-hooks": "^5.1.0",
         "husky": "9.1.7",
+        "is-ci": "4.1.0",
         "jest": "29.7.0",
         "jsdom": "^26.0.0",
+        "lint-staged": "15.4.3",
         "nx": "20.4.0",
         "patch-package": "8.0.0",
         "tailwindcss": "4.0.3",
