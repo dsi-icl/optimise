@@ -8,7 +8,7 @@
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
-.ariane > a {
+.ariane>a {
     position: absolute;
     top: 0;
     right: 0;
@@ -38,7 +38,7 @@
     color: hsl(var(--color-background-h), var(--color-background-s), 20%);
 }
 
-.profileActions > a > svg {
+.profileActions>a>svg {
     width: 1.2em;
     margin-left: 1.2em;
     margin-right: 0.3em;
@@ -67,7 +67,7 @@
     scroll-behavior: smooth;
 }
 
-.panel.patientInfo {    
+.panel.patientInfo {
     padding-top: 0;
 }
 
@@ -211,22 +211,22 @@ div.timelineCEBlack {
     line-height: 1.3em;
 }
 
-.history > div:first-child {
+.history>div:first-child {
     margin-top: 0.5em;
     padding-bottom: -5em;
     z-index: 1;
 }
 
-.history > div:not(:first-child) {
+.history>div:not(:first-child) {
     padding-top: 0.5em;
 }
 
-.history > div:not(:first-child) > div:first-child {
+.history>div:not(:first-child)>div:first-child {
     margin-top: 0.5em;
     z-index: 2;
 }
 
-.historyVisit > div:nth-child(2) {
+.historyVisit>div:nth-child(2) {
     margin-top: -0.8em;
     margin-left: -4.7em;
     padding: 0.8em 0;
@@ -237,11 +237,11 @@ div.timelineCEBlack {
     z-index: 100;
 }
 
-.historyVisit:hover > div:nth-child(2) {
+.historyVisit:hover>div:nth-child(2) {
     background-color: hsl(var(--color-shade-two-h), var(--color-shade-two-s), 90%) !important;
 }
 
-.historyVisit > div:nth-child(3) {
+.historyVisit>div:nth-child(3) {
     width: calc(100% + 5.9em) !important;
     margin-top: 0em !important;
     margin-bottom: 0 !important;
@@ -254,20 +254,21 @@ div.timelineCEBlack {
     transition: background-color 500ms;
 }
 
-.historyVisit:hover > div:nth-child(3) {
+.historyVisit:hover>div:nth-child(3) {
     background-color: hsl(var(--color-shade-two-h), var(--color-shade-two-s), 97%) !important;
 }
 
-.historyVisit > div:nth-child(3):hover th,
-.historyVisit > div:nth-child(3):hover td,
-.historyVisit > div:nth-child(3):hover .editorSneak {
+.historyVisit>div:nth-child(3):hover th,
+.historyVisit>div:nth-child(3):hover td,
+.historyVisit>div:nth-child(3):hover .editorSneak {
     background-color: white;
 }
 
-.editableTable td:nth-child(1){
+.editableTable td:nth-child(1) {
     width: 1.3em;
 }
-.editableTable th:nth-child(1){
+
+.editableTable th:nth-child(1) {
     width: 1.3em;
 }
 
@@ -276,17 +277,17 @@ div.timelineCEBlack {
     margin-bottom: 0.7em;
 }
 
-.history h4 > svg {
+.history h4>svg {
     width: 1em;
     height: 1em;
     padding: 0;
 }
 
-.history span > svg {
+.history span>svg {
     padding: 0em 0.5em 0.7em 0.5em;
 }
 
-.history a > span > svg {
+.history a>span>svg {
     padding: 0
 }
 
@@ -353,7 +354,7 @@ div.timelineCEBlack {
     border: none;
 }
 
-.pregnancy > span {
+.pregnancy>span {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -363,31 +364,31 @@ div.timelineCEBlack {
     padding-bottom: 0.9em;
 }
 
-.cancelButton > svg {
+.cancelButton>svg {
     width: 1em;
     fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
 }
 
-.cancelButton:hover > svg {
+.cancelButton:hover>svg {
     fill: var(--color-error);
     cursor: pointer;
 }
 
-.editButton > div {
+.editButton>div {
     width: 1.2em;
     height: 1.2em;
     fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
 }
 
-.editButton > div:hover {
+.editButton>div:hover {
     fill: hsl(var(--color-background-h), var(--color-background-s), 70%);
 }
 
-.activeEdit > div {
+.activeEdit>div {
     fill: var(--color-button-red);
 }
 
-.activeEdit > div:hover {
+.activeEdit>div:hover {
     fill: var(--color-button-red);
 }
 
@@ -412,7 +413,7 @@ div.timelineCEBlack {
     background-color: transparent;
 }
 
-.profileSection > .flyover {
+.profileSection>.flyover {
     position: sticky;
     top: -0.1em;
     z-index: 3;
@@ -491,7 +492,8 @@ div.timelineCEBlack {
 }
 
 .timelineTextContent {
-    color: #fff;position: sticky;
+    color: #fff;
+    position: sticky;
     position: -webkit-sticky;
     left: 0px;
     overflow: hidden;
@@ -671,6 +673,7 @@ div.timelineCEBlack {
 .miniTimelineDateLine {
     border-top: 0.09em solid hsl(var(--color-background-h), var(--color-background-s), 80%);
 }
+
 .miniTimelineEDSS {
     color: #000;
     font-size: 0.9em;
@@ -678,9 +681,4 @@ div.timelineCEBlack {
     text-orientation: sideways-right;
     margin-left: -1em;
     font-weight: bold;
-}
-
-.editPatientIdDiv {
-    padding: 0.5rem;
-    background-color: #e4e4e4;
 }
