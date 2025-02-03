@@ -6,7 +6,7 @@ import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from '../medicalData/dataPage.module.css';
 import store from '../../redux/store';
-import PregnancyImageForm from './pregImage';
+// import PregnancyImageForm from './pregImage';
 import moment from 'moment';
 import { alterPregnancyItemsCall } from '../../redux/actions/demographicData';
 import { PickDate } from '../createMedicalElements/datepicker';
@@ -33,7 +33,6 @@ const OffspringDataFields = ({
 }) => {
 
     const [offsprings, setOffsprings] = useState(originalValues ?? []);
-
     useEffect(() => {
         if (originalValues && originalValues.length > 0) {
             setOffsprings(originalValues);
@@ -49,9 +48,11 @@ const OffspringDataFields = ({
         return null;
 
     const _handleGenderChange = (index, event) => {
+        console.log(index, event.target.value);
         if (!offsprings[index])
             offsprings[index] = {};
         offsprings[index].gender = event.target.value;
+        console.log([...offsprings]);
         setOffsprings([...offsprings]);
     };
 
@@ -85,10 +86,10 @@ const OffspringDataFields = ({
 
     return offsprings.map((offpringData, index) => {
         return <div key={index} className={`${pregnancy_style.offspring_card}`}>
-            <p>Data card for offpring {index + 1}</p>
+            <p>Data card for offpring ID{offpringData.id}</p>
             <br></br>
             <label >Gender</label>
-            <select value={offpringData.gender} onChange={(event) => _handleGenderChange(index, event)}>
+            <select defaultValue={offpringData.gender} onChange={(event) => _handleGenderChange(index, event)}>
                 <option value='unselected'></option>
                 <option value='male'>Boy</option>
                 <option value='female'>Girl</option>
@@ -322,15 +323,13 @@ class PregnancyEntry extends Component {
         return '';
     }
 
-
-
     initializeComponent() {
         const { fields, patientProfile } = this.props;
 
         if (!patientProfile.fetching) {
             const newPregnancyState = PregnancyEntry._getNewStateFromProps(this.props);
             const pregnancyEntry = newPregnancyState.pregnancyEntry;
-            const relevantFields = fields.pregnancyEntryFields.filter(el => (el.referenceType === pregnancyEntry.type));
+            const relevantFields = fields.pregnancyEntryFields.filter(el => (el.referenceType === pregnancyEntry.type /* && el.deleted === '-' */));
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
             const fieldTree = createLevelObj(relevantFields);
             this.originalValues = pregnancyEntry.data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
@@ -506,7 +505,6 @@ class PregnancyEntry extends Component {
         }, () => {
             store.dispatch(
                 alterPregnancyItemsCall(body, () => {
-
                     this.originalValues = Object.assign({}, this.state.originalValues);
                     this.setState({
                         saved: true
@@ -855,20 +853,20 @@ class PregnancyEntry extends Component {
                                     </>
                                     : null}
                                 <br />
+                                {/*
                                 {this.state.pregnancyEntry.id !== undefined
                                     ? <>
-                                        <PregnancyImageForm visitId={params.visitId}></PregnancyImageForm><br /><br />
+                                        <PregnancyImageForm visitId={params.visitId} /><br /><br />
                                     </>
                                     : null}
+                                     */}
                             </div>
                             {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /></> : null}
                             {this.state.error ? <><div className={profile_style.error}>{this.state.error}</div><br /></> : null}
                             {
                                 this.props.renderedInFrontPage
-                                    ?
-                                    null
-                                    :
-                                    <button onClick={this._handleSubmit} type='submit'>Save</button>
+                                    ? null
+                                    : <button onClick={this._handleSubmit} type='submit'>Save</button>
                             }
                         </form>
                     </div>

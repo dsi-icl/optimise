@@ -231,6 +231,19 @@ class SelectorUtils {
         });
     }
 
+    getOffsprings(patientId, deleted) {
+        const whereObj = { 'OFFSPRINGS.patientId': patientId };
+        if (deleted !== true)
+            whereObj['OFFSPRINGS.deleted'] = '-';
+        return dbcon()('OFFSPRINGS')
+            .select({ id: 'OFFSPRINGS.id', pregnancyId: 'OFFSPRINGS.pregnancyId', data: 'OFFSPRINGS.data', deleted: 'OFFSPRINGS.deleted' })
+            .where(whereObj)
+            .then(result => {
+                const returnObj = { offsprings: result };
+                return returnObj;
+            });
+    }
+
     getPregnancy(patientId, deleted) {
         const whereObj = { 'PATIENT_PREGNANCY.patient': patientId };
         if (deleted !== true)
@@ -284,26 +297,40 @@ class SelectorUtils {
                 ids[i] = resu[i].id;
             }
             return dbcon()('PREGNANCY_ENTRY')
-                .select({ id: 'PREGNANCY_ENTRY.id', recordedDuringVisit: 'PREGNANCY_ENTRY.recordedDuringVisit', type: 'PREGNANCY_ENTRY.type', offsprings: 'PREGNANCY_ENTRY.offsprings', type_name: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.name', type_module: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.module', pregnancyId: 'PREGNANCY_ENTRY.pregnancyId', deleted: 'PREGNANCY_ENTRY.deleted' })
+                .select({ id: 'PREGNANCY_ENTRY.id', recordedDuringVisit: 'PREGNANCY_ENTRY.recordedDuringVisit', type: 'PREGNANCY_ENTRY.type', type_name: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.name', type_module: 'AVAILABLE_PREGNANCY_ENTRY_TYPES.module', pregnancyId: 'PREGNANCY_ENTRY.pregnancyId', deleted: 'PREGNANCY_ENTRY.deleted' })
                 .leftJoin('AVAILABLE_PREGNANCY_ENTRY_TYPES', 'AVAILABLE_PREGNANCY_ENTRY_TYPES.id', 'PREGNANCY_ENTRY.type')
                 .whereIn('PREGNANCY_ENTRY.recordedDuringVisit', ids)
                 .andWhere(innerWhereObj)
                 .then(result => {
                     if (result.length >= 1) {
-                        const promiseArr = [];
+                        const dataPromiseArr = [];
+                        const offspringsPromiseArr = [];
                         for (let i = 0; i < result.length; i++) {
-                            promiseArr.push(_this._getPregnancyEntryData(result[i].id, deleted));
+                            dataPromiseArr.push(_this._getPregnancyEntryData(result[i].id, deleted));
+                            offspringsPromiseArr.push(_this._getPregnancyOffspringsData(result[i].pregnancyId, deleted));
                         }
-                        const allPromisesResolving = Promise.all(promiseArr).then(
+                        const allDataPromisesResolving = Promise.all(dataPromiseArr).then(
                             data => {
-                                for (let i = 0; i < data.length; i++) {
-                                    result[i].data = data[i];
+                                for (let j = 0; j < data.length; j++) {
+                                    result[j].data = data[j];
                                 }
-                                const returnObj = { pregnancyEntries: result };
-                                return returnObj;
                             }
                         );
-                        return allPromisesResolving;
+                        const allOffspringsPromisesResolving = Promise.all(offspringsPromiseArr).then(
+                            data => {
+                                for (let j = 0; j < data.length; j++) {
+                                    const cleanOffspringsArray = data[j].map(offspring => ({
+                                        id: offspring.id,
+                                        ...JSON.parse(offspring.data ?? '{}')
+                                    }));
+                                    result[j].offsprings = JSON.stringify(cleanOffspringsArray);
+                                }
+                            }
+                        );
+                        return Promise.all([allDataPromisesResolving, allOffspringsPromisesResolving]).then(() => {
+                            const returnObj = { pregnancyEntries: result };
+                            return returnObj;
+                        });
                     } else {
                         const returnObj = { pregnancyEntries: result };
                         return returnObj;
@@ -362,8 +389,17 @@ class SelectorUtils {
         if (deleted !== true)
             whereObj['PREGNANCY_ENTRY_DATA.deleted'] = '-';
         return dbcon()('PREGNANCY_ENTRY_DATA')
-            .select({ id: 'PREGNANCY_ENTRY_DATA.id', field: 'PREGNANCY_ENTRY_DATA.field', field_idname: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.idname', field_module: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.module', field_unit: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.unit', value: 'PREGNANCY_ENTRY_DATA.value', deleted: 'PREGNANCY_ENTRY_DATA.deleted' })
+            .select({ id: 'PREGNANCY_ENTRY_DATA.id', pregnancyEntryId: 'PREGNANCY_ENTRY_DATA.pregnancyEntry', field: 'PREGNANCY_ENTRY_DATA.field', field_idname: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.idname', field_module: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.module', field_unit: 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.unit', value: 'PREGNANCY_ENTRY_DATA.value', deleted: 'PREGNANCY_ENTRY_DATA.deleted' })
             .leftJoin('AVAILABLE_FIELDS_PREGNANCY_ENTRY', 'AVAILABLE_FIELDS_PREGNANCY_ENTRY.id', 'PREGNANCY_ENTRY_DATA.field')
+            .where(whereObj);
+    }
+
+    _getPregnancyOffspringsData(pregnancyId, deleted) {
+        const whereObj = { 'OFFSPRINGS.pregnancyId': pregnancyId };
+        if (deleted !== true)
+            whereObj['OFFSPRINGS.deleted'] = '-';
+        return dbcon()('OFFSPRINGS')
+            .select({ id: 'OFFSPRINGS.id', pregnancyId: 'OFFSPRINGS.pregnancyId', data: 'OFFSPRINGS.data', deleted: 'OFFSPRINGS.deleted' })
             .where(whereObj);
     }
 

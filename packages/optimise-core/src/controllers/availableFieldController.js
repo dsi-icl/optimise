@@ -29,7 +29,7 @@ class AvailableFieldController {
                 .then((result) => {
                     if (result.length > 0) {
                         for (let i = 0; i < result.length; i++) {
-                            delete result[i].deleted;
+                            // delete result[i].deleted;
                         }
                     }
                     if (params.dataType === 'testFields') {

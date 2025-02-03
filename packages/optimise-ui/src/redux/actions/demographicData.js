@@ -72,6 +72,8 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
                 body.pregnancyEntry.pregnancyId = pregnancyId;
             }
             const pregnancyEntry = body.pregnancyEntry;
+            delete pregnancyEntry.offsprings;
+
             if (pregnancyEntry.id !== undefined)
                 // Problem with visitId recorded as recordedDuringVisit
                 delete pregnancyEntry.visitId;
@@ -83,6 +85,27 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
             const pregnancyEntryId = pregnancyEntryResponse.state;
             if (body.data) {
                 body.data.pregnancyEntryId = pregnancyEntryId;
+            }
+
+            const offsprings = body.pregnancyEntry.offsprings;
+            const offspringEntries = JSON.parse(offsprings ?? '[]');
+            const offspringEntriesIds = [];
+
+            for (let i = 0; i < offspringEntries.length; i++) {
+                const offspringEntry = {};
+                offspringEntry.data = offspringEntries[i];
+                offspringEntry.pregnancyId = pregnancyId;
+                if (offspringEntry.same === undefined) {
+                    const offspringEntryResponse = await apiHelper('/demographics/OffspringEntry', {
+                        method: offspringEntry.id === undefined ? 'POST' : 'PUT',
+                        body: JSON.stringify(offspringEntry)
+                    });
+                    offspringEntriesIds.push(offspringEntryResponse.state);
+                }
+            }
+
+            if (body.data) {
+                body.data.offspringEntriesIds = offspringEntriesIds;
             }
         }
 

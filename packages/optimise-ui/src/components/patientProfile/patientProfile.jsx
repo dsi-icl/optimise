@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import moment from 'moment';
 import Icon from '../icon';
 import { PickDate } from '../createMedicalElements/datepicker';
@@ -415,6 +415,9 @@ class Pregnancy extends Component {
                     {pregnancy.outcomeDate && pregnancy.outcomeDate !== '' ? <> <br /><label>End date: </label> {moment(pregnancy.outcomeDate, 'x')._d.toDateString()}</> : null}
                     {outcomeName ? <> <br /><label>Outcome: </label> {outcomeName}</> : null}
                     {MedDRAName ? <> <br /><label>MedDRA: </label> {MedDRAName.name}</> : null}
+                    {this.props.data.pregnancySubStudyConsent
+                        ? <Link to={`/patientProfile/${this.props.data.patientId}/offsprings`} className={style.piiUncover}>See offsprings</Link>
+                        : null}
                 </>
 
             </PatientProfileSectionScaffold>
@@ -462,9 +465,13 @@ class ConsentSection extends Component {
             }
         };
         store.dispatch(updateConsentAPICall(body));
+        this.setState({
+            selectedConsentDate: undefined
+        });
     }
 
     _handleClickGivesConsent() {
+        console.log(this.props, this.state);
         const { id } = this.props.data;
         const body = {
             patientId: this.props.match.params.patientId,
@@ -492,6 +499,9 @@ class ConsentSection extends Component {
             }
         };
         store.dispatch(updateConsentAPICall(body));
+        this.setState({
+            selectedPregnancyConsentDate: undefined
+        });
     }
 
     _handleClickGivesPregnancyConsent() {

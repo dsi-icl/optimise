@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { CreatePatient } from '../createPatient';
 import { Section } from '../patientProfile/patientProfile';
 import { DataPageRouter } from '../medicalData/router';
+import { OffspringsPageRouter } from '../offspringsData/router';
 import { CreateVisit } from '../createMedicalElements/createVisit';
 import { CreateElementRouter } from '../createMedicalElements/router';
 import { EditElementRouter } from '../editMedicalElements/router';
@@ -19,6 +20,7 @@ export default class FarRightPanel extends Component {
         return (
             <div className={style.farRightPanel}>
                 <Switch>
+                    <Route path='/patientProfile/:patientId/offsprings' render={({ match }) => <OffspringsPageRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/create/:type' render={({ match }) => <CreateElementRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/edit/:elementType/:elementId' render={({ match }) => <EditElementRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/data/:elementType/:elementId' render={({ match }) => <DataPageRouter match={match} />} />
@@ -35,7 +37,7 @@ export default class FarRightPanel extends Component {
                     <Route path='/userManual' component={UserManualMenu} />
                     <Route path='/' render={({ match }) => <ExportSets match={match} />} />
                 </Switch>
-            </div>
+            </div >
         );
     }
 }

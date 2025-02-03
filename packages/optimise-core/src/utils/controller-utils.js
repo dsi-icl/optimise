@@ -2,9 +2,9 @@ import dbcon from '../utils/db-connection';
 import message from '../utils/message-utils';
 import ErrorHelper from '../utils/error_helper';
 
-export const createEntry = function (tablename, entryObj) {
+export const createEntry = function (tablename, entryObj, returning) {
     return new Promise((resolve, reject) => {
-        dbcon()(tablename).insert(entryObj).then((result) => resolve(result)).catch((error) => reject(error));
+        dbcon()(tablename).insert(entryObj, returning).then((result) => resolve(result)).catch((error) => reject(error));
     });
 };
 

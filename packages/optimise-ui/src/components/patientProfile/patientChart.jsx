@@ -293,6 +293,7 @@ class OneVisit extends Component {
         //
         const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el['recordedDuringVisit'] === this.props.visitId);
         const pregnancyImages = this.props.data.pregnancyImages.filter(el => el.visitId === this.props.visitId);
+        const isLatestVisit = this.props.data.visits.sort((a, b) => b.id - a.id)[0].id === this.props.visitId;
 
         function isValidDateFormat(dateString) {
             const date = new Date(dateString);
@@ -664,12 +665,12 @@ class OneVisit extends Component {
                                                     <table>
                                                         <thead>
                                                             <tr>
-                                                                <th colSpan="2">Offspring {index + 1}</th>
+                                                                <th colSpan="2">Offspring ID{el.id}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             {offspringValues.length
-                                                                ? offspringValues.map(([key, value]) => (
+                                                                ? offspringValues.filter(([key]) => key !== 'id').map(([key, value]) => (
                                                                     <tr key={key}>
                                                                         <td>{key}</td>
                                                                         <td>{value}</td>
@@ -722,18 +723,24 @@ class OneVisit extends Component {
                                     }
                                     <br />
                                 </div>
-
-                                <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy`} activeClassName={style.activeNavLink}>
-                                    <button>Edit pregnancy entry</button>
-                                </NavLink>
-                                <br /><br />
+                                {isLatestVisit
+                                    ? <>
+                                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy`} activeClassName={style.activeNavLink}>
+                                            <button>Edit pregnancy entry</button>
+                                        </NavLink>
+                                        <br />                                        <br />
+                                    </>
+                                    : null
+                                }
                             </>
-                            : <>
-                                <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy?add`} activeClassName={style.activeNavLink}>
-                                    <button>Add pregnancy entry</button>
-                                </NavLink>
-                                <br /><br />
-                            </>
+                            : isLatestVisit
+                                ? <>
+                                    <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy?add`} activeClassName={style.activeNavLink}>
+                                        <button>Add pregnancy entry</button>
+                                    </NavLink>
+                                    <br /><br />
+                                </>
+                                : null
                         }
                     </>
                     : null

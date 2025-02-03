@@ -177,8 +177,8 @@ export class PregnancyCore {
     }
 
     //Pregnancy entry
-    static createPregnancyEntry(entryObj) {
-        return new Promise((resolve, reject) => createEntry('PREGNANCY_ENTRY', entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    static createPregnancyEntry(entryObj, returning) {
+        return new Promise((resolve, reject) => createEntry('PREGNANCY_ENTRY', entryObj, returning).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
     static getPregnancyEntry(whereObj) {
@@ -194,8 +194,21 @@ export class PregnancyCore {
     }
 
 
-    static getPregnancyAllFields(queryfield, queryvalue) {
-        return new Promise((resolve, reject) => searchEntry(queryfield, queryvalue).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.SEARCHFAIL, error))));
+    //Offsprings entry
+    static createOffspringEntry(entryObj) {
+        return new Promise((resolve, reject) => createEntry('OFFSPRINGS', entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static getOffspringEntry(whereObj) {
+        return new Promise((resolve, reject) => getEntry('OFFSPRINGS', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static editOffspringEntry(user, entryObj) {
+        return new Promise((resolve, reject) => updateEntry('OFFSPRINGS', user, '*', { id: entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    }
+
+    static deleteOffspringEntry(user, whereObj) {
+        return new Promise((resolve, reject) => deleteEntry('OFFSPRINGS', user, whereObj).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 }
 

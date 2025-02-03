@@ -18,6 +18,12 @@ export default async (dbcon, version) => {
             });
             await tableCopyBack(TABLE_NAME);
             break;
+        case 19:
+            await dbcon().schema.table(TABLE_NAME, (table) => {
+                table.dropForeign('pregnancyEntry');
+                table.foreign('pregnancyEntry').references('id').inTable('PREGNANCY_ENTRY').onDelete('CASCADE');
+            });
+            break;
         default:
             break;
     }

@@ -41,6 +41,11 @@ demogdata.route('/PregnancyEntry')
     .put(DemographicController.editPregnancyEntry)
     .delete(DemographicController.deletePregnancyEntry);
 
+demogdata.route('/OffspringEntry')
+    .post(DemographicController.createPregnancyEntry)
+    .put(DemographicController.editPregnancyEntry)
+    .delete(DemographicController.deletePregnancyEntry);
+
 demogdata.route('/PregnancyFields')
     .get(DemographicController.getPregnancyFields);
 

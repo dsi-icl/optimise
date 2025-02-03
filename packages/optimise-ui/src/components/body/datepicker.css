@@ -3,6 +3,10 @@
     width: 100%;
 }
 
+.react-datepicker-popper {
+    z-index: 10000;
+}
+
 .react-datepicker__tab-loop {
     display: inline;
 }

@@ -603,15 +603,14 @@ class DemographicDataController {
             return;
         }
 
-        const entryObj = {
+        const pregnancyEntryObj = {
             recordedDuringVisit: body.visitId,
-            offsprings: body.offsprings,
             type: body.type,
             pregnancyId: body.pregnancyId,
             createdByUser: user.id
         };
 
-        PregnancyCore.createPregnancyEntry(entryObj).then((result) => {
+        PregnancyCore.createPregnancyEntry(pregnancyEntryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
@@ -671,14 +670,67 @@ class DemographicDataController {
         });
     }
 
-    static getPregnancyAllFields(__unused__req, res) {
-        PregnancyCore.getPregnancyAllFields().then((result) => {
+    static createOffspringEntry({ body, user }, res) {
+
+        if (!body.hasOwnProperty('pregnancyId')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+        if (typeof body.pregnancyId !== 'number') {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
+
+        const offspringEntryObj = {
+            data: body.data,
+            pregnancyId: body.pregnancyId,
+            createdByUser: user.id
+        };
+
+        PregnancyCore.createOffspringEntry(offspringEntryObj).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
-            res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
+            res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
             return false;
         });
+    }
+
+    static editOffspringEntry({ body, user }, res) {
+
+        if (!body.hasOwnProperty('id')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        }
+
+        const entryObj = Object.assign({}, body);
+
+        PregnancyCore.editOffspringEntry(user, entryObj).then((result) => {
+            res.status(200).json(formatToJSON(result));
+            return true;
+        }).catch((error) => {
+            res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
+            return false;
+        });
+    }
+
+    static deleteOffspringEntry({ body, user }, res) {
+        if (body.hasOwnProperty('id') && typeof body.id === 'string') {
+            PregnancyCore.deleteOffspringEntry(user, { id: body.id }).then((result) => {
+                res.status(200).json(formatToJSON(result));
+                return true;
+            }).catch((error) => {
+                res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
+                return false;
+            });
+        }
+        else if (!body.hasOwnProperty('id')) {
+            res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
+            return;
+        } else {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+            return;
+        }
     }
 }
 
