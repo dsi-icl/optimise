@@ -12,7 +12,8 @@ export default defineConfig({
     plugins: [
         babel({
             babelConfig: {
-                compact: true,
+                compact: process.env.NODE_ENV === 'production',
+                sourceMaps: true,
                 babelrc: false,
                 configFile: false,
                 presets: [
@@ -61,7 +62,9 @@ export default defineConfig({
         }
     ],
     build: {
-        outDir: 'build'
+        outDir: 'build',
+        sourcemap: true,
+        minify: process.env.NODE_ENV === 'production'
     },
     define: {
         global: {},

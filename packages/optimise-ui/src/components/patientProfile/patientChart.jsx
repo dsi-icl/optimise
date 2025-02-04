@@ -248,7 +248,8 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
     icd11_Hash: state.availableFields.icd11_Hash[0],
-    pregnancyOutcome_hash: state.availableFields.pregnancyOutcomes_Hash[0]
+    pregnancyOutcome_hash: state.availableFields.pregnancyOutcomes_Hash[0],
+    pregnancyEntryFields_hash: state.availableFields.pregnancyEntryFields_Hash[0]
 }))
 class OneVisit extends Component {
 
@@ -653,7 +654,7 @@ class OneVisit extends Component {
 
                                             {pregnancyEntries[0].data.map((el, index) => (
                                                 <tr key={index}>
-                                                    <td>{el.field_idname}</td>
+                                                    <td>{this.props.pregnancyEntryFields_hash[el.field_idname].definition}</td>
                                                     <td>{isValidDateFormat(el.value) ? el.value.slice(0, 10) : el.value}</td>
                                                 </tr>
                                             ))}

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import capitalize from 'capitalize';
 import style from './offspringPage.module.css';
 import store from '../../redux/store';
 import moment from 'moment';
@@ -31,7 +32,7 @@ export const OffspringCard = ({ offspring }) => {
                     {offspringValues.length
                         ? offspringValues.filter(([key]) => key !== 'id').map(([key, value]) => (
                             <tr key={key}>
-                                <td>{key}</td>
+                                <td>{capitalize(key)}</td>
                                 <td>{value}</td>
                             </tr>))
                         : <tr>
@@ -41,7 +42,7 @@ export const OffspringCard = ({ offspring }) => {
             </table>
             {pregnancyOutcome
                 ? <button style={{ marginTop: '0.5rem' }}>Edit offspring data postpartum</button>
-                : <button style={{ marginTop: '0.5rem' }}>Record death in-utero</button>
+                : null//<button style={{ marginTop: '0.5rem' }}>Record death in-utero</button>
             }
         </div>
     </div>;

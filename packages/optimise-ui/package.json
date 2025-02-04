@@ -36,6 +36,7 @@
     },
     "dependencies": {
         "@mdx-js/react": "3.1.0",
+        "capitalize": "2.0.4",
         "deepmerge": "4.3.1",
         "detect-browser": "5.3.0",
         "draft-js": "0.11.7",
@@ -63,6 +64,7 @@
     },
     "devDependencies": {
         "@mdx-js/rollup": "3.1.0",
+        "@types/capitalize": "2.0.2",
         "@types/mdx": "2.0.13",
         "@types/react": "19.0.8",
         "@types/react-dom": "19.0.3",
