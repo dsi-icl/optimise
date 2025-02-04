@@ -471,7 +471,6 @@ class ConsentSection extends Component {
     }
 
     _handleClickGivesConsent() {
-        console.log(this.props, this.state);
         const { id } = this.props.data;
         const body = {
             patientId: this.props.match.params.patientId,

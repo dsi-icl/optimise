@@ -1,7 +1,7 @@
 .yes_no_div button {
     display: inline-block;
-    width: 25%;
-    margin: 3rem;
+    width: 100%;
+    margin-bottom: 3rem;
     min-width: 5rem;
     background-color: #8e8e8e;
 }
@@ -10,7 +10,7 @@
     background-color: #989898;
 }
 
-.yes_no_div {
+.yes_no_div .content {
     text-align: center;
     padding: 2rem;
     padding-top: 5rem;
@@ -26,4 +26,19 @@
 
 .yes_no_div .no_button:hover {
     background-color: var(--color-button-red);
+}
+
+.yes_no_buttons {
+    padding: 0 2rem;
+    position: absolute;
+    gap: 1rem;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.yes_no_buttons>a {
+    flex: 1 1 0px;
 }

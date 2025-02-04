@@ -24,11 +24,14 @@ export class YesOrNo extends PureComponent {
 
         return (
             <div className={style.yes_no_div}>
-                {questionString}
-                <br/><br/><br/>
-                <FrontPageNavigationButton renderedInYesOrNoPage={true} match={this.props.match} location={this.props.location}/>
-                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${`${searchString},${currentPage}`}`}><button className={frontpage_style.finish_button}>Yes and enter data</button></NavLink>
-                <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}><button className={style.no_button}>No; or Continue with missing data</button></NavLink>
+                <div className={style.content}>
+                    {questionString}
+                </div>
+                <div className={style.yes_no_buttons}>
+                    <FrontPageNavigationButton renderedInYesOrNoPage={true} match={this.props.match} location={this.props.location} />
+                    <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}${`${searchString},${currentPage}`}`}><button className={frontpage_style.finish_button}>Yes and enter data</button></NavLink>
+                    <NavLink to={`/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${calcNextPage(currentPage)}${this._nextPageAnsweredYes(currentPage) ? '' : '/yes_or_no'}${searchString}`}><button className={style.no_button}>No; or Continue with missing data</button></NavLink>
+                </div>
             </div>
         );
     }

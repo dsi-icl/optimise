@@ -293,7 +293,8 @@ class OneVisit extends Component {
         //
         const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el['recordedDuringVisit'] === this.props.visitId);
         const pregnancyImages = this.props.data.pregnancyImages.filter(el => el.visitId === this.props.visitId);
-        const isLatestVisit = this.props.data.visits.sort((a, b) => b.id - a.id)[0].id === this.props.visitId;
+        const isLatestPregnancyEntry = this.props.data.pregnancyEntries.sort((a, b) => b.id - a.id)[0]?.id === pregnancyEntries[0]?.id;
+        const isLatestVisit = this.props.data.visits.sort((a, b) => b.id - a.id)[0]?.id === this.props.visitId;
 
         function isValidDateFormat(dateString) {
             const date = new Date(dateString);
@@ -608,6 +609,9 @@ class OneVisit extends Component {
                         <h4><Icon symbol='symptom' />&nbsp;PREGNANCY</h4>
                         {pregnancyEntries.length && pregnancy.length && this.props.data.pregnancySubStudyConsent
                             ? <>
+                                This section only reflects the pregnancy entry related to this visit. To see all pregnancy information, please visit the pregnancy section.
+                                <br />
+                                <br />
                                 <div className={style.visitWrapper}>
                                     <table>
                                         <thead>
@@ -656,7 +660,7 @@ class OneVisit extends Component {
                                         </tbody>
                                     </table>
 
-                                    {pregnancyOffspring?.length
+                                    {/* {pregnancyOffspring?.length
                                         ? pregnancyOffspring.map((el, index) => {
                                             const offspringValues = Object.entries(el);
                                             return (
@@ -684,7 +688,7 @@ class OneVisit extends Component {
                                             );
                                         })
                                         : null
-                                    }
+                                    } */}
 
                                     {pregnancyImages.length
                                         ? pregnancyImages.map((el, index) => {
@@ -721,9 +725,20 @@ class OneVisit extends Component {
                                         })
                                         : null
                                     }
+
+                                    {pregnancyOffspring?.length
+                                        ? <>
+                                            <br />
+                                            <NavLink to={`/patientProfile/${this.props.data.patientId}/pregnancy/${pregnancyEntries[0].pregnancyId}/offsprings`} activeClassName={style.activeNavLink}>
+                                                <button>See offspring{pregnancyOffspring.length > 1 ? 's' : ''} data for this pregnancy</button>
+                                            </NavLink>
+                                            <br />
+                                        </>
+                                        : null
+                                    }
                                     <br />
                                 </div>
-                                {isLatestVisit
+                                {isLatestPregnancyEntry
                                     ? <>
                                         <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy`} activeClassName={style.activeNavLink}>
                                             <button>Edit pregnancy entry</button>
@@ -740,7 +755,11 @@ class OneVisit extends Component {
                                     </NavLink>
                                     <br /><br />
                                 </>
-                                : null
+                                : <>
+                                    You can only modify the last pregnancy information record to add more to the latest visit record.
+                                    <br />
+                                    <br />
+                                </>
                         }
                     </>
                     : null

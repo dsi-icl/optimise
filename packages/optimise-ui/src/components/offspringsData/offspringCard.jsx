@@ -2,28 +2,28 @@ import React, { useMemo } from 'react';
 import style from './offspringPage.module.css';
 import store from '../../redux/store';
 import moment from 'moment';
+import ordinal from 'ordinal';
 
 export const OffspringCard = ({ offspring }) => {
 
     const { data, pregnancy } = offspring;
-    const pregnancyOutcomes = useMemo(() => store.getState()?.availableFields?.pregnancyOutcomes ?? [], []);
-    const pregnancyOutcome = pregnancyOutcomes.find(po => po.id === pregnancy.outcome);
+    const { availableFields, patientProfile: { data: { pregnancy: allPregnancies } } } = useMemo(() => store.getState(), []);
+    const pregnancyOutcomeTypes = useMemo(() => availableFields.pregnancyOutcomes ?? [], [availableFields.pregnancyOutcomes]);
+    const pregnancyOutcome = pregnancyOutcomeTypes.find(po => po.id === pregnancy.outcome);
     const plannedEndDate = moment(new Date(parseInt(pregnancy.startDate, 10))).add(9, 'months');
     const mounthCountdown = moment.duration(plannedEndDate.diff(moment.now())).asMonths().toFixed(0);
-
     const offspringValues = Object.entries(data);
+    const pregnancyOrderPosition = (allPregnancies ?? []).sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate)).findIndex(p => p.id === pregnancy.id) ?? -1;
 
     return <div key={offspring.id} className={style.level}>
         <div className={style.levelHeader}>Offspring ID{offspring.id}</div>
         <div className={style.levelBody} style={{ padding: '1rem' }}>
+            From {ordinal(pregnancyOrderPosition + 1)} pregnancy.<br />
             {pregnancyOutcome
                 ? <div>
-                    <i>{pregnancyOutcome.value} on the {pregnancy.outcomeDate}</i>
-                    <div>Birth date: {data.birthDate}</div>
-                    <div>Birth weight: {data.birthWeight}</div>
+                    <i>{pregnancyOutcome.value} on the {moment(new Date(parseInt(pregnancy.outcomeDate, 10))).toLocaleString()}</i>
                 </div>
                 : <div>
-                    Not born yet.<br />
                     {mounthCountdown} month{mounthCountdown > 1 ? 's' : ''} to expected term.</div>
             }
             <table>
@@ -39,7 +39,10 @@ export const OffspringCard = ({ offspring }) => {
                         </tr>}
                 </tbody>
             </table>
-            <button style={{ marginTop: '0.5rem' }}>Edit offspring data</button>
+            {pregnancyOutcome
+                ? <button style={{ marginTop: '0.5rem' }}>Edit offspring data postpartum</button>
+                : <button style={{ marginTop: '0.5rem' }}>Record death in-utero</button>
+            }
         </div>
     </div>;
 };

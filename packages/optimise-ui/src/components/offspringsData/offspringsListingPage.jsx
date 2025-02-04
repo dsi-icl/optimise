@@ -24,9 +24,12 @@ function mapStateToProps(state) {
 /* this component serves as a sieve for the data and pass the relevant one to the form as props*/
 @connect(mapStateToProps)
 class OffspringsListingPage extends Component {
-    constructor() {
+
+    constructor(props) {
         super();
-        this.state = {};
+        this.state = {
+            scopePregnancyId: parseInt(props.match.params.pregnancyId)
+        };
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -40,15 +43,21 @@ class OffspringsListingPage extends Component {
     }
 
     render() {
+        let scopePregnancyId;
+        try {
+            scopePregnancyId = parseInt(this.props.match.params.pregnancyId);
+        } catch (__unused__) {
+            // ignore
+        }
         const { patientProfile, match } = this.props;
-        console.log('this.props', this.props);
         const offsprings = (patientProfile?.data?.offsprings ?? []).map(offspring => {
             return {
                 id: offspring.id,
                 pregnancyId: offspring.pregnancyId,
                 data: JSON.parse(offspring.data ?? '{}')
             };
-        });
+        }).filter(offspring => this.state.scopePregnancyId ? offspring.pregnancyId === scopePregnancyId : true);
+        console.log(patientProfile?.data?.offsprings, this.state);
         const pregnancy = (patientProfile?.data?.pregnancy ?? []);
         offsprings.forEach(offspring => {
             const pregnancyData = pregnancy.find(p => p.id === offspring.pregnancyId);
@@ -79,7 +88,7 @@ class OffspringsListingPage extends Component {
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
                     <div className={_style.panel}>
-                        <i>There {offsprings.length > 1 ? 'are' : 'is'}  {offsprings.length} registered offspring{offsprings.length > 1 ? 's' : ''}  for this participant. See the data card below for details.</i>
+                        <i>There {offsprings.length > 1 ? 'are' : 'is'}  {offsprings.length} registered offspring{offsprings.length > 1 ? 's' : ''} for this participant{scopePregnancyId ? ' and this particular pregnancy' : ''}. See the data card below for details.</i>
                         <br />
                         <br />
                         <div className={style.levelBody}>

@@ -45,6 +45,7 @@
         "interactjs": "1.10.27",
         "is-plain-object": "5.0.0",
         "moment": "2.30.1",
+        "ordinal": "1.0.3",
         "query-string": "7.1.3",
         "react": "18.3.1",
         "react-calendar-timeline": "0.26.7",

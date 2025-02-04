@@ -14,7 +14,6 @@ export default async (dbcon, version) => {
             if (V18_PREGNANCY_ENTRY_TABLE_NAME !== null) {
                 const oldData = (await dbcon()(V18_PREGNANCY_ENTRY_TABLE_NAME).where({ deleted: '-' }).select('*'));
 
-                console.log('oldData', oldData);
                 const pregnancies = Object.values(oldData.reduce((acc, entry) => {
                     if (!acc[entry.pregnancyId])
                         acc[entry.pregnancyId] = entry;
@@ -22,7 +21,6 @@ export default async (dbcon, version) => {
                         acc[entry.pregnancyId] = entry;
                     return acc;
                 }, {}));
-                console.log('pregnancies', pregnancies);
 
                 const newOffsprings = [];
                 pregnancies.forEach((pregnancy) => {
@@ -36,7 +34,7 @@ export default async (dbcon, version) => {
                         });
                     });
                 });
-                console.log('newOffsprings', newOffsprings);
+
                 await dbcon().batchInsert(TABLE_NAME, newOffsprings, 50);
             }
             break;

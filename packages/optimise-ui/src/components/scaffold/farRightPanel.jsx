@@ -20,6 +20,7 @@ export default class FarRightPanel extends Component {
         return (
             <div className={style.farRightPanel}>
                 <Switch>
+                    <Route path='/patientProfile/:patientId/pregnancy' render={({ match }) => <OffspringsPageRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/offsprings' render={({ match }) => <OffspringsPageRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/create/:type' render={({ match }) => <CreateElementRouter match={match} />} />
                     <Route path='/patientProfile/:patientId/edit/:elementType/:elementId' render={({ match }) => <EditElementRouter match={match} />} />

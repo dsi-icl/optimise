@@ -10,6 +10,7 @@ export class OffspringsPageRouter extends Component {
         /* different elementType passed to dataTemplate makes it look in different places in the store */
         return (
             <Switch>
+                <Route path='/patientProfile/:patientId/pregnancy/:pregnancyId/offsprings' render={({ match }) => <OffspringsListingPage elementType='clinicalEvent' match={match} />} />
                 <Route path='/patientProfile/:patientId/offsprings/:offspringId' render={({ match }) => <OffspringData elementType='clinicalEvent' match={match} />} />
                 <Route path='/patientProfile/:patientId/offsprings' render={({ match }) => <OffspringsListingPage elementType='clinicalEvent' match={match} />} />
                 <Route path='/' component={() => null} />

@@ -12,6 +12,7 @@ import { alterPregnancyItemsCall } from '../../redux/actions/demographicData';
 import { PickDate } from '../createMedicalElements/datepicker';
 import profile_style from '../patientProfile/patientProfile.module.css';
 import pregnancy_style from './pregnancy.module.css';
+import history from '../../redux/history';
 
 const MemoizedDataFields = React.memo(function MemoizedDataFields({
     references,
@@ -48,11 +49,9 @@ const OffspringDataFields = ({
         return null;
 
     const _handleGenderChange = (index, event) => {
-        console.log(index, event.target.value);
         if (!offsprings[index])
             offsprings[index] = {};
         offsprings[index].gender = event.target.value;
-        console.log([...offsprings]);
         setOffsprings([...offsprings]);
     };
 
@@ -274,7 +273,7 @@ class PregnancyEntry extends Component {
             deliveryMode: undefined,
             outcomeApplicable: outcomeApplicable,
             entryOrder: entryOrder,
-            saved: true,
+            saved: false,
             error: false,
             updateNumber: 0
         });
@@ -365,6 +364,7 @@ class PregnancyEntry extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.match.params.visitId !== this.props.match.params.visitId ||
             prevProps.patientProfile !== this.props.patientProfile) {
+            this.treatAsNewEntry = this.props.renderedInFrontPage || this.props.location.search === '?add';
             this.initializeComponent();
         }
     }
@@ -733,7 +733,7 @@ class PregnancyEntry extends Component {
     render() {
 
         const { patientProfile, match } = this.props;
-        const { params } = match;
+        // const { params } = match;
         const { pregnancyOutcomes } = this.props.fields;
 
         let _style = scaffold_style;
@@ -744,7 +744,6 @@ class PregnancyEntry extends Component {
         if (!patientProfile.fetching && this.state.pregnancyEntry) {
 
             let pregnancyEntry = this.state.pregnancyEntry;
-
             if (!pregnancyEntry.id && !this.treatAsNewEntry) {
 
                 return <>
@@ -787,7 +786,7 @@ class PregnancyEntry extends Component {
                                 {
                                     this.treatAsNewEntry && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
                                         <>
-                                            <br /><br />
+                                            <br />
                                             <p>Ongoing pregnancy start date: {this.state.pregnancyStartDate && this.state.pregnancyStartDate.toString().slice(0, 10)}. Please enter details for a follow up pregnancy record.</p><br /><br />
                                         </>
                                         : null
@@ -840,7 +839,7 @@ class PregnancyEntry extends Component {
                                     />
                                 </div>
                                 <br />
-                                {this.originalOffspringsValues.length > 0
+                                {/* {this.originalOffspringsValues.length > 0
                                     ? <>
                                         <label>Offspring data cards</label>
                                         <div className='protected'>
@@ -852,7 +851,7 @@ class PregnancyEntry extends Component {
                                         </div>
                                     </>
                                     : null}
-                                <br />
+                                <br /> */}
                                 {/*
                                 {this.state.pregnancyEntry.id !== undefined
                                     ? <>
@@ -861,15 +860,33 @@ class PregnancyEntry extends Component {
                                     : null}
                                      */}
                             </div>
-                            {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /></> : null}
+                            {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /><br /></> : null}
                             {this.state.error ? <><div className={profile_style.error}>{this.state.error}</div><br /></> : null}
                             {
                                 this.props.renderedInFrontPage
                                     ? null
-                                    : <button onClick={this._handleSubmit} type='submit'>Save</button>
+                                    : <button onClick={this._handleSubmit} onSubmit={this._handleSubmit} type='submit'>Save</button>
                             }
+                            {this.treatAsNewEntry !== true
+                                ? <>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <div className={`${style.levelBody} ${pregnancy_style.panel}`}>
+                                        <label>Offspring data cards</label>
+                                        <i>We have records to {this.originalOffspringsValues.length} offspring{this.originalOffspringsValues.length > 1 ? 's' : ''} related to this pregancy. Click the button below to be redirected to the list of offsprings.</i>
+                                        <br />
+                                        <br />
+                                        {this.originalOffspringsValues.length > 0
+                                            ? <button type='button' disabled={this.state.error} onClick={() => history.push(`/patientProfile/${this.props.data.patientId}/offsprings`)} className={style.piiUncover}>See offspring{this.originalOffspringsValues.length > 1 ? 's' : ''} data</button>
+                                            : null
+                                        }
+                                    </div>
+                                </>
+                                : null}
                         </form>
-                    </div>
+                    </div >
                 </>
             );
         } else {
