@@ -29,18 +29,13 @@ class OffspringsListingPage extends Component {
     constructor(props) {
         super();
         this.state = {
-            scopePregnancyId: parseInt(props.match.params.pregnancyId)
+            scopePregnancyId: props.match.params.pregnancyId ? parseInt(props.match.params.pregnancyId) : null
         };
     }
 
     render() {
-        let scopePregnancyId;
-        try {
-            scopePregnancyId = parseInt(this.props.match.params.pregnancyId);
-        } catch (__unused__) {
-            // ignore
-        }
         const { patientProfile, match } = this.props;
+        const { scopePregnancyId } = this.state;
 
         const isFromPregnancyView = window.location.search === '?fromPregnancy';
         const offsprings = (patientProfile?.data?.offsprings ?? []).map(offspring => {
@@ -49,7 +44,13 @@ class OffspringsListingPage extends Component {
                 pregnancyId: offspring.pregnancyId,
                 data: JSON.parse(offspring.data ?? '{}')
             };
-        }).filter(offspring => this.state.scopePregnancyId ? offspring.pregnancyId === scopePregnancyId : true);
+        }).filter(offspring => {
+            if (scopePregnancyId)
+                return offspring.pregnancyId === scopePregnancyId;
+            return patientProfile.data?.pregnancy?.map(pregnancy => pregnancy.id).includes(offspring.pregnancyId);
+        });
+
+        console.log('offsprings', patientProfile.data?.pregnancy, this.state.scopePregnancyId, offsprings);
 
         const pregnancy = (patientProfile?.data?.pregnancy ?? []);
         offsprings.forEach(offspring => {

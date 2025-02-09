@@ -742,9 +742,8 @@ class PregnancyEntry extends Component {
 
     render() {
 
-        const { patientProfile, match } = this.props;
+        const { patientProfile, match, fields: { pregnancyOutcomes } } = this.props;
         // const { params } = match;
-        const { pregnancyOutcomes } = this.props.fields;
         const isFromPregnancyView = window.location.search === '?fromPregnancy';
 
         let _style = scaffold_style;
@@ -775,7 +774,7 @@ class PregnancyEntry extends Component {
                 return null;
             }
 
-            console.log('render', this.state);
+            const originalOffspringsAmount = JSON.parse(patientProfile.data.pregnancyEntries?.find(el => el.id === pregnancyEntry.id)?.offsprings ?? '[]').length;
 
             return (
                 <>
@@ -897,11 +896,11 @@ class PregnancyEntry extends Component {
                                     <br />
                                     <div className={`${style.levelBody} ${pregnancy_style.panel}`}>
                                         <label>Offspring data cards</label>
-                                        <i>We have records to {this.originalOffspringsValues.length} offspring{this.originalOffspringsValues.length > 1 ? 's' : ''} related to this pregancy. Click the button below to be redirected to the list of offsprings.</i>
+                                        <i>We have records to {originalOffspringsAmount} offspring{originalOffspringsAmount > 1 ? 's' : ''} related to this pregancy. Click the button below to be redirected to the list of offsprings.</i>
                                         <br />
                                         <br />
-                                        {this.originalOffspringsValues.length > 0
-                                            ? <button type='button' disabled={this.state.error} onClick={() => history.push(`/patientProfile/${this.props.data.patientId}/offsprings`)} className={style.piiUncover}>See offspring{this.originalOffspringsValues.length > 1 ? 's' : ''} data</button>
+                                        {originalOffspringsAmount > 0
+                                            ? <button type='button' disabled={this.state.error} onClick={() => history.push(`/patientProfile/${this.props.data.patientId}/offsprings`)} className={style.piiUncover}>See offspring{originalOffspringsAmount > 1 ? 's' : ''} data</button>
                                             : null
                                         }
                                     </div>
