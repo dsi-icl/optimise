@@ -20,12 +20,6 @@ const MemoizedDataFields = React.memo(function MemoizedDataFields({
     fieldTree,
     inputTypeHash
 }) {
-
-    console.log('this.references', references);
-    // console.log('this.originalValues', originalValues);
-    // console.log('this.fieldTree', fieldTree);
-    // console.log('this.inputTypeHash', inputTypeHash);
-
     return (
         <>
             {Object.entries(fieldTree).map(mappingFields(inputTypeHash, references, originalValues))}
@@ -199,6 +193,10 @@ class PregnancyEntry extends Component {
 
         this.setState(prevState => ({
             ...prevState,
+            pregnancyEntry: {
+                ...prevState.pregnancyEntry,
+                offsprings: newOffringsValues
+            },
             updateNumber: prevState.updateNumber + 1,
             error: false,
             saved: false
@@ -357,7 +355,6 @@ class PregnancyEntry extends Component {
             this.inputTypeHash = inputTypeHash;
             this.fieldTree = fieldTree;
 
-            console.log('Finished initializing component');
             this.setState({
                 ...newPregnancyState,
                 refreshReferences: true
@@ -382,7 +379,6 @@ class PregnancyEntry extends Component {
 
         const { params } = this.props.match;
         const { outcomeApplicable, pregnancyEntry } = this.state;
-
         const entryType = pregnancyEntry.type === 1 ? 1 : (outcomeApplicable === 'yes' ? 3 : 2);
 
         // 1 - baseline,
@@ -419,11 +415,11 @@ class PregnancyEntry extends Component {
         }
 
         body.pregnancyEntry = {
-            id: this.state.pregnancyEntry.id,
-            type: this.state.pregnancyEntry.type,
+            id: pregnancyEntry.id,
+            type: pregnancyEntry.type,
             visitId: parseInt(params.visitId),
-            pregnancyId: this.state.pregnancyEntry.pregnancyId, //if the entry type is baseline, no pregnancy will have been created yet
-            offsprings: JSON.stringify(this.state.pregnancyEntry.offsprings)
+            pregnancyId: pregnancyEntry.pregnancyId, //if the entry type is baseline, no pregnancy will have been created yet
+            offsprings: JSON.stringify(pregnancyEntry.offsprings)
         };
 
         return body;
@@ -507,11 +503,11 @@ class PregnancyEntry extends Component {
         ev.preventDefault();
 
         const body = this._composeSubmitBody();
-        console.log('_handleSubmit', body);
+
         if (!body) {
-            console.log('No body');
             return;
         }
+
         this.setState({
             lastSubmit: (new Date()).getTime()
         }, () => {
@@ -521,8 +517,6 @@ class PregnancyEntry extends Component {
                     this.treatAsNewEntry = false;
                     this.setState({
                         saved: true
-                    }, () => {
-                        window.location.search = '';
                     });
                 }));
         });
@@ -657,7 +651,6 @@ class PregnancyEntry extends Component {
     }
 
     _handleOutcomeChange(ev) {
-        console.log('ev.target.value', ev.target.value);
         this.setState({
             pregnancyOutcome: ev.target.value,
             error: false,
@@ -666,11 +659,9 @@ class PregnancyEntry extends Component {
     }
 
     _handleOutcomeApplicableChange(ev) {
-        console.log('this.state.pregnancyEntry.type', this.state.pregnancyEntry.type);
         const newType = this.state.pregnancyEntry.type === 2 ? 3 : 2;
         const { fields } = this.props;
         const relevantFields = fields.pregnancyEntryFields.filter(el => (el.referenceType === newType /* && el.deleted === '-' */));
-        console.log('relevantFields', relevantFields);
         const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
         const fieldTree = createLevelObj(relevantFields);
         this.inputTypeHash = inputTypeHash;
@@ -754,6 +745,7 @@ class PregnancyEntry extends Component {
         const { patientProfile, match } = this.props;
         // const { params } = match;
         const { pregnancyOutcomes } = this.props.fields;
+        const isFromPregnancyView = window.location.search === '?fromPregnancy';
 
         let _style = scaffold_style;
         if (this.props.override_style) {
@@ -768,7 +760,10 @@ class PregnancyEntry extends Component {
                 return <>
                     <div className={scaffold_style.ariane}>
                         <h2>EDIT PREGNANCY ENTRY</h2>
-                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                        {isFromPregnancyView
+                            ? <BackButton to={`/patientProfile/${match.params.patientId}/pregnancy`} />
+                            : <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                        }
                     </div>
                     <div className={_style.panel}>
                         <i>We could not find the entry that you are looking for.</i>
@@ -779,7 +774,9 @@ class PregnancyEntry extends Component {
             if (!this.references) {
                 return null;
             }
-            console.log('this.state', this.state);
+
+            console.log('render', this.state);
+
             return (
                 <>
                     {this.treatAsNewEntry ?
@@ -789,7 +786,10 @@ class PregnancyEntry extends Component {
                         </div>
                         : <div className={scaffold_style.ariane}>
                             <h2>EDIT PREGNANCY ENTRY</h2>
-                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                            {isFromPregnancyView
+                                ? <BackButton to={`/patientProfile/${match.params.patientId}/pregnancy`} />
+                                : <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                            }
                         </div>}
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
                         <form className={style.form} onInput={this._handleFormInput}>

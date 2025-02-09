@@ -10,6 +10,10 @@ export const OffspringCard = ({ offspring }) => {
     const { data, pregnancy } = offspring;
     const { availableFields, patientProfile: { data: { pregnancy: allPregnancies } } } = useMemo(() => store.getState(), []);
     const pregnancyOutcomeTypes = useMemo(() => availableFields.pregnancyOutcomes ?? [], [availableFields.pregnancyOutcomes]);
+
+    if (!data || !pregnancy)
+        return null;
+
     const pregnancyOutcome = pregnancyOutcomeTypes.find(po => po.id === pregnancy.outcome);
     const plannedEndDate = moment(new Date(parseInt(pregnancy.startDate, 10))).add(9, 'months');
     const mounthCountdown = moment.duration(plannedEndDate.diff(moment.now())).asMonths().toFixed(0);

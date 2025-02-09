@@ -253,7 +253,7 @@ describe('Patient controller tests', () => {
             return true;
         }));
 
-    test('Deleting this patient again (should return 200 amd state:0)', () => admin
+    test('Deleting this patient again (should return 200 and state:0)', () => admin
         .patch('/patients')
         .send({ aliasId: 'littlePatient' })
         .then(({ status, body }) => {

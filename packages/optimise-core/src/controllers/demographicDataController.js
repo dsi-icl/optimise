@@ -423,7 +423,7 @@ class DemographicDataController {
                 entryObj.outcomeDate = momentOutcome.valueOf();
             entryObj.createdByUser = user.id;
 
-            PregnancyCore.createPregnancy(entryObj).then((result) => {
+            PregnancyCore.createPregnancy(entryObj, ['id']).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {
@@ -460,7 +460,7 @@ class DemographicDataController {
                 entryObj.outcomeDate = momentOutcome.valueOf();
             }
 
-            PregnancyCore.editPregnancy(user, entryObj).then((result) => {
+            PregnancyCore.editPregnancy(user, entryObj, ['id']).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
             }).catch((error) => {
@@ -594,6 +594,7 @@ class DemographicDataController {
     }
 
     static createPregnancyEntry({ body, user }, res) {
+
         if (!body.hasOwnProperty('visitId') || !body.hasOwnProperty('type') || !body.hasOwnProperty('pregnancyId')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
@@ -610,7 +611,7 @@ class DemographicDataController {
             createdByUser: user.id
         };
 
-        PregnancyCore.createPregnancyEntry(pregnancyEntryObj).then((result) => {
+        PregnancyCore.createPregnancyEntry(pregnancyEntryObj, ['id']).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
@@ -620,19 +621,17 @@ class DemographicDataController {
     }
 
     static editPregnancyEntry({ body, user }, res) {
-        if (!body.hasOwnProperty('id')) {
+        if (!body.hasOwnProperty('id') || !body.hasOwnProperty('pregnancyId') || !body.hasOwnProperty('type')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
+        if (body.pregnancyId === undefined || typeof body.type !== 'number') {
+            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
+        }
+
         const entryObj = Object.assign({}, body);
 
-        if (body.hasOwnProperty('pregnancyId') && body.pregnancyId !== undefined && typeof body.type !== 'number') {
-            res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
-
-        } else if (body.hasOwnProperty('pregnancyId') && body.pregnancyId !== undefined) {
-            entryObj.pregnancyId = body.result;
-        }
-        PregnancyCore.editPregnancyEntry(user, entryObj).then((result) => {
+        PregnancyCore.editPregnancyEntry(user, entryObj, ['id']).then((result) => {
             res.status(200).json(formatToJSON(result));
             return true;
         }).catch((error) => {
@@ -672,11 +671,11 @@ class DemographicDataController {
 
     static createOffspringEntry({ body, user }, res) {
 
-        if (!body.hasOwnProperty('pregnancyId')) {
+        if (!body.hasOwnProperty('pregnancyId') || !body.hasOwnProperty('patientId')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
-        if (typeof body.pregnancyId !== 'number') {
+        if (typeof body.pregnancyId !== 'number' || typeof body.patientId !== 'number') {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -684,6 +683,7 @@ class DemographicDataController {
         const offspringEntryObj = {
             data: body.data,
             pregnancyId: body.pregnancyId,
+            patientId: body.patientId,
             createdByUser: user.id
         };
 

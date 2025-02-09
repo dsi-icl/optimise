@@ -26,7 +26,7 @@ export const getEntry = function (tablename, whereObj, selectedObj, extra) {
     });
 };
 
-export const updateEntry = function (tablename, { id }, originObj, whereObj, newObj) {
+export const updateEntry = function (tablename, { id }, originObj, whereObj, newObj, returning) {
     whereObj.deleted = '-';
     return new Promise((resolve, reject) => getEntry(tablename, whereObj, originObj)
         .then((getResult) => {
@@ -43,7 +43,7 @@ export const updateEntry = function (tablename, { id }, originObj, whereObj, new
         })
         .then(oldEntry => createEntry(tablename, oldEntry))
         .then(() => dbcon()(tablename)
-            .update(newObj)
+            .update(newObj, returning)
             .where(whereObj))
         .then(updateRes => resolve(updateRes))
         .catch(error => reject(error)));

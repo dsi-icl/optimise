@@ -49,7 +49,6 @@ class PregnanciesListingPage extends Component {
         } catch (__unused__) {
             // ignore
         }
-        console.log(this.props);
         const { patientProfile, match } = this.props;
         const pregnancies = (patientProfile?.data?.pregnancy ?? [])
             .filter(pregnancy => this.state.scopePregnancyId ? pregnancy.id === scopePregnancyId : true)

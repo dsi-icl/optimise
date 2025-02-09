@@ -66,23 +66,24 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
             body: JSON.stringify(body.pregnancy)
         });
 
-        const pregnancyId = pregnancyResponse.state;
+        const pregnancyId = pregnancyResponse[0].id;
         if (body.pregnancyEntry) {
             if (body.pregnancyEntry.type === 1 && !body.pregnancy.id) {
                 body.pregnancyEntry.pregnancyId = pregnancyId;
             }
-            const pregnancyEntry = body.pregnancyEntry;
+            const pregnancyEntry = { ...body.pregnancyEntry };
             delete pregnancyEntry.offsprings;
 
             if (pregnancyEntry.id !== undefined)
                 // Problem with visitId recorded as recordedDuringVisit
                 delete pregnancyEntry.visitId;
+
             const pregnancyEntryResponse = await apiHelper('/demographics/PregnancyEntry', {
                 method: pregnancyEntry.id === undefined ? 'POST' : 'PUT',
                 body: JSON.stringify(pregnancyEntry)
             });
 
-            const pregnancyEntryId = pregnancyEntryResponse.state;
+            const pregnancyEntryId = pregnancyEntryResponse[0].id;
             if (body.data) {
                 body.data.pregnancyEntryId = pregnancyEntryId;
             }
@@ -93,8 +94,13 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
 
             for (let i = 0; i < offspringEntries.length; i++) {
                 const offspringEntry = {};
-                offspringEntry.data = offspringEntries[i];
+                const filteredOffspringEntry = { ...(offspringEntries[i]) };
+                delete filteredOffspringEntry.id;
+                offspringEntry.id = offspringEntries[i].id;
+                offspringEntry.data = JSON.stringify(filteredOffspringEntry);
                 offspringEntry.pregnancyId = pregnancyId;
+                offspringEntry.patientId = body.pregnancy.patient;
+
                 if (offspringEntry.same === undefined) {
                     const offspringEntryResponse = await apiHelper('/demographics/OffspringEntry', {
                         method: offspringEntry.id === undefined ? 'POST' : 'PUT',

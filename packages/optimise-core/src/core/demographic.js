@@ -134,12 +134,12 @@ export class PregnancyCore {
         return new Promise((resolve, reject) => getEntry('PATIENT_PREGNANCY', whereObj, { id: 'id', patient: 'patient', startDate: 'startDate', outcome: 'outcome', outcomeDate: 'outcomeDate', meddra: 'meddra', deleted: 'deleted' }).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
-    static createPregnancy(entryObj) {
-        return new Promise((resolve, reject) => createEntry('PATIENT_PREGNANCY', entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    static createPregnancy(entryObj, returning) {
+        return new Promise((resolve, reject) => createEntry('PATIENT_PREGNANCY', entryObj, returning).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
-    static editPregnancy(user, entryObj) {
-        return new Promise((resolve, reject) => updateEntry('PATIENT_PREGNANCY', user, '*', { id: entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    static editPregnancy(user, entryObj, returning) {
+        return new Promise((resolve, reject) => updateEntry('PATIENT_PREGNANCY', user, '*', { id: entryObj.id }, entryObj, returning).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
     static deletePregnancy(user, whereObj) {
@@ -185,8 +185,8 @@ export class PregnancyCore {
         return new Promise((resolve, reject) => getEntry('PREGNANCY_ENTRY', whereObj, '*').then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
-    static editPregnancyEntry(user, entryObj) {
-        return new Promise((resolve, reject) => updateEntry('PREGNANCY_ENTRY', user, '*', { id: entryObj.id }, entryObj).then((result) => resolve(result)).catch((error) => reject(error)));
+    static editPregnancyEntry(user, entryObj, returning) {
+        return new Promise((resolve, reject) => updateEntry('PREGNANCY_ENTRY', user, '*', { id: entryObj.id }, entryObj, returning).then((result) => resolve(result)).catch((error) => reject(error)));
     }
 
     static deletePregnancyEntry(user, whereObj) {

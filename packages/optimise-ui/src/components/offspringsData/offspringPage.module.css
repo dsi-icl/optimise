@@ -24,7 +24,7 @@
 }
 
 .levelHeader:hover {
-    cursor: pointer;
+    /* cursor: pointer; */
     background-color: hsl(var(--color-background-h), var(--color-background-s), 87%);
 }
 
@@ -37,9 +37,9 @@
     background-color: white;
 }
 
-.levelBody:hover {
+/* .levelBody:hover {
     cursor: pointer;
-}
+} */
 
 .levelBody:last-child {
     margin-bottom: 1em;

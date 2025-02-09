@@ -742,7 +742,7 @@ class OneVisit extends Component {
                                 {isLatestPregnancyEntry
                                     ? <>
                                         <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy`} activeClassName={style.activeNavLink}>
-                                            <button>Edit pregnancy entry</button>
+                                            <button id={`epe_v${this.props.visitId}`}>Edit pregnancy entry</button>
                                         </NavLink>
                                         <br />                                        <br />
                                     </>

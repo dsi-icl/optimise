@@ -20,10 +20,9 @@ export const PregnancyCard = ({ pregnancy }) => {
     delete pregnancyData.deleted;
     delete pregnancyData.startDate;
     delete pregnancyData.orderPosition;
-    const pregnancyOffsprings = offsprings.filter(offspring => offspring.pregnancyId === pregnancy.id);
 
-    const relevantEntries = pregnancyEntries.filter(entry => entry.pregnancyId === pregnancy.id);
-    console.log(relevantEntries);
+    const relevantEntries = pregnancyEntries.filter(entry => entry.pregnancyId === pregnancy.id).sort((a, b) => parseInt(b.id) - parseInt(a.id));
+    const lastEntry = relevantEntries[0];
 
     return <div key={pregnancy.id} className={style.level}>
         <div className={style.levelHeader}>{ordinal(pregnancy.orderPosition + 1)} pregnancy</div>
@@ -52,7 +51,20 @@ export const PregnancyCard = ({ pregnancy }) => {
                     }
                 </tbody>
             </table>
-            <button type='button' style={{ marginTop: '0.5rem' }} onClick={() => history.push(`/patientProfile/${currentPatient}/pregnancy/${pregnancy.id}/offsprings?fromPregnancy`)}>Go to offprings data</button>
+            {pregnancy.outcome === null
+                ? <>
+                    <button type='button' style={{ marginTop: '0.5rem' }} onClick={() => {
+                        history.push(`/patientProfile/${currentPatient}/data/visit/${lastEntry.recordedDuringVisit}/pregnancy?fromPregnancy#epe_v${lastEntry.recordedDuringVisit}`);
+                        document.getElementById(`epe_v${lastEntry.recordedDuringVisit}`).scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center',
+                            inline: 'nearest'
+                        });
+                    }}>Edit last entry</button>
+                    <br />
+                </>
+                : null}
+            <button type='button' style={{ marginTop: '0.5rem' }} onClick={() => history.push(`/patientProfile/${currentPatient}/pregnancy/${pregnancy.id}/offsprings?fromPregnancy`)}>Go to offsprings data</button>
         </div>
     </div>;
 };

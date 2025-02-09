@@ -70,7 +70,12 @@ class OffspringsListingPage extends Component {
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
                     <div className={_style.panel}>
-                        <i>This patient has no recorded offspring.</i>
+                        <i>This patient has no recorded offspring. You may want to fill the pregnancy questionnaire during the next visit to provide the number of offsprings</i>
+                        <br />
+                        <br />
+                        {isFromPregnancyView
+                            ? <button type='button' onClick={() => history.push(`/patientProfile/${match.params.patientId}/pregnancy/`)}>Go back to the pregnancies list</button>
+                            : null}
                     </div>
                 </>;
             else
