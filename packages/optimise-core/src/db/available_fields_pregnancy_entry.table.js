@@ -33,6 +33,8 @@ export default async (dbcon, version) => {
             await dbcon()(TABLE_NAME)
                 .where('idname', 'number of foetuses')
                 .orWhere('idname', 'number of offsprings')
+                .orWhere('idname', 'mode of infant feeding')
+                .orWhere('idname', 'duration of breastfeeding')
                 .update({ deleted: `0@${(new Date()).getTime()}` });
             break;
         default:
