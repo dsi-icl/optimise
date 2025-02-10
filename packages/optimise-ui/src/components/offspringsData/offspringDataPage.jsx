@@ -1,189 +1,178 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { alterDataCall } from '../../redux/actions/addOrUpdateData';
-import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from './utils';
-import Icon from '../icon';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { BackButton } from './utils';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
-import style from './offspringPage.module.css';
 import store from '../../redux/store';
+import { editOffspringAPICall } from '../../redux/actions/demographicData';
 
+const OffspringData = ({
+    match
+}) => {
 
-function mapStateToProps(state) {
-    return {
-        fields: state.availableFields,
-        patientProfile: state.patientProfile
+    const { patientProfile: { fetching, currentPatient, data } } = useSelector(state => state);
+    const { offsprings = [], pregnancy: pregnancies = [], patientId } = data;
+    const offspring = offsprings.find(offspring => offspring.id === parseInt(match.params.offspringId, 10));
+    const pregnancy = pregnancies.find(pregnancy => pregnancy.id === offspring?.pregnancyId);
+    const [offpringData, setOffpringData] = useState(null);
+    const [__unusedLastSubmit, setLastSubmit] = useState(null);
+    const [__unusedSaved, setSaved] = useState(false);
+    const atDeliveryOutcome = pregnancy?.outcome !== null;
+
+    useEffect(() => {
+        try {
+            if (fetching)
+                return;
+            if (offpringData === null && offspring?.data)
+                setOffpringData(JSON.parse(offspring?.data));
+        } catch (e) {
+            // ignore
+        }
+    }, [fetching, offpringData, offspring]);
+
+    const _handleNameChange = (event) => {
+        offpringData.name = event.target.value;
+        setOffpringData(offpringData);
     };
-}
 
+    const _handleGenderChange = (event) => {
+        offpringData.gender = event.target.value;
+        setOffpringData(offpringData);
+    };
 
-/**
- * @class DataTemplate
- * @description Renders the data page for test / visit / treatment / event data
- * @prop {String} this.props.elementType - 'test', 'visit', 'treatment', 'clinicalEvent'
- * @prop {Object} this.props.match - from router
- * @prop {Object} this.props.fields - from store
- * @prop {Object} this.props.patientProfile - from store
- * @prop {Function} this.props.submitData - from connect
- */
+    const _handleWeigthChange = (event) => {
+        offpringData.weight = event.target.value;
+        setOffpringData(offpringData);
+    };
 
-/* this component serves as a sieve for the data and pass the relevant one to the form as props*/
-@withRouter
-@connect(mapStateToProps)
-class OffspringData extends Component {
-    constructor() {
-        super();
-        this.state = {};
-        this.references = null;
-        this.originalValues = {};
-        this._handleSubmit = this._handleSubmit.bind(this);
-    }
+    const _handleAPGAR1Change = (event) => {
+        offpringData.apgar1 = event.target.value;
+        setOffpringData(offpringData);
+    };
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.match.params.ceId === state.ceId)
-            return state;
-        return {
-            ...state,
-            ceId: props.match.params.ceId,
-            refreshReferences: true
+    const _handleAPGAR5Change = (event) => {
+        offpringData.apgar5 = event.target.value;
+        setOffpringData(offpringData);
+    };
+
+    const _handleCongenitalAffectChange = (event) => {
+        offpringData.congenitalAffect = event.target.value;
+        setOffpringData(offpringData);
+    };
+
+    const _handleFeedingModeChange = (event) => {
+        offpringData.feedingMode = event.target.value;
+        setOffpringData(offpringData);
+    };
+
+    const _handleBreastFeedingChange = (event) => {
+        offpringData.breastFeedingDuration = event.target.value;
+        setOffpringData(offpringData);
+    };
+
+    const _handleHospitalAdmissionFirstYearChange = (event) => {
+        offpringData.hospitalAdmissionFirstYear = event.target.value;
+        setOffpringData(offpringData);
+    };
+    const _handleDevelopmentalOutcomesChange = (event) => {
+        offpringData.developmentalOutcomes = event.target.value;
+        setOffpringData(offpringData);
+    };
+
+    const _handleSubmit = (e) => {
+
+        e.preventDefault();
+
+        const body = {
+            patientId,
+            data: {
+                id: offspring.id,
+                data: JSON.stringify(offpringData)
+            }
         };
-    }
+        setLastSubmit((new Date()).getTime());
+        store.dispatch(editOffspringAPICall(body, () => {
+            setSaved(true);
+        }));
 
-    componentDidUpdate() {
-        if (this.state.refreshReferences === true) {
-            this.references = null;
-            this.setState({
-                refreshReferences: false
-            });
-        }
-    }
+        return false;
+    };
 
-    _handleSubmit(ev) {
+    if (fetching || !offspring || !pregnancy || !offpringData)
+        return <>
+            <div className={scaffold_style.ariane}>
+                <h2>EDIT OFFSPRING DATA</h2>
+                <BackButton to={`/patientProfile/${currentPatient}/offsprings`} />
+            </div>
+            <div className={scaffold_style.panel}>
+                <i>We are loading the data...</i>
+            </div>
+        </>;
 
-        ev.preventDefault();
-        if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
-            return;
-
-        const { references, originalValues } = this;
-
-        if (references === null)
-            return;
-
-        const update = {};
-        const add = {};
-        Object.entries(references).forEach(el => {
-            const fieldId = el[0];
-            const reference = el[1].ref;
-            const type = el[1].type;
-            if (type === 'C' && (originalValues[fieldId] !== undefined || reference.current.value !== 'unselected')) {
-                if (originalValues[fieldId] !== undefined) {
-                    if (originalValues[fieldId] !== reference.current.value)
-                        update[fieldId] = reference.current.value;
-                } else if (reference.current.value !== 'unselected') {
-                    add[fieldId] = reference.current.value;
-                }
-            }
-            if (['I', 'F', 'T'].includes(type) && (originalValues[fieldId] !== undefined || reference.current.value !== '' || reference.current.value !== undefined)) {
-                if (originalValues[fieldId] !== undefined) {
-                    if (originalValues[fieldId] !== reference.current.value)
-                        update[fieldId] = reference.current.value;
-                } else if (reference.current.value !== '') {
-                    add[fieldId] = reference.current.value;
-                }
-            }
-            if (type === 'B') {
-                const bool = reference.current.checked ? '1' : '0';
-                if (originalValues[fieldId] !== undefined) {
-                    if (originalValues[fieldId] !== bool)
-                        update[fieldId] = bool;
-                } else if (bool !== '0') {
-                    add[fieldId] = bool;
-                }
-            }
-            if (type === 'D') {
-                const value = reference.current.value;
-                if (originalValues[fieldId] !== undefined) {
-                    if (originalValues[fieldId] !== value)
-                        update[fieldId] = value;
-                } else if (value !== '') {
-                    add[fieldId] = value;
-                }
-            }
-        });
-        const { params } = this.props.match;
-        if (checkIfObjIsEmpty(update, add)) {
-            return;
-        }
-        const body = { data: { clinicalEventId: params.ceId, update, add }, type: 'clinicalEvent', patientId: params.patientId };
-
-        this.setState({
-            lastSubmit: (new Date()).getTime()
-        }, () => {
-            store.dispatch(alterDataCall(body, () => {
-                this.originalValues = Object.assign({}, this.originalValues, add);
-                this.setState({ saved: true });
-            }));
-        });
-    }
-
-    render() {
-        const { patientProfile, match } = this.props;
-        const { params } = match;
-
-        let _style = scaffold_style;
-        if (this.props.override_style) {
-            _style = { ...scaffold_style, ...this.props.override_style };
-        }
-
-        if (!patientProfile.fetching) {
-            const visitsMatched = patientProfile.data.clinicalEvents.filter(visit => visit.id === parseInt(params.ceId, 10));
-            if (visitsMatched.length !== 1) {
-                return <>
-                    <div className={_style.ariane}>
-                        <h2>CLINICAL EVENT RESULTS</h2>
-                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                    </div>
-                    <div className={_style.panel}>
-                        <i>We could not find the event that you are looking for.</i>
-                    </div>
-                </>;
-            }
-            const { fields } = this.props;
-            const relevantFields = fields.clinicalEventFields.filter(el => (el.referenceType === visitsMatched[0].type));
-            const fieldTree = createLevelObj(relevantFields);
-            const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
-            this.originalValues = visitsMatched[0].data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
-            if (this.references !== null && this.state.refreshReferences === true)
-                return null;
-            if (this.references === null)
-                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
-            return (
-                <>
-                    <div className={_style.ariane}>
-                        <h2>CLINICAL EVENT RESULTS</h2>
-                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                    </div>
-                    {Object.entries(fieldTree).length > 0 ?
-                        <div className={`${_style.panel} ${style.topLevelPanel}`}>
-                            <form onSubmit={this._handleSubmit} className={style.form}>
-                                <div className={style.levelBody}>
-                                    {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
-                                </div><br />
-                                {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /></> : null}
-                                <button type='submit'>Save</button>
-                            </form>
-                        </div>
-                        :
-                        <div className={_style.panel}>
-                            <i>There are no contextual data to record for this type of event. Please use the central panel to edit related symptoms and signs.</i>
-                        </div>
-                    }
+    if (!offsprings.length)
+        return <>
+            <div className={scaffold_style.ariane}>
+                <h2>EDIT OFFSPRING DATA</h2>
+                <BackButton to={`/patientProfile/${currentPatient}/offsprings`} />
+            </div>
+            <div className={scaffold_style.panel}>
+                <i>We could not find the event that you are looking for.</i>
+            </div>
+        </>;
+    console.log('OffspringData', offpringData);
+    return <>
+        <div className={scaffold_style.ariane}>
+            <h2>EDIT OFFSPRING DATA ({offpringData.name ?? `ID${offspring.id}`})</h2>
+            <BackButton to={`/patientProfile/${currentPatient}/offsprings`} />
+        </div>
+        <div className={scaffold_style.panel}>
+            <label>Name</label>
+            <input defaultValue={offpringData.name} onChange={_handleNameChange} />
+            <br /><br />
+            <label >Gender</label>
+            <select defaultValue={offpringData.gender} onChange={_handleGenderChange}>
+                <option value='unselected'></option>
+                <option value='male'>Boy</option>
+                <option value='female'>Girl</option>
+            </select>
+            {atDeliveryOutcome
+                ? <>
+                    <br /><br />
+                    <label>Weight of infant at delivery</label>
+                    <input defaultValue={offpringData.weight} onChange={_handleWeigthChange} />
+                    <br /><br />
+                    <label>APGAR score at 1 minute</label>
+                    <input defaultValue={offpringData.apgar1} onChange={_handleAPGAR1Change} />
+                    <br /><br />
+                    <label>APGAR score at 5 minutes</label>
+                    <input defaultValue={offpringData.apgar5} onChange={_handleAPGAR5Change} />
+                    <br /><br />
+                    <label>Presence of any major and/or minor congential malformations or medical diagnoses in the newborn (EUROCAT)</label>
+                    <input defaultValue={offpringData.congenitalAffect} onChange={_handleCongenitalAffectChange} />
+                    <br /><br />
+                    <label >Mode of infant feeding</label>
+                    <select defaultValue={offpringData.feedingMode} onChange={_handleFeedingModeChange}>
+                        <option value='unselected'></option>
+                        <option value='breastfeeding'>Breastfeeding</option>
+                        <option value='formula'>Formula</option>
+                        <option value='mixed'>Mixed</option>
+                    </select>
+                    <br /><br />
+                    <label>Duration of breastfeeding</label>
+                    <input defaultValue={offpringData.breastFeedingDuration} onChange={_handleBreastFeedingChange} />
+                    <br /><br />
+                    <label>Admission of infant to hospital within the first year of life</label>
+                    <input type='checkbox' checked={offpringData.hospitalAdmissionFirstYear} onChange={_handleHospitalAdmissionFirstYearChange} />
+                    <br /><br />
+                    <label>Developmental outcomes during the first 5 years of life</label>
+                    <input defaultValue={offpringData.developmentalOutcomes} onChange={_handleDevelopmentalOutcomesChange} />
                 </>
-            );
-        } else {
-            return <div><Icon symbol='loading' /></div>;
-        }
-    }
-}
+                : null
+            }
+            <br />
+            <br />
+            <button onClick={_handleSubmit} onSubmit={_handleSubmit} type='submit'>Save</button>
+        </div>
+    </>;
+};
 
 export { OffspringData };

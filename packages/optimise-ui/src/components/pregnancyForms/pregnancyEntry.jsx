@@ -27,93 +27,6 @@ const MemoizedDataFields = React.memo(function MemoizedDataFields({
     );
 });
 
-// const OffspringDataFields = ({
-//     originalValues,
-//     atDeliveryOutcome,
-//     onOffspringChange
-// }) => {
-
-//     const [offsprings, setOffsprings] = useState(originalValues ?? []);
-//     useEffect(() => {
-//         if (originalValues && originalValues.length > 0) {
-//             setOffsprings(originalValues);
-//         }
-//     }, [originalValues, originalValues.length]);
-
-//     useEffect(() => {
-//         if (onOffspringChange)
-//             onOffspringChange(offsprings);
-//     }, [offsprings, onOffspringChange]);
-
-//     if (!offsprings.length)
-//         return null;
-
-//     const _handleGenderChange = (index, event) => {
-//         if (!offsprings[index])
-//             offsprings[index] = {};
-//         offsprings[index].gender = event.target.value;
-//         setOffsprings([...offsprings]);
-//     };
-
-//     const _handleWeigthChange = (index, event) => {
-//         if (!offsprings[index])
-//             offsprings[index] = {};
-//         offsprings[index].weight = event.target.value;
-//         setOffsprings([...offsprings]);
-//     };
-
-//     const _handleAPGAR1Change = (index, event) => {
-//         if (!offsprings[index])
-//             offsprings[index] = {};
-//         offsprings[index].apgar1 = event.target.value;
-//         setOffsprings([...offsprings]);
-//     };
-
-//     const _handleAPGAR5Change = (index, event) => {
-//         if (!offsprings[index])
-//             offsprings[index] = {};
-//         offsprings[index].apgar5 = event.target.value;
-//         setOffsprings([...offsprings]);
-//     };
-
-//     const _handleCongenitalAffectChange = (index, event) => {
-//         if (!offsprings[index])
-//             offsprings[index] = {};
-//         offsprings[index].congenitalAffect = event.target.value;
-//         setOffsprings([...offsprings]);
-//     };
-
-//     return offsprings.map((offpringData, index) => {
-//         return <div key={index} className={`${pregnancy_style.offspring_card}`}>
-//             <p>Data card for offpring ID{offpringData.id}</p>
-//             <br></br>
-//             <label >Gender</label>
-//             <select defaultValue={offpringData.gender} onChange={(event) => _handleGenderChange(index, event)}>
-//                 <option value='unselected'></option>
-//                 <option value='male'>Boy</option>
-//                 <option value='female'>Girl</option>
-//             </select>
-//             {atDeliveryOutcome
-//                 ? <>
-//                     <br /><br />
-//                     <label>Weight of infant at delivery</label>
-//                     <input value={offpringData.weight} onChange={(event) => _handleWeigthChange(index, event)} />
-//                     <br /><br />
-//                     <label>APGAR score at 1 minute</label>
-//                     <input value={offpringData.apgar1} onChange={(event) => _handleAPGAR1Change(index, event)} />
-//                     <br /><br />
-//                     <label>APGAR score at 5 minutes</label>
-//                     <input value={offpringData.apgar5} onChange={(event) => _handleAPGAR5Change(index, event)} />
-//                     <br /><br />
-//                     <label>Presence of any major and/or minor congential malformations or medical diagnoses in the newborn (EUROCAT)</label>
-//                     <input value={offpringData.congenitalAffect} onChange={(event) => _handleCongenitalAffectChange(index, event)} />
-//                 </>
-//                 : null
-//             }
-//         </div>;
-//     });
-// };
-
 function mapStateToProps(state) {
     return {
         fields: state.availableFields,
@@ -858,26 +771,13 @@ class PregnancyEntry extends Component {
                                     />
                                 </div>
                                 <br />
-                                {/* {this.originalOffspringsValues.length > 0
-                                    ? <>
-                                        <label>Offspring data cards</label>
-                                        <div className='protected'>
-                                            <OffspringDataFields
-                                                originalValues={this.originalOffspringsValues}
-                                                atDeliveryOutcome={this.state.outcomeApplicable === 'yes'}
-                                                onOffspringChange={this._handleOffspringChange}
-                                            />
-                                        </div>
-                                    </>
-                                    : null}
-                                <br /> */}
                                 {/*
                                 {this.state.pregnancyEntry.id !== undefined
                                     ? <>
                                         <PregnancyImageForm visitId={params.visitId} /><br /><br />
                                     </>
                                     : null}
-                                     */}
+                                */}
                             </div>
                             {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /><br /></> : null}
                             {this.state.error ? <div className={style.levelBody}>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { PregnancyData } from './pregnancyDataPage';
 import { PregnanciesListingPage } from './pregnanciesListingPage';
 import { OffspringsListingPage } from '../offspringsData/offspringsListingPage';
 
@@ -12,7 +11,6 @@ export class PregnancyPageRouter extends Component {
         return (
             <Switch>
                 <Route path='/patientProfile/:patientId/pregnancy/:pregnancyId/offsprings' render={({ match }) => <OffspringsListingPage elementType='clinicalEvent' match={match} />} />
-                <Route path='/patientProfile/:patientId/pregnancy/:pregnancyId' render={({ match }) => <PregnancyData elementType='clinicalEvent' match={match} />} />
                 <Route path='/patientProfile/:patientId/pregnancy' render={({ match }) => <PregnanciesListingPage elementType='clinicalEvent' match={match} />} />
                 <Route path='/' component={() => null} />
             </Switch>

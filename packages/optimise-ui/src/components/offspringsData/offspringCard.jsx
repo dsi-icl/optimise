@@ -4,11 +4,12 @@ import style from './offspringPage.module.css';
 import store from '../../redux/store';
 import moment from 'moment';
 import ordinal from 'ordinal';
+import history from '../../redux/history';
 
 export const OffspringCard = ({ offspring }) => {
 
     const { data, pregnancy } = offspring;
-    const { availableFields, patientProfile: { data: { pregnancy: allPregnancies } } } = useMemo(() => store.getState(), []);
+    const { availableFields, patientProfile: { currentPatient, data: { pregnancy: allPregnancies } } } = useMemo(() => store.getState(), []);
     const pregnancyOutcomeTypes = useMemo(() => availableFields.pregnancyOutcomes ?? [], [availableFields.pregnancyOutcomes]);
 
     if (!data || !pregnancy)
@@ -17,11 +18,11 @@ export const OffspringCard = ({ offspring }) => {
     const pregnancyOutcome = pregnancyOutcomeTypes.find(po => po.id === pregnancy.outcome);
     const plannedEndDate = moment(new Date(parseInt(pregnancy.startDate, 10))).add(9, 'months');
     const mounthCountdown = moment.duration(plannedEndDate.diff(moment.now())).asMonths().toFixed(0);
-    const offspringValues = Object.entries(data);
+    const offspringValues = Object.entries(data).filter(([key]) => key !== 'name');
     const pregnancyOrderPosition = (allPregnancies ?? []).sort((a, b) => parseInt(a.startDate) - parseInt(b.startDate)).findIndex(p => p.id === pregnancy.id) ?? -1;
 
     return <div key={offspring.id} className={style.level}>
-        <div className={style.levelHeader}>Offspring ID{offspring.id}</div>
+        <div className={style.levelHeader}>Offspring {data.name ?? `ID${offspring.id}`}</div>
         <div className={style.levelBody} style={{ padding: '1rem' }}>
             From {ordinal(pregnancyOrderPosition + 1)} pregnancy.<br />
             {pregnancyOutcome
@@ -44,10 +45,12 @@ export const OffspringCard = ({ offspring }) => {
                         </tr>}
                 </tbody>
             </table>
+            <button type='button' style={{ marginTop: '0.5rem' }} onClick={() => history.push(`/patientProfile/${currentPatient}/offsprings/${offspring.id}`)}>Edit offspring data</button>
+            {/*}
             {pregnancyOutcome
                 ? <button style={{ marginTop: '0.5rem' }}>Edit offspring data postpartum</button>
                 : null//<button style={{ marginTop: '0.5rem' }}>Record death in-utero</button>
-            }
+            } */}
         </div>
     </div>;
 };

@@ -126,6 +126,14 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
     }
 };
 
+export const editOffspringAPICall = (body) => dispatch => (
+    apiHelper('/demographics/OffspringEntry', { method: 'PUT', body: JSON.stringify(body.data) })
+        .then(() => {
+            dispatch(getPatientProfileById(body.patientId));
+        })
+        .catch(msg => store.dispatch(addError({ error: msg })))
+);
+
 export const createPregnancyImageAPICall = (body) => dispatch => (
     apiHelper('/demographics/PregnancyImage', { method: 'POST', body: JSON.stringify(body.data) })
         .then(() => {

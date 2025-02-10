@@ -50,8 +50,6 @@ class OffspringsListingPage extends Component {
             return patientProfile.data?.pregnancy?.map(pregnancy => pregnancy.id).includes(offspring.pregnancyId);
         });
 
-        console.log('offsprings', patientProfile.data?.pregnancy, this.state.scopePregnancyId, offsprings);
-
         const pregnancy = (patientProfile?.data?.pregnancy ?? []);
         offsprings.forEach(offspring => {
             const pregnancyData = pregnancy.find(p => p.id === offspring.pregnancyId);
