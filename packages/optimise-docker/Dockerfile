@@ -13,7 +13,7 @@ RUN npm install --omit=dev
 
 COPY ./optimise-docker/launcher.js ./
 COPY ./optimise-core/build/* ./
-COPY ./optimise-ui/build/* ./static/
+COPY ./optimise-ui/build/ ./static/
 
 EXPOSE 3030
 CMD [ "node", "launcher.js" ]
