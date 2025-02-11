@@ -68,7 +68,7 @@
     white-space: pre;
 }
 
-.editorWrapper > div {
+.editorWrapper>div {
     height: 100%;
 }
 
@@ -76,7 +76,7 @@
     width: 100%;
 }
 
-.commentButtonsGroup > div {
+.commentButtonsGroup>div {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -116,7 +116,7 @@
     text-decoration: underline;
 }
 
-.editorButtonsGroup > button {
+.editorButtonsGroup>button {
     width: 5em;
     height: 2.5em;
     line-height: 2.5em;
@@ -126,7 +126,7 @@
     background-color: hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
-.editorButtonsGroup > button:active {
+.editorButtonsGroup>button:active {
     color: var(--color-font-active);
     background-color: var(--color-accent);
 }
@@ -162,4 +162,21 @@
 
 .comIntervalBox td:last-child {
     padding-left: 0.4em;
+}
+
+.editPatientIdDiv {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: #e4e4e4;
+}
+
+.editAliasIdUncover {
+    text-decoration: underline;
+    display: block;
+    height: 1.5em;
+}
+
+.editAliasIdUncover:hover {
+    color: hsl(var(--color-background-h), var(--color-background-s), 70%);
+    cursor: pointer;
 }

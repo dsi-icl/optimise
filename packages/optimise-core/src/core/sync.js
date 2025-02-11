@@ -1,5 +1,7 @@
 import os from 'os';
 import axios from 'axios';
+import { gzipSync } from 'node:zlib';
+import fs from 'node:fs';
 import { getEntry } from '../utils/controller-utils';
 import dbcon from '../utils/db-connection';
 import PatientCore from './patient';
@@ -79,6 +81,8 @@ class SyncCore {
      *
      */
     static async triggerSync(options) {
+        if (isSyncing)
+            return this.getSyncStatus();
         const config = await SyncCore.getSyncOptions();
         config.adminPass = options ? options.adminPass : false;
         return new Promise((resolve, reject) => {
@@ -249,13 +253,18 @@ class SyncCore {
                 updated_at: dbcon().fn.now()
             });
 
-            const data = JSON.stringify({
+            const metadata = {
                 uuid: config.id,
                 agent: {
                     hostname: os.hostname(),
                     version: packageInfo.version
                 },
-                key: config.key,
+                key: config.key
+            };
+
+            const data = JSON.stringify({
+                ...metadata,
+                format: 'json',
                 data: encodeURI(JSON.stringify({
                     patients: patientProfiles,
                     users: users.map(user => {
@@ -288,6 +297,131 @@ class SyncCore {
             });
 
             try {
+                await (() => new Promise((resolve, reject) => {
+                    axios.request(syncOptions)
+                        .then(async (response) => {
+                            try {
+                                const result = response.data !== undefined ? (typeof response.data === 'string' ? JSON.parse(response.data) : response.data) : {};
+                                if (response.status === 200) {
+                                    if (result.status === 'success') {
+                                        await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                            value: JSON.stringify({
+                                                status: 'running',
+                                                step: 'raw_compress',
+                                                syncing: true
+                                            }),
+                                            updated_at: dbcon().fn.now()
+                                        });
+                                        resolve();
+                                    } else {
+                                        await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                            value: JSON.stringify({
+                                                status: 'errored',
+                                                step: 'errored',
+                                                syncing: false,
+                                                error: {
+                                                    message: 'Remote did not acknowledge success'
+                                                }
+                                            }),
+                                            updated_at: dbcon().fn.now()
+                                        });
+                                        reject();
+                                    }
+                                } else {
+                                    await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                        value: JSON.stringify({
+                                            status: 'errored',
+                                            step: 'errored',
+                                            syncing: false,
+                                            error: {
+                                                message: result && result.error ? result.error : 'Unknown error',
+                                                stack: result && result.stack ? result.stack : undefined
+                                            }
+                                        }),
+                                        updated_at: dbcon().fn.now()
+                                    });
+                                    reject(result.error);
+                                }
+                            } catch (exception) {
+                                await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                    value: JSON.stringify({
+                                        status: 'errored',
+                                        step: 'errored',
+                                        syncing: false,
+                                        error: {
+                                            message: exception.message ? exception.message : 'Unknown error',
+                                            stack: exception.stack ? exception.stack : undefined
+                                        }
+                                    }),
+                                    updated_at: dbcon().fn.now()
+                                });
+                                reject(exception);
+                            }
+                        })
+                        .catch(async (error) => {
+                            await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                                value: JSON.stringify({
+                                    status: 'errored',
+                                    step: 'errored',
+                                    syncing: false,
+                                    error: {
+                                        message: error.message ? error.message : 'Unknown error',
+                                        stack: error.stack ? error.stack : undefined
+                                    }
+                                }),
+                                updated_at: dbcon().fn.now()
+                            });
+                            reject(error);
+                        });
+                }))();
+            } catch (err) {
+                // Should already be handled
+            }
+
+            try {
+
+                const sqliteBuffer = fs.readFileSync(global.config.optimiseDBLocation, { flags: 'r', autoClose: true });
+                let compressedBuffer;
+                try {
+                    compressedBuffer = gzipSync(sqliteBuffer, {
+                        level: 9
+                    }).toString('base64');
+                    await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                        value: JSON.stringify({
+                            status: 'running',
+                            step: 'raw_dump',
+                            syncing: true
+                        }),
+                        updated_at: dbcon().fn.now()
+                    });
+                } catch (err) {
+                    await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
+                        value: JSON.stringify({
+                            status: 'errored',
+                            step: 'errored',
+                            syncing: false,
+                            error: {
+                                message: err.message ? err.message : 'Unknown error',
+                                stack: err.stack ? err.stack : undefined
+                            }
+                        }),
+                        updated_at: dbcon().fn.now()
+                    });
+                    return;
+                }
+
+                const sqliteData = JSON.stringify({
+                    ...metadata,
+                    format: 'sqlite',
+                    data: encodeURI(JSON.stringify({
+                        b64: compressedBuffer
+                    }))
+                });
+
+                syncOptions.headers['Content-Length'] = sqliteData.length;
+                syncOptions.data = sqliteData;
+                syncOptions.timeout = 1000 * 60 * 5;
+
                 await (() => new Promise((resolve, reject) => {
                     axios.request(syncOptions)
                         .then(async (response) => {

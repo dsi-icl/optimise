@@ -30,7 +30,9 @@ export class PickDate extends Component {
                     selected={this.state.selected}
                     onChange={this._handleDateChange}
                     dateFormat="dd/MM/yyyy"
-                    style={{ width: '100%' }} />
+                    style={{ width: '100%' }}
+                    enableTabLoop={false}
+                />
                 {this.props.handleChange === undefined ? (
                     <input
                         style={{ display: 'none' }}

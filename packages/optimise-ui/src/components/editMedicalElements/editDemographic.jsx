@@ -6,7 +6,8 @@ import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { PickDate } from '../createMedicalElements/datepicker';
 import { updatePatientCall } from '../../redux/actions/createPatient';
-import { getPatientPii } from '../../redux/actions/patientProfile';
+import { getPatientPii, changePatientId } from '../../redux/actions/patientProfile';
+import history from '../../redux/history';
 
 @connect(state => ({
     CEs: state.patientProfile.data.clinicalEvents
@@ -47,17 +48,22 @@ class UpdateDemoEntry extends Component {
             dominantHandRef: React.createRef(),
             ethnicityRef: React.createRef(),
             genderRef: React.createRef(),
-            hasPII: false
+            hasPII: false,
+            showEditAliasId: false
         };
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleDobDateChange = this._handleDobDateChange.bind(this);
         this._handleFreeTextChange = this._handleFreeTextChange.bind(this);
+        this._onChangeEditID = this._onChangeEditID.bind(this);
+        this._submitEditId = this._submitEditId.bind(this);
+        this._hideEditId = this._hideEditId.bind(this);
+        this._showEditId = this._showEditId.bind(this);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-
         if (prevState.hasPII === false && nextProps.pii !== undefined) {
             return {
+                editAliasIdInput: nextProps.patientId,
                 ...prevState,
                 hasPII: true,
                 givenName: nextProps.pii.firstName,
@@ -115,6 +121,40 @@ class UpdateDemoEntry extends Component {
         });
     }
 
+    _hideEditId() {
+        this.setState({
+            showEditAliasId: false
+        });
+    }
+
+    _showEditId() {
+        this.setState({
+            showEditAliasId: true
+        });
+    }
+
+    _onChangeEditID(e) {
+        this.setState({
+            editAliasIdInput: e.target.value
+        });
+    }
+
+    _submitEditId() {
+        const sanitizedId = this.state.editAliasIdInput.trim();
+        store.dispatch(changePatientId({
+            data: {
+                id: this.props.data.id,
+                aliasId: sanitizedId
+            }
+        })).then(() => {
+            history.push(`/patientProfile/${sanitizedId}/edit/demographic/data`);
+            this.setState({
+                showEditAliasId: false,
+                editAliasIdInput: sanitizedId
+            });
+        });
+    }
+
     _queryPatientData() {
         if (this.props.id === undefined)
             return;
@@ -135,7 +175,7 @@ class UpdateDemoEntry extends Component {
     }
 
     render() {
-        const { countryOfOriginRef, dominantHandRef, ethnicityRef, genderRef } = this.state;
+        const { countryOfOriginRef, dominantHandRef, ethnicityRef, genderRef, showEditAliasId, editAliasIdInput } = this.state;
         const { fields, fetching } = this.props;
         if (fetching || !this.props.pii) {
             return null;
@@ -159,6 +199,22 @@ class UpdateDemoEntry extends Component {
         return (
             <>
                 <h4>Personal information</h4><br />
+                {showEditAliasId
+                    ? <div className={style.editPatientIdDiv}>
+                        <b>Edit Patient ID</b>
+                        <br /><br />
+                        <input onChange={this._onChangeEditID} value={editAliasIdInput} />
+                        <br /><br />
+                        <button type='button' onClick={this._submitEditId}>Submit</button>
+                        <br /><br />
+                        <button type='button' onClick={this._hideEditId}>Cancel</button>
+                    </div>
+                    : <>
+                        <span onClick={this._showEditId} className={style.editAliasIdUncover}>Edit Patient ID</span>
+                        <br />
+                        <br />
+                    </>
+                }
                 <label htmlFor='givenName'>Given name:</label><br /> <input value={givenName} name='givenName' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
                 <label htmlFor='surname'>Surname:</label><br /> <input value={surname} name='surname' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
                 <label htmlFor='address'>Full Address:</label><br /><input value={address} name='address' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />

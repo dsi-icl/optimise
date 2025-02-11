@@ -6,12 +6,13 @@ import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from '../medicalData/dataPage.module.css';
 import store from '../../redux/store';
-import PregnancyImageForm from './pregImage';
+// import PregnancyImageForm from './pregImage';
 import moment from 'moment';
 import { alterPregnancyItemsCall } from '../../redux/actions/demographicData';
 import { PickDate } from '../createMedicalElements/datepicker';
 import profile_style from '../patientProfile/patientProfile.module.css';
 import pregnancy_style from './pregnancy.module.css';
+import history from '../../redux/history';
 
 const MemoizedDataFields = React.memo(function MemoizedDataFields({
     references,
@@ -25,94 +26,6 @@ const MemoizedDataFields = React.memo(function MemoizedDataFields({
         </>
     );
 });
-
-const OffspringDataFields = ({
-    originalValues,
-    atDeliveryOutcome,
-    onOffspringChange
-}) => {
-
-    const [offsprings, setOffsprings] = useState(originalValues ?? []);
-
-    useEffect(() => {
-        if (originalValues && originalValues.length > 0) {
-            setOffsprings(originalValues);
-        }
-    }, [originalValues, originalValues.length]);
-
-    useEffect(() => {
-        if (onOffspringChange)
-            onOffspringChange(offsprings);
-    }, [offsprings, onOffspringChange]);
-
-    if (!offsprings.length)
-        return null;
-
-    const _handleGenderChange = (index, event) => {
-        if (!offsprings[index])
-            offsprings[index] = {};
-        offsprings[index].gender = event.target.value;
-        setOffsprings([...offsprings]);
-    };
-
-    const _handleWeigthChange = (index, event) => {
-        if (!offsprings[index])
-            offsprings[index] = {};
-        offsprings[index].weight = event.target.value;
-        setOffsprings([...offsprings]);
-    };
-
-    const _handleAPGAR1Change = (index, event) => {
-        if (!offsprings[index])
-            offsprings[index] = {};
-        offsprings[index].apgar1 = event.target.value;
-        setOffsprings([...offsprings]);
-    };
-
-    const _handleAPGAR5Change = (index, event) => {
-        if (!offsprings[index])
-            offsprings[index] = {};
-        offsprings[index].apgar5 = event.target.value;
-        setOffsprings([...offsprings]);
-    };
-
-    const _handleCongenitalAffectChange = (index, event) => {
-        if (!offsprings[index])
-            offsprings[index] = {};
-        offsprings[index].congenitalAffect = event.target.value;
-        setOffsprings([...offsprings]);
-    };
-
-    return offsprings.map((offpringData, index) => {
-        return <div key={index} className={`${pregnancy_style.offspring_card}`}>
-            <p>Data card for offpring {index + 1}</p>
-            <br></br>
-            <label >Gender</label>
-            <select value={offpringData.gender} onChange={(event) => _handleGenderChange(index, event)}>
-                <option value='unselected'></option>
-                <option value='male'>Boy</option>
-                <option value='female'>Girl</option>
-            </select>
-            {atDeliveryOutcome
-                ? <>
-                    <br /><br />
-                    <label>Weight of infant at delivery</label>
-                    <input value={offpringData.weight} onChange={(event) => _handleWeigthChange(index, event)} />
-                    <br /><br />
-                    <label>APGAR score at 1 minute</label>
-                    <input value={offpringData.apgar1} onChange={(event) => _handleAPGAR1Change(index, event)} />
-                    <br /><br />
-                    <label>APGAR score at 5 minutes</label>
-                    <input value={offpringData.apgar5} onChange={(event) => _handleAPGAR5Change(index, event)} />
-                    <br /><br />
-                    <label>Presence of any major and/or minor congential malformations or medical diagnoses in the newborn (EUROCAT)</label>
-                    <input value={offpringData.congenitalAffect} onChange={(event) => _handleCongenitalAffectChange(index, event)} />
-                </>
-                : null
-            }
-        </div>;
-    });
-};
 
 function mapStateToProps(state) {
     return {
@@ -178,8 +91,9 @@ class PregnancyEntry extends Component {
         const pregnancyEntry = this.state.pregnancyEntry;
         const possibleFields = this.props.fields.pregnancyEntryFields.filter(el => el.idname === 'number of offsprings' || el.idname === 'number of foetuses');
         let numberOffsprings = 0;
+
         for (let field of possibleFields) {
-            const num = parseInt(this.references[field.id]?.ref.current.value);
+            const num = parseInt(this.references[field.id]?.ref.current?.value ?? 0);
             if (num)
                 numberOffsprings = num;
         }
@@ -192,6 +106,10 @@ class PregnancyEntry extends Component {
 
         this.setState(prevState => ({
             ...prevState,
+            pregnancyEntry: {
+                ...prevState.pregnancyEntry,
+                offsprings: newOffringsValues
+            },
             updateNumber: prevState.updateNumber + 1,
             error: false,
             saved: false
@@ -273,7 +191,7 @@ class PregnancyEntry extends Component {
             deliveryMode: undefined,
             outcomeApplicable: outcomeApplicable,
             entryOrder: entryOrder,
-            saved: true,
+            saved: false,
             error: false,
             updateNumber: 0
         });
@@ -322,15 +240,13 @@ class PregnancyEntry extends Component {
         return '';
     }
 
-
-
     initializeComponent() {
         const { fields, patientProfile } = this.props;
 
         if (!patientProfile.fetching) {
             const newPregnancyState = PregnancyEntry._getNewStateFromProps(this.props);
             const pregnancyEntry = newPregnancyState.pregnancyEntry;
-            const relevantFields = fields.pregnancyEntryFields.filter(el => (el.referenceType === pregnancyEntry.type));
+            const relevantFields = fields.pregnancyEntryFields.filter(el => (el.referenceType === pregnancyEntry.type /* && el.deleted === '-' */));
             const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
             const fieldTree = createLevelObj(relevantFields);
             this.originalValues = pregnancyEntry.data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
@@ -364,18 +280,18 @@ class PregnancyEntry extends Component {
     }
 
     componentDidUpdate(prevProps) {
+
         if (prevProps.match.params.visitId !== this.props.match.params.visitId ||
             prevProps.patientProfile !== this.props.patientProfile) {
+            this.treatAsNewEntry = this.props.renderedInFrontPage || this.props.location.search === '?add';
             this.initializeComponent();
         }
     }
 
-
-
     _formatBody(update, add) {
+
         const { params } = this.props.match;
         const { outcomeApplicable, pregnancyEntry } = this.state;
-
         const entryType = pregnancyEntry.type === 1 ? 1 : (outcomeApplicable === 'yes' ? 3 : 2);
 
         // 1 - baseline,
@@ -412,17 +328,18 @@ class PregnancyEntry extends Component {
         }
 
         body.pregnancyEntry = {
-            id: this.state.pregnancyEntry.id,
-            type: this.state.pregnancyEntry.type,
+            id: pregnancyEntry.id,
+            type: pregnancyEntry.type,
             visitId: parseInt(params.visitId),
-            pregnancyId: this.state.pregnancyEntry.pregnancyId, //if the entry type is baseline, no pregnancy will have been created yet
-            offsprings: JSON.stringify(this.state.pregnancyEntry.offsprings)
+            pregnancyId: pregnancyEntry.pregnancyId, //if the entry type is baseline, no pregnancy will have been created yet
+            offsprings: JSON.stringify(pregnancyEntry.offsprings)
         };
 
         return body;
     }
 
     _composeSubmitBody() {
+
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
 
@@ -430,7 +347,6 @@ class PregnancyEntry extends Component {
 
         if (references === null)
             return;
-
 
         const validationErrorMessage = this._validateFields();
 
@@ -501,21 +417,23 @@ class PregnancyEntry extends Component {
 
         const body = this._composeSubmitBody();
 
+        if (!body) {
+            return;
+        }
+
         this.setState({
             lastSubmit: (new Date()).getTime()
         }, () => {
             store.dispatch(
                 alterPregnancyItemsCall(body, () => {
-
                     this.originalValues = Object.assign({}, this.state.originalValues);
+                    this.treatAsNewEntry = false;
                     this.setState({
                         saved: true
                     });
                 }));
         });
     }
-
-
 
     _findDateRange(date, entryType) {
 
@@ -580,7 +498,6 @@ class PregnancyEntry extends Component {
         return firstMinute;
     }
 
-
     _validateFields() {
 
         const { visitId } = this.props.match.params;
@@ -630,7 +547,6 @@ class PregnancyEntry extends Component {
         return '';
     }
 
-
     _handleStartDateChange(date) {
         this.setState({
             pregnancyStartDate: date,
@@ -657,6 +573,18 @@ class PregnancyEntry extends Component {
 
     _handleOutcomeApplicableChange(ev) {
         const newType = this.state.pregnancyEntry.type === 2 ? 3 : 2;
+        const { fields } = this.props;
+        const relevantFields = fields.pregnancyEntryFields.filter(el => (el.referenceType === newType /* && el.deleted === '-' */));
+        const inputTypeHash = fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
+        const fieldTree = createLevelObj(relevantFields);
+        this.inputTypeHash = inputTypeHash;
+        this.fieldTree = fieldTree;
+
+        const newPregnancyState = PregnancyEntry._getNewStateFromProps(this.props);
+        const pregnancyEntry = newPregnancyState.pregnancyEntry;
+        this.originalValues = pregnancyEntry.data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
+        this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
+
         this.setState(prevState => ({
             outcomeApplicable: ev.target.value,
             pregnancyEntry: {
@@ -666,13 +594,6 @@ class PregnancyEntry extends Component {
             error: false,
             saved: false
         }));
-        const relevantFields = this.props.fields.pregnancyEntryFields.filter(el => (el.referenceType === newType));
-        const inputTypeHash = this.props.fields.inputTypes.reduce((a, el) => { a[el.id] = el.value; return a; }, {});
-        const fieldTree = createLevelObj(relevantFields);
-        this.originalValues = this.state.pregnancyEntry.data.reduce((a, el) => { a[el.field] = el.value; return a; }, {});
-        this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
-        this.inputTypeHash = inputTypeHash;
-        this.fieldTree = fieldTree;
     }
 
     _handleOffspringChange(offspringData) {
@@ -734,9 +655,9 @@ class PregnancyEntry extends Component {
 
     render() {
 
-        const { patientProfile, match } = this.props;
-        const { params } = match;
-        const { pregnancyOutcomes } = this.props.fields;
+        const { patientProfile, match, fields: { pregnancyOutcomes } } = this.props;
+        // const { params } = match;
+        const isFromPregnancyView = window.location.search === '?fromPregnancy';
 
         let _style = scaffold_style;
         if (this.props.override_style) {
@@ -746,13 +667,15 @@ class PregnancyEntry extends Component {
         if (!patientProfile.fetching && this.state.pregnancyEntry) {
 
             let pregnancyEntry = this.state.pregnancyEntry;
-
             if (!pregnancyEntry.id && !this.treatAsNewEntry) {
 
                 return <>
                     <div className={scaffold_style.ariane}>
                         <h2>EDIT PREGNANCY ENTRY</h2>
-                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                        {isFromPregnancyView
+                            ? <BackButton to={`/patientProfile/${match.params.patientId}/pregnancy`} />
+                            : <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                        }
                     </div>
                     <div className={_style.panel}>
                         <i>We could not find the entry that you are looking for.</i>
@@ -764,6 +687,8 @@ class PregnancyEntry extends Component {
                 return null;
             }
 
+            const originalOffspringsAmount = JSON.parse(patientProfile.data.pregnancyEntries?.find(el => el.id === pregnancyEntry.id)?.offsprings ?? '[]').length;
+
             return (
                 <>
                     {this.treatAsNewEntry ?
@@ -773,7 +698,10 @@ class PregnancyEntry extends Component {
                         </div>
                         : <div className={scaffold_style.ariane}>
                             <h2>EDIT PREGNANCY ENTRY</h2>
-                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                            {isFromPregnancyView
+                                ? <BackButton to={`/patientProfile/${match.params.patientId}/pregnancy`} />
+                                : <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                            }
                         </div>}
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
                         <form className={style.form} onInput={this._handleFormInput}>
@@ -789,7 +717,7 @@ class PregnancyEntry extends Component {
                                 {
                                     this.treatAsNewEntry && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
                                         <>
-                                            <br /><br />
+                                            <br />
                                             <p>Ongoing pregnancy start date: {this.state.pregnancyStartDate && this.state.pregnancyStartDate.toString().slice(0, 10)}. Please enter details for a follow up pregnancy record.</p><br /><br />
                                         </>
                                         : null
@@ -804,7 +732,8 @@ class PregnancyEntry extends Component {
                                 {this.treatAsNewEntry && (this.state.pregnancyEntry.type === 2 || this.state.pregnancyEntry.type === 3) ?
                                     <div>
                                         <label >Would you like to add an outcome for this pregnancy?:
-                                            <select value={this.state.outcomeApplicable}
+                                            <select name='outcomeApplicable'
+                                                defaultValue={this.state.outcomeApplicable}
                                                 onChange={this._handleOutcomeApplicableChange}>
                                                 <option value='yes'>Yes</option>
                                                 <option value='no'>No</option>
@@ -824,7 +753,7 @@ class PregnancyEntry extends Component {
                                                 } />
                                             </label><br /><br />
                                             <label >Pregnancy outcome<br />
-                                                <select value={this.state.pregnancyOutcome} onChange={(event) => this._handleOutcomeChange(event)}>
+                                                <select name='ero' defaultValue={this.state.pregnancyOutcome ?? 'unselected'} onChange={(event) => this._handleOutcomeChange(event)}>
                                                     <option value='unselected'></option>
                                                     {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
                                                 </select>
@@ -842,36 +771,43 @@ class PregnancyEntry extends Component {
                                     />
                                 </div>
                                 <br />
-                                {this.originalOffspringsValues.length > 0
-                                    ? <>
-                                        <label>Offspring data cards</label>
-                                        <div className='protected'>
-                                            <OffspringDataFields
-                                                originalValues={this.originalOffspringsValues}
-                                                atDeliveryOutcome={this.state.outcomeApplicable === 'yes'}
-                                                onOffspringChange={this._handleOffspringChange}
-                                            />
-                                        </div>
-                                    </>
-                                    : null}
-                                <br />
+                                {/*
                                 {this.state.pregnancyEntry.id !== undefined
                                     ? <>
-                                        <PregnancyImageForm visitId={params.visitId}></PregnancyImageForm><br /><br />
+                                        <PregnancyImageForm visitId={params.visitId} /><br /><br />
                                     </>
                                     : null}
+                                */}
                             </div>
-                            {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /></> : null}
-                            {this.state.error ? <><div className={profile_style.error}>{this.state.error}</div><br /></> : null}
+                            {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /><br /></> : null}
+                            {this.state.error ? <div className={style.levelBody}>
+                                <div className={profile_style.error}>{this.state.error}</div><br />
+                            </div> : null}
                             {
                                 this.props.renderedInFrontPage
-                                    ?
-                                    null
-                                    :
-                                    <button onClick={this._handleSubmit} type='submit'>Save</button>
+                                    ? null
+                                    : <button onClick={this._handleSubmit} onSubmit={this._handleSubmit} type='submit'>Save</button>
                             }
+                            {this.treatAsNewEntry !== true
+                                ? <>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <div className={`${style.levelBody} ${pregnancy_style.panel}`}>
+                                        <label>Offspring data cards</label>
+                                        <i>We have records to {originalOffspringsAmount} offspring{originalOffspringsAmount > 1 ? 's' : ''} related to this pregancy. Click the button below to be redirected to the list of offsprings.</i>
+                                        <br />
+                                        <br />
+                                        {originalOffspringsAmount > 0
+                                            ? <button type='button' disabled={this.state.error} onClick={() => history.push(`/patientProfile/${this.props.data.patientId}/offsprings`)} className={style.piiUncover}>See offspring{originalOffspringsAmount > 1 ? 's' : ''} data</button>
+                                            : null
+                                        }
+                                    </div>
+                                </>
+                                : null}
                         </form>
-                    </div>
+                    </div >
                 </>
             );
         } else {

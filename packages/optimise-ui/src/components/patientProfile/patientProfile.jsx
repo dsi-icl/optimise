@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import moment from 'moment';
 import Icon from '../icon';
 import { PickDate } from '../createMedicalElements/datepicker';
@@ -9,7 +9,7 @@ import { formatRow } from './patientChart';
 import store from '../../redux/store';
 import { createImmunisationAPICall, deleteImmunisationAPICall, editImmunisationAPICall } from '../../redux/actions/demographicData';
 import { erasePatientAPICall, erasePatientReset } from '../../redux/actions/erasePatient';
-import { getPatientPii, changePatientId } from '../../redux/actions/patientProfile';
+import { getPatientPii } from '../../redux/actions/patientProfile';
 import { updateConsentAPICall, updateParticipationAPICall } from '../../redux/actions/consent';
 import { addAlert } from '../../redux/actions/alert';
 import style from './patientProfile.module.css';
@@ -64,13 +64,9 @@ class DemographicSection extends Component {
 
     constructor() {
         super();
-        this.state = { showPii: false, showEditAliasId: false, editAliasIdInput: '' };
+        this.state = { showPii: false };
         this._hidePii = this._hidePii.bind(this);
         this._queryPatientData = this._queryPatientData.bind(this);
-        this._hideEditId = this._hideEditId.bind(this);
-        this._showEditId = this._showEditId.bind(this);
-        this._onChangeEditID = this._onChangeEditID.bind(this);
-        this._submitEditId = this._submitEditId.bind(this);
     }
 
     _queryPatientData(ev) {
@@ -91,39 +87,8 @@ class DemographicSection extends Component {
         });
     }
 
-    _hideEditId() {
-        this.setState({
-            showEditAliasId: false,
-            editAliasIdInput: ''
-        });
-    }
-
-    _showEditId() {
-        this.setState({
-            showEditAliasId: true
-        });
-    }
-
-    _onChangeEditID(e) {
-        this.setState({
-            editAliasIdInput: e.target.value
-        });
-    }
-
-    _submitEditId() {
-        store.dispatch(changePatientId({
-            data: {
-                id: this.props.data.id,
-                aliasId: this.state.editAliasIdInput
-            },
-            to: '/searchPatient'
-        }));
-    }
-
-
     render() {
         const { data: { demographicData }, pii, fields } = this.props;
-        const { showEditAliasId, editAliasIdInput } = this.state;
         if (demographicData) {
             let { DOB, countryOfOrigin, dominantHand, ethnicity, gender } = demographicData;
             countryOfOrigin = fields['countries'].filter(el => el.id === countryOfOrigin)[0].value;
@@ -152,21 +117,6 @@ class DemographicSection extends Component {
                             </>
                             : null}
                     </div>
-                    <br />
-                    {showEditAliasId ?
-                        <div className={style.editPatientIdDiv}>
-                            <b>Edit Patient ID</b>
-                            <br /><br />
-                            <input onChange={this._onChangeEditID} value={editAliasIdInput} />
-                            <br /><br />
-                            <button onClick={this._submitEditId}>Submit</button>
-                            <br /><br />
-                            <button onClick={this._hideEditId}>Cancel</button>
-                            <p>Note: after changing patient ID you will be redirected to search tab.</p>
-                        </div>
-                        :
-                        <span onClick={this._showEditId} className={style.piiUncover}>Edit Patient ID</span>
-                    }
                 </PatientProfileSectionScaffold>
             );
         } else {
@@ -465,6 +415,12 @@ class Pregnancy extends Component {
                     {pregnancy.outcomeDate && pregnancy.outcomeDate !== '' ? <> <br /><label>End date: </label> {moment(pregnancy.outcomeDate, 'x')._d.toDateString()}</> : null}
                     {outcomeName ? <> <br /><label>Outcome: </label> {outcomeName}</> : null}
                     {MedDRAName ? <> <br /><label>MedDRA: </label> {MedDRAName.name}</> : null}
+                    {this.props.data.pregnancySubStudyConsent
+                        ? <Link to={`/patientProfile/${this.props.data.patientId}/pregnancy`} className={style.piiUncover}>See pregnancies</Link>
+                        : null}
+                    {this.props.data.pregnancySubStudyConsent
+                        ? <Link to={`/patientProfile/${this.props.data.patientId}/offsprings`} className={style.piiUncover}>See offsprings</Link>
+                        : null}
                 </>
 
             </PatientProfileSectionScaffold>
@@ -512,6 +468,9 @@ class ConsentSection extends Component {
             }
         };
         store.dispatch(updateConsentAPICall(body));
+        this.setState({
+            selectedConsentDate: undefined
+        });
     }
 
     _handleClickGivesConsent() {
@@ -542,6 +501,9 @@ class ConsentSection extends Component {
             }
         };
         store.dispatch(updateConsentAPICall(body));
+        this.setState({
+            selectedPregnancyConsentDate: undefined
+        });
     }
 
     _handleClickGivesPregnancyConsent() {
@@ -578,7 +540,6 @@ class ConsentSection extends Component {
                 <button onClick={this._handleClickWithdrawParticipation} >{participation ? 'This patient withdraws from the study' : 'This patient re-enrolls in the study'}</button>
             </PatientProfileSectionScaffold>
             <PatientProfileSectionScaffold sectionName='Consent'>
-
                 {
                     optimiseConsent ?
                         <div>
@@ -596,8 +557,6 @@ class ConsentSection extends Component {
                             <button style={{ marginTop: '0.5rem' }} disabled={this.state.selectedConsentDate === undefined} onClick={this._handleClickGivesConsent}>Patient gives consent</button>
                         </div>
                 }
-
-
 
             </PatientProfileSectionScaffold>
             {femalePatient

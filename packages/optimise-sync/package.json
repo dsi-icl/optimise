@@ -1,6 +1,6 @@
 {
     "name": "optimise-sync",
-    "version": "3.1.7",
+    "version": "3.2.1",
     "description": "Optimise:MS Synchroniser",
     "keywords": [
         "ms"
@@ -39,8 +39,9 @@
         "connect-mongo": "5.1.0",
         "csurf": "1.11.0",
         "express": "4.21.2",
+        "express-rate-limit": "7.5.0",
         "express-session": "1.18.1",
-        "mongodb": "6.12.0",
+        "mongodb": "6.13.0",
         "passport": "0.7.0",
         "saslprep": "1.0.3"
     },
@@ -49,7 +50,7 @@
         "eslint": "8.57.1",
         "eslint-plugin-promise": "7.2.1",
         "rimraf": "6.0.1",
-        "run-script-webpack-plugin": "0.2.0",
+        "run-script-webpack-plugin": "0.2.1",
         "webpack": "5.97.1",
         "webpack-cli": "6.0.1"
     },

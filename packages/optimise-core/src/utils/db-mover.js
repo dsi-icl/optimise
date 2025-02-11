@@ -1,4 +1,3 @@
-/*eslint no-console: "off"*/
 import dbcon from './db-connection';
 
 const mapper = {};

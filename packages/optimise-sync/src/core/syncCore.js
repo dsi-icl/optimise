@@ -49,9 +49,25 @@ class SyncCore {
             version: info.version,
             hostname: info.hostname,
             ip: info.ip,
+            type: info.type,
+            size: info.size,
             time: (new Date()).toISOString(),
             error: info.error
         });
+    }
+
+    /**
+     * @function createSyncRecord update a synchronisation record
+     *
+     * @param {*} id Identifier for the document to update
+     * @param {*} data Information to update about the sync event
+     * @returns a Promise that contains the result from the select query
+     */
+    static async updateSyncRecord(id, data) {
+        const db = await dbcon().then(client => client.db());
+        return db.collection('EVENTS').updateOne({
+            _id: id
+        }, { $set: data }, { upsert: false });
     }
 
     /**
@@ -63,7 +79,7 @@ class SyncCore {
      */
     static async validateKey(agent, key) {
         const db = await dbcon().then(client => client.db());
-        const record = await db.collection('VALIDATION_KEYS').findOne({ key });
+        const record = await db.collection('VALIDATION_KEYS').findOne({ key: { $eq: key } });
         let error = undefined;
         if (record === null || record === undefined)
             error = 'The validation key does not exist';

@@ -16,6 +16,7 @@ const Options = function (configuration = {}) {
     config.port = configuration.port ? configuration.port : 3050;
     config.development = configuration.development ? configuration.development : false;
     config.mongo = configuration.mongo ? configuration.mongo : 'mongodb://mongodb0.example.com:27017/admin';
+    config.sqliteDumpsDir = configuration.sqliteDumpsDir ? configuration.sqliteDumpsDir : './tmp';
     config.sessionSecret = configuration.sessionSecret ? configuration.sessionSecret : crypto.randomBytes(48).toString('hex');
 
     return config;

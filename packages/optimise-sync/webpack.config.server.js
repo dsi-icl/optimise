@@ -13,6 +13,7 @@ module.exports = {
             core: ['./src/optimiseSyncServer']
         }
     ),
+    watch: process.env.NODE_ENV === 'development',
     target: 'node',
     externals: [
         //     nodeExternals({

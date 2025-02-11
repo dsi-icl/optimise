@@ -248,7 +248,8 @@ export const formatRow = (arr) => arr.map((el, ind) => <td key={ind}>{el}</td>);
     typedict: state.availableFields.visitFields_Hash[0],
     inputType: state.availableFields.inputTypes_Hash[0],
     icd11_Hash: state.availableFields.icd11_Hash[0],
-    pregnancyOutcome_hash: state.availableFields.pregnancyOutcomes_Hash[0]
+    pregnancyOutcome_hash: state.availableFields.pregnancyOutcomes_Hash[0],
+    pregnancyEntryFields_hash: state.availableFields.pregnancyEntryFields_Hash[0]
 }))
 class OneVisit extends Component {
 
@@ -293,6 +294,8 @@ class OneVisit extends Component {
         //
         const pregnancyEntries = this.props.data.pregnancyEntries.filter(el => el['recordedDuringVisit'] === this.props.visitId);
         const pregnancyImages = this.props.data.pregnancyImages.filter(el => el.visitId === this.props.visitId);
+        const isLatestPregnancyEntry = this.props.data.pregnancyEntries.sort((a, b) => b.id - a.id)[0]?.id === pregnancyEntries[0]?.id;
+        const isLatestVisit = this.props.data.visits.sort((a, b) => b.id - a.id)[0]?.id === this.props.visitId;
 
         function isValidDateFormat(dateString) {
             const date = new Date(dateString);
@@ -607,6 +610,9 @@ class OneVisit extends Component {
                         <h4><Icon symbol='symptom' />&nbsp;PREGNANCY</h4>
                         {pregnancyEntries.length && pregnancy.length && this.props.data.pregnancySubStudyConsent
                             ? <>
+                                This section only reflects the pregnancy entry related to this visit. To see all pregnancy information, please visit the pregnancy section.
+                                <br />
+                                <br />
                                 <div className={style.visitWrapper}>
                                     <table>
                                         <thead>
@@ -648,14 +654,14 @@ class OneVisit extends Component {
 
                                             {pregnancyEntries[0].data.map((el, index) => (
                                                 <tr key={index}>
-                                                    <td>{el.field_idname}</td>
+                                                    <td>{this.props.pregnancyEntryFields_hash[el.field_idname].definition}</td>
                                                     <td>{isValidDateFormat(el.value) ? el.value.slice(0, 10) : el.value}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
 
-                                    {pregnancyOffspring?.length
+                                    {/* {pregnancyOffspring?.length
                                         ? pregnancyOffspring.map((el, index) => {
                                             const offspringValues = Object.entries(el);
                                             return (
@@ -664,12 +670,12 @@ class OneVisit extends Component {
                                                     <table>
                                                         <thead>
                                                             <tr>
-                                                                <th colSpan="2">Offspring {index + 1}</th>
+                                                                <th colSpan="2">Offspring ID{el.id}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             {offspringValues.length
-                                                                ? offspringValues.map(([key, value]) => (
+                                                                ? offspringValues.filter(([key]) => key !== 'id').map(([key, value]) => (
                                                                     <tr key={key}>
                                                                         <td>{key}</td>
                                                                         <td>{value}</td>
@@ -683,7 +689,7 @@ class OneVisit extends Component {
                                             );
                                         })
                                         : null
-                                    }
+                                    } */}
 
                                     {pregnancyImages.length
                                         ? pregnancyImages.map((el, index) => {
@@ -720,20 +726,41 @@ class OneVisit extends Component {
                                         })
                                         : null
                                     }
+
+                                    {pregnancyOffspring?.length
+                                        ? <>
+                                            <br />
+                                            <NavLink to={`/patientProfile/${this.props.data.patientId}/pregnancy/${pregnancyEntries[0].pregnancyId}/offsprings`} activeClassName={style.activeNavLink}>
+                                                <button>See offspring{pregnancyOffspring.length > 1 ? 's' : ''} data for this pregnancy</button>
+                                            </NavLink>
+                                            <br />
+                                        </>
+                                        : null
+                                    }
                                     <br />
                                 </div>
-
-                                <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy`} activeClassName={style.activeNavLink}>
-                                    <button>Edit pregnancy entry</button>
-                                </NavLink>
-                                <br /><br />
+                                {isLatestPregnancyEntry
+                                    ? <>
+                                        <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy`} activeClassName={style.activeNavLink}>
+                                            <button id={`epe_v${this.props.visitId}`}>Edit pregnancy entry</button>
+                                        </NavLink>
+                                        <br />                                        <br />
+                                    </>
+                                    : null
+                                }
                             </>
-                            : <>
-                                <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy?add`} activeClassName={style.activeNavLink}>
-                                    <button>Add pregnancy entry</button>
-                                </NavLink>
-                                <br /><br />
-                            </>
+                            : isLatestVisit
+                                ? <>
+                                    <NavLink to={`/patientProfile/${this.props.data.patientId}/data/visit/${this.props.visitId}/pregnancy?add`} activeClassName={style.activeNavLink}>
+                                        <button>Add pregnancy entry</button>
+                                    </NavLink>
+                                    <br /><br />
+                                </>
+                                : <>
+                                    You can only modify the last pregnancy information record to add more to the latest visit record.
+                                    <br />
+                                    <br />
+                                </>
                         }
                     </>
                     : null

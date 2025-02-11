@@ -66,23 +66,52 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
             body: JSON.stringify(body.pregnancy)
         });
 
-        const pregnancyId = pregnancyResponse.state;
+        const pregnancyId = pregnancyResponse[0].id;
         if (body.pregnancyEntry) {
             if (body.pregnancyEntry.type === 1 && !body.pregnancy.id) {
                 body.pregnancyEntry.pregnancyId = pregnancyId;
             }
-            const pregnancyEntry = body.pregnancyEntry;
+            const pregnancyEntry = { ...body.pregnancyEntry };
+            delete pregnancyEntry.offsprings;
+
             if (pregnancyEntry.id !== undefined)
                 // Problem with visitId recorded as recordedDuringVisit
                 delete pregnancyEntry.visitId;
+
             const pregnancyEntryResponse = await apiHelper('/demographics/PregnancyEntry', {
                 method: pregnancyEntry.id === undefined ? 'POST' : 'PUT',
                 body: JSON.stringify(pregnancyEntry)
             });
 
-            const pregnancyEntryId = pregnancyEntryResponse.state;
+            const pregnancyEntryId = pregnancyEntryResponse[0].id;
             if (body.data) {
                 body.data.pregnancyEntryId = pregnancyEntryId;
+            }
+
+            const offsprings = body.pregnancyEntry.offsprings;
+            const offspringEntries = JSON.parse(offsprings ?? '[]');
+            const offspringEntriesIds = [];
+
+            for (let i = 0; i < offspringEntries.length; i++) {
+                const offspringEntry = {};
+                const filteredOffspringEntry = { ...(offspringEntries[i]) };
+                delete filteredOffspringEntry.id;
+                offspringEntry.id = offspringEntries[i].id;
+                offspringEntry.data = JSON.stringify(filteredOffspringEntry);
+                offspringEntry.pregnancyId = pregnancyId;
+                offspringEntry.patientId = body.pregnancy.patient;
+
+                if (offspringEntry.same === undefined) {
+                    const offspringEntryResponse = await apiHelper('/demographics/OffspringEntry', {
+                        method: offspringEntry.id === undefined ? 'POST' : 'PUT',
+                        body: JSON.stringify(offspringEntry)
+                    });
+                    offspringEntriesIds.push(offspringEntryResponse.state);
+                }
+            }
+
+            if (body.data) {
+                body.data.offspringEntriesIds = offspringEntriesIds;
             }
         }
 
@@ -96,6 +125,14 @@ export const alterPregnancyItemsCall = (body, callback) => async (dispatch) => {
         dispatch(addError({ error: msg }));
     }
 };
+
+export const editOffspringAPICall = (body) => dispatch => (
+    apiHelper('/demographics/OffspringEntry', { method: 'PUT', body: JSON.stringify(body.data) })
+        .then(() => {
+            dispatch(getPatientProfileById(body.patientId));
+        })
+        .catch(msg => store.dispatch(addError({ error: msg })))
+);
 
 export const createPregnancyImageAPICall = (body) => dispatch => (
     apiHelper('/demographics/PregnancyImage', { method: 'POST', body: JSON.stringify(body.data) })

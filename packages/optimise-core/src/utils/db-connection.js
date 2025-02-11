@@ -1,5 +1,6 @@
 import knex from 'knex';
 
+/** @type {import('knex/types/index').Knex} */
 let connection;
 
 export default () => {

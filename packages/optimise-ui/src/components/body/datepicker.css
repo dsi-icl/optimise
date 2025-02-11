@@ -4,16 +4,21 @@
 }
 
 .react-datepicker-popper {
-    z-index: 4;
+    z-index: 10000;
 }
 
-.react-datepicker-popper button:hover {
-    background-color: initial;
+.react-datepicker__tab-loop {
+    display: inline;
+}
+
+.react-datepicker__tab-loop__start,
+.react-datepicker__tab-loop__end {
+    display: none;
 }
 
 .react-datepicker__navigation--previous,
 .react-datepicker__navigation--next {
-    height: 10px;
+    height: 24px;
 }
 
 .react-datepicker__navigation--previous:hover {

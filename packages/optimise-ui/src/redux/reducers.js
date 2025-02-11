@@ -127,39 +127,41 @@ function availableFields(state = initialState.availableFields, action) {
             newState = { ...state, pregnancyOutcomes: action.payload, pregnancyOutcomes_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_PREGNANCY_ENTRY_FIELDS_SUCCESS:
-            hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
+            hash = action.payload.reduce((map, el) => { map[el.id] = el; map[el.idname] = el; return map; }, {});
             newState = { ...state, pregnancyEntryFields: action.payload, pregnancyEntryFields_Hash: [hash] };
             break;
         case actionTypes.availableFields.GET_PREGNANCY_ENTRY_TYPES_SUCCESS:
-            hash = action.payload.reduce((map, el) => { map[el.id] = el.value; return map; }, {});
+            hash = action.payload.reduce((map, el) => { map[el.id] = el.name; return map; }, {});
             newState = { ...state, pregnancyEntryTypes: action.payload, pregnancyEntryTypes_Hash: [hash] };
             break;
-        case actionTypes.availableFields.GET_INTERRUPTION_REASONS_SUCESS:
+        case actionTypes.availableFields.GET_INTERRUPTION_REASONS_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
             newState = { ...state, interruptionReasons: action.payload, interruptionReasons_Hash: [hash] };
             break;
-        case actionTypes.availableFields.GET_MEDDRA_SUCESS:
+        case actionTypes.availableFields.GET_MEDDRA_SUCCESS:
             hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
             workerDispatch({
-                type: actionTypes.availableFields.GET_MEDDRA_TREE_SUCESS,
+                type: actionTypes.availableFields.GET_MEDDRA_TREE_SUCCESS,
                 work: 'tree',
                 payload: action.payload
             });
             newState = { ...state, allMeddra: action.payload, meddra_Hash: [hash] };
             break;
-        case actionTypes.availableFields.GET_MEDDRA_TREE_SUCESS:
+        case actionTypes.availableFields.GET_MEDDRA_TREE_SUCCESS:
             newState = { ...state, meddra_Tree: action.payload };
             break;
         case actionTypes.availableFields.GET_ICD11_SUCCESS:
-            hash = action.payload.reduce((map, el) => { map[el.id] = el; return map; }, {});
+            hash = {};
+            for (const each of action.payload)
+                hash[each.id] = each;
             workerDispatch({
-                type: actionTypes.availableFields.GET_ICD11_TREE_SUCESS,
+                type: actionTypes.availableFields.GET_ICD11_TREE_SUCCESS,
                 work: 'tree',
                 payload: action.payload
             });
             newState = { ...state, icd11: action.payload, icd11_Hash: [hash] };
             break;
-        case actionTypes.availableFields.GET_ICD11_TREE_SUCESS:
+        case actionTypes.availableFields.GET_ICD11_TREE_SUCCESS:
             newState = { ...state, icd11_Tree: action.payload };
             break;
         case actionTypes.availableFields.GET_VISIT_SECTIONS_SUCCESS:
