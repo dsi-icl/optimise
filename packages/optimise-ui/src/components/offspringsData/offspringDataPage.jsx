@@ -118,7 +118,7 @@ const OffspringData = ({
                 <i>We could not find the event that you are looking for.</i>
             </div>
         </>;
-    console.log('OffspringData', offpringData);
+
     return <>
         <div className={scaffold_style.ariane}>
             <h2>EDIT OFFSPRING DATA ({offpringData.name ?? `ID${offspring.id}`})</h2>
