@@ -77,8 +77,8 @@ describe('Create pregnancy controller tests', () => {
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
-            expect(body.state).toBeDefined();
-            expect(body.state).toBeGreaterThan(1);
+            expect(body.length).toBeDefined();
+            expect(body[0].id).toBeGreaterThan(1);
             return true;
         }));
     test('Request creation with good body (should succeed)', () => admin
@@ -87,8 +87,8 @@ describe('Create pregnancy controller tests', () => {
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
-            expect(body.state).toBeDefined();
-            expect(body.state).toBeGreaterThan(1);
+            expect(body.length).toBeDefined();
+            expect(body[0].id).toBeGreaterThan(1);
             return true;
         }));
 });
@@ -100,7 +100,8 @@ describe('Update pregnancy entry controller tests', () => {
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
-            expect(body.state).toBe(1);
+            expect(body.length).toBeDefined();
+            expect(body[0].id).toBe(1);
             return true;
         }));
 
@@ -110,11 +111,10 @@ describe('Update pregnancy entry controller tests', () => {
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
-            expect(body.state).toBe(1);
+            expect(body.length).toBeDefined();
+            expect(body[0].id).toBe(2);
             return true;
         }));
-
-
 });
 
 describe('Delete pregnancy entry controller tests', () => {

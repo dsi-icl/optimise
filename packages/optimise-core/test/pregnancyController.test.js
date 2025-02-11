@@ -197,8 +197,8 @@ describe('Create Pregnancy controller test', () => {
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
-            expect(body.state).toBeDefined();
-            expect(body.state).toBe(3);
+            expect(body.length).toBeDefined();
+            expect(body[0].id).toBe(3);
             return true;
         }));
 
@@ -213,8 +213,8 @@ describe('Create Pregnancy controller test', () => {
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
-            expect(body.state).toBeDefined();
-            expect(body.state).toBe(4);
+            expect(body.length).toBeDefined();
+            expect(body[0].id).toBe(4);
             return true;
         }));
 
@@ -229,8 +229,8 @@ describe('Create Pregnancy controller test', () => {
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
-            expect(body.state).toBeDefined();
-            expect(body.state).toBe(5);
+            expect(body.length).toBeDefined();
+            expect(body[0].id).toBe(5);
             return true;
         }));
 });
@@ -294,8 +294,8 @@ describe('Edit Pregnancy controller test', () => {
         .then(({ status, body }) => {
             expect(status).toBe(200);
             expect(typeof body).toBe('object');
-            expect(body.state).toBeDefined();
-            expect(body.state).toBe(1);
+            expect(body.length).toBeDefined();
+            expect(body[0].id).toBe(3);
             return true;
         }));
 
