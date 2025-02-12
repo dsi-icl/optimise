@@ -15,6 +15,12 @@ optimise.start().then(router => {
     // For production activating reponse compression
     root.use(compression());
 
+    // Binding static resources folder
+    root.use('/', express.static(path.normalize(`${__dirname}/static`), {
+        redirect: false,
+        fallthrough: true
+    }));
+
     // Plug rate limitation
     root.use(rateLimit({
         windowMs: 1 * 60 * 1000,
@@ -24,16 +30,11 @@ optimise.start().then(router => {
     // Linking optimise's router on /api
     root.use('/api', router);
 
-    // Binding static resources folder
-    root.use('/', express.static(path.normalize(`${__dirname}/static`), {
-        redirect: false,
-        fallthrough: true
-    }));
-
     // Referencing any other requests to the /public/index.html
     root.use('*', (__unused__req, res) => {
         res.sendFile(path.resolve('static/index.html'));
     });
+
 
     root.listen(3030, error => {
         if (error !== undefined && error !== null) {
