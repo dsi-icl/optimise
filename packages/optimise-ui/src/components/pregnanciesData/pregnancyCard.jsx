@@ -8,7 +8,8 @@ import history from '../../redux/history';
 
 export const PregnancyCard = ({ pregnancy }) => {
 
-    const { availableFields, patientProfile: { currentPatient, data: { pregnancy: allPregnancies, pregnancyEntries, offsprings } } } = useMemo(() => store.getState(), []);
+    const { availableFields, patientProfile: { currentPatient, data: { pregnancy: allPregnancies, pregnancyEntries } } } = useMemo(() => store.getState(), []);
+    const pregnancyEntryFieldsMap = useMemo(() => (availableFields.pregnancyEntryFields_Hash ?? [])?.[0], [availableFields.pregnancyEntryFields]);
     const pregnancyOutcomeTypes = useMemo(() => availableFields.pregnancyOutcomes ?? [], [availableFields.pregnancyOutcomes]);
     const pregnancyOutcome = pregnancyOutcomeTypes.find(po => po.id === pregnancy.outcome);
     const plannedEndDate = moment(new Date(parseInt(pregnancy.startDate, 10))).add(9, 'months');
@@ -23,6 +24,21 @@ export const PregnancyCard = ({ pregnancy }) => {
 
     const relevantEntries = pregnancyEntries.filter(entry => entry.pregnancyId === pregnancy.id).sort((a, b) => parseInt(b.id) - parseInt(a.id));
     const lastEntry = relevantEntries[0];
+
+    const dataFieldsMap = {};
+    relevantEntries.reverse().forEach(entry => {
+        entry.data?.forEach(data => {
+            dataFieldsMap[data.field] = data;
+        });
+    });
+    const dataFields = Object.values(dataFieldsMap).map(data => {
+        const field = pregnancyEntryFieldsMap[data.field];
+        return {
+            type: field.type,
+            definition: field.definition,
+            value: data.value
+        };
+    }).filter(data => data.value !== null && data.value.trim() !== '');
 
     return <div key={pregnancy.id} className={style.level}>
         <div className={style.levelHeader}>{ordinal(pregnancy.orderPosition + 1)} pregnancy</div>
@@ -49,21 +65,21 @@ export const PregnancyCard = ({ pregnancy }) => {
                         </tr>
                         : null
                     }
+                    {dataFields.map((data, i) => <tr key={i}>
+                        <td>{data.definition}</td>
+                        <td>{data.type === 6 ? new Date(data.value).toDateString() : data.value}</td>
+                    </tr>)}
                 </tbody>
             </table>
-            {pregnancy.outcome === null
-                ? <>
-                    <button type='button' style={{ marginTop: '0.5rem' }} onClick={() => {
-                        history.push(`/patientProfile/${currentPatient}/data/visit/${lastEntry.recordedDuringVisit}/pregnancy?fromPregnancy#epe_v${lastEntry.recordedDuringVisit}`);
-                        document.getElementById(`epe_v${lastEntry.recordedDuringVisit}`).scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'center',
-                            inline: 'nearest'
-                        });
-                    }}>Edit last entry</button>
-                    <br />
-                </>
-                : null}
+            <button type='button' style={{ marginTop: '0.5rem' }} onClick={() => {
+                history.push(`/patientProfile/${currentPatient}/data/visit/${lastEntry.recordedDuringVisit}/pregnancy?fromPregnancy#epe_v${lastEntry.recordedDuringVisit}`);
+                document.getElementById(`epe_v${lastEntry.recordedDuringVisit}`).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'nearest'
+                });
+            }}>{pregnancy.outcome === null ? 'Edit last entry' : 'Edit outcome entry'}</button>
+            <br />
             <button type='button' style={{ marginTop: '0.5rem' }} onClick={() => history.push(`/patientProfile/${currentPatient}/pregnancy/${pregnancy.id}/offsprings?fromPregnancy`)}>Go to offsprings data</button>
         </div>
     </div>;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { BackButton } from './utils';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
+import style from './offspringPage.module.css';
 import store from '../../redux/store';
 import { editOffspringAPICall } from '../../redux/actions/demographicData';
 
@@ -54,8 +55,13 @@ const OffspringData = ({
         setOffpringData(offpringData);
     };
 
-    const _handleCongenitalAffectChange = (event) => {
-        offpringData.congenitalAffect = event.target.value;
+    const _handleCongenitalAffectMinorChange = (event) => {
+        offpringData.congenitalAffectMinor = event.target.value;
+        setOffpringData(offpringData);
+    };
+
+    const _handleCongenitalAffectMajorChange = (event) => {
+        offpringData.congenitalAffectMajor = event.target.value;
         setOffpringData(offpringData);
     };
 
@@ -76,6 +82,14 @@ const OffspringData = ({
     const _handleDevelopmentalOutcomesChange = (event) => {
         offpringData.developmentalOutcomes = event.target.value;
         setOffpringData(offpringData);
+    };
+
+    const _textareaAutosize = (event) => {
+        var el = event.target;
+        setTimeout(function () {
+            el.style.cssText = 'min-height:37px; height: 37px;';
+            el.style.cssText = 'height:' + el.scrollHeight + 'px';
+        }, 0);
     };
 
     const _handleSubmit = (e) => {
@@ -125,8 +139,8 @@ const OffspringData = ({
             <BackButton to={`/patientProfile/${currentPatient}/offsprings`} />
         </div>
         <div className={scaffold_style.panel}>
-            <label>Name</label>
-            <input defaultValue={offpringData.name} onChange={_handleNameChange} />
+            <label htmlFor='weight'>Name</label>
+            <input name='weight' defaultValue={offpringData.name} onChange={_handleNameChange} />
             <br /><br />
             <label >Gender</label>
             <select defaultValue={offpringData.gender} onChange={_handleGenderChange}>
@@ -137,36 +151,43 @@ const OffspringData = ({
             {atDeliveryOutcome
                 ? <>
                     <br /><br />
-                    <label>Weight of infant at delivery</label>
-                    <input defaultValue={offpringData.weight} onChange={_handleWeigthChange} />
+                    <label htmlFor='weight'>Weight of infant at delivery</label>
+                    <input name='weight' defaultValue={offpringData.weight} onChange={_handleWeigthChange} />
                     <br /><br />
-                    <label>APGAR score at 1 minute</label>
-                    <input defaultValue={offpringData.apgar1} onChange={_handleAPGAR1Change} />
+                    <label htmlFor='apgar1'>APGAR score at 1 minute</label>
+                    <input name='apgar1' defaultValue={offpringData.apgar1} onChange={_handleAPGAR1Change} />
                     <br /><br />
-                    <label>APGAR score at 5 minutes</label>
-                    <input defaultValue={offpringData.apgar5} onChange={_handleAPGAR5Change} />
+                    <label htmlFor='apgar5'>APGAR score at 5 minutes</label>
+                    <input name='apgar5' defaultValue={offpringData.apgar5} onChange={_handleAPGAR5Change} />
                     <br /><br />
-                    <label>Presence of any major and/or minor congential malformations or medical diagnoses in the newborn (EUROCAT)</label>
-                    <input defaultValue={offpringData.congenitalAffect} onChange={_handleCongenitalAffectChange} />
+                    <label htmlFor='congenitalAffectMinor'>Presence of <u style={{ textDecoration: 'underline' }}>minor</u> congential malformations (EUROCAT)</label>
+                    <textarea className={style.expandingTextarea} name='congenitalAffectMinor' defaultValue={offpringData.congenitalAffectMinor} onMouseEnter={_textareaAutosize} onKeyDown={_textareaAutosize} onChange={_handleCongenitalAffectMinorChange}></textarea>
                     <br /><br />
-                    <label >Mode of infant feeding</label>
-                    <select defaultValue={offpringData.feedingMode} onChange={_handleFeedingModeChange}>
+                    <label htmlFor='congenitalAffectMajor'>Presence of <u style={{ textDecoration: 'underline' }}>major</u> congential malformations (EUROCAT)</label>
+                    <textarea className={style.expandingTextarea} name='congenitalAffectMajor' defaultValue={offpringData.congenitalAffectMajor} onMouseEnter={_textareaAutosize} onKeyDown={_textareaAutosize} onChange={_handleCongenitalAffectMajorChange}></textarea>
+                    <br /><br />
+                    <label htmlFor='feedingMode'>Mode of infant feeding</label>
+                    <select name='feedingMode' defaultValue={offpringData.feedingMode} onChange={_handleFeedingModeChange}>
                         <option value='unselected'></option>
                         <option value='breastfeeding'>Breastfeeding</option>
                         <option value='formula'>Formula</option>
                         <option value='mixed'>Mixed</option>
                     </select>
                     <br /><br />
-                    <label>Duration of breastfeeding</label>
-                    <input defaultValue={offpringData.breastFeedingDuration} onChange={_handleBreastFeedingChange} />
+                    <label htmlFor='breastFeedingDuration'>Duration of breastfeeding</label>
+                    <input name='breastFeedingDuration' defaultValue={offpringData.breastFeedingDuration} onChange={_handleBreastFeedingChange} />
                     <br /><br />
-                    <label>Admission of infant to hospital within the first year of life</label>
-                    <input type='checkbox' checked={offpringData.hospitalAdmissionFirstYear} onChange={_handleHospitalAdmissionFirstYearChange} />
+                    <label htmlFor='hospitalAdmissionFirstYear'>Admission of infant to hospital within the first year of life</label>
+                    <input name='hospitalAdmissionFirstYear' type='checkbox' checked={offpringData.hospitalAdmissionFirstYear} onChange={_handleHospitalAdmissionFirstYearChange} />
                     <br /><br />
-                    <label>Developmental outcomes during the first 5 years of life</label>
-                    <input defaultValue={offpringData.developmentalOutcomes} onChange={_handleDevelopmentalOutcomesChange} />
+                    <label htmlFor='developmentalOutcomes'>Developmental outcomes during the first 5 years of life</label>
+                    <textarea className={style.expandingTextarea} name='developmentalOutcomes' defaultValue={offpringData.developmentalOutcomes} onMouseEnter={_textareaAutosize} onKeyDown={_textareaAutosize} onChange={_handleDevelopmentalOutcomesChange}></textarea>
                 </>
-                : null
+                : <>
+                    <br />
+                    <br />
+                    <i>You will be able to enter followup information for this offspring once the pregnancy completes or is terminated. Please refer to the pregnancy data entry screen.</i>
+                </>
             }
             <br />
             <br />

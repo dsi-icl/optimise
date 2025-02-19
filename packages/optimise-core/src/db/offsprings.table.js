@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import { tableMove } from '../utils/db-mover';
 
@@ -14,20 +13,28 @@ export default async (dbcon, version) => {
             if (V18_PREGNANCY_ENTRY_TABLE_NAME !== null) {
                 const oldData = (await dbcon()(V18_PREGNANCY_ENTRY_TABLE_NAME).where({ deleted: '-' }).select('*'));
 
-                const pregnancies = Object.values(oldData.reduce((acc, entry) => {
-                    if (!acc[entry.pregnancyId])
-                        acc[entry.pregnancyId] = entry;
-                    else if (moment(acc[entry.pregnancyId].createdTime, moment.ISO_8601).isBefore(moment(entry.createdTime, moment.ISO_8601)))
-                        acc[entry.pregnancyId] = entry;
-                    return acc;
-                }, {}));
-
+                const pregnanciesMap = {};
+                for (const entry of oldData) {
+                    const pregnancy = await dbcon()('PATIENT_PREGNANCY').where({ id: entry.pregnancyId, deleted: '-' }).select('*').first();
+                    if (pregnancy === undefined)
+                        continue;
+                    const newEntry = {
+                        ...entry,
+                        patientId: pregnancy.patient
+                    };
+                    if (!pregnanciesMap[entry.pregnancyId])
+                        pregnanciesMap[entry.pregnancyId] = newEntry;
+                    else if (moment(pregnanciesMap[entry.pregnancyId].createdTime, moment.ISO_8601).isBefore(moment(entry.createdTime, moment.ISO_8601)))
+                        pregnanciesMap[entry.pregnancyId] = newEntry;
+                }
+                const pregnancies = Object.values(pregnanciesMap);
                 const newOffsprings = [];
                 pregnancies.forEach((pregnancy) => {
                     const offspings = JSON.parse(pregnancy.offsprings ?? '[]');
                     offspings.forEach((offspring) => {
                         newOffsprings.push({
                             pregnancyId: pregnancy.pregnancyId,
+                            patientId: pregnancy.patientId,
                             data: JSON.stringify(offspring ?? '{}'),
                             createdTime: pregnancy.createdTime,
                             createdByUser: pregnancy.createdByUser

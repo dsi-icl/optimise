@@ -655,7 +655,7 @@ class PregnancyEntry extends Component {
 
     render() {
 
-        const { patientProfile, match, fields: { pregnancyOutcomes } } = this.props;
+        const { patientProfile, match, fields: { pregnancyOutcomes = [] } } = this.props;
         // const { params } = match;
         const isFromPregnancyView = window.location.search === '?fromPregnancy';
 
@@ -747,6 +747,7 @@ class PregnancyEntry extends Component {
                                         && this.state.pregnancyEntry.type === 3
                                         ?
                                         <div>
+                                            <br />
                                             <label >Pregnancy end date:
                                                 <PickDate startDate={this.state.pregnancyOutcomeDate} handleChange={(date) =>
                                                     this._handleOutcomeDateChange(date)
@@ -755,7 +756,7 @@ class PregnancyEntry extends Component {
                                             <label >Pregnancy outcome<br />
                                                 <select name='ero' defaultValue={this.state.pregnancyOutcome ?? 'unselected'} onChange={(event) => this._handleOutcomeChange(event)}>
                                                     <option value='unselected'></option>
-                                                    {pregnancyOutcomes.map(el => <option key={el.id} value={el.id}>{el.value}</option>)}
+                                                    {pregnancyOutcomes.map(el => <option disabled={el.scope === 'main-only' && patientProfile.data?.pregnancySubStudyConsent} key={el.id} value={el.id}>{el.value}</option>)}
                                                 </select>
                                             </label><br />
                                         </div>

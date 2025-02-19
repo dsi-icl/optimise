@@ -1,0 +1,54 @@
+[
+    {
+        "prev:value": "Delivery of healthy child",
+        "value": "Delivery of healthy offspring(s)",
+        "detail": null,
+        "scope": "main"
+    },
+    {
+        "prev:value": "Delivery of unhealthy child",
+        "value": "Delivery of unhealthy offspring(s)",
+        "detail": null,
+        "scope": "main"
+    },
+    {
+        "prev:value": "Delivery with post-natal complications",
+        "value": "Delivery with post-natal complications",
+        "detail": null,
+        "scope": "main-only"
+    },
+    {
+        "prev:value": "Premature birth",
+        "value": "Live preterm birth",
+        "detail": null,
+        "scope": "main"
+    },
+    {
+        "prev:value": "Stillborn",
+        "value": "Stillbirth / Late pregnancy loss",
+        "detail": ">24 weeks",
+        "scope": "main"
+    },
+    {
+        "prev:value": "Miscarriage",
+        "value": "Miscarriage / Early pregnancy loss",
+        "detail": "<24 weeks",
+        "scope": "main"
+    },
+    {
+        "prev:value": "Elective abortion",
+        "value": "Induced abortion",
+        "detail": null,
+        "scope": "main"
+    },
+    {
+        "value": "Elective abortion",
+        "detail": null,
+        "scope": "main"
+    },
+    {
+        "value": "Therapeutic termination",
+        "detail": null,
+        "scope": "main"
+    }
+]
