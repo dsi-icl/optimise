@@ -747,6 +747,7 @@ class PregnancyEntry extends Component {
                                         && this.state.pregnancyEntry.type === 3
                                         ?
                                         <div>
+                                            <br />
                                             <label >Pregnancy end date:
                                                 <PickDate startDate={this.state.pregnancyOutcomeDate} handleChange={(date) =>
                                                     this._handleOutcomeDateChange(date)
