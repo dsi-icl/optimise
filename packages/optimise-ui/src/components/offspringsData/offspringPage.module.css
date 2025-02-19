@@ -383,3 +383,8 @@ button.noActive:hover {
 .antibodyContainer input {
     width: calc(100% - 11em);
 }
+
+.expandingTextarea {
+    resize: none;
+    overflow: hidden;
+}
