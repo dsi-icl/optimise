@@ -54,8 +54,13 @@ const OffspringData = ({
         setOffpringData(offpringData);
     };
 
-    const _handleCongenitalAffectChange = (event) => {
-        offpringData.congenitalAffect = event.target.value;
+    const _handleCongenitalAffectMinorChange = (event) => {
+        offpringData.congenitalAffectMinor = event.target.value;
+        setOffpringData(offpringData);
+    };
+
+    const _handleCongenitalAffectMajorChange = (event) => {
+        offpringData.congenitalAffectMajor = event.target.value;
         setOffpringData(offpringData);
     };
 
@@ -146,8 +151,11 @@ const OffspringData = ({
                     <label>APGAR score at 5 minutes</label>
                     <input defaultValue={offpringData.apgar5} onChange={_handleAPGAR5Change} />
                     <br /><br />
-                    <label>Presence of any major and/or minor congential malformations or medical diagnoses in the newborn (EUROCAT)</label>
-                    <input defaultValue={offpringData.congenitalAffect} onChange={_handleCongenitalAffectChange} />
+                    <label>Presence of <u style={{ textDecoration: 'underline' }}>minor</u> congential malformations (EUROCAT)</label>
+                    <input defaultValue={offpringData.congenitalAffectMinor} onChange={_handleCongenitalAffectMinorChange} />
+                    <br /><br />
+                    <label>Presence of <u style={{ textDecoration: 'underline' }}>major</u> congential malformations (EUROCAT)</label>
+                    <input defaultValue={offpringData.congenitalAffectMajor} onChange={_handleCongenitalAffectMajorChange} />
                     <br /><br />
                     <label >Mode of infant feeding</label>
                     <select defaultValue={offpringData.feedingMode} onChange={_handleFeedingModeChange}>
@@ -166,7 +174,11 @@ const OffspringData = ({
                     <label>Developmental outcomes during the first 5 years of life</label>
                     <input defaultValue={offpringData.developmentalOutcomes} onChange={_handleDevelopmentalOutcomesChange} />
                 </>
-                : null
+                : <>
+                    <br />
+                    <br />
+                    <i>You will be able to enter followup information for this offspring once the pregnancy completes or is terminated. Please refer to the pregnancy data entry screen.</i>
+                </>
             }
             <br />
             <br />
