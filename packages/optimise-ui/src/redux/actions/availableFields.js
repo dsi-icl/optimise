@@ -24,8 +24,7 @@ export const getMeddraSuccess = (payload) => ({ type: actions.availableFields.GE
 export const getMeddraCall = APICall('/meddra', getMeddraSuccess);
 
 export const getICD11Success = (payload) => ({ type: actions.availableFields.GET_ICD11_SUCCESS, payload: payload });
-// export const getICD11Call = APICall('/icd11', getICD11Success);
-export const getICD11Call = () => (dispatch) => dispatch(getICD11Success([]));
+export const getICD11Call = APICall('/icd11', getICD11Success);
 
 export const getPregnancyOutcomesSuccess = (payload) => ({ type: actions.availableFields.GET_PREGNANCY_OUTCOMES_SUCCESS, payload: payload });
 export const getPregnancyOutcomesCall = APICall('/demographics/Fields/Pregnancy', getPregnancyOutcomesSuccess);
