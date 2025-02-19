@@ -56,7 +56,7 @@ class PregnanciesListingPage extends Component {
             .map((pregnancy, index) => {
                 pregnancy.orderPosition = index;
                 return pregnancy;
-            });
+            }).reverse();
 
         let _style = scaffold_style;
         if (this.props.override_style) {
