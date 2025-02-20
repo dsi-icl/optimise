@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createLevelObj, mappingFields, BackButton, checkIfObjIsEmpty } from '../medicalData/utils';
@@ -6,7 +6,7 @@ import Icon from '../icon';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from '../medicalData/dataPage.module.css';
 import store from '../../redux/store';
-// import PregnancyImageForm from './pregImage';
+import PregnancyImageForm from './pregImage';
 import moment from 'moment';
 import { alterPregnancyItemsCall } from '../../redux/actions/demographicData';
 import { PickDate } from '../createMedicalElements/datepicker';
@@ -656,7 +656,7 @@ class PregnancyEntry extends Component {
     render() {
 
         const { patientProfile, match, fields: { pregnancyOutcomes = [] } } = this.props;
-        // const { params } = match;
+        const { params } = match;
         const isFromPregnancyView = window.location.search === '?fromPregnancy';
 
         let _style = scaffold_style;
@@ -772,13 +772,13 @@ class PregnancyEntry extends Component {
                                     />
                                 </div>
                                 <br />
-                                {/*
+
                                 {this.state.pregnancyEntry.id !== undefined
                                     ? <>
                                         <PregnancyImageForm visitId={params.visitId} /><br /><br />
                                     </>
                                     : null}
-                                */}
+
                             </div>
                             {this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br /><br /></> : null}
                             {this.state.error ? <div className={style.levelBody}>
