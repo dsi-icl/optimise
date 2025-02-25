@@ -29,11 +29,26 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [
                 {
-                    force: true, context: '../optimise-ui/build', from: '**', to: '.', globOptions: {
+                    force: true,
+                    context: '../optimise-ui/build',
+                    from: '**',
+                    to: '.',
+                    transform(content, absoluteFrom) {
+                        const contentString = Buffer.from(content).toString();
+                        if (absoluteFrom.endsWith('.js'))
+                            return contentString.replaceAll('/assets/', 'assets/');
+                        return content;
+                    },
+                    globOptions: {
                         ignore: ['**/index.html']
                     }
                 },
-                { force: true, context: '../optimise-core/build', from: '**', to: '.' }
+                {
+                    force: true,
+                    context: '../optimise-core/build',
+                    from: '**',
+                    to: '.'
+                }
             ]
         })
     ],
