@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { BackButton } from './utils';
 import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
@@ -18,6 +19,7 @@ const OffspringData = ({
     const [__unusedLastSubmit, setLastSubmit] = useState(null);
     const [__unusedSaved, setSaved] = useState(false);
     const atDeliveryOutcome = pregnancy?.outcome !== null;
+    const pregnancyLengthInWeeks = moment(parseInt(pregnancy?.outcomeDate ?? '0')).diff(moment(parseInt(pregnancy?.startDate ?? '0')), 'weeks');
 
     useEffect(() => {
         try {
@@ -32,56 +34,73 @@ const OffspringData = ({
 
     const _handleNameChange = (event) => {
         offpringData.name = event.target.value;
-        setOffpringData(offpringData);
+        setOffpringData({ ...offpringData });
     };
 
     const _handleGenderChange = (event) => {
         offpringData.gender = event.target.value;
-        setOffpringData(offpringData);
+        setOffpringData({ ...offpringData });
     };
 
     const _handleWeigthChange = (event) => {
         offpringData.weight = event.target.value;
-        setOffpringData(offpringData);
+        setOffpringData({ ...offpringData });
+    };
+
+    const _handleHeigthChange = (event) => {
+        offpringData.height = event.target.value;
+        setOffpringData({ ...offpringData });
     };
 
     const _handleAPGAR1Change = (event) => {
         offpringData.apgar1 = event.target.value;
-        setOffpringData(offpringData);
+        setOffpringData({ ...offpringData });
     };
 
     const _handleAPGAR5Change = (event) => {
         offpringData.apgar5 = event.target.value;
-        setOffpringData(offpringData);
+        setOffpringData({ ...offpringData });
     };
 
     const _handleCongenitalAffectMinorChange = (event) => {
         offpringData.congenitalAffectMinor = event.target.value;
-        setOffpringData(offpringData);
+        setOffpringData({ ...offpringData });
     };
 
     const _handleCongenitalAffectMajorChange = (event) => {
         offpringData.congenitalAffectMajor = event.target.value;
-        setOffpringData(offpringData);
+        setOffpringData({ ...offpringData });
     };
 
     const _handleFeedingModeChange = (event) => {
         offpringData.feedingMode = event.target.value;
-        setOffpringData(offpringData);
+        setOffpringData({ ...offpringData });
     };
 
     const _handleBreastFeedingChange = (event) => {
         offpringData.breastFeedingDuration = event.target.value;
-        setOffpringData(offpringData);
+        setOffpringData({ ...offpringData });
     };
 
     const _handleHospitalAdmissionFirstYearChange = (event) => {
-        offpringData.hospitalAdmissionFirstYear = event.target.value;
-        setOffpringData(offpringData);
+        offpringData.hospitalAdmissionFirstYear = event.target.checked;
+        setOffpringData({ ...offpringData });
     };
     const _handleDevelopmentalOutcomesChange = (event) => {
         offpringData.developmentalOutcomes = event.target.value;
-        setOffpringData(offpringData);
+        setOffpringData({ ...offpringData });
+    };
+
+    const _handleNeonatalDeathChange = (event) => {
+        offpringData.neonatalDeath = event.target.checked;
+        if (event.target.checked === false)
+            offpringData.neonatalDeathReason = undefined;
+        setOffpringData({ ...offpringData });
+    };
+
+    const _handleNeonatalDeathReasonChange = (event) => {
+        offpringData.neonatalDeathReason = event.target.value;
+        setOffpringData({ ...offpringData });
     };
 
     const _textareaAutosize = (event) => {
@@ -141,6 +160,17 @@ const OffspringData = ({
         <div className={scaffold_style.panel}>
             <label htmlFor='weight'>Name</label>
             <input name='weight' defaultValue={offpringData.name} onChange={_handleNameChange} />
+            {pregnancyLengthInWeeks > 1 && pregnancyLengthInWeeks < 36
+                ? <>
+                    <br /><br />
+                    <i>This offspring was born preterm (at {pregnancyLengthInWeeks} weeks).</i>
+                </>
+                : pregnancyLengthInWeeks > 36
+                    ? <>
+                        <br /><br />
+                        <i>This offspring was born past term (at {pregnancyLengthInWeeks} weeks).</i>
+                    </>
+                    : null}
             <br /><br />
             <label >Gender</label>
             <select defaultValue={offpringData.gender} onChange={_handleGenderChange}>
@@ -153,6 +183,9 @@ const OffspringData = ({
                     <br /><br />
                     <label htmlFor='weight'>Weight of infant at delivery</label>
                     <input name='weight' defaultValue={offpringData.weight} onChange={_handleWeigthChange} />
+                    <br /><br />
+                    <label htmlFor='height'>Height of infant at delivery</label>
+                    <input name='height' defaultValue={offpringData.height} onChange={_handleHeigthChange} />
                     <br /><br />
                     <label htmlFor='apgar1'>APGAR score at 1 minute</label>
                     <input name='apgar1' defaultValue={offpringData.apgar1} onChange={_handleAPGAR1Change} />
@@ -180,6 +213,17 @@ const OffspringData = ({
                     <label htmlFor='hospitalAdmissionFirstYear'>Admission of infant to hospital within the first year of life</label>
                     <input name='hospitalAdmissionFirstYear' type='checkbox' checked={offpringData.hospitalAdmissionFirstYear} onChange={_handleHospitalAdmissionFirstYearChange} />
                     <br /><br />
+                    <label htmlFor='neonatalDeath'>Neonatal death in first 4 weeks of life</label>
+                    <input name='neonatalDeath' type='checkbox' checked={offpringData.neonatalDeath} onChange={_handleNeonatalDeathChange} />
+                    <br /><br />
+                    {offpringData.neonatalDeath === true
+                        ? <>
+                            <label htmlFor='neonatalDeathReason'>Cause of neonatal death</label>
+                            <textarea className={style.expandingTextarea} name='neonatalDeathReason' defaultValue={offpringData.neonatalDeathReason} onMouseEnter={_textareaAutosize} onKeyDown={_textareaAutosize} onChange={_handleNeonatalDeathReasonChange}></textarea>
+                            <br /><br />
+                        </>
+                        : null
+                    }
                     <label htmlFor='developmentalOutcomes'>Developmental outcomes during the first 5 years of life</label>
                     <textarea className={style.expandingTextarea} name='developmentalOutcomes' defaultValue={offpringData.developmentalOutcomes} onMouseEnter={_textareaAutosize} onKeyDown={_textareaAutosize} onChange={_handleDevelopmentalOutcomesChange}></textarea>
                 </>
