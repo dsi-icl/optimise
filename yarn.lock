@@ -5570,10 +5570,10 @@ electron-updater@6.6.0:
     semver "^7.6.3"
     tiny-typed-emitter "^2.1.0"
 
-electron@34.2.0:
-  version "34.2.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-34.2.0.tgz#3cec06c34f47f0e86956be71629b485b290bafd1"
-  integrity sha512-SYwBJNeXBTm1q/ErybQMUBZAYqEreBUqBwTrNkw1rV4YatDZk5Aittpcus3PPeC4UoI/tqmJ946uG8AKHTd6CA==
+electron@34.5.6:
+  version "34.5.6"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-34.5.6.tgz#b18f1973df9846ff41ab98c7f9a25c35d5ebf731"
+  integrity sha512-cmP0CDnWFwyZrzn72AXS9oJiOjNIRPgKpGO2ykz3Syo+9B2RJ9WQzxOKkpntcWE5/nRsyFkRUCMTgGo3uNvCxQ==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^20.9.0"
