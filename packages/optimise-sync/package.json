@@ -47,14 +47,14 @@
         "saslprep": "1.0.3"
     },
     "devDependencies": {
-        "@babel/core": "^7.26.9",
+        "@babel/core": "^7.26.10",
         "@babel/plugin-syntax-dynamic-import": "^7.8.3",
         "babel-loader": "9.2.1",
         "cross-env": "7.0.3",
         "eslint": "8.57.1",
         "eslint-plugin-promise": "7.2.1",
         "rimraf": "6.0.1",
-        "run-script-webpack-plugin": "0.2.2",
+        "run-script-webpack-plugin": "0.2.3",
         "webpack": "5.98.0",
         "webpack-cli": "6.0.1"
     },
