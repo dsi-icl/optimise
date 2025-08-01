@@ -27,10 +27,6 @@ class OptimiseNodeEnvironment extends NodeEnvironment {
     async teardown() {
         return;
     }
-
-    runScript(script) {
-        return super.runScript(script);
-    }
 }
 
 module.exports = OptimiseNodeEnvironment;
