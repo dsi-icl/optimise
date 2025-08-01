@@ -4,7 +4,7 @@ import message from '../utils/message-utils';
 import formatToJSON from '../utils/format-response';
 
 class AvailableFieldController {
-    static getFields({ params, query }, res) {     //bound to GETclinicalEvents and GETtestTypes too
+    static getFields({ params, query }, res) { // bound to GETclinicalEvents and GETtestTypes too
         const tableMap = {
             visitFields: 'AVAILABLE_FIELDS_VISITS',
             visitSections: 'AVAILABLE_VISIT_SECTIONS',

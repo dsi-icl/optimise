@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { VisitData } from '../../../medicalData/visitDataPage';
 import override_style from '../overrideStyle.module.css';
 import style from '../../frontpage.module.css';
@@ -18,17 +18,18 @@ class VSFrontPageWrapper extends Component {
                     <div className={scaffold_style.padding_div}>
                         {
                             this.props.data.demographicData && this.props.data.demographicData.gender !== 1 && !this.props.data.pregnancySubStudyConsent
-                                ?
-                                <>
-                                    <p style={{ marginBottom: 0, fontSize: '1.1rem' }}>Please update this list of pregnancies:</p>
-                                    <EditPregnancy match={this.props.match} location={this.props.location} renderedInFrontPage={true} />
-                                    <br /><br />
-                                </>
-                                :
-                                null
+                                ? (
+                                    <>
+                                        <p style={{ marginBottom: 0, fontSize: '1.1rem' }}>Please update this list of pregnancies:</p>
+                                        <EditPregnancy match={this.props.match} location={this.props.location} renderedInFrontPage={true} />
+                                        <br />
+                                        <br />
+                                    </>
+                                )
+                                : null
                         }
                         <p style={{ fontSize: '1.1rem' }}>Please enter vital signs:</p>
-                        <VisitData childRef={component => { this.form = component; }} elementType='visit' match={this.props.match} category={'vitals'} override_style={override_style} renderedInFrontPage={true} />
+                        <VisitData childRef={(component) => { this.form = component; }} elementType="visit" match={this.props.match} category="vitals" override_style={override_style} renderedInFrontPage={true} />
                     </div>
                 </div>
                 <FrontPageNavigationButton onClickNext={(ev) => { this.form._handleSubmit(ev); this.forceUpdate(); }} formSaved={() => this.form.state.saved} match={this.props.match} location={this.props.location} />

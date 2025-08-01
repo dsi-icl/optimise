@@ -1,9 +1,8 @@
 import moment from 'moment';
 import { edssAlgorithmFromProps } from '../EDSScalculator/calculator';
 
-//all test block in draft-js has a key. To make the templates below pure functions a keygen is defined here.
+// all test block in draft-js has a key. To make the templates below pure functions a keygen is defined here.
 const keygen = () => Math.random().toString(35).slice(2, 8);
-
 
 /* blockgen() has to called when the user has clicked to insert,
     instead of before the editor initialises or else if the user click insert twice,
@@ -19,11 +18,10 @@ export const blockgen = (text, inlineStyleRanges) => ({
     data: {}
 });
 
-
 /* all the "typeTable" parameters below are hashTables for the types */
 export const visitTitle = (patientId, visitDate, visitType) => (
-    visitType === 1 ?
-        blockgen(
+    visitType === 1
+        ? blockgen(
             `Patient with id ${patientId} has a visit on ${new Date(parseInt(visitDate)).toDateString()} which has the following observations:`,
             [{
                 offset: 16,
@@ -36,8 +34,7 @@ export const visitTitle = (patientId, visitDate, visitType) => (
                 style: 'BOLD'
             }]
         )
-        :
-        blockgen(
+        : blockgen(
             `Patient with id ${patientId} has an observation on ${visitDate}:`,
             [{
                 offset: 16,
@@ -52,9 +49,8 @@ export const visitTitle = (patientId, visitDate, visitType) => (
         )
 );
 
-
 /*  for formating tests  */
-export const testTitle = (duration) => (
+export const testTitle = duration => (
     `Tests (going back ${duration === 2000 ? 'the whole history' : moment.duration(duration, 'months').humanize()}):`
 );
 
@@ -86,9 +82,8 @@ export const formatTests = (testList, typeTable, duration) => {
     ];
 };
 
-
 /* for formating events */
-export const eventTitle = (duration) => (
+export const eventTitle = duration => (
     `Clinical events (going back ${duration === 2000 ? 'the whole history' : moment.duration(duration, 'months').humanize()}):`
 );
 
@@ -114,9 +109,8 @@ export const formatEvents = (eventList, typeTable, duration) => {
     ];
 };
 
-
 /* for formating treatment */
-const treatmentTitle = (duration) => (
+const treatmentTitle = duration => (
     `Treatments (going back ${duration === 2000 ? 'the whole history' : moment.duration(duration, 'months').humanize()}):`
 );
 
@@ -137,7 +131,6 @@ export const formatTreatments = (treatmentList, typeTable, duration) => {
             blockgen(treatmentTitle(duration), [{ offset: 0, length: 100, style: 'BOLD' }]),
             blockgen('No treatment was recorded.', [])
         ];
-
     }
     const strings = treatmentList.map(el => oneTreatment(el, typeTable));
     return () => [
@@ -147,7 +140,7 @@ export const formatTreatments = (treatmentList, typeTable, duration) => {
     ];
 };
 
-const toTitleCase = (str) => str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+const toTitleCase = str => str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 
 const oneSignOrSymptom = (data, VSFields_Hash) => {
     const fieldObj = VSFields_Hash[data.field];
@@ -156,7 +149,8 @@ const oneSignOrSymptom = (data, VSFields_Hash) => {
             return `- ${fieldObj.idname.replace(/:/g, ' > ')}: ${data.value === '1' ? 'Yes' : (data.value === '0' ? 'No' : 'Unknown')}`;
         }
         return `- ${fieldObj.idname.replace(/:/g, ' > ')}: ${toTitleCase(data.value)}`;
-    } else {
+    }
+    else {
         return '';
     }
 };
@@ -168,7 +162,6 @@ export const formatSymptomsAndSigns = (visitData, symptomsTypeTable, signsTypeTa
             blockgen('Symptoms & Signs', [{ offset: 0, length: 19, style: 'BOLD' }]),
             blockgen('Neither symptoms nor signs were recorded.', [])
         ];
-
     }
     const symptoms = visitData.map(el => oneSignOrSymptom(el, symptomsTypeTable)).filter(el => el !== '');
     const signs = visitData.map(el => oneSignOrSymptom(el, signsTypeTable)).filter(el => el !== '');
@@ -186,7 +179,6 @@ const VSTitle = () => (
     'Vital signs:'
 );
 
-
 export const formatVS = (VSList, typeTable) => {
     if (VSList.length === 0) {
         return () => [
@@ -194,7 +186,6 @@ export const formatVS = (VSList, typeTable) => {
             blockgen(VSTitle(), [{ offset: 0, length: 12, style: 'BOLD' }]),
             blockgen('No VS was recorded.', [])
         ];
-
     }
     const strings = VSList.map(el => oneSignOrSymptom(el, typeTable)).filter(el => el !== '');
     return () => [
@@ -203,7 +194,6 @@ export const formatVS = (VSList, typeTable) => {
         ...strings.map(el => blockgen(el, [{ offset: el.lastIndexOf(':') + 2, length: el.length - el.lastIndexOf(':') - 2, style: 'ITALIC' }]))
     ];
 };
-
 
 /* for formating edss */
 const edssTitle = () => (
@@ -223,7 +213,7 @@ export const formatEdss = (edssList, typeTable) => {
     const EDSSFieldsByName = EDSSFields.reduce((a, el) => ({ ...a, [el.idname]: el.id }), {});
     const estimatedTotalID = EDSSFieldsByName['edss:expanded disability status scale - estimated total'];
     let EDSSComputed = edssAlgorithmFromProps(EDSSFields, edssList);
-    const strings = edssList.map(el => {
+    const strings = edssList.map((el) => {
         let res = oneSignOrSymptom(el, typeTable);
         if (el.field === estimatedTotalID && EDSSComputed !== '')
             res += `\n- edss > expanded disability status scale - computed total: ${EDSSComputed}`;
@@ -235,7 +225,8 @@ export const formatEdss = (edssList, typeTable) => {
             blockgen(edssTitle(), [{ offset: 0, length: 11, style: 'BOLD' }]),
             blockgen('No edss was recorded.', [])
         ];
-    } else {
+    }
+    else {
         return () => [
             blockgen(''),
             blockgen(edssTitle(), [{ offset: 0, length: 5, style: 'BOLD' }]),

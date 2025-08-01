@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import TreePicker from '../treePicker';
 
@@ -7,12 +7,22 @@ import TreePicker from '../treePicker';
     tree: state.availableFields.icd11_Tree
 }))
 class ICD11Picker extends Component {
-
     render() {
         return (
-            <TreePicker {...this.props} formatter={(node) => <><b>{node.code[0] === 'B' ? '' : node.code}&nbsp;</b>{node.name}</>} />
+            <TreePicker
+                {...this.props}
+                formatter={node => (
+                    <>
+                        <b>
+                            {node.code[0] === 'B' ? '' : node.code}
+                            &nbsp;
+                        </b>
+                        {node.name}
+                    </>
+                )}
+            />
         );
     }
 }
 
-export {ICD11Picker};
+export { ICD11Picker };

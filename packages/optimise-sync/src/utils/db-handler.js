@@ -1,4 +1,4 @@
-/*eslint no-console: "off"*/
+/* eslint no-console: "off" */
 import dbcon from './db-connection';
 // import fs from 'fs';
 
@@ -7,7 +7,6 @@ import dbcon from './db-connection';
 const CURRENT_VERSION = 1;
 
 export async function migrate() {
-
     const db = await dbcon().then(client => client.db());
 
     // // Verify the OPT_KV configuration table exists
@@ -23,7 +22,8 @@ export async function migrate() {
             created_at: (new Date()).getTime(),
             updated_at: (new Date()).getTime()
         });
-    } else {
+    }
+    else {
         // Otherwise fetch the CURRENT_VERSION
         const stepVersionResult = await db.collection('OPT_SYNC_KV').findOne({
             key: 'CURRENT_VERSION'
@@ -33,9 +33,7 @@ export async function migrate() {
             stepVersion = parseInt(stepVersionResult.value) || 0;
     }
 
-
     if (stepVersion !== CURRENT_VERSION) {
-
         if (CURRENT_VERSION < stepVersion)
             return Promise.reject(new Error('The existing database was created with a newer version of Optimise ! Please upgrade before using Optimise !'));
 
@@ -65,7 +63,8 @@ export function erase() {
             try {
                 // if (fs.existsSync(filename))
                 //     fs.unlinkSync(filename);
-            } catch (err) {
+            }
+            catch (err) {
                 return reject(err);
             }
         }

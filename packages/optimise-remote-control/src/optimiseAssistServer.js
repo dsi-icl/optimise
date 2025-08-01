@@ -1,4 +1,4 @@
-//External node module imports
+// External node module imports
 import express from 'express';
 import expressWs from 'express-ws';
 import expressSession from 'express-session';
@@ -48,10 +48,8 @@ class OptimiseAssistServer {
     start() {
         const _this = this;
         return new Promise((resolve, reject) => {
-
             // Operate database migration if necessary
             migrate().then(async () => {
-
                 // This is awaiting for #286
                 // _this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -99,7 +97,8 @@ class OptimiseAssistServer {
                             // Handle CSRF token errors here
                             res.status(403);
                             res.json(ErrorHelper('Form tempered with'));
-                        } else {
+                        }
+                        else {
                             next(error);
                         }
                     }
@@ -116,7 +115,6 @@ class OptimiseAssistServer {
 
                 // Return the Express application
                 return resolve(_this.app);
-
             }).catch(err => reject(err));
         });
     }
@@ -136,7 +134,6 @@ class OptimiseAssistServer {
      * @desc Initialize the assisthronization related routes
      */
     setupAssist() {
-
         // Modules
         this.app.use('/assist', (ws) => {
             ws.on('message', function incoming(message) {

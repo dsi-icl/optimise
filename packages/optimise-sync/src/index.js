@@ -17,7 +17,6 @@ const setup = () => {
 };
 
 optimise_sync_server.start().then((optimise_sync_router) => {
-
     web_app = setup();
     web_app.use(rateLimit({
         windowMs: 1 * 60 * 1000,
@@ -27,15 +26,15 @@ optimise_sync_server.start().then((optimise_sync_router) => {
     web_server = http.createServer(web_app);
     web_server.listen(config.port, (error) => {
         if (error) {
-            console.error('An error occurred while starting the HTTP server.', error); // eslint-disable-line no-console
+            console.error('An error occurred while starting the HTTP server.', error);
             return;
         }
-        console.log(`Listening at http://${os.hostname()}:${config.port}/`); // eslint-disable-line no-console
+        console.log(`Listening at http://${os.hostname()}:${config.port}/`);
     });
     return true;
 }).catch((error) => {
-    console.error('An error occurred while starting the Optimise sync.', error); // eslint-disable-line no-console
-    console.error(error.stack); // eslint-disable-line no-console
+    console.error('An error occurred while starting the Optimise sync.', error);
+    console.error(error.stack);
     return false;
 });
 
@@ -50,8 +49,8 @@ if (module.hot) {
             web_server.on('request', web_app);
             return true;
         }).catch((error) => {
-            console.error('An error occurred while reloading the Optimise sync.', error); // eslint-disable-line no-console
-            console.error(error.stack); // eslint-disable-line no-console
+            console.error('An error occurred while reloading the Optimise sync.', error);
+            console.error(error.stack);
             return false;
         });
     });

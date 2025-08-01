@@ -6,9 +6,9 @@ import ConcomitantMed from '../core/concomitantMeds';
 class ConcomitantMedController {
     static createConcomitantMed({ body, user }, res) {
         if (!body.visitId
-            || !body.concomitantMedId
-            || !body.indication
-            || !body.startDate
+          || !body.concomitantMedId
+          || !body.indication
+          || !body.startDate
         ) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
@@ -16,9 +16,9 @@ class ConcomitantMedController {
 
         const { visitId, concomitantMedId, indication, startDate, endDate } = body;
         if (typeof visitId !== 'number'
-            || typeof concomitantMedId !== 'number'
-            || typeof indication !== 'string'
-            || typeof startDate !== 'number'
+          || typeof concomitantMedId !== 'number'
+          || typeof indication !== 'string'
+          || typeof startDate !== 'number'
         ) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
@@ -45,7 +45,6 @@ class ConcomitantMedController {
         });
     }
 
-
     static editConcomitantMed({ body, user }, res) {
         if (body.concomitantMedEntryId && typeof body.concomitantMedEntryId === 'number') {
             const entryObj = { id: body.concomitantMedEntryId };
@@ -53,7 +52,8 @@ class ConcomitantMedController {
             if (concomitantMedId) {
                 if (typeof concomitantMedId === 'number') {
                     entryObj.concomitantMedId = concomitantMedId;
-                } else {
+                }
+ else {
                     res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                     return;
                 }
@@ -61,7 +61,8 @@ class ConcomitantMedController {
             if (indication) {
                 if (typeof indication === 'string') {
                     entryObj.indication = indication;
-                } else {
+                }
+ else {
                     res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                     return;
                 }
@@ -69,14 +70,16 @@ class ConcomitantMedController {
             if (startDate) {
                 if (typeof startDate === 'number') {
                     entryObj.startDate = startDate;
-                } else {
+                }
+ else {
                     res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                     return;
                 }
             }
             if (typeof endDate === 'number' || endDate === null || endDate === undefined) {
                 entryObj.endDate = endDate;
-            } else {
+            }
+ else {
                 res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
             }
@@ -87,10 +90,12 @@ class ConcomitantMedController {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        } else if (!body.concomitantMedEntryId) {
+        }
+ else if (!body.concomitantMedEntryId) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -105,7 +110,8 @@ class ConcomitantMedController {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

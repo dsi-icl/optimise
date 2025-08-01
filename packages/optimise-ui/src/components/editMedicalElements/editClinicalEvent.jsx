@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
@@ -9,7 +9,6 @@ import store from '../../redux/store';
 import { MeddraPicker } from '../medDRA/meddraPicker';
 import { addAlert } from '../../redux/actions/alert';
 import { deleteCEAPICall, updateCECall } from '../../redux/actions/clinicalEvents';
-
 
 @connect(state => ({
     CEs: state.patientProfile.data.clinicalEvents
@@ -72,32 +71,50 @@ class EditCE extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={_style.panel}>
-                    {CE ?
-                        <>
-                            {wannaUpdate ? <UpdateCEEntry location={this.props.location} renderedInFrontPage={this.props.renderedInFrontPage} data={CE} elementId={params.elementId} /> : null}
-                            {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
-                                <><button onClick={this._handleWannaUpdateClick}>Change start date / MedDRA</button><br /><br /></>
-                            }
-                            <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
-                            <br /><br />
+                    {CE
+                        ? (
+                            <>
+                                {wannaUpdate ? <UpdateCEEntry location={this.props.location} renderedInFrontPage={this.props.renderedInFrontPage} data={CE} elementId={params.elementId} /> : null}
+                                {wannaUpdate
+                                    ? (
+                                        <>
+                                            <button onClick={this._handleWannaUpdateClick}>Cancel</button>
+                                            <br />
+                                            <br />
+                                        </>
+                                    )
+                                    : (
+                                        <>
+                                            <button onClick={this._handleWannaUpdateClick}>Change start date / MedDRA</button>
+                                            <br />
+                                            <br />
+                                        </>
+                                    )}
+                                <button onClick={this._handleClick} className={style.deleteButton}>Delete this event</button>
+                                <br />
+                                <br />
+                                <div>
+                                    Note: You cannot change the type of clinical event. If you created the wrong type of clinical event you can delete this event record and create a new one.
+                                </div>
+                                {
+                                    renderedInFrontPage
+                                        ? (
+                                            <>
+                                                <br />
+                                                <br />
+                                                <br />
+                                                <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
+                                            </>
+                                        )
+                                        : null
+                                }
+                            </>
+                        )
+                        : (
                             <div>
-                                Note: You cannot change the type of clinical event. If you created the wrong type of clinical event you can delete this event record and create a new one.
+                                <i>We could not find the clinical event you are looking for.</i>
                             </div>
-                            {
-                                renderedInFrontPage ?
-                                    <>
-                                        <br/><br/><br/>
-                                        <NavLink to={`/patientProfile/${params.patientId}/visitFrontPage/${params.visitId}/page/${params.currentPage}${this.props.location.search}`}><button>Back</button></NavLink>
-                                    </>
-                                    :
-                                    null
-                            }
-                        </>
-                        :
-                        <div>
-                            <i>We could not find the clinical event you are looking for.</i>
-                        </div>
-                    }
+                        )}
                 </form>
             </>
         );
@@ -209,13 +226,36 @@ class UpdateCEEntry extends Component {
         return (
             <div className={style.panelWrapper}>
                 <label>Start Date: </label>
-                <PickDate startDate={startDate} handleChange={this._handleDateChange} /><br />
-                <label htmlFor='noEndDate'>The event is ongoing: </label><input type='checkbox' name='noEndDate' onChange={this._handleToggleEndDate} checked={this.state.noEndDate} /><br />
-                {this.state.noEndDate ? null : (<><label htmlFor='endDate'>End date: </label><PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} /><br /><br /></>)}
+                <PickDate startDate={startDate} handleChange={this._handleDateChange} />
+                <br />
+                <label htmlFor="noEndDate">The event is ongoing: </label>
+                <input type="checkbox" name="noEndDate" onChange={this._handleToggleEndDate} checked={this.state.noEndDate} />
+                <br />
+                {this.state.noEndDate
+                    ? null
+                    : (
+                        <>
+                            <label htmlFor="endDate">End date: </label>
+                            <PickDate startDate={this.state.endDate ? this.state.endDate : moment()} handleChange={this._handleEndDateChange} />
+                            <br />
+                            <br />
+                        </>
+                    )}
                 <label>MedDRA: </label>
-                <MeddraPicker key={id} value={meddra === null || meddra === undefined ? undefined : String(meddra)} onChange={this._handleMeddraChange} /><br /><br />
-                {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
-                <button onClick={this._handleSubmit}>Submit</button><br /><br />
+                <MeddraPicker key={id} value={meddra === null || meddra === undefined ? undefined : String(meddra)} onChange={this._handleMeddraChange} />
+                <br />
+                <br />
+                {this.state.error
+                    ? (
+                        <>
+                            <div className={style.error}>{this.state.error}</div>
+                            <br />
+                        </>
+                    )
+                    : null}
+                <button onClick={this._handleSubmit}>Submit</button>
+                <br />
+                <br />
             </div>
         );
     }

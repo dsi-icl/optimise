@@ -84,7 +84,6 @@ describe('Create Clinical Event controller tests', () => {
 });
 
 describe('Update Clinical Event', () => {
-
     test('Update meddra code of an event', () => user
         .put('/clinicalEvents')
         .send({

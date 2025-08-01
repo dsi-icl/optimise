@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import { calcNextPage } from '../navigationButtons/navigationButtons';
 import style from './style.module.css';

@@ -56,7 +56,7 @@ export const initialState = {
         icd11_Tree: null,
         concomitantMedsList: null,
         concomitantMedsList_hash: null,
-        inputTypes: [     //'I', 'F', 'BLOB' etc
+        inputTypes: [ // 'I', 'F', 'BLOB' etc
             {
                 id: 1,
                 value: 'I'

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { VSFrontPageWrapper } from '../componentWrappers/vs/vsWrapper';
 import { ComorbidityWrapper } from '../componentWrappers/comorbidity/comorbidityWrapper';
@@ -23,18 +23,78 @@ class BaselineVisitFrontPage extends Component {
         const { match, location } = this.props;
         const { pregnancySubStudyConsent } = this.props.data;
 
-
         const pageNumberToElementMap = {
             0: <VisitFrontPageIntroduction match={match} location={location} />,
-            1: <VSFrontPageWrapper match={match} location={location} category={'vitals'} />,
+            1: <VSFrontPageWrapper match={match} location={location} category="vitals" />,
             2: <ComorbidityWrapper yesOrNoQuestion={<p>Is there any current or previous ICD11-identified comorbidity?</p>} />,
             3: <EDSSWrapper yesOrNoQuestion={<p>Was an EDSS measurement performed at this visit?</p>} />,
             4: <ConcomitantMedWrapper yesOrNoQuestion={<p>Has the patient been on any non-disease modifying medication and/or supplements?</p>} />,
-            5: <TreatmentWrapper yesOrNoQuestion={<p>Has the patient been subject to any <b>current</b> or <b>previous</b> <b>disease-modifying treatments (DMT)</b>.</p>} />,
-            6: <RelapseWrapper yesOrNoQuestion={<p>Have there been any <b>MS relapses within the last 2 years</b>?</p>} />,
-            7: <OtherSAEWrapper yesOrNoQuestion={<p>Is there any <b>serious adverse event</b>, <b>malignancy</b>, or <b>opportunistic infection</b> prior?</p>} />,
-            8: <TestWrapper yesOrNoQuestion={<p>Is there any baseline lab result for <b>Anti-JCV antibody status</b>, <b>total white cell and lymphocyte count</b>, or <b>liver function</b> available?</p>} />,
-            9: <MRIWrapper yesOrNoQuestion={<p>Is there any baseline <b>brain MRI</b> result available?</p>} />
+            5: (
+                <TreatmentWrapper yesOrNoQuestion={(
+                    <p>
+                        Has the patient been subject to any
+                        <b>current</b>
+                        {' '}
+                        or
+                        <b>previous</b>
+                        {' '}
+                        <b>disease-modifying treatments (DMT)</b>
+                        .
+                    </p>
+                )}
+                />
+            ),
+            6: (
+                <RelapseWrapper yesOrNoQuestion={(
+                    <p>
+                        Have there been any
+                        <b>MS relapses within the last 2 years</b>
+                        ?
+                    </p>
+                )}
+                />
+            ),
+            7: (
+                <OtherSAEWrapper yesOrNoQuestion={(
+                    <p>
+                        Is there any
+                        <b>serious adverse event</b>
+                        ,
+                        <b>malignancy</b>
+                        , or
+                        <b>opportunistic infection</b>
+                        {' '}
+                        prior?
+                    </p>
+                )}
+                />
+            ),
+            8: (
+                <TestWrapper yesOrNoQuestion={(
+                    <p>
+                        Is there any baseline lab result for
+                        <b>Anti-JCV antibody status</b>
+                        ,
+                        <b>total white cell and lymphocyte count</b>
+                        , or
+                        <b>liver function</b>
+                        {' '}
+                        available?
+                    </p>
+                )}
+                />
+            ),
+            9: (
+                <MRIWrapper yesOrNoQuestion={(
+                    <p>
+                        Is there any baseline
+                        <b>brain MRI</b>
+                        {' '}
+                        result available?
+                    </p>
+                )}
+                />
+            )
         };
 
         if (pregnancySubStudyConsent && this.props.data.demographicData.gender !== 1) {
@@ -42,7 +102,8 @@ class BaselineVisitFrontPage extends Component {
                 10: <PregnancyWrapper yesOrNoQuestion={<p>Do you wish to record pregnancy data?</p>} />,
                 11: <CommunicationWrapper />
             });
-        } else {
+        }
+        else {
             Object.assign(pageNumberToElementMap, {
                 10: <CommunicationWrapper />
             });
@@ -66,7 +127,8 @@ class BaselineVisitFrontPage extends Component {
                 10: 'Pregnancy',
                 11: 'Communication and notes'
             });
-        } else {
+        }
+        else {
             Object.assign(pageToTitleMap, {
                 10: 'Communication and notes'
             });

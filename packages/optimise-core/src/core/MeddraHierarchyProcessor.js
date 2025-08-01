@@ -32,7 +32,7 @@ class MeddraHierarchyProcessor {
         const parents = {};
         const leafs = [];
 
-        this.hierdata.forEach(el => {
+        this.hierdata.forEach((el) => {
             if (!this.lltfile) {
                 leafs.push(el[0]);
             }
@@ -42,30 +42,33 @@ class MeddraHierarchyProcessor {
                     if (i < 3 && el[i + 1] !== undefined) {
                         if (parents[el[i]] === undefined) {
                             parents[el[i]] = new Set([el[i + 1]]);
-                        } else {
+                        }
+ else {
                             parents[el[i]].add(el[i + 1]);
                         }
-                    } else if (i === 3) {
+                    }
+ else if (i === 3) {
                         parents[el[i]] = null;
                     }
                 }
             }
         });
 
-        this.lltdata.forEach(el => {
+        this.lltdata.forEach((el) => {
             leafs.push(el[0]);
             if (el.length !== 12) return;
             names[el[0]] = el[1];
             if (parents[el[0]] === undefined) {
                 parents[el[0]] = new Set([el[2]]);
-            } else {
+            }
+ else {
                 parents[el[0]].add(el[2]);
             }
         });
 
         const transformedData = [];
         let id = this.startingId;
-        Object.keys(parents).forEach(key => {
+        Object.keys(parents).forEach((key) => {
             if (parents[key] === null) {
                 transformedData.push({
                     id,
@@ -75,7 +78,8 @@ class MeddraHierarchyProcessor {
                     isLeaf: 0
                 });
                 id++;
-            } else {
+            }
+ else {
                 const array = Array.from(parents[key]);
                 for (let i = 0; i < array.length; i++) {
                     if (key !== array[i]) {
@@ -93,13 +97,13 @@ class MeddraHierarchyProcessor {
         });
 
         const idHash = {};
-        transformedData.forEach(el => {
+        transformedData.forEach((el) => {
             if (!el.code) {
                 throw Error(el.code);
             }
             idHash[el.code] = el.id;
         });
-        transformedData.map(el => {
+        transformedData.map((el) => {
             el.parent = idHash[el.parentCode] || el.parentCode;
             delete el.parentCode;
             return el;

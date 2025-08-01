@@ -12,7 +12,6 @@ import packageInfo from '../../package.json';
 let isSyncing = false;
 
 class SyncCore {
-
     /**
      * @function getSyncOptions retrieve the synchronization options.
      *
@@ -43,7 +42,8 @@ class SyncCore {
         try {
             if (options.host !== undefined && options.host.trim() !== '')
                 hostURL = new URL(options.host);
-        } catch (e) {
+        }
+        catch (e) {
             return Promise.reject(ErrorHelper(message.userError.WRONGARGUMENTS, e));
         }
         const host = await dbcon()('OPT_KV').where({ key: 'SYNC_HOST' }).update({
@@ -75,7 +75,6 @@ class SyncCore {
         }).catch(() => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, 'Sync status could not be retreived'))));
     }
 
-
     /**
      * @function triggerSync trigger synchronization.
      *
@@ -101,8 +100,7 @@ class SyncCore {
                     SyncCore.startSync(config).catch(() => false);
                 }, 1000);
                 return resolve(status);
-            }).catch((e) => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, e)));
-
+            }).catch(e => reject(ErrorHelper(message.errorMessages.UPDATEFAIL, e)));
         });
     }
 
@@ -112,7 +110,6 @@ class SyncCore {
      * @param {*} config Connection information for synchronization
      */
     static async startSync(config) {
-
         if (isSyncing && !config.adminPass)
             return Promise.resolve();
 
@@ -129,7 +126,6 @@ class SyncCore {
         }
 
         try {
-
             /** @type { import('axios').AxiosRequestConfig } */
             const checkOptions = {
                 url: `${config.host}api/sync/v1.1`,
@@ -155,7 +151,8 @@ class SyncCore {
                                     updated_at: dbcon().fn.now()
                                 });
                                 reject(result.error);
-                            } else {
+                            }
+                            else {
                                 if (result.status === 'ready')
                                     resolve();
                                 else {
@@ -171,7 +168,8 @@ class SyncCore {
                                     reject();
                                 }
                             }
-                        } catch (exception) {
+                        }
+                        catch (exception) {
                             await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                 value: JSON.stringify({
                                     error: {
@@ -232,7 +230,8 @@ class SyncCore {
                         patientId: undefined
                     });
                 }
-            } catch (err) {
+            }
+            catch (err) {
                 await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                     value: JSON.stringify({
                         error: {
@@ -267,7 +266,7 @@ class SyncCore {
                 format: 'json',
                 data: encodeURI(JSON.stringify({
                     patients: patientProfiles,
-                    users: users.map(user => {
+                    users: users.map((user) => {
                         delete user.pw;
                         delete user.salt;
                         delete user.iterations;
@@ -313,7 +312,8 @@ class SyncCore {
                                             updated_at: dbcon().fn.now()
                                         });
                                         resolve();
-                                    } else {
+                                    }
+                                    else {
                                         await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                             value: JSON.stringify({
                                                 status: 'errored',
@@ -327,7 +327,8 @@ class SyncCore {
                                         });
                                         reject();
                                     }
-                                } else {
+                                }
+                                else {
                                     await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                         value: JSON.stringify({
                                             status: 'errored',
@@ -342,7 +343,8 @@ class SyncCore {
                                     });
                                     reject(result.error);
                                 }
-                            } catch (exception) {
+                            }
+                            catch (exception) {
                                 await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                     value: JSON.stringify({
                                         status: 'errored',
@@ -374,12 +376,12 @@ class SyncCore {
                             reject(error);
                         });
                 }))();
-            } catch (err) {
+            }
+            catch (__unusedErr) {
                 // Should already be handled
             }
 
             try {
-
                 const sqliteBuffer = fs.readFileSync(global.config.optimiseDBLocation, { flags: 'r', autoClose: true });
                 let compressedBuffer;
                 try {
@@ -394,7 +396,8 @@ class SyncCore {
                         }),
                         updated_at: dbcon().fn.now()
                     });
-                } catch (err) {
+                }
+                catch (err) {
                     await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                         value: JSON.stringify({
                             status: 'errored',
@@ -439,7 +442,8 @@ class SyncCore {
                                             updated_at: dbcon().fn.now()
                                         });
                                         resolve();
-                                    } else {
+                                    }
+                                    else {
                                         await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                             value: JSON.stringify({
                                                 status: 'errored',
@@ -453,7 +457,8 @@ class SyncCore {
                                         });
                                         reject();
                                     }
-                                } else {
+                                }
+                                else {
                                     await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                         value: JSON.stringify({
                                             status: 'errored',
@@ -468,7 +473,8 @@ class SyncCore {
                                     });
                                     reject(result.error);
                                 }
-                            } catch (exception) {
+                            }
+                            catch (exception) {
                                 await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                                     value: JSON.stringify({
                                         status: 'errored',
@@ -500,11 +506,12 @@ class SyncCore {
                             reject(error);
                         });
                 }))();
-            } catch (err) {
+            }
+            catch (__unusedErr) {
                 // Should already be handled
             }
-
-        } catch (err) {
+        }
+        catch (err) {
             await dbcon()('OPT_KV').where({ key: 'SYNC_STATUS' }).update({
                 value: JSON.stringify({
                     status: 'errored',

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { getSyncOptionsAPICall, getSyncStatusAPICall, syncNowAPICall } from '../../redux/actions/syncInfo';
 import Icon from '../icon';
@@ -13,7 +13,6 @@ import style from './scaffold.module.css';
     syncNow: () => dispatch(syncNowAPICall())
 }))
 class SyncIndicator extends Component {
-
     constructor(props) {
         super(props);
         this.statusUpdater = null;
@@ -31,8 +30,8 @@ class SyncIndicator extends Component {
 
     componentDidUpdate() {
         if (this.state.triggered === false) {
-            if (this.props.syncInfo?.status?.step === 'triggered' ||
-                this.props.syncInfo?.status?.syncing === true)
+            if (this.props.syncInfo?.status?.step === 'triggered'
+                || this.props.syncInfo?.status?.syncing === true)
                 this.setState({ triggered: true }, () => {
                     if (this.statusUpdater === null)
                         this.statusUpdater = setInterval(this._updateStatus, 1000);
@@ -48,7 +47,6 @@ class SyncIndicator extends Component {
     }
 
     _updateStatus() {
-
         const now = (new Date()).getTime();
         const { syncInfo: { config, status: { syncing, error, status } }, loggedIn } = this.props;
         const { lastCall, triggered } = this.state;
@@ -143,18 +141,38 @@ class SyncIndicator extends Component {
             if (error.exception !== undefined)
                 title = `${error.message}: ${error.exception}`;
             return (
-                <span title={title}><strong className={style.statusIcon}><Icon symbol={'attention'}></Icon></strong> {message}</span>
+                <span title={title}>
+                    <strong className={style.statusIcon}><Icon symbol="attention"></Icon></strong>
+                    {' '}
+                    {message}
+                </span>
             );
-        } else if (status.syncing === true) {
-            return <span title={`${status.status}: ${status.step}`}><strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol={'sync'}></Icon></strong>
-                {
-                    status.status === 'scheduling'
-                        ? 'Preparing synchronisation' :
-                        status.step === 'linking' ? 'Linking'
-                            : 'Synching'} ...</span>;
-        } else if (lastSuccess !== undefined)
+        }
+        else if (status.syncing === true) {
             return (
-                <span title={lastSuccess}><strong className={style.statusIcon}><Icon symbol={'cloud'}></Icon></strong> Synced with {(new URL(syncInfo.config.host)).host}</span>
+                <span title={`${status.status}: ${status.step}`}>
+                    <strong className={`${style.statusIcon} ${style.syncActive}`}><Icon symbol="sync"></Icon></strong>
+                    {
+                        status.status === 'scheduling'
+                            ? 'Preparing synchronisation'
+                            : status.step === 'linking'
+                                ? 'Linking'
+                                : 'Synching'
+                    }
+                    {' '}
+                    ...
+                </span>
+            );
+        }
+        else if (lastSuccess !== undefined)
+            return (
+                <span title={lastSuccess}>
+                    <strong className={style.statusIcon}><Icon symbol="cloud"></Icon></strong>
+                    {' '}
+                    Synced with
+                    {' '}
+                    {(new URL(syncInfo.config.host)).host}
+                </span>
             );
         else
             return null;

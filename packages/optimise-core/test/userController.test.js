@@ -7,7 +7,6 @@ const user = request.agent(global.optimiseRouter);
 let csrfToken;
 
 describe('User controller tests', () => {
-
     test('Testing rainbow with unicorn', () => admin
         .get('/whoami')
         .then(({ statusCode, headers, body }) => {
@@ -163,7 +162,6 @@ describe('User controller tests', () => {
             expect(body.message).toBe('Successfully logged out');
             return true;
         }));
-
 
     test('User no 1 (standard) login', () => user
         .post('/users/login')
@@ -336,7 +334,6 @@ describe('User controller tests', () => {
             expect(body.error).toBe(message.userError.MISSINGARGUMENT);
             return true;
         }));
-
 
     test('Admin changes rights of user no 2 (MISSING ARGS on id)', () => admin
         .patch('/users')

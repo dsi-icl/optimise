@@ -15,7 +15,6 @@ afterAll(async () => {
     await disconnectAgent(user);
 });
 
-
 describe('Create treatment controller tests', () => {
     test('Request creation without body (should fail)', () => admin
         .post('/treatments')
@@ -368,7 +367,6 @@ describe('Create treatment interruption controller tests', () => {
             return true;
         }));
 });
-
 
 describe('Update treatment interruption controller tests', () => {
     test('Update treatment interuption without body (should fail)', () => admin

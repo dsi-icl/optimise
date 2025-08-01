@@ -1,4 +1,4 @@
-/*eslint no-console: "off"*/
+/* eslint no-console: "off" */
 import dbcon from './db-connection';
 import schemas from '../db';
 import fs from 'fs';
@@ -8,7 +8,6 @@ import fs from 'fs';
 const CURRENT_VERSION = 21;
 
 export async function migrate() {
-
     // Verify the OPT_KV configuration table exists
     const isIntitialized = await dbcon().schema.hasTable('OPT_KV');
     let stepVersion = 0;
@@ -26,7 +25,8 @@ export async function migrate() {
             created_at: dbcon().fn.now(),
             updated_at: dbcon().fn.now()
         });
-    } else {
+    }
+    else {
         // Otherwise fetch the CURRENT_VERSION
         const stepVersionResult = await dbcon()('OPT_KV').where({
             key: 'CURRENT_VERSION'
@@ -37,7 +37,6 @@ export async function migrate() {
     }
 
     if (stepVersion !== CURRENT_VERSION) {
-
         if (CURRENT_VERSION < stepVersion)
             return Promise.reject(new Error('The existing database was created with a newer version of Optimise ! Please upgrade before using Optimise !'));
 
@@ -49,7 +48,8 @@ export async function migrate() {
             try {
                 for (let i = 0; i < schemas.length; i++)
                     await schemas[i](dbcon, stepVersion);
-            } catch (error) {
+            }
+            catch (error) {
                 console.error(error.message);
                 console.error(error.stack);
                 return Promise.reject(error);
@@ -65,7 +65,6 @@ export async function migrate() {
             value: `${stepVersion}`,
             updated_at: dbcon().fn.now()
         });
-
     }
 
     return dbcon;
@@ -79,7 +78,8 @@ export function erase() {
             try {
                 if (fs.existsSync(filename))
                     fs.unlinkSync(filename);
-            } catch (err) {
+            }
+            catch (err) {
                 return reject(err);
             }
         }
