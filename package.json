@@ -80,7 +80,7 @@
         "@vitest/coverage-v8": "^3.2.4",
         "autoprefixer": "10.4.21",
         "babel-jest": "29.7.0",
-        "babel-loader": "9.2.1",
+        "babel-loader": "10.0.0",
         "babel-plugin-react-compiler": "^19.1.0-rc.2",
         "babel-plugin-require-context-hook": "1.0.0",
         "commitlint": "19.8.1",
