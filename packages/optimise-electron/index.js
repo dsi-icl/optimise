@@ -43,10 +43,10 @@ if (devMode) {
 
     // Setup reload
     // require('electron-reload')(path.join(__dirname, 'dist/app.js'), {
-    // 	electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+    // electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
     // });
-
-} else {
+}
+else {
     unhandled({
         showDialog: process.argv.indexOf('--devTools') !== -1
     });
@@ -64,7 +64,6 @@ console.log('Has started server ...');
 
 let cookie;
 const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
-
     if (options.method === undefined)
         options.method = 'GET';
 
@@ -94,9 +93,9 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
     });
 
     if (
-        options.headers !== undefined &&
-        options.headers['content-type'] &&
-        options.headers['content-type'].search('multipart/form-data') >= 0
+        options.headers !== undefined
+        && options.headers['content-type']
+        && options.headers['content-type'].search('multipart/form-data') >= 0
     ) {
         const boundary = `--------------------------${Math.random()
             .toString(5)
@@ -114,7 +113,8 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
         ] = `multipart/form-data; boundary=${boundary.substr(2)}`;
         req.headers['content-length'] = queue.length;
         req.body = queue;
-    } else {
+    }
+    else {
         req.body = options.body ? JSON.parse(options.body) : undefined;
     }
 
@@ -127,8 +127,8 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
         set: (name, value) => {
             res._headers[name] = value;
         },
-        getHeader: (name) => res._headers[name],
-        get: (name) => res._headers[name],
+        getHeader: name => res._headers[name],
+        get: name => res._headers[name],
         write: (chunk) => {
             res._sent = Buffer.concat([res._sent, chunk]);
         },
@@ -155,7 +155,8 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
                     };
                     try {
                         json = JSON.parse(res._sent.toString());
-                    } catch (e) {
+                    }
+                    catch (e) {
                         console.error(e);
                     }
                     resolve({
@@ -163,14 +164,16 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
                         statusCode: res.statusCode,
                         json
                     });
-                } else {
+                }
+                else {
                     resolve({
                         headers: res._headers,
                         statusCode: res.statusCode,
                         buffer: res._sent
                     });
                 }
-            } catch (e) {
+            }
+            catch (e) {
                 reject({
                     error: `An error occurred processing IPC Fetch: ${e.message}`
                 });
@@ -184,14 +187,13 @@ const httpify = ({ url, options = {} }) => new Promise((resolve, reject) => {
 const createApi = () => optimise_server
     .start()
     .then((optimise_router) => {
-
         // Remove unwanted express headers
         web_app.set('x-powered-by', false);
         web_app.use('/api', optimise_router);
 
         ipcMain.on('optimiseApiCall', (event, { cid, ...parameters }) => {
             httpify(parameters)
-                .then((res) =>
+                .then(res =>
                     event.sender.send('optimiseApiResult', {
                         cid,
                         res
@@ -239,7 +241,7 @@ const createApi = () => optimise_server
             })
                 .catch((err) => {
                     console.error(err);
-                    // eslint-disable-next-line no-alert
+
                     alert(err);
                 });
         });
@@ -250,7 +252,7 @@ const createApi = () => optimise_server
         console.error(
             'An error occurred while starting the Optimise core.',
             error
-        ); // eslint-disable-line no-console
+        );
         console.error(error.stack);
         return false;
     });
@@ -286,7 +288,8 @@ const createWindow = () => {
     // Open the DevTools.
     if ((devMode && process.argv.indexOf('--noDevTools') === -1) || process.argv.indexOf('--devTools') !== -1) {
         mainWindow.webContents.openDevTools();
-    } else {
+    }
+    else {
         mainWindow.setMenu(null);
     }
 
@@ -364,7 +367,7 @@ autoUpdater.on('update-downloaded', () => {
         message: 'Do you want to update the software now?'
     };
 
-    dialog.showMessageBox(options).then((res) =>
+    dialog.showMessageBox(options).then(res =>
         new Promise((resolve) => {
             if (res.response === 0) {
                 setImmediate(() => {
@@ -380,7 +383,7 @@ autoUpdater.on('update-downloaded', () => {
         }))
         .catch((err) => {
             console.error(err);
-            // eslint-disable-next-line no-alert
+
             alert(err);
         });
 
@@ -393,7 +396,6 @@ autoUpdater.on('update-downloaded', () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', () => {
-
     // Set CSP HTTP headers
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
         callback({
@@ -406,12 +408,12 @@ app.on('ready', () => {
 
     if (process.argv.includes('--autoupdate-test')) {
         console.log('This run is for testing auto-update and fires no UI');
-    } else createApi().then(createWindow)
+    }
+    else createApi().then(createWindow)
         .catch((err) => {
             sendAlertToWindow(err.toString());
             console.error(err);
             if (devMode || process.argv.indexOf('--devTools') !== -1) {
-                // eslint-disable-next-line no-alert
                 alert(err);
             }
         });
@@ -427,7 +429,6 @@ app.on('window-all-closed', () => {
             .catch((err) => {
                 console.error(err);
                 if (devMode || process.argv.indexOf('--devTools') !== -1) {
-                    // eslint-disable-next-line no-alert
                     alert(err);
                 }
             });
@@ -450,7 +451,6 @@ ipcMain.on('quitAndInstall', () => {
             .catch((err) => {
                 console.error(err);
                 if (devMode || process.argv.indexOf('--devTools') !== -1) {
-                    // eslint-disable-next-line no-alert
                     alert(err);
                 }
             });
@@ -465,7 +465,6 @@ ipcMain.on('rendererIsFinished', () => {
             .catch((err) => {
                 console.error(err);
                 if (devMode || process.argv.indexOf('--devTools') !== -1) {
-                    // eslint-disable-next-line no-alert
                     alert(err);
                 }
             });

@@ -21,11 +21,13 @@ export const apiHelper = (endpoint, options, blockError) => {
     }
 
     const fetchOptions = {
-        ...merge.all([defaultOptions, options, tokenCSRF ? {
-            headers: {
-                'csrf-token': tokenCSRF
+        ...merge.all([defaultOptions, options, tokenCSRF
+            ? {
+                headers: {
+                    'csrf-token': tokenCSRF
+                }
             }
-        } : {}], {
+            : {}], {
             isMergeableObject: isPlainObject
         })
     };
@@ -36,11 +38,10 @@ export const apiHelper = (endpoint, options, blockError) => {
     let returnValue;
 
     try {
-
         let fetcher = window.ipcFetch || window.fetch;
 
         returnValue = fetcher(`/api${endpoint}`, fetchOptions)
-            .then(res => {
+            .then((res) => {
                 const tokenCSRFHeader = res.headers.get('csrf-token');
                 if (tokenCSRFHeader)
                     tokenCSRF = tokenCSRFHeader;
@@ -49,26 +50,29 @@ export const apiHelper = (endpoint, options, blockError) => {
                     data: json
                 }));
             }, err => ({ status: 900, data: { error: err } }))
-            .then(json => {
+            .then((json) => {
                 if (json.status === undefined || json.data === undefined) {
                     store.dispatch(addError({ error: 'Unknown fatal error has occured' }));
                     return Promise.reject(json);
                 }
                 if (json.status === 200) {
                     return json.data;
-                } else {
+                }
+                else {
                     if (json.data.message === 'Please login first')
                         return window.location.reload();
                     if (json.data.error && json.data.error !== 'An unknown unicorn') {
                         if (!blockError)
                             store.dispatch(addError(json.data));
                         return Promise.reject(json);
-                    } else {
+                    }
+                    else {
                         return json.data;
                     }
                 }
             });
-    } catch (e) {
+    }
+    catch (e) {
         store.dispatch(addError({
             error: e
         }));

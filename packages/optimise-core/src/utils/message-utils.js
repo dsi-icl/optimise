@@ -49,11 +49,11 @@ const DataControllerMessageRelated = {
     PREGNANCYENTRY: 'Couldn\'t find your pregnancy entry',
     OVERLAPERROR: 'Fields in "add" and "update" cannot have overlap',
     INVALIDFIELD: 'Impossible to add or update this field because it its reference type is incompatible with the clinical event type',
-    MISSINGVALUE: 'Missing arguments : Please provide at least "add" or "update" field and an id (number) for ', //add datatype id here
-    BOOLEANFIELD: 'Value can only be "1" or "0" for the field ', //add field ID
-    CHARFIELD: /* Add field ID*/ ' only accepts values ', // add permitted value
-    INTEGERFIELD: 'Value should be an integer for the field ', //add field
-    NUMBERFIELD: 'Value should be a number for the field ', //add field
+    MISSINGVALUE: 'Missing arguments : Please provide at least "add" or "update" field and an id (number) for ', // add datatype id here
+    BOOLEANFIELD: 'Value can only be "1" or "0" for the field ', // add field ID
+    CHARFIELD: /* Add field ID */ ' only accepts values ', // add permitted value
+    INTEGERFIELD: 'Value should be an integer for the field ', // add field
+    NUMBERFIELD: 'Value should be a number for the field ', // add field
     UNKNOWNFIELD: 'The field linked to this data is unknown',
     FIELDNOTFOUND: 'One or more of the requested field(s) cannot be found',
     UPDATEIMPOSSIBLE: 'One of the requested "update" cannot be performed',

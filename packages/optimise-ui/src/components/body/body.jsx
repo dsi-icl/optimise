@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import { PureComponent } from 'react';
 import browserBehaviour from '../../utilities/browserBehaviour';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -8,7 +7,6 @@ import './datepicker.css';
 import './tree.css';
 
 export default class Body extends PureComponent {
-
     // Custom name for container
     static displayName = 'Body';
 

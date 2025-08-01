@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import style from './remoteControl.module.css';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -24,19 +24,26 @@ export class RemoteControl extends Component {
         if (!this.state.startedWS) {
             return (
                 <div className={style.initial_question}>
-                    If you allow remote control, the software team at DSI-ICL can request actions OptimiseMS on your computer. <br/><br/>
-                    Do you want to proceed?<br/><br/>
+                    If you allow remote control, the software team at DSI-ICL can request actions OptimiseMS on your computer.
+                    {' '}
+                    <br />
+                    <br />
+                    Do you want to proceed?
+                    <br />
+                    <br />
                     <button onClick={this._clickStartWS}>Yes</button>
-                    <br/><br/>
-                    <NavLink to='/'>
+                    <br />
+                    <br />
+                    <NavLink to="/">
                         <button>No</button>
                     </NavLink>
                 </div>
             );
-        } else {
+        }
+        else {
             return (
                 <div className={style.initial_question}>
-                    <WSActions/>
+                    <WSActions />
                 </div>
             );
         }
@@ -52,7 +59,7 @@ class WSActions extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //socket: undefined,
+            // socket: undefined,
             messages: []
         };
     }
@@ -60,14 +67,14 @@ class WSActions extends Component {
     componentDidMount() {
         const that = this;
         const socket = new WebSocket(that.props.wsEndpoint);
-        socket.onopen = function() {
+        socket.onopen = function () {
             that.setState(prev => ({
                 socket,
                 messages: [...prev.messages, `${new Date().toISOString()}: Socket opened!`]
             }));
             socket.send(that.props.userId);
         };
-        socket.onmessage = function(event) {
+        socket.onmessage = function (event) {
             const message = event.data;
             const newMessages = [`${new Date().toISOString()}: Server request - ${message}`];
             const [action, actionData] = message.split('|');
@@ -88,14 +95,14 @@ class WSActions extends Component {
             }));
         };
 
-        socket.onclose = function() {
+        socket.onclose = function () {
             that.setState(prev => ({
                 messages: [...prev.messages, `${new Date().toISOString()}: Connection closed.`]
             }));
         };
 
-        socket.onerror = function() {
-            that.setState((prev) => ({
+        socket.onerror = function () {
+            that.setState(prev => ({
                 messages: [...prev.messages, `${new Date().toISOString()}: Cannot open socket.`]
             }));
         };

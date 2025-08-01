@@ -28,7 +28,7 @@ export default async (dbcon, version) => {
     }
 };
 
-const schema_v18 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => {
+const schema_v18 = dbcon => dbcon().schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.integer('recordedDuringVisit').notNullable().references('id').inTable('VISITS').onDelete('CASCADE');
     table.integer('type').notNullable().references('id').inTable('AVAILABLE_PREGNANCY_ENTRY_TYPES');
@@ -40,7 +40,7 @@ const schema_v18 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => 
     table.unique(['recordedDuringVisit', 'type', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
 });
 
-const schema_v19 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => {
+const schema_v19 = dbcon => dbcon().schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.integer('recordedDuringVisit').notNullable().references('id').inTable('VISITS').onDelete('CASCADE');
     table.integer('type').notNullable().references('id').inTable('AVAILABLE_PREGNANCY_ENTRY_TYPES');

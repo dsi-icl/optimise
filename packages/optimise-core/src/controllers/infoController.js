@@ -4,7 +4,6 @@ import InfoCore from '../core/info';
 import formatToJSON from '../utils/format-response';
 
 class InfoController {
-
     static getInfo({ user }, res) {
         if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));

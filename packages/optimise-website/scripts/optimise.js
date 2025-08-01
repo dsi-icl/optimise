@@ -1,4 +1,4 @@
-! function ($) {
+(function ($) {
     'use strict';
     $(function () {
         var b = $(window),
@@ -28,4 +28,6 @@
             $('.bs-top').affix();
         }, 100);
     });
-}(jQuery);
+    // @ts-ignore
+    // eslint-disable-next-line no-undef
+}(jQuery));

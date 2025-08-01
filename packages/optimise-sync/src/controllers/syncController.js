@@ -8,9 +8,7 @@ import syncCore from '../core/syncCore';
 import message from '../utils/message-utils';
 
 class SyncController {
-
     static async createSync({ body: { data, uuid, agent, key, format }, headers, connection }, res) {
-
         if (data === undefined || uuid === undefined) {
             res.status(401).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
@@ -37,7 +35,6 @@ class SyncController {
             }
 
             if (uploadType === 'sqlite') {
-
                 const filename = `${uuid.replace(/\n|\r/g, '')}.db`;
                 const decompressedBuffer = gunzipSync(Buffer.from(data.b64, 'base64'));
 
@@ -54,8 +51,8 @@ class SyncController {
                 res.status(200).json({
                     status: 'success'
                 });
-
-            } else {
+            }
+            else {
                 const inserts = [];
 
                 if (data.patients !== undefined && data.patients.length > 0)
@@ -77,7 +74,8 @@ class SyncController {
                     return false;
                 });
             }
-        } catch (error) {
+        }
+        catch (error) {
             const e = ErrorHelper(message.errorMessages.UPDATEFAIL, error);
             syncCore.updateSyncRecord(eventRecordInfo.insertedId, { error: e.toString() })
                 .then(() => {
@@ -101,7 +99,8 @@ class SyncController {
                 headers,
                 connection
             }, res);
-        } catch (error) {
+        }
+        catch (error) {
             res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
             return false;
         }

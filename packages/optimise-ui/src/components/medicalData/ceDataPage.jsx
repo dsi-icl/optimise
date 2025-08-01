@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
@@ -8,14 +8,12 @@ import scaffold_style from '../createMedicalElements/medicalEvent.module.css';
 import style from './dataPage.module.css';
 import store from '../../redux/store';
 
-
 function mapStateToProps(state) {
     return {
         fields: state.availableFields,
         patientProfile: state.patientProfile
     };
 }
-
 
 /**
  * @class DataTemplate
@@ -27,7 +25,7 @@ function mapStateToProps(state) {
  * @prop {Function} this.props.submitData - from connect
  */
 
-/* this component serves as a sieve for the data and pass the relevant one to the form as props*/
+/* this component serves as a sieve for the data and pass the relevant one to the form as props */
 @withRouter
 @connect(mapStateToProps)
 class CeData extends Component {
@@ -59,7 +57,6 @@ class CeData extends Component {
     }
 
     _handleSubmit(ev) {
-
         ev.preventDefault();
         if (this.state.lastSubmit && (new Date()).getTime() - this.state.lastSubmit < 500 ? true : false)
             return;
@@ -71,7 +68,7 @@ class CeData extends Component {
 
         const update = {};
         const add = {};
-        Object.entries(references).forEach(el => {
+        Object.entries(references).forEach((el) => {
             const fieldId = el[0];
             const reference = el[1].ref;
             const type = el[1].type;
@@ -79,7 +76,8 @@ class CeData extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== reference.current.value)
                         update[fieldId] = reference.current.value;
-                } else if (reference.current.value !== 'unselected') {
+                }
+                else if (reference.current.value !== 'unselected') {
                     add[fieldId] = reference.current.value;
                 }
             }
@@ -87,7 +85,8 @@ class CeData extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== reference.current.value)
                         update[fieldId] = reference.current.value;
-                } else if (reference.current.value !== '') {
+                }
+                else if (reference.current.value !== '') {
                     add[fieldId] = reference.current.value;
                 }
             }
@@ -96,7 +95,8 @@ class CeData extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== bool)
                         update[fieldId] = bool;
-                } else if (bool !== '0') {
+                }
+                else if (bool !== '0') {
                     add[fieldId] = bool;
                 }
             }
@@ -105,7 +105,8 @@ class CeData extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== value)
                         update[fieldId] = value;
-                } else if (value !== '') {
+                }
+                else if (value !== '') {
                     add[fieldId] = value;
                 }
             }
@@ -138,15 +139,17 @@ class CeData extends Component {
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.clinicalEvents.filter(visit => visit.id === parseInt(params.ceId, 10));
             if (visitsMatched.length !== 1) {
-                return <>
-                    <div className={_style.ariane}>
-                        <h2>CLINICAL EVENT RESULTS</h2>
-                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                    </div>
-                    <div className={_style.panel}>
-                        <i>We could not find the event that you are looking for.</i>
-                    </div>
-                </>;
+                return (
+                    <>
+                        <div className={_style.ariane}>
+                            <h2>CLINICAL EVENT RESULTS</h2>
+                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                        </div>
+                        <div className={_style.panel}>
+                            <i>We could not find the event that you are looking for.</i>
+                        </div>
+                    </>
+                );
             }
             const { fields } = this.props;
             const relevantFields = fields.clinicalEventFields.filter(el => (el.referenceType === visitsMatched[0].type));
@@ -156,34 +159,45 @@ class CeData extends Component {
             if (this.references !== null && this.state.refreshReferences === true)
                 return null;
             if (this.references === null)
-                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
+                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             return (
                 <>
                     <div className={_style.ariane}>
                         <h2>CLINICAL EVENT RESULTS</h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
-                    {Object.entries(fieldTree).length > 0 ?
-                        <div className={`${_style.panel} ${style.topLevelPanel}`}>
-                            <form onSubmit={this._handleSubmit} className={style.form}>
-                                <div className={style.levelBody}>
-                                    {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
-                                </div><br />
-                                { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
-                                <button type='submit'>Save</button>
-                            </form>
-                        </div>
-                        :
-                        <div className={_style.panel}>
-                            <i>There are no contextual data to record for this type of event. Please use the central panel to edit related symptoms and signs.</i>
-                        </div>
-                    }
+                    {Object.entries(fieldTree).length > 0
+                        ? (
+                            <div className={`${_style.panel} ${style.topLevelPanel}`}>
+                                <form onSubmit={this._handleSubmit} className={style.form}>
+                                    <div className={style.levelBody}>
+                                        {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
+                                    </div>
+                                    <br />
+                                    {this.state.saved
+                                        ? (
+                                            <>
+                                                <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
+                                                <br />
+                                            </>
+                                        )
+                                        : null}
+                                    <button type="submit">Save</button>
+                                </form>
+                            </div>
+                        )
+                        : (
+                            <div className={_style.panel}>
+                                <i>There are no contextual data to record for this type of event. Please use the central panel to edit related symptoms and signs.</i>
+                            </div>
+                        )}
                 </>
             );
-        } else {
-            return <div><Icon symbol='loading' /></div>;
+        }
+        else {
+            return <div><Icon symbol="loading" /></div>;
         }
     }
 }
 
-export {CeData};
+export { CeData };

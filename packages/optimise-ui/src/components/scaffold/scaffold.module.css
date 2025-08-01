@@ -1,4 +1,4 @@
-.statusBar {    
+.statusBar {
     grid-area: status;
     display: block;
     width: 100%;
@@ -9,7 +9,7 @@
     padding: 0.35em 1.2em;
 }
 
-.statusBar > span:not(.rightPush):not(:first-child) {
+.statusBar>span:not(.rightPush):not(:first-child) {
     padding: 0 2em;
 }
 
@@ -31,7 +31,7 @@
     padding-right: 1.2em;
 }
 
-.menuBar {    
+.menuBar {
     grid-area: navigation;
     display: block;
     width: 100%;
@@ -39,7 +39,7 @@
     position: relative;
 }
 
-.middlePanel {    
+.middlePanel {
     grid-area: sidebar;
     width: 100%;
     height: 100%;
@@ -57,7 +57,7 @@
     border-right: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
-.farRightPanel {    
+.farRightPanel {
     grid-area: annexe;
     width: 100%;
     height: 100%;
@@ -88,7 +88,7 @@
 }
 
 .middlePanel, .rightPanel, .farRightPanel, .fullscreenPanel {
-    grid: "ariane" 4em "panel" calc(100% - 4em) / 100%;
+    grid: "ariane"4em "panel"calc(100% - 4em) / 100%;
     display: grid;
 }
 
@@ -101,8 +101,8 @@
     fill: var(--color-font-active);
 }
 
-.menuBar > br,
-.menuBar > a {
+.menuBar>br,
+.menuBar>a {
     display: block;
     width: 100%;
     height: 4em;
@@ -113,13 +113,13 @@
     transition: border 200ms, color 200ms;
 }
 
-.menuBar > a.active {
+.menuBar>a.active {
     color: var(--color-font-active);
     background: rgba(255, 255, 255, 0.2);
     border-left: 0.3em solid var(--color-accent);
 }
 
-.menuBar > a:hover {
+.menuBar>a:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
@@ -133,7 +133,7 @@
     grid-area: annexe-start / content / auto / annexe;
     width: 100%;
     height: 100%;
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(255, 255, 255, 0.7);
     position: relative;
     z-index: 20;
 }
@@ -148,12 +148,12 @@
     color: white;
 }
 
-.errorMessageDialogBox > span:first-of-type {
+.errorMessageDialogBox>span:first-of-type {
     font-size: 2em;
     line-height: 1em;
 }
 
-.errorMessageDialogBox > div {
+.errorMessageDialogBox>div {
     background-color: rgb(255, 145, 145);
     padding: 1em;
     overflow: hidden;
@@ -187,7 +187,7 @@
     color: white;
 }
 
-.alertMessageDialogBox > span:first-of-type {
+.alertMessageDialogBox>span:first-of-type {
     font-size: 2em;
     line-height: 1em;
 }
@@ -219,6 +219,7 @@
     from {
         transform: rotate(360deg);
     }
+
     to {
         transform: rotate(0deg);
     }
@@ -227,7 +228,7 @@
 .syncActive {
     transform-origin: 65% 50%;
     animation: rotating 2s linear infinite;
-    
+
 }
 
 .remote_button {

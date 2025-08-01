@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
 export class PickDate extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -33,12 +32,16 @@ export class PickDate extends Component {
                     style={{ width: '100%' }}
                     enableTabLoop={false}
                 />
-                {this.props.handleChange === undefined ? (
-                    <input
-                        style={{ display: 'none' }}
-                        type='text'
-                        value={this.state.selected ? this.state.selected.toISOString() : ''}
-                        ref={this.props.reference} readOnly />)
+                {this.props.handleChange === undefined
+                    ? (
+                        <input
+                            style={{ display: 'none' }}
+                            type="text"
+                            value={this.state.selected ? this.state.selected.toISOString() : ''}
+                            ref={this.props.reference}
+                            readOnly
+                        />
+                    )
                     : null}
             </>
         );

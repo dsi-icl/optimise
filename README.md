@@ -17,7 +17,7 @@ yarn install
 
 The main idea of this starer kit is to separate the Electron and React parts.
 
-```
+```txt
 .
 ├── package.json                  # Package.json for the whole repo
 ├── packages/

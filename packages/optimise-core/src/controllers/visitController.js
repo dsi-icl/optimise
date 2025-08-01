@@ -8,7 +8,6 @@ import moment from 'moment';
  * @class VisitController: Inspect entry body and user right before sending to core
  */
 class VisitController {
-
     /**
      * @function createReport
      * @description Create a new report
@@ -125,8 +124,8 @@ class VisitController {
      * @param {Object} res Response Object
      */
     static createReport({ body, user }, res) {
-        if (body.hasOwnProperty('visit') && body.hasOwnProperty('report') &&
-            typeof body.visit === 'number' && typeof body.report === 'string') {
+        if (body.hasOwnProperty('visit') && body.hasOwnProperty('report')
+          && typeof body.visit === 'number' && typeof body.report === 'string') {
             const newEntry = {};
             newEntry.visit = body.visit;
             newEntry.report = body.report;
@@ -142,7 +141,8 @@ class VisitController {
         else if (!(body.hasOwnProperty('visit') && body.hasOwnProperty('report'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -163,10 +163,12 @@ class VisitController {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        } else if (body.hasOwnProperty('id')) {
+        }
+ else if (body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
@@ -191,10 +193,12 @@ class VisitController {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

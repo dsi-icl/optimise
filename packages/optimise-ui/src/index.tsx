@@ -1,5 +1,4 @@
-/* eslint-disable no-restricted-globals */
-window.global = window
+window.global = window;
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -16,21 +15,26 @@ serviceWorker.unregister();
 
 if (window && window.process && typeof window.process.on === 'function') {
     window.process.on('uncaughtException', function (error) {
-        // eslint-disable-next-line no-console
         console.error('Something went really wrong', error);
     });
 }
 
 const container = document.getElementById('root');
-const rootStruct = <StrictMode>
-    <Provider store={store}>
-        <Router history={history}>
-            <HelmetProvider>
-                <App />
-            </HelmetProvider>
-        </Router>
-    </Provider>
-</StrictMode>
+const rootStruct = (
+    <StrictMode>
+        <Provider store={store}>
+            <Router history={history}>
+                <HelmetProvider>
+                    <App />
+                </HelmetProvider>
+            </Router>
+        </Provider>
+    </StrictMode>
+);
 
-const root = createRoot(container!);
+if (!container) {
+    throw new Error('Root element not found');
+}
+
+const root = createRoot(container);
 root.render(rootStruct);

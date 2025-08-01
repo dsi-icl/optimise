@@ -5,6 +5,9 @@
     },
     "editor.tabSize": 4,
     "eslint.validate": [
+        "css",
+        "mdx",
+        "markdown",
         "javascript",
         "javascriptreact",
         "typescript",
@@ -18,5 +21,10 @@
         "**/.settings": true,
         "**/.factorypath": true
     },
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "eslint.options": {
+        "flags": [
+            "v10_config_lookup_from_file"
+        ]
+    }
 }

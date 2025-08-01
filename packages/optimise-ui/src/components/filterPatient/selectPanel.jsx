@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 class DragBox extends Component {
-
     constructor() {
         super();
         this._dragover_handler = this._dragover_handler.bind(this);
@@ -22,7 +21,7 @@ class DragBox extends Component {
 
     render() {
         return (
-            <div className='selectbox' onDrop={this.drop_handler} onDragOver={this.dragover_handler}></div>
+            <div className="selectbox" onDrop={this.drop_handler} onDragOver={this.dragover_handler}></div>
         );
     }
 }
@@ -32,7 +31,7 @@ export class FilterPanel extends Component {
         return (
             <div>
                 <h2>FILTER PATIENTS</h2>
-                <span >Refine your criteria:</span>
+                <span>Refine your criteria:</span>
                 <DragBox />
                 <DragBox />
             </div>

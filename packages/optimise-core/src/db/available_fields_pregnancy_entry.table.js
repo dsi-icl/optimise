@@ -3,7 +3,6 @@ import {
 } from '../utils/db-mover';
 import pregnancyEntryFields from './defaults_v18/pregnancyEntryFields.json';
 
-
 export const TABLE_NAME = 'AVAILABLE_FIELDS_PREGNANCY_ENTRY';
 export const PRIORITY = 1;
 export default async (dbcon, version) => {

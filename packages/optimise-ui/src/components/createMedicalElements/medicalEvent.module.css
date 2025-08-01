@@ -91,7 +91,7 @@
     border: none;
 }
 
-.interruption > span {
+.interruption>span {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -116,7 +116,7 @@
     background-color: white;
 }
 
-.noEndDateButton{
+.noEndDateButton {
     text-decoration: underline;
     cursor: pointer;
     display: block;

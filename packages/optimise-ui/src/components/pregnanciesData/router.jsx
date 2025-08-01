@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { PregnanciesListingPage } from './pregnanciesListingPage';
 import { OffspringsListingPage } from '../offspringsData/offspringsListingPage';
@@ -10,9 +10,9 @@ export class PregnancyPageRouter extends Component {
         /* different elementType passed to dataTemplate makes it look in different places in the store */
         return (
             <Switch>
-                <Route path='/patientProfile/:patientId/pregnancy/:pregnancyId/offsprings' render={({ match }) => <OffspringsListingPage elementType='clinicalEvent' match={match} />} />
-                <Route path='/patientProfile/:patientId/pregnancy' render={({ match }) => <PregnanciesListingPage elementType='clinicalEvent' match={match} />} />
-                <Route path='/' component={() => null} />
+                <Route path="/patientProfile/:patientId/pregnancy/:pregnancyId/offsprings" render={({ match }) => <OffspringsListingPage elementType="clinicalEvent" match={match} />} />
+                <Route path="/patientProfile/:patientId/pregnancy" render={({ match }) => <PregnanciesListingPage elementType="clinicalEvent" match={match} />} />
+                <Route path="/" component={() => null} />
             </Switch>
         );
     }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { PatientChart } from '../patientProfile/patientChart';
 import { PatientDispatch } from '../patientProfile/patientDispatch';
@@ -13,17 +13,21 @@ export default class RightPanel extends Component {
         return (
             <div className={style.rightPanel}>
                 <Switch>
-                    <Route path='/administration' render={({ match, location }) =>
-                        <AdminActions location={location.pathname} match={match} />
-                    } />
-                    <Route path='/createPatient' component={SearchPatient} />
-                    <Route path='/patientProfile/:patientId' render={({ match, location }) =>
-                        <PatientChart location={location.pathname} match={match} />
-                    } />
-                    <Route path='/patientProfile' component={PatientDispatch} />
-                    <Route path='/filterPatients' component={FilterPanel} />
-                    <Route path='/userManual' component={UserManual} />
-                    <Route path='/' component={SearchPatient} />
+                    <Route
+                        path="/administration"
+                        render={({ match, location }) =>
+                            <AdminActions location={location.pathname} match={match} />}
+                    />
+                    <Route path="/createPatient" component={SearchPatient} />
+                    <Route
+                        path="/patientProfile/:patientId"
+                        render={({ match, location }) =>
+                            <PatientChart location={location.pathname} match={match} />}
+                    />
+                    <Route path="/patientProfile" component={PatientDispatch} />
+                    <Route path="/filterPatients" component={FilterPanel} />
+                    <Route path="/userManual" component={UserManual} />
+                    <Route path="/" component={SearchPatient} />
                 </Switch>
             </div>
         );

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import SyncIndicator from './syncIndicator';
 import style from './scaffold.module.css';
@@ -18,17 +18,22 @@ class StatusBar extends Component {
         const { username, fetching, adminPriv } = this.props;
         return (
             <div className={style.statusBar} style={{ visibility: (username !== '' && fetching !== true) ? 'visible' : 'hidden' }}>
-                <span> Logged in as {username}</span>
-                {adminPriv === 1 ?
-                    <SyncIndicator></SyncIndicator>
-                    :
-                    null
-                }
+                <span>
+                    {' '}
+                    Logged in as
+                    {username}
+                </span>
+                {adminPriv === 1
+                    ? <SyncIndicator></SyncIndicator>
+                    : null}
                 <div className={style.rightPush}>
-                    <NavLink to='/remoteControl'>
+                    <NavLink to="/remoteControl">
                         <span className={style.remote_button}>Remote</span>
                     </NavLink>
-                    <span>OptimiseMS v{version}</span>
+                    <span>
+                        OptimiseMS v
+                        {version}
+                    </span>
                 </div>
             </div>
         );

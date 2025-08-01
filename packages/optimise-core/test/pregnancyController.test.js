@@ -218,7 +218,6 @@ describe('Create Pregnancy controller test', () => {
             return true;
         }));
 
-
     test('Creating Pregnancy without outcome (Should Succeed)', () => admin
         .post('/demographics/Pregnancy')
         .send({
@@ -298,7 +297,6 @@ describe('Edit Pregnancy controller test', () => {
             expect(body[0].id).toBe(3);
             return true;
         }));
-
 });
 
 describe('Delete Pregnancy controller test', () => {
@@ -393,5 +391,4 @@ describe('Create Pregnancy image controller test', () => {
             expect(body.state).toBe(1);
             return true;
         }));
-
 });

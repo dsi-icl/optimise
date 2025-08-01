@@ -1,4 +1,4 @@
-/*eslint no-console: "off"*/
+/* eslint no-console: "off" */
 import dbcon from '../utils/db-connection';
 
 class RequestMiddleware {
@@ -6,9 +6,11 @@ class RequestMiddleware {
         const user = req.user ? req.user.id : null;
         if (user !== null) {
             next();
-        } else if (req.url === '/users/login' || req.url === '/whoami' || req.url === '/sync' || req.url === '/sync/status') {
+        }
+ else if (req.url === '/users/login' || req.url === '/whoami' || req.url === '/sync' || req.url === '/sync/status') {
             next();
-        } else {
+        }
+ else {
             res.status(400).json({ status: 'error', message: 'Please login first' });
         }
     }
@@ -30,7 +32,7 @@ class RequestMiddleware {
                     console.debug(`${req.method} - ${req.originalUrl} ${username ? `: ${username}` : ''}`);
                 return true;
             })
-            .catch(err => {
+            .catch((err) => {
                 if (process.env.NODE_ENV === 'development')
                     console.debug(`Error caught :${err}`);
                 return false;
@@ -38,6 +40,5 @@ class RequestMiddleware {
         next();
     }
 }
-
 
 export default RequestMiddleware;

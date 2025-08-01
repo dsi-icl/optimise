@@ -31,7 +31,7 @@
     overflow-x: hidden;
 }
 
-.panel > *:first-child {
+.panel>*:first-child {
     margin-top: 1.2em;
 }
 

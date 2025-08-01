@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/utils';
@@ -51,7 +51,6 @@ class EditVisit extends Component {
             error: undefined
         }));
     }
-
 
     _handleDateChange(date) {
         this.setState({
@@ -129,23 +128,22 @@ class EditVisit extends Component {
         const visitPregnancyEntry = data.pregnancyEntries.filter(el => el.recordedDuringVisit === parseInt(params.visitId));
 
         if (visitPregnancyEntry.length > 0) {
-            //find all entries associated with the same pregnancy
+            // find all entries associated with the same pregnancy
             const allPregnancyEntries = data.pregnancyEntries.filter(el => el.pregnancyId === visitPregnancyEntry[0].pregnancyId);
 
             const entryOrder = PregnancyEntry._checkEntryOrder(visitPregnancyEntry[0], this.props.data);
             const pregnancy = this.props.data.pregnancy.filter(el => el.id === visitPregnancyEntry[0].pregnancyId);
             const entryIsTerm = (entryOrder === 'latest' || entryOrder === 'sole entry') && typeof pregnancy[0].outcome === 'number' && pregnancy[0].outcomeDate !== null;
 
-            //final entry associated with a pregnancy is deleted, so also delete the pregnancy
+            // final entry associated with a pregnancy is deleted, so also delete the pregnancy
             if (allPregnancyEntries.length === 1 && allPregnancyEntries[0].id === visitPregnancyEntry[0].id) {
                 body.deletePregnancy = { id: visitPregnancyEntry[0].pregnancyId };
-            } else if (entryIsTerm) {
-                //set pregnancy outcome to null if term entry is deleted
+            }
+            else if (entryIsTerm) {
+                // set pregnancy outcome to null if term entry is deleted
                 body.alterPregnancy = { id: visitPregnancyEntry[0].pregnancyId, outcome: null, outcomeDate: null };
             }
         }
-
-
 
         store.dispatch(deleteVisitAPICall(body));
     }
@@ -163,28 +161,59 @@ class EditVisit extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    {wannaUpdate ? (
-                        <>
-                            <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br />
-                            <label htmlFor='reasonForVisit'>Reason for the visit:</label><br />
-                            <select name='reasonForVisit'
-                                onChange={this._handleKeyChange}
-                                value={reasonForVisit}
-                                autoComplete='off'
-                            >
-                                <option value='unselected'></option>
-                                <option value='Routine'>Routine</option>
-                                <option value='Drug Monitoring'>Drug Monitoring</option>
-                                <option value='Relapse Assessment'>Relapse Assessment</option>
-                                <option value='Urgent'>Urgent</option>
-                            </select><br /><br />
-                            {error ? <><div className={style.error}>{error}</div><br /></> : null}
-                            <button onClick={this._handleSubmitClick} >Submit</button><br /><br />
-                        </>
-                    ) : null}
-                    {wannaUpdate ? <><button onClick={this._handleWannaUpdateClick}>Cancel</button><br /><br /></> :
-                        <><button onClick={this._handleWannaUpdateClick}>Change visit properties</button><br /><br /></>
-                    }
+                    {wannaUpdate
+                        ? (
+                            <>
+                                <label>Please enter date on which the visit occured:</label>
+                                <br />
+                                <PickDate startDate={startDate} handleChange={this._handleDateChange} />
+                                <br />
+                                <br />
+                                <label htmlFor="reasonForVisit">Reason for the visit:</label>
+                                <br />
+                                <select
+                                    name="reasonForVisit"
+                                    onChange={this._handleKeyChange}
+                                    value={reasonForVisit}
+                                    autoComplete="off"
+                                >
+                                    <option value="unselected"></option>
+                                    <option value="Routine">Routine</option>
+                                    <option value="Drug Monitoring">Drug Monitoring</option>
+                                    <option value="Relapse Assessment">Relapse Assessment</option>
+                                    <option value="Urgent">Urgent</option>
+                                </select>
+                                <br />
+                                <br />
+                                {error
+                                    ? (
+                                        <>
+                                            <div className={style.error}>{error}</div>
+                                            <br />
+                                        </>
+                                    )
+                                    : null}
+                                <button onClick={this._handleSubmitClick}>Submit</button>
+                                <br />
+                                <br />
+                            </>
+                        )
+                        : null}
+                    {wannaUpdate
+                        ? (
+                            <>
+                                <button onClick={this._handleWannaUpdateClick}>Cancel</button>
+                                <br />
+                                <br />
+                            </>
+                        )
+                        : (
+                            <>
+                                <button onClick={this._handleWannaUpdateClick}>Change visit properties</button>
+                                <br />
+                                <br />
+                            </>
+                        )}
                     <button onClick={this._handleClick} className={style.deleteButton}>Delete this visit</button>
                 </form>
             </>

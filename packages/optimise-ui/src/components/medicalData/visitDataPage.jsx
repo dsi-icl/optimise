@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { alterDataCall } from '../../redux/actions/addOrUpdateData';
@@ -25,7 +25,7 @@ function mapStateToProps(state) {
  * @prop {Function} this.props.submitData - from connect
  */
 
-/* this component serves as a sieve for the data and pass the relevant one to the form as props*/
+/* this component serves as a sieve for the data and pass the relevant one to the form as props */
 @withRouter
 @connect(mapStateToProps)
 class VisitData extends Component {
@@ -73,7 +73,7 @@ class VisitData extends Component {
 
         const update = {};
         const add = {};
-        Object.entries(references).forEach(el => {
+        Object.entries(references).forEach((el) => {
             const fieldId = el[0];
             const reference = el[1].ref;
             const type = el[1].type;
@@ -82,7 +82,8 @@ class VisitData extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== reference.current.value)
                         update[fieldId] = reference.current.value;
-                } else if (reference.current.value !== 'unselected') {
+                }
+                else if (reference.current.value !== 'unselected') {
                     add[fieldId] = reference.current.value;
                 }
             }
@@ -90,7 +91,8 @@ class VisitData extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== reference.current.value)
                         update[fieldId] = reference.current.value;
-                } else if (reference.current.value !== '') {
+                }
+                else if (reference.current.value !== '') {
                     add[fieldId] = reference.current.value;
                 }
             }
@@ -99,7 +101,8 @@ class VisitData extends Component {
                 if (originalValues[fieldId] !== undefined) {
                     if (originalValues[fieldId] !== bool)
                         update[fieldId] = bool;
-                } else if (bool !== '0') {
+                }
+                else if (bool !== '0') {
                     add[fieldId] = bool;
                 }
             }
@@ -131,15 +134,20 @@ class VisitData extends Component {
         if (!patientProfile.fetching) {
             const visitsMatched = patientProfile.data.visits.filter(visit => visit.id === parseInt(params.visitId, 10));
             if (visitsMatched.length !== 1) {
-                return <>
-                    <div className={scaffold_style.ariane}>
-                        <h2>Edit {this.props.category.toUpperCase()}</h2>
-                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                    </div>
-                    <div className={scaffold_style.panel}>
-                        <i>We could not find the visit that you are looking for.</i>
-                    </div>
-                </>;
+                return (
+                    <>
+                        <div className={scaffold_style.ariane}>
+                            <h2>
+                                Edit
+                                {this.props.category.toUpperCase()}
+                            </h2>
+                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                        </div>
+                        <div className={scaffold_style.panel}>
+                            <i>We could not find the visit that you are looking for.</i>
+                        </div>
+                    </>
+                );
             }
             const { fields } = this.props;
             const category = this.props.category === 'symptoms' ? 2 : this.props.category === 'signs' ? 3 : 1;
@@ -157,11 +165,14 @@ class VisitData extends Component {
             if (this.references !== null && this.state.refreshReferences === true)
                 return null;
             if (this.references === null)
-                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: React.createRef(), type: inputTypeHash[el.type] }; return a; }, {});
+                this.references = relevantFields.reduce((a, el) => { a[el.id] = { ref: createRef(), type: inputTypeHash[el.type] }; return a; }, {});
             return (
                 <>
                     <div className={scaffold_style.ariane}>
-                        <h2>Edit {this.props.category.toUpperCase()}</h2>
+                        <h2>
+                            Edit
+                            {this.props.category.toUpperCase()}
+                        </h2>
                         <BackButton to={`/patientProfile/${match.params.patientId}`} />
                     </div>
                     <div className={`${scaffold_style.panel} ${style.topLevelPanel}`}>
@@ -169,22 +180,28 @@ class VisitData extends Component {
                             <div className={style.levelBody}>
                                 {Object.entries(fieldTree).map(mappingFields(inputTypeHash, this.references, this.originalValues))}
                             </div>
-                            { this.state.saved ? <><button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button><br/></> : null }
+                            {this.state.saved
+                                ? (
+                                    <>
+                                        <button disabled style={{ cursor: 'default', backgroundColor: 'green' }}>Successfully saved!</button>
+                                        <br />
+                                    </>
+                                )
+                                : null}
                             {
                                 this.props.renderedInFrontPage
-                                    ?
-                                    null
-                                    :
-                                    <button onClick={this._handleSubmit} type='submit'>Save</button>
+                                    ? null
+                                    : <button onClick={this._handleSubmit} type="submit">Save</button>
                             }
                         </form>
                     </div>
                 </>
             );
-        } else {
-            return <div><Icon symbol='loading' /></div>;
+        }
+        else {
+            return <div><Icon symbol="loading" /></div>;
         }
     }
 }
 
-export {VisitData};
+export { VisitData };

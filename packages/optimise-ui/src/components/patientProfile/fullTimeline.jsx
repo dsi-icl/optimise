@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -79,7 +79,6 @@ class FullTimeline extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-
         let items = [];
         let edssPoints = {};
         let maxTimeStart = state.defaultTimeStart;
@@ -102,7 +101,7 @@ class FullTimeline extends Component {
         //         });
         //     });
         if (props.data.treatments)
-            props.data.treatments.forEach(t => {
+            props.data.treatments.forEach((t) => {
                 if (maxTimeStart.valueOf() > moment(t.startDate, 'x').valueOf())
                     maxTimeStart = moment(t.startDate, 'x').toDate();
                 items.push({
@@ -162,14 +161,14 @@ class FullTimeline extends Component {
                     let edssTotalId = props.availableFields.visitFields.filter(el => el.idname === 'edss:expanded disability status scale - estimated total');
                     if (edssTotalId.length > 0) {
                         edssTotalId = edssTotalId[0].id;
-                        v.data.filter(el => el.field === edssTotalId).forEach(e => {
+                        v.data.filter(el => el.field === edssTotalId).forEach((e) => {
                             edssPoints[moment(v.visitDate, 'x').valueOf()] = e.value;
                         });
                     }
                 }
             });
         if (props.data.tests)
-            props.data.tests.forEach(t => {
+            props.data.tests.forEach((t) => {
                 if (maxTimeStart.valueOf() > moment(t.actualOccurredDate, 'x').valueOf())
                     maxTimeStart = moment(t.actualOccurredDate, 'x').toDate();
                 if (maxTimeStart.valueOf() > moment(t.expectedOccurDate, 'x').valueOf())
@@ -189,7 +188,7 @@ class FullTimeline extends Component {
                 });
             });
         if (props.data.clinicalEvents)
-            props.data.clinicalEvents.forEach(c => {
+            props.data.clinicalEvents.forEach((c) => {
                 if (maxTimeStart.valueOf() > moment(c.dateStartDate, 'x').valueOf())
                     maxTimeStart = moment(c.dateStartDate, 'x').toDate();
                 if (maxTimeStart.valueOf() > moment(c.endDate, 'x').valueOf())
@@ -240,8 +239,8 @@ class FullTimeline extends Component {
         };
     }
 
-    toggleGroup = id => {
-        this.setState(prevState => {
+    toggleGroup = (id) => {
+        this.setState((prevState) => {
             const { openGroups } = prevState;
             return {
                 openGroups: {
@@ -261,11 +260,14 @@ class FullTimeline extends Component {
             const maxTime = moment().add(12, 'hours').valueOf();
             if (visibleTimeStart < minTime && visibleTimeEnd > maxTime) {
                 updateScrollCanvas(minTime, maxTime);
-            } else if (visibleTimeStart < minTime) {
+            }
+            else if (visibleTimeStart < minTime) {
                 updateScrollCanvas(minTime, minTime + (visibleTimeEnd - visibleTimeStart));
-            } else if (visibleTimeEnd > maxTime) {
+            }
+            else if (visibleTimeEnd > maxTime) {
                 updateScrollCanvas(maxTime - (visibleTimeEnd - visibleTimeStart), maxTime);
-            } else {
+            }
+            else {
                 updateScrollCanvas(visibleTimeStart, visibleTimeEnd);
             }
         });
@@ -275,7 +277,9 @@ class FullTimeline extends Component {
         if (group.root)
             return (
                 <div onClick={() => this.toggleGroup(parseInt(group.id))} style={{ cursor: 'pointer' }}>
-                    {/* {this.state.openGroups[parseInt(group.id)] ? '[-]' : '[+]'} */} {group.title}
+                    {/* {this.state.openGroups[parseInt(group.id)] ? '[-]' : '[+]'} */}
+                    {' '}
+                    {group.title}
                 </div>
             );
         else
@@ -285,7 +289,6 @@ class FullTimeline extends Component {
     }
 
     itemRenderer({ item, getItemProps, timelineContext }) {
-
         let itemProps = getItemProps(item.itemProps);
         const itemPropsStyle = {
             ...itemProps.style,
@@ -318,35 +321,36 @@ class FullTimeline extends Component {
                     <Link to={`/patientProfile/${this.props.match.params.patientId}/${item.id}`}>
                         <div className={style.timelineBackground} style={{ width: timelineContext.timelineWidth }}>
                             <svg height={40} width={timelineContext.timelineWidth}>
-                                {x2 - x1 > 5 ?
-                                    (
+                                {x2 - x1 > 5
+                                    ? (
                                         <>
                                             <line x1={x1} y1={15} x2={x2} y2={15} className={style.dashed} />
                                             <line x1={x2} y1={10} x2={x2} y2={20} />
                                         </>
-                                    ) : null}
-                                {severityRadius === 0 ?
-                                    (
+                                    )
+                                    : null}
+                                {severityRadius === 0
+                                    ? (
                                         <>
                                             <line x1={x1 - 4} y1={15 - 4} x2={x1 + 4} y2={15 + 4} className={style.cross} />
                                             <line x1={x1 - 4} y1={15 + 4} x2={x1 + 4} y2={15 - 4} className={style.cross} />
                                         </>
-                                    ) : (
-                                        <circle cx={x1} cy={15} r={severityRadius} />
                                     )
-                                }
+                                    : (
+                                        <circle cx={x1} cy={15} r={severityRadius} />
+                                    )}
                             </svg>
                         </div>
                     </Link>
                 </ItemWrapper>
             );
-        } else if (item.interruptions !== undefined) {
-
+        }
+        else if (item.interruptions !== undefined) {
             let overlays = [];
             let unit = (timelineContext.visibleTimeEnd - timelineContext.visibleTimeStart);
             let x1i = (parseFloat(item.start) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
 
-            item.interruptions.forEach(i => {
+            item.interruptions.forEach((i) => {
                 let x1 = (parseFloat(i.startDate) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
                 if (parseFloat(item.start) > timelineContext.visibleTimeStart)
                     x1 = x1 - x1i;
@@ -365,7 +369,7 @@ class FullTimeline extends Component {
                     <Fragment key={i.id}>
                         <defs>
                             <clipPath id={`${i.id}_mask`}>
-                                <rect x={x1} y={0} width={x2 - x1} height='100%' />
+                                <rect x={x1} y={0} width={x2 - x1} height="100%" />
                             </clipPath>
                         </defs>
                         {strips}
@@ -387,23 +391,30 @@ class FullTimeline extends Component {
                         </div>
                         <div className={style.timelineTextContent}>{item.title}</div>
                     </Link>
-                </ItemWrapper >
+                </ItemWrapper>
             );
-        } else if (item.id === 'edss_plotter') {
+        }
+        else if (item.id === 'edss_plotter') {
             let unit = (timelineContext.visibleTimeEnd - timelineContext.visibleTimeStart);
             let previous = null;
             return (
                 <ItemWrapper>
                     <div className={`${style.timelineBackground} ${item.className}`} style={{ width: timelineContext.timelineWidth }}>
                         <svg height={40} width={timelineContext.timelineWidth}>
-                            {Object.keys(this.state.edssPoints).sort((a, b) => a - b).map(k => {
+                            {Object.keys(this.state.edssPoints).sort((a, b) => a - b).map((k) => {
                                 let x = (parseFloat(k) - timelineContext.visibleTimeStart) * timelineContext.timelineWidth / unit;
                                 let y = 65 - (65 * parseFloat(this.state.edssPoints[k]) / 10);
                                 let line = previous ? <line x1={previous[0]} y1={previous[1]} x2={x} y2={y} /> : null;
                                 let point = <circle cx={x} cy={y} r={2} />;
                                 let text = <text x={x} y={y > 60 ? y - 8 : y + 15} textAnchor="middle">{this.state.edssPoints[k]}</text>;
                                 previous = [x, y];
-                                return <Fragment key={k}>{text}{point}{line}</Fragment>;
+                                return (
+                                    <Fragment key={k}>
+                                        {text}
+                                        {point}
+                                        {line}
+                                    </Fragment>
+                                );
                             })}
                         </svg>
                     </div>
@@ -436,13 +447,19 @@ class FullTimeline extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <Helmet title='Patient Timeline' />
-                    <h2>Patient Timeline ({this.props.match.params.patientId})</h2>
+                    <Helmet title="Patient Timeline" />
+                    <h2>
+                        Patient Timeline (
+                        {this.props.match.params.patientId}
+                        )
+                    </h2>
                     <BackButton to={`/patientProfile/${this.props.match.params.patientId}`} />
                 </div>
                 <div className={style.panel}>
                     <div>
-                        <i>This timeline allows you to browse through the patient history from the date of the first recorded event to today</i><br /><br />
+                        <i>This timeline allows you to browse through the patient history from the date of the first recorded event to today</i>
+                        <br />
+                        <br />
                     </div>
                     <Timeline
                         groups={groups}
@@ -467,17 +484,47 @@ class FullTimeline extends Component {
                             <DateHeader className="rct-bottom-header" />
                         </TimelineHeaders>
                     </Timeline>
-                    <br /><br />
+                    <br />
+                    <br />
                     <div>
-                        To interact and navigate within the timeline you can click-hold then drag<br />
-                        Also, the following options are available:<br /><br />
+                        To interact and navigate within the timeline you can click-hold then drag
+                        <br />
+                        Also, the following options are available:
+                        <br />
+                        <br />
                         <div className={style.keyboardGroup}>
-                            <pre className={style.keyboardKey}>shift</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = move timeline left/right<br />
-                            <pre className={style.keyboardKey}>alt</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out<br />
-                            <pre className={style.keyboardKey}>ctrl</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out 10× faster<br />
-                            <pre className={style.keyboardKey}>meta/alt</pre> + <pre className={style.keyboardKey}>mousewheel</pre> = zoom in/out 3x faster<br /><br />
+                            <pre className={style.keyboardKey}>shift</pre>
+                            {' '}
+                            +
+                            <pre className={style.keyboardKey}>mousewheel</pre>
+                            {' '}
+                            = move timeline left/right
+                            <br />
+                            <pre className={style.keyboardKey}>alt</pre>
+                            {' '}
+                            +
+                            <pre className={style.keyboardKey}>mousewheel</pre>
+                            {' '}
+                            = zoom in/out
+                            <br />
+                            <pre className={style.keyboardKey}>ctrl</pre>
+                            {' '}
+                            +
+                            <pre className={style.keyboardKey}>mousewheel</pre>
+                            {' '}
+                            = zoom in/out 10× faster
+                            <br />
+                            <pre className={style.keyboardKey}>meta/alt</pre>
+                            {' '}
+                            +
+                            <pre className={style.keyboardKey}>mousewheel</pre>
+                            {' '}
+                            = zoom in/out 3x faster
+                            <br />
+                            <br />
                         </div>
-                        And you can use pinch-in and pinch-out zoom gestures (two touch points) on touch screens.<br />
+                        And you can use pinch-in and pinch-out zoom gestures (two touch points) on touch screens.
+                        <br />
                     </div>
                 </div>
             </>

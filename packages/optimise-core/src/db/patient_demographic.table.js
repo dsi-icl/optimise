@@ -15,13 +15,11 @@ export default async (dbcon, version) => {
                 const oldData = await dbcon()(OLD_TABLE_NAME).select('*');
                 // We verify if we are already at version 2
                 if (oldData.length > 0 && oldData[0].smokingHistory !== undefined) {
-
                     const eligiblePatients = await dbcon()(OLD_TABLE_NAME).select('*').where({ deleted: '-' });
                     const smokingHash = (await dbcon()('SMOKING_HISTORY').select('*')).reduce((a, e) => { a[e.id] = e.value; return a; }, {});
                     const alcoholHash = (await dbcon()('ALCOHOL_USAGE').select('*')).reduce((a, e) => { a[e.id] = e.value; return a; }, {});
 
                     for (const each of eligiblePatients) {
-
                         /* copying data to visit data */
                         const patientID = each['patient'];
                         const alcoholUsage = each['alcoholUsage'];
@@ -30,7 +28,6 @@ export default async (dbcon, version) => {
                         const eligibleVisits = (await dbcon()('VISITS').min('id').where({ patient: patientID, deleted: '-', type: 1 }));
 
                         if (eligibleVisits.length > 0) {
-
                             const maxVisitId = eligibleVisits[0]['min(`id`)'];
                             if (maxVisitId !== null && maxVisitId !== undefined) {
                                 await dbcon()('VISIT_DATA').insert([
@@ -89,7 +86,7 @@ export default async (dbcon, version) => {
     }
 };
 
-const schema_v1 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => {
+const schema_v1 = dbcon => dbcon().schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.integer('patient').notNullable().references('id').inTable('PATIENTS').onDelete('CASCADE');
     table.text('DOB').notNullable();
@@ -105,7 +102,7 @@ const schema_v1 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => {
     table.unique(['patient', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
 });
 
-const schema_v2 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => {
+const schema_v2 = dbcon => dbcon().schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.integer('patient').notNullable().references('id').inTable('PATIENTS').onDelete('CASCADE');
     table.text('DOB').notNullable();

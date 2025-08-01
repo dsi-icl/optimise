@@ -242,7 +242,6 @@ describe('Create Demographic controller test', () => {
             expect(body.state).toBe(7);
             return true;
         }));
-
 });
 
 describe('Edit Demographic controller test', () => {
@@ -309,7 +308,6 @@ describe('Edit Demographic controller test', () => {
             expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
-
 
     test('Editing demographic with body but wrong patient (Should Fail)', () => admin
         .put('/demographics/Demographic')
@@ -501,7 +499,6 @@ describe('Edit Demographic controller test', () => {
             expect(body.state).toBe(1);
             return true;
         }));
-
 });
 
 describe('Delete Demographic controller test', () => {
