@@ -33,7 +33,7 @@
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
 }
 
-.ariane > div {
+.ariane>div {
     position: absolute;
     padding: 1.2em;
     top: 0;
@@ -61,6 +61,7 @@
 .ariane svg {
     fill: hsl(var(--color-background-h), var(--color-background-s), 50%);
 }
+
 .ariane a:hover svg,
 .ariane span:hover svg {
     fill: hsl(var(--color-background-h), var(--color-background-s), 20%);
@@ -75,11 +76,11 @@
     height: 100%;
 }
 
-.activeNavLink > button {
+.activeNavLink>button {
     background-color: var(--color-active-nav);
 }
 
-.activeNavLink > button:hover {
+.activeNavLink>button:hover {
     background-color: var(--color-active-nav);
 }
 
@@ -115,12 +116,12 @@
     text-align: center;
 }
 
-.actionsDisplay > a > div {
+.actionsDisplay>a>div {
     border-bottom: 0.1em solid hsl(var(--color-background-h), var(--color-background-s), 90%);
     padding: 0.9em;
 }
 
-.actionsDisplay > a > .clickable:hover {
+.actionsDisplay>a>.clickable:hover {
     background-color: hsl(var(--color-background-h), var(--color-background-s), 95%);
     cursor: pointer;
 }

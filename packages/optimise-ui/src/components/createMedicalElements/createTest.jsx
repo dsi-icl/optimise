@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { PickDate } from './datepicker';
@@ -6,7 +6,7 @@ import { BackButton } from '../medicalData/utils';
 import { createTestAPICall } from '../../redux/actions/tests';
 import style from './medicalEvent.module.css';
 
-//not yet finished the dispatch
+// not yet finished the dispatch
 @connect(state => ({
     patientId: state.patientProfile.data.id,
     visits: state.patientProfile.data.visits,
@@ -87,7 +87,7 @@ class CreateTest extends Component {
         }
         const requestBody = this._formatRequestBody();
         const { patientId, visitId, currentPage } = this.props.match.params;
-        requestBody.toFormat = this.props.renderedInFrontPage ? (testId) => `/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}/data/${testId}${this.props.location.search}` : () => `/patientProfile/${patientId}`;
+        requestBody.toFormat = this.props.renderedInFrontPage ? testId => `/patientProfile/${patientId}/visitFrontPage/${visitId}/page/${currentPage}/data/${testId}${this.props.location.search}` : () => `/patientProfile/${patientId}`;
 
         this.setState({
             lastSubmit: (new Date()).getTime(),
@@ -101,7 +101,6 @@ class CreateTest extends Component {
         if (this.props.visits) {
             const params = this.props.match.params;
 
-
             let _style = style;
             if (this.props.override_style) {
                 _style = { ...style, ...this.props.override_style };
@@ -114,22 +113,37 @@ class CreateTest extends Component {
                         <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
                     <form className={_style.panel}>
-                        <label>Date of test: </label><br /><PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} /><br /><br />
+                        <label>Date of test: </label>
+                        <br />
+                        <PickDate startDate={this.state.startDate} handleChange={this._handleDateChange} />
+                        <br />
+                        <br />
                         {/* <label>Date on which test results were processed: </label><br /><PickDate startDate={this.state.actualOccurredDate} handleChange={this._handleActualDateChange} /><br /> */}
-                        <label className={_style.test_type_hidden } htmlFor='test'>What type of test was it?</label><br />
-                        <select className={_style.test_type_hidden } name='test' value={this.state.testType} onChange={this._handleTypeChange} autoComplete='off'>
-                            <option value='unselected'></option>
+                        <label className={_style.test_type_hidden} htmlFor="test">What type of test was it?</label>
+                        <br />
+                        <select className={_style.test_type_hidden} name="test" value={this.state.testType} onChange={this._handleTypeChange} autoComplete="off">
+                            <option value="unselected"></option>
                             {this.props.types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
-                        </select><br /><br />
-                        {this.state.error ? <><div className={style.error}>{this.state.error}</div><br /></> : null}
+                        </select>
+                        <br />
+                        <br />
+                        {this.state.error
+                            ? (
+                                <>
+                                    <div className={style.error}>{this.state.error}</div>
+                                    <br />
+                                </>
+                            )
+                            : null}
                         <button onClick={this._handleSubmitClick}>Submit</button>
                     </form>
                 </>
             );
-        } else {
+        }
+        else {
             return null;
         }
     }
 }
 
-export {CreateTest};
+export { CreateTest };

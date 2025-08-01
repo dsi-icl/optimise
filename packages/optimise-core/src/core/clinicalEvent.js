@@ -11,14 +11,13 @@ const ClinicalEventModel = {
 };
 
 class ClinicalEvent {
-
     /**
      * @function getClinicalEvent retrieve the clinical event wished.
      *
      * @returns a Promise that contains the result from the select query
      */
     static getClinicalEvent(requestedObj) {
-        return new Promise((resolve, reject) => getEntry('CLINICAL_EVENTS', requestedObj, '*').then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+        return new Promise((resolve, reject) => getEntry('CLINICAL_EVENTS', requestedObj, '*').then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
 
     /**
@@ -32,7 +31,7 @@ class ClinicalEvent {
     static createClinicalEvent(ce) {
         return new Promise((resolve, reject) => {
             const entryObj = Object.assign({}, ClinicalEventModel, ce);
-            return createEntry('CLINICAL_EVENTS', entryObj).then((result) => resolve(result)).catch((error) => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
+            return createEntry('CLINICAL_EVENTS', entryObj).then(result => resolve(result)).catch(error => reject(ErrorHelper(message.errorMessages.CREATIONFAIL, error)));
         });
     }
 
@@ -43,7 +42,7 @@ class ClinicalEvent {
      * @param {*} idObj ID of the entry that is going to be deleted
      */
     static updateClinicalEvent(user, clinicalEvent) {
-        return new Promise((resolve, reject) => updateEntry('CLINICAL_EVENTS', user, '*', { id: clinicalEvent.id }, clinicalEvent).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
+        return new Promise((resolve, reject) => updateEntry('CLINICAL_EVENTS', user, '*', { id: clinicalEvent.id }, clinicalEvent).then(success => resolve(success)).catch(error => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
     }
 
     /**
@@ -53,7 +52,7 @@ class ClinicalEvent {
      * @param {*} idObj ID of the entry that is going to be deleted
      */
     static deleteClinicalEvent(user, idObj) {
-        return new Promise((resolve, reject) => deleteEntry('CLINICAL_EVENTS', user, idObj).then((success) => resolve(success)).catch((error) => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
+        return new Promise((resolve, reject) => deleteEntry('CLINICAL_EVENTS', user, idObj).then(success => resolve(success)).catch(error => reject(ErrorHelper(message.errorMessages.DELETEFAIL, error))));
     }
 }
 

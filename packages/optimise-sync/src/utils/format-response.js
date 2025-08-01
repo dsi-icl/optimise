@@ -3,12 +3,15 @@ function formatToJSON(obj) {
     if (Array.isArray(obj) && obj.length === 1 && typeof obj[0] === 'number') {
         returnedObj.state = obj[0];
         return returnedObj;
-    } else if (typeof obj === 'number') {
+    }
+    else if (typeof obj === 'number') {
         returnedObj.state = obj;
         return returnedObj;
-    } else if (typeof obj === 'object') {
+    }
+    else if (typeof obj === 'object') {
         return obj;
-    } else {
+    }
+    else {
         returnedObj.success = true;
         returnedObj.message = obj;
         return returnedObj;

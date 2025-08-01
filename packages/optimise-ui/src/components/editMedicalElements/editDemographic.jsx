@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component, createRef } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { BackButton } from '../medicalData/utils';
@@ -13,7 +13,6 @@ import history from '../../redux/history';
     CEs: state.patientProfile.data.clinicalEvents
 }))
 class EditDemo extends Component {
-
     render() {
         const { params } = this.props.match;
         return (
@@ -44,10 +43,10 @@ class UpdateDemoEntry extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            countryOfOriginRef: React.createRef(),
-            dominantHandRef: React.createRef(),
-            ethnicityRef: React.createRef(),
-            genderRef: React.createRef(),
+            countryOfOriginRef: createRef(),
+            dominantHandRef: createRef(),
+            ethnicityRef: createRef(),
+            genderRef: createRef(),
             hasPII: false,
             showEditAliasId: false
         };
@@ -198,50 +197,87 @@ class UpdateDemoEntry extends Component {
         });
         return (
             <>
-                <h4>Personal information</h4><br />
+                <h4>Personal information</h4>
+                <br />
                 {showEditAliasId
-                    ? <div className={style.editPatientIdDiv}>
-                        <b>Edit Patient ID</b>
-                        <br /><br />
-                        <input onChange={this._onChangeEditID} value={editAliasIdInput} />
-                        <br /><br />
-                        <button type='button' onClick={this._submitEditId}>Submit</button>
-                        <br /><br />
-                        <button type='button' onClick={this._hideEditId}>Cancel</button>
-                    </div>
-                    : <>
-                        <span onClick={this._showEditId} className={style.editAliasIdUncover}>Edit Patient ID</span>
-                        <br />
-                        <br />
-                    </>
-                }
-                <label htmlFor='givenName'>Given name:</label><br /> <input value={givenName} name='givenName' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
-                <label htmlFor='surname'>Surname:</label><br /> <input value={surname} name='surname' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
-                <label htmlFor='address'>Full Address:</label><br /><input value={address} name='address' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
-                <label htmlFor='postcode'>Postcode:</label><br /> <input value={postcode} name='postcode' onChange={this._handleFreeTextChange} autoComplete='off' /><br /><br />
+                    ? (
+                        <div className={style.editPatientIdDiv}>
+                            <b>Edit Patient ID</b>
+                            <br />
+                            <br />
+                            <input onChange={this._onChangeEditID} value={editAliasIdInput} />
+                            <br />
+                            <br />
+                            <button type="button" onClick={this._submitEditId}>Submit</button>
+                            <br />
+                            <br />
+                            <button type="button" onClick={this._hideEditId}>Cancel</button>
+                        </div>
+                    )
+                    : (
+                        <>
+                            <span onClick={this._showEditId} className={style.editAliasIdUncover}>Edit Patient ID</span>
+                            <br />
+                            <br />
+                        </>
+                    )}
+                <label htmlFor="givenName">Given name:</label>
+                <br />
+                {' '}
+                <input value={givenName} name="givenName" onChange={this._handleFreeTextChange} autoComplete="off" />
+                <br />
+                <br />
+                <label htmlFor="surname">Surname:</label>
+                <br />
+                {' '}
+                <input value={surname} name="surname" onChange={this._handleFreeTextChange} autoComplete="off" />
+                <br />
+                <br />
+                <label htmlFor="address">Full Address:</label>
+                <br />
+                <input value={address} name="address" onChange={this._handleFreeTextChange} autoComplete="off" />
+                <br />
+                <br />
+                <label htmlFor="postcode">Postcode:</label>
+                <br />
+                {' '}
+                <input value={postcode} name="postcode" onChange={this._handleFreeTextChange} autoComplete="off" />
+                <br />
+                <br />
 
-                <h4>Basic demographic data</h4><br />
-                <label>Date of birth:</label><br /> <PickDate startDate={moment(DOB, 'x')} handleChange={this._handleDobDateChange} /> <br /><br />
+                <h4>Basic demographic data</h4>
+                <br />
+                <label>Date of birth:</label>
+                <br />
+                {' '}
+                <PickDate startDate={moment(DOB, 'x')} handleChange={this._handleDobDateChange} />
+                {' '}
+                <br />
+                <br />
                 <label>Gender: </label>
                 <select defaultValue={gender} ref={genderRef}>
                     {genders_sorted.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br /><br />
+                <br />
+                <br />
                 <label>Dominant hand: </label>
                 <select defaultValue={dominantHand} ref={dominantHandRef}>
                     {dominant_hands_sorted.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br /><br />
+                <br />
+                <br />
                 <label>Ethnicity: </label>
                 <select defaultValue={ethnicity} ref={ethnicityRef}>
                     {fields.ethnicities.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br /><br />
+                <br />
+                <br />
                 <label>Country of origin: </label>
                 <select defaultValue={countryOfOrigin} ref={countryOfOriginRef}>
                     {fields.countries.map(el => <option value={el.id} key={el.id}>{el.value}</option>)}
                 </select>
-                <br /><br />
+                <br />
+                <br />
                 <button onClick={this._handleSubmit}>Submit</button>
             </>
         );

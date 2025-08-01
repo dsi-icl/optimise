@@ -41,7 +41,8 @@ export default async (dbcon, version) => {
                     await dbcon()(TABLE_NAME)
                         .where({ value: record['prev:value'] })
                         .update(newRecord, ['id']);
-                } else {
+                }
+ else {
                     await dbcon()(TABLE_NAME).insert(record);
                 }
             }

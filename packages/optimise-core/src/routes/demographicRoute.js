@@ -49,7 +49,6 @@ demogdata.route('/OffspringEntry')
 demogdata.route('/PregnancyFields')
     .get(DemographicController.getPregnancyFields);
 
-
 // Get the profile of a certain user
 // Real path expected is /patientProfile
 demogdata.route('/:dataType')

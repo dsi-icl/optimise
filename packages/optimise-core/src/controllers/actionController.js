@@ -4,7 +4,6 @@ import ActionCore from '../core/actionLog';
 import formatToJSON from '../utils/format-response';
 
 class ActionController {
-
     static getLogs({ user, query }, res) {
         if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));

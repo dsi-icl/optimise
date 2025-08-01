@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { BackButton } from './utils';
 import Icon from '../icon';
@@ -13,7 +13,6 @@ function mapStateToProps(state) {
     };
 }
 
-
 /**
  * @class DataTemplate
  * @description Renders the list of pregnancies
@@ -21,10 +20,9 @@ function mapStateToProps(state) {
  * @prop {Function} this.props.submitData - from connect
  */
 
-/* this component serves as a sieve for the data and pass the relevant one to the form as props*/
+/* this component serves as a sieve for the data and pass the relevant one to the form as props */
 @connect(mapStateToProps)
 class PregnanciesListingPage extends Component {
-
     constructor(props) {
         super();
         this.state = {
@@ -46,7 +44,8 @@ class PregnanciesListingPage extends Component {
         let scopePregnancyId;
         try {
             scopePregnancyId = parseInt(this.props.match.params.pregnancyId);
-        } catch (__unused__) {
+        }
+        catch (__unusedError_) {
             // ignore
         }
         const { patientProfile, match } = this.props;
@@ -65,32 +64,47 @@ class PregnanciesListingPage extends Component {
 
         if (!patientProfile.fetching) {
             if (!pregnancies.length)
-                return <>
-                    <div className={_style.ariane}>
-                        <h2>PREGNANCIES</h2>
-                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                    </div>
-                    <div className={_style.panel}>
-                        <i>This patient has no recorded pregnancy.</i>
-                    </div>
-                </>;
-            else
-                return <>
-                    <div className={_style.ariane}>
-                        <h2>PREGNANCIES</h2>
-                        <BackButton to={`/patientProfile/${match.params.patientId}`} />
-                    </div>
-                    <div className={_style.panel}>
-                        <i>There {pregnancies.length > 1 ? 'are' : 'is'} {pregnancies.length} pregnanc{pregnancies.length > 1 ? 'ies' : 'y'} referenced for this participant. See the data card below for details.</i>
-                        <br />
-                        <br />
-                        <div className={style.levelBody}>
-                            {pregnancies.map((pregnancy, index) => <PregnancyCard key={index} pregnancy={pregnancy} />)}
+                return (
+                    <>
+                        <div className={_style.ariane}>
+                            <h2>PREGNANCIES</h2>
+                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
                         </div>
-                    </div>
-                </>;
-        } else {
-            return <div><Icon symbol='loading' /></div>;
+                        <div className={_style.panel}>
+                            <i>This patient has no recorded pregnancy.</i>
+                        </div>
+                    </>
+                );
+            else
+                return (
+                    <>
+                        <div className={_style.ariane}>
+                            <h2>PREGNANCIES</h2>
+                            <BackButton to={`/patientProfile/${match.params.patientId}`} />
+                        </div>
+                        <div className={_style.panel}>
+                            <i>
+                                There
+                                {pregnancies.length > 1 ? 'are' : 'is'}
+                                {' '}
+                                {pregnancies.length}
+                                {' '}
+                                pregnanc
+                                {pregnancies.length > 1 ? 'ies' : 'y'}
+                                {' '}
+                                referenced for this participant. See the data card below for details.
+                            </i>
+                            <br />
+                            <br />
+                            <div className={style.levelBody}>
+                                {pregnancies.map((pregnancy, index) => <PregnancyCard key={index} pregnancy={pregnancy} />)}
+                            </div>
+                        </div>
+                    </>
+                );
+        }
+        else {
+            return <div><Icon symbol="loading" /></div>;
         }
     }
 }

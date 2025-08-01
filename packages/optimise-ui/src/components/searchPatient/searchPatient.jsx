@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Icon } from '../icon';
@@ -43,7 +43,8 @@ class SearchPatientsById extends Component {
                     field: this.state.searchType,
                     value: this.state.searchString.trim()
                 }));
-            } else {
+            }
+            else {
                 store.dispatch(searchPatientClear());
             }
         });
@@ -67,29 +68,39 @@ class SearchPatientsById extends Component {
         return (
             <>
                 <div className={style.ariane}>
-                    <Helmet title='Patient Search' />
+                    <Helmet title="Patient Search" />
                     <h2>Patient Search</h2>
                     <div className={style.profileActions}>
-                        <Link title='New visit' to={'/createPatient'} ><Icon symbol='user' /><span>Add a new patient</span></Link>
+                        <Link title="New visit" to="/createPatient">
+                            <Icon symbol="user" />
+                            <span>Add a new patient</span>
+                        </Link>
                     </div>
                 </div>
                 <div className={style.panel}>
-                    <span>Search your dataset by entering your criteria in the box below.</span><br /><br />
+                    <span>Search your dataset by entering your criteria in the box below.</span>
+                    <br />
+                    <br />
                     <form>
-                        <label htmlFor='searchType'>Search by:</label><br />
-                        <select name='searchType' value={this.state.searchType} onChange={this._handleSelectChange} autoComplete='off'>
-                            <option value='USUBJID'>Patient ID</option>
-                            {this.props.adminPriv === 1 ? <option value='OPTIMISEID'>Optimise ID</option> : null}
-                            <option value='SEX'>Sex</option>
-                            <option value='EXTRT'>Treatment</option>
-                            <option value='ETHNIC'>Ethnic Background</option>
-                            <option value='COUNTRY'>Country of origin</option>
-                            <option value='DOMINANT'>Dominant Hand</option>
-                            <option value='MHTERM'>Diagnosis</option>
-                        </select><br /><br />
-                        <label htmlFor='searchType'>Containing:</label><br />
-                        <input type='text' name='searchTerm' value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} autoComplete='off' />
-                    </form><br />
+                        <label htmlFor="searchType">Search by:</label>
+                        <br />
+                        <select name="searchType" value={this.state.searchType} onChange={this._handleSelectChange} autoComplete="off">
+                            <option value="USUBJID">Patient ID</option>
+                            {this.props.adminPriv === 1 ? <option value="OPTIMISEID">Optimise ID</option> : null}
+                            <option value="SEX">Sex</option>
+                            <option value="EXTRT">Treatment</option>
+                            <option value="ETHNIC">Ethnic Background</option>
+                            <option value="COUNTRY">Country of origin</option>
+                            <option value="DOMINANT">Dominant Hand</option>
+                            <option value="MHTERM">Diagnosis</option>
+                        </select>
+                        <br />
+                        <br />
+                        <label htmlFor="searchType">Containing:</label>
+                        <br />
+                        <input type="text" name="searchTerm" value={this.state.searchString} onChange={this._handleKeyStroke} onKeyPress={this._handleEnterKey} autoComplete="off" />
+                    </form>
+                    <br />
                     <SearchResultForPatients listOfPatients={this.props.data.result} searchType={this.state.searchType} searchString={this.state.searchString.trim()} />
                 </div>
             </>
@@ -107,13 +118,20 @@ class SearchResultForPatients extends Component {
         const { searchString, searchType, listOfPatients } = this.props;
         return (
             <div className={style.searchResultWrapper}>
-                {listOfPatients !== undefined && listOfPatients.filter(el => el['aliasId'].toLowerCase() === searchString.toLowerCase()).length === 0 && searchString !== '' && (searchType === 'USUBJID' || searchType === '') ?
-                    <Link to={`/createPatient/${searchString}`} className={style.searchItem}>
-                        <div>
-                            <span className={style.createPatientSign}>&#43;</span><br />
-                            <span className={style.createPatientText}>Create patient<br />{`${searchString}`}</span>
-                        </div>
-                    </Link>
+                {listOfPatients !== undefined && listOfPatients.filter(el => el['aliasId'].toLowerCase() === searchString.toLowerCase()).length === 0 && searchString !== '' && (searchType === 'USUBJID' || searchType === '')
+                    ? (
+                        <Link to={`/createPatient/${searchString}`} className={style.searchItem}>
+                            <div>
+                                <span className={style.createPatientSign}>&#43;</span>
+                                <br />
+                                <span className={style.createPatientText}>
+                                    Create patient
+                                    <br />
+                                    {`${searchString}`}
+                                </span>
+                            </div>
+                        </Link>
+                    )
                     : null}
                 {listOfPatients !== undefined && listOfPatients.map(el => <PatientButton key={el.patientId} data={el} searchString={searchString} />)}
             </div>
@@ -123,7 +141,7 @@ class SearchResultForPatients extends Component {
 
 export { SearchResultForPatients };
 
-/*  receives prop 'data' as one patient; and seachString*/
+/*  receives prop 'data' as one patient; and seachString */
 class PatientButton extends PureComponent {
     render() {
         const { data, searchString } = this.props;
@@ -131,8 +149,8 @@ class PatientButton extends PureComponent {
         const styledName = (
             <span>
                 <b>
-                    {ind >= 0 ?
-                        (
+                    {ind >= 0
+                        ? (
                             <>
                                 {data.aliasId.substring(0, ind)}
                                 <span className={style.matchedString}>
@@ -140,24 +158,33 @@ class PatientButton extends PureComponent {
                                 </span>
                                 {data.aliasId.substring(searchString.length + ind, data.aliasId.length)}
                             </>
-                        ) :
-                        (
-                            <> {data.aliasId}</>
                         )
-                    }
+                        : (
+                            <>
+                                {' '}
+                                {data.aliasId}
+                            </>
+                        )}
                 </b>
             </span>
         );
         return (
-            <Link key={data.aliasId} to={`/patientProfile/${data.aliasId}`} className={style.searchItem} >
+            <Link key={data.aliasId} to={`/patientProfile/${data.aliasId}`} className={style.searchItem}>
                 <div>
-                    {styledName} <br /><br />
+                    {styledName}
+                    {' '}
+                    <br />
+                    <br />
                     <span>
-                        study: optimise <br />
-                        consent: {data.optimiseConsent ? 'yes' : 'no'}
+                        study: optimise
+                        {' '}
+                        <br />
+                        consent:
+                        {' '}
+                        {data.optimiseConsent ? 'yes' : 'no'}
                     </span>
                 </div>
-            </Link >
+            </Link>
         );
     }
 }

@@ -22,7 +22,6 @@ ipcRenderer.on('alert', function (__unused__event, message) {
 });
 
 ipcRenderer.on('optimiseApiResult', function (__unused__event, { cid, res }) {
-
     callStack[cid]({
         headers: new Headers(res?.headers ?? {}),
         status: res?.statusCode ?? 500,
@@ -33,7 +32,6 @@ ipcRenderer.on('optimiseApiResult', function (__unused__event, { cid, res }) {
 });
 
 window['ipcFetch'] = (url, options) => new Promise((resolve) => {
-
     const cid = `${Math.random().toString(36).substr(2, 5)}`;
     callStack[cid] = resolve;
 

@@ -1,0 +1,13 @@
+diff --git a/node_modules/eslint-plugin-react/lib/util/pragma.js b/node_modules/eslint-plugin-react/lib/util/pragma.js
+index be96c18..6e3765f 100644
+--- a/node_modules/eslint-plugin-react/lib/util/pragma.js
++++ b/node_modules/eslint-plugin-react/lib/util/pragma.js
+@@ -51,7 +51,7 @@ function getFromContext(context) {
+   let pragma = 'React';
+ 
+   const sourceCode = getSourceCode(context);
+-  const pragmaNode = sourceCode.getAllComments().find((node) => JSX_ANNOTATION_REGEX.test(node.value));
++  const pragmaNode = typeof sourceCode.getAllComments === 'function' ? sourceCode.getAllComments().find((node) => JSX_ANNOTATION_REGEX.test(node.value)) : undefined;
+ 
+   if (pragmaNode) {
+     const matches = JSX_ANNOTATION_REGEX.exec(pragmaNode.value);

@@ -4,14 +4,14 @@ import ErrorHelper from '../utils/error_helper';
 
 export const createEntry = function (tablename, entryObj, returning) {
     return new Promise((resolve, reject) => {
-        dbcon()(tablename).insert(entryObj, returning).then((result) => resolve(result)).catch((error) => reject(error));
+        dbcon()(tablename).insert(entryObj, returning).then(result => resolve(result)).catch(error => reject(error));
     });
 };
 
 export const deleteEntry = function (tablename, { id }, whereObj) {
     whereObj.deleted = '-';
     return new Promise((resolve, reject) => {
-        dbcon()(tablename).where(whereObj).update({ deleted: `${id}@${(new Date()).getTime()}` }).then((result) => resolve(result)).catch((error) => reject(error));
+        dbcon()(tablename).where(whereObj).update({ deleted: `${id}@${(new Date()).getTime()}` }).then(result => resolve(result)).catch(error => reject(error));
     });
 };
 
@@ -22,7 +22,7 @@ export const getEntry = function (tablename, whereObj, selectedObj, extra) {
             handle = handle.orderBy(extra.orderBy || []);
         if (extra !== undefined && extra.limitOffset !== undefined)
             handle = handle.offset(extra.limitOffset.offset || 0).limit(extra.limitOffset.limit || 100);
-        return handle.then((result) => resolve(result)).catch((error) => reject(error));
+        return handle.then(result => resolve(result)).catch(error => reject(error));
     });
 };
 
@@ -68,7 +68,7 @@ export const searchEntry = function (queryfield, queryvalue) {
                             result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
-                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+                }).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'SEX':
             return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.optimiseConsent', 'PATIENTS.participation', 'GENDERS.value')
@@ -83,7 +83,7 @@ export const searchEntry = function (queryfield, queryvalue) {
                             result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
-                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+                }).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'EXTRT':
             return new Promise((resolve, reject) => dbcon()('TREATMENTS')
                 .select('TREATMENTS.orderedDuringVisit', 'AVAILABLE_DRUGS.name', 'PATIENTS.aliasId', 'PATIENTS.optimiseConsent', 'PATIENTS.participation')
@@ -101,7 +101,7 @@ export const searchEntry = function (queryfield, queryvalue) {
                             result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
-                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+                }).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'ETHNIC':
             return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.optimiseConsent', 'PATIENTS.participation', 'ETHNICITIES.value')
@@ -116,7 +116,7 @@ export const searchEntry = function (queryfield, queryvalue) {
                             result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
-                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+                }).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'COUNTRY':
             return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.optimiseConsent', 'PATIENTS.participation', 'COUNTRIES.value')
@@ -131,7 +131,7 @@ export const searchEntry = function (queryfield, queryvalue) {
                             result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
-                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+                }).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'DOMINANT':
             return new Promise((resolve, reject) => dbcon()('PATIENT_DEMOGRAPHIC')
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.optimiseConsent', 'PATIENTS.participation', 'DOMINANT_HANDS.value')
@@ -146,7 +146,7 @@ export const searchEntry = function (queryfield, queryvalue) {
                             result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
-                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+                }).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         case 'MHTERM':
             return new Promise((resolve, reject) => dbcon()('PATIENT_DIAGNOSIS')
                 .select({ patientId: 'PATIENTS.id' }, 'PATIENTS.aliasId', 'PATIENTS.optimiseConsent', 'PATIENTS.participation', 'AVAILABLE_DIAGNOSES.value')
@@ -161,7 +161,7 @@ export const searchEntry = function (queryfield, queryvalue) {
                             result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
-                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+                }).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
         default:
             return new Promise((resolve, reject) => dbcon()('PATIENTS')
                 .select({ patientId: 'id' }, 'aliasId', 'uuid', 'optimiseConsent', 'participation')
@@ -173,9 +173,8 @@ export const searchEntry = function (queryfield, queryvalue) {
                             result[i].participation = Boolean(result[i].participation);
                         }
                     return resolve(result);
-                }).catch((error) => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
+                }).catch(error => reject(ErrorHelper(message.errorMessages.GETFAIL, error))));
     }
-
 };
 
 export default { getEntry, createEntry, updateEntry, deleteEntry, eraseEntry, searchEntry };

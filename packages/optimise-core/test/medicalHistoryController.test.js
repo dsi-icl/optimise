@@ -223,7 +223,6 @@ describe('Create Medical History controller test', () => {
             expect(body.state).toBe(4);
             return true;
         }));
-
 });
 
 describe('Edit Medical History controller test', () => {
@@ -442,7 +441,6 @@ describe('Edit Medical History controller test', () => {
             expect(body.state).toBe(1);
             return true;
         }));
-
 });
 
 describe('Delete Medical History controller test', () => {

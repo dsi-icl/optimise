@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 /*
 Font Awesome Free 5.1.0 by @fontawesome - https://fontawesome.com

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
@@ -8,7 +8,6 @@ import { updateVisitAPICall } from '../../redux/actions/createVisit';
 import style from './editMedicalElements.module.css';
 import store from '../../redux/store';
 import { saveAs } from 'file-saver';
-
 
 /* container; fetches all the data and format it into CONTENTSTATE and pass them to the children */
 @connect(state => ({
@@ -37,17 +36,19 @@ class EditCommunication extends Component {
         const signsFieldsHash = signsFields.reduce((a, el) => { a[el.id] = el; return a; }, {});
         visits = visits.filter(el => el.id === parseInt(params.visitId));
         if (visits.length !== 1) {
-            return <>
-                <div className={_style.ariane}>
-                    <h2>Communication</h2>
-                    <BackButton to={`/patientProfile/${params.patientId}`} />
-                </div>
-                <form className={_style.panel}>
-                    <div>
-                        <i>We could not find the communication you are looking for.</i>
+            return (
+                <>
+                    <div className={_style.ariane}>
+                        <h2>Communication</h2>
+                        <BackButton to={`/patientProfile/${params.patientId}`} />
                     </div>
-                </form>
-            </>;
+                    <form className={_style.panel}>
+                        <div>
+                            <i>We could not find the communication you are looking for.</i>
+                        </div>
+                    </form>
+                </>
+            );
         }
         const edssHash = visitFields.filter(el => /^edss:(.*)/.test(el.idname)).reduce((a, el) => { a[el.id] = el; return a; }, {});
         const VSBlock = formatVS(visits[0].data || [], VSFields_Hash[0]);
@@ -99,7 +100,7 @@ class CommunicationEditor extends Component {
             nextType: null,
             intervalValue: 1
         };
-        this.onChange = (editorState) => this.setState({ editorState });
+        this.onChange = editorState => this.setState({ editorState });
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
         this._onBoldClick = this._onBoldClick.bind(this);
         this._onItalicClick = this._onItalicClick.bind(this);
@@ -118,7 +119,8 @@ class CommunicationEditor extends Component {
         const initialString = convertToRaw(props.originalEditorState.getCurrentContent());
         if (stateString !== initialString && currentState.visitId === props.match.params.visitId) {
             return currentState;
-        } else {
+        }
+        else {
             return { editorState: props.originalEditorState, visitId: props.match.params.visitId, patientId: props.match.params.patientId };
         }
     }
@@ -142,7 +144,7 @@ class CommunicationEditor extends Component {
         const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const final = `Communication for patient ${patientId}.\r\nClinical visit of the ${visitDate.toLocaleDateString('en-GB', dateOptions)}.\r\n\r\n\r\n${text}`;
         const file = new Blob([final], { type: 'text/plain' });
-        saveAs(file, `visit_${visitId}_communication_${new Date().toDateString().replace(/ /g, '_')}`); // eslint-disable-line
+        saveAs(file, `visit_${visitId}_communication_${new Date().toDateString().replace(/ /g, '_')}`);
     }
 
     _queryInterval(ev) {
@@ -160,7 +162,6 @@ class CommunicationEditor extends Component {
     }
 
     _filterOverDuration(duration) {
-
         let { tests, treatments, clinicalEvents } = this.props.data;
         const { testTypes_Hash, testFields_Hash, clinicalEventTypes_Hash, drugs_Hash } = this.props.availableFields;
 
@@ -182,17 +183,18 @@ class CommunicationEditor extends Component {
         if (this.state.nextType === whichButton)
             precomposed = { ...precomposed, ...this._filterOverDuration(this.state.intervalValue) };
         const blockgen = precomposed[whichButton];
-        this.setState(prevState => {
+        this.setState((prevState) => {
             if (blockgen) {
                 const raw = convertToRaw(prevState.editorState.getCurrentContent());
                 const newBlocks = blockgen();
-                newBlocks.forEach(el => { raw.blocks.push(el); });
+                newBlocks.forEach((el) => { raw.blocks.push(el); });
                 const newEditorState = EditorState.createWithContent(convertFromRaw(raw));
                 return {
                     editorState: newEditorState,
                     nextType: null
                 };
-            } else {
+            }
+            else {
                 return {
                     ...prevState,
                     nextType: null
@@ -239,48 +241,62 @@ class CommunicationEditor extends Component {
     render() {
         return (
             <>
-                You can append these pre-composed paragraphs:<br /><br />
+                You can append these pre-composed paragraphs:
+                <br />
+                <br />
                 <div className={style.commentButtonsGroup}>
                     <div>
-                        <button name='ceBlock' onClick={this._queryInterval} title='Clinical Events' className={this.state.nextType === 'ceBlock' ? style.selectedHop : ''}>Clinical Events</button>
-                        <button name='VSBlock' onClick={this._onClick} title='Patient Data'>Patient Data</button>
-                        <button name='symptomBlock' onClick={this._onClick} title={`Symptoms ${'&'} Signs`}>Symptoms{'&'}Signs</button>
+                        <button name="ceBlock" onClick={this._queryInterval} title="Clinical Events" className={this.state.nextType === 'ceBlock' ? style.selectedHop : ''}>Clinical Events</button>
+                        <button name="VSBlock" onClick={this._onClick} title="Patient Data">Patient Data</button>
+                        <button name="symptomBlock" onClick={this._onClick} title={`Symptoms ${'&'} Signs`}>
+                            Symptoms
+                            &
+                            Signs
+                        </button>
                     </div>
                     <div>
-                        <button name='perfBlock' onClick={this._onClick} title='Performance'>Performance</button>
-                        <button name='testBlock' onClick={this._queryInterval} title='Tests' className={this.state.nextType === 'testBlock' ? style.selectedHop : ''}>Tests</button>
-                        <button name='medBlock' onClick={this._queryInterval} title='Treatments' className={this.state.nextType === 'medBlock' ? style.selectedHop : ''}>Treatments</button>
+                        <button name="perfBlock" onClick={this._onClick} title="Performance">Performance</button>
+                        <button name="testBlock" onClick={this._queryInterval} title="Tests" className={this.state.nextType === 'testBlock' ? style.selectedHop : ''}>Tests</button>
+                        <button name="medBlock" onClick={this._queryInterval} title="Treatments" className={this.state.nextType === 'medBlock' ? style.selectedHop : ''}>Treatments</button>
                     </div>
                 </div>
                 <br />
                 <div className={`${style.comIntervalBox} ${this.state.nextType ? style.showInterval : ''}`}>
-                    <label htmlFor='interval'>Collect {this.state.nextType === 'ceBlock' ? 'clinical events' : this.state.nextType === 'testBlock' ? 'tests' : 'treatments'} across:</label><br />
-                    <select value={this.state.intervalValue} name='interval' onChange={this._handleIntervalChange}>
-                        <option value='1'>The past month</option>
-                        <option value='2'>The past two months</option>
-                        <option value='3'>The past three months</option>
-                        <option value='6'>The past six months</option>
-                        <option value='12'>The past year</option>
-                        <option value='24'>The past two years</option>
-                        <option value='36'>The past three years</option>
-                        <option value='60'>The past five years</option>
-                        <option value='120'>The past ten years</option>
-                        <option value='2000'>The entire patient history</option>
+                    <label htmlFor="interval">
+                        Collect
+                        {this.state.nextType === 'ceBlock' ? 'clinical events' : this.state.nextType === 'testBlock' ? 'tests' : 'treatments'}
+                        {' '}
+                        across:
+                    </label>
+                    <br />
+                    <select value={this.state.intervalValue} name="interval" onChange={this._handleIntervalChange}>
+                        <option value="1">The past month</option>
+                        <option value="2">The past two months</option>
+                        <option value="3">The past three months</option>
+                        <option value="6">The past six months</option>
+                        <option value="12">The past year</option>
+                        <option value="24">The past two years</option>
+                        <option value="36">The past three years</option>
+                        <option value="60">The past five years</option>
+                        <option value="120">The past ten years</option>
+                        <option value="2000">The entire patient history</option>
                     </select>
-                    <br /><br />
+                    <br />
+                    <br />
                     <table>
                         <tbody>
                             <tr>
                                 <td>
-                                    <button type='button' name={this.state.nextType} onClick={this._onClick}>Add</button>
+                                    <button type="button" name={this.state.nextType} onClick={this._onClick}>Add</button>
                                 </td>
                                 <td>
-                                    <button type='button' onClick={this._cancelHop}>Cancel</button>
+                                    <button type="button" onClick={this._cancelHop}>Cancel</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <br /><br />
+                    <br />
+                    <br />
                 </div>
                 <div className={style.editorButtonsGroup}>
                     <button onClick={this._onBoldClick}><b>Bold</b></button>
@@ -296,9 +312,11 @@ class CommunicationEditor extends Component {
                 </div>
                 <br />
                 <button onClick={this._onSubmit}>Save</button>
-                <br /><br />
+                <br />
+                <br />
                 <button onClick={this._exportPlainText}>Export as plain text (without styling)</button>
-                <br /><br />
+                <br />
+                <br />
             </>
         );
     }

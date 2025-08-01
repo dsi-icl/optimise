@@ -5,7 +5,6 @@ import formatToJSON from '../utils/format-response';
 import moment from 'moment';
 
 class PatientDiagnosisController {
-
     static getPatientDiagnosis({ query }, res) {
         if (query.hasOwnProperty('patient')) {
             PatientDiagnosisCore.getPatientDiagnosis({ patient: parseInt(query.patient) }).then((result) => {
@@ -15,7 +14,8 @@ class PatientDiagnosisController {
                 res.status(400).json(ErrorHelper(messages.errorMessages.GETFAIL, error));
                 return false;
             });
-        } else {
+        }
+ else {
             PatientDiagnosisCore.getPatientDiagnosis({}).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
@@ -28,8 +28,8 @@ class PatientDiagnosisController {
 
     static createPatientDiagnosis({ body, user }, res) {
         const entryObj = {};
-        if (body.hasOwnProperty('patient') && body.hasOwnProperty('diagnosis') && body.hasOwnProperty('diagnosisDate') &&
-            typeof body.patient === 'number' && typeof body.diagnosis === 'number' && typeof body.diagnosisDate === 'string') {
+        if (body.hasOwnProperty('patient') && body.hasOwnProperty('diagnosis') && body.hasOwnProperty('diagnosisDate')
+          && typeof body.patient === 'number' && typeof body.diagnosis === 'number' && typeof body.diagnosisDate === 'string') {
             const momentDiagnos = moment(body.diagnosisDate, moment.ISO_8601);
             if (!momentDiagnos.isValid() && body.diagnosisDate !== null) {
                 const msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
@@ -48,10 +48,12 @@ class PatientDiagnosisController {
                 res.status(400).json(ErrorHelper(messages.errorMessages.CREATIONFAIL, error));
                 return false;
             });
-        } else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('diagnosis') && body.hasOwnProperty('diagnosisDate'))) {
+        }
+ else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('diagnosis') && body.hasOwnProperty('diagnosisDate'))) {
             res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(messages.userError.WRONGARGUMENTS));
         }
     }
@@ -64,7 +66,8 @@ class PatientDiagnosisController {
                 const msg = messages.dateError[momentDiagnos.invalidAt()] !== undefined ? messages.dateError[momentDiagnos.invalidAt()] : messages.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(messages.userError.INVALIDDATE)));
                 return;
-            } else if (body.hasOwnProperty('diagnosisDate') && body.diagnosisDate !== null) {
+            }
+ else if (body.hasOwnProperty('diagnosisDate') && body.diagnosisDate !== null) {
                 entryObj.diagnosisDate = momentDiagnos.valueOf();
             }
             entryObj.createdByUser = user.id;
@@ -75,10 +78,12 @@ class PatientDiagnosisController {
                 res.status(400).json(ErrorHelper(messages.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(messages.userError.WRONGARGUMENTS));
             return;
         }
@@ -93,10 +98,12 @@ class PatientDiagnosisController {
                 res.status(400).json(ErrorHelper(messages.errorMessages.DELETEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(messages.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(messages.userError.WRONGARGUMENTS));
             return;
         }

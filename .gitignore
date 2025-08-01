@@ -22,3 +22,5 @@ packages/optimise-electron/static/build
 
 # log files
 *.log*
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

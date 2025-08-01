@@ -13,15 +13,14 @@ const PregnancyModel = {
 };
 
 class DemographicDataController {
-
     static createDemographic({ body, user }, res) {
         if ((!body.hasOwnProperty('patient') || !body.hasOwnProperty('DOB') || !body.hasOwnProperty('gender') || !body.hasOwnProperty('dominant_hand')
-            || !body.hasOwnProperty('ethnicity') || !body.hasOwnProperty('country_of_origin'))) {
+          || !body.hasOwnProperty('ethnicity') || !body.hasOwnProperty('country_of_origin'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
         if (typeof body.patient !== 'number' || typeof body.DOB !== 'string' || typeof body.gender !== 'number' || typeof body.dominant_hand !== 'number'
-            || typeof body.ethnicity !== 'number' || typeof body.country_of_origin !== 'number') {
+          || typeof body.ethnicity !== 'number' || typeof body.country_of_origin !== 'number') {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -51,8 +50,8 @@ class DemographicDataController {
     }
 
     static createImmunisation({ body, user }, res) {
-        if (body.hasOwnProperty('patient') && body.hasOwnProperty('immunisationDate') && body.hasOwnProperty('vaccineName') &&
-            typeof body.patient === 'number' && typeof body.immunisationDate === 'string' && typeof body.vaccineName === 'string') {
+        if (body.hasOwnProperty('patient') && body.hasOwnProperty('immunisationDate') && body.hasOwnProperty('vaccineName')
+          && typeof body.patient === 'number' && typeof body.immunisationDate === 'string' && typeof body.vaccineName === 'string') {
             const momentImmun = moment(body.immunisationDate, moment.ISO_8601);
             if (!momentImmun.isValid() && body.immunisationDate !== null) {
                 const msg = message.dateError[momentImmun.invalidAt()] !== undefined ? message.dateError[momentImmun.invalidAt()] : message.userError.INVALIDDATE;
@@ -73,19 +72,21 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
                 return false;
             });
-        } else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('immunisationDate') && body.hasOwnProperty('vaccineName'))) {
+        }
+ else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('immunisationDate') && body.hasOwnProperty('vaccineName'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
     }
 
     static createMedicalCondition({ body, user }, res) {
-        if (body.hasOwnProperty('patient') && body.hasOwnProperty('startDate') && body.hasOwnProperty('outcome') && body.hasOwnProperty('relation') && body.hasOwnProperty('conditionName') &&
-            ((body.hasOwnProperty('resolvedYear') && typeof body.resolvedYear === 'number') || !body.hasOwnProperty('resolvedYear')) &&
-            typeof body.patient === 'number' && typeof body.startDate === 'string' && typeof body.outcome === 'string' && typeof body.relation === 'number' && typeof body.conditionName === 'number') {
+        if (body.hasOwnProperty('patient') && body.hasOwnProperty('startDate') && body.hasOwnProperty('outcome') && body.hasOwnProperty('relation') && body.hasOwnProperty('conditionName')
+          && ((body.hasOwnProperty('resolvedYear') && typeof body.resolvedYear === 'number') || !body.hasOwnProperty('resolvedYear'))
+          && typeof body.patient === 'number' && typeof body.startDate === 'string' && typeof body.outcome === 'string' && typeof body.relation === 'number' && typeof body.conditionName === 'number') {
             const momentStart = moment(body.startDate, moment.ISO_8601);
             if (!momentStart.isValid() && body.startDate !== null) {
                 const msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
@@ -111,10 +112,12 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
                 return false;
             });
-        } else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('startDate') && body.hasOwnProperty('outcome') && body.hasOwnProperty('relation') && body.hasOwnProperty('conditionName'))) {
+        }
+ else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('startDate') && body.hasOwnProperty('outcome') && body.hasOwnProperty('relation') && body.hasOwnProperty('conditionName'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -129,10 +132,12 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -147,10 +152,12 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -165,10 +172,12 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -192,18 +201,20 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
     }
 
     static editImmunisation({ body, user }, res) {
-        if (body.hasOwnProperty('id') && typeof body.id === 'number' &&
-            ((body.hasOwnProperty('immunisationDate') && typeof body.immunisationDate === 'string') || !body.hasOwnProperty('immunisationDate'))) {
+        if (body.hasOwnProperty('id') && typeof body.id === 'number'
+          && ((body.hasOwnProperty('immunisationDate') && typeof body.immunisationDate === 'string') || !body.hasOwnProperty('immunisationDate'))) {
             const momentImmun = moment(body.immunisationDate, moment.ISO_8601);
             if (body.hasOwnProperty('immunisationDate') && body.immunisationDate !== null && !momentImmun.isValid()) {
                 const msg = message.dateError[momentImmun.invalidAt()] !== undefined ? message.dateError[momentImmun.invalidAt()] : message.userError.INVALIDDATE;
@@ -220,19 +231,21 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
     }
 
     static editMedicalCondition({ body, user }, res) {
-        if (body.hasOwnProperty('id') && typeof body.id === 'number' &&
-            ((body.hasOwnProperty('outcome') && typeof body.outcome === 'string') || !body.hasOwnProperty('outcome')) &&
-            ((body.hasOwnProperty('resolvedYear') && typeof body.resolvedYear === 'number') || !body.hasOwnProperty('resolvedYear'))) {
+        if (body.hasOwnProperty('id') && typeof body.id === 'number'
+          && ((body.hasOwnProperty('outcome') && typeof body.outcome === 'string') || !body.hasOwnProperty('outcome'))
+          && ((body.hasOwnProperty('resolvedYear') && typeof body.resolvedYear === 'number') || !body.hasOwnProperty('resolvedYear'))) {
             MedicalHistoryCore.editMedicalHistory(user, body).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
@@ -240,10 +253,12 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -267,7 +282,8 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
                 return false;
             });
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -283,11 +299,13 @@ class DemographicDataController {
             if (!action.hasOwnProperty(req.params.dataType)) {
                 res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
-            } else {
+            }
+ else {
                 action[req.params.dataType](req, res, next);
                 return;
             }
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
         }
@@ -310,11 +328,13 @@ class DemographicDataController {
                     res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
                     return false;
                 });
-            } else {
+            }
+ else {
                 res.status(404).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
             }
-        } else {
+        }
+ else {
             const promiseArray = [];
             for (let key = 0; key < Object.keys(action).length; key++) {
                 promiseArray.push(action[Object.keys(action)[key]]());
@@ -349,11 +369,13 @@ class DemographicDataController {
                     res.status(400).json(ErrorHelper(message.errorMessages.GETFAIL, error));
                     return false;
                 });
-            } else {
+            }
+ else {
                 res.status(404).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
             }
-        } else {
+        }
+ else {
             const promiseArray = [];
             for (let key = 0; key < Object.keys(action).length; key++) {
                 promiseArray.push(action[Object.keys(action)[key]]());
@@ -388,7 +410,6 @@ class DemographicDataController {
 
     static createPregnancy({ body, user }, res) {
         if (body.hasOwnProperty('patient') && typeof body.patient === 'number') {
-
             if (body.hasOwnProperty('meddra') && body.meddra !== null && isNaN(parseInt(body.meddra))) {
                 res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
                 return;
@@ -430,10 +451,12 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
                 return false;
             });
-        } else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('outcome'))) {
+        }
+ else if (!(body.hasOwnProperty('patient') && body.hasOwnProperty('outcome'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -441,7 +464,6 @@ class DemographicDataController {
 
     static editPregnancy({ body, user }, res) {
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
-
             const entryObj = Object.assign({}, body);
             const momentStart = moment(body.startDate, moment.ISO_8601);
             const momentOutcome = moment(body.outcomeDate, moment.ISO_8601);
@@ -449,14 +471,16 @@ class DemographicDataController {
                 const msg = message.dateError[momentStart.invalidAt()] !== undefined ? message.dateError[momentStart.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
-            } else if (body.hasOwnProperty('startDate') && body.startDate !== null) {
+            }
+ else if (body.hasOwnProperty('startDate') && body.startDate !== null) {
                 entryObj.startDate = momentStart.valueOf();
             }
             if (body.hasOwnProperty('outcomeDate') && body.outcomeDate !== null && !momentOutcome.isValid()) {
                 const msg = message.dateError[momentOutcome.invalidAt()] !== undefined ? message.dateError[momentOutcome.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
-            } else if (body.hasOwnProperty('outcomeDate') && body.outcomeDate !== null) {
+            }
+ else if (body.hasOwnProperty('outcomeDate') && body.outcomeDate !== null) {
                 entryObj.outcomeDate = momentOutcome.valueOf();
             }
 
@@ -467,10 +491,12 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -485,18 +511,19 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
     }
 
-    //PregnancyImage
+    // PregnancyImage
     static createPregnancyImage({ body, user }, res) {
-
         if (!body.hasOwnProperty('visitId') || !body.hasOwnProperty('date') || !body.hasOwnProperty('mode') || !body.hasOwnProperty('result')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
@@ -534,7 +561,6 @@ class DemographicDataController {
     static editPregnancyImage({ body, user }, res) {
         //
         if (body.hasOwnProperty('id') && typeof body.id === 'number') {
-
             const entryObj = Object.assign({}, body);
             const momentDate = moment(body.date, moment.ISO_8601);
 
@@ -542,7 +568,8 @@ class DemographicDataController {
                 const msg = message.dateError[momentDate.invalidAt()] !== undefined ? message.dateError[momentDate.invalidAt()] : message.userError.INVALIDDATE;
                 res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
                 return;
-            } else if (body.hasOwnProperty('date') && body.date !== null) {
+            }
+ else if (body.hasOwnProperty('date') && body.date !== null) {
                 entryObj.date = momentDate.valueOf();
             }
 
@@ -554,7 +581,6 @@ class DemographicDataController {
                 entryObj.result = body.result;
             }
 
-
             PregnancyCore.editPregnancyImage(user, entryObj).then((result) => {
                 res.status(200).json(formatToJSON(result));
                 return true;
@@ -562,15 +588,15 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.UPDATEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
-
-
     }
 
     static deletePregnancyImage({ body, user }, res) {
@@ -584,17 +610,18 @@ class DemographicDataController {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('id')) {
+        }
+ else if (!body.hasOwnProperty('id')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
     }
 
     static createPregnancyEntry({ body, user }, res) {
-
         if (!body.hasOwnProperty('visitId') || !body.hasOwnProperty('type') || !body.hasOwnProperty('pregnancyId')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
@@ -653,7 +680,8 @@ class DemographicDataController {
         else if (!body.hasOwnProperty('pregnancyEntryId')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -670,7 +698,6 @@ class DemographicDataController {
     }
 
     static createOffspringEntry({ body, user }, res) {
-
         if (!body.hasOwnProperty('pregnancyId') || !body.hasOwnProperty('patientId')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
@@ -697,7 +724,6 @@ class DemographicDataController {
     }
 
     static editOffspringEntry({ body, user }, res) {
-
         if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
@@ -727,7 +753,8 @@ class DemographicDataController {
         else if (!body.hasOwnProperty('id')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

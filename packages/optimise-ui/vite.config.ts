@@ -1,9 +1,9 @@
-import { defineConfig } from 'vitest/config'
+import { defineConfig } from 'vitest/config';
 import babel from 'vite-plugin-babel';
 import mdx from '@mdx-js/rollup';
 import rehypeRaw from 'rehype-raw';
-import rehypeMdxImportMedia from 'rehype-mdx-import-media'
-import react from '@vitejs/plugin-react-swc'
+import rehypeMdxImportMedia from 'rehype-mdx-import-media';
+import react from '@vitejs/plugin-react-swc';
 // import tailwindcss from '@tailwindcss/vite';
 
 /* @type {import('vite').UserConfig} */
@@ -19,19 +19,19 @@ export default defineConfig({
                 presets: [
                     [
                         '@babel/preset-env',
-                        { /* loose: true,*/ modules: false, targets: { browsers: "last 2 versions" } }
+                        { /* loose: true, */ modules: false, targets: { browsers: 'last 2 versions' } }
                     ],
                     '@babel/preset-typescript',
-                    '@babel/preset-react',
+                    '@babel/preset-react'
                 ],
                 plugins: [
                     [
-                        "@babel/plugin-proposal-decorators",
-                        { /* loose: true, version: "2023-11", decoratorsBeforeExport: true */legacy: true },
+                        '@babel/plugin-proposal-decorators',
+                        { /* loose: true, version: "2023-11", decoratorsBeforeExport: true */legacy: true }
                     ],
-                    "@babel/plugin-syntax-dynamic-import"
-                ],
-            },
+                    '@babel/plugin-syntax-dynamic-import'
+                ]
+            }
         }),
         mdx({
             providerImportSource: '@mdx-js/react',
@@ -42,9 +42,9 @@ export default defineConfig({
         }),
         // tailwindcss(),
         {
-            name: "markdown-loader",
+            name: 'markdown-loader',
             transform(code, id) {
-                if (id.slice(-3) === ".md") {
+                if (id.slice(-3) === '.md') {
                     // For .md files, get the raw content
                     return `export default ${JSON.stringify(code)};`;
                 }
@@ -56,7 +56,7 @@ export default defineConfig({
             transformIndexHtml: {
                 order: 'post',
                 async handler(html) {
-                    return html.replaceAll('/assets/', 'assets/')
+                    return html.replaceAll('/assets/', 'assets/');
                 }
             }
         }
@@ -85,7 +85,7 @@ export default defineConfig({
             provider: 'v8',
             reporter: ['text', 'json', 'html'],
             include: ['src/**/*'],
-            exclude: [],
+            exclude: []
         }
-    },
-})
+    }
+});

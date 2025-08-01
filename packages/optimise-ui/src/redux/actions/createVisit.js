@@ -7,8 +7,8 @@ import history from '../history';
 
 const questionnaireAgentPassList = (process.env.REACT_APP_NX_VISIT_QUESTIONNAIRE_PASS_LIST ?? '').split(',').map(id => id.toLocaleLowerCase());
 
-export const createVisitAPICall = (body) => dispatch => apiHelper('/visits', { method: 'POST', body: JSON.stringify(body.visitData) })
-    .then(json => {
+export const createVisitAPICall = body => dispatch => apiHelper('/visits', { method: 'POST', body: JSON.stringify(body.visitData) })
+    .then((json) => {
         body.VSData.visitId = json.state;
         return apiHelper('/data/visit', { method: 'POST', body: JSON.stringify(body.VSData) });
     })
@@ -32,8 +32,7 @@ export const createShadowVisitAPICall = (patientId, callback) => apiHelper('/vis
     .then(json => callback({ visitId: json.state }))
     .catch(msg => store.dispatch(addError({ error: msg })));
 
-
-export const updateVisitAPICall = (body) => dispatch => apiHelper('/visits', { method: 'PUT', body: JSON.stringify(body.visitData) })
+export const updateVisitAPICall = body => dispatch => apiHelper('/visits', { method: 'PUT', body: JSON.stringify(body.visitData) })
     .then(() => {
         if (body.VSData)
             return apiHelper(`/data/${body.type}`, { method: 'POST', body: JSON.stringify(body.VSData) });
@@ -44,9 +43,8 @@ export const updateVisitAPICall = (body) => dispatch => apiHelper('/visits', { m
     })
     .catch(msg => store.dispatch(addError({ error: msg })));
 
-export const deleteVisitAPICall = (body) => dispatch => apiHelper('/visits', { method: 'DELETE', body: JSON.stringify(body.data) })
+export const deleteVisitAPICall = body => dispatch => apiHelper('/visits', { method: 'DELETE', body: JSON.stringify(body.data) })
     .then(() => {
-
         if (body.deletePregnancy) {
             return apiHelper('/demographics/Pregnancy', { method: 'DELETE', body: JSON.stringify(body.deletePregnancy) });
         }
@@ -56,7 +54,6 @@ export const deleteVisitAPICall = (body) => dispatch => apiHelper('/visits', { m
         }
 
         return true;
-
     })
     .then(() => {
         history.push(body.to);

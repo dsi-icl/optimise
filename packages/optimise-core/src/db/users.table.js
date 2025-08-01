@@ -10,7 +10,7 @@ export default async (dbcon, version) => {
         case 1:
             await tableMove(TABLE_NAME, version);
             await schema_v1(dbcon);
-            hashedAdmin = generateAndHash('admin'); //pw: 'admin'
+            hashedAdmin = generateAndHash('admin'); // pw: 'admin'
             await dbcon()(TABLE_NAME).insert([
                 { id: 1, username: 'admin', realName: 'Administrator', pw: hashedAdmin.hashed, salt: hashedAdmin.salt, iterations: hashedAdmin.iteration, adminPriv: 1, createdByUser: 1 }
             ]);
@@ -36,7 +36,7 @@ export default async (dbcon, version) => {
     }
 };
 
-const schema_v1 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => {
+const schema_v1 = dbcon => dbcon().schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.text('username').notNullable();
     table.text('realname').notNullable();
@@ -50,7 +50,7 @@ const schema_v1 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => {
     table.unique(['username', 'deleted'], `UNIQUE_${Date.now()}_${TABLE_NAME}`);
 });
 
-const schema_v3 = (dbcon) => dbcon().schema.createTable(TABLE_NAME, (table) => {
+const schema_v3 = dbcon => dbcon().schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.text('uuid').notNullable();
     table.text('username').notNullable();

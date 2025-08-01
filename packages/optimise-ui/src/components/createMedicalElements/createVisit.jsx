@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { BackButton } from '../medicalData/utils';
@@ -96,21 +96,36 @@ class CreateVisit extends Component {
                     <BackButton to={`/patientProfile/${params.patientId}`} />
                 </div>
                 <form className={style.panel}>
-                    <label>Please enter date on which the visit occured:</label><br /><PickDate startDate={startDate} handleChange={this._handleDateChange} /><br /><br />
-                    <label htmlFor='reasonForVisit'>Reason for the visit:</label><br />
-                    <select name='reasonForVisit'
+                    <label>Please enter date on which the visit occured:</label>
+                    <br />
+                    <PickDate startDate={startDate} handleChange={this._handleDateChange} />
+                    <br />
+                    <br />
+                    <label htmlFor="reasonForVisit">Reason for the visit:</label>
+                    <br />
+                    <select
+                        name="reasonForVisit"
                         onChange={this._handleKeyChange}
                         value={reasonForVisit}
-                        autoComplete='off'
+                        autoComplete="off"
                     >
-                        <option value='unselected'></option>
-                        <option value='Routine'>Routine</option>
-                        <option value='Drug Monitoring'>Drug Monitoring</option>
-                        <option value='Relapse Assessment'>Relapse Assessment</option>
-                        <option value='Urgent'>Urgent</option>
-                    </select><br /><br />
-                    {error ? <><div className={style.error}>{error}</div><br /></> : null}
-                    <button onClick={this._handleSubmitClick} >Submit</button>
+                        <option value="unselected"></option>
+                        <option value="Routine">Routine</option>
+                        <option value="Drug Monitoring">Drug Monitoring</option>
+                        <option value="Relapse Assessment">Relapse Assessment</option>
+                        <option value="Urgent">Urgent</option>
+                    </select>
+                    <br />
+                    <br />
+                    {error
+                        ? (
+                            <>
+                                <div className={style.error}>{error}</div>
+                                <br />
+                            </>
+                        )
+                        : null}
+                    <button onClick={this._handleSubmitClick}>Submit</button>
                 </form>
             </>
         );

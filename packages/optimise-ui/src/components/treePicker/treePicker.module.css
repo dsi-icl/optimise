@@ -35,7 +35,7 @@
 }
 
 .item:hover {
-	background-color: #ddd;
+    background-color: #ddd;
 }
 
 .item .matchedString {

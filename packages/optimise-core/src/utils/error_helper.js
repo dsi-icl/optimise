@@ -22,7 +22,7 @@ function ErrorStack(error_obj, error_stack) {
         error_message = error_obj.toString();
     error.error = error_message;
 
-    //Extract error stack
+    // Extract error stack
     if (error_stack === undefined && error_obj.hasOwnProperty('stack'))
         error_stack = error_obj.stack;
     if (error_stack !== undefined) {

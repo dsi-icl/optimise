@@ -3,7 +3,6 @@
  * @description Redirect request from /visits to the proper controller call
  */
 
-
 import express from 'express';
 
 import VisitController from '../controllers/visitController';

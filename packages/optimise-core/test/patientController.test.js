@@ -1,4 +1,4 @@
-//UNFINISHED: test erase patients
+// UNFINISHED: test erase patients
 import request from 'supertest';
 import message from '../src/utils/message-utils';
 import { connectAdmin, connectUser, disconnectAgent } from './connection';

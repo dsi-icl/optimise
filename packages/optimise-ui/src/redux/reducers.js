@@ -208,7 +208,6 @@ function patientProfile(state = initialState.patientProfile, action) {
     }
 }
 
-
 function log(state = initialState.log, action) {
     let body;
     let json;
@@ -226,7 +225,6 @@ function log(state = initialState.log, action) {
             return { result: [], fetching: false, error: true };
         default:
             return state;
-
     }
 }
 
@@ -240,7 +238,6 @@ function getAllUsers(state = initialState.getAllUsers, action) {
             return { result: [], fetching: false, error: true };
         default:
             return state;
-
     }
 }
 
@@ -256,7 +253,6 @@ function erasePatient(state = initialState.erasePatient, action) {
             return { requesting: false, success: false, error: false };
         default:
             return state;
-
     }
 }
 
@@ -380,4 +376,3 @@ export const rootReducer = combineReducers({
     serverInfo,
     syncInfo
 });
-

@@ -5,7 +5,6 @@ import formatToJSON from '../utils/format-response';
 import moment from 'moment';
 
 class TestController {
-
     static createTest({ body, user }, res) {
         if (!body.hasOwnProperty('visitId') || !body.hasOwnProperty('expectedOccurDate') || !body.hasOwnProperty('type')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
@@ -56,7 +55,8 @@ class TestController {
             const msg = message.dateError[momentExpect.invalidAt()] !== undefined ? message.dateError[momentExpect.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
-        } else if (body.hasOwnProperty('expectedOccurDate') && body.expectedOccurDate !== null) {
+        }
+ else if (body.hasOwnProperty('expectedOccurDate') && body.expectedOccurDate !== null) {
             entryObj.expectedOccurDate = momentExpect.valueOf();
         }
         const momentOccur = moment(body.actualOccurredDate, moment.ISO_8601);
@@ -64,7 +64,8 @@ class TestController {
             const msg = message.dateError[momentOccur.invalidAt()] !== undefined ? message.dateError[momentOccur.invalidAt()] : message.userError.INVALIDDATE;
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
-        } else if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null) {
+        }
+ else if (body.hasOwnProperty('actualOccurredDate') && body.actualOccurredDate !== null) {
             entryObj.actualOccurredDate = momentOccur.valueOf();
         }
         TestCore.updateTest(user, entryObj).then((result) => {
@@ -89,7 +90,8 @@ class TestController {
         else if (!body.hasOwnProperty('testId')) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

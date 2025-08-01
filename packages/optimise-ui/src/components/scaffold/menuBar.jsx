@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Icon from '../icon';
@@ -27,23 +27,24 @@ class MenuBar extends Component {
         return (
             <div className={style.menuBar}>
                 <br />
-                <NavLink to='/patientProfile' title='Patient view' activeClassName={style.active}>
-                    <Icon symbol='user' />
+                <NavLink to="/patientProfile" title="Patient view" activeClassName={style.active}>
+                    <Icon symbol="user" />
                 </NavLink>
-                <NavLink to='/searchPatient' title='Search and edit patients' activeClassName={style.active}>
-                    <Icon symbol='search' />
+                <NavLink to="/searchPatient" title="Search and edit patients" activeClassName={style.active}>
+                    <Icon symbol="search" />
                 </NavLink>
-                {this.props.adminPriv === 1 ?
-                    (
-                        <NavLink to='/administration' title='Admin settings' activeClassName={style.active}>
-                            <Icon symbol='setting' />
+                {this.props.adminPriv === 1
+                    ? (
+                        <NavLink to="/administration" title="Admin settings" activeClassName={style.active}>
+                            <Icon symbol="setting" />
                         </NavLink>
-                    ) : null}
-                <NavLink to='/userManual' title='Browse the documentation on how to use the software' activeClassName={style.active}>
-                    <Icon symbol='help' />
+                    )
+                    : null}
+                <NavLink to="/userManual" title="Browse the documentation on how to use the software" activeClassName={style.active}>
+                    <Icon symbol="help" />
                 </NavLink>
-                <NavLink title='Logout' to='/logout' onClick={this._handleLogout} className={style.logoutButton} activeClassName={style.active}>
-                    <Icon symbol='logout' />
+                <NavLink title="Logout" to="/logout" onClick={this._handleLogout} className={style.logoutButton} activeClassName={style.active}>
+                    <Icon symbol="logout" />
                 </NavLink>
             </div>
         );

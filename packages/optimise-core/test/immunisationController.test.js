@@ -116,7 +116,6 @@ describe('Create Immunisation controller test', () => {
             return true;
         }));
 
-
     test('Creating Immunisation well formatted (Should Succeed)', () => admin
         .post('/demographics/Immunisation')
         .send({
@@ -131,7 +130,6 @@ describe('Create Immunisation controller test', () => {
             expect(body.state).toBe(4);
             return true;
         }));
-
 });
 
 describe('Edit Immunisation controller test', () => {
@@ -189,7 +187,6 @@ describe('Edit Immunisation controller test', () => {
             expect(body.error).toBe(message.errorMessages.UPDATEFAIL);
             return true;
         }));
-
 
     test('Editing Immunisation with body but wrong patient (Should Fail)', () => admin
         .put('/demographics/Immunisation')

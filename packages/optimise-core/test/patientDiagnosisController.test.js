@@ -293,5 +293,4 @@ describe('Delete diagnosis test suite', () => {
                 expect(body.state).toBe(1);
                 return true;
             }));
-
 });

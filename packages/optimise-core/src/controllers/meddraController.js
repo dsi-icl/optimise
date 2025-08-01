@@ -3,7 +3,6 @@ import formatToJSON from '../utils/format-response';
 import MeddraHierarchyProcessor from '../core/MeddraHierarchyProcessor';
 
 class MeddraController {
-
     static async handleMeddraUploadByAdmin({ user, files }, res) {
         if (user.adminPriv !== 1) {
             res.status(401).json({ error: 'Not authorized.' });
@@ -21,7 +20,8 @@ class MeddraController {
         let highestId;
         try {
             highestId = (await dbcon()('ADVERSE_EVENT_MEDDRA').max('id'))[0]['max(`id`)'];
-        } catch (e) {
+        }
+ catch (e) {
             res.status(400).json({ error: e });
             return null;
         }
@@ -31,7 +31,8 @@ class MeddraController {
             const processor = new MeddraHierarchyProcessor(highestId + 1, mdhierfile, lltfile);
             processor.parsebuffer();
             result = processor.transformData();
-        } catch (e) {
+        }
+ catch (e) {
             res.status(400).json({ error: e });
             return null;
         }
@@ -50,7 +51,7 @@ class MeddraController {
             res.status(200).json({ message: 'Meddra uploaded.' });
             MeddraController.loadMeddraCollection();
             return null;
-        }).catch(err => { res.status(500).json({ error: err.toString() }); });
+        }).catch((err) => { res.status(500).json({ error: err.toString() }); });
     }
 
     static loadMeddraCollection() {

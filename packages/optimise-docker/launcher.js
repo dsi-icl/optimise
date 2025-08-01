@@ -8,8 +8,7 @@ const fs = require('fs');
 const root = express();
 const optimise = new OptimiseServer();
 
-optimise.start().then(router => {
-
+optimise.start().then((router) => {
     console.log(fs.readdirSync(`${__dirname}/static`));
 
     // For production activating reponse compression
@@ -35,10 +34,9 @@ optimise.start().then(router => {
         res.sendFile(path.resolve('static/index.html'));
     });
 
-
-    root.listen(3030, error => {
+    root.listen(3030, (error) => {
         if (error !== undefined && error !== null) {
-            console.error(error); // eslint-disable-line no-console
+            console.error(error);
             return;
         }
     });

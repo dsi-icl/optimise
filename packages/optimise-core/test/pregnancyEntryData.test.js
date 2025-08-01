@@ -5,12 +5,12 @@ import { connectAdmin, connectUser, disconnectAgent } from './connection';
 const admin = request.agent(global.optimiseRouter);
 const user = request.agent(global.optimiseRouter);
 
-beforeAll(async () => { //eslint-disable-line no-undef
+beforeAll(async () => {
     await connectAdmin(admin);
     await connectUser(user);
 });
 
-afterAll(async () => { //eslint-disable-line no-undef
+afterAll(async () => {
     await disconnectAgent(admin);
     await disconnectAgent(user);
 });
@@ -84,7 +84,6 @@ describe('Creating PREGNANCY ENTRY data', () => {
         .post('/data/pregnancyEntry')
         .send({ pregnancyEntryId: 1, add: { 1: 23 } })
         .then(({ status, body }) => {
-
             expect(status).toBe(400);
             expect(typeof body).toBe('object');
             expect(body.error).toBeDefined();

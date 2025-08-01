@@ -5,10 +5,9 @@ import formatToJSON from '../utils/format-response';
 import moment from 'moment';
 
 class CeController {
-
     static createCe({ body, user }, res) {
-        if ((body.hasOwnProperty('visitId') || body.hasOwnProperty('patient')) && body.hasOwnProperty('dateStartDate') && body.hasOwnProperty('type') &&
-            typeof body.visitId === 'number' && typeof body.dateStartDate === 'string' && typeof body.type === 'number') {
+        if ((body.hasOwnProperty('visitId') || body.hasOwnProperty('patient')) && body.hasOwnProperty('dateStartDate') && body.hasOwnProperty('type')
+          && typeof body.visitId === 'number' && typeof body.dateStartDate === 'string' && typeof body.type === 'number') {
             const momentStart = moment(body.dateStartDate, moment.ISO_8601);
             if (!momentStart.isValid()) {
                 const msg = (momentStart.invalidAt() === undefined || momentStart.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
@@ -43,10 +42,12 @@ class CeController {
                 res.status(400).json(ErrorHelper(message.errorMessages.CREATIONFAIL, error));
                 return false;
             });
-        } else if (!((body.hasOwnProperty('visitId') || body.hasOwnProperty('patient')) && body.hasOwnProperty('dateStartDate') && body.hasOwnProperty('type'))) {
+        }
+ else if (!((body.hasOwnProperty('visitId') || body.hasOwnProperty('patient')) && body.hasOwnProperty('dateStartDate') && body.hasOwnProperty('type'))) {
             res.status(400).json(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).json(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }
@@ -63,7 +64,8 @@ class CeController {
             const msg = (momentStart.invalidAt() === undefined || momentStart.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentStart.invalidAt()];
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
-        } else if (body.hasOwnProperty('dateStartDate') && body.dateStartDate !== null) {
+        }
+ else if (body.hasOwnProperty('dateStartDate') && body.dateStartDate !== null) {
             ce.dateStartDate = momentStart.valueOf();
         }
         const momentEnd = moment(body.endDate, moment.ISO_8601);
@@ -71,7 +73,8 @@ class CeController {
             const msg = (momentEnd.invalidAt() === undefined || momentEnd.invalidAt() < 0) ? message.userError.INVALIDDATE : message.dateError[momentEnd.invalidAt()];
             res.status(400).json(ErrorHelper(msg, new Error(message.userError.INVALIDDATE)));
             return;
-        } else if (body.hasOwnProperty('endDate') && body.endDate !== null) {
+        }
+ else if (body.hasOwnProperty('endDate') && body.endDate !== null) {
             ce.endDate = momentEnd.valueOf();
         }
         clinicalEventCore.updateClinicalEvent(user, ce).then((result) => {
@@ -92,10 +95,12 @@ class CeController {
                 res.status(400).json(ErrorHelper(message.errorMessages.DELETEFAIL, error));
                 return false;
             });
-        } else if (!body.hasOwnProperty('ceId')) {
+        }
+ else if (!body.hasOwnProperty('ceId')) {
             res.status(400).send(ErrorHelper(message.userError.MISSINGARGUMENT));
             return;
-        } else {
+        }
+ else {
             res.status(400).send(ErrorHelper(message.userError.WRONGARGUMENTS));
             return;
         }

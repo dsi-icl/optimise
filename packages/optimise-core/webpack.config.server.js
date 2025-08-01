@@ -6,10 +6,11 @@ const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 module.exports = {
     mode: process.env.NODE_ENV || 'production',
     devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : 'source-map',
-    entry: (process.env.NODE_ENV === 'development' ?
-        {
+    entry: (process.env.NODE_ENV === 'development'
+        ? {
             server: ['webpack/hot/poll?1000', './src/index']
-        } : {
+        }
+        : {
             core: ['./src/optimiseServer']
         }
     ),
@@ -40,24 +41,26 @@ module.exports = {
             }
         ]
     },
-    plugins: (process.env.NODE_ENV === 'development' ? [
-        new RunScriptWebpackPlugin({
-            name: 'server.js'
-        }),
-        new webpack.HotModuleReplacementPlugin()
-    ] : []).concat([
-        new webpack.NormalModuleReplacementPlugin(/pg-connection-string/, `${__dirname}/src/utils/noop.js`),
-        new webpack.NormalModuleReplacementPlugin(/node-pre-gyp/, `${__dirname}/src/utils/noop.js`),
-        new webpack.NormalModuleReplacementPlugin(/migrations\/migrate/, `${__dirname}/src/utils/noop.js`),
-        new webpack.NormalModuleReplacementPlugin(/migrations\/seed/, `${__dirname}/src/utils/noop.js`),
-        new webpack.IgnorePlugin({ resourceRegExp: new RegExp('^(.*mssql.*|.*mariasql|.*oracle.*|.*mysql.*|.*pg.*|.*postgres.*|.*redshift.*|.*better-sqlite3.*|.*cockroach.*|node-pre-gyp|tedious)$') }),
-        new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.DefinePlugin({
-            'process.env': {
-                BUILD_TARGET: JSON.stringify('server')
-            }
-        })
-    ]),
+    plugins: (process.env.NODE_ENV === 'development'
+        ? [
+            new RunScriptWebpackPlugin({
+                name: 'server.js'
+            }),
+            new webpack.HotModuleReplacementPlugin()
+        ]
+        : []).concat([
+            new webpack.NormalModuleReplacementPlugin(/pg-connection-string/, `${__dirname}/src/utils/noop.js`),
+            new webpack.NormalModuleReplacementPlugin(/node-pre-gyp/, `${__dirname}/src/utils/noop.js`),
+            new webpack.NormalModuleReplacementPlugin(/migrations\/migrate/, `${__dirname}/src/utils/noop.js`),
+            new webpack.NormalModuleReplacementPlugin(/migrations\/seed/, `${__dirname}/src/utils/noop.js`),
+            new webpack.IgnorePlugin({ resourceRegExp: new RegExp('^(.*mssql.*|.*mariasql|.*oracle.*|.*mysql.*|.*pg.*|.*postgres.*|.*redshift.*|.*better-sqlite3.*|.*cockroach.*|node-pre-gyp|tedious)$') }),
+            new webpack.NoEmitOnErrorsPlugin(),
+            new webpack.DefinePlugin({
+                'process.env': {
+                    BUILD_TARGET: JSON.stringify('server')
+                }
+            })
+        ]),
     output: {
         path: path.join(__dirname, 'build'),
         filename: 'server.js',

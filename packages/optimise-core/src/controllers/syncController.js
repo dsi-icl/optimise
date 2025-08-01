@@ -4,7 +4,6 @@ import message from '../utils/message-utils';
 import formatToJSON from '../utils/format-response';
 
 class SyncController {
-
     static getSyncOptions({ user }, res) {
         if (user.adminPriv !== 1) {
             res.status(401).json(ErrorHelper(message.userError.NORIGHTS));
