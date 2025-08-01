@@ -28,10 +28,6 @@ class OptimiseNodeEnvironment extends TestEnvironment {
     async teardown() {
         return;
     }
-
-    runScript(script) {
-        return super.runScript(script);
-    }
 }
 
 module.exports = OptimiseNodeEnvironment;
