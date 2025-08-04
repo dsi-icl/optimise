@@ -43,7 +43,7 @@
         "express-session": "1.18.2",
         "mongodb": "6.18.0",
         "passport": "0.7.0",
-        "pretty-bytes": "6.1.1",
+        "pretty-bytes": "7.0.0",
         "saslprep": "1.0.3"
     },
     "devDependencies": {
