@@ -46,8 +46,6 @@
         "@babel/parser": "^7.28.0",
         "@babel/plugin-proposal-decorators": "^7.28.0",
         "@babel/preset-typescript": "^7.27.1",
-        "@typescript-eslint/eslint-plugin": "^8",
-        "@typescript-eslint/parser": "^8",
         "cookie": "^1",
         "fbjs": "^3",
         "is-ci": "^4",
